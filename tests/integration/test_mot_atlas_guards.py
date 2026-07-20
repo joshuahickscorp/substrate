@@ -1,7 +1,3 @@
-"""WP-09 atlas guard tests (AT4 programmatic ceiling, AT5 probe-class sweep): tiny synthetic
-LatentStores in tmp_path, seconds per test, no encoder loads, no network, no real-cache reads.
-Asserts MECHANICS and preregistered verdict logic (ceiling certification, headroom vs test-too-easy,
-probe-specific detection, missing stores skipped honestly), never a particular scientific outcome."""
 
 import json
 
@@ -44,7 +40,6 @@ def _labels(seed: int) -> tuple[torch.Tensor, torch.Tensor]:
 
 
 def _onehot_features(shape: torch.Tensor, color: torch.Tensor) -> torch.Tensor:
-    """The programmatic-style ceiling column: both factors one-hot, decodable at 1.0 by construction."""
     x = torch.zeros(N, 2 * N_CLASSES)
     x[torch.arange(N), shape] = 1.0
     x[torch.arange(N), N_CLASSES + color] = 1.0
@@ -52,7 +47,6 @@ def _onehot_features(shape: torch.Tensor, color: torch.Tensor) -> torch.Tensor:
 
 
 def _blob_features(shape: torch.Tensor, color: torch.Tensor, seed: int = 5) -> torch.Tensor:
-    """Linearly separable in both factors (a strong perceptual stand-in)."""
     g = torch.Generator().manual_seed(seed)
     cs = torch.randn(N_CLASSES, 12, generator=g)
     cc = torch.randn(N_CLASSES, 12, generator=g)
@@ -64,10 +58,6 @@ def _noise_features(seed: int = 9, dim: int = 12) -> torch.Tensor:
 
 
 def _antipodal_features(shape: torch.Tensor, seed: int = 11) -> torch.Tensor:
-    """Each shape class is a +mu/-mu pair: at chance for ANY linear readout (class-conditional
-    symmetry about 0), solvable after an elementwise nonlinearity or by the MLP. Signs alternate
-    per class occurrence so every class is EXACTLY balanced (a sampled imbalance would hand the
-    linear probe a spurious direction)."""
     g = torch.Generator().manual_seed(seed)
     mu = torch.randn(N_CLASSES, 12, generator=g)
     seen = [0] * N_CLASSES
@@ -97,9 +87,6 @@ def _write_store(cache_root, name, x, shape, color, checksums=("csA", "csB"), si
             )
         )
     return store.root
-
-
-# ---------------------------------------------------------------- shared loaders and guards
 
 
 def test_parse_seeds_forms():
@@ -140,9 +127,6 @@ def test_clip_identity_check_flags_mismatched_clip_sets():
     assert clip_identity_check(unverified)["unverified_columns"] == ["b"]
 
 
-# ---------------------------------------------------------------- AT4 verdict logic
-
-
 def test_factor_reading_degenerate_when_ceiling_broken():
     r = factor_reading([0.8, 0.82], {"p": [0.5, 0.5]}, chance=1 / 3)
     assert r["reading"] == "DEGENERATE"
@@ -171,7 +155,6 @@ def test_at4_end_to_end_test_too_easy_supports_null(tmp_path):
     for factor in ("shape", "color"):
         assert r["per_factor_reading"][factor]["reading"] == "TEST-TOO-EASY"
     assert r["clip_identity"]["identical"]
-    # the shuffled-label floor must sit near chance, far below the real probe
     floor = r["shuffled_label_floor"][CEILING_COLUMN]["shape"]
     assert floor < 1 / N_CLASSES + 0.2
     assert len(r["skipped_columns"]) > 0, "absent perceptual stores must be reported, not invented"
@@ -190,11 +173,7 @@ def test_at4_no_ceiling_store_is_not_a_null(tmp_path):
     shape, color = _labels(2)
     _write_store(tmp_path, PERCEPTUAL_STORES[0], _blob_features(shape, color), shape, color)
     r = at4_run(tmp_path, SEEDS, probe_epochs=40)
-    # not evaluable: nothing was tested, so neither null branch may fire (None, not False)
     assert r["verdict"].startswith("NO CEILING") and r["null_supported"] is None
-
-
-# ---------------------------------------------------------------- AT5 probe classes
 
 
 def test_nonlinear_gain_probe_contract_and_capacity():
@@ -257,5 +236,4 @@ def test_at5_catches_a_probe_specific_cell(tmp_path):
 
 def test_at5_no_cells_is_not_a_null(tmp_path):
     r = at5_run(tmp_path, SEEDS, columns=["nothing_here"])
-    # not evaluable: nothing was tested, so neither null branch may fire (None, not False)
     assert r["null_supported"] is None and r["verdict"].startswith("NO CELLS")

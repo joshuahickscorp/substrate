@@ -1,15 +1,3 @@
-"""Mac-Studio rehearsal capsule. ONE entry point that walks the ENTIRE future Studio workflow
-end to end on tiny local fixtures, so the path is proven before any Studio hour is spent:
-
-  generated tiny video corpus -> source validation -> decode + preprocess -> cache creation ->
-  cache integrity -> full-grid dry-run + cost agreement -> miniature Tier C run -> provenance ->
-  microbenchmarks -> Markdown + JSON report.
-
-This is a REHEARSAL, not a scientific result. Every artifact is tagged real / mocked / provisional.
-On this machine the video decode is MOCKED (no codec): the corpus is .npy clips that flow through
-the exact same validate/decode/preprocess/cache contract; on the Studio the same path runs over
-real .mp4 with a video backend. Nothing here downloads weights or data or runs a long sweep.
-"""
 
 from __future__ import annotations
 
@@ -61,14 +49,12 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     ctx: dict = {}
 
-    # 1. Studio doctor (REAL: reports this machine)
     def _doctor():
         d = studio_doctor.doctor()
         return {"all_ok": d["all_ok"], "summary": d["summary"], "real_or_mocked": "real"}
 
     run("doctor", "real", _doctor)
 
-    # 2. tiny video corpus (MOCKED: generated .npy clips, no codec, no dataset)
     corpus = out / "corpus"
 
     def _corpus():
@@ -86,7 +72,6 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     run("video_corpus", "mocked", _corpus)
 
-    # 3. source validation (REAL logic over the mocked corpus)
     def _validate():
         v = validate_source(corpus)
         ctx["label_map"] = v["label_map"]
@@ -99,7 +84,6 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     run("source_validation", "real", _validate)
 
-    # 4. decode + preprocess (decode MOCKED via .npy, preprocess REAL); dup + short exercised
     def _preprocess():
         hashes: list[str] = []
         batches = list(iter_video_clips(corpus, frames_per_clip=frames, res=res, batch=2, hashes_out=hashes))
@@ -117,7 +101,6 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     run("decode_preprocess", "mocked-decode", _preprocess)
 
-    # 5. cache creation (REAL pipeline; frozen-random substrate -> result_tag provisional)
     cache_root = out / "cache"
 
     def _cache():
@@ -149,7 +132,6 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     run("cache_creation", "real-pipeline", _cache)
 
-    # 6. cache integrity (REAL)
     def _integrity():
         sd = Path(ctx["store_dir"])
         problems = cache_tools.validate_cache(sd)
@@ -169,7 +151,6 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     run("cache_integrity", "real", _integrity)
 
-    # 7. full-grid dry-run + cost-projection agreement (REAL planning over real leg YAMLs)
     def _fullgrid():
         toy = run_queue(dry_run=True, enabled_tiers={"C"}, toy=True)
         full = run_queue(dry_run=True, enabled_tiers={"C", "E", "R"}, toy=False, run_disabled=True)
@@ -197,7 +178,6 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     run("full_grid_dryrun", "real", _fullgrid)
 
-    # 8. miniature Tier C campaign (REAL run, PROVISIONAL result: one toy leg, one unit)
     def _mini():
         ran = run_queue(dry_run=False, enabled_tiers={"C"}, toy=True, max_runs_per_leg=1, max_legs=1)
         return {
@@ -209,7 +189,6 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     run("miniature_campaign", "real-run", _mini)
 
-    # 9. microbenchmarks (REAL measurements on this laptop, opt-in, tiny)
     def _bench():
         rows = bench.run_benches(reps=1)
         return {
@@ -220,7 +199,6 @@ def rehearse(out_dir: Path | None = None, seed: int = 0, frames: int = 8, res: i
 
     run("microbench", "real", _bench)
 
-    # assemble report + provenance
     overall = "pass" if all(s["status"] == "pass" for s in stages) else "partial"
     prov = provenance.provenance(
         seed=seed,

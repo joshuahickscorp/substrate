@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Run or check the sealed G1-C3 V1/M1 communication mechanics pilot."""
 
 from __future__ import annotations
 

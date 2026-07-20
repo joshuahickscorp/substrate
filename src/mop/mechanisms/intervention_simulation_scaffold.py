@@ -38,7 +38,6 @@ def _require_schema(value: str) -> None:
         raise InterventionSimulationRefusal(f"unsupported intervention-simulation schema {value!r}")
 
 
-
 INTERVENTION_NULL = "observational-confound-null"
 PLANNING_NULL = "p7-planning-null"
 UNCERTAINTY_NULL = "temperature-one-uncertainty-null"
@@ -50,7 +49,6 @@ PRIOR_NULLS: tuple[str, ...] = (
     UNCERTAINTY_NULL,
     NOVELTY_NULL,
 )
-
 
 
 INTERVENTION_CONTROLS: tuple[str, ...] = ("observational-only", "backdoor-adjusted")
@@ -84,8 +82,6 @@ def control_registry_digest() -> str:
     return canonical_sha256({"registry": [[name, list(arms)] for name, arms in CONTROL_REGISTRY]})
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
 
@@ -116,8 +112,6 @@ class MatchedBudget:
 def _require_matched_cost(matched_cost_required: bool, label: str) -> None:
     if not matched_cost_required:
         raise InterventionSimulationRefusal(f"{label} must require matched full-system cost")
-
-
 
 
 def deterministic_unit_score(*, seed: int, label: str) -> float:
@@ -185,8 +179,6 @@ def require_control_win(outcome: ControlWinOutcome, *, null_name: str) -> None:
         )
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class InterventionContract:
 
@@ -242,8 +234,6 @@ class InterventionContract:
         )
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class SimulationForActionContract:
 
@@ -296,8 +286,6 @@ class SimulationForActionContract:
             seed=seed,
             margin_required=self.value_margin_required,
         )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -356,7 +344,6 @@ class CalibratedUncertaintyContract:
             seed=seed,
             margin_required=self.reliability_margin_required,
         )
-
 
 
 ALLOWED_NOVELTY_TARGET = "reducible"
@@ -432,8 +419,6 @@ class ReducibleNoveltyContract:
         )
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class DeploymentActivationGate:
 
@@ -472,8 +457,6 @@ class DeploymentActivationGate:
         }
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class EpochScaffold:
 
@@ -505,8 +488,6 @@ class EpochScaffold:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 def _default_budget() -> MatchedBudget:
@@ -577,8 +558,6 @@ def build_epoch_scaffold() -> EpochScaffold:
         gate=default_activation_gate(),
     )
 
-
-# Capability posture and coverage record.
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 

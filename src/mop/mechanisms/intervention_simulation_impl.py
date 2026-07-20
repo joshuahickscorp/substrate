@@ -22,8 +22,6 @@ def _mean_absolute_error(predictions: Sequence[float], truths: Sequence[float]) 
     return _mean([abs(p - t) for p, t in zip(predictions, truths, strict=True)])
 
 
-
-
 def interventional_outcome(causal_effect: float, x: float) -> float:
 
     return causal_effect * x
@@ -53,8 +51,6 @@ def observational_score(
     truths = [interventional_outcome(causal_effect, x) for x in test_inputs]
     predictions = [observational_prediction(causal_effect, confound_bias, x) for x in test_inputs]
     return 1.0 / (1.0 + _mean_absolute_error(predictions, truths))
-
-
 
 
 def optimal_return(reward_table: Sequence[Sequence[float]]) -> float:
@@ -88,8 +84,6 @@ def random_action_score(reward_table: Sequence[Sequence[float]]) -> float:
     return uniform_return(reward_table) / best
 
 
-
-
 def calibrated_confidence(bayes_probability: float) -> float:
 
     return bayes_probability
@@ -116,8 +110,6 @@ def overconfident_score(bayes_probs: Sequence[float]) -> float:
 
     confidences = [overconfident_confidence(p) for p in bayes_probs]
     return 1.0 - _reducible_brier(confidences, bayes_probs)
-
-
 
 
 def _best_obtainable(reducible_novelty: Sequence[float], budget: int) -> float:

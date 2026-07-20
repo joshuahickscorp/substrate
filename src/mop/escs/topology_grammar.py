@@ -1,11 +1,3 @@
-"""Finite, disabled-by-default topology grammar for the ESCS research scaffold.
-
-The grammar describes a small set of pure topology rewrites.  It does not mutate a
-running :class:`~mop.escs.runtime.CoalitionRuntime`: proposals operate on immutable
-topology snapshots, and activation remains impossible until a separately sealed G0
-freeze authority enables the exact operators.  This keeps structural adaptation
-scaffoldable without turning an untested mechanism into runtime authority.
-"""
 
 from __future__ import annotations
 
@@ -631,7 +623,6 @@ def _replace_actor(snapshot: TopologySnapshot, actor: ActorSlot) -> tuple[ActorS
 
 
 def apply_topology_mutation(snapshot: TopologySnapshot, mutation: TopologyMutation) -> TopologySnapshot:
-    """Apply one mutation to an immutable shadow snapshot, never to a live runtime."""
 
     values = mutation.parameters.value()
     assert isinstance(values, dict)
@@ -975,11 +966,6 @@ def load_topology_grammar(path: str | Path) -> TopologyGrammar:
 
 
 def verify_freeze_authority(grammar: TopologyGrammar, repository_root: str | Path) -> tuple[str, ...]:
-    """Verify the exact external artifact that is allowed to freeze G0.
-
-    A self-hashed grammar cannot authorize itself.  Frozen callers must perform this
-    separate join and pass its success explicitly to :func:`assess_topology_transaction`.
-    """
 
     authority = grammar.freeze_authority
     if grammar.status is not GrammarStatus.FROZEN or authority is None:
@@ -1008,7 +994,6 @@ def verify_candidate_registry(
     grammar: TopologyGrammar,
     repository_root: str | Path,
 ) -> tuple[PerspectiveCandidateRegistry | None, tuple[str, ...]]:
-    """Load and join the exact permissive-integration registry bound by G0."""
 
     root = Path(repository_root).resolve()
     target = (root / grammar.candidate_registry_path).resolve()

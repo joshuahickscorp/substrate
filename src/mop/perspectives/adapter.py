@@ -1,10 +1,3 @@
-"""Deprecated Perspective names for the canonical Form substrate contract.
-
-`mop.substrate.form` is the sole implementation of referent-aligned metadata, batches, adapters,
-registries, matrices, builders, and audits. These identity aliases preserve one import-compatible
-deprecation phase for Studio callers and external notebooks; no Perspective implementation lives
-here. Durable DR1 artifact names remain unchanged for receipt compatibility.
-"""
 
 from __future__ import annotations
 

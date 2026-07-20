@@ -1,11 +1,3 @@
-"""Task heads on frozen latents. A plain classifier, a probabilistic (Gaussian) head
-that emits mean+logvar so we can separate epistemic from aleatoric uncertainty and run
-calibration (the C-cluster prerequisite for E4 / noisy-TV), and the e7 sparse head family
-(k-WTA, gated MoE) promoted into the shell (WP-02) so DR2/PR3, WS5, CM4 and the routing
-metrics build against one implementation instead of per-script copies. The sparse heads
-are only meaningful against a PARAM-MATCHED dense head (shell/capmatch or
-moe_expert_hidden_for_dense); interference reduction must never be bought capacity.
-"""
 
 from __future__ import annotations
 
@@ -18,7 +10,6 @@ from .predictor import mlp
 
 
 class ClassHead(nn.Module):
-    """latent -> class logits."""
 
     def __init__(self, dim: int, n_classes: int, hidden: int = 512, depth: int = 1):
         super().__init__()
@@ -29,8 +20,6 @@ class ClassHead(nn.Module):
 
 
 class GaussianHead(nn.Module):
-    """latent -> (mean, logvar) over a target. nll separates aleatoric (logvar) from the
-    epistemic spread an ensemble of these would show. logvar is clamped for stability."""
 
     def __init__(self, dim: int, out: int, hidden: int = 512, depth: int = 1, logvar_bounds=(-8.0, 6.0)):
         super().__init__()
@@ -55,9 +44,6 @@ class GaussianHead(nn.Module):
 
 
 class KWTAHead(nn.Module):
-    """latent -> hidden (GELU, top-k winner-take-all mask) -> classes. Identical shape (and so
-    identical param count) to a dense two-layer head; sparsity of ACTIVATION is the only change,
-    which is exactly what makes the dense arm a genuine capacity-matched control."""
 
     def __init__(self, dim: int, hidden: int, n_classes: int, k: int):
         super().__init__()
@@ -72,10 +58,6 @@ class KWTAHead(nn.Module):
 
 
 class MoEHead(nn.Module):
-    """A softmax-gated mixture of small expert MLPs (dim -> expert_hidden -> classes) plus a linear
-    router. The router's per-sample gate distribution is kept on `last_gates` so routing_entropy is
-    readable after any forward (the C1-C3 routing metrics). Expert width should be solved with
-    moe_expert_hidden_for_dense (or capmatch) so the total matches the dense reference."""
 
     def __init__(self, dim: int, n_classes: int, n_experts: int, expert_hidden: int):
         super().__init__()
@@ -94,16 +76,11 @@ class MoEHead(nn.Module):
 
 
 def routing_entropy(gates: torch.Tensor) -> float:
-    """Mean entropy (nats) of a per-sample gate distribution [B, E]. High and flat: the router never
-    specialized (a corpus null signature); dropping over a stream: modules carved up the tasks."""
     p = gates.clamp_min(1e-9)
     return float((-(p * p.log()).sum(-1)).mean())
 
 
 def moe_expert_hidden_for_dense(dim: int, hidden: int, n_classes: int, n_experts: int) -> int:
-    """Per-expert width so an MoEHead (router + experts) matches a dense dim->hidden->classes head's
-    param count. Dense = dim*hidden + hidden + hidden*n_classes + n_classes; router = dim*E + E; each
-    expert = w*(dim + n_classes + 1) + n_classes. Solve for w, floor at 1 (the e7 matching rule)."""
     dense = dim * hidden + hidden + n_classes * hidden + n_classes
     router = dim * n_experts + n_experts
     per_expert_budget = max(1.0, (dense - router) / n_experts)
@@ -112,8 +89,6 @@ def moe_expert_hidden_for_dense(dim: int, hidden: int, n_classes: int, n_experts
 
 
 def build_head(cfg, dim: int, n_classes: int, out_dim: int | None = None):
-    """Probabilistic head iff cfg.probabilistic, regressing a latent of size out_dim; else a
-    classifier of n_classes."""
     if bool(cfg.probabilistic) and out_dim is not None:
         return GaussianHead(dim, out_dim, hidden=int(cfg.hidden))
     return ClassHead(dim, n_classes, hidden=int(cfg.hidden))

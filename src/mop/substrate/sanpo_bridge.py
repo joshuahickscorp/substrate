@@ -1,14 +1,3 @@
-"""Fail-closed SANPO-Real input bridge for the portable custom substrate.
-
-The bridge is intentionally narrower than a training dataset.  It verifies the completed SANPO
-intake and exposes one content-addressed, eight-frame clip at a time.  Development code can only
-iterate the six train and two validation sessions.  Official-test pixels are reachable solely from
-the explicit one-shot evaluator, after an independently verified portable artifact has been selected
-without using those pixels.
-
-Importing this module does not load an encoder or model.  The integrity/decode preflight hashes all
-source files but decodes only train and validation PNGs.
-"""
 
 from __future__ import annotations
 
@@ -52,7 +41,7 @@ EXPECTED_ROLE_COUNTS = {"train": 6, "validation": 2, "test": 2}
 
 
 class SanpoBridgeRefused(RuntimeError):
-    """Raised when source integrity, split isolation, or evaluation policy fails closed."""
+    pass
 
 
 def _utc_now() -> str:
@@ -71,8 +60,6 @@ def _canonical_bytes(value: Any) -> bytes:
 
 def json_sha256(value: Any) -> str:
     return hashlib.sha256(_canonical_bytes(value)).hexdigest()
-
-
 
 
 def tensor_sha256(tensor: torch.Tensor) -> str:
@@ -141,7 +128,6 @@ def _plan_identity(plan: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def load_bridge_plan(path: Path, *, repo_root: Path = REPO_ROOT) -> tuple[dict[str, Any], Path]:
-    """Read a frozen bridge plan and verify its self hash and source-file hashes."""
 
     plan_path = path if path.is_absolute() else repo_root / path
     plan = _read_json(plan_path, "SANPO bridge plan")
@@ -207,7 +193,6 @@ def load_bridge_plan(path: Path, *, repo_root: Path = REPO_ROOT) -> tuple[dict[s
 
 @dataclass(frozen=True)
 class SessionRecord:
-    """Verified session metadata; raw official-test frame paths remain private to the bridge."""
 
     session_id: str
     official_split: str
@@ -224,7 +209,6 @@ class SessionRecord:
 
 @dataclass(frozen=True)
 class SanpoClip:
-    """One verified clip and its referent-preserving metadata."""
 
     tensor: torch.Tensor
     session: SessionRecord
@@ -238,7 +222,6 @@ class _OfficialTestCapability:
 
 
 class SanpoCustomSubstrateBridge:
-    """Verified SANPO cohort with a development-only public iterator."""
 
     def __init__(
         self,
@@ -268,7 +251,6 @@ class SanpoCustomSubstrateBridge:
 
     @property
     def sessions(self) -> tuple[SessionRecord, ...]:
-        """Metadata for all sessions. This does not decode or return official-test pixel bytes."""
 
         return self._sessions
 
@@ -548,7 +530,6 @@ class SanpoCustomSubstrateBridge:
             self._preprocess_frame(_safe_content_path(self.root, path, f"frame {session.session_id}"))
             for path in session.frame_paths
         ]
-        # [T,C,H,W] -> [B,C,T,H,W]; one session is the maximum resident clip unit.
         tensor = torch.stack(frames, dim=0).permute(1, 0, 2, 3).unsqueeze(0).contiguous()
         target = int(
             cast(dict[str, Any], cast(dict[str, Any], self.plan["preprocessing"])["spatial"])["target_size"]
@@ -559,14 +540,12 @@ class SanpoCustomSubstrateBridge:
         return SanpoClip(tensor=tensor, session=session, source_tensor_sha256=tensor_sha256(tensor))
 
     def iter_development(self) -> Iterator[SanpoClip]:
-        """Yield train then validation clips; official-test pixels are structurally unreachable."""
 
         for session in self._sessions:
             if session.role in DEVELOPMENT_ROLES:
                 yield self._load_record(session)
 
     def load_development_session(self, session_id: str) -> SanpoClip:
-        """Load one named train/validation session and refuse a test-session ID."""
 
         matches = [session for session in self._sessions if session.session_id == session_id]
         _require(len(matches) == 1, f"unknown SANPO session: {session_id}")
@@ -627,7 +606,6 @@ def run_preflight(
     *,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Verify all bytes, decode development clips, and write a durable non-model proof."""
 
     started = time.monotonic()
     bridge = SanpoCustomSubstrateBridge(plan_path, repo_root=repo_root, verify_content=True)
@@ -713,7 +691,6 @@ def run_preflight(
 
 
 def _portable_loader(path: Path, *, device: str) -> Any:
-    # Lazy import is a deliberate boundary: preflight never imports or initializes model code.
     from .custom_artifact import ArtifactRefused, load_portable_artifact
 
     try:
@@ -816,7 +793,6 @@ def evaluate_development_artifact(
     repo_root: Path = REPO_ROOT,
     _loader: Callable[..., Any] = _portable_loader,
 ) -> dict[str, Any]:
-    """Select one independently verified artifact using train/validation pixels only."""
 
     bridge = SanpoCustomSubstrateBridge(plan_path, repo_root=repo_root, verify_content=True)
     loaded = _loader(artifact_dir, device=device)
@@ -897,7 +873,6 @@ def evaluate_official_test_once(
     repo_root: Path = REPO_ROOT,
     _loader: Callable[..., Any] = _portable_loader,
 ) -> dict[str, Any]:
-    """Run the fixed n=2 test once, with no tuning and no possible scientific promotion."""
 
     _require(unlock_official_test, "official test remains sealed; pass --unlock-official-test explicitly")
     bridge = SanpoCustomSubstrateBridge(plan_path, repo_root=repo_root, verify_content=True)

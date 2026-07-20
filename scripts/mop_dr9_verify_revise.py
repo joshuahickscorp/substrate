@@ -1,27 +1,4 @@
 #!/usr/bin/env python
-"""DR9: verify-revise under corrected controls (H-SCORER, WP-03, EXECUTION_MANIFEST).
-
-Thesis: a trained verifier that triggers a revise beats single-shot, a shuffled verifier, AND the free
-update-norm signal at matched compute on a D3-calibrated regime. This is the corrected rerun of the
-ex18 negative: here every revise arm is tuned ON THE TRAIN SET to spend the SAME TOTAL FLOPs as the
-single-shot baseline (refiner steps plus verifier score evaluations, all charged), so no arm can win
-by buying compute, and the shuffled-verifier control keeps the reallocation logic while destroying the
-per-sample alignment of the trained scoring signal.
-
-Arms (one trained backbone per seed): single-shot fixed-N; verify-revise (trained verifier score
-triggers extra steps from a shallow start, threshold tuned to the single-shot FLOP budget);
-free-norm-revise (identical loop, trigger is the free relative update norm, no verifier cost);
-shuffled-verifier (identical loop, trained scores row-permuted every decision round).
-
-Preregistered null (verbatim, manifest WP-03): DR9 verify-revise ties single-shot and trained ties
-shuffled (the ex18 result). A win requires verify-revise to beat single-shot, the shuffled verifier,
-and the free update-norm arm, each with a seed CI excluding zero, at matched total FLOPs (tol 0.10),
-on a calibrated regime; anything less supports the null.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: .venv/bin/python scripts/mop_dr9_verify_revise.py --seeds 0-4
-"""
 
 from __future__ import annotations
 
@@ -72,9 +49,6 @@ def default_cfg(seeds: list[int], **overrides) -> DictConfig:
 def train_backbone(
     x, y, n_classes: int, dim: int, hidden: int, vhidden: int, n_max: int, epochs: int, lr: float, seed: int
 ) -> tuple[IterativeRefiner, nn.Linear, Verifier]:
-    """Train refiner + head with deep supervision (head readable at every depth, so shallow starts
-    and revised depths are all fair), and the verifier as an across-depth error predictor: MSE toward
-    the per-sample CE at EVERY step, so score(z) estimates how wrong the current latent still is."""
     seed_everything(seed)
     refiner = IterativeRefiner(dim, hidden, n_max)
     head = nn.Linear(dim, n_classes)
@@ -107,10 +81,6 @@ def revise_loop(
     n_start: int,
     n_max: int,
 ) -> tuple[float, float, float]:
-    """Generic verify-revise loop: n_start shared steps, then per decision round every sample still
-    under the cap is scored (charged one verifier eval where the signal is not free) and samples whose
-    score exceeds `threshold` get one more refinement step. Returns (acc, mean_steps, mean_score_evals)
-    so the caller can charge TOTAL FLOPs honestly, pruned or not."""
     z = x.clone()
     u = torch.zeros_like(z)
     for _ in range(int(n_start)):
@@ -150,9 +120,6 @@ def tune_threshold_to_budget(
     lo: float = 0.0,
     hi: float = 10.0,
 ) -> float:
-    """Bisect the revise threshold ON THE TRAIN SET so the arm's realized mean TOTAL FLOPs (steps plus
-    charged score evals) matches the single-shot budget. Total FLOPs is monotone nonincreasing in the
-    threshold, so bisection is licensed."""
     for _ in range(30):
         mid = 0.5 * (lo + hi)
         _, steps, evals = revise_loop(refiner, head, xtr, ytr, score_fn, mid, n_start, n_max)
@@ -198,7 +165,6 @@ class DR9VerifyRevise(Experiment):
 
             refiner, head, verifier = train_backbone(xtr, ytr, nc, dim, hidden, vhidden, n_max, epochs, lr, s)
 
-            # single-shot baseline: fixed n_single steps, no verification
             with torch.no_grad():
                 z = xte
                 for _ in range(n_single):

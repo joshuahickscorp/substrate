@@ -1,4 +1,3 @@
-"""Provider-neutral causal gate lifecycle shared by experiment families."""
 
 from __future__ import annotations
 
@@ -11,7 +10,6 @@ import numpy as np
 def assemble_causal_inputs(
     features: np.ndarray, state_factory: Callable[[], Any]
 ) -> np.ndarray:
-    """Append a label-free causal state vector to each frozen feature frame."""
 
     state = state_factory()
     rows: list[np.ndarray] = []
@@ -27,7 +25,6 @@ def causal_gate_trace(
     theta: float,
     state_factory: Callable[[], Any],
 ) -> tuple[list[int], np.ndarray]:
-    """Run one gate causally and return event frames plus its probability trace."""
 
     state = state_factory()
     events: list[int] = []

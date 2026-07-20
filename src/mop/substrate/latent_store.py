@@ -1,10 +1,3 @@
-"""Memmap-backed latent store. The encoder is frozen, so latents are computed once and
-read forever. This is the disk-backed array the whole shell trains against.
-
-Layout on disk: <root>/<name>/{latents.npy memmap, keys.npy, meta.json, labels.npy?}.
-latents is [N, *feat]; keys is [N, key_dim] (pooled vector for KV retrieval); labels
-optional [N]. Append-friendly via a declared capacity, finalized to its true length.
-"""
 
 from __future__ import annotations
 
@@ -33,8 +26,6 @@ class LatentStore:
         self.meta = meta
         self.mode = mode
         mm: Literal["r", "r+"] = "r" if mode == "r" else "r+"
-        # Native layout is latents.npy/keys.npy/labels.npy. WP-01 provenance caches use features.npy,
-        # no keys.npy, and labels_shape.npy; fall back to those when the native files are absent.
         lat_path = self._p("latents.npy") if self._p("latents.npy").exists() else self._p("features.npy")
         self._lat = np.load(lat_path, mmap_mode=mm)
         self._keys = np.load(self._p("keys.npy"), mmap_mode=mm) if self._p("keys.npy").exists() else None
@@ -76,7 +67,6 @@ class LatentStore:
         if "feat_shape" in raw:
             meta = StoreMeta(**{k: v for k, v in raw.items() if k in allowed})
         else:
-            # WP-01 provenance layout (features.npy + custom meta.json): reconstruct StoreMeta.
             feat_file = "latents.npy" if (root / "latents.npy").exists() else "features.npy"
             arr = np.load(root / feat_file, mmap_mode="r")
             has_labels = (root / "labels.npy").exists() or (root / "labels_shape.npy").exists()

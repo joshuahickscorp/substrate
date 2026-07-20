@@ -1,4 +1,3 @@
-"""No-heavy tests for the official ViT-B task, cache, and DR14 control seam."""
 
 from __future__ import annotations
 

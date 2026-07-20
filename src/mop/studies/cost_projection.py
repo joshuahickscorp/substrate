@@ -1,19 +1,3 @@
-"""Studio cost projection (Vol III Section 5). Turns MEASURED per-run-unit cpu timings into a
-full-scale wall-clock estimate for every queued leg, including the disabled Tier E and Tier R
-legs that cannot be timed on this laptop. Measured cpu times are laptop-throttled (thermal +
-shared cores) so they are CONSERVATIVE relative to the Studio; we say so and never silently
-scale them down. E and R legs get an explicit, labelled assumption (a per-tier cost-class
-multiplier on the queued run_units plus an assumed per-unit cost), because no honest cpu number
-exists for an env-rollout or a rented-CUDA capstone.
-
-Full scale (vs the toy/queue run_units): Tier C legs run the real seed set (full_seed, default 5)
-crossed with the FULL axis factorial read off each leg's sweep yaml (toy_overrides shrink dims,
-not the grid, so the factorial is the real one). E/R run_units stay as the queue declares them,
-then take the tier cost-class multiplier. Parallelism: wall = serial_sum / effective_workers,
-where effective_workers is capped by the number of run_units (you cannot use more workers than
-units). Per-leg parallel_wall_s uses each leg's own unit count; the grand parallel wall uses the
-whole pool, the number the campaign driver actually cares about.
-"""
 
 from __future__ import annotations
 
@@ -28,10 +12,6 @@ from ..logging_utils import get_logger
 
 log = get_logger("cost_projection")
 
-# Full-scale knobs per tier. C: real seeds x full factorial, measured timings, multiplier 1.
-# E/R: cannot be cpu-timed, so the run_units are scaled by a stated cost-class multiplier and the
-# per-unit second cost is an ASSUMPTION (one episodic rollout / one rented-CUDA training unit, on
-# the target hardware, NOT this laptop). These are the levers a reviewer should argue with.
 TIER_FULL = {
     "C": {"unit_mult": 1, "assumed_per_unit_s": 0.0, "basis": "measured"},
     "E": {"unit_mult": 4, "assumed_per_unit_s": 1800.0, "basis": "assumed"},
@@ -41,9 +21,6 @@ ASSUMED_C_PER_UNIT_S = 30.0  # fallback when a C leg has no measured timing yet
 
 
 def _leg_full_units(sweep_path: Path) -> int:
-    """Canonical full-scale run-units for a leg, read off its sweep yaml (full_axes x full_seeds).
-    This is the SAME number `run_queue --full` expands and the run_queue manifest declares, so the
-    three agree by construction. Missing/unreadable sweep -> 1."""
     p = sweep_path if sweep_path.is_absolute() else REPO_ROOT / sweep_path
     if not p.exists():
         log.info("sweep yaml missing for cost projection: %s (units=1)", p)
@@ -53,8 +30,6 @@ def _leg_full_units(sweep_path: Path) -> int:
 
 
 def _per_unit_measured(leg: Leg, timings: dict[str, float]) -> float | None:
-    """Measured cpu seconds for one run-unit of this leg. Timings may be keyed by leg name or by
-    experiment id (the campaign driver may report either); leg name wins."""
     if leg.name in timings:
         return float(timings[leg.name])
     if leg.experiment in timings:
@@ -63,18 +38,11 @@ def _per_unit_measured(leg: Leg, timings: dict[str, float]) -> float | None:
 
 
 def _run_units_full(leg: Leg, tier: dict, full_seed: int) -> int:
-    # canonical full grid (full_axes x full_seeds) for every tier; E/R take the cost-class mult.
     base = _leg_full_units(Path(leg.sweep))
     return base if leg.tier == "C" else base * int(tier["unit_mult"])
 
 
 def cost_projection(timings: dict, workers: int = 10, full_seed: int = 5) -> dict:
-    """Project full-scale wall-clock for every queued leg from measured per-run-unit cpu timings.
-
-    timings: leg-name-or-experiment-id -> measured seconds per ONE run unit (laptop-throttled).
-    workers: effective parallel workers for the wall-clock estimate.
-    full_seed: real seed set size for Tier C legs (queue uses a reduced toy seed set).
-    """
     workers = max(1, int(workers))
     full_seed = int(full_seed)
     legs = load_queue()
@@ -142,9 +110,6 @@ def cost_projection(timings: dict, workers: int = 10, full_seed: int = 5) -> dic
 
 
 def load_timings_from_checkpoint(ckpt_dir: Path) -> dict[str, float]:
-    """Per-run-unit measured seconds from a pool of run_pool manifest json files. Each manifest
-    has name/started/finished; we average (finished-started) over the runs of each experiment.
-    Returns experiment-id -> mean seconds. Empty dict if nothing usable."""
     import json
 
     sums: dict[str, float] = {}

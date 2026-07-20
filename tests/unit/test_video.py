@@ -1,5 +1,3 @@
-"""Real-video preprocessing + ingestion. The decode backend is lazy (no codec needed here):
-read_video is monkeypatched so the clip-batching/labeling logic is tested without a real file."""
 
 import torch
 
@@ -11,7 +9,6 @@ def test_preprocess_clip_thwc_shape_and_norm():
     clip = video.preprocess_clip(frames, frames_per_clip=8, res=32)
     assert clip.shape == (8, 3, 32, 32)
     assert clip.dtype == torch.float32 and torch.isfinite(clip).all()
-    # ImageNet-normalized: not in [0,1] anymore, roughly zero-centered
     assert clip.min() < 0.0 and abs(float(clip.mean())) < 2.0
 
 
@@ -28,7 +25,6 @@ def test_preprocess_temporal_pad_when_short():
 
 
 def test_read_video_no_backend_raises_clear(monkeypatch):
-    # force the no-backend path and assert the unblock message
     import builtins
 
     real_import = builtins.__import__

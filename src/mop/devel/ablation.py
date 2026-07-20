@@ -1,27 +1,12 @@
-"""Automated ablation and hypothesis engine (Frontier 29). Turns the paradigm + capacity registries
-into a BOUNDED, ranked plan: every candidate mechanism maps to a baseline, an ablation, a metric, and
-a null; candidates are ranked by expected information gain per compute hour; the engine names the
-"next best experiment" (the highest-value one runnable now whose gates are satisfied), flags redundant
-candidates (same family + same thing-changed), and refuses to combine mechanisms before their isolated
-gates pass. This prevents maximal ambition from becoming chaos.
-
-Nothing here runs an experiment; it PLANS. Compute costs are explicit estimates (a lever a reviewer
-can argue with), not measurements. Local plans fit the M3 Pro; Studio plans are larger.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
 from .registries import load_capacities, load_paradigms
 
-# estimated compute hours per candidate by compute_risk (LOCAL m3pro vs STUDIO). Explicit assumptions.
 _COST_HOURS = {
     "local": {"low": 0.25, "medium": 1.0, "high": 4.0},
     "studio": {"low": 1.0, "medium": 6.0, "high": 24.0},
 }
-# base expected information gain by status: a thing testable now teaches us more per hour than a
-# deferred or blocked one (which teaches us nothing until unblocked).
 _STATUS_EIG = {
     "implement-now": 1.0,
     "prototype-local": 0.8,
@@ -29,7 +14,6 @@ _STATUS_EIG = {
     "paper-watch": 0.1,
     "blocked": 0.0,
 }
-# which statuses can actually run in each scope (the gate on "runnable now")
 _RUNNABLE = {
     "local": {"implement-now", "prototype-local"},
     "studio": {"implement-now", "prototype-local", "studio-later"},
@@ -41,14 +25,6 @@ def _cost_hours(compute_risk: str, scope: str) -> float:
 
 
 def plan_ablations(scope: str = "local", budget_hours: float | None = None) -> dict:
-    """Rank paradigm candidates by expected information gain per compute hour for `scope` in
-    {local, studio}. Returns {scope, ranked, next_best, redundant, within_budget, notes}.
-
-    ranked: every paradigm with est_hours, expected_info_gain, eig_per_hour, runnable_now, gate.
-    next_best: the highest eig_per_hour candidate runnable now (the one experiment to do next).
-    redundant: groups of candidates that change the same thing in the same family (pick one first).
-    within_budget: the prefix of runnable candidates that fits budget_hours (if given).
-    """
     if scope not in ("local", "studio"):
         raise ValueError(f"scope must be local or studio, got {scope!r}")
     paradigms = load_paradigms()
@@ -79,9 +55,6 @@ def plan_ablations(scope: str = "local", budget_hours: float | None = None) -> d
         )
     ranked.sort(key=lambda r: (r["runnable_now"], r["eig_per_hour"]), reverse=True)
 
-    # same-subsystem competition: candidates that change the SAME thing in the SAME family compete for
-    # the same slot; run ONE, and the combination only after its isolated gate passes (no blind
-    # chaining). NOT strict redundancy (they may differ in approach), so it is labelled as competition.
     groups: dict[tuple, list[str]] = {}
     for r in ranked:
         groups.setdefault((r["family"], r["changes"]), []).append(r["slug"])

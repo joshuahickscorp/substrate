@@ -1,14 +1,3 @@
-"""Independent verifier for the append-only Generation 1 successor horizon v2.
-
-The verifier independently validates the complete v1 predecessor chain and the
-dependency-closed H05 admission into H06.  It then reuses the separately
-authored v1 streaming verifier engine inside the v2 runtime's locked, scoped
-context to reconstruct H06-H10 shards, raw receipts, classifications, routing,
-and seed boundaries.
-
-This remains artifact verification over the same generator family.  It is not
-independent scientific confirmation and cannot authorize activation.
-"""
 
 from __future__ import annotations
 
@@ -650,18 +639,12 @@ def _validate_admission(
 
 @contextmanager
 def _v1_verifier_scope() -> Iterator[None]:
-    """Run the v1 verifier with the v2 runtime's locked scoped constants."""
 
     with horizon._v1_runtime_scope():
         yield
 
 
 def _all_cycle_seed_spaces_disjoint() -> bool:
-    """Prove exact fresh-cycle formulas remain disjoint through H10.
-
-    Cycles zero and one are the consolidated campaign, two through six are the
-    v1 horizon, and seven through eleven are this horizon.
-    """
 
     d1_intervals: list[tuple[int, int]] = []
     mechanics_intervals: list[tuple[int, int]] = []
@@ -690,7 +673,6 @@ def _all_cycle_seed_spaces_disjoint() -> bool:
 
 
 def _validate_v2_shard_boundaries(result: Mapping[str, Any]) -> None:
-    """Cover v2 fields omitted by the reused v1 streaming shard validator."""
 
     expected = {
         (epoch_id, lane, shard_index)

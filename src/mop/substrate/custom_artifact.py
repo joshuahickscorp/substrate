@@ -1,15 +1,3 @@
-"""Portable, fail-closed export boundary for an independently verified CM7 model.
-
-This module intentionally does not import the workbench, Transformers, Hugging Face, or any
-V-JEPA implementation.  It contains the small inference architecture, a deterministic pickle-free
-tensor format, and the evidence checks needed to turn one independently selected CM7 checkpoint
-into a content-addressed artifact.
-
-The exporter is stricter than a normal checkpoint converter.  A raw workbench receipt cannot
-authorize its own export: a separate verifier must recompute the verdict, bind the raw receipt,
-select the best objective without seed cherry-picking, and verify the exact checkpoint and state.
-Programmatic CM7 evidence remains explicitly programmatic after export.
-"""
 
 from __future__ import annotations
 
@@ -87,7 +75,7 @@ INTERFACE_SCHEMA: dict[str, Any] = {
 
 
 class ArtifactRefused(RuntimeError):
-    """Raised when evidence, checkpoint, model, or artifact identity fails closed."""
+    pass
 
 
 def _canonical_json(value: Any) -> bytes:
@@ -104,10 +92,7 @@ def json_sha256(value: Any) -> str:
     return hashlib.sha256(_canonical_json(value)).hexdigest()
 
 
-
-
 def state_sha256(state: Mapping[str, torch.Tensor]) -> str:
-    """Hash a state exactly as the CM7 workbench hashes its online model."""
 
     digest = hashlib.sha256()
     for name in sorted(state):
@@ -152,7 +137,6 @@ def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
 
 @dataclass(frozen=True)
 class PortableModelSpec:
-    """Complete architecture identity for :class:`PortableTinyVideoSubstrate`."""
 
     dim: int
     depth: int
@@ -214,14 +198,12 @@ class PortableModelSpec:
 
 
 class PortableSubstrateOutput(NamedTuple):
-    """Stable inference interface exported by the independent substrate."""
 
     dense_spatiotemporal_tokens: torch.Tensor
     pooled_retrieval_key: torch.Tensor
 
 
 class PortableTinyVideoSubstrate(nn.Module):
-    """Inference-compatible TinyVideoSubstrate with no inherited-model dependency."""
 
     def __init__(self, spec: PortableModelSpec):
         super().__init__()
@@ -246,8 +228,6 @@ class PortableTinyVideoSubstrate(nn.Module):
         )
         self.blocks = nn.TransformerEncoder(layer, num_layers=spec.depth, enable_nested_tensor=False)
         self.norm = nn.LayerNorm(spec.dim)
-        # Kept for exact state identity with the trained model. The public inference outputs are the
-        # encoder tokens and their pooled key, not objective-specific predictor activations.
         self.predictor = nn.Sequential(
             nn.LayerNorm(spec.dim),
             nn.Linear(spec.dim, spec.dim),
@@ -320,7 +300,6 @@ def _little_endian_bytes(tensor: torch.Tensor) -> bytes:
 
 
 def write_tensor_pack(state: Mapping[str, torch.Tensor], path: Path) -> dict[str, Any]:
-    """Write a deterministic, pickle-free, little-endian tensor pack."""
 
     _require(bool(state), "cannot export an empty state")
     _require(all(isinstance(name, str) and name for name in state), "state names must be non-empty strings")
@@ -375,7 +354,6 @@ def write_tensor_pack(state: Mapping[str, torch.Tensor], path: Path) -> dict[str
 
 
 def read_tensor_pack(path: Path) -> tuple[dict[str, torch.Tensor], dict[str, Any]]:
-    """Read the safe tensor pack without pickle or arbitrary object deserialization."""
 
     _require(path.is_file(), f"tensor pack missing: {path}")
     content = path.read_bytes()
@@ -441,7 +419,6 @@ def read_tensor_pack(path: Path) -> tuple[dict[str, torch.Tensor], dict[str, Any
 
 
 def verifier_contract() -> dict[str, Any]:
-    """Return the strict machine-readable contract the independent verifier must emit."""
 
     return {
         "schema": VERIFIER_SCHEMA,
@@ -492,7 +469,6 @@ class _PreparedExport:
 
 
 def _require_raw_receipt(receipt: Mapping[str, Any]) -> None:
-    """Validate immutable training output without trusting its preliminary promotion field."""
 
     _require(receipt.get("schema") == WORKBENCH_SCHEMA, "raw training receipt schema mismatch")
     _require(receipt.get("complete") is True, "raw training receipt is incomplete")
@@ -1141,7 +1117,6 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
 
 
 def preflight_export(run_dir: Path, verifier_path: Path) -> dict[str, Any]:
-    """Audit export eligibility without writing an artifact."""
 
     result: dict[str, Any] = {
         "schema": PREFLIGHT_SCHEMA,
@@ -1200,7 +1175,6 @@ def _copy_sources(sources: Sequence[_SourceFile], root: Path) -> list[dict[str, 
 
 
 def export_artifact(run_dir: Path, verifier_path: Path, output_root: Path) -> dict[str, Any]:
-    """Export one verified CM7 online state into a deterministic content-addressed directory."""
 
     prepared = _prepare_export(run_dir, verifier_path)
     output_root = output_root.resolve()
@@ -1425,7 +1399,6 @@ def _verify_embedded_evidence(root: Path, manifest: Mapping[str, Any]) -> None:
 
 @dataclass(frozen=True)
 class LoadedPortableArtifact:
-    """A verified manifest and its frozen, evaluation-mode portable model."""
 
     manifest: dict[str, Any]
     model: PortableTinyVideoSubstrate
@@ -1436,7 +1409,6 @@ def load_portable_artifact(
     *,
     device: str | torch.device = "cpu",
 ) -> LoadedPortableArtifact:
-    """Verify and load an artifact offline using only PyTorch and the standard library."""
 
     root = artifact_dir.resolve()
     manifest = _read_json(root / "manifest.json", "portable artifact manifest")

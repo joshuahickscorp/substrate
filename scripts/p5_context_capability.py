@@ -26,7 +26,6 @@ from mop.substrate.p5_context import run_p5_pilot
 
 PROFILES = ("p5smoke", "p5pilot")
 
-# One heavy local lane at a time: refuse to start while any of these is alive elsewhere.
 HEAVY_PROCESS_MARKERS = (
     "cache_factorized_encoder.py",
     "cache_real_encoder.py",
@@ -37,8 +36,6 @@ HEAVY_PROCESS_MARKERS = (
 
 
 def assert_heavy_lane_free(markers: tuple[str, ...] = HEAVY_PROCESS_MARKERS) -> None:
-    """Refuse to start if another known heavy process is alive. Own pid and parent pid are
-    excluded (the launching shell's command line echoes this script's name)."""
 
     mine = {os.getpid(), os.getppid()}
     listing = subprocess.run(["ps", "-axo", "pid=,command="], capture_output=True, text=True, check=True)

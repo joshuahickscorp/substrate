@@ -1,8 +1,3 @@
-"""Unit tests for the workspace, self-model, and integration-theory contract scaffold.
-
-Deterministic programmatic mechanics only; no capability claim. Every test exercises contract
-validation, refusal rules, or seeded fixture determinism on CPU in well under 30 seconds.
-"""
 
 from __future__ import annotations
 
@@ -48,8 +43,6 @@ from mop.studies.integration_battery_scaffold import (
     scaffold_manifest,
     score_functional_outcomes,
 )
-
-# ------------------------------------------------------------------ theory battery
 
 
 def test_theory_battery_fixture_constructs_and_is_deterministic():
@@ -175,12 +168,10 @@ def test_scorer_scores_fixture_and_stays_functional():
     assert result["battery_sha256"] == contract.sha256
     broadcast = result["per_theory"]["theory:capacity-broadcast"]
     dense = result["per_theory"]["theory:dense-integration"]
-    # observations were generated to match the capacity-broadcast fixture theory
     assert broadcast["functional_match_fraction"] == 1.0
     assert broadcast["disconfirmed"] is False
     assert broadcast["dissociations_checked"] == 1
     assert broadcast["dissociations_passed"] == 1
-    # the dense fixture theory predicted no-change under lesion and restoration, so it loses there
     assert dense["functional_match_fraction"] < 1.0
     assert dense["disconfirmed"] is True
 
@@ -196,7 +187,6 @@ def test_scorer_refuses_interpretation_annotations():
             value=0.5,
             annotations=(("moral_status", "high"),),
         )
-    # a clean annotation passes and scoring still works
     extra = Observation(
         operation_id="op:workspace-report",
         level="behavior",
@@ -222,9 +212,6 @@ def test_refuse_interpretation_tokens_rule():
     for bad in ("welfare_score", "phenomenal_depth", "suffering_index"):
         with pytest.raises(ValueError, match="interpretation vocabulary"):
             refuse_interpretation_tokens((bad,), "test")
-
-
-# ------------------------------------------------------------------ self-model contracts
 
 
 @pytest.mark.parametrize(
@@ -325,9 +312,6 @@ def test_homeostatic_control_requires_setpoints_and_known_actuators():
         HomeostaticSetpoint("memory", "available_percent", 90.0, 10.0, "defer-admission")
 
 
-# ------------------------------------------------------------------ report grounding
-
-
 def test_report_grounding_contract_validates_fields_and_controls():
     good = make_self_report_grounding_contract()
     assert good.metric_names == ("grounded_fraction", "shared_fields")
@@ -340,9 +324,6 @@ def test_report_grounding_contract_validates_fields_and_controls():
         dataclasses.replace(good, metric_names=("grounded_fraction",))
     with pytest.raises(ValueError, match="no report fields"):
         SelfReportGroundingContract(report_fields=(), controls=REQUIRED_REPORT_GROUNDING_CONTROLS, seed=0)
-
-
-# ------------------------------------------------------------------ broadcast contracts
 
 
 @pytest.mark.parametrize("mode", BROADCAST_MODES)
@@ -367,9 +348,6 @@ def test_broadcast_contract_fails_closed():
         dataclasses.replace(good, matched_flop_budget=0)
     with pytest.raises(ValueError, match="mode"):
         make_broadcast_contract("vibes")
-
-
-# ------------------------------------------------------------------ metacognitive efficiency
 
 
 def test_metacog_contract_reuses_oa_names_and_fails_closed():
@@ -401,9 +379,6 @@ def test_refuse_composite_metric_rule():
         refuse_composite_metric("overall_score", ("oa2_calibration", "oa6_crisis_detection"))
     with pytest.raises(ValueError, match="unknown OA components"):
         refuse_composite_metric("benefit_per_monitor_flop", ("oa9_vibes",))
-
-
-# ------------------------------------------------------------------ fixtures and rail hygiene
 
 
 def test_telemetry_trace_fixture_is_deterministic_and_vocabulary_bound():

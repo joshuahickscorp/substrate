@@ -1,14 +1,3 @@
-"""Registry that drives every Stage 3 mechanism runner uniformly.
-
-Each epoch ships a bed and a runner that satisfy the ladder_contracts Bed and MechanismRunner protocols.
-This module discovers and constructs them (via a build_default helper where present, else the single
-public class named <Camel>Bed or <Camel>Runner) so the campaign can run any epoch by name and collect a
-RunReceipt. Runners mint mechanics-demonstration receipts only; this module never turns one into a
-confirmation.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -33,7 +22,7 @@ STAGE3_EPOCHS: tuple[str, ...] = (
 
 
 class Stage3RegistryError(RuntimeError):
-    """Raised when an epoch is unknown or its bed or runner cannot be discovered."""
+    pass
 
 
 def _discover(module: ModuleType, suffix: str) -> Any:
@@ -51,7 +40,6 @@ def _discover(module: ModuleType, suffix: str) -> Any:
 
 
 def build_pair(epoch: str) -> tuple[Bed, MechanismRunner]:
-    """Construct the (bed, runner) pair for one epoch. Fails closed on an unknown epoch."""
 
     if epoch not in STAGE3_EPOCHS:
         raise Stage3RegistryError(f"unknown Stage 3 epoch {epoch!r}")
@@ -63,7 +51,6 @@ def build_pair(epoch: str) -> tuple[Bed, MechanismRunner]:
 
 
 def run_demonstration(epoch: str, seed: int) -> RunReceipt:
-    """Run one epoch on one seed and return its (demonstration) RunReceipt."""
 
     if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
         raise Stage3RegistryError("seed must be a nonnegative integer")

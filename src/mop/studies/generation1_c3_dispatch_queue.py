@@ -1,4 +1,3 @@
-"""Adaptive, restart-safe queue for the expanded G1-C3/D1 dispatch canary."""
 
 from __future__ import annotations
 
@@ -86,7 +85,6 @@ def _run_rung(index: int, root_string: str) -> tuple[int, dict[str, Any], float]
 
 
 def hawking_mode(path: Path = HAWKING_QUEUE) -> tuple[str, int, str | None]:
-    """Return a fail-closed worker target from the sealed Hawking queue."""
 
     try:
         value = _read_object(path)

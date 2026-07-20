@@ -1,4 +1,3 @@
-"""Shared producer-side paired statistics; independent verifiers reimplement decisive math separately."""
 
 from __future__ import annotations
 
@@ -23,7 +22,7 @@ _TIE_EPS = 1e-9
 
 
 class StatsRefusal(ValueError):
-    """A statistic, SESOI, unit count, or exact-enumeration request is malformed."""
+    pass
 
 
 def _finite(values: Sequence[float], label: str) -> tuple[float, ...]:
@@ -45,7 +44,6 @@ def _sealed(value: float) -> float:
 
 
 def paired_deltas(candidate: Sequence[float], control: Sequence[float]) -> tuple[float, ...]:
-    """Return paired candidate-minus-control effects in the caller's fixed seed order."""
 
     candidate_values = _finite(candidate, "candidate_f1_by_seed")
     control_values = _finite(control, "control_f1_by_seed")
@@ -105,7 +103,6 @@ def sign_flip_payload(
     prereg_digest: str | None = None,
     extra: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Project the common paired sign-flip audit block without changing the decisive statistic."""
 
     if not sesoi_key.startswith("sesoi_"):
         raise StatsRefusal("sesoi_key must name the artifact SESOI field")
@@ -146,7 +143,6 @@ def count_sign_flip_payload(
     ),
     extra: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Project the shared counting statistic with its lower-is-better delta convention."""
 
     additions = {
         "metric": metric,
@@ -168,7 +164,6 @@ def count_sign_flip_payload(
 
 
 def exact_sign_flip(deltas: Sequence[float], alpha: float = DEFAULT_ALPHA) -> SignFlipResult:
-    """Enumerate every sign assignment and return exact one- and two-sided tails."""
 
     values = _finite(deltas, "deltas")
     n = len(values)

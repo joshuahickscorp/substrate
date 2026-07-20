@@ -132,10 +132,6 @@ MAX_ARTIFACT_BYTES = 32 * 1024 * 1024
 MAX_SCOPED_FILE_BYTES = 64 * 1024 * 1024
 
 
-
-
-
-
 def _stable_int(*parts: Any, modulus: int = 2**63 - 1) -> int:
     return int.from_bytes(hashlib.sha256(canonical_bytes(list(parts))).digest()[:8], "big") % modulus
 
@@ -363,7 +359,6 @@ def load_config(path: Path | str = DEFAULT_CONFIG_PATH, *, exploratory: bool = F
 
 @dataclass(frozen=True, slots=True)
 class VisiblePacket:
-    """The complete policy-visible raw boundary; it intentionally contains no evaluator labels."""
 
     packet_id: str
     world_token: str
@@ -396,7 +391,6 @@ class VisiblePacket:
 
 @dataclass(frozen=True, slots=True)
 class EvaluatorTruth:
-    """Scoring-only fields.  No EventPolicy method receives this object."""
 
     useful: bool
     event_id: str | None
@@ -504,7 +498,6 @@ def _feature_vector(packet: VisiblePacket) -> tuple[float, ...]:
 
 
 class DelayedConsequenceEventPolicy:
-    """Small injected policy trained only from visible packets and delayed public action value."""
 
     def __init__(self, config: Mapping[str, Any], seed: int) -> None:
         learned = config["learned_policy"]
@@ -615,7 +608,6 @@ _POLICY_BOOTSTRAP_FIELDS = frozenset(
 
 
 def _policy_bootstrap(config: Mapping[str, Any]) -> Mapping[str, Any]:
-    """Expose only policy hyperparameters, never generator, split, seed, or evaluator config."""
 
     learned = cast(Mapping[str, Any], config["learned_policy"])
     _require(set(learned) == _POLICY_BOOTSTRAP_FIELDS, "learned policy bootstrap fields drifted")
@@ -700,7 +692,6 @@ def generate_episode(
     split: str,
     episode: int,
 ) -> EpisodeTrace:
-    """Generate one bounded raw trace with evaluator metadata held in a separate object graph."""
 
     _require(split in config["splits"], f"unknown X0 split {split!r}")
     split_config = config["splits"][split]
@@ -897,8 +888,6 @@ def _train_policy(
             )
             feedback.append(TrainingObservation(case.visible, consequence))
     if not any(row.consequence.realized_action_value > 0 for row in feedback):
-        # Deterministic exploration may miss a sparse event on a tiny test bed.  Admit one packet by
-        # public schedule, not by revealing its label to the policy.  The environment then returns value.
         exploration_order = sorted(
             (case for trace in tune for case in trace.packets),
             key=lambda row: _stable_int(seed, row.visible.packet_id, "fallback-explore"),

@@ -45,11 +45,6 @@ FIXED_EVIDENCE = "fixed_case_noninferential"
 MECHANICS_EVIDENCE = "mechanics_noninferential"
 DIRECTIONAL_LABELS = frozenset({"stable_null", "stable_candidate_trace"})
 
-# Ten v2 producers returned integer-keyed metric maps. The producer fingerprint intentionally
-# ignored non-string keys before JSON serialization; JSON then persisted those keys as strings. The
-# verifier can reproduce the historical digest only by emptying these exact maps. This is a frozen,
-# experiment-specific compatibility surface, not a global numeric-string-key exception: n7 and ex18
-# intentionally use string numeric keys and must retain them.
 _LEGACY_INTEGER_KEY_PATHS: dict[str, tuple[tuple[str, ...], ...]] = {
     "a7_comm_channel": (("per_codebook_size",),),
     "c9_systematicity_sweep": (
@@ -99,8 +94,6 @@ _NONSCIENTIFIC_METRIC_KEYS = frozenset(
         "resource_observation",
     }
 )
-
-
 
 
 def _canonical_sha256(value: Any) -> str:
@@ -187,8 +180,6 @@ def _load_config(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("Generation-1 corpus needs at least five distinct nonnegative seeds")
     policy = config.get("seed_authority")
-    # Legacy synthetic unit fixtures remain readable, but the strict verifier below is used only
-    # when the v2 seed-authority policy is present.  A real Generation-1 campaign always has it.
     if policy is None:
         return config
     if not isinstance(policy, dict) or policy.get("schema") != SEED_POLICY_SCHEMA:
@@ -481,7 +472,6 @@ def _scientific_fingerprint(metrics: dict[str, Any]) -> str:
 def _legacy_integer_key_fingerprint(
     metrics: dict[str, Any], experiment_id: str
 ) -> str | None:
-    """Reproduce the exact pre-JSON v2 fingerprint bug only for frozen known metric paths."""
 
     paths = _LEGACY_INTEGER_KEY_PATHS.get(experiment_id)
     if paths is None:
@@ -1283,15 +1273,6 @@ def _independent_aggregate(
 
 
 def _operational_summary(run_root: Path, *, manifest_bytes: int) -> dict[str, Any]:
-    """Independently recompute the aggregate's operational summary from raw attempt receipts.
-
-    An invalid attempt (missing, unreadable, or seal-broken receipt) is orchestration debris from an
-    interrupted process, not necessarily a defect: if a strictly later attempt number for the same
-    (seed, experiment) cell holds a valid receipt, the retry already succeeded and the earlier attempt
-    is superseded. Only an invalid attempt with no later valid attempt for its cell is unresolved.
-    invalid_attempt_receipt_count stays the total; superseded and unresolved break it down and always
-    sum to it.
-    """
 
     attempts = sorted(run_root.glob("seed_*/classes/*/attempt_[0-9][0-9][0-9]"))
     valid = 0
@@ -1418,11 +1399,6 @@ def _verify_legacy_corpus(
     config_path: Path,
     run_root: Path,
 ) -> dict[str, Any]:
-    """Compatibility verifier for pre-authority synthetic unit fixtures.
-
-    Legacy fixtures cannot establish the v2 seed-independence claims.  This path retains their
-    historical structural contract without exposing any of the advanced v2 checks.
-    """
     from .generation1_cognitive_corpus import build_corpus, eligible_experiment_ids
 
     experiment_ids = eligible_experiment_ids(config)

@@ -1,5 +1,3 @@
-"""The trainable shell around the frozen substrate. Everything here learns; the encoder
-does not. Components map to corpus levers (see ARCHITECTURE.md)."""
 
 from __future__ import annotations
 
@@ -30,12 +28,10 @@ __all__ = [
     "ClassHead",
     "GaussianHead",
     "build_head",
-    # e7 sparse head family promoted into the shell (WP-02)
     "KWTAHead",
     "MoEHead",
     "routing_entropy",
     "moe_expert_hidden_for_dense",
-    # workspace composition + matched-capacity constructors (WP-02)
     "WorkspaceShell",
     "width_for_param_count",
     "matched_capacity",

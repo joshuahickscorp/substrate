@@ -1,7 +1,3 @@
-"""WP-06 memory and retrieval scripts (DR10 retrieve-then-reason, PR8 retrieval head, PR7 fast/slow)
-run end to end on tiny synthetic tensors and return the Experiment-contract dict. Asserts MECHANICS
-only (shapes, keys, matched capacity, verdict plumbing), never a scientific outcome: the
-preregistered nulls holding is an honest finding. No encoder, no weights, seconds per test."""
 
 import importlib.util
 import sys
@@ -56,10 +52,8 @@ def test_dr10_retrieve_reason_runs(dev, tmp_path):
             assert 0.0 <= acc <= 1.0
     assert out["delta_retrieval_vs_best_control"]["ci"]["n"] == 2
     assert out["knn_flops_per_query"] > 0
-    # the shots curve spans 1..k_shot and adaptation_speed reads it
     assert len(out["adaptation_shots_curve_mean"]) == TINY_UNIVERSE["k_shot"]
     assert "steps" in out["adaptation_speed_shots"]
-    # verdict plumbing: win in the delta report is the negation of null_supported
     assert out["null_supported"] == (not out["delta_retrieval_vs_best_control"]["win"])
 
 
@@ -76,11 +70,9 @@ def test_pr8_retrieval_head_runs_and_matches_params(dev, tmp_path):
     out = mod.MotPR8RetrievalHead().run(cfg, dev, tmp_path)
     assert isinstance(out["null_supported"], bool)
     pc = out["param_counts"]
-    # the doctrine capacity match: parametric arm within tol of the retrieval head
     assert pc["match_rel_err"] <= 0.10
     for arm in mod.ARMS:
         assert len(out["new_class_acc"][arm]) == 2
-    # a win requires BOTH deltas to pass; null_supported is the negation
     both = out["delta_vs_knn"]["win"] and out["delta_vs_parametric"]["win"]
     assert out["null_supported"] == (not both)
 
@@ -118,7 +110,6 @@ def test_pr7_fast_store_mechanics():
     store.reset()
     assert float(store.a.abs().sum()) == 0.0
     cache = mod.EpisodicCache(dim=8, n_classes=3, k=2)
-    # matched float budget: capacity = floor(C*D / (D+1))
     assert cache.capacity == (3 * 8) // 9
     assert cache.read(z).shape == (4, 3)
     cache.write(z, y)

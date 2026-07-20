@@ -1,9 +1,3 @@
-"""Executed toy beds for the f21, f26, and f27 sensing scaffold contracts.
-
-The beds are deterministic, local, and programmatic. They exercise the declared controls and
-difficulty gates without natural data or a capability claim. Favorable toy-bed patterns remain
-R1 mechanics until an independent verifier closes fresh seeds and the external form gates are met.
-"""
 
 from __future__ import annotations
 

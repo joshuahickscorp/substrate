@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Manifest-governed entry point for the unexecuted ESCS X0 preregistration."""
 
 import importlib
 import sys

@@ -143,7 +143,6 @@ def test_commands_bind_taxonomy_new_lane_authority_and_advisory_release_audit() 
     assert len(builder.NEW_MECHANISM_AUTHORITIES) == 12
     for path in builder.NEW_MECHANISM_AUTHORITIES:
         assert path in authority_paths
-    # The construction lane runs on the proven vectorized runner; both vectorized modules are pinned.
     assert len(builder.CONSTRUCTION_VEC_AUTHORITIES) == 2
     for path in builder.CONSTRUCTION_VEC_AUTHORITIES:
         assert path in authority_paths
@@ -178,7 +177,6 @@ def test_program_envelope_and_generated_manifest_are_exact_and_deterministic() -
     expected = builder.build_program()
     generated = json.loads(wave.PROGRAM_MANIFEST.read_text(encoding="utf-8"))
 
-    # Envelope scalars are recomputed from the wave module functions, never hard-coded literals.
     expected_seconds = wave.planned_program_compute_seconds()
     assert wave.planned_serial_hours() == pytest.approx(expected_seconds / 3_600)
     assert wave.planned_ideal_worker_hours() == pytest.approx(
@@ -239,12 +237,9 @@ def test_manifest_binds_v6_full_generations_policy_with_retained_markers() -> No
 
     policy = load_policy(REPO_ROOT / policy_path)
     known_markers = set(policy.monitor["known_heavy_markers"])
-    # The wave's process marker arms the wall/marker admission gate.
     assert builder.PROCESS_MARKER in known_markers
-    # The Hawking markers are retained verbatim so backoff-to-zero re-arms when Hawking reappears.
     assert "build/strand-block-parallel/release/quantize-model-block-parallel" in known_markers
     assert any("doctor_v5" in marker for marker in known_markers)
-    # Idle-host-only invariants: the loader forces two active lanes and one heavy lane.
     assert int(policy.limits["maximum_active_lanes"]) == 2
     assert int(policy.limits["maximum_heavy_lanes"]) == 1
 

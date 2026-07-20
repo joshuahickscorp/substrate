@@ -200,10 +200,6 @@ MAX_ARTIFACT_BYTES = 64 * 1024 * 1024
 MAX_SCOPED_FILE_BYTES = 64 * 1024 * 1024
 
 
-
-
-
-
 def _stable_int(*parts: Any, modulus: int = 2**63 - 1) -> int:
     return int.from_bytes(hashlib.sha256(canonical_bytes(list(parts))).digest()[:8], "big") % modulus
 
@@ -427,7 +423,6 @@ def load_config(path: Path | str = DEFAULT_CONFIG_PATH, *, exploratory: bool = F
 
 @dataclass(frozen=True, slots=True)
 class VisibleHeader:
-    """Complete future-blind interface presented to dispatch policies."""
 
     event_id: str
     world_token: str
@@ -460,7 +455,6 @@ class VisibleHeader:
 
     @property
     def value_key(self) -> str:
-        """Future-blind coarse context used by the injected marginal-value critic."""
 
         high_joint_surprise = int(self.novelty_milli >= 800 and self.uncertainty_milli >= 800)
         change_bin = min(3, self.change_milli // 250)
@@ -469,7 +463,6 @@ class VisibleHeader:
 
 @dataclass(frozen=True, slots=True)
 class EvaluatorTruth:
-    """Scoring-only same-state fixture.  No learned policy receives this type."""
 
     niche_label: str
     actor_values_milli: Mapping[str, int]
@@ -498,7 +491,6 @@ class EventCase:
 
 @dataclass(frozen=True, slots=True)
 class ExactCreditRecord:
-    """Delayed exact fork result supplied only to tune/calibration code."""
 
     event_id: str
     available_tick: int
@@ -517,7 +509,6 @@ class ExactCreditRecord:
 
 @dataclass(frozen=True, slots=True)
 class CoalitionDecision:
-    """One temporary coalition; identity binds the header and selected actors."""
 
     policy_id: str
     coalition_id: str
@@ -562,12 +553,6 @@ class CoalitionDecision:
         )
 
     def runtime_selection(self) -> RuntimeDispatchDecision:
-        """Project the compact study receipt into the chassis' selected-coalition contract.
-
-        The experiment stores only the count and digest of its bounded search beam.  The live runtime
-        projection therefore binds the selected coalition, not a fabricated reconstruction of discarded
-        beam entries.
-        """
 
         return RuntimeDispatchDecision.select(*self.actor_ids)
 
@@ -608,7 +593,6 @@ class WorkCharges:
         return {field.name: getattr(self, field.name) for field in fields(self)}
 
     def as_escs_work_vector(self) -> WorkVector:
-        """Losslessly map the X1 boundary into the shared ESCS accounting plane."""
 
         return WorkVector(
             raw_transport_and_adapters=self.structured_intake,
@@ -646,7 +630,6 @@ def _coalition_utility_milli(
 
 
 def exact_credit_record(case: EventCase, actor_ids: Sequence[str]) -> ExactCreditRecord:
-    """Enumerate empty, singleton, and pair forks from one identical state."""
 
     actors = tuple(sorted(set(actor_ids)))
     base = _coalition_utility_milli(case.evaluator, ())
@@ -678,7 +661,6 @@ def exact_difference_credit(
     coalition: Sequence[str],
     resource_debits_milli: Mapping[str, int] | None = None,
 ) -> dict[str, int]:
-    """Leave-one-out difference reward for an executed temporary coalition."""
 
     selected = tuple(sorted(set(coalition)))
     full = _coalition_utility_milli(case.evaluator, selected)
@@ -849,7 +831,6 @@ class DispatchPolicy(Protocol):
 
 
 class InteractionValueCritic:
-    """Small injected critic trained from exact individual and pair fork targets."""
 
     def __init__(
         self,
@@ -1218,7 +1199,6 @@ def _tuned_control_training(
     *,
     control_id: str,
 ) -> tuple[dict[str, Any], WorkCharges]:
-    """Charge the complete tune sweep used by outcome/best-single controls."""
 
     actors = cast(Mapping[str, Mapping[str, Any]], config["actors"])
     costs = config["work_costs"]
@@ -1259,12 +1239,6 @@ def _dormant_scaling_assay(
     config: Mapping[str, Any],
     cases: Sequence[EventCase],
 ) -> tuple[dict[str, Any], WorkCharges]:
-    """Measure capped index queries while charging index construction and retained bytes.
-
-    Generated dormant registrations are inserted into precomputed scope shards.  Query work reads a
-    bounded top-K shard view and therefore never enumerates the complete registration population.  The
-    separately reported build and byte-time costs still grow with population and are charged.
-    """
 
     dispatch = config["dispatch"]
     costs = config["work_costs"]
@@ -1361,7 +1335,6 @@ def _queue_diagnostics(
     cases: Sequence[EventCase],
     schedule: Sequence[CoalitionDecision],
 ) -> dict[str, int | bool]:
-    """Deterministic FIFO service assay over simultaneous storm arrivals."""
 
     capacity = int(config["dispatch"]["dispatch_capacity_events_per_tick"])
     queue_cap = int(config["dispatch"]["queue_cap"])
@@ -1634,7 +1607,6 @@ def _bed_gate(config: Mapping[str, Any], cases: Sequence[EventCase]) -> dict[str
 
 
 def run_seed(config: Mapping[str, Any], *, seed: int, split: str) -> dict[str, Any]:
-    """Run one compact paired-seed row; no filesystem or external evidence access."""
 
     _require(split in {"gate", "heldout", "fresh_verifier"}, "unsupported X1 evaluation split")
     tune_cases = generate_cases(config, seed=seed, split="tune")
@@ -2115,12 +2087,6 @@ def load_edcm_entry_gate(
     receipt_path: Path | str = DEFAULT_EDCM_RECEIPT_PATH,
     verification_path: Path | str = DEFAULT_EDCM_VERIFICATION_PATH,
 ) -> dict[str, Any]:
-    """Validate terminal EDCM producer and independent-verifier evidence.
-
-    A valid EDCM complementarity failure returns ``passed=False`` and routes X1 to ``invalid_bed``.
-    Missing, partial, unhashed, or mismatched evidence raises: it is a campaign block/failure, not a
-    dispatch null.
-    """
 
     producer_path = Path(receipt_path).resolve()
     verifier_path = Path(verification_path).resolve()

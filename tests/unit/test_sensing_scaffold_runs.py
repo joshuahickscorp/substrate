@@ -1,4 +1,3 @@
-"""Focused tests for the executed f21, f26, and f27 toy beds and verifier."""
 
 from __future__ import annotations
 

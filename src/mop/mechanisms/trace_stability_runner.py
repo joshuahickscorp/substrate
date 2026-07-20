@@ -1,17 +1,3 @@
-"""The trace_stability mechanism runner: measures both regimes and every control, then mints.
-
-This runner never claims a scientific result. It mints a mechanics-demonstration receipt only, via
-mint_demonstration, and can never mint a confirmation or a cleared verdict. Its honest default is
-the null verdict. It reports mechanics-ok ONLY when the favorable regime clears the toy threshold,
-every declared control fails to reproduce that agreement, and the null regime stays at chance.
-
-Named prior null (trace_stability): earlier few-seed studies over-claimed; a trace is not real until
-it survives seed variation across at least the declared minimum number of seeds with every declared
-control dead. This runner keeps that null as the default and only steps off it on cleared mechanics.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -47,7 +33,6 @@ NAMED_PRIOR_NULL = (
 
 @dataclass(frozen=True, slots=True)
 class RunResults:
-    """The measured agreements for one run: favorable, null, and every control on the favorable arm."""
 
     mechanism_id: str
     base_seed: int
@@ -60,15 +45,12 @@ class RunResults:
 
 @dataclass(frozen=True, slots=True)
 class TraceStabilityRunner:
-    """Runs the trace_stability mechanism against a bed and mints a mechanics-demonstration receipt."""
 
     mechanism_id: str = MECHANISM_ID
     threshold: float = THRESHOLD
-    # Optional set of controls forced to leak; used only to exercise the fail-closed path.
     leaked_controls: frozenset[str] = frozenset()
 
     def run(self, bed: Bed, seed: int) -> RunResults:
-        """Measure cross-seed agreement on both regimes and on every declared control."""
 
         seeds = derived_seeds(seed, MIN_SEEDS)
         favorable: list[Any] = [bed.favorable_regime(s) for s in seeds]
@@ -90,7 +72,6 @@ class TraceStabilityRunner:
         )
 
     def mint(self, results: RunResults) -> RunReceipt:
-        """Mint a mechanics-demonstration receipt: null by default, mechanics-ok only when earned."""
 
         controls_beaten = tuple(
             control

@@ -1,12 +1,3 @@
-"""Streams over latents. Two sources, one interface:
-  (1) synthetic latent generator: task/class/domain-incremental Gaussian-cluster streams
-      with a dial-able separation (the difficulty knob E1 needs), plus noisy-TV.
-  (2) a real LatentStore (memmap) sliced into a stream.
-
-The synthetic path is what makes the whole system runnable with no encoder weights and no
-video. Latents are produced directly in latent space with controllable geometry, which is
-exactly the geometry the shell trains against.
-"""
 
 from __future__ import annotations
 
@@ -46,20 +37,11 @@ def make_task_stream(
     forward_dynamics: bool = False,
     seed: int = 0,
 ) -> list[Task]:
-    """Generate a sequential stream of tasks in latent space.
-
-    class-incremental: label space grows, each task adds new classes.
-    task-incremental:  each task reuses labels 0..k-1 (task id known at eval).
-    domain-incremental: same labels, the cluster centers rotate/shift per task.
-    """
     g = torch.Generator().manual_seed(seed)
     tasks: list[Task] = []
     total_classes = classes_per_task * (n_tasks if incremental == "class" else 1)
     for t in range(n_tasks):
         if incremental == "domain":
-            # shared label space, INDEPENDENT geometry per domain: the head must remap the
-            # same outputs to new clusters, overwriting prior domains. This is the reliable
-            # catastrophic-forgetting regime (faithful to "distinct video domains").
             centers = torch.randn(classes_per_task, dim, generator=g)
             label_base = 0
         elif incremental == "task":
@@ -72,7 +54,6 @@ def make_task_stream(
         y = y_local + label_base
         xnext = None
         if forward_dynamics:
-            # a deterministic linear "dynamics" per task: next = rotate(x) + drift
             rot = torch.linalg.qr(torch.randn(dim, dim, generator=g))[0]
             xnext = x @ rot + 0.1 * separation
         tasks.append(Task(f"task{t}", x, y, xnext, n_classes=total_classes, task_id=t))
@@ -86,11 +67,6 @@ def noisy_tv_dataset(
     noise_scale: float = 5.0,
     seed: int = 0,
 ) -> dict[str, Task]:
-    """E4/E5 construction: a LEARNABLE region (structured, low aleatoric) and a NOISE
-    region (high-entropy, unlearnable). A correct uncertainty/curiosity mechanism spends
-    near-zero on the noise region. Both have a forward-dynamics target; the noise region's
-    target is irreducibly random so error stays high while learning progress goes to zero.
-    """
     g = torch.Generator().manual_seed(seed)
     centers = torch.randn(2, dim, generator=g)
     xl, yl = _clusters(g, n, dim, centers, separation)
@@ -108,7 +84,6 @@ def noisy_tv_dataset(
 
 
 def stream_from_store(store: LatentStore, n_tasks: int, forward_dynamics: bool = False) -> list[Task]:
-    """Slice a real LatentStore into a sequential stream by label bucketing."""
     x = store.latents().flatten(1)
     y = store.labels()
     if y is None:

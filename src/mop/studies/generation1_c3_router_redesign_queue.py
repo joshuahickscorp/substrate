@@ -1,4 +1,3 @@
-"""Adaptive, restart-safe queue for the G1-C3/D1 router redesign screen."""
 
 from __future__ import annotations
 

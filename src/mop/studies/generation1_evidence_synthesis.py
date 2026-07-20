@@ -50,7 +50,6 @@ DIMENSIONS = (
 )
 STATUS_VALUES = frozenset({"measured", "partial", "unmeasured"})
 
-# IDs, questions, capability evidence, and dependencies are the canonical Section-4 order.
 MECHANISMS: tuple[tuple[str, str, tuple[str, ...], tuple[str, ...]], ...] = (
     ("G1-C0", "Which existing cognitive traces are stable?", (), ()),
     ("G1-C1", "Do actors have reproducible, disjoint niches?", (), ("G1-C0",)),
@@ -146,10 +145,6 @@ NEGATIVE_ACTIONS = {
 }
 
 _SHARED_IMPLEMENTATION_ROLES = frozenset({"experiment_harness", "generation1_driver"})
-
-
-
-
 
 
 def _sha256_bytes(value: bytes) -> str:
@@ -793,7 +788,6 @@ def build_synthesis(
     *,
     created_at: str | None = None,
 ) -> dict[str, Any]:
-    """Build a sealed, non-promotional synthesis without mutating any input."""
 
     corpus, _, report, state, sources = _validate_inputs(
         corpus_path.resolve(),
@@ -821,7 +815,6 @@ def build_synthesis(
 
 
 def render_text(synthesis: dict[str, Any]) -> str:
-    """Render the sealed synthesis as a compact plain-text operator report."""
 
     traces = synthesis["per_experiment_trace_index"]
     counts = Counter(row["classification"] for row in traces)

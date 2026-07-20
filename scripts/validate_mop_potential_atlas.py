@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Validate the committed MOP potential atlas and optionally write a durable receipt."""
 
 from __future__ import annotations
 

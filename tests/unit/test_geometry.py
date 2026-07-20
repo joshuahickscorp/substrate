@@ -1,5 +1,3 @@
-"""Representation-geometry battery (D1 / EX12): known-answer checks for CKA, RSA, effective rank,
-anisotropy, and neighbourhood overlap."""
 
 import torch
 

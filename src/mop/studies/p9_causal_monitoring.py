@@ -1,15 +1,3 @@
-"""Deterministic P9 causal monitoring mechanics over a bounded structural fixture.
-
-The preflight separates two claims that are often collapsed into one. Existing P9 accounting
-can measure a workload boundary, but measurement alone does not show that internal telemetry is
-prospectively or causally useful. This module supplies the missing mechanics with same-parent
-intervention branches, a training-only correlational shortcut, disjoint calibration and held-out
-lineages, matched-capacity histogram monitors, a real relief branch, exact replay, and resumable
-chunk construction.
-
-All results are fixture mechanics. No natural workload, capability, cognition, sentience, or
-energy conclusion is eligible.
-"""
 
 from __future__ import annotations
 

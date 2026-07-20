@@ -1,10 +1,3 @@
-"""Machine-readable pre-Studio boundary for the F1-F20 campaign.
-
-Resource-tier labels are plans, not proof that a laptop was exhausted.  This receipt separates local
-obligations, Studio-scale hardware walls, external environment/license blockers, and work explicitly
-beyond the proposed Studio.  A Studio-only boundary can become true only from durable receipts; it
-cannot be inferred from ``resource_tier: studio-scale`` prose.
-"""
 
 from __future__ import annotations
 
@@ -31,7 +24,6 @@ LIMIT_TYPES = {"memory", "wall_time", "disk", "model_weights", "dataset_scale", 
 
 
 def validate_scale_boundary_evidence(receipt: dict[str, Any], experiment_id: str) -> list[str]:
-    """Validate a measured local-to-Studio scale boundary receipt."""
     problems: list[str] = []
     if receipt.get("schema") != BOUNDARY_EVIDENCE_SCHEMA:
         problems.append(f"{experiment_id}: unexpected scale-boundary schema {receipt.get('schema')!r}")
@@ -66,13 +58,6 @@ def _studio_only_boundary(
     non_hardware_blockers: list[dict[str, Any]],
     beyond_studio: list[str],
 ) -> bool:
-    """Return true only for an evidenced, exclusive Studio hardware boundary.
-
-    Absence of an unproved Studio claim is not proof of a Studio boundary.  At least one measured
-    and validated Studio boundary must exist, the scientific ledger must be ready, and no data,
-    rights, environment, or beyond-Studio blocker may remain.  This prevents a fully local or
-    externally blocked campaign from satisfying the hardware conclusion vacuously.
-    """
 
     return bool(
         local_exhausted
@@ -87,7 +72,6 @@ def _studio_only_boundary(
 def build_form_pre_studio_boundary(
     *, repo_root: Path | str = REPO_ROOT, scorecard: dict[str, Any] | None = None
 ) -> dict[str, Any]:
-    """Classify every F-series leg and decide whether Studio is the sole remaining hardware wall."""
     root = Path(repo_root)
     campaign = load_form_campaign(repo_root=root)
     score = scorecard or build_campaign_scorecard(repo_root=root)

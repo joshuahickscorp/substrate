@@ -1,18 +1,3 @@
-"""EX4: fast-weight / hypernetwork shells. A hypernetwork h(context_latents) emits the weights of a
-tiny linear head in ONE forward pass (in-context, zero-gradient adaptation: no backward pass at eval
-time). Compared against two standing controls: a static head trained once and never adapted, and a
-gradient-TTA arm that DOES take a few gradient steps at eval time on the same per-task context. A
-context-independence (collapse) diagnostic checks whether h ignores its context and just emits a
-fixed average shell (cosine similarity of h(context_A) vs h(context_B) across different-class
-contexts; near 1.0 means collapse).
-
-NULL: in-context plasticity does not match gradient plasticity, or the hypernet collapses to a
-context-independent average shell (the forward pass buys nothing over a fixed head, or it is
-indistinguishable from ignoring its input). Taxonomy slot 4 (predictor/hypernet too weak) or 9
-(fast-weight generation collapses to a slow-weight average). cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -29,9 +14,6 @@ from .base import Experiment
 
 
 class HyperShellHead(nn.Module):
-    """Hypernetwork h(context_latents_mean) -> flat vector reshaped into (W, b) of a linear head
-    dim -> n_classes. Adaptation is a single forward pass through h conditioned on a per-task
-    context; no gradient step touches the shell weights at eval time."""
 
     def __init__(self, dim: int, n_classes: int, hidden: int):
         super().__init__()
@@ -69,9 +51,6 @@ def _fit_static(head: nn.Module, x, y, epochs: int, lr: float) -> None:
 
 
 def _fit_hypernet(hyper: HyperShellHead, tasks_ctx_query: list[tuple], epochs: int, lr: float) -> None:
-    """Meta-init: train h across tasks so a single forward pass, conditioned on a task's context,
-    scores well on that task's query set. This is the 'meta-init' standing control folded into the
-    hypernet's own training (it must learn to USE context, not just memorize one task)."""
     opt = torch.optim.Adam(hyper.parameters(), lr=lr)
     for _ in range(epochs):
         opt.zero_grad()
@@ -86,9 +65,6 @@ def _acc(logits: torch.Tensor, y: torch.Tensor) -> float:
 
 
 def _gradient_tta_curve(static_init: nn.Linear, cx, cy, qx, qy, max_steps: int, lr: float) -> list[float]:
-    """A fresh copy of the static-head architecture, adapted from scratch by gradient steps on the
-    task's CONTEXT set (labeled, same context the hypernet sees), evaluated on the query set after
-    each step. Returns the per-step query accuracy curve (length max_steps)."""
     head = _static_head(static_init.in_features, static_init.out_features)
     head.load_state_dict(static_init.state_dict())
     opt = torch.optim.Adam(head.parameters(), lr=lr)
@@ -139,8 +115,6 @@ class EX4(Experiment):
 
         for s in seeds:
             seed_everything(s)
-            # task-incremental stream: every task reuses the same label space 0..n_classes-1 with
-            # independent cluster geometry per task, so a context must be READ to solve a task.
             stream = make_task_stream(
                 n_tasks=n_train_tasks + n_held_out_tasks,
                 dim=dim,
@@ -157,18 +131,15 @@ class EX4(Experiment):
                 cut = max(n_classes, int(n * ctx_frac))
                 return task.x[:cut], task.y[:cut], task.x[cut:], task.y[cut:]
 
-            # meta-init: hypernet trained across TRAIN tasks only, held-out tasks are unseen geometry
             hyper = HyperShellHead(dim, n_classes, hidden)
             tasks_ctx_query = [split_ctx_query(t) for t in train_tasks]
             _fit_hypernet(hyper, tasks_ctx_query, epochs, lr)
 
-            # static baseline: one head trained on the POOLED train-task data, never adapted per task
             static = _static_head(dim, n_classes)
             pooled_x = torch.cat([t.x for t in train_tasks], dim=0)
             pooled_y = torch.cat([t.y for t in train_tasks], dim=0)
             _fit_static(static, pooled_x, pooled_y, epochs, lr)
 
-            # evaluate on held-out tasks (unseen cluster geometry, forces genuine context use)
             for t in held_tasks:
                 cx, cy, qx, qy = split_ctx_query(t)
                 with torch.no_grad():
@@ -177,15 +148,12 @@ class EX4(Experiment):
                 hyper_accs.append(_acc(h_logits, qy))
                 static_accs.append(_acc(s_logits, qy))
 
-                # gradient-TTA control: fresh copy of the static init, adapted on the SAME context
                 curve = _gradient_tta_curve(static, cx, cy, qx, qy, tta_max_steps, tta_lr)
                 tta_final_accs.append(curve[-1])
                 target = hyper_accs[-1]
                 reached = next((i + 1 for i, a in enumerate(curve) if a >= target), None)
                 adapt_speeds.append(reached if reached is not None else tta_max_steps)
 
-            # collapse diagnostic: does h ignore its context. Feed contexts from two DIFFERENT
-            # held-out tasks (different class geometry) and compare the emitted weight vectors.
             if len(held_tasks) >= 2:
                 cx_a, _, _, _ = split_ctx_query(held_tasks[0])
                 cx_b, _, _, _ = split_ctx_query(held_tasks[1])
@@ -221,8 +189,6 @@ class EX4(Experiment):
             "margin": margin,
             "seeds": list(seeds),
             "n_held_out_evals": len(hyper_accs),
-            # the explicit null: in-context adaptation does not beat the static head within the
-            # seed/margin spread, OR the hypernet has collapsed to a context-independent average shell
             "null_supported": bool((not beats_static) or collapsed),
             "hypernet_beats_static": beats_static,
             "hypernet_matches_gradient_tta": bool(gain_vs_tta >= -margin),

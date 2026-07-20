@@ -1,4 +1,3 @@
-"""Phase-local process resource sampling for long-lived Python workers."""
 
 from __future__ import annotations
 
@@ -9,7 +8,6 @@ import psutil
 
 
 class PeakRSSMonitor:
-    """Sample current process RSS without inheriting an earlier process-lifetime peak."""
 
     def __init__(self, *, interval_seconds: float = 0.002) -> None:
         if interval_seconds <= 0:

@@ -32,14 +32,9 @@ BRIDGE_PREFLIGHT = REPO_ROOT / "proof" / "SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGH
 INTAKE_RECEIPT = REPO_ROOT / "proof" / "SANPO_REAL_SMOKE_INTAKE.json"
 SCHEMA = "mop-sanpo-dr1-cm1-attribute-map/v1"
 
-# DR1 curation gate defaults (src/mop/studio/dr1_schedule.py) and CM1 registry requirements:
-# two independently decodable bound factors, held-out combinations, minimum replicates per cell.
 DR1_MIN_PER_CELL = 16
 CM1_MIN_FACTORS = 2
 
-# Session-level scalar attributes considered as candidate factors. List-valued attributes
-# (environment_types, weather_conditions, elevation_changes, ground_appearances) are reported
-# but only their first element is offered as a factor level, stated in the receipt.
 SCALAR_ATTRIBUTES = (
     "human_traffic",
     "vehicular_traffic",
@@ -93,7 +88,6 @@ def main(argv: list[str] | None = None) -> int:
             f"expected 8 development and 2 test sessions, found {len(development_ids)} and {len(test_ids)}"
         )
 
-    # Metadata-only read of development sessions; test session directories are never opened.
     sessions: list[dict] = []
     is_park_by_session = {
         str(record.get("session_id")): bool(record.get("is_park"))
@@ -121,14 +115,12 @@ def main(argv: list[str] | None = None) -> int:
             row[f"{key}_primary"] = value[0] if isinstance(value, list) and value else None
         sessions.append(row)
 
-    # Candidate factor set: is_park plus scalar attributes plus primary elements of list attributes.
     factor_keys = ["is_park", *SCALAR_ATTRIBUTES, *[f"{key}_primary" for key in LIST_ATTRIBUTES]]
     factor_levels: dict[str, dict[str, int]] = {}
     for key in factor_keys:
         counts = Counter(str(row.get(key)) for row in sessions)
         factor_levels[key] = dict(sorted(counts.items()))
 
-    # Pairwise cell coverage over the eight development sessions.
     pairs = []
     for key_a, key_b in combinations(factor_keys, 2):
         levels_a = {str(row.get(key_a)) for row in sessions}

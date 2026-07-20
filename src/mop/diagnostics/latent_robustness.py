@@ -1,8 +1,3 @@
-"""A4: latent robustness. Perturb cached latent inputs (shuffle features, additive noise, dropout,
-low-bit quantization) and re-probe: a graded degradation curve characterizes brittleness; a flat curve
-means the probe head ignores the latent; an immediate collapse means the head is brittle to any
-disturbance. Reuses linear_probe (decodability) and quantize_dequantize (the existing bit-depth control).
-"""
 
 from __future__ import annotations
 
@@ -13,8 +8,6 @@ from .substrate_ablation import quantize_dequantize
 
 
 def _shuffle_features(x: torch.Tensor, seed: int) -> torch.Tensor:
-    """Independently permute each feature column across rows: destroys cross-feature structure while
-    preserving each feature's marginal distribution."""
     g = torch.Generator().manual_seed(seed)
     out = x.clone()
     for j in range(x.shape[1]):
@@ -43,8 +36,6 @@ def degradation_curve(
     bits=(32, 8, 4, 2),
     seed: int = 0,
 ) -> dict:
-    """Four perturbation families, each swept, each reprobed with a fresh linear head. Returns the raw
-    accuracy curves plus a shuffled-feature control (the floor: destroys cross-feature structure)."""
     base = linear_probe(x, y, seed=seed)["score"]
     noise_curve = {
         lv: round(linear_probe(_add_noise(x, lv, seed), y, seed=seed)["score"], 4) for lv in noise_levels

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Run fresh-seed adversarial verifiers for the positive F-series candidates."""
 
 from __future__ import annotations
 

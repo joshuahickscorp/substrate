@@ -1,9 +1,3 @@
-"""Dense/atlas cache gate.
-
-The full Studio atlas registers a dense V-JEPA 2.1 real cache and its matched random-init dense
-control. This receipt refuses to let the atlas stage run as a universal-scope claim unless both dense
-caches have clean manifests, dense token shapes, matching referent keys, and enough clips.
-"""
 
 from __future__ import annotations
 
@@ -30,7 +24,6 @@ def build_dense_atlas_cache_gate(
     min_tokens: int = DEFAULT_MIN_TOKENS,
     expected_dim: int | None = DEFAULT_EXPECTED_DIM,
 ) -> dict[str, Any]:
-    """Build a paired dense-cache gate receipt for the registered atlas dense column."""
     real = _cache_summary(
         Path(real_cache),
         min_count=min_count,
@@ -74,7 +67,6 @@ def build_dense_atlas_cache_gate(
 
 
 def write_dense_atlas_cache_gate(receipt: dict[str, Any], path: str | Path) -> None:
-    """Write the dense/atlas gate receipt."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(receipt, indent=2, default=str) + "\n")

@@ -1,10 +1,3 @@
-"""Finite contracts and charged execution for the ESCS raw-event boundary.
-
-The module freezes immutable raw input, bounded proposal/abstention, injected-policy,
-evidence-taint, and resource-cap contracts. ``ChargedEventFormer`` accounts every admitted poll or
-packet attempt and atomically publishes typed observation/hypothesis batches. These mechanics do not
-identify meaningful events or establish learning, calibration, capability, or efficiency.
-"""
 
 from __future__ import annotations
 
@@ -107,7 +100,6 @@ def _reject_hidden(value: Any, label: str) -> None:
 
 
 def _validate_opaque_json(raw: bytes) -> None:
-    """Inspect JSON bytes without pretending arbitrary binary semantics can be certified."""
 
     try:
         value = json.loads(raw)
@@ -118,11 +110,6 @@ def _validate_opaque_json(raw: bytes) -> None:
 
 @dataclass(frozen=True, slots=True)
 class RawPacket:
-    """Content-addressed raw input with clocks and explicitly declared intake work.
-
-    The exact schema has no evaluator label, hidden change point, target action, or semantic event
-    field.  Opaque non-JSON bytes still require an independent source audit.
-    """
 
     packet_id: str
     sensor_id: str
@@ -263,7 +250,6 @@ class RawPacket:
 
 @dataclass(frozen=True, slots=True)
 class EventProposal:
-    """One bounded candidate hypothesis; its distributions remain representation-neutral JSON."""
 
     proposal_id: str
     epistemic_status: EpistemicStatus
@@ -370,11 +356,6 @@ class EventProposal:
 
 @dataclass(frozen=True, slots=True)
 class EventFormerDescriptor:
-    """Frozen evidence declaration for one injected policy.
-
-    Oracle access is legal only under ``ORACLE_NONPROMOTABLE`` and is refused by a promotable-mode
-    configuration.  Non-oracle classes remain mechanics labels, not positive evidence.
-    """
 
     policy_id: str
     evidence_class: EvidenceClass
@@ -397,7 +378,6 @@ class EventFormerDescriptor:
 
 @dataclass(frozen=True, slots=True)
 class EventFormerDecision:
-    """Bounded policy output: admitted proposals or an explicit charged abstention."""
 
     proposals: tuple[EventProposal, ...]
     discarded_candidates: int
@@ -442,7 +422,6 @@ class EventFormerDecision:
 
 @runtime_checkable
 class EventFormerPolicy(Protocol):
-    """Injected policy contract; implementations are outside this evidence-neutral stage."""
 
     @property
     def descriptor(self) -> EventFormerDescriptor: ...
@@ -563,7 +542,6 @@ class EventFormerConfig:
         decision: EventFormerDecision,
         parent_evidence_classes: tuple[EvidenceClass, ...] = (),
     ) -> EvidenceClass:
-        """Join all ingress taints; a restrictive source can never be relabeled downward."""
 
         if not isinstance(parent_evidence_classes, tuple) or not all(
             isinstance(row, EvidenceClass) for row in parent_evidence_classes
@@ -611,7 +589,7 @@ class EventFormerConfig:
 
 
 class EventFormerContractError(RuntimeError):
-    """An injected policy violated the finite charged event-former contract."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
@@ -662,13 +640,6 @@ class EventFormerResult:
 
 
 class ChargedEventFormer:
-    """Execute one finite injected event policy and publish its events as one atomic batch.
-
-    Policy evaluation is required to be observationally pure at this boundary. Learned policy
-    updates need an explicit future transaction contract; silent mutation poisons this instance.
-    Rejected reports above a declared cap receive an explicitly named saturated rejection charge;
-    such runs are invalid for exact-work or promotion claims.
-    """
 
     def __init__(
         self,
@@ -763,7 +734,6 @@ class ChargedEventFormer:
         polling_operations: int,
         deadline_operations: int = 0,
     ) -> tuple[int, int]:
-        """Charge a bounded no-packet poll without inventing an ObservationEvent."""
 
         if self._closed:
             raise EventFormerContractError("event former is finalized")
@@ -1037,7 +1007,6 @@ class ChargedEventFormer:
         )
 
     def finalize(self, *, end_tick: int) -> None:
-        """Close the deployment horizon, charge final retention, and release policy state."""
 
         if self._closed:
             raise EventFormerContractError("event former was already finalized")

@@ -1,6 +1,3 @@
-"""CLI: `mop <key=value> ...` composes a config and runs the selected experiment.
-Overrides are Hydra-style: group switches (experiment=e1_baseline device=cpu) and dotlist
-values (shell.buffer.capacity=4096)."""
 
 from __future__ import annotations
 

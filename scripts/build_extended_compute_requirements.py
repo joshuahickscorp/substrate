@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""Build and verify the extended-compute blocker matrix.
-
-The matrix is deliberately conservative: category 8 or 9 and
-``hardware_required: true`` are rejected unless a named, locally measured or
-calculated enablement gate has passed.  Run with ``--check`` to verify that the
-committed JSON is exactly reproducible from the current registry and evidence.
-"""
 
 from __future__ import annotations
 
@@ -97,11 +90,6 @@ CALCULATION_IDS = {
     "c_cloud_cost_spec",
 }
 
-# This catalog is intentionally role-empty at this snapshot.  Existing local
-# measurements and sizing formulas are useful evidence, but none is a repeated
-# boundary failure, two-rung same-workload comparison, parity pilot, or
-# smallest-rung derivation.  Gate validation inspects these typed roles rather
-# than accepting an arbitrary known ID or a self-asserted boolean.
 GATE_EVIDENCE_SPECS: dict[str, dict[str, Any]] = {
     "m_host_profile": {
         "record_type": "measurement",
@@ -128,11 +116,6 @@ GATE_EVIDENCE_SPECS: dict[str, dict[str, Any]] = {
     },
 }
 
-# These are explicit exceptions to evidence-derived registry classification. Registry-only F rows
-# are preregistration-only category 2 by default, or category 6 when their declared resource tier
-# is environment-needed. The official ViT-B runtime and E6/DR14 cache-control interfaces are
-# verified locally, so their first remaining blocker is a citable natural task cohort rather than
-# hardware.
 REGISTRY_OVERRIDES: dict[str, tuple[int, str, str]] = {
     "e5_curiosity": (
         1,
@@ -811,7 +794,6 @@ def sha256_path(path: Path) -> str:
 
 
 def _p5_terminal_evidence_summary(receipt: dict[str, Any], *, evidence_root: Path = ROOT) -> dict[str, Any]:
-    """Validate the complete P5 chain, overriding only the loaded smoke receipt."""
 
     return require_p5_terminal_evidence(
         evidence_root,
@@ -820,11 +802,6 @@ def _p5_terminal_evidence_summary(receipt: dict[str, Any], *, evidence_root: Pat
 
 
 def resolved_gate_evidence_catalog() -> dict[str, dict[str, Any]]:
-    """Resolve only code-declared gate records against the live local bytes.
-
-    Role-bearing records must pin an expected source hash.  Merely pointing at
-    an existing file or asserting ``current_hash_verified`` is insufficient.
-    """
     catalog: dict[str, dict[str, Any]] = {}
     for identifier, spec in GATE_EVIDENCE_SPECS.items():
         record = dict(spec)
@@ -888,7 +865,6 @@ def normalize_evidence_path(value: str) -> Path:
 
 
 def embedded_hash_audit(relative: str) -> dict[str, Any]:
-    """Audit ordinary file SHA-256 claims embedded in a JSON artifact."""
     artifact = ROOT / relative
     result: dict[str, Any] = {"artifact": relative, "checks": 0, "mismatches": [], "missing": []}
     if not artifact.is_file():
@@ -958,9 +934,6 @@ def embedded_hash_audit(relative: str) -> dict[str, Any]:
                 walk(value, f"{pointer}/{index}")
 
     walk(payload)
-    # A stale source can repeat the same old path/hash in many rows.  Preserve
-    # one machine-checkable record per distinct claim and expose occurrence
-    # count separately rather than inflating the defect count.
     for key in ("mismatches", "missing"):
         unique: dict[str, dict[str, Any]] = {}
         for item in result[key]:
@@ -1209,7 +1182,6 @@ def registry_rows() -> tuple[list[dict[str, Any]], list[str]]:
                         f"unclassified registry row lacks a current direct local receipt: {identifier}"
                     )
         else:
-            # The exhaustion ledger intentionally covers non-F rows only.
             if item.get("series") == "F" and item.get("status") == "registry-only":
                 measured = {
                     "present": False,
@@ -1525,7 +1497,6 @@ def _p6_dry_prerequisite_state(
 
 
 def authoritative_receipt_checks() -> dict[str, Any]:
-    """Run schema-aware checks for evidence whose paths have scoped semantics."""
     errors: list[str] = []
     checks: dict[str, Any] = {}
 
@@ -2135,9 +2106,6 @@ def validation(
             errors.append(f"{item['id']}: category 6 must use L6")
         errors.extend(gate_errors(item))
 
-    # Adversarial negative tests prove that fabricated IDs and incomplete
-    # category-9/category-8 gates do not pass merely because row() defaults are
-    # conservative.
     probe = json.loads(json.dumps(rows[0]))
     probe["primary_category"] = 9
     probe["hardware_required"] = True

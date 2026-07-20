@@ -99,7 +99,6 @@ def run_cm8(args: argparse.Namespace) -> int:
     proof = args.proof or REPO_ROOT / "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json"
     _atomic_json(proof, receipt)
     print(json.dumps(receipt, indent=2))
-    # A successful preflight execution returns zero even when scientific execution correctly refuses.
     return 0
 
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Build a sealed exploratory request for the Generation 1 supervisor."""
 
 from __future__ import annotations
 

@@ -1,14 +1,3 @@
-"""Exact experiment-contract equality checks.
-
-The experiment bank is the preregistration source of truth, but a runnable experiment also repeats
-part of that contract in its class and its composed config.  A run is not canonical when those three
-surfaces disagree, even if the code executes and emits all expected keys.  This module makes that
-rule explicit and reusable by registry validation, the harness doctor, and durable result promotion.
-
-Only fields that have the same meaning on all three surfaces are compared: id, ordered metric list,
-null hypothesis, and run tier.  ``controls``/``falsifier`` are intentionally not compared to the
-class ``baseline``/``ablation`` prose because those pairs are related but not equivalent schemas.
-"""
 
 from __future__ import annotations
 
@@ -30,7 +19,6 @@ def compare_contract_sources(
     experiment_class: type,
     config: DictConfig | dict[str, Any],
 ) -> dict[str, Any]:
-    """Compare one registry row, runnable class, and experiment config exactly."""
     eid = str(registry_row.get("id") or "<missing-id>")
     cfg = _plain(config)
     registry_values = {
@@ -83,12 +71,6 @@ def build_contract_audit(
     series: str | None = "F",
     implemented_only: bool = True,
 ) -> dict[str, Any]:
-    """Audit live runnable contracts against their registry rows and config files.
-
-    Missing class/config sources are explicit failures for implemented rows. Registry-only and
-    deferred rows are preregistration-only records when ``implemented_only`` is false. They do not
-    require a runnable class or config until their status changes to implemented.
-    """
     from ..devel.registries import load_experiments
     from ..experiments import REGISTRY
 
@@ -172,7 +154,6 @@ def validate_manifest_contract(
     contract_record: dict[str, Any],
     run_config: DictConfig | dict[str, Any],
 ) -> list[str]:
-    """Reject a run whose embedded/snapshotted contract is stale relative to the live audit."""
     eid = str(contract_record.get("experiment_id") or "<missing-id>")
     problems = list(contract_record.get("problems") or [])
     canonical = dict(contract_record.get("canonical") or {})

@@ -1,7 +1,3 @@
-"""WP-02 shared-module tests: tiny synthetic tensors only, no network, no weights, no encoder loads
-(the RandomInitViT build path is asserted deferred, not exercised). Covers adapter (pixel control +
-registry), alignment, cross_substrate, riskcov, continual_metrics, workspace, capmatch, plus the
-pass-2 existing-file extensions (kWTA/MoE heads, attention/kNN FLOP counters, package re-exports)."""
 
 import math
 
@@ -18,8 +14,6 @@ from mop.shell.capmatch import fixed_total_params_sweep, matched_capacity, width
 from mop.shell.heads import KWTAHead, MoEHead, moe_expert_hidden_for_dense, routing_entropy
 from mop.shell.workspace import WorkspaceShell
 from mop.substrate.adapter import RandomInitViTAdapter, RandomPixelAdapter, SubstrateRegistry
-
-# ---------------------------------------------------------------- adapter
 
 
 def test_random_pixel_adapter_shape_and_determinism():
@@ -45,9 +39,6 @@ def test_registry_rejects_duplicate_tags():
 
 
 def test_random_init_vit_build_is_deferred_until_first_extract():
-    """Constructing the adapter must never load a model (live-encode constraint); the from_config
-    build happens lazily on first extract and is cached. Exercised via a stubbed _build so the test
-    stays weight-free."""
 
     class Cfg:
         name, embed_dim, hf_id = "toy", 8, "toy/never-fetched"
@@ -68,9 +59,6 @@ def test_random_init_vit_build_is_deferred_until_first_extract():
     assert out.shape == (2, 8)
     a.extract(torch.rand(1, 4, 3, 8, 8))
     assert isinstance(a._encoder, StubEnc)  # built once, then cached
-
-
-# ---------------------------------------------------------------- alignment
 
 
 def test_permutation_pvalue_add_one():
@@ -113,9 +101,6 @@ def test_alignment_table_warns_without_random_encoder_control():
     assert any("no random-encoder" in w for w in table["warnings"])
 
 
-# ---------------------------------------------------------------- cross_substrate
-
-
 def test_cross_substrate_agreement_keys_and_symmetry():
     g = torch.Generator().manual_seed(0)
     y = torch.arange(30) % 2
@@ -125,9 +110,6 @@ def test_cross_substrate_agreement_keys_and_symmetry():
     assert rep["tags"] == ["a", "b"]
     assert rep["cka"]["a"]["b"] == rep["cka"]["b"]["a"]
     assert rep["probe_acc"]["a"] > rep["shuffled_null"]["a"]
-
-
-# ---------------------------------------------------------------- riskcov
 
 
 def test_auroc_perfect_and_chance():
@@ -159,9 +141,6 @@ def test_seed_ci_and_sign_flip():
     assert rc.sign_flip_report([0.1, 0.2])["consistent_sign"] == 1
 
 
-# ---------------------------------------------------------------- continual_metrics
-
-
 def test_backward_transfer_matches_two_task_delta():
     m = [[0.9, 0.1], [0.7, 0.8]]
     assert abs(cm.backward_transfer(m) - (0.7 - 0.9)) < 1e-9
@@ -191,17 +170,11 @@ def test_lr_integral_accumulator_partitions_and_match():
     assert a.matched(b)
 
 
-# ---------------------------------------------------------------- workspace
-
-
 def test_workspace_shell_minimal_forward():
     shell = WorkspaceShell(8, head=nn.Linear(8, 3))
     out = shell(torch.randn(4, 8))
     assert out["latent"].shape == (4, 8) and out["head"].shape == (4, 3)
     assert "prediction" not in out
-
-
-# ---------------------------------------------------------------- heads (WP-02 pass 2, e7 family)
 
 
 def test_kwta_head_param_matches_dense_and_sparsifies():
@@ -235,9 +208,6 @@ def test_moe_expert_hidden_matches_dense_budget():
     assert 0.95 <= ratio <= 1.05  # e7 matching rule, within capmatch-style tolerance
 
 
-# ---------------------------------------------------------------- compute (WP-02 pass 2 counters)
-
-
 def test_attention_flops_projection_plus_scores():
     n, d = 4, 8
     expected = 4 * linear_flops(d, d, batch=n) + 2 * (2 * n * n * d)
@@ -256,9 +226,6 @@ def test_package_reexports_land():
     from mop.shell import MoEHead, WorkspaceShell, matched_capacity  # noqa: F401
 
     assert af is attention_flops and kh is KWTAHead
-
-
-# ---------------------------------------------------------------- capmatch
 
 
 def test_width_for_param_count_exact():
@@ -293,9 +260,6 @@ def test_capmatch_raises_on_unreachable_target():
         width_for_param_count(lambda h: nn.Linear(1000, h), target_params=10, tol=0.02)
 
 
-# ---------------------------------------------------------------- aggregate report (WP-02 pass 2)
-
-
 def test_aggregate_report_collects_verdicts_and_missing(tmp_path):
     import importlib.util
     import json
@@ -321,8 +285,6 @@ def test_aggregate_report_collects_verdicts_and_missing(tmp_path):
         json.dumps({"experiment": "mop_dr9", "null_supported": True, "seconds": 2})
     )
     (tmp_path / "broken.json").write_text("{not json")
-    # a not-evaluable row (missing input): even an old-style null_supported=False must land in the
-    # not_evaluable bucket via the verdict prefix, never among the rejected nulls
     (tmp_path / "at4_programmatic_ceiling.json").write_text(
         json.dumps(
             {

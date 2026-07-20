@@ -1,8 +1,3 @@
-"""Evidence-neutral mechanics for the Event-Sourced Coalition Substrate.
-
-The package exposes immutable event identity, strict causal replay, and full lifecycle accounting.
-These APIs are an experimental chassis; importing them does not imply an ESCS capability result.
-"""
 
 from .accounting import (
     ACCOUNTING_SCHEMA,

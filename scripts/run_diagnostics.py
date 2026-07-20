@@ -1,10 +1,4 @@
 #!/usr/bin/env python
-"""Run the diagnostic battery on cached/synthetic latents and print a summary. These gate the
-experiments: linear-probe decodability, the noisy-TV epistemic/aleatoric guard, calibration,
-the Fisher-trace critical-period signature, and the determinism sanity loop.
-
-Usage: python scripts/run_diagnostics.py [device=cpu] [+dim=64]
-"""
 
 from __future__ import annotations
 

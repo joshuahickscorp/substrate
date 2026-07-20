@@ -1,10 +1,3 @@
-"""Receipt-backed Studio scorecard.
-
-The Studio run report should not be edited by optimism. This module reads the receipts produced by
-Wave 0, DR1, PR9, dense/atlas, artifact bundles, and the spine status command, then emits a bounded
-scorecard block for `STUDIO_RUN_REPORT.md`. Missing receipts remain pending. Partial atlas runs and
-laptop smoke PR9 runs remain non-scoring.
-"""
 
 from __future__ import annotations
 
@@ -34,7 +27,6 @@ def build_studio_scorecard(
     spine_status: dict[str, Any] | None = None,
     dr1_cache: str = DEFAULT_DR1_CACHE,
 ) -> dict[str, Any]:
-    """Build the conservative Studio scorecard from receipts."""
     indexes = artifact_indexes or {}
     axes: dict[str, dict[str, Any]] = {
         "falsification": _falsification_axis(indexes),
@@ -74,7 +66,6 @@ def build_studio_scorecard(
 
 
 def load_json(path: Path | str | None) -> dict[str, Any] | None:
-    """Load a JSON object if it exists, else return None."""
     if path is None:
         return None
     p = Path(path)
@@ -85,14 +76,12 @@ def load_json(path: Path | str | None) -> dict[str, Any] | None:
 
 
 def write_json(data: dict[str, Any], path: Path | str) -> None:
-    """Write a JSON receipt with parent creation."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(data, indent=2, default=str) + "\n")
 
 
 def render_markdown(scorecard: dict[str, Any]) -> str:
-    """Render the bounded Markdown block inserted into STUDIO_RUN_REPORT.md."""
     status = "COMPLETE" if scorecard.get("studio_10_ready") else "INCOMPLETE"
     lines = [
         AUTO_START,
@@ -133,7 +122,6 @@ def render_markdown(scorecard: dict[str, Any]) -> str:
 
 
 def upsert_report_block(report_path: Path | str, block: str) -> None:
-    """Insert or replace the scorecard block in STUDIO_RUN_REPORT.md."""
     path = Path(report_path)
     text = path.read_text() if path.exists() else "# STUDIO RUN REPORT\n\n"
     if AUTO_START in text and AUTO_END in text:

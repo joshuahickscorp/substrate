@@ -48,8 +48,6 @@ def settle(state_fn, *, start: int = 0, ticks: int = 60, policy: WorkerPolicy = 
     return trace
 
 
-
-
 def test_backs_off_to_reserve_under_hawking() -> None:
     for current in (0, 1, 8, 16, 20):
         state = idle_state(hawking_active=True, current_workers=current)
@@ -59,8 +57,6 @@ def test_backs_off_to_reserve_under_hawking() -> None:
 def test_hawking_backoff_is_immediate_not_ramped() -> None:
     state = idle_state(hawking_active=True, current_workers=WORKER_CEILING)
     assert recommended_workers(state) == HAWKING_RESERVE_WORKERS
-
-
 
 
 def test_ramps_to_ceiling_when_idle() -> None:
@@ -85,8 +81,6 @@ def test_measured_peak_is_twenty_not_twenty_four() -> None:
     assert max(MEASURED_AGGREGATE_MHS, key=MEASURED_AGGREGATE_MHS.get) == WORKER_CEILING
 
 
-
-
 def test_core_bounded_at_the_right_value() -> None:
     state = idle_state(free_p_cores=8, mem_available_gb=90.0, current_workers=20)
     assert recommended_workers(state) == 4
@@ -107,8 +101,6 @@ def test_memory_bounded_at_the_right_value() -> None:
 def test_floor_is_honored_when_resources_are_starved() -> None:
     state = idle_state(free_p_cores=28, mem_available_gb=0.1, current_workers=20)
     assert recommended_workers(state) == WORKER_FLOOR == 1
-
-
 
 
 def test_sample_host_state_uses_instantaneous_cpu_not_laggy_load_average(monkeypatch) -> None:
@@ -151,8 +143,6 @@ def test_sample_host_state_cpu_percent_uses_the_tuned_sample_window(monkeypatch)
     assert captured["interval"] == controller.CPU_SAMPLE_INTERVAL_SECONDS
 
 
-
-
 def test_hysteresis_prevents_oscillation_on_jittery_load() -> None:
     def jitter(tick: int, current: int) -> HostState:
         free = 12 if tick % 2 == 0 else 10
@@ -174,8 +164,6 @@ def test_small_dips_are_held_but_real_drops_back_off_fast() -> None:
     assert dropped == 4  # comfortable = 8 - 4 = 4, which is > deadband below 12, so drop to 4
 
 
-
-
 def test_thermal_pressure_holds_not_sheds() -> None:
     state = idle_state(thermal_ok=False, current_workers=12)
     assert recommended_workers(state) == 12
@@ -191,8 +179,6 @@ def test_battery_sheds_to_floor() -> None:
     assert recommended_workers(state) == WORKER_FLOOR == 1
 
 
-
-
 def test_deterministic_given_host_state() -> None:
     states = [
         idle_state(current_workers=5),
@@ -206,8 +192,6 @@ def test_deterministic_given_host_state() -> None:
         first = recommended_workers(state)
         for _ in range(5):
             assert recommended_workers(state) == first
-
-
 
 
 def test_priority_recommendation_present_and_yields_under_hawking() -> None:
@@ -227,8 +211,6 @@ def test_priority_pressure_tier_is_gentle() -> None:
     idle = recommended_priority(idle_state(current_workers=12))
     assert pressure.nice_level > idle.nice_level
     assert pressure.taskpolicy_class == "background"
-
-
 
 
 @pytest.mark.parametrize(

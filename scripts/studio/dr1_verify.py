@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Write an independent adversarial verification receipt for a completed DR1 cache."""
 
 from __future__ import annotations
 

@@ -1,7 +1,3 @@
-"""The 7 remaining registry-only cpu-now EX/cross-cutting experiments (EX1, EX4, EX6, EX7, EX11, EX14,
-EX18), completed after the roots-expansion build. Each runs end to end on its toy default config and
-returns a dict with an explicit null check. Asserts MECHANICS only, never a particular scientific outcome
-(the nulls may hold, that is an honest bound, not a failure)."""
 
 import pytest
 

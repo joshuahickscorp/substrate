@@ -1,9 +1,3 @@
-"""Tests for the chained ladder campaign orchestrator.
-
-These cover the pure orchestration logic (config validation, work planning, receipt collection and seal
-verification, and own-worker shedding) plus one minimal end-to-end run that actually spawns worker
-subprocesses under the throttler and checks the sealed ladder report. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -49,11 +43,6 @@ class _FakeProcess:
         return None
 
 
-# ---------------------------------------------------------------------------
-# Config validation fails closed.
-# ---------------------------------------------------------------------------
-
-
 def test_config_rejects_duplicate_seeds(tmp_path: Path) -> None:
     with pytest.raises(CampaignRefusal):
         tiny_config(tmp_path, seeds=(0, 0))
@@ -74,11 +63,6 @@ def test_config_rejects_nonpositive_poll(tmp_path: Path) -> None:
         tiny_config(tmp_path, poll_interval_s=0.0)
 
 
-# ---------------------------------------------------------------------------
-# Planning and sealing.
-# ---------------------------------------------------------------------------
-
-
 def test_plan_stage3_is_epochs_by_seeds(tmp_path: Path) -> None:
     config = tiny_config(tmp_path, seeds=(0, 1, 2), epochs=("event_formation", "integrated_escs"))
     items = LadderCampaign(config).plan_stage3()
@@ -91,11 +75,6 @@ def test_sealed_round_trips() -> None:
     sealed = _sealed(payload, "seal")
     core = {k: v for k, v in sealed.items() if k != "seal"}
     assert sealed["seal"] == canonical_sha256(core)
-
-
-# ---------------------------------------------------------------------------
-# Receipt collection verifies the worker seal.
-# ---------------------------------------------------------------------------
 
 
 def _write_receipt(path: Path, *, tamper: bool = False) -> None:
@@ -160,11 +139,6 @@ def test_collect_flags_worker_failure(tmp_path: Path) -> None:
     assert record["ok"] is False
 
 
-# ---------------------------------------------------------------------------
-# Shedding removes our own newest workers and requeues their items.
-# ---------------------------------------------------------------------------
-
-
 def test_shed_terminates_newest_and_requeues(tmp_path: Path) -> None:
     config = tiny_config(tmp_path)
     campaign = LadderCampaign(config)
@@ -184,11 +158,6 @@ def test_shed_terminates_newest_and_requeues(tmp_path: Path) -> None:
     assert running[0].order == 0
     assert procs[2].terminated and procs[1].terminated
     assert not procs[0].terminated
-
-
-# ---------------------------------------------------------------------------
-# One minimal real run under the throttler.
-# ---------------------------------------------------------------------------
 
 
 def _write_census(path: Path, capsules: list[dict[str, Any]], status: str = "running") -> None:
@@ -218,7 +187,6 @@ def test_census_complete_false_while_running(tmp_path: Path) -> None:
 
 
 def test_census_complete_handles_dict_keyed_capsules_all_done(tmp_path: Path) -> None:
-    # The real census stores capsules as a dict keyed by capsule id, not a list.
     state = tmp_path / "census.json"
     state.write_text(
         json.dumps({"status": "running", "capsules": {"a": {"status": "complete"}, "b": {"status": "complete"}}}),

@@ -1,9 +1,3 @@
-"""Generation 1 C2 preregistered context-labelled frozen-routing confirmation.
-
-The routing table and both static controls are frozen from independently verified
-C1 evidence before any C2 seed is evaluated.  Execution is cell-checkpointed and
-adapts between a wide idle-host lane and a bounded Hawking coexistence lane.
-"""
 
 from __future__ import annotations
 
@@ -48,10 +42,6 @@ HAWKING_QUEUE_SCHEMA = "hawking.doctor_v5_ultra_queue_state.v1"
 
 def _label_cell_worker(shard_index: int) -> None:
     set_process_label(f"mop-c2-s{shard_index:02d}-worker")
-
-
-
-
 
 
 def sha256_file(path: Path | str) -> str:

@@ -105,7 +105,6 @@ def _require_rail_clean(value: str, label: str) -> None:
         raise ValueError(f"{label} trips the sentience rail: {hits[0]['match']!r}")
 
 
-
 DefensePredicate = Callable[[Mapping[str, Any]], list[str]]
 
 
@@ -444,8 +443,6 @@ def assert_defended(
     return result
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MemoryDrillContract:
     experiment_id: str
@@ -672,8 +669,6 @@ def verify_deletion_through_consolidation(
     return problems
 
 
-
-
 class PromotionRefused(ValueError):
     pass
 
@@ -896,8 +891,6 @@ def enforce_promotion_refusal(
     }
     decision["decision_sha256"] = canonical_sha256(decision)
     return decision
-
-
 
 
 @dataclass(frozen=True, slots=True)

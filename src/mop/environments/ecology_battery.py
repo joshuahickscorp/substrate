@@ -1,10 +1,3 @@
-"""Deterministic toy-world observations for the F22, F28, and F50 to F58 ecology rows.
-
-This module generates raw bounded-world observations only. It does not assign experiment verdicts.
-The run driver and independent verifier intentionally score these observations through separate
-code paths. All observations are programmatic fixtures, so they cannot support a natural-world or
-substrate capability claim.
-"""
 
 from __future__ import annotations
 
@@ -709,7 +702,6 @@ def _f58(seed: int) -> dict[str, Any]:
 
 
 def run_ecology_battery_seed(seed: int) -> dict[str, Any]:
-    """Generate one content-addressed independent toy-world unit for every ecology row."""
 
     if seed < 0:
         raise ValueError("ecology battery seed must be nonnegative")

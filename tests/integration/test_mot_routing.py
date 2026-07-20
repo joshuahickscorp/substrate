@@ -1,7 +1,3 @@
-"""WP-08 routing tests (DR12, AL1, MP1/MP2/MP3): tiny synthetic tensors only, seconds per test, no
-encoder loads, no network. Asserts MECHANICS and preregistered verdict logic (contract declared, PR1
-verdict read from disk at run time and never hardcoded, guard-overrides-win ordering, matched budgets,
-oracle bounds), never a particular scientific outcome."""
 
 import json
 
@@ -30,8 +26,6 @@ from scripts.mop_mt123_router_pilots import run as mt123_run
 from scripts.pr1_mode_error_disjointness import SUBPOPS, make_dataset
 
 TINY_TV = {"dim": 16, "steps": 60, "batch": 32, "ensemble_size": 3}
-
-# ---------------------------------------------------------------- shared helpers
 
 
 def test_parse_seeds_forms():
@@ -65,9 +59,6 @@ def test_pr1_context_is_read_from_disk_not_hardcoded(tmp_path):
     assert null["available"] and not null["green"] and null["gate"] == "context-null"
     missing = read_pr1_context(tmp_path / "absent.json")
     assert not missing["available"] and missing["gate"] == "missing"
-
-
-# ---------------------------------------------------------------- DR12 mechanics
 
 
 def test_dr12_regime_partitions_and_determinism():
@@ -137,14 +128,10 @@ def test_dr12_guard_failure_overrides_any_win(monkeypatch, tmp_path):
         }
 
     monkeypatch.setattr(dr12, "noisy_tv_diagnostic", failing_tv)
-    # degenerate band widened so the guard branch (not the degenerate branch) decides
     monkeypatch.setattr(dr12, "DEGENERATE_HIGH", 1.01)
     monkeypatch.setattr(dr12, "DEGENERATE_LOW_MARGIN", -1.0)
     r = _tiny_dr12(pr1_path=_write_pr1(tmp_path, "GREEN: x"))
     assert r["verdict"].startswith("GUARD-FAIL") and r["null_supported"] is True
-
-
-# ---------------------------------------------------------------- AL1 mechanics
 
 
 def test_al1_pool_noise_fraction_and_determinism():
@@ -230,9 +217,6 @@ def test_al1_end_to_end_contract_and_lr_doctrine():
     assert "fixed in code before running" in r["verdict_rule"]
 
 
-# ---------------------------------------------------------------- MP1/MP2/MP3 mechanics
-
-
 def test_kwta_head_is_actually_sparse():
     torch.manual_seed(0)
     head = KWTAHead(8, 16, 3, k_frac=0.25)
@@ -249,7 +233,6 @@ def test_mode_bank_builds_and_flops_are_positive():
         m = build_mode(name, 8, 3, hidden=6, steps=2, seed=0)
         assert m(torch.randn(4, 8)).shape == (4, 3)
         assert mode_flops(name, 8, 3, hidden=6, steps=2) > 0
-    # planner iterates, so it must cost more than the reactive readout
     assert mode_flops("planner", 8, 3, 6, 2) > mode_flops("reactive", 8, 3, 6, 2)
 
 
@@ -286,7 +269,6 @@ def test_verdict_block_pr1_demotion_logic():
     assert demoted["null_supported"] is False, "demotion changes the label, not the measurement"
     null = verdict_block([0.01, -0.01, 0.005, -0.002, 0.0], "m", None, pr1_green=True)
     assert null["verdict"].startswith("NULL") and null["null_supported"] is True
-    # a failed compute match can never fire a WIN or a NULL, whatever the delta says
     unmatched = verdict_block(win, "m", None, pr1_green=True, matched_ok=False)
     assert unmatched["verdict"].startswith("UNMATCHED") and unmatched["null_supported"] is None
 
@@ -307,7 +289,6 @@ def test_mt123_end_to_end_reads_pr1_and_matches_capacity(tmp_path):
         cap_tol=0.06,  # tiny widths quantize params coarsely; production keeps the 0.02 default
         pr1_path=pr1,
     )
-    # dim/classes/separation come from the PR1 json at run time, never hardcoded
     assert r["config"]["dim"] == 32 and r["config"]["n_classes"] == 4
     assert r["config"]["separation"] == 0.12
     assert r["pr1_gate"] == "context-null"

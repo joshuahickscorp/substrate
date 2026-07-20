@@ -1,14 +1,3 @@
-"""A MechanismRunner for niche_dispatch that mints a mechanics-only demonstration receipt.
-
-The runner computes value-of-compute dispatch vs the four declared matched controls on both regimes
-of a niche_dispatch bed and mints a single RunReceipt. It mints a mechanics-demonstration only, never
-a scientific confirmation and never a cleared verdict. The verdict is mechanics-ok exactly when the
-named prior null holds on the null regime (dispatch does not beat every control there) AND the
-dispatcher strictly beats every matched control on the favorable regime. If any favorable control
-ties or wins, the run fails closed to the null verdict. No capability or natural-data claim is made.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -38,7 +27,6 @@ def _round(value: float) -> float:
 
 @dataclass(frozen=True, slots=True)
 class RegimeReport:
-    """The scored outcome for one regime: dispatch accuracy, control scores, per-control margins."""
 
     regime: str
     dispatch_accuracy: float
@@ -52,7 +40,6 @@ class RegimeReport:
 
     @property
     def controls_beaten(self) -> tuple[str, ...]:
-        """The controls strictly beaten by dispatch, in canonical control-family order."""
 
         beaten = {name for name, ok in self.beats if ok}
         return tuple(name for name in DISPATCH_CONTROLS if name in beaten)
@@ -84,7 +71,6 @@ def _evaluate_regime(data: RegimeData, seed: int) -> RegimeReport:
 
 @dataclass(frozen=True, slots=True)
 class NicheDispatchRunResult:
-    """Everything one run measured: config, matched budget, and both regime reports."""
 
     mechanism_id: str
     seed: int
@@ -96,7 +82,6 @@ class NicheDispatchRunResult:
 
     @property
     def null_holds(self) -> bool:
-        """The named prior null holds when dispatch does not beat every control on the null regime."""
 
         return not self.null_report.beats_every_control
 
@@ -122,16 +107,10 @@ class NicheDispatchRunResult:
 
 @dataclass(frozen=True, slots=True)
 class NicheDispatchRunner:
-    """Runs the niche_dispatch bed and mints a mechanics-only demonstration receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim. This runner never
-    mints a scientific confirmation and never emits a cleared verdict.
-    """
 
     mechanism_id: str = MECHANISM_ID
 
     def run(self, bed: Bed, seed: int) -> NicheDispatchRunResult:
-        """Score dispatch vs every matched control on both regimes of the bed."""
 
         null_data = bed.null_regime(seed)
         favorable_data = bed.favorable_regime(seed)
@@ -147,7 +126,6 @@ class NicheDispatchRunner:
         )
 
     def mint(self, results: NicheDispatchRunResult) -> RunReceipt:
-        """Mint a mechanics-demonstration receipt; mechanics-ok only on a genuine favorable win."""
 
         mechanics_ok = results.null_holds and results.favorable_win
         verdict = VERDICT_MECHANICS_OK if mechanics_ok else VERDICT_NULL

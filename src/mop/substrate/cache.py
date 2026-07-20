@@ -1,10 +1,3 @@
-"""Latent caching pipeline. Run the frozen encoder over a clip source ONCE, write latents
-to a memmap LatentStore. After this, the whole shell trains on the cache and never touches
-the encoder again (the laptop-feasibility keystone).
-
-No real video this session, so `synthetic_clips` provides a deterministic clip source: the
-round-trip (clips -> frozen encoder -> store -> read) is fully exercised and tested.
-"""
 
 from __future__ import annotations
 
@@ -25,8 +18,6 @@ log = get_logger("substrate.cache")
 def synthetic_clips(
     n: int, batch: int, shape: tuple[int, ...] = (3, 4, 16, 16), n_classes: int = 4, seed: int = 0
 ) -> Iterator[tuple[torch.Tensor, torch.Tensor]]:
-    """Deterministic (clips, labels) batches. Class-conditioned mean so the frozen-random
-    encoder still yields linearly-separable-ish latents (enough to develop against)."""
     g = torch.Generator().manual_seed(seed)
     proto = torch.randn(n_classes, *shape, generator=g)
     done = 0
@@ -49,8 +40,6 @@ def cache_latents(
     result_tag: str | None = None,
     seed: int = 0,
 ) -> LatentStore:
-    """Encode a clip stream into a fresh LatentStore. Returns the finalized store. Writes a
-    provenance.json (git, packages, encoder id+backend, result tag, cache id) beside the store."""
     encoder = encoder.to(device.device)
     it = iter(clips)
     first = next(it)

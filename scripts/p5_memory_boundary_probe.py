@@ -40,8 +40,6 @@ MIN_FREE_DISK_GB = 40.0
 CHILD_MEMORY_GUARD_GB = 12.0
 CHILD_TIMEOUT_SECONDS = 900.0
 
-# CM7-class width: the calibrated custom substrate is 1.646M parameters at 256 dense tokens.
-# The probe holds width fixed and scales tokens, which is the P5 axis under test.
 WIDTH = 192
 HEADS = 4
 DEPTH = 2
@@ -50,8 +48,6 @@ BATCH = 1
 MECHANISMS = ("exact_math", "sdpa", "sdpa_checkpointed", "window_local")
 WINDOW_TOKENS = 512
 
-# (frames, resolution) -> tokens with tubelet 2 and patch 16, matching the ceiling formula in
-# EXTENDED_COMPUTE_DEEP_RESEARCH_2026_07.md: tokens = ceil(F/t) * ceil(H/p) * ceil(W/p).
 TOKEN_GRID: tuple[tuple[int, int], ...] = (
     (16, 128),
     (32, 128),
@@ -86,12 +82,10 @@ def _free_disk_gb(root: Path) -> float:
 
 
 def naive_score_bytes(tokens: int, *, heads: int = HEADS, batch: int = BATCH) -> int:
-    """Diagnostic upper bound only: a materialized fp32 attention-score tensor."""
     return batch * heads * tokens * tokens * 4
 
 
 def _child_payload(cell: Cell, seed: int) -> dict[str, Any]:
-    """Run one training step in this (child) process and report measured peaks."""
     import torch
 
     torch.manual_seed(seed)
@@ -157,7 +151,6 @@ def _child_payload(cell: Cell, seed: int) -> dict[str, Any]:
     optimizer.step()
     wall_seconds = time.perf_counter() - start
 
-    # ru_maxrss is bytes on macOS and kilobytes on Linux.
     raw_maxrss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     peak_rss_gb = raw_maxrss * (1024 if platform.system() == "Linux" else 1) / 1e9
     return {
@@ -171,7 +164,6 @@ def _child_payload(cell: Cell, seed: int) -> dict[str, Any]:
 
 
 def run_child(cell: Cell, seed: int) -> dict[str, Any]:
-    """Cold-process execution so peak RSS is per cell, not cumulative."""
     spec = json.dumps(
         {"mechanism": cell.mechanism, "frames": cell.frames, "resolution": cell.resolution, "seed": seed}
     )

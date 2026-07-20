@@ -79,8 +79,6 @@ def _reading(retention: float, future_learnability: float) -> DualMetricReading:
     )
 
 
-
-
 def run_mechanism(stream: TaskStream) -> DualMetricReading:
 
     core_state = _gd(ZEROS, stream.history[0], CORE_DIMS, _residual(len(CORE_DIMS)))
@@ -103,8 +101,6 @@ def run_mechanism(stream: TaskStream) -> DualMetricReading:
     future_reconstruction = _combine(core_state, future_adapter)
     future = _score(future_reconstruction, stream.future)
     return _reading(retention, future)
-
-
 
 
 def run_fresh_init(stream: TaskStream) -> DualMetricReading:

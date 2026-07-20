@@ -334,7 +334,6 @@ def _build_tiny_cache(source: Path, cache_root: Path, encoder: str, profile: Pro
     store = cache_latents(
         enc, clips, cache_root, "studio_cache", total=cap, device=dev, result_tag="provisional", seed=seed
     )
-    # persist ONLY the classes actually cached (honest coverage), not the full source label_map
     lab_t = store.labels() if len(store) else None
     labels = np.asarray(lab_t[: len(store)]) if lab_t is not None else np.asarray([], dtype="int64")
     present = sorted({int(x) for x in labels.tolist()})

@@ -1,5 +1,3 @@
-"""Planner: knapsack scoring, budget enforcement, per-source cap, breadth-first diversity, license
-gating, and the hard invariant that full Ego4D is NEVER planned by default."""
 
 import textwrap
 
@@ -17,7 +15,6 @@ def test_full_ego4d_never_selected_even_with_license():
     p = planner.plan(STUDIO, budget_gb=900, accept_license=True)
     slugs = {s["slug"] for s in p["selected"]}
     assert "ego4d_full" not in slugs
-    # and it shows up as a deferred skip with a clear reason
     skipped = {s["slug"]: s for s in p["skipped"]}
     assert "ego4d_full" in skipped and skipped["ego4d_full"]["status"] == "deferred"
 
@@ -52,7 +49,6 @@ def test_budget_enforced_total_within_usable():
 
 def test_breadth_first_covers_multiple_modalities():
     p = planner.plan(STUDIO, budget_gb=900)
-    # the plan prefers breadth: more than one modality and several domains
     assert len(p["totals"]["modalities_covered"]) >= 2
     assert len(p["totals"]["domains_covered"]) >= 3
 
@@ -92,7 +88,6 @@ def test_per_source_cap_forces_smaller_subset(tmp_path):
             kind: natural-video
         """,
     )
-    # a profile whose per-source cap is 5 GB: raw scales 100 * subset/50000, so only the 1000 subset (2 GB) fits
     prof = Profile(
         name="t",
         disk_total_gb=900,
@@ -116,7 +111,6 @@ def test_per_source_cap_forces_smaller_subset(tmp_path):
 
 
 def test_source_count_cap_crowds_out_extras():
-    # cap the source count at 2: only 2 selected, the rest skipped with the cap reason
     prof = Profile(
         name="t2",
         disk_total_gb=900,
@@ -146,8 +140,6 @@ def test_include_exclude_filters():
 
 
 def test_budget_clamps_to_usable_not_hardcap():
-    # asking for more than usable disk is clamped DOWN to usable_gb (the planner spends disk, not
-    # the download hard cap); the plan can never commit more than usable_gb of raw+cache.
     p = planner.plan(STUDIO, budget_gb=10_000)  # absurd request
     assert p["totals"]["budget_gb"] <= STUDIO.usable_gb
     assert p["totals"]["raw_gb"] + p["totals"]["cache_gb"] <= STUDIO.usable_gb

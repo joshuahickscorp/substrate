@@ -1,9 +1,3 @@
-"""Disk-backed deterministic event stream for bounded continual-learning studies.
-
-The stream stores fixed-width records in atomically published chunks. Each record digest includes
-the prior digest, so order, content, and resume position share one identity. This module generates
-and verifies mechanics. It does not train a model or establish a continual-learning result.
-"""
 
 from __future__ import annotations
 
@@ -289,7 +283,6 @@ def materialize_stream(
     *,
     max_new_chunks: int | None = None,
 ) -> dict[str, Any]:
-    """Create or resume an atomically chunked stream under an exact spec identity."""
 
     path = Path(root)
     manifest_path = _manifest_path(path)

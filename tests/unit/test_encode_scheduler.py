@@ -1,4 +1,3 @@
-"""Encode scheduler: turn Wave-0 speeds into a profile-gated launch plan."""
 
 from mop.studio.encode_scheduler import EncodeBenchmark, benchmark_from_autoselect, plan_encode
 

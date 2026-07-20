@@ -1,11 +1,3 @@
-"""The frozen perceptual substrate. V-JEPA loaded once, never trained, inference-only.
-
-This is the ONE large object and it is held fixed: requires_grad=False, called only under
-no_grad. Real weights load lazily via HuggingFace transformers. If weights cannot be loaded,
-ordinary toy runs may fall back to a FROZEN deterministic random projection so mechanics still
-run end to end. Scientific and cache-building callers set ``require_real`` and fail closed instead.
-Every store records ``backend`` so no one can mistake synthetic-substrate latents for V-JEPA latents.
-"""
 
 from __future__ import annotations
 
@@ -31,14 +23,11 @@ class EncoderSpec:
 
 
 class FrozenEncoder(nn.Module):
-    """Wraps a frozen feature extractor. encode(clips)->latents. Never trains."""
 
     def __init__(self, spec: EncoderSpec, model: nn.Module | None = None):
         super().__init__()
         self.spec = spec
         self._model = model
-        # frozen-random projection built lazily on first encode (we need the flat in-dim).
-        # A plain frozen tensor (not a Parameter): never trains, recreated on device change.
         self._W: torch.Tensor | None = None
         for p in self.parameters():
             p.requires_grad_(False)
@@ -46,9 +35,7 @@ class FrozenEncoder(nn.Module):
 
     @torch.no_grad()
     def encode(self, clips: torch.Tensor) -> torch.Tensor:
-        """clips: [B, C, T, H, W] (or [B, ...]) -> pooled [B, D] or dense [B, N, D]."""
         if self._model is not None:
-            # V-JEPA 2 takes pixel_values_videos=[B,T,C,H,W]; other HF models take positional.
             try:
                 out = self._model(pixel_values_videos=clips)
             except TypeError:
@@ -74,7 +61,6 @@ class FrozenEncoder(nn.Module):
 
     @property
     def model_class_name(self) -> str:
-        """Fully qualified wrapped-model class, or the explicit projection fallback identity."""
         if self._model is None:
             return "mop.substrate.encoder.FrozenEncoderProjection"
         cls = type(self._model)
@@ -82,8 +68,6 @@ class FrozenEncoder(nn.Module):
 
 
 def load_encoder(cfg) -> FrozenEncoder:
-    """Build the encoder from an encoder config. Tries real weights, falls back to frozen
-    random. cfg has: name, embed_dim, dense, pool, hf_id, hub, frozen."""
     spec = EncoderSpec(name=cfg.name, embed_dim=int(cfg.embed_dim), dense=bool(cfg.dense), pool=str(cfg.pool))
     if bool(cfg.get("random_init", False)):
         if bool(cfg.get("prefer_real", False)) or bool(cfg.get("require_real", False)):
@@ -98,9 +82,6 @@ def load_encoder(cfg) -> FrozenEncoder:
         spec.backend = "vjepa_hf_random_init"
         return FrozenEncoder(spec, model)
 
-    # Real V-JEPA weights are OPT-IN (prefer_real): they need correctly-shaped real video, so the
-    # toy experiments and the test suite stay on the deterministic frozen-random substrate. The
-    # real-encoder caching script sets prefer_real to fetch and run the actual weights.
     model = _try_real_weights(cfg) if bool(cfg.get("prefer_real", False)) else None
     if model is not None:
         spec.backend = "vjepa_hf"
@@ -118,7 +99,6 @@ def load_encoder(cfg) -> FrozenEncoder:
 
 
 def _try_random_architecture(cfg) -> nn.Module | None:
-    """Build the exact pinned HF architecture with seeded random weights, without loading a shard."""
     try:  # pragma: no cover - full construction is covered by supervised scale runs
         from transformers import AutoConfig, AutoModel
 
@@ -145,12 +125,6 @@ def _try_random_architecture(cfg) -> nn.Module | None:
 
 
 def module_state_sha256(module: nn.Module, *, chunk_bytes: int = 4 * 1024 * 1024) -> str:
-    """Hash the exact initialized state without serializing a multi-gigabyte temporary checkpoint.
-
-    Names, dtypes, shapes, and raw tensor bytes are included in sorted-key order. This is used for
-    random-architecture controls, where a config hash plus a claimed seed is not enough to identify
-    the weights that actually produced a cache.
-    """
     if chunk_bytes <= 0:
         raise ValueError("chunk_bytes must be positive")
     digest = hashlib.sha256()
@@ -172,7 +146,6 @@ def module_state_sha256(module: nn.Module, *, chunk_bytes: int = 4 * 1024 * 1024
 
 
 def _try_real_weights(cfg) -> nn.Module | None:
-    """Lazy, best-effort. Never raises: any failure returns None -> frozen-random path."""
     try:  # pragma: no cover - needs network + weights, deferred this session
         from transformers import AutoModel
 

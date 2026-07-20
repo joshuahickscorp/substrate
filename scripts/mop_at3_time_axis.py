@@ -1,26 +1,4 @@
 #!/usr/bin/env python
-"""AT3 (WP-11): time-axis ablation. Which factors decode from full-clip V-JEPA but collapse at chance
-from the single-frame (middle frame tiled to 64 frames, token/frame-matched) V-JEPA arm? A full-clip
-advantage at MATCHED token count is a temporal currency, not a raw-information advantage.
-
-Factors probed per arm (linear probe, matched split per seed):
-  shape (static, from labels), color (static, from labels),
-  motion_dir4 (temporal: quadrant bin of the clip's nuisance motion vector, recovered seed-for-seed by
-  the cache scripts), speed2 (temporal: median split of motion magnitude).
-
-PREREGISTERED NULL (verbatim, registry AT3): with token/frame count equalized, full-clip and
-single-frame decodability are within seed spread for every factor: no factor genuinely requires the
-temporal axis.
-
-PREREGISTERED VERDICT RULE (fixed before any result exists): the null is REJECTED only if at least one
-factor's full-minus-single delta has a 5-seed 95 percent CI excluding zero from below with no per-seed
-sign flip. A factor is reported "needs_time" if additionally its single-frame accuracy is within 0.1 of
-chance. Consumes the WP-11 caches; never loads an encoder.
-
-Usage: python scripts/mop_at3_time_axis.py --seeds 0-4
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -62,8 +40,6 @@ def _get(cfg, key, default):
 
 
 def temporal_labels(nuisance: torch.Tensor) -> dict[str, torch.Tensor]:
-    """Derive the temporal factor labels from the recorded nuisance draws: motion_dir4 is the quadrant
-    of (vx, vy), speed2 the median split of the motion magnitude."""
     vx = nuisance[:, NUISANCE_COLS.index("vx")]
     vy = nuisance[:, NUISANCE_COLS.index("vy")]
     ang = torch.atan2(vy, vx)  # [-pi, pi)

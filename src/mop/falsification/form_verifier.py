@@ -1,15 +1,3 @@
-"""Independent adversarial verification for positive F-series candidate receipts.
-
-The canonical experiment is rerun because a verifier must observe the mechanism under fresh data
-generation seeds.  The verdict path is nevertheless independent: this module never consumes the
-experiment's ``null_supported`` decision, captures the actual per-seed effects passed to the result
-diagnostics, recomputes uncertainty and strongest-control deltas, and applies experiment-specific
-semantic invariants.  F12 additionally traces every live assignment and checks it with a second,
-dynamic-programming exact solver.
-
-Raw verifier runs remain working state below ``runs/form_verifiers``.  Only a completed execution
-receives a durable pass or fail receipt below ``proof/FORM_SUBSTRATE/VERIFIERS``.
-"""
 
 from __future__ import annotations
 
@@ -42,8 +30,6 @@ SCHEMA = "mop-form-independent-verifier/v1"
 PROOF_DIR = Path("proof/FORM_SUBSTRATE/VERIFIERS")
 RAW_RUN_ROOT = Path("runs/form_verifiers")
 
-# Fixed before looking at verifier outcomes.  Non-consecutive values make accidental seed-range
-# reuse conspicuous and are disjoint from every canonical F candidate's 0..4 seed set.
 FRESH_SEEDS = (101, 211, 307, 401, 503)
 CANDIDATE_POSITIVES = (
     "f1_form_alignment_gate",
@@ -75,8 +61,6 @@ _CAPABILITY_FIELDS = {
     "f18_counterfactual_form_intervention": "counterfactual_match_acc",
 }
 
-# These are load-bearing implementation features, not a verdict.  The runtime checks below still
-# have to establish that their corresponding controls and result fields behave correctly.
 _SOURCE_REQUIREMENTS = {
     "f1_form_alignment_gate": (
         "_three_way_split",
@@ -164,7 +148,6 @@ _SOURCE_REQUIREMENTS = {
 
 @dataclass
 class ExecutionTrace:
-    """Values observed at live diagnostic boundaries during the fresh execution."""
 
     ci_inputs: list[list[float]] = field(default_factory=list)
     sign_inputs: list[list[float]] = field(default_factory=list)
@@ -280,7 +263,6 @@ def _independent_signs(values: Sequence[float]) -> dict[str, Any]:
 
 
 def _assignment_minimum_dp(cost: np.ndarray) -> float:
-    """Exact square assignment by subset DP, deliberately independent of the live Hungarian code."""
     matrix = np.asarray(cost, dtype=float)
     if matrix.ndim != 2 or matrix.shape[0] != matrix.shape[1]:
         raise ValueError(f"independent assignment requires square cost, got {matrix.shape}")
@@ -308,7 +290,6 @@ def _assignment_minimum_dp(cost: np.ndarray) -> float:
 
 @contextmanager
 def _capture_execution(experiment_id: str) -> Iterator[ExecutionTrace]:
-    """Patch only diagnostic boundaries, delegate their outputs, and restore them unconditionally."""
     from ..diagnostics import riskcov, seed_consistency
     from ..experiments import f_form_substrate_missing
 
@@ -1079,9 +1060,6 @@ def _verify_f13(m: dict[str, Any], e: dict[str, Any], _t: ExecutionTrace, c: lis
         expected="form cost exceeds matched raw cost at every identical grid coordinate",
     )
     test_rows = int(e["samples"]) - int(int(e["samples"]) * float(e["train_frac"]))
-    # Frontier points are means across seeds, so mean(E/correct) is not algebraically equal to
-    # mean(E)/mean(correct).  Check the independently implied correct count is physically bounded
-    # and remains close to the aggregate accuracy count instead of asserting that false identity.
     per_correct_ok = all(
         0.0
         < _number(point.get("estimated_energy_joules")) / _number(point.get("estimated_energy_per_correct"))
@@ -1245,7 +1223,6 @@ def run_candidate_verifier(
     fresh_seeds: Sequence[int] = FRESH_SEEDS,
     write: bool = True,
 ) -> dict[str, Any]:
-    """Execute and independently verify one canonical positive candidate."""
     if experiment_id not in CANDIDATE_POSITIVES:
         raise ValueError(f"{experiment_id!r} is not one of the locked candidate positives")
     root = Path(repo_root).resolve()
@@ -1275,8 +1252,6 @@ def run_candidate_verifier(
         with _capture_execution(experiment_id) as trace:
             metrics = run_experiment(cfg, run_dir=run_dir)
     except Exception as exc:
-        # No durable proof receipt is emitted for an incomplete execution.  The raw harness manifest
-        # remains available for diagnosis and the batch summary reports this refusal explicitly.
         return {
             "schema": SCHEMA,
             "experiment_id": experiment_id,
@@ -1429,7 +1404,6 @@ def run_candidate_verifiers(
 
 
 def validate_verifier_receipt(receipt: Mapping[str, Any], experiment_id: str | None = None) -> list[str]:
-    """Strict structural validation used by tests and downstream promotion gates."""
     problems: list[str] = []
     if receipt.get("schema") != SCHEMA:
         problems.append(f"unexpected verifier schema {receipt.get('schema')!r}")

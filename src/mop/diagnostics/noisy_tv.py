@@ -1,15 +1,3 @@
-"""Noisy-TV diagnostic: the epistemic-vs-aleatoric guard. A correct curiosity/uncertainty
-mechanism allocates near-zero attention to a high-entropy UNLEARNABLE region. We stream
-FRESH samples each step (so the predictor cannot memorize a finite noise set, which would
-fake learnability) from two regions: a LEARNABLE region with a fixed latent dynamics and a
-NOISE region whose target is irreducibly random. An ensemble of forward predictors then
-shows the corpus's mandatory contract:
-  - raw prediction error stays HIGH on noise (point-error curiosity would chase it)
-  - ensemble disagreement (epistemic / Bayesian surprise) is LOW on noise (members agree it
-    is unpredictable -> nothing to learn -> do not explore)
-  - learning progress over the late window is positive on learnable, ~0 on noise (LP is the
-    signal intrinsically immune to noisy-TV)
-"""
 
 from __future__ import annotations
 
@@ -34,7 +22,6 @@ def noisy_tv_diagnostic(
     seed_everything(seed)
     dev = device.device if device else torch.device("cpu")
     g = torch.Generator().manual_seed(seed)
-    # fixed learnable dynamics + clusters (so the learnable region is genuinely learnable)
     centers = torch.randn(2, dim, generator=g)
     rot = torch.linalg.qr(torch.randn(dim, dim, generator=g))[0]
 
@@ -50,7 +37,6 @@ def noisy_tv_diagnostic(
     ens = Ensemble(lambda: Predictor(dim, hidden=128, depth=2), size=ensemble_size).to(dev)
     opt = torch.optim.Adam(ens.parameters(), lr=1e-3)
 
-    # held-out eval batches (fresh, never trained on)
     evL = sample_learnable(256)
     evN = sample_noise(256)
 

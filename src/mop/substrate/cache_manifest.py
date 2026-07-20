@@ -1,18 +1,3 @@
-"""Latent cache data-plane receipts.
-
-`LatentStore` is the array format. This module is the receipt format that makes a Studio-scale
-cache auditable after it has been copied, pruned around, or used by many probes. It records:
-
-- array fingerprints for pooled or dense memmaps;
-- optional factor sidecars, stored as columnar JSON lists;
-- optional disjoint split membership;
-- an encoder config hash, so the exact perspective config is part of the cache identity;
-- a small columnar index for quick inspection.
-
-The array fingerprint defaults to sampled hashing because dense caches can be terabytes. Operators
-can request full array hashes when the cache is small enough or when a transfer receipt needs that
-extra cost. Sidecars are always fully hashed.
-"""
 
 from __future__ import annotations
 
@@ -29,9 +14,6 @@ from .form import FORM_KINDS, OBJECTIVE_FAMILIES
 
 SCHEMA = "mop-cache-data-plane/v2"
 SCHEMA_V1 = "mop-cache-data-plane/v1"
-# v2 adds an optional `form` block (kind, objective, referent_scheme) so a cache can declare which
-# form arm and referent scheme it serves. v1 manifests remain valid: the form block is absent and is
-# never required. Validation accepts either schema; a v1 cache is never failed for missing form fields.
 ACCEPTED_SCHEMAS = (SCHEMA, SCHEMA_V1)
 DEFAULT_MANIFEST = "cache_manifest.json"
 DEFAULT_SAMPLE_BYTES = 1024 * 1024
@@ -59,15 +41,6 @@ def write_cache_manifest(
     sample_bytes: int = DEFAULT_SAMPLE_BYTES,
     manifest_name: str = DEFAULT_MANIFEST,
 ) -> dict[str, Any]:
-    """Write a cache data-plane manifest beside an existing latent store.
-
-    `factors`, `referents`, `splits`, and `encoder_receipt`, when supplied, are persisted before the
-    manifest is written, so the receipt covers the exact sidecars downstream probes will read. Supplying
-    `factor_metadata` writes the v2 factor-sidecar shape with separate metadata and columns.
-    `form_kind` (a FORM_KINDS value), `form_objective` (an OBJECTIVE_FAMILIES value), and
-    `referent_scheme` (free text, e.g. "clip-id" or "task/episode/scene/object") declare which form
-    arm this cache serves, so a real form matrix is built from receipt-verified arms.
-    """
     root = Path(store_dir)
     meta = _read_json(root / "meta.json")
     if meta is None:
@@ -134,7 +107,6 @@ def write_cache_manifest(
 def _form_block(
     form_kind: str | None, form_objective: str | None, referent_scheme: str | None
 ) -> dict[str, Any] | None:
-    """Validate and assemble the optional form declaration, or None when nothing is declared."""
     if form_kind is None and form_objective is None and referent_scheme is None:
         return None
     if form_kind is not None and form_kind not in FORM_KINDS:
@@ -150,7 +122,6 @@ def validate_cache_manifest(
     manifest_name: str = DEFAULT_MANIFEST,
     citable: bool = False,
 ) -> list[str]:
-    """Validate an existing cache data-plane manifest. Empty list means clean."""
     root = Path(store_dir)
     manifest = _read_json(root / manifest_name)
     if manifest is None:
@@ -265,7 +236,6 @@ def validate_cache_manifest(
 
 
 def json_sha256(obj: Any) -> str:
-    """Stable SHA256 for JSON-compatible data."""
     return hashlib.sha256(_canonical_json(obj)).hexdigest()
 
 
@@ -301,7 +271,6 @@ def _sidecar_fingerprints(root: Path) -> list[dict[str, Any]]:
 
 
 def _validate_encoder_receipt(receipt: dict[str, Any]) -> list[str]:
-    """Require a real, immutable model identity for learned feature caches."""
     problems: list[str] = []
     if receipt.get("schema") != ENCODER_RECEIPT_SCHEMA:
         problems.append(f"encoder receipt schema must be {ENCODER_RECEIPT_SCHEMA!r}")
@@ -341,7 +310,6 @@ def _validate_encoder_receipt(receipt: dict[str, Any]) -> list[str]:
 
 
 def _validate_random_init_receipt(receipt: dict[str, Any]) -> list[str]:
-    """Require a seeded exact architecture identity without pretending its weights were learned."""
     problems: list[str] = []
     if receipt.get("schema") != RANDOM_INIT_RECEIPT_SCHEMA:
         problems.append(f"initialization receipt schema must be {RANDOM_INIT_RECEIPT_SCHEMA!r}")
@@ -415,7 +383,6 @@ def _positive_int(value: Any) -> bool:
 def _validate_receipt_config_match(
     receipt: dict[str, Any], encoder_config: dict[str, Any], *, random_init: bool
 ) -> list[str]:
-    """Cross-check the sidecar identity against the hashed resolved encoder configuration."""
     problems: list[str] = []
     for receipt_field, config_field in (("model_id", "hf_id"), ("revision", "revision")):
         left = str(receipt.get(receipt_field) or "").strip()
@@ -544,7 +511,6 @@ def _columnar_index(
 
 
 def _factor_columns(factors: dict[str, Any]) -> dict[str, list[Any]]:
-    """Return v2 columns or list-valued legacy columns, excluding scalar metadata."""
     if not isinstance(factors, dict):
         raise ValueError("factors must be a mapping")
     if "columns" in factors:

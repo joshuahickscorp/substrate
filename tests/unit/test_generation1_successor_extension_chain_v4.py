@@ -101,7 +101,6 @@ def _predecessor_status(path: Path, state: str) -> None:
         "problems": [],
         "activation_allowed": False,
         "scientific_promotion": False,
-        # v7 declares it supersedes v6 (v6's own declared value was v5).
         "supersedes": "generation1-successor-evidence-chain-v6",
     }
     _write(path, _sealed(core, "status_sha256"))
@@ -262,11 +261,6 @@ def _extension(
     return extension, loads, program
 
 
-# ----------------------------------------------------------------------------
-# Predecessor rebind (v6 -> v7) and preserved target (horizon v2) identity
-# ----------------------------------------------------------------------------
-
-
 def test_extv4_predecessor_binding_points_at_v7_and_target_stays_horizon_v2(tmp_path: Path) -> None:
     assert chain.PROGRAM_ID == "generation1-successor-extension-chain-v4"
     assert chain.STATE_SCHEMA == "mop-generation1-successor-extension-chain-state/v4"
@@ -297,11 +291,6 @@ def test_extv4_initial_state_binds_v7_predecessor_and_horizon_v2_capsule(tmp_pat
     )
     assert predecessor["signals_allowed"] is False
     assert set(extension.state["capsules"]) == {"predecessor_chain_v7", "successor_horizon_v2"}
-
-
-# ----------------------------------------------------------------------------
-# Observation-only waiting on v7, no signals
-# ----------------------------------------------------------------------------
 
 
 def test_extv4_waits_for_v7_after_validating_target_without_starting_or_signalling(
@@ -365,7 +354,6 @@ def test_extv4_requires_predecessor_supersedes_v6(tmp_path: Path) -> None:
         "problems": [],
         "activation_allowed": False,
         "scientific_promotion": False,
-        # v7 must declare it supersedes v6; a v5 claim is the held v6's own value.
         "supersedes": "generation1-successor-evidence-chain-v5",
     }
     _write(extension.predecessor_status_path, _sealed(core, "status_sha256"))
@@ -374,11 +362,6 @@ def test_extv4_requires_predecessor_supersedes_v6(tmp_path: Path) -> None:
 
     assert status["state"] == "integrity_hold"
     assert "v7 predecessor status identity, safety, or state drifted" in status["problems"][-1]
-
-
-# ----------------------------------------------------------------------------
-# Status round-trip and detached start (v4 entrypoint)
-# ----------------------------------------------------------------------------
 
 
 def test_extv4_validate_extension_status_round_trip(tmp_path: Path) -> None:

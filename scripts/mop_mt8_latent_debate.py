@@ -1,39 +1,4 @@
 #!/usr/bin/env python
-"""MP8: latent debate between seeded modules vs single module and plain ensemble (WP-04, MANIFEST).
-
-Thesis: two seeded modules critiquing each other's latents through trained exchange wires, arbitrated
-by a tiny referee, beat BOTH the single matched module and a plain ensemble at matched TOTAL FLOPs.
-Mechanism: per seed, two independently initialized WP-03 backbones (refiner + deep-supervised head +
-verifier, mop_dr9_verify_revise.train_backbone) are trained on the same regime, then frozen. The
-debate arm adds zero-initialized cross-projection wires (each module's update is corrected by a linear
-message from the OTHER module's LayerNormed latent, every round) and a referee (a tiny MLP over both
-verifier scores and the inter-module latent distance emitting a per-sample blend weight); wires and
-referee are trained in a second phase with the modules frozen. Zero-init means debate STARTS exactly
-at the independent pair, so anything it learns is attributable to exchange.
-
-Controls, all preregistered: (1) single matched module, the BETTER of the two backbones unrolled to
-the FLOP-matched depth (inside its deep-supervised horizon, never past it); (2) plain ensemble, both
-backbones unrolled independently at matched split FLOPs, logits averaged (the ex17 unrolled-ensemble
-null made explicit); (3) self-debate, module A debating a second copy of ITSELF through freshly
-trained wires (if this ties real debate, the exchange is self-generated depth, not cross-module
-content); (4) shuffled-partner, the trained debate wires evaluated with the incoming partner latent
-row-permuted every round (seed-permuted modules control: destroys per-sample cross-module information,
-keeps marginals).
-
-PR1 gate (manifest WP-04): the PR1 mode-error-disjointness verdict is READ AT RUN TIME from
-runs/pre_studio/pr1_mode_error_disjointness.json (never rebuilt, via mop_dr12_disagreement's reader).
-GREEN licenses a win as live; otherwise a win is demoted to PLAUSIBLE-BUT-UNVERIFIED (manifest
-appendix), and nulls report against the PR1 context either way.
-
-Preregistered null (verbatim, manifest WP-04): MP8 debate ties max(single, ensemble) (the ex17
-unrolled-ensemble null). A win requires, at matched total FLOPs on a D3-calibrated regime: debate
-beats max(single matched, plain ensemble) with a seed CI excluding zero and no sign flip, AND beats
-the shuffled-partner arm AND the self-debate arm (attribution to genuine cross-module exchange).
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: .venv/bin/python scripts/mop_mt8_latent_debate.py --seeds 0-4
-"""
 
 from __future__ import annotations
 
@@ -66,7 +31,6 @@ REFEREE_HIDDEN = 8  # referee width, fixed a priori (3 features -> 8 -> 1, round
 
 
 def default_cfg(seeds: list[int], **overrides) -> DictConfig:
-    """The preregistered full-scale config. Tests shrink it via overrides (tiny tensors, seconds)."""
     exp = {
         "seeds": list(seeds),
         "dim": 64,
@@ -88,7 +52,6 @@ def default_cfg(seeds: list[int], **overrides) -> DictConfig:
 
 @dataclass
 class ModuleShell:
-    """One frozen debate participant: the WP-03 backbone triple."""
 
     refiner: IterativeRefiner
     head: nn.Linear
@@ -102,9 +65,6 @@ class ModuleShell:
 
 
 class DebateWires(nn.Module):
-    """The trainable debate machinery: two cross-projection message wires (zero-initialized, so the
-    debate starts exactly at the independent pair) and the referee (per-sample blend weight over
-    [score_a, score_b, latent distance])."""
 
     def __init__(self, dim: int):
         super().__init__()
@@ -126,10 +86,6 @@ def debate_forward(
     shuffle_partner: bool = False,
     generator: torch.Generator | None = None,
 ) -> tuple[torch.Tensor, dict]:
-    """One debate: `rounds` alternating-free rounds where each module refines its own latent AND
-    receives a linear message from the other's LayerNormed latent, then the referee blends the two
-    heads' logits per sample. shuffle_partner row-permutes the incoming partner latent every round
-    (the seed-permuted-modules control)."""
     dim = x.shape[-1]
     z_a, z_b = x, x
     for _ in range(int(rounds)):
@@ -152,8 +108,6 @@ def debate_forward(
 def train_debate_wires(
     mod_a: ModuleShell, mod_b: ModuleShell, x, y, rounds: int, epochs: int, lr: float, seed: int
 ) -> DebateWires:
-    """Phase 2: train wires + referee with both modules frozen (gradient flows through them, their
-    parameters never step, mirroring the WP-03 two-phase convention)."""
     seed_everything(seed)
     wires = DebateWires(x.shape[-1])
     opt = torch.optim.Adam(wires.parameters(), lr=lr)
@@ -174,9 +128,6 @@ def unroll_logits(mod: ModuleShell, x: torch.Tensor, steps: int) -> torch.Tensor
 
 
 def debate_flop_budget(dim: int, hidden: int, vhidden: int, n_classes: int, rounds: int) -> dict:
-    """The debate arm's TOTAL forward FLOPs, computed a priori from the config, and the FLOP-matched
-    step counts for the single-module and plain-ensemble controls. All controls stay INSIDE the
-    deep-supervised training horizon (n_max_train), never a past-horizon unroll."""
     per_step = refiner_flops(dim, hidden, 1)
     per_msg = mlp_flops([dim, dim])
     per_eval = mlp_flops([dim, vhidden, 1])
@@ -243,7 +194,6 @@ class MT8LatentDebate(Experiment):
                 *train_backbone(xtr, ytr, nc, dim, hidden, vhidden, n_max, epochs, lr, 1000 * s + 2)
             ).freeze()
 
-            # PR1-precondition diagnostic: are the two seeded modules actually decorrelated in errors
             with torch.no_grad():
                 err_a = (unroll_logits(mod_a, xte, rounds).argmax(-1) != yte).float()
                 err_b = (unroll_logits(mod_b, xte, rounds).argmax(-1) != yte).float()

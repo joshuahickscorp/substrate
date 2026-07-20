@@ -55,8 +55,6 @@ def _require_positive(value: int, label: str) -> None:
         raise Stage4Refusal(f"{label} must be positive (non-vacuous)")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class Stage3ConfirmationReceipt:
 
@@ -138,8 +136,6 @@ def distinct_confirmed_mechanisms(receipts: Sequence[Stage3ConfirmationReceipt])
     return tuple(sorted(ids))
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
 
@@ -218,8 +214,6 @@ class JointAdvantageContract:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -323,8 +317,6 @@ def build_ablation_ladder(mechanism_ids: Sequence[str]) -> AblationLadder:
     return AblationLadder(schema=STAGE4_SCHEMA, mechanism_ids=ordered, arms=tuple(arms))
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class IntegrationBatteryContract:
 
@@ -370,8 +362,6 @@ class IntegrationBatteryContract:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -425,8 +415,6 @@ def authorize_battery(gate: Stage4EntryGate, contract: IntegrationBatteryContrac
 
     return gate.authorize(contract.receipts)
 
-
-# Coverage record.
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 

@@ -51,8 +51,6 @@ def _require_sha256(value: str, label: str) -> None:
         raise CalibratedUncertaintyRefusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class DualMetricReading:
 
@@ -88,8 +86,6 @@ class DualMetricReading:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedCostBudget:
 
@@ -120,8 +116,6 @@ class MatchedCostBudget:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -203,8 +197,6 @@ def assert_control_completeness(controls: Sequence[str]) -> None:
         raise CalibratedUncertaintyRefusal("declared control set drifted in membership or order")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class CalibratedUncertaintyContract:
 
@@ -271,8 +263,6 @@ def default_contract() -> CalibratedUncertaintyContract:
         replication_min=2,
         prior_null=PRIOR_NULL,
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -409,7 +399,6 @@ def evaluate_joint_improvement(
     )
 
 
-
 _BASE_SCORES: dict[str, tuple[float, float]] = {
     "always_answer": (0.75, 0.75),
     "random_abstain": (0.74, 0.62),
@@ -466,8 +455,6 @@ def build_null_verdict(*, seed: int) -> JointImprovementVerdict:
     return evaluate_joint_improvement(
         candidate=candidate, candidate_budget=_DEFAULT_BUDGET, controls=controls
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -536,9 +523,6 @@ class JointClaimGate:
 
     def payload(self) -> dict[str, Any]:
         return {"activation_permitted": self.activation_permitted, "claim_scope": self.claim_scope}
-
-
-# Section H. Coverage record for this lane's sub-questions (readiness only).
 
 
 def coverage() -> dict[str, Sequence[str]]:

@@ -1,23 +1,3 @@
-"""The mechanism runner for the messaging_repair Stage 3 workstream (epoch messaging_repair).
-
-The runner scores the mechanism against every declared control on both regimes at the matched action
-budget, then mints a mechanics-demonstration RunReceipt. The receipt is honest by construction:
-
-- On the null regime the mechanism must NOT beat every control (the no-message floor ties it), which
-  is what keeps the named prior null intact.
-- The receipt carries the "mechanics-ok" verdict ONLY when the mechanism strictly beats EVERY control
-  on the favorable regime at matched cost AND the null still holds on the null regime. Otherwise the
-  verdict is "null". A single leaking control that ties or beats the mechanism blocks mechanics-ok,
-  fail-closed.
-
-The receipt is always a mechanics-demonstration: it can never carry a confirmation or a cleared
-verdict, and it can never open a stage gate. It records the requirement id "s3.messaging_repair", the
-controls the mechanism cleared, the canonical evidence digest of the scored result, and the per-control
-margins on both regimes.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -48,15 +28,11 @@ MESSAGING_REPAIR_RUNNER_SCHEMA = "mop-messaging-repair-runner/v1"
 
 
 class MessagingRepairRunnerError(ValueError):
-    """Raised when a declared control has no policy. The runner fails closed rather than skip it."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class RegimeScore:
-    """The mechanism-versus-controls scoring of one regime, with per-control matched-cost margins.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     kind: str
     regime_digest: str
@@ -78,10 +54,6 @@ class RegimeScore:
 
 @dataclass(frozen=True, slots=True)
 class RunResult:
-    """The full scored result of one run: the null regime score and the favorable regime score.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     schema: str
     mechanism_id: str
@@ -106,10 +78,6 @@ class RunResult:
 
 @dataclass(frozen=True, slots=True)
 class MessagingRepairRunner:
-    """Scores the mechanism against the declared controls and mints a mechanics-demonstration receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     mechanism_id: str = MECHANISM_ID
     mechanism_policy: PolicyFn = MECHANISM_POLICY
@@ -138,7 +106,6 @@ class MessagingRepairRunner:
         )
 
     def run(self, bed: Bed, seed: int) -> RunResult:
-        """Score the mechanism against every declared control on both regimes at matched cost."""
 
         controls = tuple(bed.controls())
         null = self._score(bed.null_regime(seed), controls)
@@ -152,7 +119,6 @@ class MessagingRepairRunner:
         )
 
     def mint(self, results: RunResult) -> RunReceipt:
-        """Mint the mechanics-demonstration receipt. Never a confirmation and never cleared."""
 
         favorable_win = results.favorable.mechanism_beats_all
         null_holds = not results.null.mechanism_beats_all
@@ -182,6 +148,5 @@ class MessagingRepairRunner:
 
 
 def build_default_runner() -> MessagingRepairRunner:
-    """Return the canonical messaging_repair runner with the default mechanism and control policies."""
 
     return MessagingRepairRunner()

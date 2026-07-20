@@ -1,11 +1,3 @@
-"""Independent integrity and adversarial verifier for the P5 context pilot.
-
-The verifier never imports the P5 training or evaluation implementation. It reads a sealed smoke
-or pilot primary, its raw per-frame receipts, and an optional separately governed fresh-training challenge.
-It recomputes paired contrasts from per-seed scores, treats every threshold tie as a null, and
-allows no confirmatory promotion. A directional programmatic pattern remains unverified until
-three fixed, disjoint training seeds reproduce that direction through the challenge runner.
-"""
 
 from __future__ import annotations
 
@@ -112,7 +104,7 @@ DEFAULT_VERIFICATION = REPO_ROOT / "proof" / "P5_CONTEXT_CAPABILITY_VERIFICATION
 
 
 class P5VerificationRefused(ValueError):
-    """Raised when a required P5 artifact is absent, stale, incomplete, or semantically invalid."""
+    pass
 
 
 @dataclass
@@ -160,7 +152,6 @@ def file_sha256(path: Path) -> str:
 
 
 def state_sha256(state: Mapping[str, Any], label: str) -> str:
-    """Hash a checkpoint state independently of the P5 runner implementation."""
 
     if not isinstance(state, Mapping) or not state:
         raise P5VerificationRefused(f"{label} is not a nonempty tensor state")
@@ -498,7 +489,6 @@ def _audit_seed_artifacts(
     batch_size: int,
     repo_root: Path,
 ) -> dict[str, Any]:
-    """Join a cell seed to its durable result, arm receipts, and final checkpoints."""
 
     seed_path = seed_dir / "seed_result.json"
     disk_seed = _read_json(seed_path, f"f{frames} seed {seed} durable result")
@@ -894,7 +884,6 @@ def _validate_seed_selection_and_staging(
     futility_margin: float,
     label: str,
 ) -> None:
-    """Reconstruct the runner's exact per-frame stage-out and futility decisions."""
 
     if (
         isinstance(futility_margin, bool)

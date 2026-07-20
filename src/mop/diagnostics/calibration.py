@@ -1,7 +1,3 @@
-"""Calibration: reliability diagram + expected calibration error (ECE) on a probabilistic
-head. E4 needs a calibrated uncertainty signal; an uncalibrated signal is a named null
-("signal uncalibrated -> improve calibration"). Lower ECE = better calibrated.
-"""
 
 from __future__ import annotations
 
@@ -9,7 +5,6 @@ import torch
 
 
 def reliability(probs: torch.Tensor, labels: torch.Tensor, bins: int = 10) -> dict:
-    """probs: [N, C] softmax probabilities. Returns per-bin accuracy/confidence and ECE."""
     conf, pred = probs.max(dim=-1)
     correct = (pred == labels).float()
     edges = torch.linspace(0, 1, bins + 1)

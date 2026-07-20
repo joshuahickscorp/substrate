@@ -1,21 +1,3 @@
-"""Fail-closed intake for a tiny, rights-documented SANPO-Real cohort.
-
-This module intentionally stops at acquisition and provenance. It does not decode frames, load an
-encoder, tune on the official test split, or promote an F8/F16 scientific claim. The public Google
-Cloud Storage object metadata is the external byte-integrity authority. Every selected GCS object is
-generation-pinned, checked against its published size, MD5 and CRC32C, and assigned a local SHA256.
-
-The default cohort is deterministic and small enough for the current-host raw-smoke envelope:
-
-* official train sessions: first three park and first three non-park sessions become train;
-* official train sessions: the fourth park and fourth non-park sessions become validation;
-* official test sessions: the first park and first non-park sessions remain test-only;
-* each session contributes camera_head/left frames 0, 8, ..., 56 and description.json.
-
-"First" means lexicographic session-id order among sessions carrying all eight requested frames.
-The source split lists, official repository commit, licensing statement and privacy statement are
-pinned in the resulting plan and receipt.
-"""
 
 from __future__ import annotations
 
@@ -91,11 +73,11 @@ _CRC32C_TABLE: tuple[int, ...] | None = None
 
 
 class SanpoIntakeError(RuntimeError):
-    """An authority, selection, integrity, or safety gate failed."""
+    pass
 
 
 class GCSObjectNotFound(SanpoIntakeError):
-    """A requested official GCS object does not exist."""
+    pass
 
 
 def _utc_now() -> str:
@@ -152,7 +134,6 @@ def _normalize_metadata(raw: dict[str, Any]) -> dict[str, str | int]:
 
 
 class GCSJSONClient:
-    """Minimal public GCS JSON API client with no credentials and no cloud SDK dependency."""
 
     def __init__(
         self,
@@ -246,7 +227,6 @@ def _crc32c_table() -> tuple[int, ...]:
 
 
 def crc32c(chunks: Iterable[bytes]) -> int:
-    """Return Castagnoli CRC32C for an iterable of byte chunks."""
     table = _crc32c_table()
     value = 0xFFFFFFFF
     for chunk in chunks:
@@ -260,7 +240,6 @@ def _crc32c_b64(value: int) -> str:
 
 
 def verify_bytes(payload: bytes, metadata: dict[str, Any]) -> dict[str, Any]:
-    """Check bytes against official GCS authority and return local content hashes."""
     meta = _normalize_metadata(metadata)
     md5_digest = hashlib.md5(payload, usedforsecurity=False).digest()
     sha256 = hashlib.sha256(payload).hexdigest()
@@ -291,7 +270,6 @@ def _iter_file(path: Path, chunk_size: int = 1024 * 1024) -> Iterable[bytes]:
 
 
 def hash_file(path: str | Path) -> dict[str, Any]:
-    """Single-pass MD5, SHA256 and CRC32C for a local file."""
     local = Path(path)
     md5 = hashlib.md5(usedforsecurity=False)
     sha = hashlib.sha256()
@@ -316,7 +294,6 @@ def hash_file(path: str | Path) -> dict[str, Any]:
 
 
 def verify_local_file(path: str | Path, authority: dict[str, Any]) -> dict[str, Any]:
-    """Verify a local file against GCS metadata or a pinned repository SHA256."""
     local = Path(path)
     if not local.is_file():
         raise SanpoIntakeError(f"missing local file: {local}")
@@ -541,7 +518,6 @@ def build_intake_plan(
     raw_smoke_cap_bytes: int = RAW_SMOKE_CAP_BYTES,
     repo_opener: Callable[..., Any] = urllib.request.urlopen,
 ) -> dict[str, Any]:
-    """Build and validate the deterministic 10-session intake plan without downloading frames."""
     if min_free_disk_bytes < MIN_FREE_DISK_BYTES:
         raise SanpoIntakeError(
             f"min_free_disk_bytes cannot be lowered below the M3 floor {MIN_FREE_DISK_BYTES}"
@@ -677,7 +653,6 @@ def build_intake_plan(
 
 
 def validate_intake_plan(plan: dict[str, Any], *, current_free_bytes: int | None = None) -> None:
-    """Fail if a plan weakens selection, split, authority, size, or disk invariants."""
     problems: list[str] = []
     if plan.get("schema") != PLAN_SCHEMA:
         problems.append(f"schema must be {PLAN_SCHEMA}")
@@ -1025,7 +1000,6 @@ def execute_intake_plan(
     timeout: float = 90.0,
     download_workers: int = 1,
 ) -> dict[str, Any]:
-    """Download or resume the plan serially, verify it, and write consumer/proof receipts."""
     root = Path(destination)
     proof = Path(proof_path)
     workers = int(download_workers)
@@ -1298,7 +1272,6 @@ def dry_run_receipt(plan: dict[str, Any], *, destination: str | Path) -> dict[st
 
 
 def verify_existing_intake(destination: str | Path) -> dict[str, Any]:
-    """Re-hash every official object and the custom-substrate consumer content set."""
     root = Path(destination)
     plan_path = root / "intake_plan.json"
     if not plan_path.is_file():

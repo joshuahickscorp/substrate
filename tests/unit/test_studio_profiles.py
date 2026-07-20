@@ -1,5 +1,3 @@
-"""Profiles + kill switches: the hard limits must be enforceable, the M3 Pro hard cap must hold
-even against a generous budget, and clamps must never exceed the cap."""
 
 from types import SimpleNamespace
 
@@ -20,7 +18,6 @@ def test_get_profile_by_name_and_alias():
     assert get_profile("studio-1tb") is STUDIO
     assert get_profile("m3pro-local-max") is M3PRO_LOCAL_MAX
     assert get_profile("studio-m1ultra") is M1_ULTRA
-    # aliases resolve to the same object
     assert get_profile("studio") is STUDIO
     assert get_profile("local-max") is M3PRO_LOCAL_MAX
     assert get_profile("M3PRO") is M3PRO_LOCAL_MAX  # case-insensitive
@@ -46,7 +43,6 @@ def test_usable_is_total_minus_reserve():
 
 
 def test_within_budget_enforces_hard_cap():
-    # the m3pro hard cap is 25 GB: a request above it is rejected REGARDLESS of any budget argument
     ok, _ = M3PRO_LOCAL_MAX.within_budget(10.0)
     assert ok
     ok, msg = M3PRO_LOCAL_MAX.within_budget(50.0)
@@ -54,16 +50,12 @@ def test_within_budget_enforces_hard_cap():
 
 
 def test_effective_budget_clamps_to_hard_cap():
-    # a generous --budget-gb cannot push a real download past the hard cap (the kill switch)
     assert M3PRO_LOCAL_MAX.effective_budget_gb(1000.0) == M3PRO_LOCAL_MAX.download_hard_cap_gb
-    # None falls back to the profile default budget
     assert M3PRO_LOCAL_MAX.effective_budget_gb(None) == M3PRO_LOCAL_MAX.download_budget_gb
-    # a modest request passes through unchanged
     assert M3PRO_LOCAL_MAX.effective_budget_gb(5.0) == 5.0
 
 
 def test_effective_budget_rejects_negative():
-    # a negative --budget-gb is a bad input, not a quiet no-op (mirrors within_budget)
     with pytest.raises(ValueError):
         M3PRO_LOCAL_MAX.effective_budget_gb(-5.0)
 
@@ -102,7 +94,6 @@ def test_studio_is_900gb_usable():
 
 
 def test_m1ultra_is_the_legacy_8tb_scenario_envelope():
-    # Legacy slug retained for commands. It is explicitly not a procurement receipt.
     p = M1_ULTRA
     assert p.usable_gb == 7200.0
     assert p.download_hard_cap_gb == 6000.0
@@ -128,7 +119,6 @@ def test_profile_host_compatibility_uses_resources_not_chip_name(monkeypatch, tm
         "unified_memory_gb": 128.0,
     }
     ok, problems, measured = STUDIO.host_compatibility(host=host, disk_root=tmp_path)
-    # The temporary filesystem is this real host's roughly 500 GB volume, below the 1 TB envelope.
     assert not ok
     assert any("disk" in problem for problem in problems)
     assert measured["chip"] == "Apple Future"
@@ -154,7 +144,6 @@ def test_free_disk_ok_returns_bool_and_value(tmp_path):
 def test_list_profiles_includes_all():
     names = {p["name"] for p in list_profiles()}
     assert names == {"studio-1tb", "m3pro-local-max", "studio-m1ultra"}
-    # the serialized envelope carries the caps a manifest needs
     studio = next(p for p in list_profiles() if p["name"] == "studio-1tb")
     assert studio["usable_gb"] == 900.0
     assert "allowed_tiers" in studio and "min_free_disk_gb" in studio

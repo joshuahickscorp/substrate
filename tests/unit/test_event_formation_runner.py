@@ -1,10 +1,3 @@
-"""Tests for the event formation mechanism runner.
-
-They pin the epoch bar: the run is deterministic; the null regime reads null; a favorable regime that
-preserves utility and cuts compute vs both untrained controls reads mechanics-ok; a utility leak by a
-control blocks mechanics-ok; the evidence digest is stable; and no receipt is ever a confirmation. No
-capability is claimed anywhere.
-"""
 
 from __future__ import annotations
 
@@ -70,7 +63,6 @@ def test_utility_leak_by_control_blocks_mechanics_ok() -> None:
     runner, results = _runner_and_results()
     favorable = results.favorable
     leaked_utility = dict(favorable.utility)
-    # A control ties the former on utility, so the former no longer strictly beats both untrained.
     leaked_utility["appearance-only"] = favorable.utility[EVENT_FORMER_ID]
     leaked_favorable = RegimeMeasurement(
         regime=FAVORABLE_REGIME,

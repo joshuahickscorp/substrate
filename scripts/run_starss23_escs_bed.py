@@ -1,17 +1,4 @@
 #!/usr/bin/env python3
-"""Producer entrypoint: run the STARSS23 ESCS event-formation bed and emit the sealed proof artifact.
-
-Two lanes share this entrypoint. Without ``--real`` it runs the synthetic STARSS23 fixtures (five paired
-seeds, the frozen featurizer, the one trained candidate gate, and the three controls) and writes the
-byte-sealed ``proof/STARSS23_ESCS_BED.json``; synthetic data caps the verdict at mechanics-ok. With
-``--real`` it runs the real, MIT-licensed STARSS23 FOA subset through ``RealStarssAdapter``: it first
-writes the self-sealed preregistration ``proof/STARSS23_ESCS_BED.prereg.json`` (the cost-benefit SESOI,
-fixed before any test score is read), then runs the bed and writes the same sealed artifact with
-``source_kind=real`` and ``rights_clean=true``. Either lane hardcodes activation_allowed=false,
-scientific_promotion=false, and independent_scientific_confirmation=false.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -22,8 +9,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-# A fixed default preregistration timestamp so the sealed prereg body is byte-reproducible across re-runs.
-# The wall clock is never read inside a sealed body; the timestamp is always passed in.
 DEFAULT_PREREG_TIMESTAMP = "2026-07-17T00:00:00Z"
 
 

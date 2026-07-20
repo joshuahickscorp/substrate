@@ -69,8 +69,6 @@ class ReprofileRefused(RuntimeError):
     pass
 
 
-
-
 def _seal_matches(payload: Mapping[str, Any], field: str) -> bool:
     body = {key: value for key, value in payload.items() if key != field}
     return payload.get(field) == canonical_sha256(body)
@@ -93,8 +91,6 @@ def _read_json_file(path: Path) -> object | None:
         return json.loads(raw)
     except json.JSONDecodeError:
         return None
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -210,8 +206,6 @@ def _observed_from_facts(facts: Sequence[_RungFact]) -> dict[str, dict[str, Any]
     return observed
 
 
-
-
 def _scan_results(proof_root: Path) -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
     for path in sorted(proof_root.glob("*.json")):
@@ -292,8 +286,6 @@ def collect_observed_rates(runs_root: Path | str, proof_root: Path | str) -> dic
         "receipts_seen": seen,
         "receipts_skipped": skipped,
     }
-
-
 
 
 def _positive(value: object, label: str) -> float:
@@ -556,8 +548,6 @@ def validate_reprofile(value: Mapping[str, Any]) -> None:
         raise ReprofileRefused("reprofile artifact must keep activation_allowed false")
     if value.get("scientific_promotion") is not False:
         raise ReprofileRefused("reprofile artifact must keep scientific_promotion false")
-
-
 
 
 def _default_planned_rates() -> dict[str, float]:

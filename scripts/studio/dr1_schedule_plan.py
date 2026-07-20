@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Build a DR1 daemon-ready cache plan from an encode schedule receipt."""
 
 from __future__ import annotations
 

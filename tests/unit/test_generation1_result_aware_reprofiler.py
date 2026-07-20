@@ -16,8 +16,6 @@ _PROOF = REPO_ROOT / "proof/GENERATION1_SUCCESSOR_MECHANICS_EXTENDED.json"
 _MECHANICS_RUNS = REPO_ROOT / "runs/generation1/generation1-successor-mechanics-extended-v1"
 
 
-
-
 def _receipt_core(
     *,
     index: int,
@@ -132,8 +130,6 @@ def _build_tree(root: Path) -> None:
     )
 
 
-
-
 def test_collect_counts_only_complete_receipts(tmp_path: Path) -> None:
     runs_root = tmp_path / "runs"
     proof_root = tmp_path / "proof"
@@ -168,8 +164,6 @@ def test_collect_ignores_foreign_schema_receipts(tmp_path: Path) -> None:
     profile = reprof.collect_observed_rates(runs_root, proof_root)
     assert profile["receipts_seen"] == 6
     assert profile["receipts_skipped"] == 2
-
-
 
 
 def test_worker_count_memory_bound() -> None:
@@ -235,8 +229,6 @@ def test_reprofile_uses_observed_else_planned() -> None:
     assert result["recommended_workers"] == 6
     assert result["projection"]["serial_hours"] == pytest.approx(2.0)
     assert result["projection"]["ideal_worker_hours"] == pytest.approx(2.0 / 6.0)
-
-
 
 
 def _synthetic_profile() -> dict[str, object]:
@@ -312,8 +304,6 @@ def test_forgery_field_drift_is_rejected() -> None:
         reprof.validate_reprofile(extra)
 
 
-
-
 def test_determinism_double_build_is_byte_identical(tmp_path: Path) -> None:
     runs_root = tmp_path / "runs"
     proof_root = tmp_path / "proof"
@@ -327,8 +317,6 @@ def test_determinism_double_build_is_byte_identical(tmp_path: Path) -> None:
 
     assert artifact_one["reprofile_sha256"] == artifact_two["reprofile_sha256"]
     assert json.dumps(artifact_one, sort_keys=True) == json.dumps(artifact_two, sort_keys=True)
-
-
 
 
 @pytest.mark.skipif(not _PROOF.is_file(), reason="sealed mechanics result not present on disk")

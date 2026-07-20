@@ -370,7 +370,6 @@ class Y6(Experiment):
 
         rank_corrs, efe_rej, lp_rej, cover_gain = [], [], [], []
         for s in seeds:
-            # the noisy-TV diagnostic gives, per region, raw error (pragmatic), disagreement
             ntv = noisy_tv_diagnostic(dim=dim, device=device, steps=int(e.ntv_steps), seed=s)
             dis_l = ntv["disagreement"]["learnable"]
             dis_n = ntv["disagreement"]["noise"]
@@ -381,7 +380,6 @@ class Y6(Experiment):
             lp_rej.append(1.0 if lp_l > lp_n else 0.0)
             same = (dis_l - dis_n) * (lp_l - lp_n)
             rank_corrs.append(1.0 if same > 0 else (-1.0 if same < 0 else 0.0))
-            # learnable-coverage proxy: epistemic mass on learnable vs total (vs LP coverage)
             efe_cov = dis_l / max(1e-9, dis_l + dis_n)
             lp_cov = max(0.0, lp_l) / max(1e-9, max(0.0, lp_l) + max(0.0, lp_n))
             cover_gain.append(efe_cov - lp_cov)

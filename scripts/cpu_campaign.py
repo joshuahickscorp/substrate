@@ -1,11 +1,4 @@
 #!/usr/bin/env python
-"""CPU-Now campaign driver. Runs the cost-ordered tiers T0..T3 on cpu, parallelized across
-cores via the worker pool, checkpointed and resumable. T0-T2 run to completion at modest real
-scale; T3 drains a wall-clock budget. Records per-run-unit timings and feeds the Studio cost
-projection. Every result is tagged real-encoder or provisional. Tier E and R are never run.
-
-Usage: python scripts/cpu_campaign.py [--budget 600] [--seeds 5] [--t3-budget 600]
-"""
 
 from __future__ import annotations
 
@@ -28,7 +21,6 @@ def _save(name: str, obj) -> None:
     (OUT / name).write_text(json.dumps(obj, indent=2, default=str))
 
 
-# --------------------------------------------------------------------------- unit builders
 def _e1_units(seeds, dim=64, samples=160):
     base = [
         f"experiment.stream.dim={dim}",
@@ -92,7 +84,6 @@ def _e9_units(seeds, hiddens=(32, 64)):
 
 
 def _t3_units(seeds=3):
-    """Reduced grids: representative axis subsets, reduced seeds (recorded in DECISIONS)."""
     common = [
         "device=cpu",
         "experiment.stream.dim=64",
@@ -100,7 +91,6 @@ def _t3_units(seeds=3):
         "shell.buffer.index=brute",
     ]
     units = []
-    # E2 replay (tie_tol subset)
     for tt in (0.02, 0.05):
         units.append(
             {
@@ -108,7 +98,6 @@ def _t3_units(seeds=3):
                 "overrides": ["experiment=e2_replay", "seed=0", f"experiment.tie_tol={tt}", *common],
             }
         )
-    # E3 plasticity (schedule subset via shell.plasticity.schedule)
     for sch in ("soft", "hard"):
         units.append(
             {
@@ -121,7 +110,6 @@ def _t3_units(seeds=3):
                 ],
             }
         )
-    # E4 neuromod (signal-by-gate is internal; sweep noise_scale)
     for ns in (4.0, 6.0):
         units.append(
             {
@@ -136,7 +124,6 @@ def _t3_units(seeds=3):
                 ],
             }
         )
-    # E7 sparse (kwta_k subset)
     for k in (4, 8):
         units.append(
             {
@@ -150,7 +137,6 @@ def _t3_units(seeds=3):
                 ],
             }
         )
-    # consolidation comparison (E1 with si vs ewc vs both) - the sharp weight-space test
     for meth in ("si", "both"):
         units.append(
             {
@@ -166,7 +152,6 @@ def _t3_units(seeds=3):
     return units
 
 
-# --------------------------------------------------------------------------- tiers
 def tier0(seeds: int) -> dict:
     log.info("T0: determinism (11A) + negative-result registry (11D)")
     res = {}
@@ -248,7 +233,6 @@ def tier3(budget_s: float, seeds: int = 3) -> dict:
     log.info("T3: reduced grids, draining %.0fs budget", budget_s)
     workers, threads = plan_pool("heavy")
     units = _t3_units(seeds)
-    # bound by budget: run in slices, stop when budget exceeded (checkpointing makes it resumable)
     t0 = time.perf_counter()
     done = []
     pool_results = {}
@@ -290,7 +274,6 @@ def main(argv: list[str] | None = None) -> int:
             timings[k.split("_s")[0].rsplit("_", 0)[0]] = v["seconds"]  # rough per-leg-type seconds
     if "3" in sel:
         summary["t3"] = tier3(a.t3_budget, seeds=3)
-    # cost projection from measured timings
     try:
         from mop.studies.cost_projection import cost_projection
 

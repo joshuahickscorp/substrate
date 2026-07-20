@@ -1,9 +1,3 @@
-"""Unit tests for the causal-intervention and simulation-for-action scaffold.
-
-These tests exercise the four contracts, the matched-cost discipline, the seeded comparison
-mechanics, the control registry, and the off-by-default activation gate. They assert fail-closed
-behavior, determinism, and that no claim scope can be widened. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -44,10 +38,6 @@ from mop.mechanisms.intervention_simulation_scaffold import (
     require_control_win,
 )
 
-# ---------------------------------------------------------------------------
-# Module posture and digest stability.
-# ---------------------------------------------------------------------------
-
 
 def test_capability_claim_is_false() -> None:
     assert SCIENTIFIC_CAPABILITY_CLAIM is False
@@ -66,11 +56,6 @@ def test_contract_digests_are_stable() -> None:
     assert default_simulation_contract().digest() == default_simulation_contract().digest()
     assert default_uncertainty_contract().digest() == default_uncertainty_contract().digest()
     assert default_novelty_contract().digest() == default_novelty_contract().digest()
-
-
-# ---------------------------------------------------------------------------
-# Matched budget discipline.
-# ---------------------------------------------------------------------------
 
 
 def test_matched_budget_must_be_non_vacuous() -> None:
@@ -118,11 +103,6 @@ def test_simulation_refuses_without_matched_cost() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Control-set completeness and registry.
-# ---------------------------------------------------------------------------
-
-
 def test_control_registry_digest_is_stable() -> None:
     assert control_registry_digest() == control_registry_digest()
     assert_control_registry_intact()
@@ -155,11 +135,6 @@ def test_uncertainty_rejects_control_membership_drift() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Named prior nulls: each contract is bound to exactly one.
-# ---------------------------------------------------------------------------
-
-
 def test_simulation_bound_to_planning_null() -> None:
     with pytest.raises(InterventionSimulationRefusal, match="P7 planning null"):
         SimulationForActionContract(
@@ -185,11 +160,6 @@ def test_novelty_bound_to_noise_seeking_null() -> None:
             matched=MatchedBudget(params=1, flops=1, memory_bytes=1, rollout_steps=1),
             matched_cost_required=True,
         )
-
-
-# ---------------------------------------------------------------------------
-# Reducible-novelty: irreducible-noise seeking is refused.
-# ---------------------------------------------------------------------------
 
 
 def test_novelty_refuses_irreducible_noise_seeking() -> None:
@@ -220,11 +190,6 @@ def test_novelty_refuses_unknown_target() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Claim-scope widening is always rejected.
-# ---------------------------------------------------------------------------
-
-
 def test_intervention_rejects_widened_claim_scope() -> None:
     with pytest.raises(InterventionSimulationRefusal, match="claim scope cannot be widened"):
         InterventionContract(
@@ -252,11 +217,6 @@ def test_uncertainty_rejects_bad_schema() -> None:
             matched_cost_required=True,
             schema="mop-wrong/v9",
         )
-
-
-# ---------------------------------------------------------------------------
-# Deterministic comparison mechanics and the control-win null encoding.
-# ---------------------------------------------------------------------------
 
 
 def test_deterministic_unit_score_is_reproducible() -> None:
@@ -324,11 +284,6 @@ def test_require_control_win_rejects_unknown_null() -> None:
         require_control_win(outcome, null_name="not-a-real-null")
 
 
-# ---------------------------------------------------------------------------
-# Activation gate is off by default.
-# ---------------------------------------------------------------------------
-
-
 def test_activation_gate_refuses_by_default() -> None:
     gate = default_activation_gate()
     with pytest.raises(InterventionSimulationRefusal, match="off by default"):
@@ -359,11 +314,6 @@ def test_activation_gate_accepts_matching_receipt() -> None:
         confirmation_receipt=digest,
     )
     gate.authorize()
-
-
-# ---------------------------------------------------------------------------
-# Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def test_coverage_lists_every_subquestion() -> None:

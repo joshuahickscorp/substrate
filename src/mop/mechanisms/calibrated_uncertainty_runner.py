@@ -1,23 +1,3 @@
-"""MechanismRunner for the calibrated uncertainty bed: measure both axes, mint a demonstration.
-
-This module wires the bed and the policies into the ladder run-receipt contract. It runs the
-mechanism and every declared control on a chosen regime, measures selective risk reduction and
-decision utility for each, and mints a mechanics-demonstration RunReceipt whose verdict is
-fail-closed on the decoupled confidence null:
-
-- On the NULL regime the verdict is always ``null``: the confidence signal is decoupled noise held
-  below the answer bar, so calibrated thresholding collapses onto the frozen-uniform abstainer and
-  the measurement confirms the mechanism cannot beat every control on both axes there.
-- On the FAVORABLE regime the verdict is ``mechanics-ok`` ONLY when the mechanism strictly improves
-  BOTH selective risk reduction AND decision utility over EVERY control. Improving only one axis is
-  exactly the decoupled null, so it mints ``null``, never a joint win.
-
-The receipt is a mechanics-demonstration and can never be a scientific confirmation: it carries no
-matched-cost attestation, opens no stage gate, and is_confirmation is always False. Claim scope:
-deterministic programmatic mechanics only; no capability or natural-data claim.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -49,17 +29,11 @@ CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natur
 
 
 class RunnerRefusal(ValueError):
-    """Raised when a run result is malformed or a comparison is attempted without controls."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class RunResult:
-    """The measured readings for one regime: the mechanism vs every control on both axes.
-
-    ``risk_margin`` and ``utility_margin`` are the mechanism's WORST margin over the control family
-    on each axis, so a positive margin means the mechanism beat every control on that axis.
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     regime: str
     seed: int
@@ -102,13 +76,11 @@ class RunResult:
 
     @property
     def both_axes_win(self) -> bool:
-        """Strictly beats every control on selective risk reduction AND decision utility. The bar."""
 
         return self.risk_margin > 0.0 and self.utility_margin > 0.0
 
     @property
     def controls_beaten_both(self) -> tuple[str, ...]:
-        """The controls the mechanism strictly beat on both axes, in declared order."""
 
         beaten = {
             name
@@ -143,10 +115,6 @@ class RunResult:
 
 @dataclass(frozen=True, slots=True)
 class CalibratedUncertaintyRunner:
-    """Runs the calibrated uncertainty mechanism and controls, and mints a demonstration receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-    """
 
     mechanism_id: str = MECHANISM_ID
     schema: str = RUNNER_SCHEMA
@@ -161,7 +129,6 @@ class CalibratedUncertaintyRunner:
             raise RunnerRefusal("runner claim scope cannot be widened")
 
     def run(self, bed: Bed, seed: int, regime: str = REGIME_FAVORABLE) -> RunResult:
-        """Measure selective risk reduction and decision utility for every arm on a regime."""
 
         if bed.mechanism_id != MECHANISM_ID:
             raise RunnerRefusal("runner and bed mechanism_id mismatch")
@@ -183,7 +150,6 @@ class CalibratedUncertaintyRunner:
         )
 
     def mint(self, results: RunResult) -> RunReceipt:
-        """Mint a mechanics-demonstration receipt. mechanics-ok only for a favorable both-axes win."""
 
         if results.regime == REGIME_FAVORABLE and results.both_axes_win:
             verdict = VERDICT_MECHANICS_OK

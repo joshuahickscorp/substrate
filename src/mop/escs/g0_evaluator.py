@@ -1,10 +1,3 @@
-"""Deterministic counterfactual reference evaluator for finite G0 genotypes.
-
-The evaluator supplies explicit mechanics for all eight declared G0 operator
-primitives.  It evaluates immutable JSON snapshots, stages state/message outputs,
-and charges bounded work.  It has no path to a live actor, factual branch, chassis
-commitment, topology mutation, or scientific promotion.
-"""
 
 from __future__ import annotations
 
@@ -67,7 +60,7 @@ G0_EVALUATOR_CONTRACT_SHA256 = canonical_sha256(_G0_EVALUATOR_CONTRACT)
 
 
 class G0EvaluationError(ValueError):
-    """A genotype or value escaped the bounded reference-evaluator contract."""
+    pass
 
 
 def _require(condition: bool, message: str) -> None:
@@ -76,10 +69,7 @@ def _require(condition: bool, message: str) -> None:
 
 
 def _validate_json_shape(value: Any, label: str) -> None:
-    """Bound nesting/nodes and reject aliases that JSON would silently normalize."""
 
-    # Iterator frames keep auxiliary memory proportional to nesting depth rather
-    # than materializing every child of a wide container on the validation stack.
     stack: list[tuple[str, Any, int, str]] = [("visit", value, 0, "$")]
     active_containers: set[int] = set()
     nodes = 0
@@ -192,15 +182,12 @@ def _input_value(values: Sequence[Any], external: Any, label: str) -> Any:
     if len(values) == 1:
         return values[0]
     if len(values) > 1:
-        # Parent order is identity-bearing in G0OperatorNode. Preserve it as an
-        # explicit JSON list rather than silently treating fan-in as a set.
         return list(values)
     _require(external is not _MISSING, f"{label} requires one external root input")
     return external
 
 
 def _charge(node: G0OperatorNode, operations: int) -> int:
-    """Fail before a primitive can exceed its declared local work envelope."""
 
     _require(operations > 0, f"{node.node_id} reported no work")
     _require(operations <= node.declared_operations, f"{node.node_id} exceeded declared operations")
@@ -1228,7 +1215,6 @@ class G0CounterfactualEvaluation:
 
 @dataclass(frozen=True, slots=True)
 class G0CounterfactualRefusal:
-    """Immutable conservative charge for a canonical evaluation that failed closed."""
 
     genotype_sha256: str
     grammar_sha256: str
@@ -1468,7 +1454,6 @@ def evaluate_g0_counterfactual(
     external_inputs: Mapping[str, Any],
     initial_state: Mapping[str, Any],
 ) -> G0CounterfactualEvaluation:
-    """Evaluate a structurally valid genotype without authorizing any live effect."""
 
     _require(
         candidate_registry.sha256 == grammar.candidate_registry_sha256,
@@ -1644,8 +1629,6 @@ def evaluate_g0_counterfactual(
     _require(operations <= bounds.max_operations_per_activation, "grammar work cap exceeded")
     message_payload_bytes = sum(int(message["encoded_bytes"]) for message in staged_messages)
     _require(message_payload_bytes <= bounds.max_message_bytes, "grammar message-byte cap exceeded")
-    # Retain the bounded deterministic trace, not just the declared graph sinks, so
-    # a verifier can reproduce every primitive transition without hidden work.
     output_payload = {node_id: outputs[node_id] for node_id in sorted(outputs)}
     frozen_external = FrozenJSON.from_value(external)
     frozen_initial_state = FrozenJSON.from_value(initial_state_snapshot)
@@ -1726,13 +1709,6 @@ def attempt_g0_counterfactual(
     initial_state: Mapping[str, Any],
     attempt_id: str,
 ) -> G0CounterfactualEvaluation | G0CounterfactualRefusal:
-    """Evaluate once or return an immutable conservative charge for the refusal.
-
-    Construction search should use this boundary so a late failed candidate cannot
-    make its consumed work disappear. The failure charge is deliberately the full
-    declared genotype envelope: conservative, deterministic, and never an
-    underestimate of an admitted finite candidate's actor work.
-    """
     if type(genotype) is not G0ActorGenotype:
         raise ValueError("genotype must be an exact G0ActorGenotype")
     if type(grammar) is not TopologyGrammar:
@@ -1863,7 +1839,6 @@ def verify_g0_counterfactual(
     grammar: TopologyGrammar,
     candidate_registry: PerspectiveCandidateRegistry,
 ) -> tuple[str, ...]:
-    """Replay an evaluation against its exact external genotype authorities."""
 
     problems: list[str] = []
     if evaluation.genotype_sha256 != genotype.genotype_sha256:

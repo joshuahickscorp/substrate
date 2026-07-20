@@ -76,13 +76,6 @@ def materialize_proof_chain(
     *,
     replace_existing: bool = False,
 ) -> dict[str, Any]:
-    """Copy a finalized run's exact chain into a durable proof-relative directory.
-
-    The run-local composite keeps short sibling links for checkpoint resume and forensic work.  A
-    proof copied out of that directory must not retain those unresolved names, so this function
-    verifies every link, copies the exact bytes, and writes a second composite whose links are
-    repository-relative (or absolute only when a caller deliberately targets another root).
-    """
 
     run_composite_path = run_dir / "workbench_receipt.json"
     composite = json.loads(run_composite_path.read_text())

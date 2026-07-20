@@ -143,8 +143,6 @@ class PolicyOutcome:
 PolicyFn = Callable[[Regime, MatchedCost], PolicyOutcome]
 
 
-
-
 def _initial_state(regime: Regime) -> dict[str, int]:
     return {agent.agent_id: agent.estimate for agent in regime.agents}
 
@@ -186,8 +184,6 @@ def _outcome(policy: str, regime: Regime, state: dict[str, int], actions_used: i
     )
 
 
-
-
 def policy_mechanism(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
 
     state = _initial_state(regime)
@@ -215,8 +211,6 @@ def policy_mechanism(regime: Regime, budget: MatchedCost) -> PolicyOutcome:
             state[aid] = anchor  # disagreement-triggered repair toward the verified anchor
             remaining -= 1
     return _outcome("messaging-repair", regime, state, budget.action_budget - remaining)
-
-
 
 
 def policy_no_message(regime: Regime, budget: MatchedCost) -> PolicyOutcome:

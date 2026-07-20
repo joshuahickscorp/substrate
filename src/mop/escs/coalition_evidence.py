@@ -1,15 +1,3 @@
-"""Scripted, noncausal, activation-disabled coalition fixture evidence for ESCS.
-
-This module is a shadow evidence plane, not a dispatch policy.  It validates complete same-state
-counterfactual fixture families made from native ESCS events, runtime traces, and lifecycle ledgers;
-derives arithmetic difference and interaction terms; freezes delayed fixture terms into a small
-immutable table; and ranks a bounded ``DispatchRequest`` without applying the result.  An
-abstention cannot cause arbitrary utility, so every utility in v1 is explicitly scripted,
-oracle-tainted, noncausal, and nonpromotable.
-
-There is deliberately no ``select``, ``activate``, ``stage_update``, ``DispatchDecision`` conversion,
-commitment, effect, or promotion surface in this module.
-"""
 
 from __future__ import annotations
 
@@ -108,7 +96,7 @@ _SNAPSHOT_TOKEN = object()
 
 
 class CoalitionEvidenceError(ValueError):
-    """A fork, credit record, or shadow proposal violated the finite evidence contract."""
+    pass
 
 
 def _require(condition: bool, message: str) -> None:
@@ -2471,7 +2459,6 @@ def assess_shadow_coalitions(
     credits: Sequence[ExactCoalitionCredit],
     authorities: Sequence[ForkAuthority],
 ) -> ShadowArbitrationProposal:
-    """Rank a finite request without implementing or returning runtime dispatch authority."""
 
     _require(type(request) is DispatchRequest, "shadow request must be an exact DispatchRequest")
     _require(type(snapshot) is InteractionCreditSnapshot, "credit snapshot must be exact")

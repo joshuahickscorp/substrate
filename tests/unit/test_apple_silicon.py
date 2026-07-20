@@ -1,4 +1,3 @@
-"""Apple-Silicon-native device behavior. Guarded so the suite still passes off Apple Silicon."""
 
 import torch
 

@@ -191,9 +191,6 @@ REQUESTED_DIMENSIONS = (
     "computational_efficiency",
 )
 
-# The synthesis contract intentionally uses a small ordinal vocabulary.  A
-# verifier must reject synonyms because ``partial`` silently becoming
-# ``measured`` is a scientific status escalation, not a presentation edit.
 ALLOWED_DIMENSION_STATUSES = frozenset({"measured", "partial", "unmeasured"})
 
 REQUIRED_UNTESTED_CLAIMS = (
@@ -209,9 +206,7 @@ _SHARED_IMPLEMENTATION_ROLES = frozenset({"experiment_harness", "generation1_dri
 
 
 class EvidenceSynthesisVerificationError(ValueError):
-    """The evidence synthesis cannot be verified without weakening its contract."""
-
-
+    pass
 
 
 def _canonical_sha256(value: Any) -> str:
@@ -777,12 +772,6 @@ def _expected_priority_queue(
 
 
 def _static_source_matches(raw: Any, expected: Mapping[str, Any]) -> bool:
-    """Match the immutable portion of a producer source receipt.
-
-    Producers may add byte counts or a human-readable role.  Those additions
-    are harmless, but path, file digest, schema, seal-field identity, and seal
-    value are all mandatory and exact.
-    """
 
     if not isinstance(raw, dict):
         return False
@@ -790,7 +779,6 @@ def _static_source_matches(raw: Any, expected: Mapping[str, Any]) -> bool:
 
 
 def _program_source_matches(raw: Any, expected_path: Path) -> bool:
-    """Validate mutable program-state identity without freezing its file bytes."""
 
     if not isinstance(raw, dict):
         return False
@@ -866,9 +854,6 @@ def _mechanism_matrix_valid(value: Any) -> bool:
             status = cell.get("status")
             if status not in ALLOWED_DIMENSION_STATUSES:
                 return False
-            # G1-C0 is the census itself.  Every other canonical mechanism is
-            # still a successor study, so Generation 1 cannot call any of its
-            # ten dimensions fully measured.
             if mechanism_id != "G1-C0" and status == "measured":
                 return False
             if not _nonempty_string_list(cell.get("evidence_refs")):
@@ -978,8 +963,6 @@ def _source_checks(
                 for row in program_state["capsules"].values()
             )
         ),
-        # Receipts are returned through the verifier payload as well; keeping
-        # this local reference silences accidental schema drift in refactors.
         "source_receipts_constructible": all(
             isinstance(receipt.get("sha256"), str)
             for receipt in (corpus_receipt, verification_receipt, report_receipt)
@@ -1193,7 +1176,6 @@ def verify_evidence_synthesis(
     *,
     recorded_at: str | None = None,
 ) -> dict[str, Any]:
-    """Independently recompute every evidence-facing synthesis surface."""
 
     corpus_path = corpus_path.resolve()
     corpus_verification_path = corpus_verification_path.resolve()

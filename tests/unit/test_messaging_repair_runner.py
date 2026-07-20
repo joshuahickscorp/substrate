@@ -1,10 +1,3 @@
-"""Tests for the messaging_repair mechanism runner (epoch messaging_repair).
-
-These pin the honesty boundary for this workstream: the mechanism must beat every declared control on
-the favorable regime at matched cost to earn a mechanics-ok demonstration, the named prior null must
-still hold on the null regime, a single leaking control fails the whole thing closed, and no receipt
-this runner mints can ever be a scientific confirmation. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -39,11 +32,6 @@ def _run(seed: int = 7) -> tuple[MessagingRepairRunner, MessagingRepairBed, RunR
     return runner, bed, runner.run(bed, seed)
 
 
-# ---------------------------------------------------------------------------
-# Protocol conformance.
-# ---------------------------------------------------------------------------
-
-
 def test_bed_and_runner_satisfy_the_ladder_protocols() -> None:
     assert isinstance(build_default_bed(), Bed)
     assert isinstance(build_default_runner(), MechanismRunner)
@@ -66,11 +54,6 @@ def test_declared_controls_are_exactly_the_metric_controls() -> None:
     )
 
 
-# ---------------------------------------------------------------------------
-# Determinism.
-# ---------------------------------------------------------------------------
-
-
 def test_run_is_deterministic_for_a_fixed_seed() -> None:
     runner, bed, first = _run(11)
     second = runner.run(bed, 11)
@@ -84,11 +67,6 @@ def test_evidence_digest_is_stable() -> None:
     digest_b = runner.mint(runner.run(bed, 3)).evidence_digest
     assert digest_a == digest_b
     assert len(digest_a) == 64
-
-
-# ---------------------------------------------------------------------------
-# The favorable regime: mechanics-ok beating every control.
-# ---------------------------------------------------------------------------
 
 
 def test_favorable_regime_earns_mechanics_ok_beating_all_controls() -> None:
@@ -120,11 +98,6 @@ def test_mechanics_ok_receipt_is_not_a_confirmation() -> None:
     assert receipt.stage == 3
 
 
-# ---------------------------------------------------------------------------
-# The null regime: the prior null holds and drives a null verdict.
-# ---------------------------------------------------------------------------
-
-
 def test_null_regime_holds_the_prior_null() -> None:
     runner, _, results = _run(7)
     assert results.null.mechanism_beats_all is False
@@ -132,7 +105,6 @@ def test_null_regime_holds_the_prior_null() -> None:
 
 
 class _NullFavorableBed:
-    """A bed whose favorable regime is a no-signal regime, so the mechanism cannot win it."""
 
     mechanism_id = "messaging_repair"
 
@@ -159,11 +131,6 @@ def test_a_no_signal_favorable_regime_yields_a_null_verdict() -> None:
     assert receipt.verdict == VERDICT_NULL
     assert receipt.controls_cleared == ()
     assert receipt.is_confirmation is False
-
-
-# ---------------------------------------------------------------------------
-# Fail-closed: a single leaking control blocks mechanics-ok.
-# ---------------------------------------------------------------------------
 
 
 def test_a_leaking_control_blocks_mechanics_ok() -> None:

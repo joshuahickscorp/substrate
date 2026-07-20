@@ -168,9 +168,84 @@ def _assemble(features: np.ndarray, state: DoaOnlineState, d_in: int) -> np.ndar
     return x
 
 
-class _DoaGateInterface:
+def _network_param_count(*dimensions: int) -> int:
+    return sum(
+        d_in * d_out + d_out
+        for d_in, d_out in zip(dimensions[:-1], dimensions[1:], strict=True)
+    )
 
-    __slots__ = ()
+
+def _network_inference_flops(*dimensions: int) -> int:
+    last = len(dimensions) - 2
+    return sum(
+        2 * d_in * d_out + d_out + (d_out if index < last else 0)
+        for index, (d_in, d_out) in enumerate(zip(dimensions[:-1], dimensions[1:], strict=True))
+    )
+
+
+def _network_training_flops(n_train_frames: int, epochs: int, *dimensions: int) -> int:
+    if isinstance(n_train_frames, bool) or not isinstance(n_train_frames, int) or n_train_frames < 0:
+        raise DoaGateRefusal("n_train_frames must be a nonnegative integer")
+    if isinstance(epochs, bool) or not isinstance(epochs, int) or epochs < 0:
+        raise DoaGateRefusal("epochs must be a nonnegative integer")
+    return epochs * n_train_frames * TRAIN_STEP_FACTOR * _network_inference_flops(*dimensions)
+
+
+class _DoaGateInterface:
+    def _init_network(self, seed: int, theta: float, *dimensions: int) -> None:
+        if any(dimension <= 0 for dimension in dimensions):
+            raise DoaGateRefusal("gate dimensions must be positive")
+        n_params = _network_param_count(*dimensions)
+        if n_params > PARAM_CEILING:
+            raise DoaGateRefusal(
+                f"{self.architecture} trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling"
+            )
+        state_bytes = DoaOnlineState.state_bytes()
+        if state_bytes > STATE_CEILING_BYTES:
+            raise DoaGateRefusal(
+                f"gate online state {state_bytes} bytes exceed the {STATE_CEILING_BYTES} byte ceiling"
+            )
+        if not 0.0 <= theta <= 1.0:
+            raise DoaGateRefusal("theta must lie in [0, 1]")
+        self.d_in, self.n_out = dimensions[0], dimensions[-1]
+        self.theta, self.seed, self._dimensions = float(theta), int(seed), dimensions
+        rng = np.random.default_rng(derive_seed32(self.seed, self._SEED_NAMESPACE))
+        for index, (d_in, d_out) in enumerate(
+            zip(dimensions[:-1], dimensions[1:], strict=True), 1
+        ):
+            setattr(self, f"W{index}", rng.standard_normal((d_out, d_in)) * math.sqrt(2.0 / d_in))
+            setattr(self, f"b{index}", np.zeros(d_out, dtype=np.float64))
+
+    def _layers(self) -> list[tuple[np.ndarray, np.ndarray]]:
+        return [
+            (getattr(self, f"W{index}"), getattr(self, f"b{index}"))
+            for index in range(1, len(self._dimensions))
+        ]
+
+    def n_params(self) -> int:
+        return sum(weight.size + bias.size for weight, bias in self._layers())
+
+    def parameter_digest(self) -> str:
+        payload = {"schema": DOA_GATE_SCHEMA, "architecture": self.architecture}
+        for index, (weight, bias) in enumerate(self._layers(), 1):
+            payload[f"w{index}_sha256"] = hashlib.sha256(weight.astype("<f8").tobytes()).hexdigest()
+            payload[f"b{index}_sha256"] = hashlib.sha256(bias.astype("<f8").tobytes()).hexdigest()
+        payload.update(self._digest_dimensions())
+        payload["n_params"] = self.n_params()
+        return canonical_sha256(payload)
+
+    def _forward(
+        self, x: np.ndarray
+    ) -> tuple[np.ndarray, tuple[np.ndarray, ...], tuple[np.ndarray, ...]]:
+        layers = self._layers()
+        activations = [x]
+        hidden_pre = []
+        for weight, bias in layers[:-1]:
+            hidden_pre.append(activations[-1] @ weight.T + bias)
+            activations.append(np.maximum(0.0, hidden_pre[-1]))
+        output_weight, output_bias = layers[-1]
+        probabilities = _sigmoid((activations[-1] @ output_weight.T + output_bias)[:, 0])
+        return probabilities, tuple(hidden_pre), tuple(activations)
 
     def predict_proba(self, x: np.ndarray) -> np.ndarray:
         x = np.asarray(x, dtype=np.float64)
@@ -185,9 +260,67 @@ class _DoaGateInterface:
     def decide(
         self, features: np.ndarray, state: DoaOnlineState, theta: float | None = None
     ) -> tuple[bool, float]:
-        threshold = self.theta if theta is None else float(theta)
         probability = self.infer(features, state)
-        return (probability >= threshold, probability)
+        return (probability >= (self.theta if theta is None else float(theta)), probability)
+
+    def fit(
+        self,
+        x: np.ndarray,
+        voc_targets: np.ndarray,
+        *,
+        epochs: int = DEFAULT_EPOCHS,
+        learning_rate: float = DEFAULT_LEARNING_RATE,
+        ponder_lambda: float = DEFAULT_PONDER_LAMBDA,
+    ) -> DoaTrainingReport:
+        x, y = np.asarray(x, dtype=np.float64), np.asarray(voc_targets, dtype=np.float64)
+        if x.ndim != 2 or x.shape[1] != self.d_in:
+            raise DoaGateRefusal(f"training inputs must be shape (N, {self.d_in})")
+        if y.ndim != 1 or y.shape[0] != x.shape[0]:
+            raise DoaGateRefusal("voc_targets must be a length-N vector aligned to the inputs")
+        if not np.all((y == 0.0) | (y == 1.0)):
+            raise DoaGateRefusal("voc_targets must be binary {0, 1}")
+        if isinstance(epochs, bool) or not isinstance(epochs, int) or epochs <= 0:
+            raise DoaGateRefusal("epochs must be a positive integer")
+        if learning_rate <= 0.0:
+            raise DoaGateRefusal("learning_rate must be positive")
+        if ponder_lambda < 0.0:
+            raise DoaGateRefusal("ponder_lambda must be nonnegative")
+
+        n = x.shape[0]
+        loss_history: list[float] = []
+        final_p = np.zeros(n, dtype=np.float64)
+        for _ in range(epochs):
+            final_p, hidden_pre, activations = self._forward(x)
+            clipped = np.clip(final_p, 1e-12, 1.0 - 1e-12)
+            bce = -(y * np.log(clipped) + (1.0 - y) * np.log(1.0 - clipped)).mean()
+            loss_history.append(float(bce + ponder_lambda * final_p.mean()))
+            delta = ((final_p - y) + ponder_lambda * final_p * (1.0 - final_p))[:, None] / n
+            layers = self._layers()
+            grad_weights: list[np.ndarray] = [np.empty(0)] * len(layers)
+            grad_biases: list[np.ndarray] = [np.empty(0)] * len(layers)
+            for index in range(len(layers) - 1, -1, -1):
+                grad_weights[index] = delta.T @ activations[index]
+                grad_biases[index] = delta.sum(axis=0)
+                if index:
+                    delta = (delta @ layers[index][0]) * (hidden_pre[index - 1] > 0.0)
+            for index in range(len(layers) - 1, -1, -1):
+                np.subtract(
+                    layers[index][0], learning_rate * grad_weights[index], out=layers[index][0]
+                )
+                np.subtract(
+                    layers[index][1], learning_rate * grad_biases[index], out=layers[index][1]
+                )
+
+        return DoaTrainingReport(
+            architecture=self.architecture,
+            epochs=epochs,
+            n_train_frames=n,
+            learning_rate=float(learning_rate),
+            ponder_lambda=float(ponder_lambda),
+            loss_history=tuple(loss_history),
+            final_reestimate_rate=float(final_p.mean()),
+            c_train_flops=self.training_flops(n, epochs),
+        )
 
 
 HIDDEN_A = 12
@@ -195,11 +328,11 @@ N_OUT = 1
 
 
 def param_count_arch_a(d_in: int = D_IN_DOA, hidden: int = HIDDEN_A, n_out: int = N_OUT) -> int:
-    return d_in * hidden + hidden + hidden * n_out + n_out
+    return _network_param_count(d_in, hidden, n_out)
 
 
 def inference_flops_arch_a(d_in: int = D_IN_DOA, hidden: int = HIDDEN_A, n_out: int = N_OUT) -> int:
-    return 2 * d_in * hidden + hidden + hidden + 2 * hidden * n_out + n_out
+    return _network_inference_flops(d_in, hidden, n_out)
 
 
 def training_flops_arch_a(
@@ -209,11 +342,7 @@ def training_flops_arch_a(
     hidden: int = HIDDEN_A,
     n_out: int = N_OUT,
 ) -> int:
-    if isinstance(n_train_frames, bool) or not isinstance(n_train_frames, int) or n_train_frames < 0:
-        raise DoaGateRefusal("n_train_frames must be a nonnegative integer")
-    if isinstance(epochs, bool) or not isinstance(epochs, int) or epochs < 0:
-        raise DoaGateRefusal("epochs must be a nonnegative integer")
-    return epochs * n_train_frames * TRAIN_STEP_FACTOR * inference_flops_arch_a(d_in, hidden, n_out)
+    return _network_training_flops(n_train_frames, epochs, d_in, hidden, n_out)
 
 
 FLOPS_PER_INFERENCE_ARCH_A = inference_flops_arch_a()
@@ -233,35 +362,8 @@ class DoaGateArchA(_DoaGateInterface):
         n_out: int = N_OUT,
         theta: float = DEFAULT_THETA,
     ) -> None:
-        if hidden <= 0 or d_in <= 0 or n_out <= 0:
-            raise DoaGateRefusal("gate dimensions must be positive")
-        n_params = param_count_arch_a(d_in, hidden, n_out)
-        if n_params > PARAM_CEILING:
-            raise DoaGateRefusal(f"arch_a trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling")
-        assert n_params <= PARAM_CEILING, "doa gate arch_a parameter ceiling breached"
-        state_bytes = DoaOnlineState.state_bytes()
-        if state_bytes > STATE_CEILING_BYTES:
-            raise DoaGateRefusal(
-                f"gate online state {state_bytes} bytes exceed the {STATE_CEILING_BYTES} byte ceiling"
-            )
-        assert state_bytes <= STATE_CEILING_BYTES, "doa gate state ceiling breached"
-        if not 0.0 <= theta <= 1.0:
-            raise DoaGateRefusal("theta must lie in [0, 1]")
-
-        self.d_in = d_in
         self.hidden = hidden
-        self.n_out = n_out
-        self.theta = float(theta)
-        self.seed = int(seed)
-
-        rng = np.random.default_rng(derive_seed32(self.seed, self._SEED_NAMESPACE))
-        self.W1 = rng.standard_normal((hidden, d_in)) * math.sqrt(2.0 / d_in)
-        self.b1 = np.zeros(hidden, dtype=np.float64)
-        self.W2 = rng.standard_normal((n_out, hidden)) * math.sqrt(2.0 / hidden)
-        self.b2 = np.zeros(n_out, dtype=np.float64)
-
-    def n_params(self) -> int:
-        return int(self.W1.size + self.b1.size + self.W2.size + self.b2.size)
+        self._init_network(seed, theta, d_in, hidden, n_out)
 
     def flops_per_inference(self) -> int:
         return inference_flops_arch_a(self.d_in, self.hidden, self.n_out)
@@ -269,86 +371,12 @@ class DoaGateArchA(_DoaGateInterface):
     def training_flops(self, n_train_frames: int, epochs: int) -> int:
         return training_flops_arch_a(n_train_frames, epochs, self.d_in, self.hidden, self.n_out)
 
-    def parameter_digest(self) -> str:
-        payload = {
-            "schema": DOA_GATE_SCHEMA,
-            "architecture": self.architecture,
-            "w1_sha256": hashlib.sha256(self.W1.astype("<f8").tobytes()).hexdigest(),
-            "b1_sha256": hashlib.sha256(self.b1.astype("<f8").tobytes()).hexdigest(),
-            "w2_sha256": hashlib.sha256(self.W2.astype("<f8").tobytes()).hexdigest(),
-            "b2_sha256": hashlib.sha256(self.b2.astype("<f8").tobytes()).hexdigest(),
+    def _digest_dimensions(self) -> dict[str, int]:
+        return {
             "d_in": self.d_in,
             "hidden": self.hidden,
             "n_out": self.n_out,
-            "n_params": self.n_params(),
         }
-        return canonical_sha256(payload)
-
-    def _forward(self, x: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-        hidden_pre = x @ self.W1.T + self.b1
-        hidden = np.maximum(0.0, hidden_pre)
-        logit = hidden @ self.W2.T + self.b2
-        p_reestimate = _sigmoid(logit[:, 0])
-        return p_reestimate, hidden_pre, hidden
-
-    def fit(
-        self,
-        x: np.ndarray,
-        voc_targets: np.ndarray,
-        *,
-        epochs: int = DEFAULT_EPOCHS,
-        learning_rate: float = DEFAULT_LEARNING_RATE,
-        ponder_lambda: float = DEFAULT_PONDER_LAMBDA,
-    ) -> DoaTrainingReport:
-        x = np.asarray(x, dtype=np.float64)
-        y = np.asarray(voc_targets, dtype=np.float64)
-        if x.ndim != 2 or x.shape[1] != self.d_in:
-            raise DoaGateRefusal(f"training inputs must be shape (N, {self.d_in})")
-        if y.ndim != 1 or y.shape[0] != x.shape[0]:
-            raise DoaGateRefusal("voc_targets must be a length-N vector aligned to the inputs")
-        if not np.all((y == 0.0) | (y == 1.0)):
-            raise DoaGateRefusal("voc_targets must be binary {0, 1}")
-        if isinstance(epochs, bool) or not isinstance(epochs, int) or epochs <= 0:
-            raise DoaGateRefusal("epochs must be a positive integer")
-        if learning_rate <= 0.0:
-            raise DoaGateRefusal("learning_rate must be positive")
-        if ponder_lambda < 0.0:
-            raise DoaGateRefusal("ponder_lambda must be nonnegative")
-
-        n = x.shape[0]
-        eps = 1e-12
-        loss_history: list[float] = []
-        final_p = np.zeros(n, dtype=np.float64)
-        for _ in range(epochs):
-            p_reestimate, hidden_pre, hidden = self._forward(x)
-            final_p = p_reestimate
-            clipped = np.clip(p_reestimate, eps, 1.0 - eps)
-            bce = -(y * np.log(clipped) + (1.0 - y) * np.log(1.0 - clipped)).mean()
-            ponder = ponder_lambda * p_reestimate.mean()
-            loss_history.append(float(bce + ponder))
-            d_logit = ((p_reestimate - y) + ponder_lambda * p_reestimate * (1.0 - p_reestimate)) / n
-            d_logit = d_logit[:, None]
-            grad_w2 = d_logit.T @ hidden
-            grad_b2 = d_logit.sum(axis=0)
-            d_hidden = d_logit @ self.W2
-            d_hidden_pre = d_hidden * (hidden_pre > 0.0)
-            grad_w1 = d_hidden_pre.T @ x
-            grad_b1 = d_hidden_pre.sum(axis=0)
-            self.W2 -= learning_rate * grad_w2
-            self.b2 -= learning_rate * grad_b2
-            self.W1 -= learning_rate * grad_w1
-            self.b1 -= learning_rate * grad_b1
-
-        return DoaTrainingReport(
-            architecture=self.architecture,
-            epochs=epochs,
-            n_train_frames=n,
-            learning_rate=float(learning_rate),
-            ponder_lambda=float(ponder_lambda),
-            loss_history=tuple(loss_history),
-            final_reestimate_rate=float(final_p.mean()),
-            c_train_flops=self.training_flops(n, epochs),
-        )
 
 
 HIDDEN_B1 = 6
@@ -358,16 +386,13 @@ HIDDEN_B2 = 6
 def param_count_arch_b(
     d_in: int = D_IN_DOA, hidden1: int = HIDDEN_B1, hidden2: int = HIDDEN_B2, n_out: int = N_OUT
 ) -> int:
-    return d_in * hidden1 + hidden1 + hidden1 * hidden2 + hidden2 + hidden2 * n_out + n_out
+    return _network_param_count(d_in, hidden1, hidden2, n_out)
 
 
 def inference_flops_arch_b(
     d_in: int = D_IN_DOA, hidden1: int = HIDDEN_B1, hidden2: int = HIDDEN_B2, n_out: int = N_OUT
 ) -> int:
-    layer1 = 2 * d_in * hidden1 + hidden1 + hidden1
-    layer2 = 2 * hidden1 * hidden2 + hidden2 + hidden2
-    layer3 = 2 * hidden2 * n_out + n_out
-    return layer1 + layer2 + layer3
+    return _network_inference_flops(d_in, hidden1, hidden2, n_out)
 
 
 def training_flops_arch_b(
@@ -378,11 +403,7 @@ def training_flops_arch_b(
     hidden2: int = HIDDEN_B2,
     n_out: int = N_OUT,
 ) -> int:
-    if isinstance(n_train_frames, bool) or not isinstance(n_train_frames, int) or n_train_frames < 0:
-        raise DoaGateRefusal("n_train_frames must be a nonnegative integer")
-    if isinstance(epochs, bool) or not isinstance(epochs, int) or epochs < 0:
-        raise DoaGateRefusal("epochs must be a nonnegative integer")
-    return epochs * n_train_frames * TRAIN_STEP_FACTOR * inference_flops_arch_b(d_in, hidden1, hidden2, n_out)
+    return _network_training_flops(n_train_frames, epochs, d_in, hidden1, hidden2, n_out)
 
 
 FLOPS_PER_INFERENCE_ARCH_B = inference_flops_arch_b()
@@ -403,38 +424,8 @@ class DoaGateArchB(_DoaGateInterface):
         n_out: int = N_OUT,
         theta: float = DEFAULT_THETA,
     ) -> None:
-        if hidden1 <= 0 or hidden2 <= 0 or d_in <= 0 or n_out <= 0:
-            raise DoaGateRefusal("gate dimensions must be positive")
-        n_params = param_count_arch_b(d_in, hidden1, hidden2, n_out)
-        if n_params > PARAM_CEILING:
-            raise DoaGateRefusal(f"arch_b trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling")
-        assert n_params <= PARAM_CEILING, "doa gate arch_b parameter ceiling breached"
-        state_bytes = DoaOnlineState.state_bytes()
-        if state_bytes > STATE_CEILING_BYTES:
-            raise DoaGateRefusal(
-                f"gate online state {state_bytes} bytes exceed the {STATE_CEILING_BYTES} byte ceiling"
-            )
-        assert state_bytes <= STATE_CEILING_BYTES, "doa gate state ceiling breached"
-        if not 0.0 <= theta <= 1.0:
-            raise DoaGateRefusal("theta must lie in [0, 1]")
-
-        self.d_in = d_in
-        self.hidden1 = hidden1
-        self.hidden2 = hidden2
-        self.n_out = n_out
-        self.theta = float(theta)
-        self.seed = int(seed)
-
-        rng = np.random.default_rng(derive_seed32(self.seed, self._SEED_NAMESPACE))
-        self.W1 = rng.standard_normal((hidden1, d_in)) * math.sqrt(2.0 / d_in)
-        self.b1 = np.zeros(hidden1, dtype=np.float64)
-        self.W2 = rng.standard_normal((hidden2, hidden1)) * math.sqrt(2.0 / hidden1)
-        self.b2 = np.zeros(hidden2, dtype=np.float64)
-        self.W3 = rng.standard_normal((n_out, hidden2)) * math.sqrt(2.0 / hidden2)
-        self.b3 = np.zeros(n_out, dtype=np.float64)
-
-    def n_params(self) -> int:
-        return int(self.W1.size + self.b1.size + self.W2.size + self.b2.size + self.W3.size + self.b3.size)
+        self.hidden1, self.hidden2 = hidden1, hidden2
+        self._init_network(seed, theta, d_in, hidden1, hidden2, n_out)
 
     def flops_per_inference(self) -> int:
         return inference_flops_arch_b(self.d_in, self.hidden1, self.hidden2, self.n_out)
@@ -444,99 +435,13 @@ class DoaGateArchB(_DoaGateInterface):
             n_train_frames, epochs, self.d_in, self.hidden1, self.hidden2, self.n_out
         )
 
-    def parameter_digest(self) -> str:
-        payload = {
-            "schema": DOA_GATE_SCHEMA,
-            "architecture": self.architecture,
-            "w1_sha256": hashlib.sha256(self.W1.astype("<f8").tobytes()).hexdigest(),
-            "b1_sha256": hashlib.sha256(self.b1.astype("<f8").tobytes()).hexdigest(),
-            "w2_sha256": hashlib.sha256(self.W2.astype("<f8").tobytes()).hexdigest(),
-            "b2_sha256": hashlib.sha256(self.b2.astype("<f8").tobytes()).hexdigest(),
-            "w3_sha256": hashlib.sha256(self.W3.astype("<f8").tobytes()).hexdigest(),
-            "b3_sha256": hashlib.sha256(self.b3.astype("<f8").tobytes()).hexdigest(),
+    def _digest_dimensions(self) -> dict[str, int]:
+        return {
             "d_in": self.d_in,
             "hidden1": self.hidden1,
             "hidden2": self.hidden2,
             "n_out": self.n_out,
-            "n_params": self.n_params(),
         }
-        return canonical_sha256(payload)
-
-    def _forward(
-        self, x: np.ndarray
-    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        z1 = x @ self.W1.T + self.b1
-        h1 = np.maximum(0.0, z1)
-        z2 = h1 @ self.W2.T + self.b2
-        h2 = np.maximum(0.0, z2)
-        logit = h2 @ self.W3.T + self.b3
-        p_reestimate = _sigmoid(logit[:, 0])
-        return p_reestimate, z1, h1, z2, h2
-
-    def fit(
-        self,
-        x: np.ndarray,
-        voc_targets: np.ndarray,
-        *,
-        epochs: int = DEFAULT_EPOCHS,
-        learning_rate: float = DEFAULT_LEARNING_RATE,
-        ponder_lambda: float = DEFAULT_PONDER_LAMBDA,
-    ) -> DoaTrainingReport:
-        x = np.asarray(x, dtype=np.float64)
-        y = np.asarray(voc_targets, dtype=np.float64)
-        if x.ndim != 2 or x.shape[1] != self.d_in:
-            raise DoaGateRefusal(f"training inputs must be shape (N, {self.d_in})")
-        if y.ndim != 1 or y.shape[0] != x.shape[0]:
-            raise DoaGateRefusal("voc_targets must be a length-N vector aligned to the inputs")
-        if not np.all((y == 0.0) | (y == 1.0)):
-            raise DoaGateRefusal("voc_targets must be binary {0, 1}")
-        if isinstance(epochs, bool) or not isinstance(epochs, int) or epochs <= 0:
-            raise DoaGateRefusal("epochs must be a positive integer")
-        if learning_rate <= 0.0:
-            raise DoaGateRefusal("learning_rate must be positive")
-        if ponder_lambda < 0.0:
-            raise DoaGateRefusal("ponder_lambda must be nonnegative")
-
-        n = x.shape[0]
-        eps = 1e-12
-        loss_history: list[float] = []
-        final_p = np.zeros(n, dtype=np.float64)
-        for _ in range(epochs):
-            p_reestimate, z1, h1, z2, h2 = self._forward(x)
-            final_p = p_reestimate
-            clipped = np.clip(p_reestimate, eps, 1.0 - eps)
-            bce = -(y * np.log(clipped) + (1.0 - y) * np.log(1.0 - clipped)).mean()
-            ponder = ponder_lambda * p_reestimate.mean()
-            loss_history.append(float(bce + ponder))
-            d_logit = ((p_reestimate - y) + ponder_lambda * p_reestimate * (1.0 - p_reestimate)) / n
-            d_logit = d_logit[:, None]
-            grad_w3 = d_logit.T @ h2
-            grad_b3 = d_logit.sum(axis=0)
-            d_h2 = d_logit @ self.W3
-            d_z2 = d_h2 * (z2 > 0.0)
-            grad_w2 = d_z2.T @ h1
-            grad_b2 = d_z2.sum(axis=0)
-            d_h1 = d_z2 @ self.W2
-            d_z1 = d_h1 * (z1 > 0.0)
-            grad_w1 = d_z1.T @ x
-            grad_b1 = d_z1.sum(axis=0)
-            self.W3 -= learning_rate * grad_w3
-            self.b3 -= learning_rate * grad_b3
-            self.W2 -= learning_rate * grad_w2
-            self.b2 -= learning_rate * grad_b2
-            self.W1 -= learning_rate * grad_w1
-            self.b1 -= learning_rate * grad_b1
-
-        return DoaTrainingReport(
-            architecture=self.architecture,
-            epochs=epochs,
-            n_train_frames=n,
-            learning_rate=float(learning_rate),
-            ponder_lambda=float(ponder_lambda),
-            loss_history=tuple(loss_history),
-            final_reestimate_rate=float(final_p.mean()),
-            c_train_flops=self.training_flops(n, epochs),
-        )
 
 
 GATE_CLASSES: dict[str, type] = {ARCH_A_ID: DoaGateArchA, ARCH_B_ID: DoaGateArchB}

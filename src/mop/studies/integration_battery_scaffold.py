@@ -158,8 +158,6 @@ def _require_finite(value: float, label: str) -> float:
     return float(value)
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class BoundedPrediction:
 
@@ -490,8 +488,6 @@ def score_functional_outcomes(
     return result
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class PredictionTarget:
 
@@ -656,8 +652,6 @@ class SelfModelContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class SelfReportGroundingContract:
 
@@ -701,8 +695,6 @@ class SelfReportGroundingContract:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -763,8 +755,6 @@ class BroadcastExperimentContract:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 def refuse_composite_metric(metric_name: str, component_span: Sequence[str]) -> None:
@@ -847,7 +837,6 @@ class MetacognitiveEfficiencyContract:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
 
 
 _FIXTURE_OPERATIONS = (

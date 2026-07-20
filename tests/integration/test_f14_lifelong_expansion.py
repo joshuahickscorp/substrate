@@ -1,4 +1,3 @@
-"""Semantic gates for F14's incremental classifier and immutable episodic memory."""
 
 from pathlib import Path
 

@@ -1,10 +1,3 @@
-"""Adaptive parallel execution for the independent Generation 1 C2 verifier.
-
-The scientific checks remain implemented by the separately authored serial
-verifier.  This module only distributes receipt reads, dataset reproduction,
-and metric rebuilding, then restores canonical coordinate order before the
-aggregate, canary, and mutation checks run in the parent process.
-"""
 
 from __future__ import annotations
 

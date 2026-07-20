@@ -1,19 +1,4 @@
 #!/usr/bin/env python3
-"""Producer entrypoint for the ``recurrence_spread`` E1 gate variant.
-
-Runs the recurrence_spread variant on the REAL, MIT-licensed STARSS23 FOA corpus by reading the SHARED
-feature cache (never re-featurizing the corpus), through the EXISTING sealed harness, referee, controls,
-and sign-flip statistics. It uses the sealed E1 variants preregistration
-(``proof/STARSS23_ESCS_BED_VARIANTS.prereg.json``) for the SESOI (0.05), the direction, and the sign-flip
-plan, and writes the sealed ``proof/STARSS23_ESCS_BED_recurrence_spread.json`` with the same shape as the
-committed artifact (flags false, source_kind real, rights_clean true).
-
-The variant beats rate-matched-random only if it strictly dominates on mean F1 at every budget AND clears
-the one-sided sign-flip AND exceeds the preregistered SESOI. A single run is a mechanics demonstration
-only; it can never be scientifically confirmed.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -24,8 +9,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-# A fixed default timestamp so any timestamped provenance stays byte-reproducible across re-runs. The wall
-# clock is never read inside a sealed body.
 DEFAULT_TIMESTAMP = "2026-07-17T00:00:00Z"
 
 

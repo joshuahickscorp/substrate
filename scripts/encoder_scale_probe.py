@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""CLI wrapper for the supervised real-encoder scale probe."""
 
 from __future__ import annotations
 

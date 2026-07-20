@@ -1,12 +1,3 @@
-"""Tests for the intervention-simulation MechanismRunner.
-
-These tests pin the honest two-regime demonstration: the run is deterministic per seed with a
-stable digest, the null regime forces an exact tie for every sub-mechanism so the verdict is null,
-the favorable regime lets every sub-mechanism beat its matched control so the verdict is
-mechanics-ok, a single tie anywhere on the favorable regime blocks mechanics-ok, and the minted
-receipt is a mechanics demonstration that can never be a scientific confirmation. No capability is
-claimed anywhere.
-"""
 
 from __future__ import annotations
 
@@ -98,8 +89,6 @@ def test_mechanics_ok_holds_across_seeds(seed: int) -> None:
 
 
 def test_null_world_bed_mints_null() -> None:
-    # A degenerate world with no causal structure and no reducible novelty anywhere: the favorable
-    # regime carries nothing to exploit, so no sub-mechanism beats its control and the verdict is null.
     bed = InterventionSimulationBed(structured=False)
     runner = InterventionSimulationRunner()
     results = runner.run(bed, 0)
@@ -132,8 +121,6 @@ def test_a_single_tie_on_the_favorable_regime_blocks_mechanics_ok() -> None:
 
 
 def test_a_leaky_null_regime_also_blocks_mechanics_ok() -> None:
-    # Even with the favorable regime clean, if any sub-mechanism beats its control on the null
-    # regime the null does not hold, so mechanics-ok is withheld.
     runner = InterventionSimulationRunner()
     favorable = RegimeEvaluation(
         "favorable",

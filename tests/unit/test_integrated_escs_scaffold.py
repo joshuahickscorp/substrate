@@ -1,10 +1,3 @@
-"""Unit tests for the integrated ESCS frontier scaffold (epoch G1-I1).
-
-These tests exercise the cost vectors, matched baselines, the integrated advantage contract, the
-ablation ladder, the frontier verdict, and the activation gate. They assert fail-closed behavior,
-digest stability, determinism under seed, and that the prior null (no integrated advantage) holds by
-default. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -43,19 +36,9 @@ def _cost() -> CostVector:
     return CostVector(params=10, flops=20, memory_bytes=40, wall_ticks=8, energy_units=4)
 
 
-# ---------------------------------------------------------------------------
-# Module invariants.
-# ---------------------------------------------------------------------------
-
-
 def test_module_declares_no_capability_claim() -> None:
     assert SCIENTIFIC_CAPABILITY_CLAIM is False
     assert CLAIM_SCOPE == "deterministic programmatic mechanics only; no capability or natural-data claim"
-
-
-# ---------------------------------------------------------------------------
-# Section A. Cost vectors and frontier points.
-# ---------------------------------------------------------------------------
 
 
 def test_cost_vector_must_be_non_vacuous() -> None:
@@ -94,11 +77,6 @@ def test_dominance_requires_strict_improvement_somewhere() -> None:
     assert not b.dominates(a)
     tie = FrontierPoint(label="p.tie", quality=0.7, cost=cheap)
     assert not a.dominates(tie)  # identical cost and quality is not strict domination
-
-
-# ---------------------------------------------------------------------------
-# Section B. Matched baselines and the completeness check.
-# ---------------------------------------------------------------------------
 
 
 def test_default_baseline_set_covers_every_family_in_order() -> None:
@@ -140,11 +118,6 @@ def test_baseline_cost_match_check_fails_closed() -> None:
         baseline_set.assert_all_cost_matched(other_cost)
 
 
-# ---------------------------------------------------------------------------
-# Section C. Integrated advantage contract.
-# ---------------------------------------------------------------------------
-
-
 def _advantage_contract(**overrides: object) -> IntegratedAdvantageContract:
     baseline_set = build_default_baseline_set()
     integrated = FrontierPoint(
@@ -184,11 +157,6 @@ def test_advantage_contract_rejects_single_replication() -> None:
         _advantage_contract(replication_min=1)
 
 
-# ---------------------------------------------------------------------------
-# Section D. Ablation ladder.
-# ---------------------------------------------------------------------------
-
-
 def test_default_ablation_ladder_is_valid_and_ordered() -> None:
     ladder = build_default_ablation_ladder()
     assert tuple(row.mechanism for row in ladder.rungs) == MECHANISM_LADDER
@@ -197,7 +165,6 @@ def test_default_ablation_ladder_is_valid_and_ordered() -> None:
 
 def test_ablation_ladder_fails_closed_on_unjustified_rung() -> None:
     rungs = list(build_default_ablation_ladder().rungs)
-    # Rebuild the last rung so its marginal quality per FLOP falls below its declared minimum.
     starved = MechanismRung(
         mechanism=MECHANISM_LADDER[-1],
         marginal_quality_gain=1e-9,
@@ -225,11 +192,6 @@ def test_mechanism_rung_requires_positive_gain() -> None:
             marginal_cost=_cost(),
             min_efficiency=1e-6,
         )
-
-
-# ---------------------------------------------------------------------------
-# Section E. Frontier verdict: the prior null and the earn path.
-# ---------------------------------------------------------------------------
 
 
 def test_frontier_verdict_default_is_null_and_refuses_to_earn() -> None:
@@ -282,11 +244,6 @@ def test_frontier_verdict_is_deterministic_under_seed() -> None:
     assert build_null_frontier_verdict(seed=1).digest() != build_null_frontier_verdict(seed=2).digest()
 
 
-# ---------------------------------------------------------------------------
-# Section F. Activation gate.
-# ---------------------------------------------------------------------------
-
-
 def test_activation_gate_refuses_by_default() -> None:
     gate = IntegratedActivationGate()
     verdict = build_dominating_frontier_verdict()
@@ -333,11 +290,6 @@ def test_activation_receipt_rejects_single_replication() -> None:
             independent_auditor="external audit lab",
             preregistration_sha256="a" * 64,
         )
-
-
-# ---------------------------------------------------------------------------
-# Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def test_coverage_lists_every_sub_question_with_bullets() -> None:

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Synthesize the Process C license gate from PR9 and DR1 receipts."""
 
 from __future__ import annotations
 

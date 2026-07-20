@@ -1,9 +1,3 @@
-"""Tests for the trace_stability runner: determinism, the honest null default, mechanics-ok only when
-the favorable regime clears the threshold with every control dead, fail-closed on a leaking control,
-a stable receipt digest, and the invariant that the receipt is never a confirmation.
-
-No capability is claimed; every regime is a deterministic toy.
-"""
 
 from __future__ import annotations
 
@@ -23,7 +17,6 @@ from mop.mechanisms.trace_stability_scaffold import REQUIRED_CONTROLS
 
 
 class NullOnlyBed:
-    """A bed whose favorable regime carries no structure; used to show the null default holds."""
 
     mechanism_id = "trace_stability"
 
@@ -43,19 +36,9 @@ class NullOnlyBed:
         return self._base.null_regime(seed)
 
 
-# ---------------------------------------------------------------------------
-# Protocol conformance.
-# ---------------------------------------------------------------------------
-
-
 def test_bed_and_runner_conform_to_protocols() -> None:
     assert isinstance(TraceStabilityBed(), Bed)
     assert isinstance(TraceStabilityRunner(), MechanismRunner)
-
-
-# ---------------------------------------------------------------------------
-# Determinism per seed.
-# ---------------------------------------------------------------------------
 
 
 def test_run_is_deterministic_per_seed() -> None:
@@ -74,22 +57,12 @@ def test_distinct_seeds_give_distinct_receipt_digests() -> None:
     assert runner.mint(runner.run(bed, 3)).digest() != runner.mint(runner.run(bed, 4)).digest()
 
 
-# ---------------------------------------------------------------------------
-# Measured separation: favorable clears, null and every control stay at chance.
-# ---------------------------------------------------------------------------
-
-
 def test_measured_agreements_separate_favorable_from_controls() -> None:
     results = TraceStabilityRunner().run(TraceStabilityBed(), 3)
     assert results.favorable_agreement >= results.threshold
     assert results.null_agreement < results.threshold
     for control in REQUIRED_CONTROLS:
         assert results.control_agreements[control] < results.threshold
-
-
-# ---------------------------------------------------------------------------
-# The favorable regime earns mechanics-ok with every control beaten.
-# ---------------------------------------------------------------------------
 
 
 def test_favorable_regime_is_mechanics_ok_with_controls_beaten() -> None:
@@ -103,22 +76,12 @@ def test_favorable_regime_is_mechanics_ok_with_controls_beaten() -> None:
     assert receipt.is_confirmation is False
 
 
-# ---------------------------------------------------------------------------
-# The null regime yields the honest null default.
-# ---------------------------------------------------------------------------
-
-
 def test_null_regime_is_null() -> None:
     bed = NullOnlyBed(TraceStabilityBed())
     runner = TraceStabilityRunner()
     receipt = runner.mint(runner.run(bed, 3))
     assert receipt.verdict == VERDICT_NULL
     assert receipt.is_confirmation is False
-
-
-# ---------------------------------------------------------------------------
-# Fail closed: a leaking control blocks mechanics-ok.
-# ---------------------------------------------------------------------------
 
 
 def test_leaking_control_blocks_mechanics_ok() -> None:
@@ -139,11 +102,6 @@ def test_every_leaking_control_blocks_mechanics_ok() -> None:
         runner = TraceStabilityRunner(leaked_controls=frozenset({control}))
         receipt = runner.mint(runner.run(bed, 5))
         assert receipt.verdict == VERDICT_NULL, control
-
-
-# ---------------------------------------------------------------------------
-# The receipt digest is stable and the receipt is never a confirmation.
-# ---------------------------------------------------------------------------
 
 
 def test_receipt_digest_is_stable() -> None:

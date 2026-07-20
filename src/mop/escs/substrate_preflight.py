@@ -1,10 +1,3 @@
-"""Content-addressed, quiescent preflight for the assembled ESCS substrate.
-
-The preflight joins substrate mechanics, the perspective registry, its inert
-assembly, the disabled G0 grammar, and experiment implementation authorities into
-one auditable boundary.  It can establish scaffold integrity only.  It never grants
-runtime activation or scientific promotion.
-"""
 
 from __future__ import annotations
 
@@ -66,7 +59,6 @@ def _live_file_receipt_problems(
     role: str,
     rows: object,
 ) -> list[str]:
-    """Join a bound implementation receipt to the current repository files."""
 
     if not isinstance(rows, list) or not rows:
         return [f"binding-file-receipts-missing:{role}"]
@@ -114,7 +106,6 @@ def _binding_integrity_problems(
     binding: PreflightBinding,
     payload: Mapping[str, Any],
 ) -> list[str]:
-    """Validate transitive authorities instead of trusting their outer file hash alone."""
 
     problems: list[str] = []
     if binding.role == "escs-mechanics-proof" or binding.schema == "mop-escs-mechanics-proof/v1":

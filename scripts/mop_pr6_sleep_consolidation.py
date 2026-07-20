@@ -1,32 +1,4 @@
 #!/usr/bin/env python
-"""PR6: offline sleep consolidation (WP-07, plasticity program; registry
-docs/mixture_of_perspectives/11_experiment_registry.md, PR full schema part 2).
-
-Thesis: separating a WAKE phase (train on the current task only, encode to the replay buffer) from
-an offline SLEEP phase (replay-only gradient steps plus an EWC Fisher refresh) beats MIXING the
-same ingredients at matched total gradient steps. The variable under test is PHASE SEPARATION and
-nothing else: both arms see the same current-task sample budget, the same replay sample budget, the
-same buffer, the same EWC refresh at every task boundary, and EXACTLY the same number of optimizer
-steps (counted in code and asserted equal; a mismatch invalidates the run and forces win False).
-
-Arms:
-  wake_sleep  : per task, wake_steps current-only steps (writing to the buffer), then sleep_steps
-                replay-only steps; EWC refresh at task end
-  interleaved : per task, wake_steps + sleep_steps steps, each on a half-current half-replay batch
-                (the same totals of current and replay samples, mixed at every step); same buffer
-                writes, same EWC refresh
-  wake_only   : per task, wake_steps + sleep_steps current-only steps, no replay (context floor,
-                the do-nothing arm every corpus replay result already beats; reported, not gated)
-
-Preregistered null (fixed before running): offline replay-only ties online interleaved replay at
-matched total gradient steps: any sleep benefit is added compute, not phase separation. Verdict
-rule, uniform across the MoT plasticity scripts: WIN iff EITHER the final mean accuracy delta or
-the BWT delta (wake_sleep minus interleaved) passes mean > max(seed SD, MIN_MARGIN) with no sign
-flip AND the step counts matched exactly; else null_supported=True.
-
-Usage: python scripts/mop_pr6_sleep_consolidation.py --seeds 0-4
-Writes runs/mot/pr6_sleep_consolidation.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -54,7 +26,6 @@ ARMS = ("wake_sleep", "interleaved", "wake_only")
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
-    """The uniform preregistered rule: WIN iff mean delta > max(sd, min_margin) and no sign flip."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     win = ci["mean"] > max(ci["sd"], min_margin) and not flips["any_flip"]
@@ -68,8 +39,6 @@ def split_task(task, train_frac: float):
 
 
 def _ewc_refresh(ewc: EWC, head: nn.Module, buf: ReplayBuffer, batch: int, samples: int) -> None:
-    """Fisher refresh from the buffer (the consolidation half of sleep, given to BOTH replay arms
-    so the only difference between them is phase separation)."""
     if len(buf) == 0:
         return
     batches = [buf.sample(batch) for _ in range(samples)]
@@ -77,8 +46,6 @@ def _ewc_refresh(ewc: EWC, head: nn.Module, buf: ReplayBuffer, batch: int, sampl
 
 
 def run_arm(e: DictConfig, seed: int, arm: str) -> dict:
-    """One arm through the task stream. Returns the accuracy matrix, the task-0 accuracy curve
-    (for forgetting_area), and the exact optimizer step count."""
     dim, n_classes = int(e.dim), int(e.classes_per_task)
     tasks = make_task_stream(
         n_tasks=int(e.n_tasks),

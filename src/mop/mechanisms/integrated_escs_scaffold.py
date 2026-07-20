@@ -50,8 +50,6 @@ def _require_sha256(value: str, label: str) -> None:
         raise IntegratedEscsRefusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class CostVector:
 
@@ -128,8 +126,6 @@ class FrontierPoint:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -221,8 +217,6 @@ def build_default_baseline_set() -> BaselineSet:
     return BaselineSet(schema=INTEGRATED_ESCS_SCHEMA, declarations=declarations)
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class IntegratedAdvantageContract:
 
@@ -271,8 +265,6 @@ class IntegratedAdvantageContract:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -354,8 +346,6 @@ def build_default_ablation_ladder() -> AblationLadderContract:
         for name in MECHANISM_LADDER
     )
     return AblationLadderContract(schema=INTEGRATED_ESCS_SCHEMA, rungs=rungs)
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -440,8 +430,6 @@ def build_dominating_frontier_verdict(seed: int = 0) -> FrontierVerdict:
     )
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
 
@@ -491,9 +479,6 @@ class IntegratedActivationGate:
                 "activation receipt does not bind the expected verdict digest"
             )
         return receipt
-
-
-# Coverage record.
 
 
 def coverage() -> dict[str, tuple[str, ...]]:

@@ -1,11 +1,3 @@
-"""Fail-closed joins for one ledger hypothesis, runtime trace, action, and consequence.
-
-The chassis makes ordering and identity explicit; it is not a distributed transaction manager. A
-commitment appended to a persisted/replayed EventLedger before an external callback acts as a
-restart-stable, at-most-once invocation fence. A crash after that append but before the callback can
-therefore omit the effect. Exactly-once effects require an external idempotent or transactional adapter
-and are not claimed here. Archive publication is intentionally outside this boundary.
-"""
 
 from __future__ import annotations
 
@@ -56,7 +48,7 @@ class ChassisFailpoint(StrEnum):
 
 
 class ChassisContractError(RuntimeError):
-    """A ledger, trace, action, effect, or authority join failed closed."""
+    pass
 
 
 class InjectedChassisFailure(ChassisContractError):
@@ -93,7 +85,6 @@ def _mapping_keys(value: FrozenJSON) -> tuple[str, ...]:
 
 
 def _canonical_value(value: Any) -> Any:
-    """Convert a complete dataclass trace into strict canonical-JSON values."""
 
     if hasattr(value, "__dataclass_fields__"):
         return {name: _canonical_value(getattr(value, name)) for name in value.__dataclass_fields__}
@@ -192,7 +183,6 @@ class EffectOutcome:
 
 @runtime_checkable
 class ExternalEffect(Protocol):
-    """Single-attempt adapter.  Retry/idempotency semantics belong to the implementation."""
 
     def execute(self, request: EffectRequest) -> EffectOutcome: ...
 
@@ -263,7 +253,6 @@ class ChassisResult:
 
 
 class EventSourcedCoalitionChassis:
-    """One single-writer mechanics join over authoritative event and lifecycle ledgers."""
 
     _MAX_TRUSTED_REPLAY_RUNTIMES = 16
 
@@ -322,7 +311,6 @@ class EventSourcedCoalitionChassis:
         )
 
     def dispatch_from_hypothesis(self, event_id: EventRef) -> DispatchEvent:
-        """Derive every dispatch field from one authoritative ledger-resident hypothesis."""
 
         event = self._events.get(event_id)
         if type(event) is not HypothesisEvent:
@@ -964,11 +952,6 @@ class EventSourcedCoalitionChassis:
         now_tick: int | None = None,
         failpoint: ChassisFailpoint | None = None,
     ) -> ChassisResult:
-        """Run or resume one single-writer hypothesis transaction.
-
-        Existing action commitments are never externally invoked again.  A commitment without a
-        consequence is therefore reported as an unresolved omission/outcome window.
-        """
 
         hypothesis = self._events.get(hypothesis_event_id)
         if type(hypothesis) is not HypothesisEvent:

@@ -1,8 +1,3 @@
-"""WP-10 real-latent pilot scripts (DR2/PR3 sparse heads, WS5 slot ablation, CM4 workspace shell)
-run end to end on a TINY synthetic LatentStore standing in for the 528K cache and return the
-Experiment-contract dict. Asserts MECHANICS only (shapes, keys, param/FLOP matching, verdict
-plumbing), never a scientific outcome: the preregistered nulls holding is an honest finding.
-No encoder, no weights, seconds per test."""
 
 import importlib.util
 import sys
@@ -44,7 +39,6 @@ def dev():
 
 @pytest.fixture(scope="module")
 def cache_dir(tmp_path_factory) -> Path:
-    """A tiny labeled LatentStore with the real-cache layout: 4 classes x 6 clustered samples."""
     root = tmp_path_factory.mktemp("cache")
     g = torch.Generator().manual_seed(0)
     centers = torch.randn(N_CLASSES, DIM, generator=g) * 3.0
@@ -67,7 +61,6 @@ def test_dr2_sparse_real_pilot_runs(dev, cache_dir, tmp_path):
     assert out["experiment"] == "mop_dr2_sparse_real" and out["pilot"] is True
     assert out["contract"]["null_hypothesis"]
     assert isinstance(out["null_supported"], bool)
-    # capacity matching is by construction, not eyeballing
     assert out["param_counts"]["kwta"] == out["param_counts"]["dense"]
     assert out["param_match_ok"] is True
     for arm in ("dense", "dense_sparse", "kwta", "moe"):
@@ -84,7 +77,6 @@ def test_ws5_slot_ablation_pilot_runs(dev, cache_dir, tmp_path):
     out = mod.MotWS5SlotAblationPilot().run(cfg, dev, tmp_path)
     assert out["experiment"] == "mop_ws5_router_slot" and out["pilot"] is True
     assert isinstance(out["null_supported"], bool)
-    # the ablation is at fixed capacity: identical param counts by construction
     assert out["param_match_ok"] is True
     assert len(out["bwt_per_seed"]["full"]) == len(out["bwt_per_seed"]["ablated"]) == 2
     assert set(out["delta_bwt_full_vs_ablated"]) >= {"per_seed", "ci", "sign_flips", "win"}
@@ -92,7 +84,6 @@ def test_ws5_slot_ablation_pilot_runs(dev, cache_dir, tmp_path):
 
 
 def test_ws5_slot_read_actually_ablated(cache_dir):
-    """The ablated arm must be invariant to the slot parameters (the read path is severed)."""
     mod = load_script("mop_ws5_slot_ablation_pilot")
     torch.manual_seed(0)
     net = mod.SlotRoutedNet(DIM, N_CLASSES, n_experts=2, expert_hidden=3, use_slot=False)
@@ -119,13 +110,11 @@ def test_cm4_workspace_pilot_runs(dev, cache_dir, tmp_path):
     assert isinstance(out["null_supported"], bool)
     rec = out["capacity_and_compute_matching"]
     assert rec["flops_matched_within"]["matched"] is True  # the depth arm is genuinely FLOP-matched
-    # information parity: both controls see the task id as a one-hot appended to the latent input
     assert rec["control_input_dim"] == 8 + TINY["n_tasks"]
     assert abs(rec["dense_params"] - rec["workspace_params"]) <= 0.06 * rec["workspace_params"]
     assert rec["unrolled_steps"] >= 2  # genuinely iterative, not a renamed single pass
     for arm in ("workspace", "dense", "unrolled"):
         assert len(out["bwt_per_seed"][arm]) == 2
-    # planning is honestly blocked on DR1, never faked on identity dynamics
     assert out["planning_gain"] is None and "DR1" in out["planning_gain_blocked_reason"]
     assert set(out["delta_bwt_ws_vs_best_control"]) >= {"per_seed", "ci", "sign_flips", "win"}
 

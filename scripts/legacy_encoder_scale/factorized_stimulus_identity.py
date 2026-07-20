@@ -132,7 +132,6 @@ def main(argv: list[str] | None = None) -> int:
         if not identical:
             problems.append(f"generator function {name} differs between HEAD and working tree")
 
-    # Regenerate and hash the clip sets per native resolution.
     regenerated: dict[str, list[dict[str, str]]] = {}
     clip_cache: dict[int, list[torch.Tensor]] = {}
     for resolution in sorted({scale["resolution"] for scale in SCALES}):
@@ -142,7 +141,6 @@ def main(argv: list[str] | None = None) -> int:
             {"index": i, "sha256": cfe._tensor_sha256(clip)} for i, clip in enumerate(clips)
         ]
 
-    # Compare 256px set against the random control cache's recorded hashes.
     random_receipt = json.loads(
         (REPO_ROOT / "data" / "cache" / RANDOM_CACHE / "run_receipt.json").read_text(encoding="utf-8")
     )
@@ -153,7 +151,6 @@ def main(argv: list[str] | None = None) -> int:
     if not random_match:
         problems.append("regenerated 256px clips do not reproduce the random control cache's recorded hashes")
 
-    # Latent rebinding: one clip per learned cache through the exact frozen encoder on CPU.
     rebinding: list[dict[str, object]] = []
     if not args.skip_encoders:
         for scale in SCALES:

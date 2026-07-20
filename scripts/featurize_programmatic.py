@@ -1,21 +1,4 @@
 #!/usr/bin/env python
-"""AT4 programmatic reference featurizer (WP-01): the ground-truth scene-program column of the atlas.
-
-The nuisance clips live only in memory: scripts/compositional_under_nuisance.py draws them from a torch
-RNG stream and never writes frames to disk. The CLIP IDENTITY RULE therefore requires every featurizer to
-REGENERATE the clips through the same torch generator code, seed for seed, or it would silently featurize
-different clips than every encoder cache. This module owns the shared regeneration helpers (imported by
-featurize_handcrafted.py and the three WP-01 cache scripts) and emits the programmatic column: for each
-clip, the exact scalar RNG draws that produced it (recorded from the REAL render call, zero drift risk)
-plus one-hot shape and color, written to data/cache/programmatic_reference.
-
-Queue class: light post-encode (torch-CPU, streamed one clip at a time as uint8, RAM <1GB). It MUST NOT
-run while the V-JEPA encode is in flight; the guard checks the encode's output json exists first.
-
-Usage: python scripts/featurize_programmatic.py --out runs/mot/at4_programmatic_features.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -47,8 +30,6 @@ DEFAULT_PARAMS = {"n_shape": 5, "n_color": 5, "per": 8, "seed": 0}
 
 
 def guard_post_encode(force: bool = False) -> None:
-    """The clip identity rule makes this a torch-CPU job, and torch-CPU jobs are forbidden while the
-    in-flight encode owns the pool. The encode's output json existing is the exit proxy."""
     if force or ENCODE_JSON.exists():
         return
     raise SystemExit(
@@ -59,8 +40,6 @@ def guard_post_encode(force: bool = False) -> None:
 
 
 def read_encode_params(path: Path = ENCODE_JSON, seed: int = 0) -> dict:
-    """Clip-set parameters, read from the encode's own output json when present so the featurized
-    clips are identical to the encoded ones by construction, else the documented defaults."""
     if path.exists():
         d = json.loads(path.read_text())
         return {
@@ -74,9 +53,6 @@ def read_encode_params(path: Path = ENCODE_JSON, seed: int = 0) -> dict:
 
 
 class _RandRecorder:
-    """Context manager that records every SCALAR torch.rand draw made with one specific generator while
-    active. It wraps the real torch.rand around the real render call, so the recorded values are the
-    actual scene-program draws with zero reimplementation drift."""
 
     def __init__(self, generator: torch.Generator):
         self.generator = generator
@@ -102,9 +78,6 @@ class _RandRecorder:
 def iter_bound_nuisance_clips(
     n_shape: int, n_color: int, per: int, seed: int, record: bool = False
 ) -> Iterator[tuple[int, int, int, torch.Tensor, list[float] | None]]:
-    """Regenerate the exact clip stream of compositional_under_nuisance.py: same generator, same cell
-    order, same render code. Yields (index, shape, color, clip [T,3,H,W] float in [0,1], draws or None)
-    one clip at a time; callers must convert to uint8 and drop the float clip immediately (RAM rule)."""
     g = torch.Generator().manual_seed(seed)
     cells = [(s, c) for s in range(n_shape) for c in range(n_color) for _ in range(per)]
     for i, (s, c) in enumerate(cells):
@@ -117,21 +90,16 @@ def iter_bound_nuisance_clips(
 
 
 def to_uint8(clip: torch.Tensor) -> torch.Tensor:
-    """[T,3,H,W] float in [0,1] -> uint8 frames, the mandated streaming representation."""
     return (clip.clamp(0, 1) * 255.0).round().to(torch.uint8)
 
 
 def clip_checksum(clip: torch.Tensor) -> str:
-    """sha256 of the uint8 frame bytes: the cross-script clip-identity fingerprint. Every WP-01 cache
-    and featurizer records this for its first and last clip so AT1/AL2 can verify all columns saw the
-    SAME clips before comparing them."""
     return hashlib.sha256(to_uint8(clip).numpy().tobytes()).hexdigest()
 
 
 def write_factors_sidecar(
     store_dir: Path, params: dict, shapes: list[int], colors: list[int], checksums: dict[str, str], **extra
 ) -> None:
-    """factors.json next to the LatentStore: clip-set identity plus both labeled factors."""
     payload = {
         "clipset": CLIPSET,
         "seed": params["seed"],
@@ -151,9 +119,6 @@ def write_factors_sidecar(
 def scene_program_vector(
     shape: int, color: int, n_shape: int, n_color: int, draws: list[float]
 ) -> torch.Tensor:
-    """The ground-truth scene program: one-hot shape, one-hot color, and the raw scalar RNG draws in
-    draw order (scale, rotation, position x2, motion x2, clutter x9, all as the pre-transform uniforms).
-    Trivially separable by construction: this column is the AT4 difficulty CEILING, never a substrate."""
     if len(draws) != N_SCALAR_DRAWS:
         raise ValueError(f"expected {N_SCALAR_DRAWS} scalar draws, got {len(draws)}")
     v = torch.zeros(n_shape + n_color + N_SCALAR_DRAWS)

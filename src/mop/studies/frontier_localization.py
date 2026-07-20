@@ -1,16 +1,3 @@
-"""Measured localization of non-F frontier experiments on the current M3 Pro.
-
-The experiment bank historically used ``studio-scale``, ``gpu-later``, and ``moonshot`` as
-planning labels.  Those labels are not measurements.  This module does two narrower things:
-
-* executes the *mechanics* of five previously registry-only synthesis rows on bounded fixtures;
-* audits every non-F row carrying one of the historical frontier labels and names its first
-  observed blocker without turning a fixture into scientific evidence.
-
-The local preflights intentionally stop short of the registered scientific claims.  A caller
-cannot promote them by changing a command-line flag: scientific launch readiness is derived from
-named, independently auditable prerequisite receipts and fails closed while any are absent.
-"""
 
 from __future__ import annotations
 
@@ -54,8 +41,6 @@ TARGET_IDS = (
     "mop_cm12_mop_substrate_capstone",
 )
 
-# Frozen at the start of the localization pass so concurrent, justified tier demotions cannot make
-# an old frontier row disappear from the audit that is supposed to account for it.
 HISTORICAL_FRONTIER_IDS = (
     "mop_mt4_reasoning_router",
     "mop_dr1_video_cache",
@@ -96,7 +81,7 @@ E6_DENSE_PREFLIGHT_PATH = REPO_ROOT / "proof" / "E6_VITB_DENSE_PREFLIGHT.json"
 
 
 class ScientificLaunchBlocked(RuntimeError):
-    """Raised when a frontier row lacks one or more scientific prerequisite receipts."""
+    pass
 
 
 @dataclass(frozen=True)
@@ -278,7 +263,6 @@ def _train_router(
 
 
 def preflight_mt4(seed: int = 20260709) -> dict[str, Any]:
-    """Run router, strongest fixed strategy, shuffled router, and exact compute accounting."""
     g = torch.Generator().manual_seed(seed)
     n = 320
     x = torch.randn(n, 3, generator=g)
@@ -343,12 +327,10 @@ def preflight_mt4(seed: int = 20260709) -> dict[str, Any]:
 
 
 def preflight_at2(seed: int = 20260709) -> dict[str, Any]:
-    """Exercise identical mode/head code on matched real-like and random-like fixture views."""
     g = torch.Generator().manual_seed(seed)
     n, frames, dim = 360, 4, 8
     latent = torch.randn(n, generator=g)
     y = (latent > 0).long()
-    # Stable signal plus frame nuisance is a substrate fixture, never a pretrained-model claim.
     real_like = torch.randn(n, frames, dim, generator=g) * 1.5
     real_like[:, :, 0] += latent[:, None]
     random_like = torch.randn(n, frames, dim, generator=g)
@@ -488,7 +470,6 @@ def _plasticity_arm(
 
 
 def preflight_cm5(seed: int = 20260709) -> dict[str, Any]:
-    """Execute adapting/frozen and rejuvenation/no-op arms with equal update counts."""
     g = torch.Generator().manual_seed(seed)
     dim, samples, n_tasks = 12, 64, 5
     tasks: list[tuple[torch.Tensor, torch.Tensor]] = []
@@ -584,7 +565,6 @@ def _developmental_condition(
                 multiplier = 1.6 if onset <= global_step < onset + 6 else 0.45
             else:
                 multiplier = 1.0
-            # The noisy-TV guard is an explicit weight mask, not outcome-based row deletion.
             loss_rows = F.cross_entropy(net(x), y, reduction="none")
             weights = torch.where(noisy_mask, 0.2, 1.0)
             loss = (loss_rows * weights).sum() / weights.sum()
@@ -611,7 +591,6 @@ def _developmental_condition(
 
 
 def preflight_cm11(seed: int = 20260709) -> dict[str, Any]:
-    """Exercise window, path-order, U-shape, flat schedule, and noisy-TV guard mechanics."""
     early = _developmental_condition(seed=seed, schedule="developmental", order=(0, 1), onset=0)
     middle = _developmental_condition(seed=seed, schedule="developmental", order=(0, 1), onset=5)
     late = _developmental_condition(seed=seed, schedule="developmental", order=(0, 1), onset=10)
@@ -648,7 +627,6 @@ def preflight_cm11(seed: int = 20260709) -> dict[str, Any]:
 
 
 def preflight_cm12(seed: int = 20260709) -> dict[str, Any]:
-    """Execute expert routing and all local capstone controls with exact FLOP padding."""
     g = torch.Generator().manual_seed(seed)
     n, n_experts = 360, 4
     x = torch.randn(n, 4, generator=g)
@@ -715,7 +693,6 @@ PREFLIGHTS: dict[str, Callable[[int], dict[str, Any]]] = {
 def scientific_readiness(
     experiment_id: str, supplied_receipts: dict[str, str] | None = None
 ) -> dict[str, Any]:
-    """Return receipt-backed readiness; descriptions or booleans never satisfy a requirement."""
     supplied_receipts = supplied_receipts or {}
     requirements = SCIENTIFIC_REQUIREMENTS[experiment_id]
     checks = []
@@ -781,7 +758,6 @@ def assert_scientific_launch_ready(
 
 
 def run_local_preflights(*, seeds: tuple[int, ...] = (20260709, 20260710, 20260711)) -> dict[str, Any]:
-    """Run all bounded local mechanics and record time/RSS without interpreting outcomes."""
     if not seeds:
         raise ValueError("at least one seed is required")
     torch.set_num_threads(1)
@@ -841,7 +817,6 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 
 def _validate_cm7_bound_pilot(path: Path = CM7_PILOT_PATH) -> dict[str, Any]:
-    """Verify the five-seed CM7 null and its hash-bound independent verifier chain."""
     payload = _load_json(path)
     problems: list[str] = []
     chain = payload.get("receipt_chain") or {}
@@ -945,7 +920,6 @@ def _validate_cm7_bound_pilot(path: Path = CM7_PILOT_PATH) -> dict[str, Any]:
 
 
 def _bound_repo_file_ok(row: Any) -> bool:
-    """Return whether a receipt row binds a current repository-local regular file."""
     if not isinstance(row, dict):
         return False
     raw_path = row.get("path")
@@ -963,7 +937,6 @@ def _bound_repo_file_ok(row: Any) -> bool:
 
 
 def _validate_e6_dense_preflight(path: Path = E6_DENSE_PREFLIGHT_PATH) -> dict[str, Any]:
-    """Validate the no-heavy E6/DR14 task, cache, and control integration receipt."""
     payload = _load_json(path)
     gates = payload.get("gates") or {}
     registration = payload.get("registration") or {}
@@ -1031,7 +1004,6 @@ def _validate_e6_dense_preflight(path: Path = E6_DENSE_PREFLIGHT_PATH) -> dict[s
 
 
 def _validate_vjepa21_vitb_runtime() -> dict[str, Any]:
-    """Validate ViT-B runtime plus the bounded E6/DR14 integration without widening claims."""
     receipts = {name: _load_json(path) for name, path in VJEPA21_VITB_RECEIPTS.items()}
     problems: list[str] = []
     authorities = [receipt.get("authority") or {} for receipt in receipts.values()]
@@ -1145,7 +1117,6 @@ def _tagged_non_f_rows() -> list[dict[str, Any]]:
 
 
 def _historically_tagged_non_f_rows() -> list[dict[str, Any]]:
-    """Include rows already demoted by this work by identity, preserving audit closure."""
     current = {str(row["id"]): row for row in _tagged_non_f_rows()}
     registry = yaml.safe_load((REPO_ROOT / "registry" / "experiments.yaml").read_text())["experiments"]
     by_id = {str(row["id"]): dict(row) for row in registry}
@@ -1171,7 +1142,6 @@ def _git_revision() -> str | None:
 
 
 def build_frontier_audit(preflights: dict[str, Any]) -> dict[str, Any]:
-    """Audit every historical frontier tag against receipts, not labels."""
     preflight_rows = preflights.get("results", {})
     if (
         preflights.get("schema") != PREFLIGHT_SCHEMA

@@ -1,13 +1,4 @@
 #!/usr/bin/env python
-"""Drive the Volume IV campaign queue. Reads campaign/run_queue.yaml, resolves tiers and
-dependencies, runs the enabled legs.
-
-Usage:
-  python scripts/run_queue.py --dry-run                 # resolve + print the plan
-  python scripts/run_queue.py --tiers C                 # run Tier C legs at toy scale
-  python scripts/run_queue.py --tiers C,E --max 1       # include env legs, 1 run/leg
-On the Studio: --tiers C,E,R --full (drops toy_overrides via the leg sweeps).
-"""
 
 from __future__ import annotations
 

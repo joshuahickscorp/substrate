@@ -280,8 +280,6 @@ def _integration_classification_path(root: Path) -> Path:
     return Path(root).resolve() / "integration" / "i1_classification.json"
 
 
-
-
 def _source_item(work: WaveWorkItem) -> mechanics.WorkItem:
     table = newq.NEW_WORK_ITEMS if work.origin == _NEW_ORIGIN else mechanics.WORK_ITEMS
     return table[work.source_index]
@@ -703,8 +701,6 @@ def planned_ideal_worker_hours() -> float:
     return planned_program_compute_seconds() / IDLE_WORKERS / 3_600
 
 
-
-
 def _artifact_report(
     program: supervisor.Program,
     expectation: supervisor.ArtifactExpectation,
@@ -833,8 +829,6 @@ def _validated_parent(
         },
         "mechanics_lanes": sorted(surviving),
     }
-
-
 
 
 def _prior_gate(root: Path, gate_index: int) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
@@ -1273,8 +1267,6 @@ def materialize_gate(
     validate_gate(value, gate_index, root=root)
     atomic_write_json(path, value)
     return value
-
-
 
 
 def _routing_for_epoch(
@@ -1750,8 +1742,6 @@ def run_category(
     return value
 
 
-
-
 def _classification_components(
     *,
     root: Path,
@@ -1934,8 +1924,6 @@ def classify_epoch(*, root: Path = DEFAULT_ROOT, epoch_index: int) -> dict[str, 
     validate_classification(value, epoch_index, root=root)
     atomic_write_json(path, value)
     return value
-
-
 
 
 def _i1_eligible(root: Path) -> tuple[dict[str, Any], bool, bool]:
@@ -2314,8 +2302,6 @@ def classify_integration(*, root: Path = DEFAULT_ROOT) -> dict[str, Any]:
     validate_integration_classification(value, root=root)
     atomic_write_json(path, value)
     return value
-
-
 
 
 def _validated_wave_graph(

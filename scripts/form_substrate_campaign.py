@@ -1,18 +1,4 @@
 #!/usr/bin/env python
-"""Lock, collect, score, and bundle the durable F1-F20 evidence campaign.
-
-Examples:
-  python scripts/form_substrate_campaign.py audit
-  python scripts/form_substrate_campaign.py preregister
-  python scripts/form_substrate_campaign.py collect
-  python scripts/form_substrate_campaign.py scorecard
-  python scripts/form_substrate_campaign.py boundary
-  python scripts/form_substrate_campaign.py finalize
-
-``collect`` reads ignored harness runs but writes self-contained receipts below ``proof/``.  A source
-override is ``--source f9_cross_form_compositional_binding=runs/.../005``.  It never silently selects
-an older passing run when the newest run is stale.
-"""
 
 from __future__ import annotations
 
@@ -149,13 +135,9 @@ def _finalize(*, overwrite_cards: bool, allow_missing: bool) -> dict:
     stages["collect"] = _collect({})
     stages["verdict_gates"] = build_form_verdict_gates(repo_root=REPO_ROOT)
     stages["scorecard"] = _scorecard()
-    # First boundary records that the artifact index is absent/stale; bundle then indexes the newly
-    # written proof files, and a second boundary pass consumes that index.
     stages["boundary_before_bundle"] = _boundary()
     stages["bundle"] = _bundle(allow_missing=allow_missing)
     stages["boundary"] = _boundary()
-    # Boundary changed after the index was written, so refresh its hash once.  A final bundle is
-    # deliberately last and therefore authoritative.
     stages["bundle_final"] = _bundle(allow_missing=allow_missing)
     required = (
         "audit",

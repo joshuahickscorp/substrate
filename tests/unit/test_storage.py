@@ -1,5 +1,3 @@
-"""Storage accounting: byte math, human formatting, pooled-vs-dense, and the SAFETY invariant
-that a dry-run prune never touches disk."""
 
 import json
 
@@ -18,7 +16,6 @@ from mop.substrate.storage import (
 
 
 def test_estimate_cache_bytes_math():
-    # 1000 x [1024] f32: latents 1000*1024*4, keys (key_dim==1024) 1000*1024*4, labels 1000*8
     latents = 1000 * 1024 * 4
     keys = 1000 * 1024 * 4
     labels = 1000 * 8
@@ -34,18 +31,15 @@ def test_estimate_cache_bytes_no_labels_drops_label_term():
 def test_estimate_cache_bytes_fp16_halves_latents():
     f32 = estimate_cache_bytes(100, [512], dtype="float32", has_labels=False)
     f16 = estimate_cache_bytes(100, [512], dtype="float16", has_labels=False)
-    # keys stay float32; only the latents array halves
     assert (f32 - f16) == 100 * 512 * (4 - 2)
 
 
 def test_estimate_cache_bytes_multi_dim_feat():
-    # dense-shaped [8, 1024]: latents multiply over all dims, keys use the last dim
     b = estimate_cache_bytes(10, [8, 1024], dtype="float32", has_labels=False)
     assert b == 10 * 8 * 1024 * 4 + 10 * 1024 * 4
 
 
 def test_estimate_cache_bytes_matches_real_npy_array_bytes(tmp_path):
-    # the raw array bytes term equals the .npy size minus its fixed header (matches data/cache)
     arr = np.zeros((96, 1024), dtype="float32")
     np.save(tmp_path / "latents.npy", arr)
     on_disk = (tmp_path / "latents.npy").stat().st_size
@@ -69,8 +63,6 @@ def test_estimate_for_encoder_pooled_vs_dense_differ_by_token_factor():
     dense = estimate_for_encoder(cfg, n_clips=100, dense=True)
     assert pooled["tokens_per_clip"] == 1
     assert dense["tokens_per_clip"] == DENSE_TOKENS_PER_CLIP
-    # latents scale by the token factor; the pooled keys term (same in both) makes dense slightly
-    # less than an exact factor, so assert the latents-only ratio is the token factor.
     pooled_lat = 100 * 1024 * 4
     dense_lat = 100 * DENSE_TOKENS_PER_CLIP * 1024 * 4
     assert (dense["bytes"] - dense_lat) == (pooled["bytes"] - pooled_lat)  # identical keys+labels
@@ -144,19 +136,16 @@ def test_prune_dry_run_deletes_nothing(tmp_path):
     a = _fake_cache(tmp_path, "keep_me")
     b = _fake_cache(tmp_path, "drop_me")
     plan = prune_caches(tmp_path, keep=["keep_me"], dry_run=True)
-    # SAFETY: dry run touches no disk
     assert a.exists() and b.exists()
     assert (a / "latents.npy").exists() and (b / "latents.npy").exists()
     by_name = {p["name"]: p for p in plan}
     assert by_name["keep_me"]["kept"] is True
     assert by_name["keep_me"]["would_delete"] is False
     assert by_name["drop_me"]["would_delete"] is True
-    # nothing reported as actually deleted in a dry run
     assert all(p["deleted"] is False for p in plan)
 
 
 def test_prune_default_is_dry_run(tmp_path):
-    # default dry_run=True: even with no keep list, the explicit default must not delete
     b = _fake_cache(tmp_path, "drop_me")
     plan = prune_caches(tmp_path)
     assert b.exists() and (b / "latents.npy").exists()

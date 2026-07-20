@@ -298,7 +298,6 @@ def _action_values(
 
 
 def generate_fixture(config: Mapping[str, Any], *, seed: int, split: str) -> GeneratedFixture:
-    """Generate session-disjoint mechanics with revisions, attacks, branches, and schema changes."""
 
     mechanics = config["mechanics"]
     actions = tuple(str(value) for value in mechanics["actions"])
@@ -310,8 +309,6 @@ def generate_fixture(config: Mapping[str, Any], *, seed: int, split: str) -> Gen
     records: list[MemoryRecord] = []
     tick = 0
 
-    # Training sessions are distinct from the query session.  Stable referent identities are the
-    # only cross-session link; schema-local slot names are never translated by an oracle map.
     for session_index in range(session_count - 1):
         session_id = f"session:{prefix}-{seed}-{session_index}"
         schema = "canonical" if session_index == 0 else schema_families[session_index % len(schema_families)]
@@ -321,7 +318,6 @@ def generate_fixture(config: Mapping[str, Any], *, seed: int, split: str) -> Gen
             for action_index, action in enumerate(actions):
                 record_id = f"record:{seed}/{session_index}/{referent_index}/{action_index}/base"
                 utility = values[action]
-                # One stale value is explicitly corrected by a later immutable revision.
                 stale = action_index == (referent_index + 1) % len(actions)
                 if stale:
                     utility = max(0, utility - 430)
@@ -363,8 +359,6 @@ def generate_fixture(config: Mapping[str, Any], *, seed: int, split: str) -> Gen
                     )
                     tick += 1
 
-            # Counterfactual and poisoned records would reverse the action ranking if allowed to
-            # contaminate factual memory.
             winner_action = max(actions, key=lambda candidate: values[candidate])
             wrong_action = actions[(actions.index(winner_action) + 2) % len(actions)]
             for branch_index in range(int(mechanics["branch_count_per_referent"])):
@@ -473,7 +467,6 @@ def _event_source(seed: int, label: str) -> dict[str, Any]:
 
 
 def build_escs_mechanics_fixture(seed: int) -> dict[str, Any]:
-    """Exercise the repository's authoritative ESCS identity, branch, archive, and charge dialect."""
 
     ledger = EventLedger()
     charges = LifecycleLedger()
@@ -737,7 +730,6 @@ def _arm_state_and_scorer(
     fixture: GeneratedFixture,
     config: Mapping[str, Any],
 ) -> tuple[Any, Any, dict[str, int], int]:
-    """Return retained state, query scorer, operation counters, and explicit state bytes."""
 
     actions = fixture.actions
     all_records = list(fixture.records)

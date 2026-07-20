@@ -85,8 +85,6 @@ METRICS = {
 _SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
-
-
 def _sha(value: Any) -> str:
     return hashlib.sha256(canonical_bytes(value)).hexdigest()
 

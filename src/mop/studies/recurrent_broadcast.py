@@ -1,17 +1,3 @@
-"""Bounded recurrent capacity-limited broadcast mechanics.
-
-This module closes one narrow implementation gap. The existing workspace shell composes context
-gating, mean-pooled working memory, predictors, ensembles, and heads, while the router studies
-select among predictions. Neither surface implements persistent specialist competition followed by
-a one-message fanout to separated consumers. This fixture implements that missing mechanism and its
-controls without model weights, external data, or a cognition claim.
-
-The fixture is deliberately structural. Target messages arrive before their queries, so recurrence
-must keep a winner active across a gap. A global dense state is an upper control, and no broadcast,
-feed-forward depth, independent specialists, and equal-FLOP point routing isolate communication,
-memory, capacity, and compute. Link lesions, wrong-message injection, stale delivery, restoration,
-and message shuffling are paired on the same held-out episodes.
-"""
 
 from __future__ import annotations
 

@@ -1,28 +1,4 @@
 #!/usr/bin/env python
-"""Compositional binding, finally OFF the ceiling. Every prior compositional probe (dense-vs-pooled,
-compositional_binding) ceilinged: 4 shapes x 4 colors on clean backgrounds are trivially linearly
-separable in 1024-d, so seen AND held-out combinations both hit 1.0 and real ties frozen-random. The arc
-(DOCTRINE_SYNTHESIS 3c) concluded the binding constraint is TEST DIFFICULTY, and the fix is content with
-genuinely bound factors under heavy NUISANCE so decoding is not free.
-
-This test binds two labeled factors into one object, SHAPE (factor A) and COLOR (factor B), and buries
-them under nuisance (random position, scale, rotation, background clutter, motion) that varies within
-every (shape, color) cell. It then runs the held-out-combination gate: train a probe to decode SHAPE on a
-diagonal-held-out set of (shape, color) cells, test SHAPE on the unseen cells. A substrate that represents
-shape compositionally (factored from color) decodes held-out shapes above chance; one that memorizes
-(shape, color) conjunctions collapses to chance on unseen cells.
-
-The control is the CORRECT one (not the vacuous latent projection): random-PIXEL features (a fixed random
-projection of the downsampled raw pixels, i.e. untrained-network features). If real V-JEPA extrapolates to
-held-out (shape, color) combinations under nuisance AND random-pixel features cannot, the frozen substrate
-carries a compositional shape code that raw pixels do not. If they tie, compositionality here is generic
-pixel geometry, not a substrate gift.
-
-Usage: python scripts/compositional_under_nuisance.py --n-shape 5 --n-color 5 --per 8 \
-    --out runs/pre_studio/compositional_under_nuisance.json   (device=cpu)
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -43,8 +19,6 @@ from mop.substrate import load_encoder
 
 
 def make_bound_nuisance_clip(shape: int, color: int, n_color: int, g: torch.Generator) -> torch.Tensor:
-    """A clip whose two LABELED factors are shape identity and color hue, bound into one moving object,
-    with heavy nuisance (random position, scale, rotation, clutter, motion) varying within every cell."""
     lin = torch.linspace(-1, 1, RES)
     yy, xx = torch.meshgrid(lin, lin, indexing="ij")
     r = 0.15 + 0.2 * float(torch.rand(1, generator=g))  # nuisance scale

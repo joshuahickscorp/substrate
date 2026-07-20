@@ -1,9 +1,3 @@
-"""Profile-aware encode scheduler.
-
-The Wave-0 benchmark answers "how fast is CPU vs MPS on this machine". This module turns that
-measurement into a launch plan: device, CPU worker count, cache footprint, disk reserve gates,
-wall-clock gate, and checkpoint cadence. It never loads a model and never encodes a clip.
-"""
 
 from __future__ import annotations
 
@@ -21,7 +15,6 @@ from .profiles import Profile, get_profile
 
 @dataclass(frozen=True)
 class EncodeBenchmark:
-    """Measured encode speeds from Wave 0. CPU is one worker; MPS is one-device wall s/clip."""
 
     cpu_s_per_clip: float | None
     mps_s_per_clip: float | None = None
@@ -50,11 +43,6 @@ def plan_encode(
     root: Path | None = None,
     free_gb: float | None = None,
 ) -> dict[str, Any]:
-    """Return an encode launch plan with profile kill switches.
-
-    `requested_clips` is clamped to the profile cap. Disk gates use the effective clip count and
-    block when the estimated cache would leave less than the profile's free-disk floor.
-    """
     memory_envelope = benchmark.get("memory_envelope") if isinstance(benchmark, dict) else None
     profile = get_profile(profile_name)
     bench = _bench(benchmark)
@@ -177,7 +165,6 @@ def plan_encode(
 
 
 def benchmark_from_autoselect(result: dict[str, Any]) -> EncodeBenchmark:
-    """Convert `scripts/mop_encode_autoselect.py` output into an EncodeBenchmark."""
     cpu = _num(result.get("cpu_s_per_clip"))
     mps = _num(result.get("mps"))
     return EncodeBenchmark(cpu_s_per_clip=cpu, mps_s_per_clip=mps, n_clips=int(result.get("n_clips") or 0))
@@ -238,7 +225,6 @@ def _free_gb(root: Path) -> float:
 
 
 def format_plan(plan: dict[str, Any]) -> str:
-    """Small human-readable summary for logs and reports."""
     winner = plan.get("winner")
     if not winner:
         route = "blocked"

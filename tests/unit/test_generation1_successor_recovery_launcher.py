@@ -177,8 +177,6 @@ def test_recovery_starts_v6_before_the_observation_only_extension_v3() -> None:
 
 
 def test_recovery_is_idempotent_when_both_parents_already_running() -> None:
-    # Both detached starters return already_running receipts (no launched_pid);
-    # the recovery launcher accepts the existing acknowledgements without error.
     def adopter(**_kwargs: Any) -> Mapping[str, Any]:
         return {"already_running": True, "status": _adopter_status("waiting_horizon", pid=41)}
 

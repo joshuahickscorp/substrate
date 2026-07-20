@@ -1,8 +1,3 @@
-"""Shared mechanics harness for the Wave E0 sentinel experiments.
-
-The harness owns arm, control, resource, independent-unit, and stop contracts. Sentinel-specific
-code supplies only boolean metrics over the same immutable unit payloads.
-"""
 
 from __future__ import annotations
 
@@ -283,7 +278,6 @@ def run_sentinel(
     artifacts: Mapping[str, UnitArtifact],
     evaluator: MetricEvaluator,
 ) -> SentinelResult:
-    """Run one thin sentinel over every identity-bound shared unit."""
 
     if spec.harness_contract_sha256 != contract.sha256:
         raise ValueError("sentinel does not reference the supplied harness contract")

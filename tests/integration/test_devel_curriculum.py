@@ -1,6 +1,3 @@
-"""Curriculum engine over REAL probes on generated control corpora: it rejects the aleatoric noisy-TV
-(undecodable labels), never chooses it, prefers a learnable candidate, and respects the clip budget.
-This is the on-device demonstration of learning-progress data selection (rung 6 / Frontier 26/33)."""
 
 from pathlib import Path
 
@@ -19,7 +16,6 @@ def _sources(tmp_path, families):
 def test_curriculum_rejects_noisy_tv_and_picks_learnable(tmp_path):
     sources = _sources(tmp_path, ["moving_object", "hard_motion", "aleatoric_tv"])
     m = curriculum.next_lesson(sources, profile=M3PRO_LOCAL_MAX, eval_clips=48, next_clips=64, seed=0)
-    # the aleatoric noisy-TV (undecodable labels) is rejected and never chosen
     assert "aleatoric_tv" in m["rejected_noise"]
     assert m["chosen"] != "aleatoric_tv"
     assert m["chosen"] is not None  # a learnable candidate was found
@@ -28,7 +24,6 @@ def test_curriculum_rejects_noisy_tv_and_picks_learnable(tmp_path):
 def test_curriculum_respects_clip_budget(tmp_path):
     sources = _sources(tmp_path, ["moving_object", "hard_motion"])
     m = curriculum.next_lesson(sources, profile=M3PRO_LOCAL_MAX, eval_clips=10_000, next_clips=10_000, seed=0)
-    # eval/next clip counts are clamped to the profile cap (kill switch)
     assert m["expected_cost_clips"] <= M3PRO_LOCAL_MAX.max_cache_clips
     for s in m["ranked"]:
         if "n_eval" in s:
@@ -52,7 +47,6 @@ def test_curriculum_manifest_has_required_fields(tmp_path):
 
 
 def test_learning_progress_flags_noise_via_permutation(tmp_path):
-    # direct check of the permutation-test noise detector on a pure-noise corpus
     sources = _sources(tmp_path, ["aleatoric_tv"])
     from mop.devel.curriculum import _encode_source, learning_progress
 

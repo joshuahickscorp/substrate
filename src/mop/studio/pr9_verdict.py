@@ -1,9 +1,3 @@
-"""PR9 verdict ledger.
-
-PR9's long run writes a raw result and a resumable run-state receipt. This module turns those receipts
-into a durable verdict ledger: scoring or non-scoring cache, plasticity certificate status, CBP
-mechanism status, Process C licensing, and the publication rule for any positive.
-"""
 
 from __future__ import annotations
 
@@ -24,7 +18,6 @@ def build_pr9_verdict_ledger(
     null_card_path: str | Path = DEFAULT_NULL_CARD,
     dr1_cache: str = DEFAULT_DR1_CACHE,
 ) -> dict[str, Any]:
-    """Build a typed PR9 verdict ledger from raw result/state receipts."""
     problems: list[str] = []
     null_card = _null_card_summary(null_card_path)
     if not null_card["exists"]:
@@ -91,7 +84,6 @@ def build_pr9_verdict_ledger(
 
 
 def load_json(path: str | Path | None) -> dict[str, Any] | None:
-    """Load a JSON object if it exists."""
     if path is None:
         return None
     p = Path(path)
@@ -102,7 +94,6 @@ def load_json(path: str | Path | None) -> dict[str, Any] | None:
 
 
 def write_pr9_verdict_ledger(ledger: dict[str, Any], path: str | Path) -> None:
-    """Write the verdict ledger receipt."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(ledger, indent=2, default=str) + "\n")

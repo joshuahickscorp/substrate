@@ -1,11 +1,4 @@
 #!/usr/bin/env python
-"""Run Leg 11D negative-result registry: execute each experiment's cheapest predicted-null
-ablation at toy scale (compose + run_experiment), read its null-related booleans, and record a
-verdict + taxonomy slot per experiment. Logs progress to stderr, emits the registry dict as JSON
-to stdout, and writes a markdown table to runs/negative_registry.md.
-
-Usage: python scripts/run_negative_registry.py [--full]
-"""
 
 from __future__ import annotations
 

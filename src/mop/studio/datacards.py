@@ -1,15 +1,3 @@
-"""Data cards + license ledger (Frontier 5). Every source, planned or acquired, gets a data card:
-a single readable record of what it is, what it costs, what its license allows, how it was (or will
-be) obtained, and its honest provenance tag. The license ledger rolls the whole registry into one
-blocker table so the signed-terms / withdrawn / deferred sources are obvious BEFORE a Studio hour
-is spent, not discovered mid-run.
-
-A card merges the static registry entry with optional live state (a planner selection, an acquire
-manifest entry): status, local path, acquired byte/clip counts, hash-manifest pointer, the exact
-command used, and the date. Nothing here downloads or validates; it reports.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -29,9 +17,6 @@ _BLOCKER = {
 
 
 def data_card(entry: dict, state: dict | None = None, command: str = "", date: str = "") -> dict:
-    """One source's data card as a dict (render with render_card_md). `entry` is the registry record;
-    `state` optionally carries live acquisition facts (selected subset, acquired bytes/clips, dest,
-    hash manifest path, status override)."""
     st = state or {}
     return {
         "slug": entry.get("slug"),
@@ -63,7 +48,6 @@ def data_card(entry: dict, state: dict | None = None, command: str = "", date: s
 
 
 def render_card_md(card: dict) -> str:
-    """A single data card as Markdown."""
     L = [
         f"# Data card: {card['name']} (`{card['slug']}`)",
         "",
@@ -90,9 +74,6 @@ def render_card_md(card: dict) -> str:
 
 
 def license_ledger(datasets: list[dict] | None = None) -> dict:
-    """Roll the registry into a license/blocker view: one row per source with its status, license,
-    and the action a reviewer must take. Returns {rows, counts, blockers} (blockers = the rows that
-    need action: manual/blocked/deferred)."""
     ds = datasets if datasets is not None else load_datasets()
     rows = []
     counts: dict[str, int] = {}
@@ -114,7 +95,6 @@ def license_ledger(datasets: list[dict] | None = None) -> dict:
 
 
 def render_ledger_md(ledger: dict) -> str:
-    """The license ledger as Markdown: a full table plus a highlighted blockers section."""
     L = [
         "# License ledger",
         "",
@@ -136,9 +116,6 @@ def render_ledger_md(ledger: dict) -> str:
 
 
 def write_data_cards(out_dir: Path, plan: dict | None = None, manifest: dict | None = None) -> dict:
-    """Write a data card per registry source plus the license ledger under out_dir. When a plan and/or
-    acquire manifest are given, merge their live state into the matching cards. Returns
-    {cards_dir, ledger_md, n_cards}."""
     out_dir = Path(out_dir)
     cards_dir = out_dir / "datacards"
     cards_dir.mkdir(parents=True, exist_ok=True)

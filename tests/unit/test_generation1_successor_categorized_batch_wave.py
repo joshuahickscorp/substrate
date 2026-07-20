@@ -20,14 +20,6 @@ from tests.unit.test_generation1_d1_frozen_verify import (
 
 
 class _InlineExecutor:
-    """In-process ProcessPoolExecutor double for exercising the real _execute_pending path.
-
-    Runs each submitted runner synchronously in the test process so a unit test can drive the real
-    pool-sizing and result-collection logic without spawning subprocesses. Records every
-    ``max_workers`` it is constructed with. The initializer is deliberately NOT run: its only effect
-    is a best-effort ``os.nice`` on a worker, which is irrelevant to receipts and must never renice
-    the test process.
-    """
 
     created_with: list[int] = []
 
@@ -50,7 +42,6 @@ class _InlineExecutor:
 
 
 def _host_sample(state: dwc.HostState) -> dwc.HostSample:
-    """Wrap a HostState in a HostSample using the real pure derivations (no live host reads)."""
 
     return dwc.HostSample(
         state=state,
@@ -486,13 +477,6 @@ def test_worker_count_is_receipt_invariant_across_pool_widths(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """The seeded-sha256 raw receipt is byte-identical whether the pool floats to 1 or 20 workers.
-
-    Drives the real _execute_pending through an in-process executor double under two forced widths
-    (1 vs 20) and asserts every raw capsule receipt is byte-for-byte identical, proving the dynamic
-    worker count never leaks into any hashed or sealed field. worker_pool_max_workers stays the fixed
-    IDLE_WORKERS ceiling regardless of the instantaneous width.
-    """
 
     sources = {
         lane_id: next(item for item in mechanics.WORK_ITEMS if item.lane_id == lane_id)
@@ -522,8 +506,6 @@ def test_worker_count_is_receipt_invariant_across_pool_widths(
             seed_count=2,
         )
 
-    # Run the real seeded runners in-process (no subprocess) with the process-label and nice side
-    # effects neutralized, so the test never renames itself into the live mop-final-* worker family.
     monkeypatch.setattr(consolidated, "fresh_mechanics_item", reduced_fresh)
     monkeypatch.setattr(consolidated, "set_process_label", lambda *_a, **_k: None)
     monkeypatch.setattr(consolidated.os, "nice", lambda *_a: 0)
@@ -540,7 +522,6 @@ def test_worker_count_is_receipt_invariant_across_pool_widths(
     receipts_twenty = run_at_width(20, tmp_path / "width_twenty")
 
     assert set(receipts_one) == set(receipts_twenty) == {work.key for work in works}
-    # The pool genuinely floated to two different widths (1 then 20) across the two builds.
     assert _InlineExecutor.created_with == [1, 20]
     for work in works:
         assert receipts_one[work.key]["result_sha256"] == receipts_twenty[work.key]["result_sha256"]
@@ -552,28 +533,20 @@ def test_worker_count_is_receipt_invariant_across_pool_widths(
 def test_dynamic_pool_width_backs_off_under_hawking_and_ramps_when_idle(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """The pool floats with live host load: it holds the twenty-worker ceiling when the host is idle,
-    sheds to the tiny reserve under a faked Hawking workload, and falls back to the static
-    min(IDLE_WORKERS, pending) width when no live host sample is available."""
 
     assert wave.IDLE_WORKERS == dwc.WORKER_CEILING == 20
 
-    # Idle host: hold the declared twenty-worker ceiling at the mild utility nice level.
     monkeypatch.setattr(dwc, "sample_host_state", lambda *_a, **_k: _host_sample(_idle_state(20)))
     width, nice_level = wave._dynamic_pool_width(30)
     assert width == 20
     assert nice_level == dwc.IDLE_NICE
 
-    # Hawking active: back the worker count off to the tiny reserve and yield cores by maximum nice.
     monkeypatch.setattr(dwc, "sample_host_state", lambda *_a, **_k: _host_sample(_hawking_state(20)))
     width, nice_level = wave._dynamic_pool_width(30)
     assert width == dwc.HAWKING_RESERVE_WORKERS == 2
     assert width < 20
     assert nice_level == dwc.HAWKING_NICE
 
-    # Controller cannot sample (psutil absent or a refusal): fall back to the static width exactly as
-    # before, with no priority initializer (nice_level is None so _execute_pending passes no
-    # initializer to the pool).
     def _refuse(*_a: Any, **_k: Any) -> dwc.HostSample:
         raise dwc.WorkerControllerRefused("psutil is required to read a live host state")
 
@@ -581,5 +554,4 @@ def test_dynamic_pool_width_backs_off_under_hawking_and_ramps_when_idle(
     assert wave._dynamic_pool_width(5) == (5, None)
     assert wave._dynamic_pool_width(30) == (20, None)
 
-    # A single pending item never even samples the host: it takes exactly one worker.
     assert wave._dynamic_pool_width(1) == (1, None)

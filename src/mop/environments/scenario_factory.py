@@ -1,8 +1,3 @@
-"""Deterministic fixtures for event, intervention, and lifecycle mechanics.
-
-One factory creates occlusion, transform, split, merge, delay, and intervention records over a
-single typed event graph. All scenario content is programmatic and content-addressed.
-"""
 
 from __future__ import annotations
 
@@ -139,7 +134,6 @@ class ScenarioBundle:
 
 
 def make_scenario(*, seed: int) -> ScenarioBundle:
-    """Create one deterministic Wave E0 scenario for an independent seed."""
 
     if seed < 0:
         raise ValueError("scenario seed must be nonnegative")

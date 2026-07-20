@@ -1,11 +1,3 @@
-"""Exploratory G1-C3/D1 visible-router redesign screen.
-
-This non-promotable screen compares several router feature/model variants while
-sharing each heldout actor evaluation across the complete variant grid.  Every
-router is restricted to the test latent, the frozen difficulty index, and
-geometry derived from the labeled training support set.  Heldout context,
-truth, actor predictions, and oracle choices are never router inputs.
-"""
 
 from __future__ import annotations
 
@@ -35,7 +27,6 @@ FEATURE_SETS = ("raw", "centroid", "local", "geometry", "raw_geometry")
 
 
 def variant_grid() -> list[dict[str, Any]]:
-    """Return the frozen exploratory grid in stable order."""
 
     return [
         {"variant_id": "raw-h32-e30-lr10", "feature_set": "raw", "hidden": 32, "epochs": 30, "lr": 0.01},
@@ -278,7 +269,6 @@ def router_features(
     difficulty_count: int,
     n_classes: int,
 ) -> torch.Tensor:
-    """Build the complete, label-safe heldout router interface."""
 
     if feature_set not in FEATURE_SETS:
         raise ValueError(f"unknown router feature set {feature_set!r}")

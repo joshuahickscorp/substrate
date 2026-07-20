@@ -1,9 +1,3 @@
-"""D4: transfer matrix. A probe trained on task i's latents, applied to task j's, measures cross-task
-structure for free out of anything that already has per-task (x, y) pairs (continual streams, held-out
-splits). The T by T accuracy grid plus an asymmetry index (does i->j transfer differ from j->i) is the
-reusable diagnostic; downstream experiments (continual/compositional/analogy series) call this instead
-of hand-rolling the loop.
-"""
 
 from __future__ import annotations
 
@@ -29,10 +23,6 @@ def _fit_linear_head(x: torch.Tensor, y: torch.Tensor, epochs: int, lr: float, s
 def transfer_matrix(
     tasks: list[tuple[torch.Tensor, torch.Tensor]], epochs: int = 150, lr: float = 0.05, seed: int = 0
 ) -> dict:
-    """tasks: a list of (x, y) per task, same label space size assumed per row (each task probed
-    independently). Returns the T by T matrix where cell [i][j] is a probe TRAINED on task i's data
-    EVALUATED on task j's data, the mean off-diagonal transfer, chance, and an asymmetry index (mean
-    absolute [i][j] - [j][i] over i != j: 0 means transfer is symmetric, high means directional)."""
     t = len(tasks)
     heads = [_fit_linear_head(x, y, epochs, lr, seed + i) for i, (x, y) in enumerate(tasks)]
     grid = [[0.0] * t for _ in range(t)]

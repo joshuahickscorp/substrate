@@ -71,12 +71,6 @@ def _repo_path(value: object, *, repo_root: Path = REPO_ROOT) -> Path:
 
 
 def _validate_source_live_bindings(receipt: dict[str, Any], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
-    """Revalidate every live authority embedded by the source preflight.
-
-    The preflight file digest alone is not enough for resume. Its purpose is to bind the live
-    implementation and config that produced it, so those embedded bindings must still resolve to
-    the same bytes every time a progressive rung starts or resumes.
-    """
 
     config = receipt.get("config")
     if not isinstance(config, dict):
@@ -296,7 +290,6 @@ def _profile(plan: dict[str, Any]) -> ContinualSmokeProfile:
 
 
 def _revalidate_live_identity(config: dict[str, Any], identity: dict[str, Any]) -> None:
-    """Refuse dependency edits between cells as well as between resume invocations."""
 
     if _sha256_file(Path(config["_config_path"])) != identity["config_sha256"]:
         raise ValueError("progressive continual live rung config drift")
@@ -320,7 +313,6 @@ def _max_rss_bytes() -> int:
 
 
 def _update_peak_rss(progress: dict[str, Any], *, observed_bytes: int | None = None) -> int:
-    """Persist the maximum runner RSS across restartable invocations."""
 
     observed = _max_rss_bytes() if observed_bytes is None else int(observed_bytes)
     if observed < 0:

@@ -1,11 +1,3 @@
-"""Tests for the niche_dispatch runner: determinism, the null vs favorable verdicts, fail-closed.
-
-These pin the honesty boundary for the niche_dispatch workstream. The named prior null (an EDCM
-invalid bed: overlapping, partly harmful niches) must hold on the null regime, so dispatch there can
-never beat every matched control. Only a genuine favorable win, where the dispatcher strictly beats
-all four declared controls, yields a mechanics-ok demonstration, and even then the receipt is never a
-scientific confirmation. A tie or loss on any control fails closed to the null verdict.
-"""
 
 from __future__ import annotations
 
@@ -51,12 +43,10 @@ def test_run_is_deterministic() -> None:
 
 
 def test_null_regime_yields_null_and_named_null_holds() -> None:
-    # On the null regime the named prior null holds: dispatch cannot beat every matched control.
     runner = NicheDispatchRunner()
     results = runner.run(build_default_bed(), SEED)
     assert results.null_holds is True
     assert results.null_report.beats_every_control is False
-    # A single-best control ties dispatch on the overlapping bed, so no strict win exists.
     assert results.null_report.controls_beaten != DISPATCH_CONTROLS
 
 
@@ -81,8 +71,6 @@ def test_favorable_dispatch_strictly_beats_each_control() -> None:
 
 
 def test_tie_or_loss_fails_closed_to_null_verdict() -> None:
-    # Degrade the favorable regime into an overlapping one; a single-best control now ties dispatch,
-    # so the runner must refuse mechanics-ok and fall back to the null verdict.
     runner = NicheDispatchRunner()
     degraded = NicheDispatchBed(favorable_disjoint=False)
     results = runner.run(degraded, SEED)

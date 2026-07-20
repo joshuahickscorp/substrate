@@ -23,6 +23,7 @@ from mop.science.budget import (
     ARM_NEVER_UPDATE,
     ARM_RATE_MATCHED_RANDOM,
     BudgetPoint,
+    BudgetSeedRun,
     FlopModel,
     arm_flop_model,
     build_budget_points,
@@ -165,19 +166,6 @@ def _deterministic_arm_tuples(
     return tuples
 
 
-@dataclass(frozen=True, slots=True)
-class _SeedRun:
-    seed: int
-    architecture: str
-    total_frames: int
-    train_frames: int
-    gate_params: int
-    parameter_digest: str
-    per_budget: dict[str, dict[str, Any]]
-    operating_budget_id: str
-    noisy_tv: dict[str, Any]
-
-
 def _run_seed_real(
     architecture: str,
     seed: int,
@@ -193,7 +181,7 @@ def _run_seed_real(
     operating_density: float,
     always_on_payloads: dict[str, dict[str, Any]],
     never_update_payloads: dict[str, dict[str, Any]],
-) -> _SeedRun:
+) -> BudgetSeedRun:
 
     gate, train_frames = _train_gate(
         architecture, seed, train_clips, features_by_clip, doa_track_by_clip, config
@@ -271,16 +259,36 @@ def _run_seed_real(
         "at_chance": at_chance(min(1.0, noise_rate), min(1.0, base_rate)),
         "n_noise_frames": int(noise_features.shape[0]),
     }
+    per_seed_block = {
+        "seed": seed,
+        "operating_budget_id": operating_budget_id,
+        "gate_params": gate.n_params(),
+        "parameter_digest": gate.parameter_digest(),
+        "reestimate_frames": operating["reestimate_frames"],
+        "arm_scores_macro": operating["arm_scores_macro"],
+        "arm_scores_pooled": operating["arm_scores_pooled"],
+        "reestimations": operating["reestimations"],
+        "per_budget_summary": {
+            bid: {
+                "rate": block["rate"],
+                "theta": block["theta"],
+                "candidate_macro_mae_deg": block["arm_scores_macro"][ARM_CANDIDATE]["macro_mae_deg"],
+                "rate_matched_random_macro_mae_deg": (
+                    block["arm_scores_macro"][ARM_RATE_MATCHED_RANDOM]["macro_mae_deg"]
+                ),
+            }
+            for bid, block in per_budget.items()
+        },
+    }
 
-    return _SeedRun(
+    return BudgetSeedRun(
         seed=seed,
-        architecture=architecture,
         total_frames=total_frames,
         train_frames=train_frames,
         gate_params=gate.n_params(),
-        parameter_digest=gate.parameter_digest(),
         per_budget=per_budget,
         operating_budget_id=operating_budget_id,
+        per_seed_block=per_seed_block,
         noisy_tv=noisy_tv,
     )
 
@@ -315,7 +323,7 @@ class _ArchitectureStats:
 
 
 def _architecture_stats(
-    arch_seed_runs: list[_SeedRun], test_clips: tuple[Clip, ...], sesoi_deg: float
+    arch_seed_runs: list[BudgetSeedRun], test_clips: tuple[Clip, ...], sesoi_deg: float
 ) -> _ArchitectureStats:
     operating_scores = [
         run.per_budget[run.operating_budget_id]["arm_scores_macro"] for run in arch_seed_runs
@@ -456,7 +464,7 @@ def build_real_doa_bed_artifact(
     }
 
     started = time.perf_counter_ns()
-    seed_runs_by_arch: dict[str, list[_SeedRun]] = {ARCH_A_ID: [], ARCH_B_ID: []}
+    seed_runs_by_arch: dict[str, list[BudgetSeedRun]] = {ARCH_A_ID: [], ARCH_B_ID: []}
     for architecture in ARCHITECTURES:
         for seed in config.seeds:
             seed_runs_by_arch[architecture].append(
@@ -540,7 +548,7 @@ def build_real_doa_bed_artifact(
         "architecture_fragile": exactly_one_survives,
     }
 
-    def _noisy_tv_block(seed_runs: list[_SeedRun]) -> dict[str, Any]:
+    def _noisy_tv_block(seed_runs: list[BudgetSeedRun]) -> dict[str, Any]:
         n_runs = len(seed_runs)
         mean_noise_rate = math.fsum(run.noisy_tv["reestimate_rate_on_noise"] for run in seed_runs) / n_runs
         mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
@@ -575,40 +583,9 @@ def build_real_doa_bed_artifact(
         for clip in test_clips
     }
 
-    def _per_seed_blocks(seed_runs: list[_SeedRun]) -> list[dict[str, Any]]:
-        blocks = []
-        for run in seed_runs:
-            operating = run.per_budget[run.operating_budget_id]
-            blocks.append(
-                {
-                    "seed": run.seed,
-                    "operating_budget_id": run.operating_budget_id,
-                    "gate_params": run.gate_params,
-                    "parameter_digest": run.parameter_digest,
-                    "reestimate_frames": operating["reestimate_frames"],
-                    "arm_scores_macro": operating["arm_scores_macro"],
-                    "arm_scores_pooled": operating["arm_scores_pooled"],
-                    "reestimations": operating["reestimations"],
-                    "per_budget_summary": {
-                        bid: {
-                            "rate": block["rate"],
-                            "theta": block["theta"],
-                            "candidate_macro_mae_deg": (
-                                block["arm_scores_macro"][ARM_CANDIDATE]["macro_mae_deg"]
-                            ),
-                            "rate_matched_random_macro_mae_deg": (
-                                block["arm_scores_macro"][ARM_RATE_MATCHED_RANDOM]["macro_mae_deg"]
-                            ),
-                        }
-                        for bid, block in run.per_budget.items()
-                    },
-                }
-            )
-        return blocks
-
     per_seed_block = {
-        ARCH_A_ID: _per_seed_blocks(seed_runs_by_arch[ARCH_A_ID]),
-        ARCH_B_ID: _per_seed_blocks(seed_runs_by_arch[ARCH_B_ID]),
+        architecture: [run.per_seed_block for run in seed_runs_by_arch[architecture]]
+        for architecture in ARCHITECTURES
     }
 
     core_evidence = {

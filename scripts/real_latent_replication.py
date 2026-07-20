@@ -1,28 +1,4 @@
 #!/usr/bin/env python
-"""Real-latent replication lane (doctrine synthesis, lane 1). Almost the entire pre-Studio corpus ran
-on synthetic Gaussian-cluster latents, so a clean result there is a statement about a tiny shell on an
-easy toy task, not about the frozen V-JEPA 2 substrate. This driver re-runs the doctrine-load-bearing
-probes on a REAL-encoder cache, each against its frozen-random-projection control, so the question is
-asked on genuine encoder geometry.
-
-The key move: a bare linear probe of separable classes is PROJECTION-INVARIANT (real ties frozen-random
-by construction, as the 64-clip cache already shows at acc 1.0 = 1.0), so this driver leads with the
-NONLINEAR and COMPOSITIONAL tests where real and frozen-random can actually diverge:
-  - readout_contribution (P10): (nonlinear - linear) on real minus the same on frozen-random. A positive
-    index means the real encoder carries nonlinear structure a random projection does not.
-  - held_out_combination (C1/S6): only for a FACTORIZED cache (two independent factors). Train to decode
-    factor A holding out a diagonal of (A, B) cells, test on the unseen combinations, real vs frozen-
-    random. This is the compositional-abstraction test the synthetic proxy could not ground.
-  - linear_probe + geometry: reported for reference (the projection-invariant baseline and the substrate
-    geometry).
-
-Usage:
-  python scripts/real_latent_replication.py --store vjepa2_vitl_fpc64_256_real
-  python scripts/real_latent_replication.py --store vjepa2_vitl_fpc64_256_factorized \
-      --out runs/pre_studio/real_repl_factorized.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -56,7 +32,6 @@ def run(store_name: str, data_dir: str, seed: int) -> dict:
         "note": "real-encoder geometry vs frozen-random projection; leads with nonlinear/compositional tests",
     }
 
-    # 1. linear-probe baseline (expected projection-invariant: real ~ frozen-random on separable classes)
     lp_real = linear_probe(x, y, classification=True, epochs=300, seed=seed)
     lp_fr = linear_probe(frozen_random_projection(x, seed), y, classification=True, epochs=300, seed=seed)
     out["linear_probe"] = {
@@ -67,12 +42,9 @@ def run(store_name: str, data_dir: str, seed: int) -> dict:
         "projection_invariant": bool(abs(lp_real["score"] - lp_fr["score"]) < 0.05),
     }
 
-    # 2. readout-contribution index (P10): the nonlinear real-minus-frozen-random gain, the first place
-    #    real geometry can diverge from a random projection.
     rc = readout_contribution(x, y, hidden=min(128, max(32, dim // 4)), seed=seed)
     out["readout_contribution_p10"] = {k: (round(v, 4) if isinstance(v, float) else v) for k, v in rc.items()}
 
-    # 3. compositional held-out-combination (C1/S6): factorized caches only, real vs frozen-random.
     if fm is not None:
         xf, ya, yb = factorized_arrays(store)
         hoc_real = held_out_combination(xf, ya, yb, seed=seed)
@@ -84,11 +56,9 @@ def run(store_name: str, data_dir: str, seed: int) -> dict:
             "real_composes_above_fr": bool(hoc_real["heldout_acc"] - hoc_fr["heldout_acc"] > 0.05),
         }
 
-    # 4. substrate geometry (reference)
     geo = geometry_report(x)
     out["geometry"] = {k: (round(v, 4) if isinstance(v, float) else v) for k, v in geo.items()}
 
-    # honest headline verdict for this cache
     real_diverges = bool(
         out["readout_contribution_p10"].get("substrate_carries_nonlinear_structure", False)
         or (fm is not None and out["held_out_combination_c1"]["real_composes_above_fr"])

@@ -22,7 +22,6 @@ ORACLE_REFERENCE = "oracle-headroom"
 ALL_ARMS: tuple[str, ...] = (*CHEAP_CONTROLS, SEARCH_ARM, ORACLE_REFERENCE)
 
 FORMATION_DEFAULT: tuple[int, ...] = (0, 1)
-# Members whose affinity is high on their own task and low elsewhere; they carry coverage.
 SPECIALISTS: tuple[int, ...] = (0, 1, 2)
 SYNERGY_PAIR: tuple[int, ...] = (6, 7)
 

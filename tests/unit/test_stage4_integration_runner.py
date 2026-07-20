@@ -1,11 +1,3 @@
-"""Unit tests for the Stage 4 integration harness runner.
-
-The load-bearing guarantee: the runner fails closed on the composition precondition. With fewer than
-two independently confirmed Stage 3 mechanisms it reports "not entered" and mints a null mechanics
-demonstration; only two or more scientific confirmations plus a favorable regime reach verdict
-mechanics-ok, and the null regime stays null. The output is ALWAYS a mechanics demonstration, never a
-scientific confirmation. No capability is claimed anywhere.
-"""
 
 from __future__ import annotations
 
@@ -45,7 +37,6 @@ DIGEST = "b" * 64
 
 
 def a_confirmation(mechanism_id: str) -> RunReceipt:
-    """Construct a synthetic cleared scientific-confirmation receipt for a Stage 3 mechanism."""
 
     return mint_confirmation(
         mechanism_id=mechanism_id,
@@ -60,11 +51,6 @@ def a_confirmation(mechanism_id: str) -> RunReceipt:
 
 def two_confirmations() -> list[RunReceipt]:
     return [a_confirmation("event_formation"), a_confirmation("niche_dispatch")]
-
-
-# ---------------------------------------------------------------------------
-# Fail closed: zero and one confirmation report "not entered".
-# ---------------------------------------------------------------------------
 
 
 def test_zero_confirmations_is_null_and_not_entered() -> None:
@@ -104,11 +90,6 @@ def test_demonstrations_do_not_count_as_confirmations() -> None:
     assert receipt.detail["confirmations"] == 0
 
 
-# ---------------------------------------------------------------------------
-# Entered: two confirmations exercise the composition machinery.
-# ---------------------------------------------------------------------------
-
-
 def test_two_confirmations_favorable_regime_is_mechanics_ok() -> None:
     receipt = run(two_confirmations(), build_default_bed(), 11, regime=REGIME_FAVORABLE)
     assert receipt.verdict == "mechanics-ok"
@@ -134,11 +115,6 @@ def test_favorable_default_regime_reaches_mechanics_ok() -> None:
     assert receipt.detail["regime"] == REGIME_FAVORABLE
 
 
-# ---------------------------------------------------------------------------
-# The honesty boundary: the Stage 4 output is never a scientific confirmation.
-# ---------------------------------------------------------------------------
-
-
 def test_stage4_output_is_never_a_confirmation() -> None:
     bed = build_default_bed()
     receipts = [
@@ -150,11 +126,6 @@ def test_stage4_output_is_never_a_confirmation() -> None:
         assert receipt.kind != KIND_CONFIRMATION
         assert receipt.kind == KIND_DEMONSTRATION
         assert receipt.is_confirmation is False
-
-
-# ---------------------------------------------------------------------------
-# Determinism and digest stability.
-# ---------------------------------------------------------------------------
 
 
 def test_runner_is_deterministic_per_seed() -> None:
@@ -176,11 +147,6 @@ def test_distinct_seeds_yield_distinct_evidence() -> None:
     one = run(two_confirmations(), bed, 1, regime=REGIME_FAVORABLE)
     two = run(two_confirmations(), bed, 2, regime=REGIME_FAVORABLE)
     assert one.evidence_digest != two.evidence_digest
-
-
-# ---------------------------------------------------------------------------
-# Fail closed on malformed input.
-# ---------------------------------------------------------------------------
 
 
 def test_negative_seed_fails_closed() -> None:

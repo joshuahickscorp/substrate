@@ -7,7 +7,6 @@ import argparse
 import copy
 import hashlib
 import json
-import os
 import re
 import sys
 from pathlib import Path
@@ -43,8 +42,6 @@ IMPLEMENTATION_PATHS = (
 )
 FRESH_SEEDS = (101, 103, 107)
 _SHA_RE = re.compile(r"^[0-9a-f]{64}$")
-
-
 
 
 def _sha(value: Any) -> str:
@@ -512,8 +509,6 @@ def verify_payload_sha256(receipt: dict[str, Any]) -> bool:
     return isinstance(digest, str) and digest == _sha(
         {key: value for key, value in receipt.items() if key != "payload_sha256"}
     )
-
-
 
 
 def main(argv: list[str] | None = None) -> int:

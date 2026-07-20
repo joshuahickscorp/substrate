@@ -1,22 +1,3 @@
-"""MechanismRunner for epoch construction_search: charge the search cost and mint a demonstration.
-
-The runner drives the construction_search bed on both regimes, charges the per-evaluation search
-cost against every arm, and mints a mechanics-demonstration RunReceipt. The verdict is honest and
-fail-closed:
-
-- On the NULL regime the flat objective lets greedy reach the coverage optimum, so the search cannot
-  beat greedy net of its charged cost. The named prior null holds.
-- On the FAVORABLE regime the search beats every cheap control net of cost only when it actually
-  finds the synergy that greedy cannot reach and the gain survives the charge.
-
-The receipt reads ``mechanics-ok`` only when the search beats EVERY cheap control on the favorable
-regime with its cost charged AND the prior null holds on the null regime. Otherwise it reads
-``null``. The receipt is always a mechanics demonstration; it is never a scientific confirmation and
-can never open a stage gate. Claim scope: deterministic programmatic mechanics only; no capability
-or natural-data claim.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -44,8 +25,6 @@ from .construction_search_impl import ArmResult, evaluate_regime
 
 CONSTRUCTION_SEARCH_EVIDENCE_SCHEMA = "mop-construction-search-evidence/v1"
 
-# The named prior null this epoch must clear before any net improvement claim is admissible. It must
-# hold on the null regime for a favorable mechanics-ok verdict to be honest.
 PRIOR_NULL = (
     "G0 formation mechanics existed without demonstrated efficacy; construction search buys nothing "
     "net of its charged cost unless the charged-cost margin over every cheap control is positive"
@@ -62,10 +41,6 @@ def _sorted_floats(values: dict[str, float]) -> dict[str, float]:
 
 @dataclass(frozen=True, slots=True)
 class RunResults:
-    """The charged-cost outcome across both regimes for one seed.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     seed: int
     per_eval_cost: float
@@ -120,12 +95,10 @@ class RunResults:
 
 
 class ConstructionSearchRunner:
-    """Runs the construction_search mechanism against its bed and mints a demonstration receipt."""
 
     mechanism_id: str = MECHANISM_ID
 
     def run(self, bed: Bed, seed: int) -> RunResults:
-        """Score the charged-cost net objective for the search and every control on both regimes."""
 
         if seed < 0:
             raise ValueError("run seed must be nonnegative")
@@ -168,7 +141,6 @@ class ConstructionSearchRunner:
         )
 
     def mint(self, results: RunResults) -> RunReceipt:
-        """Mint a mechanics demonstration. ``mechanics-ok`` only when the favorable claim is earned."""
 
         earned = results.favorable_beats_all and results.null_holds
         verdict = VERDICT_MECHANICS_OK if earned else VERDICT_NULL

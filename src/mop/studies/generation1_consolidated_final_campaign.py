@@ -1,11 +1,3 @@
-"""Detached conditional final campaign for Generation 1 successor evidence.
-
-The campaign consumes the frozen D1 and successor-mechanics authorities as
-soon as each becomes available.  It first regenerates source artifacts, then
-executes two fresh disjoint stress cycles only for result-gated branches.  The
-work is deterministic and restart-safe.  Regeneration and same-code fresh
-stress are integrity/robustness evidence, never independent confirmation.
-"""
 
 from __future__ import annotations
 

@@ -1,25 +1,3 @@
-"""EX13: the long-stream stress test (the forgetting curve). E1 asks "does protection beat naive
-over a HANDFUL of tasks". EX13 asks the harder question: does that gap survive hundreds of tasks, or
-does it just delay the same eventual collapse. A domain-incremental stream of n_tasks (hundreds at
-scaled scope) is walked task-by-task; after every task we probe a small FIXED set of EARLY-stream
-anchor tasks (never the full T-by-T matrix, which is O(T^2) and too slow at this length) to build a
-genuine retention-vs-stream-position curve, and periodically measure the effective rank of the model's
-hidden representation to track representational collapse alongside behavioral forgetting.
-
-Two arms at real scale: naive-sequential (no replay, no consolidation: matches E1's naive arm) vs
-protected (replay buffer + EWC consolidation: matches E1's protected arm). A third, smaller
-frozen-random-substrate control arm reruns the protected recipe with a fixed random linear projection
-applied to the input latents (mop.diagnostics.substrate_ablation.frozen_random_projection), to check
-whether any observed retention advantage is substrate-specific or just a generic linear-space property
-that any projection would show.
-
-NULL (taxonomy default): retention is flat in stream length within the seed spread, or every mechanism
-degrades identically (protection only delays the same collapse). A real, frozen-random-robust divergence
-between naive and protected over hundreds of tasks is the headline finding this experiment exists to
-surface, and is reported as such (not forced back to null) when the honest numbers show it.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -42,9 +20,6 @@ from .base import Experiment, _split
 
 @torch.no_grad()
 def _hidden_activations(model: ClassHead, x: torch.Tensor) -> torch.Tensor:
-    """The representation effective_rank is measured on: the output of the last hidden layer if the
-    head has one (net is an nn.Sequential ending in the final Linear), else the raw input latent (a
-    depth-0 head is a bare nn.Linear, so there is no hidden layer to probe)."""
     net = model.net
     if isinstance(net, torch.nn.Sequential) and len(net) > 1:
         return net[:-1](x)
@@ -101,9 +76,6 @@ class EX13(Experiment):
             )
             wall[arm] = round(time.time() - t0, 3)
 
-        # frozen-random-substrate control: the protected recipe, but the input latents are passed
-        # through a fixed random linear projection first (same dim). Run at the SAME scale for the
-        # main arms per the scaled config (n_tasks_control lets the shipped config keep this bounded).
         control_n_tasks = int(e.get("n_tasks_control", n_tasks))
         if control_n_tasks == n_tasks:
             control_train, control_anchors = train, anchors
@@ -149,8 +121,6 @@ class EX13(Experiment):
         )
         meaningfully_different = abs(divergence) > float(e.get("divergence_margin", 0.1))
 
-        # null_supported: curves are NOT meaningfully different in shape/threshold, OR the divergence
-        # does not survive the frozen-random-substrate control (i.e., any projection would do).
         null_supported = (not meaningfully_different) or (not survives_frozen_random_control)
 
         out = {
@@ -277,10 +247,6 @@ class EX13(Experiment):
 
     @staticmethod
     def _anchor_bwt(anchor_acc_by_task: list[list[float]], chance: float) -> float:
-        """Mean-anchor-accuracy backward transfer analogue: final mean anchor accuracy minus the peak
-        mean anchor accuracy seen earlier in the stream (<=0 == forgetting, matches BWT sign
-        convention). Chance-floored so an arm that never learns the anchors reads as ~0, not negative
-        noise."""
         if not anchor_acc_by_task:
             return 0.0
         means = [sum(a) / len(a) for a in anchor_acc_by_task if a]

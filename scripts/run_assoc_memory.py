@@ -1,10 +1,4 @@
 #!/usr/bin/env python
-"""Run Leg 8B energy-based associative memory: modern-Hopfield retrieval vs a linear-autoassociator
-control, sweeping load K/D at a fixed corruption level. Logs progress to stderr, emits the result
-dict (capacities, curves, verdict) as JSON to stdout.
-
-Usage: python scripts/run_assoc_memory.py [--dim 64] [--corruption 0.5] [--beta 8.0] [--steps 3]
-"""
 
 from __future__ import annotations
 

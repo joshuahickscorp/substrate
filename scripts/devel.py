@@ -1,19 +1,4 @@
 #!/usr/bin/env python
-"""Developmental capacities CLI (Frontiers 20-35). One surface over the paradigm registry, the
-capacity ladder, the curriculum engine, the ablation/hypothesis engine, paper-watch, and the
-metacognition report. All bounded and offline; the curriculum command does REAL probe work over
-generated control corpora on the M3 Pro. Nothing here claims sentience.
-
-Usage:
-  python scripts/devel.py paradigms                       # list the paradigm frontier registry
-  python scripts/devel.py capacities                      # list the developmental capacity ladder
-  python scripts/devel.py paperwatch                      # offline literature watch
-  python scripts/devel.py ablation --scope local [--budget-hours 8]   # ranked next-experiment plan
-  python scripts/devel.py curriculum [--families a,b,c]    # next-lesson manifest (real probes)
-  python scripts/devel.py metacognition                   # self-monitoring report (gated by safety rails)
-  python scripts/devel.py validate                        # validate all developmental registries
-JSON to stdout, human log lines to stderr.
-"""
 
 from __future__ import annotations
 

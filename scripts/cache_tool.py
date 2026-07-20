@@ -1,17 +1,4 @@
 #!/usr/bin/env python
-"""Cache integrity CLI. Lists, describes, validates, and writes receipts for latent caches under
-data/cache without touching the encoder. JSON to stdout, logs to stderr.
-
-Usage:
-  python scripts/cache_tool.py list [--root data/cache]
-  python scripts/cache_tool.py info  data/cache/<name>
-  python scripts/cache_tool.py validate data/cache/<name>
-  python scripts/cache_tool.py manifest data/cache/<name>
-  python scripts/cache_tool.py validate-manifest data/cache/<name>
-
-`validate` prints {"store_dir","clean","problems"} and exits non-zero if the cache is dirty,
-so it doubles as a CI gate.
-"""
 
 from __future__ import annotations
 

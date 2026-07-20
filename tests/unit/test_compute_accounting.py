@@ -1,5 +1,3 @@
-"""Compute accounting (D5): parameter counts, FLOP estimates, and the matched-compute check that
-makes the reasoning experiments' 'matched compute' enforceable rather than asserted."""
 
 from torch import nn
 

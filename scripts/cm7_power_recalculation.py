@@ -34,7 +34,6 @@ POWER = 0.80
 
 
 def _betacf(a: float, b: float, x: float) -> float:
-    """Continued fraction for the regularized incomplete beta (Numerical Recipes form)."""
     tiny = 1e-300
     qab, qap, qam = a + b, a + 1.0, a - 1.0
     c = 1.0
@@ -103,7 +102,6 @@ def _std_normal_cdf(z: float) -> float:
 
 
 def _nct_power_two_sided(crit: float, df: float, ncp: float, points: int = 4000) -> float:
-    """P(|T| > crit) for T noncentral-t(df, ncp), by quadrature over the chi-square draw."""
     upper = df + 12.0 * math.sqrt(2.0 * df) + 40.0
     step = upper / points
     ln_norm = -math.lgamma(df / 2.0) - (df / 2.0) * math.log(2.0)
@@ -120,7 +118,6 @@ def _nct_power_two_sided(crit: float, df: float, ncp: float, points: int = 4000)
 
 
 def paired_t_n(effect_d_z: float, alpha: float = ALPHA, power: float = POWER) -> int:
-    """Smallest n with two-sided one-sample t power >= target at standardized effect d_z."""
     if effect_d_z <= 0:
         raise ValueError("effect must be positive")
     n = 3

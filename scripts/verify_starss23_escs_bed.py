@@ -1,15 +1,4 @@
 #!/usr/bin/env python3
-"""Independent verifier entrypoint: re-score the sealed STARSS23 ESCS artifact from specification.
-
-This drives the separately authored verifier (``mop.beds.starss23.verifier``), which imports none of the
-producer's code. It reads ``proof/STARSS23_ESCS_BED.json``, re-implements the referee, the sign-flip
-statistics, and the canonical seal from the written spec, and writes
-``proof/STARSS23_ESCS_BED.verification.json``. On synthetic fixtures the independent referee reproduction
-can pass while ``independent_scientific_confirmation`` stays false, which is the whole point: mechanics
-reproduce, science does not promote.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 

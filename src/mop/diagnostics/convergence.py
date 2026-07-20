@@ -1,13 +1,3 @@
-"""Convergence / attractor diagnostics for the IterativeRefiner (Y1, Y2, N9). Treats the refiner as a
-dynamical system: unroll it past its trained step count and ask whether the latent trajectory CONTRACTS
-to a fixed point (an error-correcting attractor) or DRIFTS (unrolled depth). A geometrically decaying
-per-step update norm is the contraction signature; the slope of log||z_{t+1}-z_t|| is the contraction
-factor (negative == contracting). Basin stability perturbs the input and measures whether trajectories
-re-converge (the contraction ratio). These are the measurements that turn "latent reasoning" from a
-metaphor into a falsifiable claim; pair with diagnostics/compute so a convergence gain is not just depth.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -17,8 +7,6 @@ import torch
 
 
 def _contraction_factor(norms: list[float]) -> float:
-    """Slope of log(update_norm) vs step (least squares). Negative == geometrically contracting; near
-    zero == drift/plateau; positive == diverging. Uses only the positive-norm prefix to avoid log(0)."""
     pts = [(i, math.log(n)) for i, n in enumerate(norms) if n > 1e-12]
     if len(pts) < 2:
         return 0.0
@@ -32,11 +20,6 @@ def _contraction_factor(norms: list[float]) -> float:
 
 
 def convergence_report(refiner, z: torch.Tensor, steps: int = 64) -> dict:
-    """Unroll `refiner` for `steps` on `z`, classify the dynamics. Returns {update_norms, contraction_
-    factor, fixed_point_residual, converged, classification, n_steps}. classification in
-    {converges, drifts, limit_cycle}: converges if the final update norm is small AND the contraction
-    factor is negative; limit_cycle if norms stop decreasing but stay bounded and non-small; drifts
-    otherwise."""
     _, norms = refiner.unroll(z, steps)
     cf = _contraction_factor(norms)
     resid = norms[-1] if norms else 0.0
@@ -60,10 +43,6 @@ def convergence_report(refiner, z: torch.Tensor, steps: int = 64) -> dict:
 
 
 def basin_stability(refiner, z: torch.Tensor, eps: float = 0.1, steps: int = 64, seed: int = 0) -> dict:
-    """Perturb z by Gaussian noise of scale eps, unroll both, and measure how far the two fixed points
-    end up apart relative to the perturbation (the contraction ratio). ratio < 1 means the refiner
-    pulls perturbed inputs back together (a stable basin); ratio >= 1 means it amplifies perturbations.
-    Returns {perturbation, fixed_point_distance, contraction_ratio, stable}."""
     g = torch.Generator().manual_seed(seed)
     noise = torch.randn(z.shape, generator=g) * eps
     z0, _ = refiner.unroll(z, steps)

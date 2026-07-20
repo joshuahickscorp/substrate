@@ -1,30 +1,4 @@
 #!/usr/bin/env python
-"""DR13: planning-horizon limit, H-ROLLOUT harness, WP-05.
-
-THESIS: learned-model rollout error compounds with horizon, so open-loop planning through the
-model beats a matched-compute reactive policy at short horizons and stops beating it beyond a
-crossover horizon: internal simulation has a bounded useful horizon on this substrate.
-
-NULL (preregistered): planning never beats reactive at ANY horizon (contradicts ex2) OR beats it
-only at horizon 1 (one-step lookahead, not really planning).
-
-Per-horizon arms, all scored by executing in the TRUE dynamics (one yardstick):
-  planner: open-loop random-shooting plan of length H through the learned model (n_samples
-    candidates, n_samples * H model forwards), the selected sequence executed in the true env.
-  reactive (matched compute): greedy one-step search re-planned at every step from the TRUE
-    current state, n_samples candidates per step, H steps, so H * n_samples forwards: exactly the
-    planner's budget. The reactive arm sees the true state at every step (its structural advantage)
-    but never looks ahead; the planner looks ahead but commits open-loop (its structural cost).
-    Error compounding is exactly the trade between those two.
-The learned model's open-loop k-step R2 decay curve is reported alongside (the mechanism), plus
-the diagnostics/sysid rollout_gate on the training transitions.
-
-Reuses ex2 helpers, does not edit them. Writes runs/mot/dr13_horizon_limit.json.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: PYTHONPATH=. .venv/bin/python scripts/mop_dr13_horizon_limit.py --seeds 0-4
-"""
 
 from __future__ import annotations
 
@@ -53,9 +27,6 @@ from mop.experiments.ex2_latent_planning import (
 )
 from mop.seeding import parse_seeds, seed_everything
 
-# ------------------------------------------------------------------------------------------------
-# preregistered thresholds (in code before any result exists)
-# ------------------------------------------------------------------------------------------------
 PLANNING_MARGIN = 0.05  # planning "wins" at H iff reactive_mean - planner_mean > this
 R2_FLOOR = 0.5  # one-step licensing floor for the learned model
 FLOP_TOL = 0.10
@@ -90,8 +61,6 @@ def plan_open_loop(
     action_dim: int,
     g: torch.Generator,
 ) -> torch.Tensor:
-    """Plain random shooting (cem_iters=1 so the per-horizon budget is exactly n_samples * H
-    forwards, linear in H, matching the reactive arm construction). Returns the selected [H, A]."""
     cand = torch.randn(n_samples, horizon, action_dim, generator=g).clamp(-2.0, 2.0)
     terminal = _rollout(model, z0, cand)
     dist = (terminal - goal.unsqueeze(0)).norm(dim=-1)
@@ -126,8 +95,6 @@ def reactive_matched_trial(
     noise: float,
     g: torch.Generator,
 ) -> float:
-    """Greedy one-step search from the TRUE state at every step, n_samples candidates per step:
-    H * n_samples model forwards, the planner's exact budget."""
     z = z0.clone()
     with torch.no_grad():
         for _ in range(horizon):
@@ -148,8 +115,6 @@ def kstep_r2_curve(
     n: int,
     g: torch.Generator,
 ) -> dict[str, float]:
-    """Open-loop model-vs-true R2 at each horizon under the same random action sequences (noise 0
-    on the true side: this isolates MODEL error compounding, the mechanism DR13 is about)."""
     hmax = max(horizons)
     z0 = torch.randn(n, dim, generator=g)
     acts = torch.randn(n, hmax, adim, generator=g).clamp(-2.0, 2.0)

@@ -1,12 +1,4 @@
 #!/usr/bin/env python
-"""Generate and validate MOP null-card YAML blocks.
-
-Usage:
-  python scripts/null_card_tool.py generate e7_sparse
-  python scripts/null_card_tool.py generate e7_sparse --out proof/NULL_CARDS/e7_sparse.md
-  python scripts/null_card_tool.py validate proof/NULL_CARDS/ex13_long_stream.md
-  python scripts/null_card_tool.py schema
-"""
 
 from __future__ import annotations
 

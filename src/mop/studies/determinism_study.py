@@ -1,14 +1,3 @@
-"""Leg 11A: determinism characterization. Run a few representative experiment configs
-(a small E1 continual-learning run, a small I4 backprop-alternatives run) the SAME way
-N times, SINGLE-THREADED and SERIAL (torch.set_num_threads(1)), and measure run-to-run
-reproducibility of one chosen scalar metric per config: the byte-identity rate, the max
-abs diff, and the std across reps.
-
-The corpus claim (DECISIONS.md, CPU-Now): Apple Metal at temperature zero is only ~half
-byte-identical, while CPU serial single-thread is far more deterministic and should be
-near bit-identical. This leg measures that on CPU so the report can state it from data,
-not assumption. Latents are synthetic (make_task_stream) so results are tagged provisional.
-"""
 
 from __future__ import annotations
 
@@ -21,7 +10,6 @@ import torch
 from ..config import compose
 from ..harness.runner import run_experiment
 
-# Each config: how to compose it tiny + where its scalar metric lives in the run dict.
 CONFIGS: dict[str, dict] = {
     "e1": {
         "overrides": [
@@ -71,7 +59,6 @@ def _characterize(name: str, spec: dict, reps: int) -> dict:
     base = vals[0]
     diffs = [abs(v - base) for v in vals[1:]]
     max_abs = max(diffs) if diffs else 0.0
-    # byte-identity: bit pattern of the fp value matches the first run exactly.
     b0 = torch.tensor(base, dtype=torch.float64).view(torch.int64).item()
     identical = sum(torch.tensor(v, dtype=torch.float64).view(torch.int64).item() == b0 for v in vals)
     return {
@@ -87,11 +74,6 @@ def _characterize(name: str, spec: dict, reps: int) -> dict:
 
 
 def determinism_study(reps: int = 3, toy: bool = True) -> dict:
-    """Measure CPU run-to-run reproducibility of one scalar metric per representative
-    config, single-threaded and serial. `toy` keeps dims/epochs tiny (the only mode wired
-    here, since the leg's point is the determinism baseline, not full-scale accuracy).
-    Returns per-config byte-identity / spread plus the CPU-vs-Metal verdict note.
-    """
     assert reps >= 2, "need at least 2 reps to measure run-to-run spread"
     prev = torch.get_num_threads()
     torch.set_num_threads(1)  # single-threaded + serial: the clean determinism baseline

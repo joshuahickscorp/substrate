@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Validate that a verdict is ledger-ready."""
 
 from __future__ import annotations
 

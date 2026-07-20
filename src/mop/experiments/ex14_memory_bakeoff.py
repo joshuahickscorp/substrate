@@ -1,19 +1,3 @@
-"""EX14: memory bake-off. Three eviction/retrieval schemes over mop.shell.buffer.ReplayBuffer at
-MATCHED capacity: FIFO (oldest-out), random-eviction (reservoir, the standard unbiased control), and
-uncertainty-indexed (evict the most-confident stored exemplar first, keeping ambiguous/high-loss ones,
-via the buffer's `priority` eviction mode with a per-exemplar loss-margin priority signal). A fourth
-arm layers modern-Hopfield-style associative KV retrieval (the buffer's `.retrieve` k-NN search) on TOP
-of each scheme to score recall@k, the associative-memory analogue asked for in the contract.
-
-NULL: at matched buffer capacity, uncertainty-indexed eviction does not beat FIFO or random-eviction on
-recall@k or on downstream backward transfer (BWT); associative (k-NN) retrieval does not beat FIFO
-capacity either. A tie is the expected, honest result for a toy two-task stream with a small buffer:
-capacity and retrieval topology dominate, and a smarter eviction *heuristic* buys nothing extra.
-Negative-result taxonomy slot 4 (predictor/heuristic too weak relative to capacity) or 6 (scale ceiling
-not yet reached at toy size). cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -31,10 +15,6 @@ from .base import Experiment, _mean, _spread
 
 
 def _fill_buffer(scheme: str, capacity: int, dim: int, task, head: nn.Module, seed: int) -> ReplayBuffer:
-    """Fill a capacity-matched buffer from one task's exemplars under the named eviction scheme.
-    fifo/random use unprioritized eviction (oldest-out vs reservoir-uniform); uncertainty uses the
-    buffer's `priority` eviction with priority = per-exemplar loss margin (low margin = high priority,
-    i.e. ambiguous/ high-loss exemplars are KEPT and confident ones are evicted first)."""
     eviction = "fifo" if scheme == "fifo" else "reservoir" if scheme == "random" else "priority"
     buf = ReplayBuffer(capacity, dim, prioritized=False, eviction=eviction, seed=seed)
     x, y = task.x, task.y
@@ -43,9 +23,6 @@ def _fill_buffer(scheme: str, capacity: int, dim: int, task, head: nn.Module, se
             logits = head(x)
             srt = logits.sort(dim=-1, descending=True).values
             margin = (srt[:, 0] - srt[:, 1]).abs()
-            # low margin (ambiguous / high loss) -> high keep-priority; the buffer's `priority`
-            # eviction always evicts the lowest-`prio` slot, so priority = 1 / margin keeps the
-            # hard exemplars and evicts the confident ones first.
             prio = 1.0 / (margin + 1e-3)
         for j in range(x.shape[0]):
             buf.add(x[j : j + 1], y[j : j + 1], priority=float(prio[j]))
@@ -56,8 +33,6 @@ def _fill_buffer(scheme: str, capacity: int, dim: int, task, head: nn.Module, se
 
 
 def _recall_at_k(buf: ReplayBuffer, xq: torch.Tensor, yq: torch.Tensor, k: int) -> float:
-    """Fraction of held-out queries whose majority label among the k nearest STORED exemplars
-    (the buffer's KV `.retrieve`, the associative-memory analogue) matches the true query label."""
     if len(buf) == 0:
         return 0.0
     out = buf.retrieve(xq, k=min(k, len(buf)))
@@ -67,9 +42,6 @@ def _recall_at_k(buf: ReplayBuffer, xq: torch.Tensor, yq: torch.Tensor, k: int) 
 
 
 def _bwt(buf: ReplayBuffer, dim: int, nc: int, task0, task1, epochs: int, lr: float, seed: int) -> float:
-    """Continual retention: task 0 already trained (head passed in pre-fit on task 0), now train task 1
-    WITH replay from `buf` (which was filled from task 0's exemplars under the scheme being tested).
-    Returns BWT = task-0 accuracy after task 1 minus task-0 accuracy right after task 0."""
     seed_everything(seed)
     head = nn.Linear(dim, nc)
     opt = torch.optim.Adam(head.parameters(), lr=lr)
@@ -136,7 +108,6 @@ class EX14(Experiment):
             cut = int(task0.x.shape[0] * 0.7)
             xtr0, ytr0, xte0, yte0 = task0.x[:cut], task0.y[:cut], task0.x[cut:], task0.y[cut:]
 
-            # a task-0-only head, used to (a) derive the uncertainty priority signal, (b) seed BWT fitting.
             seed_everything(seed)
             probe_head = nn.Linear(dim, n_classes)
             opt = torch.optim.Adam(probe_head.parameters(), lr=lr)
@@ -170,7 +141,6 @@ class EX14(Experiment):
         ties_fifo_bwt = d_uncertainty_vs_fifo_bwt <= tol_bwt + 1e-4
         ties_random_bwt = abs(d_uncertainty_vs_random_bwt) <= tol_bwt + 1e-4
 
-        # associative retrieval (recall@k off the buffer's KV index) does not beat plain FIFO capacity
         associative_beats_fifo_capacity = recall_mean["fifo"] > (1.0 / n_classes) + tie_margin
 
         retention_per_byte = {
@@ -200,7 +170,6 @@ class EX14(Experiment):
             "tie_tolerance_bwt": round(tol_bwt, 4),
             "associative_beats_fifo_capacity": bool(associative_beats_fifo_capacity),
             "seeds": list(seeds),
-            # the explicit null: uncertainty ties FIFO/random on both axes at matched capacity
             "null_supported": null_supported,
             "uncertainty_indexing_wins": uncertainty_wins,
         }

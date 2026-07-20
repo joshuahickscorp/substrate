@@ -1,9 +1,3 @@
-"""Studio readiness doctor. Pins the check surface (every expected check is present and shaped
-{name,ok,detail}), proves the cache-write check actually writes and cleans up, proves the
-config-validation check tracks the harness validator, proves render_md is a faithful record
-(contains every check name), and proves the non-fatal contract: a missing video backend or an
-unreachable HuggingFace are reported, never failures.
-"""
 
 import hashlib
 import json
@@ -59,7 +53,6 @@ def test_cache_write_check_passes_and_cleans_up():
     report = doctor()
     cw = _find(report, "cache_write")
     assert cw["ok"], cw["detail"]
-    # the probe must not leave its test file behind
     assert not (sd.REPO_ROOT / "data" / "cache" / ".studio_doctor_write_test").exists()
 
 
@@ -169,8 +162,6 @@ def test_explicit_studio_profile_cannot_impersonate_small_host(monkeypatch):
 
 def test_package_import_probe_is_isolated_from_pythonpath():
     ok, detail = sd._check_package_import()
-    # This reflects the invoking environment. A source-only PYTHONPATH run must fail rather than
-    # being mistaken for a portable install; an installed environment reports the isolated path.
     assert isinstance(ok, bool)
     assert "PYTHONPATH" in detail or "isolated cwd" in detail
 
@@ -301,5 +292,4 @@ def test_render_md_contains_every_check():
     profile_name = report["profile"]["resolved"]
     verdict = f"CURRENT HOST READY FOR {profile_name}" if report["all_ok"] else "CURRENT HOST NOT READY"
     assert verdict in md
-    # one header row + one separator + one row per check, plus title block
     assert md.count("\n|") >= len(report["checks"]) + 1

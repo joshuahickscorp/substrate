@@ -1,6 +1,3 @@
-"""Real-latent replication lane: the LatentStore -> stream/factorized adapters and the factorized
-clip generator. Known-answer tests on a tiny hand-built store (no encoder needed), plus a pure-tensor
-check that the two factorized-clip factors actually vary independently."""
 
 import json
 import sys
@@ -17,7 +14,6 @@ from cache_factorized_encoder import make_factorized_clip  # noqa: E402
 
 
 def _build_store(tmp_path, labels, dim=8, name="toy") -> LatentStore:
-    """A tiny store whose latents are a clean linear function of the label (so probes are trivial)."""
     n = len(labels)
     store = LatentStore.create(tmp_path, name, feat_shape=(dim,), capacity=n, key_dim=dim, has_labels=True)
     lab = np.asarray(labels, dtype=np.int64)
@@ -30,7 +26,6 @@ def _build_store(tmp_path, labels, dim=8, name="toy") -> LatentStore:
 
 
 def test_real_task_stream_class_incremental(tmp_path):
-    # 4 classes, 6 samples each; a 2-task class-incremental stream should split classes 2/2
     labels = [c for c in range(4) for _ in range(6)]
     store = _build_store(tmp_path, labels)
     tasks = real_task_stream(store, n_tasks=2, incremental="class", seed=0)
@@ -42,14 +37,12 @@ def test_real_task_stream_class_incremental(tmp_path):
 
 
 def test_real_task_stream_domain_incremental_disjoint_samples(tmp_path):
-    # domain-incremental: same labels every task, but disjoint SAMPLE folds
     labels = [c for c in range(3) for _ in range(9)]
     store = _build_store(tmp_path, labels)
     tasks = real_task_stream(store, n_tasks=3, incremental="domain", seed=0)
     assert len(tasks) == 3
     for t in tasks:
         assert set(t.y.tolist()) == {0, 1, 2}, "domain-incremental reuses the full label set each task"
-    # every task should carry samples (folds are non-empty at 9 samples / 3 tasks)
     assert all(t.x.shape[0] > 0 for t in tasks)
 
 
@@ -61,7 +54,6 @@ def test_real_task_stream_samples_per_task_cap(tmp_path):
 
 
 def test_factorized_arrays_decodes_two_factors(tmp_path):
-    # composite label y = a*n_b + b, n_a=3 n_b=4, one clip per cell
     n_a, n_b = 3, 4
     labels = [a * n_b + b for a in range(n_a) for b in range(n_b)]
     store = _build_store(tmp_path, labels, dim=16, name="fac")
@@ -69,7 +61,6 @@ def test_factorized_arrays_decodes_two_factors(tmp_path):
     reopened = open_real_store("fac", data_dir=tmp_path)
     x, ya, yb = factorized_arrays(reopened)
     assert x.shape[0] == n_a * n_b
-    # decoding must invert the composite encoding exactly
     for i, (a, b) in enumerate((a, b) for a in range(n_a) for b in range(n_b)):
         assert int(ya[i]) == a and int(yb[i]) == b
     assert set(ya.tolist()) == set(range(n_a))
@@ -108,9 +99,6 @@ def test_factorized_arrays_rejects_single_factor_store(tmp_path):
 
 
 def test_make_factorized_clip_factors_are_independent():
-    # varying factor A (hue) at fixed B must change color but keep the grating structure; varying B
-    # (orientation) at fixed A must change spatial structure. Different (a, b) cells differ; the clip
-    # shape and range are well-formed.
     g = torch.Generator().manual_seed(0)
     n_a, n_b = 4, 4
     c00 = make_factorized_clip(0, 0, n_a, n_b, g)
@@ -118,7 +106,5 @@ def test_make_factorized_clip_factors_are_independent():
     c01 = make_factorized_clip(0, 1, n_a, n_b, g)  # same hue, different orientation
     assert c00.shape == (64, 3, 256, 256)
     assert float(c00.min()) >= 0.0 and float(c00.max()) <= 1.0
-    # a hue change shifts the per-channel color balance
     assert not torch.allclose(c00.mean((0, 2, 3)), c10.mean((0, 2, 3)), atol=1e-3)
-    # an orientation change alters spatial structure (spatial variance pattern differs)
     assert not torch.allclose(c00, c01, atol=1e-2)

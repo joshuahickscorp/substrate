@@ -1,11 +1,3 @@
-"""P4 capability-density response-surface screen wrapper.
-
-The registered science runs through scripts/p4_capability_density.py (profiles p4smoke and
-p4screen, resumable, 180-minute wall envelopes). This Experiment class exists so the registry
-row maps to a runnable id: it executes a bounded single-cell mechanics smoke of the exact
-registered codepath (cell C10, the cheapest registered cell, at the p4smoke step budget) and
-never claims more than execution integrity. No em or en dashes.
-"""
 
 from __future__ import annotations
 

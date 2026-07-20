@@ -1,4 +1,3 @@
-"""Null-card generator and validator."""
 
 from mop.config import REPO_ROOT
 from mop.falsification.null_cards import (

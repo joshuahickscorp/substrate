@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Control the durable Generation 1 successor extension chain."""
 
 # ruff: noqa: E402 - direct execution must bootstrap the repository before MOP imports
 

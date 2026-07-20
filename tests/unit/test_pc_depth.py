@@ -19,7 +19,6 @@ def test_init_weights_shapes_per_depth():
 
 
 def test_backprop_head_learns_separable_task():
-    # backprop on a depth-1 head over a well-separated task must beat chance clearly.
     x, y, C = _task(dim=16, classes=4, samples=400, sep=3.0, seed=0)
     xtr, ytr, xte, yte = _prep(x, y)
     W0 = _init_weights(16, 20, depth=1, classes=C, seed=1)
@@ -28,7 +27,6 @@ def test_backprop_head_learns_separable_task():
 
 
 def test_pc_head_runs_and_beats_chance():
-    # the layered PC relaxation must actually train (not vacuous): beat chance on a shallow net.
     x, y, C = _task(dim=16, classes=4, samples=400, sep=3.0, seed=0)
     xtr, ytr, xte, yte = _prep(x, y)
     W0 = _init_weights(16, 20, depth=1, classes=C, seed=1)
@@ -47,8 +45,6 @@ def test_pc_depth_reports_per_depth_and_gap():
 
 
 def test_pc_depth_backprop_at_least_as_good_shallow():
-    # at depth 1 PC approximates backprop well: backprop should not be worse than PC by much,
-    # and both should clear chance. This is a real, falsifiable check on the shallow regime.
     out = pc_depth(depths=(1,), toy=True)
     d = out["per_depth"][0]
     assert d["bp_acc"] > out["chance"] + 0.2

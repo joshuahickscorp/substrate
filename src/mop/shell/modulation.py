@@ -1,10 +1,3 @@
-"""Optional control modules (Category G), toggled by config. Off by default; folded in by
-E7/E8 ablations.
-  ContextGating : per-context multiplicative gate over hidden units (active-dendrites style,
-                  reduces inter-task interference without adding capacity).
-  WorkingMemory : a small set of read/write slots (a recurrent latent scratchpad).
-  Chunking      : segment a latent sequence at high-surprise boundaries (event segmentation).
-"""
 
 from __future__ import annotations
 
@@ -13,7 +6,6 @@ from torch import nn
 
 
 class ContextGating(nn.Module):
-    """context id -> sigmoid gate in [0,1]^dim, multiplied into a hidden activation."""
 
     def __init__(self, dim: int, n_contexts: int):
         super().__init__()
@@ -25,8 +17,6 @@ class ContextGating(nn.Module):
 
 
 class WorkingMemory(nn.Module):
-    """slots updated by a gated write from the input; read by mean-pool. A minimal recurrent
-    scratchpad, not a transformer."""
 
     def __init__(self, dim: int, slots: int = 4):
         super().__init__()
@@ -46,8 +36,6 @@ class WorkingMemory(nn.Module):
 
 
 class Chunking(nn.Module):
-    """Split a [B, T, D] sequence into chunks at boundaries where successive-latent distance
-    exceeds a threshold (event segmentation by prediction surprise)."""
 
     def __init__(self, threshold: float = 1.0):
         super().__init__()
@@ -63,7 +51,6 @@ class Chunking(nn.Module):
 
 
 def build_modulation(cfg, dim: int) -> dict[str, nn.Module]:
-    """Instantiate only the enabled modules."""
     mods: dict[str, nn.Module] = {}
     if bool(cfg.context_gating):
         mods["context_gating"] = ContextGating(dim, int(cfg.n_contexts))

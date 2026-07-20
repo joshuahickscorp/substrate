@@ -1,20 +1,3 @@
-"""Deterministic seeded relational-temporal event former and the untrained control triggers.
-
-This module supplies the working mechanics for the event formation workstream. It builds seeded
-toy episodes for two regimes, a NULL regime whose events carry no relational-temporal signal and a
-FAVORABLE regime whose relational-temporal structure lines an event former up with the moments that
-matter. It then measures, per arm, the utility retained and the charged compute spent.
-
-The event former acts only when a relation holds inside its bound temporal window, so on the
-favorable regime it captures the opportunities while charging few full evaluations. The four
-declared controls are wrong-time, wrong-event, appearance-only, and stateless-delayed-trigger; the
-last two are the untrained controls a utility claim must beat on both utility and charged compute.
-
-Nothing here claims that any event actually is useful. The episodes are toy, seeded records and the
-measurements are deterministic mechanics. Claim scope: deterministic programmatic mechanics only.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -31,39 +14,27 @@ from .event_formation_scaffold import (
 
 EVENT_FORMER_ID = "relational-temporal-former"
 
-# The order is load-bearing for the measurement digest: the former first, then the declared controls
-# in their canonical scaffold order.
 ARM_IDS: tuple[str, ...] = (EVENT_FORMER_ID, *REQUIRED_CONTROLS)
 
-# A utility below this floor is not preserved, so no useful event may be claimed.
 UTILITY_FLOOR = 0.8
 
-# Each false action costs half of one correctly handled opportunity when scoring utility.
 FALSE_ACTION_PENALTY = 0.5
 
-# The toy episode length. Both regimes share it so charged compute is comparable across arms.
 EPISODE_TICKS = 24
 
 NULL_REGIME = "null"
 FAVORABLE_REGIME = "favorable"
 REGIMES: tuple[str, ...] = (NULL_REGIME, FAVORABLE_REGIME)
 
-# The ground-truth opportunity ticks: acting here yields utility, acting elsewhere is a false action.
 _OPPORTUNITY_TICKS: tuple[int, ...] = (1, 3, 5, 7, 9, 11, 13, 15)
-# Surface-appearance distractor ticks: an appearance-only arm fires here and earns nothing.
 _DISTRACTOR_TICKS: tuple[int, ...] = (16, 17, 18, 19, 20, 21, 22, 23)
-# The stateless delayed trigger fires on this fixed periodic schedule, ignorant of the structure.
 _DELAY_TICKS: tuple[int, ...] = tuple(range(0, EPISODE_TICKS, 2))
-# A wrong-time arm fires one window off, so it never lands on an opportunity.
 _WRONG_TIME_TICKS: tuple[int, ...] = (2, 4, 6, 8, 10, 12, 14, 16)
-# On the null regime the former fires here: a relation-and-window signal decorrelated from the
-# opportunities, so any trigger loses utility and the strong null holds.
 _NULL_FORMER_TICKS: tuple[int, ...] = (0, 2, 4, 6, 8, 10, 12, 14)
 
 
 @dataclass(frozen=True, slots=True)
 class Tick:
-    """One toy time step, with the ground truth and each arm's firing decision pinned in advance."""
 
     index: int
     opportunity: bool
@@ -75,7 +46,6 @@ class Tick:
 
 
 def build_episode(regime: str, seed: int) -> tuple[Tick, ...]:
-    """Build a deterministic, seeded episode for one regime. Identical inputs yield identical ticks."""
 
     if seed < 0:
         raise EventFormationRefusal("episode seed must be nonnegative")
@@ -118,11 +88,6 @@ def _arm_fires(tick: Tick, arm: str) -> bool:
 
 
 def measure_arm(ticks: tuple[Tick, ...], arm: str) -> tuple[float, float]:
-    """Return (utility_retained, charged_compute) for one arm over one episode.
-
-    Utility credits a correctly handled opportunity and debits half a unit per false action, then
-    clamps to the unit interval. Charged compute is the fraction of ticks the arm evaluates.
-    """
 
     tick_count = len(ticks)
     if tick_count == 0:
@@ -140,14 +105,12 @@ def measure_arm(ticks: tuple[Tick, ...], arm: str) -> tuple[float, float]:
 
 
 def episode_sha256(seed: int) -> str:
-    """A seeded relational-episode digest, so distinct seeds carry distinct episode identities."""
 
     return synthesize_relational_episode(seed).digest()
 
 
 @dataclass(frozen=True, slots=True)
 class RegimeMeasurement:
-    """The utility and charged compute of every arm on one regime, plus the episode identity."""
 
     regime: str
     seed: int
@@ -175,7 +138,6 @@ class RegimeMeasurement:
 
 
 def measure_regime(ticks: tuple[Tick, ...], regime: str, seed: int) -> RegimeMeasurement:
-    """Measure every arm on one regime and pin the result behind the seeded episode identity."""
 
     utility: dict[str, float] = {}
     charged_compute: dict[str, float] = {}

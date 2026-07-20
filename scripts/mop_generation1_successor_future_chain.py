@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Start the complete append-only Generation 1 successor future chain."""
 
 # ruff: noqa: E402 - direct execution must bootstrap the repository before MOP imports
 

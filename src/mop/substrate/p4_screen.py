@@ -1,14 +1,3 @@
-"""P4 capability-density response-surface screen.
-
-A pilot screen over twelve registered architecture/budget/data cells of the locally trainable
-video-token substrate.  Each cell trains the predictive objective beside its matched random-target
-control from one shared per-seed initialization, plus a frozen evaluation of that exact initial
-state.  The screen fits a small response surface (log2 parameters, family dummies, corpus density,
-temporal extent) with seed fixed effects and seed-level bootstrap intervals, then classifies every
-registered coefficient against a preregistered SESOI band.  The screen is a ranking instrument for
-follow-up cells only; the promotion block refuses confirmatory claims by construction, and
-programmatic-video results never become natural-video or general-capability evidence.
-"""
 
 from __future__ import annotations
 
@@ -115,7 +104,6 @@ P4_CELLS: tuple[P4CellSpec, ...] = (
     P4CellSpec("C12", "0.5x", "sparse", 76, 3, 2, 16, "high"),
 )
 
-# Interleave budgets and families so an early wall-budget stop still spans the response surface.
 P4_SERIAL_ORDER = ("C01", "C10", "C04", "C07", "C03", "C02", "C06", "C09", "C12", "C11", "C05", "C08")
 
 _CORPUS_VARIANT_FIELDS: dict[str, dict[str, int]] = {
@@ -129,7 +117,6 @@ def corpus_spec_for_cell(
     *,
     overrides: Mapping[str, Any] | None = None,
 ) -> CorpusSpec:
-    """Both variants yield 144 clips; density trades factor levels against replicates."""
 
     fields: dict[str, int] = {**_CORPUS_VARIANT_FIELDS[cell.corpus_variant], "frames": cell.frames}
     if overrides:
@@ -138,7 +125,6 @@ def corpus_spec_for_cell(
 
 
 class GRUBlocks(nn.Module):
-    """Drop-in replacement for the transformer block stack using a stacked GRU."""
 
     def __init__(self, dim: int, depth: int):
         super().__init__()
@@ -150,7 +136,6 @@ class GRUBlocks(nn.Module):
 
 
 class RecurrentVideoSubstrate(TinyVideoSubstrate):
-    """TinyVideoSubstrate with the transformer stack replaced by a stacked GRU."""
 
     def __init__(self, spec: ModelSpec):
         super().__init__(spec)
@@ -158,7 +143,6 @@ class RecurrentVideoSubstrate(TinyVideoSubstrate):
 
 
 class SparseGatedEncoderLayer(nn.Module):
-    """Pre-norm attention plus a top-1 gated mixture of the exact dense MLP shape."""
 
     def __init__(self, dim: int, experts: int):
         super().__init__()
@@ -179,7 +163,6 @@ class SparseGatedEncoderLayer(nn.Module):
         normed = self.mlp_norm(hidden)
         selected = self.gate(normed).argmax(dim=-1)
         routed = torch.zeros_like(normed)
-        # Deterministic per-token top-1 routing: loop the experts with boolean masks at this scale.
         for index, expert in enumerate(self.experts):
             token_mask = selected == index
             if bool(token_mask.any()):
@@ -199,7 +182,6 @@ class SparseGatedBlocks(nn.Module):
 
 
 class SparseGatedVideoSubstrate(TinyVideoSubstrate):
-    """TinyVideoSubstrate with the transformer stack replaced by sparse gated layers."""
 
     def __init__(self, spec: ModelSpec, *, experts: int):
         super().__init__(spec)
@@ -240,7 +222,6 @@ def estimated_train_step_flops_p4(
     batch_size: int,
     objective: str,
 ) -> int:
-    """Family-aware analogue of the dense estimator; used only to match arms, never as energy."""
 
     cell.validate()
     model = model_spec_for_cell(cell)
@@ -249,14 +230,11 @@ def estimated_train_step_flops_p4(
     n, d, ff = token_count(data, model), model.dim, model.dim * model.mlp_ratio
     conv = 2 * batch_size * n * d * 3 * model.tubelet * model.patch_size**2
     if cell.family == "recurrent":
-        # GRU gates: three input and three hidden matmuls per layer, multiply-add counted as two.
         per_layer = 2 * 6 * batch_size * n * d * d
     else:
         attention = 2 * 4 * batch_size * n * d * d + 4 * batch_size * n * n * d
         mlp = 4 * batch_size * n * d * ff
         gate = 2 * batch_size * n * d * cell.experts
-        # Top-1 routing keeps exactly one dense-shaped expert active per token, so the MLP term
-        # is unchanged and only the gate logits are added.
         per_layer = attention + mlp + gate
     encoder_forward = conv + model.depth * per_layer
     predictor_forward = 4 * batch_size * n * d * d
@@ -268,7 +246,6 @@ def estimated_train_step_flops_p4(
 
 
 def sample_random_search(seed: int = 4407, n: int = 12) -> list[P4CellSpec]:
-    """Deterministic uniform draws over the preregistered search box; ranking input only."""
 
     generator = torch.Generator().manual_seed(int(seed))
     dims = tuple(range(64, 292, 4))
@@ -298,7 +275,6 @@ def sample_random_search(seed: int = 4407, n: int = 12) -> list[P4CellSpec]:
 
 
 def _verify_config_cells(config_cells: Any) -> None:
-    """Refuse drift between the config cell table and the registered P4_CELLS constant."""
 
     if not isinstance(config_cells, list) or not config_cells:
         raise WorkbenchRefused("config cells must be a non-empty list matching the registered table")
@@ -323,7 +299,6 @@ def _verify_config_cells(config_cells: Any) -> None:
 
 
 def _flops_adapter(cell: P4CellSpec):
-    """Adapt the cell-aware estimator to the train_arm flops_estimator call shape."""
 
     def estimator(
         data_spec: CorpusSpec,
@@ -340,7 +315,6 @@ def _flops_adapter(cell: P4CellSpec):
 
 
 def _p4_compute_match(arm_totals: Mapping[str, Sequence[int]]) -> dict[str, Any]:
-    """Tolerance logic of the workbench compute match, restricted to the two P4 arms."""
 
     means = {
         objective: _mean([float(value) for value in arm_totals.get(objective, [])])
@@ -442,7 +416,6 @@ def fit_response_surface(
     sesoi: float,
     resamples: int = 1000,
 ) -> dict[str, Any]:
-    """OLS with seed fixed effects plus a seed-level cluster bootstrap for the registered five."""
 
     problems: list[str] = []
     seeds_used = sorted({int(row["seed"]) for row in rows})
@@ -536,7 +509,6 @@ def run_p4_screen(
     corpus_overrides: Mapping[str, Any] | None = None,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Run or resume the screen; rerunning the same command resumes from durable receipts."""
 
     run_dir.mkdir(parents=True, exist_ok=True)
     config_plain = json.loads(json.dumps(dict(config)))

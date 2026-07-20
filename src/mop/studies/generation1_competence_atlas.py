@@ -1,11 +1,3 @@
-"""Generation 1 C1 difficulty and actor-competence atlas.
-
-This study expands the earlier PR1 generated task into a sealed, restart-safe
-task-family x context x difficulty x actor tensor.  It is deliberately scoped
-to generated latent classification.  A positive result may license a C2
-complementarity preregistration, but never runtime activation or a substrate
-claim.
-"""
 
 from __future__ import annotations
 
@@ -45,10 +37,6 @@ TASK_FAMILY = "generated-mixed-multiclass-latents"
 ACTORS = tuple(MODES)
 CONTEXTS = tuple(SUBPOPS)
 MAX_SEED_WORKERS = 6
-
-
-
-
 
 
 def sha256_file(path: Path | str) -> str:

@@ -74,7 +74,7 @@ PROCESS_IDENTITY_TOLERANCE_SECONDS = 0.01
 
 
 class Generation1Refused(RuntimeError):
-    """Fail-closed manifest, injection, execution, or recovery refusal."""
+    pass
 
 
 def canonical_bytes(value: object) -> bytes:
@@ -686,7 +686,6 @@ LaneReleaser = Callable[[Capsule], None]
 
 
 def _process_identity_state(pid: object, create_time: object) -> str:
-    """Return alive, gone, or unknown without treating a reused PID as the recorded child."""
 
     if (
         isinstance(pid, bool)
@@ -716,7 +715,6 @@ def _process_identity_state(pid: object, create_time: object) -> str:
 
 
 def _process_tree_rss_bytes(pid: int, create_time: float) -> int | None:
-    """Measure one exact process tree, returning None when identity cannot be proven."""
 
     identity = _process_identity_state(pid, create_time)
     if identity == "gone":
@@ -1685,13 +1683,6 @@ class Generation1Supervisor:
         hold_problem: str,
         resource_deferred: bool = False,
     ) -> dict[str, Any]:
-        """Retry resumable command/artifact failures before failing closed.
-
-        A seed capsule is itself resumable: successful experiment attempts remain immutable and
-        the next invocation runs only missing classes.  Bounded supervisor retries therefore
-        recover transient worker exits without weakening scientific gates or creating an
-        unbounded failure loop.
-        """
 
         row["last_problem"] = problem
         self.state["current_capsule"] = None
@@ -1952,8 +1943,6 @@ class Generation1Supervisor:
             )
             self._publish()
 
-        # Persist the consumed attempt before Popen. A crash in the launch handshake therefore
-        # fails closed instead of making an unrecorded duplicate launch possible.
         self._publish()
         try:
             result = self.runner(capsule, stdout_path, stderr_path, environment, on_start)
@@ -2094,7 +2083,6 @@ def request_drain(program: Program, reason: str) -> dict[str, Any]:
 
 def submit_injection(program: Program, request_path: Path | str) -> dict[str, Any]:
     source = Path(request_path).resolve()
-    # Parse with a temporary supervisor-free validator so submission never mutates program state.
     raw = _read_json(source, "injection request")
     value = _exact_keys(
         raw,

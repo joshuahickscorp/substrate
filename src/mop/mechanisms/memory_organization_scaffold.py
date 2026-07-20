@@ -19,12 +19,10 @@ _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
-
 REPLAY_NULL = "replay-parity-null"
 EPISODIC_HARM_NULL = "episodic-harm-null"
 PRIOR_NULLS: tuple[str, ...] = (REPLAY_NULL, EPISODIC_HARM_NULL)
 
-# for the coverage digest so the completeness check can detect membership or order drift.
 REQUIRED_CAPABILITIES: tuple[str, ...] = ("revision", "provenance", "deletion", "action")
 
 FUTURE_DECISION_CONTROLS: tuple[str, ...] = (
@@ -62,8 +60,6 @@ def _require_nonempty(value: str, label: str) -> None:
 def _require_finite(value: float, label: str) -> None:
     if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(float(value)):
         raise MemoryOrganizationRefusal(f"{label} must be a finite number")
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -152,8 +148,6 @@ class MemoryOrganizationContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedRetrievalBudget:
 
@@ -232,8 +226,6 @@ class FutureDecisionValueContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class EpisodicHarmGuard:
 
@@ -267,8 +259,6 @@ class EpisodicHarmGuard:
             "harm_tolerance": self.harm_tolerance,
             "claim_scope": self.claim_scope,
         }
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -380,8 +370,6 @@ class MemoryActivationGate:
             "receipt": None if self.receipt is None else self.receipt.payload(),
             "claim_scope": self.claim_scope,
         }
-
-
 
 
 def simulate_capability_ops(seed: int, capability: str) -> tuple[str, ...]:

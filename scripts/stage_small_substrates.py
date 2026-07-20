@@ -1,17 +1,4 @@
 #!/usr/bin/env python
-"""WP-01 staging (Q0.1): download the three SMALL substrates to the HF disk cache and write the sha
-manifest. Network-only, RAM <200MB, NO model is ever loaded into memory here (downloads are the only
-thing licensed to run alongside the in-flight V-JEPA encode). Everything staged here backs up and
-transfers to the Studio.
-
-Exact ids and sizes per the manifest: facebook/dinov2-small (~90MB), Qwen/Qwen2.5-0.5B (~1.0GB, fallback
-HuggingFaceTB/SmolLM2-360M ~0.7GB), facebook/wav2vec2-base (~380MB). Total ~1.5GB against the measured
-51GB free space and the active derived 40GB profile floor. Nothing larger is permitted by this script.
-
-Usage: python scripts/stage_small_substrates.py   -> runs/mot/staging_manifest.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -31,7 +18,6 @@ MIN_FREE_GB = 10  # refuse to download into a nearly-full disk
 IGNORE_COMMON = ["*.h5", "*.msgpack", "*.onnx", "*.tflite", "*.ot"]
 
 MODELS = [
-    # role, primary repo id, fallback repo id, extra ignore patterns (skip duplicate weight formats)
     ("image_encoder", "facebook/dinov2-small", None, ["*.bin"]),
     ("text_encoder", "Qwen/Qwen2.5-0.5B", "HuggingFaceTB/SmolLM2-360M", ["*.bin"]),
     ("audio_encoder", "facebook/wav2vec2-base", None, []),  # wav2vec2-base ships .bin only, keep it

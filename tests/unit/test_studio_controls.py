@@ -1,5 +1,3 @@
-"""Synthetic control expansion: families generate deterministically, flow through the real
-validate_source contract, honor the byte budget (truncate, never overrun), and stay reproducible."""
 
 import numpy as np
 import pytest
@@ -48,7 +46,6 @@ def test_deterministic_by_seed(tmp_path):
 
 
 def test_noisy_tv_classes_differ(tmp_path):
-    # the noisy-TV control: class1 is pure noise, class0 a structured signal; they must differ a lot
     controls.generate_controls(
         tmp_path, families=["noisy_tv"], clips_per_class=1, frames=6, h=16, w=16, seed=0
     )
@@ -58,7 +55,6 @@ def test_noisy_tv_classes_differ(tmp_path):
 
 
 def test_byte_budget_truncates_not_overruns(tmp_path):
-    # a budget that fits only a couple of clips: generation stops and reports truncation
     out = controls.generate_controls(
         tmp_path,
         families=["moving_object", "navigation", "occlusion_reveal"],

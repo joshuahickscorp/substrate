@@ -1,16 +1,4 @@
 #!/usr/bin/env python3
-"""Producer entrypoint: run the STARSS23 ESCS frozen featurizer "spatial_doa" and seal its proof artifact.
-
-This runs the spatial-DOA active-intensity direction-of-arrival featurizer on the REAL, MIT-licensed
-STARSS23 FOA subset, featurizing once into its own feature cache. It scores the swap through the same
-sealed harness, referee, controls, and sign-flip statistics as the committed real run, reads the SESOI
-from the already-sealed featurizer preregistration (never rebuilding it), and writes the sealed
-``proof/STARSS23_ESCS_BED_spatial_doa.json`` with the same shape as the committed artifact
-(activation_allowed=false, scientific_promotion=false, independent_scientific_confirmation=false,
-source_kind=real, rights_clean=true).
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -21,7 +9,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-# A fixed default timestamp so the sealed body is byte-reproducible; the wall clock is never sealed.
 DEFAULT_TIMESTAMP = "2026-07-17T00:00:00Z"
 
 

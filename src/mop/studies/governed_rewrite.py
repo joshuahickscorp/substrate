@@ -1,21 +1,3 @@
-"""Bounded project-owned governance for one deterministic rewrite transaction.
-
-The existing F8 engine asks whether a learned representation rewrite is scientifically useful.
-F20 asks whether a substrate is prospectively insufficient. The lifecycle journal records conflict,
-poisoning, and rollback, while the local execution throttle controls host resources. None of those
-surfaces authorizes a rewrite to replace project state. This module closes only that mechanics gap.
-
-The fixture uses immutable JSON identities, a narrowly scoped single-use authority token, canary and
-shadow gates, an append-only audit chain, and atomic file replacement. It deliberately interrupts a
-transaction after canary evaluation, leaves a truncated temporary state file, and resumes from a
-content-addressed checkpoint. Adversarial drills cover forged, expired, replayed, and scope-escalated
-authority, a conflicting base state, a tampered evaluator, poisoned memory, and an authorized proposal
-that must roll back on regression.
-
-All signing material and evaluation cases are project-owned fixtures. Passing this preflight is not a
-security audit, a learned rewrite result, a natural-data capability result, or evidence about cognition
-or sentience.
-"""
 
 from __future__ import annotations
 
@@ -92,7 +74,7 @@ _FIXTURE_AUTHORITY_KEY = hashlib.sha256(b"mop-project-owned-governed-rewrite-fix
 
 
 class GovernedRewriteRefused(RuntimeError):
-    """A rewrite identity, authorization, evaluation, or recovery invariant failed closed."""
+    pass
 
 
 def _sha256_file(path: Path) -> str:
@@ -112,7 +94,6 @@ def _file_receipt(path: Path) -> dict[str, Any]:
 
 
 def _atomic_json(path: Path, payload: Mapping[str, Any]) -> dict[str, Any]:
-    """Write canonical pretty JSON through a same-directory atomic replacement."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
     raw = json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n"
@@ -889,7 +870,6 @@ def execute_transaction(
     tick: int,
     interrupt_after_canary: bool = False,
 ) -> dict[str, Any]:
-    """Execute or resume one bounded rewrite against an isolated state directory."""
 
     root.mkdir(parents=True, exist_ok=True)
     state_path = root / "state.json"
@@ -1122,7 +1102,6 @@ def verify_transaction_record(
     source_identity: dict[str, Any],
     config_payload_sha256: str,
 ) -> dict[str, Any]:
-    """Independently rebuild every identity, evaluation, gate, and committed state."""
 
     problems: list[str] = []
     if record.get("schema") != TRANSACTION_SCHEMA:
@@ -1304,7 +1283,6 @@ def mutation_suite(
     source_identity: dict[str, Any],
     config_payload_sha256: str,
 ) -> dict[str, Any]:
-    """Apply sealed semantic mutations, then require the independent verifier to reject each."""
 
     mutations: dict[str, Any] = {}
 

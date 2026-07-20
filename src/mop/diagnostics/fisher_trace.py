@@ -1,8 +1,3 @@
-"""Fisher-information trace over training (Achille/Rovere/Soatto, ICLR 2019). The critical-
-period signature is a characteristic rise-then-fall of the Fisher trace early in training.
-Used by E3 as a sanity check that a staged-plasticity schedule lines up with a real
-sensitivity window. Fisher trace here = sum over params of mean squared gradient.
-"""
 
 from __future__ import annotations
 
@@ -13,7 +8,6 @@ from torch import nn
 
 
 def fisher_trace(model: nn.Module, batches: Iterable, loss_fn: Callable, samples: int = 16) -> float:
-    """Diagonal-Fisher trace: E[ sum_i (d loss / d theta_i)^2 ]."""
     total = 0.0
     seen = 0
     for batch in batches:
@@ -35,7 +29,6 @@ def fisher_trace_over_training(
     steps_per_ckpt: int = 10,
     lr: float = 1e-2,
 ) -> list[float]:
-    """Train and record the Fisher trace at each checkpoint. Returns the trace curve."""
     model = make_model()
     opt = torch.optim.SGD(model.parameters(), lr=lr)
     loss_fn = loss_fn_factory(model)
@@ -53,8 +46,6 @@ def fisher_trace_over_training(
 
 
 def critical_period_signature(trace: list[float]) -> dict:
-    """A rise-then-fall has its peak strictly inside the curve. Report peak index and whether
-    the shape is consistent with a sensitivity window."""
     if len(trace) < 3:
         return {"peak_index": 0, "rise_then_fall": False}
     peak = max(range(len(trace)), key=lambda i: trace[i])

@@ -1,8 +1,3 @@
-"""Unit tests for the sensing and evidence scaffold contracts.
-
-Everything here is deterministic CPU mechanics: seeded fixtures, contract validation, and
-fail-closed refusal rules. No audio decode, no network, no model weights.
-"""
 
 from __future__ import annotations
 
@@ -44,9 +39,6 @@ def fixture() -> ss.SensingScaffoldFixture:
     return make_sensing_fixture(seed=SEED)
 
 
-# ------------------------------------------------------------------ rails and scope
-
-
 def test_module_prose_passes_the_sentience_rail() -> None:
     assert north_star.scan_text(ss.__doc__ or "") == []
     assert north_star.scan_text(ss.CLAIM_SCOPE) == []
@@ -54,9 +46,6 @@ def test_module_prose_passes_the_sentience_rail() -> None:
 
 def test_claim_scope_is_pinned_to_the_wave_e0_harness() -> None:
     assert ss.CLAIM_SCOPE == HARNESS_CLAIM_SCOPE
-
-
-# ------------------------------------------------------------------ synthetic waveforms
 
 
 def test_waveforms_are_deterministic_and_kind_distinct() -> None:
@@ -82,9 +71,6 @@ def test_waveform_refusals() -> None:
         make_synthetic_waveform(seed=-1, kind="primary")
     with pytest.raises(ScaffoldRefusal):
         make_synthetic_waveform(seed=SEED, kind="primary", num_samples=1)
-
-
-# ------------------------------------------------------------------ clock binding and alignment
 
 
 def test_clock_binding_consistency_pass_and_fail(fixture: ss.SensingScaffoldFixture) -> None:
@@ -120,9 +106,6 @@ def test_audio_alignment_validates_and_fails_closed(fixture: ss.SensingScaffoldF
         validate_audio_alignment(
             graph=other_graph, alignment=audio.alignment, spec=audio.spec, binding=audio.binding
         )
-
-
-# ------------------------------------------------------------------ native audio contract
 
 
 def test_native_audio_contract_is_complete(fixture: ss.SensingScaffoldFixture) -> None:
@@ -190,9 +173,6 @@ def test_probe_contract_refusal_rules() -> None:
         )
 
 
-# ------------------------------------------------------------------ perspective plurality
-
-
 def _metric(name: str = "value_metric") -> UniqueInformationMetricContract:
     return UniqueInformationMetricContract(
         metric_name=name,
@@ -249,9 +229,6 @@ def test_slot_removal_rule(fixture: ss.SensingScaffoldFixture) -> None:
         apply_slot_removal(contract, values, min_conditional_value=0.05, evaluation_split="train")
 
 
-# ------------------------------------------------------------------ rights source card
-
-
 def _card(**overrides: object) -> SourceCard:
     cleared = RightsFieldDeclaration(status="cleared", authority="steward statement")
     kwargs: dict = {
@@ -303,9 +280,6 @@ def test_source_card_requires_full_field_coverage() -> None:
         _card(fields=partial)
 
 
-# ------------------------------------------------------------------ f21 temporal binding
-
-
 def test_temporal_contract_builds_from_the_wave_e0_fixture(fixture: ss.SensingScaffoldFixture) -> None:
     temporal = fixture.temporal
     assert temporal.arrival_skew_ticks > 0
@@ -327,9 +301,6 @@ def test_temporal_contract_refuses_window_covering_the_control(
             fixture.scenario,
             binding_window_ticks=fixture.temporal.shuffled_timing_gap_ticks + 1,
         )
-
-
-# ------------------------------------------------------------------ f26 contradiction triangulation
 
 
 def test_contradiction_contract_has_exactly_one_dissent(fixture: ss.SensingScaffoldFixture) -> None:
@@ -367,9 +338,6 @@ def test_contradiction_contract_refusals(fixture: ss.SensingScaffoldFixture) -> 
         dataclasses.replace(contract, reports=(*contract.reports, second_dissent))
 
 
-# ------------------------------------------------------------------ f27 causal crossmodal binding
-
-
 def test_causal_contract_builds_from_the_wave_e0_fixture(fixture: ss.SensingScaffoldFixture) -> None:
     causal = fixture.causal
     assert len(causal.branch_refs) >= 2
@@ -396,9 +364,6 @@ def test_causal_control_is_synchronous_but_unrelated(fixture: ss.SensingScaffold
     assert left.event_ref != right.event_ref
 
 
-# ------------------------------------------------------------------ ContradictionTriangulationContract direct
-
-
 def test_direct_contradiction_contract_construction(fixture: ss.SensingScaffoldFixture) -> None:
     rebuilt = ContradictionTriangulationContract(
         event_ref=fixture.contradiction.event_ref,
@@ -406,9 +371,6 @@ def test_direct_contradiction_contract_construction(fixture: ss.SensingScaffoldF
         contradicted_source_id=fixture.contradiction.contradicted_source_id,
     )
     assert rebuilt.sha256 == fixture.contradiction.sha256
-
-
-# ------------------------------------------------------------------ fixture bundle
 
 
 def test_fixture_is_deterministic_and_seed_sensitive(fixture: ss.SensingScaffoldFixture) -> None:

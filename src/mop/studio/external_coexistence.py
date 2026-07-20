@@ -1,10 +1,3 @@
-"""Fail-closed identity and resource checks for unowned Hawking CPU work.
-
-This module classifies observations only.  It grants no process ownership, may
-not signal external work, and can never grant scientific promotion.  A caller
-must still apply the local throttle's memory-pressure, swap, thermal, power,
-disk, and task-specific admission gates.
-"""
 
 from __future__ import annotations
 
@@ -28,9 +21,6 @@ MAXIMUM_ROOTS = 3
 MAXIMUM_PROCESSES = 8
 MAXIMUM_QUANT_THREADS = 4
 MAXIMUM_AGGREGATE_RSS_GB = 64.0
-# Leave one logical Mac Studio CPU available to the background MOP lane. Sustained
-# pressure is governed separately by the one-minute load ceiling; this cap permits
-# Hawking's short all-core phase transitions without misclassifying them as memory risk.
 MAXIMUM_AGGREGATE_CPU_PERCENT = 2700.0
 
 _AUDIT_MODELS = {
@@ -349,7 +339,6 @@ def _sanitized_environment(value: object) -> tuple[dict[str, str | None], list[s
 
 @dataclass(frozen=True)
 class HawkingSerialCPUProfile:
-    """The exact external workload envelope reviewed for CPU coexistence."""
 
     root: str
     python_executable: str
@@ -642,12 +631,6 @@ def validate_hawking_serial_cpu_snapshot(
     *,
     prior_identities: Mapping[int, float] | None = None,
 ) -> dict[str, Any]:
-    """Return a deterministic self-sealed report for one complete process snapshot.
-
-    ``prior_identities`` is optional continuity evidence.  If a PID was present
-    previously, its observed creation time must remain exact; a reused PID is
-    rejected rather than silently inheriting the old classification.
-    """
 
     bound_files = _bound_file_snapshots(profile)
     raw_rows = list(processes)
@@ -761,7 +744,6 @@ def validate_hawking_serial_cpu_snapshot(
 
 @dataclass(frozen=True)
 class HawkingV5UltraCPUProfile:
-    """Exact live identity and resource envelope for the v5 ultra queue workers."""
 
     root: str
     python_executable: str
@@ -1123,7 +1105,6 @@ def validate_hawking_v5_ultra_snapshot(
     processes: Sequence[Mapping[str, object]],
     profile: HawkingV5UltraCPUProfile,
 ) -> dict[str, Any]:
-    """Validate a complete adapter/compute snapshot against the sealed live v5 queue state."""
 
     bound_files = [
         _snapshot_bound_file(profile.root, relative, digest)

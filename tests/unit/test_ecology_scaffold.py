@@ -1,7 +1,3 @@
-"""Unit tests for the interactive ecology scaffold contracts.
-
-Scope: deterministic programmatic mechanics only; no capability claim.
-"""
 
 from __future__ import annotations
 
@@ -64,11 +60,6 @@ def _history_row(new: int = 1, distinct: int = 3, size: int = 3, unsafe: bool = 
     return {"new_cells": new, "distinct_cells": distinct, "archive_size": size, "unsafe_flag": unsafe}
 
 
-# ---------------------------------------------------------------------------
-# Fixture determinism and verification
-# ---------------------------------------------------------------------------
-
-
 def test_fixture_is_deterministic_and_seed_sensitive() -> None:
     a1 = make_ecology_fixture(3)
     a2 = make_ecology_fixture(3)
@@ -115,11 +106,6 @@ def test_bundle_rejects_seed_mismatch() -> None:
             partner=bundle.partner,
             communication=bundle.communication,
         )
-
-
-# ---------------------------------------------------------------------------
-# (a) Bounded world generation
-# ---------------------------------------------------------------------------
 
 
 def test_world_seeds_are_disjoint_and_deterministic() -> None:
@@ -170,11 +156,6 @@ def test_world_contract_rejects_control_drift() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# (b) Active perception
-# ---------------------------------------------------------------------------
-
-
 def test_sensing_costs_fail_closed() -> None:
     with pytest.raises(ValueError, match="unsupported sensing action"):
         SensingCostDeclaration("smell", 1, 0, 0, 0)
@@ -220,11 +201,6 @@ def test_perception_contract_requires_full_action_and_control_coverage() -> None
         )
 
 
-# ---------------------------------------------------------------------------
-# (c) Autotelic ecology: guards, archive, curriculum, stop rules
-# ---------------------------------------------------------------------------
-
-
 def test_guards_refuse_by_named_rule() -> None:
     with pytest.raises(EcologyRefusal) as noisy:
         guard_noisy_tv(_goal(target_kind="noise-source"))
@@ -246,7 +222,6 @@ def test_archive_admission_guards_and_bloat_refusal() -> None:
     with pytest.raises(EcologyRefusal) as bloat:
         archive.admit(_goal(ref="goal:b", descriptor=(1, 1)))
     assert bloat.value.rule == "archive-bloat"
-    # same cell, better quality replaces; worse quality is ignored without refusal
     assert archive.admit(_goal(ref="goal:c", descriptor=(0, 0), quality=0.9))
     assert not archive.admit(_goal(ref="goal:d", descriptor=(0, 0), quality=0.1))
     assert archive.distinct_cells() == 1
@@ -321,11 +296,6 @@ def test_goal_babbling_fixture_is_deterministic_and_exercises_refusals() -> None
         run_goal_babbling_fixture(contract, seed=8, steps=1)
 
 
-# ---------------------------------------------------------------------------
-# (d) Simulated partners
-# ---------------------------------------------------------------------------
-
-
 def test_partner_contract_fixture_covers_all_experiments() -> None:
     contract = make_ecology_fixture(10).partner
     names = [row["name"] for row in contract.payload()["experiments"]]
@@ -378,11 +348,6 @@ def test_partner_experiment_declarations_fail_closed() -> None:
             experiments=fixture.experiments,
             partner_model_control="none",
         )
-
-
-# ---------------------------------------------------------------------------
-# (e) Communication grounding
-# ---------------------------------------------------------------------------
 
 
 def test_message_bindings_enforce_referent_namespaces() -> None:

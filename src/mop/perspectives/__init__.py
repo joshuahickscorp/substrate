@@ -1,8 +1,3 @@
-"""Deprecated Perspective import facade over the canonical Form substrate API.
-
-All exported objects are identity aliases from `mop.substrate.form`. Keep this facade for one
-deprecation phase so existing Studio scripts and notebooks remain import-compatible.
-"""
 
 from __future__ import annotations
 

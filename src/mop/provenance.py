@@ -1,9 +1,3 @@
-"""Provenance: the one place that stamps what produced a run or a cache. Every run manifest and
-every latent store records git SHA, package versions, device, seed, encoder id + backend, a
-cache id, timestamps, and an honest result tag, so a number can always be traced to the exact
-code, config, and substrate that made it. Nothing here is allowed to claim more than it knows:
-the result tag is an explicit enum, not a vibe.
-"""
 
 from __future__ import annotations
 
@@ -15,7 +9,6 @@ from importlib import metadata
 
 from .config import REPO_ROOT
 
-# what a number was computed on, from most to least real
 RESULT_TAGS = ("natural-video", "real-encoder", "structured-synthetic", "provisional")
 _PKGS = ("torch", "numpy", "omegaconf", "faiss-cpu", "transformers", "torchvision", "matplotlib")
 
@@ -60,7 +53,6 @@ def validate_tag(tag: str) -> str:
 
 
 def cache_id(name: str, count: int, sample: bytes = b"") -> str:
-    """A short content id for a cache: name + count + an optional content sample digest."""
     h = hashlib.sha256(f"{name}:{count}:".encode() + sample).hexdigest()
     return h[:16]
 
@@ -75,7 +67,6 @@ def provenance(
     cache: str = "",
     extra: dict | None = None,
 ) -> dict:
-    """The provenance block embedded in a manifest or written beside a cache."""
     return {
         "git_sha": git_sha(),
         "git_dirty": git_dirty(),

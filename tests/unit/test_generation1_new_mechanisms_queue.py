@@ -1,9 +1,3 @@
-"""Tests for the new-mechanisms queue (G1-U1, G1-N1, G1-P1R).
-
-Covers the item table shape, seed-band disjointness against the sealed successor mechanics queue,
-payload seal round trips on tiny synthetic items, canary-scale sanity for every lane, and the
-fail-closed refusal paths. Everything stays a mechanics demonstration; nothing here promotes.
-"""
 
 from __future__ import annotations
 

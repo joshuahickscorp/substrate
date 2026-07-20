@@ -1,7 +1,3 @@
-"""WP-14 atlas grid pilot tests (AT1/AL2) plus the WP-01 featurizer pure helpers they consume. Tiny
-synthetic tensors only, no network, no weights, no encoder loads; the nuisance generator is exercised at
-a PATCHED tiny resolution (RES=32, FRAMES=8) so clip-identity determinism is tested in milliseconds.
-Asserts MECHANICS and preregistered verdict logic, never a particular scientific outcome."""
 
 import json
 
@@ -28,8 +24,6 @@ from scripts.mop_at1_grid_pilot import (
 )
 
 from mop.substrate import LatentStore
-
-# ---------------------------------------------------------------- WP-01 clip identity helpers
 
 
 def _tiny(monkeypatch):
@@ -64,9 +58,6 @@ def test_scene_program_vector_layout():
     assert v[2] == 1.0 and v[:5].sum() == 1.0
     assert v[5 + 1] == 1.0 and v[5:10].sum() == 1.0
     assert torch.all(v[10:] == 0.5)
-
-
-# ---------------------------------------------------------------- WP-01 featurizers (pure, tiny)
 
 
 def _tiny_clip(seed=0, t=6, res=32):
@@ -106,9 +97,6 @@ def test_sonify_is_deterministic_normalized_and_content_sensitive():
     assert not torch.equal(w1, sonify_clip(_tiny_clip(seed=5), tsub=4))
 
 
-# ---------------------------------------------------------------- AT1 verdict logic (preregistered)
-
-
 def test_classify_column_decision_order():
     strong, none = [0.30, 0.28, 0.32, 0.29, 0.31], [0.01, -0.02, 0.02, -0.01, 0.0]
     assert classify_column(none, none)["verdict"] == "random-control-artifact"
@@ -131,9 +119,6 @@ def test_grid_scope_typing():
 def test_parse_seeds():
     assert parse_seeds("0-4") == [0, 1, 2, 3, 4]
     assert parse_seeds("0,2,7") == [0, 2, 7]
-
-
-# ---------------------------------------------------------------- AT1/AL2 end to end on tiny stores
 
 
 def _make_store(root, name, x, y, checks=("aaa", "zzz")):
@@ -222,8 +207,6 @@ def test_al2_learned_map_beats_floors_only_with_shared_structure():
     indep = pair_report(xa, xc, seeds=[0, 1, 2], ranks=[4, 8])
     assert indep["verdict"] != "genuine-shared-structure"
     one = learned_vs_floors(xa, xb, seed=0, rank=4)
-    # re-graded metric: a kNN-topology permutation null (learned vs permuted neighbor recall), the honest
-    # floor, replaces the ridge-R2 floors that rewarded scale over shared structure.
     assert set(one) == {"learned_r2", "learned_recall", "permuted_recall", "delta"}
 
 

@@ -1,10 +1,3 @@
-"""Extended deterministic successor-mechanics stress queue.
-
-The queue covers the current V1, M1, and G1 siblings plus the already present
-E1, R1, and P1 mechanism beds.  Each lane has disjoint producer and challenge
-partitions.  Receipts remain mechanics demonstrations; same-code challenge
-repetition is never relabeled as independent scientific verification.
-"""
 
 from __future__ import annotations
 
@@ -140,9 +133,6 @@ LANES = (
 CANARY_SEEDS = 256
 STATUS_BLOCK_RUNGS = 5
 
-# Conservative live-host baselines measured while Hawking and the D1 queue were
-# active. Completed receipts progressively replace these planning rates with
-# observed per-mechanism throughput in status ETAs.
 PLANNED_SECONDS_PER_SEED = {
     "messaging_repair": 0.000_136,
     "construction_search": 83.530_492_166 / 2_048,
@@ -444,7 +434,6 @@ def _canary_gate(receipts: Mapping[int, Mapping[str, Any]], lane_id: str) -> boo
 
 
 def _eligible_items(receipts: Mapping[int, Mapping[str, Any]]) -> tuple[WorkItem, ...]:
-    """Return canaries plus long work for lanes whose canary cleared."""
 
     return tuple(
         item for item in WORK_ITEMS if item.phase == "canary" or _canary_gate(receipts, item.lane_id) is True
@@ -452,7 +441,6 @@ def _eligible_items(receipts: Mapping[int, Mapping[str, Any]]) -> tuple[WorkItem
 
 
 def _eta_items(receipts: Mapping[int, Mapping[str, Any]]) -> tuple[WorkItem, ...]:
-    """Include unresolved lanes in planning, but remove a lane once its canary prunes it."""
 
     return tuple(
         item

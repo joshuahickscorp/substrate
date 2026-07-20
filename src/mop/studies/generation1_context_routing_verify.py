@@ -1,4 +1,3 @@
-"""Independent verifier for Generation 1 C2 frozen context routing."""
 
 from __future__ import annotations
 

@@ -1,9 +1,3 @@
-"""Unit tests for the bounded causal messaging and contradiction repair scaffold.
-
-These tests exercise the contracts, the seeded routing and repair mechanics, the control-set
-completeness checks, and the activation gate. They assert fail-closed behavior and determinism.
-No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -39,11 +33,6 @@ from mop.mechanisms.messaging_repair_scaffold import (
 _BUDGET = MatchedBudget(messages=8, verify_calls=2, flops=64, memory_bytes=128)
 
 
-# ---------------------------------------------------------------------------
-# Section A. Claim scope, registry, matched budget.
-# ---------------------------------------------------------------------------
-
-
 def test_claim_scope_and_capability_flag_are_pinned() -> None:
     assert CLAIM_SCOPE == "deterministic programmatic mechanics only; no capability or natural-data claim"
     assert SCIENTIFIC_CAPABILITY_CLAIM is False
@@ -61,11 +50,6 @@ def test_matched_budget_must_be_non_vacuous() -> None:
 def test_matched_budget_digest_is_stable() -> None:
     assert _BUDGET.digest() == MatchedBudget(messages=8, verify_calls=2, flops=64, memory_bytes=128).digest()
     assert len(_BUDGET.digest()) == 64
-
-
-# ---------------------------------------------------------------------------
-# Section B. Bounded causal messaging (M1).
-# ---------------------------------------------------------------------------
 
 
 def test_bounded_message_contract_digest_is_stable() -> None:
@@ -175,11 +159,6 @@ def test_causal_message_plan_refuses_cycle() -> None:
         causal_message_plan(edges=[("a", "b"), ("b", "a")], bandwidth_limit=2, seed=0)
 
 
-# ---------------------------------------------------------------------------
-# Section C. Value of verification (V1).
-# ---------------------------------------------------------------------------
-
-
 def test_verification_contract_valid_and_stable_digest() -> None:
     contract = default_verification_value_contract()
     assert contract.sha256 == default_verification_value_contract().sha256
@@ -226,11 +205,6 @@ def test_verification_requires_selective_flag() -> None:
             matched_cost_required=True,
             prior_null="always-on-verification-suffices",
         )
-
-
-# ---------------------------------------------------------------------------
-# Section D. Contradiction repair (K1).
-# ---------------------------------------------------------------------------
 
 
 def test_repair_contract_valid_and_covers_controls() -> None:
@@ -311,11 +285,6 @@ def test_repair_plan_refuses_messages_without_trigger() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Section E. Activation gate.
-# ---------------------------------------------------------------------------
-
-
 def test_activation_gate_refuses_by_default() -> None:
     gate = MessagingActivationGate()
     with pytest.raises(MessagingRepairRefusal, match="activation not earned"):
@@ -350,11 +319,6 @@ def test_activation_gate_accepts_valid_receipt() -> None:
         controls_cleared=True,
     )
     gate.authorize(receipt)  # must not raise
-
-
-# ---------------------------------------------------------------------------
-# Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def test_coverage_lists_every_sub_question_with_two_bullets() -> None:

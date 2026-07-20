@@ -1,8 +1,3 @@
-"""Real-video cache hardening. Decode is MOCKED (read_video monkeypatched to synthetic frames),
-so the whole decode -> preprocess -> hash -> cache path is exercised end to end WITHOUT any real
-video file or codec. Covers: source-layout validation (every error path + the manifest), label_map
-persistence, per-clip hash recording, duplicate-content detection, short-clip padding, corrupt-file
-skip, partial final batch, and pre-existing/partial cache detection."""
 
 import json
 
@@ -14,11 +9,8 @@ from mop.substrate import cache_latents
 from mop.substrate import video as V
 from mop.substrate.encoder import EncoderSpec, FrozenEncoder
 
-# ---- fixtures: build a class-foldered tree + mock the decode ----
-
 
 def _make_tree(root, layout):
-    """layout: {class_name: n_clips}. Writes placeholder files (decode is mocked)."""
     for c, n in layout.items():
         (root / c).mkdir(parents=True)
         for i in range(n):
@@ -34,8 +26,6 @@ def _frames(t=6, h=20, w=20, fill=None):
 
 @pytest.fixture
 def mock_decode(monkeypatch):
-    """read_video -> deterministic synthetic frames keyed by filename, so identical names across
-    classes decode to identical pixels (=> a detectable duplicate). Returns a controllable map."""
     by_name: dict[str, torch.Tensor] = {}
 
     def fake(path):
@@ -53,9 +43,6 @@ def mock_decode(monkeypatch):
 
 def _cpu_encoder(dim=8):
     return FrozenEncoder(EncoderSpec(name="t", embed_dim=dim, dense=False, pool="mean"))
-
-
-# ---- validate_source ----
 
 
 def test_validate_source_manifest(tmp_path):
@@ -99,9 +86,6 @@ def test_validate_source_ignores_non_video(tmp_path):
     assert m["per_class"]["cat"] == 1
 
 
-# ---- end to end: decode (mocked) -> preprocess -> hash -> cache ----
-
-
 def test_cache_end_to_end_label_map_and_hashes(tmp_path, mock_decode):
     src = _make_tree(tmp_path / "src", {"a": 2, "b": 2})
     manifest = V.validate_source(src)
@@ -110,18 +94,15 @@ def test_cache_end_to_end_label_map_and_hashes(tmp_path, mock_decode):
     store = cache_latents(_cpu_encoder(), clips, tmp_path / "cache", "vid", total=4, device=resolve("cpu"))
     assert len(store) == 4
     assert store.meta.feat_shape == [8]
-    # labels persisted, sorted-folder index, reproducible
     p = V.write_label_map(store.root, manifest["label_map"])
     assert json.loads(p.read_text()) == {"a": 0, "b": 1}
     assert V.read_label_map(store.root) == {"a": 0, "b": 1}
-    # one hash per cached clip, all 64-hex sha256
     assert len(hashes) == 4
     assert all(len(h) == 64 for h in hashes)
 
 
 def test_duplicate_content_detected(tmp_path, mock_decode):
     src = _make_tree(tmp_path / "src", {"a": 1, "b": 1})
-    # force the two clips (clip0.mp4 in a and in b) to decode to IDENTICAL pixels
     mock_decode["clip0.mp4"] = _frames(fill=7)
     records = list(V.iter_clip_records(src, frames_per_clip=4, res=16))
     hs = [h for _, _, h in records]
@@ -140,9 +121,6 @@ def test_duplicate_warns(tmp_path, mock_decode, caplog):
     assert any("duplicate clip content" in r.message for r in caplog.records)
 
 
-# ---- short clips ----
-
-
 def test_short_clip_padded(tmp_path, mock_decode):
     src = _make_tree(tmp_path / "src", {"a": 1})
     mock_decode["clip0.mp4"] = _frames(t=2)  # only 2 frames, want 8
@@ -154,9 +132,6 @@ def test_short_clip_padded(tmp_path, mock_decode):
 def test_preprocess_empty_clip_raises():
     with pytest.raises(ValueError, match="empty clip"):
         V.preprocess_clip(torch.zeros(0, 16, 16, 3), frames_per_clip=4, res=8)
-
-
-# ---- corrupt / undecodable files ----
 
 
 def test_corrupt_clip_skipped_not_crash(tmp_path, monkeypatch, caplog):
@@ -180,7 +155,6 @@ def test_corrupt_clip_skipped_not_crash(tmp_path, monkeypatch, caplog):
 
 
 def test_no_backend_runtimeerror_surfaces(tmp_path, monkeypatch):
-    # a genuine no-backend RuntimeError must NOT be swallowed as a corrupt-clip skip
     src = _make_tree(tmp_path / "src", {"a": 1})
 
     def no_backend(path):
@@ -189,9 +163,6 @@ def test_no_backend_runtimeerror_surfaces(tmp_path, monkeypatch):
     monkeypatch.setattr(V, "read_video", no_backend)
     with pytest.raises(RuntimeError, match="video backend"):
         list(V.iter_clip_records(src, frames_per_clip=4, res=16))
-
-
-# ---- batching: partial final batch + labels ----
 
 
 def test_partial_final_batch(tmp_path, mock_decode):
@@ -208,9 +179,6 @@ def test_limit_caps_clips(tmp_path, mock_decode):
     hashes: list[str] = []
     list(V.iter_video_clips(src, frames_per_clip=4, res=16, batch=2, limit=3, hashes_out=hashes))
     assert len(hashes) == 3
-
-
-# ---- resumable / partial cache detection ----
 
 
 def test_detect_partial_cache_absent(tmp_path):
@@ -236,12 +204,7 @@ def test_detect_partial_cache_present(tmp_path, mock_decode, caplog):
     assert any("existing cache" in r.message for r in caplog.records)
 
 
-# ---- clip-cap correctness: stratified sampling + limit=0 (audit findings) ----
-
-
 def test_stratified_cap_covers_all_classes(tmp_path, mock_decode):
-    # 4 classes x 5 clips; a stratified cap of 4 must draw ONE clip from each class (not a
-    # class-prefix slice that would otherwise take 4 clips all from the first class).
     src = _make_tree(tmp_path / "vid", {"a": 5, "b": 5, "c": 5, "d": 5})
     labels = []
     for _x, y in V.iter_video_clips(src, frames_per_clip=4, res=8, batch=2, limit=4, stratified=True):
@@ -250,7 +213,6 @@ def test_stratified_cap_covers_all_classes(tmp_path, mock_decode):
 
 
 def test_unstratified_cap_is_a_prefix(tmp_path, mock_decode):
-    # without stratification a limit is a class-grouped prefix (documents the contrast)
     src = _make_tree(tmp_path / "vid", {"a": 5, "b": 5, "c": 5, "d": 5})
     labels = []
     for _x, y in V.iter_video_clips(src, frames_per_clip=4, res=8, batch=2, limit=4):
@@ -259,7 +221,6 @@ def test_unstratified_cap_is_a_prefix(tmp_path, mock_decode):
 
 
 def test_limit_zero_yields_no_clips(tmp_path, mock_decode):
-    # a clip cap that resolves to 0 must truncate to zero, not be treated as no-limit
     src = _make_tree(tmp_path / "vid", {"a": 3, "b": 3})
     batches = list(V.iter_video_clips(src, frames_per_clip=4, res=8, batch=2, limit=0))
     assert batches == []

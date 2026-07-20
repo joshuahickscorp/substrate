@@ -18,8 +18,6 @@ from .base import Experiment
 RULE_NAMES = ("backprop", "feedback_alignment", "predictive_coding")
 
 
-
-
 @dataclass
 class _PersistentModel:
 
@@ -53,8 +51,6 @@ def _relu(z: torch.Tensor) -> torch.Tensor:
     return z.clamp_min(0.0)
 
 
-
-
 def _backprop_train_step(model: _PersistentModel, x: torch.Tensor, y: torch.Tensor, lr: float) -> float:
     assert model.opt is not None
     for g_ in model.opt.param_groups:
@@ -72,8 +68,6 @@ def _backprop_train_step(model: _PersistentModel, x: torch.Tensor, y: torch.Tens
 def _backprop_evaluate(model: _PersistentModel, x: torch.Tensor, y: torch.Tensor) -> float:
     o = _relu(x @ model.W1.T + model.b1) @ model.W2.T + model.b2
     return float((o.argmax(-1) == y).float().mean())
-
-
 
 
 def _fa_train_step(model: _PersistentModel, x: torch.Tensor, y: torch.Tensor, lr: float) -> float:
@@ -103,8 +97,6 @@ def _fa_train_step(model: _PersistentModel, x: torch.Tensor, y: torch.Tensor, lr
 def _fa_evaluate(model: _PersistentModel, x: torch.Tensor, y: torch.Tensor) -> float:
     o = _relu(x @ model.W1.T + model.b1) @ model.W2.T + model.b2
     return float((o.argmax(-1) == y).float().mean())
-
-
 
 
 def _pc_train_step(

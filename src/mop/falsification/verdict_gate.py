@@ -1,10 +1,3 @@
-"""Receipt gate before a verdict may enter the Studio ledger.
-
-Null cards preregister the claim. Run receipts say what happened. This module enforces the missing
-bridge: a positive verdict needs both a strict null card and an independent verifier receipt before it
-can be written into a report. Nulls and ties still need a strict card and raw run receipt, but do not
-need an adversarial verifier to be honest.
-"""
 
 from __future__ import annotations
 
@@ -31,11 +24,6 @@ def build_verdict_gate(
     declared_verdict: str | None = None,
     strict_card: bool = True,
 ) -> dict[str, Any]:
-    """Build a machine-readable gate receipt.
-
-    `all_ok` means the verdict is allowed to be ledgered. A positive verdict requires an independent
-    verifier receipt; non-positive verdicts require only the strict card and raw run receipt.
-    """
     problems: list[str] = []
     card_path = Path(null_card_path)
     run_path = Path(run_receipt_path)
@@ -143,9 +131,6 @@ def _verifier_summary(path: Path | None, run_path: Path) -> dict[str, Any]:
         out["problems"].append(f"verifier_receipt is not valid JSON: {e}")
         return out
     out["json_ok"] = True
-    # Promotion flags are top-level assertions. Recursively searching a receipt allowed a failed
-    # verifier to pass merely because one nested check said ``passed: true``. Legacy verifier
-    # formats retain their aliases, but nested truth cannot override an explicit top-level failure.
     out["passed"] = truthy_top_level(data, PASS_KEYS)
     out["independent"] = truthy_top_level(data, INDEPENDENCE_KEYS)
     if data.get("schema") == FORM_VERIFIER_SCHEMA:
@@ -157,7 +142,6 @@ def _verifier_summary(path: Path | None, run_path: Path) -> dict[str, Any]:
 
 
 def truthy_top_level(obj: Any, keys: tuple[str, ...]) -> bool:
-    """Return true only when a named top-level flag is the boolean true value."""
     if not isinstance(obj, dict):
         return False
     normalized = {str(key).strip().lower(): value for key, value in obj.items()}
@@ -165,7 +149,6 @@ def truthy_top_level(obj: Any, keys: tuple[str, ...]) -> bool:
 
 
 def _form_verifier_problems(data: dict[str, Any], run_path: Path) -> list[str]:
-    """Validate the strong F-series verifier envelope before trusting its top-level flags."""
     problems: list[str] = []
     if data.get("passed") is not True or data.get("all_ok") is not True:
         problems.append("form verifier top-level passed/all_ok flags must both be true")

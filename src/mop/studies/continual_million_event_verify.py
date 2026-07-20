@@ -1,11 +1,3 @@
-"""Independent verifier for completed progressive continual-event rungs.
-
-The rung runner reports one cell per seed, schedule, and control. This module does not call the
-runner's metric code. It joins those reported cells to the atomic progress and checkpoint
-authorities, independently derives every metric that can be recovered from checkpoint state, and
-recomputes the paired replay contrasts. Exact ties are nulls. A verification receipt is an
-execution prerequisite only and never promotes mechanics into a capability claim.
-"""
 
 from __future__ import annotations
 
@@ -62,8 +54,6 @@ RECORD = struct.Struct("<QHHHHHB32s")
 FLAG_ACTIVE_SECONDARY = 1
 FLAG_TRANSITION = 2
 FLAG_DELETE = 4
-
-
 
 
 def _canonical_sha256(value: Any) -> str:
@@ -268,7 +258,6 @@ def _expected_matrix(plan: dict[str, Any]) -> tuple[set[str], list[dict[str, Any
 
 
 def _expected_plan_from_config(rung_config: dict[str, Any], *, rung: int, mode: str) -> dict[str, Any]:
-    """Independently derive the complete canonical plan from the live preregistration."""
 
     if rung_config.get("schema") != RUNG_CONFIG_SCHEMA:
         raise ValueError("live progressive rung config schema drift")
@@ -1240,7 +1229,6 @@ def _live_cell_authorities(
 
 
 def audit_rung_semantics(receipt: dict[str, Any], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
-    """Decode and replay any canonical P6 rung plan, including the one-cell resource probe."""
 
     authority_cells, progress_summary, problems = _live_cell_authorities(receipt, repo_root=repo_root)
     plan = receipt.get("plan")

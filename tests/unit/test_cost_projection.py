@@ -1,5 +1,3 @@
-"""Cost-projection study: assert it actually scales the queue, distinguishes measured vs assumed,
-applies parallelism, and covers EVERY queued leg including disabled E/R."""
 
 from __future__ import annotations
 
@@ -25,7 +23,6 @@ def test_covers_every_queued_leg_including_disabled_ER():
 
 
 def test_measured_vs_assumed_and_full_scale_units():
-    # canonical units come from each leg's full_axes x full_seeds (frontier 1), not a global param
     from mop.harness.sweep import full_run_units, load_leg
 
     timings = {"e1_baseline": 4.0}
@@ -43,8 +40,6 @@ def test_measured_vs_assumed_and_full_scale_units():
 
 
 def test_C_units_come_from_leg_full_grid_not_param():
-    # frontier 1: the full_seed PARAM no longer drives C unit counts; each leg's full_seeds does,
-    # so cost_projection agrees exactly with what `run_queue --full` expands.
     t = {"e1_baseline": 1.0}
     p5 = cost_projection(t, workers=4, full_seed=5)
     p3 = cost_projection(t, workers=4, full_seed=3)

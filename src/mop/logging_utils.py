@@ -1,7 +1,3 @@
-"""Logging + run manifests. Every run gets a directory under runs/ holding the
-resolved config snapshot, a manifest (seed, device, git, timing), and any metrics
-or plots. No silent failures: errors are logged and surfaced, never swallowed.
-"""
 
 from __future__ import annotations
 
@@ -56,7 +52,6 @@ class RunManifest:
     status: str = "running"
     metrics: dict = field(default_factory=dict)
     extra: dict = field(default_factory=dict)
-    # provenance: what produced this run (see provenance.py)
     encoder_id: str = ""
     encoder_backend: str = ""
     cache_id: str = ""
@@ -73,8 +68,6 @@ class RunManifest:
 
 
 def new_run_dir(name: str, root: Path | None = None) -> Path:
-    """Create a unique run dir runs/<name>/<n>. No timestamp: deterministic across
-    a session, monotonic per name, so reruns are easy to diff."""
     base = (root or REPO_ROOT / "runs") / name
     base.mkdir(parents=True, exist_ok=True)
     numeric = [int(p.name) for p in base.iterdir() if p.is_dir() and p.name.isdigit()]
@@ -82,8 +75,6 @@ def new_run_dir(name: str, root: Path | None = None) -> Path:
     while True:
         d = base / f"{n:03d}"
         try:
-            # exist_ok=False is the atomic claim. Concurrent workers can observe the same max, but
-            # exactly one creates it and the others advance rather than overwriting its receipt.
             d.mkdir(parents=False, exist_ok=False)
             return d
         except FileExistsError:

@@ -1,25 +1,4 @@
 #!/usr/bin/env python
-"""The one Studio pipeline CLI: plan -> acquire -> validate -> cache -> run -> optimize -> report,
-plus `local-max` (the current-device maximal rehearsal) and `profiles` (list the kill-switch envelopes).
-
-Heavy acquisition is DRY-RUN by default. A real download needs `--execute`, a `--budget-gb`, and (for
-any source with terms) `--accept-license`. The current device should use `local-max`; the future
-Studio uses `plan --profile studio-1tb` then `acquire --execute`.
-
-Usage:
-  python scripts/studio_pipeline.py plan --profile studio-1tb --budget-gb 900
-  python scripts/studio_pipeline.py acquire --plan runs/studio_pipeline/latest/plan.json   # DRY RUN
-  python scripts/studio_pipeline.py acquire --plan runs/studio_pipeline/latest/plan.json \
-      --execute --budget-gb 900 --accept-license                                           # REAL (gated)
-  python scripts/studio_pipeline.py validate --plan runs/studio_pipeline/latest/plan.json
-  python scripts/studio_pipeline.py cache    --plan runs/studio_pipeline/latest/plan.json [--execute]
-  python scripts/studio_pipeline.py run --gated --tiers C --full
-  python scripts/studio_pipeline.py optimize --cache <cache_id>
-  python scripts/studio_pipeline.py report
-  python scripts/studio_pipeline.py local-max --download-gb 10 --time-min 180 --cache-clips 64
-  python scripts/studio_pipeline.py profiles
-JSON to stdout, human log lines to stderr.
-"""
 
 from __future__ import annotations
 
@@ -83,8 +62,6 @@ def main(argv: list[str] | None = None) -> int:
     pr.add_argument(
         "--full", action="store_true", help="full grids (Studio); default is toy validation scale"
     )
-    # SAFE DEFAULT: the laptop profile, so an unqualified `run --full` fails the run-count kill switch
-    # on this device instead of launching a full sweep. The Studio passes --profile studio-1tb.
     pr.add_argument(
         "--profile", default="m3pro-local-max", help="default m3pro-local-max; Studio: studio-1tb"
     )
@@ -146,7 +123,6 @@ def main(argv: list[str] | None = None) -> int:
         ap.error(f"unknown command {a.cmd}")
 
     print(json.dumps(result, indent=2, default=str))
-    # non-zero exit when a gated run was stopped or a local-max did not fully pass
     if a.cmd == "run" and not result.get("ran"):
         return 1
     if a.cmd == "local-max" and result.get("overall") != "pass":

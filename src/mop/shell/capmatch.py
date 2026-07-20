@@ -1,13 +1,3 @@
-"""Matched-capacity constructor (WP-02, H-CAPMATCH): solve the hidden width (or any monotone integer
-knob) so a module lands within 2% of a target parameter count, plus the fixed-total-params bandwidth
-sweep (vary slot count, resolve per-slot width so TOTAL params stay constant). This is the helper the
-honesty doctrine names: capacity matching is done by construction here, never by eyeballing.
-
-All searches are exact integer binary search over `param_count(make(width))`, which must be
-non-decreasing in width (true for every MLP/head/slot module in the shell).
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -27,9 +17,6 @@ def width_for_param_count(
     lo: int = 1,
     hi: int = 1 << 16,
 ) -> tuple[int, int]:
-    """Binary-search the integer width w in [lo, hi] minimizing |param_count(make(w)) - target|.
-    Returns (width, achieved_params). Raises ValueError if the best achievable count misses the
-    target by more than `tol` (relative), so a silent capacity mismatch cannot enter an experiment."""
     if target_params <= 0:
         raise ValueError("target_params must be positive")
     a, b = int(lo), int(hi)
@@ -59,8 +46,6 @@ def matched_capacity(
     *,
     tol: float = 0.02,
 ) -> nn.Module:
-    """Construct make(w) with the width solved so its param count matches `reference` within tol.
-    The one-call form of the doctrine: 'matched capacity via the capmatch helper'."""
     w, _ = width_for_param_count(make, param_count(reference), tol=tol)
     return make(w)
 
@@ -72,9 +57,6 @@ def fixed_total_params_sweep(
     *,
     tol: float = 0.02,
 ) -> dict[int, dict]:
-    """The bandwidth-sweep variant (WS4): for each slot count n in `slots`, solve the per-slot width w
-    so param_count(make(n, w)) hits `total_params` within tol. Returns n -> {"width": w, "params": p}.
-    Sweeping slots at FIXED total params isolates bandwidth allocation from raw capacity."""
     out: dict[int, dict] = {}
     for n in slots:
         w, p = width_for_param_count(functools.partial(make, int(n)), total_params, tol=tol)

@@ -1,26 +1,3 @@
-"""Wide-sweep proof that the vectorized construction search is bitwise identical to the scalar bed.
-
-The vectorized reimplementation in ``construction_search_vec_impl`` is the frontier speed lever for
-the construction lane. It may only ship if it is byte-for-byte identical to the sealed scalar
-authority ``construction_search_impl`` for every seed the wave will ever run, because the receipt
-digest folded into the sealed proof is a pure deterministic function of the five arm results, so a
-single differing bit in any raw_score, evaluation count, or member tuple would silently change the
-construction lane's evidence class. This proof is the quality guard.
-
-The sweep covers, for both the null and the favorable regime:
-
-- seeds 0..999 (the dense low-seed floor), and
-- the construction lane's real seed bands from ``generation1_successor_mechanics_queue`` LANES for
-  G1-G1: the full 256-seed canary gate band, plus a stratified cross section of the producer and
-  challenge bands built with the exact per-rung offset math ``base + rung*seeds_per_rung + k`` that
-  ``build_work_items`` uses, including the first and last executed seed of each band.
-
-Every seed asserts full-structure bitwise identity across all five arms on both regimes. The test
-counts mismatches and fails if any is nonzero, reporting the exact diverging seed and value. A
-separate case reproduces the sealed receipt digest end to end through the real runner.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -46,19 +23,16 @@ _RUNG_SAMPLE_STRIDE = 15
 
 
 def _float_bits(value: float) -> bytes:
-    """The raw 8 IEEE-754 bytes of a float, so any bit difference (including sign of zero) is caught."""
 
     return struct.pack("<d", float(value))
 
 
 def _g1g1_lane():
-    """The G1-G1 construction_search lane spec, the authority for the real executed seed bands."""
 
     return next(lane for lane in LANES if lane.lane_id == "G1-G1")
 
 
 def _band_seeds() -> list[int]:
-    """The real construction lane seeds: full canary band plus stratified producer and challenge."""
 
     lane = _g1g1_lane()
     seeds: list[int] = list(range(lane.canary_start, lane.canary_start + CANARY_SEEDS))
@@ -73,13 +47,11 @@ def _band_seeds() -> list[int]:
 
 
 def _sweep_seeds() -> list[int]:
-    """Seeds 0..999 (required floor) plus the construction lane's real G1-G1 seed bands."""
 
     return list(range(1000)) + _band_seeds()
 
 
 def _arm_mismatches(scalar_arms, vec_arms, seed: int, regime: str) -> list[tuple]:
-    """Every field-level bitwise difference between the scalar and vectorized arm dicts for one seed."""
 
     diffs: list[tuple] = []
     if set(vec_arms) != set(scalar_arms):
@@ -102,7 +74,6 @@ def _arm_mismatches(scalar_arms, vec_arms, seed: int, regime: str) -> list[tuple
 
 
 def test_lcg_stream_is_bitwise_identical_to_scalar_deterministic_stream():
-    """The vectorized uint64 LCG reproduces the scalar next_float sequence bit for bit."""
 
     lane = _g1g1_lane()
     stream_seeds = [
@@ -133,7 +104,6 @@ def test_lcg_stream_is_bitwise_identical_to_scalar_deterministic_stream():
 
 
 def test_vectorized_construction_is_bitwise_identical_to_scalar_over_wide_sweep():
-    """Full five-arm evaluate_regime is bitwise identical, scalar vs vectorized, on every sweep seed."""
 
     bed = ConstructionSearchBed()
     seeds = _sweep_seeds()
@@ -150,11 +120,6 @@ def test_vectorized_construction_is_bitwise_identical_to_scalar_over_wide_sweep(
 
 
 def _run_results_from_arms(bed, runner, seed, favorable_arms, null_arms) -> str:
-    """Reproduce the sealed receipt digest from a supplied arm dict, mirroring the runner formulas.
-
-    This is fed both the scalar arms (validating the mirror against the real runner) and the
-    vectorized arms (proving the vectorized path reproduces the exact sealed receipt digest).
-    """
 
     favorable_spec = bed.favorable_regime(seed)
     null_spec = bed.null_regime(seed)
@@ -187,7 +152,6 @@ def _run_results_from_arms(bed, runner, seed, favorable_arms, null_arms) -> str:
 
 
 def test_vectorized_arms_reproduce_the_sealed_receipt_digest_end_to_end():
-    """The vectorized arms reproduce the real runner receipt digest, the folded sealed artifact."""
 
     bed = ConstructionSearchBed()
     runner = ConstructionSearchRunner()

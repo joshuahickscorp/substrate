@@ -1,25 +1,4 @@
 #!/usr/bin/env python
-"""AT1 laptop grid pilot (WP-14, Q3.8): the cross-substrate nuisance grid over every cached column, each
-substrate against its OWN random-init control, classified by the nine-verdict decision order of
-06_cognitive_currencies_atlas.md applied top-down. The REGISTERED full grid stays Studio; this pilot
-types whatever columns the laptop caches provide and says so honestly.
-
-Preregistered decision order (in code before any result exists, first match wins per column):
-  1. delta over own random-init within seed spread (one-sided: seed-CI lower bound <= 0)
-     -> random-control-artifact (the expected MODAL verdict)
-  2. survives linear but vanishes under the second probe class (capacity-capped MLP)
-     -> probe-specific
-  3. per-seed delta sign flips -> non-replicating
-  4. alignment-artifact is AL2's verdict (maps, not decodability), n/a per column here
-  5. else the survivor is typed by scope across the AVAILABLE columns (pilot scope only).
-
-Preregistered null (registry AT1): every substrate's decodability delta over its matched random-init
-control is within seed spread, i.e. pretraining bought no nuisance invariance in any substrate.
-
-Usage: python scripts/mop_at1_grid_pilot.py --seeds 0-4   -> runs/mot/at1_grid_pilot.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -53,8 +32,6 @@ EXPERIMENT = {
     "tier": "cpu-now (pilot; the registered grid is studio)",
 }
 
-# Columns: real cache vs its OWN random-init cache. Missing stores are SKIPPED with a log line, never
-# silently substituted; the pilot types whatever is on disk.
 COLUMNS = [
     {
         "tag": "vjepa_fullclip",
@@ -102,7 +79,6 @@ REFERENCE_COLUMNS = ["handcrafted_descriptors", "programmatic_reference"]  # AT4
 
 
 def load_store(root: Path) -> tuple[torch.Tensor, torch.Tensor, dict | None] | None:
-    """(latents, shape labels, factors sidecar or None) or None when the store is absent/unlabeled."""
     if not (root / "meta.json").exists():
         return None
     store = LatentStore.open(root)
@@ -116,8 +92,6 @@ def load_store(root: Path) -> tuple[torch.Tensor, torch.Tensor, dict | None] | N
 
 
 def clip_identity_check(sidecars: dict[str, dict | None]) -> dict:
-    """Compare clip checksums across every column that carries a sidecar. Columns without sidecars are
-    reported identity-unverified (count-matched only), never assumed identical."""
     fingerprints = {
         t: (s["checksum_first"], s["checksum_last"]) for t, s in sidecars.items() if s is not None
     }
@@ -137,7 +111,6 @@ def column_probe_deltas(
     probe_epochs: int = 300,
     mlp_epochs: int = 150,
 ) -> dict:
-    """Per-seed linear and MLP probe deltas (real minus own random-init), identical splits per seed."""
     out: dict = {"linear": [], "mlp": [], "real_acc": [], "rand_acc": []}
     for s in seeds:
         pr = linear_probe(x_real, y, classification=True, epochs=probe_epochs, seed=s)
@@ -152,7 +125,6 @@ def column_probe_deltas(
 
 
 def classify_column(linear_deltas: list[float], mlp_deltas: list[float]) -> dict:
-    """The preregistered nine-verdict decision order, applied top-down to one column."""
     lin = seed_ci(linear_deltas)
     mlp = seed_ci(mlp_deltas)
     flips = sign_flip_report(linear_deltas)
@@ -168,8 +140,6 @@ def classify_column(linear_deltas: list[float], mlp_deltas: list[float]) -> dict
 
 
 def grid_scope(columns: list[dict]) -> dict:
-    """Scope typing over the AVAILABLE columns only (pilot honesty: the full hold-fixed-vary-one grid
-    is Studio). columns: [{tag, modality, verdict}, ...]."""
     if not columns:
         return {"scope": "no-columns-available", "survivors": []}
     survivors = [c for c in columns if c["verdict"] == "genuine-substrate-signal"]
@@ -234,7 +204,6 @@ def evaluate_grid(
     scope = grid_scope([{k: c[k] for k in ("tag", "modality", "verdict")} for c in grid])
     if grid:
         verdict = scope["scope"]
-        # None would mean not evaluable; with columns typed the null is a real boolean
         null_supported = all(c["verdict"] == "random-control-artifact" for c in grid)
     else:
         verdict = "NO COLUMNS: no real+random-init cache pair is on disk yet, nothing typed"

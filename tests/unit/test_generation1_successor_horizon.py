@@ -12,7 +12,6 @@ def test_horizon_is_five_fresh_cycles_and_more_than_one_parallel_day() -> None:
     assert horizon.EPOCH_CYCLES == (2, 3, 4, 5, 6)
     assert horizon.IDLE_WORKERS == 20
     assert horizon.planned_horizon_compute_seconds() >= 230 * 60 * 60
-    # IDLE_WORKERS is the declared 20-worker ceiling, so the ideal parallel time is serial / 20.
     assert horizon.planned_horizon_compute_seconds() / horizon.IDLE_WORKERS >= 11 * 60 * 60
 
 

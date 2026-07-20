@@ -1,7 +1,3 @@
-"""Foundation diagnostics for the roots-expansion bank: convergence/basin (Y1/Y2/N9), readout-
-contribution (P10), held-out-combination compositionality (C1/S6), seed/code consistency (Y3/P5/S5),
-capability-per-bit (I1/I8), system identification (Y7), and the refine.py extensions (unroll, PC mode,
-Verifier). Known-answer checks; these are the shared toolkit every new experiment series builds on."""
 
 import numpy as np
 import torch
@@ -89,7 +85,6 @@ def test_code_stability_random_near_chance():
 
 
 def test_hungarian_assignment_is_exact_without_optional_scipy():
-    # Row-greedy takes 1 + 100 + 1 = 102. The exact assignment takes 2 + 1 + 1 = 4.
     cost = np.array([[1.0, 2.0, 100.0], [1.0, 100.0, 100.0], [100.0, 1.0, 1.0]])
     assignment = _hungarian(cost)
     assert assignment == [1, 0, 2]

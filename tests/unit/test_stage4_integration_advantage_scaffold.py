@@ -1,10 +1,3 @@
-"""Unit tests for the Stage 4 integrated architecture advantage scaffold.
-
-These tests exercise the confirmation receipt, matched-compute joint-advantage contract, ablation ladder,
-integration battery precondition, and the fail-closed entry gate. They assert digest stability, fail-closed
-refusals, determinism, control-set completeness, gate refusal by default, and claim-scope pinning. No capability
-is claimed; every path is pure Python.
-"""
 
 from __future__ import annotations
 
@@ -67,11 +60,6 @@ def _battery() -> IntegrationBatteryContract:
     )
 
 
-# ---------------------------------------------------------------------------
-# Section A. Stage-3 confirmation receipt.
-# ---------------------------------------------------------------------------
-
-
 def test_receipt_digest_is_stable_and_deterministic() -> None:
     first = _receipt("mech.alpha", _DIGEST_A)
     second = _receipt("mech.alpha", _DIGEST_A)
@@ -125,11 +113,6 @@ def test_distinct_confirmed_mechanisms_rejects_duplicate() -> None:
     receipts = (_receipt("mech.alpha", _DIGEST_A), _receipt("mech.alpha", _DIGEST_B))
     with pytest.raises(Stage4Refusal, match="distinct mechanisms"):
         distinct_confirmed_mechanisms(receipts)
-
-
-# ---------------------------------------------------------------------------
-# Section B. Matched budget and joint-advantage contract.
-# ---------------------------------------------------------------------------
 
 
 def test_matched_budget_must_be_non_vacuous() -> None:
@@ -222,11 +205,6 @@ def test_joint_advantage_requires_positive_effect() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Section C. Ablation ladder.
-# ---------------------------------------------------------------------------
-
-
 def test_build_ablation_ladder_covers_all_arms() -> None:
     ladder = build_ablation_ladder(("mech.alpha", "mech.beta", "mech.gamma"))
     assert {arm.arm for arm in ladder.arms} == set(REQUIRED_ABLATION_ARMS)
@@ -265,11 +243,6 @@ def test_ablation_ladder_requires_full_coverage_by_each_mechanism_alone() -> Non
         AblationLadder(schema=STAGE4_SCHEMA, mechanism_ids=("mech.alpha", "mech.beta"), arms=arms)
 
 
-# ---------------------------------------------------------------------------
-# Section D. Integration battery contract.
-# ---------------------------------------------------------------------------
-
-
 def test_battery_digest_is_stable() -> None:
     assert _battery().digest() == _battery().digest()
 
@@ -298,11 +271,6 @@ def test_battery_requires_ladder_to_match_confirmed_set() -> None:
 
 def test_battery_exposes_confirmed_mechanism_ids() -> None:
     assert _battery().mechanism_ids == ("mech.alpha", "mech.beta")
-
-
-# ---------------------------------------------------------------------------
-# Section E. Entry gate: closed by default.
-# ---------------------------------------------------------------------------
 
 
 def test_entry_gate_refuses_by_default_with_no_receipts() -> None:
@@ -335,11 +303,6 @@ def test_authorize_battery_returns_activation_digest() -> None:
     gate = Stage4EntryGate()
     activation = authorize_battery(gate, battery)
     assert len(activation) == 64
-
-
-# ---------------------------------------------------------------------------
-# Claim scope and coverage.
-# ---------------------------------------------------------------------------
 
 
 def test_claim_scope_constant_is_the_canonical_string() -> None:

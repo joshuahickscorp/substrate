@@ -1,15 +1,3 @@
-"""Runnable Generation 1 C3 construction-search mechanics pilot.
-
-This adapter lifts the existing deterministic construction-search bed, implementation, and runner
-into a sealed multi-seed pilot.  It compares construction search with every declared cheap control
-after charging the objective-evaluation cost, records the uncharged oracle headroom diagnostic, and
-requires the favorable regime to separate from its paired null regime.
-
-The result is deliberately bounded.  Both the configuration and result prohibit activation and
-scientific promotion.  The two default fresh ranges are pilot replication ranges, not an
-independently authored verifier.  A favorable result therefore demonstrates mechanics only and
-cannot open a ladder stage or establish construction value on natural data.
-"""
 
 from __future__ import annotations
 
@@ -67,7 +55,7 @@ DEFAULT_SEED_RANGES: tuple[dict[str, Any], ...] = (
 
 
 class Generation1C3ConstructionRefusal(ValueError):
-    """Raised when a pilot declaration or receipt is malformed or widens its claim."""
+    pass
 
 
 def _require(condition: bool, message: str) -> None:
@@ -107,7 +95,6 @@ def build_pilot_config(
     random_samples: int = 2500,
     minimum_discrimination_fraction: float = 0.75,
 ) -> dict[str, Any]:
-    """Build and seal a configurable fresh-range construction pilot."""
 
     ranges = _copy_ranges(seed_ranges if seed_ranges is not None else DEFAULT_SEED_RANGES)
     core: dict[str, Any] = {
@@ -152,7 +139,6 @@ def build_pilot_config(
 
 
 def validate_pilot_config(config: Mapping[str, Any]) -> None:
-    """Validate a configuration and refuse seed leakage, scope widening, or unsealed mutation."""
 
     _require(config.get("schema") == CONFIG_SCHEMA, "unsupported construction pilot config schema")
     _require(config.get("study_id") == STUDY_ID, "construction pilot study id drifted")
@@ -408,7 +394,6 @@ def _decision(
 
 
 def run_pilot(config: Mapping[str, Any]) -> dict[str, Any]:
-    """Execute every configured seed and return a deterministic, sealed pilot result."""
 
     validate_pilot_config(config)
     bed_decl = config["bed"]
@@ -489,7 +474,6 @@ def _validate_comparison(comparison: Mapping[str, Any], label: str) -> None:
 
 
 def validate_pilot_result(result: Mapping[str, Any]) -> None:
-    """Recompute aggregation and decisions, then validate every row and self-seal."""
 
     _require(result.get("schema") == RESULT_SCHEMA, "unsupported construction pilot result schema")
     _require(result.get("study_id") == STUDY_ID, "construction result study id drifted")
@@ -577,7 +561,6 @@ def validate_pilot_result(result: Mapping[str, Any]) -> None:
 
 
 def atomic_write_result(path: Path | str, result: Mapping[str, Any]) -> None:
-    """Validate and atomically write a pilot result as canonical JSON."""
 
     validate_pilot_result(result)
     target = Path(path)
@@ -596,7 +579,6 @@ def atomic_write_result(path: Path | str, result: Mapping[str, Any]) -> None:
 
 
 def read_and_validate_result(path: Path | str) -> dict[str, Any]:
-    """Load a written pilot result and validate its full fail-closed envelope."""
 
     value = json.loads(Path(path).read_text(encoding="utf-8"))
     _require(isinstance(value, dict), "construction pilot result file must contain an object")

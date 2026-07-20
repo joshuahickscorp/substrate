@@ -17,7 +17,6 @@ from mop.substrate.p4_screen import (
     sample_random_search,
 )
 
-# Known-answer design table: realized trainable parameter counts of the twelve registered cells.
 EXPECTED_PARAMETERS = {
     "C01": 1_646_080,
     "C02": 1_682_800,
@@ -51,7 +50,6 @@ def test_realized_parameter_counts_match_the_design_table_exactly():
 
 
 def test_build_substrate_forward_is_finite_with_correct_shapes():
-    # One cell per family, including the dim 76 sparse cell and the recurrent C11.
     for cell_id in ("C01", "C11", "C12"):
         cell = _cell(cell_id)
         model = build_substrate(cell)
@@ -153,11 +151,9 @@ def test_run_p4_screen_two_step_smoke_writes_receipts_and_refuses_promotion(tmp_
     assert screen["complete"] and screen["resumable"] is False
     assert screen["promotion"]["confirmatory_promotable"] is False
     assert "refused by construction" in screen["promotion"]["reason"]
-    # One cell and one seed cannot estimate the response surface, so all_ok honestly fails closed.
     assert screen["all_ok"] is False
     assert any("response surface not estimable" in problem for problem in screen["problems"])
     assert receipt["complete"] and receipt["config_sha256"] == screen["config_sha256"]
-    # The same command resumes from durable receipts without retraining.
     resumed = run_p4_screen(
         config,
         run_dir,

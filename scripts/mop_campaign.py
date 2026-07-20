@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Control the detached, throttle-governed Mac Studio campaign."""
 
 from mop.studio.campaign_supervisor import main
 

@@ -1,12 +1,4 @@
 #!/usr/bin/env python
-"""Frontier 11 build script: turn a cpu-campaign summary (or a built-in dummy) into a single
-analysis report markdown. Loads runs/cpu_campaign/summary.json if present, else uses a small
-self-contained dummy with the same shape, then assembles effect sizes (Cohen's d) + across-seed
-summaries + an adaptation-retention frontier table + a negative-result registry section via the
-pure renderers in mop.studies.report. Writes runs/analysis_report.md and prints its path.
-
-Usage: python scripts/build_report.py [--summary runs/cpu_campaign/summary.json] [--out PATH]
-"""
 
 from __future__ import annotations
 
@@ -26,9 +18,6 @@ from mop.studies.report import (
 
 log = get_logger("build_report")
 
-# Self-contained stand-in with the real summary.json shape, so the report builds with NO run and
-# NO files on disk. Mirrors the keys this script reads: t3 arm bwt dicts, the seed-variance
-# per-seed gaps, an e3 frontier, and a couple of negative-registry entries.
 DUMMY_SUMMARY: dict = {
     "t1": {
         "seed_variance_11B": {
@@ -80,8 +69,6 @@ DUMMY_SUMMARY: dict = {
 
 
 def load_summary(path: Path) -> tuple[dict, str]:
-    """Return (summary, source-label). Falls back to the built-in dummy if the file is absent or
-    unparseable, so the report always builds."""
     if path.is_file():
         try:
             return json.loads(path.read_text()), str(path)
@@ -93,8 +80,6 @@ def load_summary(path: Path) -> tuple[dict, str]:
 
 
 def _seed_samples(summary: dict) -> dict[str, list[float]]:
-    """Pull across-seed samples out of the seed-variance leg: the per-seed naive/protected BWT
-    and their gap. Empty dict if the leg is absent."""
     sv = summary.get("t1", {}).get("seed_variance_11B", {})
     per_seed = sv.get("per_seed", [])
     if not per_seed:
@@ -107,8 +92,6 @@ def _seed_samples(summary: dict) -> dict[str, list[float]]:
 
 
 def _frontier_points(summary: dict) -> list[dict]:
-    """Find the first t3 result that carries a named adaptation/retention frontier and flatten it
-    into [{name, adaptation, retention}]. Empty list if none present."""
     results = summary.get("t3", {}).get("results", {})
     for res in results.values():
         frontier = res.get("metrics", {}).get("frontier")
@@ -125,7 +108,6 @@ def _registry_entries(summary: dict) -> list[dict]:
 
 
 def _effect_size_md(samples: dict[str, list[float]]) -> str:
-    """Across-seed summaries + the Cohen's d for protected-vs-naive BWT (the headline gap)."""
     if not samples:
         return "(no seed samples in summary)"
     lines = ["| Quantity | mean | std | sem | 95% CI | n |", "|---|---|---|---|---|---|"]

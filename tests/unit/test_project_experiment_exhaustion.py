@@ -54,8 +54,6 @@ def test_run_verifier_requires_real_manifest_config_and_metrics(tmp_path: Path):
             }
         )
     )
-    # The production verifier reports repo-relative paths; mirror the fixture beneath the repo.
-    # A temp outside the repo is intentionally rejected rather than silently made non-portable.
     try:
         verify_experiment_run(run, "demo")
     except ValueError:
@@ -185,8 +183,6 @@ def test_alignment_and_consistency_rows_do_not_depend_on_retired_scale_pilot():
 def test_ledger_self_verifies_without_reading_runs_tree():
     ledger = json.loads(LEDGER_PATH.read_text())
     assert ledger["self_verification"]["verified"] is True
-    # All runtime evidence has already been embedded.  Prohibit every filesystem text read to
-    # prove the verifier does not depend on ignored/erasable runs files.
     with patch.object(Path, "read_text", side_effect=AssertionError("filesystem read forbidden")):
         result = verify_embedded_ledger(ledger)
     assert result["verified"] is True, result["errors"]

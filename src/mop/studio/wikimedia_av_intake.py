@@ -1,14 +1,3 @@
-"""Fail-closed intake for a tiny, synchronized Wikimedia Commons audio-video cohort.
-
-The default operation is metadata-only. It queries Wikimedia Commons ``videoinfo`` and checks each
-frozen file revision against its page id, original URL, size, SHA-1, upload timestamp, CC0 metadata,
-and mux stream metadata. No media URL is opened by the dry-run path.
-
-An explicit post-CM7 path can acquire train and validation objects only. Test objects remain locked
-until a later experiment protocol binds the frozen cohort manifest. Acquisition does not make a
-scientific claim: local ffprobe verification and a manual privacy/personality review are still
-required, as are independently citable audio and video encoder caches.
-"""
 
 from __future__ import annotations
 
@@ -125,7 +114,7 @@ CANDIDATE_COMPARISON: tuple[dict[str, Any], ...] = (
 
 
 class WikimediaAVIntakeError(RuntimeError):
-    """An authority, rights, split, stream, or safety condition failed."""
+    pass
 
 
 def _utc_now() -> str:
@@ -213,7 +202,6 @@ def _normalize_live_page(page: Mapping[str, Any]) -> dict[str, Any]:
 
 
 class WikimediaCommonsAPI:
-    """Minimal metadata-only Wikimedia Commons API client."""
 
     def __init__(
         self,
@@ -437,7 +425,6 @@ def build_dry_run_plan(
     client: WikimediaCommonsAPI,
     disk_root: str | Path = ".",
 ) -> dict[str, Any]:
-    """Build a live-authority plan without opening any media URL."""
     validate_manifest(manifest)
     expected_rows = list(manifest["objects"])
     live = client.pages(row["pageid"] for row in expected_rows)
@@ -581,7 +568,6 @@ def _plan_hash_payload(plan: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def validate_dry_run_plan(plan: Mapping[str, Any]) -> None:
-    """Verify the self-contained dry-run proof without querying the network."""
     problems: list[str] = []
     if plan.get("schema") != PLAN_SCHEMA or plan.get("mode") != "metadata-only-dry-run":
         problems.append("wrong dry-run plan schema or mode")
@@ -784,7 +770,6 @@ def execute_train_validation(
     destination: str | Path,
     timeout: float = 120.0,
 ) -> dict[str, Any]:
-    """Acquire and locally verify train/validation only; test is deliberately unimplemented."""
     validate_dry_run_plan(plan)
     if plan.get("schema") != PLAN_SCHEMA or plan.get("all_ok") is not True:
         raise WikimediaAVIntakeError("execution requires a fresh, passing dry-run plan")

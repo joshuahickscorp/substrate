@@ -1,8 +1,3 @@
-"""WP-11 substrate-pass tests (PR2, AT3, DR8 typing arm inputs). Tiny synthetic tensors only, no
-network, no weights, no encoder loads; the nuisance generator is exercised at a PATCHED tiny resolution
-(RES=32, FRAMES=8) so clip-identity determinism is tested in milliseconds. Asserts MECHANICS and the
-preregistered verdict logic, never a particular scientific outcome. The encoder-lane pgrep guard is
-tested with a monkeypatched subprocess, never a real encode."""
 
 import json
 import math
@@ -26,8 +21,6 @@ from scripts.mop_at3_time_axis import run as at3_run
 from scripts.mop_at3_time_axis import temporal_labels
 from scripts.mop_pr2_plasticity_substrates import _parse_seeds, _tasks_from_classes
 from scripts.mop_pr2_plasticity_substrates import run as pr2_run
-
-# ---------------------------------------------------------------- clip identity (the WP-01/WP-11 law)
 
 
 def _tiny(monkeypatch):
@@ -67,9 +60,6 @@ def test_iter_nuisance_clips_is_deterministic_cell_major(monkeypatch):
 
 def test_canonical_population_is_the_inflight_grid():
     assert CANONICAL == {"n_shape": 5, "n_color": 5, "per": 8, "seed": 0}
-
-
-# ---------------------------------------------------------------- cache layout round trips
 
 
 def test_feature_cache_roundtrip(tmp_path):
@@ -117,9 +107,6 @@ def test_feature_cache_reads_latentstore_and_pt_layouts(tmp_path):
         load_feature_cache(tmp_path / "missing")
 
 
-# ---------------------------------------------------------------- encoder-lane pgrep guard
-
-
 def test_encoder_lane_guard_passes_when_lane_free():
     assert_encoder_lane_free(patterns=("definitely_not_a_running_process_xyzzy",))
 
@@ -143,9 +130,6 @@ def test_encoder_lane_guard_ignores_own_and_parent_pid(monkeypatch):
     assert_encoder_lane_free(patterns=("compositional_under_nuisance",))
 
 
-# ---------------------------------------------------------------- single-frame arm (AT3 control)
-
-
 def test_single_frame_clip_is_token_matched_and_time_constant():
     g = torch.Generator().manual_seed(1)
     clip = torch.rand(8, 3, 16, 16, generator=g)
@@ -153,9 +137,6 @@ def test_single_frame_clip_is_token_matched_and_time_constant():
     assert sf.shape == clip.shape, "token/frame count must be matched"
     assert torch.equal(sf[0], clip[4]), "middle frame is the static content"
     assert float((sf - sf[0]).abs().max()) == 0.0, "zero temporal variation"
-
-
-# ---------------------------------------------------------------- PR2 mechanics + verdict logic
 
 
 def _write_cache(root, x, y, yc=None, nuis=None):
@@ -213,9 +194,6 @@ def test_pr2_label_mismatch_violates_clip_identity(tmp_path):
         pr2_run(cfg, "cpu", None)
 
 
-# ---------------------------------------------------------------- AT3 mechanics + verdict logic
-
-
 def test_temporal_labels_quadrants_and_speed_split():
     nuis = torch.zeros(4, 6)
     vx_i, vy_i = NUISANCE_COLS.index("vx"), NUISANCE_COLS.index("vy")
@@ -229,8 +207,6 @@ def test_temporal_labels_quadrants_and_speed_split():
 
 
 def _at3_caches(tmp_path, temporal_in_full):
-    """Full cache carries shape + motion-direction structure; single cache carries shape only (or a
-    byte-identical copy when temporal_in_full is False, the preregistered tie)."""
     g = torch.Generator().manual_seed(0)
     n, n_shape = 96, 4
     y = torch.arange(n) % n_shape

@@ -1,4 +1,3 @@
-"""Fail-closed guards for fixture preflights that must not use inherited models."""
 
 from __future__ import annotations
 
@@ -22,7 +21,7 @@ FORBIDDEN_MODEL_MODULES = (
 
 
 class ForbiddenRuntimeImport(RuntimeError):
-    """Raised before a no-model fixture can import a forbidden model surface."""
+    pass
 
 
 def _forbidden(name: str, *, importer: str = "") -> bool:
@@ -33,12 +32,6 @@ def _forbidden(name: str, *, importer: str = "") -> bool:
 
 @contextmanager
 def deny_forbidden_runtime_imports() -> Iterator[list[str]]:
-    """Reject forbidden imports, including imports satisfied from ``sys.modules``.
-
-    A ``sys.modules`` snapshot is insufficient in a long-lived test process because an unrelated
-    test may already have imported a model package. Wrapping both public import entry points makes
-    an execution-time attempt observable even when Python would otherwise return a cached module.
-    """
 
     attempts: list[str] = []
     real_import = builtins.__import__
@@ -74,7 +67,6 @@ def deny_forbidden_runtime_imports() -> Iterator[list[str]]:
 
 
 def forbidden_source_imports(path: Path) -> list[str]:
-    """Return forbidden literal imports or direct cached-module access in one source file."""
 
     tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     problems: list[str] = []

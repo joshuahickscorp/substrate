@@ -1,14 +1,3 @@
-"""Backprop learner: the standard trainer and the engine the continual harness drives. It
-composes the shell mechanisms, each optional (None => that mechanism is off, which is how
-the naive baseline is built):
-  - ReplayBuffer       : interleave old latents with the current task
-  - Consolidation      : EWC/SI penalty pulling important weights back
-  - PlasticityController: per-step LR gate + PNN rigidity (+ signal-triggered reopening)
-  - Neuromodulation    : surprise/uncertainty gates on LR and replay priority
-
-It is deliberately classification-first (the E1 probe-accuracy headline) but the loss is
-swappable. It is also the accuracy ceiling baseline for I4.
-"""
 
 from __future__ import annotations
 
@@ -65,8 +54,6 @@ class Learner:
             yield x[j], y[j]
 
     def train_task(self, task: Task, progress0: float, progress1: float) -> int:
-        """Train one task. progress0..progress1 is this task's slice of the global schedule.
-        Returns steps-to-threshold (-1 if never reached)."""
         if self.con:
             self.con.begin_task(self.model)
         adapt = -1

@@ -1,5 +1,3 @@
-"""Frozen perceptual substrate: encoder (inference-only), latent cache, memmap store,
-streams. Nothing here trains."""
 
 from __future__ import annotations
 

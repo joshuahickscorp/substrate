@@ -1,10 +1,3 @@
-"""Bounded Generation 1 C3/D1 learned-dispatch mechanics pilot.
-
-This lane is deliberately non-promotable. It proves that a dispatcher can be
-trained and evaluated without receiving heldout context labels, truth, actor
-predictions, or oracle choices. It does not replace an independently verified
-confirmation campaign.
-"""
 
 from __future__ import annotations
 
@@ -43,10 +36,6 @@ FORBIDDEN_HELDOUT_INPUTS = (
     "oracle_actor_id",
     "heldout_route_labels",
 )
-
-
-
-
 
 
 def sha256_file(path: Path | str) -> str:
@@ -91,7 +80,6 @@ def _read_object(path: Path, label: str) -> dict[str, Any]:
 
 
 def load_c2_authority(repo_root: Path = REPO_ROOT) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Load only the exact, independently verified C2 authority."""
     result_path = repo_root / C2_RESULT_RELATIVE
     verification_path = repo_root / C2_VERIFICATION_RELATIVE
     if sha256_file(result_path) != C2_RESULT_FILE_SHA256:
@@ -254,7 +242,6 @@ class _Dispatcher(torch.nn.Module):
 
 
 def _router_features(x: torch.Tensor, difficulty_index: int, difficulty_count: int) -> torch.Tensor:
-    """The complete heldout router interface: raw latent plus difficulty only."""
     difficulty = float(difficulty_index) / max(1, difficulty_count - 1)
     column = torch.full((x.shape[0], 1), difficulty, dtype=x.dtype, device=x.device)
     return torch.cat((x, column), dim=1)
@@ -351,7 +338,6 @@ def _evaluate_cell(
         dataset["dim"],
         float(c2_config["difficulty_separations"][difficulty_index]),
     )
-    # No label-bearing value is passed into this complete router call.
     with torch.no_grad():
         router_input = _router_features(xte, difficulty_index, len(c2_config["difficulty_separations"]))
         selected_indexes = model((router_input - mean) / scale).argmax(dim=1).tolist()

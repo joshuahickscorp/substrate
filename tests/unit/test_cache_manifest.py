@@ -1,4 +1,3 @@
-"""Cache data-plane receipts: sidecars, split membership, hashes, and cache-tool integration."""
 
 import json
 

@@ -43,7 +43,7 @@ MAX_JSON_BYTES = 4 * 1024 * 1024
 
 
 class ContinuationRefused(RuntimeError):
-    """A continuation plan or observed state failed closed."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)

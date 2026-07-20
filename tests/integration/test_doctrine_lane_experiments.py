@@ -1,7 +1,3 @@
-"""The four never-built doctrine-lane experiments the corpus synthesis flagged as highest value:
-D6 sensitive window (the most direct moldability test), B8 structural growth, Y4 hysteresis, and EX10
-cross-modal (synthetic arm). Each runs end to end on its toy default and returns an explicit null check.
-Asserts MECHANICS only, never a particular scientific outcome (the nulls hold; that is an honest finding)."""
 
 import pytest
 

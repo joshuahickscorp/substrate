@@ -1,10 +1,3 @@
-"""Local, referent-exact atlas over serially cached V-JEPA scale points.
-
-This is deliberately a migration instrument, not a claim that three pretrained encoders are a custom
-substrate.  It establishes which geometry and factor signals survive scale, then exposes those signals as
-requirements for locally trained candidates.  Programmatic clips and missing random-architecture controls
-keep the result non-promotable even when a permutation test is small.
-"""
 
 from __future__ import annotations
 
@@ -27,8 +20,6 @@ from mop.substrate.events import sha256_file
 
 SCHEMA = "mop-vjepa-scale-atlas-local/v1"
 STIMULUS_IDENTITY_SCHEMA = "mop-factorized-stimulus-identity/v1"
-
-
 
 
 def _json(path: Path) -> Any:
@@ -67,7 +58,6 @@ def _load_cache(path: Path) -> dict[str, Any]:
 
 
 def validate_shared_referents(rows: dict[str, dict[str, Any]]) -> None:
-    """Require identical ordered referents, factors, and splits across every scale point."""
     if len(rows) < 2:
         raise ValueError("the scale atlas requires at least two citable caches")
     first_tag = sorted(rows)[0]
@@ -102,7 +92,6 @@ def frozen_split_probe(
     epochs: int = 300,
     shuffle_train_labels: bool = False,
 ) -> dict[str, Any]:
-    """Train only on the manifest train rows and evaluate on the frozen val plus test rows."""
     train_idx = torch.tensor(splits["train"], dtype=torch.long)
     heldout_values = [index for key in ("val", "test") for index in splits.get(key, [])]
     heldout_idx = torch.tensor(heldout_values, dtype=torch.long)
@@ -165,7 +154,6 @@ def _valid_sha256(value: Any) -> bool:
 
 
 def _receipt_stimulus_hashes(row: dict[str, Any]) -> list[str] | None:
-    """Return ordered per-referent hashes only when the run receipt binds every row."""
     records = (row.get("run_receipt", {}).get("stimulus") or {}).get("records")
     referents = row.get("referents") or []
     if not isinstance(records, list) or len(records) != len(referents) or not records:
@@ -183,12 +171,6 @@ def _receipt_stimulus_hashes(row: dict[str, Any]) -> list[str] | None:
 def validate_factorized_stimulus_identity(
     rows: dict[str, dict[str, Any]], receipt: dict[str, Any]
 ) -> dict[str, Any]:
-    """Validate the separate identity receipt against the exact atlas caches.
-
-    The receipt is allowed to fill hashes missing from old learned-cache run receipts only when its
-    generator hashes, native-resolution clip hashes, cache identity, latent rebinding, and every
-    random-control run's own ordered hashes agree.  A boolean ``all_ok`` alone is never sufficient.
-    """
     problems: list[str] = []
     if receipt.get("schema") != STIMULUS_IDENTITY_SCHEMA:
         problems.append("unexpected stimulus-identity schema")

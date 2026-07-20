@@ -1,10 +1,3 @@
-"""DR1 source intake receipt.
-
-The real-video DR1 path should fail before compute if the source tree is not a real, licensed,
-caption-covered bound-attribute corpus. This module performs that filesystem-only check and emits a
-receipt the Studio spine can treat as a launch gate. It also runs the cheap caption-side
-recoverability probe, but still does not decode video or load encoders.
-"""
 
 from __future__ import annotations
 
@@ -39,12 +32,6 @@ def build_dr1_source_intake(
     require_source_card: bool = True,
     check_caption_recoverability: bool = True,
 ) -> dict[str, Any]:
-    """Validate the DR1 source layout, captions, and source provenance before encode.
-
-    The check deliberately avoids decoding video. It proves the corpus is structurally launchable, that
-    captions carry the factors label-free, and that a human-visible source card exists before Studio
-    compute can turn into claim evidence.
-    """
     src = Path(source)
     factors_tuple = tuple(str(f) for f in factors if str(f))
     problems: list[str] = []
@@ -150,7 +137,6 @@ def build_dr1_source_intake(
 
 
 def load_source_card(path: str | Path | None) -> dict[str, Any] | None:
-    """Load a source-card JSON object if a path is supplied and exists."""
     if path is None:
         return None
     p = Path(path)
@@ -176,7 +162,6 @@ def build_dr1_source_card(
     source_url: str | None = None,
     notes: str | None = None,
 ) -> dict[str, Any]:
-    """Build the DR1 source-card JSON object the Studio intake expects."""
     card: dict[str, Any] = {
         "schema": SOURCE_CARD_SCHEMA,
         "created_at": datetime.now(UTC).isoformat(),
@@ -206,7 +191,6 @@ def validate_dr1_source_card(
     expected_clip_count: int | None = None,
     require_source_card: bool = True,
 ) -> dict[str, Any]:
-    """Return a durable validation receipt for a DR1 source card."""
     summary, problems = _source_card_summary(
         card,
         source_card_path=source_card_path,
@@ -229,21 +213,18 @@ def validate_dr1_source_card(
 
 
 def write_dr1_source_card(card: dict[str, Any], path: str | Path) -> None:
-    """Write a DR1 source-card JSON file."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(card, indent=2, default=str) + "\n")
 
 
 def write_dr1_source_card_validation(receipt: dict[str, Any], path: str | Path) -> None:
-    """Write a DR1 source-card validation receipt."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(receipt, indent=2, default=str) + "\n")
 
 
 def write_dr1_source_intake(receipt: dict[str, Any], path: str | Path) -> None:
-    """Write a source-intake receipt."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(receipt, indent=2, default=str) + "\n")

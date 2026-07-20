@@ -1,9 +1,3 @@
-"""Executed toy beds for f36 broadcast necessity and f37 broadcast sufficiency.
-
-The task is a bounded binary shared-message fixture with calibrated signal noise. Every arm spends
-the same declared scalar-operation budget through deterministic padding. It is programmatic R1
-evidence only. In particular, an exact comparator tie is recorded as a null for sufficiency.
-"""
 
 from __future__ import annotations
 

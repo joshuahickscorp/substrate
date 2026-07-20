@@ -1,7 +1,3 @@
-"""WP-13 DR14 corruption tests: tiny synthetic tensors only, seconds per test, no encoder loads,
-no network, no real-cache reads (use_real_cache=False in the tiny cfg). Asserts the honesty
-machinery structurally: identical corruption for both arms, FLOP matching, preregistered nulls,
-the noisy-TV guard and the destroyed-structure floor, and the corruption operators' identities."""
 
 import json
 import sys
@@ -43,14 +39,10 @@ def _tiny_cfg():
     return OmegaConf.merge(dr14.default_cfg(), OmegaConf.create(over))
 
 
-# ---------------------------------------------------------------- corruption operators
-
-
 def test_corruption_operators_identity_at_zero_severity():
     x = torch.randn(20, 6)
     assert torch.allclose(dr14.corrupt_quantize(x, 32), x)
     assert torch.allclose(dr14.corrupt_noise(x, 0.0, seed=0), x)
-    # full-rank projection reconstructs (up to numerical noise)
     train = torch.randn(40, 6)
     assert torch.allclose(dr14.corrupt_lowrank(x, train, 1.0), x)
     lr = dr14.corrupt_lowrank(x, train, 0.99)  # forces the SVD path at full-ish rank
@@ -84,9 +76,6 @@ def test_fit_slope_recovers_linear_trend():
     assert dr14.fit_slope([0.0, 1.0], [0.3, 0.3]) == 0.0
 
 
-# ---------------------------------------------------------------- contract + end to end
-
-
 def test_contract_declared():
     c = dr14.DR14Corruption().contract()
     assert c["null_hypothesis"] and c["baseline"] and c["ablation"]
@@ -100,15 +89,12 @@ def test_dr14_runs_end_to_end(tmp_path):
     assert (tmp_path / "dr14_corruption.json").exists()
     assert out["preregistered"]["slope_margin"] == dr14.SLOPE_MARGIN
     r = out["per_seed"][0]["synthetic"]
-    # all three laptop families present with both arms on the SAME severity axis
     assert set(r["families"].keys()) == {"lowrank_vq", "quantize", "noise"}
     for fam in r["families"].values():
         assert len(fam["acc_reasoning"]) == len(fam["acc_single_pass"]) == len(fam["severity"])
         assert isinstance(fam["reasoning_flatter"], bool)
-    # noisy-TV guard and destroyed-structure floor are reported for BOTH arms
     assert set(r["noisy_tv_guard"]["pure_noise_acc"].keys()) == {"reasoning", "single_pass"}
     assert set(r["shuffled_feature_floor"].keys()) == {"reasoning", "single_pass"}
-    # real cache disabled in the tiny cfg: reported as skipped, never crashes
     assert "skipped" in out["per_seed"][0]["real_cache_pilot"]
 
 
@@ -117,7 +103,6 @@ def test_dr14_arms_are_flop_matched(tmp_path):
     comp = out["per_seed"][0]["synthetic"]["compute"]
     assert comp["refiner_blocks"] == comp["single_pass_blocks"]
     assert comp["matched"]["matched"] is True
-    # untied control honestly carries more params, and says so
     assert comp["params"]["single_pass"] > comp["params"]["reasoning"]
 
 
@@ -125,7 +110,6 @@ def test_dr14_guard_accuracy_near_chance_on_pure_noise(tmp_path):
     out = dr14.DR14Corruption().run(_tiny_cfg(), DEV, tmp_path)
     g = out["per_seed"][0]["synthetic"]["noisy_tv_guard"]["pure_noise_acc"]
     chance = out["per_seed"][0]["synthetic"]["chance"]
-    # loose structural bound at toy scale (the preregistered GUARD_TOL governs full scale)
     assert abs(g["reasoning"] - chance) < 0.25
     assert abs(g["single_pass"] - chance) < 0.25
 

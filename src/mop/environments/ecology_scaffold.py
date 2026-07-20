@@ -107,8 +107,6 @@ def _require_claim_scope(value: str) -> None:
         raise ValueError("ecology claim scope cannot be widened or dropped")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class WorldResamplingRule:
 
@@ -229,8 +227,6 @@ class BoundedWorldContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class SensingCostDeclaration:
 
@@ -325,8 +321,6 @@ class ActivePerceptionContract:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -594,8 +588,6 @@ def run_goal_babbling_fixture(
     return trace
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class PartnerSpec:
 
@@ -695,8 +687,6 @@ class SimulatedPartnerContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MessageBindingDeclaration:
 
@@ -762,8 +752,6 @@ class CommunicationGroundingContract:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)

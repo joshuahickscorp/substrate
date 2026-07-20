@@ -1,6 +1,3 @@
-"""Run one experiment from a composed config: resolve device, make a run dir, snapshot the
-config, run, write the manifest with metrics. The single entry every script and the queue
-go through."""
 
 from __future__ import annotations
 
@@ -29,7 +26,6 @@ def run_experiment(cfg: DictConfig, run_dir: Path | None = None) -> dict:
 
     exp = get_experiment(eid)
     enc = cfg.get("encoder", {})
-    # synthetic-latent experiments default to provisional; cache scripts set richer tags on stores.
     man = RunManifest(
         name=eid,
         seed=int(cfg.seed),

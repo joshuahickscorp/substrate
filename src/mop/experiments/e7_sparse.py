@@ -1,18 +1,3 @@
-"""E7: sparse / modular developmental predictor (interference reduction at matched params).
-
-On a domain-incremental latent stream we train three HEAD variants of EQUAL parameter count
-sequentially and read off forgetting (BWT): (a) a dense MLP, (b) a k-WTA head that masks all
-but the top-k hidden units on the forward pass (sparse activation, lateral-inhibition analog),
-(c) a tiny MoE with a few expert MLPs and a softmax router. The corpus control is explicit:
-interference reduction must not be just more capacity, so the dense baseline is parameter
-matched and the k-WTA head shares the dense head's exact shape (sparsity is the only change).
-
-NULL (6.7 / Experiment 7): no sparse or modular variant beats the parameter-matched dense
-baseline on interference; the reduction, if any, was just capacity. We return sparse_beats_dense
-and every variant's BWT. Any speedup claim is reported SEPARATELY and marked gpu-later: on dense
-hardware k-WTA and MoE do not run faster (the corpus says so), so wall-clock here is diagnostic
-only and never a success criterion.
-"""
 
 from __future__ import annotations
 
@@ -36,7 +21,6 @@ from .base import Experiment, _split  # noqa: E402
 
 
 class DenseHead(nn.Module):
-    """latent -> hidden (GELU) -> classes. The parameter-matched reference."""
 
     def __init__(self, dim: int, hidden: int, n_classes: int):
         super().__init__()
@@ -48,8 +32,6 @@ class DenseHead(nn.Module):
 
 
 class KWTAHead(nn.Module):
-    """Identical shape to DenseHead; the only change is a top-k mask on the hidden layer, so
-    each input fires k of `hidden` units (sparse activation). Same parameter count as dense."""
 
     def __init__(self, dim: int, hidden: int, n_classes: int, k: int):
         super().__init__()
@@ -64,9 +46,6 @@ class KWTAHead(nn.Module):
 
 
 class MoEHead(nn.Module):
-    """A few expert linear maps (dim->classes) plus a softmax router (dim->experts). Expert
-    widths are chosen so total params match the dense head; the router is the small overhead the
-    corpus warns can dominate. Returns logits and the per-batch routing distribution."""
 
     def __init__(self, dim: int, n_classes: int, n_experts: int, expert_hidden: int):
         super().__init__()
@@ -89,8 +68,6 @@ def _n_params(m: nn.Module) -> int:
 
 
 def _routing_entropy(gates: torch.Tensor) -> float:
-    """Mean entropy (nats) of the per-sample expert distribution. High and flat => the router
-    never specialized (a corpus null signature); dropping => modules carved up the stream."""
     p = gates.clamp_min(1e-9)
     return float((-(p * p.log()).sum(-1)).mean())
 
@@ -149,9 +126,6 @@ class E7(Experiment):
         best_sparse = max(beats, key=lambda n: beats[n])
         sparse_beats_dense = bool(beats[best_sparse] > margin)  # the explicit null check
 
-        # D3 difficulty calibration (registry relation: "makes E7/E8 ties meaningful"): certify the
-        # stream itself carries real, decodable class structure, so a BWT gap between arms reflects a
-        # genuine interference difference rather than noise in an uncalibrated regime.
         calib = reference_separation(test[-1].x, test[-1].y, seed=int(cfg.seed))
 
         out = {
@@ -173,7 +147,6 @@ class E7(Experiment):
             "sparse_beats_dense": sparse_beats_dense,  # null answer: False => null supported
             "null_supported": not sparse_beats_dense,
             "regime_calibration": calib,
-            # speedup is a SEPARATE claim, gpu-later, NOT a success criterion (corpus 6.7)
             "speedup": {
                 "wall_clock_s": {n: a["wall_clock_s"] for n, a in arms.items()},
                 "claim_tier": "gpu-later",
@@ -236,9 +209,6 @@ class E7(Experiment):
         return first, last
 
     def _matched_expert_hidden(self, dim, hidden, n_classes, n_experts) -> int:
-        """Pick per-expert width so the MoE total (router + experts) is close to the dense head
-        param count. Dense ~= dim*hidden + hidden*n_classes; each expert ~= dim*w + w*n_classes,
-        plus a dim*n_experts router. Solve for w, floor at 1."""
         dense = dim * hidden + hidden + n_classes * hidden + n_classes
         router = dim * n_experts + n_experts
         per_expert_budget = max(1.0, (dense - router) / n_experts)

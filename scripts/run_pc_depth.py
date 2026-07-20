@@ -1,12 +1,4 @@
 #!/usr/bin/env python
-"""Run Leg 8C: predictive-coding-vs-depth. Trains backprop and predictive-coding heads of the
-same depth-L MLP on a fixed multiclass latent task and reports the accuracy gap per depth. The
-expected finding is that PC tracks backprop when shallow and falls behind as depth grows.
-
-Usage: .venv/bin/python scripts/run_pc_depth.py            # depths 1,2,3,4
-       .venv/bin/python scripts/run_pc_depth.py --full     # larger task/budget
-Logs to stderr; JSON result to stdout.
-"""
 
 from __future__ import annotations
 

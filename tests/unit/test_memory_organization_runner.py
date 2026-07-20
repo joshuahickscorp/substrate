@@ -1,11 +1,3 @@
-"""Tests for the memory-organization runner: the future-decision bar and the honesty boundary.
-
-The runner may only mint a mechanics-ok demonstration when the organized memory beats every control
-on FUTURE decisions on the favorable regime, does not harm relative to no-memory, and leaves the
-named prior null holding on the null regime. A prediction-only improvement that changes no decision
-must not clear the bar, and a harming case must block it. No receipt is ever a scientific
-confirmation. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -56,7 +48,6 @@ def test_favorable_regime_yields_mechanics_ok() -> None:
     assert receipt.detail["favorable_win"] is True
     assert receipt.detail["null_holds"] is True
     assert receipt.detail["harmed"] is False
-    # Every declared control must have been strictly beaten.
     assert tuple(receipt.controls_cleared) == FUTURE_DECISION_CONTROLS
     for control in FUTURE_DECISION_CONTROLS:
         assert receipt.detail["favorable_margins"][control] > 0.0
@@ -67,7 +58,6 @@ def test_prediction_only_improvement_is_not_mechanics_ok() -> None:
     runner = _runner()
     result = runner.run(prediction_only_bed(), SEED)
     receipt = runner.mint(result)
-    # Recall accuracy improves over the memory-free control, but no future decision moves.
     assert receipt.detail["favorable_prediction_margins"]["stale-memory"] > 0.0
     assert receipt.detail["favorable_margins"]["stale-memory"] == 0.0
     assert receipt.detail["favorable_win"] is False
@@ -90,7 +80,6 @@ def test_evidence_digest_is_stable_across_beds_but_kind_is_demonstration() -> No
     runner = _runner()
     favorable = runner.mint(runner.run(favorable_bed(), SEED))
     null = runner.mint(runner.run(structureless_bed(), SEED))
-    # A stable 64 hex digest, and the two distinct beds must not collide.
     assert len(favorable.evidence_digest) == 64
     assert favorable.evidence_digest != null.evidence_digest
     assert favorable.kind == KIND_DEMONSTRATION

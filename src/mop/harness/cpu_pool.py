@@ -1,12 +1,3 @@
-"""Parallel CPU harness for the campaign. Tier C run-units are independent, so we saturate the
-whole CPU as a pool of WORKER PROCESSES (spawn, so a crash or OOM in one is isolated). The one
-trap we avoid is oversubscription: PyTorch + the BLAS backend already spawn intra-op threads,
-so we cap threads-per-worker and keep workers x threads ~= physical cores. Each unit is
-checkpointed to its own json so completed units are never recomputed on restart.
-
-Sizing: small-head legs -> many workers x 1 BLAS thread; heavy legs -> fewer workers x more
-threads. Worker count is also capped by a memory budget (footprint probe) to hold under 18 GB.
-"""
 
 from __future__ import annotations
 
@@ -41,9 +32,6 @@ def physical_cores() -> int:
 def plan_pool(
     mode: str = "small", footprint_mb: float = 600.0, mem_budget_mb: float = 13000.0
 ) -> tuple[int, int]:
-    """Return (workers, threads_per_worker) with workers*threads ~= physical cores, and workers
-    capped by the memory budget. mode: 'small' (many workers, 1 thread) or 'heavy' (fewer
-    workers, more threads)."""
     cores = physical_cores()
     threads = 1 if mode == "small" else max(2, cores // 4)
     workers = max(1, cores // threads)
@@ -92,8 +80,6 @@ class PoolResult:
 
 
 def run_pool(units: list[dict], workers: int, threads: int, ckpt_dir: Path, retries: int = 1) -> PoolResult:
-    """units: [{"key","overrides"}]. Runs them across `workers` spawned processes, each pinned to
-    `threads` BLAS threads. Per-unit checkpointed + resumable. A crashed pool degrades to serial."""
     ckpt_dir = Path(ckpt_dir)
     ckpt_dir.mkdir(parents=True, exist_ok=True)
     out = PoolResult()

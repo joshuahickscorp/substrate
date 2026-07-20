@@ -205,7 +205,6 @@ _validate_seal = v3._validate_seal
 
 
 def legacy_specs(repo_root: Path = REPO_ROOT) -> tuple[LegacySpec, ...]:
-    """Return v3 authorities with exact mechanics worker-label families."""
 
     mechanics_prefixes = tuple(f"mop-{lane.lane_id.lower()}-" for lane in v3.mechanics_queue.LANES)
     return tuple(
@@ -301,7 +300,6 @@ def _horizon_authority(
 
 
 class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
-    """v4 owner with a fresh durable root and exact command-shape adoption."""
 
     def __init__(
         self,
@@ -428,7 +426,6 @@ class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
         return status
 
     def _command_residual(self, spec: LegacySpec, process: ProcessSnapshot) -> bool:
-        """Recognize only the exact two-argv restart shape emitted by this parent."""
 
         if len(process.command) != 2 or len(spec.restart_command) != 2:
             return False
@@ -451,7 +448,6 @@ class SuccessorEvidenceChain(v3.SuccessorEvidenceChain):
         spec: LegacySpec,
         processes: Sequence[ProcessSnapshot],
     ) -> tuple[list[ProcessSnapshot], list[ProcessSnapshot]]:
-        """Bind child labels only inside the exact owning parent boundary."""
 
         labelled = [process for process in processes if process.label == spec.process_label]
         for process in labelled:
@@ -969,7 +965,6 @@ def validate_chain_status(
     horizon_program_path: Path | None = None,
     specs: Sequence[LegacySpec] | None = None,
 ) -> str:
-    """Validate one exact v4 status acknowledgement without mutating chain state."""
 
     repo_root = repo_root.resolve()
     if horizon_program_path is None:
@@ -1415,7 +1410,6 @@ def read_validated_complete_chain_status(
     specs: Sequence[LegacySpec] | None = None,
     acquire_lock: bool = True,
 ) -> dict[str, Any]:
-    """Read and replay one stable, exact, complete v4 state/status snapshot."""
 
     root = root.resolve()
     repo_root = repo_root.resolve()

@@ -1,4 +1,3 @@
-"""Contract and mutation tests for the durable MOP potential-atlas validator."""
 
 from __future__ import annotations
 
@@ -48,7 +47,6 @@ def _reconcile_source_hashes(payload: dict[str, Any]) -> None:
 
 @pytest.fixture
 def canonical_atlas(tmp_path: Path) -> Path:
-    """Copy the atlas with current source hashes so concurrent doc integration is isolated."""
     payload = _load(COMMITTED_ATLAS)
     _reconcile_source_hashes(payload)
     path = tmp_path / "atlas.json"

@@ -1,25 +1,4 @@
 #!/usr/bin/env python
-"""WS2 (WP-12): the matched-capacity fusion tournament. At STRICTLY matched trainable-param count
-(solved by the capmatch helper, never eyeballed) and matched training protocol (identical steps,
-optimizer, batch regime, so training FLOPs track params), does any STRUCTURED fusion of the two frozen
-sources beat the unstructured concat-MLP floor on held-out accuracy or NLL?
-
-Arms (all built at the concat-MLP reference's param count within capmatch tol):
-  concat_mlp (the floor and reference), learned_linear (per-source projections summed, purely linear
-  fusion), cross_attention (two source tokens, one multihead attention step), gwt_broadcast (narrow
-  shared slot written by both sources and broadcast back).
-
-PREREGISTERED NULL (verbatim, registry WS2): at matched capacity every structured fusion ties the
-concat-MLP on held-out accuracy and NLL: structure buys nothing beyond param count.
-PREREGISTERED VERDICT RULE (fixed before any result exists): the null is REJECTED only if at least one
-structured arm's accuracy delta OR NLL improvement over concat-MLP has a 5-seed 95 percent CI excluding
-zero from below with no per-seed sign flip. Param counts for every arm are recorded in the output; a
-capmatch failure aborts the run rather than comparing mismatched capacity.
-
-Usage: python scripts/mop_ws2_fusion_tournament.py --seeds 0-4
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -70,7 +49,6 @@ def _get(cfg, key, default):
 
 
 class ConcatMLP(nn.Module):
-    """The unstructured floor: concat both sources, one hidden layer, classify."""
 
     def __init__(self, da: int, db: int, n_classes: int, width: int):
         super().__init__()
@@ -81,8 +59,6 @@ class ConcatMLP(nn.Module):
 
 
 class LearnedLinear(nn.Module):
-    """Purely linear fusion: per-source projections summed, then a linear head. No nonlinearity, so any
-    win over it by the others is structure or depth, and its win over concat would be parsimony."""
 
     def __init__(self, da: int, db: int, n_classes: int, width: int):
         super().__init__()
@@ -94,9 +70,6 @@ class LearnedLinear(nn.Module):
 
 
 class CrossAttention(nn.Module):
-    """Two source tokens, one multihead self-attention step, mean-pool, classify. The requested width
-    is rounded UP to the nearest even number (num_heads=2 needs an even embed_dim) so the capmatch
-    integer search can probe any width; param count stays non-decreasing in the requested width."""
 
     def __init__(self, da: int, db: int, n_classes: int, width: int):
         super().__init__()
@@ -112,8 +85,6 @@ class CrossAttention(nn.Module):
 
 
 class GWTBroadcast(nn.Module):
-    """Global-workspace fusion: both sources write into a narrow shared slot (width // 4), the slot is
-    broadcast back into each source's stream, then the streams are read out jointly."""
 
     def __init__(self, da: int, db: int, n_classes: int, width: int):
         super().__init__()
@@ -138,11 +109,6 @@ ARM_MAKERS = {
 
 
 def build_matched_arms(da: int, db: int, n_classes: int, width: int, tol: float) -> dict[str, dict]:
-    """Solve each structured arm's width so its param count matches the concat-MLP reference within
-    tol (H-CAPMATCH). Returns arm -> {make, width, params}; raises on any capmatch failure. The search
-    upper bound is 8x the reference width: every structured arm grows at least as fast per unit width
-    as the concat reference, so the solution lies far below that, and an unbounded search would probe
-    the capmatch default hi (65536), transiently building a multi-GB attention module (RAM law)."""
     target = param_count(ConcatMLP(da, db, n_classes, width))
     arms: dict[str, dict] = {
         "concat_mlp": {"make": lambda: ConcatMLP(da, db, n_classes, width), "width": width, "params": target}

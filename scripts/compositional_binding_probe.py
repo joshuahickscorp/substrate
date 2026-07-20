@@ -1,24 +1,4 @@
 #!/usr/bin/env python
-"""The compositional-binding probe: the one synthetic test that can actually bite (per the phase-transition
-finding, additive/independent factors ceiling; only genuinely BOUND factors that still SHARE structure
-across cells make held-out-combination informative). Gratings failed because hue and orientation are
-independent global properties. Here the two factors are bound into a single OBJECT: a moving colored SHAPE
-(factor A = shape: circle/square/triangle/cross; factor B = color hue). Shape and color are bound in the
-same object, but structure is shared across cells (every square shares squareness, every red shares
-redness), so compositional extrapolation to held-out (shape, color) combinations is possible IN PRINCIPLE:
-a model that represents shape and color compositionally can decode "red square" having seen "blue square"
-and "red circle", while a model that only memorizes conjunctions cannot.
-
-The test asks, on REAL V-JEPA pooled geometry: train a probe to decode SHAPE while holding out a diagonal
-set of (shape, color) cells, then test on the unseen combinations, vs a frozen-random control. This is the
-first compositional test in the program that is neither ceiling-trivial (factors are bound, not additive)
-nor chance-by-construction (structure is shared, not arbitrary per cell).
-
-Usage: python scripts/compositional_binding_probe.py --n-shape 4 --n-color 4 --per 6 \
-    --out runs/pre_studio/compositional_binding.json    (device=cpu; MPS overflows the ViT-L buffer)
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -54,9 +34,6 @@ def _hue(c: int, n: int) -> torch.Tensor:
 def _shape_mask(
     shape: int, cx: float, cy: float, r: float, yy: torch.Tensor, xx: torch.Tensor
 ) -> torch.Tensor:
-    """A filled shape mask centered at (cx, cy), radius r. shape: 0 circle, 1 square, 2 triangle, 3 cross.
-    Shape is a spatial-form factor (needs the arrangement), color is applied to the SAME mask, so the two
-    are bound into one object but share form/color structure across cells."""
     dx, dy = xx - cx, yy - cy
     if shape == 0:  # circle
         return (dx * dx + dy * dy) <= r * r
@@ -64,14 +41,10 @@ def _shape_mask(
         return (dx.abs() <= r) & (dy.abs() <= r)
     if shape == 2:  # triangle (pointing up)
         return (dy <= r) & (dy >= -r) & (dx.abs() <= (r - dy) / 2 + r / 2)
-    # cross
     return ((dx.abs() <= r) & (dy.abs() <= r / 3)) | ((dy.abs() <= r) & (dx.abs() <= r / 3))
 
 
 def make_object_clip(shape: int, color: int, n_shape: int, n_color: int, g: torch.Generator) -> torch.Tensor:
-    """A [T,3,RES,RES] clip: a colored shape drifting across the frame (motion for V-JEPA). Shape sets the
-    form, color sets the hue, both realized on the SAME object (bound), with a moving position so the
-    encoder sees temporal structure. Background is a fixed neutral gray."""
     lin = torch.linspace(-1, 1, RES)
     yy, xx = torch.meshgrid(lin, lin, indexing="ij")
     tint = _hue(color, n_color)
@@ -130,10 +103,8 @@ def run(n_shape: int, n_color: int, per: int, seed: int) -> dict:
             "delta": round(r["score"] - fr["score"], 4),
         }
 
-    # single-factor decodability (sanity: are shape and color each decodable at all)
     shape_dec = probe_pair(x, y_shape)
     color_dec = probe_pair(x, y_color)
-    # THE compositional test: held-out (shape, color) combinations, real vs frozen-random
     hoc_real = held_out_combination(x, y_shape, y_color, seed=seed)
     hoc_fr = held_out_combination(frozen_random_projection(x, seed), y_shape, y_color, seed=seed)
 

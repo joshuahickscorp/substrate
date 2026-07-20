@@ -1,13 +1,4 @@
 #!/usr/bin/env python
-"""Run the performance microbenchmarks and report them. NON-science: short, deterministic,
-machine-relative timings for the hot paths (preprocess, store IO, buffer sampling, faiss-vs-brute
-retrieve, a learner step, sweep expansion, manifest write). Separate from the test suite; this is
-the human entry point.
-
-Prints a JSON list and a small Markdown table to stdout, writes runs/microbench.md. Logs to stderr.
-
-Usage: python scripts/bench.py [--reps 3]
-"""
 
 from __future__ import annotations
 

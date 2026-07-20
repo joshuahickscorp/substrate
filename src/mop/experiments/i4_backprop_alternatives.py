@@ -1,11 +1,3 @@
-"""I4: backprop-alternatives comparison (fully implemented). The SAME small head is trained
-on the SAME latents with head, data, seed, and budget fixed, by each rule: backprop (the
-ceiling), feedback alignment, direct feedback alignment, forward-forward, target propagation,
-equilibrium propagation, and a predictive-coding approximation. We report the accuracy gap
-vs backprop, locality (weight transport? separate backward pass? local-only updates?),
-compute cost, and stability (std across seeds). The expected, honest result: alternatives
-trail backprop in accuracy while some win on locality/activation-memory.
-"""
 
 from __future__ import annotations
 
@@ -39,7 +31,6 @@ class I4(Experiment):
         e = cfg.experiment
         seeds = list(e.seeds)
         margin = float(e.margin)
-        # one fixed multiclass latent task (the shared substrate for every rule)
         task = make_task_stream(
             n_tasks=1,
             dim=int(e.dim),

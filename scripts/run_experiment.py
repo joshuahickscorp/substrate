@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Run one experiment. Usage: python scripts/run_experiment.py experiment=e1_baseline device=cpu"""
 
 from __future__ import annotations
 

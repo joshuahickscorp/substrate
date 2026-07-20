@@ -1,9 +1,3 @@
-"""Append-only lifecycle journal with exact replay and availability queries.
-
-Every append is a new revision linked to the prior entry digest. Rollback is also an append: old
-entries remain intact, and the new revision restores a prior state. The journal is a bounded local
-mechanics instrument, not a claim about memory outside its recorded event stream.
-"""
 
 from __future__ import annotations
 
@@ -223,7 +217,6 @@ def _validate_interval(start: int | None, end: int | None) -> None:
 
 
 class LifecycleJournal:
-    """In-memory append-only journal with a hash-linked portable payload."""
 
     def __init__(self, memory_ref: MemoryRef):
         self.memory_ref = memory_ref

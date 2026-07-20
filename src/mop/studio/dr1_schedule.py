@@ -1,9 +1,3 @@
-"""Bridge Wave-0 encode schedules into DR1 cache jobs.
-
-The encode scheduler decides whether CPU or MPS should own the Studio cache build. This module turns
-that JSON receipt into explicit DR1 gate, encode-leg, merge, and guard commands without decoding video
-or loading an encoder.
-"""
 
 from __future__ import annotations
 
@@ -20,7 +14,6 @@ DEFAULT_FACTORS = ("object", "count", "relation", "action")
 
 
 def load_encode_schedule(path: Path | str) -> dict[str, Any]:
-    """Read an `encode_schedule.json` receipt."""
     data = json.loads(Path(path).read_text())
     if not isinstance(data, dict):
         raise ValueError("encode schedule must be a JSON object")
@@ -41,11 +34,6 @@ def build_dr1_schedule_plan(
     source_intake: dict[str, Any] | None = None,
     require_source_intake: bool = False,
 ) -> dict[str, Any]:
-    """Convert an encode schedule into a DR1 command plan.
-
-    The plan is dry metadata until a Studio daemon executes the emitted commands. If the schedule is
-    blocked, the returned plan records the wall and emits no runnable jobs.
-    """
     factors_tuple = tuple(str(f) for f in factors if str(f))
     gates = _schedule_gates(
         schedule,
@@ -166,7 +154,6 @@ def build_dr1_schedule_plan(
 
 
 def daemon_plan_from_dr1_schedule_plan(plan: dict[str, Any]) -> dict[str, Any]:
-    """Return a long-run daemon plan for a launchable DR1 schedule plan."""
     if plan.get("schema") != SCHEMA:
         raise ValueError(f"DR1 schedule plan schema {plan.get('schema')!r} != {SCHEMA!r}")
     if not plan.get("ok_to_launch"):
@@ -182,7 +169,6 @@ def daemon_plan_from_dr1_schedule_plan(plan: dict[str, Any]) -> dict[str, Any]:
 
 
 def write_json(data: dict[str, Any], path: Path | str) -> None:
-    """Write a JSON receipt with parent directory creation."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(data, indent=2, default=str) + "\n")

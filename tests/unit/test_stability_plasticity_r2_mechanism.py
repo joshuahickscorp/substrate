@@ -60,8 +60,6 @@ def _crafted(
     )
 
 
-
-
 def test_bed_and_runner_conform_to_protocols() -> None:
     assert isinstance(_bed(), Bed)
     assert isinstance(_runner(), MechanismRunner)
@@ -95,8 +93,6 @@ def test_default_contract_pins_the_joint_bar() -> None:
     assert contract.prior_null == "p6-stability-plasticity-split"
 
 
-
-
 def test_run_is_deterministic() -> None:
     runner, bed = _runner(), _bed()
     for seed in SEEDS:
@@ -120,8 +116,6 @@ def test_readings_are_reproducible_at_the_source() -> None:
     bed = _bed()
     stream = bed.favorable_regime(7)
     assert run_all(stream) == run_all(stream)
-
-
 
 
 def test_favorable_stream_carries_an_honest_interior_recurrence() -> None:
@@ -148,8 +142,6 @@ def test_null_stream_keeps_the_signal_silent_and_conflicts_the_core() -> None:
             assert stream.future[dim] < 0.0
 
 
-
-
 def test_null_regime_holds_the_split_and_mints_null() -> None:
     runner, bed = _runner(), _bed()
     for seed in (*SEEDS, *BAND_SEEDS):
@@ -158,8 +150,6 @@ def test_null_regime_holds_the_split_and_mints_null() -> None:
         receipt = runner.mint(result)
         assert receipt.verdict == VERDICT_NULL
         assert receipt.is_confirmation is False
-
-
 
 
 def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
@@ -176,8 +166,6 @@ def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
         assert receipt.stage == FIRST_ACTIVATION_STAGE
         assert receipt.requirement_id == REQUIREMENT_ID
         assert receipt.is_confirmation is False
-
-
 
 
 def test_only_retention_improved_is_not_mechanics_ok() -> None:
@@ -218,8 +206,6 @@ def test_a_tie_on_an_axis_is_not_a_strict_win() -> None:
     assert runner.mint(result).verdict == VERDICT_NULL
 
 
-
-
 def test_evidence_digest_is_stable_and_well_formed() -> None:
     runner, bed = _runner(), _bed()
     result = runner.run(bed, 0, REGIME_FAVORABLE)
@@ -234,8 +220,6 @@ def test_mint_is_never_a_confirmation_on_either_regime() -> None:
         receipt = runner.mint(runner.run(bed, 0, regime))
         assert receipt.kind == KIND_DEMONSTRATION
         assert receipt.is_confirmation is False
-
-
 
 
 def test_runner_refuses_an_unknown_regime_and_a_foreign_bed() -> None:

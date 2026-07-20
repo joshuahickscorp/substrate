@@ -101,7 +101,6 @@ class DecisionStream:
         return canonical_sha256(self.payload())
 
 
-
 _A = 1
 _B = 2
 _C = 3

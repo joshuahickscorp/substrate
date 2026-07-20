@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Build exact legacy-governor aliases of the frozen local-throttle policy baseline."""
 
 from __future__ import annotations
 

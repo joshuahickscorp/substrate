@@ -1,14 +1,3 @@
-"""E9: local-learning head in the STREAMING / online-cost regime. Distinct from I4 (which
-runs the full rule grid full-batch and tabulates the accuracy gap). Here the angle is the
-online cost: a single multiclass latent task is consumed as a stream (one online pass, small
-batches, no multi-epoch full-batch fit), and only the genuinely-local rules compete against
-backprop. The question is not "can a local rule match backprop accuracy" (it cannot, per I4)
-but "does locality buy anything that matters online": lower activation memory (no stored
-forward activations for a backward pass) and online stability (low seed-to-seed spread under
-one pass). Backprop is the accuracy ceiling. NULL: no local rule reaches within `margin` of
-backprop AND none offers a memory or stability win; we return any_local_within_margin and
-best_local_memory_win to answer it explicitly.
-"""
 
 from __future__ import annotations
 
@@ -27,15 +16,10 @@ from ..seeding import seed_everything  # noqa: E402
 from ..substrate.datasets import make_task_stream  # noqa: E402
 from .base import Experiment  # noqa: E402
 
-# the subset that is genuinely local (local credit assignment, no global backward pass)
 LOCAL_RULES = ("forward_forward", "equilibrium_prop", "predictive_coding", "target_prop")
 
 
 def _measured_run(fn, x, y, hidden, epochs, lr, seed):
-    """Run a rule while MEASURING activation memory: the total autograd saved-tensor elements
-    it retains for backward. Rules that do global/local backprop save activations; rules with
-    purely manual updates (no autograd backward) save ~zero. This is the real footprint, not a
-    stipulated constant, so the memory comparison can come out either way."""
     saved = {"elems": 0}
 
     def pack(t):
@@ -63,7 +47,6 @@ class E9(Experiment):
         seeds = list(e.seeds)
         margin = float(e.margin)
         passes = int(e.passes)  # online passes over the stream (1 == strict online)
-        # one fixed multiclass latent task, consumed as a stream by every rule
         task = make_task_stream(
             n_tasks=1,
             dim=int(e.dim),
@@ -82,7 +65,6 @@ class E9(Experiment):
             last = None
             for s in seeds:
                 seed_everything(s)
-                # streaming: few passes, small lr; activation memory is MEASURED, not stipulated
                 r, mem = _measured_run(fn, x, y, int(e.hidden), passes, float(e.lr), s)
                 accs.append(r.test_acc)
                 secs.append(r.seconds)
@@ -126,7 +108,6 @@ class E9(Experiment):
             "any_local_within_margin": any_within,
             "best_local_memory_win": best_mem_win,
             "any_local_stability_win": any_stability_win,
-            # the explicit null check: locality buys nothing online (no accuracy match, no memory win)
             "null_supported": (not any_within) and (not best_mem_win),
         }
         self._plot(table, ceiling, bp_mem, run_dir)

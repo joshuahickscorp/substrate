@@ -23,8 +23,6 @@ _FORBIDDEN_ENVELOPE_KEYS = frozenset({"content", "payload", "payload_b64", "payl
 _ARCHIVE_OPERATIONS = ("append", "compaction", "erasure", "retention", "retrieval")
 
 
-
-
 def _sha256(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 

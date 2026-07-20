@@ -1,10 +1,3 @@
-"""Strict, read-only readiness doctor for the local and Studio execution envelopes.
-
-The doctor distinguishes three things that older checks blurred together: software readiness,
-evidence readiness, and hardware-envelope compatibility. It never downloads weights, repairs a cache,
-or infers a hardware wall from a profile label. A missing package, decoder, local model snapshot, citable
-cache manifest, or measured host resource is a failed check with an explicit remedy.
-"""
 
 from __future__ import annotations
 
@@ -32,7 +25,6 @@ from .substrate.cache_tools import validate_cache
 
 SCHEMA = "mop-studio-readiness/v2"
 
-# Checks are ordered from process portability through software, evidence, and launch resources.
 CHECK_NAMES = (
     "python",
     "package_import",
@@ -53,7 +45,6 @@ CHECK_NAMES = (
 
 
 def _check(name: str, fn: Callable[[], tuple[bool, str]]) -> dict:
-    """Turn a probe exception into a failed check instead of crashing the doctor."""
     try:
         ok, detail = fn()
     except Exception as e:
@@ -68,7 +59,6 @@ def _check_python() -> tuple[bool, str]:
 
 
 def _check_package_import() -> tuple[bool, str]:
-    """Prove ``mop`` imports outside the repository without relying on PYTHONPATH or cwd."""
     code = (
         "import importlib.metadata,json,mop; "
         "print(json.dumps({'module':mop.__file__,'version':importlib.metadata.version('mop')}))"
@@ -114,7 +104,6 @@ def _check_apple_silicon() -> tuple[bool, str]:
 
 
 def _check_memory_telemetry() -> tuple[bool, str]:
-    """Require system and process memory telemetry used by every scale-boundary receipt."""
     snap = memory_snapshot("studio_doctor")
     required = ("process_rss_gb", "system_total_gb", "system_available_gb")
     missing = [key for key in required if snap.get(key) is None]
@@ -141,7 +130,6 @@ def _check_disk_space() -> tuple[bool, str]:
 
 
 def _infer_profile_name() -> str:
-    """Select the largest measured resource envelope this host actually satisfies."""
     host = apple_silicon_info()
     for name in ("studio-m1ultra", "studio-1tb"):
         compatible, _, _ = get_profile(name).host_compatibility(host=host)
@@ -174,12 +162,6 @@ def _check_profile_floor(profile_name: str | None = None) -> tuple[bool, str]:
 
 
 def _isolated_import_probe(modules: tuple[str, ...]) -> tuple[bool, str]:
-    """Import optional native modules outside the doctor process.
-
-    Video backends load codec and accelerator libraries with process-global destructors.  A broken
-    optional backend must be reported as unavailable without being able to crash the readiness
-    process later during interpreter teardown.
-    """
 
     imports = ";".join(f"importlib.import_module({module!r})" for module in modules)
     proc = subprocess.run(
@@ -200,7 +182,6 @@ def _isolated_import_probe(modules: tuple[str, ...]) -> tuple[bool, str]:
 
 @lru_cache(maxsize=1)
 def _check_video_backend() -> tuple[bool, str]:
-    """Require an importable real-video decoder while containing native-library failures."""
 
     errors: list[str] = []
     ok, detail = _isolated_import_probe(("decord",))
@@ -216,7 +197,6 @@ def _check_video_backend() -> tuple[bool, str]:
 
 
 def _check_huggingface() -> tuple[bool, str]:
-    """Require encoder libraries but make no network request; local weights are checked separately."""
     versions: list[str] = []
     for package, module in (("huggingface-hub", "huggingface_hub"), ("transformers", "transformers")):
         try:
@@ -278,7 +258,6 @@ def _local_weight_files(hf_id: str) -> list[Path]:
 
 @lru_cache(maxsize=32)
 def _sha256_snapshot(path: str, size: int, mtime_ns: int, ctime_ns: int) -> str:
-    """Hash one immutable file snapshot while avoiding repeated multi-GB reads in one process."""
     del size, mtime_ns, ctime_ns
     digest = hashlib.sha256()
     with Path(path).open("rb") as handle:
@@ -298,7 +277,6 @@ def _sha256_current(path: Path) -> str:
 
 
 def _direct_checkpoint_path(cfg: DictConfig) -> tuple[Path | None, str | None]:
-    """Resolve an official direct checkpoint without treating its sentinel hf_id as a Hub repo."""
     configured = OmegaConf.select(cfg, "checkpoint_path", default=None)
     if configured:
         path = Path(str(configured)).expanduser()
@@ -318,7 +296,6 @@ def _direct_checkpoint_path(cfg: DictConfig) -> tuple[Path | None, str | None]:
 
 
 def _check_direct_checkpoint(name: str, cfg: DictConfig) -> tuple[bool, str]:
-    """Validate direct checkpoint bytes and their adjacent immutable authority receipt."""
     checkpoint, resolution_problem = _direct_checkpoint_path(cfg)
     if checkpoint is None:
         return False, str(resolution_problem)
@@ -394,11 +371,6 @@ def _check_direct_checkpoint(name: str, cfg: DictConfig) -> tuple[bool, str]:
 
 
 def _check_encoder_weights(profile_name: str | None = None) -> tuple[bool, str]:
-    """Require profile-relevant local weight shards without downloading them.
-
-    Local-max requires the configured default encoder. Studio envelopes require the published
-    encoder-scale grid. This keeps a missing giant model from masquerading as a laptop hardware wall.
-    """
     required: list[tuple[str, str, DictConfig]] = []
     default_cfg = OmegaConf.load(REPO_ROOT / "configs" / "config.yaml")
     default_name = str(OmegaConf.select(default_cfg, "defaults.encoder", default=""))
@@ -435,7 +407,6 @@ def _check_encoder_weights(profile_name: str | None = None) -> tuple[bool, str]:
 
 
 def _check_cache_manifests() -> tuple[bool, str]:
-    """Require every on-disk latent store to pass strict citable validation."""
     root = REPO_ROOT / "data" / "cache"
     stores = sorted(path for path in root.glob("*") if path.is_dir() and (path / "meta.json").exists())
     if not stores:
@@ -530,7 +501,6 @@ def _classify_failures(checks: list[dict]) -> dict[str, object]:
 
 
 def doctor(profile_name: str | None = None) -> dict:
-    """Run all cheap probes and return a machine-readable, no-download readiness receipt."""
     resolved_profile = profile_name or _infer_profile_name()
     checks = [_check(name, fn) for name, fn in _probes(resolved_profile)]
     passed = sum(1 for check in checks if check["ok"])
@@ -557,7 +527,6 @@ def doctor(profile_name: str | None = None) -> dict:
 
 
 def render_md(report: dict) -> str:
-    """Render every check plus the measured profile decision."""
     summary = report["summary"]
     profile_name = report.get("profile", {}).get("resolved", "unknown")
     head = f"CURRENT HOST READY FOR {profile_name}" if report["all_ok"] else "CURRENT HOST NOT READY"

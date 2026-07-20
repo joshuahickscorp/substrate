@@ -289,7 +289,6 @@ TERMINAL_RUNTIME_EVENT_NAMES = frozenset(
 
 @dataclass(frozen=True, slots=True)
 class ReleaseContract:
-    """Exact immutable identity of the release being audited."""
 
     program_id: str = "generation1-empirical-cognitive-corpus-v2"
     program_sha256: str = "31bd05924a9ebd9a97f05acc46503bb4ab6f9a37ff4e8c9e3c89ceecfa01bfa8"
@@ -311,7 +310,6 @@ class ReleaseContract:
 
 @dataclass(frozen=True, slots=True)
 class ReleasePaths:
-    """All mutable and immutable inputs needed for a terminal audit."""
 
     repo_root: Path
     audit_module: Path
@@ -1112,7 +1110,6 @@ def audit_generation1_release(
     *,
     contract: ReleaseContract = ReleaseContract(),
 ) -> dict[str, Any]:
-    """Audit a completed release without mutating campaign state or proof inputs."""
 
     root = paths.repo_root.resolve()
     for value in _input_paths(paths):

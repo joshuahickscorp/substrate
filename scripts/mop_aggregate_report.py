@@ -1,22 +1,4 @@
 #!/usr/bin/env python
-"""MoT aggregate verdict report (WP-02; Stage 4 row Q4.5 of the EXECUTION_MANIFEST queue).
-
-Reads every verdict json under runs/mot/, extracts each row's preregistered-null outcome plus every
-uniform verdict block it can find (the shared shape the mop_* scripts emit:
-{per_seed, ci, sign_flips, win}), and emits one table: experiment, null_supported, wins, sign flips,
-seed-CI instability, wall seconds. The PR1 gate verdict (runs/pre_studio/pr1_*.json) is attached as
-context because it licenses or demotes the MT routing rows (manifest section 4, Stage 1 gate read).
-
-The aggregator is read-only over heterogeneous jsons: it never recomputes science, it only collects
-what each script preregistered and reported. Rows in the Stage 0-4 queue with no json yet are listed
-as MISSING (an unrun row is a fact worth surfacing, not an error). Rows whose verdict says nothing
-was tested (prefix NO/DEGENERATE/UNREADABLE/SKIPPED/UNMATCHED) are bucketed as not_evaluable and
-never counted among the rejected nulls, whatever their null_supported field says; rows with
-null_supported=None simply land in neither null bucket.
-
-Usage: python scripts/mop_aggregate_report.py [--dir runs/mot] [--out runs/mot/aggregate_report.json]
-Writes runs/mot/aggregate_report.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -27,12 +9,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PR1_GATE = REPO_ROOT / "runs" / "pre_studio" / "pr1_mode_error_disjointness.json"
 
-# Verdict prefixes that mean "nothing was tested" (missing input, broken pipeline, failed compute
-# match). Such rows are bucketed as not_evaluable and NEVER counted as rejected nulls, whatever their
-# null_supported field says: a missing cache must not read as a win in the Stage 4 gate table.
 NOT_EVALUABLE_PREFIXES = ("NO ", "NO-", "NO_", "DEGENERATE", "UNREADABLE", "SKIPPED", "UNMATCHED")
 
-# every runnable Stage 0-4 verdict json (manifest section 4); caches/manifests are not verdict rows
 EXPECTED = (
     "at4_programmatic_features",
     "at4_handcrafted_features",
@@ -73,8 +51,6 @@ EXPECTED = (
 
 
 def find_verdict_blocks(node, path: str = "") -> list[dict]:
-    """Recursively collect every uniform verdict block: a dict carrying ci + sign_flips + win (the
-    shape scripts build with riskcov.seed_ci and riskcov.sign_flip_report)."""
     found: list[dict] = []
     if isinstance(node, dict):
         if {"ci", "sign_flips", "win"} <= set(node):
@@ -100,8 +76,6 @@ def find_verdict_blocks(node, path: str = "") -> list[dict]:
 
 
 def summarize_file(path: Path) -> dict:
-    """One table row per verdict json. Tolerant of schema drift across the lane scripts: id falls
-    back to the file stem, absent fields are reported as None rather than guessed."""
     try:
         doc = json.loads(path.read_text())
     except (json.JSONDecodeError, OSError) as err:
@@ -128,8 +102,6 @@ def summarize_file(path: Path) -> dict:
 
 
 def pr1_gate_context() -> dict:
-    """The Stage 1 gate read: PR1 GREEN licenses the MT routing rows as live tests, PR1 NULL demotes
-    them to run-and-report-against-context (manifest section 4). Reported, never recomputed."""
     if not PR1_GATE.exists():
         return {"present": False, "note": "PR1 verdict json missing; MT rows unreadable as live tests"}
     try:
@@ -141,18 +113,11 @@ def pr1_gate_context() -> dict:
 
 
 def not_evaluable(row: dict) -> bool:
-    """A row whose top-level verdict string says nothing was tested (missing input, degenerate
-    pipeline, unmatched compute). Keyed on the verdict prefix, not on null_supported, so the bucket
-    also catches older jsons written before the None convention landed."""
     v = row.get("verdict")
     return isinstance(v, str) and v.upper().startswith(NOT_EVALUABLE_PREFIXES)
 
 
 def aggregate(run_dir: Path) -> dict:
-    """The full report dict: per-file rows, MISSING queue rows, the PR1 gate context, and totals.
-    null_supported is only read on evaluated runs: not-evaluable rows (verdict prefix NO/DEGENERATE/
-    UNREADABLE/SKIPPED/UNMATCHED) land in n_not_evaluable, never in n_null_rejected; rows with
-    null_supported=None land in neither null bucket."""
     skip = {"aggregate_report.json"}
     files = sorted(p for p in run_dir.glob("*.json") if p.name not in skip)
     rows = [summarize_file(p) for p in files]
@@ -178,7 +143,6 @@ def aggregate(run_dir: Path) -> dict:
 
 
 def render_table(report: dict) -> str:
-    """A compact fixed-width text table (stdout convenience; the json is the artifact)."""
     header = f"{'experiment':<38} {'null':<6} {'wins':<5} {'flips':<6} {'unstable':<9} seconds"
     lines = [header, "-" * len(header)]
     for r in report["rows"]:

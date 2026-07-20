@@ -1,9 +1,3 @@
-"""Daemon plan builder for Studio claim ledger updates.
-
-Positive ledger updates must not be hand-assembled. This module emits the required sequence:
-verdict gate, artifact durability index, then the actual ledger command. The long-run daemon validates
-that any positive-ledger job has the two required predecessors.
-"""
 
 from __future__ import annotations
 
@@ -32,7 +26,6 @@ def build_claim_daemon_plan(
     require_durable: bool = True,
     python: str = ".venv/bin/python",
 ) -> dict[str, Any]:
-    """Build a daemon plan that gates a Studio ledger update."""
     ledger_command = [str(part) for part in ledger_cmd if str(part)]
     if not ledger_command:
         raise ValueError("ledger_cmd must contain at least one command token")
@@ -85,7 +78,6 @@ def build_claim_daemon_plan(
 
 
 def write_claim_daemon_plan(plan: dict[str, Any], path: Path | str) -> None:
-    """Write and re-load the plan so the daemon contract is checked before handoff."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(plan, indent=2, default=str) + "\n")

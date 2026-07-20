@@ -1,12 +1,3 @@
-"""Append-only G1-D1 redesign scaffold after the frozen centroid prune.
-
-The redesign keeps the completed centroid router as a permanently noneligible
-control and opens three disjoint program categories: utility residuals,
-pairwise rankings, and calibrated abstention.  This module contains no model
-training.  It defines deterministic candidate evidence, screen, and freeze
-artifacts that later execution programs can fill without changing the frozen
-thresholds or heldout-input boundary.
-"""
 
 from __future__ import annotations
 
@@ -217,7 +208,6 @@ _FREEZE_FIELDS = frozenset(
 
 
 def candidate_catalog() -> list[dict[str, Any]]:
-    """Return fresh copies of the sealed append-only candidate inventory."""
 
     return copy.deepcopy(list(_CATALOG))
 
@@ -346,7 +336,6 @@ def build_candidate_evidence(
     producer: Mapping[str, Any],
     challenge: Mapping[str, Any],
 ) -> dict[str, Any]:
-    """Seal nonadmissible planning summaries for one unexecuted candidate."""
 
     catalog = _catalog_index()
     if candidate_id == frozen.FROZEN_VARIANT_ID:
@@ -387,7 +376,6 @@ def build_candidate_evidence(
 
 
 def validate_candidate_evidence(value: Mapping[str, Any]) -> None:
-    """Validate one candidate receipt and its heldout leakage boundary."""
 
     evidence = _require_mapping(value, "D1 redesign candidate evidence")
     _require_exact_fields(evidence, _EVIDENCE_FIELDS, "D1 redesign candidate evidence")
@@ -455,7 +443,6 @@ def validate_candidate_evidence(value: Mapping[str, Any]) -> None:
 
 
 def assess_candidate_evidence(evidence: Mapping[str, Any]) -> dict[str, Any]:
-    """Recompute the two-phase frozen gates and deterministic ranking score."""
 
     validate_candidate_evidence(evidence)
     phase_gates: dict[str, dict[str, Any]] = {}
@@ -620,7 +607,6 @@ def build_screen(
     predecessor_source_path: Path = frozen.DEFAULT_RESULT,
     predecessor_rung_root: Path = frozen.DEFAULT_RUNG_ROOT,
 ) -> dict[str, Any]:
-    """Build a live-authority-bound preregistration across all three categories."""
 
     return _sealed(
         _screen_core(
@@ -639,7 +625,6 @@ def validate_screen(
     predecessor_source_path: Path = frozen.DEFAULT_RESULT,
     predecessor_rung_root: Path = frozen.DEFAULT_RUNG_ROOT,
 ) -> None:
-    """Validate a screen by regenerating its complete semantic projection."""
 
     screen = _require_mapping(value, "D1 redesign screen")
     _require_exact_fields(screen, _SCREEN_FIELDS, "D1 redesign screen")
@@ -717,7 +702,6 @@ def freeze_screen(
     predecessor_source_path: Path = frozen.DEFAULT_RESULT,
     predecessor_rung_root: Path = frozen.DEFAULT_RUNG_ROOT,
 ) -> dict[str, Any]:
-    """Seal the preregistration as no-candidate until raw execution exists."""
 
     return _sealed(
         _freeze_core(
@@ -736,7 +720,6 @@ def validate_freeze(
     predecessor_source_path: Path = frozen.DEFAULT_RESULT,
     predecessor_rung_root: Path = frozen.DEFAULT_RUNG_ROOT,
 ) -> None:
-    """Validate a freeze against the exact screen that authorized it."""
 
     freeze = _require_mapping(value, "D1 redesign freeze")
     _require_exact_fields(freeze, _FREEZE_FIELDS, "D1 redesign freeze")

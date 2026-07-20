@@ -1,4 +1,3 @@
-"""Falsification helpers: null-card specs and generated proof receipts."""
 
 from __future__ import annotations
 

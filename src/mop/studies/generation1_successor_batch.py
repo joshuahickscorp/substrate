@@ -1,10 +1,3 @@
-"""Fail-closed Generation 1 successor-study batch authority.
-
-This module does not execute or license a mechanism experiment.  It binds the
-independently verified C2 result to four separately gated preregistration
-drafts so their implementation can be prepared concurrently without leaking
-labels, seeds, or downstream conclusions across study boundaries.
-"""
 
 from __future__ import annotations
 
@@ -27,10 +20,6 @@ STATUS = "draft_unexecuted"
 
 C2_RESULT_PATH = "proof/GENERATION1_CONTEXT_ROUTING.json"
 C2_VERIFICATION_PATH = "proof/GENERATION1_CONTEXT_ROUTING.verification.json"
-
-
-
-
 
 
 def sha256_file(path: Path | str) -> str:

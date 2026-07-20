@@ -1,4 +1,3 @@
-"""Independent verifier for the Generation 1 categorized batch-wave scaffold."""
 
 from __future__ import annotations
 

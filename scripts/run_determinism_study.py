@@ -1,12 +1,4 @@
 #!/usr/bin/env python
-"""Leg 11A: run the determinism characterization and print the report as JSON to stdout.
-
-Runs each representative config (small E1, small I4) N times single-threaded/serial and
-reports per-config byte-identity rate and metric spread, plus the CPU-vs-Metal verdict.
-
-Usage: python scripts/run_determinism_study.py [--reps 3]
-Logs go to stderr; the JSON report goes to stdout.
-"""
 
 from __future__ import annotations
 

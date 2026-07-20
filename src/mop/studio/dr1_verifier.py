@@ -1,11 +1,3 @@
-"""Independent DR1 artifact verifier.
-
-DR1 can only move an abstraction or density claim after the Studio run leaves durable sidecars:
-leg acceptance receipts, a merge manifest, an aligned PerspectiveMatrix receipt, and an A6 residual
-guard receipt. This verifier reads those artifacts after the run. It does not encode video and it does
-not upgrade a null. Its `passed/all_ok` fields are intentionally strict so the generic verdict gate can
-use this receipt for positive claims only when the adversarial A6 condition survives.
-"""
 
 from __future__ import annotations
 
@@ -26,12 +18,6 @@ class DR1VerifierConfig:
 
 
 def build_dr1_verification(config: DR1VerifierConfig | Path | str) -> dict[str, Any]:
-    """Verify DR1 receipt sidecars and decide whether a positive claim is allowed.
-
-    `integrity_ok` means the expected artifacts are present and internally consistent. `passed` and
-    `all_ok` additionally require the decisive A6 residualized-alignment condition to survive, because
-    these are the keys the generic verdict gate treats as positive-verifier pass flags.
-    """
     cfg = config if isinstance(config, DR1VerifierConfig) else DR1VerifierConfig(cache_dir=config)
     root = Path(cfg.cache_dir)
     checks: list[dict[str, Any]] = []

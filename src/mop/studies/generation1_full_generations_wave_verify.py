@@ -1,12 +1,3 @@
-"""Independent verifier for the Generation 1 full-generations mechanics wave scaffold.
-
-This replays the full-generations wave result end to end (five admission gates,
-fourteen categorized fresh-cycle waves, the single post-W21 substituted-dependency
-I1 integration, and the advisory release audit), independently recomputes the
-program envelope, and runs an eight-case semantic mutation suite.  Gate 1 and gate
-2 replays are byte-binding only: the carried frozen D1 retirement and no-candidate
-redesign freeze are never re-executed and no raw D1 receipt is ever recomputed.
-"""
 
 from __future__ import annotations
 
@@ -35,10 +26,6 @@ MUTATION_NAMES = (
 )
 MUTATION_COUNT = len(MUTATION_NAMES)
 
-# The verifier's cosmetic check ledger. Every entry is a fixed boolean byte-bound into the
-# verification seal; the build and validate paths reference this single literal so the round
-# trip cannot drift. "independent_generator_family_present" stays False because deterministic
-# mechanics receipts are a robustness witness only, never independent scientific confirmation.
 _EXPECTED_CHECKS = {
     "result_seal_valid": True,
     "five_admission_gates_valid": True,

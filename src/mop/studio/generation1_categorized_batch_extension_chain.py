@@ -211,7 +211,7 @@ IMPLEMENTATION_PATH = Path(__file__).resolve()
 
 
 class CategorizedBatchExtensionRefused(RuntimeError):
-    """The categorized successor boundary could not be established exactly."""
+    pass
 
 
 IdentityProbe = Callable[[Mapping[str, Any]], str]
@@ -224,7 +224,6 @@ NowFn = Callable[[], dt.datetime]
 
 
 class ProcessSnapshot:
-    """Exact process identity used to prevent duplicate detached supervisors."""
 
     __slots__ = ("pid", "create_time", "pgid", "cwd", "label", "command")
 
@@ -557,7 +556,6 @@ def validate_generic_status(
     *,
     require_complete: bool = False,
 ) -> str:
-    """Validate an exact zero-injection generic-supervisor status and artifacts."""
 
     _require_fields(status, GENERIC_STATUS_FIELDS, f"{program.program_id} status")
     _validate_seal(status, "status_sha256", f"{program.program_id} status")
@@ -799,7 +797,6 @@ def _status_payload(state: Mapping[str, Any]) -> dict[str, Any]:
 
 
 class CategorizedBatchExtensionChain:
-    """Observe V2 completion, then own the categorized generic supervisor."""
 
     def __init__(
         self,
@@ -1304,7 +1301,6 @@ def validate_categorized_extension_status(
     predecessor_program_path: Path = DEFAULT_PREDECESSOR_PROGRAM,
     target_program_path: Path = DEFAULT_TARGET_PROGRAM,
 ) -> str:
-    """Validate one exact categorized-waiter acknowledgement."""
 
     repo_root = repo_root.resolve()
     predecessor_program_path = predecessor_program_path.resolve()
@@ -1556,7 +1552,6 @@ def read_validated_complete_categorized_extension_status(
     target_program_path: Path = DEFAULT_TARGET_PROGRAM,
     acquire_lock: bool = True,
 ) -> dict[str, Any]:
-    """Replay one stable complete categorized extension snapshot."""
 
     root = root.resolve()
     repo_root = repo_root.resolve()
@@ -1711,7 +1706,6 @@ def start_categorized_extension_detached(
     execute: bool,
     use_caffeinate: bool = True,
 ) -> dict[str, Any]:
-    """Idempotently start the lightweight categorized extension parent."""
 
     if not execute:
         raise CategorizedBatchExtensionRefused(

@@ -34,9 +34,6 @@ from mop.substrate.p5_context import (
     solve_matched_steps,
 )
 
-# Known-answer design table: realized trainable parameter counts per frame count. The three
-# transformer mechanisms are parameter identical; the depth-8 GRU stack carries the designed
-# 512-parameter deficit on the blocks (793088 transformer block parameters versus 792576).
 EXPECTED_TRANSFORMER_PARAMETERS = {16: 1_678_848, 32: 1_744_384, 64: 1_875_456}
 EXPECTED_RECURRENT_DEFICIT = 512
 P5_CORE_RUNTIME_SOURCES = (
@@ -44,7 +41,6 @@ P5_CORE_RUNTIME_SOURCES = (
     "src/mop/substrate/p4_screen.py",
 )
 
-# Known-answer FLOP table at f64, batch 4 (the pilot's training batch size).
 EXPECTED_F64_FLOPS_PER_STEP = {
     "exact_global": 242_131_009_536,
     "window_local": 139_051_794_432,
@@ -95,11 +91,9 @@ def test_window_reshape_roundtrip_preserves_token_order():
     assert torch.equal(windows[0], hidden[0, :512])
     assert torch.equal(windows[1], hidden[0, 512:])
     assert torch.equal(_unwindows(windows, 1), hidden)
-    # A sequence at or below one window stays a single degenerate-global window.
     short = torch.randn(2, 256, 8)
     assert torch.equal(_unwindows(_windows(short, 512), 2), short)
     assert _windows(short, 512).shape == (2, 256, 8)
-    # Ragged token counts are refused rather than silently padded.
     with pytest.raises(ValueError):
         _windows(torch.randn(1, 768, 8), 512)
 
@@ -144,9 +138,6 @@ def test_f64_flop_table_matches_the_known_answers_exactly():
 
 
 def test_solve_matched_steps_grain5_matches_every_mechanism_at_f64():
-    # Preregistration amendment, made before any pilot seed ran: matching rounds to multiples of
-    # step_granularity 5 (checkpoints stay at 25). Checkpoint-multiple rounding stranded the
-    # recurrent arm at 2.69 percent deviation, a grid artifact rather than a compute mismatch.
     dense = EXPECTED_F64_FLOPS_PER_STEP["exact_global"]
     solved = {
         mechanism: solve_matched_steps(200, dense, EXPECTED_F64_FLOPS_PER_STEP[mechanism], 25)
@@ -162,10 +153,8 @@ def test_solve_matched_steps_grain5_matches_every_mechanism_at_f64():
     assert solved["window_local"]["steps"] == 350
     assert solved["hierarchical_pooled"]["steps"] == 350
     assert solved["recurrent"]["steps"] == 465
-    # Exact FLOP parity solves to the dense reference step count with zero deviation.
     identity = solve_matched_steps(200, dense, dense, 25)
     assert identity["steps"] == 200 and identity["fractional_deviation"] == 0.0
-    # The solver never returns fewer than one granularity interval.
     tiny = solve_matched_steps(1, 1, 10**9, 25)
     assert tiny["steps"] == 5 and not tiny["matched_ok"]
 
@@ -208,7 +197,6 @@ def test_run_p5_pilot_two_step_smoke_writes_receipts_resumes_and_refuses_promoti
     for mechanism in ("exact_global", "window_local"):
         assert cell_receipt["compute"]["per_mechanism"][mechanism]["matched"]["matched_ok"]
         assert cell_receipt["scores"][mechanism]["n"] == 1
-    # Windowing is degenerate-global at f16, so the matched step count equals the dense reference.
     assert cell_receipt["compute"]["per_mechanism"]["window_local"]["matched"]["steps"] == 2
     assert cell_receipt["parity_diagnostic"] is not None
     assert cell_receipt["parity_diagnostic"]["hard_gate"] is False
@@ -231,7 +219,6 @@ def test_run_p5_pilot_two_step_smoke_writes_receipts_resumes_and_refuses_promoti
     assert top["promotion"]["confirmatory_promotable"] is False
     assert top["promotion"]["refused_by_construction"] is True
     assert "category 9 is impossible" in top["promotion"]["category_9_statement"]
-    # No f64 or f32 cells were injected, so the tier contrasts honestly fail closed.
     assert top["all_ok"] is False
     assert any("f64 primary contrasts" in problem for problem in top["problems"])
     assert receipt["complete"] and receipt["config_sha256"] == top["config_sha256"]
@@ -247,7 +234,6 @@ def test_run_p5_pilot_two_step_smoke_writes_receipts_resumes_and_refuses_promoti
         checkpoint = torch.load(arm_dir / "checkpoint.pt", map_location="cpu", weights_only=True)
         assert arm_receipt["requirements_sha256"] == top["checkpoint_requirements_sha256"]
         assert checkpoint["requirements_sha256"] == top["checkpoint_requirements_sha256"]
-    # The same command resumes from durable receipts without retraining.
     resumed = run_p5_pilot(
         config,
         run_dir,

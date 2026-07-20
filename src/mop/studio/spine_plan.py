@@ -1,10 +1,3 @@
-"""Studio spine plan.
-
-The full Studio run is intentionally staged: Wave 0 owns its daemon state, DR1 owns its encode
-daemon state, and PR9 owns its long-stream run-state receipt. This module writes one machine-readable
-operator plan that ties those subplans together without flattening their receipts into one ambiguous
-log directory.
-"""
 
 from __future__ import annotations
 
@@ -31,7 +24,6 @@ DEFAULT_DENSE_RANDOMINIT_CACHE = "vjepa21_vitl_dense8192_randominit"
 
 @dataclass(frozen=True)
 class StudioSpineConfig:
-    """Inputs needed to write the staged Studio spine contract."""
 
     source: str
     profile_name: str = "studio-m1ultra"
@@ -53,11 +45,6 @@ class StudioSpineConfig:
 
 
 def build_studio_spine_plan(config: StudioSpineConfig | str) -> dict[str, Any]:
-    """Build the staged DR1 -> PR9 -> dense/atlas Studio plan.
-
-    The plan is an operator receipt, not a daemon plan. Steps whose commands run long work delegate to
-    the long-run daemon so each wave remains resumable in its own state directory.
-    """
     cfg = config if isinstance(config, StudioSpineConfig) else StudioSpineConfig(source=str(config))
     if not cfg.source:
         raise ValueError("source is required for the DR1 real bound-attribute video stage")
@@ -520,7 +507,6 @@ def build_studio_spine_plan(config: StudioSpineConfig | str) -> dict[str, Any]:
 
 
 def validate_studio_spine_plan(plan: dict[str, Any]) -> list[str]:
-    """Static validation for the staged spine contract."""
     problems: list[str] = []
     if plan.get("schema") != SCHEMA:
         problems.append(f"schema {plan.get('schema')!r} != {SCHEMA!r}")
@@ -603,7 +589,6 @@ def validate_studio_spine_plan(plan: dict[str, Any]) -> list[str]:
 
 
 def load_studio_spine_plan(path: Path | str) -> dict[str, Any]:
-    """Load and statically validate a Studio spine plan."""
     data = json.loads(Path(path).read_text())
     problems = validate_studio_spine_plan(data)
     if problems:
@@ -616,12 +601,6 @@ def build_studio_spine_status(
     *,
     repo_root: Path | str = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Classify each spine step from receipts and return the next command.
-
-    This is intentionally read-only. It treats missing receipts as pending, daemon failures as failed,
-    daemon disk stops as blocked, dry-runs as not complete, and partial atlas/dense-cache gates as
-    blocked rather than successful.
-    """
     loaded = load_studio_spine_plan(plan) if isinstance(plan, str | Path) else plan
     problems = validate_studio_spine_plan(loaded)
     if problems:
@@ -651,14 +630,12 @@ def build_studio_spine_status(
 
 
 def write_studio_spine_status(status: dict[str, Any], path: Path | str) -> None:
-    """Write a Studio spine status receipt."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(status, indent=2, default=str) + "\n")
 
 
 def write_studio_spine_plan(plan: dict[str, Any], path: Path | str) -> None:
-    """Write and re-validate the staged spine plan."""
     problems = validate_studio_spine_plan(plan)
     if problems:
         raise ValueError("; ".join(problems))
@@ -668,7 +645,6 @@ def write_studio_spine_plan(plan: dict[str, Any], path: Path | str) -> None:
 
 
 def write_spine_wave0_plan(path: Path | str) -> dict[str, Any]:
-    """Write the Wave 0 daemon subplan used by the spine and reload it for validation."""
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     plan = write_plan_template(path)
     load_plan(path)

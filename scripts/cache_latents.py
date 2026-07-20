@@ -1,13 +1,4 @@
 #!/usr/bin/env python
-"""Cache frozen-encoder latents to a memmap store, ONCE. After this the shell trains on the
-cache and never touches the encoder again.
-
-Usage:
-  python scripts/cache_latents.py encoder=vjepa2_vitl_fpc64_256 device=mps +total=256
-Real video weights load lazily (uv pip install -e ".[encoder]" + network). With no weights
-this caches through the frozen-random substrate over synthetic clips: the round-trip is fully
-exercised and the store records backend=frozen_random so it is not mistaken for V-JEPA latents.
-"""
 
 from __future__ import annotations
 

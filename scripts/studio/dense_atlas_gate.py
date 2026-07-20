@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Validate the paired dense real/random-init caches before the full atlas."""
 
 from __future__ import annotations
 

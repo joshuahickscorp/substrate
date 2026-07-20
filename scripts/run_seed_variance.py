@@ -1,11 +1,4 @@
 #!/usr/bin/env python
-"""Leg 11B: seed-variance and statistical power. Reruns E1 across the seed ladder
-{1,2,3,5,8}, measures the protected-vs-naive BWT gap's mean and SEM per seed-count, and
-recommends the Studio seed budget for headline/ranking/sanity claims from the measured SEM
-curve. Logs progress to stderr, prints the JSON result to stdout.
-
-Usage: python scripts/run_seed_variance.py [--max-seeds 8] [--full]
-"""
 
 from __future__ import annotations
 

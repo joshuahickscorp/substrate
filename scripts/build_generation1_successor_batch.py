@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Build or check the C2-bound Generation 1 successor-study batch draft."""
 
 from __future__ import annotations
 

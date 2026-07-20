@@ -1,11 +1,3 @@
-"""Campaign queue. Reads campaign/run_queue.yaml (the single ordered, tier-tagged,
-dependency-aware manifest), validates it (deps resolve, no cycles, tiers valid), topo-orders
-it, and runs the enabled legs whose tier is enabled and whose deps are satisfied. Tier
-gating: C (cached-latent) is on by default; E (environment) and R (rented CUDA) are off.
-
-Toy scale here for validation; full scale on the Studio by flipping tiers + dropping
-toy_overrides in the leg sweeps. Dry-run resolves and prints the plan without running.
-"""
 
 from __future__ import annotations
 
@@ -78,8 +70,6 @@ def topo_order(legs: list[Leg]) -> list[Leg]:
 
 
 def plan(legs: list[Leg], enabled_tiers: set[str], run_disabled: bool = False) -> list[Leg]:
-    """Topo-ordered legs whose tier is enabled and that are enabled, with all deps also in
-    the plan (a leg whose dep is gated out is itself skipped, surfaced in the log)."""
     ordered = topo_order(legs)
     chosen: list[Leg] = []
     chosen_names: set[str] = set()
@@ -95,7 +85,6 @@ def plan(legs: list[Leg], enabled_tiers: set[str], run_disabled: bool = False) -
 
 
 def _skip_reasons(legs: list[Leg], chosen: list[Leg], tiers: set[str], run_disabled: bool) -> list[dict]:
-    """Classify why each non-planned leg was skipped: tier gated, disabled, or dependency gated."""
     chosen_names = {l.name for l in chosen}
     out = []
     for leg in legs:

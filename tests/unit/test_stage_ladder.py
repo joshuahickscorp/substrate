@@ -1,9 +1,3 @@
-"""Unit tests for the substrate Stage 0 to 5 ladder spine.
-
-These tests exercise the stage definitions, confirmation receipts, matched-cost discipline, control
-manifest, activation gate, and the fail-closed advance transition. They assert digest stability,
-determinism, byte-faithful statuses, and refusals. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -78,11 +72,6 @@ def _stage5_receipts() -> tuple[ConfirmationReceipt, ConfirmationReceipt]:
         matched=_budget(),
     )
     return validity, efficiency
-
-
-# ---------------------------------------------------------------------------
-# Section A. Ladder shape, byte-faithful statuses, digest stability.
-# ---------------------------------------------------------------------------
 
 
 def test_ladder_digest_is_stable() -> None:
@@ -160,11 +149,6 @@ def test_unearned_stage_must_name_a_forcing_null() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Section B. Advance transition: skipping, backward, and gate.
-# ---------------------------------------------------------------------------
-
-
 def test_advance_forbids_skipping() -> None:
     ladder = build_default_ladder()
     with pytest.raises(LadderRefusal, match="skipping is forbidden"):
@@ -226,7 +210,6 @@ def test_advance_to_stage3_succeeds_with_valid_receipt() -> None:
     ladder = build_default_ladder()
     advanced = ladder.advance(3, (_stage3_receipt(),))
     assert advanced.current_stage_index == 3
-    # The original ladder is unchanged; advance returns a new frozen ladder.
     assert ladder.current_stage_index == 2
 
 
@@ -235,11 +218,6 @@ def test_advance_is_deterministic_under_same_receipts() -> None:
         return build_default_ladder().advance(3, (_stage3_receipt(),)).digest()
 
     assert run() == run()
-
-
-# ---------------------------------------------------------------------------
-# Section C. Multi-mechanism and Stage 5 entry requirements.
-# ---------------------------------------------------------------------------
 
 
 def test_advance_to_stage4_needs_two_confirmed_mechanisms() -> None:
@@ -261,11 +239,6 @@ def test_advance_to_stage5_needs_validity_and_efficiency() -> None:
         ladder.advance(5, (validity,))
     reached = ladder.advance(5, (validity, efficiency))
     assert reached.current_stage_index == 5
-
-
-# ---------------------------------------------------------------------------
-# Section D. Matched budget, control manifest, receipts, and gate construction.
-# ---------------------------------------------------------------------------
 
 
 def test_matched_budget_must_be_non_vacuous() -> None:
@@ -312,11 +285,6 @@ def test_activation_gate_refuses_by_default() -> None:
 def test_activation_gate_rejects_permissive_construction() -> None:
     with pytest.raises(LadderRefusal, match="never permitted"):
         StageActivationGate(local_activation_permitted=True)
-
-
-# ---------------------------------------------------------------------------
-# Section E. Ladder state and coverage.
-# ---------------------------------------------------------------------------
 
 
 def test_ladder_state_lists_all_stages_and_unmet() -> None:

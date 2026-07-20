@@ -1,10 +1,3 @@
-"""Task-scoped authority for additive local-throttle policy evolution.
-
-The full policy digest remains an audit field. Compatibility is narrower: the
-task declaration and complete safety envelope must stay exact, while marker
-sets may only grow. This module is deliberately independent of the throttle's
-runtime types so an in-flight governor never needs to import changed code.
-"""
 
 from __future__ import annotations
 
@@ -38,7 +31,6 @@ def build_policy_safety_contract(
     monitor: Mapping[str, Any],
     thresholds: Mapping[str, Any],
 ) -> dict[str, Any]:
-    """Freeze every admission/safety input except the separately monotone marker sets."""
 
     monitor_payload = dict(monitor)
     monitor_payload.pop("foreground_markers", None)
@@ -82,7 +74,6 @@ def build_task_policy_authority(
     task_id: str,
     task_payload: Mapping[str, Any],
 ) -> dict[str, Any]:
-    """Build one self-sealed authority without granting scientific promotion."""
 
     for value, label in (
         (policy_schema, "policy schema"),
@@ -126,7 +117,6 @@ def task_policy_authority_problems(
     task_id: str,
     task_payload: Mapping[str, Any],
 ) -> list[str]:
-    """Validate scoped compatibility; additive markers are the only relaxation."""
 
     if not isinstance(authority, dict):
         return ["task-policy authority is not an object"]
@@ -211,7 +201,6 @@ def build_policy_baseline_manifest(
     known_heavy_markers: Sequence[str],
     task_payloads: Mapping[str, Mapping[str, Any]],
 ) -> dict[str, Any]:
-    """Seal reviewed task authorities for one historical policy baseline."""
 
     _digest(governor_implementation_sha256, "governor implementation SHA-256")
     if not governor_implementation_path.strip():
@@ -248,7 +237,6 @@ def build_policy_baseline_manifest(
 
 
 def policy_baseline_manifest_problems(manifest: object) -> list[str]:
-    """Validate intrinsic baseline integrity before any current-policy compatibility join."""
 
     if not isinstance(manifest, dict):
         return ["policy baseline manifest is not an object"]
@@ -322,7 +310,6 @@ def receipt_task_policy_authority_problems(
     current_known_heavy_markers: Sequence[str],
     current_task_payload: Mapping[str, Any],
 ) -> list[str]:
-    """Join one receipt to embedded or explicitly reviewed task-scoped policy authority."""
 
     problems: list[str] = []
     if not isinstance(declared_policy, dict) or set(declared_policy) != {"path", "sha256"}:

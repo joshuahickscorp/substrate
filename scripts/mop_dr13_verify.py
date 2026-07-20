@@ -1,24 +1,4 @@
 #!/usr/bin/env python
-"""INDEPENDENT ADVERSARIAL VERIFICATION of facet12_predictor_fidelity.
-
-Goal-loop rule: no positive is written without an independent adversarial verification pass.
-This script does NOT import the harness. It re-derives the load-bearing claims by an
-independent path and tries to BREAK them:
-
-  V1 non-vacuity of controls:
-     - random-init predictor weights actually differ from the real predictor (mean |dw| > 0)
-     - the shuffled-target uses a genuinely different clip (its true slot != the real true slot)
-  V2 h=1 direction, fresh code path: on a handful of fresh clips (different seeds than the
-     harness), recompute real-predictor nmse vs persistence nmse vs random-init nmse at h=1,
-     independently. Real must be lower than persistence AND lower than random-init, else the
-     'convert' or 'wall-to-1-step' verdict is not supported.
-  V3 leakage probe: verify the predictor does NOT get the target slot in its context (predicting
-     a slot that is already in context would be a trivial copy). Confirm predicting a slot that
-     IS in the context gives near-zero error (sanity that our masking indexes are real), while
-     predicting a FUTURE slot does not.
-
-Prints a PASS/FAIL line per check. Form: no em/en dashes.
-"""
 
 from __future__ import annotations
 
@@ -61,7 +41,6 @@ def main():
 
     checks = []
 
-    # V1a: random-init weights differ from real
     dw = []
     rp = dict(rand_pred.named_parameters())
     for name, w in real_pred.named_parameters():
@@ -90,7 +69,6 @@ def main():
         )
         return out.last_hidden_state[0]
 
-    # V2: fresh clips (seeds distinct from harness 1000..1023), h=1 direction
     T = 4
     reals, persists, rands, shuf_ok = [], [], [], []
     seqs = []
@@ -108,7 +86,6 @@ def main():
         reals.append(nmse(pr, true))
         persists.append(nmse(persist, true))
         rands.append(nmse(rr, true))
-        # V1b: shuffled target is a genuinely different clip's slot
         other = seqs[(i + 1) % len(seqs)][tidx]
         shuf_ok.append(nmse(true, other) > 1e-3)
 
@@ -121,28 +98,22 @@ def main():
     checks.append(("V2a real < persistence (h=1)", mr < mp, f"real={mr:.4f} persist={mp:.4f}"))
     checks.append(("V2b real < random-init (h=1)", mr < mrand, f"real={mr:.4f} rand={mrand:.4f}"))
 
-    # V3: predicting a slot ALREADY in context should be near-trivial (leakage sanity).
-    # We ask the real predictor to predict slot T (which IS in ctx_upto(T)); if masking were
-    # leaking, future prediction would look artificially easy too. Report the contrast.
     with torch.no_grad():
         cidx = ctx_upto(T)
         in_ctx = pred_slot(real_pred, seqs[0], cidx, slot(T))  # slot in context
         e_in = nmse(in_ctx, seqs[0][slot(T)])
         fut = pred_slot(real_pred, seqs[0], cidx, slot(T + 1))  # future slot
         e_fut = nmse(fut, seqs[0][slot(T + 1)])
-    # future error should be meaningfully larger than in-context error (no leakage giveaway)
     checks.append(
         ("V3 future harder than in-context (no leak)", e_fut > e_in, f"in_ctx={e_in:.4f} future={e_fut:.4f}")
     )
 
-    # Cross-check against the harness report if present
     verdict = None
     if REPORT.exists():
         rep = json.loads(REPORT.read_text())
         verdict = rep.get("verdict")
         h1 = rep.get("per_horizon", {}).get("1", {})
         rep_real = h1.get("real_nmse", {}).get("mean")
-        # independent h=1 real nmse should be within a sane band of the harness value
         if rep_real is not None:
             close = abs(mr - rep_real) < 0.25
             checks.append(

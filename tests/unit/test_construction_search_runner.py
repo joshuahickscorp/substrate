@@ -1,12 +1,3 @@
-"""Tests for the construction_search mechanism runner: determinism, the null, and the charged win.
-
-These tests pin the honesty of a charged-cost mechanics demonstration. On the flat null regime the
-search cannot beat greedy net of its charged cost, so the prior null holds and the verdict is null.
-On the rugged favorable regime the search finds a synergy greedy structurally cannot reach and beats
-every cheap control net of cost, so the verdict is mechanics-ok. If the charged cost is cranked high
-enough to erase the gain, the verdict falls back to null (fail-closed). A demonstration is never a
-scientific confirmation. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -33,11 +24,6 @@ def _runner() -> ConstructionSearchRunner:
     return ConstructionSearchRunner()
 
 
-# ---------------------------------------------------------------------------
-# The bed and the runner honor the ladder protocols.
-# ---------------------------------------------------------------------------
-
-
 def test_bed_and_runner_satisfy_ladder_protocols() -> None:
     assert isinstance(ConstructionSearchBed(), Bed)
     assert isinstance(_runner(), MechanismRunner)
@@ -46,11 +32,6 @@ def test_bed_and_runner_satisfy_ladder_protocols() -> None:
     assert ConstructionSearchBed().controls() == CHEAP_CONTROLS
     budget = ConstructionSearchBed().matched_cost()
     assert budget.params > 0 and budget.flops > 0 and budget.wall_ns > 0 and budget.seeds > 0
-
-
-# ---------------------------------------------------------------------------
-# Determinism.
-# ---------------------------------------------------------------------------
 
 
 def test_run_is_deterministic_per_seed() -> None:
@@ -75,11 +56,6 @@ def test_mint_digest_is_stable() -> None:
     assert len(first.digest()) == 64
 
 
-# ---------------------------------------------------------------------------
-# The favorable regime earns a mechanics-ok demonstration.
-# ---------------------------------------------------------------------------
-
-
 def test_favorable_regime_is_mechanics_ok() -> None:
     runner = _runner()
     for seed in SEEDS:
@@ -99,20 +75,12 @@ def test_favorable_regime_is_mechanics_ok() -> None:
 
 
 def test_search_reaches_the_synergy_greedy_cannot() -> None:
-    # The named prior null on the favorable regime is beaten only because search finds the synergy
-    # pair greedy never places, so the charged margin over greedy is strictly positive.
     results = _runner().run(ConstructionSearchBed(), 42)
     assert results.favorable_margins["greedy-only"] > 0.0
     assert results.favorable_headroom_gap == 0.0
 
 
-# ---------------------------------------------------------------------------
-# The null regime holds the prior null and mints a null verdict.
-# ---------------------------------------------------------------------------
-
-
 def test_null_regime_prior_holds_on_default_bed() -> None:
-    # On the flat null regime the search cannot beat greedy net of its charged cost.
     for seed in SEEDS:
         results = _runner().run(ConstructionSearchBed(), seed)
         assert results.null_margins["greedy-only"] <= 0.0
@@ -129,11 +97,6 @@ def test_flat_bed_with_no_synergy_mints_null() -> None:
         assert receipt.verdict == VERDICT_NULL
         assert receipt.controls_cleared == ()
         assert receipt.is_confirmation is False
-
-
-# ---------------------------------------------------------------------------
-# Fail-closed: charging the search cost high enough erases the gain.
-# ---------------------------------------------------------------------------
 
 
 def test_high_charged_cost_erases_the_gain_and_is_not_mechanics_ok() -> None:

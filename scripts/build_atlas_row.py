@@ -1,17 +1,4 @@
 #!/usr/bin/env python
-"""Build one representational-atlas row from a cached frozen-latent store.
-
-Proof system, Section 10.9: an atlas row records whether a factor is linearly decodable
-from a frozen encoder latent, with a shuffle-label chance floor (a row is INVALID without
-one), a reproducibility level, and a reproducible run id pinned to the input hash.
-
-This MVP probes the 6-way visual class ("identity" factor) of the prior real-encoder
-ViT-L cache. It is deliberately small and runs on cached latents only (no encode, no
-Studio). The Studio re-runs this per factor and per encoder over the natural-video corpus.
-
-Usage:
-  .venv/bin/python scripts/build_atlas_row.py
-"""
 
 from __future__ import annotations
 
@@ -57,7 +44,6 @@ def main() -> int:
     n_classes = int(y.max()) + 1
 
     real = [linear_probe(x, y, seed=s)["score"] for s in SEEDS]
-    # shuffle-label control: same probe, labels permuted. This is the empirical chance floor.
     chance = []
     for s in SEEDS:
         g = torch.Generator().manual_seed(1000 + s)
@@ -100,7 +86,6 @@ def main() -> int:
     OUT.write_text(json.dumps(row, indent=2) + "\n")
     print(json.dumps(row, indent=2))
     print(f"\nwrote {OUT.relative_to(ROOT)}  (decodable={decodable}, acc={acc_mean} vs floor={floor_mean})")
-    # invalidity guard (Section 10.9): a row is INVALID without these
     assert row["chance_floor"] is not None and row["repro_level"] and row["raw_run_id"]
     return 0
 

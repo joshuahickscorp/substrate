@@ -5,8 +5,6 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import json
-import os
 import sys
 from pathlib import Path
 from typing import Any, cast
@@ -561,8 +559,6 @@ def build_receipt() -> dict[str, Any]:
     receipt = {**core, "independent_verifier": verification}
     receipt["payload_sha256"] = canonical_sha256(receipt)
     return receipt
-
-
 
 
 def main(argv: list[str] | None = None) -> int:

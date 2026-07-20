@@ -1,11 +1,3 @@
-"""Project-wide, non-F experiment execution and evidence accounting.
-
-The registry mixes four different surfaces: runnable ``Experiment`` classes, implemented
-diagnostic modules, standalone pre-Studio scripts, and designs that exist only as registry
-rows.  This module keeps those surfaces distinct.  In particular, a parsed config, an import,
-or a passing unit test is never counted as an experiment execution, and a content hash proves
-artifact integrity rather than the truth of a scientific claim.
-"""
 
 from __future__ import annotations
 
@@ -51,9 +43,6 @@ CATEGORIES = {
     HARDWARE_BLOCKED,
 }
 
-# A class tier says how the harness is gated, not what kind of prerequisite is missing.  Keep the
-# two non-F env-later classes typed by their observed first blocker so a local implementation gap
-# is not laundered into an external-data requirement and a model dependency is not called an env.
 ENV_LATER_CLASS_BLOCKERS: dict[str, tuple[str, str]] = {
     "e6_relational": (
         DATA_BLOCKED,
@@ -88,9 +77,6 @@ E6_RUNTIME_EVIDENCE = (
 )
 E6_INTEGRATION_EVIDENCE = (*E6_RUNTIME_EVIDENCE, "proof/E6_VITB_DENSE_PREFLIGHT.json")
 
-# These are prior CPU executions produced by standalone scripts.  A digest lets a reviewer
-# detect later mutation.  It does not reconstruct missing caches or promote a pilot to a full
-# experiment.  Shared receipts are intentional where one preregistered run covers several rows.
 STANDALONE_EVIDENCE: dict[str, tuple[str, ...]] = {
     "mop_mt4_reasoning_router": ("runs/frontier_localization/local_preflights.json",),
     "mop_mt1_router_vs_best": ("runs/mot/mt123_router_pilots.json",),
@@ -116,7 +102,6 @@ STANDALONE_EVIDENCE: dict[str, tuple[str, ...]] = {
     ),
     "mop_pr1_error_disjointness": ("runs/pre_studio/pr1_mode_error_disjointness.json",),
     "mop_pr2_plasticity_substrates": ("runs/mot/pr2_plasticity_substrates.json",),
-    # PR3 is explicitly a registry alias for DR2 and therefore points at the same execution.
     "mop_pr3_modular_real": ("runs/mot/dr2_sparse_real_pilot_seeds10.json",),
     "mop_pr4_epistemic_gate": ("runs/mot/pr4_epistemic_gate.json",),
     "mop_pr5_content_gated_cp": ("runs/mot/pr5_content_gated_cp_seeds10.json",),
@@ -208,10 +193,6 @@ STANDALONE_SCIENTIFIC_BLOCKERS: dict[str, str] = {
     ),
 }
 
-# A registry tier is a plan, not boundary evidence.  These are the first currently observable
-# blockers for registry-only rows without an execution-evidence mapping.  No entry is
-# hardware-blocked because the repo does not contain an experiment-specific, measured M3 failure
-# at the requested full scale.
 REGISTRY_ONLY_BLOCKERS: dict[str, tuple[str, str]] = {
     "mop_dr1_video_cache": (
         DATA_BLOCKED,
@@ -338,11 +319,6 @@ def file_evidence(path: Path) -> dict[str, Any]:
 
 
 def _vjepa21_vitb_runtime_ready() -> tuple[bool, list[dict[str, Any]]]:
-    """Validate the retained official ViT-B load and both bounded CPU forwards.
-
-    This retires upstream runtime availability only.  It deliberately does not claim that E6's
-    task wiring, inputs, cache manifest, or controls exist.
-    """
 
     evidence = [file_evidence(REPO_ROOT / relative) for relative in E6_RUNTIME_EVIDENCE]
     if not all(row.get("exists") and row.get("json_parse_ok") for row in evidence):
@@ -616,7 +592,6 @@ def execute_cpu_classes(
     wall_seconds: float = 5100.0,
     script_path: Path | None = None,
 ) -> dict[str, Any]:
-    """Execute each non-F, cpu-now Experiment class once, with resumable per-id attempts."""
     script_path = script_path or REPO_ROOT / "scripts" / "project_experiment_exhaustion.py"
     ids = sorted(
         experiment_id
@@ -691,11 +666,6 @@ def execute_blocked_class_smokes(
     timeout_s: float = 300.0,
     script_path: Path | None = None,
 ) -> dict[str, Any]:
-    """Run bounded local scaffolds for env-later and 2.1-only classes with explicit preflights.
-
-    These attempts establish only that the local scaffold executes.  Their registry rows remain
-    data/model blocked and are never promoted to ``freshly-executed-verified`` scientific work.
-    """
     script_path = script_path or REPO_ROOT / "scripts" / "project_experiment_exhaustion.py"
     already = {
         experiment_id
@@ -743,7 +713,6 @@ def execute_blocked_class_smokes(
 
 
 def run_diagnostic_rows(seed: int = 20260709) -> dict[str, dict[str, Any]]:
-    """Execute the ten implemented diagnostic/ablation registry rows on a bounded fixture."""
     import torch
 
     from ..diagnostics.buffer_compression import retention_per_byte
@@ -995,7 +964,6 @@ def _execution_campaign(execution_root: Path) -> dict[str, Any]:
 
 
 def _walk_evidence(value: Any):
-    """Yield file-evidence dictionaries from a nested ledger payload."""
     if isinstance(value, dict):
         if {"path", "exists"} <= set(value) and isinstance(value.get("path"), str):
             yield value
@@ -1008,7 +976,6 @@ def _walk_evidence(value: Any):
 
 
 def _embed_runtime_artifacts(ledger: dict[str, Any]) -> None:
-    """Embed ignored run receipts and selected committed receipts for self-contained verification."""
     artifacts: dict[str, dict[str, Any]] = {}
     for evidence in _walk_evidence(ledger):
         rel = str(evidence["path"])
@@ -1047,7 +1014,6 @@ def _embedded_text(ledger: dict[str, Any], evidence: dict[str, Any]) -> str | No
 
 
 def verify_embedded_ledger(ledger: dict[str, Any]) -> dict[str, Any]:
-    """Verify a ledger using embedded text only, without reading the repository or runs tree."""
     errors: list[str] = []
     artifacts = ledger.get("embedded_artifacts")
     if not isinstance(artifacts, dict) or not artifacts:
@@ -1403,7 +1369,6 @@ def write_ledger(
 
 
 def worker_execute_experiment(experiment_id: str, run_dir: Path, seed: int) -> dict[str, Any]:
-    """Worker entry used by the subprocess orchestrator."""
     import resource
 
     from ..harness.runner import run_experiment

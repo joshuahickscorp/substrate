@@ -1,4 +1,3 @@
-"""Transactional semantic builder for the MOP potential atlas and its Markdown view."""
 
 from __future__ import annotations
 
@@ -133,7 +132,6 @@ def _sha256(path: Path) -> str:
 
 
 def _p5_terminal_evidence_summary(receipt: dict[str, Any], *, repo_root: Path = REPO_ROOT) -> dict[str, Any]:
-    """Validate the terminal P5 chain, overriding only the loaded smoke receipt."""
 
     return require_p5_terminal_evidence(
         repo_root,
@@ -912,7 +910,6 @@ def build_atlas(
     repo_root: Path = REPO_ROOT,
     exhaustion: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Return the current semantic atlas without mutating the input object."""
     if base.get("schema") != ATLAS_SCHEMA:
         raise ValueError("unexpected atlas schema")
     if requirements.get("schema") != "mop-extended-compute-requirements/v1":
@@ -943,7 +940,6 @@ def _join(values: list[Any]) -> str:
 
 
 def render_markdown(atlas: dict[str, Any]) -> str:
-    """Render a compact, complete Markdown view from the machine-readable atlas."""
     portfolio = atlas["portfolio"]
     lines = [
         "# MOP potential atlas, 2026-07",
@@ -1097,7 +1093,6 @@ def write_atlas_bundle(
     validation_path: Path,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Build, validate, then atomically publish the atlas, Markdown, and validation receipt."""
     base = json.loads(source_path.read_text(encoding="utf-8"))
     requirements = json.loads(requirements_path.read_text(encoding="utf-8"))
     atlas = build_atlas(base, requirements, repo_root=repo_root)

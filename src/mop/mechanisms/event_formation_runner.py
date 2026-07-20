@@ -1,19 +1,3 @@
-"""MechanismRunner for event formation: measure both regimes, mint a mechanics-demonstration receipt.
-
-The runner drives the deterministic event formation bed, measures the utility retained and the
-charged compute spent by the former and each control on both regimes, and folds those measurements
-into the scaffold's fail-closed EventUtilityVerdict. It then mints a mechanics-demonstration receipt
-only. It can never mint a scientific confirmation and can never open a stage gate.
-
-The verdict rule is the epoch bar: on the favorable regime a relational-temporal event former must
-preserve utility above the floor, beat both untrained controls on utility, and cut charged compute
-below both untrained controls; and on the null regime that same former must fail to claim any useful
-event, so the named X0 strong null holds. When both are true the receipt reads mechanics-ok. Anything
-short of that reads null.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -51,7 +35,6 @@ REQUIREMENT_ID = "s3.event_formation"
 
 
 def _reference_oracle() -> OracleHeadroomContract:
-    """A fixed, measured semantic-oracle upper bound for the toy bed, with real headroom."""
 
     return OracleHeadroomContract(
         oracle_id="oracle.event-formation",
@@ -65,7 +48,6 @@ def _reference_oracle() -> OracleHeadroomContract:
 
 
 def _verdict_for(measurement: RegimeMeasurement) -> EventUtilityVerdict:
-    """Fold one regime's measurement into the scaffold's fail-closed event-utility verdict."""
 
     return EventUtilityVerdict(
         candidate_id="candidate.relational-temporal-former",
@@ -83,7 +65,6 @@ def _verdict_for(measurement: RegimeMeasurement) -> EventUtilityVerdict:
 
 @dataclass(frozen=True, slots=True)
 class EventFormationRunResults:
-    """Both regimes measured under one seed. The unit the runner mints a receipt from."""
 
     seed: int
     null: RegimeMeasurement
@@ -107,12 +88,10 @@ class EventFormationRunResults:
 
 @dataclass(frozen=True, slots=True)
 class EventFormationRunner:
-    """Runs the event formation bed and mints a mechanics-demonstration receipt (never a confirmation)."""
 
     mechanism_id: str = "event_formation"
 
     def run(self, bed: Bed, seed: int) -> EventFormationRunResults:
-        """Measure the former and every control on both the null and the favorable regime."""
 
         null_ticks = bed.null_regime(seed)
         favorable_ticks = bed.favorable_regime(seed)
@@ -182,9 +161,6 @@ class EventFormationRunner:
         )
 
     def mint(self, results: EventFormationRunResults) -> RunReceipt:
-        """The canonical receipt: mechanics-ok only when favorable preserves utility and cuts compute
-        vs both untrained controls AND the null regime holds. Otherwise null. Never a confirmation.
-        """
 
         favorable_ok = _verdict_for(results.favorable).claims_useful_event()
         null_holds = not _verdict_for(results.null).claims_useful_event()
@@ -194,9 +170,6 @@ class EventFormationRunner:
         return self._mint(results, "both", verdict, controls_cleared, favorable_ok, null_holds)
 
     def mint_regime(self, results: EventFormationRunResults, regime: str) -> RunReceipt:
-        """A per-regime receipt: the null regime reads null, a favorable regime that clears the bar
-        reads mechanics-ok, and a favorable regime with a utility leak falls back to null.
-        """
 
         measurement = results.measurement(regime)
         claims_useful = _verdict_for(measurement).claims_useful_event()

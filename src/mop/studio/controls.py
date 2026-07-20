@@ -27,8 +27,6 @@ def _finish(base: np.ndarray, rng: np.random.Generator, noise: float = 0.04) -> 
     return (np.clip(base, 0, 1) * 255).astype(np.uint8)
 
 
-
-
 def _moving_object(rng, frames, h, w, c) -> Clip:
     base = _blank(frames, h, w)
     sz = max(2, w // 8)

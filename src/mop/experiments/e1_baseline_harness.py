@@ -1,12 +1,3 @@
-"""E1: the gate. A continual-learning harness over a class-incremental latent stream that
-must demonstrate BOTH failure and success: a naive arm that visibly forgets, and a
-replay+EWC arm that visibly retains, under fixed seeds, with saved plots. If E1 cannot show
-forgetting, no continual-learning mechanism on top can be evaluated (the corpus rule).
-
-The shared softmax head over fixed latents is the developmental substrate's downstream
-probe; training only on the current task's classes degrades earlier-class logits (the
-mechanism of catastrophic forgetting), which replay + EWC counteract.
-"""
 
 from __future__ import annotations
 
@@ -96,7 +87,6 @@ class E1(Experiment):
             else None
         )
         con = Consolidation(sh.consolidation) if bool(flags.ewc) else None
-        # optional arms (used by the Level-5 leg to combine E2+E3+E4 in one run)
         plast = (
             PlasticityController(sh.plasticity, seed=int(cfg.seed))
             if bool(flags.get("plasticity", False))

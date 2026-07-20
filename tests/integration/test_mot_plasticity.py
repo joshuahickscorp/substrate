@@ -1,8 +1,3 @@
-"""WP-07 plasticity program scripts (PR4 epistemic gate, PR5 content-gated critical period, PR6
-sleep consolidation) run end to end on tiny synthetic tensors and return the Experiment-contract
-dict. Asserts MECHANICS only (shapes, keys, matched LR-integral / matched step budgets, verdict
-plumbing), never a scientific outcome: the preregistered nulls holding is an honest finding. No
-encoder, no weights, seconds per test."""
 
 import importlib.util
 import sys
@@ -51,13 +46,11 @@ def test_pr4_epistemic_gate_runs(dev, tmp_path):
         assert len(fr) == 2
         for f in fr:
             assert 0.0 <= f <= 1.0
-    # per-seed LR-integrals are logged for the gated and ungated arms
     assert len(out["lr_integrals_per_seed"]) == 2
     for row in out["lr_integrals_per_seed"]:
         assert set(row) == {"gated", "ungated"}
         for parts in row.values():
             assert set(parts) == {"reducible", "noise"}
-    # the noisy-TV guard reports its three booleans plus the joint pass
     guard = out["noisy_tv_guard"]
     for key in ("noise_error_stays_high", "epistemic_collapses_on_noise", "learning_progress_separates"):
         assert isinstance(guard[key], bool)
@@ -66,7 +59,6 @@ def test_pr4_epistemic_gate_runs(dev, tmp_path):
         and guard["epistemic_collapses_on_noise"]
         and guard["learning_progress_separates"]
     )
-    # verdict plumbing: a win requires both deltas, the permutation sign, AND the guard
     win = (
         out["delta_vs_ungated"]["win"]
         and out["delta_vs_shuffled"]["win"]
@@ -94,7 +86,6 @@ def test_pr5_content_gated_runs(dev, tmp_path):
         assert len(out["bwt"][arm]["per_seed"]) == 2
         assert len(out["fwt"][arm]["per_seed"]) == 2
         assert len(out["adaptation_steps_later_tasks"][arm]["per_seed"]) == 2
-    # verdict plumbing: an LR-integral mismatch forces win False; else either delta may carry it
     win = out["lr_integral_matched"] and (
         out["retention_delta"]["win"] or out["reopening_delta_steps"]["win"]
     )
@@ -102,8 +93,6 @@ def test_pr5_content_gated_runs(dev, tmp_path):
 
 
 def test_pr5_matched_integral_solver(dev):
-    """The e3/d6 discipline itself: the cosine and constant baselines are SOLVED to the content
-    arm's realized LR-integral, and the accumulators agree within the 0.02 matched tolerance."""
     mod = load_script("mop_pr5_content_gated_cp")
     e = mod.default_cfg(**TINY_STREAM, steps_per_task=10, eval_every=5).experiment
     order = list(range(int(e.n_tasks)))
@@ -126,7 +115,6 @@ def test_pr6_sleep_consolidation_runs(dev, tmp_path):
     cfg = mod.default_cfg(**TINY_STREAM, wake_steps=10, sleep_steps=10, buffer_capacity=100, ewc_samples=2)
     out = mod.MotPR6SleepConsolidation().run(cfg, dev, tmp_path)
     assert isinstance(out["null_supported"], bool)
-    # matched total gradient steps is the whole point: exact, per seed, all three arms
     assert out["steps_matched"] is True
     expected = TINY_STREAM["n_tasks"] * (10 + 10)
     for arm in mod.ARMS:

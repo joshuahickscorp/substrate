@@ -18,8 +18,6 @@ NOW = dt.datetime(2026, 7, 17, 12, 0, tzinfo=dt.UTC)
 NOW_ISO = NOW.isoformat()
 
 
-
-
 def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     g1.atomic_write_json(path, payload)
@@ -190,8 +188,6 @@ def _build_programs(tmp_path: Path) -> dict[str, g1.Program]:
     return programs
 
 
-
-
 def _legacy_validator(payload: Mapping[str, Any]) -> None:
     if payload.get("complete") is not True:
         raise ValueError("incomplete legacy result")
@@ -302,8 +298,6 @@ def _seed_stage(orchestrator: gr.GeneralRunOrchestrator, stage_id: str, *, compl
         if gr.STAGES.index(stage.stage_id) < target_index:
             row = orchestrator.state["compute_capsules"][stage.stage_id]
             row.update({"status": "complete", "returncode": 0, "finished_at": NOW_ISO})
-
-
 
 
 def _census_parent(
@@ -436,8 +430,6 @@ def test_observe_legacy_ignores_churning_child_pool_and_waits(tmp_path: Path) ->
     assert status["problems"] == []
     assert sleeps == []
     assert orchestrator.state["legacy_capsules"][spec.stage_id]["status"] == "adopted"
-
-
 
 
 def test_horizon_v1_launches_once_when_absent_and_records_reprofile(tmp_path: Path) -> None:
@@ -625,8 +617,6 @@ def test_compute_failure_hold_stops_advancement(tmp_path: Path) -> None:
     assert status["stage"] == "run_horizon_v1"  # never advanced
     assert orchestrator.state["compute_capsules"]["run_horizon_v1"]["status"] == "failure_hold"
     assert calls == []
-
-
 
 
 def test_full_run_sequences_every_stage_and_never_double_launches(tmp_path: Path) -> None:

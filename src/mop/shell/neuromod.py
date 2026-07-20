@@ -1,13 +1,3 @@
-"""Neuromodulation (Category D). Scalar global signals derived from the system's OWN
-statistics that gate other processes:
-  DA  = reward / surprise = prediction-error magnitude  (gates learning rate)
-  ACh = expected uncertainty = novelty                  (gates memory write / priors)
-  NE  = unexpected uncertainty = ensemble disagreement / context shift (gates reset/explore)
-
-Each raw signal is z-normalized by a running EMA estimator, squashed through a sigmoid, and
-mapped into a multiplicative gain in [floor, ceil]. The bridge to plasticity: a high
-surprise/disagreement gain is what triggers critical-period reopening in the controller.
-"""
 
 from __future__ import annotations
 
@@ -15,7 +5,6 @@ import torch
 
 
 class RunningStat:
-    """EMA mean/var for online z-scoring. Bias-light; var floored for stability."""
 
     def __init__(self, momentum: float = 0.99):
         self.m = momentum
@@ -67,8 +56,6 @@ class Neuromodulation:
         return s
 
     def gate(self, name: str, value: float) -> float:
-        """Map a raw signal to a multiplicative gain in [floor, ceil]. z-score -> sigmoid ->
-        scale by the configured per-channel gain, clamped."""
         if not self.enabled:
             return 1.0
         z = self.stats[name].update(value)

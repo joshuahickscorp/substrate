@@ -1,9 +1,4 @@
 #!/usr/bin/env python
-"""Definition-of-done acceptance. Runs the full suite, lint, types, the E1 gate, every
-diagnostic, the I4 comparison, the campaign queue dry-run, and one toy Tier C leg, then
-prints a PASS/FAIL summary and exits nonzero on any failure. The human reads this after the
-unattended run.
-"""
 
 from __future__ import annotations
 
@@ -37,7 +32,6 @@ def main() -> int:
     ok, tail = _run([str(ROOT / ".venv/bin/mypy")])
     step("mypy types", ok, tail)
 
-    # in-process functional checks
     from mop import config, devices
     from mop.experiments import REGISTRY, get_experiment
     from mop.harness.queue import run_queue

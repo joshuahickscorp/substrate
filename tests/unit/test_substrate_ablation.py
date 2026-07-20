@@ -1,7 +1,3 @@
-"""Substrate-ablation control (D2): the SHUFFLED-pairing floor is the honest certifier (needs_real gates
-on it), a full-rank frozen-random projection is KNOWN-VACUOUS for a linear metric (an invertible map the
-probe re-learns through, delta_frozen_random ~ 0), a rank-reducing projection is genuinely lossy, and
-quantize-dequantize is a bounded round-trip."""
 
 import torch
 
@@ -20,9 +16,6 @@ def _rng(seed=0):
 
 
 def test_frozen_random_projection_is_vacuous_for_a_linear_metric():
-    # DOCUMENTS the vacuity: a square full-rank random map preserves linear separability (it is
-    # invertible, so a linear probe re-learns the inverse and scores the same). This is exactly why
-    # frozen_random must NOT gate needs_real for a linear decode metric.
     x = torch.randn(200, 16, generator=_rng())
     y = (x[:, 0] > 0).long()
     xp = frozen_random_projection(x, seed=0)
@@ -31,10 +24,7 @@ def test_frozen_random_projection_is_vacuous_for_a_linear_metric():
 
 
 def test_rank_reduced_projection_can_lose_linear_information():
-    # A genuinely lossy control: projecting a full-rank informative signal through a low rank drops
-    # decodability below the full-rank frozen-random score (it is not invertible).
     x = torch.randn(300, 32, generator=_rng())
-    # target depends on many coordinates, so a hard rank-1 bottleneck should hurt decodability
     w = torch.randn(32, generator=_rng(1))
     y = ((x @ w) > 0).long()
     full = linear_probe(frozen_random_projection(x, seed=0), y)["score"]
@@ -72,14 +62,10 @@ def test_substrate_ablation_report_keys():
         "beats_frozen_random",
     ):
         assert k in out
-    # real decodability must beat the shuffled chance floor (the target is genuinely there)
     assert out["delta_shuffled"] > 0.1
 
 
 def test_needs_real_gates_on_the_shuffled_floor_not_frozen_random():
-    # A cleanly decodable target (well-separated clusters, both real and frozen_random saturate the probe):
-    # needs_real is TRUE because real beats the SHUFFLED floor, even though it exactly TIES frozen_random
-    # (vacuous for a linear metric). The old gate (needs beat BOTH) would have been a false negative here.
     g = _rng()
     centers = torch.randn(2, 16, generator=g) * 4.0  # well separated so decodability saturates at 1.0
     y = torch.randint(0, 2, (240,), generator=g)
@@ -91,7 +77,6 @@ def test_needs_real_gates_on_the_shuffled_floor_not_frozen_random():
 
 
 def test_needs_real_is_false_when_target_is_pure_noise():
-    # No genuine signal: label independent of x, so real ties the shuffled floor and needs_real is False.
     x = torch.randn(240, 16, generator=_rng())
     y = torch.randint(0, 2, (240,), generator=_rng(7))  # independent of x
     out = substrate_ablation(x, y)

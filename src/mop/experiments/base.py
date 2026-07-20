@@ -1,9 +1,3 @@
-"""The doctrine contract, enforced in code. Every experiment carries a baseline, an
-ablation, a metric, and an explicit null. A concrete Experiment that fails to declare its
-null_hypothesis (or any contract field) raises at class-definition time: it cannot exist,
-let alone run. This is the corpus rule ("'it just did not work' is not acceptable") made
-unskippable.
-"""
 
 from __future__ import annotations
 
@@ -95,7 +89,7 @@ class Experiment(ABC):
 
     @abstractmethod
     def run(self, cfg: DictConfig, device: DeviceInfo, run_dir: Path) -> dict:
-        """Run at the configured (toy) scale. Returns a metrics dict (json-serializable)."""
+        pass
 
     def contract(self) -> dict:
         return {a: getattr(self, a) for a in CONTRACT}

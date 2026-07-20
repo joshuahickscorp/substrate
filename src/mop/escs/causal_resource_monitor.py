@@ -1,10 +1,3 @@
-"""Pure, activation-disabled causal/resource monitoring over immutable ESCS snapshots.
-
-This adapter is deliberately downstream of the event and lifecycle ledgers.  It validates bounded
-snapshots, derives only provenance-bearing resource anomalies and same-parent simulated resource
-contrasts, and returns immutable claim messages plus an uncommitted accounting observation.  It has
-no event-admission, dispatch, commitment, mutation, effect, retry, relief, or trigger authority.
-"""
 
 from __future__ import annotations
 
@@ -90,11 +83,10 @@ _AUTHORITY_FIELDS = (
 
 
 class MonitorContractError(ValueError):
-    """The monitor input or requested control violates the bounded pure-monitor contract."""
+    pass
 
 
 class MonitorControl(StrEnum):
-    """Exact deterministic controls; none grants runtime authority."""
 
     CLEAN = "clean"
     NOISY = "noisy"
@@ -169,7 +161,6 @@ def _authority_payload() -> dict[str, bool]:
 
 @dataclass(frozen=True, slots=True)
 class MonitorConfig:
-    """Finite monitor authority; every field participates in ``sha256``."""
 
     window_ticks: int = 8
     max_windows: int = 4
@@ -264,7 +255,6 @@ class MonitorConfig:
 
 @dataclass(frozen=True, slots=True)
 class ControlTraceRow:
-    """One exact mapping from an immutable charge to a controlled monitor sample."""
 
     target_sequence: int
     target_charge_sha256: str
@@ -367,7 +357,6 @@ def _monitor_result_payload(
 
 @dataclass(frozen=True, slots=True)
 class MonitorResult:
-    """Self-sealed monitor result.  Claims are inert messages, never dispatch requests."""
 
     control: MonitorControl
     config_sha256: str
@@ -879,7 +868,6 @@ def analyze_snapshots(
     control: MonitorControl = MonitorControl.CLEAN,
     config: MonitorConfig = MonitorConfig(),
 ) -> MonitorResult:
-    """Validate and monitor two immutable snapshots without retaining or mutating state."""
 
     _nonnegative_int(observed_through_tick, "observed_through_tick")
     if not isinstance(control, MonitorControl):

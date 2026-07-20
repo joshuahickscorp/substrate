@@ -1,29 +1,4 @@
 #!/usr/bin/env python
-"""PR2 (WP-11, registry #7, the decisive learning-eases fork test): does the pretrained substrate ease
-the plastic shell's LEARNING dynamics, or only its readout? An IDENTICAL plastic shell (same
-architecture, same init seed, same LR, same steps) trains on a class-incremental stream twice, once on
-real V-JEPA pooled features and once on random-init same-arch ViT-L features at matched 256px (the
-non-vacuous control from cache_randominit_vitl_features.py). Scored on trained-shell dynamics only:
-backward transfer (GEM BWT), adaptation speed (steps to 90 percent of final within-task accuracy), and
-forgetting area, per mop.diagnostics.continual_metrics.
-
-PREREGISTERED NULL (verbatim, registry PR2): shell adaptation speed and BWT on real V-JEPA are within
-the seed spread of the same shell on random-init-ViT (matched resolution): the substrate's structure
-does not ease trained-shell learning dynamics.
-
-PREREGISTERED VERDICT RULE (fixed before any result exists): the null is REJECTED only if the BWT delta
-(real minus randominit) or the adaptation-speed delta (randominit steps minus real steps) has a 5-seed
-95 percent CI excluding zero from below AND a consistent per-seed sign (no flips). Forgetting-area delta
-is reported as secondary, never verdict-driving. Anything else supports the null (the +0.31 was
-readout-only).
-
-Consumes the WP-11 caches (data/cache/vjepa2_vitl_nuisance, data/cache/randominit_vitl_nuisance);
-never loads an encoder. Heavy queue class: run only when the encoder lane is free.
-
-Usage: python scripts/mop_pr2_plasticity_substrates.py --seeds 0-4
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -79,7 +54,6 @@ def _zscore(train: torch.Tensor, x: torch.Tensor) -> torch.Tensor:
 
 
 def _class_split(y: torch.Tensor, test_frac: float, g: torch.Generator):
-    """Per-class seeded train/test index split (stratified so every task has test samples)."""
     tr, te = [], []
     for c in y.unique().tolist():
         idx = (y == c).nonzero(as_tuple=True)[0]
@@ -91,7 +65,6 @@ def _class_split(y: torch.Tensor, test_frac: float, g: torch.Generator):
 
 
 def _tasks_from_classes(n_classes: int) -> list[list[int]]:
-    """Consecutive class pairs (last task may be a singleton): the class-incremental stream."""
     return [list(range(i, min(i + 2, n_classes))) for i in range(0, n_classes, 2)]
 
 
@@ -106,9 +79,6 @@ def continual_stream_metrics(
     test_frac: float,
     adapt_target_frac: float,
 ) -> dict:
-    """Train one plastic shell (Linear-ReLU-Linear head over frozen features) through the
-    class-incremental stream; return BWT, mean adaptation steps, and task-0 forgetting area. The shell
-    init, split, and task order are seeded identically across substrate arms (matched shell)."""
     n_classes = int(y.max()) + 1
     tasks = _tasks_from_classes(n_classes)
     g = torch.Generator().manual_seed(seed)

@@ -1,9 +1,3 @@
-"""Independent adversarial verifier for the f36 and f37 broadcast toy beds.
-
-The verifier does not import the run evaluator. It regenerates every primary and fresh unit,
-recomputes arm predictions through a separate loop, attacks the link result with shuffled messages,
-and requires the unrestricted bus to remain lesion invariant. Exact comparator ties stay null.
-"""
 
 from __future__ import annotations
 

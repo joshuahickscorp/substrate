@@ -1,6 +1,3 @@
-"""Cache integrity tools: build a real LatentStore via the caching pipeline (frozen-random
-encoder over synthetic clips), then exercise list_caches / cache_info / validate_cache on the
-clean store, and prove validate_cache flags a deliberately corrupted store."""
 
 import json
 
@@ -12,7 +9,6 @@ from mop.substrate.cache_tools import cache_info, list_caches, validate_cache
 
 
 def _build(tmp_path, name="cache", n=24, dim=16, n_classes=4):
-    """Cache n synthetic clips through a frozen-random encoder into tmp_path/<name>."""
     enc = FrozenEncoder(EncoderSpec(name, dim, dense=False, pool="mean"))
     dev = devices.resolve("cpu")
     store = cache_latents(
@@ -32,10 +28,7 @@ def test_validate_clean_store_returns_empty(tmp_path):
 
 
 def test_validate_flags_label_map_coverage_gap(tmp_path):
-    # a label_map that declares classes the cached labels do not contain is a silent class-incomplete
-    # cache; validate_cache must flag it (the honest-coverage guard).
     root = _build(tmp_path, n=24, n_classes=4)
-    # the store actually contains labels 0..3; write a label_map claiming a 5th class never cached
     (root / "label_map.json").write_text(json.dumps({"c0": 0, "c1": 1, "c2": 2, "c3": 3, "ghost": 4}))
     problems = validate_cache(root)
     assert any("label_map declares" in p and "missing [4]" in p for p in problems)
@@ -59,7 +52,6 @@ def test_cache_info_has_meta_and_provenance(tmp_path):
     assert info["meta"] is not None
     assert info["meta"]["count"] == 24
     assert info["provenance"] is not None
-    # recomputed content id matches the provenance the writer stamped
     assert info["facts"]["cache_id_matches"] is True
     assert info["facts"]["recomputed_cache_id"] == info["provenance"]["cache_id"]
 
@@ -80,7 +72,6 @@ def test_list_caches_finds_the_store(tmp_path):
     one = next(c for c in listed if c["name"] == "alpha")
     assert one["count"] == 24
     assert one["dim"] == 16
-    # frozen-random encoder -> backend tag recorded in provenance
     assert one["backend"] == "frozen_random"
     assert one["result_tag"] in ("provisional", "structured-synthetic")
 
@@ -90,9 +81,7 @@ def test_list_caches_empty_root_is_empty(tmp_path):
 
 
 def test_corrupt_labels_and_count_is_flagged(tmp_path):
-    """Truncate labels AND inflate the meta count: validate must complain."""
     root = _build(tmp_path, n=24)
-    # truncate labels to fewer rows than count claims
     np.save(root / "labels.npy", np.zeros(5, dtype="int64"))
     meta = json.loads((root / "meta.json").read_text())
     meta["count"] = 24  # latents still 24 rows, labels now 5 -> mismatch
@@ -103,7 +92,6 @@ def test_corrupt_labels_and_count_is_flagged(tmp_path):
 
 
 def test_wrong_count_in_meta_flagged(tmp_path):
-    """Inflate meta count beyond the latents on disk -> shape mismatch reported."""
     root = _build(tmp_path, n=24)
     meta = json.loads((root / "meta.json").read_text())
     meta["count"] = 999

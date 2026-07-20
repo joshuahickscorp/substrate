@@ -129,7 +129,7 @@ MAX_SCOPED_FILE_BYTES = 64 * 1024 * 1024
 
 
 class OfficialExecutionRefused(RuntimeError):
-    """Raised when an official X3 launch lacks its exact activation authorities."""
+    pass
 
 
 def _require(condition: bool, message: str) -> None:
@@ -415,7 +415,6 @@ def _material_evidence_ok(config: Mapping[str, Any]) -> bool:
 
 
 def official_readiness(config_path: Path | str = DEFAULT_CONFIG_PATH) -> dict[str, Any]:
-    """Report every current X3 execution blocker without mutating any artifact."""
 
     config = load_config(config_path)
     problems: list[str] = []
@@ -494,7 +493,6 @@ class StreamEvent:
 
 
 def generate_stream(config: Mapping[str, Any], *, seed: int, split: str) -> tuple[StreamEvent, ...]:
-    """Generate abrupt/gradual drift, lesion, recovery, recurrence, and future-learning phases."""
 
     _require(split in {"producer", "fresh"}, "unsupported X3 stream split")
     settings = config["stream"]
@@ -757,7 +755,6 @@ def _evaluate_arm(
 
 
 def build_transactional_mechanics_fixture(seed: int) -> dict[str, Any]:
-    """Exercise G0 proposal/refusal plus ESCS event/ledger/accounting rollback mechanics."""
 
     grammar = load_topology_grammar(REPO_ROOT / "configs/experiment/escs_g0_topology_grammar.json")
     registry, registry_problems = verify_candidate_registry(grammar, REPO_ROOT)
@@ -944,7 +941,6 @@ def build_transactional_mechanics_fixture(seed: int) -> dict[str, Any]:
 
 
 def run_seed(config: Mapping[str, Any], *, seed: int, split: str) -> dict[str, Any]:
-    """Run one deterministic counterfactual seed across all registered permutations and arms."""
 
     stream = generate_stream(config, seed=seed, split=split)
     neutral = _neutral_initialization(seed, split)

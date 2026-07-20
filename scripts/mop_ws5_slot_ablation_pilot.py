@@ -1,32 +1,4 @@
 #!/usr/bin/env python
-"""WS5: modular routing plus a shared broadcast slot, slot-ablation PILOT on real cached latents
-(WP-10; registry row mop_ws5_router_slot in registry/experiments.yaml, preregistration mirror
-configs/experiment/mop_ws5.yaml).
-
-Thesis under test: a SHARED broadcast slot on top of e7 sparse routing yields a BWT advantage beyond
-routing alone. The test is an ablation at fixed routing and fixed capacity: both arms are the SAME
-architecture (MoE routing over the frozen latent plus a trainable shared slot read through a gated
-linear read path); the ablated arm multiplies the slot read by zero, so param count, routing
-mechanism, init, data, epochs, and lr are all identical and only the broadcast channel differs.
-
-Slot mechanics (the minimal GWT slot, this pilot's honest scope): one trainable dim-vector shared
-across ALL tasks, read as h = x + sigmoid(read_gate) * W_read(slot) before the routed experts. It is
-the one parameter block every task writes into (by gradient) and every task reads from (by
-broadcast); attention-slot variants are the Studio version. PILOT: 64-clip cache, laptop-scale
-evidence only; the registered claim rides the DR1-scale stream.
-
-Stream: real_task_stream class-incremental (as mop_dr2_sparse_real_pilot, same split rule).
-frozen_random is VALID here (trained-shell dynamics metric) but unused: both arms see identical
-latents.
-
-Preregistered null (in code before any run): the shared slot adds nothing over sparse routing alone,
-slot-ablation ties the full model on BWT and accuracy at matched capacity. Verdict rule, uniform
-across the MoT scripts: the slot WINS iff the per-seed BWT delta (full minus ablated) has mean >
-max(seed SD, MIN_MARGIN) with no sign flip; else null_supported=True.
-
-Usage: python scripts/mop_ws5_slot_ablation_pilot.py --seeds 0-4
-Writes runs/mot/ws5_slot_ablation_pilot.json. No em or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -54,7 +26,6 @@ ARMS = ("full", "ablated")
 
 
 def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
-    """The uniform preregistered rule: WIN iff mean delta > max(sd, min_margin) and no sign flip."""
     ci = seed_ci(deltas)
     flips = sign_flip_report(deltas)
     win = ci["mean"] > max(ci["sd"], min_margin) and not flips["any_flip"]
@@ -62,7 +33,6 @@ def verdict(deltas: list[float], min_margin: float = MIN_MARGIN) -> dict:
 
 
 def split_task(x: torch.Tensor, y: torch.Tensor, train_frac: float, g: torch.Generator):
-    """Per-class split so every class appears in both halves (at least one test sample per class)."""
     tr, te = [], []
     for c in sorted(set(y.tolist())):
         idx = (y == c).nonzero(as_tuple=True)[0]
@@ -74,7 +44,6 @@ def split_task(x: torch.Tensor, y: torch.Tensor, train_frac: float, g: torch.Gen
 
 
 def load_split_stream(e: DictConfig, seed: int) -> list[dict]:
-    """Real class-incremental stream sliced into per-task train/test splits (seeded)."""
     tasks = real_task_stream(
         str(e.cache),
         n_tasks=int(e.n_tasks),
@@ -99,9 +68,6 @@ def load_split_stream(e: DictConfig, seed: int) -> list[dict]:
 
 
 class SlotRoutedNet(nn.Module):
-    """e7 MoE routing plus one shared broadcast slot. use_slot=False zeroes the slot READ at fixed
-    routing and capacity: the slot parameters still exist (identical param count) but never reach the
-    forward pass, which is exactly the registry's ablation contract."""
 
     def __init__(self, dim: int, n_classes: int, n_experts: int, expert_hidden: int, use_slot: bool):
         super().__init__()
@@ -118,7 +84,6 @@ class SlotRoutedNet(nn.Module):
 
 
 def train_stream(model: SlotRoutedNet, stream: list[dict], e: DictConfig) -> dict:
-    """Sequential training; acc_matrix[i][j] = acc on task j's test split after training task i."""
     opt = torch.optim.Adam(model.parameters(), lr=float(e.lr))
     n_tasks = len(stream)
     acc = [[0.0] * n_tasks for _ in range(n_tasks)]

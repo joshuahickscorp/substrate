@@ -1,20 +1,3 @@
-"""E10: minimal open-ended JEPA (the program's capstone). SCAFFOLD ONLY, marked env-later.
-The bounded persistent action contract now runs locally. The real version still needs a
-parameterizable environment generator, population search, transfer, and a sustained horizon;
-here we stand up the spine of that
-experiment at toy scale so the contract, the metrics, and the null check are exercised in
-seconds. The corpus is explicit (Experiment 10, vol1): open-endedness is most likely a
-population-and-environment property, and a single agent on a fixed environment plateaus. We
-encode that as the null and let the ablation ladder report which components, if any, move it.
-
-The pieces, all minimal stubs:
-  StubEnv          a compositional procedural environment returning latent-like observations.
-  SkillArchive     a MAP-Elites style dict keyed by a discretized latent behavior signature.
-  GoalGenerator    samples latent goals (autotelic curriculum stub).
-The ablation ladder is the spine: [curiosity_only, +memory, +plasticity, +goal_generation].
-Each arm runs a short toy loop and reports distinct skills, skill reuse, archive diversity,
-and a collapse detector. NULL: single_agent_plateaus (diversity stops growing across arms).
-"""
 
 from __future__ import annotations
 
@@ -36,10 +19,6 @@ ARMS = ("curiosity_only", "+memory", "+plasticity", "+goal_generation")
 
 
 class StubEnv:
-    """Tiny compositional procedural environment. State is a latent vector; an action mixes a
-    few latent "primitives" so behaviors compose (stepping stones exist in principle). The
-    resulting trajectory latent is what gets characterized into a behavior signature. This is a
-    placeholder for the real V-JEPA-encoded environment, hence tier env-later."""
 
     def __init__(self, dim: int, n_primitives: int, rng: np.random.Generator):
         self.dim = dim
@@ -52,7 +31,6 @@ class StubEnv:
         return self.state
 
     def step(self, action: np.ndarray) -> np.ndarray:
-        # action is a mixing weight over primitives; latent composition + mild noise
         mix = action @ self.primitives
         self.state = np.tanh(self.state * 0.5 + mix) + 0.01 * self.rng.standard_normal(self.dim).astype(
             np.float32
@@ -68,9 +46,6 @@ class StubEnv:
 
 
 class SkillArchive:
-    """MAP-Elites style archive: a dict keyed by a discretized latent behavior signature. Each
-    cell holds the best (highest novelty/fitness) skill found for that niche. Diversity is the
-    number of filled cells; reuse is how often a new behavior lands in an already-filled cell."""
 
     def __init__(self, bins: int):
         self.bins = bins
@@ -103,8 +78,6 @@ class SkillArchive:
 
 
 class GoalGenerator:
-    """Samples latent goals (autotelic curriculum stub). Without it, actions are exploratory
-    only; with it, the agent is biased toward unfilled regions of behavior space."""
 
     def __init__(self, dim: int, rng: np.random.Generator):
         self.dim = dim
@@ -143,11 +116,6 @@ class E10(Experiment):
         for arm in ARMS:
             arms[arm] = self._run_arm(arm, dim, n_primitives, n_actions, horizon, bins, proj, rng)
 
-        # null check: as components are stacked, does the fullest agent keep expanding behavior
-        # diversity, or does it plateau? The corpus expects the single agent to plateau (open-
-        # endedness is a population/environment property). We answer it cleanly: plateau if the
-        # final, fullest rung does not improve on the best earlier rung by more than plateau_eps
-        # (relative). A flat-or-declining tail is exactly the predicted single-agent ceiling.
         diversity = [arms[a]["archive_diversity"] for a in ARMS]
         best_prior = max(diversity[:-1])
         last_gain = diversity[-1] - diversity[-2]  # +goal_generation over +plasticity
@@ -185,7 +153,6 @@ class E10(Experiment):
         return out
 
     def _run_arm(self, arm, dim, n_primitives, n_actions, horizon, bins, proj, rng) -> dict:
-        """A short toy loop for one rung of the ladder. Components stack along ARMS order."""
         use_memory = arm in ("+memory", "+plasticity", "+goal_generation")
         use_plasticity = arm in ("+plasticity", "+goal_generation")
         use_goals = arm == "+goal_generation"
@@ -238,8 +205,6 @@ class E10(Experiment):
 
     @staticmethod
     def _collapse(hist: list[tuple]) -> bool:
-        """Collapse detector: did behavior converge to one strategy? True if the last third of
-        the run is dominated by a single behavior signature."""
         if len(hist) < 6:
             return False
         tail = hist[len(hist) * 2 // 3 :]

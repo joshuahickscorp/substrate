@@ -1,11 +1,3 @@
-"""Restart-safe frozen D1 producer and challenge-replication queue.
-
-The queue freezes the only router variant that cleared the exploratory static
-margin gate, then evaluates it on two large, disjoint fresh-seed partitions.
-The second partition is a challenge replication, not an independent verifier:
-both partitions deliberately remain non-promotable until separately authored
-verification code reproduces the result.
-"""
 
 from __future__ import annotations
 

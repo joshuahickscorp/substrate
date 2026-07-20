@@ -88,8 +88,6 @@ REPO = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = REPO / "runs" / "pre_studio" / "close_ex5_local_rules.json"
 OUT_PATH = DEFAULT_OUT
 
-# Bounded-but-real scale: a genuine domain-incremental forgetting stream, small MLPs, single
-# hidden width (the shipped primary), sized to run in seconds-to-a-couple-minutes on CPU.
 N_TASKS = 40
 DIM = 48
 CLASSES_PER_TASK = 4
@@ -101,8 +99,6 @@ NOMINAL_LR = 0.05  # shipped ex5 lr; used as-is for backprop_adam, fa, pc, and a
 N_ANCHORS = 8
 SEEDS = [0, 1, 2, 3, 4]
 
-# Four arms. backprop_adam and backprop_sgd share the "backprop" architecture/init and the
-# _backprop_* train/eval bodies (which drive model.opt); only the optimizer object differs.
 LOCAL_ARMS = ("feedback_alignment", "predictive_coding")
 TRAIN_STEP = {
     "backprop_adam": _backprop_train_step,
@@ -119,9 +115,6 @@ EVALUATE = {
 
 
 def _make_backprop_model(dim: int, hidden: int, n_classes: int, seed: int, optimizer: str, lr: float):
-    """Reuse ex5's _init_model('backprop', ...) for identical architecture and init, then swap
-    in the requested optimizer. Adam matches the shipped arm exactly (_init_model already builds
-    Adam); SGD replaces it with plain torch.optim.SGD (momentum=0, no state carried per-param)."""
     model = _init_model("backprop", dim, hidden, n_classes, seed)
     if optimizer == "adam":
         for g_ in model.opt.param_groups:
@@ -139,8 +132,6 @@ def _mean_update_l2(before: list[torch.Tensor], after: list[torch.Tensor]) -> fl
 
 
 def _measure_local_target(dim, hidden, n_classes, seed, xtr, ytr, epochs, lr) -> dict:
-    """Mean per-step applied-update L2 magnitude for each local rule on task 0's train split,
-    over the epoch budget. Their mean is the TARGET effective update magnitude to match."""
     out = {}
     for arm, train_step, init_name in (
         ("feedback_alignment", _fa_train_step, "feedback_alignment"),
@@ -160,9 +151,6 @@ def _measure_local_target(dim, hidden, n_classes, seed, xtr, ytr, epochs, lr) ->
 
 
 def _calibrate_sgd_lr(dim, hidden, n_classes, seed, xtr, ytr, epochs, probe_lr, target) -> dict:
-    """Plain-SGD update is exactly lr*grad, so the applied-update L2 is linear in lr. Measure
-    it at probe_lr, then set calibrated_lr = probe_lr * (target / probe_magnitude) and re-verify.
-    Clamp to a sane band so a degenerate stream cannot produce an absurd lr."""
     seed_everything(seed)
     m = _make_backprop_model(dim, hidden, n_classes, seed, "sgd", probe_lr)
     norms = []
@@ -173,7 +161,6 @@ def _calibrate_sgd_lr(dim, hidden, n_classes, seed, xtr, ytr, epochs, probe_lr, 
     probe_mag = sum(norms) / len(norms)
     raw_lr = probe_lr * (target / probe_mag) if probe_mag > 0 else probe_lr
     cal_lr = float(min(max(raw_lr, 1e-4), 5.0))
-    # re-verify achieved magnitude at the calibrated lr
     seed_everything(seed)
     mv = _make_backprop_model(dim, hidden, n_classes, seed, "sgd", cal_lr)
     vnorms = []
@@ -193,10 +180,6 @@ def _calibrate_sgd_lr(dim, hidden, n_classes, seed, xtr, ytr, epochs, probe_lr, 
 
 
 def _run_arm_on_stream(arm, tasks, dim, hidden, n_classes, epochs, seed, anchor_idx, lr, optimizer):
-    """Same harness shape as ex5._run_rule_on_stream: persistent weights carried task-to-task,
-    anchor-subset K x K accuracy matrix (R[k][k] = anchor peak right after its own training,
-    R[-1][k] = anchor accuracy after the whole stream), backward_transfer via ContinualResult.
-    `optimizer` selects the backprop optimizer for the two backprop arms; ignored otherwise."""
     seed_everything(seed)
     if arm in ("backprop_adam", "backprop_sgd"):
         model = _make_backprop_model(dim, hidden, n_classes, seed, optimizer, lr)
@@ -265,7 +248,6 @@ def main(argv: list[str] | None = None) -> None:
             incremental="domain",
             seed=s,
         )
-        # calibrate SGD lr on task 0 (no BWT peeking) to match local-rule effective step
         t0 = tasks[0]
         cut = max(1, int(t0.x.shape[0] * 0.8))
         xtr, ytr = t0.x[:cut], t0.y[:cut]
@@ -328,13 +310,11 @@ def main(argv: list[str] | None = None) -> None:
     best_local_acc = max(fa["acc_mean"], pc["acc_mean"])
     best_local_bwt = max(fa["bwt_mean"], pc["bwt_mean"])  # less-negative bwt = forgets less
 
-    # how much of the adam->local accuracy gap does plain SGD recover?
     adam_local_acc_gap = best_local_acc - adam["acc_mean"]
     sgd_recovered_acc = sgd["acc_mean"] - adam["acc_mean"]
     acc_gap_closed_frac = (
         (sgd_recovered_acc / adam_local_acc_gap) if abs(adam_local_acc_gap) > 1e-9 else float("nan")
     )
-    # bwt: how much of the adam->local retention gap does plain SGD recover?
     adam_local_bwt_gap = best_local_bwt - adam["bwt_mean"]
     sgd_recovered_bwt = sgd["bwt_mean"] - adam["bwt_mean"]
     bwt_gap_closed_frac = (

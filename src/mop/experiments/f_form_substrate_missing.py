@@ -1,18 +1,3 @@
-"""The previously registry-only F-series lanes that do not require unavailable hardware.
-
-F6 and F15 use deterministic, locally generated intervention environments. They are not presented as
-embodiment: their purpose is to test whether action and consequence Forms are load-bearing under exact
-action-shuffle and action-blind controls. F7 reuses the project's growable-head mechanism and compares
-developmental growth with both fixed-final capacity and a random growth schedule at identical final
-parameters and update counts. F11 tests a deliberately small Form-token generator against stored-token,
-raw-exemplar, and random-generator replay while pricing every arm by actual retained bytes.
-
-F8 and F16 are different. Natural-data claims require licensed data, real encoder weights and inherited
-features, and prior control receipts. Their default mode is a tiny mechanics-only smoke test. Scientific
-mode fails closed when evidence is absent or inconsistent, then runs every compute-matched arm when the
-package is valid. A fixture can validate that engine, but its provenance taint is irreversible and it can
-never become a natural-data or promotable result.
-"""
 
 from __future__ import annotations
 
@@ -76,7 +61,6 @@ def _r2(pred: torch.Tensor, target: torch.Tensor) -> float:
 
 
 def _state_form(states: torch.Tensor, grid: int, dim: int, seed: int) -> torch.Tensor:
-    """A deterministic state Form whose first two coordinates remain spatially interpretable."""
     xy = 2.0 * states.float() / max(1, grid - 1) - 1.0
     base = torch.cat(
         [
@@ -273,7 +257,6 @@ class F6(Experiment):
                         action_mode="blind" if arm == "blind" else "true",
                     )
                 )
-            # The autoregressive rollout is the harder dynamic check and replaces the one-step score.
             for arm, model in models.items():
                 rollout[arm][-1] = self._rollout_r2(
                     model,
@@ -407,8 +390,6 @@ def _train_growth_arm(
                     for j in range(task_index + 1)
                 ]
             )
-    # Final capacity is an invariant, not an outcome. Any unscheduled remainder is installed only after
-    # the last scored update, making the comparison conservative while keeping end-state parameters exact.
     if head.width < w_final:
         head.grow(w_final - head.width)
         growth_steps.append(total_steps)
@@ -756,8 +737,6 @@ def _affordance_dataset(
         random_proxy = torch.randint(0, actions, (samples,), generator=g)
         proxy = torch.where(follows, y, random_proxy)
     else:
-        # At test time appearance is independent rather than adversarially guaranteed wrong. The passive
-        # arm should fall to chance under shortcut removal, not below chance because of a label inversion.
         proxy = torch.randint(0, actions, (samples,), generator=g)
     appearance = F.one_hot(proxy, num_classes=actions).float()
     projection = torch.randn(actions, obs_dim, generator=torch.Generator().manual_seed(seed + 17))

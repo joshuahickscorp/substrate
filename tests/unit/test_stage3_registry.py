@@ -1,9 +1,3 @@
-"""Tests for the Stage 3 runner registry that drives every mechanism uniformly.
-
-Confirms the registry constructs and runs all nine epochs, that every result is an honest
-mechanics-demonstration (never a confirmation from a toy bed), that runs are deterministic per seed, and
-that unknown epochs and negative seeds fail closed. No capability is claimed.
-"""
 
 from __future__ import annotations
 

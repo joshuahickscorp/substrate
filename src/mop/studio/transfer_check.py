@@ -1,9 +1,3 @@
-"""Studio transfer checklist.
-
-Wave 0 needs a boring proof that the repo arrived with the governing docs, gate scripts, durable
-receipts, and profile envelope intact before it spends Studio compute. This module is read-only: it
-checks paths, git tracking, JSON/schema parseability, optional cache manifests, and the active profile.
-"""
 
 from __future__ import annotations
 
@@ -88,7 +82,6 @@ class TransferCheckConfig:
 
 
 def run_transfer_check(config: TransferCheckConfig | None = None) -> dict[str, Any]:
-    """Run the read-only transfer checklist."""
     cfg = config or TransferCheckConfig()
     root = Path(cfg.repo_root)
     checks: list[dict[str, Any]] = []
@@ -137,7 +130,6 @@ def _profile_check(profile_name: str) -> dict[str, Any]:
 
 
 def _profile_host_check(profile_name: str, root: Path) -> dict[str, Any]:
-    """A Studio profile slug is not proof that the current host satisfies its resource contract."""
     try:
         profile = get_profile(profile_name)
         ok, problems, measured = profile.host_compatibility(disk_root=root)

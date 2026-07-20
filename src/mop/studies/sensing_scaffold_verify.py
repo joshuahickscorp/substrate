@@ -1,9 +1,3 @@
-"""Independent fresh-seed verifier for the f21, f26, and f27 toy executions.
-
-This module intentionally does not import the run evaluator. It independently regenerates the
-declared data families, refits every arm, recomputes the load-bearing metrics, and applies stronger
-context, source-scale, and intervention-label attacks before closing a favorable toy pattern.
-"""
 
 from __future__ import annotations
 

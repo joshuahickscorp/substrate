@@ -87,7 +87,6 @@ def test_latent_store_form_adapter_pooled_aligns_with_tensor_arm(tmp_path):
     assert vision.meta.feature_dim == 4
     assert vision.meta.token_shape == ()
 
-    # a control tensor arm over the same referents builds a valid, control-complete matrix
     control = TensorFormAdapter(
         _meta("vision_rand", "vision", control_for="vision"),
         torch.randn(6, 3),
@@ -129,7 +128,6 @@ def test_latent_store_form_adapter_reads_factor_sidecar(tmp_path):
     assert "shape" in batch.factors
     assert torch.equal(batch.factors["shape"], torch.tensor([0, 1, 0, 1, 0, 1]))
 
-    # explicit factors override the sidecar
     arm2 = LatentStoreFormAdapter(store, tag="v", kind="vision", factors={"color": [1, 1, 1, 0, 0, 0]})
     assert "shape" not in arm2.extract().factors
     assert "color" in arm2.extract().factors

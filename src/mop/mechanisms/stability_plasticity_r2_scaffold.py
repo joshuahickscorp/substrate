@@ -46,8 +46,6 @@ def _require_sha256(value: str, label: str) -> None:
         raise StabilityPlasticityR2Refusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class DualMetricReading:
 
@@ -83,8 +81,6 @@ class DualMetricReading:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedCostBudget:
 
@@ -115,8 +111,6 @@ class MatchedCostBudget:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -198,8 +192,6 @@ def assert_control_completeness(controls: Sequence[str]) -> None:
         raise StabilityPlasticityR2Refusal("declared control set drifted in membership or order")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class StabilityPlasticityR2Contract:
 
@@ -266,8 +258,6 @@ def default_contract() -> StabilityPlasticityR2Contract:
         replication_min=2,
         prior_null=PRIOR_NULL,
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -396,8 +386,6 @@ def evaluate_joint_improvement(
     )
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
 
@@ -464,9 +452,6 @@ class JointClaimGate:
 
     def payload(self) -> dict[str, Any]:
         return {"activation_permitted": self.activation_permitted, "claim_scope": self.claim_scope}
-
-
-# Section G. Coverage record for this lane's sub-questions (readiness only).
 
 
 def coverage() -> dict[str, Sequence[str]]:
