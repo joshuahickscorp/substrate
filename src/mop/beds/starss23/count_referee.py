@@ -1,45 +1,9 @@
-"""Concurrent-source-counting bed, component 5: the sealed coasted-count-MAE referee.
-
-This is the producer-side scorer and the single source of truth for grading a count arm. It is the
-analogue of the onset-F1 referee, but for a pointwise level metric it needs NO matching: there is nothing
-to align, so the greedy one-to-one machinery is deliberately absent and the metric is deterministic by
-construction. Lower MAE is better; a tie (equal MAE) is a null at the harness level.
-
-Coasting
---------
-A count estimate goes stale between re-estimations. The emitted track holds the last re-estimated value:
-
-    emitted(t) = E[ max{ r in R : r <= t } ]      if any r in R with r <= t
-    emitted(t) = c0                                otherwise
-
-with the preregistered cold start ``c0 = COLD_START = 0`` (a silence prior). Every re-estimation, even one
-at frame 0, is spent from the budget; no arm gets a free frame-0 look. ``emitted(t)`` depends only on E at
-frames <= t and on R at frames <= t, so it is strictly causal with no leakage.
-
-Metric
-------
-    MAE_clip = (1/T) * sum_t |emitted(t) - C_gt(t)|
-    MAE_arm  = ( sum_clips sum_t |emitted(t) - C_gt(t)| ) / ( sum_clips T )
-
-The pool is a frame micro-average across test clips (numerator and denominator summed over clips first),
-exactly mirroring the onset referee's pooled counts. The estimator track E is a property of the clip and
-is shared by every arm; only R differs per arm. Sealing one E per clip makes always-on's MAE equal
-``mean(|E - C_gt|)`` and never-update's MAE equal ``mean(|C_gt|)``, and lets the independent verifier
-cross-check every arm against the same E. This module performs evaluator-side arithmetic only, charges no
-arm compute, and establishes no scientific claim.
-
-House style: no em dashes and no en dashes.
-"""
-
 from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from typing import Any
 
-from mop.substrate.events import canonical_sha256
-
-COUNT_REFEREE_SCHEMA = "mop-starss23-count-referee/v1"
 COLD_START = 0
 METRIC_RULE = (
     "coasted-count-MAE: emitted holds the last re-estimate, cold-start 0, pooled frame micro-average"
@@ -47,7 +11,7 @@ METRIC_RULE = (
 
 
 class CountRefereeRefusal(ValueError):
-    """Raised when a track, a re-estimation set, or a clip pairing violates the sealed referee contract."""
+    pass
 
 
 def _require_int_track(track: Sequence[int], label: str) -> tuple[int, ...]:
@@ -62,7 +26,6 @@ def _require_int_track(track: Sequence[int], label: str) -> tuple[int, ...]:
 
 
 def _require_reestimate_frames(frames: Sequence[int], n_frames: int) -> tuple[int, ...]:
-    """Validate a re-estimation frame set: sorted, unique, and every frame in [0, n_frames)."""
 
     prepared: list[int] = []
     previous = -1
@@ -81,11 +44,6 @@ def coast_emitted(
     reestimate_frames: Sequence[int],
     cold_start: int = COLD_START,
 ) -> tuple[int, ...]:
-    """Return the deterministic coasted emitted track: hold the last re-estimated value, else cold_start.
-
-    ``estimator_track`` is the frozen estimator output E at every frame; ``reestimate_frames`` is the sorted
-    unique subset R of frames the arm actually re-estimated. Strictly causal.
-    """
 
     if isinstance(cold_start, bool) or not isinstance(cold_start, int) or cold_start < 0:
         raise CountRefereeRefusal("cold_start must be a nonnegative integer")
@@ -110,7 +68,6 @@ def mae_clip(
     reestimate_frames: Sequence[int],
     cold_start: int = COLD_START,
 ) -> tuple[int, int]:
-    """Return ``(abs_error_sum, n_frames)`` for one clip so arms pool exactly. len(gt) must equal len(E)."""
 
     gt = _require_int_track(gt_track, "gt_track")
     estimator = _require_int_track(estimator_track, "estimator_track")
@@ -123,14 +80,12 @@ def mae_clip(
 
 @dataclass(frozen=True, slots=True)
 class CountScore:
-    """A sealed coasted-count-MAE score: pooled absolute-error sum, frame count, and the MAE."""
-
     abs_error_sum: int
     n_frames: int
     mae: float
 
     @classmethod
-    def from_pool(cls, abs_error_sum: int, n_frames: int) -> "CountScore":
+    def from_pool(cls, abs_error_sum: int, n_frames: int) -> CountScore:
         for name, value in (("abs_error_sum", abs_error_sum), ("n_frames", n_frames)):
             if isinstance(value, bool) or not isinstance(value, int) or value < 0:
                 raise CountRefereeRefusal(f"CountScore.{name} must be a nonnegative integer")
@@ -145,19 +100,11 @@ class CountScore:
             "mae": round(float(self.mae), 12),
         }
 
-    def digest(self) -> str:
-        return canonical_sha256(self.payload())
-
 
 def score_arm(
     clips: Iterable[tuple[Sequence[int], Sequence[int], Sequence[int]]],
     cold_start: int = COLD_START,
 ) -> CountScore:
-    """Micro-average an arm across clips.
-
-    ``clips`` is an iterable of ``(gt_track, estimator_track, reestimate_frames)`` per clip. Absolute error
-    and frame counts are summed across clips and a single pooled MAE is computed from the totals.
-    """
 
     abs_error_sum = 0
     n_frames = 0
@@ -166,20 +113,3 @@ def score_arm(
         abs_error_sum += clip_abs
         n_frames += clip_frames
     return CountScore.from_pool(abs_error_sum, n_frames)
-
-
-def sealed_arm_report(
-    clips: Iterable[tuple[Sequence[int], Sequence[int], Sequence[int]]],
-    cold_start: int = COLD_START,
-) -> dict[str, Any]:
-    """Score an arm and wrap it in a byte-sealed referee block recording the exact rule and a digest."""
-
-    score = score_arm(clips, cold_start)
-    body = {
-        "schema": COUNT_REFEREE_SCHEMA,
-        "metric_rule": METRIC_RULE,
-        "cold_start": cold_start,
-        "score": score.payload(),
-    }
-    body["digest"] = canonical_sha256(body)
-    return body

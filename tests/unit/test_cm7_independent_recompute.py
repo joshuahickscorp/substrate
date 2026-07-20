@@ -1,15 +1,3 @@
-"""Independent recomputation gate for the CM7 objective-selection null.
-
-Born from the 2026-07-10 independent re-verification (docs/INDEPENDENT_REVERIFICATION_2026_07_10.md):
-the CM7 branch-retiring verdict must never rest on the verifier that froze it. This test re-derives
-every verdict-determining statistic from the RAW workbench receipt using independently implemented
-math (exact closed-form Student-t CDF for df=4, textbook Holm step-down, bisection ppf for the
-simultaneous Bonferroni-t critical value; no repo statistics code imported) and fails if the
-canonical chain ever drifts from what the raw data supports.
-
-Pure json plus math over committed receipts: milliseconds, no model, no randomness.
-"""
-
 from __future__ import annotations
 
 import json
@@ -31,7 +19,6 @@ pytestmark = pytest.mark.skipif(not (RAW.exists() and VER.exists()), reason="CM7
 
 
 def _t_cdf_df4(t: float) -> float:
-    """Exact Student-t CDF for df=4: I_x(2, 1/2) has the closed form below (direct integration)."""
     df = 4.0
     x = df / (df + t * t)
     ib = 1.0 - 1.5 * x * math.sqrt(1.0 - x) - (1.0 - x) ** 1.5
@@ -62,7 +49,6 @@ def _holm(raw_p: dict[str, float]) -> dict[str, float]:
 
 
 def _recompute() -> tuple[dict, dict, list[str]]:
-    """Return (recomputed, canonical_verifier, raw_scan_problems)."""
     raw = json.loads(RAW.read_text())
     ver = json.loads(VER.read_text())
     seeds = sorted(raw["seed_results"], key=int)
@@ -155,7 +141,6 @@ def test_recomputed_family_matches_canonical_verifier() -> None:
 
 def test_not_promoted_verdict_reproduces_from_raw_data() -> None:
     mine, ver, _ = _recompute()
-    # the three killing facts: winner clears nothing, and both untrained controls beat it
     assert mine["winner_clears_all_corrected_comparisons"] is False
     assert mine["comparisons"][f"{mine['raw_winner']}_vs_random_target"]["mean_delta"] < 0.0
     assert mine["comparisons"][f"{mine['raw_winner']}_vs_frozen_random"]["mean_delta"] < 0.0

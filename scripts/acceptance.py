@@ -1,18 +1,16 @@
 #!/usr/bin/env python
-"""Definition-of-done acceptance. Runs the full suite, lint, types, the E1 gate, every
-diagnostic, the I4 comparison, the campaign queue dry-run, and one toy Tier C leg, then
-prints a PASS/FAIL summary and exits nonzero on any failure. The human reads this after the
-unattended run.
-"""
 
 from __future__ import annotations
 
+import hashlib
+import json
 import subprocess
-import tempfile
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PY = str(ROOT / ".venv" / "bin" / "python")
+ENV_BIN = Path(sys.executable).parent
+PY = str(ENV_BIN / "python")
 results: list[tuple[str, bool, str]] = []
 
 
@@ -22,86 +20,92 @@ def step(name: str, ok: bool, detail: str = "") -> None:
 
 
 def _run(cmd: list[str]) -> tuple[bool, str]:
-    p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
-    tail = (p.stdout + p.stderr).strip().splitlines()[-1:] or [""]
-    return p.returncode == 0, tail[0]
+    result = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+    tail = (result.stdout + result.stderr).strip().splitlines()[-1:] or [""]
+    return result.returncode == 0, tail[0]
 
 
 def main() -> int:
     ok, tail = _run([PY, "-m", "pytest", "-q"])
     step("full test suite", ok, tail)
-    ok, _ = _run([str(ROOT / ".venv/bin/ruff"), "check", "src", "tests", "scripts"])
+    ok, _ = _run([str(ENV_BIN / "ruff"), "check", "src", "tests", "scripts"])
     step("ruff lint", ok)
-    ok, _ = _run([str(ROOT / ".venv/bin/ruff"), "format", "--check", "src", "tests", "scripts"])
+    ok, _ = _run([str(ENV_BIN / "ruff"), "format", "--check", "src", "tests", "scripts"])
     step("ruff format", ok)
-    ok, tail = _run([str(ROOT / ".venv/bin/mypy")])
+    ok, tail = _run([str(ENV_BIN / "mypy")])
     step("mypy types", ok, tail)
 
-    # in-process functional checks
-    from mop import config, devices
-    from mop.experiments import REGISTRY, get_experiment
-    from mop.harness.queue import run_queue
+    from mop import config
+    from mop.evidence import canonical_sha256
+    from mop.experiments import REGISTRY
+    from mop.harness import validate
+    from mop.studio.profiles import PROFILES
 
-    dev = devices.resolve("cpu")
-    tmp = Path(tempfile.mkdtemp())
+    expected = {"mop_cm7_min_objective_probe", "mop_cm8_custom_jepa_pilot"}
+    step("historical experiment registry", set(REGISTRY) == expected)
+    cm7 = json.loads((ROOT / "proof/CUSTOM_SUBSTRATE_PILOT.json").read_text())
+    cm7_promotion = cm7["authoritative_promotion"]
+    chain_ok = all(
+        hashlib.sha256((ROOT / item["path"]).read_bytes()).hexdigest() == item["sha256"]
+        for item in cm7["receipt_chain"].values()
+    )
+    step(
+        "CM7 sealed null",
+        cm7["complete"]
+        and chain_ok
+        and cm7_promotion["verdict"] == "not-promoted"
+        and not cm7_promotion["cm7_local_objective_lever_promotable"],
+    )
+    cm8 = json.loads((ROOT / "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json").read_text())
+    step("CM8 closed descendant", not cm8["scientific_execution_ready"] and not cm8["scientific_promotion"])
+    sanpo = json.loads((ROOT / "proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json").read_text())
+    sessions, pairs = sanpo["development_sessions"], sanpo["candidate_factor_pairs"]
+    gate_column = pairs["fields"].index("dr1_gate_met_at_smoke_scale")
+    legacy = sanpo["legacy_aggregate"]
+    legacy_bytes = subprocess.check_output(
+        ["git", "show", f"{legacy['tag']}:proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json"], cwd=ROOT
+    )
+    legacy_blob = subprocess.check_output(
+        ["git", "rev-parse", f"{legacy['tag']}:proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json"],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+    legacy_body = json.loads(legacy_bytes)
+    reconstructed = {k: v for k, v in sanpo.items() if k not in {"complete", "legacy_aggregate"}}
+    reconstructed.update(schema=legacy_body["schema"], all_ok=sanpo["complete"])
+    reconstructed["dr1_cm1_verdict"] = reconstructed.pop("authoritative_verdict")
+    for name, table in (("development_sessions", sessions), ("candidate_factor_pairs", pairs)):
+        reconstructed[name] = [dict(zip(table["fields"], row, strict=True)) for row in table["rows"]]
+    current_bindings = reconstructed["bindings"]
+    current_binding_paths = {
+        "intake_receipt_sha256": ROOT / "proof/SANPO_REAL_SMOKE_INTAKE.json",
+        "bridge_preflight_sha256": ROOT / "proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json",
+    }
+    current_bindings_ok = all(
+        hashlib.sha256(path.read_bytes()).hexdigest() == current_bindings[name]
+        for name, path in current_binding_paths.items()
+    )
+    reconstructed["bindings"] = legacy_body["bindings"]
+    step(
+        "SANPO compact attribute authority",
+        sanpo["complete"]
+        and len(sessions["rows"]) == 8
+        and all(len(row) == len(sessions["fields"]) for row in sessions["rows"])
+        and len(pairs["rows"]) == 36
+        and all(len(row) == len(pairs["fields"]) and not row[gate_column] for row in pairs["rows"])
+        and not sanpo["authoritative_verdict"]["any_pair_meets_dr1_min_per_cell"]
+        and current_bindings_ok
+        and reconstructed == legacy_body
+        and (len(legacy_bytes), len(legacy_bytes.decode().splitlines())) == (legacy["bytes"], legacy["lines"])
+        and hashlib.sha256(legacy_bytes).hexdigest() == legacy["sha256"]
+        and legacy_blob == legacy["git_blob"],
+    )
+    cfg = config.compose(["device=cpu"])
 
-    try:
-        cfg = config.compose(
-            [
-                "experiment=e1_baseline",
-                "device=cpu",
-                "experiment.stream.dim=48",
-                "experiment.stream.samples_per_task=200",
-                "shell.buffer.index=brute",
-                "shell.consolidation.method=ewc",
-                "shell.consolidation.ewc_lambda=1000.0",
-            ]
-        )
-        out = get_experiment("e1_baseline").run(cfg, dev, tmp / "e1")
-        step("E1 gate (forget then retain)", bool(out["gate"]["passed"]), str(out["gate"]))
-    except Exception as e:
-        step("E1 gate (forget then retain)", False, repr(e))
-
-    try:
-        from mop.diagnostics import linear_probe, noisy_tv_diagnostic
-        from mop.substrate.datasets import make_task_stream
-
-        t = make_task_stream(n_tasks=1, dim=32, classes_per_task=4, samples_per_task=300, separation=3.0)[0]
-        lp = linear_probe(t.x, t.y)["decodable"]
-        nt = noisy_tv_diagnostic(dim=40, device=dev, steps=250)
-        ok = lp and nt["noise_error_stays_high"] and nt["epistemic_collapses_on_noise"]
-        step("diagnostics (linear-probe + noisy-TV)", bool(ok))
-    except Exception as e:
-        step("diagnostics (linear-probe + noisy-TV)", False, repr(e))
-
-    try:
-        cfg = config.compose(
-            [
-                "experiment=i4_backprop_alts",
-                "device=cpu",
-                "experiment.samples=240",
-                "experiment.epochs=120",
-                "experiment.seeds=[0,1]",
-            ]
-        )
-        out = get_experiment("i4_backprop_alts").run(cfg, dev, tmp / "i4")
-        step("I4 comparison table", len(out["table"]) == 7 and (tmp / "i4" / "i4_table.md").exists())
-    except Exception as e:
-        step("I4 comparison table", False, repr(e))
-
-    try:
-        plan = run_queue(dry_run=True, enabled_tiers={"C"})
-        step("campaign queue dry-run", len(plan["planned"]) >= 1, f"{len(plan['planned'])} legs planned")
-    except Exception as e:
-        step("campaign queue dry-run", False, repr(e))
-
-    try:
-        ran = run_queue(dry_run=False, enabled_tiers={"C"}, toy=True, max_runs_per_leg=1, max_legs=1)
-        step("one toy Tier C leg", len(ran.get("results", {})) >= 1, str(ran.get("results")))
-    except Exception as e:
-        step("one toy Tier C leg", False, repr(e))
-
-    step("experiment registry populated", len(REGISTRY) >= 11, f"{len(REGISTRY)} experiments")
+    identity = canonical_sha256({"experiments": sorted(REGISTRY), "seed": int(cfg.seed)})
+    step("evidence identity", len(identity) == 64 and identity == identity.lower())
+    step("configuration validation", validate.check_all() == [])
+    step("Studio profiles", {"m3pro-local-max", "studio-m1ultra"} <= set(PROFILES))
 
     passed = sum(1 for _, ok, _ in results if ok)
     print(f"\n==== ACCEPTANCE: {passed}/{len(results)} checks passed ====")
