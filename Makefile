@@ -34,7 +34,7 @@ accept:
 	$(PY) scripts/acceptance.py
 
 doctor:
-	$(PY) -m scripts.studio doctor        # Studio readiness report (JSON + runs/studio_doctor.md)
+	$(VENV)/mop doctor        # Studio readiness report (JSON + runs/studio_doctor.md)
 
 clean:
 	rm -rf runs/* data/cache/* .pytest_cache .mypy_cache .ruff_cache

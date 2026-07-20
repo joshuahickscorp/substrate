@@ -2117,6 +2117,20 @@
       "paths": [
         "src/mop/substrate/custom_workbench.py"
       ]
+    },
+    {
+      "id": "collapsed_parallel_workbench_and_studio_commands_into_installed_cli",
+      "source_tag": "mop-collapse-lowest-green-15",
+      "reason": "the custom-workbench and Studio modules duplicated argparse dispatch, JSON rendering, path handling, and command ownership beside the already installed mop interface; all active operations now dispatch directly through the single installed CLI, and top-level help is fail-safe",
+      "replacement_paths": [
+        "src/mop/harness/cli.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-15:<path>",
+      "paths": [
+        "scripts/custom_substrate_workbench.py",
+        "scripts/studio/__main__.py",
+        "src/mop/harness/cli.py"
+      ]
     }
   ]
 }
