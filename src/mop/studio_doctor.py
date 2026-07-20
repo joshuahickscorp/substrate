@@ -16,29 +16,10 @@ from omegaconf import DictConfig, OmegaConf
 
 from .config import REPO_ROOT
 from .devices import apple_silicon_info
-from .studio.memory_envelope import memory_snapshot
 from .studio.profiles import get_profile
 from .substrate.cache_manifest import validate_cache_manifest
 
 SCHEMA = "mop-studio-readiness/v2"
-
-CHECK_NAMES = (
-    "python",
-    "package_import",
-    "torch",
-    "apple_silicon",
-    "memory_telemetry",
-    "disk_space",
-    "profile_host_match",
-    "profile_floor",
-    "video_backend",
-    "huggingface",
-    "encoders",
-    "encoder_weights",
-    "cache_manifests",
-    "cache_write",
-    "config_validation",
-)
 
 
 def _check(name: str, fn: Callable[[], tuple[bool, str]]) -> dict:
@@ -51,8 +32,7 @@ def _check(name: str, fn: Callable[[], tuple[bool, str]]) -> dict:
 
 def _check_python() -> tuple[bool, str]:
     v = sys.version_info
-    ok = (v.major, v.minor) >= (3, 11)
-    return ok, f"{v.major}.{v.minor}.{v.micro}; project floor is 3.11"
+    return (v.major, v.minor) >= (3, 11), f"{v.major}.{v.minor}.{v.micro}; project floor is 3.11"
 
 
 def _check_package_import() -> tuple[bool, str]:
@@ -100,30 +80,31 @@ def _check_apple_silicon() -> tuple[bool, str]:
     return ok, f"{chip}: {p}P/{e}E cores, {mem} GB unified, mps={info.get('mps_available')}"
 
 
-def _check_memory_telemetry() -> tuple[bool, str]:
-    snap = memory_snapshot("studio_doctor")
-    required = ("process_rss_gb", "system_total_gb", "system_available_gb")
-    missing = [key for key in required if snap.get(key) is None]
-    try:
-        import psutil
+def _memory_snapshot() -> tuple[str, float, float, float]:
+    import psutil
 
-        version = psutil.__version__
-    except Exception:
-        version = "absent"
-    if missing:
-        return False, f"psutil={version}; missing {missing}; install project dependencies"
+    memory = psutil.virtual_memory()
     return (
-        True,
-        f"psutil={version}; RSS={snap['process_rss_gb']} GB, system="
-        f"{snap['system_available_gb']}/{snap['system_total_gb']} GB available",
+        psutil.__version__,
+        round(psutil.Process().memory_info().rss / 1e9, 4),
+        round(memory.total / 1e9, 4),
+        round(memory.available / 1e9, 4),
     )
+
+
+def _check_memory_telemetry() -> tuple[bool, str]:
+    try:
+        version, rss, total, available = _memory_snapshot()
+    except Exception:
+        fields = "['process_rss_gb', 'system_total_gb', 'system_available_gb']"
+        return False, f"psutil=absent; missing {fields}; install project dependencies"
+    return True, f"psutil={version}; RSS={rss} GB, system={available}/{total} GB available"
 
 
 def _check_disk_space() -> tuple[bool, str]:
     du = shutil.disk_usage(REPO_ROOT)
     free_gb = du.free / 1e9
-    ok = free_gb >= 5.0
-    return ok, f"{free_gb:.1f} GB free of {du.total / 1e9:.1f} GB at repository filesystem"
+    return free_gb >= 5.0, f"{free_gb:.1f} GB free of {du.total / 1e9:.1f} GB at repository filesystem"
 
 
 def _infer_profile_name() -> str:
@@ -143,8 +124,7 @@ def _check_profile_host(profile_name: str | None = None) -> tuple[bool, str]:
         f"{measured['disk_total_gb']} GB disk; requires {profile.min_host_unified_memory_gb:.1f} GB "
         f"unified and {profile.min_host_disk_gb:.1f} GB disk"
     )
-    if problems:
-        detail += "; PROFILE/HOST MISMATCH: " + "; ".join(problems)
+    detail += ("; PROFILE/HOST MISMATCH: " + "; ".join(problems)) if problems else ""
     return ok, detail
 
 
@@ -159,7 +139,6 @@ def _check_profile_floor(profile_name: str | None = None) -> tuple[bool, str]:
 
 
 def _isolated_import_probe(modules: tuple[str, ...]) -> tuple[bool, str]:
-
     imports = ";".join(f"importlib.import_module({module!r})" for module in modules)
     proc = subprocess.run(
         [sys.executable, "-I", "-c", f"import importlib;{imports}"],
@@ -179,17 +158,15 @@ def _isolated_import_probe(modules: tuple[str, ...]) -> tuple[bool, str]:
 
 @lru_cache(maxsize=1)
 def _check_video_backend() -> tuple[bool, str]:
-
     errors: list[str] = []
-    ok, detail = _isolated_import_probe(("decord",))
-    if ok:
-        return True, "present: decord (isolated import)"
-    errors.append(f"decord={detail}")
-
-    ok, detail = _isolated_import_probe(("av", "torchvision.io"))
-    if ok:
-        return True, "present: torchvision.io + PyAV (isolated import)"
-    errors.append(f"torchvision/PyAV={detail}")
+    for modules, label in (
+        (("decord",), "decord"),
+        (("av", "torchvision.io"), "torchvision.io + PyAV"),
+    ):
+        ok, detail = _isolated_import_probe(modules)
+        if ok:
+            return True, f"present: {label} (isolated import)"
+        errors.append(f"{label.replace('torchvision.io + PyAV', 'torchvision/PyAV')}={detail}")
     return False, ", ".join(errors) + "; install `.[video]` before real-video work"
 
 
@@ -286,11 +263,9 @@ def _check_cache_manifests() -> tuple[bool, str]:
     stores = sorted(path for path in root.glob("*") if path.is_dir() and (path / "meta.json").exists())
     if not stores:
         return False, "0 latent stores found; a full campaign needs at least one citable cache"
-    failures: list[str] = []
-    for store in stores:
-        problems = validate_cache_manifest(store)
-        if problems:
-            failures.append(f"{store.name}: {problems[0]}")
+    failures = [
+        f"{store.name}: {problems[0]}" for store in stores if (problems := validate_cache_manifest(store))
+    ]
     if failures:
         return (
             False,
@@ -341,6 +316,9 @@ def _probes(profile_name: str | None = None) -> tuple[tuple[str, Callable[[], tu
     )
 
 
+CHECK_NAMES = tuple(name for name, _probe in _probes())
+
+
 def _host_receipt() -> dict:
     info = dict(apple_silicon_info())
     du = shutil.disk_usage(REPO_ROOT)
@@ -358,7 +336,14 @@ def _host_receipt() -> dict:
 def _classify_failures(checks: list[dict]) -> dict[str, object]:
     failed = {str(check["name"]) for check in checks if not check["ok"]}
     groups = {
-        "software": {"python", "package_import", "torch", "memory_telemetry", "video_backend", "huggingface"},
+        "software": {
+            "python",
+            "package_import",
+            "torch",
+            "memory_telemetry",
+            "video_backend",
+            "huggingface",
+        },
         "evidence": {"encoders", "encoder_weights", "cache_manifests", "config_validation"},
         "resource_safety": {"apple_silicon", "disk_space", "profile_host_match", "profile_floor"},
     }

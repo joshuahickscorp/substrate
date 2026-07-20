@@ -1463,13 +1463,32 @@
       "performance": "eight alternating 600-report batches: median improves from 0.067326s to 0.065789s (-2.28%)",
       "accounting_note": "551 intermediate facade, helper, caller, and test lines are replaced by 310 direct projection and compact parity-test lines, net -241; runtime source falls 216 LOC to 6596, validation falls 25 LOC to 2025, scripts remain 62 LOC, and maintained Python falls to 8934 LOC",
       "tag": "mop-collapse-matched-budget-core"
+    },
+    {
+      "region": "section13_studio_section17_validation",
+      "batch": "single_studio_readiness_profile_memory_vertical",
+      "checkpoint_status": "green",
+      "primitive": "Studio readiness now owns its psutil memory snapshot directly, declares the three resource envelopes through one compact typed row constructor, and verifies the sealed host receipt inside the doctor contract suite; the redundant memory module, receipt-only test file, repeated profile construction, and test-only named-profile surface are physically retired while the installed doctor and profiles operations remain exact",
+      "deduplicated_LOC": 0,
+      "added_LOC": 231,
+      "eliminated_LOC": 483,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 252,
+      "files_changed": 6,
+      "destination_api": "doctor and render_md in src/mop/studio_doctor.py plus PROFILES, get_profile, and list_profiles in src/mop/studio/profiles.py",
+      "proof": "the deterministic doctor report is byte-for-byte exact with canonical SHA-256 4a5d68f5ca62efc082debbd939f4fb1fba742864acd0e6bbf155f2c9794fa96e; profile projection is exact with canonical SHA-256 d602bfa3db7b337868139b0d01092710a63c3306110444c6855c43b6265d4067; rendered Markdown, sealed host receipt f759a831aac8f8e081d4bb2d3bb19b65ad324fdc5fea8852c2675957ce7a1a80, and CLI profile JSON a975c54912a02e1d23983c62e6165c03625c4a8b9fbf21635bfd828e645e00ea are exact; all 27 focused cases pass; the 138-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 40 source files, compile-all and diff checks clean",
+      "performance": "ten alternating 3000-report batches improve median report projection from 0.029273s to 0.029033s (-0.82%); cold profile import changes +0.34%, inside the 2% parity gate",
+      "accounting_note": "483 readiness, profile, telemetry, and dedicated-test lines are replaced by 231 direct vertical and compact contract-test lines, net -252; runtime source falls 129 LOC to 6467, validation falls 123 LOC to 1902, scripts remain 62 LOC, and maintained Python falls to 8682 LOC",
+      "tag": "mop-collapse-studio-readiness-core"
     }
   ],
   "latest_full_validation": {
     "command": ".venv/bin/python -m pytest -q",
     "result": "138 collected; 132 passed; 6 environment skips",
     "acceptance": "10/10 passed",
-    "static": "Ruff lint and format clean; mypy clean over 41 source files",
+    "static": "Ruff lint and format clean; mypy clean over 40 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
   }
 }
