@@ -1197,6 +1197,24 @@
       "proof": "consumer search and Vulture found no maintained runtime consumer for the retired surfaces; active seeding, AMP, Studio, cache-manifest, STARSS23 schema/counting, and independent-verifier focused suites pass; the 155-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 43 source files, and collapse invariants 5/5",
       "accounting_note": "690 Python lines deleted for 10 direct survivor/test rewrites, net -680; runtime source falls to 9770 LOC, scripts remain 965 LOC, validation falls to 3057 LOC, and maintained Python falls to 14043 LOC",
       "tag": "mop-collapse-unused-surface"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section17_validation",
+      "batch": "single_receipt_chain_validator_and_one_pass_snapshot_provenance",
+      "checkpoint_status": "green",
+      "primitive": "portable export and offline loading now consume one fail-closed receipt-chain validator and one keyed path authority; requirements audit owns its optional source snapshot in the same traversal; implementation and requirement snapshots share one provenance validator; final attestation and its fixture use one chain-building path each",
+      "deduplicated_LOC": 0,
+      "added_LOC": 204,
+      "eliminated_LOC": 349,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 145,
+      "files_changed": 5,
+      "destination_api": "_validate_receipt_chain and _snapshot_sources in src/mop/substrate/custom_artifact.py; audit_requirements(snapshot_dir=...) in src/mop/substrate/custom_workbench.py",
+      "proof": "Architecture B is 4573 maintained regional LOC versus Architecture A at 4718; the shared validator is exercised through both export and offline load, copied snapshot hashes and sizes remain fail-closed, 24 focused cases and the unchanged 155-case full suite pass with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "accounting_note": "349 Python lines deleted for 204 replacement and condensed-test lines, net -145; runtime source falls 92 LOC to 9678, scripts fall 13 LOC to 952, validation falls 40 LOC to 3017, and maintained Python falls to 13898 LOC",
+      "tag": "mop-collapse-custom-chain"
     }
   ],
   "latest_full_validation": {

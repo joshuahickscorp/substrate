@@ -14,7 +14,7 @@ from scripts.custom_substrate_finalize import (
     materialize_proof_chain,
 )
 
-from mop.substrate.custom_workbench import audit_requirements, snapshot_requirement_sources
+from mop.substrate.custom_workbench import audit_requirements
 
 
 def _sha256(raw: bytes) -> str:
@@ -139,8 +139,9 @@ def test_final_attestation_preserves_snapshots_and_refuses_schema_drift(tmp_path
     (tmp_path / "requirements.yaml").write_text(yaml.safe_dump(ledger))
     run_dir = tmp_path / "run"
     run_dir.mkdir()
-    start = audit_requirements("requirements.yaml", repo_root=tmp_path)
-    snapshot_requirement_sources(start, destination=run_dir / "requirements_sources", repo_root=tmp_path)
+    start = audit_requirements(
+        "requirements.yaml", repo_root=tmp_path, snapshot_dir=run_dir / "requirements_sources"
+    )
     (run_dir / "requirements_audit.json").write_bytes(_json_bytes(start))
     (run_dir / "resolved_config.json").write_text(json.dumps({"requirements_ledger": "requirements.yaml"}))
     snapshot = run_dir / "implementation_sources/core.py"

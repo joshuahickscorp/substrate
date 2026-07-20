@@ -84,9 +84,12 @@ def audit_requirements(
     ledger_path: str | Path,
     *,
     repo_root: Path = REPO_ROOT,
+    snapshot_dir: Path | None = None,
 ) -> dict[str, Any]:
 
     path = _resolve_repo_path(ledger_path, repo_root)
+    if snapshot_dir is not None:
+        snapshot_dir.mkdir(parents=True, exist_ok=True)
     problems: list[str] = []
     if not path.is_file():
         return {
@@ -136,6 +139,14 @@ def audit_requirements(
                         "sha256": sha256_file(source_path),
                     }
                 )
+                if snapshot_dir is not None:
+                    target = snapshot_dir / f"{rid}__{len(source_audit):02d}__{source_path.name}"
+                    shutil.copyfile(source_path, target)
+                    copied_hash = sha256_file(target)
+                    if copied_hash != record["sha256"]:
+                        target.unlink(missing_ok=True)
+                        raise WorkbenchRefused(f"requirements source changed during snapshot: {rel}")
+                    record.update(snapshot_path=str(target), snapshot_sha256=copied_hash)
                 if source_path.suffix == ".json":
                     try:
                         payload = json.loads(source_path.read_text())
@@ -180,30 +191,6 @@ def audit_requirements(
         "problems": problems,
         "all_ok": not problems,
     }
-
-
-def snapshot_requirement_sources(
-    audit: dict[str, Any],
-    *,
-    destination: Path,
-    repo_root: Path = REPO_ROOT,
-) -> None:
-
-    destination.mkdir(parents=True, exist_ok=True)
-    for requirement in audit.get("requirements", []):
-        rid = str(requirement["id"])
-        for index, source in enumerate(requirement.get("sources", [])):
-            if not source.get("exists"):
-                continue
-            original = _resolve_repo_path(source["path"], repo_root)
-            target = destination / f"{rid}__{index:02d}__{original.name}"
-            shutil.copyfile(original, target)
-            copied_hash = sha256_file(target)
-            if copied_hash != source.get("sha256"):
-                target.unlink(missing_ok=True)
-                raise WorkbenchRefused(f"requirements source changed during snapshot: {source['path']}")
-            source["snapshot_path"] = str(target)
-            source["snapshot_sha256"] = copied_hash
 
 
 def snapshot_implementation_sources(
@@ -1331,11 +1318,10 @@ def run_workbench(
     config_sha = json_sha256(config_plain)
     _atomic_json(run_dir / "resolved_config.json", config_plain)
 
-    requirements = audit_requirements(config_plain["requirements_ledger"], repo_root=repo_root)
-    snapshot_requirement_sources(
-        requirements,
-        destination=run_dir / "requirements_sources",
+    requirements = audit_requirements(
+        config_plain["requirements_ledger"],
         repo_root=repo_root,
+        snapshot_dir=run_dir / "requirements_sources",
     )
     _atomic_json(run_dir / "requirements_audit.json", requirements)
     if bool(config_plain.get("strict_requirements", True)) and not requirements["all_ok"]:
