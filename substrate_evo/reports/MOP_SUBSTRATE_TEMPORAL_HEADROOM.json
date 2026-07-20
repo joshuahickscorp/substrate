@@ -1,0 +1,16 @@
+{
+  "schema": "mop-substrate-temporal-headroom/v1",
+  "domain": "HAR_raw_inertial",
+  "seeds": 5,
+  "means": {
+    "gru_correct": 0.898,
+    "gru_shuffled": 0.8556,
+    "gru_reversed": 0.89,
+    "bag_order_free": 0.813
+  },
+  "temporal_headroom_gru_vs_bag": 0.085,
+  "temporal_headroom_lcb": 0.0784,
+  "order_matters_gru_vs_shuffled": 0.0423,
+  "verdict": "temporal_headroom_present",
+  "sha256": "f12b7d8b13c95e40381df27ab4727317c85b98226f4cfdb0574c2d1702f1ac56"
+}
