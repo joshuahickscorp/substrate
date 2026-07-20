@@ -9,7 +9,7 @@
   "streams": {
     "C1": {
       "scientific_authority": "P1R replay value as a soft SAMPLING PRIORITY over a fixed independently-maintained buffer; keep policy separate from replay-frequency",
-      "status": "stage_C1A_pending",
+      "status": "terminal",
       "hypothesis": "a learned replay-value priority over a fixed GDumb buffer improves joint retention-plasticity beyond uniform GDumb and loss-priority and established replay, under matched memory and compute",
       "primary_comparison": "priority main effect on a fixed established (GDumb) buffer vs the strongest simple/established sampling policy",
       "sources": {
@@ -39,11 +39,18 @@
       ],
       "oracle": "sampling weighted by measured retention benefit",
       "primary_metric": "cost-adjusted joint retention-plasticity utility (final avg accuracy)",
-      "next_licensed_action": "Stage C1-A: implement faithful learned priority + sampling suite; calibrate positive/null controls"
+      "next_licensed_action": "closed: no valid bed; sampling-priority premise exhausted at this compute scale",
+      "stage_results": {
+        "B_canary_emnist_full": "invalid_bed (oracle below uniform; controls misbehave; seed-unstable)",
+        "C_confirm_har": "invalid_bed (GDumb-uniform captures nearly all value ~0.92; oracle headroom +0.006)",
+        "A2_headroom_5seed": "invalid_bed (oracle +0.010 over uniform; learned worse than uniform/loss; shuffled/random match oracle)"
+      },
+      "key_finding": "sampling-priority headroom is budget-dependent; at normal budgets GDumb-uniform captures nearly all value; decisive test is at the high-forgetting regime",
+      "result": "invalid_bed across all regimes; precompute +0.169 headroom was a 2-seed artifact (5-seed oracle headroom +0.010); learned priority harmful where a tiny edge exists"
     },
     "C3": {
       "scientific_authority": "model-error-aware bounded simulation: allocate simulation only where expected decision benefit exceeds expected model-error cost",
-      "status": "precompute_gates_pending",
+      "status": "terminal",
       "hypothesis": "conditioning simulation depth/trust on estimated rollout error recovers value that fixed-depth learned planning (Gen2 S1, worse than random) could not",
       "environment": "gymnasium classic-control families (dynamics not authored by C3)",
       "units": "distinct dynamical systems / dynamics regimes",
@@ -57,10 +64,11 @@
         "positive/null/shuffled-model/wrong-depth controls",
         "power+cheapest falsification"
       ],
-      "next_licensed_action": "run 8 precompute gates; canary only if all pass"
+      "next_licensed_action": "closed: no canary licensed",
+      "result": "precompute_gate_failure_no_canary (gate5+gate6 fail; oracle error-aware worse than reactive on the only 2 informative units; no headroom)"
     }
   },
-  "no_principal_run_launched_yet": true,
-  "terminal_synthesis": "pending",
-  "sha256": "c9a34bd4af8b03bc626ec54008be3f2a65c68253b13d10bcedbd1c72c765a2c0"
+  "no_principal_run_launched_yet": false,
+  "terminal_synthesis": "SEALED (both streams terminal; no successor licensed)",
+  "sha256": "5aadea8660a9a01a997efaddfa561a29658f8d956463a4a3fac201468d8b9d3e"
 }
