@@ -345,6 +345,15 @@ def main() -> int:
                                  "12 wrapper scripts physically deleted; active v7 -> extension-v4 -> "
                                  "recovery-v2 path passes 77 focused cases; archived v6 path and SHA-256 pinned")
             it["next_action"] = "collapse the surviving base/extension/recovery modules into one controller"
+        if it["id"] == "SEC-12":
+            it["status"] = "active"
+            it["evidence_paths"] = ["src/mop/mechanisms/joint_axis_runner.py",
+                                    "src/mop/mechanisms/construction_search_vec_impl.py",
+                                    "collapse/MOP_REDUCTION_LOG.json"]
+            it["validation"] = ("four dual-axis runner lifecycles centralized with exact result/receipt "
+                                 "fingerprint; construction-search vector engine selected after exact parity "
+                                 "and measured speed advantage; net owned Python reduction 1301 LOC")
+            it["next_action"] = "collapse the matching joint-axis scaffold and bed lifecycle"
         if it["id"] == "CC-16":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"]
@@ -357,6 +366,12 @@ def main() -> int:
             it["validation"] = ("historical documentation and the superseded Generation-1 controller branch "
                                  "sealed and indexed; remaining historical code boundaries remain")
             it["next_action"] = "index each subsequent physical historical-code deletion"
+        if it["id"] == "CC-13":
+            it["status"] = "partial"
+            it["evidence_paths"] = ["src/mop/mechanisms/joint_axis_runner.py",
+                                    "collapse/MOP_REDUCTION_LOG.json"]
+            it["validation"] = "dual-axis runner family collapsed; scaffold, bed, and remaining runner families remain"
+            it["next_action"] = "collapse remaining mechanism scaffold/impl/bed/runner families"
 
     checklist.append(item(
         "ART-MOP_STARSS23_ARCHITECTURE_COMPARISON.json", 11, "artifact",
@@ -647,6 +662,18 @@ def main() -> int:
                     "109/109 green with worktree-first PYTHONPATH; compile-all, ruff, and docs gates green"),
         rollback_tag="mop-collapse-controller-predecessors",
         next_action="collapse surviving base/extension/recovery controller modules"))
+    checklist.append(item(
+        "RED-joint-axis-construction-search", 12, "verified_reduction",
+        "Centralize joint-axis runners and select the construction-search vector engine",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/mechanisms/joint_axis_runner.py",
+                  "src/mop/mechanisms/construction_search_runner.py",
+                  "src/mop/mechanisms/construction_search_vec_impl.py"],
+        validation=("760 duplicate and 855 superseded Python LOC removed for 314 replacement LOC, net "
+                    "-1301; exact four-mechanism and construction-search fingerprints; 123 focused cases "
+                    "green; compile and ruff clean"),
+        rollback_tag="mop-collapse-mechanism-runners",
+        next_action="collapse matching joint-axis scaffold and bed lifecycle"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -1248,6 +1275,29 @@ def main() -> int:
                  "133 experiments, and 10 acceptance checks without drift.")
     lines.append("- rollback_tag: mop-collapse-controller-predecessors.")
     lines.append("- next_exact_edit: collapse the surviving base/extension/recovery modules into one controller.")
+    lines.append("")
+    lines.append("### Mechanism runner and construction-search engine collapse (current checkpoint)")
+    lines.append("")
+    lines.append("- joint-axis runner: calibrated uncertainty, reducible novelty, stability/plasticity v1, and "
+                 "stability/plasticity r2 now declare their schemas, axes, controls, null, margins, and "
+                 "mechanism provider against one typed runner lifecycle.")
+    lines.append("- exact joint-axis parity: all four mechanisms preserve result and receipt payloads under null and "
+                 "favorable regimes at seeds 0 and 7: "
+                 "c88fd435a128aed19cdd7600dcd3461e11b2f5e7069ce302b68e05fa6b0a6a67.")
+    lines.append("- construction-search selection: the ordinary and vector runner shells now share one lifecycle; "
+                 "the bit-identical faster vector engine is the only maintained evaluator.")
+    lines.append("- exact construction-search parity: ordinary/vector result and receipt payloads remain exact at "
+                 "seeds 0, 7, and 103: 66253d4b0f4acb8ca4b0c6ca5c102f8fe870fe9f0cf6230194f452395c14b48b.")
+    lines.append("- physical deletion: the 198-line scalar candidate and 657 lines of completed scalar-vs-vector "
+                 "equivalence harnesses were removed; independent chunked-oracle correctness, RSS, wall-time, "
+                 "and ordinary-runner validation remain.")
+    lines.append("- owned Python change: source 301 added/932 deleted; tests 13/683; batch net -1,301 LOC; "
+                 "cumulative verified reduction: 56,569 LOC.")
+    lines.append("- validation: 105 dual-axis cases, 9 ordinary construction-search cases, and 9 "
+                 "successor-batch/oracle cases green with worktree-first PYTHONPATH; changed files compile and "
+                 "pass ruff.")
+    lines.append("- rollback_tag: mop-collapse-mechanism-runners.")
+    lines.append("- next_exact_edit: collapse the matching joint-axis scaffold and bed lifecycle.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

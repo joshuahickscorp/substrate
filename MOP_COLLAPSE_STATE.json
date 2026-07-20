@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "be4b14f973cd9b9378a7a036086bd0079534acb6",
+    "base_commit": "0244fff47f5b6ce21aed9e6f3ed05057cb61137b",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 49568,
-    "deduplicated_LOC": 13409,
+    "eliminated_LOC": 50423,
+    "deduplicated_LOC": 14169,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 7709,
-    "net_global_reduction_LOC": 55268
+    "added_LOC": 8023,
+    "net_global_reduction_LOC": 56569
   },
   "checklist_summary": {
-    "total": 243,
+    "total": 244,
     "by_status": {
       "complete": 17,
-      "active": 50,
-      "pending": 140,
-      "partial": 9,
-      "verified": 27
+      "active": 51,
+      "pending": 138,
+      "partial": 10,
+      "verified": 28
     }
   },
   "checklist": [
@@ -1441,13 +1441,17 @@
       "section": 12,
       "kind": "region",
       "title": "Mechanism-family collapse (one provider contract)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "active",
+      "evidence_paths": [
+        "src/mop/mechanisms/joint_axis_runner.py",
+        "src/mop/mechanisms/construction_search_vec_impl.py",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "four dual-axis runner lifecycles centralized with exact result/receipt fingerprint; construction-search vector engine selected after exact parity and measured speed advantage; net owned Python reduction 1301 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "replace *_scaffold/_impl/_bed/_runner boilerplate (152 files)"
+      "next_action": "collapse the matching joint-axis scaffold and bed lifecycle"
     },
     {
       "id": "SEC-13",
@@ -2125,13 +2129,16 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "mechanism-family boilerplate removed",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "partial",
+      "evidence_paths": [
+        "src/mop/mechanisms/joint_axis_runner.py",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "dual-axis runner family collapsed; scaffold, bed, and remaining runner families remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "collapse remaining mechanism scaffold/impl/bed/runner families"
     },
     {
       "id": "CC-14",
@@ -3452,6 +3459,24 @@
       "rollback_tag": "mop-collapse-controller-predecessors",
       "dependency": "",
       "next_action": "collapse surviving base/extension/recovery controller modules"
+    },
+    {
+      "id": "RED-joint-axis-construction-search",
+      "section": 12,
+      "kind": "verified_reduction",
+      "title": "Centralize joint-axis runners and select the construction-search vector engine",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "src/mop/mechanisms/joint_axis_runner.py",
+        "src/mop/mechanisms/construction_search_runner.py",
+        "src/mop/mechanisms/construction_search_vec_impl.py"
+      ],
+      "validation": "760 duplicate and 855 superseded Python LOC removed for 314 replacement LOC, net -1301; exact four-mechanism and construction-search fingerprints; 123 focused cases green; compile and ruff clean",
+      "commit": "",
+      "rollback_tag": "mop-collapse-mechanism-runners",
+      "dependency": "",
+      "next_action": "collapse matching joint-axis scaffold and bed lifecycle"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

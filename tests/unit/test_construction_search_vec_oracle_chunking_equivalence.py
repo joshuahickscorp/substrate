@@ -9,12 +9,10 @@ import textwrap
 import numpy as np
 
 from mop.config import REPO_ROOT
-from mop.mechanisms import construction_search_impl as scalar
 from mop.mechanisms import construction_search_vec_impl as vec
 from mop.mechanisms.construction_search_bed import ConstructionSearchBed
 from mop.mechanisms.construction_search_runner import ConstructionSearchRunner
 from mop.mechanisms.construction_search_vec_impl import VecArmResult, vec_run_oracle
-from mop.mechanisms.construction_search_vec_runner import ConstructionSearchVecRunner
 from mop.studies.generation1_consolidated_final_campaign import (
     MECHANICS_CYCLE_STRIDE,
     MECHANICS_FRESH_BASE,
@@ -106,7 +104,7 @@ def _oracle_mismatch(left: VecArmResult, right, seed: int, regime: str, tag: str
     return None
 
 
-def test_chunked_oracle_is_bit_identical_to_monolithic_and_scalar_over_wide_sweep() -> None:
+def test_chunked_oracle_is_bit_identical_to_monolithic_over_wide_sweep() -> None:
 
     bed = ConstructionSearchBed()
     seeds = _wide_sweep_seeds()
@@ -123,11 +121,9 @@ def test_chunked_oracle_is_bit_identical_to_monolithic_and_scalar_over_wide_swee
         ):
             chunked = vec_run_oracle(spec)
             monolithic = _reference_monolithic_oracle(spec)
-            scalar_result = scalar.run_oracle(spec)
-            for reference, tag in ((monolithic, "monolithic"), (scalar_result, "scalar")):
-                diff = _oracle_mismatch(chunked, reference, seed, regime, tag)
-                if diff is not None:
-                    mismatches.append(diff)
+            diff = _oracle_mismatch(chunked, monolithic, seed, regime, "monolithic")
+            if diff is not None:
+                mismatches.append(diff)
     assert not mismatches, (
         f"{len(mismatches)} oracle mismatches over {len(seeds)} seeds x 2 regimes; "
         f"first diverging: {mismatches[0]}"
@@ -137,7 +133,7 @@ def test_chunked_oracle_is_bit_identical_to_monolithic_and_scalar_over_wide_swee
 def test_chunked_oracle_matches_references_at_multi_chunk_ceiling_member_counts() -> None:
 
     mismatches: list[tuple] = []
-    for num_members, seed_count, check_scalar in ((14, 12, True), (16, 12, True), (18, 8, False), (20, 4, False)):
+    for num_members, seed_count in ((14, 12), (16, 12), (18, 8), (20, 4)):
         bed = ConstructionSearchBed(num_members=num_members)
         chunk_rows = vec._oracle_chunk_rows(num_members, bed.num_tasks, 1 << num_members)
         assert chunk_rows < (1 << num_members), f"nm={num_members} must split into more than one chunk"
@@ -151,17 +147,10 @@ def test_chunked_oracle_matches_references_at_multi_chunk_ceiling_member_counts(
                 diff = _oracle_mismatch(chunked, monolithic, seed, f"nm{num_members}:{regime}", "monolithic")
                 if diff is not None:
                     mismatches.append(diff)
-                if check_scalar:
-                    scalar_result = scalar.run_oracle(spec)
-                    diff = _oracle_mismatch(
-                        chunked, scalar_result, seed, f"nm{num_members}:{regime}", "scalar"
-                    )
-                    if diff is not None:
-                        mismatches.append(diff)
     assert not mismatches, f"{len(mismatches)} ceiling-count oracle mismatches; first: {mismatches[0]}"
 
 
-def test_chunked_oracle_receipt_digest_matches_monolithic_and_scalar_through_the_vec_runner(
+def test_chunked_oracle_receipt_digest_matches_monolithic_through_the_runner(
     monkeypatch,
 ) -> None:
 
@@ -170,21 +159,19 @@ def test_chunked_oracle_receipt_digest_matches_monolithic_and_scalar_through_the
     seeds = list(range(60)) + [lane.canary_start, lane.producer_start, lane.challenge_start]
     seeds += _cycle_band_seeds()[:24]
 
-    scalar_runner = ConstructionSearchRunner()
-    vec_runner = ConstructionSearchVecRunner()
+    runner = ConstructionSearchRunner()
 
-    chunked = {seed: vec_runner.mint(vec_runner.run(bed, seed)) for seed in seeds}
-    scalar_receipts = {seed: scalar_runner.mint(scalar_runner.run(bed, seed)) for seed in seeds}
+    chunked = {seed: runner.mint(runner.run(bed, seed)) for seed in seeds}
 
     monkeypatch.setattr(vec, "vec_run_oracle", _reference_monolithic_oracle)
-    monolithic = {seed: vec_runner.mint(vec_runner.run(bed, seed)) for seed in seeds}
+    monolithic = {seed: runner.mint(runner.run(bed, seed)) for seed in seeds}
 
     mismatches: list[tuple] = []
     for seed in seeds:
-        c, m, s = chunked[seed], monolithic[seed], scalar_receipts[seed]
-        if not (c.digest() == m.digest() == s.digest()):
-            mismatches.append((seed, "digest", s.digest(), c.digest(), m.digest()))
-        if not (c.payload() == m.payload() == s.payload()):
+        c, m = chunked[seed], monolithic[seed]
+        if c.digest() != m.digest():
+            mismatches.append((seed, "digest", c.digest(), m.digest()))
+        if c.payload() != m.payload():
             mismatches.append((seed, "payload"))
     assert not mismatches, f"{len(mismatches)} receipt mismatches; first: {mismatches[0]}"
 
