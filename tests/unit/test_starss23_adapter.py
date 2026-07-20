@@ -144,7 +144,6 @@ def test_domain_seed_preserves_the_active_noisy_tv_streams() -> None:
     cases = (
         ("mop.beds.starss23.real.noisy_tv", b"mop-starss23-real-noisy-tv-v1", 481492669),
         ("mop.beds.starss23.count.noisy_tv", b"mop-starss23-count-noisy-tv-v1", 2165001989),
-        ("mop.beds.starss23.doa.noisy_tv", b"mop-starss23-doa-noisy-tv-v1", 3650713416),
     )
     assert tuple(A.domain_seed(7, key, domain) for key, domain, _ in cases) == tuple(
         expected for _, _, expected in cases

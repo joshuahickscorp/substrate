@@ -654,6 +654,24 @@
       "proof": "both deleted committed artifacts record verdict=null and scientific_promotion=false; literal and AST audits found no campaign or configuration consumer; the retained science/artifact/harness battery is 71/71 green; full 3630-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all ten paths recover from the prior tag",
       "accounting_note": "src 0 added/1253 deleted; scripts 0 added/745 deleted; tests 0 added/458 deleted; three minified proof artifacts totaling 1.36 MB were also deleted but contribute zero to Python LOC accounting",
       "tag": "mop-collapse-starss23-null-explorations"
+    },
+    {
+      "region": "section11_starss23_bed_section14_entrypoints_and_section17_validation",
+      "batch": "null_variant_family_doa_axis_and_orphaned_outputs",
+      "checkpoint_status": "green",
+      "primitive": "the four remaining null STARSS23 feature and gate variants, the null commandless DoA axis, their dedicated validation, and orphaned proof outputs from previously deleted count reproductions were physically deleted",
+      "deduplicated_LOC": 0,
+      "added_LOC": 2,
+      "eliminated_LOC": 8738,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 8736,
+      "files_changed": 64,
+      "destination_api": "the retained fixture-backed onset bed and mechanics-ok STARSS23 counting bed",
+      "proof": "all deleted variant and DoA artifacts record verdict=null with scientific_promotion=false; DoA had no runtime command and no slice had a campaign or configuration consumer; retained base/count/science battery is 161/161 green; full 3520-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all 62 deleted paths recover from the prior tag",
+      "accounting_note": "src 2 added/6834 deleted; scripts 0 added/314 deleted; tests 0 added/1590 deleted; 27 orphaned or null minified proof files totaling 6.37 MiB were also deleted but contribute zero to Python LOC accounting",
+      "tag": "mop-collapse-starss23-null-family"
     }
   ],
   "deferred_heavy_validation": {
