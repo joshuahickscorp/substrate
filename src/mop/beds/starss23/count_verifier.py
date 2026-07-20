@@ -358,7 +358,9 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
     reproductions = artifact.get("reproductions")
     if isinstance(reproductions, bool) or not isinstance(reproductions, int) or reproductions < 0:
         reproductions = 0
-    controls = artifact.get("controls") if isinstance(artifact.get("controls"), dict) else {}
+    controls = artifact.get("controls")
+    if not isinstance(controls, dict):
+        controls = {}
     noisy_tv_at_chance = controls.get("noisy_tv_at_chance") is True
 
     independent_scientific_confirmation = (

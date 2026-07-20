@@ -38,11 +38,7 @@ _VITB_PROVENANCE_TOKEN = "vjepa2_1_vitb_dist_vitG_384.pt"
 CURRENT_MD = (
     "README.md",
     "ARCHITECTURE.md",
-    "EXPERIMENTS.md",
     "STATUS.md",
-    "OPERATIONAL_AWARENESS.md",
-    "DECISIONS.md",
-    "docs/ESCS_DEEP_RESEARCH.md",
     "MOP_COLLAPSE_LEDGER.md",
 )
 LEDGER_MD = frozenset(CURRENT_MD)

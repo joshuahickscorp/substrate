@@ -63,6 +63,9 @@ def check_all() -> list[dict]:
             problems.append({"where": f"encoder/{f.stem}", "problem": str(e)})
     for f in sorted((cdir / "experiment").glob("*.yaml")):
         cfg = OmegaConf.load(f)
+        if not isinstance(cfg, DictConfig):
+            problems.append({"where": f"experiment/{f.stem}", "problem": "config must be a mapping"})
+            continue
         if f.name == "_mot_mirrors.yaml":  # collapsed MoT preregistration mirrors: check each entry
             for m in OmegaConf.select(cfg, "mirrors", default=[]):
                 if not str(OmegaConf.select(m, "null_hypothesis", default="")).strip():

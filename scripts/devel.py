@@ -37,10 +37,7 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("paperwatch", help="Frontier 30: offline literature watch")
     sub.add_parser("metacognition", help="Frontier 34: self-monitoring report (safety-rail gated)")
     sub.add_parser("validate", help="validate all developmental registries")
-    pe = sub.add_parser(
-        "experiments", help="list/validate the experiment bank; --render writes EXPERIMENTS.md"
-    )
-    pe.add_argument("--render", action="store_true", help="regenerate EXPERIMENTS.md from the registry")
+    sub.add_parser("experiments", help="list and validate the experiment registry")
 
     pa = sub.add_parser("ablation", help="Frontier 29: ranked next-experiment plan")
     pa.add_argument("--scope", default="local", choices=["local", "studio"])
@@ -86,12 +83,8 @@ def main(argv: list[str] | None = None) -> int:
         problems = registries.validate_all()
         result = {"problems": problems, "ok": not problems}
     elif a.cmd == "experiments":
-        from mop.config import REPO_ROOT
-
         items = registries.load_experiments()
         problems = registries.validate_experiments()
-        if a.render:
-            (REPO_ROOT / "EXPERIMENTS.md").write_text(registries.render_experiments_md())
         result = {
             "n": len(items),
             "by_status": {s: sum(1 for e in items if e["status"] == s) for s in registries.EXP_STATUS},
@@ -100,7 +93,6 @@ def main(argv: list[str] | None = None) -> int:
             },
             "problems": problems,
             "ok": not problems,
-            "rendered": bool(a.render),
         }
     else:  # unreachable (required subparser)
         ap.error(f"unknown command {a.cmd}")

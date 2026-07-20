@@ -1,25 +1,29 @@
 # MOP
 
-MOP is an experimental research system for testing mechanism, substrate, and campaign hypotheses under
-explicit controls, budgets, stop rules, and independently checked evidence.
+MOP is an experimental system for testing substrate and learning hypotheses under explicit controls,
+budgets, stop rules, and independent evidence checks.
 
-## Current authorities
+## Read first
 
-- ARCHITECTURE.md: maintained system boundaries.
-- EXPERIMENTS.md: experiment and verification conventions.
-- STATUS.md: where current machine state lives.
-- OPERATIONAL_AWARENESS.md: execution and live-run safety.
-- DECISIONS.md: maintained architectural decisions.
-- docs/ESCS_DEEP_RESEARCH.md: STARSS23 rationale referenced by sealed preregistrations.
-- MOP_COLLAPSE_LEDGER.md: active physical-collapse ledger.
+- `ARCHITECTURE.md`: maintained code boundaries and scientific contract.
+- `STATUS.md`: machine authorities for current state and historical recovery.
+- `MOP_COLLAPSE_LEDGER.md`: compact generated reduction status.
+- `mop.experiments.REGISTRY`: executable experiment inventory.
 
-Superseded documentation is not maintained beside the implementation. Exact historical bytes, hashes,
-Git blobs, and recovery instructions live in collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json.
+## Scientific contract
+
+Every experiment declares its question, null, source and split identities, independent unit, treatments,
+controls, metric direction, SESOI, multiplicity policy, budget, stop rule, claim ceiling, and independent
+verifier. Null and negative results remain valid outputs. Producer and verifier mathematics stay
+structurally separate.
+
+## Operations
+
+Active run source, manifests, state, receipts, controls, seeds, thresholds, and worker policy are
+immutable. Work in isolated worktrees with separate outputs and record commits, seals, and rollback tags.
+Operational policy may change timing, never scientific identity or promotion requirements.
 
 ## Development
 
-Use the project environment and run focused tests for the region being changed. The broad gate is
-python -m pytest.
-
-Scientific changes must preserve frozen identities, experimental units, controls, SESOI and multiplicity
-rules, stop rules, negative findings, sealed evidence, and producer/verifier independence.
+Use the project environment. Run focused tests while editing, then `python -m pytest`. Current state is
+machine-readable; do not copy counts or run status into prose.

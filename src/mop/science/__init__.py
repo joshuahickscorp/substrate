@@ -6,7 +6,7 @@ from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
 from dataclasses import field as dataclass_field
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from mop.ladder.ladder_contracts import mint_demonstration
 from mop.science.statistics import exact_sign_flip
@@ -218,9 +218,11 @@ def validate_record(record: Mapping[str, object]) -> None:
         raise RecordRefused("activation must be explicitly refused")
     if claims.get("scientific_promotion") is not False:
         raise RecordRefused("scientific promotion must be explicitly refused")
-    if tuple(record["program"]) != PROGRAM:
+    program = record["program"]
+    if not isinstance(program, (list, tuple)) or tuple(program) != PROGRAM:
         raise RecordRefused("unknown or reordered lifecycle program")
-    if not tuple(record["seeds"]):
+    seeds = record["seeds"]
+    if not isinstance(seeds, (list, tuple)) or not seeds:
         raise RecordRefused("at least one independent seed is required")
 
 
@@ -323,7 +325,7 @@ def run_experiment(record: Mapping[str, object], provider: Provider, inputs: obj
 
     validate_record(record)
     state: dict[str, Any] = {"record": record}
-    for operation in record["program"]:
+    for operation in cast(Iterable[str], record["program"]):
         OPS[operation](state, provider, inputs)
     return state["artifact"]
 
@@ -355,17 +357,20 @@ def verify_artifact(
         "claims": record["claims"],
         "verification": record["verification"],
         "record_sha256": record["record_sha256"],
-        "seeds": list(record["seeds"]),
+        "seeds": list(cast(Iterable[object], record["seeds"])),
     }
     for field, declared in expected.items():
         if artifact.get(field) != declared:
             raise RecordRefused(f"artifact {field} differs from the scientific record")
     if artifact.get("activation_allowed") is not False or artifact.get("scientific_promotion") is not False:
         raise RecordRefused("artifact widens activation or promotion")
-    for verb in record["claims"]["forbidden_verbs"]:
-        if verb in record["claims"]["ceiling"]:
+    claims = cast(Mapping[str, object], record["claims"])
+    forbidden_verbs = cast(Iterable[str], claims["forbidden_verbs"])
+    ceiling = cast(str, claims["ceiling"])
+    for verb in forbidden_verbs:
+        if verb in ceiling:
             raise RecordRefused(f"forbidden claim verb present: {verb}")
-    recomputed = verifier(artifact["results"], record)
+    recomputed = verifier(cast(dict[str, list[Result]], artifact["results"]), record)
     if recomputed.get("verdict") != artifact.get("verdict"):
         raise RecordRefused("independent verifier disagrees with the artifact")
     return {
@@ -379,7 +384,7 @@ def verify_artifact(
 
 def render_report(artifact: Mapping[str, object]) -> str:
 
-    decision = artifact["decision"]
+    decision = cast(Mapping[str, object], artifact["decision"])
     return (
         f"# {artifact['experiment_id']} (stage {artifact['stage']})\n\n"
         f"- verdict: {artifact['verdict']}\n"

@@ -1,15 +1,13 @@
 # Status
 
-Current state is machine-readable:
+Use machine authorities instead of narrative snapshots:
 
-- Capability and experiment status: runtime registries.
-- Collapse progress and accounting: MOP_COLLAPSE_STATE.json.
-- Append-only reduction evidence: collapse/MOP_REDUCTION_LOG.json.
-- Historical-document recovery: collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json.
-- Live campaign state: its immutable run authority.
+- Experiments: `mop.experiments.REGISTRY` and `registry/experiments.yaml`.
+- Collapse checklist/accounting: `MOP_COLLAPSE_STATE.json`.
+- Reduction history: `collapse/MOP_REDUCTION_LOG.json`.
+- Historical code/docs: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and
+  `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
+- Live work: its immutable run authority.
 
-Do not infer current test counts, campaign progress, evidence status, or hardware requirements from dated
-prose. Query the corresponding authority or run the relevant gate.
-
-The General Run checkout and run roots are immutable while active. Collapse work occurs only in its
-isolated worktree and must not signal, restart, retune, or rewrite the live campaign.
+The protected run checkout and run roots are read-only while active. Do not infer test counts, evidence
+status, campaign progress, or hardware requirements from prose; query the authority or run its gate.

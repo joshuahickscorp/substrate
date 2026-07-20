@@ -10,7 +10,7 @@ import check_docs as CD  # noqa: E402
 
 def test_current_markdown_authority_is_exact() -> None:
     assert set(CD._project_markdown()) == set(CD.CURRENT_MD)
-    assert len(CD.CURRENT_MD) == 8
+    assert len(CD.CURRENT_MD) == 4
     assert sum((ROOT / path).read_text().count("\n") for path in CD.CURRENT_MD) <= 8_000
 
 
