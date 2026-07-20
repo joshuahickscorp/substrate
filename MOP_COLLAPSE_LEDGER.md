@@ -4,8 +4,8 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 
 ## Current
 
-- Maintained Python: 7,544 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 5,177 LOC.
+- Maintained Python: 7,525 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 5,158 LOC.
 - Validation: 1,969 LOC.
 - Verified reduction ledger: 421,487 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
