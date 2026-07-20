@@ -744,6 +744,19 @@ def main() -> int:
                     "and docs gate clean; all deleted paths recover from the prior tag"),
         rollback_tag="mop-collapse-starss23-orphans",
         next_action="delete or centralize the next test-only experimental authority cluster"))
+    checklist.append(item(
+        "RED-starss23-dead-scaffolds", 11, "verified_reduction",
+        "Delete broken and duplicate STARSS23 scaffolds",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/beds/starss23/fixtures.py", "src/mop/beds/starss23/artifact.py",
+                  "src/mop/beds/starss23/experiments.py"],
+        validation=("1144 broken, duplicate, test-only, or phantom-record Python LOC removed for 3 "
+                    "active-record/test LOC, net -1141; retained STARSS23 battery 178/178 green; "
+                    "3672-case collection, compile-all, critical ruff, and docs gate clean; deleted "
+                    "files recover from the prior tag"),
+        rollback_tag="mop-collapse-starss23-dead-scaffolds",
+        next_action="continue the dead-authority audit outside the active controller chain"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

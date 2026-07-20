@@ -91,22 +91,10 @@ DOA = _record(
                   "all_required": True}, verification="starss23_doa_verifier",
 )
 
-COUNTING_DATA_SPLIT_REPRO = _record(
-    experiment_id="starss23_escs_source_counting/data_split",
-    schema="mop-starss23-escs-count-bed-repro-data-split/v1",
-    question="does the counting result survive when train and test room folds are swapped",
-    null="the counting advantage is specific to the original room partition",
-    metric="coasted concurrent-source count MAE, pooled frame micro-average", direction="lower", sesoi=0.02,
-    seeds=(10, 11, 12, 13, 14), providers=("count_featurizer", "count_estimator", "count_referee"),
-    treatments=("count_gate",), split={"rule": "room_disjoint", "train_fold": 4, "test_fold": 3},
-    multiplicity={"kind": "reproduction_axis", "members": ("data_split",), "of": COUNTING["id"]},
-    verification="starss23_count_data_split_verifier",
-)
-
-RECORDS = (ONSET, COUNTING, DOA, COUNTING_DATA_SPLIT_REPRO)
+RECORDS = (ONSET, COUNTING, DOA)
 
 __all__ = [
-    "COUNTING", "COUNTING_DATA_SPLIT_REPRO", "COUNT_BED_ID", "COUNT_BUDGET_POLICY", "DOA",
+    "COUNTING", "COUNT_BED_ID", "COUNT_BUDGET_POLICY", "DOA",
     "DOA_ARCHITECTURES", "DOA_BED_ID", "DOA_BUDGET_POLICY", "FEATURIZE_FLOPS_PER_FRAME",
     "GATE_INFER_FLOPS_PER_FRAME", "GATE_PARAMS", "MAX_GATE_PARAMS", "ONSET", "ONSET_BUDGET_POLICY",
     "RECORDS",

@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "31613614cec9e012d33dffa69a24c8bd13f27187",
+    "base_commit": "2728bb8f4114f72a1ea033fae0d256f617e11ce9",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 58474,
+    "eliminated_LOC": 59618,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 8908,
-    "net_global_reduction_LOC": 65426
+    "added_LOC": 8911,
+    "net_global_reduction_LOC": 66567
   },
   "checklist_summary": {
-    "total": 248,
+    "total": 249,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 32
+      "verified": 33
     }
   },
   "checklist": [
@@ -3557,6 +3557,25 @@
       "rollback_tag": "mop-collapse-starss23-orphans",
       "dependency": "",
       "next_action": "delete or centralize the next test-only experimental authority cluster"
+    },
+    {
+      "id": "RED-starss23-dead-scaffolds",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Delete broken and duplicate STARSS23 scaffolds",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/beds/starss23/fixtures.py",
+        "src/mop/beds/starss23/artifact.py",
+        "src/mop/beds/starss23/experiments.py"
+      ],
+      "validation": "1144 broken, duplicate, test-only, or phantom-record Python LOC removed for 3 active-record/test LOC, net -1141; retained STARSS23 battery 178/178 green; 3672-case collection, compile-all, critical ruff, and docs gate clean; deleted files recover from the prior tag",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-dead-scaffolds",
+      "dependency": "",
+      "next_action": "continue the dead-authority audit outside the active controller chain"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",
