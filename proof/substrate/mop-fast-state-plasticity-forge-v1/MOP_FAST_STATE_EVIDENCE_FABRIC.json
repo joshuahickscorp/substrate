@@ -244,9 +244,9 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_CLEAN_CLONE.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_CLEAN_CLONE.json",
-      "canonical_path": "integrated/evidence_store/b59ea1eac8b022fb3edf5b408f07616b6246e787e32226ad78f2f61e8617a8eb",
-      "content_hash": "b59ea1eac8b022fb3edf5b408f07616b6246e787e32226ad78f2f61e8617a8eb",
-      "bytes": 4381,
+      "canonical_path": "integrated/evidence_store/5aef39d62faf236d52ef509b0b19f05e42e729384c56ceb19828b12a2a13949f",
+      "content_hash": "5aef39d62faf236d52ef509b0b19f05e42e729384c56ceb19828b12a2a13949f",
+      "bytes": 4210,
       "set": "fast_state",
       "schema": "mop-fast-state-clean-clone/v1",
       "program": "mop-fast-state-plasticity-forge-v1",
@@ -596,9 +596,9 @@
   "union": {
     "count": 45,
     "unique_objects": 45,
-    "unique_bytes": 339720,
+    "unique_bytes": 339549,
     "duplicate_bytes_eliminated": 0,
-    "merkle_root": "5567edefb0b69047aa1881ff99f9883be991167d5b5220b114723529d1f4ebca"
+    "merkle_root": "ef0295559d6fca80ca83adcfab530cf7680ad79914ed799613b67c83e615076c"
   },
   "by_null": [
     "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_HAR.json",
@@ -648,7 +648,7 @@
   "content_store": "integrated/evidence_store, shared with the inherited fabric, additive only",
   "wall_seconds": 0.0,
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "3d1bc9fd7e6a18c52ef420402dce977392b9e824",
+  "source_commit": "601c46634ded1080b394f8d00074c225d8abf604",
   "SESOI": 0.05,
-  "sha256": "87ef74df3d30f13d14482b66c0232e709494f1828a6d1a81191e9eddbb56a1f8"
+  "sha256": "3373577d1a1eb89d46c61c1db850836296ee9df8fc50aac0ce595a256045fdbe"
 }
