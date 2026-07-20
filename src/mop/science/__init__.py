@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import json
@@ -24,9 +23,27 @@ MATCHED_BUDGET_WALL_NOTE = (
 
 PROGRAM = ("run_arms", "pair_primary", "decide", "project", "seal")
 REQUIRED = {
-    "id", "schema", "stage", "question", "null", "source", "split", "unit", "providers",
-    "treatments", "controls", "metric", "sesoi", "multiplicity", "budget", "stop", "claims",
-    "verification", "seeds", "program", "record_sha256",
+    "id",
+    "schema",
+    "stage",
+    "question",
+    "null",
+    "source",
+    "split",
+    "unit",
+    "providers",
+    "treatments",
+    "controls",
+    "metric",
+    "sesoi",
+    "multiplicity",
+    "budget",
+    "stop",
+    "claims",
+    "verification",
+    "seeds",
+    "program",
+    "record_sha256",
 }
 
 
@@ -36,8 +53,11 @@ class RecordRefused(ValueError):
 
 def safety_flags() -> dict[str, bool]:
 
-    return {"activation_allowed": False, "scientific_promotion": False,
-            "independent_scientific_confirmation": False}
+    return {
+        "activation_allowed": False,
+        "scientific_promotion": False,
+        "independent_scientific_confirmation": False,
+    }
 
 
 def read_sealed_prereg_member(
@@ -67,7 +87,6 @@ def read_sealed_prereg_member(
 
 @dataclass(frozen=True, slots=True)
 class ArtifactResult:
-
     artifact: dict[str, Any]
     verdict: str
     detail: dict[str, Any] = dataclass_field(default_factory=dict)
@@ -138,11 +157,13 @@ def artifact_envelope(
         "demonstration_receipt": dict(receipt_payload),
     }
     if hasattr(report, "matched_budget"):
-        body.update({
-            "matched_budget": report.matched_budget.payload(),
-            "matched_budget_wall_note": MATCHED_BUDGET_WALL_NOTE,
-            "break_even": report.break_even.payload(),
-        })
+        body.update(
+            {
+                "matched_budget": report.matched_budget.payload(),
+                "matched_budget_wall_note": MATCHED_BUDGET_WALL_NOTE,
+                "break_even": report.break_even.payload(),
+            }
+        )
     additions = dict(extra or {})
     if body.keys() & additions.keys():
         raise RecordRefused("extra artifact fields overlap the shared envelope")
@@ -240,28 +261,48 @@ def _decide(state: dict[str, Any], _provider: Provider, _inputs: object) -> None
     record = state["record"]
     exact = exact_sign_flip(deltas, alpha=record["stop"]["alpha"])
     reproduced = exact.one_sided_significant and exact.mean_delta >= record["sesoi"]["value"]
-    state["decision"] = {**exact.payload(), "rule": "paired_sign_flip_one_sided",
-                         "favorable": favorable, "against": against, "decisive_pairs": decisive,
-                         "ties": len(deltas) - decisive,
-                         "proportion": favorable / decisive if decisive else 0.0,
-                         "p_value": exact.one_sided_p}
+    state["decision"] = {
+        **exact.payload(),
+        "rule": "paired_sign_flip_one_sided",
+        "favorable": favorable,
+        "against": against,
+        "decisive_pairs": decisive,
+        "ties": len(deltas) - decisive,
+        "proportion": favorable / decisive if decisive else 0.0,
+        "p_value": exact.one_sided_p,
+    }
     state["verdict"] = "reproduced_effect" if reproduced else "null_or_inconclusive"
 
 
 def _project(state: dict[str, Any], _provider: Provider, _inputs: object) -> None:
     record = state["record"]
     state["artifact"] = {
-        "schema": record["schema"], "experiment_id": record["id"], "stage": record["stage"],
-        "question": record["question"], "null_hypothesis": record["null"],
-        "source": record["source"], "split": record["split"], "unit": record["unit"],
-        "providers": record["providers"], "treatments": record["treatments"],
-        "controls": record["controls"], "metric": record["metric"], "sesoi": record["sesoi"],
-        "multiplicity": record["multiplicity"], "budget": record["budget"], "stop": record["stop"],
-        "claims": record["claims"], "verification": record["verification"],
-        "record_sha256": record["record_sha256"], "seeds": list(record["seeds"]),
+        "schema": record["schema"],
+        "experiment_id": record["id"],
+        "stage": record["stage"],
+        "question": record["question"],
+        "null_hypothesis": record["null"],
+        "source": record["source"],
+        "split": record["split"],
+        "unit": record["unit"],
+        "providers": record["providers"],
+        "treatments": record["treatments"],
+        "controls": record["controls"],
+        "metric": record["metric"],
+        "sesoi": record["sesoi"],
+        "multiplicity": record["multiplicity"],
+        "budget": record["budget"],
+        "stop": record["stop"],
+        "claims": record["claims"],
+        "verification": record["verification"],
+        "record_sha256": record["record_sha256"],
+        "seeds": list(record["seeds"]),
         "results": {key: value for key, value in sorted(state["results"].items())},
-        "paired_improvements": state["deltas"], "decision": state["decision"],
-        "verdict": state["verdict"], "activation_allowed": False, "scientific_promotion": False,
+        "paired_improvements": state["deltas"],
+        "decision": state["decision"],
+        "verdict": state["verdict"],
+        "activation_allowed": False,
+        "scientific_promotion": False,
     }
 
 
@@ -269,13 +310,16 @@ def _seal(state: dict[str, Any], _provider: Provider, _inputs: object) -> None:
     state["artifact"]["seal"] = canonical_sha256(state["artifact"])
 
 
-OPS = {"run_arms": _run_arms, "pair_primary": _pair_primary, "decide": _decide,
-       "project": _project, "seal": _seal}
+OPS = {
+    "run_arms": _run_arms,
+    "pair_primary": _pair_primary,
+    "decide": _decide,
+    "project": _project,
+    "seal": _seal,
+}
 
 
-def run_experiment(
-    record: Mapping[str, object], provider: Provider, inputs: object = None
-) -> dict[str, Any]:
+def run_experiment(record: Mapping[str, object], provider: Provider, inputs: object = None) -> dict[str, Any]:
 
     validate_record(record)
     state: dict[str, Any] = {"record": record}
@@ -294,13 +338,24 @@ def verify_artifact(
     if artifact.get("experiment_id") != record["id"] or artifact.get("schema") != record["schema"]:
         raise RecordRefused("artifact authority differs from its record")
     expected = {
-        "stage": record["stage"], "question": record["question"], "null_hypothesis": record["null"],
-        "source": record["source"], "split": record["split"], "unit": record["unit"],
-        "providers": record["providers"], "treatments": record["treatments"],
-        "controls": record["controls"], "metric": record["metric"], "sesoi": record["sesoi"],
-        "multiplicity": record["multiplicity"], "budget": record["budget"], "stop": record["stop"],
-        "claims": record["claims"], "verification": record["verification"],
-        "record_sha256": record["record_sha256"], "seeds": list(record["seeds"]),
+        "stage": record["stage"],
+        "question": record["question"],
+        "null_hypothesis": record["null"],
+        "source": record["source"],
+        "split": record["split"],
+        "unit": record["unit"],
+        "providers": record["providers"],
+        "treatments": record["treatments"],
+        "controls": record["controls"],
+        "metric": record["metric"],
+        "sesoi": record["sesoi"],
+        "multiplicity": record["multiplicity"],
+        "budget": record["budget"],
+        "stop": record["stop"],
+        "claims": record["claims"],
+        "verification": record["verification"],
+        "record_sha256": record["record_sha256"],
+        "seeds": list(record["seeds"]),
     }
     for field, declared in expected.items():
         if artifact.get(field) != declared:
@@ -313,21 +368,41 @@ def verify_artifact(
     recomputed = verifier(artifact["results"], record)
     if recomputed.get("verdict") != artifact.get("verdict"):
         raise RecordRefused("independent verifier disagrees with the artifact")
-    return {"verified": True, "experiment_id": record["id"], "seal_reproduced": True,
-            "independent_verdict": recomputed["verdict"], "independent_scientific_confirmation": False}
+    return {
+        "verified": True,
+        "experiment_id": record["id"],
+        "seal_reproduced": True,
+        "independent_verdict": recomputed["verdict"],
+        "independent_scientific_confirmation": False,
+    }
 
 
 def render_report(artifact: Mapping[str, object]) -> str:
 
     decision = artifact["decision"]
-    return (f"# {artifact['experiment_id']} (stage {artifact['stage']})\n\n"
-            f"- verdict: {artifact['verdict']}\n"
-            f"- favorable/against/ties: {decision['favorable']}/{decision['against']}/{decision['ties']}\n"
-            f"- activation_allowed: false; scientific_promotion: false\n")
+    return (
+        f"# {artifact['experiment_id']} (stage {artifact['stage']})\n\n"
+        f"- verdict: {artifact['verdict']}\n"
+        f"- favorable/against/ties: {decision['favorable']}/{decision['against']}/{decision['ties']}\n"
+        f"- activation_allowed: false; scientific_promotion: false\n"
+    )
 
 
 __all__ = [
-    "MATCHED_BUDGET_WALL_NOTE", "PROGRAM", "ArtifactResult", "Provider", "RecordRefused", "Result",
-    "Verifier", "artifact_envelope", "demonstration_receipt", "finalize_artifact", "render_report",
-    "run_experiment", "safety_flags", "seal_record", "validate_record", "verify_artifact",
+    "MATCHED_BUDGET_WALL_NOTE",
+    "PROGRAM",
+    "ArtifactResult",
+    "Provider",
+    "RecordRefused",
+    "Result",
+    "Verifier",
+    "artifact_envelope",
+    "demonstration_receipt",
+    "finalize_artifact",
+    "render_report",
+    "run_experiment",
+    "safety_flags",
+    "seal_record",
+    "validate_record",
+    "verify_artifact",
 ]

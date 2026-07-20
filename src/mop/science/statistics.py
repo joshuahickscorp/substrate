@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -12,7 +11,12 @@ STATS_SCHEMA = "mop-starss23-escs-stats/v1"
 PROVISIONAL_SESOI_F1 = 0.05
 DEFAULT_ALPHA = 0.05
 FORBIDDEN_CLAIM_VERBS = (
-    "demonstrates", "shows", "proves", "establishes", "significant", "confirms",
+    "demonstrates",
+    "shows",
+    "proves",
+    "establishes",
+    "significant",
+    "confirms",
 )
 BOUNDED_CLAIM_VERB = "consistent with"
 DEFAULT_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
@@ -79,11 +83,17 @@ class SignFlipResult:
 
     def payload(self) -> dict[str, Any]:
         return {
-            "n": self.n, "permutations": self.permutations, "t_observed": _sealed(self.t_observed),
-            "mean_delta": _sealed(self.mean_delta), "count_ge_one_sided": self.count_ge_one_sided,
-            "count_ge_two_sided": self.count_ge_two_sided, "one_sided_p": _sealed(self.one_sided_p),
-            "two_sided_p": _sealed(self.two_sided_p), "min_one_sided_p": _sealed(self.min_one_sided_p),
-            "two_sided_floor": _sealed(self.two_sided_floor), "alpha": _sealed(self.alpha),
+            "n": self.n,
+            "permutations": self.permutations,
+            "t_observed": _sealed(self.t_observed),
+            "mean_delta": _sealed(self.mean_delta),
+            "count_ge_one_sided": self.count_ge_one_sided,
+            "count_ge_two_sided": self.count_ge_two_sided,
+            "one_sided_p": _sealed(self.one_sided_p),
+            "two_sided_p": _sealed(self.two_sided_p),
+            "min_one_sided_p": _sealed(self.min_one_sided_p),
+            "two_sided_floor": _sealed(self.two_sided_floor),
+            "alpha": _sealed(self.alpha),
             "one_sided_significant": self.one_sided_significant,
             "two_sided_alpha_reachable": self.two_sided_alpha_reachable,
             "phipson_smyth_applied": self.phipson_smyth_applied,
@@ -183,8 +193,20 @@ def exact_sign_flip(deltas: Sequence[float], alpha: float = DEFAULT_ALPHA) -> Si
         two += abs(statistic) >= abs(observed) - _TIE_EPS
     one_p, two_p = one / permutations, two / permutations
     return SignFlipResult(
-        n, permutations, observed, observed / n, one, two, one_p, two_p, 1 / permutations,
-        2 / permutations, alpha, one_p <= alpha, 2 / permutations <= alpha, False,
+        n,
+        permutations,
+        observed,
+        observed / n,
+        one,
+        two,
+        one_p,
+        two_p,
+        1 / permutations,
+        2 / permutations,
+        alpha,
+        one_p <= alpha,
+        2 / permutations <= alpha,
+        False,
     )
 
 
@@ -196,12 +218,18 @@ class SesoiCheck:
     exceeds_sesoi: bool
 
     def payload(self) -> dict[str, Any]:
-        return {"sesoi_f1": _sealed(self.sesoi_f1), "provisional": self.provisional,
-                "observed_effect": _sealed(self.observed_effect), "exceeds_sesoi": self.exceeds_sesoi}
+        return {
+            "sesoi_f1": _sealed(self.sesoi_f1),
+            "provisional": self.provisional,
+            "observed_effect": _sealed(self.observed_effect),
+            "exceeds_sesoi": self.exceeds_sesoi,
+        }
 
 
 def sesoi_check(
-    observed_effect: float, sesoi_f1: float = PROVISIONAL_SESOI_F1, provisional: bool = True,
+    observed_effect: float,
+    sesoi_f1: float = PROVISIONAL_SESOI_F1,
+    provisional: bool = True,
 ) -> SesoiCheck:
     effect = _finite([observed_effect], "observed_effect")[0]
     if isinstance(sesoi_f1, bool) or not isinstance(sesoi_f1, (int, float)):
@@ -223,11 +251,15 @@ class ClaimCeiling:
     rationale: str
 
     def payload(self) -> dict[str, Any]:
-        return {"experimental_unit": self.experimental_unit,
-                "n_experimental_units": self.n_experimental_units, "n_seeds": self.n_seeds,
-                "claim_verb": self.claim_verb, "forbidden_verbs": list(self.forbidden_verbs),
-                "frame_or_clip_bootstrap_allowed": self.frame_or_clip_bootstrap_allowed,
-                "rationale": self.rationale}
+        return {
+            "experimental_unit": self.experimental_unit,
+            "n_experimental_units": self.n_experimental_units,
+            "n_seeds": self.n_seeds,
+            "claim_verb": self.claim_verb,
+            "forbidden_verbs": list(self.forbidden_verbs),
+            "frame_or_clip_bootstrap_allowed": self.frame_or_clip_bootstrap_allowed,
+            "rationale": self.rationale,
+        }
 
 
 def claim_ceiling(n_experimental_units: int, n_seeds: int) -> ClaimCeiling:
@@ -239,7 +271,13 @@ def claim_ceiling(n_experimental_units: int, n_seeds: int) -> ClaimCeiling:
         "bootstrap is refused and the claim verb is bounded to 'consistent with', never 'demonstrates'"
     )
     return ClaimCeiling(
-        "clip", n_experimental_units, n_seeds, BOUNDED_CLAIM_VERB, FORBIDDEN_CLAIM_VERBS, False, rationale,
+        "clip",
+        n_experimental_units,
+        n_seeds,
+        BOUNDED_CLAIM_VERB,
+        FORBIDDEN_CLAIM_VERBS,
+        False,
+        rationale,
     )
 
 
@@ -257,21 +295,31 @@ class PairedSeedStats:
     claim_scope: str
 
     def payload(self) -> dict[str, Any]:
-        return {"schema": self.schema, "deltas": [_sealed(value) for value in self.deltas],
-                "sign_flip": self.sign_flip.payload(), "sesoi": self.sesoi.payload(),
-                "claim": self.claim.payload(), "meets_statistical_bar": self.meets_statistical_bar,
-                "promotable": self.promotable, "scientific_promotion": self.scientific_promotion,
-                "independent_scientific_confirmation": self.independent_scientific_confirmation,
-                "claim_scope": self.claim_scope}
+        return {
+            "schema": self.schema,
+            "deltas": [_sealed(value) for value in self.deltas],
+            "sign_flip": self.sign_flip.payload(),
+            "sesoi": self.sesoi.payload(),
+            "claim": self.claim.payload(),
+            "meets_statistical_bar": self.meets_statistical_bar,
+            "promotable": self.promotable,
+            "scientific_promotion": self.scientific_promotion,
+            "independent_scientific_confirmation": self.independent_scientific_confirmation,
+            "claim_scope": self.claim_scope,
+        }
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
 
 
 def analyze_paired_seeds(
-    deltas: Sequence[float], *, n_experimental_units: int,
-    sesoi_f1: float = PROVISIONAL_SESOI_F1, provisional_sesoi: bool = True,
-    alpha: float = DEFAULT_ALPHA, claim_scope: str = DEFAULT_CLAIM_SCOPE,
+    deltas: Sequence[float],
+    *,
+    n_experimental_units: int,
+    sesoi_f1: float = PROVISIONAL_SESOI_F1,
+    provisional_sesoi: bool = True,
+    alpha: float = DEFAULT_ALPHA,
+    claim_scope: str = DEFAULT_CLAIM_SCOPE,
 ) -> PairedSeedStats:
     values = _finite(deltas, "deltas")
     sign_flip = exact_sign_flip(values, alpha)
@@ -279,15 +327,37 @@ def analyze_paired_seeds(
     claim = claim_ceiling(n_experimental_units, len(values))
     passes = sesoi.exceeds_sesoi and sign_flip.one_sided_significant
     return PairedSeedStats(
-        STATS_SCHEMA, values, sign_flip, sesoi, claim, passes, passes, False, False, claim_scope,
+        STATS_SCHEMA,
+        values,
+        sign_flip,
+        sesoi,
+        claim,
+        passes,
+        passes,
+        False,
+        False,
+        claim_scope,
     )
 
 
 __all__ = [
-    "STATS_SCHEMA", "PROVISIONAL_SESOI_F1", "DEFAULT_ALPHA", "FORBIDDEN_CLAIM_VERBS",
-    "BOUNDED_CLAIM_VERB", "StatsRefusal", "SignFlipResult", "SesoiCheck", "ClaimCeiling",
-    "PairedSeedStats", "paired_deltas", "count_sign_flip_payload", "exact_sign_flip",
-    "sign_flip_payload", "sesoi_check", "claim_ceiling",
-    "two_sided_alpha_reachable", "analyze_paired_seeds",
+    "STATS_SCHEMA",
+    "PROVISIONAL_SESOI_F1",
+    "DEFAULT_ALPHA",
+    "FORBIDDEN_CLAIM_VERBS",
+    "BOUNDED_CLAIM_VERB",
+    "StatsRefusal",
+    "SignFlipResult",
+    "SesoiCheck",
+    "ClaimCeiling",
+    "PairedSeedStats",
+    "paired_deltas",
+    "count_sign_flip_payload",
+    "exact_sign_flip",
+    "sign_flip_payload",
+    "sesoi_check",
+    "claim_ceiling",
+    "two_sided_alpha_reachable",
+    "analyze_paired_seeds",
     "CLAIM_SCOPE",
 ]

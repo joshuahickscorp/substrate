@@ -10,10 +10,7 @@ def test_three_field_label() -> None:
 
 
 def test_four_field_label_with_detail() -> None:
-    assert (
-        scheme.mop_label("fullgen", scheme.ROLE_EXTENSION, "resume")
-        == "mop:fullgen:extension:resume"
-    )
+    assert scheme.mop_label("fullgen", scheme.ROLE_EXTENSION, "resume") == "mop:fullgen:extension:resume"
 
 
 def test_detail_defaults_to_empty() -> None:

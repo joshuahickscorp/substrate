@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from .cache import cache_latents, synthetic_clips

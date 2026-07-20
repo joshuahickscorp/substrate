@@ -1,11 +1,9 @@
-
 from __future__ import annotations
 
 import torch
 
 
 class RunningStat:
-
     def __init__(self, momentum: float = 0.99):
         self.m = momentum
         self.mean = 0.0

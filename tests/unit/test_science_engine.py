@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import copy
@@ -30,8 +29,7 @@ class PreregRefusal(ValueError):
 
 def _value(arm: str, seed: int, direction: str) -> float:
     offset = seed / 1000
-    values = {"candidate": 0.40, "rate_matched_random": 0.50, "always_on": 0.60,
-              "never_update": 0.70}
+    values = {"candidate": 0.40, "rate_matched_random": 0.50, "always_on": 0.60, "never_update": 0.70}
     return values[arm] + offset if direction == "lower" else 1 - values[arm] + offset
 
 
@@ -59,9 +57,13 @@ def test_sealed_prereg_reader_requires_schema_and_family_member(tmp_path) -> Non
 def _runner(record):
     def run(arm, seed, inputs):
         scale = max(1.0, 2.0 * record["sesoi"]["value"] / 0.1)
-        return {"arm": arm, "seed": seed,
-                "metric_value": scale * _value(arm, seed, record["metric"]["direction"]),
-                "receipt": {"provider": "deterministic_fixture", "arm": arm, "seed": seed}}
+        return {
+            "arm": arm,
+            "seed": seed,
+            "metric_value": scale * _value(arm, seed, record["metric"]["direction"]),
+            "receipt": {"provider": "deterministic_fixture", "arm": arm, "seed": seed},
+        }
+
     return run
 
 
@@ -72,8 +74,11 @@ def _independent(rows, record):
     control = {row["seed"]: row["metric_value"] for row in rows[primary]}
     wins = losses = 0
     for seed in sorted(candidate):
-        delta = (control[seed] - candidate[seed] if record["metric"]["direction"] == "lower"
-                 else candidate[seed] - control[seed])
+        delta = (
+            control[seed] - candidate[seed]
+            if record["metric"]["direction"] == "lower"
+            else candidate[seed] - control[seed]
+        )
         wins += delta > 0
         losses += delta < 0
     survived = wins >= record["stop"]["min_reproductions"] and losses == 0
@@ -104,9 +109,27 @@ def test_tie_is_a_null():
 @pytest.mark.parametrize(
     "field",
     [
-        "schema", "experiment_id", "stage", "question", "null_hypothesis", "source", "split", "unit",
-        "providers", "treatments", "controls", "metric", "sesoi", "multiplicity", "budget", "stop",
-        "claims", "verification", "seeds", "metric_value", "promotion",
+        "schema",
+        "experiment_id",
+        "stage",
+        "question",
+        "null_hypothesis",
+        "source",
+        "split",
+        "unit",
+        "providers",
+        "treatments",
+        "controls",
+        "metric",
+        "sesoi",
+        "multiplicity",
+        "budget",
+        "stop",
+        "claims",
+        "verification",
+        "seeds",
+        "metric_value",
+        "promotion",
     ],
 )
 def test_resealed_lifecycle_and_graded_mutations_are_refused(field):
@@ -224,9 +247,29 @@ def test_artifact_envelope_has_one_closed_matched_budget_authority():
     }
     body = artifact_envelope(**shared, extra={"producer": "fixture"})
     assert set(body) == set(
-        "schema stage bed_id claim_scope source_kind rights_clean reproductions seeds per_seed stats "
-        "controls flags verdict harness featurizer gate demonstration_receipt matched_budget "
-        "matched_budget_wall_note break_even producer".split()
+        [
+            "schema",
+            "stage",
+            "bed_id",
+            "claim_scope",
+            "source_kind",
+            "rights_clean",
+            "reproductions",
+            "seeds",
+            "per_seed",
+            "stats",
+            "controls",
+            "flags",
+            "verdict",
+            "harness",
+            "featurizer",
+            "gate",
+            "demonstration_receipt",
+            "matched_budget",
+            "matched_budget_wall_note",
+            "break_even",
+            "producer",
+        ]
     )
     assert body["seeds"] == [1, 2]
     assert body["harness"] == {"report": "payload"}

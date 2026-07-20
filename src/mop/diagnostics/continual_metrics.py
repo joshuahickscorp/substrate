@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Sequence
@@ -42,7 +41,6 @@ def adaptation_speed(acc_curve: Sequence[float], target_frac: float = 0.9) -> di
 
 
 class LRIntegralAccumulator:
-
     def __init__(self) -> None:
         self._totals: dict[str, float] = {}
 

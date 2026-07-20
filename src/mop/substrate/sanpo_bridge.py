@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -20,8 +19,9 @@ import torch
 from PIL import Image
 from PIL import __version__ as PILLOW_VERSION
 
-from ..config import REPO_ROOT
 from mop.substrate.events import sha256_file
+
+from ..config import REPO_ROOT
 
 BRIDGE_PLAN_SCHEMA = "mop-sanpo-custom-substrate-bridge-plan/v1"
 BRIDGE_PREFLIGHT_SCHEMA = "mop-sanpo-custom-substrate-bridge-preflight/v1"
@@ -193,7 +193,6 @@ def load_bridge_plan(path: Path, *, repo_root: Path = REPO_ROOT) -> tuple[dict[s
 
 @dataclass(frozen=True)
 class SessionRecord:
-
     session_id: str
     official_split: str
     role: str
@@ -209,7 +208,6 @@ class SessionRecord:
 
 @dataclass(frozen=True)
 class SanpoClip:
-
     tensor: torch.Tensor
     session: SessionRecord
     source_tensor_sha256: str
@@ -222,7 +220,6 @@ class _OfficialTestCapability:
 
 
 class SanpoCustomSubstrateBridge:
-
     def __init__(
         self,
         plan_path: Path,

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -15,7 +14,6 @@ from .profiles import Profile, get_profile
 
 @dataclass(frozen=True)
 class EncodeBenchmark:
-
     cpu_s_per_clip: float | None
     mps_s_per_clip: float | None = None
     n_clips: int = 0

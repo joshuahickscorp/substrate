@@ -1,4 +1,3 @@
-
 from pathlib import Path
 
 from mop.devel import curriculum

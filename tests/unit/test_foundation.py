@@ -37,13 +37,13 @@ def test_variance_utility_quantifies_spread():
 
 
 def test_config_composition_and_overrides():
-    cfg = config.compose(["experiment=e1_baseline", "shell.buffer.capacity=99"])
+    cfg = config.compose(["experiment=mop_cm7_min_objective_probe", "shell.buffer.capacity=99"])
     assert cfg.package == "mop"
     assert cfg.device.kind == "mps"
     assert cfg.encoder.embed_dim == 1024
     assert cfg.shell.buffer.capacity == 99
-    assert cfg.experiment.id == "e1_baseline"
-    assert cfg.experiment_name == "e1_baseline"
+    assert cfg.experiment.id == "mop_cm7_min_objective_probe"
+    assert cfg.experiment_name == "mop_cm7_min_objective_probe"
 
 
 def test_config_group_switch():

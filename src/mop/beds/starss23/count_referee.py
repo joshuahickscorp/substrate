@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
@@ -84,13 +83,12 @@ def mae_clip(
 
 @dataclass(frozen=True, slots=True)
 class CountScore:
-
     abs_error_sum: int
     n_frames: int
     mae: float
 
     @classmethod
-    def from_pool(cls, abs_error_sum: int, n_frames: int) -> "CountScore":
+    def from_pool(cls, abs_error_sum: int, n_frames: int) -> CountScore:
         for name, value in (("abs_error_sum", abs_error_sum), ("n_frames", n_frames)):
             if isinstance(value, bool) or not isinstance(value, int) or value < 0:
                 raise CountRefereeRefusal(f"CountScore.{name} must be a nonnegative integer")

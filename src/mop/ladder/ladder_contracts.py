@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -43,7 +42,6 @@ def _require_sha256(value: str, label: str) -> None:
 
 @dataclass(frozen=True, slots=True)
 class RunReceipt:
-
     kind: str
     mechanism_id: str
     stage: int
@@ -164,9 +162,7 @@ def mint_confirmation(
 def to_confirmation(receipt: RunReceipt) -> ConfirmationReceipt:
 
     if not receipt.is_confirmation:
-        raise LadderContractRefusal(
-            "only a cleared scientific-confirmation receipt can open a stage gate"
-        )
+        raise LadderContractRefusal("only a cleared scientific-confirmation receipt can open a stage gate")
     return ConfirmationReceipt(
         requirement_id=receipt.requirement_id,
         digest=receipt.evidence_digest,
@@ -199,7 +195,6 @@ def ladder_readiness(receipts: Sequence[RunReceipt]) -> dict[str, Any]:
 
 @runtime_checkable
 class Bed(Protocol):
-
     mechanism_id: str
 
     def controls(self) -> tuple[str, ...]: ...
@@ -213,7 +208,6 @@ class Bed(Protocol):
 
 @runtime_checkable
 class MechanismRunner(Protocol):
-
     mechanism_id: str
 
     def run(self, bed: Bed, seed: int) -> Any: ...

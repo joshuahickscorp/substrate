@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import shutil
@@ -11,7 +10,6 @@ from ..config import REPO_ROOT
 
 @dataclass(frozen=True)
 class Profile:
-
     name: str
     disk_total_gb: float
     reserve_gb: float

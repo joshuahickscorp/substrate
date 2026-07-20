@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import torch
@@ -6,7 +5,6 @@ from torch import nn
 
 
 class ContextGating(nn.Module):
-
     def __init__(self, dim: int, n_contexts: int):
         super().__init__()
         self.gate = nn.Embedding(n_contexts, dim)
@@ -17,7 +15,6 @@ class ContextGating(nn.Module):
 
 
 class WorkingMemory(nn.Module):
-
     def __init__(self, dim: int, slots: int = 4):
         super().__init__()
         self.slots = slots
@@ -36,7 +33,6 @@ class WorkingMemory(nn.Module):
 
 
 class Chunking(nn.Module):
-
     def __init__(self, threshold: float = 1.0):
         super().__init__()
         self.threshold = threshold

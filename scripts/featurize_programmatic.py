@@ -53,7 +53,6 @@ def read_encode_params(path: Path = ENCODE_JSON, seed: int = 0) -> dict:
 
 
 class _RandRecorder:
-
     def __init__(self, generator: torch.Generator):
         self.generator = generator
         self.draws: list[float] = []

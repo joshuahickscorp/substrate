@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import torch
@@ -11,7 +10,6 @@ from .predictor import Predictor
 
 
 class WorkspaceShell(nn.Module):
-
     def __init__(
         self,
         dim: int,

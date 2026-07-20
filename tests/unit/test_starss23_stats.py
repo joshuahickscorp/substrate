@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -103,9 +102,9 @@ def test_analyze_payload_round_trips_and_digest_is_deterministic() -> None:
     assert payload["sign_flip"]["permutations"] == 32
     digest = analysis.digest()
     assert len(digest) == 64 and all(character in "0123456789abcdef" for character in digest)
-    assert stats.analyze_paired_seeds(
-        [0.06, 0.07, 0.05, 0.08, 0.06], n_experimental_units=2
-    ).digest() == digest
+    assert (
+        stats.analyze_paired_seeds([0.06, 0.07, 0.05, 0.08, 0.06], n_experimental_units=2).digest() == digest
+    )
 
 
 def test_exact_sign_flip_rejects_empty_and_nonfinite_inputs() -> None:
@@ -133,8 +132,14 @@ def test_shared_sign_flip_projection_preserves_the_legacy_artifact_shape() -> No
     deltas = [0.1, 0.2, 0.3, 0.4, 0.5]
     result = stats.exact_sign_flip(deltas)
     payload = stats.sign_flip_payload(
-        result, deltas, sesoi_key="sesoi_f1", sesoi=0.05, exceeds_sesoi=True,
-        provisional=False, prereg_digest="registered", extra={"beats_rate_matched_random": True},
+        result,
+        deltas,
+        sesoi_key="sesoi_f1",
+        sesoi=0.05,
+        exceeds_sesoi=True,
+        provisional=False,
+        prereg_digest="registered",
+        extra={"beats_rate_matched_random": True},
     )
     assert payload == {
         "deltas": deltas,
@@ -157,8 +162,12 @@ def test_shared_count_projection_preserves_lower_is_better_fields() -> None:
     deltas = [0.2] * 5
     result = stats.exact_sign_flip(deltas)
     payload = stats.count_sign_flip_payload(
-        result, deltas, sesoi=0.02, exceeds_sesoi=True,
-        mean_candidate_minus_control=-0.2, prereg_digest="registered",
+        result,
+        deltas,
+        sesoi=0.02,
+        exceeds_sesoi=True,
+        mean_candidate_minus_control=-0.2,
+        prereg_digest="registered",
     )
     assert payload["metric"] == "coasted-count-MAE"
     assert payload["mean_delta_control_minus_candidate"] == result.mean_delta

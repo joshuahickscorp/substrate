@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import threading
@@ -8,7 +7,6 @@ import psutil
 
 
 class PeakRSSMonitor:
-
     def __init__(self, *, interval_seconds: float = 0.002) -> None:
         if interval_seconds <= 0:
             raise ValueError("RSS sampling interval must be positive")

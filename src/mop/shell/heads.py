@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -10,7 +9,6 @@ from .predictor import mlp
 
 
 class ClassHead(nn.Module):
-
     def __init__(self, dim: int, n_classes: int, hidden: int = 512, depth: int = 1):
         super().__init__()
         self.net = mlp(dim, n_classes, hidden, depth) if depth else nn.Linear(dim, n_classes)
@@ -20,7 +18,6 @@ class ClassHead(nn.Module):
 
 
 class GaussianHead(nn.Module):
-
     def __init__(self, dim: int, out: int, hidden: int = 512, depth: int = 1, logvar_bounds=(-8.0, 6.0)):
         super().__init__()
         self.body = mlp(dim, hidden, hidden, max(0, depth - 1)) if depth > 1 else nn.Identity()
@@ -44,7 +41,6 @@ class GaussianHead(nn.Module):
 
 
 class KWTAHead(nn.Module):
-
     def __init__(self, dim: int, hidden: int, n_classes: int, k: int):
         super().__init__()
         self.fc1 = nn.Linear(dim, hidden)
@@ -58,7 +54,6 @@ class KWTAHead(nn.Module):
 
 
 class MoEHead(nn.Module):
-
     def __init__(self, dim: int, n_classes: int, n_experts: int, expert_hidden: int):
         super().__init__()
         self.router = nn.Linear(dim, n_experts)

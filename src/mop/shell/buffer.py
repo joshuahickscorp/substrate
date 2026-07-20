@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import subprocess
@@ -26,7 +25,6 @@ def faiss_search_safe() -> bool:
 
 
 class KVIndex:
-
     def __init__(self, dim: int, kind: str = "brute"):
         self.dim = dim
         self.kind = kind

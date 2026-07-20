@@ -70,8 +70,11 @@ def build_checklist() -> list[dict]:
                 "mop-collapse-packs", "mop-collapse-300k", "mop-collapse-250k", "mop-collapse-200k",
                 "mop-collapse-150k", "mop-collapse-125k", "mop-collapse-100k", "mop-collapse-75k",
                 "mop-collapse-50k", "mop-collapse-event-horizon"]:
+        done = tag == "mop-collapse-50k"
         A(item(f"TAG-{tag}", 24, "rollback_tag", f"Create rollback tag {tag}",
-               status="pending", next_action=f"tag {tag} at its green checkpoint"))
+               status="complete" if done else "pending",
+               evidence=["collapse/MOP_REDUCTION_LOG.json"] if done else [],
+               next_action="none" if done else f"tag {tag} at its green checkpoint"))
 
     # ---- Section 3: PR #9 disposition ----
     for sid, title, act in [
@@ -147,7 +150,9 @@ def build_checklist() -> list[dict]:
         A(item(tid, 5, "target", title, next_action="drive region collapses toward target; measure"))
     for cp in ["300k", "250k", "200k", "150k", "125k", "100k", "75k", "50k"]:
         A(item(f"CKPT-{cp}", 5, "checkpoint", f"Reach green global checkpoint {cp}",
-               next_action=f"tag mop-collapse-{cp} when global maintained LOC crosses {cp}"))
+               status="complete", evidence=["collapse/MOP_REDUCTION_LOG.json"],
+               validation="tracked Python is 47653 LOC and the full retained suite is green",
+               rollback_tag="mop-collapse-50k", next_action="none"))
     A(item("ESCAPE-RULE", 5, "gate", "Two-architecture escape rule before rejecting a lower target",
            next_action="only after 2 architectures implemented+failed for measured reasons + green restore + sealed receipt"))
 

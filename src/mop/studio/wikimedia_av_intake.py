@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -202,7 +201,6 @@ def _normalize_live_page(page: Mapping[str, Any]) -> dict[str, Any]:
 
 
 class WikimediaCommonsAPI:
-
     def __init__(
         self,
         *,

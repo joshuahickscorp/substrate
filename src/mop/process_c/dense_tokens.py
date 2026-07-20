@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -18,7 +17,6 @@ def dense_hidden_for_target_params(input_dim: int, n_classes: int, target_params
 
 
 class DenseTokenSlotModule(nn.Module):
-
     def __init__(
         self,
         input_dim: int,
@@ -90,7 +88,6 @@ class DenseTokenSlotModule(nn.Module):
 
 
 class ProcessCDenseTokenClassifier(nn.Module):
-
     def __init__(
         self,
         input_dim: int,
@@ -118,7 +115,6 @@ class ProcessCDenseTokenClassifier(nn.Module):
 
 
 class DenseTokenMeanBaseline(nn.Module):
-
     def __init__(self, input_dim: int, n_classes: int, hidden: int):
         super().__init__()
         self.net = nn.Sequential(

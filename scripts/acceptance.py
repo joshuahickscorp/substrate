@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PY = str(ROOT / ".venv" / "bin" / "python")
+ENV_BIN = Path(sys.executable).parent
+PY = str(ENV_BIN / "python")
 results: list[tuple[str, bool, str]] = []
 
 
@@ -24,11 +26,11 @@ def _run(cmd: list[str]) -> tuple[bool, str]:
 def main() -> int:
     ok, tail = _run([PY, "-m", "pytest", "-q"])
     step("full test suite", ok, tail)
-    ok, _ = _run([str(ROOT / ".venv/bin/ruff"), "check", "src", "tests", "scripts"])
+    ok, _ = _run([str(ENV_BIN / "ruff"), "check", "src", "tests", "scripts"])
     step("ruff lint", ok)
-    ok, _ = _run([str(ROOT / ".venv/bin/ruff"), "format", "--check", "src", "tests", "scripts"])
+    ok, _ = _run([str(ENV_BIN / "ruff"), "format", "--check", "src", "tests", "scripts"])
     step("ruff format", ok)
-    ok, tail = _run([str(ROOT / ".venv/bin/mypy")])
+    ok, tail = _run([str(ENV_BIN / "mypy")])
     step("mypy types", ok, tail)
 
     from mop import config, devices
@@ -47,9 +49,7 @@ def main() -> int:
     step("CM7 experiment resolves", get_experiment("mop_cm7_min_objective_probe").id == cfg.experiment.id)
 
     dev = devices.resolve("cpu")
-    task = make_task_stream(
-        n_tasks=1, dim=32, classes_per_task=4, samples_per_task=300, separation=3.0
-    )[0]
+    task = make_task_stream(n_tasks=1, dim=32, classes_per_task=4, samples_per_task=300, separation=3.0)[0]
     probe_ok = linear_probe(task.x, task.y)["decodable"]
     noisy = noisy_tv_diagnostic(dim=40, device=dev, steps=250)
     step(

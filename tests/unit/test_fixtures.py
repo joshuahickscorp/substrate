@@ -1,4 +1,3 @@
-
 import numpy as np
 
 from mop.substrate import generate_video_corpus

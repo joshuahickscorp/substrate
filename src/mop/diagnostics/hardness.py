@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -12,7 +11,6 @@ SLOT_ORDER = tuple(SLOT_NAMES)
 
 @dataclass
 class GradedTask:
-
     x: torch.Tensor
     slots: torch.Tensor  # long (n, 4)
     y: torch.Tensor  # long (n,)

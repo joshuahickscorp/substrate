@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -49,7 +48,6 @@ def _require_positive(value: float, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class CountCostBenefit:
-
     c_train_flops: int
     c_reest_flops: int
     operating_reestimate_fraction: float
@@ -263,5 +261,6 @@ def build_count_prereg(
     }
     body["canonical_sha256"] = canonical_sha256(body)
     return body
+
 
 DEFAULT_COUNT_PREREG_PATH = Path("proof/STARSS23_COUNTING_BED.prereg.json")

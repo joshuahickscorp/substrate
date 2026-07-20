@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -56,7 +55,6 @@ class RealDataBlocked(AdapterRefusal):
 
 @dataclass(frozen=True, slots=True)
 class ClipName:
-
     fold: int
     room: int
     mix: int
@@ -92,7 +90,6 @@ def format_clip_id(fold: int, room: int, mix: int) -> str:
 
 @dataclass(frozen=True, slots=True)
 class MetadataRow:
-
     frame: int
     class_id: int
     source_id: int
@@ -277,7 +274,6 @@ def _require_audio(audio: np.ndarray, clip_id: str) -> np.ndarray:
 
 @dataclass(frozen=True, slots=True)
 class NativeDevSplit:
-
     dev_train: tuple[str, ...]
     dev_test: tuple[str, ...]
 
@@ -293,7 +289,6 @@ class NativeDevSplit:
 
 @runtime_checkable
 class StarssAdapter(Protocol):
-
     def source_kind(self) -> str: ...
 
     def rights_clean(self) -> bool: ...
@@ -379,7 +374,6 @@ def onset_density(clips: Sequence[Clip]) -> float:
 
 
 class ZeroParameterProvider:
-
     __slots__ = ()
 
     def n_params(self) -> int:
@@ -387,7 +381,6 @@ class ZeroParameterProvider:
 
 
 class FrozenFeatureProvider(ZeroParameterProvider):
-
     __slots__ = ()
     _flops_per_frame = 0
     _frame_count_refusal: type[ValueError] = ValueError
@@ -431,7 +424,6 @@ def marginal_matched_noise(
 
 
 class SyntheticStarssAdapter:
-
     def __init__(
         self,
         audio_by_clip: Mapping[str, np.ndarray],
@@ -491,9 +483,7 @@ class SyntheticStarssAdapter:
 
     def harness_split(self, *, n_train_rooms: int, n_val_rooms: int) -> ClipSplit:
 
-        return room_disjoint_split(
-            self._clips, n_train_rooms=n_train_rooms, n_val_rooms=n_val_rooms
-        )
+        return room_disjoint_split(self._clips, n_train_rooms=n_train_rooms, n_val_rooms=n_val_rooms)
 
     def transport_charge(self) -> TransportCharge:
 
@@ -529,7 +519,6 @@ _INT16_FULL_SCALE = 32768.0
 
 @dataclass(frozen=True, slots=True)
 class ClipTruncation:
-
     clip_id: str
     raw_samples: int
     kept_frames: int
@@ -585,7 +574,6 @@ def _truncate_to_frames(audio: np.ndarray, max_frames: int | None) -> tuple[np.n
 
 
 class RealStarssAdapter:
-
     def __init__(
         self,
         foa_root: str | Path,

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -33,7 +32,6 @@ class CountEstimatorRefusal(ValueError):
 
 @dataclass(frozen=True, slots=True)
 class FrozenCountEstimator(ZeroParameterProvider):
-
     alpha: float = ALPHA
     noise_floor: float = NOISE_FLOOR
 
