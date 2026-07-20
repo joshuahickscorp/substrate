@@ -146,8 +146,10 @@ def test_normalized_state_projects_exact_checklist_reductions_and_legacy_bytes()
     prior = json.loads(
         subprocess.check_output(["git", "show", f"{legacy_log['tag']}:{legacy_log['path']}"], cwd=ROOT)
     )
-    assert reductions[:-1] == prior["events"]
-    assert reductions[-1]["batch"] == "normalized_single_durable_authority"
+    prior_count = len(prior["events"])
+    assert reductions[:prior_count] == prior["events"]
+    assert reductions[prior_count]["batch"] == "normalized_single_durable_authority"
+    assert reductions[-1]["checkpoint_status"] in {"focused_green_pending_full_suite", "green"}
     try:
         _unique_object([("duplicate", 1), ("duplicate", 2)])
     except ValueError:

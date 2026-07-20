@@ -1,7 +1,7 @@
 {
   "schema": "mop-proof-index/v1",
   "files": 60,
-  "bytes": 916889,
+  "bytes": 844285,
   "duplicate_groups": {},
   "entries": [
     {
@@ -66,9 +66,9 @@
     },
     {
       "path": "proof/CUSTOM_SUBSTRATE_PILOT.json",
-      "bytes": 74504,
-      "sha256": "bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2",
-      "git_blob": "2741e99bfb71cdae3c18fd2fcbe1bd582141c2b2"
+      "bytes": 1900,
+      "sha256": "1068796dc1f7ea8c5094e2bf7559709fb9d9b4825a9c1dedc93cf08bf7b0c9c5",
+      "git_blob": "aac5eafb59e721797d623b0eddf0f186330dfb39"
     },
     {
       "path": "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/current_evidence_attestation.json",

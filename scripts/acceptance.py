@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -43,7 +44,18 @@ def main() -> int:
     expected = {"mop_cm7_min_objective_probe", "mop_cm8_custom_jepa_pilot"}
     step("historical experiment registry", set(REGISTRY) == expected)
     cm7 = json.loads((ROOT / "proof/CUSTOM_SUBSTRATE_PILOT.json").read_text())
-    step("CM7 sealed null", cm7["complete"] and not cm7["promotion"]["cm7_local_objective_lever_promotable"])
+    cm7_promotion = cm7["authoritative_promotion"]
+    chain_ok = all(
+        hashlib.sha256((ROOT / item["path"]).read_bytes()).hexdigest() == item["sha256"]
+        for item in cm7["receipt_chain"].values()
+    )
+    step(
+        "CM7 sealed null",
+        cm7["complete"]
+        and chain_ok
+        and cm7_promotion["verdict"] == "not-promoted"
+        and not cm7_promotion["cm7_local_objective_lever_promotable"],
+    )
     cm8 = json.loads((ROOT / "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json").read_text())
     step("CM8 closed descendant", not cm8["scientific_execution_ready"] and not cm8["scientific_promotion"])
     cfg = config.compose(["device=cpu"])

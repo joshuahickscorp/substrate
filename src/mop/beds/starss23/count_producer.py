@@ -3,7 +3,6 @@ from __future__ import annotations
 import math
 import os
 import time
-from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, NamedTuple
@@ -108,25 +107,6 @@ class RealCountBedConfig:
             raise CountProducerRefusal("at least one re-estimation budget target rate is required")
 
 
-@dataclass(frozen=True, slots=True)
-class _CountCorpus:
-    adapter: Any
-    foa_root: Path
-    metadata_root: Path
-    train_clips: tuple[Any, ...]
-    val_clips: tuple[Any, ...]
-    test_clips: tuple[Any, ...]
-    split_detail: dict[str, Any]
-    features_by_clip: dict[str, np.ndarray]
-    estimator_by_clip: dict[str, np.ndarray]
-    gt_by_clip: dict[str, tuple[int, ...]]
-    train_density: float
-    n_test_frames: int
-    n_test_changes: int
-    test_coast_from_zero: float
-    operating_rate: float
-
-
 def _train_count_gate(
     seed: int,
     train_clips: tuple[Clip, ...],
@@ -172,40 +152,6 @@ def _track_totals(clips: tuple[Clip, ...], tracks: dict[str, tuple[int, ...]]) -
     changes = sum(sum(a != b for a, b in zip(track, track[1:], strict=False)) for track in values)
     coast = sum(sum(abs(value) for value in tracks[clip.clip_id]) for clip in clips)
     return frames, changes, coast
-
-
-def _prepare_count_corpus(
-    adapter: RealStarssAdapter,
-    foa_root: str | Path,
-    metadata_root: str | Path,
-    featurizer: FrozenCountFeaturizer,
-    estimator: FrozenCountEstimator,
-    config: RealCountBedConfig,
-) -> _CountCorpus:
-    gt_by_clip = {clip.clip_id: adapter.count_track(clip.clip_id) for clip in adapter.clips()}
-    features_by_clip = map_clip_audio(adapter, featurizer.featurize)
-    estimator_by_clip = map_clip_audio(adapter, estimator.estimate_track)
-    split = native_fold_split(adapter, config.n_val_rooms, refusal=CountProducerRefusal)
-    train_frames, train_changes, _ = _track_totals(split.train, gt_by_clip)
-    test_frames, test_changes, test_coast = _track_totals(split.test, gt_by_clip)
-    train_density = train_changes / train_frames
-    return _CountCorpus(
-        adapter,
-        Path(foa_root),
-        Path(metadata_root),
-        split.train,
-        split.val,
-        split.test,
-        dict(split.detail),
-        features_by_clip,
-        estimator_by_clip,
-        gt_by_clip,
-        train_density,
-        test_frames,
-        test_changes,
-        test_coast / test_frames,
-        min(config.target_rates, key=lambda rate: abs(rate - train_density)),
-    )
 
 
 def _run_seed_real(
@@ -324,47 +270,59 @@ def _flop_model(kind: str, total_frames: int, train_frames: int, config: RealCou
     )
 
 
-def _build_count_artifact(
+def build_real_count_bed_artifact(
+    *,
     timestamp: str,
-    config: RealCountBedConfig,
-    corpus: _CountCorpus,
-    featurizer: FrozenCountFeaturizer,
-    estimator: FrozenCountEstimator,
-    prereg_path: str | Path,
-    clock_ns: Callable[[], int],
+    foa_root: str | Path = DEFAULT_FOA_ROOT,
+    metadata_root: str | Path = DEFAULT_METADATA_ROOT,
+    config: RealCountBedConfig | None = None,
+    prereg_path: str | Path = DEFAULT_COUNT_PREREG_PATH,
 ) -> CountArtifact:
-    if corpus.n_test_changes == 0:
+    config = config or RealCountBedConfig()
+    featurizer, estimator = FrozenCountFeaturizer(), FrozenCountEstimator()
+    adapter = RealStarssAdapter(foa_root, metadata_root, max_frames=config.max_frames)
+    gt_by_clip = {clip.clip_id: adapter.count_track(clip.clip_id) for clip in adapter.clips()}
+    features_by_clip = map_clip_audio(adapter, featurizer.featurize)
+    estimator_by_clip = map_clip_audio(adapter, estimator.estimate_track)
+    split = native_fold_split(adapter, config.n_val_rooms, refusal=CountProducerRefusal)
+    train_clips, val_clips, test_clips = split.train, split.val, split.test
+    train_frames, train_changes, _ = _track_totals(train_clips, gt_by_clip)
+    n_test_frames, n_test_changes, test_coast = _track_totals(test_clips, gt_by_clip)
+    train_density = train_changes / train_frames
+    test_coast_from_zero = test_coast / n_test_frames
+    operating_rate = min(config.target_rates, key=lambda rate: abs(rate - train_density))
+    if n_test_changes == 0:
         raise CountProducerRefusal("the real test split carries no count changes to track")
     prereg = build_count_prereg(
         timestamp=timestamp,
-        operating_reestimate_fraction=corpus.operating_rate,
-        n_test_clips=len(corpus.test_clips),
-        n_test_changes=corpus.n_test_changes,
-        n_test_frames=corpus.n_test_frames,
-        train_change_density=corpus.train_density,
-        coast_from_zero_mae=corpus.test_coast_from_zero,
+        operating_reestimate_fraction=operating_rate,
+        n_test_clips=len(test_clips),
+        n_test_changes=n_test_changes,
+        n_test_frames=n_test_frames,
+        train_change_density=train_density,
+        coast_from_zero_mae=test_coast_from_zero,
     )
     prereg_written = write_canonical_json(prereg, prereg_path)
     sesoi_mae = float(prereg["sesoi"]["sesoi_mae"])
-    pooled = np.concatenate([corpus.features_by_clip[clip.clip_id] for clip in corpus.test_clips])
+    pooled = np.concatenate([features_by_clip[clip.clip_id] for clip in test_clips])
     target_mean, target_std = float(pooled.mean()), float(pooled.std())
-    started = clock_ns()
+    started = time.perf_counter_ns()
     seed_runs = [
         _run_seed_real(
             seed,
-            corpus.train_clips,
-            corpus.val_clips,
-            corpus.test_clips,
-            corpus.features_by_clip,
-            corpus.estimator_by_clip,
-            corpus.gt_by_clip,
+            train_clips,
+            val_clips,
+            test_clips,
+            features_by_clip,
+            estimator_by_clip,
+            gt_by_clip,
             _real_noisy_tv_features(seed, config.noisy_tv_frames, featurizer, target_mean, target_std),
             config,
-            corpus.train_density,
+            train_density,
         )
         for seed in config.seeds
     ]
-    measured_wall_ns = max(1, clock_ns() - started)
+    measured_wall_ns = max(1, time.perf_counter_ns() - started)
     report = run_matched_budget(
         COUNT_BUDGET_POLICY,
         seed_runs,
@@ -414,7 +372,7 @@ def _build_count_artifact(
     dominates = report.candidate_strictly_dominates_rate_matched_random
     meets_bar = dominates and sign_flip.one_sided_significant and exceeds_sesoi
     verdict = "mechanics-ok" if meets_bar else "null"
-    truncations = [truncation.payload() for truncation in corpus.adapter.truncations()]
+    truncations = [truncation.payload() for truncation in adapter.truncations()]
     core_evidence = {
         "per_seed": per_seed,
         "stats": stats,
@@ -450,19 +408,19 @@ def _build_count_artifact(
     }
     real_corpus = {
         "producer_schema": COUNT_PRODUCER_SCHEMA,
-        "foa_root": str(corpus.foa_root),
-        "metadata_root": str(corpus.metadata_root),
-        "n_clips": len(corpus.adapter.clips()),
-        "split_rooms": corpus.split_detail,
-        "n_train_clips": len(corpus.train_clips),
-        "n_val_clips": len(corpus.val_clips),
+        "foa_root": str(Path(foa_root)),
+        "metadata_root": str(Path(metadata_root)),
+        "n_clips": len(adapter.clips()),
+        "split_rooms": dict(split.detail),
+        "n_train_clips": len(train_clips),
+        "n_val_clips": len(val_clips),
         "n_train_frames": seed_runs[0].train_frames,
-        "n_test_clips": len(corpus.test_clips),
-        "n_test_frames": corpus.n_test_frames,
-        "n_test_changes": corpus.n_test_changes,
-        "train_change_density": round(float(corpus.train_density), 12),
-        "test_coast_from_zero_mae": round(float(corpus.test_coast_from_zero), 12),
-        "operating_reestimate_fraction": round(float(corpus.operating_rate), 12),
+        "n_test_clips": len(test_clips),
+        "n_test_frames": n_test_frames,
+        "n_test_changes": n_test_changes,
+        "train_change_density": round(float(train_density), 12),
+        "test_coast_from_zero_mae": round(float(test_coast_from_zero), 12),
+        "operating_reestimate_fraction": round(float(operating_rate), 12),
         "truncation": {
             "clips_capped_by_max_frames": sum(1 for item in truncations if item["capped_by_max_frames"]),
             "onsets_dropped_past_audio_end": sum(item["dropped_onsets_past_end"] for item in truncations),
@@ -473,10 +431,10 @@ def _build_count_artifact(
     corpus_tracks = {
         clip.clip_id: {
             "n_frames": clip.n_frames,
-            "gt_count_track": list(corpus.gt_by_clip[clip.clip_id]),
-            "estimator_track": [int(value) for value in corpus.estimator_by_clip[clip.clip_id].tolist()],
+            "gt_count_track": list(gt_by_clip[clip.clip_id]),
+            "estimator_track": [int(value) for value in estimator_by_clip[clip.clip_id].tolist()],
         }
-        for clip in corpus.test_clips
+        for clip in test_clips
     }
     body = {
         "schema": ARTIFACT_SCHEMA,
@@ -548,21 +506,4 @@ def _build_count_artifact(
             "per_seed_deltas": [float(value) for value in deltas],
         },
         prereg,
-    )
-
-
-def build_real_count_bed_artifact(
-    *,
-    timestamp: str,
-    foa_root: str | Path = DEFAULT_FOA_ROOT,
-    metadata_root: str | Path = DEFAULT_METADATA_ROOT,
-    config: RealCountBedConfig | None = None,
-    prereg_path: str | Path = DEFAULT_COUNT_PREREG_PATH,
-) -> CountArtifact:
-    config = config or RealCountBedConfig()
-    featurizer, estimator = FrozenCountFeaturizer(), FrozenCountEstimator()
-    adapter = RealStarssAdapter(foa_root, metadata_root, max_frames=config.max_frames)
-    corpus = _prepare_count_corpus(adapter, foa_root, metadata_root, featurizer, estimator, config)
-    return _build_count_artifact(
-        timestamp, config, corpus, featurizer, estimator, prereg_path, time.perf_counter_ns
     )
