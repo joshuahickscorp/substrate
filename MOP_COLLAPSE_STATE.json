@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "448aed428a69a6f42f5f9d6d8f815050b20276a8",
+    "base_commit": "d11dc0bc0387a4b9e4e841b2436f686ffc5bad3a",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 76087,
+    "eliminated_LOC": 79170,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
     "added_LOC": 8990,
-    "net_global_reduction_LOC": 82957
+    "net_global_reduction_LOC": 86040
   },
   "checklist_summary": {
-    "total": 252,
+    "total": 253,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 36
+      "verified": 37
     }
   },
   "checklist": [
@@ -3633,6 +3633,25 @@
       "rollback_tag": "mop-collapse-starss23-count-kernel",
       "dependency": "",
       "next_action": "audit remaining STARSS23 package layers around the mechanics-ok counting kernel"
+    },
+    {
+      "id": "RED-controller-extension-v4-recovery-v2",
+      "section": 13,
+      "kind": "verified_reduction",
+      "title": "Delete superseded extension-v4 and recovery-v2 controller branch",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/studio/general_run_orchestrator.py",
+        "src/mop/studio/generation1_successor_chain_v7.py",
+        "src/mop/studio/generation1_categorized_batch_extension_chain.py"
+      ],
+      "validation": "3083 unreachable controller/wrapper/test LOC physically deleted after live terminal closure; retained General Run path 59/59 green; 3366-case collection, compile-all, critical ruff, and docs gate clean; all six paths recover; protected checkout unchanged",
+      "commit": "",
+      "rollback_tag": "mop-collapse-controller-extension-v4",
+      "dependency": "",
+      "next_action": "collapse duplication within the surviving General Run controller path"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",
