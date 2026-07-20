@@ -203,7 +203,7 @@
   "pull_requests": {
     "pr9": "CLOSED as superseded after exact mapping and replacement gates",
     "pr30": "OPEN DRAFT; General Run closure remains deferred",
-    "pr31": "OPEN DRAFT against current main; body updated at f68ec7b with the complete measured result and explicit live boundary; never marked ready or merged"
+    "pr31": "OPEN DRAFT against current main; body updated at fdad573 with the 15075-LOC measured result and explicit live boundary; never marked ready or merged"
   },
   "live_boundary": {
     "protected_checkout": "clean at 094bdd934de3bb170c89ee95a0bc089f32172448 on agent/mop-evidence-salvage",
