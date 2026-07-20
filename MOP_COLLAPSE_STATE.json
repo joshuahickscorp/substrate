@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "2728bb8f4114f72a1ea033fae0d256f617e11ce9",
+    "base_commit": "5a444d96a59b892bc6cc91d001c74459a656beb5",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 59618,
+    "eliminated_LOC": 62074,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
     "added_LOC": 8911,
-    "net_global_reduction_LOC": 66567
+    "net_global_reduction_LOC": 69023
   },
   "checklist_summary": {
-    "total": 249,
+    "total": 250,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 33
+      "verified": 34
     }
   },
   "checklist": [
@@ -3576,6 +3576,25 @@
       "rollback_tag": "mop-collapse-starss23-dead-scaffolds",
       "dependency": "",
       "next_action": "continue the dead-authority audit outside the active controller chain"
+    },
+    {
+      "id": "RED-starss23-null-explorations",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Delete null additional STARSS23 gate variants",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/beds/starss23/gate.py",
+        "src/mop/beds/starss23/gate_variants_prereg.py",
+        "src/mop/beds/starss23/artifact.py"
+      ],
+      "validation": "2456 exploratory Python LOC and 1.36 MB of null output artifacts physically deleted; both variants were outside the sealed family and had no campaign/config consumer; retained 71-case core battery, 3630-case collection, compile-all, critical ruff, and docs gate clean; all paths recover from the prior tag",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-null-explorations",
+      "dependency": "",
+      "next_action": "delete the next sealed-null or unreachable experimental vertical slice"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

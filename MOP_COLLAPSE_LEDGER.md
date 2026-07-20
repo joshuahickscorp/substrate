@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `2728bb8` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `5a444d9` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 249. By status: `{"complete": 17, "active": 52, "pending": 137, "partial": 10, "verified": 33}`.
+Total items: 250. By status: `{"complete": 17, "active": 52, "pending": 137, "partial": 10, "verified": 34}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -285,6 +285,7 @@ Total items: 249. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 | RED-cli-bed-stage3-authorities | 12 | verified_reduction | verified | Centralize successor beds, Studio commands, and Stage-3 registry authority | collapse remaining active mechanism and command lifecycles |
 | RED-starss23-orphaned-count-reproductions | 11 | verified_reduction | verified | Delete orphaned STARSS23 count reproduction variants | delete or centralize the next test-only experimental authority cluster |
 | RED-starss23-dead-scaffolds | 11 | verified_reduction | verified | Delete broken and duplicate STARSS23 scaffolds | continue the dead-authority audit outside the active controller chain |
+| RED-starss23-null-explorations | 11 | verified_reduction | verified | Delete null additional STARSS23 gate variants | delete the next sealed-null or unreachable experimental vertical slice |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -293,7 +294,7 @@ Total items: 249. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 2728bb8
+- commit: pending; base 5a444d9
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
