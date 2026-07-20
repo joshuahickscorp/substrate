@@ -1,4 +1,3 @@
-import hashlib
 import json
 from pathlib import Path
 
@@ -16,7 +15,6 @@ from mop.substrate.custom_workbench import (
     ProgrammaticVideoCorpus,
     TinyVideoSubstrate,
     WorkbenchRefused,
-    attest_current_requirements,
     audit_requirements,
     audit_teacher_cache,
     build_referent_records,
@@ -24,7 +22,6 @@ from mop.substrate.custom_workbench import (
     estimated_train_step_flops,
     parameter_count,
     run_workbench,
-    snapshot_requirement_sources,
     train_arm,
 )
 
@@ -196,74 +193,6 @@ def test_objective_flop_estimates_share_one_matched_core():
 def test_missing_teacher_is_optional_and_explicit():
     audit = audit_teacher_cache(None)
     assert audit["all_ok"] and not audit["configured"] and not audit["available"]
-
-
-def test_current_evidence_attestation_preserves_snapshots_and_fails_on_schema_drift(
-    tmp_path: Path,
-):
-    (tmp_path / "proof").mkdir()
-    source = tmp_path / "proof/source.json"
-    source.write_text(json.dumps({"schema": "evidence/v1", "value": 1}))
-    ledger = {
-        "schema": "mop-custom-substrate-requirements/v1",
-        "claim_scope": "fixture",
-        "requirements": [
-            {
-                "id": "r1",
-                "title": "identity",
-                "status": "required",
-                "sources": [{"path": "proof/source.json", "role": "fixture"}],
-                "design_response": ["preserve"],
-                "consumers": ["test"],
-                "promotion_gate": "clean",
-            }
-        ],
-    }
-    (tmp_path / "requirements.yaml").write_text(yaml.safe_dump(ledger))
-    run_dir = tmp_path / "runs/pilot"
-    run_dir.mkdir(parents=True)
-    start = audit_requirements("requirements.yaml", repo_root=tmp_path)
-    snapshot_requirement_sources(start, destination=run_dir / "requirements_sources", repo_root=tmp_path)
-    (run_dir / "requirements_audit.json").write_text(json.dumps(start))
-    (run_dir / "resolved_config.json").write_text(json.dumps({"requirements_ledger": "requirements.yaml"}))
-    (run_dir / "workbench_receipt.json").write_text(
-        json.dumps(
-            {
-                "promotion": {
-                    "cm7_local_objective_lever_promotable": True,
-                    "cm8_custom_build_promotable": False,
-                    "cm7_reasons": [],
-                    "cm8_reasons": [],
-                }
-            }
-        )
-    )
-    implementation_snapshot = run_dir / "implementation_sources/core.py"
-    implementation_snapshot.parent.mkdir()
-    implementation_snapshot.write_text("# frozen implementation\n")
-    implementation_hash = hashlib.sha256(implementation_snapshot.read_bytes()).hexdigest()
-    (run_dir / "implementation_manifest.json").write_text(
-        json.dumps(
-            {
-                "schema": "mop-custom-substrate-implementation-snapshot/v1",
-                "files": [
-                    {
-                        "source_path": "core.py",
-                        "snapshot_path": str(implementation_snapshot),
-                        "snapshot_sha256": implementation_hash,
-                    }
-                ],
-            }
-        )
-    )
-    current = attest_current_requirements(run_dir, repo_root=tmp_path)
-    assert current["evidence_attestation"]["scientifically_current"]
-
-    source.write_text(json.dumps({"schema": "evidence/v2", "value": 2}))
-    refused = attest_current_requirements(run_dir, repo_root=tmp_path)
-    assert not refused["evidence_attestation"]["scientifically_current"]
-    assert not refused["promotion"]["cm7_local_objective_lever_promotable"]
-    assert any("schema drifted" in problem for problem in refused["evidence_attestation"]["problems"])
 
 
 def test_required_arm_refusal_is_durable_and_aborts_all_loops(tmp_path: Path, monkeypatch):

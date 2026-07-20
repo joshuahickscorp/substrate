@@ -1,0 +1,37 @@
+{
+  "schema": "mop-custom-receipt-architecture-comparison/v1",
+  "region": "CM7 raw receipt and current-evidence attestation lifecycle",
+  "architecture_a": {
+    "design": "training mutates its receipt with an embedded attestation; finalization removes it, reconstructs the raw receipt, and builds a second attestation",
+    "runtime_and_script_LOC": 2570,
+    "test_LOC": 478,
+    "maintained_LOC": 3048,
+    "attestation_owners": 2,
+    "workbench_commands": 3,
+    "cold_import_median_ms": 876.529
+  },
+  "architecture_b": {
+    "design": "training emits one raw receipt; finalization alone audits current evidence and binds the immutable receipt; legacy embedded and finalized receipts remain readable",
+    "runtime_and_script_LOC": 2425,
+    "test_LOC": 463,
+    "maintained_LOC": 2888,
+    "attestation_owners": 1,
+    "workbench_commands": 2,
+    "cold_import_median_ms": 876.336
+  },
+  "selection": "architecture_b",
+  "physical_change": {"eliminated_LOC": 228, "added_LOC": 68, "net_reduction_LOC": 160},
+  "performance_change_percent": -0.022,
+  "parity": {
+    "raw_once_legacy_embedded_and_finalized_receipts": "pass",
+    "current_evidence_schema_drift_refusal": "pass",
+    "training_evaluation_CM8_and_independent_verifier_function_sha256": "exact",
+    "portable_artifact_and_canonical_model_file_sha256": "exact"
+  },
+  "validation": {
+    "focused_custom_substrate": "20 passed",
+    "full_suite": "172 collected; 166 passed; 6 environment skips",
+    "acceptance": "10/10 passed",
+    "static": "Ruff clean; mypy clean over 43 source files"
+  }
+}

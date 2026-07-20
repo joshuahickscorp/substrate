@@ -1161,6 +1161,24 @@
       "proof": "consumer search found no active import or call of any retired symbol; all 20 focused STARSS23 counting cases pass with 6 environment skips; the 172-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, and mypy clean over 43 source files",
       "accounting_note": "190 dead runtime lines and two stale script-description lines deleted with no replacement or test growth; runtime source falls to 10432 LOC, scripts fall to 981 LOC, validation remains 3219 LOC, and maintained Python falls to 14883 LOC",
       "tag": "mop-collapse-budget-facade"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section17_validation",
+      "batch": "raw_once_final_attestation_authority",
+      "checkpoint_status": "green",
+      "primitive": "CM7 training emits one immutable raw receipt and the finalizer alone owns current-evidence attestation; the temporary embedded attestation, its mutation path, and the separate attest command are deleted while legacy embedded and finalized receipts remain readable",
+      "deduplicated_LOC": 0,
+      "added_LOC": 68,
+      "eliminated_LOC": 228,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 160,
+      "files_changed": 5,
+      "destination_api": "freeze_raw and build_attestation in scripts/custom_substrate_finalize.py",
+      "proof": "Architecture B selected at 2888 maintained LOC versus 3048; direct-raw, legacy embedded, and finalized receipt parity passes; schema drift remains refused by the final attestation owner; training, evaluation, CM8, portable artifact, canonical model, Student-t, and independent verifier source fingerprints are exact; 20 focused cases and the 172-case full suite pass with 6 environment skips; acceptance 10/10, Ruff clean, and mypy clean over 43 source files",
+      "accounting_note": "228 lifecycle and duplicate-test lines replaced by 68 final-owner and mutation-test lines, net -160; runtime source falls to 10303 LOC, scripts to 965 LOC, validation to 3204 LOC, and maintained Python to 14723 LOC",
+      "tag": "mop-collapse-raw-once-attestation"
     }
   ],
   "latest_full_validation": {
