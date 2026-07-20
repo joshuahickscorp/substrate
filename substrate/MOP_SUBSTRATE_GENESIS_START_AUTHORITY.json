@@ -1,0 +1,40 @@
+{
+  "schema": "mop-substrate-genesis-start-authority/v1",
+  "base_commit": "06860b2",
+  "binds": {
+    "gen2_closure": {
+      "commit": "89eeca5",
+      "tag": "mop-generation2-closure"
+    },
+    "gen3_terminal": {
+      "commit": "06860b2",
+      "tag": "mop-generation3-terminal"
+    },
+    "gen3_discovery_authority": {
+      "tag": "mop-generation3-discovery-authority"
+    }
+  },
+  "immutable": "Generation 2 and Generation 3 evidence is immutable; corrections are append-only supersession only",
+  "collapse_branch": "agent/mop-accretion-collapse is independent; do not edit/reset/merge/rebase/signal it",
+  "C1_terminal": {
+    "result": "invalid_bed across all stable regimes",
+    "measured": {
+      "oracle_priority": 0.32,
+      "uniform_gdumb": 0.309,
+      "stable_oracle_headroom": 0.01,
+      "validity_threshold": 0.02,
+      "random_shuffled": "approximately match the oracle",
+      "learned_p1r_priority": "0.18 to 0.19, below uniform/loss/oracle/random/shuffled"
+    },
+    "interpretation": "replay-value sampling priority had no stable residual headroom over uniform GDumb; the two-seed positive was a seed artifact; learned priority concentrated replay with a noisy estimate and harmed performance",
+    "binding": "C1 closed; learned P1R sampling priority may appear only as a frozen negative control, never as a substrate controller"
+  },
+  "C3_terminal": {
+    "result": "precompute gate failure, no canary",
+    "interpretation": "even an oracle error-aware simulation allocator did not beat reactive or simple planning; the learned world model lacked valid decision headroom; only a small minority of units were informative",
+    "binding": "C3 closed; no learned simulation allocator; simple prediction/planning remain controls"
+  },
+  "current_scientific_boundary": "MOP has strong experimental mechanics, falsification, evidence management, and orchestration. No tested controller or cognitive mechanism has external confirmation of incremental value over strong established alternatives. Substrate Genesis tests whether an owned multi-timescale architecture with strong SIMPLE plasticity rules creates useful moldability before attempting another learned meta-controller.",
+  "premise": "a compact owned multi-timescale latent system may achieve better retention, adaptation, transfer, and resource efficiency than conventional single-timescale or stateless learners, even when plasticity begins from strong simple policies; it must BEAT strong matched controls on downstream moldability after full cost accounting, not win by more params/memory/updates/data/time/frozen-encoder/state-change/routing-change/more-examples",
+  "sha256": "1d4c63829f3e873a31981b216174c97ac3803a1eea9f0f2dc60ca7527acea9b4"
+}
