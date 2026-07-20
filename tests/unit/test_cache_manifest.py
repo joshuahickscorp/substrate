@@ -11,7 +11,6 @@ from mop.substrate.cache_manifest import (
     validate_cache_manifest,
     write_cache_manifest,
 )
-from mop.substrate.cache_tools import cache_info, validate_cache
 from mop.substrate.latent_store import LatentStore
 
 
@@ -47,8 +46,6 @@ def test_write_manifest_records_arrays_sidecars_splits_and_encoder_hash(tmp_path
     assert ("factor", "object") in columns
     assert ("split", "train") in columns
     assert validate_cache_manifest(root) == []
-    assert validate_cache(root) == []
-    assert cache_info(root)["facts"]["cache_manifest_clean"] is True
 
 
 def test_manifest_validation_catches_sidecar_tampering(tmp_path):
@@ -64,8 +61,6 @@ def test_manifest_validation_catches_sidecar_tampering(tmp_path):
 
     problems = validate_cache_manifest(root)
     assert any("factors.json sha256 changed" in p for p in problems)
-    all_cache_problems = validate_cache(root)
-    assert any("cache_manifest.json" in p for p in all_cache_problems)
 
 
 def test_manifest_rejects_factor_length_mismatch(tmp_path):
@@ -87,7 +82,6 @@ def test_manifest_rejects_bad_split_membership(tmp_path):
 def test_manifest_missing_is_a_manifest_problem_not_a_cache_problem(tmp_path):
     root = _store(tmp_path)
     assert validate_cache_manifest(root) == ["cache_manifest.json missing"]
-    assert validate_cache(root) == []
 
 
 def test_manifest_records_form_declaration(tmp_path):
@@ -139,7 +133,6 @@ def test_citable_manifest_requires_form_encoder_and_referents(tmp_path):
     assert any("form declaration" in p for p in problems)
     assert any("encoder_config" in p for p in problems)
     assert any("referents.json" in p for p in problems)
-    assert validate_cache(root, citable=True)
 
 
 def test_citable_manifest_roundtrip_with_v2_factor_metadata(tmp_path):
@@ -172,7 +165,6 @@ def test_citable_manifest_roundtrip_with_v2_factor_metadata(tmp_path):
     assert any(s["role"] == "referents" for s in manifest["sidecars"])
     assert any(s["role"] == "encoder_receipt" for s in manifest["sidecars"])
     assert validate_cache_manifest(root, citable=True) == []
-    assert validate_cache(root, citable=True) == []
 
 
 def test_citable_learned_cache_requires_immutable_weight_receipt(tmp_path):

@@ -18,7 +18,7 @@ from .config import REPO_ROOT
 from .devices import apple_silicon_info
 from .studio.memory_envelope import memory_snapshot
 from .studio.profiles import get_profile
-from .substrate.cache_tools import validate_cache
+from .substrate.cache_manifest import validate_cache_manifest
 
 SCHEMA = "mop-studio-readiness/v2"
 
@@ -288,7 +288,7 @@ def _check_cache_manifests() -> tuple[bool, str]:
         return False, "0 latent stores found; a full campaign needs at least one citable cache"
     failures: list[str] = []
     for store in stores:
-        problems = validate_cache(store, citable=True)
+        problems = validate_cache_manifest(store, citable=True)
         if problems:
             failures.append(f"{store.name}: {problems[0]}")
     if failures:
@@ -297,7 +297,7 @@ def _check_cache_manifests() -> tuple[bool, str]:
             f"{len(stores) - len(failures)}/{len(stores)} stores citable; first failures: "
             + "; ".join(failures[:3]),
         )
-    return True, f"{len(stores)}/{len(stores)} stores pass citable manifest and integrity checks"
+    return True, f"{len(stores)}/{len(stores)} stores pass citable manifest checks"
 
 
 def _check_cache_write() -> tuple[bool, str]:

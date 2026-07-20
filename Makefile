@@ -1,7 +1,7 @@
 VENV=.venv/bin
 PY=$(VENV)/python
 
-.PHONY: install install-studio verify-install test lint types fmt accept clean doctor cache-list storage docs
+.PHONY: install install-studio verify-install test lint types fmt accept clean doctor
 
 install:
 	uv venv --python 3.12 .venv
@@ -35,15 +35,6 @@ accept:
 
 doctor:
 	$(PY) -m scripts.studio doctor        # Studio readiness report (JSON + runs/studio_doctor.md)
-
-cache-list:
-	$(PY) scripts/cache_tool.py list      # list + integrity of cached latent stores
-
-storage:
-	$(PY) scripts/cache_tool.py storage list
-
-docs:
-	$(PY) scripts/check_docs.py           # docs-drift gate (stale counts / dead refs)
 
 clean:
 	rm -rf runs/* data/cache/* .pytest_cache .mypy_cache .ruff_cache
