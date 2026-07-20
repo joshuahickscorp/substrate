@@ -5,8 +5,6 @@ import itertools
 import json
 from dataclasses import dataclass, field
 
-VERIFIER_SCHEMA = "mop-starss23-count-bed-verification/v1"
-
 EXPECTED_ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed/v1"
 EXPECTED_STAGE = 3
 EXPECTED_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
@@ -391,24 +389,3 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
             "min_reproductions": MIN_REPRODUCTIONS,
         },
     )
-
-
-def count_verification_payload(result: CountVerificationResult) -> dict:
-
-    body = {
-        "schema": VERIFIER_SCHEMA,
-        "seal_intact": result.seal_intact,
-        "schema_ok": result.schema_ok,
-        "scores_reproduced": result.scores_reproduced,
-        "stats_reproduced": result.stats_reproduced,
-        "honesty_ok": result.honesty_ok,
-        "independent_referee_reproduction": result.independent_referee_reproduction,
-        "independent_scientific_confirmation": result.independent_scientific_confirmation,
-        "source_kind": result.source_kind,
-        "rights_clean": result.rights_clean,
-        "reproductions": result.reproductions,
-        "mismatches": list(result.mismatches),
-        "detail": result.detail,
-    }
-    body["seal"] = _canonical_sha256(body)
-    return body
