@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "71004fa824bc840b7cc2fa9d7f655e25b526870d",
+    "base_commit": "8c0cd11262caaf245c7c1279201db9f7a7ede84d",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -123,14 +123,14 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 388188,
+    "eliminated_LOC": 388878,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 13574,
-    "event_net_LOC": 390474,
-    "net_reduction_LOC": 390369
+    "added_LOC": 13584,
+    "event_net_LOC": 391154,
+    "net_reduction_LOC": 391049
   },
   "checklist_summary": {
     "total": 261,
@@ -650,7 +650,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -665,7 +665,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -695,7 +695,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -725,7 +725,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -755,7 +755,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -770,7 +770,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -785,7 +785,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -800,7 +800,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -845,7 +845,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -860,7 +860,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -890,7 +890,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 183 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2836,7 +2836,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2853,7 +2853,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2870,7 +2870,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2887,7 +2887,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2904,7 +2904,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2921,7 +2921,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2938,7 +2938,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2955,7 +2955,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2972,7 +2972,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2989,7 +2989,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3006,7 +3006,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3023,7 +3023,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3040,7 +3040,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3057,7 +3057,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3074,7 +3074,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3091,7 +3091,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 96.23% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 96.50% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -4388,9 +4388,9 @@
     }
   ],
   "current_measured": {
-    "global_maintained_python_LOC": 14723,
-    "runtime_campaign_kernel_LOC": 10303,
-    "validation_LOC": 3204,
+    "global_maintained_python_LOC": 14043,
+    "runtime_campaign_kernel_LOC": 9770,
+    "validation_LOC": 3057,
     "normal_cli_count": 1,
     "installed_entrypoint_count": 1,
     "current_document_count": 4,
