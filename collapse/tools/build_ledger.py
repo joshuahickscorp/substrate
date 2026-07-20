@@ -750,7 +750,7 @@ def main() -> int:
         if it["id"] == "CC-16":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"]
-            it["validation"] = "current-facing documentation consolidated to four files and 94 lines"
+            it["validation"] = "current-facing documentation consolidated to four files and 91 lines"
             it["next_action"] = "none"
         if it["id"] == "CC-17":
             it["status"] = "partial"

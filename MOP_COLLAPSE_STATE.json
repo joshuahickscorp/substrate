@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "52815de64745502c0ffb75a7bebf0ee4ae7dd1a4",
+    "base_commit": "200f256a54654682292dc279775fc1ee8732309a",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -2197,7 +2197,7 @@
       "evidence_paths": [
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "current-facing documentation consolidated to four files and 94 lines",
+      "validation": "current-facing documentation consolidated to four files and 91 lines",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
