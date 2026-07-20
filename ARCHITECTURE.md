@@ -10,5 +10,6 @@ MOP keeps a small set of maintained authorities:
 6. Host utilities: profiles, intake, download, encoding, diagnostics, and the narrow operations CLI.
 
 Unique scientific mathematics stays local; repeated orchestration belongs to shared authorities.
-Independent verifiers do not import graded producer mathematics. Historical code is recovered by tag
-through `collapse/MOP_HISTORICAL_CODE_INDEX.json`, not maintained beside current implementations.
+Independent verifiers do not import graded producer mathematics. Historical code and retired audit
+views are content-addressed in `MOP_COLLAPSE_STATE.json`; exact tagged bytes are not maintained beside
+current implementations.
