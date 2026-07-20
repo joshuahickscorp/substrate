@@ -82,18 +82,80 @@ def test_proof_index_is_complete_content_addressed_and_deduplicated():
 
 def test_unbound_proof_json_compaction_is_semantically_exact():
     source_tag = "mop-collapse-lowest-green-35"
+    target_tag = "mop-collapse-compact-unbound-proof-json"
     changed = subprocess.check_output(
-        ["git", "diff", "--name-only", source_tag, "--", "proof"], cwd=ROOT, text=True
+        ["git", "diff", "--name-only", source_tag, target_tag, "--", "proof"], cwd=ROOT, text=True
     ).splitlines()
     assert len(changed) == 24
     for relative in changed:
-        current = (ROOT / relative).read_bytes()
+        current = subprocess.check_output(["git", "show", f"{target_tag}:{relative}"], cwd=ROOT)
         prior = subprocess.check_output(["git", "show", f"{source_tag}:{relative}"], cwd=ROOT)
         assert current.endswith(b"\n") and current.count(b"\n") == 1
-        if relative != "proof/ARTIFACT_INDEX/pre_studio.json":
-            assert json.loads(current, object_pairs_hook=_unique_object) == json.loads(
-                prior, object_pairs_hook=_unique_object
-            )
+        assert json.loads(current, object_pairs_hook=_unique_object) == json.loads(
+            prior, object_pairs_hook=_unique_object
+        )
+
+
+def test_bound_proof_json_compaction_preserves_semantics_and_merkle_bindings():
+    source_tag = "mop-collapse-lowest-green-37"
+    paths = sorted(path.relative_to(ROOT).as_posix() for path in (ROOT / "proof").rglob("*.json"))
+    assert len(paths) == 59
+    changed = subprocess.check_output(
+        ["git", "diff", "--name-only", source_tag, "--", "proof"], cwd=ROOT, text=True
+    ).splitlines()
+    assert len(changed) == 38
+    current_bytes = {relative: (ROOT / relative).read_bytes() for relative in paths}
+    prior_bytes = {
+        relative: subprocess.check_output(["git", "show", f"{source_tag}:{relative}"], cwd=ROOT)
+        for relative in paths
+    }
+    hash_rebinding = {
+        hashlib.sha256(prior_bytes[relative]).hexdigest(): hashlib.sha256(current_bytes[relative]).hexdigest()
+        for relative in changed
+    }
+
+    def rebind_hashes(value):
+        if isinstance(value, dict):
+            return {key: rebind_hashes(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [rebind_hashes(item) for item in value]
+        return hash_rebinding.get(value, value)
+
+    historical_snapshot_sources = {
+        "proof/PROGRAMMATIC_FORM_CACHE.json",
+        "proof/REAL_ENCODER_LOCAL_ATTEMPT.json",
+    }
+    attestation = "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/current_evidence_attestation.json"
+    for relative in changed:
+        assert current_bytes[relative].endswith(b"\n") and current_bytes[relative].count(b"\n") == 1
+        prior = json.loads(prior_bytes[relative], object_pairs_hook=_unique_object)
+        expected = rebind_hashes(prior)
+        if relative == attestation:
+            prior_snapshots = {row["source_path"]: row for row in prior["snapshot_checks"]}
+            for row in expected["snapshot_checks"]:
+                if row["source_path"] in historical_snapshot_sources:
+                    row.update(prior_snapshots[row["source_path"]])
+        assert json.loads(current_bytes[relative], object_pairs_hook=_unique_object) == expected
+
+    prior_hashes = {
+        relative: hashlib.sha256(payload).hexdigest().encode() for relative, payload in prior_bytes.items()
+    }
+    current_hashes = {
+        relative: hashlib.sha256(payload).hexdigest().encode() for relative, payload in current_bytes.items()
+    }
+    historical_snapshot_edges = {(attestation, source) for source in historical_snapshot_sources}
+    edges = 0
+    for parent in paths:
+        for child in paths:
+            if parent != child and prior_hashes[child] in prior_bytes[parent]:
+                edges += 1
+                expected = (
+                    prior_hashes[child]
+                    if (parent, child) in historical_snapshot_edges
+                    else current_hashes[child]
+                )
+                assert expected in current_bytes[parent]
+    assert edges == 41
 
 
 def test_bound_run_json_compaction_preserves_semantics_and_refreshes_bundle():

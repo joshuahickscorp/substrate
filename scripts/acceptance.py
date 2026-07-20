@@ -76,6 +76,16 @@ def main() -> int:
     reconstructed["dr1_cm1_verdict"] = reconstructed.pop("authoritative_verdict")
     for name, table in (("development_sessions", sessions), ("candidate_factor_pairs", pairs)):
         reconstructed[name] = [dict(zip(table["fields"], row, strict=True)) for row in table["rows"]]
+    current_bindings = reconstructed["bindings"]
+    current_binding_paths = {
+        "intake_receipt_sha256": ROOT / "proof/SANPO_REAL_SMOKE_INTAKE.json",
+        "bridge_preflight_sha256": ROOT / "proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json",
+    }
+    current_bindings_ok = all(
+        hashlib.sha256(path.read_bytes()).hexdigest() == current_bindings[name]
+        for name, path in current_binding_paths.items()
+    )
+    reconstructed["bindings"] = legacy_body["bindings"]
     step(
         "SANPO compact attribute authority",
         sanpo["complete"]
@@ -84,6 +94,7 @@ def main() -> int:
         and len(pairs["rows"]) == 36
         and all(len(row) == len(pairs["fields"]) and not row[gate_column] for row in pairs["rows"])
         and not sanpo["authoritative_verdict"]["any_pair_meets_dr1_min_per_cell"]
+        and current_bindings_ok
         and reconstructed == legacy_body
         and (len(legacy_bytes), len(legacy_bytes.decode().splitlines())) == (legacy["bytes"], legacy["lines"])
         and hashlib.sha256(legacy_bytes).hexdigest() == legacy["sha256"]
