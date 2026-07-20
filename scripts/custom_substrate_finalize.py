@@ -180,46 +180,33 @@ def build_attestation(run_dir: Path, raw_hash: str, *, repo_root: Path = REPO_RO
     current_path = run_dir / "requirements_current_audit.json"
     atomic_write_json(current_path, current)
     problems: list[str] = []
+    implementation_path = run_dir / "implementation_manifest.json"
+    implementation = json.loads(implementation_path.read_text())
+    start_rows = [source for requirement in start["requirements"] for source in requirement["sources"]]
     snapshot_checks: list[dict[str, Any]] = []
-    start_sources: dict[str, dict[str, Any]] = {}
-    for requirement in start["requirements"]:
-        for source in requirement["sources"]:
-            start_sources[str(source["path"])] = source
-            snapshot = repo_root / source["snapshot_path"]
+    implementation_checks: list[dict[str, Any]] = []
+    for rows, path_key, label, checks in (
+        (start_rows, "path", "requirements", snapshot_checks),
+        (implementation["files"], "source_path", "core implementation", implementation_checks),
+    ):
+        for row in rows:
+            snapshot = repo_root / row["snapshot_path"]
             actual = sha256_file(snapshot) if snapshot.is_file() else None
-            expected = source.get("snapshot_sha256")
+            expected = row["snapshot_sha256"]
             ok = actual is not None and actual == expected
-            snapshot_checks.append(
+            checks.append(
                 {
-                    "source_path": source["path"],
-                    "snapshot_path": source["snapshot_path"],
+                    "source_path": row[path_key],
+                    "snapshot_path": row["snapshot_path"],
                     "expected_sha256": expected,
                     "actual_sha256": actual,
                     "ok": ok,
                 }
             )
             if not ok:
-                problems.append(f"invalid requirements snapshot: {source['path']}")
+                problems.append(f"invalid {label} snapshot: {row[path_key]}")
 
-    implementation_path = run_dir / "implementation_manifest.json"
-    implementation = json.loads(implementation_path.read_text())
-    implementation_checks: list[dict[str, Any]] = []
-    for row in implementation["files"]:
-        snapshot = repo_root / row["snapshot_path"]
-        actual = sha256_file(snapshot) if snapshot.is_file() else None
-        ok = actual is not None and actual == row["snapshot_sha256"]
-        implementation_checks.append(
-            {
-                "source_path": row["source_path"],
-                "snapshot_path": row["snapshot_path"],
-                "expected_sha256": row["snapshot_sha256"],
-                "actual_sha256": actual,
-                "ok": ok,
-            }
-        )
-        if not ok:
-            problems.append(f"invalid core implementation snapshot: {row['source_path']}")
-
+    start_sources = {str(source["path"]): source for source in start_rows}
     live_sources = {
         str(source["path"]): source
         for requirement in current["requirements"]

@@ -278,42 +278,7 @@ def _fixture(run_root: Path) -> tuple[Path, Path, dict[str, torch.Tensor]]:
     )
     verifier_path = run_dir / "independent_verifier.json"
     _write_json(verifier_path, verifier)
-    composite = json.loads(json.dumps(receipt))
-    composite.update(
-        {
-            "raw_training_receipt": {
-                "path": "raw_workbench_receipt.json",
-                "sha256": raw_sha,
-            },
-            "current_evidence_attestation": {
-                "path": "current_evidence_attestation.json",
-                "sha256": sha256_file(attestation_path),
-            },
-            "environment_receipt": {
-                "path": "environment_receipt.json",
-                "sha256": sha256_file(environment_path),
-            },
-            "independent_verifier": {
-                "path": "independent_verifier.json",
-                "sha256": sha256_file(verifier_path),
-            },
-            "authoritative_promotion": {
-                "cm7_local_objective_lever_promotable": True,
-                "cm8_custom_build_promotable": False,
-                "verdict": "promote-local-objective-lever",
-                "raw_promotion_is_preliminary": True,
-                "gates": {
-                    "raw_training_complete": True,
-                    "evidence_current": True,
-                    "environment_all_ok": True,
-                    "independent_verifier_promotes": True,
-                },
-                "reasons": [],
-                "scope_boundary": "programmatic-video objective evidence only",
-            },
-        }
-    )
-    _write_json(run_dir / "workbench_receipt.json", composite)
+    _rebind_verifier(run_dir, verifier_path)
     return run_dir, verifier_path, state
 
 
@@ -330,6 +295,12 @@ def _rebind_verifier(run_dir: Path, verifier_path: Path) -> None:
     environment["raw_training_receipt_sha256"] = raw_sha
     _write_json(environment_path, environment)
     verifier = json.loads(verifier_path.read_text())
+    chain_files = {
+        "raw_training_receipt": raw_path,
+        "current_evidence_attestation": attestation_path,
+        "environment_receipt": environment_path,
+        "independent_verifier": verifier_path,
+    }
     verifier["bindings"] = {
         "raw_training_receipt_sha256": raw_sha,
         "current_evidence_attestation_sha256": sha256_file(attestation_path),
@@ -339,19 +310,7 @@ def _rebind_verifier(run_dir: Path, verifier_path: Path) -> None:
     composite = json.loads(json.dumps(raw))
     composite.update(
         {
-            "raw_training_receipt": {"path": raw_path.name, "sha256": raw_sha},
-            "current_evidence_attestation": {
-                "path": attestation_path.name,
-                "sha256": sha256_file(attestation_path),
-            },
-            "environment_receipt": {
-                "path": environment_path.name,
-                "sha256": sha256_file(environment_path),
-            },
-            "independent_verifier": {
-                "path": verifier_path.name,
-                "sha256": sha256_file(verifier_path),
-            },
+            **{role: {"path": path.name, "sha256": sha256_file(path)} for role, path in chain_files.items()},
             "authoritative_promotion": {
                 "cm7_local_objective_lever_promotable": True,
                 "cm8_custom_build_promotable": False,

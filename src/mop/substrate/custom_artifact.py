@@ -44,6 +44,16 @@ _LEARNED_OBJECTIVES = ("predictive", "invariance", "reconstruction")
 _SELECTION_RULE = "lowest_complete_seed_for_recomputed_best_objective"
 _VERIFIER_CORRECTION = "Holm one-sided tests plus simultaneous Bonferroni Student-t lower bounds"
 _VERIFIER_FAMILY_SIZE = 12
+_CHAIN_FILENAMES = {
+    "raw_training_receipt": "raw_workbench_receipt.json",
+    "final_composite_receipt": "workbench_receipt.json",
+    "current_evidence_attestation": "current_evidence_attestation.json",
+    "environment_receipt": "environment_receipt.json",
+    "independent_verifier": "independent_verifier.json",
+    "implementation_manifest": "implementation_manifest.json",
+    "current_requirements_audit": "requirements_current_audit.json",
+}
+_CHAIN_ROLES = (*_CHAIN_FILENAMES, "selected_arm_receipt")
 
 EVIDENCE_SCOPE: dict[str, Any] = {
     "training_evidence": "deterministic_programmatic_video_only",
@@ -299,13 +309,9 @@ class _SourceFile:
 
 @dataclass(frozen=True)
 class _PreparedExport:
-    run_dir: Path
     receipt: dict[str, Any]
     composite: dict[str, Any]
-    attestation: dict[str, Any]
-    environment: dict[str, Any]
     verifier: dict[str, Any]
-    arm: dict[str, Any]
     checkpoint_sha256: str
     state: dict[str, torch.Tensor]
     spec: PortableModelSpec
@@ -394,7 +400,7 @@ def _require_verifier(
     attestation_sha256: str,
     environment_sha256: str,
     receipt: Mapping[str, Any],
-) -> str:
+) -> tuple[str, int]:
     _require(verifier.get("schema") == VERIFIER_SCHEMA, "independent verifier schema mismatch")
     _require(verifier.get("all_ok") is True, "independent verifier did not pass")
     _require(not verifier.get("problems"), "independent verifier records problems")
@@ -446,7 +452,7 @@ def _require_verifier(
             except ValueError:
                 continue
     _require(bool(complete_seeds), "verified best objective has no complete seed")
-    return str(best_objective)
+    return str(best_objective), min(complete_seeds)
 
 
 def _chain_link(composite: Mapping[str, Any], field: str, filename: str, expected_sha256: str) -> None:
@@ -512,11 +518,110 @@ def _require_composite(
     _require(isinstance(scope, str) and bool(scope.strip()), "final authoritative scope boundary is missing")
 
 
-def _snapshot_file(run_dir: Path, group: str, recorded_path: Any) -> Path:
-    _require(isinstance(recorded_path, str) and bool(recorded_path), f"{group} snapshot path missing")
-    name = Path(recorded_path).name
-    _require(name not in ("", ".", ".."), f"{group} snapshot path is unsafe")
-    return run_dir / group / name
+def _validate_receipt_chain(
+    paths: Mapping[str, Path],
+    *,
+    label_prefix: str = "",
+) -> tuple[tuple[dict[str, Any], ...], dict[str, str], str, int]:
+    receipt = _read_json(paths["raw_training_receipt"], f"{label_prefix}raw training receipt")
+    composite = _read_json(paths["final_composite_receipt"], f"{label_prefix}final composite receipt")
+    attestation = _read_json(
+        paths["current_evidence_attestation"], f"{label_prefix}current-evidence attestation"
+    )
+    environment = _read_json(paths["environment_receipt"], f"{label_prefix}environment receipt")
+    verifier = _read_json(paths["independent_verifier"], f"{label_prefix}independent verifier")
+    current_audit_path = paths["current_requirements_audit"]
+    _require(current_audit_path.is_file(), f"{label_prefix}current requirements audit is missing")
+
+    raw_sha = sha256_file(paths["raw_training_receipt"])
+    composite_sha = sha256_file(paths["final_composite_receipt"])
+    attestation_sha = sha256_file(paths["current_evidence_attestation"])
+    environment_sha = sha256_file(paths["environment_receipt"])
+    verifier_sha = sha256_file(paths["independent_verifier"])
+    _require_raw_receipt(receipt)
+    _require_attestation(
+        attestation,
+        raw_receipt_sha256=raw_sha,
+        current_audit_sha256=sha256_file(current_audit_path),
+    )
+    receipt_implementation = receipt.get("implementation")
+    _require(isinstance(receipt_implementation, dict), "raw implementation binding is missing")
+    receipt_implementation = cast(dict[str, Any], receipt_implementation)
+    _require_environment(
+        environment,
+        raw_receipt_sha256=raw_sha,
+        implementation_manifest_sha256=sha256_file(paths["implementation_manifest"]),
+        implementation_aggregate_sha256=str(receipt_implementation.get("aggregate_sha256")),
+    )
+    objective, seed = _require_verifier(
+        verifier,
+        raw_receipt_sha256=raw_sha,
+        attestation_sha256=attestation_sha,
+        environment_sha256=environment_sha,
+        receipt=receipt,
+    )
+    _require_composite(
+        composite,
+        raw_receipt=receipt,
+        raw_receipt_sha256=raw_sha,
+        attestation_sha256=attestation_sha,
+        environment_sha256=environment_sha,
+        verifier_sha256=verifier_sha,
+        attestation=attestation,
+        environment=environment,
+        verifier=verifier,
+    )
+    return (
+        (receipt, composite, attestation, environment, verifier),
+        {
+            "raw": raw_sha,
+            "composite": composite_sha,
+            "attestation": attestation_sha,
+            "environment": environment_sha,
+            "verifier": verifier_sha,
+        },
+        objective,
+        seed,
+    )
+
+
+def _snapshot_sources(
+    run_dir: Path,
+    rows: Sequence[Any],
+    group: str,
+) -> tuple[tuple[_SourceFile, ...], set[str]]:
+    implementation = group == "implementation_sources"
+    label = "implementation snapshot" if implementation else "requirements snapshot"
+    source_hash_key = "source_sha256" if implementation else "sha256"
+    role_prefix = "implementation_snapshot_" if implementation else "requirements_snapshot_"
+    role_width = 2 if implementation else 3
+    artifact_dir = "provenance/implementation" if implementation else "provenance/requirements"
+    sources: list[_SourceFile] = []
+    hashes: set[str] = set()
+    for index, value in enumerate(rows):
+        _require(isinstance(value, dict), f"{label} row is invalid")
+        row = cast(dict[str, Any], value)
+        expected = row.get("snapshot_sha256")
+        _require(_is_sha256(expected), f"{label} hash is malformed")
+        _require(expected == row.get(source_hash_key), f"{label} source/snapshot hash mismatch")
+        recorded_path = row.get("snapshot_path")
+        _require(isinstance(recorded_path, str) and bool(recorded_path), f"{group} snapshot path missing")
+        recorded_path = cast(str, recorded_path)
+        name = Path(recorded_path).name
+        _require(name not in ("", ".", ".."), f"{group} snapshot path is unsafe")
+        snapshot = run_dir / group / name
+        _require(sha256_file(snapshot) == expected, f"{label} hash drift")
+        _require(snapshot.stat().st_size == row.get("bytes"), f"{label} size drift")
+        hashes.add(str(expected))
+        sources.append(
+            _SourceFile(
+                f"{role_prefix}{index:0{role_width}d}",
+                snapshot,
+                f"{artifact_dir}/{snapshot.name}",
+                str(expected),
+            )
+        )
+    return tuple(sources), hashes
 
 
 def _requirements_aggregate_payload(requirements: Mapping[str, Any]) -> dict[str, Any]:
@@ -537,22 +642,10 @@ def _requirements_aggregate_payload(requirements: Mapping[str, Any]) -> dict[str
     }
 
 
-def _implementation_aggregate_payload(implementation: Mapping[str, Any]) -> list[dict[str, Any]]:
-    return [
-        {"path": row.get("source_path"), "sha256": row.get("snapshot_sha256")}
-        for row in implementation.get("files", [])
-        if isinstance(row, dict)
-    ]
-
-
 def _validate_provenance(
     run_dir: Path,
     receipt: Mapping[str, Any],
-    raw_receipt_path: Path,
-    composite_path: Path,
-    attestation_path: Path,
-    environment_path: Path,
-    verifier_path: Path,
+    chain_paths: Mapping[str, Path],
     arm_path: Path,
     attestation: Mapping[str, Any],
 ) -> tuple[_SourceFile, ...]:
@@ -622,7 +715,11 @@ def _validate_provenance(
         "implementation files missing",
     )
     implementation_rows = cast(list[Any], implementation_rows)
-    implementation_aggregate = _implementation_aggregate_payload(implementation)
+    implementation_aggregate = [
+        {"path": row.get("source_path"), "sha256": row.get("snapshot_sha256")}
+        for row in implementation_rows
+        if isinstance(row, dict)
+    ]
     _require(
         json_sha256(implementation_aggregate) == implementation.get("aggregate_sha256"),
         "implementation aggregate hash drift",
@@ -636,16 +733,10 @@ def _validate_provenance(
         "receipt implementation hash mismatch",
     )
 
-    sources: list[_SourceFile] = [
-        _SourceFile("raw_training_receipt", raw_receipt_path, "evidence/raw_workbench_receipt.json"),
-        _SourceFile("final_composite_receipt", composite_path, "evidence/workbench_receipt.json"),
-        _SourceFile(
-            "current_evidence_attestation",
-            attestation_path,
-            "evidence/current_evidence_attestation.json",
-        ),
-        _SourceFile("environment_receipt", environment_path, "evidence/environment_receipt.json"),
-        _SourceFile("independent_verifier", verifier_path, "evidence/independent_verifier.json"),
+    sources = [
+        _SourceFile(role, chain_paths[role], f"evidence/{_CHAIN_FILENAMES[role]}")
+        for role in _CHAIN_ROLES[:5]
+    ] + [
         _SourceFile("selected_arm_receipt", arm_path, "evidence/selected_arm_receipt.json"),
         _SourceFile("resolved_config", config_path, "provenance/resolved_config.json"),
         _SourceFile("dataset_manifest", dataset_path, "provenance/dataset_manifest.json"),
@@ -682,25 +773,10 @@ def _validate_provenance(
         _SourceFile("current_requirements_audit", current_path, "provenance/requirements_current_audit.json")
     )
 
-    implementation_hashes: set[str] = set()
-    for index, row in enumerate(implementation_rows):
-        _require(isinstance(row, dict), "implementation file row is invalid")
-        row = cast(dict[str, Any], row)
-        expected = row.get("snapshot_sha256")
-        _require(_is_sha256(expected), "implementation snapshot hash is malformed")
-        _require(expected == row.get("source_sha256"), "implementation source/snapshot hash mismatch")
-        snapshot = _snapshot_file(run_dir, "implementation_sources", row.get("snapshot_path"))
-        _require(sha256_file(snapshot) == expected, "implementation snapshot hash drift")
-        _require(snapshot.stat().st_size == row.get("bytes"), "implementation snapshot size drift")
-        implementation_hashes.add(str(expected))
-        sources.append(
-            _SourceFile(
-                f"implementation_snapshot_{index:02d}",
-                snapshot,
-                f"provenance/implementation/{snapshot.name}",
-                str(expected),
-            )
-        )
+    implementation_sources, implementation_hashes = _snapshot_sources(
+        run_dir, implementation_rows, "implementation_sources"
+    )
+    sources.extend(implementation_sources)
     generator = dataset.get("generator")
     _require(isinstance(generator, dict), "dataset generator provenance is missing")
     generator = cast(dict[str, Any], generator)
@@ -709,29 +785,14 @@ def _validate_provenance(
         "dataset generator is not present in the frozen implementation snapshots",
     )
 
-    snapshot_index = 0
+    requirement_rows: list[Any] = []
     for requirement in requirements.get("requirements", []):
         _require(isinstance(requirement, dict), "requirements row is invalid")
         requirement = cast(dict[str, Any], requirement)
-        for row in requirement.get("sources", []):
-            _require(isinstance(row, dict), "requirements source row is invalid")
-            row = cast(dict[str, Any], row)
-            expected = row.get("snapshot_sha256")
-            _require(_is_sha256(expected), "requirements snapshot hash is malformed")
-            _require(expected == row.get("sha256"), "requirements source/snapshot hash mismatch")
-            snapshot = _snapshot_file(run_dir, "requirements_sources", row.get("snapshot_path"))
-            _require(sha256_file(snapshot) == expected, "requirements snapshot hash drift")
-            _require(snapshot.stat().st_size == row.get("bytes"), "requirements snapshot size drift")
-            sources.append(
-                _SourceFile(
-                    f"requirements_snapshot_{snapshot_index:03d}",
-                    snapshot,
-                    f"provenance/requirements/{snapshot.name}",
-                    str(expected),
-                )
-            )
-            snapshot_index += 1
-    _require(snapshot_index > 0, "requirements evidence snapshots are missing")
+        requirement_rows.extend(requirement.get("sources", []))
+    requirement_sources, _hashes = _snapshot_sources(run_dir, requirement_rows, "requirements_sources")
+    _require(bool(requirement_sources), "requirements evidence snapshots are missing")
+    sources.extend(requirement_sources)
     _require(
         teacher.get("schema") == "mop-custom-substrate-teacher-audit/v1",
         "teacher audit schema mismatch",
@@ -754,73 +815,17 @@ def _validate_provenance(
 def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
     run_dir = run_dir.resolve()
     verifier_path = verifier_path.resolve()
-    raw_receipt_path = run_dir / "raw_workbench_receipt.json"
-    composite_path = run_dir / "workbench_receipt.json"
-    attestation_path = run_dir / "current_evidence_attestation.json"
-    environment_path = run_dir / "environment_receipt.json"
-    linked_verifier_path = (run_dir / "independent_verifier.json").resolve()
+    chain_paths = {role: run_dir / name for role, name in _CHAIN_FILENAMES.items()}
     _require(
-        verifier_path == linked_verifier_path,
+        verifier_path == chain_paths["independent_verifier"].resolve(),
         "verifier path is not the run's immutable linked verifier",
     )
-    receipt = _read_json(raw_receipt_path, "immutable raw training receipt")
-    _require_raw_receipt(receipt)
-    composite = _read_json(composite_path, "final composite receipt")
-    attestation = _read_json(attestation_path, "current-evidence attestation")
-    environment = _read_json(environment_path, "environment receipt")
-    verifier = _read_json(verifier_path, "independent verifier receipt")
-    raw_receipt_sha = sha256_file(raw_receipt_path)
-    attestation_sha = sha256_file(attestation_path)
-    environment_sha = sha256_file(environment_path)
-    verifier_sha = sha256_file(verifier_path)
-    current_audit_path = run_dir / "requirements_current_audit.json"
-    _require(current_audit_path.is_file(), "current requirements audit is missing")
-    _require_attestation(
-        attestation,
-        raw_receipt_sha256=raw_receipt_sha,
-        current_audit_sha256=sha256_file(current_audit_path),
+    documents, _hashes, objective, seed = _validate_receipt_chain(
+        chain_paths,
+        label_prefix="immutable ",
     )
-    implementation_path = run_dir / "implementation_manifest.json"
-    _read_json(implementation_path, "implementation manifest")
-    receipt_implementation = receipt.get("implementation")
-    _require(isinstance(receipt_implementation, dict), "raw implementation binding is missing")
-    receipt_implementation = cast(dict[str, Any], receipt_implementation)
-    _require_environment(
-        environment,
-        raw_receipt_sha256=raw_receipt_sha,
-        implementation_manifest_sha256=sha256_file(implementation_path),
-        implementation_aggregate_sha256=str(receipt_implementation.get("aggregate_sha256")),
-    )
-    objective = _require_verifier(
-        verifier,
-        raw_receipt_sha256=raw_receipt_sha,
-        attestation_sha256=attestation_sha,
-        environment_sha256=environment_sha,
-        receipt=receipt,
-    )
-    _require_composite(
-        composite,
-        raw_receipt=receipt,
-        raw_receipt_sha256=raw_receipt_sha,
-        attestation_sha256=attestation_sha,
-        environment_sha256=environment_sha,
-        verifier_sha256=verifier_sha,
-        attestation=attestation,
-        environment=environment,
-        verifier=verifier,
-    )
-
+    receipt, composite, attestation, environment, verifier = documents
     seed_results = cast(Mapping[str, Any], receipt["seed_results"])
-    complete_seeds = [
-        int(key)
-        for key, row in seed_results.items()
-        if isinstance(row, dict)
-        and isinstance(row.get(objective), dict)
-        and isinstance(row[objective].get("training"), dict)
-        and row[objective]["training"].get("complete") is True
-    ]
-    _require(bool(complete_seeds), "verified winning objective has no complete seed")
-    seed = min(complete_seeds)
     seed_row = seed_results.get(str(seed))
     _require(isinstance(seed_row, dict), "selected seed is absent from workbench receipt")
     seed_row = cast(dict[str, Any], seed_row)
@@ -936,22 +941,14 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
     sources = _validate_provenance(
         run_dir,
         receipt,
-        raw_receipt_path,
-        composite_path,
-        attestation_path,
-        environment_path,
-        verifier_path,
+        chain_paths,
         arm_path,
         attestation,
     )
     return _PreparedExport(
-        run_dir=run_dir,
         receipt=receipt,
         composite=composite,
-        attestation=attestation,
-        environment=environment,
         verifier=verifier,
-        arm=arm,
         checkpoint_sha256=str(checkpoint_sha),
         state={name: tensor.detach().cpu().contiguous() for name, tensor in state.items()},
         spec=spec,
@@ -1030,12 +1027,7 @@ def export_artifact(run_dir: Path, verifier_path: Path, output_root: Path) -> di
     try:
         weights = write_tensor_pack(prepared.state, scratch / "weights.mopbin")
         provenance = _copy_sources(prepared.sources, scratch)
-        raw_record = next(row for row in provenance if row["role"] == "raw_training_receipt")
-        composite_record = next(row for row in provenance if row["role"] == "final_composite_receipt")
-        attestation_record = next(row for row in provenance if row["role"] == "current_evidence_attestation")
-        environment_record = next(row for row in provenance if row["role"] == "environment_receipt")
-        verifier_record = next(row for row in provenance if row["role"] == "independent_verifier")
-        arm_record = next(row for row in provenance if row["role"] == "selected_arm_receipt")
+        records = {row["role"]: row for row in provenance}
         manifest: dict[str, Any] = {
             "schema": ARTIFACT_SCHEMA,
             "model": {
@@ -1054,15 +1046,15 @@ def export_artifact(run_dir: Path, verifier_path: Path, output_root: Path) -> di
                 "objective": prepared.objective,
                 "state_component": "model",
                 "checkpoint_sha256": prepared.checkpoint_sha256,
-                "selected_arm_receipt_sha256": arm_record["sha256"],
+                "selected_arm_receipt_sha256": records["selected_arm_receipt"]["sha256"],
                 "state_sha256": state_sha256(prepared.state),
             },
             "evidence": {
-                "raw_training_receipt_sha256": raw_record["sha256"],
-                "current_evidence_attestation_sha256": attestation_record["sha256"],
-                "environment_receipt_sha256": environment_record["sha256"],
-                "independent_verifier_sha256": verifier_record["sha256"],
-                "final_composite_receipt_sha256": composite_record["sha256"],
+                "raw_training_receipt_sha256": records["raw_training_receipt"]["sha256"],
+                "current_evidence_attestation_sha256": records["current_evidence_attestation"]["sha256"],
+                "environment_receipt_sha256": records["environment_receipt"]["sha256"],
+                "independent_verifier_sha256": records["independent_verifier"]["sha256"],
+                "final_composite_receipt_sha256": records["final_composite_receipt"]["sha256"],
                 "independent_verifier_schema": VERIFIER_SCHEMA,
                 "independent_verifier_verdict": prepared.verifier["verdict"],
                 "authoritative_promotion": prepared.composite["authoritative_promotion"],
@@ -1139,87 +1131,24 @@ def _verify_embedded_evidence(root: Path, manifest: Mapping[str, Any]) -> None:
     _require(isinstance(evidence, dict) and isinstance(selection, dict), "artifact evidence is missing")
     evidence = cast(dict[str, Any], evidence)
     selection = cast(dict[str, Any], selection)
-    required = (
-        "raw_training_receipt",
-        "final_composite_receipt",
-        "current_evidence_attestation",
-        "environment_receipt",
-        "independent_verifier",
-        "selected_arm_receipt",
-        "implementation_manifest",
-        "current_requirements_audit",
-    )
-    _require(all(role in by_role for role in required), "portable artifact receipt chain is incomplete")
+    _require(all(role in by_role for role in _CHAIN_ROLES), "portable artifact receipt chain is incomplete")
 
     def evidence_path(role: str) -> Path:
         return _safe_artifact_path(root, by_role[role].get("path"), f"embedded {role}")
 
-    raw_path = evidence_path("raw_training_receipt")
-    composite_path = evidence_path("final_composite_receipt")
-    attestation_path = evidence_path("current_evidence_attestation")
-    environment_path = evidence_path("environment_receipt")
-    verifier_path = evidence_path("independent_verifier")
-    arm_path = evidence_path("selected_arm_receipt")
-    implementation_path = evidence_path("implementation_manifest")
-    current_audit_path = evidence_path("current_requirements_audit")
-    receipt = _read_json(raw_path, "embedded raw training receipt")
-    composite = _read_json(composite_path, "embedded final composite receipt")
-    attestation = _read_json(attestation_path, "embedded current-evidence attestation")
-    environment = _read_json(environment_path, "embedded environment receipt")
-    verifier = _read_json(verifier_path, "embedded independent verifier")
-    arm = _read_json(arm_path, "embedded selected arm")
-    implementation = _read_json(implementation_path, "embedded implementation manifest")
-    raw_sha = sha256_file(raw_path)
-    attestation_sha = sha256_file(attestation_path)
-    environment_sha = sha256_file(environment_path)
-    verifier_sha = sha256_file(verifier_path)
-    _require_raw_receipt(receipt)
-    _require_attestation(
-        attestation,
-        raw_receipt_sha256=raw_sha,
-        current_audit_sha256=sha256_file(current_audit_path),
+    paths = {role: evidence_path(role) for role in _CHAIN_ROLES}
+    arm = _read_json(paths["selected_arm_receipt"], "embedded selected arm")
+    documents, hashes, objective, seed = _validate_receipt_chain(
+        paths,
+        label_prefix="embedded ",
     )
-    _require_environment(
-        environment,
-        raw_receipt_sha256=raw_sha,
-        implementation_manifest_sha256=sha256_file(implementation_path),
-        implementation_aggregate_sha256=str(implementation.get("aggregate_sha256")),
-    )
-    objective = _require_verifier(
-        verifier,
-        raw_receipt_sha256=raw_sha,
-        attestation_sha256=attestation_sha,
-        environment_sha256=environment_sha,
-        receipt=receipt,
-    )
-    _require_composite(
-        composite,
-        raw_receipt=receipt,
-        raw_receipt_sha256=raw_sha,
-        attestation_sha256=attestation_sha,
-        environment_sha256=environment_sha,
-        verifier_sha256=verifier_sha,
-        attestation=attestation,
-        environment=environment,
-        verifier=verifier,
-    )
-    seed_results = cast(Mapping[str, Any], receipt["seed_results"])
-    complete_seeds = [
-        int(key)
-        for key, row in seed_results.items()
-        if isinstance(row, dict)
-        and isinstance(row.get(objective), dict)
-        and isinstance(row[objective].get("training"), dict)
-        and row[objective]["training"].get("complete") is True
-    ]
-    _require(bool(complete_seeds), "embedded winner has no complete seed")
-    seed = min(complete_seeds)
+    composite, verifier = documents[1], documents[4]
     expected_hashes = {
-        "raw_training_receipt_sha256": raw_sha,
-        "current_evidence_attestation_sha256": attestation_sha,
-        "environment_receipt_sha256": environment_sha,
-        "independent_verifier_sha256": verifier_sha,
-        "final_composite_receipt_sha256": sha256_file(composite_path),
+        "raw_training_receipt_sha256": hashes["raw"],
+        "current_evidence_attestation_sha256": hashes["attestation"],
+        "environment_receipt_sha256": hashes["environment"],
+        "independent_verifier_sha256": hashes["verifier"],
+        "final_composite_receipt_sha256": hashes["composite"],
     }
     for field, expected in expected_hashes.items():
         _require(evidence.get(field) == expected, f"embedded receipt-chain hash drift: {field}")
@@ -1277,17 +1206,10 @@ def load_portable_artifact(
         _require(path.stat().st_size == row.get("bytes"), f"artifact provenance size drift: {role}")
         _require(sha256_file(path) == row.get("sha256"), f"artifact provenance hash drift: {role}")
     for required_role in (
+        *_CHAIN_ROLES,
         "resolved_config",
         "dataset_manifest",
         "requirements_audit",
-        "implementation_manifest",
-        "current_requirements_audit",
-        "raw_training_receipt",
-        "final_composite_receipt",
-        "current_evidence_attestation",
-        "environment_receipt",
-        "independent_verifier",
-        "selected_arm_receipt",
         "portable_runtime_source",
         "portable_model_source",
     ):

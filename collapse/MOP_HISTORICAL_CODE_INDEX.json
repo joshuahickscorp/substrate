@@ -1973,6 +1973,24 @@
         "tests/unit/test_starss23_schema.py",
         "tests/unit/test_studio_profiles.py"
       ]
+    },
+    {
+      "id": "collapsed_duplicate_custom_substrate_chain_and_snapshot_traversal",
+      "source_tag": "mop-collapse-lowest-green-5",
+      "reason": "portable export and offline loading repeated the same five-document receipt-chain validation and seed selection, requirements provenance was audited and copied in separate traversals, final attestation repeated snapshot verification loops, and its fixture repeated composite-chain construction",
+      "replacement_paths": [
+        "src/mop/substrate/custom_artifact.py",
+        "src/mop/substrate/custom_workbench.py",
+        "scripts/custom_substrate_finalize.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-5:<path>",
+      "paths": [
+        "src/mop/substrate/custom_artifact.py",
+        "src/mop/substrate/custom_workbench.py",
+        "scripts/custom_substrate_finalize.py",
+        "tests/unit/test_custom_substrate_artifact.py",
+        "tests/unit/test_custom_substrate_finalize.py"
+      ]
     }
   ]
 }
