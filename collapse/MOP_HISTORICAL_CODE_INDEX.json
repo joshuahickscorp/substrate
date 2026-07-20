@@ -2214,6 +2214,22 @@
         "tests/unit/test_studio_profiles.py",
         "tests/unit/test_studio_readiness_receipt.py"
       ]
+    },
+    {
+      "id": "collapsed_test_only_statistics_facade_to_count_projection",
+      "source_tag": "mop-collapse-lowest-green-20",
+      "reason": "the shared statistics module exposed nineteen symbols, but maintained production consumed only exact sign-flip enumeration, a count-specific artifact projection, an SESOI comparison, and two claim constants; generic paired-delta, claim-ceiling, paired-analysis, payload, result-detail, and provisional-SESOI facades existed only for their own tests, so the authority now exposes the five source-consumed concepts while preserving the exact count science and independent verifier boundary",
+      "replacement_paths": [
+        "src/mop/science/statistics.py",
+        "src/mop/beds/starss23/count_variant_producer.py",
+        "tests/unit/test_starss23_stats.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-20:<path>",
+      "paths": [
+        "src/mop/science/statistics.py",
+        "src/mop/beds/starss23/count_variant_producer.py",
+        "tests/unit/test_starss23_stats.py"
+      ]
     }
   ]
 }

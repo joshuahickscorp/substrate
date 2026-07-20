@@ -26,7 +26,7 @@ from mop.science.budget import (
     noise_control_summary,
     run_matched_budget,
 )
-from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_check
+from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_exceeded
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import map_clip_audio
@@ -200,9 +200,7 @@ def build_count_variant_artifact(
     ]
     sign_flip = exact_sign_flip(deltas)
     analysis = spec.analyze_seed_runs(seed_runs)
-    mean_delta_exceeds_sesoi = bool(
-        sesoi_check(sign_flip.mean_delta, sesoi_f1=sesoi_mae, provisional=False).exceeds_sesoi
-    )
+    mean_delta_exceeds_sesoi = sesoi_exceeded(sign_flip.mean_delta, sesoi_mae)
     mean_delta_candidate_minus_random = -float(sign_flip.mean_delta)
     stats = count_sign_flip_payload(
         sign_flip,
