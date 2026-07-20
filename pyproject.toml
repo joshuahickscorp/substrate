@@ -51,20 +51,6 @@ ignore = ["E741", "B008", "SIM108"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["E501"]
-# Axis-ceiling analysis/provenance scripts (one-off, not library code): E501 relaxed for their dense
-# preregistered-hypothesis and verdict strings, same rationale as tests. Correctness lints (F, B, SIM,
-# E4/E7, I, UP) still apply. See docs/mixture_of_perspectives/AXIS_CEILING_RESULT.md.
-"scripts/build_extended_compute_requirements.py" = ["E501"]
-"scripts/mop_cbp_plasticity_repair.py" = ["E501"]
-"scripts/mop_shell_continual.py" = ["E501"]
-"scripts/mop_density_retention_byte.py" = ["E501"]
-"scripts/mop_density_adaptation_update.py" = ["E501"]
-"scripts/mop_abstraction_richer_slots.py" = ["E501"]
-"scripts/mop_survivor_completeness.py" = ["E501"]
-"scripts/mop_meta_control_audit.py" = ["E501"]
-"scripts/mop_density_mixture_win.py" = ["E501"]
-"scripts/mop_abstraction_systematicity.py" = ["E501"]
-"scripts/mop_dr13_predictor_fidelity.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"

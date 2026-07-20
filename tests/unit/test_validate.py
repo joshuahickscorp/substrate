@@ -37,26 +37,3 @@ def test_unavailable_encoder_with_prefer_real_raises():
 def test_unavailable_encoder_without_prefer_real_ok():
     cfg = config.compose(["encoder=vjepa21_vitl"])  # prefer_real defaults false -> frozen-random, fine
     validate.validate_encoder(cfg)
-
-
-def test_validate_leg_flags_problems():
-    bad = {
-        "tier": "Z",
-        "experiment": "nope",
-        "axes": {"k": [1]},
-    }  # bad tier, no full grid, toy knob not in full
-    probs = validate.validate_leg(bad, known_experiments={"e1_baseline"})
-    assert any("tier" in p for p in probs)
-    assert any("full_axes" in p for p in probs)
-    assert any("unknown experiment" in p for p in probs)
-
-
-def test_good_leg_passes():
-    good = {
-        "tier": "C",
-        "experiment": "e1_baseline",
-        "axes": {"k": [1]},
-        "full_axes": {"k": [1, 2]},
-        "full_seeds": [0, 1],
-    }
-    assert validate.validate_leg(good, known_experiments={"e1_baseline"}) == []

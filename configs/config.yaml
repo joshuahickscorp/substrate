@@ -4,7 +4,7 @@ defaults:
   device: mps
   encoder: vjepa2_vitl_fpc64_256
   shell: predictor
-  experiment: e1_baseline
+  experiment: mop_cm7_min_objective_probe
 
 # package-wide knobs
 package: mop

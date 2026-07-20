@@ -22,7 +22,6 @@ from .dr1_verifier import DR1VerifierConfig, build_dr1_verification, write_dr1_v
 from .encode_scheduler import EncodeBenchmark, format_plan, plan_encode
 from .long_run import DaemonJob, run_daemon, validate_plan_contract, write_plan_template
 from .memory_envelope import MemorySampler, memory_snapshot, summarize_samples
-from .native_lanes import build_native_lane_manifest, write_native_daemon_plan, write_native_manifest
 from .objective_audit import build_studio_objective_audit, write_studio_objective_audit
 from .pr9_verdict import build_pr9_verdict_ledger, write_pr9_verdict_ledger
 from .process_c_gate import build_process_c_license_gate, write_process_c_license_gate
@@ -84,9 +83,6 @@ __all__ = [
     "MemorySampler",
     "memory_snapshot",
     "summarize_samples",
-    "build_native_lane_manifest",
-    "write_native_manifest",
-    "write_native_daemon_plan",
     "build_studio_objective_audit",
     "write_studio_objective_audit",
     "build_pr9_verdict_ledger",

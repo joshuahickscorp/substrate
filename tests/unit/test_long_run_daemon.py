@@ -19,12 +19,10 @@ def test_template_plan_round_trips(tmp_path):
         "disk_recovery",
         "density_receipt",
         "doctor",
-        "profiles",
         "docs_gate",
         "acceptance",
         "dr1_smoke",
         "encode_microbench",
-        "native_lanes_manifest",
         "wave0_report",
     ]
 

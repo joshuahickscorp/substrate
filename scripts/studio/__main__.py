@@ -14,11 +14,6 @@ from mop.studio.claim_plan import build_claim_daemon_plan, write_claim_daemon_pl
 from mop.studio.density_receipt import DensityReceiptConfig, build_density_receipt, write_density_receipt
 from mop.studio.disk_recovery import DiskRecoveryConfig, build_disk_recovery_plan, write_disk_recovery_plan
 from mop.studio.long_run import load_plan, run_daemon, write_plan_template
-from mop.studio.native_lanes import (
-    build_native_lane_manifest,
-    write_native_daemon_plan,
-    write_native_manifest,
-)
 from mop.studio.objective_audit import build_studio_objective_audit, write_studio_objective_audit
 from mop.studio.scorecard import (
     build_studio_scorecard,
@@ -63,7 +58,6 @@ from mop.studio.wave0_report import (
     write_json as write_wave0_json,
 )
 from mop.studio_doctor import doctor, render_md
-from mop.studio_rehearsal import DEFAULT_OUT, rehearse
 
 log = get_logger("studio_doctor")
 
@@ -77,9 +71,7 @@ def main(argv: list[str] | None = None) -> int:
     _add_density_receipt(sub)
     _add_disk_recovery(sub)
     _add_doctor(sub)
-    _add_native_lanes(sub)
     _add_objective_audit(sub)
-    _add_rehearse(sub)
     _add_scorecard(sub)
     _add_spine_plan(sub)
     _add_wave0_report(sub)
@@ -346,72 +338,6 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     return 0 if report["all_ok"] else 1
 
 
-def _add_native_lanes(sub: argparse._SubParsersAction) -> None:
-    parser = sub.add_parser("native-lanes", help="list or plan Studio-native lanes")
-    native = parser.add_subparsers(dest="native_command", required=True)
-    list_parser = native.add_parser("list", help="evaluate lanes and print a manifest")
-    _add_native_common(list_parser)
-    list_parser.add_argument("--out", default=None, help="optional JSON manifest path")
-    list_parser.set_defaults(func=_cmd_native_lanes_list)
-
-    plan_parser = native.add_parser("plan", help="write a daemon plan from ready lanes")
-    _add_native_common(plan_parser)
-    plan_parser.add_argument("--out", default=str(REPO_ROOT / "runs" / "studio_native_lanes_plan.json"))
-    plan_parser.add_argument(
-        "--manifest-out",
-        default=str(REPO_ROOT / "runs" / "studio_native_lanes_manifest.json"),
-    )
-    plan_parser.set_defaults(func=_cmd_native_lanes_plan)
-
-
-def _add_native_common(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--profile", default="studio-m1ultra")
-    parser.add_argument("--include-heavy", action="store_true")
-    parser.add_argument("--lane", action="append", default=None)
-    parser.add_argument("--clip-dir", default=None)
-    parser.add_argument("--dr1-cache", default=None)
-    parser.add_argument("--plan-path", default=None)
-    parser.add_argument("--encode-schedule", default=str(REPO_ROOT / "runs" / "mot" / "encode_schedule.json"))
-    parser.add_argument("--pr9-verdict", default=None)
-    parser.add_argument("--dr1-verification", default=None)
-
-
-def _native_manifest(args: argparse.Namespace) -> dict[str, Any]:
-    return build_native_lane_manifest(
-        profile_name=args.profile,
-        include_heavy=args.include_heavy,
-        lane_ids=args.lane,
-        inputs={
-            "clip_dir": args.clip_dir,
-            "dr1_cache": args.dr1_cache,
-            "plan_path": args.plan_path,
-            "encode_schedule": args.encode_schedule,
-            "pr9_verdict": args.pr9_verdict,
-            "dr1_verification": args.dr1_verification,
-        },
-    )
-
-
-def _cmd_native_lanes_list(args: argparse.Namespace) -> int:
-    manifest = _native_manifest(args)
-    if args.out:
-        write_native_manifest(manifest, args.out)
-    _print(manifest)
-    return 0
-
-
-def _cmd_native_lanes_plan(args: argparse.Namespace) -> int:
-    manifest = _native_manifest(args)
-    write_native_manifest(manifest, args.manifest_out)
-    try:
-        plan = write_native_daemon_plan(manifest, args.out)
-    except ValueError as e:
-        _print({"error": str(e), "manifest": args.manifest_out}, err=True)
-        return 1
-    _print({"out": args.out, "manifest": args.manifest_out, "jobs": [job["id"] for job in plan["jobs"]]})
-    return 0
-
-
 def _add_objective_audit(sub: argparse._SubParsersAction) -> None:
     parser = sub.add_parser("objective-audit", help="build the Studio objective point audit")
     parser.add_argument("--out", default=str(REPO_ROOT / "runs" / "studio_objective_audit_local.json"))
@@ -447,23 +373,6 @@ def _cmd_objective_audit(args: argparse.Namespace) -> int:
         }
     )
     return 0 if audit["studio_10_ready"] or args.allow_not_ready else 1
-
-
-def _add_rehearse(sub: argparse._SubParsersAction) -> None:
-    parser = sub.add_parser("rehearse", help="run the Studio rehearsal capsule")
-    parser.set_defaults(func=_cmd_rehearse)
-
-
-def _cmd_rehearse(args: argparse.Namespace) -> int:
-    summary = rehearse()
-    _print(
-        {
-            "overall": summary["overall"],
-            "stages": {stage["stage"]: stage["status"] for stage in summary["stages"]},
-            "report": str(DEFAULT_OUT / "report.md"),
-        }
-    )
-    return 0 if summary["overall"] == "pass" else 1
 
 
 def _add_scorecard(sub: argparse._SubParsersAction) -> None:

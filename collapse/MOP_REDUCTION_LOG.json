@@ -852,6 +852,24 @@
       "proof": "sensing, ecology, integrity, material-twin, and integration-broadcast each have completed programmatic run evidence and independent live-implementation verification; Expansion Wave 0 embeds an independent raw-replay verifier with all mutations rejected; every claim boundary is deterministic programmatic mechanics only; full collection is clean at 1691 tests, compile-all and critical ruff pass, retained registry and active science batteries are 51/51 green, docs are 32/32 green, all 46 deleted paths recover from the prior tag, and the protected checkout remains clean",
       "accounting_note": "15265 Python lines deleted with zero additions; deletion of generated run evidence and configs brings total tracked change to 0 added/32390 deleted; one provenance path was removed from the retained action-world implementation without changing its mechanics",
       "tag": "mop-collapse-future-scaffolds"
+    },
+    {
+      "region": "section8_studies_section10_experiments_section13_controller_section14_entrypoints_section15_configuration_and_section17_validation",
+      "batch": "retired_legacy_experiment_and_preflight_bank",
+      "checkpoint_status": "green",
+      "primitive": "the completed E/EX/A/B/C/D/I/N/P/S/Y experiment bank, MoT one-off entrypoints, legacy queue and sweep machinery, superseded Studio pipeline paths, preflight studies, and their dedicated configuration, proof, and test surfaces were converted to recoverable history",
+      "deduplicated_LOC": 0,
+      "added_LOC": 34,
+      "eliminated_LOC": 51123,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 51089,
+      "files_changed": 368,
+      "destination_api": "the active CM7 and CM8 custom-substrate experiments, generic experiment interface, STARSS adapter, retained mechanisms, and narrowed Studio operational surface",
+      "proof": "the experiment registry and default configuration resolve only CM7 and CM8; focused active-experiment, registry, Studio, mechanism, docs, and shell batteries are green; full 1276-case collection is clean; compile-all and changed-surface ruff pass; all 348 deleted paths recover from the prior tag; the protected checkout remains clean and untouched",
+      "accounting_note": "51123 Python lines deleted for 34 survivor lines, net -51089; generated configuration, campaign, proof, and registry deletion brings total physical tracked change to 38 added/79734 deleted, net -79696; tracked Python now measures 75919 lines",
+      "tag": "mop-collapse-legacy-experiment-bank"
     }
   ],
   "deferred_heavy_validation": {

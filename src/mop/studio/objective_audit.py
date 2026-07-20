@@ -20,7 +20,6 @@ DEFAULT_PATHS = {
     "process_c_gate": "runs/mot/process_c_license_gate.json",
     "scorecard": "runs/studio_scorecard_local.json",
     "density_receipt": "runs/studio_wave0/density_receipt.json",
-    "native_lanes": "runs/studio_native_lanes_manifest.json",
     "wave0_index": "proof/ARTIFACT_INDEX/wave0.json",
     "dr1_index": "proof/ARTIFACT_INDEX/dr1.json",
     "pr9_index": "proof/ARTIFACT_INDEX/pr9.json",
@@ -45,7 +44,6 @@ def build_studio_objective_audit(
         _process_c(receipts),
         _adversarial_and_nulls(root),
         _durability(root, receipts),
-        _native_lanes(root, receipts),
     ]
     summary = {
         "points_possible": sum(float(r["point_value"]) for r in requirements),
@@ -227,27 +225,6 @@ def _durability(root: Path, receipts: dict[str, dict[str, Any] | None]) -> dict[
         checks,
         complete_detail="run report, scorecard, and all artifact indexes are durable",
         prepared_detail="run report exists, but one or more artifact indexes are missing or incomplete",
-    )
-
-
-def _native_lanes(root: Path, receipts: dict[str, dict[str, Any] | None]) -> dict[str, Any]:
-    manifest = receipts["native_lanes"]
-    cli_exists = (root / "scripts/studio/__main__.py").exists()
-    checks = [
-        _check("native_lane_cli", cli_exists, "native lane CLI"),
-        _check("native_lane_manifest", _schema(manifest, "mop-studio-native-lanes/v1"), "native manifest"),
-        _check(
-            "native_lanes_accounted",
-            bool((manifest or {}).get("lanes")),
-            "native lanes have ready/blocked records",
-        ),
-    ]
-    return _requirement(
-        "studio_native_lanes",
-        "Studio-native frontier lanes are stood up or walled",
-        checks,
-        complete_detail="native lane manifest records ready/blocked states",
-        prepared_detail="native lane CLI exists, but a current manifest receipt is missing",
     )
 
 

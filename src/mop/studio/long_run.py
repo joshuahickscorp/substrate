@@ -119,11 +119,6 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
                 "kind": "gate",
             },
             {
-                "id": "profiles",
-                "cmd": ["python", "scripts/studio_pipeline.py", "profiles"],
-                "kind": "gate",
-            },
-            {
                 "id": "docs_gate",
                 "cmd": ["python", "scripts/check_docs.py"],
                 "kind": "gate",
@@ -151,18 +146,6 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
                     "8",
                 ],
                 "kind": "microbench",
-            },
-            {
-                "id": "native_lanes_manifest",
-                "cmd": _studio_cmd(
-                    "native-lanes",
-                    "list",
-                    "--profile",
-                    "studio-m1ultra",
-                    "--out",
-                    "runs/studio_native_lanes_manifest.json",
-                ),
-                "kind": "report",
             },
             {
                 "id": "wave0_report",

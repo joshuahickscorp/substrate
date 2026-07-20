@@ -1,15 +1,11 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from omegaconf import DictConfig, OmegaConf
 
 from ..config import REPO_ROOT
-from .sweep import full_run_units, load_leg
 
 DEVICE_KINDS = {"cpu", "mps", "cuda"}
-TIERS = {"C", "E", "R"}
 
 
 class ConfigError(ValueError):
@@ -57,27 +53,7 @@ def validate_config(cfg: DictConfig) -> None:
     validate_encoder(cfg)
 
 
-def validate_leg(leg: dict, known_experiments: set[str] | None = None) -> list[str]:
-    probs = []
-    if leg.get("tier") not in TIERS:
-        probs.append(f"tier {leg.get('tier')!r} not in {sorted(TIERS)}")
-    if "full_axes" not in leg or "full_seeds" not in leg:
-        probs.append("missing full_axes/full_seeds (run_queue --full + cost projection need them)")
-    toy = set(dict(leg.get("axes", {})))
-    full = set(dict(leg.get("full_axes", leg.get("axes", {}))))
-    if not toy <= full:
-        probs.append(f"toy axes {toy - full} not in full_axes")
-    if full_run_units(leg) < 1:
-        probs.append("full_run_units < 1")
-    if known_experiments is not None and leg.get("experiment") not in known_experiments:
-        probs.append(f"unknown experiment {leg.get('experiment')!r}")
-    return probs
-
-
 def check_all() -> list[dict]:
-    from ..experiments import REGISTRY
-    from .queue import load_queue
-
     problems: list[dict] = []
     cdir = REPO_ROOT / "configs"
     for f in sorted((cdir / "encoder").glob("*.yaml")):
@@ -97,11 +73,4 @@ def check_all() -> list[dict]:
             continue
         if not _declared_null_contract(cfg):
             problems.append({"where": f"experiment/{f.stem}", "problem": "no null_hypothesis"})
-    known = set(REGISTRY)
-    for leg in load_queue():
-        d = load_leg(Path(leg.sweep)) if Path(leg.sweep).is_absolute() else load_leg(REPO_ROOT / leg.sweep)
-        for p in validate_leg(d, known):
-            problems.append({"where": f"leg/{leg.name}", "problem": p})
-        if leg.run_units != full_run_units(d):
-            problems.append({"where": f"leg/{leg.name}", "problem": "manifest run_units != full grid"})
     return problems

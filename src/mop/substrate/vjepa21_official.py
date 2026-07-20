@@ -498,7 +498,6 @@ def active_heavy_lane_report() -> dict[str, Any]:
         "custom_substrate_workbench.py cm7",
         "cache_factorized_encoder.py",
         "cache_real_encoder.py",
-        "encoder_scale_probe.py",
     )
     active: list[dict[str, Any]] = []
     for process in psutil.process_iter(("pid", "cmdline")):

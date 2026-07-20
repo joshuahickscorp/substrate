@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import pytest
 
-from mop.experiments.expansion_harness import CLAIM_SCOPE as HARNESS_CLAIM_SCOPE
 from mop.mechanisms.niche_dispatch_scaffold import (
     ACTIVATION_SCOPES,
     CLAIM_SCOPE,
@@ -26,6 +25,8 @@ from mop.mechanisms.niche_dispatch_scaffold import (
     synthesize_partition,
     synthesize_valid_assessments,
 )
+
+HARNESS_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 
 def test_claim_scope_is_byte_identical_to_harness() -> None:
