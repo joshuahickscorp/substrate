@@ -2315,6 +2315,25 @@
         "src/mop/beds/starss23/count_gate.py",
         "tests/unit/test_starss23_counting_bed.py"
       ]
+    },
+    {
+      "id": "retired_superseded_generated_audit_maps",
+      "source_tag": "mop-collapse-lowest-green-27-audit-corrected",
+      "reason": "the 41004-line baseline file census and 28845-line STARSS line-range decomposition were generated analysis snapshots whose governing totals already survive in MOP_COLLAPSE_STATE.json and MOP_COMPLETION_AUDIT.json; exact source blobs remain tag-addressable while the maintained checkout retains only the compact authorities",
+      "replacement_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-27-audit-corrected:<path>",
+      "content_sha256": {
+        "collapse/MOP_CODEBASE_CENSUS.json": "9ba3229ed489a6598015ff3ca0569adf76c229ac803ad2119130572326a8ab3d",
+        "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json": "ceea0f5fd7c46092c24dee32b9c85bdc96d84aaa9f631996bd78aeb8e69a2145"
+      },
+      "paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json"
+      ]
     }
   ]
 }
