@@ -47,10 +47,9 @@ def test_config_composition_and_overrides():
 
 
 def test_config_group_switch():
-    cfg = config.compose(["device=cuda", "encoder=vjepa21_vitb"])
+    cfg = config.compose(["device=cuda"])
     assert cfg.device.kind == "cuda"
-    assert cfg.encoder.embed_dim == 768
-    assert cfg.encoder.dense is True
+    assert cfg.encoder.embed_dim == 1024
 
 
 def test_snapshot_roundtrip(tmp_path):

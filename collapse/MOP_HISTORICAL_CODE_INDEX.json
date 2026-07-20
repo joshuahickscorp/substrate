@@ -1600,6 +1600,60 @@
         "tests/unit/test_studio_downloader.py",
         "tests/unit/test_wikimedia_av_intake.py"
       ]
+    },
+    {
+      "id": "single_registry_and_18k_source_kernel",
+      "source_tag": "mop-collapse-35k",
+      "reason": "dataset and model catalogs had no production consumer; completed Sanpo, V-JEPA 2.1, environment, perspective, Process-C, and Studio-control mechanics were retained only by dedicated tests; superseded collapse analyzers had already emitted their immutable artifacts",
+      "replacement_paths": [
+        "registry/experiments.yaml",
+        "configs/",
+        "src/mop/substrate/custom_workbench.py",
+        "src/mop/science/",
+        "src/mop/beds/starss23/",
+        "collapse/tools/build_ledger.py"
+      ],
+      "recovery": "git show mop-collapse-35k:<path>",
+      "paths": [
+        "collapse/tools/census.py",
+        "collapse/tools/dup_functions.py",
+        "collapse/tools/evidence_equivalence.py",
+        "collapse/tools/evidence_migrate.py",
+        "collapse/tools/evidence_migrate2.py",
+        "collapse/tools/evidence_migrate3.py",
+        "collapse/tools/evidence_migrate4.py",
+        "collapse/tools/graphs2.py",
+        "collapse/tools/starss23_decompose.py",
+        "configs/audiovisual/wikimedia_commons_cc0_v1.json",
+        "configs/custom_substrate/sanpo_natural_bridge_v1.json",
+        "configs/encoder/vjepa21_vitb.yaml",
+        "configs/encoder/vjepa21_vitl.yaml",
+        "configs/environment/local_persistent_grid.yaml",
+        "configs/legacy_encoder/vjepa2_vitg.yaml",
+        "configs/legacy_encoder/vjepa2_vith.yaml",
+        "registry/datasets.yaml",
+        "registry/models.yaml",
+        "src/mop/environments/__init__.py",
+        "src/mop/environments/persistent_grid.py",
+        "src/mop/perspectives/__init__.py",
+        "src/mop/perspectives/adapter.py",
+        "src/mop/process_c/__init__.py",
+        "src/mop/process_c/dense_tokens.py",
+        "src/mop/studies/__init__.py",
+        "src/mop/studio/controls.py",
+        "src/mop/studio/registry.py",
+        "src/mop/substrate/encoder_registry.py",
+        "src/mop/substrate/sanpo_bridge.py",
+        "src/mop/substrate/vjepa21_official.py",
+        "tests/unit/test_encoder_registry.py",
+        "tests/unit/test_persistent_grid_environment.py",
+        "tests/unit/test_perspective_adapter.py",
+        "tests/unit/test_process_c_dense_tokens.py",
+        "tests/unit/test_sanpo_custom_substrate_bridge.py",
+        "tests/unit/test_studio_controls.py",
+        "tests/unit/test_studio_registry.py",
+        "tests/unit/test_vjepa21_official.py"
+      ]
     }
   ]
 }

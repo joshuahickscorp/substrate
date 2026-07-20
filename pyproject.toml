@@ -23,9 +23,6 @@ dependencies = [
 [project.optional-dependencies]
 # Real encoder weights (deferred path). Lazy-imported; never required for tests.
 encoder = ["transformers>=4.44", "huggingface-hub>=0.24"]
-# Meta's official V-JEPA 2.1 PyTorch encoder-only path. Video decoding stays on `.[video]` so the
-# macOS-incompatible decord dependency from the full upstream repository is not pulled implicitly.
-vjepa21 = ["timm", "einops"]
 # Alt ANN index, fallback to the faiss/brute-force path.
 ann = ["hnswlib>=0.8"]
 # Apple Silicon throughput experiment (optional, not on the hot path; see APPLE_SILICON.md).

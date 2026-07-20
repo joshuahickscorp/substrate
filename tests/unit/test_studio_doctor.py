@@ -1,8 +1,3 @@
-import hashlib
-import json
-
-from omegaconf import OmegaConf
-
 import mop.studio_doctor as sd
 from mop.harness.validate import check_all
 from mop.studio_doctor import CHECK_NAMES, doctor, render_md
@@ -187,83 +182,6 @@ def test_local_weight_detection_uses_cache_only(monkeypatch, tmp_path):
     shard.write_bytes(b"fixture")
     monkeypatch.setenv("HF_HUB_CACHE", str(cache))
     assert sd._local_weight_files("org/model") == [shard]
-
-
-def _direct_checkpoint_fixture(monkeypatch, tmp_path):
-    config_root = tmp_path / "configs"
-    config_root.mkdir()
-    (config_root / "config.yaml").write_text("defaults:\n  encoder: fixture\n")
-    payload = b"official-direct-checkpoint-fixture"
-    checkpoint = tmp_path / "data" / "models" / "vjepa21" / "fixture.pt"
-    checkpoint.parent.mkdir(parents=True)
-    checkpoint.write_bytes(payload)
-    digest = hashlib.sha256(payload).hexdigest()
-    source_url = "https://weights.example/fixture.pt"
-    receipt = {
-        "schema": "mop-vjepa21-official-checkpoint/v1",
-        "all_ok": True,
-        "size": len(payload),
-        "sha256": digest,
-        "source_url": source_url,
-        "source_etag": '"fixture-etag"',
-        "source_version_id": "fixture-version",
-        "repository_commit": "fixture-commit",
-    }
-    receipt_path = checkpoint.with_name(checkpoint.name + ".receipt.json")
-    receipt_path.write_text(json.dumps(receipt))
-    cfg = OmegaConf.create(
-        {
-            "name": "vjepa21_fixture",
-            "available": True,
-            "source_kind": "official_pytorch_checkpoint",
-            "hf_id": "official-pytorch-only-fixture",
-            "checkpoint_url": source_url,
-            "checkpoint_content_length": len(payload),
-            "checkpoint_sha256": digest,
-            "checkpoint_etag": receipt["source_etag"],
-            "checkpoint_version_id": receipt["source_version_id"],
-            "official_repo_commit": receipt["repository_commit"],
-        }
-    )
-    monkeypatch.setattr(sd, "REPO_ROOT", tmp_path)
-    monkeypatch.setattr(sd, "_encoder_configs", lambda: [(config_root / "encoder.yaml", cfg)])
-    monkeypatch.setattr(
-        sd,
-        "_local_weight_files",
-        lambda _hf_id: (_ for _ in ()).throw(AssertionError("direct checkpoint used HF lookup")),
-    )
-    monkeypatch.setattr(sd, "_hf_cache_roots", lambda: [])
-    sd._sha256_snapshot.cache_clear()
-    return checkpoint, receipt_path, receipt
-
-
-def test_official_pytorch_checkpoint_uses_direct_file_and_receipt(monkeypatch, tmp_path):
-    checkpoint, receipt_path, _ = _direct_checkpoint_fixture(monkeypatch, tmp_path)
-    ok, detail = sd._check_encoder_weights("studio-1tb")
-    assert ok, detail
-    assert "vjepa21_fixture" in detail
-    assert str(checkpoint) in detail
-    assert str(receipt_path) in detail
-    assert "official-pytorch-only-fixture" not in detail
-
-
-def test_official_pytorch_checkpoint_rejects_same_size_hash_drift(monkeypatch, tmp_path):
-    checkpoint, _, _ = _direct_checkpoint_fixture(monkeypatch, tmp_path)
-    checkpoint.write_bytes(b"x" * checkpoint.stat().st_size)
-    sd._sha256_snapshot.cache_clear()
-    ok, detail = sd._check_encoder_weights("studio-1tb")
-    assert not ok
-    assert "file SHA256 does not match configured checkpoint_sha256" in detail
-    assert "checkpoint receipt SHA256 does not match config and file" in detail
-
-
-def test_official_pytorch_checkpoint_rejects_receipt_drift(monkeypatch, tmp_path):
-    _, receipt_path, receipt = _direct_checkpoint_fixture(monkeypatch, tmp_path)
-    receipt["all_ok"] = False
-    receipt_path.write_text(json.dumps(receipt))
-    ok, detail = sd._check_encoder_weights("studio-1tb")
-    assert not ok
-    assert "checkpoint receipt is not green" in detail
 
 
 def test_cache_manifest_check_does_not_pass_vacuously(monkeypatch, tmp_path):
