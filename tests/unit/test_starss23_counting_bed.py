@@ -10,6 +10,7 @@ import numpy as np
 import pytest
 
 from mop.beds.starss23 import count_verifier as V
+from mop.beds.starss23.adapter import AdapterRefusal, MetadataRow, _count_track, parse_starss23_metadata
 from mop.beds.starss23.count_estimator import (
     FLOPS_PER_REESTIMATE,
     FrozenCountEstimator,
@@ -25,13 +26,6 @@ from mop.beds.starss23.count_gate import (
     CountOnlineState,
     voc_targets_from_count_track,
 )
-from mop.beds.starss23.count_labels import (
-    COUNT_CEILING,
-    CountClip,
-    change_density,
-    coast_from_zero_mae,
-    count_track_from_metadata_text,
-)
 from mop.beds.starss23.count_prereg import PREREGISTERED_SESOI_MAE, build_count_prereg
 from mop.beds.starss23.count_producer import (
     DEFAULT_FOA_ROOT,
@@ -39,6 +33,7 @@ from mop.beds.starss23.count_producer import (
     RealCountBedConfig,
     _real_noisy_tv_features,
     _run_seed_real,
+    _track_totals,
     build_real_count_bed_artifact,
 )
 from mop.beds.starss23.count_referee import coast_emitted, mae_clip, score_arm
@@ -54,35 +49,20 @@ _TIMESTAMP = "2026-07-18T00:00:00Z"
 
 def test_count_track_distinct_tracks_and_tail_silence():
     text = "0,1,1,10,0,100\n1,1,1,10,0,100\n1,2,3,20,0,100\n"
-    track = count_track_from_metadata_text(text, n_frames=5)
-    assert track.tolist() == [1, 2, 0, 0, 0]
+    assert _count_track(parse_starss23_metadata(text), 5) == (1, 2, 0, 0, 0)
 
 
 def test_count_track_drops_rows_past_end_and_guards_ceiling():
     text = "0,1,1,10,0,100\n9,2,2,20,0,100\n"  # frame 9 is past n_frames
-    track = count_track_from_metadata_text(text, n_frames=3)
-    assert track.tolist() == [1, 0, 0]
-    with pytest.raises(ValueError):
-        CountClip(
-            clip_id="fold3_room0_mix000",
-            room_id="room00",
-            n_frames=1,
-            audio_sha256="a" * 64,
-            count_track=(COUNT_CEILING + 1,),
-        )
+    assert _count_track(parse_starss23_metadata(text), 3) == (1, 0, 0)
+    rows = tuple(MetadataRow(0, 0, source, True) for source in range(17))
+    with pytest.raises(AdapterRefusal, match="exceeds COUNT_CEILING 16"):
+        _count_track(rows, 1)
 
 
 def test_change_density_and_coast_from_zero():
-    clip = CountClip(
-        clip_id="fold3_room0_mix000",
-        room_id="room00",
-        n_frames=6,
-        audio_sha256="a" * 64,
-        count_track=(0, 1, 1, 2, 0, 0),
-    )
-    assert clip.n_changes == 3
-    assert change_density([clip]) == pytest.approx(3 / 6)
-    assert coast_from_zero_mae([clip]) == pytest.approx(4 / 6)
+    clip = Clip("fold3_room0_mix000", "room00", 6, "a" * 64)
+    assert _track_totals((clip,), {clip.clip_id: (0, 1, 1, 2, 0, 0)}) == (6, 3, 4)
 
 
 def test_shared_count_seed_lifecycle_matches_the_legacy_projection():

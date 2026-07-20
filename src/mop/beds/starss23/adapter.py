@@ -26,6 +26,7 @@ FOLD_DEV_TEST = 4
 _AZIMUTH_MIN, _AZIMUTH_MAX = -180, 180
 _ELEVATION_MIN, _ELEVATION_MAX = -90, 90
 _DISTANCE_MAX_CM = 100_000  # 1 km ceiling; a physical sanity bound, not a knob
+_COUNT_CEILING = 16
 
 _CLIP_NAME_RE = re.compile(r"^fold(\d+)_room(\d+)_mix(\d+)$")
 
@@ -110,6 +111,21 @@ def parse_starss23_metadata(text: str) -> tuple[MetadataRow, ...]:
             raise AdapterRefusal("MetadataRow.distance must be a positive centimeter count")
         rows.append(row)
     return tuple(rows)
+
+
+def _count_track(rows: Iterable[MetadataRow], n_frames: int) -> tuple[int, ...]:
+    if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames <= 0:
+        raise AdapterRefusal("n_frames must be a positive integer")
+    active: list[set[tuple[int, int]]] = [set() for _ in range(n_frames)]
+    for row in rows:
+        if not isinstance(row, MetadataRow):
+            raise AdapterRefusal("rows must be MetadataRow values")
+        if row.frame < n_frames:
+            active[row.frame].add((row.class_id, row.source_id))
+    track = tuple(len(sources) for sources in active)
+    if track and max(track) > _COUNT_CEILING:
+        raise AdapterRefusal(f"derived concurrent count {max(track)} exceeds COUNT_CEILING {_COUNT_CEILING}")
+    return track
 
 
 def _onset_frames(rows: Iterable[MetadataRow]) -> set[int]:
@@ -314,6 +330,7 @@ class RealStarssAdapter:
             raise AdapterRefusal(f"no FOA WAV clips found under {self._foa_root}")
 
         self._audio: dict[str, np.ndarray] = {}
+        self._count_tracks: dict[str, tuple[int, ...]] = {}
         self._truncations: list[ClipTruncation] = []
         clips: list[Clip] = []
         for wav_path in wav_paths:
@@ -329,8 +346,9 @@ class RealStarssAdapter:
             audio, n_frames, capped = _truncate_to_frames(decoded, max_frames)
             self._audio[clip_id] = audio
 
-            metadata_text = matching_meta_path.read_text(encoding="utf-8")
-            onset_frames = _onset_frames(parse_starss23_metadata(metadata_text))
+            metadata_rows = parse_starss23_metadata(matching_meta_path.read_text(encoding="utf-8"))
+            onset_frames = _onset_frames(metadata_rows)
+            self._count_tracks[clip_id] = _count_track(metadata_rows, n_frames)
             self._truncations.append(
                 ClipTruncation(
                     clip_id=clip_id,
@@ -358,6 +376,11 @@ class RealStarssAdapter:
         if clip_id not in self._audio:
             raise AdapterRefusal(f"unknown clip id {clip_id!r}")
         return self._audio[clip_id]
+
+    def count_track(self, clip_id: str) -> tuple[int, ...]:
+        if clip_id not in self._count_tracks:
+            raise AdapterRefusal(f"unknown clip id {clip_id!r}")
+        return self._count_tracks[clip_id]
 
     def truncations(self) -> tuple[ClipTruncation, ...]:
 
