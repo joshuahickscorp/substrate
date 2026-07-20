@@ -92,7 +92,6 @@ IMPLEMENTATION_PATHS = (
     "src/mop/studies/action_world_model.py",
     "scripts/p7_action_world_model_preflight.py",
     "tests/unit/test_action_world_model.py",
-    "docs/P7_ACTION_WORLD_MODEL_AUDIT_2026_07.md",
     "src/mop/studies/process_resources.py",
     "src/mop/studies/runtime_integrity.py",
 )
@@ -104,7 +103,6 @@ UPSTREAM_PATHS = (
     "src/mop/shell/predictor.py",
     "src/mop/studies/local_action_environment.py",
     "configs/experiment/e5_curiosity.yaml",
-    "configs/experiment/f6_sensorimotor_form_closure.yaml",
     "configs/custom_substrate/requirements.yaml",
     "proof/LOCAL_ACTION_ENVIRONMENT.json",
     "proof/EXPANSION_WAVE0.json",

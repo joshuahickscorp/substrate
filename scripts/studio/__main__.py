@@ -47,12 +47,6 @@ from mop.studio.spine_plan import (
     write_studio_spine_plan,
     write_studio_spine_status,
 )
-from mop.studio.transfer_check import (
-    DEFAULT_AUDIT_PATH,
-    TransferCheckConfig,
-    run_transfer_check,
-    write_transfer_report,
-)
 from mop.studio.wave0_report import (
     build_wave0_report,
 )
@@ -88,7 +82,6 @@ def main(argv: list[str] | None = None) -> int:
     _add_rehearse(sub)
     _add_scorecard(sub)
     _add_spine_plan(sub)
-    _add_transfer_check(sub)
     _add_wave0_report(sub)
     args = parser.parse_args(sys.argv[1:] if argv is None else argv)
     return args.func(args)
@@ -548,7 +541,6 @@ def _artifact_indexes(raw_items: list[str]) -> dict[str, dict | None]:
         "dr1": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "dr1.json",
         "pr9": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "pr9.json",
         "atlas": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "atlas.json",
-        "form_substrate": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "form_substrate.json",
         "spine": REPO_ROOT / "proof" / "ARTIFACT_INDEX" / "spine.json",
     }
     for item in raw_items:
@@ -660,35 +652,6 @@ def _next_step(next_step: dict[str, Any]) -> dict[str, Any]:
         "cmd": next_step["cmd"],
         "missing_receipts": next_step["missing_receipts"],
     }
-
-
-def _add_transfer_check(sub: argparse._SubParsersAction) -> None:
-    parser = sub.add_parser("transfer-check", help="run the read-only Studio transfer checklist")
-    parser.add_argument("--profile", default="studio-m1ultra")
-    parser.add_argument("--repo-root", default=".")
-    parser.add_argument("--audit-path", default=None)
-    parser.add_argument("--skip-audit", action="store_true")
-    parser.add_argument("--allow-dirty", action="store_true")
-    parser.add_argument("--no-receipts", action="store_true")
-    parser.add_argument("--out", default=None)
-    parser.set_defaults(func=_cmd_transfer_check)
-
-
-def _cmd_transfer_check(args: argparse.Namespace) -> int:
-    audit = None if args.skip_audit else Path(args.audit_path) if args.audit_path else DEFAULT_AUDIT_PATH
-    report = run_transfer_check(
-        TransferCheckConfig(
-            repo_root=Path(args.repo_root).resolve(),
-            audit_path=audit,
-            profile_name=args.profile,
-            allow_dirty=bool(args.allow_dirty),
-            require_receipts=not bool(args.no_receipts),
-        )
-    )
-    if args.out:
-        write_transfer_report(report, args.out)
-    _print(report)
-    return 0 if report["all_ok"] else 1
 
 
 def _add_wave0_report(sub: argparse._SubParsersAction) -> None:

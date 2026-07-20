@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `a559140` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `a9cce1d` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -303,7 +303,7 @@ Total items: 259. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base a559140
+- commit: pending; base a9cce1d
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -618,4 +618,16 @@ Total items: 259. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 - validation: 105 dual-axis cases, 9 ordinary construction-search cases, and 9 successor-batch/oracle cases green with worktree-first PYTHONPATH; changed files compile and pass ruff.
 - rollback_tag: mop-collapse-mechanism-runners.
 - next_exact_edit: collapse the matching joint-axis scaffold and bed lifecycle.
+
+### FORM campaign retirement (current checkpoint)
+
+- physical retirement: the completed F1-F20 experiment classes, configs, campaign runners, independent verifier machinery, generated campaign evidence, Studio boundary branches, dedicated tests, and unexecuted F21-F66 registry declarations were deleted.
+- preserved science: 17 immutable FORM receipts remain because the active custom-substrate requirements ledger consumes them as frozen design evidence; all other deleted paths recover from mop-collapse-pre-generation1-campaign.
+- generic surface: experiment registration, artifact bundling, Studio objective and durability scoring, long-run planning, and verdict gating remain without FORM-specific branches.
+- owned Python change: 20 added/12,200 deleted, net -12,180 LOC; cumulative verified owned Python reduction: 262,922 LOC.
+- total tracked implementation change: 20 added/28,789 deleted, net -28,769 LOC.
+- validation: 1,945-case full collection and complete compile pass; registry, Studio, action-world, custom-substrate, project-exhaustion, verdict, and docs batteries are green; critical ruff passes and all 85 deleted paths are tag-recoverable.
+- live-run non-interference: the protected checkout remains clean and untouched.
+- rollback_tag: mop-collapse-form-program.
+- next_exact_edit: retire the completed F21-F66 scaffold implementation clusters whose registry declarations are now absent.
 

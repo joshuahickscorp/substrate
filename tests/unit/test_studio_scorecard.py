@@ -190,16 +190,12 @@ def test_scorecard_accepts_atlas_verdict_candidate_positive_as_density_evidence(
     assert "atlas_verdict_ledger" in report["axes"]["density"]["receipts"]
 
 
-def test_scorecard_durability_requires_form_substrate_artifact_index():
+def test_scorecard_durability_requires_active_artifact_indexes():
     indexes = {
         name: {"schema": "mop-artifact-bundle/v1", "all_ok": True}
         for name in ("wave0", "dr1", "pr9", "atlas", "spine")
     }
     spine = {"schema": "mop-studio-spine-status/v1", "all_complete": True}
-    report = build_studio_scorecard(artifact_indexes=indexes, spine_status=spine)
-    assert report["axes"]["durability"]["status"] == "pending"
-    assert "form_substrate" in report["axes"]["durability"]["detail"]
-    indexes["form_substrate"] = {"schema": "mop-artifact-bundle/v1", "all_ok": True}
     report = build_studio_scorecard(artifact_indexes=indexes, spine_status=spine)
     assert report["axes"]["durability"]["status"] == "complete"
 

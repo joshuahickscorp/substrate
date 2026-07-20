@@ -13,7 +13,6 @@ SCHEMA = "mop-verdict-gate/v1"
 POSITIVE_VERDICTS = {"PUBLISH-POSITIVE"}
 PASS_KEYS = ("passed", "pass", "all_ok", "all_passed", "clean", "ok", "verified")
 INDEPENDENCE_KEYS = ("independent", "independent_verifier", "adversarial", "adversarial_pass")
-FORM_VERIFIER_SCHEMA = "mop-form-independent-verifier/v1"
 
 
 def build_verdict_gate(
@@ -133,11 +132,6 @@ def _verifier_summary(path: Path | None, run_path: Path) -> dict[str, Any]:
     out["json_ok"] = True
     out["passed"] = truthy_top_level(data, PASS_KEYS)
     out["independent"] = truthy_top_level(data, INDEPENDENCE_KEYS)
-    if data.get("schema") == FORM_VERIFIER_SCHEMA:
-        out["problems"].extend(_form_verifier_problems(data, run_path))
-        if out["problems"]:
-            out["passed"] = False
-            out["independent"] = False
     return out
 
 
@@ -146,61 +140,6 @@ def truthy_top_level(obj: Any, keys: tuple[str, ...]) -> bool:
         return False
     normalized = {str(key).strip().lower(): value for key, value in obj.items()}
     return any(normalized.get(key) is True for key in keys)
-
-
-def _form_verifier_problems(data: dict[str, Any], run_path: Path) -> list[str]:
-    problems: list[str] = []
-    if data.get("passed") is not True or data.get("all_ok") is not True:
-        problems.append("form verifier top-level passed/all_ok flags must both be true")
-    if data.get("independent") is not True or data.get("adversarial") is not True:
-        problems.append("form verifier must be both independent and adversarial")
-    checks = data.get("checks")
-    if not isinstance(checks, list) or not checks:
-        problems.append("form verifier checks are missing")
-    elif any(not isinstance(check, dict) or check.get("passed") is not True for check in checks):
-        problems.append("form verifier contains a failed or malformed check")
-    if data.get("problems") not in ([], tuple()):
-        problems.append("form verifier reports problems")
-
-    fresh = data.get("fresh_seeds_or_heldout_cases")
-    canonical = data.get("canonical_seeds")
-    if not isinstance(fresh, list) or len(fresh) < 5 or len(set(fresh)) != len(fresh):
-        problems.append("form verifier needs at least five unique fresh seeds or held-out cases")
-    elif isinstance(canonical, list) and set(fresh) & set(canonical):
-        problems.append("form verifier fresh seeds overlap its canonical seeds")
-
-    frozen = data.get("frozen_live_contract")
-    required_fingerprints = (
-        "contract_fingerprint",
-        "config_sha256",
-        "class_source_sha256",
-        "verifier_sha256",
-    )
-    if not isinstance(frozen, dict):
-        problems.append("form verifier frozen live contract is missing")
-    else:
-        missing = [key for key in required_fingerprints if not str(frozen.get(key) or "")]
-        if missing:
-            problems.append(f"form verifier source fingerprints missing: {missing}")
-
-    source_receipts = data.get("source_receipts")
-    matching_source = False
-    if isinstance(source_receipts, list):
-        for source in source_receipts:
-            if not isinstance(source, dict):
-                continue
-            source_path = Path(str(source.get("path") or ""))
-            if not source_path.is_absolute():
-                candidates = [ancestor / source_path for ancestor in run_path.parents]
-                source_path = next((candidate for candidate in candidates if candidate.exists()), source_path)
-            try:
-                same_path = source_path.resolve() == run_path.resolve()
-            except OSError:
-                same_path = False
-            matching_source = matching_source or (same_path and source.get("sha256") == _sha256(run_path))
-    if not matching_source:
-        problems.append("form verifier is not fingerprint-bound to this canonical run receipt")
-    return problems
 
 
 def _sha256(path: Path | None) -> str | None:

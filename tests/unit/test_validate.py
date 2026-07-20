@@ -28,14 +28,6 @@ def test_sealed_envelope_payload_declares_null_contract(field):
     assert validate._declared_null_contract(cfg) == "registered null"
 
 
-def test_f_series_run_refuses_contract_drift_before_compute():
-    cfg = config.compose(["experiment=f5_cross_form_memory_binding"])
-    validate.validate_experiment(cfg)
-    cfg.experiment.null_hypothesis = str(cfg.experiment.null_hypothesis) + "."
-    with pytest.raises(validate.ConfigError, match="contract null_hypothesis differs"):
-        validate.validate_experiment(cfg)
-
-
 def test_unavailable_encoder_with_prefer_real_raises():
     cfg = config.compose(["encoder=vjepa21_vitl", "encoder.prefer_real=true"])
     with pytest.raises(validate.ConfigError):

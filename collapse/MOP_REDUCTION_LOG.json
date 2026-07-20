@@ -816,6 +816,24 @@
       "proof": "EDCM, ESCS G0/X0/X1, P4, P5, and P6-10K have sealed successful or independently verified live results with scientific promotion disabled; ESCS X2/X3 and P6 100K/1M have no completed result; the ESCS substrate preflight and perspective registry were already stale against earlier source/documentation collapse and had no non-ESCS runtime consumer; full 2110-case collection and compile-all are clean; retained registry/ladder boundary is 24/24 green, retained Stage-3/event-formation/STARSS boundary is 119/119 green, and the 32-case docs gate is green; all deleted paths recover from the prior tag",
       "accounting_note": "95905 Python lines deleted for 19 survivor lines, net -95886; generated configuration and proof outputs contribute a further 88876 deleted non-Python lines; total physical tracked change is 19 added/184781 deleted, net -184762; one ladder subprocess end-to-end case was excluded because its own process-group cleanup terminates the enclosing test shell, while its ten non-spawning cases and full collection remain green",
       "tag": "mop-collapse-pre-generation1-campaign"
+    },
+    {
+      "region": "section9_evidence_section10_experiments_section14_entrypoints_section15_configuration_and_section17_validation",
+      "batch": "retired_form_campaign_and_future_registry",
+      "checkpoint_status": "green",
+      "primitive": "the completed F1-F20 FORM campaign, its verifier and campaign machinery, generated evidence not consumed by an active runtime, Studio-only boundary branches, special contract/verifier validation, and the unexecuted F21-F66 registry declarations were converted to recoverable history",
+      "deduplicated_LOC": 0,
+      "added_LOC": 20,
+      "eliminated_LOC": 12200,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 12180,
+      "files_changed": 102,
+      "destination_api": "the generic experiment registry, artifact bundler, Studio objective audit and scorecard, plus 17 immutable FORM receipts retained solely as active custom-substrate requirement inputs",
+      "proof": "all F1-F20 lanes have sealed local outcomes, including the preserved failed F10 result; full collection is clean at 1945 tests and compile-all passes; retained registry, validation, verdict, Studio, long-run, action-world, custom-substrate, project-exhaustion, and docs boundaries are green; critical ruff passes; all 85 deleted paths recover from the prior tag; the protected checkout is clean and untouched",
+      "accounting_note": "12200 Python lines deleted for 20 survivor lines, net -12180; registry, configuration, campaign, and generated evidence deletion brings the total tracked implementation change to 20 added/28789 deleted, net -28769; the 17 retained FORM receipts keep every FORM source required by the active custom-substrate ledger, whose only current audit failure is the pre-existing absent V-JEPA teacher cache manifest",
+      "tag": "mop-collapse-form-program"
     }
   ],
   "deferred_heavy_validation": {

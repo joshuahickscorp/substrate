@@ -16,7 +16,6 @@ def test_template_plan_round_trips(tmp_path):
     write_plan_template(plan_path)
     jobs = load_plan(plan_path)
     assert [j.job_id for j in jobs] == [
-        "transfer_check",
         "disk_recovery",
         "density_receipt",
         "doctor",

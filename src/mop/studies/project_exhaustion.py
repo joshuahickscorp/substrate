@@ -350,10 +350,10 @@ def _vjepa21_vitb_runtime_ready() -> tuple[bool, list[dict[str, Any]]]:
 
 def registry_rows() -> list[dict[str, Any]]:
     payload = yaml.safe_load((REPO_ROOT / "registry" / "experiments.yaml").read_text())
-    rows = [dict(row) for row in payload["experiments"] if not str(row["id"]).startswith("f")]
+    rows = [dict(row) for row in payload["experiments"]]
     ids = [str(row["id"]) for row in rows]
     if len(ids) != len(set(ids)):
-        raise ValueError("duplicate non-F ids in registry/experiments.yaml")
+        raise ValueError("duplicate ids in registry/experiments.yaml")
     return rows
 
 
@@ -1294,8 +1294,8 @@ def build_ledger(execution_root: Path = DEFAULT_EXECUTION_ROOT) -> dict[str, Any
         "execution_campaign": _execution_campaign(execution_root),
         "scope": {
             "registry": "registry/experiments.yaml",
-            "included": "every non-F row",
-            "excluded": "F1-F20, owned by the separate Form-substrate campaign",
+            "included": "every current registry row",
+            "excluded": "none",
             "claim_boundary": (
                 "fresh execution verifies runnable code and durable output only; it does not by "
                 "itself verify a hypothesis"
@@ -1340,7 +1340,7 @@ def build_ledger(execution_root: Path = DEFAULT_EXECUTION_ROOT) -> dict[str, Any
         "resumable_queue": queue,
         "blocked_ids": failures,
         "hardware_boundary_conclusion": (
-            "No non-F row is honestly proven M3-hardware-blocked by current experiment-specific evidence. "
+            "No current row is honestly proven M3-hardware-blocked by experiment-specific evidence. "
             "GPU/studio tier labels are planning metadata, not measurements."
         ),
         "registry_evidence": file_evidence(REPO_ROOT / "registry" / "experiments.yaml"),
@@ -1377,9 +1377,9 @@ def worker_execute_experiment(experiment_id: str, run_dir: Path, seed: int) -> d
         raise KeyError(experiment_id)
     cls = REGISTRY[experiment_id]
     allowed = cls.tier == "cpu-now" or experiment_id in BLOCKED_SMOKE_IDS
-    if experiment_id.startswith("f") or not allowed:
+    if not allowed:
         raise ValueError(
-            f"worker only accepts non-F cpu-now classes or declared blocked smokes, "
+            f"worker only accepts cpu-now classes or declared blocked smokes, "
             f"got {experiment_id} ({cls.tier})"
         )
     cfg = compose(
