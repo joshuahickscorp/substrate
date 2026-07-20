@@ -2,24 +2,15 @@
 from __future__ import annotations
 
 from mop.science import PROGRAM, seal_record
-from mop.science.budget import ARM_BEST_SINGLE, ARM_NEVER_UPDATE, BudgetPolicy
+from mop.science.budget import ARM_NEVER_UPDATE, BudgetPolicy
 
-from . import BED_ID, CLAIM_SCOPE, FLOP_CEILING
+from . import CLAIM_SCOPE, FLOP_CEILING
 
 CLAIM = "deterministic programmatic mechanics only; no capability or natural-data claim"
 FORBIDDEN = ("proves", "demonstrates", "significant", "establishes capability", "generalizes")
 CONTROLS = ("rate_matched_random", "always_on", "never_update")
 
 COUNT_BED_ID = "starss23_escs_source_counting"
-MAX_GATE_PARAMS = 4096
-FEATURIZE_FLOPS_PER_FRAME = 1_121_340
-GATE_INFER_FLOPS_PER_FRAME = 6_385
-GATE_PARAMS = 3_193
-
-ONSET_BUDGET_POLICY = BudgetPolicy(
-    "mop-starss23-escs-harness/v1", BED_ID, "f1", "firings", "higher", ARM_BEST_SINGLE,
-    CLAIM_SCOPE, FLOP_CEILING, metric_max=1.0, include_mean_actions=False,
-)
 COUNT_BUDGET_POLICY = BudgetPolicy(
     "mop-starss23-count-harness/v1", COUNT_BED_ID, "mae", "reestimations", "lower",
     ARM_NEVER_UPDATE, CLAIM_SCOPE, FLOP_CEILING,
@@ -49,17 +40,6 @@ def _record(*, experiment_id: str, schema: str, question: str, null: str, metric
     })
 
 
-ONSET = _record(
-    experiment_id="starss23_escs_event_formation", schema="mop-starss23-escs-bed/v1",
-    question="does a trained gate place the same firing budget at onsets better than rate-matched random",
-    null="candidate onset F1 does not exceed rate-matched-random onset F1",
-    metric="onset F1 at DCASE plus or minus 200 ms collar", direction="higher", sesoi=0.05,
-    seeds=(0, 1, 2, 3, 4), providers=("spectral_flux", "online_gate", "onset_referee"),
-    treatments=("learning_progress_gate",),
-    split={"rule": "room_disjoint", "train_fold": 3, "test_fold": 4},
-    multiplicity={"kind": "none", "members": ()}, verification="starss23_onset_verifier",
-)
-
 COUNTING = _record(
     experiment_id="starss23_escs_source_counting", schema="mop-starss23-escs-count-bed/v1",
     question="does a trained gate lower coasted count MAE at the same re-estimation budget",
@@ -70,10 +50,8 @@ COUNTING = _record(
     multiplicity={"kind": "none", "members": ()}, verification="starss23_count_verifier",
 )
 
-RECORDS = (ONSET, COUNTING)
+RECORDS = (COUNTING,)
 
 __all__ = [
-    "COUNTING", "COUNT_BED_ID", "COUNT_BUDGET_POLICY", "FEATURIZE_FLOPS_PER_FRAME",
-    "GATE_INFER_FLOPS_PER_FRAME", "GATE_PARAMS", "MAX_GATE_PARAMS", "ONSET", "ONSET_BUDGET_POLICY",
-    "RECORDS",
+    "COUNTING", "COUNT_BED_ID", "COUNT_BUDGET_POLICY", "RECORDS",
 ]

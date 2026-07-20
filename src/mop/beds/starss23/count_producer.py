@@ -32,9 +32,13 @@ from .count_estimator import FLOPS_PER_REESTIMATE, FrozenCountEstimator
 from .count_featurizer import D_CFEAT, FLOPS_PER_FRAME_COUNT, FrozenCountFeaturizer
 from .count_gate import (
     COUNT_VOC_WINDOW,
+    DEFAULT_EPOCHS,
+    DEFAULT_LEARNING_RATE,
+    DEFAULT_PONDER_LAMBDA,
     FLOPS_PER_INFERENCE,
     CountGate,
     CountOnlineState,
+    training_flops,
     voc_targets_from_count_track,
 )
 from .count_prereg import (
@@ -48,7 +52,6 @@ from .count_variant_producer import (
     build_count_variant_artifact,
     prepare_count_variant_corpus,
 )
-from .gate import DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_PONDER_LAMBDA, training_flops
 from .schema import Clip
 
 COUNT_PRODUCER_SCHEMA = "mop-starss23-count-producer/v1"

@@ -672,6 +672,24 @@
       "proof": "all deleted variant and DoA artifacts record verdict=null with scientific_promotion=false; DoA had no runtime command and no slice had a campaign or configuration consumer; retained base/count/science battery is 161/161 green; full 3520-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all 62 deleted paths recover from the prior tag",
       "accounting_note": "src 2 added/6834 deleted; scripts 0 added/314 deleted; tests 0 added/1590 deleted; 27 orphaned or null minified proof files totaling 6.37 MiB were also deleted but contribute zero to Python LOC accounting",
       "tag": "mop-collapse-starss23-null-family"
+    },
+    {
+      "region": "section11_starss23_bed_section14_entrypoints_and_section17_validation",
+      "batch": "null_base_onset_bed_and_count_self_containment",
+      "checkpoint_status": "green",
+      "primitive": "the null base onset bed, its commands, dedicated validation, and proof outputs were physically deleted; exact shared spectral and gate primitives were absorbed into the retained mechanics-ok counting implementation and base-only controls were removed",
+      "deduplicated_LOC": 0,
+      "added_LOC": 77,
+      "eliminated_LOC": 5275,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 5198,
+      "files_changed": 33,
+      "destination_api": "self-contained STARSS23 count_featurizer, count_gate, count_producer, and count_verifier authority",
+      "proof": "the deleted base artifact records verdict=null and scientific_promotion=false with no campaign/config consumer; old/new Hann window and mel filterbank arrays are bit-exact and gate parameter/FLOP/training math is exact across canonical and alternate dimensions; retained count/science/adapter/schema/statistics battery is 121/121 green; full 3384-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all 25 deleted paths recover from the prior tag",
+      "accounting_note": "src 76 added/3293 deleted; scripts 0 added/128 deleted; tests 1 added/1854 deleted; three null proof files totaling 0.67 MiB were also deleted but contribute zero to Python LOC accounting",
+      "tag": "mop-collapse-starss23-count-kernel"
     }
   ],
   "deferred_heavy_validation": {

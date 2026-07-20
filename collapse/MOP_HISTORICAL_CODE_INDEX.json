@@ -282,6 +282,46 @@
         "tests/unit/test_starss23_gate_refractory_nms.py",
         "tests/unit/test_starss23_interchannel_coherence_verifier.py"
       ]
+    },
+    {
+      "id": "null_starss23_base_onset_bed",
+      "reason": "the base onset bed has a committed null verdict with scientific promotion disabled and no campaign or configuration consumer; its only surviving consumer, the mechanics-ok counting bed, now owns the exact shared spectral and gate math directly",
+      "source_tag": "mop-collapse-starss23-null-family",
+      "recovery": "git show mop-collapse-starss23-null-family:<path>",
+      "replacement_paths": [
+        "src/mop/beds/starss23/count_featurizer.py",
+        "src/mop/beds/starss23/count_gate.py",
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/beds/starss23/count_verifier.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ],
+      "paths": [
+        "proof/STARSS23_ESCS_BED.json",
+        "proof/STARSS23_ESCS_BED.prereg.json",
+        "proof/STARSS23_ESCS_BED.verification.json",
+        "scripts/run_starss23_escs_bed.py",
+        "scripts/verify_starss23_escs_bed.py",
+        "src/mop/beds/starss23/artifact.py",
+        "src/mop/beds/starss23/bed.py",
+        "src/mop/beds/starss23/featurizer.py",
+        "src/mop/beds/starss23/featurizer_variant_producer.py",
+        "src/mop/beds/starss23/fixtures.py",
+        "src/mop/beds/starss23/gate.py",
+        "src/mop/beds/starss23/prereg.py",
+        "src/mop/beds/starss23/real_artifact.py",
+        "src/mop/beds/starss23/referee.py",
+        "src/mop/beds/starss23/verifier.py",
+        "tests/unit/conftest.py",
+        "tests/unit/test_starss23_artifact.py",
+        "tests/unit/test_starss23_controls.py",
+        "tests/unit/test_starss23_end_to_end.py",
+        "tests/unit/test_starss23_featurizer.py",
+        "tests/unit/test_starss23_fixtures.py",
+        "tests/unit/test_starss23_gate.py",
+        "tests/unit/test_starss23_harness.py",
+        "tests/unit/test_starss23_referee.py",
+        "tests/unit/test_starss23_verifier_independence.py"
+      ]
     }
   ]
 }

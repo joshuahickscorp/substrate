@@ -11,9 +11,9 @@ from mop.substrate.events import canonical_sha256
 
 from . import CLAIM_SCOPE
 from .count_estimator import FLOPS_PER_REESTIMATE
+from .count_gate import C_TRAIN_ANCHOR
 from .count_referee import COLD_START, METRIC_RULE
 from .experiments import COUNT_BED_ID
-from .gate import C_TRAIN_ANCHOR
 from .schema import FRAME_MS
 
 COUNT_PREREG_SCHEMA = "mop-starss23-count-bed-prereg/v1"

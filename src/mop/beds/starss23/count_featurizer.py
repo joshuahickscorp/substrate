@@ -9,7 +9,6 @@ import numpy as np
 from mop.substrate.events import canonical_sha256
 
 from .adapter import FrozenFeatureProvider
-from .featurizer import hann_window, mel_filterbank
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_FEATURIZER_SCHEMA = "mop-starss23-count-featurizer/v1"
@@ -41,6 +40,27 @@ _LOG_EPS = 1e-6
 
 class CountFeaturizerRefusal(ValueError):
     pass
+
+
+def hann_window() -> np.ndarray:
+    n = np.arange(WINDOW, dtype=np.float64)
+    return 0.5 - 0.5 * np.cos(2.0 * np.pi * n / WINDOW)
+
+
+def mel_filterbank(sample_rate: int, n_mel: int = N_MEL, n_bins: int = N_BINS) -> np.ndarray:
+    hz_to_mel = lambda hz: 2595.0 * np.log10(1.0 + hz / 700.0)
+    mel_to_hz = lambda mel: 700.0 * (np.power(10.0, mel / 2595.0) - 1.0)
+    f_max = sample_rate / 2.0
+    mel_points = np.linspace(hz_to_mel(0.0), hz_to_mel(f_max), n_mel + 2)
+    hz_points = mel_to_hz(mel_points)
+    bin_freqs = np.linspace(0.0, f_max, n_bins)
+    filters = np.zeros((n_mel, n_bins), dtype=np.float64)
+    for m in range(1, n_mel + 1):
+        left, center, right = hz_points[m - 1 : m + 2]
+        rising = (bin_freqs - left) / max(center - left, np.finfo(float).eps)
+        falling = (right - bin_freqs) / max(right - center, np.finfo(float).eps)
+        filters[m - 1] = np.maximum(0.0, np.minimum(rising, falling))
+    return filters
 
 
 @dataclass(frozen=True, slots=True)

@@ -44,7 +44,7 @@ from mop.beds.starss23.count_producer import (
 )
 from mop.beds.starss23.count_referee import coast_emitted, mae_clip, score_arm
 from mop.beds.starss23.experiments import COUNT_BUDGET_POLICY
-from mop.beds.starss23.gate import training_flops
+from mop.beds.starss23.count_gate import training_flops
 from mop.beds.starss23.schema import Clip
 from mop.science import budget as H
 from mop.substrate.events import canonical_sha256
