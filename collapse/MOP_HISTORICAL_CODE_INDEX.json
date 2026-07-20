@@ -2289,6 +2289,18 @@
         "src/mop/beds/starss23/count_producer.py",
         "src/mop/science/__init__.py"
       ]
+    },
+    {
+      "id": "collapsed_count_preregistration_cost_benefit_record",
+      "source_tag": "mop-collapse-lowest-green-25",
+      "reason": "CountCostBenefit, compute_count_cost_benefit, its payload method, and its rationale adapter were materialized exactly once inside build_count_prereg and had no other maintained consumer; the preregistration now projects the same economic quantities, rationale, SESOI, claim ceiling, and digest directly",
+      "replacement_paths": [
+        "src/mop/beds/starss23/count_prereg.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-25:<path>",
+      "paths": [
+        "src/mop/beds/starss23/count_prereg.py"
+      ]
     }
   ]
 }

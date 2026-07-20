@@ -1577,6 +1577,25 @@
       "performance": "24 alternating cold imports improve median count-producer import from 0.696789s to 0.695650s (-0.16%)",
       "accounting_note": "276 one-consumer generic artifact and callback-lifecycle lines are replaced by 97 direct count artifact lines, net -179; runtime source falls to 5622 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7707 LOC",
       "tag": "mop-collapse-direct-count-artifact"
+    },
+    {
+      "region": "section8_starss23",
+      "batch": "direct_count_preregistration_projection",
+      "checkpoint_status": "green",
+      "primitive": "the count preregistration now computes its single cost-benefit and SESOI projection directly: the 15-field CountCostBenefit record, public one-consumer compute function, separate payload round trip, and rationale adapter are physically retired while the exact economics, claim ceiling, refusal behavior, canonical digest, and sealed artifact remain unchanged",
+      "deduplicated_LOC": 0,
+      "added_LOC": 55,
+      "eliminated_LOC": 123,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 68,
+      "files_changed": 1,
+      "destination_api": "build_count_prereg in src/mop/beds/starss23/count_prereg.py as the sole cost-benefit, rationale, claim-ceiling, and canonical preregistration projection",
+      "proof": "the complete preregistration body SHA-256 b093e53de3f1d54acaed715c57a119c1429d8c6b656af09dc9966801ea8ecd81, embedded digest 760b9380813978582dfc965cf2d8bea94be6ac73c56c88a281aa6163731afb06, cost-benefit SHA-256 93fb9b2e070db7f0dbc1a1fe61d07b51510d8227c808418f26df790d51133a82, rationale SHA-256 05ec387a091bacabdb3ddd67be78487b08ecef161490109a512b869f96efaf1d, key order, and 15 timestamp/SESOI/seed/compute/rate/corpus refusals are exact; the deterministic full artifact, seal, detail, and written prereg remain exact; sealed artifact fb3a7112906a4e3a5c32fef0f3980e5642ac93996559a7cf59152e559b8044e6 independently reproduces scores and statistics; the 128-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 39 source files, compile-all and diff checks clean",
+      "performance": "eight alternating 400-preregistration batches improve median construction time from 0.009681s to 0.009081s (-6.21%)",
+      "accounting_note": "123 one-use cost-benefit record, compute, payload, and rationale lines are replaced by 55 direct preregistration lines, net -68; runtime source falls to 5554 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7639 LOC",
+      "tag": "mop-collapse-direct-count-prereg"
     }
   ],
   "latest_full_validation": {
