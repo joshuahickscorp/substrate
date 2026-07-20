@@ -178,8 +178,8 @@ def test_ponder_lowers_reestimation_rate():
     y = (rng.random(400) < 0.3).astype(np.float64)
     low = CountGate(seed=5)
     high = CountGate(seed=5)
-    r_low = low.fit(x, y, epochs=6, learning_rate=0.1, ponder_lambda=0.0).final_reestimate_rate
-    r_high = high.fit(x, y, epochs=6, learning_rate=0.1, ponder_lambda=0.5).final_reestimate_rate
+    r_low = low.fit(x, y, epochs=6, learning_rate=0.1, ponder_lambda=0.0)
+    r_high = high.fit(x, y, epochs=6, learning_rate=0.1, ponder_lambda=0.5)
     assert r_high <= r_low
 
 
