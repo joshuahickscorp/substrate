@@ -1,0 +1,19 @@
+{
+  "schema": "mop-prior-event-horizon-scope/v1",
+  "prior_result": "A-T, C, D did not overcome the bounded-memory gap on HAR under their exact implementations and budgets",
+  "does_NOT_establish": [
+    "all owned substrates exhausted",
+    "all bounded-memory representations exhausted",
+    "all memory compression exhausted",
+    "PAMAP2 exhausted",
+    "STARSS23/audio exhausted",
+    "cross-domain transfer exhausted",
+    "self-supervised temporal exhausted",
+    "dual-memory exhausted",
+    "predictive+bounded-compression exhausted",
+    "stronger baselines at every memory budget tested",
+    "reorganization globally impossible"
+  ],
+  "binding": "the Forge may NOT claim a global Substrate Event Horizon by reproducing the HAR result; the memory-capacity frontier and compression question are genuinely new (representation, not learned retrieval; not R1/P1R)",
+  "sha256": "908f7e38ff2225cb2789ac35e4fb6e5e04f9d487bda3d22d1df99b0a20b8d3d5"
+}
