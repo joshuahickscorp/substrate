@@ -45,8 +45,8 @@ from mop.beds.starss23.count_producer import (
 from mop.beds.starss23.count_referee import coast_emitted, mae_clip, score_arm
 from mop.beds.starss23.experiments import COUNT_BUDGET_POLICY
 from mop.beds.starss23.schema import Clip
+from mop.evidence import canonical_sha256
 from mop.science import budget as H
-from mop.substrate.events import canonical_sha256
 
 FLOP_CEILING = 60_000_000_000
 _REAL_PRESENT = DEFAULT_FOA_ROOT.is_dir() and DEFAULT_METADATA_ROOT.is_dir()
