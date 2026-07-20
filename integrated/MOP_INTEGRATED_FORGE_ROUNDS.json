@@ -1,0 +1,163 @@
+{
+  "schema": "mop-integrated-forge-rounds/v1",
+  "bed": "HAR_raw (valid temporal, order matters)",
+  "source_commit": "1af3a4d24ee27ec64878897e38b470ad35af8852",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "steps": 160,
+  "baseline": "lstm_gdumb",
+  "results": {
+    "lstm_gdumb": {
+      "means": {
+        "avg_final": 0.4395,
+        "retention": 0.2633,
+        "new": 0.8799,
+        "params": 37254.0
+      },
+      "util": 0.3895,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0
+      }
+    },
+    "AT1_attrib": {
+      "means": {
+        "avg_final": 0.4599,
+        "retention": 0.238,
+        "new": 0.934,
+        "params": 38034.0
+      },
+      "util": 0.4088,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0193,
+        "lower_95_cb": -0.0199
+      }
+    },
+    "AT1_no_fast": {
+      "means": {
+        "avg_final": 0.3972,
+        "retention": 0.2286,
+        "new": 0.8137,
+        "params": 38034.0
+      },
+      "util": 0.3461,
+      "effect_vs_lstm_gdumb": {
+        "mean": -0.0434,
+        "lower_95_cb": -0.1008
+      }
+    },
+    "AT1_no_medium": {
+      "means": {
+        "avg_final": 0.4566,
+        "retention": 0.2339,
+        "new": 0.9352,
+        "params": 38034.0
+      },
+      "util": 0.4055,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.016,
+        "lower_95_cb": -0.0212
+      }
+    },
+    "AT1_no_slow": {
+      "means": {
+        "avg_final": 0.4877,
+        "retention": 0.2845,
+        "new": 0.9341,
+        "params": 38034.0
+      },
+      "util": 0.4367,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0472,
+        "lower_95_cb": 0.0191
+      }
+    },
+    "AT2_localized": {
+      "means": {
+        "avg_final": 0.448,
+        "retention": 0.2334,
+        "new": 0.9166,
+        "params": 38034.0
+      },
+      "util": 0.397,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0075,
+        "lower_95_cb": -0.0317
+      }
+    },
+    "F_multi_horizon": {
+      "means": {
+        "avg_final": 0.4527,
+        "retention": 0.2388,
+        "new": 0.9294,
+        "params": 33478.0
+      },
+      "util": 0.4078,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0183,
+        "lower_95_cb": -0.0256
+      }
+    },
+    "F_next_step": {
+      "means": {
+        "avg_final": 0.4516,
+        "retention": 0.2369,
+        "new": 0.9279,
+        "params": 33478.0
+      },
+      "util": 0.4067,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0172,
+        "lower_95_cb": -0.0279
+      }
+    },
+    "F_no_objective": {
+      "means": {
+        "avg_final": 0.4654,
+        "retention": 0.2616,
+        "new": 0.9225,
+        "params": 33478.0
+      },
+      "util": 0.4204,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0309,
+        "lower_95_cb": -0.0024
+      }
+    },
+    "F_shuffled_time": {
+      "means": {
+        "avg_final": 0.4525,
+        "retention": 0.2337,
+        "new": 0.9316,
+        "params": 33478.0
+      },
+      "util": 0.4075,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.018,
+        "lower_95_cb": -0.0286
+      }
+    }
+  },
+  "verdicts": {
+    "AT1_state_attribution": "null",
+    "AT2_interference_localized": "null",
+    "F_predictive_consolidation": "null",
+    "timescale_contributions": {
+      "fast": 0.0627,
+      "medium": 0.0033,
+      "slow": -0.0278
+    },
+    "decorative_timescales": [
+      "medium",
+      "slow"
+    ]
+  },
+  "SESOI": 0.05,
+  "wall_seconds": 4000.9,
+  "sha256": "0e73f4ecd223196fac0db2c2d2e9316df156b954a54c5fd20a087f499c285e3b"
+}
