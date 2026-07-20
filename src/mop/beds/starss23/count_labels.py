@@ -90,12 +90,6 @@ class CountClip:
         track = self.count_track
         return sum(1 for t in range(1, len(track)) if track[t] != track[t - 1])
 
-    @property
-    def change_frames(self) -> tuple[int, ...]:
-
-        track = self.count_track
-        return tuple(t for t in range(1, len(track)) if track[t] != track[t - 1])
-
 
 def _metadata_index(metadata_root: str | Path) -> dict[str, Path]:
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Mapping, Sequence
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -113,10 +113,6 @@ class Clip:
                 raise SchemaRefusal("Clip.onsets must carry at most one event per frame")
             seen.add(onset.frame)
 
-    @property
-    def onset_frames(self) -> tuple[int, ...]:
-        return tuple(onset.frame for onset in self.onsets)
-
     def payload(self) -> dict[str, Any]:
         return {
             "schema": self.schema,
@@ -191,47 +187,3 @@ class ClipSplit:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
-def room_disjoint_split(clips: Sequence[Clip], *, n_train_rooms: int, n_val_rooms: int) -> ClipSplit:
-
-    if n_train_rooms <= 0 or n_val_rooms <= 0:
-        raise SchemaRefusal("room split needs at least one train room and one val room")
-    by_room: dict[str, list[Clip]] = {}
-    for clip in clips:
-        by_room.setdefault(clip.room_id, []).append(clip)
-    ordered_rooms = sorted(by_room)
-    if len(ordered_rooms) < n_train_rooms + n_val_rooms + 1:
-        raise SchemaRefusal(
-            "room-disjoint split needs at least "
-            f"{n_train_rooms + n_val_rooms + 1} rooms, saw {len(ordered_rooms)}"
-        )
-    train_rooms = ordered_rooms[:n_train_rooms]
-    val_rooms = ordered_rooms[n_train_rooms : n_train_rooms + n_val_rooms]
-    test_rooms = ordered_rooms[n_train_rooms + n_val_rooms :]
-
-    def _collect(room_ids: Sequence[str]) -> tuple[Clip, ...]:
-        gathered: list[Clip] = []
-        for room_id in room_ids:
-            gathered.extend(sorted(by_room[room_id], key=lambda clip: clip.clip_id))
-        return tuple(gathered)
-
-    return ClipSplit(
-        train=_collect(train_rooms),
-        val=_collect(val_rooms),
-        test=_collect(test_rooms),
-        detail={
-            "train_rooms": list(train_rooms),
-            "val_rooms": list(val_rooms),
-            "test_rooms": list(test_rooms),
-        },
-    )
-
-
-def clip_partition(split: ClipSplit) -> dict[str, tuple[str, ...]]:
-
-    return {
-        "train": tuple(clip.clip_id for clip in split.train),
-        "val": tuple(clip.clip_id for clip in split.val),
-        "test": tuple(clip.clip_id for clip in split.test),
-    }

@@ -13,8 +13,6 @@ from mop.beds.starss23.schema import (
     ClipSplit,
     OnsetEvent,
     SchemaRefusal,
-    clip_partition,
-    room_disjoint_split,
 )
 
 _DIGEST = "a" * 64
@@ -60,7 +58,7 @@ def test_clip_requires_sorted_unique_in_range_onsets() -> None:
         "room0",
         onsets=[OnsetEvent(2, 0, 0.0, 0.0, 1.0), OnsetEvent(9, 1, 0.0, 0.0, 1.0)],
     )
-    assert good.onset_frames == (2, 9)
+    assert tuple(onset.frame for onset in good.onsets) == (2, 9)
     assert len(good.digest()) == 64
     with pytest.raises(SchemaRefusal):
         _clip("fold3_room0_mix001", "room0", onsets=[OnsetEvent(60, 0, 0.0, 0.0, 1.0)], n_frames=60)
@@ -72,26 +70,6 @@ def test_clip_requires_sorted_unique_in_range_onsets() -> None:
         )
     with pytest.raises(SchemaRefusal):
         Clip(clip_id="fold3_room0_mix003", room_id="room0", n_frames=60, audio_sha256="xyz", onsets=())
-
-
-def test_room_disjoint_split_partitions_by_sorted_room() -> None:
-    clips = [_clip(f"fold3_room{r}_mix00{c}", f"room{r}") for r in range(5) for c in range(2)]
-    split = room_disjoint_split(clips, n_train_rooms=2, n_val_rooms=1)
-    assert split.rooms["train"] == ("room0", "room1")
-    assert split.rooms["val"] == ("room2",)
-    assert split.rooms["test"] == ("room3", "room4")
-    train_rooms = set(split.rooms["train"])
-    assert train_rooms.isdisjoint(split.rooms["val"])
-    assert train_rooms.isdisjoint(split.rooms["test"])
-    part = clip_partition(split)
-    all_ids = [*part["train"], *part["val"], *part["test"]]
-    assert len(all_ids) == len(set(all_ids)) == 10
-
-
-def test_room_disjoint_split_refuses_too_few_rooms() -> None:
-    clips = [_clip(f"fold3_room{r}_mix000", f"room{r}") for r in range(2)]
-    with pytest.raises(SchemaRefusal):
-        room_disjoint_split(clips, n_train_rooms=2, n_val_rooms=1)
 
 
 def test_clip_split_refuses_room_or_clip_overlap() -> None:

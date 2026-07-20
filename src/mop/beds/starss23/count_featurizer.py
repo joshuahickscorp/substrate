@@ -7,7 +7,7 @@ import numpy as np
 
 from mop.evidence import canonical_sha256
 
-from .adapter import FrozenFeatureProvider
+from .adapter import ZeroParameterProvider
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME
 
 COUNT_FEATURIZER_SCHEMA = "mop-starss23-count-featurizer/v1"
@@ -67,9 +67,7 @@ def mel_filterbank(sample_rate: int, n_mel: int = N_MEL, n_bins: int = N_BINS) -
 
 
 @dataclass(frozen=True, slots=True)
-class FrozenCountFeaturizer(FrozenFeatureProvider):
-    _flops_per_frame = FLOPS_PER_FRAME_COUNT
-    _frame_count_refusal = CountFeaturizerRefusal
+class FrozenCountFeaturizer(ZeroParameterProvider):
     sample_rate: int = 24_000
 
     @property

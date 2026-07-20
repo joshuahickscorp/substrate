@@ -4,9 +4,6 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from typing import Any
 
-from mop.evidence import canonical_sha256
-
-COUNT_REFEREE_SCHEMA = "mop-starss23-count-referee/v1"
 COLD_START = 0
 METRIC_RULE = (
     "coasted-count-MAE: emitted holds the last re-estimate, cold-start 0, pooled frame micro-average"
@@ -103,9 +100,6 @@ class CountScore:
             "mae": round(float(self.mae), 12),
         }
 
-    def digest(self) -> str:
-        return canonical_sha256(self.payload())
-
 
 def score_arm(
     clips: Iterable[tuple[Sequence[int], Sequence[int], Sequence[int]]],
@@ -119,19 +113,3 @@ def score_arm(
         abs_error_sum += clip_abs
         n_frames += clip_frames
     return CountScore.from_pool(abs_error_sum, n_frames)
-
-
-def sealed_arm_report(
-    clips: Iterable[tuple[Sequence[int], Sequence[int], Sequence[int]]],
-    cold_start: int = COLD_START,
-) -> dict[str, Any]:
-
-    score = score_arm(clips, cold_start)
-    body = {
-        "schema": COUNT_REFEREE_SCHEMA,
-        "metric_rule": METRIC_RULE,
-        "cold_start": cold_start,
-        "score": score.payload(),
-    }
-    body["digest"] = canonical_sha256(body)
-    return body

@@ -74,7 +74,6 @@ def _sigmoid(x: np.ndarray) -> np.ndarray:
 
 FLOPS_PER_INFERENCE = inference_flops()
 C_TRAIN_ANCHOR = training_flops()
-C_TRAIN_ANCHOR_COUNT = C_TRAIN_ANCHOR
 
 
 @dataclass(frozen=True, slots=True)
@@ -185,13 +184,6 @@ class CountGateInterface:
         x = self._assemble(features, state)
         return float(self.predict_proba(x[None, :])[0])
 
-    def decide(
-        self, features: np.ndarray, state: CountOnlineState, theta: float | None = None
-    ) -> tuple[bool, float]:
-        threshold = self.theta if theta is None else float(theta)
-        probability = self.infer(features, state)
-        return (probability >= threshold, probability)
-
 
 class CountGate(CountGateInterface):
     _SEED_NAMESPACE = "mop.beds.starss23.count_gate.init"
@@ -235,9 +227,6 @@ class CountGate(CountGateInterface):
     def n_params(self) -> int:
 
         return int(self.W1.size + self.b1.size + self.W2.size + self.b2.size)
-
-    def flops_per_inference(self) -> int:
-        return inference_flops(self.d_in, self.hidden, self.n_out)
 
     def training_flops(self, n_train_frames: int, epochs: int) -> int:
         return training_flops(n_train_frames, epochs, self.d_in, self.hidden, self.n_out)

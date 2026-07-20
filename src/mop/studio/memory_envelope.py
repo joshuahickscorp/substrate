@@ -1,29 +1,9 @@
 from __future__ import annotations
 
-import platform
 import resource
 import sys
 import time
-from dataclasses import dataclass, field
 from typing import Any
-
-SCHEMA = "mop-memory-envelope/v1"
-
-
-@dataclass
-class MemorySampler:
-    label: str
-    samples: list[dict[str, Any]] = field(default_factory=list)
-
-    def sample(self, stage: str) -> dict[str, Any]:
-        snap = memory_snapshot(stage)
-        self.samples.append(snap)
-        return snap
-
-    def summary(self) -> dict[str, Any]:
-        if not self.samples:
-            self.sample("empty")
-        return summarize_samples(self.label, self.samples)
 
 
 def memory_snapshot(stage: str) -> dict[str, Any]:
@@ -40,29 +20,6 @@ def memory_snapshot(stage: str) -> dict[str, Any]:
         "mps_current_allocated_gb": _round(mps.get("current_allocated_gb")),
         "mps_driver_allocated_gb": _round(mps.get("driver_allocated_gb")),
     }
-
-
-def summarize_samples(label: str, samples: list[dict[str, Any]]) -> dict[str, Any]:
-    return {
-        "schema": SCHEMA,
-        "label": str(label),
-        "platform": platform.platform(),
-        "python": sys.version.split()[0],
-        "n_samples": len(samples),
-        "process_rss_gb": _series_summary(samples, "process_rss_gb", peak=max),
-        "process_maxrss_gb": _series_summary(samples, "process_maxrss_gb", peak=max),
-        "system_available_gb": _series_summary(samples, "system_available_gb", peak=min),
-        "mps_current_allocated_gb": _series_summary(samples, "mps_current_allocated_gb", peak=max),
-        "mps_driver_allocated_gb": _series_summary(samples, "mps_driver_allocated_gb", peak=max),
-        "samples": samples,
-    }
-
-
-def _series_summary(samples: list[dict[str, Any]], key: str, *, peak) -> dict[str, float | None]:
-    values = [float(s[key]) for s in samples if isinstance(s.get(key), int | float)]
-    if not values:
-        return {"start": None, "end": None, "peak": None}
-    return {"start": values[0], "end": values[-1], "peak": _round(peak(values))}
 
 
 def _process_rss_gb() -> float | None:

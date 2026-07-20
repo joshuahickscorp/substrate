@@ -4,7 +4,7 @@ import hashlib
 import json
 import re
 import wave
-from collections.abc import Callable, Iterable, Mapping, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
@@ -19,10 +19,8 @@ from .schema import (
     Clip,
     ClipSplit,
     OnsetEvent,
-    room_disjoint_split,
 )
 
-SOURCE_KIND_SYNTHETIC = "synthetic"
 SOURCE_KIND_REAL = "real"
 
 FOLD_DEV_TRAIN = 3
@@ -36,20 +34,7 @@ _DISTANCE_MAX_CM = 100_000  # 1 km ceiling; a physical sanity bound, not a knob
 _CLIP_NAME_RE = re.compile(r"^fold(\d+)_room(\d+)_mix(\d+)$")
 
 
-@dataclass(frozen=True, slots=True)
-class TransportCharge:
-    raw_transport_and_adapters: int = 0
-
-    def __post_init__(self) -> None:
-        if self.raw_transport_and_adapters < 0:
-            raise ValueError("raw transport charge must be nonnegative")
-
-
 class AdapterRefusal(ValueError):
-    pass
-
-
-class RealDataBlocked(AdapterRefusal):
     pass
 
 
@@ -65,10 +50,6 @@ class ClipName:
                 raise AdapterRefusal(f"ClipName.{name} must be a nonnegative integer")
 
     @property
-    def clip_id(self) -> str:
-        return f"fold{self.fold}_room{self.room}_mix{self.mix:03d}"
-
-    @property
     def room_id(self) -> str:
         return f"room{self.room:02d}"
 
@@ -82,10 +63,6 @@ def parse_clip_name(name: str) -> ClipName:
     if match is None:
         raise AdapterRefusal(f"clip name {name!r} is not fold<F>_room<R>_mix<M>")
     return ClipName(fold=int(match.group(1)), room=int(match.group(2)), mix=int(match.group(3)))
-
-
-def format_clip_id(fold: int, room: int, mix: int) -> str:
-    return ClipName(fold=fold, room=room, mix=mix).clip_id
 
 
 @dataclass(frozen=True, slots=True)
@@ -125,9 +102,6 @@ class MetadataRow:
     def has_distance(self) -> bool:
         return self.distance != DISTANCE_ABSENT
 
-    def sort_key(self) -> tuple[int, int, int]:
-        return (self.frame, self.class_id, self.source_id)
-
 
 def parse_starss23_metadata(text: str) -> tuple[MetadataRow, ...]:
 
@@ -161,24 +135,6 @@ def parse_starss23_metadata(text: str) -> tuple[MetadataRow, ...]:
             )
         )
     return tuple(rows)
-
-
-def format_starss23_metadata(rows: Sequence[MetadataRow]) -> str:
-
-    rows = tuple(rows)
-    if not rows:
-        return ""
-    with_distance = sum(1 for row in rows if row.has_distance)
-    if with_distance not in (0, len(rows)):
-        raise AdapterRefusal("cannot serialize a metadata set with only some distance labels")
-    include_distance = with_distance == len(rows)
-    lines: list[str] = []
-    for row in sorted(rows, key=MetadataRow.sort_key):
-        fields = [row.frame, row.class_id, row.source_id, row.azimuth, row.elevation]
-        if include_distance:
-            fields.append(row.distance)
-        lines.append(",".join(str(value) for value in fields))
-    return "\n".join(lines) + "\n"
 
 
 def _prefer_onset(candidate: OnsetEvent, incumbent: OnsetEvent) -> bool:
@@ -218,58 +174,10 @@ def onset_events_from_rows(rows: Iterable[MetadataRow]) -> tuple[OnsetEvent, ...
     return tuple(sorted(onset_by_frame.values(), key=lambda event: event.frame))
 
 
-def _as_int_label(value: float, label: str) -> int:
-
-    number = float(value)
-    rounded = round(number)
-    if abs(number - rounded) > 1e-9:
-        raise AdapterRefusal(f"onset {label} {value!r} is not integer-valued, cannot serialize to STARSS23")
-    return int(rounded)
-
-
-def metadata_rows_from_onsets(
-    onsets: Iterable[OnsetEvent], *, active_frames: int = 1
-) -> tuple[MetadataRow, ...]:
-
-    if isinstance(active_frames, bool) or not isinstance(active_frames, int) or active_frames < 1:
-        raise AdapterRefusal("active_frames must be a positive integer")
-    rows: list[MetadataRow] = []
-    for source_id, onset in enumerate(sorted(onsets, key=lambda event: event.frame)):
-        azimuth = _as_int_label(onset.azimuth, "azimuth")
-        elevation = _as_int_label(onset.elevation, "elevation")
-        distance = _as_int_label(onset.distance, "distance")
-        for offset in range(active_frames):
-            rows.append(
-                MetadataRow(
-                    frame=onset.frame + offset,
-                    class_id=onset.class_id,
-                    source_id=source_id,
-                    azimuth=azimuth,
-                    elevation=elevation,
-                    distance=distance,
-                )
-            )
-    return tuple(rows)
-
-
-def metadata_text_from_onsets(onsets: Iterable[OnsetEvent], *, active_frames: int = 1) -> str:
-
-    return format_starss23_metadata(metadata_rows_from_onsets(onsets, active_frames=active_frames))
-
-
 def audio_sha256(audio: np.ndarray) -> str:
 
     array = np.ascontiguousarray(np.asarray(audio), dtype="<f4")
     return hashlib.sha256(array.tobytes()).hexdigest()
-
-
-def _require_audio(audio: np.ndarray, clip_id: str) -> np.ndarray:
-    array = np.asarray(audio)
-    if array.ndim != 2 or array.shape[0] != N_CHANNELS:
-        raise AdapterRefusal(f"clip {clip_id} audio must be shape ({N_CHANNELS}, n_samples)")
-    if array.shape[1] == 0 or array.shape[1] % SAMPLES_PER_FRAME != 0:
-        raise AdapterRefusal(f"clip {clip_id} audio must be a whole number of 100 ms frames")
-    return array
 
 
 @dataclass(frozen=True, slots=True)
@@ -281,10 +189,6 @@ class NativeDevSplit:
         overlap = set(self.dev_train) & set(self.dev_test)
         if overlap:
             raise AdapterRefusal(f"dev-train and dev-test share clips: {sorted(overlap)}")
-
-    @property
-    def sizes(self) -> dict[str, int]:
-        return {"dev_train": len(self.dev_train), "dev_test": len(self.dev_test)}
 
 
 @runtime_checkable
@@ -367,31 +271,11 @@ def map_clip_audio(
     return {clip.clip_id: transform(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
 
 
-def onset_density(clips: Sequence[Clip]) -> float:
-
-    frames = sum(clip.n_frames for clip in clips)
-    return sum(len(clip.onsets) for clip in clips) / frames if frames > 0 else 0.0
-
-
 class ZeroParameterProvider:
     __slots__ = ()
 
     def n_params(self) -> int:
         return 0
-
-
-class FrozenFeatureProvider(ZeroParameterProvider):
-    __slots__ = ()
-    _flops_per_frame = 0
-    _frame_count_refusal: type[ValueError] = ValueError
-
-    def flops_for_frames(self, n_frames: int) -> int:
-        if isinstance(n_frames, bool) or not isinstance(n_frames, int) or n_frames < 0:
-            raise self._frame_count_refusal("n_frames must be a nonnegative integer")
-        return self._flops_per_frame * n_frames
-
-    def feature_digest(self, features: np.ndarray) -> str:
-        return hashlib.sha256(np.ascontiguousarray(features, dtype="<f8").tobytes()).hexdigest()
 
 
 def domain_seed(seed: int, key: str, domain: bytes) -> int:
@@ -421,95 +305,6 @@ def marginal_matched_noise(
     if std > 0.0:
         features = (features - mean) / std * float(target_std) + float(target_mean)
     return features
-
-
-class SyntheticStarssAdapter:
-    def __init__(
-        self,
-        audio_by_clip: Mapping[str, np.ndarray],
-        metadata_by_clip: Mapping[str, str],
-        *,
-        rights_clean: bool = True,
-    ) -> None:
-        if set(audio_by_clip) != set(metadata_by_clip):
-            raise AdapterRefusal("audio and metadata must cover exactly the same clip ids")
-        if not audio_by_clip:
-            raise AdapterRefusal("synthetic adapter needs at least one clip")
-        self._rights_clean = bool(rights_clean)
-        self._audio: dict[str, np.ndarray] = {}
-        clips: list[Clip] = []
-        for clip_id in sorted(audio_by_clip):
-            name = parse_clip_name(clip_id)
-            array = _require_audio(audio_by_clip[clip_id], clip_id)
-            stored = np.ascontiguousarray(array, dtype="<f4")
-            self._audio[clip_id] = stored
-            onsets = onset_events_from_rows(parse_starss23_metadata(metadata_by_clip[clip_id]))
-            clips.append(
-                Clip(
-                    clip_id=clip_id,
-                    room_id=name.room_id,
-                    n_frames=stored.shape[1] // SAMPLES_PER_FRAME,
-                    audio_sha256=audio_sha256(stored),
-                    onsets=onsets,
-                )
-            )
-        self._clips: tuple[Clip, ...] = tuple(clips)
-        self._by_id: dict[str, Clip] = {clip.clip_id: clip for clip in self._clips}
-
-    def source_kind(self) -> str:
-        return SOURCE_KIND_SYNTHETIC
-
-    def rights_clean(self) -> bool:
-        return self._rights_clean
-
-    def clips(self) -> tuple[Clip, ...]:
-        return self._clips
-
-    def clip(self, clip_id: str) -> Clip:
-        if clip_id not in self._by_id:
-            raise AdapterRefusal(f"unknown clip id {clip_id!r}")
-        return self._by_id[clip_id]
-
-    def onsets(self, clip_id: str) -> tuple[OnsetEvent, ...]:
-        return self.clip(clip_id).onsets
-
-    def audio(self, clip_id: str) -> np.ndarray:
-        if clip_id not in self._audio:
-            raise AdapterRefusal(f"unknown clip id {clip_id!r}")
-        return self._audio[clip_id]
-
-    def dev_split(self) -> NativeDevSplit:
-        return native_dev_split(self._clips)
-
-    def harness_split(self, *, n_train_rooms: int, n_val_rooms: int) -> ClipSplit:
-
-        return room_disjoint_split(self._clips, n_train_rooms=n_train_rooms, n_val_rooms=n_val_rooms)
-
-    def transport_charge(self) -> TransportCharge:
-
-        total_bytes = sum(array.nbytes for array in self._audio.values())
-        return TransportCharge(raw_transport_and_adapters=int(total_bytes))
-
-    @classmethod
-    def from_dir(cls, root: str | Path, *, rights_clean: bool = True) -> SyntheticStarssAdapter:
-
-        root = Path(root)
-        audio_dir = root / "foa_dev"
-        meta_dir = root / "metadata_dev"
-        if not meta_dir.is_dir() or not audio_dir.is_dir():
-            raise AdapterRefusal(f"{root} is not a STARSS23-shaped tree (need foa_dev/ and metadata_dev/)")
-        audio_by_clip: dict[str, np.ndarray] = {}
-        metadata_by_clip: dict[str, str] = {}
-        for meta_path in sorted(meta_dir.glob("*.csv")):
-            clip_id = meta_path.stem
-            audio_path = audio_dir / f"{clip_id}.npy"
-            if not audio_path.exists():
-                raise AdapterRefusal(f"metadata for {clip_id} has no matching audio at {audio_path}")
-            audio_by_clip[clip_id] = np.load(audio_path, allow_pickle=False)
-            metadata_by_clip[clip_id] = meta_path.read_text(encoding="utf-8")
-        if not metadata_by_clip:
-            raise AdapterRefusal(f"no clips found under {root}")
-        return cls(audio_by_clip, metadata_by_clip, rights_clean=rights_clean)
 
 
 _REAL_SAMPLE_RATE_HZ = SAMPLE_RATE_HZ
@@ -671,8 +466,3 @@ class RealStarssAdapter:
 
     def dev_split(self) -> NativeDevSplit:
         return native_dev_split(self._clips)
-
-    def transport_charge(self) -> TransportCharge:
-
-        total_bytes = sum(array.nbytes for array in self._audio.values())
-        return TransportCharge(raw_transport_and_adapters=int(total_bytes))

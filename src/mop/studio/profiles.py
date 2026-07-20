@@ -35,37 +35,10 @@ class Profile:
     def usable_gb(self) -> float:
         return max(0.0, self.disk_total_gb - self.reserve_gb)
 
-    def within_budget(self, requested_gb: float) -> tuple[bool, str]:
-        if requested_gb < 0:
-            return False, "requested GB is negative"
-        if requested_gb > self.download_hard_cap_gb:
-            return (
-                False,
-                f"{requested_gb:g} GB exceeds hard cap {self.download_hard_cap_gb:g} GB ({self.name})",
-            )
-        return True, f"{requested_gb:g} GB within hard cap {self.download_hard_cap_gb:g} GB"
-
-    def effective_budget_gb(self, requested_gb: float | None) -> float:
-        if requested_gb is None:
-            return min(self.download_budget_gb, self.download_hard_cap_gb)
-        want = float(requested_gb)
-        if want < 0:
-            raise ValueError(f"requested budget {want:g} GB is negative ({self.name})")
-        return min(want, self.download_hard_cap_gb)
-
     def free_disk_ok(self, root: Path | None = None) -> tuple[bool, float]:
         du = shutil.disk_usage(root or REPO_ROOT)
         free_gb = du.free / 1e9
         return free_gb >= self.min_free_disk_gb, free_gb
-
-    def clamp_clips(self, requested: int) -> int:
-        return max(0, min(int(requested), self.max_cache_clips))
-
-    def clamp_runs(self, requested: int) -> int:
-        return max(0, min(int(requested), self.max_run_count))
-
-    def tier_allowed(self, tier: str) -> bool:
-        return tier in self.allowed_tiers
 
     def host_compatibility(
         self,
@@ -223,10 +196,3 @@ def get_profile(name: str) -> Profile:
 
 def list_profiles() -> list[dict]:
     return [p.as_dict() for p in PROFILES.values()]
-
-
-def is_studio_profile(name: str) -> bool:
-    try:
-        return get_profile(name).procurement_status == "unverified-procurement-scenario"
-    except ValueError:
-        return False

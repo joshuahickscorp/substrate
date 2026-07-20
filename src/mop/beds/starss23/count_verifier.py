@@ -142,10 +142,6 @@ class CountVerificationResult:
     mismatches: tuple[str, ...] = ()
     detail: dict = field(default_factory=dict)
 
-    @property
-    def rejected(self) -> bool:
-        return not self.independent_referee_reproduction
-
 
 def _agree(a: object, b: object) -> bool:
     if isinstance(a, bool) or isinstance(b, bool):
@@ -416,16 +412,3 @@ def count_verification_payload(result: CountVerificationResult) -> dict:
     }
     body["seal"] = _canonical_sha256(body)
     return body
-
-
-def verify_sealed_count_file(in_path: str) -> dict:
-
-    with open(in_path, encoding="utf-8") as handle:
-        artifact = json.load(handle)
-    return count_verification_payload(verify_count_artifact(artifact))
-
-
-def write_count_verification(payload: dict, out_path: str) -> None:
-
-    with open(out_path, "w", encoding="utf-8") as handle:
-        handle.write(json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True))

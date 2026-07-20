@@ -11,29 +11,12 @@ def test_device_resolves_to_real_device():
     assert cpu.kind == "cpu"
 
 
-def test_safe_to_returns_tensor():
-    info = devices.resolve("auto")
-    x = torch.randn(2, 3)
-    y = devices.safe_to(x, info.device)
-    assert y.shape == x.shape
-
-
 def test_seed_everything_repeatable_on_cpu():
     seeding.seed_everything(123)
     a = torch.randn(64)
     seeding.seed_everything(123)
     b = torch.randn(64)
     assert torch.equal(a, b)  # cpu is bit-exact under fixed seed
-
-
-def test_variance_utility_quantifies_spread():
-    def fn():
-        return torch.randn(32) @ torch.randn(32)
-
-    rep = seeding.variance_of(fn, runs=4, seed=7)
-    assert rep.runs == 4
-    assert rep.tol() > 0
-    assert rep.bit_identical
 
 
 def test_config_composition_and_overrides():

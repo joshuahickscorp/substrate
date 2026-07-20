@@ -4,7 +4,6 @@ import functools
 import os
 import platform
 import subprocess
-import warnings
 from contextlib import contextmanager, nullcontext
 from dataclasses import dataclass
 
@@ -91,35 +90,3 @@ def autocast(info: DeviceInfo, enabled: bool = True):
     else:
         with nullcontext():
             yield
-
-
-def safe_to(x: torch.Tensor, device: torch.device) -> torch.Tensor:
-    try:
-        return x.to(device)
-    except (RuntimeError, NotImplementedError) as e:  # pragma: no cover - hardware dependent
-        warnings.warn(f"device move to {device} failed ({e}); staying on cpu", stacklevel=2)
-        return x.to("cpu")
-
-
-@contextmanager
-def autofallback(device: torch.device):
-    try:
-        yield device
-    except (RuntimeError, NotImplementedError) as e:  # pragma: no cover - hardware dependent
-        warnings.warn(f"op failed on {device} ({e}); caller should retry on cpu", stacklevel=2)
-        raise
-
-
-def empty_cache(info: DeviceInfo) -> None:
-    if info.kind == "cuda":
-        torch.cuda.empty_cache()
-    elif info.kind == "mps":
-        torch.mps.empty_cache()
-
-
-def memory_mb(info: DeviceInfo) -> float:
-    if info.kind == "cuda":
-        return torch.cuda.memory_allocated() / 1e6
-    if info.kind == "mps":
-        return torch.mps.current_allocated_memory() / 1e6
-    return 0.0

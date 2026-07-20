@@ -8,7 +8,6 @@ from mop.studio.profiles import (
     M3PRO_LOCAL_MIN_FREE_DISK_GB,
     STUDIO,
     get_profile,
-    is_studio_profile,
     list_profiles,
 )
 
@@ -29,49 +28,9 @@ def test_get_profile_unknown_raises():
         get_profile("does-not-exist")
 
 
-def test_studio_classification_is_resource_envelope_not_one_slug():
-    assert is_studio_profile("studio-1tb")
-    assert is_studio_profile("studio-m1ultra")
-    assert not is_studio_profile("m3pro-local-max")
-    assert not is_studio_profile("does-not-exist")
-
-
 def test_usable_is_total_minus_reserve():
     assert STUDIO.usable_gb == STUDIO.disk_total_gb - STUDIO.reserve_gb
     assert M3PRO_LOCAL_MAX.usable_gb == M3PRO_LOCAL_MAX.disk_total_gb - M3PRO_LOCAL_MAX.reserve_gb
-
-
-def test_within_budget_enforces_hard_cap():
-    ok, _ = M3PRO_LOCAL_MAX.within_budget(10.0)
-    assert ok
-    ok, msg = M3PRO_LOCAL_MAX.within_budget(50.0)
-    assert not ok and "hard cap" in msg
-
-
-def test_effective_budget_clamps_to_hard_cap():
-    assert M3PRO_LOCAL_MAX.effective_budget_gb(1000.0) == M3PRO_LOCAL_MAX.download_hard_cap_gb
-    assert M3PRO_LOCAL_MAX.effective_budget_gb(None) == M3PRO_LOCAL_MAX.download_budget_gb
-    assert M3PRO_LOCAL_MAX.effective_budget_gb(5.0) == 5.0
-
-
-def test_effective_budget_rejects_negative():
-    with pytest.raises(ValueError):
-        M3PRO_LOCAL_MAX.effective_budget_gb(-5.0)
-
-
-def test_clamp_clips_and_runs_never_exceed_caps():
-    assert M3PRO_LOCAL_MAX.clamp_clips(10_000) == M3PRO_LOCAL_MAX.max_cache_clips
-    assert M3PRO_LOCAL_MAX.clamp_clips(16) == 16
-    assert M3PRO_LOCAL_MAX.clamp_clips(-5) == 0
-    assert M3PRO_LOCAL_MAX.clamp_runs(10_000) == M3PRO_LOCAL_MAX.max_run_count
-
-
-def test_tier_allowed_matches_profile():
-    assert M3PRO_LOCAL_MAX.tier_allowed("C")
-    assert not M3PRO_LOCAL_MAX.tier_allowed("E")  # no env tier on the laptop
-    assert not M3PRO_LOCAL_MAX.tier_allowed("R")
-    assert STUDIO.tier_allowed("E")
-    assert not STUDIO.tier_allowed("R")  # rented CUDA stays opt-in even on the Studio
 
 
 def test_m3pro_is_the_documented_envelope():
@@ -98,8 +57,7 @@ def test_m1ultra_is_the_legacy_8tb_scenario_envelope():
     assert p.download_hard_cap_gb == 6000.0
     assert p.min_free_disk_gb == 250.0
     assert p.max_wall_min == 60 * 24 * 7  # a week of unattended gated queue
-    assert p.tier_allowed("C") and p.tier_allowed("E")
-    assert not p.tier_allowed("R")  # rented CUDA stays opt-in, it is not this box
+    assert p.allowed_tiers == frozenset({"C", "E"})
     assert p.allow_manual_auth
     assert p.dry_run_default  # heavy actions still default to dry-run, even at 8 TB
     assert p.procurement_status == "unverified-procurement-scenario"
