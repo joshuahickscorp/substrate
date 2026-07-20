@@ -2230,6 +2230,19 @@
         "src/mop/beds/starss23/count_variant_producer.py",
         "tests/unit/test_starss23_stats.py"
       ]
+    },
+    {
+      "id": "collapsed_single_consumer_count_variant_callback_framework",
+      "source_tag": "mop-collapse-lowest-green-21",
+      "reason": "CountVariantSpec, CountVariantContext, and the generic corpus/artifact entrypoints had exactly one maintained source consumer after the other STARSS variants were retired; the real count producer now projects directly through the shared budget, statistics, artifact, evidence, and preregistration authorities, eliminating the callback matrix and parallel variant module without changing seed science, payload order, seals, refusals, or independent verification",
+      "replacement_paths": [
+        "src/mop/beds/starss23/count_producer.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-21:<path>",
+      "paths": [
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/beds/starss23/count_variant_producer.py"
+      ]
     }
   ]
 }

@@ -1501,13 +1501,32 @@
       "performance": "ten alternating 2000-analysis batches improve median exact-sign-flip plus count-projection time from 0.033125s to 0.030091s (-9.16%)",
       "accounting_note": "452 generic statistics, result-detail, and self-test lines are replaced by 122 source-consumed projection and compact contract-test lines, net -330; runtime source falls 233 LOC to 6234, validation falls 97 LOC to 1805, scripts remain 62 LOC, and maintained Python falls to 8352 LOC",
       "tag": "mop-collapse-count-statistics-core"
+    },
+    {
+      "region": "section6_global_engine_section7_science_section8_starss23",
+      "batch": "direct_single_consumer_count_production_vertical",
+      "checkpoint_status": "green",
+      "primitive": "the real STARSS count producer now owns one direct corpus-to-artifact path through the shared budget, statistics, artifact, evidence, and preregistration authorities; the one-consumer CountVariantSpec callback matrix, CountVariantContext, generic variant corpus, default no-op analysis hooks, and parallel variant module are physically retired",
+      "deduplicated_LOC": 0,
+      "added_LOC": 274,
+      "eliminated_LOC": 456,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 182,
+      "files_changed": 2,
+      "destination_api": "build_real_count_bed_artifact and its direct internal corpus/artifact projection in src/mop/beds/starss23/count_producer.py",
+      "proof": "controlled corpus projection is old/new exact with SHA-256 38d08e177ac488426ff0d7a77cc03273bd33351dfca2508bc66e374899133355; a deterministic full artifact build preserves seal 686e865f7760899efb64c17544e50e23e40049421b5eaa3dfa4e38a6168ab5b5, result SHA-256 eca6d16f76ce36992f61bca475d929d4328eb4b260447a10143ff341a9791fdc, artifact SHA-256 b289900e00587ba248f26138d306caa9f91773c55a3bae4adb0040a4f15ad20a, and detail SHA-256 bf80eb13a109018c9b046ff08ff3ba9043176d6957f9bc22bce0293dddca9222; six gate, noise, seed, scoring, and FLOP AST identities are exact; retained seed and marginal-noise hashes pass; sealed artifact fb3a7112906a4e3a5c32fef0f3980e5642ac93996559a7cf59152e559b8044e6 independently reproduces scores and statistics; the 130-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 39 source files, compile-all and diff checks clean",
+      "performance": "ten alternating cold imports improve median count-producer import from 0.647127s to 0.642745s (-0.68%)",
+      "accounting_note": "456 generic variant and duplicated direct-wiring lines are replaced by 274 single-source count-production lines, net -182; runtime source falls to 6052 LOC, validation remains 1805 LOC, scripts remain 62 LOC, and maintained Python falls to 8170 LOC",
+      "tag": "mop-collapse-direct-count-producer"
     }
   ],
   "latest_full_validation": {
     "command": ".venv/bin/python -m pytest -q",
     "result": "130 collected; 124 passed; 6 environment skips",
     "acceptance": "10/10 passed",
-    "static": "Ruff lint and format clean; mypy clean over 40 source files",
+    "static": "Ruff lint and format clean; mypy clean over 39 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
   }
 }
