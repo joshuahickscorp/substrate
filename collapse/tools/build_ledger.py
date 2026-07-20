@@ -719,17 +719,17 @@ def main() -> int:
         if it["id"] == "TGT-GLOBAL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "tracked maintained Python is 22528 LOC, below the 35000 challenge"
+            it["validation"] = "tracked maintained Python is 20760 LOC, below the 35000 challenge"
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-KERNEL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "the complete src/mop tree is 14128 LOC, below the 18000 stretch target"
+            it["validation"] = "the complete src/mop tree is 13057 LOC, below the 18000 stretch target"
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-TESTS":
             it["status"] = "complete"
             it["evidence_paths"] = ["tests/"]
-            it["validation"] = "retained test harness is 4850 LOC"
+            it["validation"] = "retained test harness is 4153 LOC"
             it["next_action"] = "prevent regrowth"
         if it["id"] in {"TGT-REGISTRY", "SEC-15", "CC-9"}:
             it["status"] = "complete"
@@ -772,7 +772,7 @@ def main() -> int:
         if it["id"] in {"SEC-17", "CC-15"}:
             it["status"] = "complete"
             it["evidence_paths"] = ["tests/", "scripts/acceptance.py"]
-            it["validation"] = "329 retained tests and all ten acceptance checks pass in 4850 test LOC"
+            it["validation"] = "276 retained tests and all ten acceptance checks pass in 4153 test LOC"
             it["next_action"] = "prevent duplicated fixture-specific suites"
         if it["id"] == "TGT-DOCS":
             it["status"] = "complete"

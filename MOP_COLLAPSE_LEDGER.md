@@ -4,8 +4,8 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 
 ## Current
 
-- Maintained Python: 22,528 LOC; ceiling: 50,000.
-- Verified net Python reduction: 382,564 LOC.
+- Maintained Python: 20,760 LOC; ceiling: 50,000.
+- Verified net Python reduction: 384,332 LOC.
 - Checklist: {"active": 48, "complete": 58, "partial": 9, "pending": 103, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -18,7 +18,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-categorized-wave | 8,141 | completed_categorized_wave_execution_framework |
 | mop-collapse-successor-horizons | 8,154 | completed_successor_horizon_v1_v2_campaigns |
 | mop-collapse-generation1-program | 37,457 | completed_generation1_program |
 | mop-collapse-pre-generation1-campaign | 95,886 | retired_pre_generation1_campaign_and_escs_substrate |
@@ -30,5 +29,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 | mop-collapse-35k | 14,566 | retired_one_off_entrypoints_and_dormant_development_verticals |
 | mop-collapse-registry-config | 6,373 | single_registry_and_18k_source_kernel |
 | mop-collapse-event-horizon | 4,612 | single_evidence_controller_and_event_horizon |
+| mop-collapse-current-main | 1,768 | retired_stage_ladder_falsification_and_reconciled_current_main |
 
 Older checkpoints, proof text, and exact accounting remain in the machine log.

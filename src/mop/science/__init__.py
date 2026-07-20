@@ -6,7 +6,13 @@ from dataclasses import field as dataclass_field
 from typing import Any
 
 from mop.evidence import canonical_sha256
-from mop.ladder.ladder_contracts import mint_demonstration
+
+RECEIPT_SCHEMA = "mop-ladder-run-receipt/v1"
+CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
+VERDICT_NULL = "null"
+VERDICT_PENDING = "pending"
+VERDICT_MECHANICS_OK = "mechanics-ok"
+DEMONSTRATION_VERDICTS = (VERDICT_NULL, VERDICT_PENDING, VERDICT_MECHANICS_OK)
 
 MATCHED_BUDGET_WALL_NOTE = (
     "wall_ns is a deterministic nominal at a 1 GFLOP/s reference so the artifact is byte-reproducible; "
@@ -52,15 +58,26 @@ def demonstration_receipt(
     requirement_id: str = "stage3.confirmed_useful_mechanism",
 ) -> dict[str, Any]:
 
-    return mint_demonstration(
-        mechanism_id=mechanism_id,
-        stage=stage,
-        requirement_id=requirement_id,
-        controls_cleared=controls_cleared,
-        evidence_digest=canonical_sha256(evidence),
-        verdict=verdict,
-        detail=dict(detail),
-    ).payload()
+    if verdict not in DEMONSTRATION_VERDICTS:
+        raise RecordRefused(f"demonstration verdict {verdict!r} is not allowed")
+    if stage < 0:
+        raise RecordRefused("demonstration stage must be nonnegative")
+    if len(set(controls_cleared)) != len(controls_cleared):
+        raise RecordRefused("demonstration controls must be unique")
+    return {
+        "schema": RECEIPT_SCHEMA,
+        "kind": "mechanics-demonstration",
+        "mechanism_id": mechanism_id,
+        "stage": stage,
+        "requirement_id": requirement_id,
+        "verdict": verdict,
+        "controls_cleared": list(controls_cleared),
+        "evidence_digest": canonical_sha256(evidence),
+        "overturns_null": "",
+        "matched": None,
+        "detail": dict(detail),
+        "claim_scope": CLAIM_SCOPE,
+    }
 
 
 def artifact_envelope(
@@ -140,6 +157,8 @@ __all__ = [
     "MATCHED_BUDGET_WALL_NOTE",
     "ArtifactResult",
     "RecordRefused",
+    "VERDICT_MECHANICS_OK",
+    "VERDICT_NULL",
     "artifact_envelope",
     "demonstration_receipt",
     "finalize_artifact",

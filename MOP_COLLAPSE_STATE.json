@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "8aef9f17d95e55a6c1aae7fa1414c265f575d196",
+    "base_commit": "a88ba6112b282cad17012875da44ca8303147490",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,13 +118,13 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 378853,
+    "eliminated_LOC": 380677,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 12044,
-    "net_global_reduction_LOC": 382564
+    "added_LOC": 12100,
+    "net_global_reduction_LOC": 384332
   },
   "checklist_summary": {
     "total": 261,
@@ -1137,7 +1137,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "the complete src/mop tree is 14128 LOC, below the 18000 stretch target",
+      "validation": "the complete src/mop tree is 13057 LOC, below the 18000 stretch target",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1152,7 +1152,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked maintained Python is 22528 LOC, below the 35000 challenge",
+      "validation": "tracked maintained Python is 20760 LOC, below the 35000 challenge",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1167,7 +1167,7 @@
       "evidence_paths": [
         "tests/"
       ],
-      "validation": "retained test harness is 4850 LOC",
+      "validation": "retained test harness is 4153 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1600,7 +1600,7 @@
         "tests/",
         "scripts/acceptance.py"
       ],
-      "validation": "329 retained tests and all ten acceptance checks pass in 4850 test LOC",
+      "validation": "276 retained tests and all ten acceptance checks pass in 4153 test LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2260,7 +2260,7 @@
         "tests/",
         "scripts/acceptance.py"
       ],
-      "validation": "329 retained tests and all ten acceptance checks pass in 4850 test LOC",
+      "validation": "276 retained tests and all ten acceptance checks pass in 4153 test LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
