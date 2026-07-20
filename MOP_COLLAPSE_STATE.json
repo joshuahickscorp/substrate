@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "13f2b2f39e1dcad0ddc3334fea9274eb9807fbdd",
+    "base_commit": "ad1a723b1cff3b372b54a4b88457c56ab08614ee",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -650,7 +650,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -665,7 +665,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -695,7 +695,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -725,7 +725,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -755,7 +755,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -770,7 +770,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -785,7 +785,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -800,7 +800,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -845,7 +845,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -860,7 +860,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -890,7 +890,7 @@
       "evidence_paths": [
         "collapse/MOP_COMPLETION_AUDIT.json"
       ],
-      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 182 tracked files have one of 16 categories and unknown is zero",
+      "validation": "the requested views are consolidated as explicit sections of one current machine audit; all 184 tracked files have one of 16 categories and unknown is zero",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
