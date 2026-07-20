@@ -12,7 +12,6 @@ ARM_RATE_MATCHED_RANDOM = "rate_matched_random"
 ARM_ALWAYS_ON = "always_on"
 ARM_BEST_SINGLE = "best_single"
 ARM_NEVER_UPDATE = "never_update"
-TRAIN_BACKWARD_MULTIPLIER = 3
 
 
 class BudgetRefusal(ValueError):
@@ -355,25 +354,6 @@ def paired_deltas(candidate: Arm, control: Arm) -> tuple[float, ...]:
     )
 
 
-def featurize_run_flops(total_frames: int, flops_per_frame: int) -> int:
-    return _nonnegative_int(total_frames, "total_frames") * _nonnegative_int(
-        flops_per_frame, "flops_per_frame"
-    )
-
-
-def gate_infer_run_flops(total_frames: int, flops_per_frame: int) -> int:
-    return featurize_run_flops(total_frames, flops_per_frame)
-
-
-def gate_train_flops(epochs: int, train_frames: int, infer_flops_per_frame: int) -> int:
-    return (
-        _positive_int(epochs, "epochs")
-        * _positive_int(train_frames, "train_frames")
-        * TRAIN_BACKWARD_MULTIPLIER
-        * _positive_int(infer_flops_per_frame, "infer_flops_per_frame")
-    )
-
-
 def per_query_saving_vs_always_on(
     total_frames: int,
     actions: int,
@@ -620,45 +600,6 @@ class BudgetReport:
         return canonical_sha256(self.payload())
 
 
-@dataclass(frozen=True, slots=True)
-class ArchitectureReport:
-    policy: BudgetPolicy
-    architecture: str
-    source_kind: str
-    flop_ceiling: int
-    seeds: tuple[int, ...]
-    arm_summaries: tuple[dict[str, Any], ...]
-    pareto: tuple[ComputePoint, ...]
-    per_budget_candidate_vs_rate_matched_random: tuple[dict[str, Any], ...]
-    candidate_strictly_dominates_rate_matched_random: bool
-    break_even: BreakEven
-    matched_budget: MatchedBudget
-    dominance_verdict: str
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "schema": self.policy.schema,
-            "architecture": self.architecture,
-            "source_kind": self.source_kind,
-            "flop_ceiling": self.flop_ceiling,
-            "seeds": list(self.seeds),
-            "arm_summaries": [dict(row) for row in self.arm_summaries],
-            "pareto": [row.payload() for row in self.pareto],
-            "per_budget_candidate_vs_rate_matched_random": [
-                dict(row) for row in self.per_budget_candidate_vs_rate_matched_random
-            ],
-            "candidate_strictly_dominates_rate_matched_random": (
-                self.candidate_strictly_dominates_rate_matched_random
-            ),
-            "break_even": self.break_even.payload(),
-            "matched_budget": self.matched_budget.payload(),
-            "dominance_verdict": self.dominance_verdict,
-        }
-
-    def digest(self) -> str:
-        return canonical_sha256(self.payload())
-
-
 def _analyze(
     budget_points: Sequence[BudgetPoint],
     *,
@@ -778,138 +719,12 @@ def run_matched_budget(
     )
 
 
-def _run_architecture(
-    points: Sequence[BudgetPoint],
-    architecture: str,
-    *,
-    wall_ns: int,
-    source_kind: str,
-    ceiling: int | None,
-    operating_budget_id: str | None,
-) -> ArchitectureReport:
-    if not points or any(point.architecture != architecture for point in points):
-        raise BudgetRefusal(f"every budget point must declare architecture {architecture!r}")
-    values = _analyze(
-        points,
-        wall_ns=wall_ns,
-        source_kind=source_kind,
-        ceiling=ceiling,
-        operating_budget_id=operating_budget_id,
-    )
-    policy, limit, seeds, summaries, pareto, rows, dominates, break_even, matched = values
-    return ArchitectureReport(
-        policy,
-        architecture,
-        source_kind,
-        limit,
-        seeds,
-        summaries,
-        pareto,
-        rows,
-        dominates,
-        break_even,
-        matched,
-        "mechanics-ok" if dominates else "null",
-    )
-
-
-@dataclass(frozen=True, slots=True)
-class DualBudgetReport:
-    policy: BudgetPolicy
-    source_kind: str
-    flop_ceiling: int
-    per_architecture: dict[str, ArchitectureReport]
-    candidate_strictly_dominates_rate_matched_random_arch_a: bool
-    candidate_strictly_dominates_rate_matched_random_arch_b: bool
-    both_architectures_dominate: bool
-    verdict: str
-    activation_allowed: bool = False
-    scientific_promotion: bool = False
-    independent_scientific_confirmation: bool = False
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "schema": self.policy.schema,
-            "bed_id": self.policy.bed_id,
-            "source_kind": self.source_kind,
-            "flop_ceiling": self.flop_ceiling,
-            "per_architecture": {key: value.payload() for key, value in self.per_architecture.items()},
-            "candidate_strictly_dominates_rate_matched_random_arch_a": (
-                self.candidate_strictly_dominates_rate_matched_random_arch_a
-            ),
-            "candidate_strictly_dominates_rate_matched_random_arch_b": (
-                self.candidate_strictly_dominates_rate_matched_random_arch_b
-            ),
-            "both_architectures_dominate": self.both_architectures_dominate,
-            "verdict": self.verdict,
-            "activation_allowed": self.activation_allowed,
-            "scientific_promotion": self.scientific_promotion,
-            "independent_scientific_confirmation": self.independent_scientific_confirmation,
-            "claim_scope": self.policy.claim_scope,
-        }
-
-    def digest(self) -> str:
-        return canonical_sha256(self.payload())
-
-
-def run_dual_architecture(
-    budget_points_a: Sequence[BudgetPoint],
-    budget_points_b: Sequence[BudgetPoint],
-    *,
-    wall_ns: int,
-    source_kind: str = "real",
-    ceiling: int | None = None,
-    operating_budget_id_a: str | None = None,
-    operating_budget_id_b: str | None = None,
-) -> DualBudgetReport:
-    points_a, points_b = list(budget_points_a), list(budget_points_b)
-    if not points_a or not points_b or points_a[0].policy != points_b[0].policy:
-        raise BudgetRefusal("dual architecture analysis needs two sweeps under one policy")
-    policy = points_a[0].policy
-    if len(policy.architectures) != 2:
-        raise BudgetRefusal("dual architecture policy must declare exactly two architectures")
-    arch_a, arch_b = policy.architectures
-    report_a = _run_architecture(
-        points_a,
-        arch_a,
-        wall_ns=wall_ns,
-        source_kind=source_kind,
-        ceiling=ceiling,
-        operating_budget_id=operating_budget_id_a,
-    )
-    report_b = _run_architecture(
-        points_b,
-        arch_b,
-        wall_ns=wall_ns,
-        source_kind=source_kind,
-        ceiling=ceiling,
-        operating_budget_id=operating_budget_id_b,
-    )
-    dominates_a = report_a.candidate_strictly_dominates_rate_matched_random
-    dominates_b = report_b.candidate_strictly_dominates_rate_matched_random
-    both = dominates_a and dominates_b
-    verdict = "mechanics-ok" if both else ("architecture-fragile" if dominates_a or dominates_b else "null")
-    limit = policy.flop_ceiling if ceiling is None else ceiling
-    return DualBudgetReport(
-        policy,
-        source_kind,
-        limit,
-        {arch_a: report_a, arch_b: report_b},
-        dominates_a,
-        dominates_b,
-        both,
-        verdict,
-    )
-
-
 __all__ = [
     "ARM_ALWAYS_ON",
     "ARM_BEST_SINGLE",
     "ARM_CANDIDATE",
     "ARM_NEVER_UPDATE",
     "ARM_RATE_MATCHED_RANDOM",
-    "TRAIN_BACKWARD_MULTIPLIER",
-    "ArchitectureReport",
     "Arm",
     "BreakEven",
     "BudgetMismatch",
@@ -920,7 +735,6 @@ __all__ = [
     "BudgetSeedRun",
     "CeilingExceeded",
     "ComputePoint",
-    "DualBudgetReport",
     "FlopModel",
     "SeedResult",
     "UnchargedTraining",
@@ -928,13 +742,9 @@ __all__ = [
     "assert_within_ceiling",
     "break_even_queries",
     "build_budget_points",
-    "featurize_run_flops",
-    "gate_infer_run_flops",
-    "gate_train_flops",
     "paired_deltas",
     "noise_control_summary",
     "pareto_frontier",
     "per_query_saving_vs_always_on",
-    "run_dual_architecture",
     "run_matched_budget",
 ]
