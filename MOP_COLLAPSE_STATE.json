@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "2892ccb9acdba0f1f0edbad24303cc47fe28811e",
+    "base_commit": "2a17bd91890cd816445f4cf008207a62cb29b00c",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -710,9 +710,11 @@
       "title": "MOP_IMPORT_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_IMPORT_GRAPH.json"
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "",
+      "validation": "the 466-module baseline fact survives in compact state; the full generated import graph is byte-recoverable from mop-collapse-lowest-green-28",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -740,9 +742,11 @@
       "title": "MOP_COMMAND_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_COMMAND_GRAPH.json"
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "",
+      "validation": "the 152 real / 96 wrapper / 13 generator script classification survives in compact state; the full generated graph is byte-recoverable from mop-collapse-lowest-green-28",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -815,9 +819,11 @@
       "title": "MOP_DUPLICATION_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_DUPLICATION_GRAPH.json"
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "",
+      "validation": "the 160-file / 57729-LOC baseline lifecycle cluster survives in compact state; the full generated graph is byte-recoverable from mop-collapse-lowest-green-28",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -830,9 +836,11 @@
       "title": "MOP_AUTHORITY_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_AUTHORITY_GRAPH.json"
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "",
+      "validation": "all nine baseline integrity-definition counts survive in compact state; the full generated graph is byte-recoverable from mop-collapse-lowest-green-28",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -4353,9 +4361,11 @@
       "title": "MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_EVIDENCE_EQUIVALENCE.json"
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "normalized-AST body clustering of every owned primitive definition",
+      "validation": "the 99 analyzed / 38 structurally collapsible definition totals survive in compact state; the full generated map is byte-recoverable from mop-collapse-lowest-green-28",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -4368,13 +4378,15 @@
       "title": "MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_EVIDENCE_MIGRATION.json"
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "123 rows; batches: batch1_studies_safe/verifier-defer/controller-defer/inspect",
+      "validation": "the completed migration outcomes survive in the reduction log and single evidence authority; the per-duplicate generated table is byte-recoverable from mop-collapse-lowest-green-28",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "execute remaining batches under their gates"
+      "next_action": "none"
     },
     {
       "id": "RED-batch1",
