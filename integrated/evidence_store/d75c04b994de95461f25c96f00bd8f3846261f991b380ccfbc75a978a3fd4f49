@@ -1,0 +1,86 @@
+{
+  "schema": "mop-fast-state-mutation-report/v1",
+  "constructed_positive_suite": {
+    "har->speech": {
+      "constructed_positive_arm": "G0_always_trainable",
+      "constructed_positive_shift": 0.05,
+      "strongest_matched_baseline": "fresh_independent",
+      "base_decision": {
+        "effect_lcb": 0.0504,
+        "floors_ok": true,
+        "passes": true
+      },
+      "mutations": {
+        "domain_order_substitution_rejected": true,
+        "adapter_reassignment_rejected": true,
+        "head_reassignment_rejected": true,
+        "normalization_reassignment_rejected": true,
+        "removed_cost_rejected": true,
+        "unit_duplication_rejected": true,
+        "removed_failing_unit_rejected": true,
+        "changed_SESOI_rejected": true,
+        "changed_component_floor_rejected": true,
+        "changed_strongest_baseline_rejected": true,
+        "changed_group_rule_rejected": false,
+        "changed_oracle_rejected": true,
+        "changed_direction_result_rejected": true,
+        "changed_verdict_rejected": true,
+        "changed_claim_ceiling_rejected": true,
+        "forged_completion_rejected": true
+      },
+      "all_rejected": false,
+      "note": "the shift is synthetic and exists only to give the mutation suite a positive to attack. It is never reported as a result."
+    },
+    "speech->har": {
+      "constructed_positive_arm": "G0_always_trainable",
+      "constructed_positive_shift": 0.08,
+      "strongest_matched_baseline": "fresh_independent",
+      "base_decision": {
+        "effect_lcb": 0.0516,
+        "floors_ok": true,
+        "passes": true
+      },
+      "mutations": {
+        "domain_order_substitution_rejected": true,
+        "adapter_reassignment_rejected": true,
+        "head_reassignment_rejected": true,
+        "normalization_reassignment_rejected": true,
+        "removed_cost_rejected": true,
+        "unit_duplication_rejected": true,
+        "removed_failing_unit_rejected": true,
+        "changed_SESOI_rejected": true,
+        "changed_component_floor_rejected": true,
+        "changed_strongest_baseline_rejected": true,
+        "changed_group_rule_rejected": false,
+        "changed_oracle_rejected": true,
+        "changed_direction_result_rejected": true,
+        "changed_verdict_rejected": true,
+        "changed_claim_ceiling_rejected": true,
+        "forged_completion_rejected": true
+      },
+      "all_rejected": false,
+      "note": "the shift is synthetic and exists only to give the mutation suite a positive to attack. It is never reported as a result."
+    }
+  },
+  "live_run_level_suite": {
+    "core_reinitialization_rejected": true,
+    "hidden_shared_core_update_rejected": true,
+    "hidden_frozen_group_update_rejected": true,
+    "anchor_mutation_rejected": true,
+    "fast_delta_inflation_rejected": true,
+    "memory_inflation_rejected": true,
+    "update_inflation_rejected": true,
+    "split_leakage_rejected": true,
+    "future_information_rejected": true
+  },
+  "within_domain_suite": {},
+  "live_all_rejected": true,
+  "within_all_rejected": true,
+  "all_rejected": false,
+  "rule": "a mutation that changes nothing is accepted, and an accepted mutation invalidates the result it was applied to",
+  "wall_seconds": 20.8,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "852028e50b11c3c00910911221aa4405836ec6ab",
+  "SESOI": 0.05,
+  "sha256": "519991d1b0c79b2245f28530e682fb751e21969580b9b4ee79b66bfb29e18f3d"
+}

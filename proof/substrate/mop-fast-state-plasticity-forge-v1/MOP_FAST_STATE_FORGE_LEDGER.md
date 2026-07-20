@@ -11,21 +11,21 @@
 | R07 | Resource profile | ready | run fastforge.runs.bench |
 | R08 | Within domain battery, HAR | ready | run fastforge.runs.withinrun shards then aggregate |
 | R09 | Within domain battery, Speech | ready | run fastforge.runs.withinrun shards then aggregate |
-| R10 | Cross domain direction 1, HAR to Speech | ready | run fastforge.runs.crossdomain shards then aggregate |
-| R11 | Cross domain direction 2, Speech to HAR | ready | run fastforge.runs.crossdomain shards then aggregate |
-| R12 | Bidirectional synthesis | blocked | run fastforge.runs.crossdomain aggregate |
-| R13 | Interference map | ready | run fastforge.runs.interference shards then aggregate |
-| R14 | Plasticity action headroom gate | blocked | run fastforge.runs.plasticity |
-| R15 | Architecture improvement rounds | blocked | run fastforge.runs.rounds |
-| R16 | Functional reorganization | blocked | run fastforge.runs.reorg |
-| R17 | Task free context inference | blocked | run fastforge.runs.reorg |
-| R18 | Fast core representation analysis | blocked | run fastforge.runs.represent |
+| R10 | Cross domain direction 1, HAR to Speech | terminal | none |
+| R11 | Cross domain direction 2, Speech to HAR | terminal | none |
+| R12 | Bidirectional synthesis | terminal | none |
+| R13 | Interference map | terminal | none |
+| R14 | Plasticity action headroom gate | terminal | none |
+| R15 | Architecture improvement rounds | terminal | none |
+| R16 | Functional reorganization | terminal | none |
+| R17 | Task free context inference | terminal | none |
+| R18 | Fast core representation analysis | terminal | none |
 | R19 | Third temporal domain preflight | terminal | none |
 | R20 | Code accounting | terminal | none |
 | R21 | Test report | ready | run fastforge.runs.testreport |
-| R22 | Independent verification | blocked | run fastforge.verify |
-| R23 | Mutation suites | blocked | run fastforge.runs.mutations |
-| R24 | Clean clone validation | blocked | run fastforge.runs.cleanclone |
+| R22 | Independent verification | terminal | none |
+| R23 | Mutation suites | terminal | none |
+| R24 | Clean clone validation | ready | run fastforge.runs.cleanclone |
 | R25 | Evidence fabric indexing | terminal | none |
 | R26 | Synthesis and next frontier | ready | run fastforge.runs.synthesis |
 
@@ -33,12 +33,12 @@
 
 | dimension | implementation | target | evidence | target |
 | --- | --- | --- | --- | --- |
-| evidence_and_falsification | 67 | 98 | 33 | 95 |
-| orchestration | 0 | 98 | 33 | 95 |
-| failure_understanding | 25 | 98 | 33 | 95 |
+| evidence_and_falsification | 100 | 98 | 73 | 95 |
+| orchestration | 60 | 98 | 73 | 95 |
+| failure_understanding | 100 | 98 | 73 | 95 |
 | owned_substrate | 50 | 98 | 10 | 80 |
-| multi_timescale_and_partitioned_plasticity | 0 | 95 |  |  |
-| functional_reorganization | 0 | 85 | 5 | 55 |
-| cross_domain_entity | 0 | 90 | 10 | 65 |
+| multi_timescale_and_partitioned_plasticity | 100 | 95 |  |  |
+| functional_reorganization | 100 | 85 | 5 | 55 |
+| cross_domain_entity | 100 | 90 | 10 | 65 |
 | useful_plasticity | | | 5 | 60 |
 | partitioned_moldability | | | 15 | 70 |
