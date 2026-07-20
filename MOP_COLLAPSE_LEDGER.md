@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `61c6e46` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `be4b14f` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 242. By status: `{"complete": 17, "active": 49, "pending": 141, "partial": 9, "verified": 26}`.
+Total items: 243. By status: `{"complete": 17, "active": 50, "pending": 140, "partial": 9, "verified": 27}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -134,9 +134,9 @@ Total items: 242. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
 | SEC-10 | 10 | region | active | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
-| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | collapse remaining DoA statistics, noisy-TV, and budget projections onto the existing science engine, then measure residual STARSS lifecycle |
+| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | measure and collapse the next residual STARSS producer family |
 | SEC-12 | 12 | region | pending | Mechanism-family collapse (one provider contract) | replace *_scaffold/_impl/_bed/_runner boilerplate (152 files) |
-| SEC-13 | 13 | region | pending | One campaign controller (AFTER live run terminal + PR30 closure) | build vs fixtures only while live; archive historical bytes; replay-equivalence then delete |
+| SEC-13 | 13 | region | active | One campaign controller (AFTER live run terminal + PR30 closure) | collapse the surviving base/extension/recovery modules into one controller |
 | SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
 | SEC-15 | 15 | region | pending | One registry (typed capability registry) | unify experiment/mechanism/dataset/instrument/verifier registries |
 | SEC-16 | 16 | region | pending | One typed configuration authority | separate frozen-identity/runtime-policy/machine-profile/overrides |
@@ -191,7 +191,7 @@ Total items: 242. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 | CC-14 | 26 | completion_condition | pending | script wrappers collapsed | evidence required per spec; nothing complete from prose |
 | CC-15 | 26 | completion_condition | pending | validation uses shared matrices and properties | evidence required per spec; nothing complete from prose |
 | CC-16 | 26 | completion_condition | complete | current-facing docs consolidated | none |
-| CC-17 | 26 | completion_condition | partial | historical docs and code sealed and indexed | complete historical code sealing at controller migration |
+| CC-17 | 26 | completion_condition | partial | historical docs and code sealed and indexed | index each subsequent physical historical-code deletion |
 | CC-18 | 26 | completion_condition | pending | packs contain no duplicate authorities | evidence required per spec; nothing complete from prose |
 | CC-19 | 26 | completion_condition | pending | sealed results remain replayable | evidence required per spec; nothing complete from prose |
 | CC-20 | 26 | completion_condition | pending | independent verifiers remain structurally independent | evidence required per spec; nothing complete from prose |
@@ -278,6 +278,7 @@ Total items: 242. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 | RED-current-documentation-authority | 18 | verified_reduction | verified | Collapse current documentation to eight recoverable authorities | finish the dual-architecture DoA producer shell |
 | RED-embedded-python-documentation | 18 | verified_reduction | verified | Remove runtime-unused embedded Python documentation | finish the dual-architecture DoA producer shell |
 | RED-doa-gate-complete-python-surface | 11 | verified_reduction | verified | Centralize DoA gates and seed records; finish embedded Python documentation removal | collapse remaining DoA statistics/control projections and measure STARSS residual |
+| RED-doa-projection-controller-predecessors | 13 | verified_reduction | verified | Collapse DoA projections and delete superseded Generation-1 controller branches | collapse surviving base/extension/recovery controller modules |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -286,7 +287,7 @@ Total items: 242. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 61c6e46
+- commit: pending; base be4b14f
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -578,4 +579,15 @@ Total items: 242. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 - live-run non-interference: fixture and unit paths only under nice -n 10; live checkout remained read-only and clean.
 - rollback_tag: mop-collapse-python-surface.
 - next_exact_edit: collapse remaining DoA statistics, noisy-TV, and budget projections onto the existing science engine, then measure residual STARSS lifecycle.
+
+### DoA projection and controller-history collapse (current checkpoint)
+
+- DoA projection: architecture-specific runtime constants, deterministic controls, budget points, statistics, gate summaries, and final details now use architecture-indexed records.
+- DoA exact parity: fixed-clock and fixed-prereg-path output matches checkpoint be4b14f exactly: prereg 860b65e6ca5d97eff9a0b40690c829502b700b3e648883abcad731658da299c2; artifact e21a11bef9f2f969ccc914e9042a68c23b3a1711c8472d80275e071cc6ee9048.
+- controller deletion: 12 superseded Generation-1 controller modules, their 12 dedicated legacy test modules, and 12 thin wrapper scripts were physically deleted; the active controller path is v7 -> extension-v4 -> recovery-v2.
+- historical recovery: every deleted path resolves through the pushed mop-collapse-python-surface tag and the 51-line sealed machine index; v7 pins the archived v6 relative path and exact SHA-256 without importing it.
+- owned Python change: source 134 added/14,141 deleted; tests 0/10,223; scripts 0/216; batch net -24,446 LOC; cumulative verified reduction: 55,268 LOC.
+- validation: all owned Python compiles; changed active files pass ruff; 109 active controller/DoA cases green with the collapse worktree first on PYTHONPATH; docs gate reports 3,840 tests, 133 experiments, and 10 acceptance checks without drift.
+- rollback_tag: mop-collapse-controller-predecessors.
+- next_exact_edit: collapse the surviving base/extension/recovery modules into one controller.
 
