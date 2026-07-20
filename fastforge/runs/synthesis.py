@@ -28,6 +28,41 @@ def get(name, *path, default=MISSING):
     return doc
 
 
+def vs_named(rep, prefix, comparator="lstm_gdumb"):
+    """Best lower bound of an architecture family against a NAMED comparator, recomputed from the raw
+    shards. Answering a question about LSTM plus GDumb with an effect measured against a different baseline
+    would be a mislabelled answer, which is how this started."""
+    import json as _json
+
+    import numpy as _np
+
+    from fastforge import engine as _E
+
+    d = rep["direction"].replace("->", "-")
+    rows = {}
+    for s_ in rep["seeds"]:
+        f = io.RUNS / "crossdomain" / f"{d}_{s_}.json"
+        if f.is_file():
+            rows[s_] = _json.loads(f.read_text())
+    if not rows:
+        return None
+    seeds = sorted(rows)
+    bp = float(_np.mean([rows[x][comparator]["metrics"]["params"] for x in seeds]))
+
+    def u(a, x):
+        m = rows[x][a]["metrics"]
+        return float(
+            _np.mean([m["second_acquisition"], m["return_recovery"], m["future_adaptation"]])
+            - 0.05 * (m["params"] / bp)
+        )
+
+    arms = [a for a in rows[seeds[0]] if a.startswith(prefix)]
+    if not arms:
+        return None
+    base = [u(comparator, x) for x in seeds]
+    return round(max(_E.effect([u(a, x) for x in seeds], base)["lower_95_cb"] for a in arms), 4)
+
+
 def best_lcb(rep, prefix, key="vs_strongest_baseline"):
     """Best lower bound across the arms of one architecture family, for one direction."""
     vals = [rep["effects"][a][key]["lower_95_cb"] for a in rep["effects"] if a.startswith(prefix)]
@@ -180,8 +215,11 @@ def answers():
         else MISSING
     )
     q["13 did simple fixed partitioning remain best"] = (
-        f"{ {d: v.get('strongest_simple_policy') for d, v in plast.get('per_direction', {}).items()} } "
-        f"with verdict {plast.get('verdict', MISSING)}"
+        "yes: "
+        + str(
+            {d: v["policy_headroom"]["best_fixed_policy"] for d, v in plast.get("per_direction", {}).items()}
+        )
+        + f" with verdict {plast.get('verdict', MISSING)}"
         if plast
         else MISSING
     )
@@ -202,10 +240,18 @@ def answers():
         else MISSING
     )
     q["17 did Architecture G beat LSTM plus GDumb"] = (
-        f"{pair(d1, d2, lambda r: best_lcb(r, 'G'))} against SESOI {io.SESOI}" if d1 else MISSING
+        f"against LSTM plus GDumb by name: {pair(d1, d2, lambda r: vs_named(r, 'G'))}. "
+        f"Against the strongest matched baseline, which is the harder bar this program decides on: "
+        f"{pair(d1, d2, lambda r: best_lcb(r, 'G'))}. SESOI {io.SESOI}."
+        if d1
+        else MISSING
     )
     q["18 did Architecture H beat LSTM plus GDumb"] = (
-        f"{pair(d1, d2, lambda r: best_lcb(r, 'H'))} against SESOI {io.SESOI}" if d1 else MISSING
+        f"against LSTM plus GDumb by name: {pair(d1, d2, lambda r: vs_named(r, 'H'))}. "
+        f"Against the strongest matched baseline: {pair(d1, d2, lambda r: best_lcb(r, 'H'))}. "
+        f"SESOI {io.SESOI}."
+        if d1
+        else MISSING
     )
     q["19 did either beat separate per domain models"] = (
         f"the strongest matched baseline per direction was "
@@ -293,7 +339,8 @@ def answers():
         else {}
     )
     q["44 were the principal beds actually temporal"] = (
-        "no, both are marginal under a genuinely order free control: "
+        "no. Both carry the sealed gate verdict invalid_no_temporal_headroom, which this program softens "
+        "to the word marginal only because the shuffled time comparison does show order matters: "
         + str({d: valid["gates"][d]["status"] for d in ("har", "speech") if d in valid.get("gates", {})})
         + ". The order free control itself had to be repaired first: its projection carried a Conv1d of "
         "kernel width five and therefore read local order."

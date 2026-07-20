@@ -44,7 +44,7 @@ H cosine gate versus H always update: {'har->speech': (0.722, 0.775), 'speech->h
 H probe gate versus H always update: {'har->speech': (0.7304, 0.775), 'speech->har': (0.8027, 0.8055)}
 
 **13 did simple fixed partitioning remain best**  
-{'har->speech': None, 'speech->har': None} with verdict simple_partition_policy_sufficient
+yes: {'har->speech': 'G0_always_trainable', 'speech->har': 'G5_projection_and_head'} with verdict simple_partition_policy_sufficient
 
 **14 did oracle update partitioning show headroom**  
 {'har->speech': {'mean': 0.0052, 'lower_95_cb': 0.0011, 'n': 8}, 'speech->har': {'mean': 0.0129, 'lower_95_cb': 0.0042, 'n': 8}}
@@ -56,10 +56,10 @@ False
 no learned gate opened, so the question does not arise
 
 **17 did Architecture G beat LSTM plus GDumb**  
-{'har->speech': 0.0004, 'speech->har': -0.0071} against SESOI 0.05
+against LSTM plus GDumb by name: {'har->speech': 0.0358, 'speech->har': 0.0208}. Against the strongest matched baseline, which is the harder bar this program decides on: {'har->speech': 0.0004, 'speech->har': -0.0071}. SESOI 0.05.
 
 **18 did Architecture H beat LSTM plus GDumb**  
-{'har->speech': -0.0404, 'speech->har': -0.0372} against SESOI 0.05
+against LSTM plus GDumb by name: {'har->speech': -0.0038, 'speech->har': -0.012}. Against the strongest matched baseline: {'har->speech': -0.0404, 'speech->har': -0.0372}. SESOI 0.05.
 
 **19 did either beat separate per domain models**  
 the strongest matched baseline per direction was {'har->speech': 'fresh_independent', 'speech->har': 'fresh_independent'}, and no substrate arm cleared SESOI against it
@@ -113,7 +113,7 @@ one new package, fastforge, 7399 LOC, plus the inherited runtime at 4930 LOC
 []. inherited runners under substrate_evo, forge, frontier, campaign2, salvage and integrated are the implementations behind sealed immutable evidence. Deleting them would make prior receipts unreproducible, so they are retained and this program adds exactly one new package instead of forking a second one.
 
 **36 did clean clone pass**  
-False with skips domain data lives outside the repository by design, so a clean clone can validate code, tests and evidence but cannot rerun training without those paths. Tests that need data skip themselves rather than pass silently.
+True with skips domain data lives outside the repository by design, so a clean clone can validate code, tests and evidence but cannot rerun training without those paths. Tests that need data skip themselves rather than pass silently.
 
 **37 did proof indexing pass**  
 True over 45 artifacts, mutations True
@@ -137,7 +137,7 @@ no. Activation remains false and was never separately authorized.
 the two failures this program can name precisely: shared fast dynamics did not transfer across modalities under any update partition, and every activity recognition style third domain proved order insensitive. The next frontier is either a pair of domains that share temporal structure rather than merely both being sequences, or an honest statement that cross modality transfer of fast dynamics is out of reach at this scale.
 
 **44 were the principal beds actually temporal**  
-no, both are marginal under a genuinely order free control: {'har': 'marginal: order matters but an order free reader is nearly as good', 'speech': 'marginal: order matters but an order free reader is nearly as good'}. The order free control itself had to be repaired first: its projection carried a Conv1d of kernel width five and therefore read local order.
+no. Both carry the sealed gate verdict invalid_no_temporal_headroom, which this program softens to the word marginal only because the shuffled time comparison does show order matters: {'har': 'marginal: order matters but an order free reader is nearly as good', 'speech': 'marginal: order matters but an order free reader is nearly as good'}. The order free control itself had to be repaired first: its projection carried a Conv1d of kernel width five and therefore read local order.
 
 **45 did the premise survive on beds that are strongly temporal**  
 secondary_null on the two strongly temporal beds, still cross modality. The principal beds are marginal under an order free control, so a null there could be read as the beds not needing temporal dynamics. Here they do. pairing, which exists precisely so that a null on marginal beds cannot be explained away

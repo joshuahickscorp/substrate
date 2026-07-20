@@ -176,7 +176,37 @@ def summarize(rows: dict) -> dict:
             "utility": {a: round(um[a], 4) for a in arms},
             "effects": effects,
             "component_floors": {k: round(v, 4) for k, v in floors.items()},
+            "utility_definition": {
+                "weighted": ["second_acquisition", "return_recovery", "future_adaptation"],
+                "not_weighted": ["first_retention"],
+                "why": "retention is enforced as a hard floor rather than averaged in, because an arm can "
+                "buy a high retention average by refusing to learn the second domain at all. G4 adapters "
+                "only is exactly that arm. Averaging retention would reward it; a floor does not.",
+                "consequence": "an arm that dominates on retention alone cannot pass, and that is intended. "
+                "Retention is reported per arm so the choice can be checked rather than taken on trust.",
+                "parameter_price": "0.05 times the arm parameter count over the lstm_gdumb parameter count. "
+                "It cancels exactly between two arms of equal capacity, so it does no work in the headline "
+                "comparison, which is recorded in the mutation report.",
+            },
+            "utility_spread": {
+                "all_arms": round(max(um.values()) - min(um.values()), 4),
+                "excluding_degenerate_arms": round(
+                    max(um.values()) - sorted(um.values())[1 if len(um) > 1 else 0], 4
+                ),
+                "SESOI": io.SESOI,
+                "note": "SESOI is a fixed absolute bar, not a fraction of the observed spread. It is "
+                "reported next to the spread so the reader can judge how demanding it was here.",
+            },
             "component_floor_source_baseline": floor_source,
+            "strongest_baseline_meets_the_floors": {
+                k: bool(means[strongest][k] >= v) for k, v in floors.items()
+            },
+            "comparator_and_floors_are_separate_mechanisms": "the effect comparator is whichever baseline "
+            "scores highest on the decision utility, and the floors are the best any baseline achieved per "
+            "component. They can disagree, and here they do: the utility comparator forgets most of the "
+            "first domain while the retention floor comes from a different baseline that does not. An arm "
+            "must clear both, which is strictly harder than clearing either, and the disagreement is "
+            "reported rather than resolved by quietly picking one.",
             "arms_passing_all_conditions": passing,
             "verdict": "cross_domain_positive" if passing else "cross_domain_null",
         }

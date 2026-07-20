@@ -26,7 +26,7 @@
     "speech->har": "fresh_independent"
   },
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
+  "source_commit": "8a23e0326929170daab46a51c3b018bd53375ef7",
   "SESOI": 0.05,
-  "sha256": "c2672e839fa5f67517b28e4b1a68af0c9928bed42b15ca114d9e44d970e58e71"
+  "sha256": "984dafbfec3cb09a0183f0f35c7a755710462bc58d19de7537e42f45b5d2fd1c"
 }
