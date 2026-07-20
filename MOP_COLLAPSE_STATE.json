@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "f0de151bb4665a58c05bdb3f4a2c0ef0c943c2a6",
+    "base_commit": "a8d978052e0ee330beb87772e6758191c9d25bce",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 94252,
+    "eliminated_LOC": 102405,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 9008,
-    "net_global_reduction_LOC": 101104
+    "added_LOC": 9020,
+    "net_global_reduction_LOC": 109245
   },
   "checklist_summary": {
-    "total": 255,
+    "total": 256,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 39
+      "verified": 40
     }
   },
   "checklist": [
@@ -3689,6 +3689,25 @@
       "rollback_tag": "mop-collapse-full-generations",
       "dependency": "",
       "next_action": "audit the categorized wave for completed or unexecuted experimental slices"
+    },
+    {
+      "id": "RED-categorized-wave-execution-framework",
+      "section": 8,
+      "kind": "verified_reduction",
+      "title": "Retire the stopped categorized-wave execution framework",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/studies/generation1_successor_mechanics_queue.py",
+        "src/mop/studio/generation1_supervisor.py",
+        "src/mop/studio/generation1_subaccomplishment_emitter.py"
+      ],
+      "validation": "8153 stopped phase and observer Python LOC removed for 12 survivor LOC, net -8141; the protected sealed result is complete with promotion disabled and 57/59 capsules complete; its 68 MB evidence tree remains untouched; retained boundary 64/64 green; 3225-case collection, compile-all, critical ruff, and docs gate clean; all 12 paths recover",
+      "commit": "",
+      "rollback_tag": "mop-collapse-categorized-wave",
+      "dependency": "",
+      "next_action": "audit the remaining Generation-1 successor mechanics and final-campaign surfaces"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

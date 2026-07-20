@@ -744,6 +744,24 @@
       "proof": "the protected run never created a full-generations run root, result, verification, report receipt, release audit, or proof artifact; repository reachability found only the phase's own closed cluster plus removable labels and validators in two generic observers; retained categorized/observer/oracle boundary battery is 67/67 green; full 3267-case collection, compile-all, critical ruff, and 32-case docs gate are clean; all 13 deleted paths recover from the prior tag",
       "accounting_note": "src 1 added/5174 deleted; scripts 0 added/852 deleted; tests 17 added/2010 deleted; the one-line sealed manifest and 1677-line dedicated throttle policy were also deleted but contribute zero to Python LOC accounting",
       "tag": "mop-collapse-full-generations"
+    },
+    {
+      "region": "section8_studies_section13_controller_section14_entrypoints_section15_configuration_and_section17_validation",
+      "batch": "completed_categorized_wave_execution_framework",
+      "checkpoint_status": "green",
+      "primitive": "the stopped categorized-wave execution framework was converted to recoverable history after it emitted a sealed complete mechanics result; its manifest, builder, runner, verifier, waiter, wrappers, dedicated tests, and now-orphaned barrier/gate observer branches were physically deleted",
+      "deduplicated_LOC": 0,
+      "added_LOC": 12,
+      "eliminated_LOC": 8153,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 8141,
+      "files_changed": 16,
+      "destination_api": "the sealed live categorized result and 68 MB evidence tree as immutable historical output; generic supervisor, notifier, reprofile, and absorption authorities remain maintained",
+      "proof": "the protected result is sealed complete with categorized_mechanics_complete=true, scientific_promotion=false, independent_scientific_confirmation=false, and verification pending; 57 of 59 capsules completed before execution stopped, with only verifier/report work unfinished; no live controller process remains and the app terminal is closed; the protected 68 MB/14129-file evidence tree was not mutated; retained generic supervisor/observer/oracle battery is 64/64 green; full 3225-case collection, compile-all, critical ruff, and 32-case docs gate are clean; all 12 deleted paths recover from the prior tag",
+      "accounting_note": "src 6 added/5052 deleted; scripts 0 added/794 deleted; tests 6 added/2307 deleted; the one-line sealed manifest was also deleted but contributes zero to Python LOC accounting; live evidence remains outside this branch and untouched",
+      "tag": "mop-collapse-categorized-wave"
     }
   ],
   "deferred_heavy_validation": {

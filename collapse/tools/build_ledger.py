@@ -838,6 +838,21 @@ def main() -> int:
                     "compile-all, critical ruff, and docs gate clean; all 13 paths recover"),
         rollback_tag="mop-collapse-full-generations",
         next_action="audit the categorized wave for completed or unexecuted experimental slices"))
+    checklist.append(item(
+        "RED-categorized-wave-execution-framework", 8, "verified_reduction",
+        "Retire the stopped categorized-wave execution framework",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/studies/generation1_successor_mechanics_queue.py",
+                  "src/mop/studio/generation1_supervisor.py",
+                  "src/mop/studio/generation1_subaccomplishment_emitter.py"],
+        validation=("8153 stopped phase and observer Python LOC removed for 12 survivor LOC, net -8141; "
+                    "the protected sealed result is complete with promotion disabled and 57/59 capsules "
+                    "complete; its 68 MB evidence tree remains untouched; retained boundary 64/64 green; "
+                    "3225-case collection, compile-all, critical ruff, and docs gate clean; all 12 paths "
+                    "recover"),
+        rollback_tag="mop-collapse-categorized-wave",
+        next_action="audit the remaining Generation-1 successor mechanics and final-campaign surfaces"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
