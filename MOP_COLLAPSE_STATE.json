@@ -2179,7 +2179,7 @@
     ],
     "latest_full_validation": {
       "command": ".venv/bin/python -m pytest -q",
-      "result": "131 collected; 125 passed; 6 environment skips",
+      "result": "132 collected; 126 passed; 6 environment skips",
       "acceptance": "11/11 passed",
       "static": "Ruff lint and format clean; mypy clean over 37 source files",
       "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
@@ -2336,7 +2336,7 @@
     },
     "test_ownership": {
       "physical_test_files": 16,
-      "collected_logical_cases": 131,
+      "collected_logical_cases": 132,
       "physical_test_LOC": 1933,
       "owners": [
         "historical record refusal",
@@ -2411,7 +2411,7 @@
       "note": "The direct baseline delta is primary. The ledger category total is reported separately because historical events include deduplication accounting and one early event's net field differs by 105 LOC from its category fields."
     },
     "validation": {
-      "full_suite": "131 collected; 125 passed; 6 environment-specific skips",
+      "full_suite": "132 collected; 126 passed; 6 environment-specific skips",
       "acceptance": "11/11 passed",
       "ruff": "lint and format clean over maintained Python",
       "mypy": "clean over 37 source files",
@@ -2428,7 +2428,7 @@
         "path": "/tmp/mop-collapse-cont.9URUfp",
         "commit": "d1b5448",
         "environment": "disposable uv environment with declared dev and encoder dependencies",
-        "full_suite": "131 collected; 125 passed; 6 environment skips",
+        "full_suite": "132 collected; 126 passed; 6 environment skips",
         "acceptance": "11/11 passed"
       },
       "offline_hydration": "all 9 portable hydration cases passed without network; deterministic content-addressed export/load, exact tensor/model semantics, scoped evidence hashes, and five fail-closed mutations cover the owned hydration path; no optional source pack exists",
@@ -2463,7 +2463,7 @@
       "13_module_reduction": "1072 baseline Python files to 59 current Python files",
       "14_entrypoint_reduction": "319 measured baseline surfaces to 1 installed CLI plus 1 bounded developer script",
       "15_orientation_token_reduction": 76825,
-      "16_tests": "131 collected; 125 passed; 6 skipped",
+      "16_tests": "132 collected; 126 passed; 6 skipped",
       "17_mutation_attacks": "selected STARSS engine 22/22 plus record drift, ordering, metrics, verifier, claim-ceiling, 13/13 matched-budget valid/refusal parity, 24/24 count-statistics success/refusal parity, 15/15 direct count-intake refusal parity, 22/22 preregistration success/refusal parity, 17/17 fixed-gate numerical/refusal parity, 9/9 count-corpus metadata/refusal parity, historical CM7 independent recomputation, 30/30 cache receipt problem lists, 5/5 portable hydration mutations, 59/59 tagged proof semantic projections, 41/41 live-or-historical digest-edge classifications, and 7/7 bound-run semantic/bundle projections; normalized checklist/reduction width, digest, tag, blob, line, and byte drift refusals",
       "18_performance": "selected interpreter overhead +9.793us investigated; custom-chain -10.45%; cache validation -3.42%; checkpoint -27.14%; workbench -13.20%; portable hydration load -0.70%; workbench snapshot retirement -0.15%; unified profile listing -6.51%; harness import -0.79%; historical registry import -1.49%; CLI help -1.10%; read-only cache validation -2.50%; matched-budget projection -2.28%; Studio report projection -0.82%; Studio profile import +0.34% inside gate; count statistics -9.16%; direct count producer import -0.68%; onset-schema adapter import -0.65%; direct count-intake adapter import -0.52%; direct count-artifact import -0.16%; direct preregistration -6.21%; fixed-gate training -14.35%; count-corpus staging -0.23%; substrate import -89.39%; durable authority -68.20% LOC and -52.92% bytes; CM7 pilot authority -97.29% LOC and -97.45% bytes; SANPO attribute authority parse -40.96%",
       "19_architecture_selection": "sealed-record Architecture B selected; Architecture A deleted and recoverable",
@@ -2557,7 +2557,7 @@
       ],
       "28_live_non_interference": "protected checkout untouched; cached boundary reports no General Run process and a stale nonterminal status only",
       "29_external_boundary": "General Run has stale nonterminal state; PR 30 closure incomplete",
-      "30_next_exact_region": "local representation compaction is exhausted: run the completion audit against the 13215 tracked non-document LOC state, then wait at the protected external General Run boundary; further source or test reduction requires a new semantic simplification, not formatting"
+      "30_next_exact_region": "compact the 3086-line generated machine-authority pair (MOP_COLLAPSE_STATE.json plus MOP_PROOF_INDEX.json) behind the 33-line readable ledger, then re-audit the 2356-line STARSS counting cluster for a semantic producer/adapter/gate/prereg simplification while preserving the 414-line independent verifier"
     },
     "external_deferred": [
       {
