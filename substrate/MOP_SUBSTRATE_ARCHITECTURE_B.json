@@ -1,0 +1,16 @@
+{
+  "schema": "mop-substrate-architecture-b/v1",
+  "name": "Sparse Modular Plastic Substrate",
+  "params": 389604,
+  "components": [
+    "owned projection",
+    "6 latent modules",
+    "top-2 sparse context router",
+    "module-local params",
+    "fast core",
+    "head"
+  ],
+  "timescales": 4,
+  "result": "dominated by A; modular routing added params/cost without benefit (decorative modularity); null",
+  "sha256": "e9e426a829c60fd0c58d8e51ba2452079d01a85e192685f6ed7416157fcc5f04"
+}

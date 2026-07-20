@@ -1,0 +1,13 @@
+{
+  "schema": "mop-substrate-plasticity-gate/v1",
+  "architecture": "A",
+  "domain": "har_class",
+  "seeds": 5,
+  "simple_all_update_mean": 0.6618,
+  "oracle_eligibility_mean": 0.6637,
+  "oracle_headroom_mean": 0.0019,
+  "oracle_headroom_lcb": -0.0006,
+  "verdict": "no_stable_headroom (simple_policy_sufficient)",
+  "note": "oracle = per-seed best of {all-update, fixed-group eligibility, no-consolidation}; if it does not beat the simple all-update policy by SESOI, simple policy is sufficient and no learned controller is opened",
+  "sha256": "1ba09d77ea15ae2836a87e139e267f148379e35e1cac8446799a8db2b9ca8fcb"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "mop-substrate-domain-inventory/v1",
+  "candidates": [
+    "emnist",
+    "cifar100",
+    "har_class",
+    "har_shift"
+  ],
+  "classifications": {
+    "emnist": "eligible_principal",
+    "cifar100": "eligible_principal",
+    "har_class": "eligible_principal",
+    "har_shift": "invalid_no_forgetting"
+  },
+  "principal_selected": [
+    "emnist (image)",
+    "har_class (non-image)"
+  ],
+  "non_image_valid": "har_class",
+  "sha256": "de57bb4b8a368db23172a05bebb15e22dfb46f0df86c1b231d75d0cdf151b41f"
+}

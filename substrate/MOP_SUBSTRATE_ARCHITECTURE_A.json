@@ -1,0 +1,15 @@
+{
+  "schema": "mop-substrate-architecture-a/v1",
+  "name": "Shared Latent Workspace",
+  "params": 216862,
+  "components": [
+    "owned projection",
+    "shared slow workspace",
+    "fast GRU core",
+    "context-gain routing",
+    "task head"
+  ],
+  "timescales": 4,
+  "result": "stronger of the two; near-miss on HAR (mean +0.112 over best baseline, lcb -0.028); null overall",
+  "sha256": "1a081081828f20e7165483256bea54d9dd0ac2257e624338ca18c91e468154f2"
+}
