@@ -1,0 +1,6 @@
+{
+  "schema": "transfer/v1",
+  "class": "not_licensed",
+  "finding": "no substrate positive to transfer; cross_domain_moldability_null stands",
+  "sha256": "ef40385c239704212f11ad8c3497f7e927cd3bbfc314702f2593237c4b65ab8d"
+}

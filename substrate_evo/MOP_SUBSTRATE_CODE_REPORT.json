@@ -1,0 +1,7 @@
+{
+  "schema": "code/v1",
+  "active_loc": 406,
+  "budget": "<=10000",
+  "within": true,
+  "sha256": "714213bfccf5f727139d601dd83efb87e5a512005c68005b52728fc693eeb239"
+}

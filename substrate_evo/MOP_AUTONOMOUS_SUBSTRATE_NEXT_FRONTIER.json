@@ -1,0 +1,6 @@
+{
+  "schema": "mop-autonomous-substrate-next-frontier/v1",
+  "verdict": "Substrate Event Horizon sealed",
+  "external_requirement": "a validated bounded-memory mechanism that beats GDumb (R1/P1R closed) OR a larger sealed memory budget with matched cost",
+  "activation": false
+}

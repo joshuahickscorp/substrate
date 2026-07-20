@@ -32,23 +32,26 @@
       "impl_target": 70,
       "ev_target": 50,
       "criteria": "policies implemented; NO useful learned rule (C1 null, plasticity gate no_headroom)",
-      "next": "substrate-specific plasticity headroom gate on a valid temporal domain"
+      "next": "substrate-specific plasticity headroom gate on a valid temporal domain",
+      "note_update": "no headroom on a valid temporal bed either; simple_policy_sufficient stands"
     },
     "5_owned_trainable_substrate": {
       "impl": 85,
-      "ev": 50,
+      "ev": 60,
       "impl_target": 90,
       "ev_target": 80,
       "criteria": "both Genesis architectures implemented, 4 timescales, checkpointable, verified; but null on 2 domains",
-      "next": "temporal architectures A-T/C/D + valid temporal-domain evidence"
+      "next": "temporal architectures A-T/C/D + valid temporal-domain evidence",
+      "note_update": "temporal architectures A-T/C/D implemented + verified on a VALID temporal bed; still null vs converged baselines -> evidence raised (implementation solid) but below the 80 target; closed via event horizon"
     },
     "6_multi_timescale_moldability": {
       "impl": 70,
-      "ev": 20,
+      "ev": 25,
       "impl_target": 85,
       "ev_target": 70,
       "criteria": "4 timescales implemented but fast state degenerate on iid images; not shown valuable",
-      "next": "temporal-domain ablations of fast/medium/slow state value"
+      "next": "temporal-domain ablations of fast/medium/slow state value",
+      "note_update": "tested on a valid temporal bed; fast/medium state did not add value beyond LSTM gating; below 70 target; event horizon"
     },
     "7_functional_self_reorganization": {
       "impl": 60,
@@ -56,7 +59,8 @@
       "impl_target": 70,
       "ev_target": 50,
       "criteria": "ArchB tried, structural_null (decorative)",
-      "next": "Architecture D hierarchical plasticity lattice with bounded reorganization vs simple routing"
+      "next": "Architecture D hierarchical plasticity lattice with bounded reorganization vs simple routing",
+      "note_update": "Architecture D structural_null (does not beat LSTM; hierarchical routing decorative); below 50 target; event horizon"
     },
     "8_unified_cross_domain_entity": {
       "impl": 50,
@@ -80,5 +84,5 @@
     "8_unified_cross_domain_entity"
   ],
   "note": "layers 4-8 require the substrate to actually beat strong matched baselines on valid temporal domains; the entire program base rate (nothing has beaten strong matched baselines across G2/G3/Genesis) makes a Substrate Event Horizon the likely honest terminal for 4-8, contingent on the temporal-order headroom gate and full exhaustion proof",
-  "sha256": "69ecea03cf4b40a25439addee2329e710333fb8c88ff53396a770cb8d41b0bc7"
+  "sha256": "928a6114351cbb0104dd1520eab5276d3204997c6c4ce49ec7eb3ad76390fbec"
 }

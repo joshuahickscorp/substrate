@@ -1,0 +1,5 @@
+{
+  "schema": "medium-state/v1",
+  "finding": "A-T medium EMA context added no measured value beyond LSTM (A-T null)",
+  "sha256": "dc2b72b588af67d587ecd548936de79c03d26adb6b6dccfa04954e336a462532"
+}
