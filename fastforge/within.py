@@ -43,15 +43,14 @@ WITHIN_ARMS: dict[str, dict] = {
     "AT_no_slow": dict(
         arch="G", core_after_first=True, local_kinds=("proj_conv", "proj_lin", "norm", "head")
     ),
-    "gru": dict(arch="gru", core_after_first=True),
-    "lstm": dict(arch="lstm", core_after_first=True),
+    "gru": dict(arch="gru", core_after_first=True, memory="none"),
+    "lstm": dict(arch="lstm", core_after_first=True, memory="none"),
     "lstm_gdumb": dict(arch="lstm", core_after_first=True, memory="gdumb"),
     "separate_per_context": dict(arch="separate", core_after_first=True),
     "shared_adapters": dict(arch="shared_adapters", core_after_first=True),
     "ewc": dict(arch="lstm", core_after_first=True, ewc=50.0),
     "reservoir": dict(arch="lstm", core_after_first=True, memory="reservoir"),
-    "no_memory": dict(arch="lstm", core_after_first=True, memory="none"),
-    "bag_order_free": dict(arch="bag", core_after_first=True),
+    "bag_order_free": dict(arch="bag", core_after_first=True, memory="none"),
     "joint_upper_bound": dict(arch="lstm", core_after_first=True, joint=True),
 }
 
@@ -96,7 +95,10 @@ def run_within(arm: str, dname: str, seed: int, stressor: str = "plain", steps: 
     if stressor == "limited":
         steps = max(20, steps // 3)
     cap = MEM_CAP // 3 if stressor == "small_mem" else MEM_CAP
-    mems = {c["name"]: E.Memory(p.get("memory", "gdumb"), cap) for c in ctx}
+    # One buffer for the whole sequence, tagged by the context each item came from. A buffer per context
+    # was inert: it was only ever populated after its own context finished training, so replay never
+    # crossed a context boundary and the replay arms were replay arms in name only.
+    mem = E.Memory(p.get("memory", "gdumb"), cap)
     n = len(ctx)
     acc = np.zeros((n, n))
     acc_missing = np.zeros(n)  # missing observation recovery is an evaluation stressor, not a second run
@@ -118,7 +120,7 @@ def run_within(arm: str, dname: str, seed: int, stressor: str = "plain", steps: 
                         train_groups=local + ([shared] if shared else []),
                         steps=max(1, steps // rounds),
                         rng=rng,
-                        memory=mems[c2["name"]],
+                        memory=mem,
                     )
                 )
         for t in range(n):
@@ -159,7 +161,7 @@ def run_within(arm: str, dname: str, seed: int, stressor: str = "plain", steps: 
                     train_groups=local + ([shared] if core_on else []),
                     steps=steps,
                     rng=rng,
-                    memory=mems[c["name"]],
+                    memory=mem,
                     gate=gate,
                     shared_group=shared,
                     ref_batch=ref_batch,
@@ -169,7 +171,7 @@ def run_within(arm: str, dname: str, seed: int, stressor: str = "plain", steps: 
                     update_recent=True,
                 )
             )
-            mems[c["name"]].add(c["x"], c["y"], rng)
+            mem.add(c["x"], c["y"], rng, tag=c["name"])
             for j in range(t + 1):
                 acc[t, j] = _eval(model, ctx[j], stressor, rng)
 
@@ -198,7 +200,7 @@ def run_within(arm: str, dname: str, seed: int, stressor: str = "plain", steps: 
             train_groups=local + ([shared] if shared else []),
             steps=max(20, steps // 3),
             rng=rng,
-            memory=mems[last],
+            memory=mem,
         )
     )
     future = E.evaluate(model, last, ex, ey)
