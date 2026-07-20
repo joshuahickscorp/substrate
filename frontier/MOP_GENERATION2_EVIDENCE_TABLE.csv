@@ -1,0 +1,20 @@
+mechanism,classification,strongest_positive,strongest_null,external_status,architecture_robustness
+D1,retired_frozen_design,none surviving,retired before external test,not tested,unknown
+U1,real_data_canary_null,none,real-data canary null (MNIST-family): raw uncertainty fires ,failed at canary,n/a
+N1,canary_positive_confirmation_null,MNIST real-data canary_positive,CIFAR-10 second-source confirmation_null,failed second-source confirmation,n/a
+R1,real_data_canary_null,none,KMNIST real-data canary_null: no incremental value beyond ne,failed at canary,0 of 3 capable estimators
+P1,pruned_superseded_by_P1R,none,pruned (superseded by P1R),not tested,n/a
+P1R,"strongest_surviving_internal_hypothesis (same-team benchmark positives, external null, no downstream license)","same_team_cross_architecture_positive on split-MNIST, CIFAR-",EMNIST external-method replication_null: faithful P1R 0.104 ,external_method_replication_null,cross-architecture within same team
+V1,architecture_dependent,incremental value over uncertainty controls (D lcb 0.062),only 1 of 3 capable estimators decodes it,not reached (admission architecture_dependent),1 of 3 capable estimators
+K1,pruned_mechanism,"architecture-robust value (F 3/3, D lcb 0.10)",fails noisy-TV: fires on contradictions not warranting repai,not reached,3 of 3 capable estimators
+M1,pruned_mechanism,"message value highly predictable (D lcb 0.33, F 3/3)",fails noisy-TV: fires where the message does not causally he,not reached,3 of 3 capable estimators
+E1,pruned_mechanism,relational boundaries help (oracle headroom 0.19),not beyond simple change detectors by SESOI (lcb -0.004),not reached,n/a (sequence harness)
+C0,pruned_mechanism,none,"worse than EMA smoothing (wrong direction, lcb -0.036)",not reached,n/a
+A1,pruned_mechanism,competent policy (beats random by 109 return),ties a fitted value estimator; no incremental value,not reached,point-negative vs controls
+S1,pruned_mechanism,none,learned-model planning worse than random (model errors compo,not reached,point-negative
+I1,retired_route,none,retired route,not tested,n/a
+G1,unlicensed_never_launched,none,unlicensed,not tested,n/a
+Cluster_A_action_simulation,unlicensed,none,unlicensed: A1 and S1 both pruned at admission,not tested,n/a
+Cluster_B_memory_plasticity,blocked_terminated,none,blocked by R1 canary_null; factorial not licensed,not tested,n/a
+Cluster_C_verification_repair_messaging,unlicensed,none,"unlicensed: V1 architecture_dependent, K1/M1 pruned; no pass",not tested,n/a
+Cluster_Event_Trace,unlicensed,none,unlicensed: E1 and C0 both pruned,not tested,n/a
