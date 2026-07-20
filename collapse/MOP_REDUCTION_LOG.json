@@ -1216,6 +1216,25 @@
       "performance": "seven-run fixture/export/load median improved 112.347ms to 100.613ms (-10.45%); nine-process cold import median moved 549.286ms to 550.948ms (+0.30%), inside the 2% gate",
       "accounting_note": "349 Python lines deleted for 204 replacement and condensed-test lines, net -145; runtime source falls 92 LOC to 9678, scripts fall 13 LOC to 952, validation falls 40 LOC to 3017, and maintained Python falls to 13898 LOC",
       "tag": "mop-collapse-custom-chain"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section17_validation",
+      "batch": "single_cache_receipt_policy_and_condensed_mutation_fixtures",
+      "checkpoint_status": "green",
+      "primitive": "one citable receipt policy selects weighted versus random-control receipt files, validators, configuration bindings, and fingerprint roles; one file-row validator owns path, digest, size, and uniqueness checks; shared fixture constructors retain the four distinct random-control mutation cases without repeated manifests",
+      "deduplicated_LOC": 0,
+      "added_LOC": 126,
+      "eliminated_LOC": 211,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 85,
+      "files_changed": 2,
+      "destination_api": "validate_cache_manifest and _validate_receipt_files in src/mop/substrate/cache_manifest.py plus compact case builders in tests/unit/test_cache_manifest.py",
+      "proof": "Architecture B is 884 maintained regional LOC versus Architecture A at 969; 30 generated encoder/random receipt mutations produce byte-for-byte identical problem lists under both architectures; all 18 cache cases and the unchanged 155-case full suite pass with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "nine-batch citable random-control validation median improved 573.527us to 553.916us (-3.42%)",
+      "accounting_note": "211 Python lines deleted for 126 policy and condensed-test lines, net -85; runtime source falls 6 LOC to 9672, validation falls 79 LOC to 2938, scripts remain 952 LOC, and maintained Python falls to 13813 LOC",
+      "tag": "mop-collapse-cache-receipt-policy"
     }
   ],
   "latest_full_validation": {
