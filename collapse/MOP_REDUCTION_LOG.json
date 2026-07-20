@@ -1647,6 +1647,8 @@
       "checkpoint_status": "green",
       "metric": "tracked text physical LOC outside current documentation",
       "eliminated_physical_LOC": 21191,
+      "added_physical_LOC": 32,
+      "net_physical_reduction_LOC": 21159,
       "files_deleted": 1,
       "primitive": "retire a generated historical meta-aggregate while retaining its complete governing summary in the CM7 requirements audit and its full body in exact tagged history",
       "proof": "requirements_audit.json embeds the exact 09be97f99ccfa357d2b151ab981c34649fd30b0775c54115573d625db4ef3a1e hash, 2002043-byte size, schema, coverage, classifications, blockers, provisional-null counts, surface counts, and hardware conclusion; the full 177-entry/370-embedded-artifact body resolves byte-exactly from mop-collapse-lowest-green-29; no sealed receipt, attestation, independent verifier, or scientific result bytes change",
