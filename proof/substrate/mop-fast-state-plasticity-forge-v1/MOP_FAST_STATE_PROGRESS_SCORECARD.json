@@ -2,7 +2,7 @@
   "schema": "mop-fast-state-progress-scorecard/v1",
   "implementation": {
     "evidence_and_falsification": 100,
-    "orchestration": 80,
+    "orchestration": 100,
     "failure_understanding": 100,
     "owned_substrate": 100,
     "multi_timescale_and_partitioned_plasticity": 100,
@@ -19,9 +19,9 @@
     "cross_domain_entity": 90
   },
   "evidence": {
-    "evidence_and_falsification": 91,
-    "orchestration": 91,
-    "failure_understanding": 91,
+    "evidence_and_falsification": 95,
+    "orchestration": 95,
+    "failure_understanding": 95,
     "useful_plasticity": 5,
     "owned_substrate": 45,
     "partitioned_moldability": 15,
@@ -51,7 +51,7 @@
   },
   "rule": "evidence remains earned. Implementation completeness never raises an evidence score.",
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "source_commit": "e5ac6045edada3c0ea8bdaa4442d4b51f1034a9b",
   "SESOI": 0.05,
-  "sha256": "c40783bec45670bc7efad7a5998ccbdffa37bd0fea3a48cc33ba114e3427bcb2"
+  "sha256": "3398ea0197c311069b9d708290965a25b7b75232f7a5a2a647836fa247f0025e"
 }

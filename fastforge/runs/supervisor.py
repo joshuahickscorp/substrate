@@ -187,6 +187,9 @@ def main():
     run_sync("fastforge.runs.fabric")
     run_sync("fastforge.runs.ledger")
     run_sync("fastforge.runs.synthesis")
+    # the synthesis quotes the fabric, and the fabric must index the synthesis. One extra pass closes the
+    # cycle: the counts the synthesis quotes do not change, only the hash of the synthesis itself.
+    run_sync("fastforge.runs.fabric")
     print("SUPERVISOR_DONE", flush=True)
 
 
