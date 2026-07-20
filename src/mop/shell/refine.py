@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import torch
@@ -8,7 +7,6 @@ from .predictor import mlp
 
 
 class IterativeRefiner(nn.Module):
-
     def __init__(
         self,
         dim: int,
@@ -75,7 +73,6 @@ class IterativeRefiner(nn.Module):
 
 
 class Verifier(nn.Module):
-
     def __init__(self, dim: int, hidden: int = 128):
         super().__init__()
         self.net = mlp(dim, 1, hidden, depth=1, ln=True)

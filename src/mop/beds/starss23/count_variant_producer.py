@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -51,7 +50,6 @@ def _analysis_passes(_analysis: Any) -> bool:
 
 @dataclass(frozen=True, slots=True)
 class CountVariantCorpus:
-
     adapter: Any
     foa_root: Path
     metadata_root: Path
@@ -73,7 +71,6 @@ class CountVariantCorpus:
 
 @dataclass(frozen=True, slots=True)
 class CountVariantSpec:
-
     artifact_schema: str
     producer_schema: str
     refusal: type[ValueError]
@@ -98,7 +95,6 @@ class CountVariantSpec:
 
 @dataclass(frozen=True, slots=True)
 class CountVariantContext:
-
     seed_runs: list[Any]
     report: Any
     sign_flip: Any
@@ -179,9 +175,7 @@ def build_count_variant_artifact(
         spec.run_seed(
             seed,
             corpus,
-            spec.noise_features(
-                seed, config.noisy_tv_frames, featurizer, target_mean, target_std
-            ),
+            spec.noise_features(seed, config.noisy_tv_frames, featurizer, target_mean, target_std),
         )
         for seed in config.seeds
     ]
@@ -193,15 +187,11 @@ def build_count_variant_artifact(
         score_group="arm_scores",
         score_field=spec.score_field,
         action_group="reestimations",
-        flop_model=lambda kind: spec.flop_model(
-            kind, seed_runs[0].total_frames, seed_runs[0].train_frames
-        ),
+        flop_model=lambda kind: spec.flop_model(kind, seed_runs[0].total_frames, seed_runs[0].train_frames),
     )
     report = run_matched_budget(
         budget_points,
-        wall_ns=max(
-            1, max(point.candidate.max_lifecycle_flops() for point in budget_points)
-        ),
+        wall_ns=max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points)),
         operating_budget_id=seed_runs[0].operating_budget_id,
         source_kind="real",
         ceiling=FLOP_CEILING,
@@ -228,9 +218,7 @@ def build_count_variant_artifact(
         **spec.stats_options(analysis),
     )
     n_runs = len(seed_runs)
-    mean_noise_rate = (
-        math.fsum(run.noisy_tv["reestimate_rate_on_noise"] for run in seed_runs) / n_runs
-    )
+    mean_noise_rate = math.fsum(run.noisy_tv["reestimate_rate_on_noise"] for run in seed_runs) / n_runs
     mean_base_rate = math.fsum(run.noisy_tv["base_rate"] for run in seed_runs) / n_runs
     noisy_tv_at_chance = at_chance(min(1.0, mean_noise_rate), min(1.0, mean_base_rate))
     controls = noise_control_summary(
@@ -246,9 +234,7 @@ def build_count_variant_artifact(
         clip.clip_id: {
             "n_frames": clip.n_frames,
             "gt_count_track": list(corpus.gt_by_clip[clip.clip_id]),
-            "estimator_track": [
-                int(value) for value in corpus.estimator_by_clip[clip.clip_id].tolist()
-            ],
+            "estimator_track": [int(value) for value in corpus.estimator_by_clip[clip.clip_id].tolist()],
         }
         for clip in corpus.test_clips
     }

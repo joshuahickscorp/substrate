@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "b0f40e9e620831bde531ac3e4bbd479a98226d66",
+    "base_commit": "c35a267c4c571c3965bae570e2449ce7840641f4",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,20 +118,20 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 322531,
+    "eliminated_LOC": 351648,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 9115,
-    "net_global_reduction_LOC": 329276
+    "added_LOC": 9964,
+    "net_global_reduction_LOC": 357544
   },
   "checklist_summary": {
     "total": 259,
     "by_status": {
-      "complete": 17,
+      "complete": 26,
       "active": 52,
-      "pending": 137,
+      "pending": 128,
       "partial": 10,
       "verified": 43
     }
@@ -423,13 +423,15 @@
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-50k",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-50k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-event-horizon",
@@ -1258,104 +1260,120 @@
       "section": 5,
       "kind": "checkpoint",
       "title": "Reach green global checkpoint 300k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "",
+      "rollback_tag": "mop-collapse-50k",
       "dependency": "",
-      "next_action": "tag mop-collapse-300k when global maintained LOC crosses 300k"
+      "next_action": "none"
     },
     {
       "id": "CKPT-250k",
       "section": 5,
       "kind": "checkpoint",
       "title": "Reach green global checkpoint 250k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "",
+      "rollback_tag": "mop-collapse-50k",
       "dependency": "",
-      "next_action": "tag mop-collapse-250k when global maintained LOC crosses 250k"
+      "next_action": "none"
     },
     {
       "id": "CKPT-200k",
       "section": 5,
       "kind": "checkpoint",
       "title": "Reach green global checkpoint 200k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "",
+      "rollback_tag": "mop-collapse-50k",
       "dependency": "",
-      "next_action": "tag mop-collapse-200k when global maintained LOC crosses 200k"
+      "next_action": "none"
     },
     {
       "id": "CKPT-150k",
       "section": 5,
       "kind": "checkpoint",
       "title": "Reach green global checkpoint 150k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "",
+      "rollback_tag": "mop-collapse-50k",
       "dependency": "",
-      "next_action": "tag mop-collapse-150k when global maintained LOC crosses 150k"
+      "next_action": "none"
     },
     {
       "id": "CKPT-125k",
       "section": 5,
       "kind": "checkpoint",
       "title": "Reach green global checkpoint 125k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "",
+      "rollback_tag": "mop-collapse-50k",
       "dependency": "",
-      "next_action": "tag mop-collapse-125k when global maintained LOC crosses 125k"
+      "next_action": "none"
     },
     {
       "id": "CKPT-100k",
       "section": 5,
       "kind": "checkpoint",
       "title": "Reach green global checkpoint 100k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "",
+      "rollback_tag": "mop-collapse-50k",
       "dependency": "",
-      "next_action": "tag mop-collapse-100k when global maintained LOC crosses 100k"
+      "next_action": "none"
     },
     {
       "id": "CKPT-75k",
       "section": 5,
       "kind": "checkpoint",
       "title": "Reach green global checkpoint 75k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "",
+      "rollback_tag": "mop-collapse-50k",
       "dependency": "",
-      "next_action": "tag mop-collapse-75k when global maintained LOC crosses 75k"
+      "next_action": "none"
     },
     {
       "id": "CKPT-50k",
       "section": 5,
       "kind": "checkpoint",
       "title": "Reach green global checkpoint 50k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "",
+      "rollback_tag": "mop-collapse-50k",
       "dependency": "",
-      "next_action": "tag mop-collapse-50k when global maintained LOC crosses 50k"
+      "next_action": "none"
     },
     {
       "id": "ESCAPE-RULE",

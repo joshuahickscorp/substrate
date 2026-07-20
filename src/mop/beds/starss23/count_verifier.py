@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -130,7 +129,6 @@ def _sign_flip_one_sided(deltas: list[float]) -> tuple[float, float, int]:
 
 @dataclass(frozen=True, slots=True)
 class CountVerificationResult:
-
     seal_intact: bool
     schema_ok: bool
     scores_reproduced: bool
@@ -247,9 +245,9 @@ def verify_count_artifact(artifact: dict) -> CountVerificationResult:
             reestimates_by_clip[clip_id] = clip.get("reestimate_frames", {})
             candidate_count_by_clip[clip_id] = len(
                 _as_reestimates(
-                    reestimates_by_clip[clip_id].get(ARM_CANDIDATE) if isinstance(
-                        reestimates_by_clip[clip_id], dict
-                    ) else None,
+                    reestimates_by_clip[clip_id].get(ARM_CANDIDATE)
+                    if isinstance(reestimates_by_clip[clip_id], dict)
+                    else None,
                     n,
                     f"candidate reestimate_frames on {clip_id}",
                 )

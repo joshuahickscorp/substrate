@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -23,7 +22,6 @@ class EncoderSpec:
 
 
 class FrozenEncoder(nn.Module):
-
     def __init__(self, spec: EncoderSpec, model: nn.Module | None = None):
         super().__init__()
         self.spec = spec

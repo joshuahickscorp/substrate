@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import pytest
@@ -56,13 +55,21 @@ def test_onset_event_validates_its_fields() -> None:
 
 
 def test_clip_requires_sorted_unique_in_range_onsets() -> None:
-    good = _clip("fold3_room0_mix000", "room0", onsets=[OnsetEvent(2, 0, 0.0, 0.0, 1.0), OnsetEvent(9, 1, 0.0, 0.0, 1.0)])
+    good = _clip(
+        "fold3_room0_mix000",
+        "room0",
+        onsets=[OnsetEvent(2, 0, 0.0, 0.0, 1.0), OnsetEvent(9, 1, 0.0, 0.0, 1.0)],
+    )
     assert good.onset_frames == (2, 9)
     assert len(good.digest()) == 64
     with pytest.raises(SchemaRefusal):
         _clip("fold3_room0_mix001", "room0", onsets=[OnsetEvent(60, 0, 0.0, 0.0, 1.0)], n_frames=60)
     with pytest.raises(SchemaRefusal):
-        _clip("fold3_room0_mix002", "room0", onsets=[OnsetEvent(9, 0, 0.0, 0.0, 1.0), OnsetEvent(2, 0, 0.0, 0.0, 1.0)])
+        _clip(
+            "fold3_room0_mix002",
+            "room0",
+            onsets=[OnsetEvent(9, 0, 0.0, 0.0, 1.0), OnsetEvent(2, 0, 0.0, 0.0, 1.0)],
+        )
     with pytest.raises(SchemaRefusal):
         Clip(clip_id="fold3_room0_mix003", room_id="room0", n_frames=60, audio_sha256="xyz", onsets=())
 

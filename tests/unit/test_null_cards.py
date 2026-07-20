@@ -1,5 +1,3 @@
-
-from mop.config import REPO_ROOT
 from mop.falsification.null_cards import (
     extract_card_yaml,
     generate_from_experiment,
@@ -11,10 +9,10 @@ from mop.falsification.null_cards import (
 
 
 def test_generate_from_registry_row_has_contract_fields():
-    card = generate_from_experiment("e7_sparse")
-    assert card["exp_id"] == "e7_sparse"
+    card = generate_from_experiment("mop_cm7_min_objective_probe")
+    assert card["exp_id"] == "mop_cm7_min_objective_probe"
     assert card["null_hypothesis"]
-    assert card["metric"] == "interference"
+    assert card["metric"] == "nuisance_invariance_per_objective"
     assert card["probe_dependency"]["factor"] == "identity"
     assert card["taxonomy_category"] in range(1, 11)
     assert validate_card(card) == []
@@ -22,33 +20,28 @@ def test_generate_from_registry_row_has_contract_fields():
 
 
 def test_render_and_extract_round_trip():
-    card = generate_from_experiment("ex13_long_stream")
+    card = generate_from_experiment("mop_cm7_min_objective_probe")
     md = render_card(card)
     parsed = extract_card_yaml(md)
     assert parsed == card
 
 
 def test_validate_completed_card_without_todo():
-    card = generate_from_experiment("ex13_long_stream")
+    card = generate_from_experiment("mop_cm7_min_objective_probe")
     card["probe_dependency"]["decodable"] = "yes"
     card["probe_dependency"]["acc_above_chance"] = 0.84
     card["seeds"]["sem"] = 0.01
     card["seeds"]["sign_stability"] = "stable at S>=3"
     card["result"] = "protected-minus-control gap 0.0, tie"
-    card["raw_run_id"] = "runs/pre_studio/ex13_long_stream.json"
+    card["raw_run_id"] = "runs/custom_substrate/cm7_test/receipt.json"
     assert validate_card(card, strict=True) == []
 
 
-def test_existing_card_with_colons_in_values_validates():
-    card = load_card(REPO_ROOT / "proof" / "NULL_CARDS" / "ex13_long_stream.md")
-    assert card["exp_id"] == "ex13_long_stream"
-    assert validate_card(card) == []
-
-
-def test_dr1_null_card_validates_strict():
-    card = load_card(REPO_ROOT / "proof" / "NULL_CARDS" / "mop_dr1_video_cache.md")
-    assert card["exp_id"] == "mop_dr1_video_cache"
-    assert validate_card(card, strict=True) == []
+def test_load_card_round_trip(tmp_path):
+    expected = generate_from_experiment("mop_cm7_min_objective_probe")
+    path = tmp_path / "card.md"
+    path.write_text(render_card(expected))
+    assert load_card(path) == expected
 
 
 def test_loose_parser_keeps_colon_value():
@@ -87,14 +80,14 @@ repro_level: R1
 
 
 def test_validate_catches_missing_probe_dependency():
-    card = generate_from_experiment("e7_sparse")
+    card = generate_from_experiment("mop_cm7_min_objective_probe")
     del card["probe_dependency"]
     problems = validate_card(card)
     assert any("probe_dependency" in p for p in problems)
 
 
 def test_validate_catches_bad_enums_and_seed_count():
-    card = generate_from_experiment("e7_sparse")
+    card = generate_from_experiment("mop_cm7_min_objective_probe")
     card["provenance_tag"] = "made-up"
     card["verdict"] = "MAYBE"
     card["seeds"]["n"] = 1

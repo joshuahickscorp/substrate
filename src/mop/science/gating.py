@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Callable
@@ -7,9 +6,7 @@ from typing import Any
 import numpy as np
 
 
-def assemble_causal_inputs(
-    features: np.ndarray, state_factory: Callable[[], Any]
-) -> np.ndarray:
+def assemble_causal_inputs(features: np.ndarray, state_factory: Callable[[], Any]) -> np.ndarray:
 
     state = state_factory()
     rows: list[np.ndarray] = []

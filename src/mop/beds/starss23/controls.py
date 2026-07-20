@@ -33,9 +33,7 @@ def rate_matched_random_fires(
     fires = _unique_sorted_frames(candidate_fires, n_frames, "candidate_fires")
     if len(fires) >= n_frames:
         return list(range(n_frames))
-    rng = np.random.default_rng(
-        domain_seed(seed, f"{_RMR_NAMESPACE}:{clip_id}", b"mop-starss23-controls-v1")
-    )
+    rng = np.random.default_rng(domain_seed(seed, f"{_RMR_NAMESPACE}:{clip_id}", b"mop-starss23-controls-v1"))
     return sorted(int(position) for position in rng.choice(n_frames, size=len(fires), replace=False))
 
 

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import json
@@ -90,7 +89,6 @@ class _Phase:
 
 @dataclass
 class WorkloadAccountant:
-
     workload: str
     watch_paths: dict[str, Path] = field(default_factory=dict)
     _phases: list[_Phase] = field(default_factory=list, init=False)

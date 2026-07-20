@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -21,11 +20,12 @@ import torch.nn.functional as F
 import yaml
 from torch import nn
 
+from mop.substrate.events import sha256_file
+
 from ..config import REPO_ROOT
 from ..devices import DeviceInfo
 from .cache_manifest import validate_cache_manifest
 from .latent_store import LatentStore
-from mop.substrate.events import sha256_file
 
 WORKBENCH_SCHEMA = "mop-custom-substrate-workbench/v1"
 DATASET_SCHEMA = "mop-custom-substrate-dataset/v1"
@@ -518,7 +518,6 @@ def _stable_seed(*parts: Any) -> int:
 
 
 class ProgrammaticVideoCorpus:
-
     def __init__(self, spec: CorpusSpec, records: Sequence[ReferentRecord]):
         self.spec = spec
         self.records = list(records)
@@ -590,7 +589,6 @@ class ModelSpec:
 
 
 class TinyVideoSubstrate(nn.Module):
-
     def __init__(self, spec: ModelSpec):
         super().__init__()
         spec.validate()

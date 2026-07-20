@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import base64
@@ -134,7 +133,6 @@ def _normalize_metadata(raw: dict[str, Any]) -> dict[str, str | int]:
 
 
 class GCSJSONClient:
-
     def __init__(
         self,
         *,

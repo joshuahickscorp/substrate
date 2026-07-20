@@ -1,4 +1,3 @@
-
 import pytest
 
 from mop.devel import north_star as NS

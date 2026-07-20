@@ -1,4 +1,3 @@
-
 from .persistent_grid import (
     ACTION_NAMES,
     PersistentGridEnvironment,

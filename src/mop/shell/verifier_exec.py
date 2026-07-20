@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -17,7 +16,6 @@ _OPS = {
 
 @dataclass(frozen=True)
 class Predicate:
-
     slot: str
     op: str
     value: int
@@ -36,7 +34,6 @@ class Predicate:
 
 @dataclass(frozen=True)
 class Program:
-
     predicates: tuple[Predicate, ...] = field(default_factory=tuple)
 
     def slot_index(self, slot: str) -> int:
@@ -61,7 +58,6 @@ def target_program() -> Program:
 
 
 class ExecutableVerifier:
-
     def __init__(self, program: Program | None = None):
         self.program = program or target_program()
 

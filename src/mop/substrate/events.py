@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -112,7 +111,6 @@ class SensorClockRef:
 
 @dataclass(frozen=True, slots=True)
 class FrozenJSON:
-
     canonical: str
     sha256: str
 

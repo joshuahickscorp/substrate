@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -38,7 +37,6 @@ def _require_finite(value: float, label: str) -> float:
 
 @dataclass(frozen=True, slots=True)
 class OnsetEvent:
-
     frame: int
     class_id: int
     azimuth: float
@@ -84,7 +82,6 @@ class OnsetEvent:
 
 @dataclass(frozen=True, slots=True)
 class Clip:
-
     clip_id: str
     room_id: str
     n_frames: int
@@ -146,7 +143,6 @@ class Clip:
 
 @dataclass(frozen=True, slots=True)
 class ClipSplit:
-
     train: tuple[Clip, ...]
     val: tuple[Clip, ...]
     test: tuple[Clip, ...]
@@ -172,9 +168,7 @@ class ClipSplit:
                 clip_owner[clip.clip_id] = name
                 prior_room = room_owner.get(clip.room_id)
                 if prior_room is not None and prior_room != name:
-                    raise SchemaRefusal(
-                        f"room {clip.room_id} is not disjoint: in {prior_room} and {name}"
-                    )
+                    raise SchemaRefusal(f"room {clip.room_id} is not disjoint: in {prior_room} and {name}")
                 room_owner[clip.room_id] = name
 
     @property
@@ -199,9 +193,7 @@ class ClipSplit:
         return canonical_sha256(self.payload())
 
 
-def room_disjoint_split(
-    clips: Sequence[Clip], *, n_train_rooms: int, n_val_rooms: int
-) -> ClipSplit:
+def room_disjoint_split(clips: Sequence[Clip], *, n_train_rooms: int, n_val_rooms: int) -> ClipSplit:
 
     if n_train_rooms <= 0 or n_val_rooms <= 0:
         raise SchemaRefusal("room split needs at least one train room and one val room")

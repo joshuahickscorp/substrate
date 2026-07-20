@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -10,6 +9,7 @@ from typing import Any
 
 import torch
 import torch.nn.functional as F
+
 from mop.substrate.events import canonical_bytes
 
 WORLD_SCHEMA = "mop-persistent-grid-world/v1"
@@ -32,7 +32,6 @@ def _stable_index(parts: tuple[Any, ...], count: int) -> int:
 
 @dataclass(frozen=True)
 class WorldSpec:
-
     seed: int
     grid_size: int
     horizon: int
@@ -135,7 +134,6 @@ class GridState:
 
 
 class PersistentGridEnvironment:
-
     def __init__(self, spec: WorldSpec):
         _validate_spec(spec)
         self.spec = spec

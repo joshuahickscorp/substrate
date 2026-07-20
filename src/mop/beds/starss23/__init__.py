@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"

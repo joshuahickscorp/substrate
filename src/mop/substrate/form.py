@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
@@ -76,7 +75,6 @@ def referent_order(referents: Sequence[object], canonical: Sequence[object]) -> 
 
 @dataclass(frozen=True)
 class FormMeta:
-
     tag: str
     kind: str
     feature_dim: int
@@ -111,7 +109,6 @@ class FormMeta:
 
 @dataclass(frozen=True)
 class FormBatch:
-
     meta: FormMeta
     features: torch.Tensor
     referents: tuple[str, ...]
@@ -138,7 +135,6 @@ class FormBatch:
 
 
 class FormAdapter(ABC):
-
     meta: FormMeta
 
     @property
@@ -151,7 +147,6 @@ class FormAdapter(ABC):
 
 
 class TensorFormAdapter(FormAdapter):
-
     def __init__(
         self,
         meta: FormMeta,
@@ -171,7 +166,6 @@ class TensorFormAdapter(FormAdapter):
 
 
 class LatentStoreFormAdapter(FormAdapter):
-
     def __init__(
         self,
         store: LatentStore,
@@ -255,7 +249,6 @@ class LatentStoreFormAdapter(FormAdapter):
 
 
 class SubstrateFormAdapter(FormAdapter):
-
     def __init__(
         self,
         substrate: SubstrateAdapter,
@@ -373,7 +366,6 @@ def _read_store_manifest(store: LatentStore, *, required: bool) -> tuple[dict[st
 
 @dataclass(frozen=True)
 class FormMatrix:
-
     referents: tuple[str, ...]
     features: dict[str, torch.Tensor]
     metadata: dict[str, FormMeta]
@@ -399,7 +391,6 @@ class FormMatrix:
 
 @dataclass
 class FormRegistry:
-
     adapters: dict[str, FormAdapter] = field(default_factory=dict)
 
     def register(self, adapter: FormAdapter) -> None:

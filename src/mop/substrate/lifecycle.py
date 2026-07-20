@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import re
@@ -217,7 +216,6 @@ def _validate_interval(start: int | None, end: int | None) -> None:
 
 
 class LifecycleJournal:
-
     def __init__(self, memory_ref: MemoryRef):
         self.memory_ref = memory_ref
         self._entries: list[LifecycleEntry] = []

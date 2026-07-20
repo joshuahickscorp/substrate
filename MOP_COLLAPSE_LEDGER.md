@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `b0f40e9` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `c35a267` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 259. By status: `{"complete": 17, "active": 52, "pending": 137, "partial": 10, "verified": 43}`.
+Total items: 259. By status: `{"complete": 26, "active": 52, "pending": 128, "partial": 10, "verified": 43}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -60,7 +60,7 @@ Total items: 259. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 | TAG-mop-collapse-125k | 24 | rollback_tag | pending | Create rollback tag mop-collapse-125k | tag mop-collapse-125k at its green checkpoint |
 | TAG-mop-collapse-100k | 24 | rollback_tag | pending | Create rollback tag mop-collapse-100k | tag mop-collapse-100k at its green checkpoint |
 | TAG-mop-collapse-75k | 24 | rollback_tag | pending | Create rollback tag mop-collapse-75k | tag mop-collapse-75k at its green checkpoint |
-| TAG-mop-collapse-50k | 24 | rollback_tag | pending | Create rollback tag mop-collapse-50k | tag mop-collapse-50k at its green checkpoint |
+| TAG-mop-collapse-50k | 24 | rollback_tag | complete | Create rollback tag mop-collapse-50k | none |
 | TAG-mop-collapse-event-horizon | 24 | rollback_tag | pending | Create rollback tag mop-collapse-event-horizon | tag mop-collapse-event-horizon at its green checkpoint |
 | PR9-1 | 3 | pr9 | pending | Inspect every PR #9 file | diff origin/agent/mop-extreme-condensation vs main; list files |
 | PR9-2 | 3 | pr9 | pending | Test PR #9 controller against current main | run its accounting controller read-only |
@@ -122,14 +122,14 @@ Total items: 259. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 | TGT-REGISTRY | 5 | target | pending | capability/mechanism registries exactly 1 | drive region collapses toward target; measure |
 | TGT-CONFIG | 5 | target | pending | normal configuration roots exactly 1 typed tree | drive region collapses toward target; measure |
 | TGT-CLI | 5 | target | pending | normal user-facing CLI exactly 1 | drive region collapses toward target; measure |
-| CKPT-300k | 5 | checkpoint | pending | Reach green global checkpoint 300k | tag mop-collapse-300k when global maintained LOC crosses 300k |
-| CKPT-250k | 5 | checkpoint | pending | Reach green global checkpoint 250k | tag mop-collapse-250k when global maintained LOC crosses 250k |
-| CKPT-200k | 5 | checkpoint | pending | Reach green global checkpoint 200k | tag mop-collapse-200k when global maintained LOC crosses 200k |
-| CKPT-150k | 5 | checkpoint | pending | Reach green global checkpoint 150k | tag mop-collapse-150k when global maintained LOC crosses 150k |
-| CKPT-125k | 5 | checkpoint | pending | Reach green global checkpoint 125k | tag mop-collapse-125k when global maintained LOC crosses 125k |
-| CKPT-100k | 5 | checkpoint | pending | Reach green global checkpoint 100k | tag mop-collapse-100k when global maintained LOC crosses 100k |
-| CKPT-75k | 5 | checkpoint | pending | Reach green global checkpoint 75k | tag mop-collapse-75k when global maintained LOC crosses 75k |
-| CKPT-50k | 5 | checkpoint | pending | Reach green global checkpoint 50k | tag mop-collapse-50k when global maintained LOC crosses 50k |
+| CKPT-300k | 5 | checkpoint | complete | Reach green global checkpoint 300k | none |
+| CKPT-250k | 5 | checkpoint | complete | Reach green global checkpoint 250k | none |
+| CKPT-200k | 5 | checkpoint | complete | Reach green global checkpoint 200k | none |
+| CKPT-150k | 5 | checkpoint | complete | Reach green global checkpoint 150k | none |
+| CKPT-125k | 5 | checkpoint | complete | Reach green global checkpoint 125k | none |
+| CKPT-100k | 5 | checkpoint | complete | Reach green global checkpoint 100k | none |
+| CKPT-75k | 5 | checkpoint | complete | Reach green global checkpoint 75k | none |
+| CKPT-50k | 5 | checkpoint | complete | Reach green global checkpoint 50k | none |
 | ESCAPE-RULE | 5 | gate | pending | Two-architecture escape rule before rejecting a lower target | only after 2 architectures implemented+failed for measured reasons + green restore + sealed receipt |
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
@@ -303,7 +303,7 @@ Total items: 259. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base b0f40e9
+- commit: pending; base c35a267
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)

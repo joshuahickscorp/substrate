@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -15,6 +14,7 @@ from typing import Any, NamedTuple, cast
 
 import torch
 from torch import nn
+
 from mop.substrate.events import sha256_file
 
 ARTIFACT_SCHEMA = "mop-portable-custom-substrate/v1"
@@ -137,7 +137,6 @@ def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
 
 @dataclass(frozen=True)
 class PortableModelSpec:
-
     dim: int
     depth: int
     heads: int
@@ -198,13 +197,11 @@ class PortableModelSpec:
 
 
 class PortableSubstrateOutput(NamedTuple):
-
     dense_spatiotemporal_tokens: torch.Tensor
     pooled_retrieval_key: torch.Tensor
 
 
 class PortableTinyVideoSubstrate(nn.Module):
-
     def __init__(self, spec: PortableModelSpec):
         super().__init__()
         spec.validate()
@@ -1399,7 +1396,6 @@ def _verify_embedded_evidence(root: Path, manifest: Mapping[str, Any]) -> None:
 
 @dataclass(frozen=True)
 class LoadedPortableArtifact:
-
     manifest: dict[str, Any]
     model: PortableTinyVideoSubstrate
 

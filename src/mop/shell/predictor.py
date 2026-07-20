@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import torch
@@ -21,7 +20,6 @@ def mlp(din: int, dout: int, hidden: int, depth: int, dropout: float = 0.0, ln: 
 
 
 class Predictor(nn.Module):
-
     def __init__(
         self,
         dim: int,

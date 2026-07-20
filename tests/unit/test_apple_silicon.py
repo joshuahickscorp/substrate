@@ -1,4 +1,3 @@
-
 import torch
 
 from mop import devices

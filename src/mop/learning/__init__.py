@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from .backprop import Learner, TrainConfig

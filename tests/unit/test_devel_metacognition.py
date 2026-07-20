@@ -1,4 +1,3 @@
-
 import pytest
 
 from mop.devel import metacognition

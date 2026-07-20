@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -48,8 +47,12 @@ def hann_window() -> np.ndarray:
 
 
 def mel_filterbank(sample_rate: int, n_mel: int = N_MEL, n_bins: int = N_BINS) -> np.ndarray:
-    hz_to_mel = lambda hz: 2595.0 * np.log10(1.0 + hz / 700.0)
-    mel_to_hz = lambda mel: 700.0 * (np.power(10.0, mel / 2595.0) - 1.0)
+    def hz_to_mel(hz):
+        return 2595.0 * np.log10(1.0 + hz / 700.0)
+
+    def mel_to_hz(mel):
+        return 700.0 * (np.power(10.0, mel / 2595.0) - 1.0)
+
     f_max = sample_rate / 2.0
     mel_points = np.linspace(hz_to_mel(0.0), hz_to_mel(f_max), n_mel + 2)
     hz_points = mel_to_hz(mel_points)
@@ -65,7 +68,6 @@ def mel_filterbank(sample_rate: int, n_mel: int = N_MEL, n_bins: int = N_BINS) -
 
 @dataclass(frozen=True, slots=True)
 class FrozenCountFeaturizer(FrozenFeatureProvider):
-
     _flops_per_frame = FLOPS_PER_FRAME_COUNT
     _frame_count_refusal = CountFeaturizerRefusal
     sample_rate: int = 24_000

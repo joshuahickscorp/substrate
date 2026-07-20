@@ -870,6 +870,24 @@
       "proof": "the experiment registry and default configuration resolve only CM7 and CM8; focused active-experiment, registry, Studio, mechanism, docs, and shell batteries are green; full 1276-case collection is clean; compile-all and changed-surface ruff pass; all 348 deleted paths recover from the prior tag; the protected checkout remains clean and untouched",
       "accounting_note": "51123 Python lines deleted for 34 survivor lines, net -51089; generated configuration, campaign, proof, and registry deletion brings total physical tracked change to 38 added/79734 deleted, net -79696; tracked Python now measures 75919 lines",
       "tag": "mop-collapse-legacy-experiment-bank"
+    },
+    {
+      "region": "section8_studies_section12_mechanisms_section13_controller_section14_entrypoints_section17_validation",
+      "batch": "retired_completed_mechanism_and_studio_campaign_surfaces",
+      "checkpoint_status": "green",
+      "primitive": "the completed Stage-3 through Stage-5 mechanism families, their registry and runner scaffolds, retired ladder execution machinery, completed Studio spine, DR1, atlas, PR9, audit and report campaigns, and their dedicated tests were converted to recoverable history",
+      "deduplicated_LOC": 0,
+      "added_LOC": 849,
+      "eliminated_LOC": 29117,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 28268,
+      "files_changed": 316,
+      "destination_api": "the reusable scientific ladder contracts, active custom-substrate experiment path, STARSS bed, real-data intake, host profiles, downloader, encoding scheduler, and two-command host operations CLI",
+      "proof": "all 661 retained tests collect; the full retained suite passes with 6 environment skips; compile-all, docs gates, targeted ruff, exact deleted-path recovery, and the protected-checkout audit are clean; the only full-suite defect exposed by the cut was a hard-coded local STARSS data path, which now uses MOP_STARSS23_ROOT with a repository-relative default",
+      "accounting_note": "29117 Python lines deleted for 849 survivor and format lines, net -28268; 177 retained Python files were mechanically normalized so the complete src/scripts/tests surface passes Ruff; total physical tracked change is 1093 added/29178 deleted, net -28085; tracked Python is 47653 lines, below the 50000-line extreme target",
+      "tag": "mop-collapse-50k"
     }
   ],
   "deferred_heavy_validation": {

@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import math
@@ -13,7 +12,6 @@ from .encoder import EncoderSpec, FrozenEncoder
 
 @dataclass(frozen=True)
 class SubstrateMeta:
-
     tag: str
     embed_dim: int
     input_resolution: int
@@ -24,7 +22,6 @@ class SubstrateMeta:
 
 
 class SubstrateAdapter(ABC):
-
     meta: SubstrateMeta
 
     @property
@@ -42,7 +39,6 @@ class SubstrateAdapter(ABC):
 
 
 class RealEncoderAdapter(SubstrateAdapter):
-
     def __init__(self, encoder: FrozenEncoder, *, input_resolution: int, frames: int, notes: str = ""):
         self.encoder = encoder
         self.meta = SubstrateMeta(
@@ -61,7 +57,6 @@ class RealEncoderAdapter(SubstrateAdapter):
 
 
 class RandomInitViTAdapter(SubstrateAdapter):
-
     def __init__(self, encoder_cfg, *, input_resolution: int, frames: int, seed: int = 0):
         self.encoder_cfg = encoder_cfg
         self.seed = int(seed)
@@ -102,7 +97,6 @@ class RandomInitViTAdapter(SubstrateAdapter):
 
 
 class RandomPixelAdapter(SubstrateAdapter):
-
     def __init__(self, embed_dim: int, *, ds: int = 32, tsub: int = 8, seed: int = 0):
         self.ds = int(ds)
         self.tsub = int(tsub)
@@ -136,7 +130,6 @@ class RandomPixelAdapter(SubstrateAdapter):
 
 @dataclass
 class SubstrateRegistry:
-
     adapters: dict[str, SubstrateAdapter] = field(default_factory=dict)
 
     def register(self, adapter: SubstrateAdapter) -> None:

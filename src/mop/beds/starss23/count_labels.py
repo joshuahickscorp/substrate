@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
@@ -51,7 +50,6 @@ def count_track_from_metadata_text(text: str, n_frames: int) -> np.ndarray:
 
 @dataclass(frozen=True, slots=True)
 class CountClip:
-
     clip_id: str
     room_id: str
     n_frames: int
@@ -117,9 +115,7 @@ def build_count_clips(adapter: RealStarssAdapter, metadata_root: str | Path) -> 
     for clip in adapter.clips():
         meta_path = index.get(clip.clip_id)
         if meta_path is None:
-            raise CountLabelRefusal(
-                f"clip {clip.clip_id} has no matching metadata under {metadata_root}"
-            )
+            raise CountLabelRefusal(f"clip {clip.clip_id} has no matching metadata under {metadata_root}")
         track = count_track_from_metadata_text(meta_path.read_text(encoding="utf-8"), clip.n_frames)
         out[clip.clip_id] = CountClip(
             clip_id=clip.clip_id,

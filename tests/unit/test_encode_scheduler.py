@@ -1,4 +1,3 @@
-
 from mop.studio.encode_scheduler import EncodeBenchmark, benchmark_from_autoselect, plan_encode
 
 ENC = {"name": "vjepa2_vitl_fpc64_256", "embed_dim": 1024}

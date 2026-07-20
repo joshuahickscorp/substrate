@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import hashlib
@@ -12,6 +11,7 @@ from mop.seeding import derive_seed32
 from mop.substrate.events import canonical_sha256
 
 from .count_featurizer import D_CFEAT, N_CHANNELS, N_MEL
+
 COUNT_GATE_SCHEMA = "mop-starss23-count-gate/v1"
 
 N_CFEAT = D_CFEAT  # 256 frozen count features
@@ -35,6 +35,7 @@ TRAIN_STEP_FACTOR = 3
 COUNT_VOC_WINDOW = 1  # a re-estimation is valuable within +/- 1 frame of a count change
 
 _POS_BLOCK = N_MEL * N_CHANNELS  # 128
+
 
 class CountGateRefusal(ValueError):
     pass
@@ -78,7 +79,6 @@ C_TRAIN_ANCHOR_COUNT = C_TRAIN_ANCHOR
 
 @dataclass(frozen=True, slots=True)
 class CountOnlineState:
-
     n_frames: float = 0.0
     n_reestimates: float = 0.0
     last_reestimate_frame: float = -1.0
@@ -137,7 +137,6 @@ class CountOnlineState:
 
 @dataclass
 class CountTrainingReport:
-
     epochs: int
     n_train_frames: int
     learning_rate: float
@@ -159,7 +158,6 @@ class CountTrainingReport:
 
 
 class CountGateInterface:
-
     __slots__ = ()
     _feature_dim = N_CFEAT
     _refusal: type[ValueError] = CountGateRefusal
@@ -191,7 +189,6 @@ class CountGateInterface:
 
 
 class CountGate(CountGateInterface):
-
     _SEED_NAMESPACE = "mop.beds.starss23.count_gate.init"
 
     def __init__(
@@ -207,9 +204,7 @@ class CountGate(CountGateInterface):
             raise CountGateRefusal("gate dimensions must be positive")
         n_params = param_count(d_in, hidden, n_out)
         if n_params > PARAM_CEILING:
-            raise CountGateRefusal(
-                f"gate trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling"
-            )
+            raise CountGateRefusal(f"gate trainable parameters {n_params} exceed the {PARAM_CEILING} ceiling")
         assert n_params <= PARAM_CEILING, "count gate parameter ceiling breached"
         state_bytes = CountOnlineState.state_bytes()
         if state_bytes > STATE_CEILING_BYTES:

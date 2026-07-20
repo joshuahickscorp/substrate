@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
@@ -83,7 +82,6 @@ class SI:
 
 
 class Consolidation:
-
     def __init__(self, cfg):
         self.method = str(cfg.method)
         self.ewc = EWC(float(cfg.ewc_lambda)) if self.method in ("ewc", "both") else None

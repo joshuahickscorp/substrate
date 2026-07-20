@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import platform
@@ -13,7 +12,6 @@ SCHEMA = "mop-memory-envelope/v1"
 
 @dataclass
 class MemorySampler:
-
     label: str
     samples: list[dict[str, Any]] = field(default_factory=list)
 

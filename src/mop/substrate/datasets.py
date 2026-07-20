@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -41,10 +40,7 @@ def make_task_stream(
     tasks: list[Task] = []
     total_classes = classes_per_task * (n_tasks if incremental == "class" else 1)
     for t in range(n_tasks):
-        if incremental == "domain":
-            centers = torch.randn(classes_per_task, dim, generator=g)
-            label_base = 0
-        elif incremental == "task":
+        if incremental == "domain" or incremental == "task":
             centers = torch.randn(classes_per_task, dim, generator=g)
             label_base = 0
         else:  # class

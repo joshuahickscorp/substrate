@@ -1,6 +1,6 @@
-
 from __future__ import annotations
 
+import os
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -9,6 +9,7 @@ from typing import Any
 
 import numpy as np
 
+from mop.config import REPO_ROOT
 from mop.science import ArtifactResult
 from mop.science.budget import (
     ARM_ALWAYS_ON,
@@ -60,10 +61,9 @@ STAGE = 3
 PRIMARY_CONTROL = ARM_RATE_MATCHED_RANDOM
 STAGE3_REQUIREMENT_ID = "stage3.confirmed_useful_mechanism"
 
-DEFAULT_FOA_ROOT = Path("/Users/scammermike/Downloads/mop-data/starss23/foa_subset/foa_dev")
-DEFAULT_METADATA_ROOT = Path(
-    "/Users/scammermike/Downloads/mop-data/starss23/metadata_dev_extracted/metadata_dev"
-)
+DEFAULT_STARSS_ROOT = Path(os.environ.get("MOP_STARSS23_ROOT", REPO_ROOT / "data" / "starss23"))
+DEFAULT_FOA_ROOT = DEFAULT_STARSS_ROOT / "foa_subset" / "foa_dev"
+DEFAULT_METADATA_ROOT = DEFAULT_STARSS_ROOT / "metadata_dev_extracted" / "metadata_dev"
 
 DEFAULT_N_VAL_ROOMS = 2
 
@@ -79,7 +79,6 @@ class CountProducerRefusal(ValueError):
 
 @dataclass(frozen=True, slots=True)
 class RealCountBedConfig:
-
     seeds: tuple[int, ...] = (0, 1, 2, 3, 4)
     n_val_rooms: int = DEFAULT_N_VAL_ROOMS
     target_rates: tuple[float, ...] = (0.10, 0.05, 0.02)
@@ -118,7 +117,10 @@ def _train_count_gate(
     y = np.concatenate(targets, axis=0)
     gate = CountGate(seed=seed)
     gate.fit(
-        x, y, epochs=config.epochs, learning_rate=config.learning_rate,
+        x,
+        y,
+        epochs=config.epochs,
+        learning_rate=config.learning_rate,
         ponder_lambda=config.ponder_lambda,
     )
     return gate, int(x.shape[0])
@@ -132,9 +134,7 @@ def _real_noisy_tv_features(
     target_std: float,
 ) -> np.ndarray:
 
-    noise_seed = domain_seed(
-        seed, "mop.beds.starss23.count.noisy_tv", b"mop-starss23-count-noisy-tv-v1"
-    )
+    noise_seed = domain_seed(seed, "mop.beds.starss23.count.noisy_tv", b"mop-starss23-count-noisy-tv-v1")
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
@@ -151,17 +151,14 @@ def run_count_seed(
     operating_density: float,
     train_gate: Callable[[], tuple[Any, int]],
     state_factory: Callable[[], Any],
-    score_rows: Callable[
-        [list[tuple[str, list[int], list[int], list[int]]]], dict[str, Any]
-    ],
+    score_rows: Callable[[list[tuple[str, list[int], list[int], list[int]]]], dict[str, Any]],
 ) -> BudgetSeedRun:
 
     gate, train_frames = train_gate()
     total_frames = int(sum(clip.n_frames for clip in test_clips))
 
     val_probs = np.concatenate(
-        [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, state_factory)[1]
-         for clip in val_clips]
+        [causal_gate_trace(gate, features_by_clip[clip.clip_id], 0.5, state_factory)[1] for clip in val_clips]
     )
 
     per_budget: dict[str, dict[str, Any]] = {}
@@ -211,9 +208,7 @@ def run_count_seed(
             "reestimations": reestimations,
         }
 
-    operating_budget_id = min(
-        per_budget, key=lambda bid: abs(per_budget[bid]["rate"] - operating_density)
-    )
+    operating_budget_id = min(per_budget, key=lambda bid: abs(per_budget[bid]["rate"] - operating_density))
     operating = per_budget[operating_budget_id]
     per_seed_block = {
         "seed": seed,
@@ -276,17 +271,13 @@ def _run_seed_real(
         noise_features=noise_features,
         target_rates=config.target_rates,
         operating_density=operating_density,
-        train_gate=lambda: train_gate_provider(
-            seed, train_clips, features_by_clip, gt_by_clip, config
-        ),
+        train_gate=lambda: train_gate_provider(seed, train_clips, features_by_clip, gt_by_clip, config),
         state_factory=CountOnlineState.initial,
         score_rows=_micro_count_score,
     )
 
 
-def _flop_model(
-    kind: str, total_frames: int, train_frames: int, config: RealCountBedConfig
-) -> FlopModel:
+def _flop_model(kind: str, total_frames: int, train_frames: int, config: RealCountBedConfig) -> FlopModel:
     return arm_flop_model(
         kind,
         total_frames,
@@ -309,9 +300,7 @@ def build_real_count_bed_artifact(
     config = config or RealCountBedConfig()
     featurizer = FrozenCountFeaturizer()
     estimator = FrozenCountEstimator()
-    adapter = RealStarssAdapter(
-        foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames
-    )
+    adapter = RealStarssAdapter(foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames)
     corpus = prepare_count_variant_corpus(
         adapter=adapter,
         foa_root=foa_root,
@@ -397,9 +386,7 @@ def build_real_count_bed_artifact(
                 "c_train_flops": FULL_SCALE_C_TRAIN,
                 "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
                 "downstream_flops_per_reestimate": config.downstream_flops_per_reestimate,
-                "break_even_frames_anchor": (
-                    FULL_SCALE_C_TRAIN // config.downstream_flops_per_reestimate
-                ),
+                "break_even_frames_anchor": (FULL_SCALE_C_TRAIN // config.downstream_flops_per_reestimate),
             },
         },
         prereg_extra=lambda _context: {},

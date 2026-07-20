@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import ast
@@ -24,6 +23,7 @@ from mop.beds.starss23.count_gate import (
     FLOPS_PER_INFERENCE,
     CountGate,
     CountOnlineState,
+    training_flops,
     voc_targets_from_count_track,
 )
 from mop.beds.starss23.count_labels import (
@@ -44,7 +44,6 @@ from mop.beds.starss23.count_producer import (
 )
 from mop.beds.starss23.count_referee import coast_emitted, mae_clip, score_arm
 from mop.beds.starss23.experiments import COUNT_BUDGET_POLICY
-from mop.beds.starss23.count_gate import training_flops
 from mop.beds.starss23.schema import Clip
 from mop.science import budget as H
 from mop.substrate.events import canonical_sha256
@@ -64,7 +63,7 @@ def test_count_track_drops_rows_past_end_and_guards_ceiling():
     text = "0,1,1,10,0,100\n9,2,2,20,0,100\n"  # frame 9 is past n_frames
     track = count_track_from_metadata_text(text, n_frames=3)
     assert track.tolist() == [1, 0, 0]
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         CountClip(
             clip_id="fold3_room0_mix000",
             room_id="room00",
@@ -97,19 +96,10 @@ def test_shared_count_seed_lifecycle_matches_the_legacy_projection():
     test = (clip("test_a", "r4", 13), clip("test_b", "r5", 9))
     all_clips = train + val + test
     rng = np.random.default_rng(123)
-    features = {
-        item.clip_id: rng.normal(size=(item.n_frames, 256)) for item in all_clips
-    }
-    counts = {
-        item.clip_id: tuple((frame // 3) % 3 for frame in range(item.n_frames))
-        for item in all_clips
-    }
-    estimator = {
-        item.clip_id: np.asarray(counts[item.clip_id], dtype=np.int64) for item in all_clips
-    }
-    config = RealCountBedConfig(
-        seeds=(7, 8), target_rates=(0.5, 0.25), noisy_tv_frames=17, epochs=1
-    )
+    features = {item.clip_id: rng.normal(size=(item.n_frames, 256)) for item in all_clips}
+    counts = {item.clip_id: tuple((frame // 3) % 3 for frame in range(item.n_frames)) for item in all_clips}
+    estimator = {item.clip_id: np.asarray(counts[item.clip_id], dtype=np.int64) for item in all_clips}
+    config = RealCountBedConfig(seeds=(7, 8), target_rates=(0.5, 0.25), noisy_tv_frames=17, epochs=1)
     run = _run_seed_real(
         seed=7,
         train_clips=train,
@@ -287,7 +277,9 @@ def test_harness_matched_budget_refuses_uncharged_training_and_k_mismatch():
         kind=H.ARM_CANDIDATE,
         total_frames=total_frames,
         params=3193,
-        flop_model=H.FlopModel(featurize_flops=1, gate_infer_flops=1, downstream_flops_per_firing=1, train_flops=0),
+        flop_model=H.FlopModel(
+            featurize_flops=1, gate_infer_flops=1, downstream_flops_per_firing=1, train_flops=0
+        ),
         seed_results=cand.seed_results,
     )
     rmr = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.3, 0.3], [50, 50], total_frames, 1000, seeds)
@@ -358,10 +350,18 @@ def test_verifier_imports_no_producer_or_mop_code():
             imported.append(node.module or "")
     for name in imported:
         assert not any(name == bad or name.startswith(bad + ".") for bad in forbidden), name
-    assert set(n.split(".")[0] for n in imported) <= {"json", "hashlib", "itertools", "dataclasses", "__future__"}
+    assert set(n.split(".")[0] for n in imported) <= {
+        "json",
+        "hashlib",
+        "itertools",
+        "dataclasses",
+        "__future__",
+    }
 
 
-_SMALL_CONFIG = RealCountBedConfig(seeds=(0, 1, 2), target_rates=(0.10, 0.05), noisy_tv_frames=400, max_frames=100)
+_SMALL_CONFIG = RealCountBedConfig(
+    seeds=(0, 1, 2), target_rates=(0.10, 0.05), noisy_tv_frames=400, max_frames=100
+)
 
 
 @pytest.fixture(scope="module")
