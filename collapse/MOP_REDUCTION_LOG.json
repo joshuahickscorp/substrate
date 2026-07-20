@@ -1482,11 +1482,30 @@
       "performance": "ten alternating 3000-report batches improve median report projection from 0.029273s to 0.029033s (-0.82%); cold profile import changes +0.34%, inside the 2% parity gate",
       "accounting_note": "483 readiness, profile, telemetry, and dedicated-test lines are replaced by 231 direct vertical and compact contract-test lines, net -252; runtime source falls 129 LOC to 6467, validation falls 123 LOC to 1902, scripts remain 62 LOC, and maintained Python falls to 8682 LOC",
       "tag": "mop-collapse-studio-readiness-core"
+    },
+    {
+      "region": "section7_science_section8_starss23_section17_validation",
+      "batch": "source_consumed_count_statistics_projection",
+      "checkpoint_status": "green",
+      "primitive": "the statistics authority now owns only exhaustive one-sided sign-flip enumeration, fail-closed SESOI comparison, and the exact count-artifact projection consumed by STARSS; nineteen public symbols contract to the five maintained-source consumers while the test-only generic paired-analysis, claim-ceiling, provisional-SESOI, paired-delta, payload, and result-detail facades are physically retired",
+      "deduplicated_LOC": 0,
+      "added_LOC": 122,
+      "eliminated_LOC": 452,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 330,
+      "files_changed": 3,
+      "destination_api": "exact_sign_flip, sesoi_exceeded, and count_sign_flip_payload in src/mop/science/statistics.py, consumed directly by the shared STARSS count-variant producer",
+      "proof": "four retained sign-flip projections, nine invalid sign-flip contracts, seven SESOI success/refusal cases, the exact count payload, and three shared-field attacks have 24/24 old/new semantic parity with aggregate SHA-256 696ab196801dd4b1bda949d63fdcbf05f36c3a94c7f4efacb9f6b536f94fbda7; count payload SHA-256 remains e5873e3b2ffe345109297113ac60370da5677fd27d49673d1efe8d1b5b6601a7; preregistration is byte-exact with embedded digest 0ee994b1224abb82bab9097e5c1eef4f5fe2bbe3fd8cf90a40266c01d07813eb; sealed STARSS artifact fb3a7112906a4e3a5c32fef0f3980e5642ac93996559a7cf59152e559b8044e6 independently reproduces scores and statistics; 31 focused cases pass with 6 environment skips; the 130-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 40 source files, compile-all and diff checks clean",
+      "performance": "ten alternating 2000-analysis batches improve median exact-sign-flip plus count-projection time from 0.033125s to 0.030091s (-9.16%)",
+      "accounting_note": "452 generic statistics, result-detail, and self-test lines are replaced by 122 source-consumed projection and compact contract-test lines, net -330; runtime source falls 233 LOC to 6234, validation falls 97 LOC to 1805, scripts remain 62 LOC, and maintained Python falls to 8352 LOC",
+      "tag": "mop-collapse-count-statistics-core"
     }
   ],
   "latest_full_validation": {
     "command": ".venv/bin/python -m pytest -q",
-    "result": "138 collected; 132 passed; 6 environment skips",
+    "result": "130 collected; 124 passed; 6 environment skips",
     "acceptance": "10/10 passed",
     "static": "Ruff lint and format clean; mypy clean over 40 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
