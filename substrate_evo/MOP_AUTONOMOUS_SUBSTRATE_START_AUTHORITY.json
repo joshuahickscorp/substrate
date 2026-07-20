@@ -1,0 +1,30 @@
+{
+  "schema": "mop-autonomous-substrate-start-authority/v1",
+  "base_commit": "4b4a0ec",
+  "binds": {
+    "genesis2_terminal": {
+      "commit": "4b4a0ec",
+      "tag": "mop-substrate-genesis-v2-terminal"
+    },
+    "gen3_terminal": "06860b2",
+    "gen2_closure": "89eeca5"
+  },
+  "immutable": "Genesis II, Gen2, Gen3 terminal evidence immutable; append-only supersession only",
+  "collapse_branch": "agent/mop-accretion-collapse untouched",
+  "genesis2_result": {
+    "arch_A": "Shared Latent Workspace 216862 params, substrate_candidate_null (stronger)",
+    "arch_B": "Sparse Modular 389604 params, structural_null",
+    "domains": [
+      "EMNIST",
+      "UCI HAR"
+    ],
+    "strongest_baseline": "GRU+GDumb",
+    "A_on_HAR": "mean +0.112, lcb -0.028 (null)",
+    "cross_domain": "null",
+    "learned_plasticity": "no_stable_headroom (simple_policy_sufficient)",
+    "activation": false
+  },
+  "interpretation": "Genesis II implemented a real compact owned multi-timescale substrate but showed no incremental value over strong conventional baselines. The critical unaddressed factor: image class-incremental domains make the FAST timescale degenerate (iid samples). This program tests the substrate on TEMPORAL-NATIVE domains where order, context return, and persistence genuinely matter, against converged temporal baselines (GRU/LSTM/TCN).",
+  "objective": "move from a null owned substrate to a demonstrated cross-domain multi-timescale moldable entity with value beyond strong matched baselines, or prove a Substrate Event Horizon exhaustion",
+  "sha256": "a09c7b3af5b2ca5565879fbe86e4efe029e705f3050015b284b400d9c509e865"
+}
