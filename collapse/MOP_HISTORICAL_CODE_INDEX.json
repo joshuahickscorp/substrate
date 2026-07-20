@@ -2019,6 +2019,20 @@
         "src/mop/substrate/custom_workbench.py",
         "tests/unit/test_custom_substrate_workbench.py"
       ]
+    },
+    {
+      "id": "collapsed_custom_workbench_run_stop_failure_and_teacher_audit_lifecycle",
+      "source_tag": "mop-collapse-lowest-green-8",
+      "reason": "the workbench expanded wall, disk, and required-arm stop state independently; scientific refusals and unexpected exceptions repeated failure-receipt calls; frozen controls reconstructed and reloaded an identical model; teacher audit outcomes repeated their base policy; receipt projections repeated keyed authority fields; and failure tests duplicated the same campaign fixture",
+      "replacement_paths": [
+        "src/mop/substrate/custom_workbench.py",
+        "tests/unit/test_custom_substrate_workbench.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-8:<path>",
+      "paths": [
+        "src/mop/substrate/custom_workbench.py",
+        "tests/unit/test_custom_substrate_workbench.py"
+      ]
     }
   ]
 }

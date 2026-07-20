@@ -44,10 +44,6 @@ class WorkbenchRefused(RuntimeError):
     pass
 
 
-json_sha256 = canonical_sha256
-_atomic_json = atomic_write_json
-
-
 def _atomic_torch_save(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -184,7 +180,7 @@ def audit_requirements(
         "schema": REQUIREMENTS_SCHEMA,
         "ledger_path": str(path.relative_to(repo_root) if path.is_relative_to(repo_root) else path),
         "ledger_sha256": sha256_file(path),
-        "aggregate_sha256": json_sha256(aggregate),
+        "aggregate_sha256": canonical_sha256(aggregate),
         "claim_scope": raw.get("claim_scope"),
         "requirements": audited,
         "requirement_ids": [row["id"] for row in audited],
@@ -242,11 +238,11 @@ def snapshot_implementation_sources(
         "created_at": datetime.now(UTC).isoformat(),
         "all_ok": True,
         "files": records,
-        "aggregate_sha256": json_sha256(
+        "aggregate_sha256": canonical_sha256(
             [{"path": record["source_path"], "sha256": record["snapshot_sha256"]} for record in records]
         ),
     }
-    _atomic_json(run_dir / "implementation_manifest.json", manifest)
+    atomic_write_json(run_dir / "implementation_manifest.json", manifest)
     return manifest
 
 
@@ -336,11 +332,11 @@ def dataset_manifest(spec: CorpusSpec, records: Sequence[ReferentRecord]) -> dic
         },
         "records": rows,
         "splits": splits,
-        "split_referent_hashes": {key: json_sha256(value) for key, value in split_refs.items()},
+        "split_referent_hashes": {key: canonical_sha256(value) for key, value in split_refs.items()},
         "disjoint_referents": disjoint,
         "combination_disjoint": True,
     }
-    payload["content_sha256"] = json_sha256(payload)
+    payload["content_sha256"] = canonical_sha256(payload)
     return payload
 
 
@@ -535,7 +531,7 @@ def _write_arm_failure(
     if kind == "unexpected-exception":
         payload["traceback"] = "".join(traceback.format_exception(error))
     filename = "refusal_receipt.json" if kind == "scientific-refusal" else "crash_receipt.json"
-    _atomic_json(arm_dir / filename, payload)
+    atomic_write_json(arm_dir / filename, payload)
     return payload
 
 
@@ -581,11 +577,11 @@ def _save_checkpoint(
     return {"path": str(path), "bytes": path.stat().st_size, "sha256": sha256_file(path)}
 
 
-def _teacher_columns(path: Path) -> tuple[dict[str, list[int]], dict[str, Any]]:
+def _teacher_columns(path: Path) -> dict[str, list[int]]:
     raw = json.loads(path.read_text())
     if isinstance(raw, dict) and raw.get("schema") == "mop-factor-sidecar/v2":
-        return dict(raw.get("columns", {})), dict(raw.get("metadata", {}))
-    return dict(raw), {}
+        raw = raw.get("columns", {})
+    return dict(raw)
 
 
 def audit_teacher_cache(
@@ -594,39 +590,37 @@ def audit_teacher_cache(
     corpus_referents: Iterable[str] = (),
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
+    base = {
+        "schema": TEACHER_AUDIT_SCHEMA,
+        "configured": bool(cache_path),
+        "available": False,
+        "all_ok": not cache_path,
+        "problems": [],
+        "joined_referents": 0,
+    }
     if not cache_path:
-        return {
-            "schema": TEACHER_AUDIT_SCHEMA,
-            "configured": False,
-            "available": False,
-            "all_ok": True,
-            "problems": [],
-            "joined_referents": 0,
-        }
+        return base
     path = _resolve_repo_path(cache_path, repo_root)
     problems: list[str] = []
     if not path.is_dir():
-        problems.append("teacher cache directory missing")
         return {
-            "schema": TEACHER_AUDIT_SCHEMA,
-            "configured": True,
+            **base,
             "path": str(path),
-            "available": False,
             "all_ok": False,
-            "problems": problems,
-            "joined_referents": 0,
+            "problems": ["teacher cache directory missing"],
         }
     problems.extend(validate_cache_manifest(path, citable=True))
-    required = ("referents.json", "factors.json", "cache_manifest.json")
-    for name in required:
-        if not (path / name).is_file():
-            problems.append(f"teacher cache missing {name}")
+    problems.extend(
+        f"teacher cache missing {name}"
+        for name in ("referents.json", "factors.json", "cache_manifest.json")
+        if not (path / name).is_file()
+    )
     referents: list[str] = []
     factor_columns: dict[str, list[int]] = {}
     if (path / "referents.json").is_file():
         referents = [str(value) for value in json.loads((path / "referents.json").read_text())]
     if (path / "factors.json").is_file():
-        factor_columns, _ = _teacher_columns(path / "factors.json")
+        factor_columns = _teacher_columns(path / "factors.json")
     manifest = json.loads((path / "cache_manifest.json").read_text())
     run_receipt = (
         json.loads((path / "run_receipt.json").read_text()) if (path / "run_receipt.json").is_file() else {}
@@ -638,12 +632,10 @@ def audit_teacher_cache(
         and "not natural-video" not in scope_lower
         and "programmatic" not in scope_lower
     )
-    corpus_set = set(corpus_referents)
-    joined = sorted(corpus_set.intersection(referents))
+    joined = sorted(set(corpus_referents).intersection(referents))
     store = LatentStore.open(path)
     return {
-        "schema": TEACHER_AUDIT_SCHEMA,
-        "configured": True,
+        **base,
         "available": not problems,
         "all_ok": not problems,
         "path": str(path.relative_to(repo_root) if path.is_relative_to(repo_root) else path),
@@ -929,7 +921,7 @@ def train_arm(
             "disk_floor_bytes": disk_floor_bytes,
         },
     }
-    _atomic_json(receipt_path, receipt)
+    atomic_write_json(receipt_path, receipt)
     return receipt
 
 
@@ -1285,15 +1277,15 @@ def run_workbench(
 
     run_dir.mkdir(parents=True, exist_ok=True)
     config_plain = json.loads(json.dumps(config))
-    config_sha = json_sha256(config_plain)
-    _atomic_json(run_dir / "resolved_config.json", config_plain)
+    config_sha = canonical_sha256(config_plain)
+    atomic_write_json(run_dir / "resolved_config.json", config_plain)
 
     requirements = audit_requirements(
         config_plain["requirements_ledger"],
         repo_root=repo_root,
         snapshot_dir=run_dir / "requirements_sources",
     )
-    _atomic_json(run_dir / "requirements_audit.json", requirements)
+    atomic_write_json(run_dir / "requirements_audit.json", requirements)
     if bool(config_plain.get("strict_requirements", True)) and not requirements["all_ok"]:
         raise WorkbenchRefused("requirements audit failed: " + "; ".join(requirements["problems"]))
 
@@ -1303,7 +1295,7 @@ def run_workbench(
     manifest = dataset_manifest(data_spec, records)
     if not manifest["disjoint_referents"]:
         raise WorkbenchRefused("dataset referents overlap across splits")
-    _atomic_json(run_dir / "dataset_manifest.json", manifest)
+    atomic_write_json(run_dir / "dataset_manifest.json", manifest)
     implementation = snapshot_implementation_sources(
         run_dir,
         expected_generator_sha256=manifest["generator"]["source_sha256"],
@@ -1326,17 +1318,17 @@ def run_workbench(
         corpus_referents=[row.referent for row in records],
         repo_root=repo_root,
     )
-    _atomic_json(run_dir / "teacher_audit.json", teacher)
-    teacher_targets = None
-    if OPTIONAL_OBJECTIVE in objectives:
-        if not teacher.get("all_ok"):
-            raise WorkbenchRefused("teacher_distill requested but teacher audit is not clean")
-        teacher_targets = load_teacher_targets(teacher_path, repo_root=repo_root)
+    atomic_write_json(run_dir / "teacher_audit.json", teacher)
+    if OPTIONAL_OBJECTIVE in objectives and not teacher.get("all_ok"):
+        raise WorkbenchRefused("teacher_distill requested but teacher audit is not clean")
+    teacher_targets = (
+        load_teacher_targets(teacher_path, repo_root=repo_root) if OPTIONAL_OBJECTIVE in objectives else None
+    )
 
-    params_probe = TinyVideoSubstrate(model_spec)
-    params = parameter_count(params_probe)
-    min_params = int(config_plain.get("promotion", {}).get("min_params", 1_000_000))
-    max_params = int(config_plain.get("promotion", {}).get("max_params", 5_000_000))
+    params = parameter_count(TinyVideoSubstrate(model_spec))
+    promotion_policy = config_plain["promotion"]
+    min_params = int(promotion_policy.get("min_params", 1_000_000))
+    max_params = int(promotion_policy.get("max_params", 5_000_000))
     if not min_params <= params <= max_params:
         raise WorkbenchRefused(f"model has {params} params outside [{min_params}, {max_params}]")
 
@@ -1348,38 +1340,32 @@ def run_workbench(
     seed_results: dict[str, dict[str, Any]] = {}
     difficulty = oracle_difficulty_calibration(records)
     started = time.perf_counter()
-    stopped_for_wall = False
-    stopped_for_disk = False
-    stopped_for_required_arm = False
+    stop_reason: str | None = None
     required_arm_failure: dict[str, Any] | None = None
     disk_floor_bytes = int(float(training.get("min_free_disk_gb", 40.0)) * 1_000_000_000)
 
     for seed in seeds:
         if shutil.disk_usage(repo_root).free < disk_floor_bytes:
-            stopped_for_disk = True
+            stop_reason = "disk_floor"
             break
         torch.manual_seed(seed)
-        initial_model = TinyVideoSubstrate(model_spec)
+        frozen_model = TinyVideoSubstrate(model_spec)
         initial_state = {
-            key: value.detach().cpu().clone() for key, value in initial_model.state_dict().items()
+            key: value.detach().cpu().clone() for key, value in frozen_model.state_dict().items()
         }
         initial_hash = state_sha256(initial_state)
-        seed_key = str(seed)
-        seed_results[seed_key] = {}
-        frozen_model = TinyVideoSubstrate(model_spec)
-        frozen_model.load_state_dict(initial_state)
+        seed_row = seed_results.setdefault(str(seed), {})
         frozen_model.to(device.device).eval()
-        frozen_evaluation = evaluate_model(
-            frozen_model,
-            corpus,
-            records,
-            device=device,
-            batch_size=int(training["eval_batch_size"]),
-        )
-        seed_results[seed_key]["frozen_random"] = {
+        seed_row["frozen_random"] = {
             "control": "exact same-architecture, same-initialization frozen encoder",
             "initial_state_sha256": initial_hash,
-            "evaluation": frozen_evaluation,
+            "evaluation": evaluate_model(
+                frozen_model,
+                corpus,
+                records,
+                device=device,
+                batch_size=int(training["eval_batch_size"]),
+            ),
             "training": {
                 "complete": True,
                 "compute": {"estimated_total_flops": 0},
@@ -1390,7 +1376,7 @@ def run_workbench(
 
         for objective in objectives:
             if time.monotonic() >= deadline:
-                stopped_for_wall = True
+                stop_reason = "wall_budget"
                 break
             arm_dir = run_dir / "arms" / f"seed_{seed}" / objective
             try:
@@ -1432,22 +1418,18 @@ def run_workbench(
                     )
                     result["exact_initialization_control"] = arm["initial_state_sha256"] == initial_hash
                     del trained
-                seed_results[seed_key][objective] = result
+                seed_row[objective] = result
                 if not arm["complete"]:
-                    if arm.get("stop_reason") == "disk_floor":
-                        stopped_for_disk = True
-                    else:
-                        stopped_for_wall = True
+                    stop_reason = "disk_floor" if arm.get("stop_reason") == "disk_floor" else "wall_budget"
                     break
-            except WorkbenchRefused as exc:
-                required_arm_failure = _write_arm_failure(
-                    arm_dir,
-                    seed=seed,
-                    objective=objective,
-                    error=exc,
-                    device=device,
+            except Exception as exc:
+                failure = _write_arm_failure(
+                    arm_dir, seed=seed, objective=objective, error=exc, device=device
                 )
-                seed_results[seed_key][objective] = {
+                if not isinstance(exc, WorkbenchRefused):
+                    raise
+                required_arm_failure = failure
+                seed_row[objective] = {
                     "training": {
                         "complete": False,
                         "refused": True,
@@ -1455,35 +1437,24 @@ def run_workbench(
                         "refusal_receipt": str(arm_dir / "refusal_receipt.json"),
                     }
                 }
-                stopped_for_required_arm = True
+                stop_reason = "required_arm_refusal"
                 break
-            except Exception as exc:
-                _write_arm_failure(
-                    arm_dir,
-                    seed=seed,
-                    objective=objective,
-                    error=exc,
-                    device=device,
-                )
-                raise
-        if stopped_for_wall or stopped_for_disk or stopped_for_required_arm:
+        if stop_reason:
             break
 
     aggregate = _aggregate_results(seed_results)
-    compute_match = _compute_match(
-        seed_results, float(config_plain["promotion"].get("compute_tolerance", 0.005))
-    )
+    compute_match = _compute_match(seed_results, float(promotion_policy.get("compute_tolerance", 0.005)))
     promotion = _promotion_decision(
         aggregate=aggregate,
         difficulty=difficulty,
         requirements=requirements,
         teacher=teacher,
-        min_seeds=int(config_plain["promotion"]["min_seeds"]),
-        margin=float(config_plain["promotion"]["margin"]),
-        ceiling=float(config_plain["promotion"].get("ceiling", 0.98)),
+        min_seeds=int(promotion_policy["min_seeds"]),
+        margin=float(promotion_policy["margin"]),
+        ceiling=float(promotion_policy.get("ceiling", 0.98)),
         parameter_count_value=params,
         compute_match=compute_match,
-        teacher_min_rows=int(config_plain["promotion"]["teacher_min_rows"]),
+        teacher_min_rows=int(promotion_policy["teacher_min_rows"]),
     )
     if required_arm_failure is not None:
         reason = (
@@ -1496,8 +1467,7 @@ def run_workbench(
         promotion.setdefault("cm7_reasons", []).append(reason)
         promotion.setdefault("cm8_reasons", []).append(reason)
     completed = all(
-        objective in seed_results.get(str(seed), {})
-        and seed_results[str(seed)][objective].get("training", {}).get("complete")
+        seed_results.get(str(seed), {}).get(objective, {}).get("training", {}).get("complete")
         for seed in seeds
         for objective in objectives
     )
@@ -1511,22 +1481,20 @@ def run_workbench(
         ),
         "complete": completed,
         "resumable": not completed,
-        "stopped_for_wall_budget": stopped_for_wall,
-        "stopped_for_disk_floor": stopped_for_disk,
-        "stopped_for_required_arm_refusal": stopped_for_required_arm,
+        "stopped_for_wall_budget": stop_reason == "wall_budget",
+        "stopped_for_disk_floor": stop_reason == "disk_floor",
+        "stopped_for_required_arm_refusal": stop_reason == "required_arm_refusal",
         "required_arm_failure": required_arm_failure,
         "config_sha256": config_sha,
         "data_sha256": manifest["content_sha256"],
         "requirements_sha256": requirements["aggregate_sha256"],
         "requirements": {
-            "all_ok": requirements["all_ok"],
-            "requirement_ids": requirements["requirement_ids"],
+            **{key: requirements[key] for key in ("all_ok", "requirement_ids")},
             "audit_path": "requirements_audit.json",
         },
         "implementation": {
             "manifest_path": "implementation_manifest.json",
-            "aggregate_sha256": implementation["aggregate_sha256"],
-            "all_ok": implementation["all_ok"],
+            **{key: implementation[key] for key in ("aggregate_sha256", "all_ok")},
         },
         "dataset": {
             "manifest_path": "dataset_manifest.json",
@@ -1534,8 +1502,7 @@ def run_workbench(
             "split_counts": {
                 split: sum(row.split == split for row in records) for split in ("train", "val", "test")
             },
-            "disjoint_referents": manifest["disjoint_referents"],
-            "combination_disjoint": manifest["combination_disjoint"],
+            **{key: manifest[key] for key in ("disjoint_referents", "combination_disjoint")},
             "resolution": data_spec.resolution,
             "frames": data_spec.frames,
         },
@@ -1567,7 +1534,7 @@ def run_workbench(
             "disk_floor_bytes": disk_floor_bytes,
         },
     }
-    _atomic_json(run_dir / "workbench_receipt.json", receipt)
+    atomic_write_json(run_dir / "workbench_receipt.json", receipt)
     return receipt
 
 
@@ -1618,10 +1585,7 @@ def cm8_preflight(
         "runnable_local_preflight": True,
         "scientific_execution_ready": not blockers,
         "scientific_promotion": False,
-        "requirements": {
-            "all_ok": requirements.get("all_ok"),
-            "aggregate_sha256": requirements.get("aggregate_sha256"),
-        },
+        "requirements": {key: requirements.get(key) for key in ("all_ok", "aggregate_sha256")},
         "cm7_receipt": {
             "path": str(cm7_path),
             "exists": cm7_path.is_file(),
