@@ -16,7 +16,6 @@ from mop.science.budget import (
     ARM_NEVER_UPDATE,
     ARM_RATE_MATCHED_RANDOM,
     BudgetSeedRun,
-    FlopModel,
     arm_flop_model,
     noise_control_summary,
     run_matched_budget,
@@ -257,17 +256,6 @@ def _run_seed_real(
     )
 
 
-def _flop_model(kind: str, total_frames: int, train_frames: int, config: RealCountBedConfig) -> FlopModel:
-    return arm_flop_model(
-        kind,
-        total_frames,
-        featurize_per_frame=FLOPS_PER_FRAME_COUNT,
-        gate_infer_per_frame=FLOPS_PER_INFERENCE,
-        downstream_flops_per_firing=config.downstream_flops_per_reestimate,
-        candidate_train_flops=lambda: training_flops(train_frames, config.epochs),
-    )
-
-
 def build_real_count_bed_artifact(
     *,
     timestamp: str,
@@ -325,8 +313,13 @@ def build_real_count_bed_artifact(
         score_group="arm_scores",
         score_field="mae",
         action_group="reestimations",
-        flop_model=lambda kind: _flop_model(
-            kind, seed_runs[0].total_frames, seed_runs[0].train_frames, config
+        flop_model=lambda kind: arm_flop_model(
+            kind,
+            seed_runs[0].total_frames,
+            featurize_per_frame=FLOPS_PER_FRAME_COUNT,
+            gate_infer_per_frame=FLOPS_PER_INFERENCE,
+            downstream_flops_per_firing=config.downstream_flops_per_reestimate,
+            candidate_train_flops=lambda: training_flops(seed_runs[0].train_frames, config.epochs),
         ),
         operating_budget_id=seed_runs[0].operating_budget_id,
         source_kind="real",
