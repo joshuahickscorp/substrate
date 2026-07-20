@@ -7,8 +7,8 @@
     {
       "path": "proof/ARTIFACT_INDEX/pre_studio.json",
       "bytes": 3447,
-      "sha256": "743f5b10efbac246d27f05b7f9c0dd8442165e0048ceb7117efc6843c97aad9a",
-      "git_blob": "d4eea122e27ddc168b332c8278c551662288d52b"
+      "sha256": "0a4abdcfc74a65d490016a8e38e583d8e4df4cfdc33cb96ee91880bcf3ccd4e7",
+      "git_blob": "e15effdfca1315db5db2c3fb8ebce85de83544f1"
     },
     {
       "path": "proof/CACHE_QUARANTINE_AUDIT.json",

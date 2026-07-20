@@ -90,9 +90,46 @@ def test_unbound_proof_json_compaction_is_semantically_exact():
         current = (ROOT / relative).read_bytes()
         prior = subprocess.check_output(["git", "show", f"{source_tag}:{relative}"], cwd=ROOT)
         assert current.endswith(b"\n") and current.count(b"\n") == 1
+        if relative != "proof/ARTIFACT_INDEX/pre_studio.json":
+            assert json.loads(current, object_pairs_hook=_unique_object) == json.loads(
+                prior, object_pairs_hook=_unique_object
+            )
+
+
+def test_bound_run_json_compaction_preserves_semantics_and_refreshes_bundle():
+    source_tag = "mop-collapse-lowest-green-36"
+    changed_paths = subprocess.check_output(
+        ["git", "diff", "--name-only", source_tag, "--", "runs"], cwd=ROOT, text=True
+    ).splitlines()
+    changed = [relative for relative in changed_paths if relative.endswith(".json")]
+    assert len(changed) == 7
+    retired_script = "runs/mot/run_stages_1_3.sh"
+    assert set(changed_paths) == {*changed, retired_script}
+    assert not (ROOT / retired_script).exists()
+    script = subprocess.check_output(["git", "show", f"{source_tag}:{retired_script}"], cwd=ROOT)
+    assert (len(script), len(script.decode().splitlines()), hashlib.sha256(script).hexdigest()) == (
+        5156,
+        70,
+        "8a8c814e389623b786aac1defe0ad5361eca8a9580fc49cfd6aea2f5454c588b",
+    )
+    index_path = "proof/ARTIFACT_INDEX/pre_studio.json"
+    bundle = json.loads((ROOT / index_path).read_bytes(), object_pairs_hook=_unique_object)
+    expected = json.loads(
+        subprocess.check_output(["git", "show", f"{source_tag}:{index_path}"], cwd=ROOT),
+        object_pairs_hook=_unique_object,
+    )
+    current_rows = {row["display_path"]: row for row in bundle["artifacts"]}
+    expected_rows = {row["display_path"]: row for row in expected["artifacts"]}
+    for relative in changed:
+        current = (ROOT / relative).read_bytes()
+        prior = subprocess.check_output(["git", "show", f"{source_tag}:{relative}"], cwd=ROOT)
+        assert current.endswith(b"\n") and current.count(b"\n") == 1
         assert json.loads(current, object_pairs_hook=_unique_object) == json.loads(
             prior, object_pairs_hook=_unique_object
         )
+        expected_rows[relative].update(size_bytes=len(current), sha256=hashlib.sha256(current).hexdigest())
+        assert current_rows[relative] == expected_rows[relative]
+    assert bundle == expected
 
 
 def test_retired_code_and_documents_have_explicit_git_recovery():
