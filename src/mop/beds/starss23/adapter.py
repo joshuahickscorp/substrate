@@ -18,7 +18,6 @@ from .schema import (
     SAMPLES_PER_FRAME,
     Clip,
     ClipSplit,
-    OnsetEvent,
 )
 
 SOURCE_KIND_REAL = "real"
@@ -137,41 +136,21 @@ def parse_starss23_metadata(text: str) -> tuple[MetadataRow, ...]:
     return tuple(rows)
 
 
-def _prefer_onset(candidate: OnsetEvent, incumbent: OnsetEvent) -> bool:
-
-    return (candidate.distance, candidate.class_id, candidate.azimuth, candidate.elevation) < (
-        incumbent.distance,
-        incumbent.class_id,
-        incumbent.azimuth,
-        incumbent.elevation,
-    )
-
-
-def onset_events_from_rows(rows: Iterable[MetadataRow]) -> tuple[OnsetEvent, ...]:
-
+def _onset_frames(rows: Iterable[MetadataRow]) -> set[int]:
     by_track: dict[tuple[int, int], list[MetadataRow]] = {}
     for row in rows:
         if not row.has_distance:
             raise AdapterRefusal("onset derivation requires STARSS23 distance labels")
         by_track.setdefault((row.class_id, row.source_id), []).append(row)
-    onset_by_frame: dict[int, OnsetEvent] = {}
+    frames: set[int] = set()
     for track_rows in by_track.values():
         track_rows.sort(key=lambda row: row.frame)
         previous: int | None = None
         for row in track_rows:
             if previous is None or row.frame != previous + 1:
-                event = OnsetEvent(
-                    frame=row.frame,
-                    class_id=row.class_id,
-                    azimuth=float(row.azimuth),
-                    elevation=float(row.elevation),
-                    distance=float(row.distance),
-                )
-                incumbent = onset_by_frame.get(row.frame)
-                if incumbent is None or _prefer_onset(event, incumbent):
-                    onset_by_frame[row.frame] = event
+                frames.add(row.frame)
             previous = row.frame
-    return tuple(sorted(onset_by_frame.values(), key=lambda event: event.frame))
+    return frames
 
 
 def audio_sha256(audio: np.ndarray) -> str:
@@ -414,15 +393,14 @@ class RealStarssAdapter:
             self._audio[clip_id] = audio
 
             metadata_text = matching_meta_path.read_text(encoding="utf-8")
-            all_onsets = onset_events_from_rows(parse_starss23_metadata(metadata_text))
-            kept_onsets = tuple(onset for onset in all_onsets if onset.frame < n_frames)
+            onset_frames = _onset_frames(parse_starss23_metadata(metadata_text))
             self._truncations.append(
                 ClipTruncation(
                     clip_id=clip_id,
                     raw_samples=raw_samples,
                     kept_frames=n_frames,
                     dropped_tail_samples=raw_samples - n_frames * SAMPLES_PER_FRAME,
-                    dropped_onsets_past_end=len(all_onsets) - len(kept_onsets),
+                    dropped_onsets_past_end=sum(frame >= n_frames for frame in onset_frames),
                     capped_by_max_frames=capped,
                 )
             )
@@ -432,7 +410,6 @@ class RealStarssAdapter:
                     room_id=name.room_id,
                     n_frames=n_frames,
                     audio_sha256=audio_sha256(audio),
-                    onsets=kept_onsets,
                 )
             )
         self._clips: tuple[Clip, ...] = tuple(clips)
@@ -451,9 +428,6 @@ class RealStarssAdapter:
         if clip_id not in self._by_id:
             raise AdapterRefusal(f"unknown clip id {clip_id!r}")
         return self._by_id[clip_id]
-
-    def onsets(self, clip_id: str) -> tuple[OnsetEvent, ...]:
-        return self.clip(clip_id).onsets
 
     def audio(self, clip_id: str) -> np.ndarray:
         if clip_id not in self._audio:

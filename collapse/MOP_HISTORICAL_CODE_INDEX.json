@@ -2243,6 +2243,23 @@
         "src/mop/beds/starss23/count_producer.py",
         "src/mop/beds/starss23/count_variant_producer.py"
       ]
+    },
+    {
+      "id": "retired_unconsumed_onset_object_and_roundtrip_schema",
+      "source_tag": "mop-collapse-lowest-green-22",
+      "reason": "the active count path consumes clip identity, audio, room-disjoint splits, count metadata, and the aggregate number of truncated onset frames, but no maintained source consumed OnsetEvent objects, onset payload/digest round trips, adapter.onsets, or clip/split serialization; the onset-localization experiments are historical and fail closed, so a minimal exact onset-frame projection now preserves truncation accounting while the retired object graph remains tag-recoverable",
+      "replacement_paths": [
+        "src/mop/beds/starss23/adapter.py",
+        "src/mop/beds/starss23/schema.py",
+        "tests/unit/test_starss23_schema.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-22:<path>",
+      "paths": [
+        "src/mop/beds/starss23/adapter.py",
+        "src/mop/beds/starss23/schema.py",
+        "tests/unit/test_starss23_schema.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ]
     }
   ]
 }

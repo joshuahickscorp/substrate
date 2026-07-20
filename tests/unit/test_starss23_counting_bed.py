@@ -87,7 +87,7 @@ def test_change_density_and_coast_from_zero():
 
 def test_shared_count_seed_lifecycle_matches_the_legacy_projection():
     def clip(clip_id: str, room_id: str, n_frames: int) -> Clip:
-        return Clip(clip_id, room_id, n_frames, "0" * 64, ())
+        return Clip(clip_id, room_id, n_frames, "0" * 64)
 
     train = (clip("train_a", "r1", 12), clip("train_b", "r2", 11))
     val = (clip("val_a", "r3", 10),)
