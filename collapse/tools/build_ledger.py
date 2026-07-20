@@ -352,8 +352,10 @@ def main() -> int:
                                     "collapse/MOP_REDUCTION_LOG.json"]
             it["validation"] = ("four dual-axis runner lifecycles centralized with exact result/receipt "
                                  "fingerprint; construction-search vector engine selected after exact parity "
-                                 "and measured speed advantage; net owned Python reduction 1301 LOC")
-            it["next_action"] = "collapse the matching joint-axis scaffold and bed lifecycle"
+                                 "and measured speed advantage; matching reading, budget, control, contract, "
+                                 "verdict, receipt, and gate scaffold lifecycle centralized with exact "
+                                 "cross-version fingerprint; net owned Python reduction 2195 LOC")
+            it["next_action"] = "collapse the matching joint-axis bed and remaining mechanism lifecycles"
         if it["id"] == "CC-16":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"]
@@ -370,8 +372,9 @@ def main() -> int:
             it["status"] = "partial"
             it["evidence_paths"] = ["src/mop/mechanisms/joint_axis_runner.py",
                                     "collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "dual-axis runner family collapsed; scaffold, bed, and remaining runner families remain"
-            it["next_action"] = "collapse remaining mechanism scaffold/impl/bed/runner families"
+            it["validation"] = ("dual-axis runner and scaffold families collapsed; bed and remaining "
+                                 "mechanism families remain")
+            it["next_action"] = "collapse remaining mechanism impl/bed/runner families"
 
     checklist.append(item(
         "ART-MOP_STARSS23_ARCHITECTURE_COMPARISON.json", 11, "artifact",
@@ -674,6 +677,20 @@ def main() -> int:
                     "green; compile and ruff clean"),
         rollback_tag="mop-collapse-mechanism-runners",
         next_action="collapse matching joint-axis scaffold and bed lifecycle"))
+    checklist.append(item(
+        "RED-joint-axis-scaffolds", 12, "verified_reduction",
+        "Centralize joint-axis mechanism scaffold lifecycles",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/mechanisms/joint_axis_runner.py",
+                  "src/mop/mechanisms/calibrated_uncertainty_scaffold.py",
+                  "src/mop/mechanisms/reducible_novelty_scaffold.py",
+                  "src/mop/mechanisms/stability_plasticity_scaffold.py",
+                  "src/mop/mechanisms/stability_plasticity_r2_scaffold.py"],
+        validation=("1472 duplicate Python LOC and 107 prose-only Python LOC removed for 685 replacement "
+                    "LOC, net -894; exact four-mechanism scaffold fingerprint; 115 focused cases green; "
+                    "3829-case collection, compile-all, ruff, and docs gates green"),
+        rollback_tag="mop-collapse-mechanism-scaffolds",
+        next_action="collapse matching joint-axis bed and remaining mechanism lifecycles"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

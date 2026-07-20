@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "0244fff47f5b6ce21aed9e6f3ed05057cb61137b",
+    "base_commit": "9c12be8aabeebfcb642c982140e552c76d8b2147",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 50423,
-    "deduplicated_LOC": 14169,
+    "eliminated_LOC": 50530,
+    "deduplicated_LOC": 15641,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 8023,
-    "net_global_reduction_LOC": 56569
+    "added_LOC": 8708,
+    "net_global_reduction_LOC": 57463
   },
   "checklist_summary": {
-    "total": 244,
+    "total": 245,
     "by_status": {
       "complete": 17,
       "active": 51,
       "pending": 138,
       "partial": 10,
-      "verified": 28
+      "verified": 29
     }
   },
   "checklist": [
@@ -1447,11 +1447,11 @@
         "src/mop/mechanisms/construction_search_vec_impl.py",
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "four dual-axis runner lifecycles centralized with exact result/receipt fingerprint; construction-search vector engine selected after exact parity and measured speed advantage; net owned Python reduction 1301 LOC",
+      "validation": "four dual-axis runner lifecycles centralized with exact result/receipt fingerprint; construction-search vector engine selected after exact parity and measured speed advantage; matching reading, budget, control, contract, verdict, receipt, and gate scaffold lifecycle centralized with exact cross-version fingerprint; net owned Python reduction 2195 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "collapse the matching joint-axis scaffold and bed lifecycle"
+      "next_action": "collapse the matching joint-axis bed and remaining mechanism lifecycles"
     },
     {
       "id": "SEC-13",
@@ -2134,11 +2134,11 @@
         "src/mop/mechanisms/joint_axis_runner.py",
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "dual-axis runner family collapsed; scaffold, bed, and remaining runner families remain",
+      "validation": "dual-axis runner and scaffold families collapsed; bed and remaining mechanism families remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "collapse remaining mechanism scaffold/impl/bed/runner families"
+      "next_action": "collapse remaining mechanism impl/bed/runner families"
     },
     {
       "id": "CC-14",
@@ -3477,6 +3477,26 @@
       "rollback_tag": "mop-collapse-mechanism-runners",
       "dependency": "",
       "next_action": "collapse matching joint-axis scaffold and bed lifecycle"
+    },
+    {
+      "id": "RED-joint-axis-scaffolds",
+      "section": 12,
+      "kind": "verified_reduction",
+      "title": "Centralize joint-axis mechanism scaffold lifecycles",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "src/mop/mechanisms/joint_axis_runner.py",
+        "src/mop/mechanisms/calibrated_uncertainty_scaffold.py",
+        "src/mop/mechanisms/reducible_novelty_scaffold.py",
+        "src/mop/mechanisms/stability_plasticity_scaffold.py",
+        "src/mop/mechanisms/stability_plasticity_r2_scaffold.py"
+      ],
+      "validation": "1472 duplicate Python LOC and 107 prose-only Python LOC removed for 685 replacement LOC, net -894; exact four-mechanism scaffold fingerprint; 115 focused cases green; 3829-case collection, compile-all, ruff, and docs gates green",
+      "commit": "",
+      "rollback_tag": "mop-collapse-mechanism-scaffolds",
+      "dependency": "",
+      "next_action": "collapse matching joint-axis bed and remaining mechanism lifecycles"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",
