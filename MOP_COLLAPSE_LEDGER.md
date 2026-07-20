@@ -4,10 +4,10 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 ## Current
 
-- Maintained Python: 13,503 LOC; ceiling: 50,000.
+- Maintained Python: 13,450 LOC; ceiling: 50,000.
 - Runtime and campaign kernel: 9,535 LOC.
 - Validation: 2,892 LOC.
-- Verified reduction ledger: 391,589 LOC.
+- Verified reduction ledger: 391,642 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-pr9-protections | -166 | map_pr9_protections_and_add_shared_collapse_invariants |
 | mop-collapse-ledger-compact | 1,965 | replace_duplicated_checklist_generator_with_compact_state_updater |
 | mop-collapse-custom-model | 46 | canonical_custom_substrate_model_authority |
 | mop-collapse-budget-facade | 192 | retired_unconsumed_dual_budget_facade |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-workbench-orchestration | 42 | single_workbench_stop_failure_and_teacher_audit_policy |
 | mop-collapse-artifact-provenance-policy | 79 | typed_artifact_json_policy_and_single_export_finalization |
 | mop-collapse-finalizer-chain-cli | 127 | canonical_finalizer_writes_and_retired_artifact_cli_wrapper |
+| mop-collapse-finalizer-lifecycle-cli | 53 | direct_finalizer_copy_snapshot_and_promotion_policy_without_cli_dispatch |
