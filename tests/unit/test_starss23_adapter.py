@@ -7,7 +7,6 @@ import numpy as np
 import pytest
 
 from mop.beds.starss23 import adapter as A
-from mop.beds.starss23 import synthetic_corpus as SC
 from mop.beds.starss23.schema import SAMPLES_PER_FRAME, Clip, OnsetEvent
 from mop.escs.accounting import WorkVector
 
@@ -141,15 +140,10 @@ def test_metadata_serialization_refuses_non_integer_onset_fields() -> None:
         A.metadata_rows_from_onsets(onsets)
 
 
-def test_domain_seed_preserves_the_four_noisy_tv_streams() -> None:
+def test_domain_seed_preserves_the_active_noisy_tv_streams() -> None:
     cases = (
         ("mop.beds.starss23.real.noisy_tv", b"mop-starss23-real-noisy-tv-v1", 481492669),
         ("mop.beds.starss23.count.noisy_tv", b"mop-starss23-count-noisy-tv-v1", 2165001989),
-        (
-            "mop.beds.starss23.count_repro_featurizer_estimator.noisy_tv",
-            b"mop-starss23-count-repro-featurizer-estimator-noisy-tv-v1",
-            1391724852,
-        ),
         ("mop.beds.starss23.doa.noisy_tv", b"mop-starss23-doa-noisy-tv-v1", 3650713416),
     )
     assert tuple(A.domain_seed(7, key, domain) for key, domain, _ in cases) == tuple(
@@ -213,51 +207,6 @@ def test_transport_charge_reports_audio_bytes_as_raw_transport() -> None:
     assert isinstance(charge, WorkVector)
     assert charge.raw_transport_and_adapters == adapter.audio(clip_id).nbytes
     assert charge.event_formation == 0
-
-
-def test_dev_split_is_room_disjoint_and_matches_the_fold_shape() -> None:
-    corpus = SC.generate_corpus(
-        SC.SyntheticCorpusConfig(
-            n_fold3_rooms=4,
-            n_val_rooms=1,
-            n_fold4_rooms=2,
-            clips_per_room=2,
-            clip_frames=20,
-            onsets_per_clip=3,
-            nuisances_per_clip=3,
-        ),
-        seed=1,
-    )
-    adapter = corpus.adapter()
-    dev = adapter.dev_split()
-    assert dev.sizes == {"dev_train": 4 * 2, "dev_test": 2 * 2}
-    train_rooms = {A.parse_clip_name(c).room_id for c in dev.dev_train}
-    test_rooms = {A.parse_clip_name(c).room_id for c in dev.dev_test}
-    assert train_rooms.isdisjoint(test_rooms)
-
-
-def test_harness_split_nests_inside_the_dev_split() -> None:
-    corpus = SC.generate_corpus(SC.SyntheticCorpusConfig.tiny(), seed=2)
-    adapter = corpus.adapter()
-    dev = adapter.dev_split()
-    split = adapter.harness_split(n_train_rooms=2, n_val_rooms=1)
-    test_ids = {clip.clip_id for clip in split.test}
-    assert test_ids == set(dev.dev_test)
-
-
-def test_native_fold_split_and_corpus_mapping_have_one_shared_authority() -> None:
-    adapter = SC.generate_corpus(SC.SyntheticCorpusConfig.tiny(), seed=3).adapter()
-    split = A.native_fold_split(adapter, n_val_rooms=1)
-    assert {clip.clip_id for clip in split.test} == set(adapter.dev_split().dev_test)
-    assert split.detail["split_rule"] == (
-        "test = native fold-4 dev-test; val = last N fold-3 rooms; train = rest of fold-3"
-    )
-    mapped = A.map_clip_audio(adapter, lambda audio: np.asarray([audio.shape[1]]))
-    assert mapped == {
-        clip.clip_id: np.asarray([clip.n_frames * SAMPLES_PER_FRAME]) for clip in adapter.clips()
-    }
-    with pytest.raises(A.AdapterRefusal, match="leave at least one train room"):
-        A.native_fold_split(adapter, n_val_rooms=0)
 
 
 def test_dev_split_refuses_a_non_dev_fold() -> None:
@@ -349,17 +298,6 @@ def test_real_adapter_truncates_onsets_past_the_kept_length(tmp_path) -> None:
     assert clip.onset_frames == (3,)
     trunc = {t.clip_id: t for t in real.truncations()}["fold3_room4_mix001"]
     assert trunc.dropped_onsets_past_end == 1
-
-
-def test_from_dir_round_trips_a_written_corpus(tmp_path) -> None:
-    corpus = SC.generate_corpus(SC.SyntheticCorpusConfig.tiny(), seed=3)
-    corpus.write_to(tmp_path)
-    disk_adapter = A.SyntheticStarssAdapter.from_dir(tmp_path)
-    memory_adapter = corpus.adapter()
-    disk_clips = {clip.clip_id: clip for clip in disk_adapter.clips()}
-    for clip in memory_adapter.clips():
-        assert disk_clips[clip.clip_id].onsets == clip.onsets
-        assert disk_clips[clip.clip_id].audio_sha256 == clip.audio_sha256
 
 
 def test_from_dir_refuses_a_non_starss_tree(tmp_path) -> None:

@@ -158,6 +158,29 @@
         "tests/unit/test_count_repro_gate_arch.py",
         "tests/unit/test_starss23_count_repro_scoring_unit.py"
       ]
+    },
+    {
+      "id": "dead_starss23_scaffolds_and_phantom_record",
+      "reason": "the recurrence-spread command imported a nonexistent artifact module, the synthetic-corpus implementation was a second test-only generator beside the retained fixture authority, and the removed data-split implementation left a phantom experiment record",
+      "source_tag": "mop-collapse-starss23-orphans",
+      "recovery": "git show mop-collapse-starss23-orphans:<path>",
+      "removed_symbols": [
+        "mop.beds.starss23.experiments.COUNTING_DATA_SPLIT_REPRO"
+      ],
+      "replacement_paths": [
+        "src/mop/beds/starss23/fixtures.py",
+        "src/mop/beds/starss23/artifact.py",
+        "src/mop/beds/starss23/experiments.py",
+        "tests/unit/test_starss23_fixtures.py",
+        "tests/unit/test_starss23_artifact.py"
+      ],
+      "paths": [
+        "scripts/run_starss23_escs_bed_recurrence_spread.py",
+        "src/mop/beds/starss23/gate_recurrence_spread.py",
+        "src/mop/beds/starss23/synthetic_corpus.py",
+        "tests/unit/test_starss23_corpus.py",
+        "tests/unit/test_starss23_gate_recurrence_spread.py"
+      ]
     }
   ]
 }

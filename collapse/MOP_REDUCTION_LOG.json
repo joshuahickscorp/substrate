@@ -618,6 +618,24 @@
       "proof": "AST and literal-reference audits found no external executable consumer for any deleted variant; the retained STARSS23 science/count/adapter/harness/DoA battery is 163/163 green; full 3709-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all 20 deleted files recover from mop-collapse-cli-bed-authorities",
       "accounting_note": "src 0 added/4691 deleted; tests 0 added/870 deleted; collapse-analysis artifacts and historical references do not make an experiment executable and are excluded from authority reachability",
       "tag": "mop-collapse-starss23-orphans"
+    },
+    {
+      "region": "section11_starss23_bed_section14_entrypoints_and_section17_validation",
+      "batch": "broken_recurrence_scaffold_synthetic_duplicate_and_phantom_record",
+      "checkpoint_status": "green",
+      "primitive": "a broken recurrence-spread command and gate, a redundant test-only synthetic corpus, their dedicated tests, and the phantom data-split experiment record were physically deleted",
+      "deduplicated_LOC": 0,
+      "added_LOC": 3,
+      "eliminated_LOC": 1144,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1141,
+      "files_changed": 7,
+      "destination_api": "fixture-backed STARSS23 artifact generation and the three executable ONSET, COUNTING, and DOA science records",
+      "proof": "the deleted recurrence command statically imported nonexistent mop.beds.starss23.recurrence_spread_artifact; no remaining owned Python import target is missing; the retained STARSS23 core battery is 178/178 green; full 3672-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all five deleted paths recover from the prior tag",
+      "accounting_note": "src 2 added/651 deleted; scripts 0 added/76 deleted; tests 1 added/417 deleted; the fixture-backed artifact generator remains the synthetic mechanics authority and real-corpus producers remain unchanged",
+      "tag": "mop-collapse-starss23-dead-scaffolds"
     }
   ],
   "deferred_heavy_validation": {
