@@ -1089,11 +1089,31 @@
       "proof": "the generator is Ruff-clean and deterministic; the regenerated checklist honestly reports 59 complete, 43 verified, 47 active, 9 partial, and 103 pending items",
       "accounting_note": "59 Python lines deleted for 2 replacement comments, net -57; maintained Python is 16920 LOC, src/mop is 10715 LOC, validation is 3075 LOC",
       "tag": "mop-collapse-declarative-engine"
+    },
+    {
+      "region": "section3_pr9_section21_gates_section24_live_boundary",
+      "batch": "map_pr9_protections_and_add_shared_collapse_invariants",
+      "checkpoint_status": "green",
+      "primitive": "all eleven PR 9 files and eight useful protection classes are mapped to compact replacements or explicit retirement; one property suite now enforces parseable readable source, no line packing, authority cardinalities, proof-index integrity, historical recovery metadata, and absence of hidden packs",
+      "deduplicated_LOC": 0,
+      "added_LOC": 97,
+      "eliminated_LOC": 0,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": -97,
+      "files_changed": 3,
+      "destination_api": "tests/unit/test_collapse_invariants.py, collapse/MOP_PR9_DISPOSITION.json, and collapse/MOP_LIVE_NO_TOUCH.json",
+      "proof": "the isolated PR 9 suite passes 21/21 and its controller measures the collapsed tree with zero no-gaming violations; the replacement full suite passes 171 collected tests with 6 environment skips; acceptance is 10/10; Ruff formatting/lint and mypy over 42 source files pass; the protected checkout is clean and untouched",
+      "accounting_note": "97 focused validation lines added with no runtime source growth; maintained Python is 17017 LOC, src/mop remains 10715 LOC, and validation is 3172 LOC",
+      "tag": "mop-collapse-pr9-protections"
     }
   ],
-  "deferred_heavy_validation": {
-    "command": "PYTHONPATH=src .venv/bin/python -m pytest tests -q",
-    "reason": "full suite over touched studies/substrate/scripts modules is heavy; run under host headroom after the General Run releases the machine",
-    "required_headroom": "General Run terminal or host idle; focused parity already green"
+  "latest_full_validation": {
+    "command": "PYTHONPATH=src /Users/scammermike/Downloads/mop/.venv/bin/python -m pytest -q",
+    "result": "171 collected; 165 passed; 6 environment skips",
+    "acceptance": "10/10 passed",
+    "static": "Ruff lint and format clean; mypy clean over 42 source files",
+    "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
   }
 }

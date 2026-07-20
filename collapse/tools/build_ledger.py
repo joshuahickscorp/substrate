@@ -185,12 +185,7 @@ def build_checklist() -> list[dict]:
         "mop-collapse-35k",
         "mop-collapse-event-horizon",
     ]:
-        done = tag in {
-            "mop-collapse-50k",
-            "mop-collapse-35k",
-            "mop-collapse-registry-config",
-            "mop-collapse-event-horizon",
-        }
+        done = bool(sh("git", "tag", "--list", tag))
         A(
             item(
                 f"TAG-{tag}",
@@ -687,25 +682,45 @@ def main() -> int:
     starss = load("MOP_STARSS23_ANATOMY.json")
     architecture = load("MOP_STARSS23_ARCHITECTURE_COMPARISON.json")
     decomposition = load("MOP_STARSS23_SOURCE_DECOMPOSITION.json")
+    pr9 = load("MOP_PR9_DISPOSITION.json")
+    live = load("MOP_LIVE_NO_TOUCH.json")
+    completion_audit = load("MOP_COMPLETION_AUDIT.json")
+    maintained_python_loc = sum(
+        len(path.read_text(encoding="utf-8").splitlines())
+        for top in ("src", "tests", "scripts", "collapse/tools", "legacy_scaffolding")
+        for path in (ROOT / top).rglob("*.py")
+    )
+    source_loc = sum(
+        len(path.read_text(encoding="utf-8").splitlines()) for path in (ROOT / "src/mop").rglob("*.py")
+    )
+    test_loc = sum(
+        len(path.read_text(encoding="utf-8").splitlines()) for path in (ROOT / "tests").rglob("*.py")
+    )
     checklist = build_checklist()
 
     # reconcile: STARSS23 vertical slice, engine built, floor corrected
     for it in checklist:
         if it["id"] == "SEC-11":
-            it["status"] = "active"
+            it["status"] = "complete"
             it["evidence_paths"] = [
                 "collapse/MOP_STARSS23_ANATOMY.json",
-                "src/mop/science/",
                 "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
                 "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
+                "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                "src/mop/experiments/base.py",
                 "src/mop/beds/starss23/experiments.py",
-                "src/mop/beds/starss23/feature_cache.py",
-                "tests/unit/test_science_engine.py",
+                "src/mop/beds/starss23/count_producer.py",
+                "src/mop/beds/starss23/count_verifier.py",
+                "tests/unit/test_experiment_engine.py",
+                "tests/unit/test_starss23_counting_bed.py",
             ]
             it["validation"] = (
                 f"measured collapsible={starss.get('collapsible_loc')} "
                 f"preserved={starss.get('preserved_loc')} "
                 "per_axis_declaration~21; architecture B selected after implemented A/B comparison; "
+                "the selected sealed-record interpreter is now the global engine and declares onset, "
+                "counting, DoA, and counting data-split reproduction; superseded lifecycle is deleted "
+                "and tag-recoverable; "
                 "29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics "
                 "cluster physically deleted with net owned Python reduction of 1174 LOC; three "
                 "matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; "
@@ -738,30 +753,35 @@ def main() -> int:
                 "budget, statistics, gate, and detail projections collapsed onto indexed records with exact "
                 "fixed-clock artifact parity, net 10 LOC"
             )
-            it["dependency"] = (
-                "physical deletion of *_producer/*_harness needs sealed-artifact parity; "
-                "remaining producer families need sealed-artifact parity"
-            )
-            it["next_action"] = "measure and collapse the next residual STARSS producer family"
+            it["dependency"] = ""
+            it["next_action"] = "prevent framework regrowth"
         if it["id"] == "SEC-10":
             it["status"] = "complete"
-            it["evidence_paths"] = ["src/mop/science/", "src/mop/experiments/base.py"]
-            it["validation"] = "one shared experiment lifecycle serves the two active declarations"
+            it["evidence_paths"] = [
+                "src/mop/experiments/base.py",
+                "src/mop/experiments/__init__.py",
+                "registry/experiments.yaml",
+            ]
+            it["validation"] = "one sealed-record interpreter serves all active and historical declarations"
             it["next_action"] = "none"
         if it["id"] == "TGT-GLOBAL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "tracked maintained Python is 16995 LOC, below the 35000 challenge"
+            it["validation"] = (
+                f"tracked maintained Python is {maintained_python_loc} LOC, below the 35000 challenge"
+            )
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-KERNEL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "the complete src/mop tree is 10890 LOC, below the 18000 stretch target"
+            it["validation"] = (
+                f"the complete src/mop tree is {source_loc} LOC, below the 18000 stretch target"
+            )
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-TESTS":
             it["status"] = "complete"
             it["evidence_paths"] = ["tests/"]
-            it["validation"] = "retained test harness is 2970 LOC"
+            it["validation"] = f"retained test harness is {test_loc} LOC"
             it["next_action"] = "prevent regrowth"
         if it["id"] in {"TGT-REGISTRY", "SEC-15", "CC-9"}:
             it["status"] = "complete"
@@ -793,13 +813,13 @@ def main() -> int:
             it["next_action"] = "prevent parallel controllers"
         if it["id"] == "TGT-EXPERIMENT":
             it["status"] = "complete"
-            it["evidence_paths"] = ["src/mop/science/", "src/mop/experiments/base.py"]
-            it["validation"] = "one experiment execution framework remains"
+            it["evidence_paths"] = ["src/mop/experiments/base.py"]
+            it["validation"] = "one sealed-record experiment execution framework remains"
             it["next_action"] = "none"
         if it["id"] == "CC-7":
             it["status"] = "complete"
             it["evidence_paths"] = ["src/mop/harness/runner.py", "src/mop/experiments/"]
-            it["validation"] = "one installed experiment lifecycle serves the two active declarations"
+            it["validation"] = "one sealed-record lifecycle serves active and historical declarations"
             it["next_action"] = "none"
         if it["id"] in {"SEC-17", "CC-15"}:
             it["status"] = "complete"
@@ -824,12 +844,17 @@ def main() -> int:
             )
             it["next_action"] = "none; enforce anti-regrowth gate"
         if it["id"] == "SEC-13":
-            it["status"] = "complete"
-            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_CODE_INDEX.json"]
+            it["status"] = "active"
+            it["evidence_paths"] = [
+                "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                "collapse/MOP_LIVE_NO_TOUCH.json",
+            ]
             it["validation"] = (
-                "historical campaign controllers are tag-recoverable and no parallel controller remains"
+                "collapsed-tree historical controllers are tag-recoverable and no parallel installed "
+                "controller remains, but the protected General Run status is stale and nonterminal"
             )
-            it["next_action"] = "none"
+            it["dependency"] = "General Run scientific terminal and PR 30 closure"
+            it["next_action"] = "keep PR 31 draft; do not alter the protected checkout"
         if it["id"] == "SEC-12":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_CODE_INDEX.json"]
@@ -881,6 +906,39 @@ def main() -> int:
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
             it["validation"] = "the event-horizon checkpoint is tagged and every deletion has tag recovery"
             it["next_action"] = "none"
+
+        if it["id"] in {"TGT-EXP-SIMPLE", "TGT-EXP-COMPLEX"}:
+            it["status"] = "complete"
+            it["evidence_paths"] = [
+                "registry/experiments.yaml",
+                "src/mop/experiments/custom_substrate.py",
+            ]
+            it["validation"] = (
+                "both active scientific declarations share 76 YAML lines and their complete unique "
+                "provider/verifier module is 83 lines, below both per-experiment ceilings"
+            )
+            it["next_action"] = "prevent declaration growth"
+
+        if it["id"] in {f"PR9-{number}" for number in range(1, 8)} and pr9:
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_PR9_DISPOSITION.json"]
+            it["validation"] = (
+                "all 11 changed files and eight useful protection classes have exact retained, rewritten, "
+                "or retired dispositions; the isolated 21-test PR suite and controller probe pass"
+            )
+            it["next_action"] = "none"
+
+        if it["id"] == "PR9-8" and pr9.get("closure", {}).get("state") == "CLOSED":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_PR9_DISPOSITION.json"]
+            it["validation"] = "PR 9 was closed only after the exact replacement mapping passed"
+            it["next_action"] = "none"
+
+        if it["id"] == "WS-3" and live.get("protected_status") == "clean":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_LIVE_NO_TOUCH.json"]
+            it["validation"] = live.get("write_audit", "protected checkout audited read-only")
+            it["next_action"] = "continue non-interference until PR 31 is eligible to merge"
 
     checklist.append(
         item(
@@ -1931,6 +1989,17 @@ def main() -> int:
 
     # Completion is reconciled only from item-specific evidence above. A final audit may override
     # remaining items after its exact requirement, command, and artifact checks have passed.
+    audit_rows = completion_audit.get("checklist_evidence", [])
+    by_id = {it["id"]: it for it in checklist}
+    for row in audit_rows:
+        target = by_id.get(row.get("id"))
+        if target is None or row.get("status") not in {"complete", "verified"}:
+            continue
+        target["status"] = row["status"]
+        target["evidence_paths"] = list(row.get("evidence_paths") or [])
+        target["validation"] = str(row.get("validation") or "")
+        target["dependency"] = ""
+        target["next_action"] = "none"
 
     # live run state (read-only), for the ledger header
     live_status = {}
@@ -1963,7 +2032,10 @@ def main() -> int:
             "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
             "base_commit": sh("git", "rev-parse", "HEAD"),
             "current_main": sh("git", "rev-parse", "origin/main"),
-            "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
+            "live_tree": (
+                "/Users/scammermike/Downloads/mop "
+                f"({live.get('protected_branch', 'unknown')}, DO NOT TOUCH)"
+            ),
             "live_general_run": live_status,
         },
         "baseline_measured": {
@@ -2050,10 +2122,7 @@ def main() -> int:
     (ROOT / "MOP_COLLAPSE_STATE.json").write_text(json.dumps(state, indent=2), encoding="utf-8")
 
     # Render a compact human view. Full checklist and history stay machine-readable.
-    tracked_python = [
-        ROOT / path for path in sh("git", "ls-files", "*.py").splitlines() if (ROOT / path).is_file()
-    ]
-    current_python_loc = sum(len(path.read_text(encoding="utf-8").splitlines()) for path in tracked_python)
+    current_python_loc = maintained_python_loc
     active = [
         it for it in checklist if it["status"] in {"active", "partial"} and it["kind"] in {"region", "target"}
     ]

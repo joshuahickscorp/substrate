@@ -1,14 +1,16 @@
 {
-  "schema": "mop-collapse-live-no-touch/v1",
-  "rule": "The detached General Run and its live tree are immutable while active. Condensation occurs only in the isolated worktree. Never edit, signal, restart, retune, or merge into the live tree or its processes.",
-  "live_tree": "/Users/scammermike/Downloads/mop",
-  "live_branch_head": "f6d107bc869ec85ea1d4b2d09e4ab76f060936b6",
-  "live_branch": "agent/save-mop-stable-work",
+  "schema": "mop-collapse-live-no-touch/v2",
+  "audited_at": "2026-07-20T05:33:26Z",
+  "rule": "The protected checkout and General Run artifacts are immutable to the collapse task. Never edit, signal, restart, retune, or merge into that checkout or its processes.",
+  "protected_tree": "/Users/scammermike/Downloads/mop",
+  "protected_branch": "agent/mop-evidence-salvage",
+  "protected_head": "094bdd934de3bb170c89ee95a0bc089f32172448",
+  "protected_status": "clean",
   "run_root": "/Users/scammermike/Downloads/mop/runs/generation1/general-run",
-  "live_status": {
+  "last_status": {
     "state": "run_categorized_wave",
     "stage": "run_categorized_wave",
-    "updated_at": "2026-07-19T04:15:51.231787+00:00",
+    "updated_at": "2026-07-19T18:13:03.965920+00:00",
     "counts": {
       "compute_complete": 2,
       "compute_total": 4,
@@ -22,9 +24,20 @@
       "sha256": "85ce363de4f24aa52d2742cca6104f47cd46d08c7a3d5f42d2fd233fa7575c36"
     }
   },
+  "process_audit": {
+    "general_run_process_found": false,
+    "interpretation": "The recorded status is stale and nonterminal, not a clean scientific terminal. PR 30 remains the deferred General Run closure surface and PR 31 must remain draft.",
+    "unrelated_process": {
+      "pid": 14418,
+      "command": "/Users/scammermike/Downloads/mop/.venv/bin/python run_memory_frontier.py",
+      "cwd": "/Users/scammermike/Downloads/mop-substrate-forge/forge",
+      "disposition": "observed read-only and untouched; it is outside the protected General Run and collapse worktree"
+    }
+  },
   "forbidden_paths_for_edit": [
     "/Users/scammermike/Downloads/mop"
   ],
+  "collapse_worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
   "worktree_is_separate_checkout": true,
-  "note": "Worktree edits cannot affect the live run: the live processes execute from the live tree's own physical files on branch save-mop-stable-work, which are distinct from this worktree."
+  "write_audit": "No collapse command wrote to, signaled, restarted, or retuned the protected checkout or its processes. The branch/head change since the earlier snapshot was external to this collapse task."
 }

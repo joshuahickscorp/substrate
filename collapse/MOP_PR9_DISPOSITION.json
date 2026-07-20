@@ -1,0 +1,163 @@
+{
+  "schema": "mop-pr9-disposition/v1",
+  "pr": 9,
+  "head": "de43a9a3f2af628735d5446bcdf1876d36a5feaa",
+  "base": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
+  "decision": "supersede after replacement checks pass",
+  "summary": "PR 9 adds 3786 lines and a second 1934-line controller. Its protections are retained as smaller authorities and executable invariants; its stale pack topology and duplicate CLI are retired.",
+  "validation": {
+    "isolated_checkout": "/tmp/mop-pr9-audit.oAhe3j",
+    "pr9_tests": "21 passed",
+    "controller_help": "passed",
+    "controller_measure_current_head": "passed",
+    "measured_head": "d725ad4daef8328f980aa38dd2e1a56acaed4c45",
+    "controller_active_repo_LOC": 104424,
+    "controller_tracked_text_LOC": 146432,
+    "controller_no_gaming_violations": [],
+    "controller_accounting_disposition": "retired: the Generation-1 contract treats collapse audit JSON as unclassified active source; maintained Python physical LOC is the current primary measure"
+  },
+  "protections": [
+    {
+      "protection": "honest physical LOC accounting",
+      "disposition": "rewritten",
+      "replacement": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_COMPLETION_AUDIT.json"
+      ],
+      "gate": "tracked maintained Python, source, test, documentation, configuration, and reduction categories are reported separately"
+    },
+    {
+      "protection": "no minification or line packing",
+      "disposition": "retained",
+      "replacement": [
+        "tests/unit/test_collapse_invariants.py"
+      ],
+      "gate": "every maintained Python file parses, has no semicolon statement packing, and has no line longer than 4096 bytes"
+    },
+    {
+      "protection": "live-run binding and activation refusal",
+      "disposition": "retained",
+      "replacement": [
+        "collapse/MOP_LIVE_NO_TOUCH.json"
+      ],
+      "gate": "protected checkout remains read-only; PR 31 remains draft while the last General Run state is nonterminal"
+    },
+    {
+      "protection": "pack ancestry and lock integrity",
+      "disposition": "retired as inapplicable",
+      "replacement": [
+        "tests/unit/test_collapse_invariants.py",
+        "collapse/MOP_PROOF_INDEX.json"
+      ],
+      "gate": "no optional source pack exists; proof payloads remain embedded, content-addressed, and byte-deduplicated"
+    },
+    {
+      "protection": "offline hydration",
+      "disposition": "rewritten",
+      "replacement": [
+        "src/mop/substrate/custom_artifact.py",
+        "tests/unit/test_custom_substrate_artifact.py"
+      ],
+      "gate": "portable tensor artifacts export deterministically and load without network access; there is no source pack to hydrate"
+    },
+    {
+      "protection": "rollback and exact recovery",
+      "disposition": "retained",
+      "replacement": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+      ],
+      "gate": "every retired code path and document is addressable from its recorded Git tag or commit"
+    },
+    {
+      "protection": "elimination ledger",
+      "disposition": "rewritten",
+      "replacement": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "gate": "eliminated, deduplicated, relocated, archived, generated replacement, added, and net reduction LOC remain distinct"
+    },
+    {
+      "protection": "validation inventory and release gates",
+      "disposition": "rewritten",
+      "replacement": [
+        "collapse/MOP_COMPLETION_AUDIT.json",
+        "scripts/acceptance.py",
+        "tests/unit/test_collapse_invariants.py"
+      ],
+      "gate": "the final audit records collected tests, skips, acceptance, lint, typing, clean-clone, and offline results"
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "disposition": "retire",
+      "reason": "pack cache and hydration destinations do not exist in the collapsed checkout"
+    },
+    {
+      "path": "condensation.baseline.json",
+      "disposition": "rewrite",
+      "replacement": "collapse/MOP_COMPLETION_AUDIT.json",
+      "reason": "the old baseline predates the collapse and its current surface classification is stale"
+    },
+    {
+      "path": "condensation.eliminations.json",
+      "disposition": "rewrite",
+      "replacement": "collapse/MOP_REDUCTION_LOG.json",
+      "reason": "the reduction log contains the complete physical history and richer accounting"
+    },
+    {
+      "path": "condensation.json",
+      "disposition": "split and rewrite",
+      "replacement": "collapse/MOP_PR9_DISPOSITION.json; tests/unit/test_collapse_invariants.py; collapse/MOP_LIVE_NO_TOUCH.json",
+      "reason": "retain no-gaming and live protections without retaining obsolete planned-pack topology"
+    },
+    {
+      "path": "condensation.live-bindings.json",
+      "disposition": "rewrite",
+      "replacement": "collapse/MOP_LIVE_NO_TOUCH.json",
+      "reason": "one compact current read-only binding replaces the stale Generation-1 snapshot"
+    },
+    {
+      "path": "condensation.packs.lock.json",
+      "disposition": "retire",
+      "reason": "the collapsed repository has no optional source packs"
+    },
+    {
+      "path": "docs/MOP_EXTREME_CONDENSATION.md",
+      "disposition": "consolidate",
+      "replacement": "collapse/MOP_PR9_DISPOSITION.json",
+      "reason": "machine-readable mapping carries the useful contract without another front-door document"
+    },
+    {
+      "path": "scripts/check_docs.py",
+      "disposition": "retire",
+      "reason": "documentation is intentionally compact and non-gating during the experimental phase"
+    },
+    {
+      "path": "scripts/mop_condense.py",
+      "disposition": "retire",
+      "reason": "a second installed or developer condensation CLI would duplicate the durable ledger and normal mop CLI"
+    },
+    {
+      "path": "src/mop/condensation.py",
+      "disposition": "rewrite into existing authorities",
+      "replacement": "collapse/tools/build_ledger.py; tests/unit/test_collapse_invariants.py; src/mop/substrate/custom_artifact.py",
+      "reason": "the useful gates fit existing accounting, audit, and artifact authorities; the 1934-line parallel controller is unnecessary"
+    },
+    {
+      "path": "tests/unit/test_condensation.py",
+      "disposition": "replace by focused properties",
+      "replacement": "tests/unit/test_collapse_invariants.py; tests/unit/test_custom_substrate_artifact.py",
+      "reason": "retain the protections against the current topology without 652 tests lines for a retired controller"
+    }
+  ],
+  "closure_gate": [
+    "all 11 files have an exact disposition",
+    "all eight useful protection classes have executable or machine-readable replacements",
+    "replacement full suite and acceptance pass",
+    "replacement branch is pushed and PR 31 remains draft",
+    "a supersession comment links this mapping before PR 9 is closed"
+  ]
+}
