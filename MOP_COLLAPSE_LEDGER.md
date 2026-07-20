@@ -4,10 +4,10 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 ## Current
 
-- Maintained Python: 13,751 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 9,640 LOC.
-- Validation: 2,908 LOC.
-- Verified reduction ledger: 391,341 LOC.
+- Maintained Python: 13,709 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 9,604 LOC.
+- Validation: 2,902 LOC.
+- Verified reduction ledger: 391,383 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-final | 192 | compacted_final_ledger_reconciliation |
 | mop-collapse-declarative-engine | -307 | selected_record_engine_becomes_global |
 | mop-collapse-declarative-engine | 57 | remove_blanket_completion_override |
 | mop-collapse-pr9-protections | -166 | map_pr9_protections_and_add_shared_collapse_invariants |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-custom-chain | 145 | single_receipt_chain_validator_and_one_pass_snapshot_provenance |
 | mop-collapse-cache-receipt-policy | 85 | single_cache_receipt_policy_and_condensed_mutation_fixtures |
 | mop-collapse-workbench-checkpoint-state | 62 | single_workbench_checkpoint_identity_and_saved_state |
+| mop-collapse-workbench-orchestration | 42 | single_workbench_stop_failure_and_teacher_audit_policy |
