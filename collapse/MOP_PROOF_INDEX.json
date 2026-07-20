@@ -1,7 +1,7 @@
 {
   "schema": "mop-proof-index/v1",
-  "files": 61,
-  "bytes": 2918932,
+  "files": 60,
+  "bytes": 916889,
   "duplicate_groups": {},
   "entries": [
     {
@@ -231,12 +231,6 @@
       "bytes": 540,
       "sha256": "619ae987dac3ba1dfa2d31b14fe7fc25fdedcbbc5c119e3687c9b343711de75c",
       "git_blob": "292c48137459b578fe93ed6e07217523ee7c2f2c"
-    },
-    {
-      "path": "proof/PROJECT_EXPERIMENT_EXHAUSTION.json",
-      "bytes": 2002043,
-      "sha256": "09be97f99ccfa357d2b151ab981c34649fd30b0775c54115573d625db4ef3a1e",
-      "git_blob": "f4141ffbb0c66fb2fce5a2d32388020b5b134d53"
     },
     {
       "path": "proof/REAL_ENCODER_LOCAL_ATTEMPT.json",
