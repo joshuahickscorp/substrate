@@ -2194,6 +2194,26 @@
         "src/mop/beds/starss23/count_variant_producer.py",
         "tests/unit/test_starss23_counting_bed.py"
       ]
+    },
+    {
+      "id": "collapsed_studio_readiness_profile_memory_vertical",
+      "source_tag": "mop-collapse-lowest-green-19",
+      "reason": "Studio readiness split profile declarations, memory telemetry, doctor orchestration, sealed-receipt checks, and profile checks across six files despite having one production consumer and one report boundary; memory telemetry is now local to the doctor, profile rows share one constructor, and the same 27 logical tests certify the exact report, profile, rendering, receipt, CLI, refusal, and resource semantics with less intermediate surface",
+      "replacement_paths": [
+        "src/mop/studio_doctor.py",
+        "src/mop/studio/profiles.py",
+        "tests/unit/test_studio_doctor.py",
+        "tests/unit/test_studio_profiles.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-19:<path>",
+      "paths": [
+        "src/mop/studio_doctor.py",
+        "src/mop/studio/profiles.py",
+        "src/mop/studio/memory_envelope.py",
+        "tests/unit/test_studio_doctor.py",
+        "tests/unit/test_studio_profiles.py",
+        "tests/unit/test_studio_readiness_receipt.py"
+      ]
     }
   ]
 }
