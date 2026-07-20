@@ -116,7 +116,7 @@ one new package, fastforge, 7653 LOC, plus the inherited runtime at 4930 LOC
 True with skips domain data lives outside the repository by design, so a clean clone can validate code, tests and evidence but cannot rerun training without those paths. Tests that need data skip themselves rather than pass silently.
 
 **37 did proof indexing pass**  
-True over 46 artifacts, mutations True
+True over 45 artifacts, mutations True
 
 **38 what exact scientific ceiling remains**  
 the owned substrate now has repaired, non aliased transfer arms, two materially different owned architectures, an interference map, a plasticity action oracle and a bidirectional matrix. None of it clears SESOI against a strong matched conventional learner in both domain directions.
