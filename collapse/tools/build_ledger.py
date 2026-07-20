@@ -868,6 +868,19 @@ def main() -> int:
                     "ruff, and docs gate clean; all 16 paths recover"),
         rollback_tag="mop-collapse-successor-horizons",
         next_action="audit completed Generation-1 mechanics, context-routing, and final-campaign layers"))
+    checklist.append(item(
+        "RED-completed-generation1-program", 8, "verified_reduction",
+        "Retire the completed Generation-1 program and generated proof surface",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/studio/local_throttle.py", "configs/local_execution_throttle.yaml"],
+        validation=("37467 campaign, controller, notifier, script, and dedicated-test Python LOC "
+                    "removed for 10 generic-governor LOC, net -37457; generated outputs add 265643 "
+                    "non-Python deletions; 2879-case collection, compile-all, 39-pass/8-skip retained "
+                    "coexistence boundary, direct scheduler assertions, and 32-case docs gate green; "
+                    "all 127 paths recover and protected live evidence remains present"),
+        rollback_tag="mop-collapse-generation1-program",
+        next_action="delete the next completed experimental vertical slice"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

@@ -66,9 +66,6 @@ monitor:
   - run_edcm1_event_triggered_coalition.py
   - run_escs_x0_event_formation.py
   - run_escs_x1_dispatch.py
-  - generation1_cognitive_corpus.py
-  - verify_generation1_cognitive_corpus.py
-  - build_generation1_report.py
   - run_ecology_scaffold_batteries.py
   - verify_ecology_scaffold_batteries.py
   - run_integrity_scaffold_drills.py
