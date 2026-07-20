@@ -2397,6 +2397,22 @@
         "src/mop/beds/starss23/count_producer.py",
         "tests/unit/test_starss23_counting_bed.py"
       ]
+    },
+    {
+      "id": "retired_dormant_latent_store_and_git_probe",
+      "source_tag": "mop-collapse-lowest-green-31",
+      "reason": "the experimental latent-store module was exported but had no source, test, script, registry, CLI, or campaign consumer, and its package-root import imposed NumPy/Torch startup on every substrate import; the active Studio cache checks already consume the canonical manifest validator directly, while git-dirty status had no consumer",
+      "replacement_paths": [
+        "src/mop/substrate/cache_manifest.py",
+        "src/mop/studio_doctor.py",
+        "src/mop/provenance.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-31:<path>",
+      "paths": [
+        "src/mop/substrate/latent_store.py",
+        "src/mop/substrate/__init__.py",
+        "src/mop/provenance.py"
+      ]
     }
   ]
 }
