@@ -395,6 +395,32 @@
         "tests/unit/test_generation1_full_generations_wave_program.py",
         "tests/unit/test_generation1_full_generations_wave_verify.py"
       ]
+    },
+    {
+      "id": "completed_categorized_wave_execution_framework",
+      "reason": "the stopped categorized phase emitted a sealed complete mechanics result with promotion disabled; 57/59 capsules completed, while only independent verifier/report work remained, and all live evidence was preserved untouched outside the collapse branch",
+      "source_tag": "mop-collapse-full-generations",
+      "recovery": "git show mop-collapse-full-generations:<path>",
+      "replacement_paths": [
+        "src/mop/studies/generation1_successor_mechanics_queue.py",
+        "src/mop/studio/generation1_supervisor.py",
+        "src/mop/studio/generation1_subaccomplishment_emitter.py",
+        "src/mop/studio/telegram_rung_notifier.py"
+      ],
+      "paths": [
+        "configs/campaign/generation1_successor_categorized_batch_wave_v1.json",
+        "scripts/build_generation1_successor_categorized_batch_wave_program.py",
+        "scripts/generation1_successor_categorized_batch_wave/mop_generation1_successor_categorized_batch_wave.py",
+        "scripts/mop_generation1_categorized_batch_extension_chain.py",
+        "src/mop/studies/generation1_successor_categorized_batch_wave.py",
+        "src/mop/studies/generation1_successor_categorized_batch_wave_verify.py",
+        "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+        "tests/unit/test_generation1_categorized_batch_extension_chain.py",
+        "tests/unit/test_generation1_successor_categorized_batch_wave.py",
+        "tests/unit/test_generation1_successor_categorized_batch_wave_adversarial.py",
+        "tests/unit/test_generation1_successor_categorized_batch_wave_program.py",
+        "tests/unit/test_generation1_successor_categorized_batch_wave_verify.py"
+      ]
     }
   ]
 }

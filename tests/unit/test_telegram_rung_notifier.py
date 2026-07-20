@@ -233,10 +233,6 @@ def test_successor_chain_family_renders_as_unified_general_run() -> None:
     assert notifier._program_label("generation1-successor-horizon-v2") == "General Run: Horizon 2"
     assert notifier._program_label("generation1-successor-extension-chain-v1") == "General Run: Horizon Waiter"
     assert notifier._program_label("generation1-successor-extension-chain-v3") == "General Run: Horizon Waiter"
-    assert (
-        notifier._program_label("generation1-successor-categorized-batch-wave-v1")
-        == "General Run: Categorized Wave"
-    )
     assert notifier._program_label("generation1-consolidated-final-campaign-v1") == "General Run: Final"
     assert notifier._program_label("generation1-c3-d1-router-redesign-screen-v1") == "C3 Router Redesign"
     assert notifier._program_label("generation1-c3-d1-frozen-producer-challenge-v1") == "D1 Frozen Replication"
@@ -698,18 +694,18 @@ def test_lane_subtask_fires_once_on_completion_and_names_the_mechanism(tmp_path:
         )
 
     write_lane(128, 129)
-    events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    events, lanes = notifier._collect_subtask_events({}, runs_root=runs)
     assert events == []
 
     write_lane(129, 129)
-    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    events, lanes = notifier._collect_subtask_events(lanes, runs_root=runs)
     assert len(events) == 1
     assert events[0]["kind"] == "subtask"
     assert events[0]["lane_short"] == "E1"
     assert events[0]["event_id"] == "subtask/lane/generation1-successor-mechanics-extended-v1/G1-E1"
     assert notifier.format_event(events[0]) == "General Run: E1 sub-task complete (129/129)"
 
-    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    events, lanes = notifier._collect_subtask_events(lanes, runs_root=runs)
     assert events == []
 
 
@@ -725,9 +721,9 @@ def test_partial_lane_progress_fires_nothing(tmp_path: Path) -> None:
             "lane_progress": {"G1-D1": {"complete": 5, "total": 10}},
         },
     )
-    events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    events, lanes = notifier._collect_subtask_events({}, runs_root=runs)
     assert events == []
-    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
+    events, lanes = notifier._collect_subtask_events(lanes, runs_root=runs)
     assert events == []
 
 
@@ -743,98 +739,9 @@ def test_lane_already_complete_on_first_sight_is_treated_as_history(tmp_path: Pa
             "lane_progress": {"G1-A1": {"complete": 129, "total": 129}},
         },
     )
-    events, lanes, _ = notifier._collect_subtask_events({}, {}, runs_root=runs)
+    events, lanes = notifier._collect_subtask_events({}, runs_root=runs)
     assert events == []
     assert lanes["generation1-successor-mechanics-extended-v1/G1-A1"] == "complete"
-
-
-def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path: Path) -> None:
-    runs = tmp_path / "runs"
-
-    def write_capsule(done: bool) -> None:
-        row: dict = (
-            {
-                "returncode": 0,
-                "finished_at": "2026-07-16T00:00:00+00:00",
-                "artifacts": [{"path": "proof/x.json", "sha256": "b" * 64, "all_ok": True}],
-            }
-            if done
-            else {"returncode": None, "artifacts": []}
-        )
-        _write(
-            runs / "wave" / "current_status.json",
-            {
-                "program_id": "successor-categorized-batch-wave-v1",
-                "state": "running",
-                "problems": [],
-                "capsules": {"w08_construction": row},
-            },
-        )
-
-    write_capsule(done=False)
-    events, lanes, capsules = notifier._collect_subtask_events({}, {}, runs_root=runs)
-    assert events == []
-
-    write_capsule(done=True)
-    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
-    assert len(events) == 1
-    assert events[0]["wave_epoch"] == "08"
-    assert events[0]["category"] == "construction"
-    assert events[0]["event_id"] == (
-        "subtask/capsule/generation1-successor-categorized-batch-wave-v1/w08_construction"
-    )
-    assert notifier.format_event(events[0]) == "General Run: W08 construction sub-task complete (G1)"
-
-    events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)
-    assert events == []
-
-
-def test_wave_capsule_formation_trace_names_all_covered_mechanisms(tmp_path: Path) -> None:
-    runs = tmp_path / "runs"
-    _write(
-        runs / "wave" / "current_status.json",
-        {
-            "program_id": "successor-categorized-batch-wave-v1",
-            "state": "running",
-            "problems": [],
-            "capsules": {
-                "w15_formation_trace": {
-                    "returncode": 0,
-                    "finished_at": "2026-07-16T00:00:00+00:00",
-                    "artifacts": [{"path": "proof/x.json", "sha256": "c" * 64, "all_ok": True}],
-                }
-            },
-        },
-    )
-    seed = {"generation1-successor-categorized-batch-wave-v1/w15_formation_trace": "incomplete"}
-    events, _, _ = notifier._collect_subtask_events({}, seed, runs_root=runs)
-    assert len(events) == 1
-    assert (
-        notifier.format_event(events[0])
-        == "General Run: W15 formation_trace sub-task complete (C0, E1)"
-    )
-
-
-def test_wave_capsule_only_fires_for_general_chain_programs(tmp_path: Path) -> None:
-    runs = tmp_path / "runs"
-    _write(
-        runs / "other" / "current_status.json",
-        {
-            "program_id": "some-unlisted-experiment-v1",
-            "state": "running",
-            "problems": [],
-            "capsules": {
-                "w01_construction": {
-                    "returncode": 0,
-                    "finished_at": "2026-07-16T00:00:00+00:00",
-                    "artifacts": [{"path": "proof/x.json", "sha256": "d" * 64, "all_ok": True}],
-                }
-            },
-        },
-    )
-    seed = {"generation1-some-unlisted-experiment-v1/w01_construction": "incomplete"}
-    events, _, _ = notifier._collect_subtask_events({}, seed, runs_root=runs)
-    assert events == []
 
 
 def test_lane_subtask_delivers_once_through_run_once(monkeypatch, tmp_path: Path) -> None:

@@ -30,7 +30,7 @@ MAX_JSON_BYTES = 32 * 1024 * 1024
 POLL_SECONDS = 120
 
 SUBACCOMP_SCHEMA = "mop-generation1-subaccomplishment-milestone/v1"
-MILESTONE_KINDS = ("barrier", "reprofile", "gate", "absorption")
+MILESTONE_KINDS = ("reprofile", "absorption")
 MILESTONE_FIELDS = frozenset(
     {
         "schema",
@@ -53,8 +53,6 @@ SOURCE_FIELDS = frozenset({"path", "file_sha256", "seal_field", "seal"})
 FILENAME_PREFIX = "GENERATION1_SUBACCOMP_"
 
 REPROFILE_SCHEMA = "mop-generation1-reprofile/v1"
-CATEGORIZED_CLASSIFICATION_SCHEMA = "mop-generation1-successor-categorized-classification/v1"
-CATEGORIZED_GATE_SCHEMA = "mop-generation1-successor-categorized-gate/v1"
 CONSOLIDATED_FINAL_PROGRAM_ID = "generation1-consolidated-final-campaign-v1"
 CONSOLIDATED_FINAL_RESULT_SCHEMA = "mop-generation1-consolidated-final-result/v1"
 CONSOLIDATED_FINAL_RESULT_NAME = "GENERATION1_CONSOLIDATED_FINAL_RESULT.json"
@@ -63,7 +61,6 @@ ABSORPTION_RECEIPT_SCHEMA = "mop-generation1-consolidated-final-absorption-recei
 _SHA_RE = re.compile(r"[0-9a-f]{64}")
 
 _PROGRAM_LABELS = {
-    "generation1-successor-categorized-batch-wave-v1": "Categorized Batch Wave",
     "generation1-consolidated-final-campaign-v1": "Final Campaign",
 }
 
@@ -169,42 +166,6 @@ def _milestone_filename(kind: str, seal: str) -> str:
     return f"{FILENAME_PREFIX}{kind}_{seal[:16]}.json"
 
 
-def _barrier_milestone(classification: Mapping[str, Any], path: Path, root: Path | str) -> dict[str, Any]:
-    summary_block = classification.get("summary")
-    summary_block = summary_block if isinstance(summary_block, Mapping) else {}
-    executed = _int_or_zero(summary_block.get("executed_item_count"))
-    skipped = _int_or_zero(summary_block.get("skipped_item_count"))
-    epoch_id = classification.get("epoch_id")
-    epoch_index = classification.get("epoch_index")
-    epoch_ordinal = epoch_index + 1 if _is_int(epoch_index) else "?"
-    program_id = classification.get("program_id")
-    label = _program_label(program_id)
-    grid = {"completed_cell_count": executed, "expected_cell_count": executed + skipped}
-    headline = f"{label}: epoch barrier sealed ({epoch_id})"
-    summary = [
-        f"epoch {epoch_ordinal}: {epoch_id}",
-        f"executed {executed}, skipped {skipped}",
-        "serial barrier only; no confirmation claim",
-    ]
-    decision = {
-        "verdict": "epoch_barrier_sealed",
-        "scientific_confirmation": False,
-        "next_action": "review",
-    }
-    return _milestone_core(
-        kind="barrier",
-        program_id=program_id,
-        path=path,
-        root=root,
-        seal_field="classification_sha256",
-        seal=classification.get("classification_sha256"),
-        headline=headline,
-        summary=summary,
-        grid=grid,
-        decision=decision,
-    )
-
-
 def _reprofile_milestone(reprofile: Mapping[str, Any], path: Path, root: Path | str) -> dict[str, Any]:
     recommendation = reprofile.get("recommendation")
     recommendation = recommendation if isinstance(recommendation, Mapping) else {}
@@ -237,42 +198,6 @@ def _reprofile_milestone(reprofile: Mapping[str, Any], path: Path, root: Path | 
         seal_field="reprofile_sha256",
         seal=reprofile.get("reprofile_sha256"),
         headline="Reprofile: advisory re-tune",
-        summary=summary,
-        grid=grid,
-        decision=decision,
-    )
-
-
-def _gate_milestone(gate: Mapping[str, Any], path: Path, root: Path | str) -> dict[str, Any]:
-    program_id = gate.get("program_id")
-    gate_id = gate.get("gate_id")
-    gate_index = gate.get("gate_index")
-    gate_ordinal = gate_index if _is_int(gate_index) else "?"
-    payload = gate.get("payload")
-    payload = payload if isinstance(payload, Mapping) else {}
-    lanes = payload.get("mechanics_lanes")
-    lane_count = len(lanes) if isinstance(lanes, list) else 0
-    label = _program_label(program_id)
-    grid = {"completed_cell_count": lane_count, "expected_cell_count": lane_count}
-    headline = f"{label}: transition gate sealed ({gate_id})"
-    summary = [
-        f"gate {gate_ordinal}: {gate_id}",
-        f"mechanics lanes admitted: {lane_count}",
-        "serial admission barrier; no confirmation claim",
-    ]
-    decision = {
-        "verdict": "transition_gate_sealed",
-        "scientific_confirmation": False,
-        "next_action": "review",
-    }
-    return _milestone_core(
-        kind="gate",
-        program_id=program_id,
-        path=path,
-        root=root,
-        seal_field="gate_sha256",
-        seal=gate.get("gate_sha256"),
-        headline=headline,
         summary=summary,
         grid=grid,
         decision=decision,
@@ -322,28 +247,6 @@ def _absorption_milestone(
     )
 
 
-def _default_classification_validators() -> dict[str, Callable[..., None]]:
-    validators: dict[str, Callable[..., None]] = {}
-    try:
-        from mop.studies import generation1_successor_categorized_batch_wave as cbw
-
-        validators[CATEGORIZED_CLASSIFICATION_SCHEMA] = cbw.validate_classification
-    except Exception:
-        pass
-    return validators
-
-
-def _default_gate_validators() -> dict[str, Callable[..., None]]:
-    validators: dict[str, Callable[..., None]] = {}
-    try:
-        from mop.studies import generation1_successor_categorized_batch_wave as cbw
-
-        validators[CATEGORIZED_GATE_SCHEMA] = cbw.validate_gate
-    except Exception:
-        pass
-    return validators
-
-
 def _default_reprofile_validator() -> Callable[[Mapping[str, Any]], None]:
     from mop.studio.generation1_result_aware_reprofiler import validate_reprofile
 
@@ -382,68 +285,6 @@ def _validate_absorption_receipt(value: Mapping[str, Any]) -> None:
         raise SubaccomplishmentRefused("absorption receipt absorbed_result schema drifted")
     if not _valid_seal_str(absorbed.get("result_sha256")):
         raise SubaccomplishmentRefused("absorption receipt absorbed_result seal is invalid")
-
-
-def scan_classifications(
-    runs_root: Path | str = RUNS_ROOT,
-    *,
-    validators: Mapping[str, Callable[..., None]] | None = None,
-) -> Iterator[dict[str, Any]]:
-
-    resolved = validators if validators is not None else _default_classification_validators()
-    base = Path(runs_root)
-    if not base.exists():
-        return
-    for path in sorted(base.glob("*/classifications/*.json")):
-        payload = _read_json(path)
-        if payload is None:
-            continue
-        schema = payload.get("schema")
-        validate = resolved.get(schema) if isinstance(schema, str) else None
-        if validate is None:
-            continue
-        epoch_index = payload.get("epoch_index")
-        if not _is_int(epoch_index):
-            continue
-        if not _valid_seal_str(payload.get("classification_sha256")):
-            continue
-        wave_root = path.parent.parent
-        try:
-            validate(payload, epoch_index, root=wave_root)
-        except Exception:
-            continue
-        yield _barrier_milestone(payload, path, runs_root)
-
-
-def scan_gates(
-    runs_root: Path | str = RUNS_ROOT,
-    *,
-    validators: Mapping[str, Callable[..., None]] | None = None,
-) -> Iterator[dict[str, Any]]:
-
-    resolved = validators if validators is not None else _default_gate_validators()
-    base = Path(runs_root)
-    if not base.exists():
-        return
-    for path in sorted(base.glob("*/gates/*.json")):
-        payload = _read_json(path)
-        if payload is None:
-            continue
-        schema = payload.get("schema")
-        validate = resolved.get(schema) if isinstance(schema, str) else None
-        if validate is None:
-            continue
-        gate_index = payload.get("gate_index")
-        if not _is_int(gate_index):
-            continue
-        if not _valid_seal_str(payload.get("gate_sha256")):
-            continue
-        wave_root = path.parent.parent
-        try:
-            validate(payload, gate_index, root=wave_root)
-        except Exception:
-            continue
-        yield _gate_milestone(payload, path, runs_root)
 
 
 def scan_reprofiles(
@@ -528,8 +369,6 @@ def collect_milestones(
     runs_root: Path | str = RUNS_ROOT,
     proof_root: Path | str = PROOF_ROOT,
     *,
-    classification_validators: Mapping[str, Callable[..., None]] | None = None,
-    gate_validators: Mapping[str, Callable[..., None]] | None = None,
     reprofile_validator: Callable[[Mapping[str, Any]], None] | None = None,
     reprofile_roots: Sequence[Path | str] | None = None,
     absorption_receipt_validator: Callable[[Mapping[str, Any]], None] | None = None,
@@ -537,8 +376,6 @@ def collect_milestones(
 ) -> list[dict[str, Any]]:
 
     milestones: list[dict[str, Any]] = []
-    milestones.extend(scan_classifications(runs_root, validators=classification_validators))
-    milestones.extend(scan_gates(runs_root, validators=gate_validators))
     milestones.extend(
         scan_reprofiles(
             runs_root,

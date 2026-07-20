@@ -64,22 +64,8 @@ PROGRAM_LABELS = {
     "generation1-successor-extension-chain-v1": "General Run: Horizon Waiter",
     "generation1-successor-extension-chain-v2": "General Run: Horizon Waiter",
     "generation1-successor-extension-chain-v3": "General Run: Horizon Waiter",
-    "generation1-categorized-batch-extension-chain-v1": "General Run: Categorized Waiter",
-    "generation1-successor-categorized-batch-wave-v1": "General Run: Categorized Wave",
     "generation1-consolidated-final-campaign-v1": "General Run: Final",
 }
-
-CATEGORY_MECHANISMS = {
-    "formation_trace": ("C0", "E1"),
-    "communication_repair": ("V1", "M1", "K1"),
-    "memory_plasticity": ("R1", "P1R"),
-    "action_simulation": ("A1", "S1"),
-    "construction": ("G1",),
-    "dispatch_redesign": ("D1",),
-    "uncertainty_curiosity": ("U1", "N1"),
-}
-
-_WAVE_CAPSULE_RE = re.compile(r"^w(\d+)_(.+)$")
 
 NEXT_LABELS = {
     "freeze_best_variant_for_untouched_confirmation_design": "D1 confirmation",
@@ -548,20 +534,16 @@ def _lane_short_name(lane_id: str) -> str:
 
 def _collect_subtask_events(
     last_seen_lanes: Mapping[str, Any],
-    last_seen_capsules: Mapping[str, Any],
     *,
     runs_root: Path = RUNS_ROOT,
-) -> tuple[list[dict[str, Any]], dict[str, str], dict[str, str]]:
+) -> tuple[list[dict[str, Any]], dict[str, str]]:
 
     events: list[dict[str, Any]] = []
     lanes_updated: dict[str, str] = {
         str(key): str(value) for key, value in last_seen_lanes.items() if isinstance(value, str)
     }
-    capsules_updated: dict[str, str] = {
-        str(key): str(value) for key, value in last_seen_capsules.items() if isinstance(value, str)
-    }
     if not runs_root.exists():
-        return events, lanes_updated, capsules_updated
+        return events, lanes_updated
     for path in sorted(runs_root.glob("*/current_status.json")):
         try:
             status = read_json(path)
@@ -601,32 +583,7 @@ def _collect_subtask_events(
                         "progress": {"complete": complete, "total": total},
                     }
                 )
-        if _program_label(program_id).startswith("General Run"):
-            raw_capsules = status.get("capsules")
-            capsules: dict[str, Any] = raw_capsules if isinstance(raw_capsules, dict) else {}
-            for capsule_id, row in capsules.items():
-                if not isinstance(capsule_id, str) or not isinstance(row, Mapping):
-                    continue
-                match = _WAVE_CAPSULE_RE.match(capsule_id)
-                if match is None:
-                    continue
-                current = "complete" if _capsule_complete(row) else "incomplete"
-                key = f"{program_id}/{capsule_id}"
-                previous = capsules_updated.get(key)
-                capsules_updated[key] = current
-                if previous is None or previous == current or current != "complete":
-                    continue
-                events.append(
-                    {
-                        "event_id": f"subtask/capsule/{program_id}/{capsule_id}",
-                        "kind": "subtask",
-                        "program_id": program_id,
-                        "capsule_id": capsule_id,
-                        "wave_epoch": match.group(1),
-                        "category": match.group(2),
-                    }
-                )
-    return events, lanes_updated, capsules_updated
+    return events, lanes_updated
 
 
 def collect_events(
@@ -934,11 +891,7 @@ def _subtask_message(event: Mapping[str, Any]) -> str:
             else ""
         )
         return f"General Run: {lane_short} sub-task complete{counts}"
-    epoch = event.get("wave_epoch")
-    category = event.get("category")
-    mechanisms = CATEGORY_MECHANISMS.get(category) if isinstance(category, str) else None
-    mech_suffix = f" ({', '.join(mechanisms)})" if mechanisms else ""
-    return f"General Run: W{epoch} {category} sub-task complete{mech_suffix}"
+    return "General Run: sub-task complete"
 
 
 def _progress_line(progress: Mapping[str, Any]) -> str:
@@ -1061,13 +1014,8 @@ def run_once(
         try:
             previous_lanes = state.get("last_seen_complete_lanes")
             previous_lanes = previous_lanes if isinstance(previous_lanes, Mapping) else {}
-            previous_capsules = state.get("last_seen_complete_capsules")
-            previous_capsules = previous_capsules if isinstance(previous_capsules, Mapping) else {}
-            subtask_events, lanes_now, capsules_now = _collect_subtask_events(
-                previous_lanes, previous_capsules, runs_root=runs_root
-            )
+            subtask_events, lanes_now = _collect_subtask_events(previous_lanes, runs_root=runs_root)
             state["last_seen_complete_lanes"] = lanes_now
-            state["last_seen_complete_capsules"] = capsules_now
         except (MOPNotifierError, OSError, ValueError):
             subtask_events = []
         save_state(state, state_path)

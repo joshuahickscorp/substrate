@@ -21,41 +21,6 @@ def _write(path: Path, value: dict[str, Any]) -> None:
     path.write_text(json.dumps(value), encoding="utf-8")
 
 
-def _classification(epoch_index: int = 0, epoch_id: str = "W1") -> dict[str, Any]:
-    core = {
-        "schema": emitter.CATEGORIZED_CLASSIFICATION_SCHEMA,
-        "program_id": "generation1-successor-categorized-batch-wave-v1",
-        "epoch_id": epoch_id,
-        "epoch_index": epoch_index,
-        "summary": {
-            "executed_item_count": 288,
-            "skipped_item_count": 12,
-            "observed_seconds": 4.0,
-            "compute_started": True,
-        },
-        "complete": True,
-        "problems": [],
-        "activation_allowed": False,
-        "scientific_promotion": False,
-    }
-    return _seal(core, "classification_sha256")
-
-
-def _gate(gate_index: int = 0, gate_id: str = "admit_wave_v1") -> dict[str, Any]:
-    core = {
-        "schema": emitter.CATEGORIZED_GATE_SCHEMA,
-        "program_id": "generation1-successor-categorized-batch-wave-v1",
-        "gate_id": gate_id,
-        "gate_index": gate_index,
-        "payload": {"operation": "bind", "mechanics_lanes": ["G1-P1", "G1-P2", "G1-P3"], "admitted": True},
-        "complete": True,
-        "problems": [],
-        "activation_allowed": False,
-        "scientific_promotion": False,
-    }
-    return _seal(core, "gate_sha256")
-
-
 def _reprofile(receipts_seen: int = 12, workers: int = 12) -> dict[str, Any]:
     core = {
         "schema": emitter.REPROFILE_SCHEMA,
@@ -139,19 +104,6 @@ def _receipt_path(runs: Path, name: str = "67790.json") -> Path:
     return runs / "absorption-gate" / "absorptions" / emitter.CONSOLIDATED_FINAL_PROGRAM_ID / name
 
 
-def _accepting_seal_validator(field: str):
-
-    def _validate(value, _index, *, root):  # noqa: ANN001, ANN202 - test double signature
-        if not emitter._seal_ok(value, field):
-            raise ValueError("seal mismatch")
-
-    return _validate
-
-
-def _categorized_wave_root(runs: Path) -> Path:
-    return runs / "generation1-successor-categorized-batch-wave-v1"
-
-
 def test_reprofile_source_publishes_valid_subaccomp(tmp_path: Path) -> None:
     runs = tmp_path / "runs"
     proof = tmp_path / "proof"
@@ -194,48 +146,6 @@ def test_absorption_source_publishes_valid_subaccomp(tmp_path: Path) -> None:
     assert milestone["source_program_id"] == emitter.CONSOLIDATED_FINAL_PROGRAM_ID
     assert milestone["decision"]["scientific_confirmation"] is False
     assert not list(proof.glob("GENERATION1_SUBACCOMP_reprofile_*.json"))
-
-
-def test_barrier_source_publishes_with_injected_home_validator(tmp_path: Path) -> None:
-    runs = tmp_path / "runs"
-    proof = tmp_path / "proof"
-    _write(_categorized_wave_root(runs) / "classifications" / "w1.json", _classification())
-
-    report = emitter.scan(
-        runs_root=runs,
-        proof_root=proof,
-        classification_validators={
-            emitter.CATEGORIZED_CLASSIFICATION_SCHEMA: _accepting_seal_validator("classification_sha256")
-        },
-    )
-
-    assert report["written_count"] == 1
-    written = list(proof.glob("GENERATION1_SUBACCOMP_barrier_*.json"))
-    assert len(written) == 1
-    milestone = json.loads(written[0].read_text())
-    emitter.validate_milestone(milestone)
-    assert milestone["milestone_kind"] == "barrier"
-    assert milestone["grid"] == {"completed_cell_count": 288, "expected_cell_count": 300}
-
-
-def test_gate_source_publishes_with_injected_home_validator(tmp_path: Path) -> None:
-    runs = tmp_path / "runs"
-    proof = tmp_path / "proof"
-    _write(_categorized_wave_root(runs) / "gates" / "admit_wave_v1.json", _gate())
-
-    report = emitter.scan(
-        runs_root=runs,
-        proof_root=proof,
-        gate_validators={emitter.CATEGORIZED_GATE_SCHEMA: _accepting_seal_validator("gate_sha256")},
-    )
-
-    assert report["written_count"] == 1
-    written = list(proof.glob("GENERATION1_SUBACCOMP_gate_*.json"))
-    assert len(written) == 1
-    milestone = json.loads(written[0].read_text())
-    emitter.validate_milestone(milestone)
-    assert milestone["milestone_kind"] == "gate"
-    assert "mechanics lanes admitted: 3" in milestone["summary"]
 
 
 def test_notifier_proof_path_accepts_and_renders_subaccomp(tmp_path: Path, monkeypatch) -> None:
@@ -284,35 +194,6 @@ def test_forged_reprofile_is_skipped_by_real_validator(tmp_path: Path) -> None:
     report = emitter.scan(runs_root=runs, proof_root=proof)
     assert report["written_count"] == 0
     assert not list(proof.glob("GENERATION1_SUBACCOMP_*.json"))
-
-
-def test_forged_classification_is_skipped_by_real_validator(tmp_path: Path) -> None:
-    runs = tmp_path / "runs"
-    proof = tmp_path / "proof"
-    forged = _classification()
-    forged["epoch_id"] = "TAMPERED"  # seal no longer replays; also lacks wave context
-    _write(_categorized_wave_root(runs) / "classifications" / "w1.json", forged)
-
-    report = emitter.scan(runs_root=runs, proof_root=proof)
-    assert report["written_count"] == 0
-    assert not list(proof.glob("GENERATION1_SUBACCOMP_barrier_*.json"))
-
-
-def test_injected_validator_rejects_forged_classification(tmp_path: Path) -> None:
-    runs = tmp_path / "runs"
-    proof = tmp_path / "proof"
-    forged = _classification()
-    forged["epoch_id"] = "TAMPERED"
-    _write(_categorized_wave_root(runs) / "classifications" / "w1.json", forged)
-
-    report = emitter.scan(
-        runs_root=runs,
-        proof_root=proof,
-        classification_validators={
-            emitter.CATEGORIZED_CLASSIFICATION_SCHEMA: _accepting_seal_validator("classification_sha256")
-        },
-    )
-    assert report["written_count"] == 0
 
 
 def test_absorption_without_valid_terminal_is_skipped(tmp_path: Path) -> None:
