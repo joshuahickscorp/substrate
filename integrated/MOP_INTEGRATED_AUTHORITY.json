@@ -1,0 +1,54 @@
+{
+  "schema": "mop-integrated-authority/v1",
+  "integrated_commit": "64d2801",
+  "successor_head": "64d2801040c573775577b110eafc46ea5d0bc8ad",
+  "successor_branch": "agent/mop-integrated-substrate-forge",
+  "collapse_source": "dd5498aaa551919bc79f37c0931b77669a8ed12e",
+  "forge_source": "d33dc6903fdab759571cb1173ebda9f5701ed503",
+  "merge_commit": "d023d9d",
+  "code_tree_replacement_commits": [
+    "9de20f0",
+    "64d2801"
+  ],
+  "preserved_substrate_dirs": [
+    "substrate_evo",
+    "forge",
+    "frontier",
+    "campaign2",
+    "salvage"
+  ],
+  "preserved_proof_dirs": [
+    "proof"
+  ],
+  "test_invariant_changes": [
+    "tests/unit/test_collapse_invariants.py"
+  ],
+  "registry_config_replacements": [
+    "registry/experiments.yaml",
+    "configs/"
+  ],
+  "excluded_branches": [
+    "agent/mop-substrate-forge",
+    "agent/mop-autonomous-substrate-evolution",
+    "agent/mop-substrate-genesis-v2",
+    "agent/mop-evidence-salvage",
+    "agent/mop-accretion-collapse"
+  ],
+  "rollback": [
+    "git checkout 64d2801",
+    "git checkout agent/mop-substrate-forge",
+    "git checkout agent/mop-accretion-collapse"
+  ],
+  "audits": {
+    "no_stale_mop_evidence_imports": true,
+    "no_substrate_dependency_on_legacy_mop": true,
+    "single_registry": true,
+    "single_config_root": true,
+    "single_cli": true,
+    "substrate_dirs_present": true,
+    "no_lost_collapse_runtime": true,
+    "proof_preserved_count": 74,
+    "all_pass": true
+  },
+  "sha256": "2264ef1a648cdafa78789a5264ea886cc10c15e21ee226186482993ca9b75321"
+}
