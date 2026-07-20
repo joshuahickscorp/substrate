@@ -2260,6 +2260,22 @@
         "tests/unit/test_starss23_schema.py",
         "tests/unit/test_starss23_counting_bed.py"
       ]
+    },
+    {
+      "id": "collapsed_residual_real_count_intake_facades",
+      "source_tag": "mop-collapse-lowest-green-23",
+      "reason": "the only maintained STARSS data consumer is the concrete real count producer; the adapter protocol, source-kind and rights methods, clip lookup index, intermediate native-dev split object/method, spatial metadata storage after validation, and CountClip payload/digest schema had no maintained source consumer, so the direct path now retains only exact WAV intake, truncation, count-track, and room-disjoint train/val/test behavior",
+      "replacement_paths": [
+        "src/mop/beds/starss23/adapter.py",
+        "src/mop/beds/starss23/count_labels.py",
+        "src/mop/beds/starss23/count_producer.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-23:<path>",
+      "paths": [
+        "src/mop/beds/starss23/adapter.py",
+        "src/mop/beds/starss23/count_labels.py",
+        "src/mop/beds/starss23/count_producer.py"
+      ]
     }
   ]
 }

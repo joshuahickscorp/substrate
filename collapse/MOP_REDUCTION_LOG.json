@@ -1539,6 +1539,25 @@
       "performance": "ten alternating cold imports improve median adapter import from 0.058028s to 0.057648s (-0.65%)",
       "accounting_note": "217 self-consumed onset schema, adapter projection, and dedicated-test lines are replaced by 30 minimal truncation/identity contract lines, net -187; runtime source falls 154 LOC to 5898, validation falls 33 LOC to 1772, scripts remain 62 LOC, and maintained Python falls to 7983 LOC",
       "tag": "mop-collapse-retired-onset-schema"
+    },
+    {
+      "region": "section8_starss23",
+      "batch": "direct_real_count_intake_without_facades",
+      "checkpoint_status": "green",
+      "primitive": "the sole real STARSS count path now consumes one concrete adapter directly: metadata validates spatial labels but stores only frame, class, source, and distance-presence values needed by count/truncation derivation; native fold partitioning is performed once at the consumed train/val/test boundary; protocol, source-kind, rights, clip lookup, intermediate dev split, spatial storage, and CountClip serialization facades with no maintained source consumer are physically retired",
+      "deduplicated_LOC": 0,
+      "added_LOC": 30,
+      "eliminated_LOC": 127,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 97,
+      "files_changed": 3,
+      "destination_api": "RealStarssAdapter, native_fold_split, parse_starss23_metadata, and CountClip as consumed directly by build_real_count_bed_artifact",
+      "proof": "a three-clip synthetic real-WAV consumer projection preserves clip identity, audio digest and shape, capped/tail/onset truncation receipts, count tracks, native train/val/test split, ten metadata/onset refusals, and unknown-audio refusal byte-for-byte with SHA-256 4f0e650abb600b4cad3f46e5cae4a5301e72acc35585b8cd06af1170916e64e2; four invalid-fold, shared-room, and validation-room split refusals are exact; sealed artifact fb3a7112906a4e3a5c32fef0f3980e5642ac93996559a7cf59152e559b8044e6 independently reproduces scores and statistics; 22 focused cases pass with 6 environment skips; the 128-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 39 source files, compile-all and diff checks clean",
+      "performance": "24 alternating cold imports improve median adapter import from 0.059485s to 0.059173s (-0.52%)",
+      "accounting_note": "127 unconsumed adapter, split, spatial-storage, and label-serialization lines are replaced by 30 direct count-intake lines, net -97; runtime source falls to 5801 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7886 LOC",
+      "tag": "mop-collapse-direct-count-intake"
     }
   ],
   "latest_full_validation": {
