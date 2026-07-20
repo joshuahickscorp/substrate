@@ -762,6 +762,24 @@
       "proof": "the protected result is sealed complete with categorized_mechanics_complete=true, scientific_promotion=false, independent_scientific_confirmation=false, and verification pending; 57 of 59 capsules completed before execution stopped, with only verifier/report work unfinished; no live controller process remains and the app terminal is closed; the protected 68 MB/14129-file evidence tree was not mutated; retained generic supervisor/observer/oracle battery is 64/64 green; full 3225-case collection, compile-all, critical ruff, and 32-case docs gate are clean; all 12 deleted paths recover from the prior tag",
       "accounting_note": "src 6 added/5052 deleted; scripts 0 added/794 deleted; tests 6 added/2307 deleted; the one-line sealed manifest was also deleted but contributes zero to Python LOC accounting; live evidence remains outside this branch and untouched",
       "tag": "mop-collapse-categorized-wave"
+    },
+    {
+      "region": "section8_studies_section13_controller_section14_entrypoints_section15_configuration_and_section17_validation",
+      "batch": "completed_successor_horizon_v1_v2_campaigns",
+      "checkpoint_status": "green",
+      "primitive": "the completed successor horizon v1/v2 campaign stacks were converted to recoverable history: manifests, builders, runners, independent verifiers, wrappers, dedicated tests, their unconsumed v5 throttle profile, and horizon-only scheduler/notifier branches were physically deleted",
+      "deduplicated_LOC": 0,
+      "added_LOC": 12,
+      "eliminated_LOC": 8166,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 8154,
+      "files_changed": 20,
+      "destination_api": "the four sealed live horizon result/verification artifacts and 100 MB evidence trees as immutable historical output; generic supervisor and retained C2 scheduler authority remain maintained",
+      "proof": "horizon v1 and v2 each have complete, problem-free sealed results and complete independent artifact verifications with scientific_promotion=false and activation_allowed=false; their protected 100 MB/21156-file evidence trees were not mutated; exact direct assertions prove retained adaptive C2 admission remains accepted and retired horizon task IDs fail closed; notifier/supervisor boundary is 45/45 green; full 3177-case collection, compile-all, critical ruff, and 32-case docs gate are clean; all 16 deleted paths recover from the prior tag; the broader local-throttle suite reaches a pre-existing fail-closed stale P6 continual_stream evidence binding after current helper integrity pins pass",
+      "accounting_note": "src 7 added/4175 deleted; scripts 0 added/1425 deleted; tests 5 added/2566 deleted; two one-line manifests and the 1343-line v5 throttle policy were also deleted but contribute zero to Python LOC accounting; live evidence remains outside this branch and untouched",
+      "tag": "mop-collapse-successor-horizons"
     }
   ],
   "deferred_heavy_validation": {

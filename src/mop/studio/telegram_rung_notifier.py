@@ -59,8 +59,6 @@ PROGRAM_LABELS = {
     "generation1-successor-evidence-chain-v5": "General Run: Adopter",
     "generation1-successor-evidence-chain-v6": "General Run: Adopter",
     "generation1-successor-evidence-chain-v7": "General Run: Adopter",
-    "generation1-successor-horizon-v1": "General Run: Horizon 1",
-    "generation1-successor-horizon-v2": "General Run: Horizon 2",
     "generation1-successor-extension-chain-v1": "General Run: Horizon Waiter",
     "generation1-successor-extension-chain-v2": "General Run: Horizon Waiter",
     "generation1-successor-extension-chain-v3": "General Run: Horizon Waiter",
