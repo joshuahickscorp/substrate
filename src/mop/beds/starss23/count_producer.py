@@ -4,7 +4,7 @@ import math
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, NamedTuple
+from typing import Any
 
 import numpy as np
 
@@ -75,11 +75,6 @@ MATCHED_BUDGET_WALL_NOTE = (
 
 class CountProducerRefusal(ValueError):
     pass
-
-
-class CountArtifact(NamedTuple):
-    artifact: dict[str, Any]
-    prereg: dict[str, Any]
 
 
 @dataclass(frozen=True, slots=True)
@@ -263,7 +258,7 @@ def build_real_count_bed_artifact(
     metadata_root: str | Path = DEFAULT_METADATA_ROOT,
     config: RealCountBedConfig | None = None,
     prereg_path: str | Path = DEFAULT_COUNT_PREREG_PATH,
-) -> CountArtifact:
+) -> dict[str, Any]:
     config = config or RealCountBedConfig()
     featurizer, estimator = FrozenCountFeaturizer(), FrozenCountEstimator()
     adapter = RealStarssAdapter(foa_root, metadata_root, max_frames=config.max_frames)
@@ -366,7 +361,7 @@ def build_real_count_bed_artifact(
         "per_seed": per_seed,
         "stats": stats,
         "controls": controls,
-        "matched_budget": report.matched_budget.payload(),
+        "matched_budget": report.matched_budget,
         "flags": flags,
     }
     receipt = {
@@ -453,9 +448,9 @@ def build_real_count_bed_artifact(
             "flops_per_inference": FLOPS_PER_INFERENCE,
         },
         "demonstration_receipt": receipt,
-        "matched_budget": report.matched_budget.payload(),
+        "matched_budget": report.matched_budget,
         "matched_budget_wall_note": MATCHED_BUDGET_WALL_NOTE,
-        "break_even": report.break_even.payload(),
+        "break_even": report.break_even,
         "full_scale_anchors": {
             "c_train_flops": FULL_SCALE_C_TRAIN,
             "featurize_flops_24000_frames": FULL_SCALE_FEATURIZE,
@@ -480,4 +475,4 @@ def build_real_count_bed_artifact(
         },
     }
     body["seal"] = canonical_sha256(body)
-    return CountArtifact(body, prereg)
+    return body
