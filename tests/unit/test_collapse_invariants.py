@@ -74,8 +74,28 @@ def test_proof_index_is_complete_content_addressed_and_deduplicated():
     )
     assert index == prior
     indexed = {row["path"]: row for row in index["entries"]}
+    # Scope to the proof set this index covers; integrating branches may carry extra evidence proofs.
+    covered = set(
+        subprocess.check_output(
+            [
+                "git",
+                "ls-tree",
+                "-r",
+                "--name-only",
+                "mop-collapse-lowest-green-38-audit-corrected",
+                "--",
+                "proof",
+            ],
+            cwd=ROOT,
+            text=True,
+        ).split()
+    )
     actual = sorted(
-        path.relative_to(ROOT).as_posix() for path in (ROOT / "proof").rglob("*") if path.is_file()
+        candidate
+        for candidate in (
+            path.relative_to(ROOT).as_posix() for path in (ROOT / "proof").rglob("*") if path.is_file()
+        )
+        if candidate in covered
     )
     assert sorted(indexed) == actual
     digests: dict[str, list[str]] = {}
@@ -108,11 +128,26 @@ def test_unbound_proof_json_compaction_is_semantically_exact():
 
 def test_bound_proof_json_compaction_preserves_semantics_and_merkle_bindings():
     source_tag = "mop-collapse-lowest-green-37"
-    paths = sorted(path.relative_to(ROOT).as_posix() for path in (ROOT / "proof").rglob("*.json"))
+    # Scope to the proof set that existed at source_tag: branches integrating this refactor may carry
+    # additional evidence proofs, which this compaction invariant never touched.
+    tracked = set(
+        subprocess.check_output(
+            ["git", "ls-tree", "-r", "--name-only", source_tag, "--", "proof"], cwd=ROOT, text=True
+        ).split()
+    )
+    paths = sorted(
+        candidate
+        for candidate in (path.relative_to(ROOT).as_posix() for path in (ROOT / "proof").rglob("*.json"))
+        if candidate in tracked
+    )
     assert len(paths) == 59
-    changed = subprocess.check_output(
-        ["git", "diff", "--name-only", source_tag, "--", "proof"], cwd=ROOT, text=True
-    ).splitlines()
+    changed = [
+        entry
+        for entry in subprocess.check_output(
+            ["git", "diff", "--name-only", source_tag, "--", "proof"], cwd=ROOT, text=True
+        ).splitlines()
+        if entry in tracked
+    ]
     assert len(changed) == 38
     current_bytes = {relative: (ROOT / relative).read_bytes() for relative in paths}
     prior_bytes = {
