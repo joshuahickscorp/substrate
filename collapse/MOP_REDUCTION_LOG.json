@@ -600,6 +600,24 @@
       "proof": "three-mechanism bed, implementation, result, receipt, payload, digest, and refusal fingerprint exact before and after: 45622fbc433aaf9f7b11c6e3c599aff782aa10907a377b25cc7e1e909845fad2; all thirteen Studio commands remain on the unified parser; 209 focused provider, CLI, registry, worker, and readiness cases green; all 19 deleted command/framework paths recover from the prior tag; full 3756-case collection, compile-all, ruff, and docs gate green",
       "accounting_note": "src 141 added/496 deleted; scripts 0 added/251 deleted; tests 25 added/90 deleted; test migrations now invoke the unified Studio parser directly; the active receipt-producing Stage-3 registry and all campaign, worker, program, and successor consumers remain",
       "tag": "mop-collapse-cli-bed-authorities"
+    },
+    {
+      "region": "section11_starss23_bed_and_section17_validation",
+      "batch": "orphaned_count_reproduction_variants",
+      "checkpoint_status": "green",
+      "primitive": "four STARSS23 count reproduction variants and their dedicated self-justifying tests were physically deleted after repository-wide reachability proved they had no runtime, registry, campaign, configuration, package, or cross-test consumer",
+      "deduplicated_LOC": 0,
+      "added_LOC": 0,
+      "eliminated_LOC": 5561,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 5561,
+      "files_changed": 20,
+      "destination_api": "the retained STARSS23 count authority in count_producer, count_verifier, and test_starss23_counting_bed",
+      "proof": "AST and literal-reference audits found no external executable consumer for any deleted variant; the retained STARSS23 science/count/adapter/harness/DoA battery is 163/163 green; full 3709-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all 20 deleted files recover from mop-collapse-cli-bed-authorities",
+      "accounting_note": "src 0 added/4691 deleted; tests 0 added/870 deleted; collapse-analysis artifacts and historical references do not make an experiment executable and are excluded from authority reachability",
+      "tag": "mop-collapse-starss23-orphans"
     }
   ],
   "deferred_heavy_validation": {

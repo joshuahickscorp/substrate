@@ -730,6 +730,20 @@ def main() -> int:
                     "docs gates green"),
         rollback_tag="mop-collapse-cli-bed-authorities",
         next_action="collapse remaining active mechanism and command lifecycles"))
+    checklist.append(item(
+        "RED-starss23-orphaned-count-reproductions", 11, "verified_reduction",
+        "Delete orphaned STARSS23 count reproduction variants",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/beds/starss23/count_producer.py",
+                  "src/mop/beds/starss23/count_verifier.py",
+                  "tests/unit/test_starss23_counting_bed.py"],
+        validation=("4691 orphaned source LOC and 870 dedicated-test LOC physically deleted, net -5561; "
+                    "repository-wide reachability found no executable external consumer; retained "
+                    "STARSS23 battery 163/163 green; 3709-case collection, compile-all, critical ruff, "
+                    "and docs gate clean; all deleted paths recover from the prior tag"),
+        rollback_tag="mop-collapse-starss23-orphans",
+        next_action="delete or centralize the next test-only experimental authority cluster"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
