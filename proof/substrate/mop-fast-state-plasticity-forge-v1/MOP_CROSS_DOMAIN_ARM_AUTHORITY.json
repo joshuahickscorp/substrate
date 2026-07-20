@@ -1,0 +1,1433 @@
+{
+  "schema": "mop-cross-domain-arm-authority/v1",
+  "repairs": {
+    "projection_only_transfer": "was a shared code path with fresh_core; now carries the domain independent projection weights and is behaviourally distinct",
+    "slow_core_transfer": "was a shared code path with fine tuned and full persistent; now carries only the shared slow group, with the fast core reinitialized"
+  },
+  "arms": {
+    "fresh_core": {
+      "carried": [],
+      "frozen_shared": [],
+      "copy_proj": false,
+      "warmup": 0.0,
+      "lr_late": null
+    },
+    "projection_only_transfer": {
+      "carried": [],
+      "frozen_shared": [],
+      "copy_proj": true,
+      "warmup": 0.0,
+      "lr_late": null
+    },
+    "fast_core_transfer": {
+      "carried": [
+        "fast_core"
+      ],
+      "frozen_shared": [],
+      "copy_proj": false,
+      "warmup": 0.0,
+      "lr_late": null
+    },
+    "slow_core_transfer": {
+      "carried": [
+        "slow_core"
+      ],
+      "frozen_shared": [],
+      "copy_proj": false,
+      "warmup": 0.0,
+      "lr_late": null
+    },
+    "frozen_fast_core": {
+      "carried": [
+        "fast_core"
+      ],
+      "frozen_shared": [
+        "fast_core"
+      ],
+      "copy_proj": false,
+      "warmup": 0.0,
+      "lr_late": null
+    },
+    "frozen_slow_core": {
+      "carried": [
+        "slow_core"
+      ],
+      "frozen_shared": [
+        "slow_core"
+      ],
+      "copy_proj": false,
+      "warmup": 0.0,
+      "lr_late": null
+    },
+    "fine_tuned_fast_core": {
+      "carried": [
+        "fast_core"
+      ],
+      "frozen_shared": [],
+      "copy_proj": false,
+      "warmup": 0.5,
+      "lr_late": 0.0001
+    },
+    "fine_tuned_slow_core": {
+      "carried": [
+        "slow_core"
+      ],
+      "frozen_shared": [],
+      "copy_proj": false,
+      "warmup": 0.5,
+      "lr_late": 0.0001
+    },
+    "full_persistent_core": {
+      "carried": [
+        "fast_core",
+        "slow_core"
+      ],
+      "frozen_shared": [],
+      "copy_proj": true,
+      "warmup": 0.0,
+      "lr_late": null
+    },
+    "domain_local_adapter": {
+      "carried": [
+        "fast_core",
+        "slow_core"
+      ],
+      "frozen_shared": [
+        "fast_core",
+        "slow_core"
+      ],
+      "copy_proj": false,
+      "warmup": 0.0,
+      "lr_late": null,
+      "local_only": [
+        "adapter",
+        "head",
+        "proj"
+      ]
+    },
+    "domain_local_slow_state": {
+      "carried": [
+        "fast_core",
+        "slow_core"
+      ],
+      "frozen_shared": [
+        "fast_core",
+        "slow_core"
+      ],
+      "copy_proj": false,
+      "warmup": 0.0,
+      "lr_late": null,
+      "local_only": [
+        "local_slow",
+        "head",
+        "proj"
+      ]
+    }
+  },
+  "arm_count": 11,
+  "fixture_architecture": "ArchXD, one capacity, one optimizer, only the update partition changes",
+  "identities": [
+    {
+      "arm": "fresh_core",
+      "spec_sha": "977b4d2d855d6966",
+      "carried": [],
+      "reinitialized": [
+        "fast_core",
+        "slow_core"
+      ],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "fast_core",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech",
+        "slow_core"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "e1bf785a0cd174ec",
+        "fast_core": "bd23246a8a599ae7",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "c574de1f884a86e1",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "a498fc69f81f0276",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "c922fdb2dc94e8f9",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "6c40f5822ff45f82",
+        "slow_core": "399c2e16d56d9fcb"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [
+        "fast_core",
+        "slow_core"
+      ],
+      "checkpoint_final": "b5bb6342808a5b8dd849849ef381d4738bdaab5ada476c14d112725f8dde27ee",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "fresh_core",
+        [],
+        [
+          "fast_core",
+          "slow_core"
+        ],
+        [
+          "adapter.speech",
+          "fast_core",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech",
+          "slow_core"
+        ],
+        0.0,
+        false
+      ]
+    },
+    {
+      "arm": "projection_only_transfer",
+      "spec_sha": "14a1021447ef2c15",
+      "carried": [],
+      "reinitialized": [
+        "fast_core",
+        "slow_core"
+      ],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "fast_core",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech",
+        "slow_core"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "c6ceb1d81df5a71a",
+        "fast_core": "a9fc93f6df00be26",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "e49ce95e3e7c7b6c",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "62d6acbbe0c12500",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "01d5d1de41de5273",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "05239497df5bb22c",
+        "slow_core": "d48228fe321cc6ba"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [
+        "fast_core",
+        "slow_core"
+      ],
+      "checkpoint_final": "0ab2705b401c7075306f7896f096044e163bd01db090c9dfff5fa7d9a02295d4",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "projection_only_transfer",
+        [],
+        [
+          "fast_core",
+          "slow_core"
+        ],
+        [
+          "adapter.speech",
+          "fast_core",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech",
+          "slow_core"
+        ],
+        0.0,
+        true
+      ]
+    },
+    {
+      "arm": "fast_core_transfer",
+      "spec_sha": "7e5fc8204b94d6c1",
+      "carried": [
+        "fast_core"
+      ],
+      "reinitialized": [
+        "slow_core"
+      ],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "fast_core",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech",
+        "slow_core"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "a29538af90c54b73",
+        "fast_core": "c85a2acf9ede2042",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "c141498d30d80906",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "512fe49bfc1a0453",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "f382b869731ee45d",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "cf169eacc82d363f",
+        "slow_core": "094200cf69a77ef3"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [
+        "slow_core"
+      ],
+      "checkpoint_final": "f300cc9a9928ec08e7ec68ccb25cc0ac18d82b6aab7aa3786d3eb11a2f79c106",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "fast_core_transfer",
+        [
+          "fast_core"
+        ],
+        [
+          "slow_core"
+        ],
+        [
+          "adapter.speech",
+          "fast_core",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech",
+          "slow_core"
+        ],
+        0.0,
+        false
+      ]
+    },
+    {
+      "arm": "slow_core_transfer",
+      "spec_sha": "61ba3edbb4d364a6",
+      "carried": [
+        "slow_core"
+      ],
+      "reinitialized": [
+        "fast_core"
+      ],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "fast_core",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech",
+        "slow_core"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "9024c6e2a0417e72",
+        "fast_core": "752e1031af9bb855",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "eca96485c84366ae",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "791951891c0bff70",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "8934eb465cdaf97c",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "35a9f2a36876072e",
+        "slow_core": "a5b7957899e766a0"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [
+        "fast_core"
+      ],
+      "checkpoint_final": "ef4a8b363cd397e3a8db907090225035de06014c19b814923975a6cdbc37eda5",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "slow_core_transfer",
+        [
+          "slow_core"
+        ],
+        [
+          "fast_core"
+        ],
+        [
+          "adapter.speech",
+          "fast_core",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech",
+          "slow_core"
+        ],
+        0.0,
+        false
+      ]
+    },
+    {
+      "arm": "frozen_fast_core",
+      "spec_sha": "8c00110dfb163905",
+      "carried": [
+        "fast_core"
+      ],
+      "reinitialized": [
+        "slow_core"
+      ],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech",
+        "slow_core"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "b2769cd11b0162f2",
+        "fast_core": "27126a222ff70f3f",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "3f15ce1ad0979e50",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "2398ebd96ebbe7ab",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "82f176aaa2c8e9e6",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "8cc2241e5002b020",
+        "slow_core": "a1de188cccdf9aa9"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [
+        "slow_core"
+      ],
+      "checkpoint_final": "5ba1316ead1082e4a6d3aaedf996c40dac132046caf07830d6e7286ad4b8129a",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "frozen_fast_core",
+        [
+          "fast_core"
+        ],
+        [
+          "slow_core"
+        ],
+        [
+          "adapter.speech",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech",
+          "slow_core"
+        ],
+        0.0,
+        false
+      ]
+    },
+    {
+      "arm": "frozen_slow_core",
+      "spec_sha": "5983c96f583f1cf3",
+      "carried": [
+        "slow_core"
+      ],
+      "reinitialized": [
+        "fast_core"
+      ],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "fast_core",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "9069660e27d628d1",
+        "fast_core": "ba059bd4da944b92",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "37a103720b937fcf",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "13f8d29c82ad1a9f",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "daf93e168469c491",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "1972f7898a01fe1e",
+        "slow_core": "b45d5dccbb8b0af8"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [
+        "fast_core"
+      ],
+      "checkpoint_final": "1992efd8951dea9af329af43fc42be4504c06825c681b18fb1cd674bd1aeefd1",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "frozen_slow_core",
+        [
+          "slow_core"
+        ],
+        [
+          "fast_core"
+        ],
+        [
+          "adapter.speech",
+          "fast_core",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech"
+        ],
+        0.0,
+        false
+      ]
+    },
+    {
+      "arm": "fine_tuned_fast_core",
+      "spec_sha": "6f083a64ecae03c9",
+      "carried": [
+        "fast_core"
+      ],
+      "reinitialized": [
+        "slow_core"
+      ],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "fast_core",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech",
+        "slow_core"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "a1ec27406aacf069",
+        "fast_core": "44fe1883bcb7b931",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "857fc400e01348cf",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "67e357de4a39b0aa",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "02fa31dcf9f1281c",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "9b062dd82845ba7c",
+        "slow_core": "1a998e233243e55d"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [
+        "slow_core"
+      ],
+      "checkpoint_final": "2a9292d7729455837f281b5657d1cf9c506605c28bdd3d1ee3521a14db7a9b3d",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "fine_tuned_fast_core",
+        [
+          "fast_core"
+        ],
+        [
+          "slow_core"
+        ],
+        [
+          "adapter.speech",
+          "fast_core",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech",
+          "slow_core"
+        ],
+        0.5,
+        false
+      ]
+    },
+    {
+      "arm": "fine_tuned_slow_core",
+      "spec_sha": "2092518c85e26c79",
+      "carried": [
+        "slow_core"
+      ],
+      "reinitialized": [
+        "fast_core"
+      ],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "fast_core",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech",
+        "slow_core"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "f92c884009eab74c",
+        "fast_core": "07e87078f38923ab",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "6fe45d38195c7890",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "88ec078e6b6afcf0",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "c07f0c12e663340d",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "6cb4147783231326",
+        "slow_core": "bb58548ff95bd644"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [
+        "fast_core"
+      ],
+      "checkpoint_final": "093565ff240bb2eeef8433bba3a79d384ab91fc0b6a5d55374680e39e33e5b5c",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "fine_tuned_slow_core",
+        [
+          "slow_core"
+        ],
+        [
+          "fast_core"
+        ],
+        [
+          "adapter.speech",
+          "fast_core",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech",
+          "slow_core"
+        ],
+        0.5,
+        false
+      ]
+    },
+    {
+      "arm": "full_persistent_core",
+      "spec_sha": "66633a077c52f513",
+      "carried": [
+        "fast_core",
+        "slow_core"
+      ],
+      "reinitialized": [],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "fast_core",
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech",
+        "slow_core"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "dfa4786c1472e50e",
+        "fast_core": "fa1b76a06e39abae",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "4f5e7d222ba93bdb",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "fd62b14e40e36ca4",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "69f4d42df69d6752",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "dd02820bbb2042d8",
+        "slow_core": "ab35ab2b584da5e6"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [],
+      "checkpoint_final": "93d19aa401b59c900a31c163649d28b3812a84e079daccb9214b77c1f82e33f8",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "full_persistent_core",
+        [
+          "fast_core",
+          "slow_core"
+        ],
+        [],
+        [
+          "adapter.speech",
+          "fast_core",
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech",
+          "slow_core"
+        ],
+        0.0,
+        true
+      ]
+    },
+    {
+      "arm": "domain_local_adapter",
+      "spec_sha": "d9c29380c75bf522",
+      "carried": [
+        "fast_core",
+        "slow_core"
+      ],
+      "reinitialized": [],
+      "phase2_trainable_groups": [
+        "adapter.speech",
+        "head.speech",
+        "proj_conv.speech",
+        "proj_lin.speech"
+      ],
+      "phase2_trainable_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_changed_params": [
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "23ebca6fbcf0e897",
+        "fast_core": "27126a222ff70f3f",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "e0fd6b9299df3005",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "e42c1eb8422cc7ab",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "eca99f9e0ef0b318",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "eeed809210b87e00",
+        "slow_core": "b45d5dccbb8b0af8"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [],
+      "checkpoint_final": "120290a13e54ec15bc7225eddd3068f53b10b7e7a5ffbc51a1a0b6783b66d292",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "domain_local_adapter",
+        [
+          "fast_core",
+          "slow_core"
+        ],
+        [],
+        [
+          "adapter.speech",
+          "head.speech",
+          "proj_conv.speech",
+          "proj_lin.speech"
+        ],
+        0.0,
+        false
+      ]
+    },
+    {
+      "arm": "domain_local_slow_state",
+      "spec_sha": "3b6382180d7069a7",
+      "carried": [
+        "fast_core",
+        "slow_core"
+      ],
+      "reinitialized": [],
+      "phase2_trainable_groups": [
+        "head.speech",
+        "local_slow.speech",
+        "proj_conv.speech",
+        "proj_lin.speech"
+      ],
+      "phase2_trainable_params": [
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight"
+      ],
+      "phase2_frozen_params": [
+        "adapters.har.down.bias",
+        "adapters.har.down.weight",
+        "adapters.har.up.bias",
+        "adapters.har.up.weight",
+        "adapters.speech.down.bias",
+        "adapters.speech.down.weight",
+        "adapters.speech.up.bias",
+        "adapters.speech.up.weight",
+        "core.bias_hh_l0",
+        "core.bias_ih_l0",
+        "core.weight_hh_l0",
+        "core.weight_ih_l0",
+        "heads.har.bias",
+        "heads.har.weight",
+        "local_slow.har.0.bias",
+        "local_slow.har.0.weight",
+        "local_slow.har.2.bias",
+        "local_slow.har.2.weight",
+        "projs.har.conv.bias",
+        "projs.har.conv.weight",
+        "projs.har.lin.bias",
+        "projs.har.lin.weight",
+        "slow.0.bias",
+        "slow.0.weight",
+        "slow.2.bias",
+        "slow.2.weight"
+      ],
+      "phase2_changed_params": [
+        "heads.speech.bias",
+        "heads.speech.weight",
+        "local_slow.speech.0.bias",
+        "local_slow.speech.0.weight",
+        "local_slow.speech.2.bias",
+        "local_slow.speech.2.weight",
+        "projs.speech.conv.bias",
+        "projs.speech.conv.weight",
+        "projs.speech.lin.bias",
+        "projs.speech.lin.weight"
+      ],
+      "phase2_group_sha": {
+        "adapter.har": "dcd2b488073cbabd",
+        "adapter.speech": "238c868cb3c42d6d",
+        "fast_core": "27126a222ff70f3f",
+        "head.har": "8048ae88e4d00c14",
+        "head.speech": "97fa1142e5336324",
+        "local_slow.har": "1626070c6e6e6ff4",
+        "local_slow.speech": "e4f27749844e5798",
+        "proj_conv.har": "08a19fea387a0c2c",
+        "proj_conv.speech": "f499af739958b9ea",
+        "proj_lin.har": "4caf7fa8a19aa785",
+        "proj_lin.speech": "2281de7439203282",
+        "slow_core": "b45d5dccbb8b0af8"
+      },
+      "checkpoint_after_first_domain": "59307438c684d0dbcb252df03556742e671189e4e4ee2cf8e5e182c208a8b065",
+      "shared_groups_changed_at_boundary": [],
+      "checkpoint_final": "fe9720c748d82860b25175c50d4dc64a0038b0570bc4a826c50c0619d0f47e7f",
+      "undeclared_changes": [],
+      "identity_tuple": [
+        "domain_local_slow_state",
+        [
+          "fast_core",
+          "slow_core"
+        ],
+        [],
+        [
+          "head.speech",
+          "local_slow.speech",
+          "proj_conv.speech",
+          "proj_lin.speech"
+        ],
+        0.0,
+        false
+      ]
+    }
+  ],
+  "probe_steps": {
+    "acquire": 8,
+    "second": 8,
+    "return": 4,
+    "adapt": 4
+  },
+  "note": "the historical cross domain null is not reinterpreted. This is an implementation validation fixture only.",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "c570b87b96f806d16da9492d5ee6c08c3af854f0",
+  "SESOI": 0.05,
+  "sha256": "f5836304faa6defa32d2be40138b0b1ec0e00579b1de8395fa07b2b4e92b65e3"
+}

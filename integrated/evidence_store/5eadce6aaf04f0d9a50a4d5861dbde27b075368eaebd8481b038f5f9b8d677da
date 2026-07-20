@@ -1,0 +1,52 @@
+{
+  "schema": "mop-fast-state-progress-scorecard/v1",
+  "implementation": {
+    "evidence_and_falsification": 50,
+    "orchestration": 0,
+    "failure_understanding": 0,
+    "owned_substrate": 0,
+    "multi_timescale_and_partitioned_plasticity": 0,
+    "functional_reorganization": 0,
+    "cross_domain_entity": 0
+  },
+  "implementation_targets": {
+    "evidence_and_falsification": 98,
+    "orchestration": 98,
+    "failure_understanding": 98,
+    "owned_substrate": 98,
+    "multi_timescale_and_partitioned_plasticity": 95,
+    "functional_reorganization": 85,
+    "cross_domain_entity": 90
+  },
+  "evidence": {
+    "evidence_and_falsification": 11,
+    "orchestration": 11,
+    "failure_understanding": 11,
+    "useful_plasticity": 5,
+    "owned_substrate": 10,
+    "partitioned_moldability": 15,
+    "functional_reorganization": 5,
+    "cross_domain_entity": 10
+  },
+  "evidence_targets": {
+    "evidence_and_falsification": 95,
+    "orchestration": 95,
+    "failure_understanding": 95,
+    "useful_plasticity": 60,
+    "owned_substrate": 80,
+    "partitioned_moldability": 70,
+    "functional_reorganization": 55,
+    "cross_domain_entity": 65
+  },
+  "verdicts": {
+    "cross_domain": null,
+    "plasticity": null,
+    "reorganization": null,
+    "third_domain_gate": null
+  },
+  "rule": "evidence remains earned. Implementation completeness never raises an evidence score.",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "c570b87b96f806d16da9492d5ee6c08c3af854f0",
+  "SESOI": 0.05,
+  "sha256": "f3f332716e24f9dc7d782cb8bbe72b149f89d1732679feb303ee21e279890399"
+}
