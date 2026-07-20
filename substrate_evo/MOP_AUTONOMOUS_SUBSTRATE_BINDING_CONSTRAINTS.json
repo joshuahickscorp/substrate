@@ -1,0 +1,21 @@
+{
+  "schema": "mop-autonomous-substrate-binding-constraints/v1",
+  "from_all_prior": [
+    "no learned replay selector/retriever/simulation-allocator/plasticity-controller by default (all G2/G3 nulls)",
+    "established replay (GDumb/reservoir) is the active baseline",
+    "R1 closed (nearest-similarity control only)",
+    "no headroom decision on <5 seeds (C1 lesson)",
+    "no undertrained baselines (baselines must converge under sealed plateau)",
+    "no credit for state change without downstream value",
+    "no credit for more params/memory/updates/data/compute",
+    "decorative modularity is a structural_null (ArchB lesson) -> retire",
+    "a tie is a null",
+    "no gate weakening to raise progress"
+  ],
+  "new": [
+    "temporal domains require an order-headroom validity gate (correct vs shuffled vs reversed; temporal model must beat order-free bag-of-timesteps)",
+    "each timescale earns credit only if removing/corrupting it causes preregistered material loss (else prune it)",
+    "an event horizon requires the full exhaustion proof, not a single null"
+  ],
+  "sha256": "89075c0143cf3770728f50694372ac53b0321e0f6ece4ecd262f975f79cac18f"
+}

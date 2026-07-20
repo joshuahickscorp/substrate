@@ -1,0 +1,73 @@
+{
+  "schema": "mop-autonomous-substrate-state/v1",
+  "program_id": "mop-autonomous-substrate-evolution-v1",
+  "branch": "agent/mop-autonomous-substrate-evolution",
+  "base_commit": "4b4a0ec",
+  "SESOI": 0.05,
+  "seed_floor": 5,
+  "tie_is_null": true,
+  "activation": false,
+  "checklist": {
+    "AUTH": {
+      "status": "complete",
+      "next": "authority/scorecard/ledger/manifest sealed"
+    },
+    "TEMPORAL_GATE": {
+      "status": "active",
+      "next": "HAR raw order-headroom gate (correct vs shuffled vs bag); forks the program"
+    },
+    "DOMAIN": {
+      "status": "active",
+      "next": "if HAR raw valid, use it; attempt PAMAP2; classify each"
+    },
+    "BASELINE": {
+      "status": "pending",
+      "next": "converge GRU/LSTM/TCN/bag under sealed plateau"
+    },
+    "ARCH_AT": {
+      "status": "pending",
+      "next": "Temporal Shared Latent Workspace (carry A forward, add medium state + multi-horizon heads)"
+    },
+    "ARCH_C": {
+      "status": "pending",
+      "next": "Multi-Horizon Predictive State Substrate"
+    },
+    "ARCH_D": {
+      "status": "pending",
+      "next": "Hierarchical Plasticity Lattice"
+    },
+    "COMPARE": {
+      "status": "pending",
+      "next": "A-T/C/D vs converged baselines on valid temporal domains, 5 seeds, cost-adjusted"
+    },
+    "TIMESCALE_ABLATION": {
+      "status": "pending",
+      "next": "fast/medium/slow state value ablations"
+    },
+    "PLAST_GATE": {
+      "status": "pending",
+      "next": "substrate-specific plasticity headroom gate on temporal domain"
+    },
+    "REORG_GATE": {
+      "status": "pending",
+      "next": "Architecture D functional reorganization vs simple routing"
+    },
+    "NEW_PREMISES": {
+      "status": "pending",
+      "next": "if all null, derive <=3 materially new theses, implement top 2 that gate-pass"
+    },
+    "EVENT_HORIZON": {
+      "status": "pending",
+      "next": "if exhausted: seal full exhaustion proof (2 archs + 2 premises + converged baselines + measured headroom + adequate units + no gate weakened + irreducible blocker)"
+    },
+    "SYNTHESIS": {
+      "status": "pending",
+      "next": "terminal synthesis + scorecard + 45 questions"
+    }
+  },
+  "terminal_conditions": {
+    "A_target_state": "all 8 layer targets met",
+    "B_event_horizon": "full exhaustion proof (not a single null)"
+  },
+  "sha256": "a63429dbb472b0a3925d0777bf5b813485611109cce80d0fe3ec02bb16420427"
+}

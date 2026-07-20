@@ -1,0 +1,23 @@
+{
+  "schema": "mop-autonomous-substrate-campaign-manifest/v1",
+  "program_id": "mop-autonomous-substrate-evolution-v1",
+  "branch": "agent/mop-autonomous-substrate-evolution",
+  "base_commit": "4b4a0ec",
+  "run_root": "runs/substrate/mop-autonomous-substrate-evolution-v1",
+  "proof_root": "proof/substrate/autonomous-evolution-v1",
+  "stop_switch": "~/.mop_autonomous_substrate_stop",
+  "preserved_legacy_switches": [
+    "~/.mop_autonomy_stop",
+    "~/.mop_scientific_frontier_stop",
+    "~/.mop_generation3_stop",
+    "~/.mop_substrate_genesis_v0_stop"
+  ],
+  "runtime": "reuse Genesis kernel/engine/scheduler; one config/registry/engine; receipt-cached verification; resumable; deterministic receipts",
+  "commands": {
+    "resume": "read MOP_AUTONOMOUS_SUBSTRATE_STATE.json; continue each item from next_exact_action",
+    "status": "cat /Users/scammermike/Downloads/mop-autonomous-substrate-evolution/runs/substrate/mop-autonomous-substrate-evolution-v1/status.json",
+    "verify": "python substrate_evo/verify_evo.py",
+    "close_if_terminal": "python substrate_evo/build_evo_synthesis.py --close-if-terminal"
+  },
+  "sha256": "f09ea3c3d2d83ac1fc1eabaf342a8c5068909cfe5e8f4edffe7b54b67384901e"
+}
