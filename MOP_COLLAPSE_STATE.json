@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "d607d5d009a88674b8dd53defb9a9e42dfcfc7e6",
+    "base_commit": "b07ef6031f79a92009e2aa7101d5c2d51f0626b2",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -106,7 +106,7 @@
     "selected_experiment_architecture": "architecture_b",
     "proof_index": {
       "files": 60,
-      "bytes": 844285,
+      "bytes": 826367,
       "duplicate_groups": 0
     },
     "starss23_source_decomposition": {
@@ -123,7 +123,7 @@
     }
   },
   "current_measured": {
-    "global_maintained_python_LOC": 7370,
+    "global_maintained_python_LOC": 7401,
     "runtime_campaign_kernel_LOC": 5200,
     "validation_LOC": 1819,
     "normal_cli_count": 1,
@@ -1324,7 +1324,7 @@
   },
   "reductions": {
     "schema": "mop-collapse-reduction-table/v1",
-    "canonical_sha256": "91ada7216a6581156a3af5e3e3db1a4ee131306a82b23b973c67bc2d3a1163f7",
+    "canonical_sha256": "46e11f1e4b9f28eb3318cc4ebe55ed6d58063b3806047e541354aed84a31b226",
     "row_encoding": "JSON scalars joined by commas in fields order; wrap a row in brackets to decode",
     "baseline_global_owned_source_LOC": 401396,
     "fields": [
@@ -1497,7 +1497,8 @@
         "direct_count_corpus_staging",
         "retired_dormant_latent_store_and_git_probe",
         "normalized_single_durable_authority",
-        "direct_count_production_and_compact_cm7_authority"
+        "direct_count_production_and_compact_cm7_authority",
+        "normalized_sanpo_dr1_cm1_attribute_authority"
       ],
       "checkpoint_status": [
         "provisional_pending_full_suite",
@@ -1596,7 +1597,8 @@
         "the sole count producer now consumes concurrent-count tracks from the real adapter that already parsed and validated each metadata file: the duplicate metadata index/read, CountClip serialization and validation record, count-label module, and change-density/zero-coast aggregation facades are physically retired",
         "the exported latent-store creation/write/read API and git-dirty probe had no source, test, script, registry, CLI, or campaign consumer; active cache integrity remains owned by the manifest validator and Studio doctor, while retained provenance still reports the commit and package versions",
         "replace expanded checklist, reduction, audit, recovery, census, architecture, PR9, and STARSS analysis projections with one normalized state authority and generated views; exact retired bytes remain tag/blob/digest recoverable",
-        "the sole public count producer directly owns its one-use corpus preparation and artifact assembly, removing the private 16-field carrier and wrapper boundary; the CM7 pilot authority retains only its final null verdict and sealed receipt-chain manifest instead of embedding the complete raw training receipt a second time"
+        "the sole public count producer directly owns its one-use corpus preparation and artifact assembly, removing the private 16-field carrier and wrapper boundary; the CM7 pilot authority retains only its final null verdict and sealed receipt-chain manifest instead of embedding the complete raw training receipt a second time",
+        "the unconsumed SANPO DR1/CM1 derived aggregate now stores its eight development-session records and all 36 candidate-factor projections in two field-indexed row tables, eliminating repeated JSON keys without dropping any value, binding, verdict, claim boundary, or recovery metadata"
       ],
       "destination_api": [
         "mop.substrate.events.{canonical_bytes,canonical_sha256}",
@@ -1690,7 +1692,8 @@
         "RealStarssAdapter.count_track plus direct _track_totals consumption in src/mop/beds/starss23/count_producer.py",
         "mop.substrate.validate_cache_manifest for active cache integrity; mop.provenance.{git_sha,package_versions} for consumed provenance",
         "MOP_COLLAPSE_STATE.json v2 columnar checklist, exact reduction table, embedded current audit, and legacy_authorities",
-        "build_real_count_bed_artifact plus proof/CUSTOM_SUBSTRATE_PILOT.json v2 referencing the sealed raw receipt and three independent chain receipts"
+        "build_real_count_bed_artifact plus proof/CUSTOM_SUBSTRATE_PILOT.json v2 referencing the sealed raw receipt and three independent chain receipts",
+        "proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json v2 field-indexed session and candidate-pair tables plus the acceptance semantic gate"
       ],
       "proof": [
         "byte-identical normalized-AST bodies + per-file py_compile + 9/9 import identity and known-answer parity",
@@ -1784,7 +1787,8 @@
         "a deterministic four-clip/two-seed real-WAV artifact preserves artifact SHA-256 72d2a3fb1a2a31907e8ac63531f5aa17ad299a961ca7b369c9d13bffd5329f74, seal 7d7f83e2028ddee9877335c924f694eb4116f7a7522a016d853cef04ab58735e, corpus-track SHA-256 aef5dbcee5bc85afd3c2829c98225f8091c189036eca06c7ba5741ac496714fb, per-seed SHA-256 a2feb355bff7150ff0685a412a41ed777e8b8dee9b30df74ae2cb0a5e8674cc6, preregistration SHA-256 699b90d662f91292edfc6e3b9270bb568389d8a2e95d9026f7f92f6aefdf8be6, split identity, truncation, count tracks, density, coast, and key order exactly; 9/9 metadata/count refusals are exact; retained STARSS artifact a474dc88717dff57ce916f1bb7f0852a9fe2248d09fd8b21362f2b7d52ccdff8 independently reproduces scores/statistics/honesty with zero mismatches; full suite 128 collected/122 passed/6 dataset skips, acceptance 10/10, Ruff/format clean, mypy clean over 38 source files, compile-all and diff checks clean",
         "repository-wide symbol and registry search finds zero LatentStore, StoreMeta, latent_store, or git_dirty consumers; active manifest/doctor/foundation focused suite passes 31 cases; the full suite collects 128 cases with 122 passing and 6 environment skips; acceptance 10/10, Ruff/format clean, mypy clean over 37 source files, compile-all and diff checks clean",
         "261/261 checklist rows and 90/90 prior reduction events reconstruct canonically; 11/11 retired authorities recover with exact bytes, lines, SHA-256, and Git blobs; 1544/1544 code/audit/evidence plus 162/162 document paths recover; full suite, acceptance, Ruff, mypy, compile-all, and no-gaming gates pass",
-        "the deterministic count producer focused suite collects 26 cases with 20 passing and six dataset skips; the compact CM7 authority verifies 4/4 receipt byte hashes and the same authoritative not-promoted verdict; the retired 74504-byte/1734-line aggregate recovers exactly at mop-collapse-lowest-green-33 with blob 2741e99bfb71cdae3c18fd2fcbe1bd582141c2b2 and SHA-256 bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2; full suite 129 collected/123 passed/6 environment skips, acceptance 10/10, Ruff/format clean, mypy clean over 37 source files, compile-all and diff checks clean"
+        "the deterministic count producer focused suite collects 26 cases with 20 passing and six dataset skips; the compact CM7 authority verifies 4/4 receipt byte hashes and the same authoritative not-promoted verdict; the retired 74504-byte/1734-line aggregate recovers exactly at mop-collapse-lowest-green-33 with blob 2741e99bfb71cdae3c18fd2fcbe1bd582141c2b2 and SHA-256 bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2; full suite 129 collected/123 passed/6 environment skips, acceptance 10/10, Ruff/format clean, mypy clean over 37 source files, compile-all and diff checks clean",
+        "all eight development-session records and all 36 candidate-factor projections decode exactly to the v1 aggregate; bindings, factor levels, exclusions, verdict, claim boundary, and problems are exact; the 39593-byte/1257-line v1 body recovers at mop-collapse-lowest-green-34 with blob 753fe398dee3c06bad91e3f8e72b831eab6155eb and SHA-256 fb4b6ce92d995f004e710966294a03d70dd0a87d32ebc54888bc4eb95472b4ae; full suite 129 collected/123 passed/6 environment skips, acceptance 11/11, collapse invariants 6/6, Ruff/format, mypy, compile-all, and diff checks pass"
       ],
       "tag": [
         "mop-collapse-evidence-batch1",
@@ -1877,7 +1881,8 @@
         "mop-collapse-direct-count-corpus",
         "mop-collapse-retired-dormant-latent-store",
         "mop-collapse-single-durable-authority",
-        "mop-collapse-direct-count-pilot-authority"
+        "mop-collapse-direct-count-pilot-authority",
+        "mop-collapse-normalized-sanpo-attribute-map"
       ],
       "note_added_LOC": [
         "24 added = two public primitives added once to the one evidence core (sha256_file, atomic_write_json, with pathlib and os imports) plus redirect import lines; net owned-system change is -36"
@@ -1974,7 +1979,8 @@
         "122 count-label module, 20 repeated test, and 20 replaced staging lines are replaced by 49 single-pass adapter/producer/test lines, net -113; runtime source falls to 5393 LOC, validation falls to 1752 LOC, scripts remain 62 LOC, and maintained Python falls to 7458 LOC",
         "the 121-line dormant module, three export lines, and ten-line uncalled probe are physically deleted with no replacement Python; runtime source falls to 5259 LOC, validation remains 1752 LOC, scripts remain 62 LOC, and maintained Python falls to 7324 LOC",
         "runtime science remains 5259 LOC; validation grows 65 LOC and audit tooling grows 26 LOC for exact normalized projection, strict JSON, and recovery tests, so maintained Python grows 91 LOC to 7415 while total tracked text falls by 6939 LOC",
-        "111 private producer lines are replaced by 52 direct public-boundary lines; the acceptance chain gate and generalized recovery invariant add 14 net Python lines; the duplicated 1734-line/74504-byte CM7 aggregate is replaced by a 47-line/1900-byte authority, so maintained Python falls 45 LOC to 7370, the four target files fall 1732 physical lines, and normalized state growth leaves total tracked text down 1724 lines"
+        "111 private producer lines are replaced by 52 direct public-boundary lines; the acceptance chain gate and generalized recovery invariant add 14 net Python lines; the duplicated 1734-line/74504-byte CM7 aggregate is replaced by a 47-line/1900-byte authority, so maintained Python falls 45 LOC to 7370, the four target files fall 1732 physical lines, and normalized state growth leaves total tracked text down 1724 lines",
+        "the 1257-line SANPO derived aggregate is replaced by a 186-line lossless columnar authority and 31 acceptance lines that prove complete semantic and byte-exact historical parity, net -1040 across the two target files; maintained Python grows from 7370 to 7401 LOC while the proof authority falls by 1071 physical lines and 17918 bytes"
       ],
       "performance": [
         "seven-run fixture/export/load median improved 112.347ms to 100.613ms (-10.45%); nine-process cold import median moved 549.286ms to 550.948ms (+0.30%), inside the 2% gate",
@@ -2001,7 +2007,8 @@
         "twelve alternating 40-fit batches improve median six-epoch gate training from 0.026322s to 0.022544s (-14.35%)",
         "thirty corpus preparations improve median from 17.9091ms to 17.8673ms (-0.23%)",
         "twelve fresh-process imports improve median mop.substrate import from 0.604203s to 0.064118s (-89.39%) because the package root no longer imports dormant NumPy/Torch storage machinery",
-        "durable authority falls from 10306 LOC/582505 bytes/14 files to 3277 LOC/274267 bytes/5 files; median parse-plus-projection improves from 0.7674ms to 0.5910ms (-22.98%)"
+        "durable authority falls from 10306 LOC/582505 bytes/14 files to 3277 LOC/274267 bytes/5 files; median parse-plus-projection improves from 0.7674ms to 0.5910ms (-22.98%)",
+        "nine alternating 500-load batches improve median JSON parse time from 39.962ms to 23.592ms (-40.96%) after repeated record keys are normalized into field-indexed rows"
       ]
     },
     "events": [
@@ -2096,7 +2103,8 @@
       "44,88,2,88,0,49,162,0,0,0,113,4,88,88,87,null,null,85,null,null,null,null,null,22",
       "46,89,2,89,0,0,134,0,0,0,134,3,89,89,88,null,null,86,null,null,null,null,null,23",
       "47,90,2,90,0,91,0,0,0,0,-91,16,90,90,89,null,null,87,null,null,null,null,null,24",
-      "48,91,2,91,1734,113,111,0,0,0,1732,4,91,91,90,null,null,88,null,null,null,1732,null,null"
+      "48,91,2,91,1734,113,111,0,0,0,1732,4,91,91,90,null,null,88,null,null,null,1732,null,null",
+      "0,92,2,92,1257,217,0,0,0,0,1040,2,92,92,91,null,null,89,null,null,null,1040,null,25"
     ],
     "physical_state_events": [
       {
@@ -2661,13 +2669,13 @@
   },
   "reduction_accounting_verified": {
     "eliminated_LOC": 398108,
-    "deduplicated_LOC": 17489,
+    "deduplicated_LOC": 18746,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 16188,
-    "event_net_LOC": 399514,
-    "net_reduction_LOC": 399409
+    "added_LOC": 16405,
+    "event_net_LOC": 400554,
+    "net_reduction_LOC": 400449
   },
   "checklist_summary": {
     "total": 261,

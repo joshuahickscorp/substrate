@@ -1,7 +1,7 @@
 {
   "schema": "mop-proof-index/v1",
   "files": 60,
-  "bytes": 844285,
+  "bytes": 826367,
   "duplicate_groups": {},
   "entries": [
     {
@@ -258,9 +258,9 @@
     },
     {
       "path": "proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json",
-      "bytes": 39593,
-      "sha256": "fb4b6ce92d995f004e710966294a03d70dd0a87d32ebc54888bc4eb95472b4ae",
-      "git_blob": "753fe398dee3c06bad91e3f8e72b831eab6155eb"
+      "bytes": 21675,
+      "sha256": "636e476e0fa7b274283fa641ecea9c0a51c5308a9dc0bc9ba26c967918e9dd9b",
+      "git_blob": "8aa49eb45a85f046712a8295782433c42be3c71e"
     },
     {
       "path": "proof/SANPO_REAL_SMOKE_ENGINEERING_LOG.json",

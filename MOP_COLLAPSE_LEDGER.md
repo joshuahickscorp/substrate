@@ -4,10 +4,10 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 
 ## Current
 
-- Maintained Python: 7,370 LOC; ceiling: 50,000.
+- Maintained Python: 7,401 LOC; ceiling: 50,000.
 - Runtime and campaign kernel: 5,200 LOC.
 - Validation: 1,819 LOC.
-- Verified reduction ledger: 399,409 LOC.
+- Verified reduction ledger: 400,449 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: state `legacy_authorities` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-studio-readiness-core | 252 | single_studio_readiness_profile_memory_vertical |
 | mop-collapse-count-statistics-core | 330 | source_consumed_count_statistics_projection |
 | mop-collapse-direct-count-producer | 182 | direct_single_consumer_count_production_vertical |
 | mop-collapse-retired-onset-schema | 187 | retired_historical_onset_object_and_roundtrip_schema |
@@ -31,3 +30,4 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 | mop-collapse-retired-dormant-latent-store | 134 | retired_dormant_latent_store_and_git_probe |
 | mop-collapse-single-durable-authority | -91 | normalized_single_durable_authority |
 | mop-collapse-direct-count-pilot-authority | 1,732 | direct_count_production_and_compact_cm7_authority |
+| mop-collapse-normalized-sanpo-attribute-map | 1,040 | normalized_sanpo_dr1_cm1_attribute_authority |
