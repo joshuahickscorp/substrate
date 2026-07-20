@@ -757,6 +757,19 @@ def main() -> int:
                     "files recover from the prior tag"),
         rollback_tag="mop-collapse-starss23-dead-scaffolds",
         next_action="continue the dead-authority audit outside the active controller chain"))
+    checklist.append(item(
+        "RED-starss23-null-explorations", 11, "verified_reduction",
+        "Delete null additional STARSS23 gate variants",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/beds/starss23/gate.py", "src/mop/beds/starss23/gate_variants_prereg.py",
+                  "src/mop/beds/starss23/artifact.py"],
+        validation=("2456 exploratory Python LOC and 1.36 MB of null output artifacts physically "
+                    "deleted; both variants were outside the sealed family and had no campaign/config "
+                    "consumer; retained 71-case core battery, 3630-case collection, compile-all, "
+                    "critical ruff, and docs gate clean; all paths recover from the prior tag"),
+        rollback_tag="mop-collapse-starss23-null-explorations",
+        next_action="delete the next sealed-null or unreachable experimental vertical slice"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

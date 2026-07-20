@@ -181,6 +181,29 @@
         "tests/unit/test_starss23_corpus.py",
         "tests/unit/test_starss23_gate_recurrence_spread.py"
       ]
+    },
+    {
+      "id": "null_additional_starss23_gate_variants",
+      "reason": "learning-progress and diversity-regularization were explicitly additional exploratory variants outside the sealed E1 family; their committed artifacts were null and neither variant had a campaign or configuration consumer",
+      "source_tag": "mop-collapse-starss23-dead-scaffolds",
+      "recovery": "git show mop-collapse-starss23-dead-scaffolds:<path>",
+      "replacement_paths": [
+        "src/mop/beds/starss23/gate.py",
+        "src/mop/beds/starss23/gate_variants_prereg.py",
+        "src/mop/beds/starss23/artifact.py"
+      ],
+      "paths": [
+        "proof/STARSS23_ESCS_BED_diversity_reg.json",
+        "proof/STARSS23_ESCS_BED_learning_progress.json",
+        "proof/STARSS23_ESCS_BED_learning_progress.prereg.json",
+        "scripts/run_starss23_escs_bed_diversity_reg.py",
+        "scripts/run_starss23_escs_bed_learning_progress.py",
+        "src/mop/beds/starss23/gate_diversity_reg.py",
+        "src/mop/beds/starss23/gate_learning_progress.py",
+        "src/mop/beds/starss23/learning_progress_producer.py",
+        "tests/unit/test_starss23_gate_diversity_reg.py",
+        "tests/unit/test_starss23_gate_learning_progress.py"
+      ]
     }
   ]
 }

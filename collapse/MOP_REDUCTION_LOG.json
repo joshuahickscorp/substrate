@@ -636,6 +636,24 @@
       "proof": "the deleted recurrence command statically imported nonexistent mop.beds.starss23.recurrence_spread_artifact; no remaining owned Python import target is missing; the retained STARSS23 core battery is 178/178 green; full 3672-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all five deleted paths recover from the prior tag",
       "accounting_note": "src 2 added/651 deleted; scripts 0 added/76 deleted; tests 1 added/417 deleted; the fixture-backed artifact generator remains the synthetic mechanics authority and real-corpus producers remain unchanged",
       "tag": "mop-collapse-starss23-dead-scaffolds"
+    },
+    {
+      "region": "section11_starss23_bed_section14_entrypoints_and_section17_validation",
+      "batch": "null_additional_gate_variants",
+      "checkpoint_status": "green",
+      "primitive": "the learning-progress and diversity-regularization variants, commands, dedicated tests, and null output artifacts were physically deleted because both were explicitly additional exploratory variants outside the sealed E1 family with no campaign or configuration consumer",
+      "deduplicated_LOC": 0,
+      "added_LOC": 0,
+      "eliminated_LOC": 2456,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 2456,
+      "files_changed": 10,
+      "destination_api": "the sealed STARSS23 gate family and retained onset artifact authority",
+      "proof": "both deleted committed artifacts record verdict=null and scientific_promotion=false; literal and AST audits found no campaign or configuration consumer; the retained science/artifact/harness battery is 71/71 green; full 3630-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all ten paths recover from the prior tag",
+      "accounting_note": "src 0 added/1253 deleted; scripts 0 added/745 deleted; tests 0 added/458 deleted; three minified proof artifacts totaling 1.36 MB were also deleted but contribute zero to Python LOC accounting",
+      "tag": "mop-collapse-starss23-null-explorations"
     }
   ],
   "deferred_heavy_validation": {
