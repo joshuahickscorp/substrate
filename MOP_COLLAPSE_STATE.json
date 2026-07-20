@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "9f9de9a1e335f7d533896b325ffa99d14e0c5279",
+    "base_commit": "448aed428a69a6f42f5f9d6d8f815050b20276a8",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 70812,
+    "eliminated_LOC": 76087,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 8913,
-    "net_global_reduction_LOC": 77759
+    "added_LOC": 8990,
+    "net_global_reduction_LOC": 82957
   },
   "checklist_summary": {
-    "total": 251,
+    "total": 252,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 35
+      "verified": 36
     }
   },
   "checklist": [
@@ -3614,6 +3614,25 @@
       "rollback_tag": "mop-collapse-starss23-null-family",
       "dependency": "",
       "next_action": "audit whether the null base onset bed should remain executable or historical only"
+    },
+    {
+      "id": "RED-starss23-count-kernel",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Retire null base onset bed and isolate counting kernel",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/beds/starss23/count_featurizer.py",
+        "src/mop/beds/starss23/count_gate.py",
+        "src/mop/beds/starss23/count_producer.py"
+      ],
+      "validation": "5275 null/base-only Python LOC removed for 77 count-kernel LOC, net -5198; spectral arrays and gate accounting are exact before/after; retained 121-case count boundary battery, 3384-case collection, compile-all, critical ruff, and docs gate clean; all 25 deleted paths recover from the prior tag",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-count-kernel",
+      "dependency": "",
+      "next_action": "audit remaining STARSS23 package layers around the mechanics-ok counting kernel"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

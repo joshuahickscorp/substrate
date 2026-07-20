@@ -783,6 +783,20 @@ def main() -> int:
                     "ruff, and docs gate clean; all 62 deleted paths recover from the prior tag"),
         rollback_tag="mop-collapse-starss23-null-family",
         next_action="audit whether the null base onset bed should remain executable or historical only"))
+    checklist.append(item(
+        "RED-starss23-count-kernel", 11, "verified_reduction",
+        "Retire null base onset bed and isolate counting kernel",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/beds/starss23/count_featurizer.py",
+                  "src/mop/beds/starss23/count_gate.py",
+                  "src/mop/beds/starss23/count_producer.py"],
+        validation=("5275 null/base-only Python LOC removed for 77 count-kernel LOC, net -5198; "
+                    "spectral arrays and gate accounting are exact before/after; retained 121-case "
+                    "count boundary battery, 3384-case collection, compile-all, critical ruff, and "
+                    "docs gate clean; all 25 deleted paths recover from the prior tag"),
+        rollback_tag="mop-collapse-starss23-count-kernel",
+        next_action="audit remaining STARSS23 package layers around the mechanics-ok counting kernel"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

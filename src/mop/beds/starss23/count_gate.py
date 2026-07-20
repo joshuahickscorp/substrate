@@ -12,15 +12,6 @@ from mop.seeding import derive_seed32
 from mop.substrate.events import canonical_sha256
 
 from .count_featurizer import D_CFEAT, N_CHANNELS, N_MEL
-from .gate import (
-    C_TRAIN_ANCHOR,
-    DEFAULT_EPOCHS,
-    _sigmoid,
-    inference_flops,
-    param_count,
-    training_flops,
-)
-
 COUNT_GATE_SCHEMA = "mop-starss23-count-gate/v1"
 
 N_CFEAT = D_CFEAT  # 256 frozen count features
@@ -38,16 +29,51 @@ EMA_DECAY = 0.1
 
 DEFAULT_LEARNING_RATE = 0.1
 DEFAULT_PONDER_LAMBDA = 0.02
+DEFAULT_EPOCHS = 8
+DEFAULT_TRAIN_FRAMES = 54_000
+TRAIN_STEP_FACTOR = 3
 COUNT_VOC_WINDOW = 1  # a re-estimation is valuable within +/- 1 frame of a count change
 
 _POS_BLOCK = N_MEL * N_CHANNELS  # 128
 
-C_TRAIN_ANCHOR_COUNT = C_TRAIN_ANCHOR
-FLOPS_PER_INFERENCE = inference_flops(D_IN, HIDDEN, N_OUT)  # 6385
-
-
 class CountGateRefusal(ValueError):
     pass
+
+
+def param_count(d_in: int = D_IN, hidden: int = HIDDEN, n_out: int = N_OUT) -> int:
+    return d_in * hidden + hidden + hidden * n_out + n_out
+
+
+def inference_flops(d_in: int = D_IN, hidden: int = HIDDEN, n_out: int = N_OUT) -> int:
+    return 2 * d_in * hidden + 2 * hidden + 2 * hidden * n_out + n_out
+
+
+def training_flops(
+    n_train_frames: int = DEFAULT_TRAIN_FRAMES,
+    epochs: int = DEFAULT_EPOCHS,
+    d_in: int = D_IN,
+    hidden: int = HIDDEN,
+    n_out: int = N_OUT,
+) -> int:
+    if isinstance(n_train_frames, bool) or not isinstance(n_train_frames, int) or n_train_frames < 0:
+        raise CountGateRefusal("n_train_frames must be a nonnegative integer")
+    if isinstance(epochs, bool) or not isinstance(epochs, int) or epochs < 0:
+        raise CountGateRefusal("epochs must be a nonnegative integer")
+    return epochs * n_train_frames * TRAIN_STEP_FACTOR * inference_flops(d_in, hidden, n_out)
+
+
+def _sigmoid(x: np.ndarray) -> np.ndarray:
+    out = np.empty_like(x, dtype=np.float64)
+    positive = x >= 0.0
+    out[positive] = 1.0 / (1.0 + np.exp(-x[positive]))
+    exp_x = np.exp(x[~positive])
+    out[~positive] = exp_x / (1.0 + exp_x)
+    return out
+
+
+FLOPS_PER_INFERENCE = inference_flops()
+C_TRAIN_ANCHOR = training_flops()
+C_TRAIN_ANCHOR_COUNT = C_TRAIN_ANCHOR
 
 
 @dataclass(frozen=True, slots=True)

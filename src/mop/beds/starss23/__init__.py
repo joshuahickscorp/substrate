@@ -1,9 +1,6 @@
 
 from __future__ import annotations
 
-BED_ID = "starss23_escs_event_formation"
-BED_SCHEMA = "mop-starss23-escs-bed/v1"
-
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 STAGE3_FORCING_NULL = (
