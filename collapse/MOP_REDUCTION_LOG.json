@@ -1368,6 +1368,25 @@
       "performance": "alternating 60-sample offline load median improved from 18.333ms to 18.205ms (-0.70%)",
       "accounting_note": "1339 portable runtime and synthetic-test lines replaced by 137 hydration-core and mutation-test lines, net -1202; runtime source falls 871 LOC to 8664, validation falls 331 LOC to 2394, scripts remain 229 LOC, and maintained Python falls to 11538 LOC",
       "tag": "mop-collapse-portable-hydration-core"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section17_validation",
+      "batch": "retired_orphaned_workbench_source_snapshot_copy_lifecycle",
+      "checkpoint_status": "green",
+      "primitive": "requirements auditing no longer copies duplicate source snapshots and the workbench no longer creates a six-file implementation snapshot manifest that has no maintained reader after finalizer and provenance-heavy artifact retirement; resolved config, requirements identity, dataset content identity, and the generator source hash remain sealed in active receipts",
+      "deduplicated_LOC": 0,
+      "added_LOC": 1,
+      "eliminated_LOC": 82,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 81,
+      "files_changed": 1,
+      "destination_api": "audit_requirements and dataset_manifest/run_workbench identity fields in src/mop/substrate/custom_workbench.py",
+      "proof": "success, wall-budget stop, disk-floor stop, scientific refusal, and unexpected crash orchestration outputs are exact after excluding the intentionally retired implementation-snapshot projection; uninterrupted, partial, resumed, and six mutated checkpoint outputs are byte-for-byte exact; nine training, evaluation, dataset, aggregation, compute, difficulty, and promotion AST fingerprints are exact; the 152-case full suite passes with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "alternating 400-sample refusal orchestration median improved 3.168ms to 3.163ms (-0.15%)",
+      "accounting_note": "82 orphaned workbench snapshot-copy and receipt-projection lines replaced by one direct requirements-audit call, net -81; runtime source falls to 8583 LOC, validation remains 2394 LOC, scripts remain 229 LOC, and maintained Python falls to 11457 LOC",
+      "tag": "mop-collapse-workbench-snapshot-lifecycle"
     }
   ],
   "latest_full_validation": {
