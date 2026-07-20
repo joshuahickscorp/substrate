@@ -244,5 +244,46 @@
       "4": 1.22
     }
   },
-  "state_sha256": "17c218eb7c2e3573f7593ec78b12c88ad9b9742bf3391ec69a8e0b143f08a721"
+  "generation2_closure": {
+    "status": "SEALED",
+    "irreducible_conclusion": "supported_as_written (4-auditor adversarial audit, no contradictory artifact)",
+    "artifacts": [
+      "MOP_GENERATION2_CLOSURE",
+      "CLAIM_BOUNDARY",
+      "MECHANISM_LEDGER(19)",
+      "COMPUTE_LEDGER",
+      "ORCHESTRATION_RESULT",
+      "SUPERSESSION_MAP",
+      "IRREDUCIBLE_CONCLUSION",
+      "NULL_DERIVED_CONSTRAINTS",
+      "EXTERNAL_REVIEW",
+      "EVIDENCE_TABLE.csv",
+      "REPRODUCTION_GUIDE",
+      "ARTIFACT_INDEX"
+    ],
+    "strongest_surviving_hypothesis": "P1R same-team benchmark positives bounded by external EMNIST null; no downstream license"
+  },
+  "generation3_discovery": {
+    "status": "OPEN (design only, no principal run)",
+    "ranked": [
+      "C1_P1R_priority",
+      "C3_S1_model_error_aware",
+      "C2_V1_capable_family",
+      "C5_E1_relational_roles",
+      "C4_M1_causal_message"
+    ],
+    "selected": [
+      "C1_P1R_priority (gate-5 headroom +0.169 over uniform GDumb)"
+    ],
+    "falsified_at_gate": [
+      "C2_V1_capable_family (no headroom)"
+    ],
+    "deferred": [
+      "C3 (needs error-aware gym harness)",
+      "C4",
+      "C5"
+    ],
+    "next_action": "implement C1 principal run only after this authority is committed and its eight gates are on record"
+  },
+  "state_sha256": "2a9ffb82bab1b84042791fd81b2571863fe137bc92f60b449a225231de38954b"
 }

@@ -1,0 +1,50 @@
+{
+  "schema": "mop-gen2-closure/v1",
+  "what_was_tested": "15 mechanism hypotheses (D1,U1,N1,R1,P1,P1R,V1,K1,M1,E1,C0,A1,S1,I1,G1) plus four cluster gates",
+  "passed_controlled_beds_only": [
+    "P1R (Phase 4B)",
+    "V1/K1/M1/E1/C0/A1/S1 have mechanics + battery structure but did not clear real-data admission"
+  ],
+  "passed_benchmark_canaries": [
+    "N1 (MNIST)",
+    "P1R (split-MNIST)"
+  ],
+  "replicated_same_team_implementations": [
+    "P1R (CIFAR-100, KMNIST)"
+  ],
+  "failed_external_confirmation": [
+    "N1 (CIFAR-10 second source)",
+    "P1R (EMNIST external-method)"
+  ],
+  "pruned": [
+    "U1",
+    "P1",
+    "K1",
+    "M1",
+    "E1",
+    "C0",
+    "A1",
+    "S1"
+  ],
+  "invalid_beds": [
+    "none in the frontier (calibration caught bed invalidity before principal use); Lane P v1 was an unfaithful operationalization, corrected by one bounded repair"
+  ],
+  "architecture_dependent": [
+    "V1"
+  ],
+  "canary_null": [
+    "U1",
+    "R1"
+  ],
+  "why_clusters_did_not_launch": "no cluster had two admitted/confirmed components: Action-Simulation (A1,S1 pruned), Verification-Repair-Messaging (V1 architecture_dependent, K1/M1 pruned), Event-Trace (E1,C0 pruned), Memory-Plasticity/Cluster B (R1 null blocked the factorial)",
+  "why_construction_unauthorized": "construction needs external P1R replication (null) or a confirmed cluster (none) or two confirmed components (none)",
+  "why_integration_unauthorized": "integration needs three confirmation-level functional domains with dependency closure; zero exist",
+  "why_activation_false": "activation requires an explicit separate grant and at minimum a licensed integration; neither exists",
+  "strongest_surviving_hypothesis": "P1R is the strongest surviving internal hypothesis: three same-team benchmark positives (split-MNIST, CIFAR-100, KMNIST), bounded by a stronger external replication null (EMNIST), with no construction, integration, or activation license.",
+  "tags": [
+    "mop-generation2-closure",
+    "mop-generation2-null-map",
+    "mop-generation2-orchestration"
+  ],
+  "sha256": "6db2d95de130ee1ed181f7131b7f51118348f2276ea26d8aab908447ac868876"
+}
