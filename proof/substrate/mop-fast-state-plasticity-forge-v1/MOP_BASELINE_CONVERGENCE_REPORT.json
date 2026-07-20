@@ -1396,9 +1396,14 @@
     }
   },
   "rule": "no substrate result is terminal against an unconverged baseline. The principal budget is chosen so that every baseline is at or past its own plateau.",
+  "baselines_not_run_and_why": {
+    "TCN": "declared optional by the mandate and not implemented. The order free control already bounds what a non recurrent reader achieves on these beds, and on the two principal domains it comes within 0.02 to 0.04 of the recurrent models, so a dilated convolutional baseline would not change any verdict here. Recorded as an omission, not as a pass.",
+    "reservoir and EWC": "run inside the within domain battery rather than the single domain convergence sweep, because both are continual learning controls and have no meaning on a single task",
+    "joint training and full memory upper bounds": "run inside the within domain battery for the same reason"
+  },
   "note": "the separate baseline is architecturally identical to lstm when only one context is registered, so its single domain curve matches lstm by construction",
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
+  "source_commit": "cec8fd8b99c98ab7793a4b59ab4848896abf237c",
   "SESOI": 0.05,
-  "sha256": "2085dcf89c7748f13ce9a820b1c509f1cb73efb7221468a6a6b6480c0a73a04b"
+  "sha256": "55736d7096f91a366844a3e07ab04bab2affe841bb2e0a0ea29e03fd9c41c60c"
 }
