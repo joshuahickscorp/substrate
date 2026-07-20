@@ -1125,13 +1125,31 @@
       "proof": "the updater validates all 261 unique checklist records and their exact required fields, deterministically refreshes the proof index and compact ledger, and is Ruff-clean; the invariant suite protects readable non-packed source and authority uniqueness",
       "accounting_note": "2177 generator lines replaced by 212 updater lines, net -1965; maintained Python is 15121 LOC, src/mop is 10715 LOC, and validation is 3172 LOC",
       "tag": "mop-collapse-ledger-compact"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section17_validation",
+      "batch": "canonical_custom_substrate_model_authority",
+      "checkpoint_status": "green",
+      "primitive": "the training and portable-export model specifications, transformer implementations, parameter accounting, and tensor-state identity were replaced by one strict canonical model authority; active workbench and portable import names remain direct aliases rather than duplicate wrappers",
+      "deduplicated_LOC": 0,
+      "added_LOC": 216,
+      "eliminated_LOC": 262,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 46,
+      "files_changed": 5,
+      "destination_api": "src/mop/substrate/custom_model.py consumed by custom_workbench.py and custom_artifact.py",
+      "proof": "Architecture B selected after measured A/B comparison; historical state, dense-token, pooled-output, shape, and parameter fingerprints are exact; 15 new contract mutations are refused; 20/20 focused tests and the 172-case full suite pass with 6 environment skips; acceptance 10/10, Ruff clean, and mypy clean over 43 source files",
+      "accounting_note": "262 Python lines deleted for 216 canonical implementation and stronger test lines, net -46; runtime source falls 93 LOC to 10622, validation grows 47 LOC to 3219, and maintained Python falls to 15075 LOC",
+      "tag": "mop-collapse-custom-model"
     }
   ],
   "latest_full_validation": {
     "command": "PYTHONPATH=src /Users/scammermike/Downloads/mop/.venv/bin/python -m pytest -q",
-    "result": "171 collected; 165 passed; 6 environment skips",
+    "result": "172 collected; 166 passed; 6 environment skips",
     "acceptance": "10/10 passed",
-    "static": "Ruff lint and format clean; mypy clean over 42 source files",
+    "static": "Ruff lint and format clean; mypy clean over 43 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
   }
 }

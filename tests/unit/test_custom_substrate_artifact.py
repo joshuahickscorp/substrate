@@ -1,3 +1,4 @@
+import hashlib
 import json
 from dataclasses import asdict
 from pathlib import Path
@@ -371,6 +372,8 @@ def _rebind_verifier(run_dir: Path, verifier_path: Path) -> None:
 
 
 def test_portable_architecture_matches_workbench_interface():
+    assert PortableModelSpec is ModelSpec
+    assert PortableTinyVideoSubstrate is TinyVideoSubstrate
     source_spec = ModelSpec(
         dim=16,
         depth=1,
@@ -392,6 +395,48 @@ def test_portable_architecture_matches_workbench_interface():
         source_dense = source.encode(clips)
     assert torch.equal(output.dense_spatiotemporal_tokens, source_dense)
     assert torch.equal(output.pooled_retrieval_key, source_dense.mean(dim=1))
+
+
+def test_canonical_model_preserves_historical_fingerprint_and_refuses_contract_mutations():
+    base = asdict(ModelSpec(16, 1, 2, 2, 16, 2, 32, 4))
+    for key in base:
+        mutation = dict(base)
+        mutation[key] = True
+        with pytest.raises(ValueError, match="integers"):
+            ModelSpec.from_mapping(mutation)
+    for mutation in (
+        {**base, "extra": 1},
+        {key: value for key, value in base.items() if key != "dim"},
+        {**base, "dim": 0},
+        {**base, "heads": 3},
+        {**base, "max_resolution": 31},
+    ):
+        with pytest.raises(ValueError):
+            ModelSpec.from_mapping(mutation)
+
+    torch.manual_seed(3)
+    model = TinyVideoSubstrate(ModelSpec.from_mapping(base)).eval()
+    clips = torch.rand(2, 3, 4, 32, 32)
+    output = model(clips)
+
+    def digest(value):
+        return hashlib.sha256(value.detach().numpy().tobytes()).hexdigest()
+
+    assert (
+        state_sha256(model.state_dict()) == "90c10469a0355530402c344fdd637901571e3211e38d165a0eddc8d82158b932"
+    )
+    assert (
+        digest(output.dense_spatiotemporal_tokens)
+        == "cebfc000f9f1b25a2ece29b6520894397644ebf6f89b9cf050eccf0524c6b10a"
+    )
+    assert (
+        digest(output.pooled_retrieval_key)
+        == "9dce9e254ec67bba04a71e155b3f4656577f4fd04b2a88d89af4437dd215553d"
+    )
+    with pytest.raises(ValueError, match="bool dtype"):
+        model(clips, torch.zeros(2, 8))
+    with pytest.raises(ValueError, match="model maxima"):
+        model(torch.zeros(1, 3, 6, 32, 32))
 
 
 def test_tensor_pack_is_deterministic_pickle_free_and_exact(tmp_path: Path):

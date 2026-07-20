@@ -1889,6 +1889,22 @@
       "paths": [
         "collapse/tools/build_ledger.py"
       ]
+    },
+    {
+      "id": "deduplicated_custom_substrate_model_authority",
+      "source_tag": "mop-collapse-lowest-green",
+      "reason": "training and portable export independently maintained the same transformer architecture, model specification, parameter count, and tensor-state identity; one canonical authority now serves both while portable aliases preserve the active import surface",
+      "replacement_paths": [
+        "src/mop/substrate/custom_model.py",
+        "tests/unit/test_custom_substrate_artifact.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green:<path>",
+      "paths": [
+        "src/mop/substrate/custom_workbench.py",
+        "src/mop/substrate/custom_artifact.py",
+        "tests/unit/test_custom_substrate_workbench.py",
+        "tests/unit/test_custom_substrate_artifact.py"
+      ]
     }
   ]
 }
