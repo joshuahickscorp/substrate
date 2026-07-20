@@ -24,7 +24,7 @@
     "MOP_HISTORICAL_BOUNDARY.json",
     "MOP_IRREDUCIBLE_KERNEL_ESTIMATE.json"
   ],
-  "consolidation_rule": "These nine requested views are sections of this machine audit rather than nine additional documents. Existing baseline JSON remains historical; current facts below are measured from the release candidate.",
+  "consolidation_rule": "These nine requested views are sections of this machine audit rather than nine additional documents. Retired baseline analyses remain exact in tagged history; current facts below are measured from the release candidate.",
   "physical_census": {
     "tracked_files": 160,
     "python_modules": 61,
@@ -484,7 +484,7 @@
     "27_rollback_tags": ["mop-collapse-declarative-engine", "mop-collapse-ledger-compact", "mop-collapse-custom-model", "mop-collapse-budget-facade", "mop-collapse-raw-once-attestation", "mop-collapse-unused-surface", "mop-collapse-custom-chain", "mop-collapse-cache-receipt-policy", "mop-collapse-workbench-checkpoint-state", "mop-collapse-workbench-orchestration", "mop-collapse-artifact-provenance-policy", "mop-collapse-finalizer-chain-cli", "mop-collapse-finalizer-lifecycle-cli", "mop-collapse-retired-custom-finalizer", "mop-collapse-portable-hydration-core", "mop-collapse-workbench-snapshot-lifecycle", "mop-collapse-single-installed-interface", "mop-collapse-custom-substrate-exhaustion", "mop-collapse-cache-reader-only", "mop-collapse-matched-budget-core", "mop-collapse-studio-readiness-core", "mop-collapse-count-statistics-core", "mop-collapse-direct-count-producer", "mop-collapse-retired-onset-schema", "mop-collapse-direct-count-intake", "mop-collapse-direct-count-artifact", "mop-collapse-direct-count-prereg", "mop-collapse-direct-count-gate", "mop-collapse-retired-generated-audit-maps", "mop-collapse-retired-generated-analysis-maps"],
     "28_live_non_interference": "protected checkout untouched; cached boundary reports no General Run process and a stale nonterminal status only",
     "29_external_boundary": "General Run has stale nonterminal state; PR 30 closure incomplete",
-    "30_next_exact_region": "resolve the remaining 11966-LOC physical gap to the 50000 non-documentation ceiling by separating recoverable historical proof snapshots from current sealed scientific authorities; do not reformat content-addressed evidence or weaken independent verification merely to reduce lines; the next code-only frontier remains the 1108-LOC one-consumer count-label/corpus staging vertical"
+    "30_next_exact_region": "audit proof/PROJECT_EXPERIMENT_EXHAUSTION.json, a 21191-line generated aggregate with 370 embedded artifacts and 177 experiment entries, for content already retained by the 61-file content-addressed proof authority; replace only proven duplicate embeddings with digest references while preserving every question, null, outcome, blocker, and self-verification field. This one representation frontier is large enough to close the remaining 11966-LOC gap to the 50000 non-documentation ceiling; the next code-only frontier remains the 1108-LOC one-consumer count-label/corpus staging vertical"
   },
   "external_deferred": [
     {"id": "SEC-13", "reason": "binding controller replacement completion waits for a clean General Run terminal and PR 30 closure"},
