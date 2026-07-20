@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -46,125 +45,6 @@ def _require_positive(value: float, label: str) -> float:
     return float(value)
 
 
-@dataclass(frozen=True, slots=True)
-class CountCostBenefit:
-    c_train_flops: int
-    c_reest_flops: int
-    operating_reestimate_fraction: float
-    per_reestimate_saving: float
-    break_even_frames: float
-    break_even_hours: float
-    train_flops_in_reestimate_equivalents: float
-    n_test_frames: int
-    n_test_clips: int
-    n_test_changes: int
-    per_frame_granularity: float
-    changes_per_clip: float
-    mean_run_frames: float
-    one_clip_change_mass_frames: float
-    one_clip_change_mass_mae: float
-    coast_from_zero_mae: float
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "c_train_flops": self.c_train_flops,
-            "c_reest_flops": self.c_reest_flops,
-            "operating_reestimate_fraction": round(self.operating_reestimate_fraction, 12),
-            "per_reestimate_saving": round(self.per_reestimate_saving, 6),
-            "break_even_frames": round(self.break_even_frames, 3),
-            "break_even_hours": round(self.break_even_hours, 4),
-            "train_flops_in_reestimate_equivalents": round(self.train_flops_in_reestimate_equivalents, 3),
-            "n_test_frames": self.n_test_frames,
-            "n_test_clips": self.n_test_clips,
-            "n_test_changes": self.n_test_changes,
-            "per_frame_granularity": round(self.per_frame_granularity, 9),
-            "changes_per_clip": round(self.changes_per_clip, 6),
-            "mean_run_frames": round(self.mean_run_frames, 6),
-            "one_clip_change_mass_frames": round(self.one_clip_change_mass_frames, 6),
-            "one_clip_change_mass_mae": round(self.one_clip_change_mass_mae, 9),
-            "coast_from_zero_mae": round(self.coast_from_zero_mae, 9),
-        }
-
-
-def compute_count_cost_benefit(
-    *,
-    c_train_flops: int,
-    c_reest_flops: int,
-    operating_reestimate_fraction: float,
-    n_test_frames: int,
-    n_test_clips: int,
-    n_test_changes: int,
-    coast_from_zero_mae: float,
-) -> CountCostBenefit:
-
-    c_train_flops = int(_require_positive(c_train_flops, "c_train_flops"))
-    c_reest_flops = int(_require_positive(c_reest_flops, "c_reest_flops"))
-    rho = _require_positive(operating_reestimate_fraction, "operating_reestimate_fraction")
-    if not 0.0 < rho < 1.0:
-        raise CountPreregRefusal("operating_reestimate_fraction must be strictly between 0 and 1")
-    if n_test_frames <= 0 or n_test_clips <= 0 or n_test_changes <= 0:
-        raise CountPreregRefusal("n_test_frames, n_test_clips, and n_test_changes must be positive")
-    if isinstance(coast_from_zero_mae, bool) or not isinstance(coast_from_zero_mae, (int, float)):
-        raise CountPreregRefusal("coast_from_zero_mae must be a real number")
-
-    per_reestimate_saving = (1.0 - rho) * c_reest_flops
-    break_even = c_train_flops / per_reestimate_saving
-    break_even_hours = break_even / _FRAMES_PER_SECOND / 3600.0
-    reestimate_equivalents = c_train_flops / c_reest_flops
-
-    per_frame_granularity = 1.0 / n_test_frames
-    changes_per_clip = n_test_changes / n_test_clips
-    mean_run_frames = n_test_frames / n_test_changes
-    one_clip_change_mass_frames = changes_per_clip * (mean_run_frames / 2.0)
-    one_clip_change_mass_mae = one_clip_change_mass_frames / n_test_frames
-
-    return CountCostBenefit(
-        c_train_flops=c_train_flops,
-        c_reest_flops=c_reest_flops,
-        operating_reestimate_fraction=rho,
-        per_reestimate_saving=per_reestimate_saving,
-        break_even_frames=break_even,
-        break_even_hours=break_even_hours,
-        train_flops_in_reestimate_equivalents=reestimate_equivalents,
-        n_test_frames=n_test_frames,
-        n_test_clips=n_test_clips,
-        n_test_changes=n_test_changes,
-        per_frame_granularity=per_frame_granularity,
-        changes_per_clip=changes_per_clip,
-        mean_run_frames=mean_run_frames,
-        one_clip_change_mass_frames=one_clip_change_mass_frames,
-        one_clip_change_mass_mae=one_clip_change_mass_mae,
-        coast_from_zero_mae=float(coast_from_zero_mae),
-    )
-
-
-def _sesoi_rationale(cb: CountCostBenefit, sesoi: float) -> str:
-    sesoi_in_frame_errors = sesoi * cb.n_test_frames
-    granularity_multiple = sesoi / cb.per_frame_granularity
-    return (
-        "Cost-benefit SESOI on coasted count-MAE. The candidate and the rate-matched-random control spend "
-        "the same re-estimation count K at equal FLOPs, so the amortized training cost C_train "
-        f"({cb.c_train_flops} FLOPs, equal to {cb.train_flops_in_reestimate_equivalents:.0f} "
-        f"re-estimation equivalents at C_reest = {cb.c_reest_flops} FLOPs) buys nothing but the count-MAE "
-        "advantage of learned re-estimation placement over free random placement. At the operating "
-        f"re-estimation fraction {cb.operating_reestimate_fraction:.3f} the per-re-estimation saving against "
-        f"always-on is {cb.per_reestimate_saving:.0f} FLOPs, so the gate does not even repay C_train until "
-        f"N* = {cb.break_even_frames:,.0f} frames (about {cb.break_even_hours:.1f} hours of audio). Given "
-        "that deployment scale, the smallest count-MAE win worth registering is one that is both measurable "
-        "above the pseudoreplication floor and economically meaningful. Pooled MAE has a per-frame "
-        f"granularity of {cb.per_frame_granularity:.2e} (1 / {cb.n_test_frames} test frames), so the chosen "
-        f"SESOI of {sesoi:.2f} is {granularity_multiple:.0f}x the granularity floor (about "
-        f"{sesoi_in_frame_errors:.0f} frame-errors), far above measurement noise. It also sits at about one "
-        f"test clip's worth of correctly tracked changes: the test fold carries {cb.n_test_changes} changes "
-        f"over {cb.n_test_clips} clips ({cb.changes_per_clip:.1f} per clip) with a mean run of "
-        f"{cb.mean_run_frames:.1f} frames, so one clip's catchable change mass is about "
-        f"{cb.one_clip_change_mass_frames:.0f} frame-errors ({cb.one_clip_change_mass_mae:.4f} pooled MAE). "
-        "A win below the SESOI recovers less than about one clip of change-tracking over free random "
-        "placement and does not justify carrying a trained module over the zero-training control, so it is "
-        "not promotable even if the one-sided sign-flip p clears alpha."
-    )
-
-
 def build_count_prereg(
     *,
     timestamp: str,
@@ -186,15 +66,67 @@ def build_count_prereg(
     if n_seeds <= 0:
         raise CountPreregRefusal("n_seeds must be positive")
 
-    cb = compute_count_cost_benefit(
-        c_train_flops=c_train_flops,
-        c_reest_flops=c_reest_flops,
-        operating_reestimate_fraction=operating_reestimate_fraction,
-        n_test_frames=n_test_frames,
-        n_test_clips=n_test_clips,
-        n_test_changes=n_test_changes,
-        coast_from_zero_mae=coast_from_zero_mae,
+    c_train_flops = int(_require_positive(c_train_flops, "c_train_flops"))
+    c_reest_flops = int(_require_positive(c_reest_flops, "c_reest_flops"))
+    rho = _require_positive(operating_reestimate_fraction, "operating_reestimate_fraction")
+    if not 0.0 < rho < 1.0:
+        raise CountPreregRefusal("operating_reestimate_fraction must be strictly between 0 and 1")
+    if n_test_frames <= 0 or n_test_clips <= 0 or n_test_changes <= 0:
+        raise CountPreregRefusal("n_test_frames, n_test_clips, and n_test_changes must be positive")
+    if isinstance(coast_from_zero_mae, bool) or not isinstance(coast_from_zero_mae, (int, float)):
+        raise CountPreregRefusal("coast_from_zero_mae must be a real number")
+
+    per_reestimate_saving = (1.0 - rho) * c_reest_flops
+    break_even = c_train_flops / per_reestimate_saving
+    break_even_hours = break_even / _FRAMES_PER_SECOND / 3600.0
+    reestimate_equivalents = c_train_flops / c_reest_flops
+    per_frame_granularity = 1.0 / n_test_frames
+    changes_per_clip = n_test_changes / n_test_clips
+    mean_run_frames = n_test_frames / n_test_changes
+    one_clip_change_mass_frames = changes_per_clip * (mean_run_frames / 2.0)
+    one_clip_change_mass_mae = one_clip_change_mass_frames / n_test_frames
+    sesoi_in_frame_errors = sesoi * n_test_frames
+    granularity_multiple = sesoi / per_frame_granularity
+    rationale = (
+        "Cost-benefit SESOI on coasted count-MAE. The candidate and the rate-matched-random control spend "
+        "the same re-estimation count K at equal FLOPs, so the amortized training cost C_train "
+        f"({c_train_flops} FLOPs, equal to {reestimate_equivalents:.0f} re-estimation equivalents at "
+        f"C_reest = {c_reest_flops} FLOPs) buys nothing but the count-MAE advantage of learned re-estimation "
+        "placement over free random placement. At the operating "
+        f"re-estimation fraction {rho:.3f} the per-re-estimation saving against always-on is "
+        f"{per_reestimate_saving:.0f} FLOPs, so the gate does not even repay C_train until "
+        f"N* = {break_even:,.0f} frames (about {break_even_hours:.1f} hours of audio). Given that deployment "
+        "scale, the smallest count-MAE win worth registering is one that is both measurable above the "
+        "pseudoreplication floor and economically meaningful. Pooled MAE has a per-frame "
+        f"granularity of {per_frame_granularity:.2e} (1 / {n_test_frames} test frames), so the chosen SESOI "
+        f"of {sesoi:.2f} is {granularity_multiple:.0f}x the granularity floor (about "
+        f"{sesoi_in_frame_errors:.0f} frame-errors), far above measurement noise. It also sits at about one "
+        f"test clip's worth of correctly tracked changes: the test fold carries {n_test_changes} changes "
+        f"over {n_test_clips} clips ({changes_per_clip:.1f} per clip) with a mean run of "
+        f"{mean_run_frames:.1f} frames, so one clip's catchable change mass is about "
+        f"{one_clip_change_mass_frames:.0f} frame-errors ({one_clip_change_mass_mae:.4f} pooled MAE). A win "
+        "below the SESOI recovers less than about one clip of change-tracking over free random placement and "
+        "does not justify carrying a trained module over the zero-training control, so it is not promotable "
+        "even if the one-sided sign-flip p clears alpha."
     )
+    cost_benefit = {
+        "c_train_flops": c_train_flops,
+        "c_reest_flops": c_reest_flops,
+        "operating_reestimate_fraction": round(rho, 12),
+        "per_reestimate_saving": round(per_reestimate_saving, 6),
+        "break_even_frames": round(break_even, 3),
+        "break_even_hours": round(break_even_hours, 4),
+        "train_flops_in_reestimate_equivalents": round(reestimate_equivalents, 3),
+        "n_test_frames": n_test_frames,
+        "n_test_clips": n_test_clips,
+        "n_test_changes": n_test_changes,
+        "per_frame_granularity": round(per_frame_granularity, 9),
+        "changes_per_clip": round(changes_per_clip, 6),
+        "mean_run_frames": round(mean_run_frames, 6),
+        "one_clip_change_mass_frames": round(one_clip_change_mass_frames, 6),
+        "one_clip_change_mass_mae": round(one_clip_change_mass_mae, 9),
+        "coast_from_zero_mae": round(float(coast_from_zero_mae), 9),
+    }
     permutations = 2**n_seeds
 
     body: dict[str, Any] = {
@@ -217,8 +149,8 @@ def build_count_prereg(
             "sesoi_mae": round(sesoi, 12),
             "provisional": False,
             "selection_method": "cost-benefit (deployment break-even plus one-test-clip change mass)",
-            "rationale": _sesoi_rationale(cb, sesoi),
-            "cost_benefit": cb.payload(),
+            "rationale": rationale,
+            "cost_benefit": cost_benefit,
             "train_change_density": round(float(train_change_density), 12),
         },
         "operating_point_rule": (
