@@ -1596,6 +1596,25 @@
       "performance": "eight alternating 400-preregistration batches improve median construction time from 0.009681s to 0.009081s (-6.21%)",
       "accounting_note": "123 one-use cost-benefit record, compute, payload, and rationale lines are replaced by 55 direct preregistration lines, net -68; runtime source falls to 5554 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7639 LOC",
       "tag": "mop-collapse-direct-count-prereg"
+    },
+    {
+      "region": "section8_starss23",
+      "batch": "direct_fixed_count_gate_lifecycle",
+      "checkpoint_status": "green",
+      "primitive": "the fixed STARSS count gate now owns inference and training directly: the one-implementation CountGateInterface, test-only CountTrainingReport/payload/loss-history materialization, configurable-dimension constructor, duplicate parameter-count facade, and unused instance FLOP adapter are physically retired while the fixed parameter ceiling remains fail-closed",
+      "deduplicated_LOC": 0,
+      "added_LOC": 23,
+      "eliminated_LOC": 91,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 68,
+      "files_changed": 2,
+      "destination_api": "CountGate, CountOnlineState, inference_flops, and training_flops in src/mop/beds/starss23/count_gate.py",
+      "proof": "three seeded initialization/training regimes preserve every parameter digest, forward/probability byte hash, inference result, final re-estimation rate, parameter count, online-state vector, and FLOP projection; fourteen shape/target/hyperparameter refusals are exact; the fixed 3193-parameter architecture remains guarded against the 4096 ceiling; deterministic artifact 2365a6ffea32bd9b964061b071181e98d8711a603a54e720d4ed28a004c07aff, seal 889677248e783f826098de44a84703c3b6ceddbad99fc77c01e88fca8f311ce5, detail, preregistration bytes, receipt, verdict, and six independent-verifier outcomes are exact; the 128-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 39 source files, compile-all and diff checks clean",
+      "performance": "twelve alternating 40-fit batches improve median six-epoch gate training from 0.026322s to 0.022544s (-14.35%)",
+      "accounting_note": "91 interface, report, payload, loss-history, configurable-dimension, and facade lines are replaced by 23 fixed-gate and direct test lines, net -68; runtime source falls to 5486 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7571 LOC",
+      "tag": "mop-collapse-direct-count-gate"
     }
   ],
   "latest_full_validation": {
