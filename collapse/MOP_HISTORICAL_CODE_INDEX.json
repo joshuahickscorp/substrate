@@ -2073,6 +2073,22 @@
       "paths": [
         "scripts/custom_substrate_finalize.py"
       ]
+    },
+    {
+      "id": "retired_completed_custom_substrate_finalizer_and_dedicated_tests",
+      "source_tag": "mop-collapse-lowest-green-12",
+      "reason": "after its CLI dispatch was retired, the custom finalizer and its dedicated tests had zero maintained import, call, registry, config, packaging, or documentation consumers; the completed chain remains sealed in content-addressed proof, independent recomputation remains active in a structurally separate retained test, and portable receipt-chain validation remains owned by the active artifact authority",
+      "replacement_paths": [
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/independent_verifier.json",
+        "tests/unit/test_cm7_independent_recompute.py",
+        "src/mop/substrate/custom_artifact.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-12:<path>",
+      "paths": [
+        "scripts/custom_substrate_finalize.py",
+        "tests/unit/test_custom_substrate_finalize.py"
+      ]
     }
   ]
 }
