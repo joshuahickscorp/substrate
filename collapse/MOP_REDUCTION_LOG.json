@@ -1213,6 +1213,7 @@
       "files_changed": 5,
       "destination_api": "_validate_receipt_chain and _snapshot_sources in src/mop/substrate/custom_artifact.py; audit_requirements(snapshot_dir=...) in src/mop/substrate/custom_workbench.py",
       "proof": "Architecture B is 4573 maintained regional LOC versus Architecture A at 4718; the shared validator is exercised through both export and offline load, copied snapshot hashes and sizes remain fail-closed, 24 focused cases and the unchanged 155-case full suite pass with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "seven-run fixture/export/load median improved 112.347ms to 100.613ms (-10.45%); nine-process cold import median moved 549.286ms to 550.948ms (+0.30%), inside the 2% gate",
       "accounting_note": "349 Python lines deleted for 204 replacement and condensed-test lines, net -145; runtime source falls 92 LOC to 9678, scripts fall 13 LOC to 952, validation falls 40 LOC to 3017, and maintained Python falls to 13898 LOC",
       "tag": "mop-collapse-custom-chain"
     }
