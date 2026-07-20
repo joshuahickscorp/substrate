@@ -80,6 +80,21 @@ def test_proof_index_is_complete_content_addressed_and_deduplicated():
     assert index["duplicate_groups"] == duplicates == {}
 
 
+def test_unbound_proof_json_compaction_is_semantically_exact():
+    source_tag = "mop-collapse-lowest-green-35"
+    changed = subprocess.check_output(
+        ["git", "diff", "--name-only", source_tag, "--", "proof"], cwd=ROOT, text=True
+    ).splitlines()
+    assert len(changed) == 24
+    for relative in changed:
+        current = (ROOT / relative).read_bytes()
+        prior = subprocess.check_output(["git", "show", f"{source_tag}:{relative}"], cwd=ROOT)
+        assert current.endswith(b"\n") and current.count(b"\n") == 1
+        assert json.loads(current, object_pairs_hook=_unique_object) == json.loads(
+            prior, object_pairs_hook=_unique_object
+        )
+
+
 def test_retired_code_and_documents_have_explicit_git_recovery():
     state = json.loads((ROOT / "MOP_COLLAPSE_STATE.json").read_text(encoding="utf-8"))
     authorities = {row["path"]: row for row in state["legacy_authorities"]["files"]}
