@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "200f256a54654682292dc279775fc1ee8732309a",
+    "base_commit": "36cc3fd265448157edb0cf202b0488371f079072",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,20 +118,20 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 352980,
+    "eliminated_LOC": 367668,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 11722,
-    "net_global_reduction_LOC": 357118
+    "added_LOC": 11844,
+    "net_global_reduction_LOC": 371684
   },
   "checklist_summary": {
-    "total": 259,
+    "total": 261,
     "by_status": {
-      "complete": 33,
-      "active": 49,
-      "pending": 125,
+      "complete": 43,
+      "active": 48,
+      "pending": 118,
       "partial": 9,
       "verified": 43
     }
@@ -423,6 +423,21 @@
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-50k",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "",
+      "commit": "",
+      "rollback_tag": "",
+      "dependency": "",
+      "next_action": "none"
+    },
+    {
+      "id": "TAG-mop-collapse-35k",
+      "section": 24,
+      "kind": "rollback_tag",
+      "title": "Create rollback tag mop-collapse-35k",
       "status": "complete",
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
@@ -1114,13 +1129,15 @@
       "section": 5,
       "kind": "target",
       "title": "active kernel <=25000 (stretch 18000) LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "the complete src/mop tree is 20909 LOC, below the 25000 ceiling",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "measure the narrower runtime kernel"
     },
     {
       "id": "TGT-GLOBAL",
@@ -1131,7 +1148,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked maintained Python is below the 50000 LOC extreme target",
+      "validation": "tracked maintained Python is 33513 LOC, below the 35000 challenge",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1146,7 +1163,7 @@
       "evidence_paths": [
         "tests/"
       ],
-      "validation": "retained test harness is 9119 LOC",
+      "validation": "retained test harness is 7335 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1173,13 +1190,16 @@
       "section": 5,
       "kind": "target",
       "title": "normal executable entrypoints <=10",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "pyproject.toml",
+        "scripts/"
+      ],
+      "validation": "one installed CLI plus nine bounded developer entrypoints remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent wrapper regrowth"
     },
     {
       "id": "TGT-CONTROLLER",
@@ -1254,13 +1274,16 @@
       "section": 5,
       "kind": "target",
       "title": "normal user-facing CLI exactly 1",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "pyproject.toml",
+        "scripts/"
+      ],
+      "validation": "one installed CLI plus nine bounded developer entrypoints remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent wrapper regrowth"
     },
     {
       "id": "CKPT-300k",
@@ -1271,9 +1294,9 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "mop-collapse-50k",
+      "rollback_tag": "mop-collapse-35k",
       "dependency": "",
       "next_action": "none"
     },
@@ -1286,9 +1309,9 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "mop-collapse-50k",
+      "rollback_tag": "mop-collapse-35k",
       "dependency": "",
       "next_action": "none"
     },
@@ -1301,9 +1324,9 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "mop-collapse-50k",
+      "rollback_tag": "mop-collapse-35k",
       "dependency": "",
       "next_action": "none"
     },
@@ -1316,9 +1339,9 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "mop-collapse-50k",
+      "rollback_tag": "mop-collapse-35k",
       "dependency": "",
       "next_action": "none"
     },
@@ -1331,9 +1354,9 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "mop-collapse-50k",
+      "rollback_tag": "mop-collapse-35k",
       "dependency": "",
       "next_action": "none"
     },
@@ -1346,9 +1369,9 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "mop-collapse-50k",
+      "rollback_tag": "mop-collapse-35k",
       "dependency": "",
       "next_action": "none"
     },
@@ -1361,9 +1384,9 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "mop-collapse-50k",
+      "rollback_tag": "mop-collapse-35k",
       "dependency": "",
       "next_action": "none"
     },
@@ -1376,9 +1399,24 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked Python is 47653 LOC and the full retained suite is green",
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
       "commit": "",
-      "rollback_tag": "mop-collapse-50k",
+      "rollback_tag": "mop-collapse-35k",
+      "dependency": "",
+      "next_action": "none"
+    },
+    {
+      "id": "CKPT-35k",
+      "section": 5,
+      "kind": "checkpoint",
+      "title": "Reach green global checkpoint 35k",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "commit": "",
+      "rollback_tag": "mop-collapse-35k",
       "dependency": "",
       "next_action": "none"
     },
@@ -1496,7 +1534,7 @@
       "section": 14,
       "kind": "region",
       "title": "Entrypoint and script collapse (313 -> ~10 CLI verbs)",
-      "status": "active",
+      "status": "complete",
       "evidence_paths": [
         "scripts/studio/__main__.py",
         "collapse/MOP_HISTORICAL_CODE_INDEX.json"
@@ -1505,7 +1543,7 @@
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "collapse the remaining script and module command surfaces onto normal CLI verbs"
+      "next_action": "none"
     },
     {
       "id": "SEC-15",
@@ -2167,13 +2205,15 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "script wrappers collapsed",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "forty-one one-off script wrappers were retired at the 35k checkpoint",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-15",
@@ -2328,13 +2368,15 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "global LOC reduction measured",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "global maintained Python is measured at every checkpoint",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-27",
@@ -2354,26 +2396,30 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "lowest green checkpoint tagged",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "the 35k green checkpoint is tagged and every deletion has tag recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-29",
       "section": 26,
       "kind": "completion_condition",
       "title": "rollback documented",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "the 35k green checkpoint is tagged and every deletion has tag recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-30",

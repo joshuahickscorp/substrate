@@ -151,9 +151,10 @@ def build_checklist() -> list[dict]:
         "mop-collapse-100k",
         "mop-collapse-75k",
         "mop-collapse-50k",
+        "mop-collapse-35k",
         "mop-collapse-event-horizon",
     ]:
-        done = tag == "mop-collapse-50k"
+        done = tag in {"mop-collapse-50k", "mop-collapse-35k"}
         A(
             item(
                 f"TAG-{tag}",
@@ -351,7 +352,7 @@ def build_checklist() -> list[dict]:
         ("TGT-CLI", "normal user-facing CLI exactly 1"),
     ]:
         A(item(tid, 5, "target", title, next_action="drive region collapses toward target; measure"))
-    for cp in ["300k", "250k", "200k", "150k", "125k", "100k", "75k", "50k"]:
+    for cp in ["300k", "250k", "200k", "150k", "125k", "100k", "75k", "50k", "35k"]:
         A(
             item(
                 f"CKPT-{cp}",
@@ -360,8 +361,8 @@ def build_checklist() -> list[dict]:
                 f"Reach green global checkpoint {cp}",
                 status="complete",
                 evidence=["collapse/MOP_REDUCTION_LOG.json"],
-                validation="tracked Python is 47653 LOC and the full retained suite is green",
-                rollback_tag="mop-collapse-50k",
+                validation="tracked Python is 33513 LOC and the full retained suite is green",
+                rollback_tag="mop-collapse-35k",
                 next_action="none",
             )
         )
@@ -707,13 +708,23 @@ def main() -> int:
         if it["id"] == "TGT-GLOBAL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "tracked maintained Python is below the 50000 LOC extreme target"
+            it["validation"] = "tracked maintained Python is 33513 LOC, below the 35000 challenge"
             it["next_action"] = "prevent regrowth"
+        if it["id"] == "TGT-KERNEL":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
+            it["validation"] = "the complete src/mop tree is 20909 LOC, below the 25000 ceiling"
+            it["next_action"] = "measure the narrower runtime kernel"
         if it["id"] == "TGT-TESTS":
             it["status"] = "complete"
             it["evidence_paths"] = ["tests/"]
-            it["validation"] = "retained test harness is 9119 LOC"
+            it["validation"] = "retained test harness is 7335 LOC"
             it["next_action"] = "prevent regrowth"
+        if it["id"] in {"TGT-ENTRYPOINTS", "TGT-CLI"}:
+            it["status"] = "complete"
+            it["evidence_paths"] = ["pyproject.toml", "scripts/"]
+            it["validation"] = "one installed CLI plus nine bounded developer entrypoints remain"
+            it["next_action"] = "prevent wrapper regrowth"
         if it["id"] == "TGT-EXPERIMENT":
             it["status"] = "complete"
             it["evidence_paths"] = ["src/mop/science/", "src/mop/experiments/base.py"]
@@ -769,15 +780,28 @@ def main() -> int:
             it["validation"] = "mechanism-family boilerplate was physically retired at the 50k checkpoint"
             it["next_action"] = "none"
         if it["id"] == "SEC-14":
-            it["status"] = "active"
+            it["status"] = "complete"
             it["evidence_paths"] = ["scripts/studio/__main__.py", "collapse/MOP_HISTORICAL_CODE_INDEX.json"]
             it["validation"] = (
                 "parallel Studio command wrappers and completed campaign entrypoints are retired; "
                 "the host operations parser retains only doctor and profiles"
             )
-            it["next_action"] = (
-                "collapse the remaining script and module command surfaces onto normal CLI verbs"
-            )
+            it["next_action"] = "none"
+        if it["id"] == "CC-14":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_CODE_INDEX.json"]
+            it["validation"] = "forty-one one-off script wrappers were retired at the 35k checkpoint"
+            it["next_action"] = "none"
+        if it["id"] == "CC-26":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
+            it["validation"] = "global maintained Python is measured at every checkpoint"
+            it["next_action"] = "none"
+        if it["id"] in {"CC-28", "CC-29"}:
+            it["status"] = "complete"
+            it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
+            it["validation"] = "the 35k green checkpoint is tagged and every deletion has tag recovery"
+            it["next_action"] = "none"
 
     checklist.append(
         item(

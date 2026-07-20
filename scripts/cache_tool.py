@@ -7,6 +7,9 @@ import json
 import sys
 from pathlib import Path
 
+from omegaconf import OmegaConf
+
+from mop.config import REPO_ROOT
 from mop.substrate.cache_manifest import validate_cache_manifest, write_cache_manifest
 from mop.substrate.cache_tools import (
     DEFAULT_ROOT,
@@ -14,6 +17,7 @@ from mop.substrate.cache_tools import (
     list_caches,
     validate_cache,
 )
+from mop.substrate.storage import estimate_for_encoder, human_bytes, list_caches_with_size, prune_caches
 
 
 def _emit(obj) -> None:
@@ -45,6 +49,16 @@ def main(argv: list[str] | None = None) -> int:
     pvm = sub.add_parser("validate-manifest", help="validate cache_manifest.json only")
     pvm.add_argument("store_dir", help="path to one cache dir")
 
+    ps = sub.add_parser("storage", help="list, estimate, or safely prune cache storage")
+    ps.add_argument("action", choices=("list", "estimate", "prune"))
+    ps.add_argument("--root", default="data/cache")
+    ps.add_argument("--encoder")
+    ps.add_argument("--clips", type=int, default=1000)
+    ps.add_argument("--dense", action="store_true")
+    ps.add_argument("--dense-tokens", type=int)
+    ps.add_argument("--keep", nargs="*", default=None)
+    ps.add_argument("--apply", action="store_true", help="delete unkept caches; default is dry-run")
+
     args = p.parse_args(argv if argv is not None else sys.argv[1:])
 
     if args.cmd == "list":
@@ -72,6 +86,31 @@ def main(argv: list[str] | None = None) -> int:
         problems = validate_cache_manifest(Path(args.store_dir))
         _emit({"store_dir": str(args.store_dir), "clean": not problems, "problems": problems})
         return 0 if not problems else 1
+    if args.cmd == "storage":
+        root = Path(args.root)
+        root = root if root.is_absolute() else REPO_ROOT / root
+        if args.action == "list":
+            caches = list_caches_with_size(root)
+            total = sum(item["bytes"] for item in caches)
+            _emit(
+                {"root": str(root), "caches": caches, "total_bytes": total, "total_human": human_bytes(total)}
+            )
+        elif args.action == "estimate":
+            if not args.encoder:
+                raise SystemExit("storage estimate requires --encoder")
+            cfg = OmegaConf.to_container(
+                OmegaConf.load(REPO_ROOT / "configs/encoder" / f"{args.encoder}.yaml"), resolve=True
+            )
+            _emit(
+                estimate_for_encoder(
+                    cfg, n_clips=args.clips, dense=args.dense, dense_tokens=args.dense_tokens
+                )
+            )
+        else:
+            plan = prune_caches(root, keep=args.keep, dry_run=not args.apply)
+            freed = sum(item["bytes"] for item in plan if item["would_delete"])
+            _emit({"root": str(root), "dry_run": not args.apply, "freed_bytes": freed, "plan": plan})
+        return 0
     return 2
 
 

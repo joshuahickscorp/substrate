@@ -909,6 +909,24 @@
       "proof": "the exact Markdown authority is four files and 91 lines; documentation and registry regression battery is 41/41 green; deleted documents recover exactly from mop-collapse-50k; the generated ledger is 35 lines and contains no copied test, experiment, or run counts",
       "accounting_note": "Markdown changed by 78 additions and 864 deletions, net -786; the generator and retained Python surface changed by 1758 additions and 1332 deletions, net +426, mostly whole-file Ruff formatting of the ledger generator; total tracked physical reduction is net -360 before regenerated state accounting",
       "tag": "mop-collapse-docs-compact"
+    },
+    {
+      "region": "section8_studies_section14_entrypoints_section15_registry_section17_validation",
+      "batch": "retired_one_off_entrypoints_and_dormant_development_verticals",
+      "checkpoint_status": "green",
+      "primitive": "forty-one completed cache, probe, study, intake, and campaign wrappers; the dormant developmental registry package; unconsumed study helpers; completed real-intake CLI stacks; and their dedicated tests were converted to recoverable history; cache storage operations moved into the retained cache tool",
+      "deduplicated_LOC": 0,
+      "added_LOC": 122,
+      "eliminated_LOC": 14688,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 14566,
+      "files_changed": 97,
+      "destination_api": "the installed mop experiment CLI plus nine bounded developer entrypoints for CM7/CM8, acceptance, documentation, cache safety, diagnostics, artifact handling, and host readiness",
+      "proof": "all 527 retained tests collect and the full suite passes with 6 environment skips; the complete src/scripts/tests surface passes Ruff and compile-all; all 85 deleted paths recover from mop-collapse-docs-compact; the protected checkout remains clean and untouched",
+      "accounting_note": "14688 Python lines deleted for 122 survivor and ledger-generator lines, net -14566; configuration and generated authority updates bring total tracked physical change to 350 added/15343 deleted, net -14993; maintained Python is 33513 LOC, src is 20909 LOC, validation is 7335 LOC, and nine developer scripts remain",
+      "tag": "mop-collapse-35k"
     }
   ],
   "deferred_heavy_validation": {
