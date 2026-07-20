@@ -1935,6 +1935,44 @@
         "tests/unit/test_custom_substrate_workbench.py",
         "tests/unit/test_custom_substrate_finalize.py"
       ]
+    },
+    {
+      "id": "retired_unconsumed_support_and_synthetic_starss_adapter",
+      "source_tag": "mop-collapse-lowest-green-4",
+      "reason": "the selected real STARSS23 counting path had no consumer of the synthetic adapter, generic room split, reverse metadata serializer, transport accounting, or convenience wrappers; the remaining support utilities and duplicate tests were likewise test-only or entirely unreferenced, while active seeding, device autocast, host readiness, real ingestion, scoring, and independent verification remain covered",
+      "replacement_paths": [
+        "src/mop/beds/starss23/adapter.py",
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/beds/starss23/count_verifier.py",
+        "src/mop/harness/runner.py",
+        "src/mop/studio_doctor.py",
+        "src/mop/provenance.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-4:<path>",
+      "paths": [
+        "src/mop/beds/__init__.py",
+        "src/mop/beds/starss23/adapter.py",
+        "src/mop/beds/starss23/count_estimator.py",
+        "src/mop/beds/starss23/count_featurizer.py",
+        "src/mop/beds/starss23/count_gate.py",
+        "src/mop/beds/starss23/count_labels.py",
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/beds/starss23/count_referee.py",
+        "src/mop/beds/starss23/count_verifier.py",
+        "src/mop/beds/starss23/schema.py",
+        "src/mop/devices.py",
+        "src/mop/logging_utils.py",
+        "src/mop/provenance.py",
+        "src/mop/seeding.py",
+        "src/mop/studio/memory_envelope.py",
+        "src/mop/studio/profiles.py",
+        "tests/unit/test_apple_silicon.py",
+        "tests/unit/test_foundation.py",
+        "tests/unit/test_memory_envelope.py",
+        "tests/unit/test_starss23_counting_bed.py",
+        "tests/unit/test_starss23_schema.py",
+        "tests/unit/test_studio_profiles.py"
+      ]
     }
   ]
 }

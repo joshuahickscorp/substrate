@@ -74,9 +74,3 @@ class FrozenCountEstimator(ZeroParameterProvider):
             count = int(np.count_nonzero(eigvals >= threshold))
             track[t] = min(MAX_ESTIMABLE_SOURCES, max(1, count))
         return track
-
-    def flops_for_reestimations(self, k: int) -> int:
-
-        if isinstance(k, bool) or not isinstance(k, int) or k < 0:
-            raise CountEstimatorRefusal("k must be a nonnegative integer")
-        return FLOPS_PER_REESTIMATE * k

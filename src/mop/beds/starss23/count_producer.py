@@ -58,8 +58,6 @@ from .schema import Clip
 COUNT_PRODUCER_SCHEMA = "mop-starss23-count-producer/v1"
 ARTIFACT_SCHEMA = "mop-starss23-escs-count-bed/v1"
 STAGE = 3
-PRIMARY_CONTROL = ARM_RATE_MATCHED_RANDOM
-STAGE3_REQUIREMENT_ID = "stage3.confirmed_useful_mechanism"
 
 DEFAULT_STARSS_ROOT = Path(os.environ.get("MOP_STARSS23_ROOT", REPO_ROOT / "data" / "starss23"))
 DEFAULT_FOA_ROOT = DEFAULT_STARSS_ROOT / "foa_subset" / "foa_dev"
@@ -401,6 +399,3 @@ def build_real_count_bed_artifact(
         spec=spec,
         clock_ns=time.perf_counter_ns,
     )
-
-
-DEFAULT_COUNT_ARTIFACT_PATH = Path("proof/STARSS23_COUNTING_BED.json")

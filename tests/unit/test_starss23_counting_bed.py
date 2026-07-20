@@ -82,7 +82,6 @@ def test_change_density_and_coast_from_zero():
         count_track=(0, 1, 1, 2, 0, 0),
     )
     assert clip.n_changes == 3
-    assert clip.change_frames == (1, 3, 4)
     assert change_density([clip]) == pytest.approx(3 / 6)
     assert coast_from_zero_mae([clip]) == pytest.approx(4 / 6)
 
@@ -135,7 +134,7 @@ def test_featurizer_zero_param_and_deterministic():
     f2 = fz.featurize(audio)
     assert f1.shape == (12, D_CFEAT)
     assert D_CFEAT == 256
-    assert fz.feature_digest(f1) == fz.feature_digest(f2)
+    assert np.array_equal(f1, f2)
     assert fz.parameter_digest() == FrozenCountFeaturizer().parameter_digest()
     assert FLOPS_PER_FRAME_COUNT == 1_120_700
 
@@ -151,7 +150,6 @@ def test_estimator_zero_param_deterministic_range_and_silence():
     assert int(e1.min()) >= 0 and int(e1.max()) <= 4
     silence = np.zeros((4, 2400 * 4))
     assert est.estimate_track(silence).tolist() == [0, 0, 0, 0]
-    assert est.flops_for_reestimations(5) == 5 * FLOPS_PER_REESTIMATE
     assert FLOPS_PER_REESTIMATE == 80_000
 
 

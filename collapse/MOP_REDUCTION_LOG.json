@@ -1179,11 +1179,29 @@
       "proof": "Architecture B selected at 2888 maintained LOC versus 3048; direct-raw, legacy embedded, and finalized receipt parity passes; schema drift remains refused by the final attestation owner; training, evaluation, CM8, portable artifact, canonical model, Student-t, and independent verifier source fingerprints are exact; 20 focused cases and the 172-case full suite pass with 6 environment skips; acceptance 10/10, Ruff clean, and mypy clean over 43 source files",
       "accounting_note": "228 lifecycle and duplicate-test lines replaced by 68 final-owner and mutation-test lines, net -160; runtime source falls to 10303 LOC, scripts to 965 LOC, validation to 3204 LOC, and maintained Python to 14723 LOC",
       "tag": "mop-collapse-raw-once-attestation"
+    },
+    {
+      "region": "section8_kernel_section11_starss23_section17_validation",
+      "batch": "retired_unconsumed_support_and_synthetic_starss_adapter",
+      "checkpoint_status": "green",
+      "primitive": "zero-consumer seed, device, memory, resource-profile, provenance, and STARSS23 convenience surfaces were deleted; the unconsumed synthetic STARSS23 adapter and generic split lifecycle were retired after the real-data adapter became the sole executable counting path",
+      "deduplicated_LOC": 0,
+      "added_LOC": 10,
+      "eliminated_LOC": 690,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 680,
+      "files_changed": 22,
+      "destination_api": "the real STARSS23 adapter/native split, deterministic harness seeding, active device autocast contract, studio doctor snapshot, and mop.provenance Git/package authority",
+      "proof": "consumer search and Vulture found no maintained runtime consumer for the retired surfaces; active seeding, AMP, Studio, cache-manifest, STARSS23 schema/counting, and independent-verifier focused suites pass; the 155-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 43 source files, and collapse invariants 5/5",
+      "accounting_note": "690 Python lines deleted for 10 direct survivor/test rewrites, net -680; runtime source falls to 9770 LOC, scripts remain 965 LOC, validation falls to 3057 LOC, and maintained Python falls to 14043 LOC",
+      "tag": "mop-collapse-unused-surface"
     }
   ],
   "latest_full_validation": {
-    "command": "PYTHONPATH=src /Users/scammermike/Downloads/mop/.venv/bin/python -m pytest -q",
-    "result": "172 collected; 166 passed; 6 environment skips",
+    "command": ".venv/bin/python -m pytest -q",
+    "result": "155 collected; 149 passed; 6 environment skips",
     "acceptance": "10/10 passed",
     "static": "Ruff lint and format clean; mypy clean over 43 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
