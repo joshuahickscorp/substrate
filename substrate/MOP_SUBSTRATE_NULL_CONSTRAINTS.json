@@ -1,0 +1,55 @@
+{
+  "schema": "mop-substrate-null-constraints/v1",
+  "constraints": [
+    {
+      "origin": "P1R keep/eviction",
+      "binding": "not competitive with GDumb/reservoir as a replay method; use established replay (GDumb/reservoir/uniform/class-balanced) as active substrate replay; no learned replay selector by default; buffer maintenance and replay selection are separate authorities"
+    },
+    {
+      "origin": "P1R sampling priority (C1)",
+      "binding": "no stable oracle headroom over uniform GDumb; learned priority harmful; do not learn priority unless a NEW substrate-specific oracle-headroom gate passes"
+    },
+    {
+      "origin": "R1 retrieval",
+      "binding": "valid null beyond nearest similarity; nearest similarity is a required control; no learned retriever by default"
+    },
+    {
+      "origin": "U1 uncertainty",
+      "binding": "raw uncertainty fails reducibility discrimination; uncertainty is diagnostic only, not a plasticity controller"
+    },
+    {
+      "origin": "N1 novelty",
+      "binding": "source-specific positive, cross-source null; novelty is diagnostic only"
+    },
+    {
+      "origin": "S1/C3 simulation",
+      "binding": "learned model planning worse than random; oracle error-aware lacks headroom; no learned simulation allocator; direct prediction/simple planning are controls"
+    },
+    {
+      "origin": "E1 events",
+      "binding": "not beyond simple change detection; use simple change detectors as baselines"
+    },
+    {
+      "origin": "C0 trace",
+      "binding": "not beyond EMA smoothing; EMA/direct-state are baselines"
+    },
+    {
+      "origin": "M1 messaging",
+      "binding": "predictability is not causal message value; centralized matched-capacity is the control"
+    },
+    {
+      "origin": "K1 repair",
+      "binding": "contradiction detection is not repair necessity"
+    },
+    {
+      "origin": "A1 action",
+      "binding": "not beyond fitted value control"
+    },
+    {
+      "origin": "C1 method-lesson",
+      "binding": "no principal headroom or architecture decision on two seeds; >=5 stable seeds plus valid independent units; no opportunistic seed addition after a near miss"
+    }
+  ],
+  "rule": "do not populate the substrate with failed modules for architectural completeness; failed mechanisms appear only as frozen controls",
+  "sha256": "b381a4af74866615cad98e652a3d3b844aeb8c45e7807abda786f1f33fe8df00"
+}

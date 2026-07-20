@@ -1,0 +1,37 @@
+{
+  "schema": "mop-substrate-campaign-manifest/v1",
+  "program_id": "mop-owned-substrate-genesis-v0",
+  "branch": "agent/mop-substrate-genesis-v2",
+  "base_commit": "06860b2",
+  "run_root": "runs/substrate/mop-owned-substrate-genesis-v0",
+  "proof_root": "proof/substrate/mop-owned-substrate-genesis-v0",
+  "stop_switch": "~/.mop_substrate_genesis_v0_stop",
+  "stop_semantics": "absent=active; present=halt at next checkpoint",
+  "preserved_legacy_switches": [
+    "~/.mop_autonomy_stop",
+    "~/.mop_clusterB_stop",
+    "~/.mop_scientific_frontier_stop",
+    "~/.mop_generation3_stop"
+  ],
+  "runtime": "one scheduler, one evidence core, one experiment engine, one registry, one campaign state authority; global resource-token scheduler, receipt-cached verification, resumable checkpoints, retry escalation, stall detection, atomic writes, content-addressed artifacts",
+  "process_identity": {
+    "supervisor_label": "mop-substrate-supervisor",
+    "process_label_prefix": "mopsubstrate",
+    "pid_receipt": "/Users/scammermike/Downloads/mop-substrate-genesis-v2/runs/substrate/mop-owned-substrate-genesis-v0/pid_receipt.json",
+    "event_log": "/Users/scammermike/Downloads/mop-substrate-genesis-v2/runs/substrate/mop-owned-substrate-genesis-v0/events.jsonl",
+    "status_projection": "/Users/scammermike/Downloads/mop-substrate-genesis-v2/runs/substrate/mop-owned-substrate-genesis-v0/status.json",
+    "attempt_ledger": "/Users/scammermike/Downloads/mop-substrate-genesis-v2/runs/substrate/mop-owned-substrate-genesis-v0/attempts.jsonl"
+  },
+  "commands": {
+    "resume": "read MOP_SUBSTRATE_GENESIS_STATE.json and continue each stream from next_exact_action",
+    "status": "cat /Users/scammermike/Downloads/mop-substrate-genesis-v2/runs/substrate/mop-owned-substrate-genesis-v0/status.json",
+    "verify_completed": "python substrate/verify_substrate.py",
+    "close_if_terminal": "python substrate/build_substrate_synthesis.py --close-if-terminal",
+    "inspection": "cat /Users/scammermike/Downloads/mop-substrate-genesis-v2/runs/substrate/mop-owned-substrate-genesis-v0/status.json"
+  },
+  "authority_window": {
+    "minimum_useful_hours": 12,
+    "maximum_initial_hours": 24
+  },
+  "sha256": "7cfc90d0943dc40607f9aff8f9cbe158c4135f65c7f5abe72330655e3ae3c01e"
+}

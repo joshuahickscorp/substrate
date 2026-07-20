@@ -1,0 +1,172 @@
+{
+  "schema": "mop-substrate-genesis-state/v1",
+  "program_id": "mop-owned-substrate-genesis-v0",
+  "branch": "agent/mop-substrate-genesis-v2",
+  "base_commit": "06860b2",
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "activation": false,
+  "authority_window_hours": {
+    "min": 12,
+    "max": 24
+  },
+  "seed_floor": 5,
+  "host_cores": 28,
+  "checklist": {
+    "AUTH": {
+      "id": "AUTH",
+      "section": "1-4",
+      "status": "complete",
+      "dependencies": [],
+      "next_exact_action": "authority+null-constraints+manifest+ledger sealed"
+    },
+    "PREFLIGHT": {
+      "id": "PREFLIGHT",
+      "section": "16-18",
+      "status": "active",
+      "dependencies": [
+        "AUTH"
+      ],
+      "next_exact_action": "multi-seed domain preflight: forgetting + oracle headroom beyond GDumb on EMNIST/CIFAR100/HAR; classify each"
+    },
+    "ARCH_A": {
+      "id": "ARCH_A",
+      "section": "12",
+      "status": "active",
+      "dependencies": [
+        "AUTH"
+      ],
+      "next_exact_action": "implement Shared Latent Workspace on shared contract"
+    },
+    "ARCH_B": {
+      "id": "ARCH_B",
+      "section": "13",
+      "status": "active",
+      "dependencies": [
+        "AUTH"
+      ],
+      "next_exact_action": "implement Sparse Modular Plastic Substrate on shared contract"
+    },
+    "ENGINE": {
+      "id": "ENGINE",
+      "section": "9,29",
+      "status": "active",
+      "dependencies": [
+        "AUTH"
+      ],
+      "next_exact_action": "shared continual train/eval engine, memory, policies, consolidation, routing"
+    },
+    "BASELINES": {
+      "id": "BASELINES",
+      "section": "19",
+      "status": "pending",
+      "dependencies": [
+        "ENGINE"
+      ],
+      "next_exact_action": "fresh/naive/joint/frozen+linear/MLP/GRU/GDumb/reservoir/EWC matched"
+    },
+    "BATTERY": {
+      "id": "BATTERY",
+      "section": "25",
+      "status": "pending",
+      "dependencies": [
+        "ENGINE"
+      ],
+      "next_exact_action": "moldability battery + calibration (known pos/null/no-headroom/leakage/interference)"
+    },
+    "DOMAIN1": {
+      "id": "DOMAIN1",
+      "section": "4,29",
+      "status": "pending",
+      "dependencies": [
+        "ARCH_A",
+        "ARCH_B",
+        "ENGINE",
+        "BASELINES",
+        "BATTERY",
+        "PREFLIGHT"
+      ],
+      "next_exact_action": "first principal domain: A,B,baselines,>=5 seeds,ablations,verify"
+    },
+    "DOMAIN2": {
+      "id": "DOMAIN2",
+      "section": "5",
+      "status": "pending",
+      "dependencies": [
+        "DOMAIN1"
+      ],
+      "next_exact_action": "second principal domain (>=1 non-image) surviving arms + controls"
+    },
+    "TRANSFER": {
+      "id": "TRANSFER",
+      "section": "28",
+      "status": "pending",
+      "dependencies": [
+        "DOMAIN1",
+        "DOMAIN2"
+      ],
+      "next_exact_action": "cross-context + cross-domain transfer"
+    },
+    "PLAST_GATE": {
+      "id": "PLAST_GATE",
+      "section": "21",
+      "status": "pending",
+      "dependencies": [
+        "DOMAIN1"
+      ],
+      "next_exact_action": "substrate-specific plasticity headroom gate (>=5 seeds)"
+    },
+    "SELECTION": {
+      "id": "SELECTION",
+      "section": "34",
+      "status": "pending",
+      "dependencies": [
+        "DOMAIN1",
+        "DOMAIN2"
+      ],
+      "next_exact_action": "terminal architecture selection"
+    },
+    "VERIFY": {
+      "id": "VERIFY",
+      "section": "37",
+      "status": "pending",
+      "dependencies": [
+        "DOMAIN1"
+      ],
+      "next_exact_action": "independent verification of principal results"
+    },
+    "MUTATION": {
+      "id": "MUTATION",
+      "section": "38",
+      "status": "pending",
+      "dependencies": [
+        "SELECTION"
+      ],
+      "next_exact_action": "mutation suites for any positive"
+    },
+    "SYNTHESIS": {
+      "id": "SYNTHESIS",
+      "section": "45,46",
+      "status": "pending",
+      "dependencies": [
+        "SELECTION",
+        "VERIFY",
+        "MUTATION",
+        "TRANSFER",
+        "PLAST_GATE"
+      ],
+      "next_exact_action": "terminal synthesis + all deliverables + next frontier"
+    }
+  },
+  "waves": {
+    "1_authority": "done",
+    "2_implementation": "active",
+    "3_battery": "pending",
+    "4_domain1": "pending",
+    "5_domain2": "pending",
+    "6_transfer": "pending",
+    "7_plasticity": "pending",
+    "8_verification": "pending"
+  },
+  "sha256": "d2e56a625d809dfebb26ab4d0f92c6bf9a6cbcb3a04a66227723f31c945bc43e"
+}
