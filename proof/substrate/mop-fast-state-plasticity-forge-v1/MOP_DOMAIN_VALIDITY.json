@@ -177,7 +177,7 @@
   "principal_domains": [],
   "wall_seconds": 0.0,
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
+  "source_commit": "44c73e4ce0683890a6a52c49979d6c6142c907ff",
   "SESOI": 0.05,
-  "sha256": "e8a841c9da5f99850c1faef71ea1ce7b3c2535a217ba15981e7739a773f82e06"
+  "sha256": "39698ec2351d79fa5e58bd1ff81ea32bb2bbe6ed34cd00fb88d7b84a3f1ba175"
 }

@@ -152,11 +152,16 @@ def summarize(rows: dict) -> dict:
             }
             for a in arms
         }
+        # Each component floor is the best any baseline achieved on that component, not the components of
+        # whichever baseline happens to win on utility. A baseline that forgets everything would otherwise
+        # set a retention floor of nearly zero and the floor would stop being a floor.
         floors = {
-            "second_acquisition": means[strongest]["second_acquisition"] - 0.02,
-            "first_retention": means[strongest]["first_retention"] - 0.02,
-            "return_recovery": means[strongest]["return_recovery"] - 0.02,
-            "future_adaptation": means[strongest]["future_adaptation"] - 0.02,
+            k: max(means[b][k] for b in baselines) - 0.02
+            for k in ("second_acquisition", "first_retention", "return_recovery", "future_adaptation")
+        }
+        floor_source = {
+            k: max(baselines, key=lambda b: means[b][k])
+            for k in ("second_acquisition", "first_retention", "return_recovery", "future_adaptation")
         }
         passing = [
             a
@@ -171,6 +176,7 @@ def summarize(rows: dict) -> dict:
             "utility": {a: round(um[a], 4) for a in arms},
             "effects": effects,
             "component_floors": {k: round(v, 4) for k, v in floors.items()},
+            "component_floor_source_baseline": floor_source,
             "arms_passing_all_conditions": passing,
             "verdict": "cross_domain_positive" if passing else "cross_domain_null",
         }

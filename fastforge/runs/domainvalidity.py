@@ -14,7 +14,7 @@ import time
 
 from fastforge.runs import io
 
-DOMAINS = ["har", "speech", "speech_stream", "pamap2_transition", "harth_transition"]
+DOMAINS = ["har", "speech", "har_stream", "speech_stream", "pamap2_transition", "harth_transition"]
 PRE_REPAIR = {
     "pamap2_transition": {"gru": 0.7855, "bag_order_free": 0.7888, "gru_shuffled": 0.7924},
     "harth_transition": {"gru": 0.6919, "bag_order_free": 0.7015, "gru_shuffled": 0.707},

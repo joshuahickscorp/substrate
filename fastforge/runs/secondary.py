@@ -115,8 +115,9 @@ def main():
         effects = {
             arm: E.effect([util(arm, s) for s in seeds], [util(strongest, s) for s in seeds]) for arm in ARMS
         }
+        # the best any baseline achieved per component, so a forgetful baseline cannot lower the bar
         floors = {
-            k: means[strongest][k] - 0.02
+            k: max(means[b][k] for b in BASELINES) - 0.02
             for k in ("second_acquisition", "first_retention", "return_recovery", "future_adaptation")
         }
         passing = [
