@@ -1,0 +1,28 @@
+{
+  "schema": "mop-integrated-code-accounting/v1",
+  "active_runtime_loc": 4930,
+  "substrate_implementation_loc": 7012,
+  "campaign_orchestration_loc": 7922,
+  "tests_loc": 1997,
+  "tooling_loc": 405,
+  "configuration_loc": 139,
+  "documentation_loc": 3126,
+  "proof_serialization_loc": 268219,
+  "maintained_python_excludes_proof": 22266,
+  "file_counts": {
+    "runtime": 37,
+    "substrate": 113,
+    "campaign": 67,
+    "tests": 19,
+    "tooling": 6,
+    "config": 6,
+    "docs": 39,
+    "proof": 134
+  },
+  "targets": {
+    "maintained_python_le_18000": false,
+    "runtime_le_8000": true
+  },
+  "note": "proof JSON lines never counted as implementation LOC",
+  "sha256": "6751c7812f0b69e432fb31a37f1625c2fb6a7c9d0cc61e502f4c6967c255b4dd"
+}

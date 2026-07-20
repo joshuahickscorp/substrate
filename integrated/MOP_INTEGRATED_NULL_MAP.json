@@ -1,0 +1,15 @@
+{
+  "schema": "mop-integrated-null-map/v1",
+  "nulls": {
+    "A-T": "temporal shared workspace null vs LSTM+GDumb (HAR raw)",
+    "C": "multi-horizon predictive state null vs LSTM+GDumb",
+    "D": "hierarchical lattice structural null (routing decorative)",
+    "memory_compression": "prototype/coreset/dual null vs GDumb, 8 seeds",
+    "PAMAP2": "order-insensitive windowed activity recognition (bag beats GRU)",
+    "STARSS23_cached": "8 clips aggregated per-clip latents; insufficient units, no temporal sequence",
+    "learned_plasticity": "no stable headroom (simple_policy_sufficient)",
+    "cross_domain": "not established",
+    "prior_generations": "R1 retrieval, P1R replay, U1 uncertainty, N1 novelty, S1/C3 simulation, E1 events, C0 trace, M1 messaging, K1 repair, A1 action all null"
+  },
+  "sha256": "9f3f7302856025286605c5653884c8b146ca9b2852edbb52bc486a458da0967d"
+}

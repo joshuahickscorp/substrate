@@ -1,0 +1,29 @@
+{
+  "schema": "mop-substrate-audio-preflight/v1",
+  "domain": "SpeechCommands_v0.02",
+  "substitution_reason": "STARSS23 cached features invalid: 8 clips, aggregated per-clip latents, no recording/room/site-disjoint units, no temporal sequence",
+  "rights": "Speech Commands v0.02, public (CC BY 4.0), Google",
+  "source_commit": "64d2801040c573775577b110eafc46ea5d0bc8ad",
+  "units": "speaker-disjoint (speaker hash in filename)",
+  "n_clips": 3200,
+  "frames": 49,
+  "bins": 20,
+  "classes": 10,
+  "n_speakers": 228,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "gru_correct": 0.5044,
+  "gru_shuffled": 0.4601,
+  "bag_order_free": 0.4667,
+  "temporal_headroom_gru_vs_bag": 0.0376,
+  "temporal_headroom_lcb": 0.0136,
+  "order_matters_gru_vs_shuffled": 0.0443,
+  "verdict": "invalid_no_temporal_headroom",
+  "wall_seconds": 366.1,
+  "sha256": "3b1c577d0863f2d4b68daf1021b5d2f9794efabf5e0efc619210c83d45f67619"
+}

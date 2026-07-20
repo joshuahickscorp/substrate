@@ -1,0 +1,15 @@
+{
+  "schema": "mop-proof-scope-audit/v1",
+  "checks": {
+    "exact_byte_recovery": true,
+    "old_path_lookup": true,
+    "no_hidden_unindexed_proof": true,
+    "collapse_set_present": true,
+    "substrate_or_campaign_present": true,
+    "no_duplicate_identity": true,
+    "merkle_union_matches": true,
+    "nulls_indexed": true,
+    "all_pass": true
+  },
+  "sha256": "99ed29389cd99ddbfe987072b2610bf8366fb54b7340eb5d8e9868926f06cc36"
+}
