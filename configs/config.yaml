@@ -3,7 +3,7 @@
 defaults:
   device: mps
   encoder: vjepa2_vitl_fpc64_256
-  experiment: mop_cm7_min_objective_probe
+  experiment: null
 
 # package-wide knobs
 package: mop

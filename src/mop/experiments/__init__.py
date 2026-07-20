@@ -6,7 +6,6 @@ import yaml
 
 from ..config import REPO_ROOT
 from .base import ExperimentSpec, RecordRefused, bind, interpret
-from .custom_substrate import BINDINGS
 
 
 def _registry_rows() -> list[dict[str, Any]]:
@@ -18,9 +17,9 @@ def _registry_rows() -> list[dict[str, Any]]:
 
 
 _ROWS = _registry_rows()
-if {row["id"] for row in _ROWS} != set(BINDINGS):
-    raise RecordRefused("the registry and implementation provider bindings differ")
-REGISTRY = {row["id"]: bind(row, *BINDINGS[row["id"]]) for row in _ROWS}
+if any(row.get("status") != "historical" for row in _ROWS):
+    raise RecordRefused("a maintained experiment declaration must be historical or have a provider binding")
+REGISTRY = {row["id"]: bind(row, None, None) for row in _ROWS}
 
 
 def get_experiment(experiment_id: str) -> ExperimentSpec:

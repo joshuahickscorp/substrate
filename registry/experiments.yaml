@@ -1,5 +1,5 @@
-# Active experiment registry. Completed and speculative banks are recoverable from
-# mop-collapse-future-scaffolds; this maintained surface contains only CM7/CM8.
+# Historical experiment registry. Executable predecessors recover from the code index;
+# maintained records preserve the completed CM7 null and its blocked CM8 descendant.
 
 version: 1
 
@@ -33,11 +33,11 @@ experiments:
     difficulty: high
     sci_value: high
     meaningless_risk: low
-    relation: "implemented local objective workbench: establishes only whether objective choice is a lever on deterministic programmatic video; CM8 and natural-video promotion remain fail-closed"
+    relation: "completed five-seed local objective tournament; the sealed result supports the null, independent verification records not-promoted, and no custom-encoder descendant is licensed"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
-    status: implemented
+    status: historical
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
   - id: mop_cm8_custom_jepa_pilot
     name: custom_jepa_factoring_pilot
@@ -68,9 +68,9 @@ experiments:
     difficulty: high
     sci_value: high
     meaningless_risk: medium
-    relation: "runnable local fail-closed preflight exists; the build-side scientific decision remains gated behind CM1/CM2/CM7, DR1, and a sufficiently large same-referent teacher cache"
+    relation: "closed without execution: the sealed CM7 prerequisite is not promotable, and the last preflight also records insufficient teacher rows plus absent CM1, CM2, and DR1 natural-data gates"
     capacity_rungs: []
     paradigm_slugs: []
     taxonomy_slot: 3
-    status: registry-only
+    status: historical
     proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -35,19 +36,19 @@ def main() -> int:
 
     from mop import config
     from mop.evidence import canonical_sha256
-    from mop.experiments import REGISTRY, get_experiment
+    from mop.experiments import REGISTRY
     from mop.harness import validate
     from mop.studio.profiles import PROFILES
 
-    step(
-        "experiment registry minimal",
-        set(REGISTRY) == {"mop_cm7_min_objective_probe", "mop_cm8_custom_jepa_pilot"},
-    )
-    cfg = config.compose(["experiment=mop_cm7_min_objective_probe", "device=cpu"])
-    step("CM7 config composes", cfg.experiment.id == "mop_cm7_min_objective_probe")
-    step("CM7 experiment resolves", get_experiment("mop_cm7_min_objective_probe").id == cfg.experiment.id)
+    expected = {"mop_cm7_min_objective_probe", "mop_cm8_custom_jepa_pilot"}
+    step("historical experiment registry", set(REGISTRY) == expected)
+    cm7 = json.loads((ROOT / "proof/CUSTOM_SUBSTRATE_PILOT.json").read_text())
+    step("CM7 sealed null", cm7["complete"] and not cm7["promotion"]["cm7_local_objective_lever_promotable"])
+    cm8 = json.loads((ROOT / "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json").read_text())
+    step("CM8 closed descendant", not cm8["scientific_execution_ready"] and not cm8["scientific_promotion"])
+    cfg = config.compose(["device=cpu"])
 
-    identity = canonical_sha256({"experiment": cfg.experiment.id, "seed": int(cfg.seed)})
+    identity = canonical_sha256({"experiments": sorted(REGISTRY), "seed": int(cfg.seed)})
     step("evidence identity", len(identity) == 64 and identity == identity.lower())
     step("configuration validation", validate.check_all() == [])
     step("Studio profiles", {"m3pro-local-max", "studio-m1ultra"} <= set(PROFILES))

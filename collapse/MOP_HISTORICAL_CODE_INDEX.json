@@ -2131,6 +2131,38 @@
         "scripts/studio/__main__.py",
         "src/mop/harness/cli.py"
       ]
+    },
+    {
+      "id": "retired_completed_cm7_and_blocked_cm8_execution_vertical",
+      "source_tag": "mop-collapse-lowest-green-16",
+      "reason": "the sealed five-seed CM7 result is complete, supports the preregistered null, and is independently verified as not promoted; CM8 requires a positive CM7 lever and its last preflight also records insufficient teacher rows, a programmatic-only teacher, and absent CM1, CM2, and DR1 gates, so keeping their workbench, provider bindings, commands, configuration, and dedicated tests active would preserve a scientifically exhausted second experiment engine",
+      "replacement_paths": [
+        "proof/CUSTOM_SUBSTRATE_PILOT.json",
+        "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/independent_verifier.json",
+        "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json",
+        "tests/unit/test_cm7_independent_recompute.py",
+        "src/mop/substrate/custom_model.py",
+        "src/mop/substrate/custom_artifact.py",
+        "src/mop/experiments/base.py",
+        "registry/experiments.yaml"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-16:<path>",
+      "paths": [
+        "configs/config.yaml",
+        "configs/custom_substrate/requirements.yaml",
+        "configs/experiment/mop_cm7_min_objective_probe.yaml",
+        "configs/experiment/mop_cm8_custom_jepa_pilot.yaml",
+        "registry/experiments.yaml",
+        "scripts/acceptance.py",
+        "src/mop/experiments/__init__.py",
+        "src/mop/experiments/custom_substrate.py",
+        "src/mop/harness/cli.py",
+        "src/mop/substrate/custom_workbench.py",
+        "tests/unit/test_custom_substrate_artifact.py",
+        "tests/unit/test_custom_substrate_workbench.py",
+        "tests/unit/test_experiments_registry.py",
+        "tests/unit/test_foundation.py"
+      ]
     }
   ]
 }

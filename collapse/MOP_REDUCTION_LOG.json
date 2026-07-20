@@ -1406,6 +1406,25 @@
       "performance": "six-process alternating medians: profile listing improves from 0.6958s to 0.6505s (-6.51%) and harness cold import improves from 0.6970s to 0.6915s (-0.79%)",
       "accounting_note": "170 Python interface lines replaced by 156 installed-CLI lines, net -14; runtime source rises to 8737 LOC, validation remains 2394 LOC, scripts fall to 61 LOC, and maintained Python falls to 11443 LOC",
       "tag": "mop-collapse-single-installed-interface"
+    },
+    {
+      "region": "section6_global_engine_section8_substrate_section12_registry_section14_cli_section17_validation",
+      "batch": "retired_completed_cm7_and_blocked_cm8_execution_vertical",
+      "checkpoint_status": "green",
+      "primitive": "CM7 is retained as a sealed completed null and independently verified non-promotion rather than an active second training engine; CM8 is retained as a historical descendant closed by the failed CM7 prerequisite and its last fail-closed preflight; the canonical model, portable hydration, evidence bindings, scientific declarations, and shared historical-record interpreter remain active",
+      "deduplicated_LOC": 0,
+      "added_LOC": 23,
+      "eliminated_LOC": 1994,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1971,
+      "files_changed": 15,
+      "destination_api": "sealed CUSTOM_SUBSTRATE_PILOT and CM8 preflight proofs, independent CM7 recomputation, canonical custom_model/custom_artifact authorities, historical registry declarations, and the shared sealed-record interpreter",
+      "proof": "CM7 receipt is complete and not promotable; the independent verifier records not-promoted; CM8 scientific_execution_ready and scientific_promotion are false with CM7 plus five additional blockers; all four proof hashes are byte-unchanged; both historical declarations fail closed through the global interpreter; all six deleted authorities recover from mop-collapse-lowest-green-16; 30 retained artifact/verifier/registry/engine/foundation/invariant cases pass; the 144-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 41 source files, compile-all and diff checks clean",
+      "performance": "eight-process alternating medians: experiment-registry cold import improves from 0.6923s to 0.6820s (-1.49%) and CLI help improves from 0.6408s to 0.6337s (-1.10%)",
+      "accounting_note": "1994 Python lifecycle and dedicated-test lines replaced by 23 historical-registry, acceptance, and retained-boundary lines, net -1971; 221 additional non-Python configuration lines are physically deleted; runtime source falls to 7027 LOC, validation to 2132 LOC, scripts are 62 LOC, and maintained Python falls to 9472 LOC",
+      "tag": "mop-collapse-custom-substrate-exhaustion"
     }
   ],
   "latest_full_validation": {

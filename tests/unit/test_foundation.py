@@ -20,13 +20,12 @@ def test_seed_everything_repeatable_on_cpu():
 
 
 def test_config_composition_and_overrides():
-    cfg = config.compose(["experiment=mop_cm7_min_objective_probe", "seed=99"])
+    cfg = config.compose(["seed=99"])
     assert cfg.package == "mop"
     assert cfg.device.kind == "mps"
     assert cfg.encoder.embed_dim == 1024
     assert cfg.seed == 99
-    assert cfg.experiment.id == "mop_cm7_min_objective_probe"
-    assert cfg.experiment_name == "mop_cm7_min_objective_probe"
+    assert "experiment" not in cfg and "experiment_name" not in cfg
 
 
 def test_config_group_switch():
