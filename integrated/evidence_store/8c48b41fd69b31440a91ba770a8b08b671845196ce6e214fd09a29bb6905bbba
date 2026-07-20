@@ -1,0 +1,55 @@
+{
+  "schema": "mop-third-temporal-domain-preflight/v2",
+  "priority_order_followed": [
+    "HARTH continuous free living data",
+    "continuous PAMAP2 transition task redesigned from raw streams",
+    "speaker disjoint continuous audio",
+    "another lawful session disjoint temporal dataset"
+  ],
+  "attempts": [
+    {
+      "domain": "HARTH free living transition prediction",
+      "rights": "HARTH Human Activity Recognition Trondheim, public research dataset, downloaded for this program",
+      "design": "given a three second window of back and thigh accelerometry, name the activity two seconds after the window ends. Transition and non transition windows are sampled at equal rate.",
+      "differs_from_the_invalid_bed": [
+        "free living rather than scripted, so activity changes are frequent and unannounced",
+        "label lies in the future",
+        "22 subject units",
+        "transition balanced sampling"
+      ],
+      "windows_train": 7115,
+      "windows_test": 4511,
+      "units_train": 14,
+      "units_test": 8,
+      "transition_fraction": 0.5,
+      "gate": {
+        "gru": 0.6919,
+        "gru_shuffled": 0.707,
+        "bag_order_free": 0.7015,
+        "temporal_headroom_gru_vs_bag": -0.0096,
+        "temporal_headroom_lcb": -0.0258,
+        "order_matters_gru_vs_shuffled": -0.0151,
+        "verdict": "invalid_no_temporal_headroom",
+        "steps": 800,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "verdict": "invalid_no_temporal_headroom",
+      "note": "one bounded repair was applied: at natural prevalence only 5 percent of windows straddle a change, so the first gate correctly rejected the bed. Balancing transition and non transition windows changes the sampling only, not the labels, the signal or the units. Both gate results are reported."
+    }
+  ],
+  "valid_third_domains": [],
+  "verdict": "third_domain_invalid",
+  "status": "secondary. A third domain can support or fail to support the premise, it cannot carry a principal verdict on its own, and the principal matrix stays HAR and Speech Commands.",
+  "not_repeated": "PAMAP2 window classification, which was already invalid",
+  "wall_seconds": 0.2,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "f8a4a16d2938cff5b3ee49ebda9c2ff200e7fc4d",
+  "SESOI": 0.05,
+  "sha256": "2a4657677d39cc8f93e412c159190261d8425e96b64945c59c9e8f7faf5fed2c"
+}

@@ -59,8 +59,11 @@ def run_sync(mod, args=()):
 
 
 def main():
-    bench_names = [f"{d}_{k}" for d in ("har", "speech")
-                   for k in ("gru", "lstm", "separate", "shared_adapters", "matched_capacity", "bag")]
+    bench_names = [
+        f"{d}_{k}"
+        for d in ("har", "speech")
+        for k in ("gru", "lstm", "separate", "shared_adapters", "matched_capacity", "bag")
+    ]
     cross_names = [f"{d}_{s}" for d in DIRS for s in SEEDS8]
     within_names = [f"{d}_{s}" for d in ("har", "speech") for s in SEEDS5]
     inter_names = [f"{d}_{s}" for d in DIRS for s in SEEDS8]
@@ -80,8 +83,10 @@ def main():
             done.add("cross")
 
         # interference and within domain are ready as soon as the architectures are sealed
-        for kind, mod, names in (("interference", "fastforge.runs.interference", inter_names),
-                                 ("within", "fastforge.runs.withinrun", within_names)):
+        for kind, mod, names in (
+            ("interference", "fastforge.runs.interference", inter_names),
+            ("within", "fastforge.runs.withinrun", within_names),
+        ):
             if kind in done:
                 continue
             if have(kind, names):
@@ -128,13 +133,28 @@ def main():
             run_sync("fastforge.verify")
             done.add("verify")
 
+        run_sync("fastforge.runs.domainvalidity")
         run_sync("fastforge.runs.thirddomain")
         run_sync("fastforge.runs.codereport")
         run_sync("fastforge.runs.fabric")
         run_sync("fastforge.runs.ledger")
 
-        remaining = [k for k in ("bench", "cross", "interference", "within", "rounds", "plasticity",
-                                 "reorg", "represent", "mutations", "verify") if k not in done]
+        remaining = [
+            k
+            for k in (
+                "bench",
+                "cross",
+                "interference",
+                "within",
+                "rounds",
+                "plasticity",
+                "reorg",
+                "represent",
+                "mutations",
+                "verify",
+            )
+            if k not in done
+        ]
         print(f"[supervisor] workers={workers()} done={sorted(done)} remaining={remaining}", flush=True)
         if not remaining:
             break

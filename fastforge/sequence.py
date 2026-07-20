@@ -29,8 +29,14 @@ from . import engine as E
 
 # Per domain budgets come from the baseline convergence curves, not from convenience. A domain whose
 # baselines are still improving is not a domain where any substrate result is terminal.
-BUDGET = {"har": 550, "speech": 1200, "harth_transition": 800, "pamap2_transition": 800}
-LR = {"har": 3e-3, "speech": 3e-3, "harth_transition": 3e-3, "pamap2_transition": 3e-3}
+BUDGET = {
+    "har": 550,
+    "speech": 1200,
+    "speech_stream": 1200,
+    "harth_transition": 800,
+    "pamap2_transition": 800,
+}
+LR = {"har": 3e-3, "speech": 3e-3, "speech_stream": 3e-3, "harth_transition": 3e-3, "pamap2_transition": 3e-3}
 RETURN_FRACTION = 3
 MEM_CAP = 600
 
@@ -45,7 +51,9 @@ def lr_for(dom):
 
 
 def _sha(v) -> str:
-    return hashlib.sha256(json.dumps(v, sort_keys=True, separators=(",", ":"), default=str).encode()).hexdigest()[:16]
+    return hashlib.sha256(
+        json.dumps(v, sort_keys=True, separators=(",", ":"), default=str).encode()
+    ).hexdigest()[:16]
 
 
 def local_groups(model, d, kinds=("proj_conv", "proj_lin", "adapter", "norm", "local_slow", "head")):
@@ -89,18 +97,24 @@ ARMS: dict[str, dict] = {
     "separate_per_domain": dict(arch="separate", carry=True, shared_p2=True, shared_p3=True),
     "projection_only_transfer": dict(arch="G", carry=False, copy_proj=True, shared_p2=True, shared_p3=True),
     "lstm_gdumb": dict(arch="lstm", carry=True, shared_p2=True, shared_p3=True, memory="gdumb"),
-    "matched_capacity_multi_domain": dict(arch="matched_capacity", carry=True, shared_p2=True, shared_p3=True),
+    "matched_capacity_multi_domain": dict(
+        arch="matched_capacity", carry=True, shared_p2=True, shared_p3=True
+    ),
     "shared_adapters_conventional": dict(arch="shared_adapters", carry=True, shared_p2=True, shared_p3=True),
     "ewc_shared_core": dict(arch="lstm", carry=True, shared_p2=True, shared_p3=True, ewc=50.0),
     # Architecture G required arms
     "G0_always_trainable": dict(arch="G", carry=True, shared_p2=True, shared_p3=True),
     "G1_frozen_after_first": dict(arch="G", carry=True, shared_p2=False, shared_p3=False),
     "G2_reopened_at_return": dict(arch="G", carry=True, shared_p2=False, shared_p3=True),
-    "G3_reopened_on_drop": dict(arch="G", carry=True, shared_p2=True, shared_p3=True, gate="perf", thresh=0.02),
-    "G4_adapters_only": dict(arch="G", carry=True, shared_p2=False, shared_p3=False,
-                             local_kinds=("adapter", "norm", "head")),
-    "G5_projection_and_head": dict(arch="G", carry=True, shared_p2=False, shared_p3=False,
-                                   local_kinds=("proj_conv", "proj_lin", "head")),
+    "G3_reopened_on_drop": dict(
+        arch="G", carry=True, shared_p2=True, shared_p3=True, gate="perf", thresh=0.02
+    ),
+    "G4_adapters_only": dict(
+        arch="G", carry=True, shared_p2=False, shared_p3=False, local_kinds=("adapter", "norm", "head")
+    ),
+    "G5_projection_and_head": dict(
+        arch="G", carry=True, shared_p2=False, shared_p3=False, local_kinds=("proj_conv", "proj_lin", "head")
+    ),
     "G6_oracle_schedule": dict(arch="G", carry=True, shared_p2=True, shared_p3=True, oracle=True),
     # Architecture H required arms and controls
     "H_always_update": dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="always"),
@@ -110,22 +124,37 @@ ARMS: dict[str, dict] = {
     "H_drift_gate": dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="drift", thresh=1.0),
     "H_perf_gate": dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="perf", thresh=0.02),
     "H_random_gate": dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="random"),
-    "H_shuffled_gate": dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="shuffled",
-                            shuffle_of="H_cosine_gate"),
-    "H_wrong_domain_gate": dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="wrong", thresh=0.0),
+    "H_shuffled_gate": dict(
+        arch="H", carry=True, shared_p2=True, shared_p3=True, gate="shuffled", shuffle_of="H_cosine_gate"
+    ),
+    "H_wrong_domain_gate": dict(
+        arch="H", carry=True, shared_p2=True, shared_p3=True, gate="wrong", thresh=0.0
+    ),
     "H_task_label_freeze": dict(arch="H", carry=True, shared_p2=False, shared_p3=True),
     "H_oracle_schedule": dict(arch="H", carry=True, shared_p2=True, shared_p3=True, oracle=True),
 }
 
 
-def run(arm: str, direction: tuple[str, str], seed: int, steps=None, override: dict | None = None,
-        replay_decisions=None, memory_cap=MEM_CAP, scale=1.0):
+def run(
+    arm: str,
+    direction: tuple[str, str],
+    seed: int,
+    steps=None,
+    override: dict | None = None,
+    replay_decisions=None,
+    memory_cap=MEM_CAP,
+    scale=1.0,
+):
     p = dict(ARMS[arm]) if arm in ARMS else {}
     if override:
         p.update(override)
     a, b = direction
-    steps = steps or {"acquire": int(scale * budget(a)), "second": int(scale * budget(b)),
-                      "return": int(scale * budget(a, "r")), "adapt": int(scale * budget(b, "r"))}
+    steps = steps or {
+        "acquire": int(scale * budget(a)),
+        "second": int(scale * budget(b)),
+        "return": int(scale * budget(a, "r")),
+        "adapt": int(scale * budget(b, "r")),
+    }
     sa, sb = D.splits(a, seed), D.splits(b, seed)
     torch.manual_seed(1000 + seed)
     model = A.build(p["arch"], {a: (sa["channels"], sa["classes"]), b: (sb["channels"], sb["classes"])})
@@ -138,14 +167,27 @@ def run(arm: str, direction: tuple[str, str], seed: int, steps=None, override: d
         shared = None
     # memory is domain local: sequences from different domains have different channel counts and lengths,
     # so a shared buffer is not merely unhelpful, it is not representable. Budget is matched per domain.
-    mems = {a: E.Memory(p.get("memory", "gdumb"), memory_cap),
-            b: E.Memory(p.get("memory", "gdumb"), memory_cap)}
+    mems = {
+        a: E.Memory(p.get("memory", "gdumb"), memory_cap),
+        b: E.Memory(p.get("memory", "gdumb"), memory_cap),
+    }
     receipts, m = [], {}
 
     # phase 1
     g1 = la + ([shared] if shared else []) + [g for g in p.get("phase1_extra", []) if g in model.param_groups]
-    receipts.append(E.fit(model, a, *sa["main"], train_groups=g1, steps=steps["acquire"], lr=lr_for(a), rng=rng,
-                          memory=mems[a], update_recent=True))
+    receipts.append(
+        E.fit(
+            model,
+            a,
+            *sa["main"],
+            train_groups=g1,
+            steps=steps["acquire"],
+            lr=lr_for(a),
+            rng=rng,
+            memory=mems[a],
+            update_recent=True,
+        )
+    )
     mems[a].add(*sa["main"], rng)
     m["first_acquisition"] = E.evaluate(model, a, *sa["test"])
     m["first_tune"] = E.evaluate(model, a, *sa["tune"])
@@ -167,8 +209,9 @@ def run(arm: str, direction: tuple[str, str], seed: int, steps=None, override: d
     gate = ewc = None
     ref_batch = ref_domain = None
     if p.get("gate") and shared:
-        gate = E.Gate(p["gate"], p.get("thresh", 0.0), np.random.default_rng(500 + seed),
-                      rate=p.get("rate", 0.5))
+        gate = E.Gate(
+            p["gate"], p.get("thresh", 0.0), np.random.default_rng(500 + seed), rate=p.get("rate", 0.5)
+        )
         rdom = b if p["gate"] == "wrong" else a
         rx, ry = (sb if p["gate"] == "wrong" else sa)["tune"]
         bi = rng.choice(len(rx), min(128, len(rx)), replace=False)
@@ -184,10 +227,25 @@ def run(arm: str, direction: tuple[str, str], seed: int, steps=None, override: d
 
     # phase 2
     g2 = lb + ([shared] if shared and p.get("shared_p2", True) else [])
-    receipts.append(E.fit(model, b, *sb["main"], train_groups=g2, steps=steps["second"], lr=lr_for(b), rng=rng,
-                          memory=mems[b], gate=gate, shared_group=shared,
-                          ref_batch=ref_batch, ref_domain=ref_domain, ewc=ewc,
-                          ewc_lambda=p.get("ewc", 0.0), update_recent=True))
+    receipts.append(
+        E.fit(
+            model,
+            b,
+            *sb["main"],
+            train_groups=g2,
+            steps=steps["second"],
+            lr=lr_for(b),
+            rng=rng,
+            memory=mems[b],
+            gate=gate,
+            shared_group=shared,
+            ref_batch=ref_batch,
+            ref_domain=ref_domain,
+            ewc=ewc,
+            ewc_lambda=p.get("ewc", 0.0),
+            update_recent=True,
+        )
+    )
     mems[b].add(*sb["main"], rng)
     m["second_acquisition"] = E.evaluate(model, b, *sb["test"])
     m["second_tune"] = E.evaluate(model, b, *sb["tune"])
@@ -195,15 +253,37 @@ def run(arm: str, direction: tuple[str, str], seed: int, steps=None, override: d
 
     # phase 3
     g3 = la + ([shared] if shared and p.get("shared_p3", True) else [])
-    receipts.append(E.fit(model, a, *sa["main"], train_groups=g3, steps=steps["return"], lr=lr_for(a), rng=rng,
-                          memory=mems[a], update_recent=True))
+    receipts.append(
+        E.fit(
+            model,
+            a,
+            *sa["main"],
+            train_groups=g3,
+            steps=steps["return"],
+            lr=lr_for(a),
+            rng=rng,
+            memory=mems[a],
+            update_recent=True,
+        )
+    )
     m["return_recovery"] = E.evaluate(model, a, *sa["test"])
     m["return_tune"] = E.evaluate(model, a, *sa["tune"])
 
     # phase 4
     g4 = lb + ([shared] if shared and p.get("shared_p2", True) else [])
-    receipts.append(E.fit(model, b, *sb["adapt"], train_groups=g4, steps=steps["adapt"], lr=lr_for(b), rng=rng,
-                          memory=mems[b], update_recent=True))
+    receipts.append(
+        E.fit(
+            model,
+            b,
+            *sb["adapt"],
+            train_groups=g4,
+            steps=steps["adapt"],
+            lr=lr_for(b),
+            rng=rng,
+            memory=mems[b],
+            update_recent=True,
+        )
+    )
     m["future_adaptation"] = E.evaluate(model, b, *sb["adapt_eval"])
     m["second_after_return"] = E.evaluate(model, b, *sb["test"])
 
@@ -220,7 +300,10 @@ def run(arm: str, direction: tuple[str, str], seed: int, steps=None, override: d
     m["tune_utility"] = float(np.mean([m["second_tune"], m["return_tune"]]))
 
     return {
-        "arm": arm, "arch": p["arch"], "direction": f"{a}->{b}", "seed": seed,
+        "arm": arm,
+        "arch": p["arch"],
+        "direction": f"{a}->{b}",
+        "seed": seed,
         "policy": {k: v for k, v in p.items()},
         "policy_sha": _sha({**p, "arm": arm}),
         "metrics": m,
@@ -230,8 +313,9 @@ def run(arm: str, direction: tuple[str, str], seed: int, steps=None, override: d
         "reinitialized_at_boundary": dropped,
         "shared_changed_at_boundary": sorted(g for g in gsha1 if gsha1[g] != gshaB[g]),
         "gate_decisions": None if gate is None else gate.decisions,
-        "gate_block_rate": None if gate is None else round(
-            float(np.mean([1 - d for d in gate.decisions])) if gate.decisions else 0.0, 4),
+        "gate_block_rate": None
+        if gate is None
+        else round(float(np.mean([1 - d for d in gate.decisions])) if gate.decisions else 0.0, 4),
         "checkpoint_after_first_domain": sha1,
         "checkpoint_final": E.checkpoint_sha(model),
         "undeclared_changes": sorted({n for r in receipts for n in r["undeclared_changes"]}),

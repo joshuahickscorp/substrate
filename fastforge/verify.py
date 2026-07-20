@@ -15,7 +15,6 @@ import json
 import math
 import statistics
 import time
-from collections import defaultdict
 
 from fastforge.runs import io
 
@@ -36,7 +35,7 @@ def lower_bound(values):
 
 
 def paired(a, b):
-    return [x - y for x, y in zip(a, b)]
+    return [x - y for x, y in zip(a, b, strict=True)]
 
 
 # ---------------------------------------------------------------- recomputation from raw records
@@ -85,10 +84,9 @@ def verify_ancestry(shards):
             recs = r["receipts"]
             for i in range(1, len(recs)):
                 checked += 1
-                if recs[i]["checkpoint_sha_before"] != recs[i - 1]["checkpoint_sha_after"]:
-                    # a boundary policy legitimately breaks the chain exactly once, between phase 1 and 2
-                    if i != 1:
-                        issues.append(f"{key}:{arm} ancestry broken at phase {i}")
+                # a boundary policy legitimately breaks the chain exactly once, between phase 1 and 2
+                if i != 1 and recs[i]["checkpoint_sha_before"] != recs[i - 1]["checkpoint_sha_after"]:
+                    issues.append(f"{key}:{arm} ancestry broken at phase {i}")
             if r.get("reinitialized_at_boundary"):
                 if not r.get("shared_changed_at_boundary"):
                     issues.append(f"{key}:{arm} declares a reinitialization that left no trace")
@@ -111,36 +109,55 @@ def verify_cross_domain(shards, sealed):
         by = {int(k.split("_")[-1]): v for k, v in rows.items()}
         base_params = statistics.mean(by[s]["lstm_gdumb"]["metrics"]["params"] for s in seeds)
 
-        def util(a, s):
+        def util(a, s, by=by, base_params=base_params):
             m = by[s][a]["metrics"]
             comp = (m["second_acquisition"] + m["return_recovery"] + m["future_adaptation"]) / 3.0
             return comp - 0.05 * (m["params"] / base_params)
 
         um = {a: statistics.mean(util(a, s) for s in seeds) for a in arms}
         strongest = report["strongest_matched_baseline"]
-        eff = {a: lower_bound(paired([util(a, s) for s in seeds], [util(strongest, s) for s in seeds]))
-               for a in arms}
-        means = {a: {k: statistics.mean(by[s][a]["metrics"][k] for s in seeds)
-                     for k in ("second_acquisition", "first_retention", "return_recovery",
-                               "future_adaptation")} for a in arms}
+        eff = {
+            a: lower_bound(paired([util(a, s) for s in seeds], [util(strongest, s) for s in seeds]))
+            for a in arms
+        }
+        means = {
+            a: {
+                k: statistics.mean(by[s][a]["metrics"][k] for s in seeds)
+                for k in ("second_acquisition", "first_retention", "return_recovery", "future_adaptation")
+            }
+            for a in arms
+        }
         floors = {k: means[strongest][k] - 0.02 for k in means[strongest]}
-        passing = sorted(a for a in arms
-                         if eff[a] >= SESOI and all(means[a][k] >= v for k, v in floors.items()))
+        passing = sorted(
+            a for a in arms if eff[a] >= SESOI and all(means[a][k] >= v for k, v in floors.items())
+        )
         sealed_pass = sorted(report["arms_passing_all_conditions"])
         sealed_eff = {a: report["effects"][a]["vs_strongest_baseline"]["lower_95_cb"] for a in arms}
         disagree = sorted(a for a in arms if abs(sealed_eff[a] - eff[a]) > TOL)
         out[dname] = {
             "recomputed_strongest_baseline": max(
-                [b for b in ("lstm_gdumb", "separate_per_domain", "matched_capacity_multi_domain",
-                             "shared_adapters_conventional", "ewc_shared_core", "fresh_independent")
-                 if b in um], key=lambda a: um[a]),
+                [
+                    b
+                    for b in (
+                        "lstm_gdumb",
+                        "separate_per_domain",
+                        "matched_capacity_multi_domain",
+                        "shared_adapters_conventional",
+                        "ewc_shared_core",
+                        "fresh_independent",
+                    )
+                    if b in um
+                ],
+                key=lambda a: um[a],
+            ),
             "sealed_strongest_baseline": strongest,
             "recomputed_passing": passing,
             "sealed_passing": sealed_pass,
             "verdict_agrees": passing == sealed_pass,
             "effect_disagreements_beyond_tolerance": disagree,
-            "max_absolute_effect_difference": round(max((abs(sealed_eff[a] - eff[a]) for a in arms),
-                                                        default=0.0), 6),
+            "max_absolute_effect_difference": round(
+                max((abs(sealed_eff[a] - eff[a]) for a in arms), default=0.0), 6
+            ),
         }
     return out
 
@@ -148,6 +165,7 @@ def verify_cross_domain(shards, sealed):
 def verify_splits():
     """Dataset identity, units and split disjointness, recomputed from the loaders."""
     from fastforge import data as D
+
     out = {}
     for dname in ("har", "speech"):
         d = D.domain(dname)
@@ -155,12 +173,16 @@ def verify_splits():
         tr_units = set(map(str, d["u"]))
         te_units = set(map(str, d["ute"]))
         out[dname] = {
-            "rows_train": int(len(d["x"])), "rows_test": int(len(d["xte"])),
-            "unit_kind": d["unit"], "train_units": len(tr_units), "test_units": len(te_units),
+            "rows_train": int(len(d["x"])),
+            "rows_test": int(len(d["xte"])),
+            "unit_kind": d["unit"],
+            "train_units": len(tr_units),
+            "test_units": len(te_units),
             "train_test_unit_overlap": len(tr_units & te_units),
             "split_unit_counts": sp["unit_counts"],
             "split_partitions_all_units": (sum(sp["unit_counts"].values()) == len(tr_units)),
-            "classes": d["classes"], "channels": d["channels"],
+            "classes": d["classes"],
+            "channels": d["channels"],
         }
     return out
 
@@ -170,8 +192,10 @@ def main():
     cross_shards = read_shards("crossdomain", None)
     within_shards = read_shards("within", None)
     sealed = {}
-    for name, dname in (("MOP_HAR_TO_SPEECH_REPORT.json", "har->speech"),
-                        ("MOP_SPEECH_TO_HAR_REPORT.json", "speech->har")):
+    for name, dname in (
+        ("MOP_HAR_TO_SPEECH_REPORT.json", "har->speech"),
+        ("MOP_SPEECH_TO_HAR_REPORT.json", "speech->har"),
+    ):
         if io.exists(name):
             sealed[dname] = io.load(name)
 
@@ -183,31 +207,51 @@ def main():
     checks = {
         "receipts_consistent": receipts["pass"],
         "checkpoint_ancestry_intact": ancestry["pass"],
-        "cross_domain_verdict_reproduced": all(v["verdict_agrees"] for v in cross.values()) if cross else None,
+        "cross_domain_verdict_reproduced": all(v["verdict_agrees"] for v in cross.values())
+        if cross
+        else None,
         "effects_reproduced_within_tolerance": all(
-            not v["effect_disagreements_beyond_tolerance"] for v in cross.values()) if cross else None,
+            not v["effect_disagreements_beyond_tolerance"] for v in cross.values()
+        )
+        if cross
+        else None,
         "splits_unit_disjoint": all(v["train_test_unit_overlap"] == 0 for v in splits.values()),
         "splits_partition_all_units": all(v["split_partitions_all_units"] for v in splits.values()),
     }
     checks["all_pass"] = all(v for v in checks.values() if isinstance(v, bool))
 
-    io.seal("MOP_FAST_STATE_INDEPENDENT_VERIFICATION.json", {
-        "schema": "mop-fast-state-independent-verification/v1",
-        "shared_with_the_runners": ["hashing", "serialization", "schemas", "file reading"],
-        "not_shared": ["effect computation", "group inference", "scientific classification"],
-        "recomputed": ["dataset identities", "units", "splits", "domain sequence", "checkpoint ancestry",
-                       "trainable groups", "frozen groups", "changed parameters", "primary metrics",
-                       "baseline metrics", "group inference", "architecture result", "verdict",
-                       "claim ceiling"],
-        "dataset_and_splits": splits,
-        "receipt_verification": receipts,
-        "ancestry_verification": ancestry,
-        "cross_domain_recomputation": cross,
-        "within_domain_shards_seen": len(within_shards),
-        "tolerance": TOL,
-        "checks": checks,
-        "wall_seconds": round(time.time() - t0, 1),
-    })
+    io.seal(
+        "MOP_FAST_STATE_INDEPENDENT_VERIFICATION.json",
+        {
+            "schema": "mop-fast-state-independent-verification/v1",
+            "shared_with_the_runners": ["hashing", "serialization", "schemas", "file reading"],
+            "not_shared": ["effect computation", "group inference", "scientific classification"],
+            "recomputed": [
+                "dataset identities",
+                "units",
+                "splits",
+                "domain sequence",
+                "checkpoint ancestry",
+                "trainable groups",
+                "frozen groups",
+                "changed parameters",
+                "primary metrics",
+                "baseline metrics",
+                "group inference",
+                "architecture result",
+                "verdict",
+                "claim ceiling",
+            ],
+            "dataset_and_splits": splits,
+            "receipt_verification": receipts,
+            "ancestry_verification": ancestry,
+            "cross_domain_recomputation": cross,
+            "within_domain_shards_seen": len(within_shards),
+            "tolerance": TOL,
+            "checks": checks,
+            "wall_seconds": round(time.time() - t0, 1),
+        },
+    )
     print("verification:", json.dumps(checks), flush=True)
     if receipts["issues"][:3]:
         print("receipt issues:", receipts["issues"][:3], flush=True)

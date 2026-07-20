@@ -40,17 +40,43 @@ def spec_sha(spec: dict) -> str:
 ARMS: dict[str, dict] = {
     "fresh_core": dict(carried=[], frozen_shared=[], copy_proj=False, warmup=0.0, lr_late=None),
     "projection_only_transfer": dict(carried=[], frozen_shared=[], copy_proj=True, warmup=0.0, lr_late=None),
-    "fast_core_transfer": dict(carried=["fast_core"], frozen_shared=[], copy_proj=False, warmup=0.0, lr_late=None),
-    "slow_core_transfer": dict(carried=["slow_core"], frozen_shared=[], copy_proj=False, warmup=0.0, lr_late=None),
-    "frozen_fast_core": dict(carried=["fast_core"], frozen_shared=["fast_core"], copy_proj=False, warmup=0.0, lr_late=None),
-    "frozen_slow_core": dict(carried=["slow_core"], frozen_shared=["slow_core"], copy_proj=False, warmup=0.0, lr_late=None),
-    "fine_tuned_fast_core": dict(carried=["fast_core"], frozen_shared=[], copy_proj=False, warmup=0.5, lr_late=1e-4),
-    "fine_tuned_slow_core": dict(carried=["slow_core"], frozen_shared=[], copy_proj=False, warmup=0.5, lr_late=1e-4),
-    "full_persistent_core": dict(carried=["fast_core", "slow_core"], frozen_shared=[], copy_proj=True, warmup=0.0, lr_late=None),
-    "domain_local_adapter": dict(carried=["fast_core", "slow_core"], frozen_shared=["fast_core", "slow_core"],
-                                 copy_proj=False, warmup=0.0, lr_late=None, local_only=["adapter", "head", "proj"]),
-    "domain_local_slow_state": dict(carried=["fast_core", "slow_core"], frozen_shared=["fast_core", "slow_core"],
-                                    copy_proj=False, warmup=0.0, lr_late=None, local_only=["local_slow", "head", "proj"]),
+    "fast_core_transfer": dict(
+        carried=["fast_core"], frozen_shared=[], copy_proj=False, warmup=0.0, lr_late=None
+    ),
+    "slow_core_transfer": dict(
+        carried=["slow_core"], frozen_shared=[], copy_proj=False, warmup=0.0, lr_late=None
+    ),
+    "frozen_fast_core": dict(
+        carried=["fast_core"], frozen_shared=["fast_core"], copy_proj=False, warmup=0.0, lr_late=None
+    ),
+    "frozen_slow_core": dict(
+        carried=["slow_core"], frozen_shared=["slow_core"], copy_proj=False, warmup=0.0, lr_late=None
+    ),
+    "fine_tuned_fast_core": dict(
+        carried=["fast_core"], frozen_shared=[], copy_proj=False, warmup=0.5, lr_late=1e-4
+    ),
+    "fine_tuned_slow_core": dict(
+        carried=["slow_core"], frozen_shared=[], copy_proj=False, warmup=0.5, lr_late=1e-4
+    ),
+    "full_persistent_core": dict(
+        carried=["fast_core", "slow_core"], frozen_shared=[], copy_proj=True, warmup=0.0, lr_late=None
+    ),
+    "domain_local_adapter": dict(
+        carried=["fast_core", "slow_core"],
+        frozen_shared=["fast_core", "slow_core"],
+        copy_proj=False,
+        warmup=0.0,
+        lr_late=None,
+        local_only=["adapter", "head", "proj"],
+    ),
+    "domain_local_slow_state": dict(
+        carried=["fast_core", "slow_core"],
+        frozen_shared=["fast_core", "slow_core"],
+        copy_proj=False,
+        warmup=0.0,
+        lr_late=None,
+        local_only=["local_slow", "head", "proj"],
+    ),
 }
 
 
@@ -84,15 +110,26 @@ def _phase_data(name: str, seed: int):
     fut = future[rng.permutation(len(future))]
     cut = int(0.7 * len(fut))
     return (
-        dom["x"][main], dom["y"][main],
-        dom["xte"], dom["yte"],
-        dom["x"][fut[:cut]], dom["y"][fut[:cut]],
-        dom["x"][fut[cut:]], dom["y"][fut[cut:]],
+        dom["x"][main],
+        dom["y"][main],
+        dom["xte"],
+        dom["yte"],
+        dom["x"][fut[:cut]],
+        dom["y"][fut[:cut]],
+        dom["x"][fut[cut:]],
+        dom["y"][fut[cut:]],
     )
 
 
-def run_arm(arm: str, direction: tuple[str, str], seed: int, steps=None, arch="XD",
-            skip_reinit: bool = False, force_reinit=()):
+def run_arm(
+    arm: str,
+    direction: tuple[str, str],
+    seed: int,
+    steps=None,
+    arch="XD",
+    skip_reinit: bool = False,
+    force_reinit=(),
+):
     """Four phase sequence: acquire A, acquire B, return to A, adapt to future units of B.
 
     skip_reinit and force_reinit exist only so the mutation suite can inject the two failures that matter,
@@ -112,8 +149,17 @@ def run_arm(arm: str, direction: tuple[str, str], seed: int, steps=None, arch="X
     bX, bY, bXte, bYte, bAdX, bAdY, bEvX, bEvY = _phase_data(b, seed)
 
     # phase 1: acquire domain A with every shared and A local group trainable
-    receipts.append(E.fit(model, a, aX, aY, train_groups=list(SHARED) + local_groups(model, a),
-                          steps=steps["acquire"], rng=rng))
+    receipts.append(
+        E.fit(
+            model,
+            a,
+            aX,
+            aY,
+            train_groups=list(SHARED) + local_groups(model, a),
+            steps=steps["acquire"],
+            rng=rng,
+        )
+    )
     m = {"first_acquisition": E.evaluate(model, a, aXte, aYte)}
     sha_after_phase1 = E.checkpoint_sha(model)
     group_sha_phase1 = E.group_sha(model, sorted(model.param_groups))
@@ -138,22 +184,43 @@ def run_arm(arm: str, direction: tuple[str, str], seed: int, steps=None, arch="X
     if spec["warmup"] > 0:
         w = int(spec["warmup"] * steps["second"])
         receipts.append(E.fit(model, b, bX, bY, train_groups=b_local, steps=w, rng=rng))
-        receipts.append(E.fit(model, b, bX, bY, train_groups=b_local + trainable_shared,
-                              steps=steps["second"] - w, lr=spec["lr_late"], rng=rng))
+        receipts.append(
+            E.fit(
+                model,
+                b,
+                bX,
+                bY,
+                train_groups=b_local + trainable_shared,
+                steps=steps["second"] - w,
+                lr=spec["lr_late"],
+                rng=rng,
+            )
+        )
     else:
-        receipts.append(E.fit(model, b, bX, bY, train_groups=b_local + trainable_shared,
-                              steps=steps["second"], rng=rng))
+        receipts.append(
+            E.fit(model, b, bX, bY, train_groups=b_local + trainable_shared, steps=steps["second"], rng=rng)
+        )
     m["second_acquisition"] = E.evaluate(model, b, bXte, bYte)
     m["first_retention"] = E.evaluate(model, a, aXte, aYte)
 
     # phase 3: return to domain A. shared groups follow the same arm policy.
-    receipts.append(E.fit(model, a, aX, aY, train_groups=local_groups(model, a) + trainable_shared,
-                          steps=steps["return"], rng=rng))
+    receipts.append(
+        E.fit(
+            model,
+            a,
+            aX,
+            aY,
+            train_groups=local_groups(model, a) + trainable_shared,
+            steps=steps["return"],
+            rng=rng,
+        )
+    )
     m["return_recovery"] = E.evaluate(model, a, aXte, aYte)
 
     # phase 4: adapt to future units of domain B
-    receipts.append(E.fit(model, b, bAdX, bAdY, train_groups=b_local + trainable_shared,
-                          steps=steps["adapt"], rng=rng))
+    receipts.append(
+        E.fit(model, b, bAdX, bAdY, train_groups=b_local + trainable_shared, steps=steps["adapt"], rng=rng)
+    )
     m["future_adaptation"] = E.evaluate(model, b, bEvX, bEvY)
     m["second_after_adapt"] = E.evaluate(model, b, bXte, bYte)
 
@@ -203,7 +270,11 @@ def arm_identity(arm: str, direction=("har", "speech"), seed=0, steps=None, **kw
         "checkpoint_final": r["checkpoint_final"],
         "undeclared_changes": r["undeclared_changes"],
         "identity_tuple": [
-            arm, sorted(r["carried_groups"]), sorted(r["reinitialized_groups"]),
-            sorted(p2["trainable_groups"]), r["spec"]["warmup"], r["spec"]["copy_proj"],
+            arm,
+            sorted(r["carried_groups"]),
+            sorted(r["reinitialized_groups"]),
+            sorted(p2["trainable_groups"]),
+            r["spec"]["warmup"],
+            r["spec"]["copy_proj"],
         ],
     }

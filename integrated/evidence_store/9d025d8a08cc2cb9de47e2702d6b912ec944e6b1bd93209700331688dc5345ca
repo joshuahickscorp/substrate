@@ -1,0 +1,81 @@
+{
+  "schema": "mop-fast-state-code-report/v1",
+  "active_runtime_loc": 4930,
+  "new_substrate_loc": 6974,
+  "inherited_substrate_loc": 8202,
+  "substrate_surface_loc": 15176,
+  "tests_loc": 2389,
+  "new_tests_loc": 284,
+  "tooling_loc": 116,
+  "maintained_python_excluding_proof": 22611,
+  "file_counts": {
+    "runtime": 37,
+    "new_substrate": 33,
+    "inherited_substrate": 47,
+    "tests": 21,
+    "new_tests": 1,
+    "tooling": 1
+  },
+  "per_file_new_code": {
+    "fastforge/__init__.py": 1,
+    "fastforge/arch.py": 424,
+    "fastforge/arms.py": 280,
+    "fastforge/data.py": 443,
+    "fastforge/engine.py": 357,
+    "fastforge/runs/__init__.py": 0,
+    "fastforge/runs/architectures.py": 141,
+    "fastforge/runs/armaudit.py": 153,
+    "fastforge/runs/authority.py": 194,
+    "fastforge/runs/bench.py": 236,
+    "fastforge/runs/cleanclone.py": 110,
+    "fastforge/runs/codereport.py": 134,
+    "fastforge/runs/crossdomain.py": 250,
+    "fastforge/runs/domaingate.py": 111,
+    "fastforge/runs/domainvalidity.py": 93,
+    "fastforge/runs/fabric.py": 167,
+    "fastforge/runs/interference.py": 278,
+    "fastforge/runs/io.py": 58,
+    "fastforge/runs/ledger.py": 355,
+    "fastforge/runs/mutations.py": 310,
+    "fastforge/runs/plasticity.py": 199,
+    "fastforge/runs/reorg.py": 278,
+    "fastforge/runs/represent.py": 209,
+    "fastforge/runs/rounds.py": 249,
+    "fastforge/runs/secondary.py": 159,
+    "fastforge/runs/supervisor.py": 171,
+    "fastforge/runs/synthesis.py": 358,
+    "fastforge/runs/testreport.py": 127,
+    "fastforge/runs/thirddomain.py": 136,
+    "fastforge/runs/withinrun.py": 174,
+    "fastforge/sequence.py": 322,
+    "fastforge/verify.py": 264,
+    "fastforge/within.py": 233
+  },
+  "targets": {
+    "active_runtime_le_8000": true,
+    "maintained_python_le_18000": false,
+    "substrate_surface_le_9000": false,
+    "new_architecture_provider_le_750": true,
+    "new_domain_provider_le_250": false,
+    "new_policy_le_150": true
+  },
+  "target_notes": {
+    "maintained_python": "the inherited tree already measured 22,266 maintained Python LOC at c570b87, so the 18,000 target was breached before this program started. Net new code is reported separately and is the only figure this program controls.",
+    "new_domain_provider": "fastforge/data.py carries three domain providers plus unavoidable preprocessing (mel filterbank, stream windowing), so the 250 LOC target is per provider, not per file",
+    "new_policy": "the gate family is one class in fastforge/engine.py, well under 150 LOC"
+  },
+  "single_engine": "fastforge/engine.py",
+  "single_evidence_authority": "the composable evidence fabric",
+  "registries": [
+    "registry/experiments.yaml"
+  ],
+  "config_roots": [
+    "configs"
+  ],
+  "deletions": [],
+  "deletion_policy": "inherited runners under substrate_evo, forge, frontier, campaign2, salvage and integrated are the implementations behind sealed immutable evidence. Deleting them would make prior receipts unreproducible, so they are retained and this program adds exactly one new package instead of forking a second one.",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "f8a4a16d2938cff5b3ee49ebda9c2ff200e7fc4d",
+  "SESOI": 0.05,
+  "sha256": "56d40cecb4e1d169404499bcf6db346afd1122e9c278853ce1350e6598082657"
+}

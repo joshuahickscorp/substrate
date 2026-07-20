@@ -21,9 +21,15 @@ HAR_ROOT = Path(
 SPEECH_ROOT = Path("/Users/scammermike/Downloads/mop-substrate-forge/integrated/data/speech_commands")
 SPEECH_CACHE = Path("/Users/scammermike/Downloads/mop-substrate-forge/integrated/data/speech_feats.npz")
 HAR_CH = [
-    "body_acc_x", "body_acc_y", "body_acc_z",
-    "body_gyro_x", "body_gyro_y", "body_gyro_z",
-    "total_acc_x", "total_acc_y", "total_acc_z",
+    "body_acc_x",
+    "body_acc_y",
+    "body_acc_z",
+    "body_gyro_x",
+    "body_gyro_y",
+    "body_gyro_z",
+    "total_acc_x",
+    "total_acc_y",
+    "total_acc_z",
 ]
 WORDS = ["yes", "no", "up", "down", "left", "right", "on", "off", "stop", "go"]
 FRAME, HOP, MEL = 400, 160, 40
@@ -132,9 +138,15 @@ def load_speech():
     te = np.where(np.isin(S, list(te_spk)))[0]
     tr = np.where(~np.isin(S, list(te_spk)))[0]
     d = {
-        "x": X[tr], "y": Y[tr], "u": S[tr],
-        "xte": X[te], "yte": Y[te], "ute": S[te],
-        "channels": int(X.shape[2]), "classes": len(WORDS), "unit": "speaker",
+        "x": X[tr],
+        "y": Y[tr],
+        "u": S[tr],
+        "xte": X[te],
+        "yte": Y[te],
+        "ute": S[te],
+        "channels": int(X.shape[2]),
+        "classes": len(WORDS),
+        "unit": "speaker",
     }
     _CACHE["speech"] = d
     return d
@@ -204,9 +216,15 @@ def load_pamap2_transition():
     te = np.where(np.isin(S, list(te_s)))[0]
     tr = np.where(~np.isin(S, list(te_s)))[0]
     d = {
-        "x": torch.tensor(X[tr]), "y": torch.tensor(Y[tr]), "u": S[tr],
-        "xte": torch.tensor(X[te]), "yte": torch.tensor(Y[te]), "ute": S[te],
-        "channels": int(X.shape[2]), "classes": int(Y.max()) + 1, "unit": "subject",
+        "x": torch.tensor(X[tr]),
+        "y": torch.tensor(Y[tr]),
+        "u": S[tr],
+        "xte": torch.tensor(X[te]),
+        "yte": torch.tensor(Y[te]),
+        "ute": S[te],
+        "channels": int(X.shape[2]),
+        "classes": int(Y.max()) + 1,
+        "unit": "subject",
         "transition_fraction": float(Tr.mean()),
     }
     _CACHE["pamap2"] = d
@@ -270,9 +288,15 @@ def load_harth_transition():
     te = np.where(np.isin(S, list(te_s)))[0]
     tr = np.where(~np.isin(S, list(te_s)))[0]
     d = {
-        "x": torch.tensor(X[tr]), "y": torch.tensor(Y[tr]), "u": S[tr],
-        "xte": torch.tensor(X[te]), "yte": torch.tensor(Y[te]), "ute": S[te],
-        "channels": int(X.shape[2]), "classes": int(Y.max()) + 1, "unit": "subject",
+        "x": torch.tensor(X[tr]),
+        "y": torch.tensor(Y[tr]),
+        "u": S[tr],
+        "xte": torch.tensor(X[te]),
+        "yte": torch.tensor(Y[te]),
+        "ute": S[te],
+        "channels": int(X.shape[2]),
+        "classes": int(Y.max()) + 1,
+        "unit": "subject",
         "transition_fraction": float(Tr.mean()),
         "balanced_repair": "transition and non transition windows sampled at equal rate",
     }
@@ -311,16 +335,30 @@ def load_speech_stream(per_stream: int = 3, n_streams: int = 6000):
             us.append(s)
         parts.append((torch.stack(xs), torch.tensor(ys), np.array(us)))
     (xtr, ytr, utr), (xte, yte, ute) = parts
-    d = {"x": xtr, "y": ytr, "u": utr, "xte": xte, "yte": yte, "ute": ute,
-         "channels": int(xtr.shape[2]), "classes": int(base["classes"]), "unit": "speaker",
-         "frames_per_stream": int(xtr.shape[1]), "clips_per_stream": per_stream}
+    d = {
+        "x": xtr,
+        "y": ytr,
+        "u": utr,
+        "xte": xte,
+        "yte": yte,
+        "ute": ute,
+        "channels": int(xtr.shape[2]),
+        "classes": int(base["classes"]),
+        "unit": "speaker",
+        "frames_per_stream": int(xtr.shape[1]),
+        "clips_per_stream": per_stream,
+    }
     _CACHE["speech_stream"] = d
     return d
 
 
-DOMAINS = {"har": load_har, "speech": load_speech,
-           "pamap2_transition": load_pamap2_transition, "harth_transition": load_harth_transition,
-           "speech_stream": load_speech_stream}
+DOMAINS = {
+    "har": load_har,
+    "speech": load_speech,
+    "pamap2_transition": load_pamap2_transition,
+    "harth_transition": load_harth_transition,
+    "speech_stream": load_speech_stream,
+}
 
 
 def domain(name: str):
@@ -341,12 +379,15 @@ def tasks(name: str, seed: int, classes_per_task: int = 2):
         cs = order[t * classes_per_task : (t + 1) * classes_per_task]
         itr = np.concatenate([np.where(ytr == c)[0] for c in cs])
         ite = np.concatenate([np.where(yte == c)[0] for c in cs])
-        out.append({"x": d["x"][itr], "y": d["y"][itr], "test": (d["xte"][ite], d["yte"][ite]), "classes": cs})
+        out.append(
+            {"x": d["x"][itr], "y": d["y"][itr], "test": (d["xte"][ite], d["yte"][ite]), "classes": cs}
+        )
     return out, d["channels"], d["classes"]
 
 
 def held_out_units(name: str, seed: int, frac: float = 0.25):
-    """Split the training pool by natural unit into an adaptation pool and the rest. Used for future adaptation."""
+    """Split the training pool by natural unit into an adaptation pool and the rest. Used for future "
+    "adaptation."""
     d = domain(name)
     u = np.asarray(d["u"])
     uniq = np.unique(u)
@@ -375,8 +416,10 @@ def splits(name: str, seed: int, tune_frac: float = 0.2, future_frac: float = 0.
     n_fut = max(1, int(future_frac * len(uniq)))
     n_tun = max(1, int(tune_frac * len(uniq)))
     future_u, tune_u, main_u = perm[:n_fut], perm[n_fut : n_fut + n_tun], perm[n_fut + n_tun :]
-    idx = {k: np.where(np.isin(u, list(v)))[0] for k, v in
-           (("main", main_u), ("tune", tune_u), ("future", future_u))}
+    idx = {
+        k: np.where(np.isin(u, list(v)))[0]
+        for k, v in (("main", main_u), ("tune", tune_u), ("future", future_u))
+    }
     fut = idx["future"][np.random.default_rng(7000 + seed).permutation(len(idx["future"]))]
     cut = int(0.7 * len(fut))
     return {
@@ -386,7 +429,9 @@ def splits(name: str, seed: int, tune_frac: float = 0.2, future_frac: float = 0.
         "adapt_eval": (d["x"][fut[cut:]], d["y"][fut[cut:]]),
         "test": (d["xte"], d["yte"]),
         "unit_counts": {k: int(len(np.unique(u[v]))) for k, v in idx.items()},
-        "channels": d["channels"], "classes": d["classes"], "unit": d["unit"],
+        "channels": d["channels"],
+        "classes": d["classes"],
+        "unit": d["unit"],
     }
 
 

@@ -33,13 +33,16 @@ WITHIN_ARMS: dict[str, dict] = {
     "G0_always_trainable": dict(arch="G", core_after_first=True),
     "G1_frozen_after_first": dict(arch="G", core_after_first=False),
     "G4_adapters_only": dict(arch="G", core_after_first=False, local_kinds=("adapter", "norm", "head")),
-    "G5_projection_and_head": dict(arch="G", core_after_first=False,
-                                   local_kinds=("proj_conv", "proj_lin", "head")),
+    "G5_projection_and_head": dict(
+        arch="G", core_after_first=False, local_kinds=("proj_conv", "proj_lin", "head")
+    ),
     "H_always_update": dict(arch="H", core_after_first=True, gate="always"),
     "H_never_update": dict(arch="H", core_after_first=False, gate="never"),
     "H_cosine_gate": dict(arch="H", core_after_first=True, gate="cosine", thresh=0.0),
     "H_probe_gate": dict(arch="H", core_after_first=True, gate="probe", thresh=0.05),
-    "AT_no_slow": dict(arch="G", core_after_first=True, local_kinds=("proj_conv", "proj_lin", "norm", "head")),
+    "AT_no_slow": dict(
+        arch="G", core_after_first=True, local_kinds=("proj_conv", "proj_lin", "norm", "head")
+    ),
     "gru": dict(arch="gru", core_after_first=True),
     "lstm": dict(arch="lstm", core_after_first=True),
     "lstm_gdumb": dict(arch="lstm", core_after_first=True, memory="gdumb"),
@@ -54,7 +57,8 @@ WITHIN_ARMS: dict[str, dict] = {
 
 
 def _contexts(dname: str, seed: int, per: int = 2):
-    """Disjoint class subsets over the unit disjoint main split, with a tuning and a future slice per domain."""
+    """Disjoint class subsets over the unit disjoint main split, with a tuning and a future slice per "
+    "domain."""
     sp = D.splits(dname, seed)
     x, y = sp["main"]
     xt, yt = sp["test"]
@@ -65,8 +69,16 @@ def _contexts(dname: str, seed: int, per: int = 2):
         cs = order[t * per : (t + 1) * per]
         itr = np.concatenate([np.where(y.numpy() == c)[0] for c in cs])
         ite = np.concatenate([np.where(yt.numpy() == c)[0] for c in cs])
-        ctx.append({"name": f"c{t}", "x": x[itr], "y": y[itr], "xte": xt[ite], "yte": yt[ite],
-                    "classes": [int(c) for c in cs]})
+        ctx.append(
+            {
+                "name": f"c{t}",
+                "x": x[itr],
+                "y": y[itr],
+                "xte": xt[ite],
+                "yte": yt[ite],
+                "classes": [int(c) for c in cs],
+            }
+        )
     return ctx, sp
 
 
@@ -97,9 +109,18 @@ def run_within(arm: str, dname: str, seed: int, stressor: str = "plain", steps: 
                 local = [f"{k}.{c2['name']}" for k in kinds if f"{k}.{c2['name']}" in model.param_groups]
                 if p["arch"] == "separate":
                     local += [f"fast_core.{c2['name']}"]
-                receipts.append(E.fit(model, c2["name"], c2["x"], c2["y"],
-                                      train_groups=local + ([shared] if shared else []),
-                                      steps=max(1, steps // rounds), rng=rng, memory=mems[c2["name"]]))
+                receipts.append(
+                    E.fit(
+                        model,
+                        c2["name"],
+                        c2["x"],
+                        c2["y"],
+                        train_groups=local + ([shared] if shared else []),
+                        steps=max(1, steps // rounds),
+                        rng=rng,
+                        memory=mems[c2["name"]],
+                    )
+                )
         for t in range(n):
             for j in range(n):
                 acc[t, j] = _eval(model, ctx[j], stressor, rng)
@@ -118,15 +139,36 @@ def run_within(arm: str, dname: str, seed: int, stressor: str = "plain", steps: 
                 ref_batch, ref_domain = (px[bi], py[bi]), ctx[t - 1]["name"]
                 gate.set_reference(
                     E.reference_gradient(model, model.param_groups[shared], px[bi], py[bi], ref_domain),
-                    E.probe_loss(model, px[bi], py[bi], ref_domain))
+                    E.probe_loss(model, px[bi], py[bi], ref_domain),
+                )
             if p.get("ewc") and shared and t > 0:
-                ewc = E.fisher_diag(model, ctx[t - 1]["name"], ctx[t - 1]["x"], ctx[t - 1]["y"],
-                                    model.param_groups[shared], rng)
-            receipts.append(E.fit(model, c["name"], c["x"], c["y"],
-                                  train_groups=local + ([shared] if core_on else []), steps=steps, rng=rng,
-                                  memory=mems[c["name"]], gate=gate, shared_group=shared,
-                                  ref_batch=ref_batch, ref_domain=ref_domain, ewc=ewc,
-                                  ewc_lambda=p.get("ewc", 0.0), update_recent=True))
+                ewc = E.fisher_diag(
+                    model,
+                    ctx[t - 1]["name"],
+                    ctx[t - 1]["x"],
+                    ctx[t - 1]["y"],
+                    model.param_groups[shared],
+                    rng,
+                )
+            receipts.append(
+                E.fit(
+                    model,
+                    c["name"],
+                    c["x"],
+                    c["y"],
+                    train_groups=local + ([shared] if core_on else []),
+                    steps=steps,
+                    rng=rng,
+                    memory=mems[c["name"]],
+                    gate=gate,
+                    shared_group=shared,
+                    ref_batch=ref_batch,
+                    ref_domain=ref_domain,
+                    ewc=ewc,
+                    ewc_lambda=p.get("ewc", 0.0),
+                    update_recent=True,
+                )
+            )
             mems[c["name"]].add(c["x"], c["y"], rng)
             for j in range(t + 1):
                 acc[t, j] = _eval(model, ctx[j], stressor, rng)
@@ -147,12 +189,26 @@ def run_within(arm: str, dname: str, seed: int, stressor: str = "plain", steps: 
     local = [f"{k}.{last}" for k in kinds if f"{k}.{last}" in model.param_groups]
     if p["arch"] == "separate":
         local += [f"fast_core.{last}"]
-    receipts.append(E.fit(model, last, ax, ay, train_groups=local + ([shared] if shared else []),
-                          steps=max(20, steps // 3), rng=rng, memory=mems[last]))
+    receipts.append(
+        E.fit(
+            model,
+            last,
+            ax,
+            ay,
+            train_groups=local + ([shared] if shared else []),
+            steps=max(20, steps // 3),
+            rng=rng,
+            memory=mems[last],
+        )
+    )
     future = E.evaluate(model, last, ex, ey)
 
     return {
-        "arm": arm, "domain": dname, "seed": seed, "stressor": stressor, "arch": p["arch"],
+        "arm": arm,
+        "domain": dname,
+        "seed": seed,
+        "stressor": stressor,
+        "arch": p["arch"],
         "metrics": {
             "avg_final": float(fin.mean()),
             "avg_final_missing_observations": float(acc_missing.mean()),
