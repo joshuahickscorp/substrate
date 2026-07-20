@@ -46,7 +46,7 @@ accept:
 	$(PY) scripts/acceptance.py
 
 rehearse:
-	$(PY) scripts/studio_rehearsal.py     # WHOLE Studio workflow on tiny fixtures -> runs/studio_rehearsal/
+	$(PY) -m scripts.studio rehearse      # WHOLE Studio workflow on tiny fixtures -> runs/studio_rehearsal/
 
 local-max:
 	$(PY) scripts/studio_pipeline.py local-max --download-gb 10 --time-min 180 --cache-clips 64  # current-device max
@@ -67,7 +67,7 @@ curriculum:
 	$(PY) scripts/devel.py curriculum     # next-lesson manifest: REAL probes over controls (Frontier 26/33)
 
 doctor:
-	$(PY) scripts/studio_doctor.py        # Studio readiness report (JSON + runs/studio_doctor.md)
+	$(PY) -m scripts.studio doctor        # Studio readiness report (JSON + runs/studio_doctor.md)
 
 bench:
 	$(PY) scripts/bench.py                # microbenchmarks (not science; runs/microbench.md)

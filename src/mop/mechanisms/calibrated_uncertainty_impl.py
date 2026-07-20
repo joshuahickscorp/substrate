@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
@@ -6,6 +5,7 @@ from collections.abc import Callable, Sequence
 from ..substrate.events import canonical_sha256
 from .calibrated_uncertainty_bed import ANSWER_THRESHOLD, TaskBatch
 from .calibrated_uncertainty_scaffold import REQUIRED_CONTROLS, DualMetricReading
+from .joint_axis_runner import run_control_policy, run_policy_family
 
 PolicyFn = Callable[[TaskBatch], DualMetricReading]
 
@@ -86,16 +86,8 @@ _CONTROL_POLICIES: dict[str, PolicyFn] = {
 
 
 def run_control(control: str, batch: TaskBatch) -> DualMetricReading:
-
-    policy = _CONTROL_POLICIES.get(control)
-    if policy is None:
-        raise ImplRefusal(f"unknown control {control!r}")
-    return policy(batch)
+    return run_control_policy(control, batch, _CONTROL_POLICIES, ImplRefusal)
 
 
 def run_all(batch: TaskBatch) -> dict[str, DualMetricReading]:
-
-    readings: dict[str, DualMetricReading] = {MECHANISM_ARM: run_mechanism(batch)}
-    for control in REQUIRED_CONTROLS:
-        readings[control] = run_control(control, batch)
-    return readings
+    return run_policy_family(batch, run_mechanism, REQUIRED_CONTROLS, run_control)

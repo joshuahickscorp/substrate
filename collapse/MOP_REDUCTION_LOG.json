@@ -582,6 +582,24 @@
       "proof": "retired v1 pre-deletion bed, scaffold, implementation, runner, result, receipt, and Stage-3 fingerprints sealed as ead7459cbe476092f325c39c5a227c3bf7dbac5638cff994fa200a8b55d9c733; all six deleted files recover exactly from mop-collapse-mechanism-scaffolds; replacement r2 and active Stage-3/mechanism battery 405/405 green; full 3779-case collection, compile-all, changed-file ruff, and docs gate green",
       "accounting_note": "src 16 added/1086 deleted; tests 18 added/679 deleted; the Generation-1 authority already records v1 as retired under doc-20 and replaced by recurrence-aware r2; P6 prior-null and retirement evidence remain in current authorities; coverage prose had no runtime consumer beyond the deleted bullet-count tests",
       "tag": "mop-collapse-retired-mechanism-v1"
+    },
+    {
+      "region": "section12_mechanism_provider_system_section14_entrypoints_and_section17_validation",
+      "batch": "mechanism_bed_authority_studio_cli_and_stage3_registry",
+      "checkpoint_status": "green",
+      "primitive": "three active successor beds and implementation dispatchers collapsed onto shared typed lifecycles; thirteen parallel Studio command wrappers, their shim, and three dead or duplicate module wrappers were deleted in favor of the unified Studio command and direct module authorities; the test-only parallel Stage-3 demonstration framework and its dedicated test were deleted in favor of the receipt-producing registry",
+      "deduplicated_LOC": 219,
+      "added_LOC": 166,
+      "eliminated_LOC": 618,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 671,
+      "files_changed": 33,
+      "destination_api": "mop.mechanisms.joint_axis_runner, python -m scripts.studio, and mop.ladder.stage3_registry",
+      "proof": "three-mechanism bed, implementation, result, receipt, payload, digest, and refusal fingerprint exact before and after: 45622fbc433aaf9f7b11c6e3c599aff782aa10907a377b25cc7e1e909845fad2; all thirteen Studio commands remain on the unified parser; 209 focused provider, CLI, registry, worker, and readiness cases green; all 19 deleted command/framework paths recover from the prior tag; full 3756-case collection, compile-all, ruff, and docs gate green",
+      "accounting_note": "src 141 added/496 deleted; scripts 0 added/251 deleted; tests 25 added/90 deleted; test migrations now invoke the unified Studio parser directly; the active receipt-producing Stage-3 registry and all campaign, worker, program, and successor consumers remain",
+      "tag": "mop-collapse-cli-bed-authorities"
     }
   ],
   "deferred_heavy_validation": {

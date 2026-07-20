@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -7,6 +6,7 @@ from typing import Any
 from ..ladder.stage_ladder import MatchedBudget
 from ..substrate.events import canonical_sha256
 from .calibrated_uncertainty_scaffold import REQUIRED_CONTROLS
+from .joint_axis_runner import MechanismBedBase, MechanismBedSpec, seeded_unit
 
 MECHANISM_ID = "calibrated_uncertainty"
 BED_SCHEMA = "mop-calibrated-uncertainty-bed/v1"
@@ -35,11 +35,7 @@ class BedRefusal(ValueError):
 
 
 def _unit(seed: int, label: str) -> float:
-
-    if seed < 0:
-        raise BedRefusal("bed seed must be nonnegative")
-    digest = canonical_sha256({"seed": seed, "label": label})
-    return int(digest[:8], 16) / 0x1_0000_0000
+    return seeded_unit(seed, label, BedRefusal)
 
 
 def _rotation(seed: int) -> int:
@@ -57,7 +53,6 @@ def _correctness(seed: int) -> tuple[int, ...]:
 
 @dataclass(frozen=True, slots=True)
 class TaskBatch:
-
     regime: str
     seed: int
     correctness: tuple[int, ...]
@@ -111,33 +106,23 @@ def _favorable_confidence(seed: int, correctness: tuple[int, ...]) -> tuple[floa
 def _null_confidence(seed: int) -> tuple[float, ...]:
 
     return tuple(
-        NULL_CONF_BASE + NULL_CONF_SPAN * _unit(seed, f"null.conf.{index}")
-        for index in range(TASK_COUNT)
+        NULL_CONF_BASE + NULL_CONF_SPAN * _unit(seed, f"null.conf.{index}") for index in range(TASK_COUNT)
     )
 
 
 @dataclass(frozen=True, slots=True)
-class CalibratedUncertaintyBed:
-
+class CalibratedUncertaintyBed(MechanismBedBase):
     mechanism_id: str = MECHANISM_ID
     schema: str = BED_SCHEMA
     claim_scope: str = CLAIM_SCOPE
 
-    def __post_init__(self) -> None:
-        if self.mechanism_id != MECHANISM_ID:
-            raise BedRefusal("bed mechanism_id drift")
-        if self.schema != BED_SCHEMA:
-            raise BedRefusal(f"unsupported bed schema {self.schema!r}")
-        if self.claim_scope != CLAIM_SCOPE:
-            raise BedRefusal("bed claim scope cannot be widened")
-
-    def controls(self) -> tuple[str, ...]:
-
-        return REQUIRED_CONTROLS
-
-    def matched_cost(self) -> MatchedBudget:
-
-        return MatchedBudget(params=TASK_COUNT, flops=1_048_576, wall_ns=1_000_000, seeds=8)
+    spec = MechanismBedSpec(
+        MECHANISM_ID,
+        BED_SCHEMA,
+        REQUIRED_CONTROLS,
+        MatchedBudget(params=TASK_COUNT, flops=1_048_576, wall_ns=1_000_000, seeds=8),
+    )
+    refusal = BedRefusal
 
     def null_regime(self, seed: int) -> TaskBatch:
 
@@ -158,25 +143,9 @@ class CalibratedUncertaintyBed:
             confidence=_favorable_confidence(seed, correctness),
         )
 
-    def regime(self, name: str, seed: int) -> TaskBatch:
-
-        if name == REGIME_NULL:
-            return self.null_regime(seed)
-        if name == REGIME_FAVORABLE:
-            return self.favorable_regime(seed)
-        raise BedRefusal(f"unknown regime {name!r}")
-
-    def payload(self) -> dict[str, Any]:
+    def configuration_payload(self) -> dict[str, Any]:
         return {
-            "schema": self.schema,
-            "mechanism_id": self.mechanism_id,
             "task_count": TASK_COUNT,
             "incorrect_count": INCORRECT_COUNT,
             "answer_threshold": ANSWER_THRESHOLD,
-            "controls": list(self.controls()),
-            "matched_cost": self.matched_cost().payload(),
-            "claim_scope": self.claim_scope,
         }
-
-    def digest(self) -> str:
-        return canonical_sha256(self.payload())

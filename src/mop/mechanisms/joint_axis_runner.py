@@ -13,12 +13,96 @@ from ..ladder.ladder_contracts import (
     RunReceipt,
     mint_demonstration,
 )
-from ..ladder.stage_ladder import FIRST_ACTIVATION_STAGE
+from ..ladder.stage_ladder import FIRST_ACTIVATION_STAGE, MatchedBudget
 from ..substrate.events import canonical_sha256
 
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 _ID_RE = re.compile(r"^[a-z][a-z0-9._:-]*$")
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def seeded_unit(seed: int, label: str, refusal: type[ValueError]) -> float:
+    if seed < 0:
+        raise refusal("bed seed must be nonnegative")
+    digest = canonical_sha256({"seed": seed, "label": label})
+    return int(digest[:8], 16) / 0x1_0000_0000
+
+
+@dataclass(frozen=True, slots=True)
+class MechanismBedSpec:
+    mechanism_id: str
+    schema: str
+    controls: tuple[str, ...]
+    matched_cost: MatchedBudget
+    regimes: tuple[str, str] = ("null", "favorable")
+
+
+class MechanismBedBase:
+    __slots__ = ()
+
+    mechanism_id: str
+    schema: str
+    claim_scope: str
+    spec: ClassVar[MechanismBedSpec]
+    refusal: ClassVar[type[ValueError]]
+
+    def __post_init__(self) -> None:
+        if self.mechanism_id != self.spec.mechanism_id:
+            raise self.refusal("bed mechanism_id drift")
+        if self.schema != self.spec.schema:
+            raise self.refusal(f"unsupported bed schema {self.schema!r}")
+        if self.claim_scope != CLAIM_SCOPE:
+            raise self.refusal("bed claim scope cannot be widened")
+
+    def controls(self) -> tuple[str, ...]:
+        return self.spec.controls
+
+    def matched_cost(self) -> MatchedBudget:
+        return self.spec.matched_cost
+
+    def regime(self, name: str, seed: int) -> Any:
+        if name == self.spec.regimes[0]:
+            return self.null_regime(seed)
+        if name == self.spec.regimes[1]:
+            return self.favorable_regime(seed)
+        raise self.refusal(f"unknown regime {name!r}")
+
+    def configuration_payload(self) -> dict[str, Any]:
+        raise NotImplementedError
+
+    def payload(self) -> dict[str, Any]:
+        return {
+            "schema": self.schema,
+            "mechanism_id": self.mechanism_id,
+            **self.configuration_payload(),
+            "controls": list(self.controls()),
+            "matched_cost": self.matched_cost().payload(),
+            "claim_scope": self.claim_scope,
+        }
+
+    def digest(self) -> str:
+        return canonical_sha256(self.payload())
+
+
+def run_control_policy(
+    control: str,
+    inputs: Any,
+    policies: Mapping[str, Callable[[Any], Any]],
+    refusal: type[ValueError],
+) -> Any:
+    policy = policies.get(control)
+    if policy is None:
+        raise refusal(f"unknown control {control!r}")
+    return policy(inputs)
+
+
+def run_policy_family(
+    inputs: Any,
+    mechanism: Callable[[Any], Any],
+    controls: tuple[str, ...],
+    control: Callable[[str, Any], Any],
+) -> dict[str, Any]:
+    return {"mechanism": mechanism(inputs), **{name: control(name, inputs) for name in controls}}
 
 
 def _require_unit(value: float, label: str, refusal: type[ValueError]) -> None:

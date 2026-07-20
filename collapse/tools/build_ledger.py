@@ -355,8 +355,10 @@ def main() -> int:
                                  "and measured speed advantage; matching reading, budget, control, contract, "
                                  "verdict, receipt, and gate scaffold lifecycle centralized with exact "
                                  "cross-version fingerprint; explicitly retired stability_plasticity v1 "
-                                 "family sealed and physically deleted in favor of r2; net owned Python "
-                                 "reduction 3926 LOC")
+                                 "family sealed and physically deleted in favor of r2; the three active "
+                                 "successor bed and implementation-dispatch lifecycles now share the same "
+                                 "authority with exact parity; prior mechanism batches reduced owned Python "
+                                 "by 3926 LOC before the shared-bed/CLI batch")
             it["next_action"] = "collapse remaining active mechanism impl/bed/runner lifecycles"
         if it["id"] == "CC-16":
             it["status"] = "complete"
@@ -374,9 +376,17 @@ def main() -> int:
             it["status"] = "partial"
             it["evidence_paths"] = ["src/mop/mechanisms/joint_axis_runner.py",
                                     "collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = ("dual-axis runner and scaffold families collapsed; retired v1 family "
-                                 "deleted; active bed and remaining mechanism families remain")
+            it["validation"] = ("dual-axis runner, scaffold, and active successor bed/dispatch families "
+                                 "collapsed; retired v1 family deleted; remaining mechanism families remain")
             it["next_action"] = "collapse remaining mechanism impl/bed/runner families"
+        if it["id"] == "SEC-14":
+            it["status"] = "active"
+            it["evidence_paths"] = ["scripts/studio/__main__.py",
+                                    "collapse/MOP_HISTORICAL_CODE_INDEX.json"]
+            it["validation"] = ("thirteen parallel Studio command wrappers and their shim deleted; three "
+                                 "additional dead/duplicate module wrappers deleted; unified Studio parser "
+                                 "retains all thirteen commands; command/framework batch net -671 owned LOC")
+            it["next_action"] = "collapse the remaining script and module command surfaces onto normal CLI verbs"
 
     checklist.append(item(
         "ART-MOP_STARSS23_ARCHITECTURE_COMPARISON.json", 11, "artifact",
@@ -707,6 +717,19 @@ def main() -> int:
                     "ruff, and docs gates green"),
         rollback_tag="mop-collapse-retired-mechanism-v1",
         next_action="collapse remaining active mechanism impl/bed/runner lifecycles"))
+    checklist.append(item(
+        "RED-cli-bed-stage3-authorities", 12, "verified_reduction",
+        "Centralize successor beds, Studio commands, and Stage-3 registry authority",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/mechanisms/joint_axis_runner.py", "scripts/studio/__main__.py",
+                  "src/mop/ladder/stage3_registry.py"],
+        validation=("219 duplicate and 618 superseded Python LOC removed for 166 shared/migration LOC, "
+                    "net -671; exact three-mechanism lifecycle fingerprint; unified Studio parser retains "
+                    "13 commands; 209 focused cases green; 3756-case collection, compile-all, ruff, and "
+                    "docs gates green"),
+        rollback_tag="mop-collapse-cli-bed-authorities",
+        next_action="collapse remaining active mechanism and command lifecycles"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

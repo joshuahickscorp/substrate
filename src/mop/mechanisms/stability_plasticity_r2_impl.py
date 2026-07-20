@@ -1,9 +1,9 @@
-
 from __future__ import annotations
 
 import math
 from collections.abc import Callable, Iterable, Sequence
 
+from .joint_axis_runner import run_control_policy, run_policy_family
 from .stability_plasticity_r2_bed import CORE_DIM, DIM, TaskStream
 from .stability_plasticity_r2_scaffold import REQUIRED_CONTROLS, DualMetricReading
 
@@ -89,9 +89,7 @@ def run_mechanism(stream: TaskStream) -> DualMetricReading:
         if stream.recurrence_flags[index]:
             fitted = _gd(fitted, task, ADAPTER_DIMS, adapter_residual)
         adapter_memory.append(fitted)
-    reconstructions = [
-        _combine(core_state, adapter_memory[index]) for index in range(len(stream.history))
-    ]
+    reconstructions = [_combine(core_state, adapter_memory[index]) for index in range(len(stream.history))]
     retention = _retention(reconstructions, stream)
     if stream.future_recurrence_index >= 0:
         warm_start = adapter_memory[stream.future_recurrence_index]
@@ -157,16 +155,8 @@ _CONTROL_POLICIES: dict[str, PolicyFn] = {
 
 
 def run_control(control: str, stream: TaskStream) -> DualMetricReading:
-
-    policy = _CONTROL_POLICIES.get(control)
-    if policy is None:
-        raise ImplRefusal(f"unknown control {control!r}")
-    return policy(stream)
+    return run_control_policy(control, stream, _CONTROL_POLICIES, ImplRefusal)
 
 
 def run_all(stream: TaskStream) -> dict[str, DualMetricReading]:
-
-    readings: dict[str, DualMetricReading] = {MECHANISM_ARM: run_mechanism(stream)}
-    for control in REQUIRED_CONTROLS:
-        readings[control] = run_control(control, stream)
-    return readings
+    return run_policy_family(stream, run_mechanism, REQUIRED_CONTROLS, run_control)
