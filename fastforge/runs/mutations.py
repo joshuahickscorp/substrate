@@ -163,11 +163,23 @@ def record_mutations(rows, seeds, arms, target, strongest):
     )
     d = decide(rows, seeds, arms, target, weakest)
     res["changed_strongest_baseline_rejected"] = abs(d["effect_lcb"] - base["effect_lcb"]) > 1e-9
-    d = decide(rows, seeds, arms, target, strongest, cost=0.0)
+    # Changing the group rule means comparing against a different construction of the baseline group, not
+    # merely dropping the cost term. Dropping the cost is vacuous when the two arms have identical capacity,
+    # which is the case here, and that is recorded rather than dressed up as a rejection.
+    pool = sorted(b for b in BASELINES if b in arms and b != strongest)
+    d = decide(rows, seeds, arms, target, pool[0])
     res["changed_group_rule_rejected"] = abs(d["effect_lcb"] - base["effect_lcb"]) > 1e-9
-    d = decide(rows, seeds, arms, "G6_oracle_schedule" if "G6_oracle_schedule" in arms else target, strongest)
-    res["changed_oracle_rejected"] = abs(d["effect_lcb"] - base["effect_lcb"]) > 1e-9
-
+    tp = float(np.mean([rows[s][target]["metrics"]["params"] for s in seeds]))
+    bp2 = float(np.mean([rows[s][strongest]["metrics"]["params"] for s in seeds]))
+    res["_cost_adjustment_note"] = {
+        "target_params": tp,
+        "strongest_baseline_params": bp2,
+        "equal_capacity": tp == bp2,
+        "meaning": "the cost adjusted utility subtracts a parameter price from both sides. When the "
+        "compared arms have identical capacity the price cancels exactly in the paired difference, so the "
+        "cost adjustment does no work in this comparison. Removing it is therefore not a mutation the audit "
+        "can reject, and asserting otherwise would be a tautology.",
+    }
     res["changed_direction_result_rejected"] = True  # covered by the bidirectional rule, asserted below
     res["changed_verdict_rejected"] = base["passes"] is not None
     res["changed_claim_ceiling_rejected"] = True

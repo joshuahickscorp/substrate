@@ -121,8 +121,8 @@
         "R05",
         "R06"
       ],
-      "status": "ready",
-      "next_exact_action": "run fastforge.runs.crossdomain shards then aggregate"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R11": {
       "id": "R11",
@@ -135,8 +135,8 @@
         "R05",
         "R06"
       ],
-      "status": "ready",
-      "next_exact_action": "run fastforge.runs.crossdomain shards then aggregate"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R12": {
       "id": "R12",
@@ -148,8 +148,8 @@
         "R10",
         "R11"
       ],
-      "status": "blocked",
-      "next_exact_action": "run fastforge.runs.crossdomain aggregate"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R13": {
       "id": "R13",
@@ -162,8 +162,8 @@
         "R04",
         "R05"
       ],
-      "status": "ready",
-      "next_exact_action": "run fastforge.runs.interference shards then aggregate"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R14": {
       "id": "R14",
@@ -176,8 +176,8 @@
         "R13",
         "R12"
       ],
-      "status": "blocked",
-      "next_exact_action": "run fastforge.runs.plasticity"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R15": {
       "id": "R15",
@@ -189,8 +189,8 @@
         "R12",
         "R13"
       ],
-      "status": "blocked",
-      "next_exact_action": "run fastforge.runs.rounds"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R16": {
       "id": "R16",
@@ -201,8 +201,8 @@
       "dependencies": [
         "R13"
       ],
-      "status": "blocked",
-      "next_exact_action": "run fastforge.runs.reorg"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R17": {
       "id": "R17",
@@ -213,8 +213,8 @@
       "dependencies": [
         "R13"
       ],
-      "status": "blocked",
-      "next_exact_action": "run fastforge.runs.reorg"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R18": {
       "id": "R18",
@@ -226,8 +226,8 @@
       "dependencies": [
         "R12"
       ],
-      "status": "blocked",
-      "next_exact_action": "run fastforge.runs.represent"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R19": {
       "id": "R19",
@@ -275,8 +275,8 @@
         "R13",
         "R14"
       ],
-      "status": "blocked",
-      "next_exact_action": "run fastforge.verify"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R23": {
       "id": "R23",
@@ -289,8 +289,8 @@
         "R13",
         "R14"
       ],
-      "status": "blocked",
-      "next_exact_action": "run fastforge.runs.mutations"
+      "status": "terminal",
+      "next_exact_action": "none"
     },
     "R24": {
       "id": "R24",
@@ -302,7 +302,7 @@
         "R22",
         "R23"
       ],
-      "status": "blocked",
+      "status": "ready",
       "next_exact_action": "run fastforge.runs.cleanclone"
     },
     "R25": {
@@ -339,34 +339,33 @@
     "R04",
     "R05",
     "R06",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
     "R19",
     "R20",
+    "R22",
+    "R23",
     "R25"
   ],
   "ready": [
     "R07",
     "R08",
     "R09",
-    "R10",
-    "R11",
-    "R13",
     "R21",
+    "R24",
     "R26"
   ],
-  "blocked": [
-    "R12",
-    "R14",
-    "R15",
-    "R16",
-    "R17",
-    "R18",
-    "R22",
-    "R23",
-    "R24"
-  ],
+  "blocked": [],
   "resume_rule": "the program resumes from this ledger without replanning: take every ready requirement and execute its next exact action",
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "4c7dc721a07c24aec1047bddb3e482efb94581e8",
+  "source_commit": "852028e50b11c3c00910911221aa4405836ec6ab",
   "SESOI": 0.05,
-  "sha256": "f5c1a7121c07fcab2f99bd41820da69af77eed5cd3fa4f51ef82ef8794512df5"
+  "sha256": "e40b2acf5d2425aef75a725a865deec74b66bac7b3590452902be47d7b9b3ca9"
 }
