@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "69f58c5c6014967285080de066e47e30f2c369ec",
+    "base_commit": "31613614cec9e012d33dffa69a24c8bd13f27187",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 52913,
+    "eliminated_LOC": 58474,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
     "added_LOC": 8908,
-    "net_global_reduction_LOC": 59865
+    "net_global_reduction_LOC": 65426
   },
   "checklist_summary": {
-    "total": 247,
+    "total": 248,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 31
+      "verified": 32
     }
   },
   "checklist": [
@@ -3538,6 +3538,25 @@
       "rollback_tag": "mop-collapse-cli-bed-authorities",
       "dependency": "",
       "next_action": "collapse remaining active mechanism and command lifecycles"
+    },
+    {
+      "id": "RED-starss23-orphaned-count-reproductions",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Delete orphaned STARSS23 count reproduction variants",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/beds/starss23/count_verifier.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ],
+      "validation": "4691 orphaned source LOC and 870 dedicated-test LOC physically deleted, net -5561; repository-wide reachability found no executable external consumer; retained STARSS23 battery 163/163 green; 3709-case collection, compile-all, critical ruff, and docs gate clean; all deleted paths recover from the prior tag",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-orphans",
+      "dependency": "",
+      "next_action": "delete or centralize the next test-only experimental authority cluster"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

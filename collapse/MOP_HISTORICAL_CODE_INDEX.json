@@ -125,6 +125,39 @@
         "src/mop/ladder/stage3_demonstrations.py",
         "tests/unit/test_stage3_demonstrations.py"
       ]
+    },
+    {
+      "id": "orphaned_starss23_count_reproduction_variants",
+      "reason": "four reproduction variants had no runtime script, registry, campaign, config, package, or cross-test consumer; each implementation was reachable only from its dedicated test and collapse-analysis artifacts",
+      "source_tag": "mop-collapse-cli-bed-authorities",
+      "recovery": "git show mop-collapse-cli-bed-authorities:<path>",
+      "replacement_paths": [
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/beds/starss23/count_verifier.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ],
+      "paths": [
+        "src/mop/beds/starss23/count_repro_data_split_prereg.py",
+        "src/mop/beds/starss23/count_repro_data_split_producer.py",
+        "src/mop/beds/starss23/count_repro_data_split_verifier.py",
+        "src/mop/beds/starss23/count_repro_featurizer_estimator_estimator.py",
+        "src/mop/beds/starss23/count_repro_featurizer_estimator_featurizer.py",
+        "src/mop/beds/starss23/count_repro_featurizer_estimator_prereg.py",
+        "src/mop/beds/starss23/count_repro_featurizer_estimator_producer.py",
+        "src/mop/beds/starss23/count_repro_featurizer_estimator_verifier.py",
+        "src/mop/beds/starss23/count_repro_gate_arch_gate.py",
+        "src/mop/beds/starss23/count_repro_gate_arch_prereg.py",
+        "src/mop/beds/starss23/count_repro_gate_arch_producer.py",
+        "src/mop/beds/starss23/count_repro_gate_arch_verifier.py",
+        "src/mop/beds/starss23/count_repro_scoring_unit_prereg.py",
+        "src/mop/beds/starss23/count_repro_scoring_unit_producer.py",
+        "src/mop/beds/starss23/count_repro_scoring_unit_referee.py",
+        "src/mop/beds/starss23/count_repro_scoring_unit_verifier.py",
+        "tests/unit/test_count_repro_data_split.py",
+        "tests/unit/test_count_repro_featurizer_estimator.py",
+        "tests/unit/test_count_repro_gate_arch.py",
+        "tests/unit/test_starss23_count_repro_scoring_unit.py"
+      ]
     }
   ]
 }
