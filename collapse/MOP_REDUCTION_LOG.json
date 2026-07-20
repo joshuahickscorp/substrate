@@ -1615,6 +1615,25 @@
       "performance": "twelve alternating 40-fit batches improve median six-epoch gate training from 0.026322s to 0.022544s (-14.35%)",
       "accounting_note": "91 interface, report, payload, loss-history, configurable-dimension, and facade lines are replaced by 23 fixed-gate and direct test lines, net -68; runtime source falls to 5486 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7571 LOC",
       "tag": "mop-collapse-direct-count-gate"
+    },
+    {
+      "region": "section8_starss23",
+      "batch": "direct_count_corpus_staging",
+      "checkpoint_status": "green",
+      "primitive": "the sole count producer now consumes concurrent-count tracks from the real adapter that already parsed and validated each metadata file: the duplicate metadata index/read, CountClip serialization and validation record, count-label module, and change-density/zero-coast aggregation facades are physically retired",
+      "deduplicated_LOC": 0,
+      "added_LOC": 49,
+      "eliminated_LOC": 162,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 113,
+      "files_changed": 4,
+      "destination_api": "RealStarssAdapter.count_track plus direct _track_totals consumption in src/mop/beds/starss23/count_producer.py",
+      "proof": "a deterministic four-clip/two-seed real-WAV artifact preserves artifact SHA-256 72d2a3fb1a2a31907e8ac63531f5aa17ad299a961ca7b369c9d13bffd5329f74, seal 7d7f83e2028ddee9877335c924f694eb4116f7a7522a016d853cef04ab58735e, corpus-track SHA-256 aef5dbcee5bc85afd3c2829c98225f8091c189036eca06c7ba5741ac496714fb, per-seed SHA-256 a2feb355bff7150ff0685a412a41ed777e8b8dee9b30df74ae2cb0a5e8674cc6, preregistration SHA-256 699b90d662f91292edfc6e3b9270bb568389d8a2e95d9026f7f92f6aefdf8be6, split identity, truncation, count tracks, density, coast, and key order exactly; 9/9 metadata/count refusals are exact; retained STARSS artifact a474dc88717dff57ce916f1bb7f0852a9fe2248d09fd8b21362f2b7d52ccdff8 independently reproduces scores/statistics/honesty with zero mismatches; full suite 128 collected/122 passed/6 dataset skips, acceptance 10/10, Ruff/format clean, mypy clean over 38 source files, compile-all and diff checks clean",
+      "performance": "thirty corpus preparations improve median from 17.9091ms to 17.8673ms (-0.23%)",
+      "accounting_note": "122 count-label module, 20 repeated test, and 20 replaced staging lines are replaced by 49 single-pass adapter/producer/test lines, net -113; runtime source falls to 5393 LOC, validation falls to 1752 LOC, scripts remain 62 LOC, and maintained Python falls to 7458 LOC",
+      "tag": "mop-collapse-direct-count-corpus"
     }
   ],
   "physical_state_events": [
@@ -1659,7 +1678,7 @@
     "command": ".venv/bin/python -m pytest -q",
     "result": "128 collected; 122 passed; 6 environment skips",
     "acceptance": "10/10 passed",
-    "static": "Ruff lint and format clean; mypy clean over 39 source files",
+    "static": "Ruff lint and format clean; mypy clean over 38 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
   }
 }

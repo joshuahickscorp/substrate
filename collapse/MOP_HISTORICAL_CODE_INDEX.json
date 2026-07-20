@@ -2380,6 +2380,23 @@
       "paths": [
         "proof/PROJECT_EXPERIMENT_EXHAUSTION.json"
       ]
+    },
+    {
+      "id": "collapsed_one_consumer_count_label_and_corpus_staging",
+      "source_tag": "mop-collapse-lowest-green-30",
+      "reason": "the count-only CountClip record, second metadata index/read, count-label module boundary, and three aggregation facades had one production consumer; RealStarssAdapter now parses each metadata file once and owns the exact concurrent-count track while the count producer directly totals train/test frames, changes, and zero-coast mass",
+      "replacement_paths": [
+        "src/mop/beds/starss23/adapter.py",
+        "src/mop/beds/starss23/count_producer.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-30:<path>",
+      "paths": [
+        "src/mop/beds/starss23/adapter.py",
+        "src/mop/beds/starss23/count_labels.py",
+        "src/mop/beds/starss23/count_producer.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ]
     }
   ]
 }
