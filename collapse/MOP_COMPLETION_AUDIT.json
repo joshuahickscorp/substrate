@@ -3,13 +3,13 @@
   "status": "green_with_external_live_boundary",
   "subject": {
     "branch": "agent/mop-accretion-collapse",
-    "code_checkpoint": "269f779",
-    "code_tree": "f4b8a8d6fc9860845ed6329c6f70550913c10d26",
+    "code_checkpoint": "83366c8",
+    "code_tree": "7beb22fa5f9a7b141a67faf934107c2ba29f6d5b",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "starting_owned_python_LOC": 401396,
-    "current_maintained_python_LOC": 8682,
-    "direct_physical_reduction_LOC": 392714,
-    "direct_physical_reduction_percent": 97.837
+    "current_maintained_python_LOC": 8352,
+    "direct_physical_reduction_LOC": 393044,
+    "direct_physical_reduction_percent": 97.9193
   },
   "consolidates": [
     "MOP_CONTEXT_SURFACE.md",
@@ -30,15 +30,15 @@
     "classification_unknown": 0,
     "classification_rule": "Rules are ordered and mutually exclusive; every Git-tracked path belongs to exactly one of the 16 categories below.",
     "categories": {
-      "runtime_kernel": {"files": 40, "physical_LOC": 6467},
-      "validation": {"files": 19, "physical_LOC": 1902},
+      "runtime_kernel": {"files": 40, "physical_LOC": 6234},
+      "validation": {"files": 19, "physical_LOC": 1805},
       "laboratory_scripts": {"files": 1, "physical_LOC": 62},
       "audit_tooling": {"files": 1, "physical_LOC": 212},
       "compatibility": {"files": 1, "physical_LOC": 39},
       "configuration": {"files": 6, "physical_LOC": 139},
       "build_and_ci": {"files": 5, "physical_LOC": 2156},
       "current_documentation": {"files": 4, "physical_LOC": 89},
-      "durable_collapse_state": {"files": 24, "physical_LOC": 86907},
+      "durable_collapse_state": {"files": 24, "physical_LOC": 86956},
       "scientific_evidence": {"files": 61, "physical_LOC": 40616},
       "run_artifacts": {"files": 8, "physical_LOC": 1303},
       "fixtures": {"files": 0, "physical_LOC": 0},
@@ -48,18 +48,18 @@
       "third_party_vendored_source": {"files": 0, "physical_LOC": 0}
     },
     "maintained_metrics": {
-      "global_owned_source_LOC": 8682,
-      "global_maintained_source_LOC": 8682,
-      "active_kernel_LOC": 6467,
-      "active_product_LOC": 6529,
-      "default_active_checkout_LOC": 10977,
-      "default_validation_LOC": 1902,
+      "global_owned_source_LOC": 8352,
+      "global_maintained_source_LOC": 8352,
+      "active_kernel_LOC": 6234,
+      "active_product_LOC": 6296,
+      "default_active_checkout_LOC": 10647,
+      "default_validation_LOC": 1805,
       "optional_pack_LOC": 0,
       "laboratory_LOC": 62,
       "compatibility_LOC": 39,
       "historical_source_LOC": 0,
       "generated_owned_LOC": 0,
-      "test_LOC": 1902,
+      "test_LOC": 1805,
       "documentation_LOC": 89,
       "configuration_LOC": 139,
       "CI_build_LOC": 2156,
@@ -107,8 +107,8 @@
   },
   "test_ownership": {
     "physical_test_files": 16,
-    "collected_logical_cases": 138,
-    "physical_test_LOC": 1902,
+    "collected_logical_cases": 130,
+    "physical_test_LOC": 1805,
     "owners": ["historical record refusal", "STARSS23 science", "portable custom artifacts and independent recomputation", "cache and host boundaries", "configuration and Studio readiness"],
     "shared_properties": "tests/unit/test_collapse_invariants.py enforces source readability, authority cardinality, proof integrity, recovery metadata, and no hidden packs"
   },
@@ -119,8 +119,8 @@
     "historical_index": "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
   },
   "historical_boundary": {
-    "retired_code_clusters": 52,
-    "retired_code_paths_checked": 1510,
+    "retired_code_clusters": 53,
+    "retired_code_paths_checked": 1513,
     "retired_code_recovery_failures": 0,
     "retired_documents_checked": 162,
     "retired_document_recovery_failures": 0,
@@ -129,9 +129,9 @@
     "proof_duplicate_groups": 0
   },
   "irreducible_kernel_estimate": {
-    "measured_kernel_LOC": 6919,
+    "measured_kernel_LOC": 6686,
     "target_stretch_LOC": 15000,
-    "headroom_LOC": 8081,
+    "headroom_LOC": 8314,
     "claim": "No irreducibility claim is needed: the measured kernel is already below the strict stretch target. Future reductions must beat this green checkpoint without weakening science or evidence."
   },
   "starss23": {
@@ -175,6 +175,20 @@
     "profile_parity": "profile projection byte-exact; canonical SHA-256 d602bfa3db7b337868139b0d01092710a63c3306110444c6855c43b6265d4067",
     "boundary_parity": "rendered Markdown exact; sealed receipt SHA-256 f759a831aac8f8e081d4bb2d3bb19b65ad324fdc5fea8852c2675957ce7a1a80 and installed-CLI JSON SHA-256 a975c54912a02e1d23983c62e6165c03625c4a8b9fbf21635bfd828e645e00ea unchanged",
     "performance": "3000-report median improved 0.82%; cold profile import changed +0.34%, inside the 2% gate"
+  },
+  "count_statistics_projection": {
+    "region_LOC_before": 897,
+    "region_LOC_after": 567,
+    "runtime_reduction_LOC": 233,
+    "test_reduction_LOC": 97,
+    "net_reduction_LOC": 330,
+    "public_symbols_before": 19,
+    "public_symbols_after": 5,
+    "retired": "test-only generic paired analysis, claim ceiling, provisional SESOI, paired delta, generic payload, and result-detail facades",
+    "differential_parity": "24/24 retained success, refusal, and shared-field attack cases exact; aggregate SHA-256 696ab196801dd4b1bda949d63fdcbf05f36c3a94c7f4efacb9f6b536f94fbda7",
+    "payload_parity": "count payload exact with SHA-256 e5873e3b2ffe345109297113ac60370da5677fd27d49673d1efe8d1b5b6601a7; preregistration exact with embedded digest 0ee994b1224abb82bab9097e5c1eef4f5fe2bbe3fd8cf90a40266c01d07813eb",
+    "independent_verification": "sealed artifact fb3a7112906a4e3a5c32fef0f3980e5642ac93996559a7cf59152e559b8044e6 reproduces scores and statistics through the structurally independent verifier",
+    "performance": "2000-analysis median improved from 0.033125s to 0.030091s (-9.16%)"
   },
   "custom_substrate": {
     "comparison": "collapse/MOP_CUSTOM_SUBSTRATE_ARCHITECTURE_COMPARISON.json",
@@ -302,19 +316,19 @@
     "resume_and_history": "checkpoint/resume properties pass and every retired path has exact Git recovery"
   },
   "reduction_accounting": {
-    "eliminated_LOC": 395959,
+    "eliminated_LOC": 396411,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 15304,
-    "net_accounted_reduction_LOC": 396410,
-    "event_reported_net_LOC": 396515,
-    "direct_baseline_to_current_reduction_LOC": 392714,
+    "added_LOC": 15426,
+    "net_accounted_reduction_LOC": 396740,
+    "event_reported_net_LOC": 396845,
+    "direct_baseline_to_current_reduction_LOC": 393044,
     "note": "The direct baseline delta is primary. The ledger category total is reported separately because historical events include deduplication accounting and one early event's net field differs by 105 LOC from its category fields."
   },
   "validation": {
-    "full_suite": "138 collected; 132 passed; 6 environment-specific skips",
+    "full_suite": "130 collected; 124 passed; 6 environment-specific skips",
     "acceptance": "10/10 passed",
     "ruff": "lint and format clean over maintained Python",
     "mypy": "clean over 40 source files",
@@ -329,19 +343,19 @@
     },
     "current_clean_clone": {
       "path": "/tmp/mop-collapse-cont.9URUfp",
-      "commit": "269f779",
+      "commit": "83366c8",
       "environment": "disposable uv environment with declared dev and encoder dependencies",
-      "full_suite": "138 collected; 132 passed; 6 environment skips",
+      "full_suite": "130 collected; 124 passed; 6 environment skips",
       "acceptance": "10/10 passed"
     },
     "offline_hydration": "all 9 portable hydration cases passed without network; deterministic content-addressed export/load, exact tensor/model semantics, scoped evidence hashes, and five fail-closed mutations cover the owned hydration path; no optional source pack exists",
-    "rollback": "1510 retired code paths and 162 retired document paths resolved from recorded tags with zero failures",
+    "rollback": "1513 retired code paths and 162 retired document paths resolved from recorded tags with zero failures",
     "proof_index": "61 files, 2918932 bytes, zero duplicate groups; sizes and SHA-256 values recomputed by the invariant suite"
   },
   "pull_requests": {
     "pr9": "CLOSED as superseded after exact mapping and replacement gates",
     "pr30": "OPEN DRAFT; General Run closure remains deferred",
-    "pr31": "OPEN DRAFT against current main; body reflects code checkpoint 269f779 and the 8682-LOC measured result; never marked ready or merged"
+    "pr31": "OPEN DRAFT against current main; body reflects code checkpoint 83366c8 and the 8352-LOC measured result; never marked ready or merged"
   },
   "live_boundary": {
     "protected_checkout": "clean at 094bdd934de3bb170c89ee95a0bc089f32172448 on agent/mop-evidence-salvage",
@@ -352,35 +366,35 @@
   },
   "final_report": {
     "1_starting_LOC": 401396,
-    "2_current_LOC": 8682,
-    "3_direct_net_reduction_LOC": 392714,
-    "4_accounted_net_reduction_LOC": 396410,
-    "5_runtime_kernel_LOC": 6467,
+    "2_current_LOC": 8352,
+    "3_direct_net_reduction_LOC": 393044,
+    "4_accounted_net_reduction_LOC": 396740,
+    "5_runtime_kernel_LOC": 6234,
     "6_engine_LOC_added": 126,
     "7_science_LOC_preserved": 8753,
     "8_independent_verifier_LOC_preserved": 414,
     "9_compatibility_LOC_retained": 39,
     "10_lifecycle_LOC_deleted": 394986,
-    "11_test_LOC_current": 1902,
+    "11_test_LOC_current": 1805,
     "12_script_LOC_current": 62,
     "13_module_reduction": "1072 baseline Python files to 62 current Python files",
     "14_entrypoint_reduction": "319 measured baseline surfaces to 1 installed CLI plus 1 bounded developer script",
     "15_orientation_token_reduction": 76825,
-    "16_tests": "138 collected; 132 passed; 6 skipped",
-    "17_mutation_attacks": "selected STARSS engine 22/22 plus record drift, ordering, metrics, verifier, claim-ceiling, 13/13 matched-budget valid/refusal parity, historical CM7 independent recomputation, 30/30 cache receipt problem lists, and 5/5 portable hydration mutations",
-    "18_performance": "selected interpreter overhead +9.793us investigated; custom-chain -10.45%; cache validation -3.42%; checkpoint -27.14%; workbench -13.20%; portable hydration load -0.70%; workbench snapshot retirement -0.15%; unified profile listing -6.51%; harness import -0.79%; historical registry import -1.49%; CLI help -1.10%; read-only cache validation -2.50%; matched-budget projection -2.28%; Studio report projection -0.82%; Studio profile import +0.34% inside gate",
+    "16_tests": "130 collected; 124 passed; 6 skipped",
+    "17_mutation_attacks": "selected STARSS engine 22/22 plus record drift, ordering, metrics, verifier, claim-ceiling, 13/13 matched-budget valid/refusal parity, 24/24 count-statistics success/refusal parity, historical CM7 independent recomputation, 30/30 cache receipt problem lists, and 5/5 portable hydration mutations",
+    "18_performance": "selected interpreter overhead +9.793us investigated; custom-chain -10.45%; cache validation -3.42%; checkpoint -27.14%; workbench -13.20%; portable hydration load -0.70%; workbench snapshot retirement -0.15%; unified profile listing -6.51%; harness import -0.79%; historical registry import -1.49%; CLI help -1.10%; read-only cache validation -2.50%; matched-budget projection -2.28%; Studio report projection -0.82%; Studio profile import +0.34% inside gate; count statistics -9.16%",
     "19_architecture_selection": "sealed-record Architecture B selected; Architecture A deleted and recoverable",
     "20_evidence_authority": "one production authority plus structurally independent scientific verifiers",
     "21_registry_config_cli": "one YAML registry, one config tree/loader, one installed CLI",
     "22_documents": "4 current documents, 89 LOC, 162 historical documents indexed",
     "23_proof": "61 content-addressed files, zero duplicate groups",
-    "24_recovery": "1510 code and 162 document paths resolved, zero failures",
+    "24_recovery": "1513 code and 162 document paths resolved, zero failures",
     "25_pr9": "mapped, validated, commented, and closed as superseded",
-    "26_commits": ["d725ad4 declarative engine", "0d4f21d compact durable-state updater", "ad1a723 canonical custom-substrate model", "10c42d4 retired unused dual-budget facade", "71004fa raw-once custom attestation", "8c0cd11 unused support and synthetic adapter retirement", "6926231 custom receipt-chain lifecycle", "10ca18a cache receipt policy", "aa5841e custom checkpoint lifecycle", "d0becc4 custom workbench orchestration", "8a6801a custom artifact provenance policy", "844f404 finalizer chain and artifact wrapper", "d467c7b finalizer lifecycle and CLI", "40bd52d retired completed custom finalizer", "f69ca7b portable hydration core", "7fbf6ed workbench snapshot lifecycle", "db5bf1b single installed interface", "9374f45 custom-substrate exhaustion", "5af0ec7 read-only cache authority", "4b6f3b1 matched-budget core", "269f779 Studio readiness core"],
-    "27_rollback_tags": ["mop-collapse-declarative-engine", "mop-collapse-ledger-compact", "mop-collapse-custom-model", "mop-collapse-budget-facade", "mop-collapse-raw-once-attestation", "mop-collapse-unused-surface", "mop-collapse-custom-chain", "mop-collapse-cache-receipt-policy", "mop-collapse-workbench-checkpoint-state", "mop-collapse-workbench-orchestration", "mop-collapse-artifact-provenance-policy", "mop-collapse-finalizer-chain-cli", "mop-collapse-finalizer-lifecycle-cli", "mop-collapse-retired-custom-finalizer", "mop-collapse-portable-hydration-core", "mop-collapse-workbench-snapshot-lifecycle", "mop-collapse-single-installed-interface", "mop-collapse-custom-substrate-exhaustion", "mop-collapse-cache-reader-only", "mop-collapse-matched-budget-core", "mop-collapse-studio-readiness-core"],
+    "26_commits": ["d725ad4 declarative engine", "0d4f21d compact durable-state updater", "ad1a723 canonical custom-substrate model", "10c42d4 retired unused dual-budget facade", "71004fa raw-once custom attestation", "8c0cd11 unused support and synthetic adapter retirement", "6926231 custom receipt-chain lifecycle", "10ca18a cache receipt policy", "aa5841e custom checkpoint lifecycle", "d0becc4 custom workbench orchestration", "8a6801a custom artifact provenance policy", "844f404 finalizer chain and artifact wrapper", "d467c7b finalizer lifecycle and CLI", "40bd52d retired completed custom finalizer", "f69ca7b portable hydration core", "7fbf6ed workbench snapshot lifecycle", "db5bf1b single installed interface", "9374f45 custom-substrate exhaustion", "5af0ec7 read-only cache authority", "4b6f3b1 matched-budget core", "269f779 Studio readiness core", "83366c8 count statistics core"],
+    "27_rollback_tags": ["mop-collapse-declarative-engine", "mop-collapse-ledger-compact", "mop-collapse-custom-model", "mop-collapse-budget-facade", "mop-collapse-raw-once-attestation", "mop-collapse-unused-surface", "mop-collapse-custom-chain", "mop-collapse-cache-receipt-policy", "mop-collapse-workbench-checkpoint-state", "mop-collapse-workbench-orchestration", "mop-collapse-artifact-provenance-policy", "mop-collapse-finalizer-chain-cli", "mop-collapse-finalizer-lifecycle-cli", "mop-collapse-retired-custom-finalizer", "mop-collapse-portable-hydration-core", "mop-collapse-workbench-snapshot-lifecycle", "mop-collapse-single-installed-interface", "mop-collapse-custom-substrate-exhaustion", "mop-collapse-cache-reader-only", "mop-collapse-matched-budget-core", "mop-collapse-studio-readiness-core", "mop-collapse-count-statistics-core"],
     "28_live_non_interference": "protected checkout untouched; cached boundary reports no General Run process and a stale nonterminal status only",
     "29_external_boundary": "General Run has stale nonterminal state; PR 30 closure incomplete",
-    "30_next_exact_region": "collapse the 538-LOC shared-statistics vertical (363 statistics implementation plus 175 direct tests): maintained production consumes only exact_sign_flip, sesoi_check, count_sign_flip_payload, and two claim constants; retire the test-only PairedSeedStats, ClaimCeiling, paired-delta, generic projection, and public-facade surface while preserving byte-exact count preregistration/artifact payloads, exhaustive sign-flip enumeration, refusal semantics, and independent verifier mathematics; target at least 150 LOC of physical deletion"
+    "30_next_exact_region": "collapse the 1182-LOC one-consumer count-production vertical (401 count producer, 357 generic count-variant producer, and 424 direct counting tests): CountVariantSpec and its callback matrix now have exactly one maintained source consumer, so project the real STARSS producer directly through the shared budget/statistics/artifact authorities and retire generic variant plumbing while preserving byte-exact preregistration, seed records, artifact bodies, sealed proof semantics, independent verification, and all refusal gates; target at least 175 LOC of physical deletion"
   },
   "external_deferred": [
     {"id": "SEC-13", "reason": "binding controller replacement completion waits for a clean General Run terminal and PR 30 closure"},
@@ -438,7 +452,7 @@
       "ids": ["FO-1", "FO-2", "FO-3", "FO-4", "FO-5", "FO-6", "FO-7", "FO-8", "FO-9", "FO-10", "FO-11", "FO-12", "FO-13", "FO-14", "FO-15", "FO-16"],
       "status": "complete",
       "evidence_paths": ["collapse/MOP_COMPLETION_AUDIT.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json", "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"],
-      "validation": "the final tree is a 97.84% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery"
+      "validation": "the final tree is a 97.92% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery"
     },
     {
       "ids": ["RPT-1", "RPT-2", "RPT-3", "RPT-4", "RPT-5", "RPT-6", "RPT-7", "RPT-8", "RPT-9", "RPT-10", "RPT-11", "RPT-12", "RPT-13", "RPT-14", "RPT-15", "RPT-16", "RPT-17", "RPT-18", "RPT-19", "RPT-20", "RPT-21", "RPT-22", "RPT-23", "RPT-24", "RPT-25", "RPT-26", "RPT-27", "RPT-28", "RPT-29", "RPT-30"],
