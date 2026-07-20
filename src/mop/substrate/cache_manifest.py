@@ -185,34 +185,32 @@ def validate_cache_manifest(
             str(record.get("role")) for record in manifest.get("sidecars", []) if isinstance(record, dict)
         }
         objective = form.get("objective") if isinstance(form, dict) else None
-        if objective in WEIGHTED_OBJECTIVES:
-            receipt = _read_json(root / "encoder_receipt.json")
+        if objective in WEIGHTED_OBJECTIVES or objective == "random-control":
+            random_init = objective == "random-control"
+            filename = "initialization_receipt.json" if random_init else "encoder_receipt.json"
+            receipt = _read_json(root / filename)
             if receipt is None:
                 problems.append(
-                    f"citable {objective} cache requires encoder_receipt.json with immutable weight hashes"
+                    "citable random-control cache requires initialization_receipt.json"
+                    if random_init
+                    else (
+                        f"citable {objective} cache requires encoder_receipt.json "
+                        "with immutable weight hashes"
+                    )
                 )
             elif not isinstance(receipt, dict):
-                problems.append("encoder_receipt.json must contain a JSON mapping")
+                problems.append(f"{filename} must contain a JSON mapping")
             else:
-                problems.extend(_validate_encoder_receipt(receipt))
+                validator = _validate_random_init_receipt if random_init else _validate_encoder_receipt
+                problems.extend(validator(receipt))
                 if isinstance(encoder_cfg, dict):
-                    problems.extend(_validate_receipt_config_match(receipt, encoder_cfg, random_init=False))
-            if "encoder_receipt" not in sidecar_roles:
-                problems.append("citable weighted cache manifest must fingerprint encoder_receipt.json")
-        if objective == "random-control":
-            receipt = _read_json(root / "initialization_receipt.json")
-            if receipt is None:
-                problems.append("citable random-control cache requires initialization_receipt.json")
-            elif not isinstance(receipt, dict):
-                problems.append("initialization_receipt.json must contain a JSON mapping")
-            else:
-                problems.extend(_validate_random_init_receipt(receipt))
-                if isinstance(encoder_cfg, dict):
-                    problems.extend(_validate_receipt_config_match(receipt, encoder_cfg, random_init=True))
-            if "initialization_receipt" not in sidecar_roles:
-                problems.append(
-                    "citable random-control cache manifest must fingerprint initialization_receipt.json"
-                )
+                    problems.extend(
+                        _validate_receipt_config_match(receipt, encoder_cfg, random_init=random_init)
+                    )
+            role = "initialization_receipt" if random_init else "encoder_receipt"
+            if role not in sidecar_roles:
+                kind = "random-control" if random_init else "weighted"
+                problems.append(f"citable {kind} cache manifest must fingerprint {filename}")
 
     current_meta = _read_json(root / "meta.json")
     recorded_meta = manifest.get("store", {}).get("meta")
@@ -302,30 +300,10 @@ def _validate_encoder_receipt(receipt: dict[str, Any]) -> list[str]:
     for field in ("model_id", "revision"):
         if not str(receipt.get(field) or "").strip():
             problems.append(f"encoder receipt {field} must be nonempty")
-    files = receipt.get("files")
-    if not isinstance(files, list) or not files:
-        problems.append("encoder receipt files must be a non-empty list")
+    file_problems, paths = _validate_receipt_files(receipt, random_init=False)
+    problems.extend(file_problems)
+    if paths is None:
         return problems
-    paths: list[str] = []
-    for index, record in enumerate(files):
-        if not isinstance(record, dict):
-            problems.append(f"encoder receipt file {index} must be a mapping")
-            continue
-        path = str(record.get("path") or "").strip()
-        paths.append(path)
-        if not path:
-            problems.append(f"encoder receipt file {index} path must be nonempty")
-        digest = str(record.get("sha256") or "")
-        if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest.lower()):
-            problems.append(f"encoder receipt file {index} sha256 must be a 64-character hex digest")
-        try:
-            size = int(record.get("bytes", 0))
-        except (TypeError, ValueError):
-            size = 0
-        if size <= 0:
-            problems.append(f"encoder receipt file {index} bytes must be positive")
-    if len(paths) != len(set(paths)):
-        problems.append("encoder receipt file paths must be unique")
     weight_suffixes = (".safetensors", ".bin", ".pth", ".pt", ".ckpt")
     if not any(path.lower().endswith(weight_suffixes) for path in paths):
         problems.append("encoder receipt must hash at least one model weight file")
@@ -356,26 +334,10 @@ def _validate_random_init_receipt(receipt: dict[str, Any]) -> list[str]:
         problems.append("random initialization receipt state_dict_sha256 must be hex")
     if not str(receipt.get("model_class") or "").strip():
         problems.append("random initialization receipt model_class must be nonempty")
-    files = receipt.get("architecture_files")
-    if not isinstance(files, list) or not files:
-        problems.append("random initialization receipt architecture_files must be non-empty")
+    file_problems, paths = _validate_receipt_files(receipt, random_init=True)
+    problems.extend(file_problems)
+    if paths is None:
         return problems
-    paths: list[str] = []
-    for index, record in enumerate(files):
-        if not isinstance(record, dict):
-            problems.append(f"random initialization architecture file {index} must be a mapping")
-            continue
-        path = str(record.get("path") or "").strip()
-        paths.append(path)
-        if not path:
-            problems.append(f"random initialization architecture file {index} path must be nonempty")
-        digest = str(record.get("sha256") or "")
-        if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest.lower()):
-            problems.append(f"random initialization architecture file {index} sha256 must be hex")
-        if not _positive_int(record.get("bytes")):
-            problems.append(f"random initialization architecture file {index} bytes must be positive")
-    if len(paths) != len(set(paths)):
-        problems.append("random initialization architecture file paths must be unique")
     if backend == "vjepa_hf_random_init":
         if not any(Path(path).name == "config.json" for path in paths):
             problems.append("Hugging Face random initialization receipt must hash config.json")
@@ -389,6 +351,38 @@ def _validate_random_init_receipt(receipt: dict[str, Any]) -> list[str]:
                 "official random initialization receipt must hash the V-JEPA 2.1 vision transformer"
             )
     return problems
+
+
+def _validate_receipt_files(
+    receipt: dict[str, Any],
+    *,
+    random_init: bool,
+) -> tuple[list[str], list[str] | None]:
+    field = "architecture_files" if random_init else "files"
+    record_label = "random initialization architecture file" if random_init else "encoder receipt file"
+    files = receipt.get(field)
+    if not isinstance(files, list) or not files:
+        collection = f"random initialization receipt {field}" if random_init else "encoder receipt files"
+        requirement = "non-empty" if random_init else "a non-empty list"
+        return [f"{collection} must be {requirement}"], None
+    problems: list[str] = []
+    paths: list[str] = []
+    for index, record in enumerate(files):
+        if not isinstance(record, dict):
+            problems.append(f"{record_label} {index} must be a mapping")
+            continue
+        path = str(record.get("path") or "").strip()
+        paths.append(path)
+        if not path:
+            problems.append(f"{record_label} {index} path must be nonempty")
+        if not _valid_sha256(record.get("sha256")):
+            detail = "hex" if random_init else "a 64-character hex digest"
+            problems.append(f"{record_label} {index} sha256 must be {detail}")
+        if not _positive_int(record.get("bytes")):
+            problems.append(f"{record_label} {index} bytes must be positive")
+    if len(paths) != len(set(paths)):
+        problems.append(f"{record_label} paths must be unique")
+    return problems, paths
 
 
 def _valid_sha256(value: Any) -> bool:

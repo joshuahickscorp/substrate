@@ -1991,6 +1991,20 @@
         "tests/unit/test_custom_substrate_artifact.py",
         "tests/unit/test_custom_substrate_finalize.py"
       ]
+    },
+    {
+      "id": "collapsed_cache_receipt_policy_and_repeated_random_fixtures",
+      "source_tag": "mop-collapse-lowest-green-6",
+      "reason": "citable weighted and random-control caches expanded the same receipt selection, binding, file-row integrity, and configuration checks in parallel branches, while four validation cases repeated the same random encoder and realized-state fixture",
+      "replacement_paths": [
+        "src/mop/substrate/cache_manifest.py",
+        "tests/unit/test_cache_manifest.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-6:<path>",
+      "paths": [
+        "src/mop/substrate/cache_manifest.py",
+        "tests/unit/test_cache_manifest.py"
+      ]
     }
   ]
 }
