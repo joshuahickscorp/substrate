@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "4ed446749f781c3d0b040c5eb73dba616846d6c2",
+    "base_commit": "015b9d7507abd8e0487caeec30d0750e4051952d",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -123,9 +123,9 @@
     }
   },
   "current_measured": {
-    "global_maintained_python_LOC": 7409,
+    "global_maintained_python_LOC": 7415,
     "runtime_campaign_kernel_LOC": 5259,
-    "validation_LOC": 1811,
+    "validation_LOC": 1817,
     "normal_cli_count": 1,
     "installed_entrypoint_count": 1,
     "current_document_count": 4,
@@ -1324,7 +1324,7 @@
   },
   "reductions": {
     "schema": "mop-collapse-reduction-table/v1",
-    "canonical_sha256": "55fba3745c24366e7585853ec37855ca04c3ed7c399c51e3f97c9a64f5ce6c3d",
+    "canonical_sha256": "6b2340aafb7a5b1485736409aa7d89ee385b31b8627652221346f847264cf554",
     "row_encoding": "JSON scalars joined by commas in fields order; wrap a row in brackets to decode",
     "baseline_global_owned_source_LOC": 401396,
     "fields": [
@@ -1994,7 +1994,7 @@
         "twelve alternating 40-fit batches improve median six-epoch gate training from 0.026322s to 0.022544s (-14.35%)",
         "thirty corpus preparations improve median from 17.9091ms to 17.8673ms (-0.23%)",
         "twelve fresh-process imports improve median mop.substrate import from 0.604203s to 0.064118s (-89.39%) because the package root no longer imports dormant NumPy/Torch storage machinery",
-        "durable authority falls from 10306 LOC/582505 bytes/14 files to 3277 LOC/274267 bytes/5 files; median parse-plus-projection improves from 0.8434ms to 0.6054ms (-28.22%)"
+        "durable authority falls from 10306 LOC/582505 bytes/14 files to 3277 LOC/274267 bytes/5 files; median parse-plus-projection improves from 0.7674ms to 0.5910ms (-22.98%)"
       ]
     },
     "events": [
@@ -2152,10 +2152,10 @@
     "status": "green_with_external_live_boundary",
     "subject": {
       "branch": "agent/mop-accretion-collapse",
-      "code_checkpoint": "8234b9b",
-      "code_tree": "a90a264cafea7d52cd548673a62aba4e2a4e26d3",
-      "physical_checkpoint": "8234b9b",
-      "physical_tree": "a90a264cafea7d52cd548673a62aba4e2a4e26d3",
+      "code_checkpoint": "015b9d7",
+      "code_tree": "ed6544996cc9a584fca0a641ce1f295ecc820b98",
+      "physical_checkpoint": "015b9d7",
+      "physical_tree": "ed6544996cc9a584fca0a641ce1f295ecc820b98",
       "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
       "starting_owned_python_LOC": 401396,
       "current_maintained_python_LOC": 7415,
@@ -2203,7 +2203,7 @@
         },
         "durable_collapse_state": {
           "files": 5,
-          "physical_LOC": 3277
+          "physical_LOC": 3279
         },
         "scientific_evidence": {
           "files": 60,
@@ -2389,9 +2389,9 @@
       },
       "current_clean_clone": {
         "path": "/tmp/mop-collapse-cont.9URUfp",
-        "commit": "8234b9b",
+        "commit": "015b9d7",
         "environment": "disposable uv environment with declared dev and encoder dependencies",
-        "full_suite": "128 collected; 122 passed; 6 environment skips",
+        "full_suite": "129 collected; 123 passed; 6 environment skips",
         "acceptance": "10/10 passed"
       },
       "offline_hydration": "all 9 portable hydration cases passed without network; deterministic content-addressed export/load, exact tensor/model semantics, scoped evidence hashes, and five fail-closed mutations cover the owned hydration path; no optional source pack exists",
@@ -2401,7 +2401,7 @@
     "pull_requests": {
       "pr9": "CLOSED as superseded after exact mapping and replacement gates",
       "pr30": "OPEN DRAFT; General Run closure remains deferred",
-      "pr31": "OPEN DRAFT against current main; body reflects code/physical checkpoint 8234b9b and the 7324-LOC measured result; never marked ready or merged"
+      "pr31": "OPEN DRAFT against current main; body reflects code/physical checkpoint 015b9d7 and the 7415-LOC measured result; never marked ready or merged"
     },
     "live_boundary": {
       "protected_checkout": "clean at 094bdd934de3bb170c89ee95a0bc089f32172448 on agent/mop-evidence-salvage",
@@ -2469,7 +2469,8 @@
         "2a17bd9 retired generated analysis maps",
         "c9b4b88 retired project-exhaustion aggregate",
         "d982d4b direct count corpus staging",
-        "8234b9b retired dormant latent store"
+        "8234b9b retired dormant latent store",
+        "015b9d7 normalized durable authority"
       ],
       "27_rollback_tags": [
         "mop-collapse-declarative-engine",
@@ -2504,7 +2505,8 @@
         "mop-collapse-retired-generated-analysis-maps",
         "mop-collapse-retired-project-exhaustion-aggregate",
         "mop-collapse-direct-count-corpus",
-        "mop-collapse-retired-dormant-latent-store"
+        "mop-collapse-retired-dormant-latent-store",
+        "mop-collapse-single-durable-authority"
       ],
       "28_live_non_interference": "protected checkout untouched; cached boundary reports no General Run process and a stale nonterminal status only",
       "29_external_boundary": "General Run has stale nonterminal state; PR 30 closure incomplete",
@@ -2547,9 +2549,9 @@
     },
     "architecture_b": {
       "design": "one normalized state authority with generated views and exact tagged legacy recovery",
-      "projected_tree_LOC": 33783,
+      "projected_tree_LOC": 33804,
       "normalized_state_LOC": 2669,
-      "normalized_state_bytes": 220293
+      "normalized_state_bytes": 220291
     },
     "selected": "architecture_b",
     "rule": "B is lower in physical tree LOC and authority count while preserving exact checklist and reduction projections; exact retired bytes remain content-addressed at the rollback tag"
@@ -2653,9 +2655,9 @@
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 16069,
-    "event_net_LOC": 397788,
-    "net_reduction_LOC": 397683
+    "added_LOC": 16075,
+    "event_net_LOC": 397782,
+    "net_reduction_LOC": 397677
   },
   "checklist_summary": {
     "total": 261,
