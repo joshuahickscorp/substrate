@@ -352,12 +352,72 @@ def load_speech_stream(per_stream: int = 3, n_streams: int = 6000):
     return d
 
 
+def _stream_from(base, per_stream: int, n_train: int, decim: int, cache_key: str):
+    """Concatenate several sequences from one unit and label the stream by its final sequence.
+
+    An order free reader sees the same set of timesteps whichever sequence came last, so the label can only
+    be recovered from position in the stream. Units are preserved because every sequence in a stream comes
+    from the same unit.
+    """
+    if cache_key in _CACHE:
+        return _CACHE[cache_key]
+    parts = []
+    for split, xk, yk, uk, target in (
+        ("train", "x", "y", "u", n_train),
+        ("test", "xte", "yte", "ute", max(1, n_train // 3)),
+    ):
+        X, Y, U = base[xk], base[yk], np.asarray(base[uk])
+        by_unit: dict[str, list[int]] = {}
+        for i, u in enumerate(U):
+            by_unit.setdefault(str(u), []).append(i)
+        usable = [u for u, ix in by_unit.items() if len(ix) >= per_stream]
+        rng = np.random.default_rng(0 if split == "train" else 1)
+        xs, ys, us = [], [], []
+        for _ in range(target):
+            if not usable:
+                break
+            u = usable[int(rng.integers(len(usable)))]
+            pick = rng.choice(by_unit[u], per_stream, replace=False)
+            xs.append(torch.cat([X[i] for i in pick])[::decim])
+            ys.append(int(Y[pick[-1]]))
+            us.append(u)
+        parts.append((torch.stack(xs), torch.tensor(ys), np.array(us)))
+    (xtr, ytr, utr), (xte, yte, ute) = parts
+    d = {
+        "x": xtr,
+        "y": ytr,
+        "u": utr,
+        "xte": xte,
+        "yte": yte,
+        "ute": ute,
+        "channels": int(xtr.shape[2]),
+        "classes": int(base["classes"]),
+        "unit": base["unit"],
+        "frames_per_stream": int(xtr.shape[1]),
+        "sequences_per_stream": per_stream,
+    }
+    _CACHE[cache_key] = d
+    return d
+
+
+def load_har_stream():
+    """HAR raw windows from one subject concatenated into a stream, labelled by the final window.
+
+    Built because a strongly temporal sensor bed was missing. HAR raw windows on their own are marginal
+    under a genuinely order free control: shuffling time costs real accuracy, but a pooled per timestep
+    reader gets within 0.02. This construction makes position in the sequence the only route to the label,
+    which is what the premise about fast temporal dynamics actually needs.
+    """
+    return _stream_from(load_har(), per_stream=3, n_train=6000, decim=2, cache_key="har_stream")
+
+
 DOMAINS = {
     "har": load_har,
     "speech": load_speech,
     "pamap2_transition": load_pamap2_transition,
     "harth_transition": load_harth_transition,
     "speech_stream": load_speech_stream,
+    "har_stream": load_har_stream,
 }
 
 

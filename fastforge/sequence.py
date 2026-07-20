@@ -33,10 +33,18 @@ BUDGET = {
     "har": 550,
     "speech": 1200,
     "speech_stream": 1200,
+    "har_stream": 1200,
     "harth_transition": 800,
     "pamap2_transition": 800,
 }
-LR = {"har": 3e-3, "speech": 3e-3, "speech_stream": 3e-3, "harth_transition": 3e-3, "pamap2_transition": 3e-3}
+LR = {
+    "har": 3e-3,
+    "speech": 3e-3,
+    "speech_stream": 3e-3,
+    "har_stream": 3e-3,
+    "harth_transition": 3e-3,
+    "pamap2_transition": 3e-3,
+}
 RETURN_FRACTION = 3
 MEM_CAP = 600
 

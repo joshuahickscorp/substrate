@@ -1,8 +1,7 @@
 {
   "schema": "mop-domain-validity/v1",
   "marginal_domains": [
-    "har",
-    "speech"
+    "har"
   ],
   "marginal_meaning": "shuffling time costs the recurrent model real accuracy, so the bed is not order insensitive, but an order free reader gets close enough that the bed cannot carry a strong claim about temporal dynamics at this capacity. Any result on a marginal bed is reported with that bound attached.",
   "inherited_status_note": "HAR raw was validated as a temporal bed by the inherited authority under a different estimator family. Under this program's owned architecture and a genuinely order free control it is marginal. The inherited record is not rewritten; this is an additional measurement under a new authority.",
@@ -37,33 +36,6 @@
       "channels": 9,
       "classes": 6,
       "unit": "subject",
-      "beats_order_free_control": false,
-      "order_matters": true,
-      "status": "marginal: order matters but an order free reader is nearly as good"
-    },
-    "speech": {
-      "gru": 0.8,
-      "gru_shuffled": 0.6821,
-      "bag_order_free": 0.7608,
-      "temporal_headroom_gru_vs_bag": 0.0392,
-      "temporal_headroom_lcb": 0.0106,
-      "order_matters_gru_vs_shuffled": 0.1179,
-      "verdict": "invalid_no_temporal_headroom",
-      "steps": 1400,
-      "seeds": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
-      "n_train": 2343,
-      "n_test": 857,
-      "n_units_train": 160,
-      "n_units_test": 68,
-      "channels": 40,
-      "classes": 10,
-      "unit": "speaker",
       "beats_order_free_control": false,
       "order_matters": true,
       "status": "marginal: order matters but an order free reader is nearly as good"
@@ -170,7 +142,6 @@
   ],
   "invalid_domains": [
     "har",
-    "speech",
     "pamap2_transition",
     "harth_transition"
   ],
@@ -179,5 +150,5 @@
   "program": "mop-fast-state-plasticity-forge-v1",
   "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
   "SESOI": 0.05,
-  "sha256": "e8a841c9da5f99850c1faef71ea1ce7b3c2535a217ba15981e7739a773f82e06"
+  "sha256": "70a9be5bd8479620ab7bf6381c8c4c07fb286a2e58431b7e979d83f003589254"
 }

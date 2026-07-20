@@ -1,9 +1,14 @@
 """Secondary cross domain matrix on the third valid domain.
 
-The principal matrix pairs a sensor domain with an audio domain: two sequence domains that do not obviously
-share temporal structure. If shared fast dynamics fail there, one honest reading is that the pair was wrong,
-not the premise. This matrix tests the premise on a pair that does share temporal structure: Speech Commands
-keyword identity and a continuous stream of keywords from one speaker.
+The principal matrix pairs HAR raw windows with Speech Commands clips. Under a genuinely order free control
+both of those beds turned out to be marginal: shuffling time costs the recurrent model real accuracy, but a
+pooled per timestep reader comes within 0.02 to 0.04. A null on marginal beds has an obvious alternative
+reading, that the beds never needed fast temporal dynamics in the first place.
+
+This matrix removes that alternative. Both beds here are streams: several sequences from one unit
+concatenated, labelled by the final sequence. Position in the stream is the only route to the label, so an
+order free reader is at chance on the thing that matters. The pairing is still cross modality, sensor to
+audio, so it tests the same premise with the confound removed.
 
 Secondary by declaration. It can support or fail to support the premise. It cannot overturn the principal
 verdict, and a positive here would be reported as a scope condition, not as a cross modality result.
@@ -25,7 +30,7 @@ from fastforge import sequence as S
 from fastforge.runs import io
 
 SEEDS = list(range(8))
-DIRECTIONS = [("speech", "speech_stream"), ("speech_stream", "speech")]
+DIRECTIONS = [("har_stream", "speech_stream"), ("speech_stream", "har_stream")]
 ARMS = [
     "fresh_independent",
     "separate_per_domain",
@@ -64,6 +69,14 @@ def main():
         return
 
     t0 = time.time()
+    # convergence of the third domain, so its budget is justified rather than assumed
+    conv = {}
+    for kind in ("gru", "lstm", "bag"):
+        f = io.RUNS / "bench" / f"speech_stream_{kind}.json"
+        if f.is_file():
+            grid = json.loads(f.read_text())
+            best = max(grid.values(), key=lambda v: v["accuracy_mean"])
+            conv[kind] = {"best": best, "grid": {k: v["accuracy_mean"] for k, v in grid.items()}}
     per_dir = {}
     for a, b in DIRECTIONS:
         dname = f"{a}->{b}"
@@ -134,12 +147,15 @@ def main():
         "MOP_FAST_STATE_SECONDARY_MATRIX.json",
         {
             "schema": "mop-fast-state-secondary-matrix/v1",
-            "pairing_rationale": "two beds that share temporal structure and modality, unlike the principal "
-            "sensor to audio pairing",
-            "status": "secondary. It cannot overturn the principal verdict and a positive here is a scope "
-            "condition, not a cross modality result.",
+            "pairing_rationale": "two strongly temporal beds, still cross modality. The principal beds are "
+            "marginal under an order free control, so a null there could be read as the beds not needing "
+            "temporal dynamics. Here they do.",
+            "status": "secondary by declaration. It cannot overturn the principal verdict. A positive here "
+            "would say the premise holds when the beds are strongly temporal, which is a scope condition "
+            "on the principal null, not a replacement for it.",
             "seeds": SEEDS,
             "arms": ARMS,
+            "third_domain_convergence": conv,
             "per_direction": per_dir,
             "arms_passing_in_both_directions": both,
             "verdict": "secondary_positive" if both else "secondary_null",

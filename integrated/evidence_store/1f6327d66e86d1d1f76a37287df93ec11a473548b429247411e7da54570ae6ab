@@ -36,9 +36,9 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_BASELINE_CONVERGENCE_REPORT.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_BASELINE_CONVERGENCE_REPORT.json",
-      "canonical_path": "integrated/evidence_store/b8d83c160d6e3f1e2e7fadd42a14f1645e2411610ca85b57b2bb9251f9a69df0",
-      "content_hash": "b8d83c160d6e3f1e2e7fadd42a14f1645e2411610ca85b57b2bb9251f9a69df0",
-      "bytes": 37493,
+      "canonical_path": "integrated/evidence_store/68bf8f5d6f2c62ca009b3f4c6a7aab81f87e8a6f84081ceb0a834a74c4182b83",
+      "content_hash": "68bf8f5d6f2c62ca009b3f4c6a7aab81f87e8a6f84081ceb0a834a74c4182b83",
+      "bytes": 37490,
       "set": "fast_state",
       "schema": "mop-baseline-convergence/v2",
       "program": "mop-fast-state-plasticity-forge-v1",
@@ -125,19 +125,6 @@
       "pack": "fast-state-v1"
     },
     {
-      "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH.json",
-      "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH.json",
-      "canonical_path": "integrated/evidence_store/b1254ea40ae1fe5de9ce2902c6d93e23c3f970208d73f5321de086ea2e25e062",
-      "content_hash": "b1254ea40ae1fe5de9ce2902c6d93e23c3f970208d73f5321de086ea2e25e062",
-      "bytes": 740,
-      "set": "fast_state",
-      "schema": "mop-domain-order-gate/v1",
-      "program": "mop-fast-state-plasticity-forge-v1",
-      "evidence_class": "invalid_no_temporal_headroom",
-      "is_null": true,
-      "pack": "fast-state-v1"
-    },
-    {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH_STREAM.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH_STREAM.json",
       "canonical_path": "integrated/evidence_store/5829f201554e7cf027bb85c210571713eb9ff79c2cea8436a80ee9e9a34cbeb6",
@@ -147,19 +134,6 @@
       "schema": "mop-domain-order-gate/v1",
       "program": "mop-fast-state-plasticity-forge-v1",
       "evidence_class": "temporal_headroom_present",
-      "is_null": false,
-      "pack": "fast-state-v1"
-    },
-    {
-      "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json",
-      "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json",
-      "canonical_path": "integrated/evidence_store/e408355f33ac76c4963462e5ce454813292c3101bc42f0e01449520c05569bab",
-      "content_hash": "e408355f33ac76c4963462e5ce454813292c3101bc42f0e01449520c05569bab",
-      "bytes": 5755,
-      "set": "fast_state",
-      "schema": "mop-domain-validity/v1",
-      "program": "mop-fast-state-plasticity-forge-v1",
-      "evidence_class": null,
       "is_null": false,
       "pack": "fast-state-v1"
     },
@@ -179,9 +153,9 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_CODE_REPORT.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_CODE_REPORT.json",
-      "canonical_path": "integrated/evidence_store/e71d8fd5762724051193131643117de22179147fd4444d7dbf53d945880cb6a7",
-      "content_hash": "e71d8fd5762724051193131643117de22179147fd4444d7dbf53d945880cb6a7",
-      "bytes": 3293,
+      "canonical_path": "integrated/evidence_store/9d7b071d1947ab9b2dd6f544821e131ff059ce3ad645d73895703672e783cace",
+      "content_hash": "9d7b071d1947ab9b2dd6f544821e131ff059ce3ad645d73895703672e783cace",
+      "bytes": 3292,
       "set": "fast_state",
       "schema": "mop-fast-state-code-report/v1",
       "program": "mop-fast-state-plasticity-forge-v1",
@@ -192,9 +166,9 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_EVIDENCE_FABRIC.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_EVIDENCE_FABRIC.json",
-      "canonical_path": "integrated/evidence_store/6b3316523c8b35e11233f0973cdcb3f358af1d325f7bfd8a822254d7074bc333",
-      "content_hash": "6b3316523c8b35e11233f0973cdcb3f358af1d325f7bfd8a822254d7074bc333",
-      "bytes": 16956,
+      "canonical_path": "integrated/evidence_store/5b6a2962db696e7b3d9262bda39deff94a1dd3922376f7f0b6ca7ae9b0efc2e5",
+      "content_hash": "5b6a2962db696e7b3d9262bda39deff94a1dd3922376f7f0b6ca7ae9b0efc2e5",
+      "bytes": 15547,
       "set": "fast_state",
       "schema": "mop-evidence-fabric/v1-fast-state",
       "program": "mop-fast-state-plasticity-forge-v1",
@@ -244,8 +218,8 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_STATE.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_STATE.json",
-      "canonical_path": "integrated/evidence_store/bd1da51dbc729a4dad1376e456bf3fcbb51d2c7cc059223c01692a8fcce23c1b",
-      "content_hash": "bd1da51dbc729a4dad1376e456bf3fcbb51d2c7cc059223c01692a8fcce23c1b",
+      "canonical_path": "integrated/evidence_store/c4c2566dc05c20d7efe86cddd786789ee6096102c7ad56ecee1a026fd365639a",
+      "content_hash": "c4c2566dc05c20d7efe86cddd786789ee6096102c7ad56ecee1a026fd365639a",
       "bytes": 8829,
       "set": "fast_state",
       "schema": "mop-fast-state-forge-state/v1",
@@ -257,8 +231,8 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_PROGRESS_SCORECARD.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_PROGRESS_SCORECARD.json",
-      "canonical_path": "integrated/evidence_store/910c73f553cdf6ae3eaa13ff6ee969b15bf54969e03813c88e9c9f74125426a3",
-      "content_hash": "910c73f553cdf6ae3eaa13ff6ee969b15bf54969e03813c88e9c9f74125426a3",
+      "canonical_path": "integrated/evidence_store/88237162980c25a69016f2fa6b86e466af5674c448281070194f3f367a56f5a2",
+      "content_hash": "88237162980c25a69016f2fa6b86e466af5674c448281070194f3f367a56f5a2",
       "bytes": 1594,
       "set": "fast_state",
       "schema": "mop-fast-state-progress-scorecard/v1",
@@ -283,8 +257,8 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json",
-      "canonical_path": "integrated/evidence_store/76eb2528ad85202000b7e0e92f7f82772457aaca87394e345ed56329d733cf02",
-      "content_hash": "76eb2528ad85202000b7e0e92f7f82772457aaca87394e345ed56329d733cf02",
+      "canonical_path": "integrated/evidence_store/568bb1d3aed5de1a096e02205c8baf674048a841a3078835a989669d3640025b",
+      "content_hash": "568bb1d3aed5de1a096e02205c8baf674048a841a3078835a989669d3640025b",
       "bytes": 5607,
       "set": "fast_state",
       "schema": "mop-third-temporal-domain-preflight/v2",
@@ -295,20 +269,19 @@
     }
   ],
   "union": {
-    "count": 22,
-    "unique_objects": 22,
-    "unique_bytes": 150899,
+    "count": 20,
+    "unique_objects": 20,
+    "unique_bytes": 142991,
     "duplicate_bytes_eliminated": 0,
-    "merkle_root": "36973459a1475c6e36cd6f745407270f45526b1f44d6802c29c5908779d306ac"
+    "merkle_root": "31d0a431e1d6cd7ab7f7f6b6307d23fb838a89f805a6b763938dc4ed9726edd6"
   },
   "by_null": [
     "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_HAR.json",
     "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_HARTH_TRANSITION.json",
-    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_PAMAP2_TRANSITION.json",
-    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH.json"
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_PAMAP2_TRANSITION.json"
   ],
   "by_claim": {
-    "invalid_no_temporal_headroom": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH.json",
+    "invalid_no_temporal_headroom": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_PAMAP2_TRANSITION.json",
     "temporal_headroom_present": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH_STREAM.json",
     "third_domain_valid": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json"
   },
@@ -333,7 +306,7 @@
   "content_store": "integrated/evidence_store, shared with the inherited fabric, additive only",
   "wall_seconds": 0.0,
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
+  "source_commit": "f8a4a16d2938cff5b3ee49ebda9c2ff200e7fc4d",
   "SESOI": 0.05,
-  "sha256": "7e9a5ffbbd8f7d4b70268428e784110c9aa64bc63e7b1c0c04fea05bee6bfe53"
+  "sha256": "050e32f1fdd60bb38a7c1b92ccf20020b05948c49e6308c6151b5158e82b752f"
 }
