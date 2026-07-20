@@ -223,6 +223,17 @@ def main():
             "rule": "no substrate result is terminal against an unconverged baseline. The principal budget "
             "is "
             "chosen so that every baseline is at or past its own plateau.",
+            "baselines_not_run_and_why": {
+                "TCN": "declared optional by the mandate and not implemented. The order free control already "
+                "bounds what a non recurrent reader achieves on these beds, and on the two principal "
+                "domains it comes within 0.02 to 0.04 of the recurrent models, so a dilated convolutional "
+                "baseline would not change any verdict here. Recorded as an omission, not as a pass.",
+                "reservoir and EWC": "run inside the within domain battery rather than the single domain "
+                "convergence sweep, because both are continual learning controls and have no meaning on a "
+                "single task",
+                "joint training and full memory upper bounds": "run inside the within domain battery for the "
+                "same reason",
+            },
             "note": "the separate baseline is architecturally identical to lstm when only one context is "
             "registered, so its single domain curve matches lstm by construction",
         },

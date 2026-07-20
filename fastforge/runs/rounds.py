@@ -114,9 +114,8 @@ def causal_evidence():
                 ),
             }
         ev["component_gaps"] = comp
-        ev["return_recovery_is_the_failing_component"] = comp["return_recovery"]["gap_to_baseline"] <= min(
-            v["gap_to_baseline"] for v in comp.values()
-        )
+        ev["return_recovery_is_the_failing_component"] = comp["return_recovery"]["gap_to_baseline"] < 0
+        ev["weakest_component_for_the_substrate"] = min(comp, key=lambda k: comp[k]["gap_to_baseline"])
         block = {
             a: float(np.mean([d0[s][a].get("gate_block_rate") or 0.0 for s in seeds]))
             for a in ("H_cosine_gate", "H_probe_gate", "H_drift_gate")
@@ -130,16 +129,57 @@ def causal_evidence():
     return ev
 
 
+def strength(ev, key):
+    """How strongly the measured evidence supports a candidate. Declaration order is not a reason."""
+    if not ev.get(key):
+        return -1.0
+    if key == "shared_core_causes_forgetting":
+        return float(max((abs(v) for k, v in _group_losses(ev).items()), default=0.0))
+    if key == "projection_or_norm_enables_acquisition":
+        return float(max(_group_gains(ev).values(), default=0.0))
+    if key == "return_recovery_is_the_failing_component":
+        # the strength is the size of the deficit, not one minus the gap. A component where the substrate
+        # already matches or beats the baseline is not a failure to respond to.
+        gaps = ev.get("component_gaps", {})
+        return float(max(0.0, -gaps.get("return_recovery", {}).get("gap_to_baseline", 0.0)))
+    if key in ("cosine_gate_blocked_most_updates", "probe_gate_blocked_most_updates"):
+        arm = "H_cosine_gate" if key.startswith("cosine") else "H_probe_gate"
+        return float(ev.get("gate_block_rates", {}).get(arm, 0.0))
+    if key == "drift_tracks_forgetting":
+        # the absolute drift threshold was never satisfied, so this reads as an instrumentation fact rather
+        # than a causal one and it ranks last among supported candidates
+        return 0.0 if ev.get("absolute_drift_threshold_was_never_satisfied") else 0.5
+    return 0.0
+
+
+def _group_losses(ev):
+    if not io.exists("MOP_SUBSTRATE_INTERFERENCE_MAP.json"):
+        return {}
+    cls = io.load("MOP_SUBSTRATE_INTERFERENCE_MAP.json")["classification"]
+    return {k: v["mean_old_domain_loss"] for k, v in cls.items() if v["is_shared_across_domains"]}
+
+
+def _group_gains(ev):
+    if not io.exists("MOP_SUBSTRATE_INTERFERENCE_MAP.json"):
+        return {}
+    cls = io.load("MOP_SUBSTRATE_INTERFERENCE_MAP.json")["classification"]
+    return {k: v["mean_new_domain_gain"] for k, v in cls.items() if "proj" in k or "norm" in k}
+
+
 def select(ev):
-    chosen, rejected = {}, {}
+    """Two rounds per family, ranked by how strongly the measurement supports them."""
+    chosen, rejected, ranking = {}, {}, {}
     for family, keys in (("G", ["G-R1", "G-R2", "G-R3"]), ("H", ["H-R1", "H-R2", "H-R3"])):
-        scored = [(k, bool(ev.get(CANDIDATES[k]["evidence_key"], False))) for k in keys]
-        supported = [k for k, ok in scored if ok]
-        if len(supported) < 2:  # fall back deterministically to declared order, and say so
-            supported = (supported + [k for k, _ in scored if k not in supported])[:2]
-        chosen[family] = supported[:2]
-        rejected[family] = [k for k in keys if k not in chosen[family]]
-    return chosen, rejected
+        scored = sorted(
+            ((k, strength(ev, CANDIDATES[k]["evidence_key"])) for k in keys), key=lambda kv: -kv[1]
+        )
+        ranking[family] = [
+            {"round": k, "evidence_strength": round(v, 4), "evidence_key": CANDIDATES[k]["evidence_key"]}
+            for k, v in scored
+        ]
+        chosen[family] = [k for k, _ in scored[:2]]
+        rejected[family] = [k for k, _ in scored[2:]]
+    return chosen, rejected, ranking
 
 
 def main():
@@ -147,7 +187,7 @@ def main():
         d, s = sys.argv[2].split(":")
         direction = tuple(d.split("-"))
         ev = causal_evidence()
-        chosen, _ = select(ev)
+        chosen, _, _ = select(ev)
         out = {}
         for family in ("G", "H"):
             for k in chosen[family]:
@@ -165,7 +205,7 @@ def main():
 
     t0 = time.time()
     ev = causal_evidence()
-    chosen, rejected = select(ev)
+    chosen, rejected, ranking = select(ev)
     rounds, base = {}, {}
     for direction in CD.DIRECTIONS:
         dname = f"{direction[0]}->{direction[1]}"
@@ -232,6 +272,7 @@ def main():
             "seeds": SEEDS,
             "causal_evidence_used": ev,
             "selected_rounds": chosen,
+            "candidate_ranking_by_evidence_strength": ranking,
             "rejected_rounds": rejected,
             "round_definitions": {
                 k: {"name": v["name"], "responds_to": v["responds_to"], "policy": v["policy"]}
