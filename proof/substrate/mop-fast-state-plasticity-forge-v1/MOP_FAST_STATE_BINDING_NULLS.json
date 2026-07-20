@@ -1,0 +1,124 @@
+{
+  "schema": "mop-fast-state-binding-nulls/v1",
+  "binding_rule": "a null listed here is immutable. It may be superseded only by an appended authority that states the new evidence, never by rewriting or relabelling the original.",
+  "inherited_nulls": {
+    "A-T": "temporal shared workspace null vs LSTM+GDumb (HAR raw)",
+    "C": "multi-horizon predictive state null vs LSTM+GDumb",
+    "D": "hierarchical lattice structural null (routing decorative)",
+    "memory_compression": "prototype/coreset/dual null vs GDumb, 8 seeds",
+    "PAMAP2": "order-insensitive windowed activity recognition (bag beats GRU)",
+    "STARSS23_cached": "8 clips aggregated per-clip latents; insufficient units, no temporal sequence",
+    "learned_plasticity": "no stable headroom (simple_policy_sufficient)",
+    "cross_domain": "not established",
+    "prior_generations": "R1 retrieval, P1R replay, U1 uncertainty, N1 novelty, S1/C3 simulation, E1 events, C0 trace, M1 messaging, K1 repair, A1 action all null"
+  },
+  "inherited_null_effect_sizes": {
+    "AT1_attrib": {
+      "mean": 0.0193,
+      "lower_95_cb": -0.0199
+    },
+    "AT1_no_fast": {
+      "mean": -0.0434,
+      "lower_95_cb": -0.1008
+    },
+    "AT1_no_medium": {
+      "mean": 0.016,
+      "lower_95_cb": -0.0212
+    },
+    "AT1_no_slow": {
+      "mean": 0.0472,
+      "lower_95_cb": 0.0191
+    },
+    "AT2_localized": {
+      "mean": 0.0075,
+      "lower_95_cb": -0.0317
+    },
+    "F_multi_horizon": {
+      "mean": 0.0183,
+      "lower_95_cb": -0.0256
+    },
+    "F_next_step": {
+      "mean": 0.0172,
+      "lower_95_cb": -0.0279
+    },
+    "F_no_objective": {
+      "mean": 0.0309,
+      "lower_95_cb": -0.0024
+    },
+    "F_shuffled_time": {
+      "mean": 0.018,
+      "lower_95_cb": -0.0286
+    }
+  },
+  "cross_domain_arm_effects": {
+    "projection_only": {
+      "speech_acq_vs_fresh": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0
+      }
+    },
+    "slow_core_transfer": {
+      "speech_acq_vs_fresh": {
+        "mean": 0.0294,
+        "lower_95_cb": -0.0166
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0633,
+        "lower_95_cb": 0.038
+      }
+    },
+    "frozen_transferred_core": {
+      "speech_acq_vs_fresh": {
+        "mean": -0.046,
+        "lower_95_cb": -0.0823
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0738,
+        "lower_95_cb": 0.0498
+      }
+    },
+    "finetuned_transferred_core": {
+      "speech_acq_vs_fresh": {
+        "mean": 0.0294,
+        "lower_95_cb": -0.0166
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0633,
+        "lower_95_cb": 0.038
+      }
+    },
+    "full_persistent_substrate": {
+      "speech_acq_vs_fresh": {
+        "mean": 0.0294,
+        "lower_95_cb": -0.0166
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0633,
+        "lower_95_cb": 0.038
+      }
+    }
+  },
+  "cross_domain_verdict": "cross_domain_moldability_null",
+  "not_reopened": [
+    "architecture E compression",
+    "architecture F predictive consolidation",
+    "shared medium state",
+    "shared trainable slow workspace as a proposal",
+    "learned replay, retrieval, simulation",
+    "PAMAP2 window classification",
+    "STARSS23 cached eight clip representation",
+    "adding seeds to the A-T no slow near miss"
+  ],
+  "reopened_and_why": {
+    "cross_domain_transfer": "the prior matrix contained aliased arm implementations, so its arm level attribution was never valid. The historical null verdict stands unchanged; only the implementation is repaired and rerun as a fixture.",
+    "shared_slow_state_as_control": "retained only as a control arm, never as a proposed mechanism"
+  },
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "c570b87b96f806d16da9492d5ee6c08c3af854f0",
+  "SESOI": 0.05,
+  "sha256": "8c957c734f6c63f9a85c0ecee06754de828c6a968e19599087fbb7381b6c1ef8"
+}

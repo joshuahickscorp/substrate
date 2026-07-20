@@ -1,0 +1,86 @@
+{
+  "schema": "mop-fast-state-forge-start-authority/v1",
+  "successor_of": {
+    "branch": "agent/mop-integrated-substrate-forge",
+    "commit": "c570b87b96f806d16da9492d5ee6c08c3af854f0",
+    "draft_pr": 32,
+    "verified_local_and_remote": true
+  },
+  "immutable_historical_authorities": {
+    "collapse_branch": "agent/mop-accretion-collapse",
+    "collapse_pr": 31,
+    "rule": "not modified, merged, rebased, reset or interfered with by this program"
+  },
+  "successor_branch": "agent/mop-fast-state-plasticity-forge",
+  "worktree": "/Users/scammermike/Downloads/mop-fast-state-plasticity-forge",
+  "run_root": "runs/substrate/mop-fast-state-plasticity-forge-v1",
+  "proof_root": "proof/substrate/mop-fast-state-plasticity-forge-v1",
+  "stop_switch": "~/.mop_fast_state_forge_stop",
+  "inherited_code_and_evidence": {
+    "active_runtime_loc": 4930,
+    "substrate_surface_loc": 7012,
+    "maintained_python_excluding_proof_loc": 22266,
+    "mandate_stated_maintained_python": 15788,
+    "discrepancy_note": "the mandate states approximately 15,788 maintained Python LOC; the sealed integrated accounting measures 22,266 excluding proof serialization. The sealed measurement is binding and the 18,000 target is already exceeded at inheritance, so this program budgets net new code against 22,266.",
+    "acceptance": "11/11",
+    "proof_artifacts": 134,
+    "proof_unique_objects": 134,
+    "proof_tamper_mutations_all_rejected": true
+  },
+  "valid_temporal_domains": {
+    "HAR_raw": "valid temporal domain",
+    "SpeechCommands_v0.02": "valid after the mel filterbank instrumentation repair (gru 0.7837, bag 0.6113, shuffled 0.6252, headroom lcb 0.1552)",
+    "PAMAP2_window_classification": "invalid_no_temporal_headroom",
+    "STARSS23_cached_eight_clip": "invalid for the required substrate sequence"
+  },
+  "closed_premises": {
+    "architecture_E": "compression null, terminal",
+    "architecture_F": "predictive objective falsified: no objective arm scored highest (0.4204) and shuffled time (0.4075) matched real multi horizon (0.4078)",
+    "medium_state": "decorative, contribution 0.0033",
+    "shared_slow_state": "harmful, contribution -0.0278",
+    "multi_horizon_objective": "no downstream benefit",
+    "shuffled_time_predictive_objective": "indistinguishable from real time predictive objective",
+    "learned_replay_or_retrieval": "closed",
+    "learned_simulation": "closed",
+    "rule": "these exact premises are not reopened by this program"
+  },
+  "surviving_signal": {
+    "fast_state_contribution": 0.0627,
+    "AT_without_slow_state": {
+      "util": 0.4367,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0472,
+        "lower_95_cb": 0.0191
+      },
+      "status": "strongest substrate arm, lower confidence bound below SESOI 0.05, a near miss that this program does not reopen by adding seeds"
+    },
+    "persistent_cross_domain_core": {
+      "return_recovery": {
+        "mean": 0.0738,
+        "lower_95_cb": 0.0498
+      },
+      "second_domain_acquisition": {
+        "mean": -0.046,
+        "lower_95_cb": -0.0823
+      },
+      "verdict": "cross_domain_moldability_null",
+      "known_defect": "the prior matrix aliased arms: projection_only shared a code path with fresh_core, and slow_core_transfer shared one with fine tuned and full persistent. Repaired by this program before any new transfer inference."
+    }
+  },
+  "new_causal_premise": "a substrate can preserve transferable fast temporal dynamics while preventing cross domain interference by restricting slow change to domain local parameters and selectively controlling shared core updates",
+  "premise_fails_if": "a strong conventional learner with separate domain heads or adapters remains superior after matched costs",
+  "inherited_forbidden_claims": [
+    "any substrate architecture beats strong matched baselines",
+    "bounded compression recovers the full-memory gap",
+    "any timescale/memory/routing/plasticity adds validated value",
+    "cross-domain moldability is evidenced",
+    "functional reorganization is evidenced",
+    "activation is licensed",
+    "the collapse merge changed any evidence class"
+  ],
+  "activation": false,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "c570b87b96f806d16da9492d5ee6c08c3af854f0",
+  "SESOI": 0.05,
+  "sha256": "42aa9b168e3e190924299bf4a1d2237c3d24629ad3162e419ad8ff931c518bdc"
+}

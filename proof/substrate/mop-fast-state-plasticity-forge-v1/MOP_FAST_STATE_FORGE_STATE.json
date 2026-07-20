@@ -1,0 +1,372 @@
+{
+  "schema": "mop-fast-state-forge-state/v1",
+  "requirements": {
+    "R01": {
+      "id": "R01",
+      "title": "Freeze the inherited interpretation",
+      "artifacts": [
+        "MOP_FAST_STATE_FORGE_START_AUTHORITY.json",
+        "MOP_FAST_STATE_FORGE_START_AUTHORITY.md"
+      ],
+      "dependencies": [],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R02": {
+      "id": "R02",
+      "title": "Bind the inherited nulls",
+      "artifacts": [
+        "MOP_FAST_STATE_BINDING_NULLS.json"
+      ],
+      "dependencies": [
+        "R01"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R03": {
+      "id": "R03",
+      "title": "Repair cross domain arm aliasing",
+      "artifacts": [
+        "MOP_CROSS_DOMAIN_ARM_AUTHORITY.json",
+        "MOP_CROSS_DOMAIN_ARM_AUDIT.json",
+        "MOP_CROSS_DOMAIN_ARM_MUTATIONS.json"
+      ],
+      "dependencies": [
+        "R01"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R04": {
+      "id": "R04",
+      "title": "Implement and seal Architecture G",
+      "artifacts": [
+        "MOP_ARCHITECTURE_G.json"
+      ],
+      "dependencies": [
+        "R03"
+      ],
+      "status": "ready",
+      "next_exact_action": "run fastforge.runs.architectures"
+    },
+    "R05": {
+      "id": "R05",
+      "title": "Implement and seal Architecture H",
+      "artifacts": [
+        "MOP_ARCHITECTURE_H.json"
+      ],
+      "dependencies": [
+        "R03"
+      ],
+      "status": "ready",
+      "next_exact_action": "run fastforge.runs.architectures"
+    },
+    "R06": {
+      "id": "R06",
+      "title": "Baseline convergence curves",
+      "artifacts": [
+        "MOP_BASELINE_CONVERGENCE_REPORT.json"
+      ],
+      "dependencies": [],
+      "status": "ready",
+      "next_exact_action": "run fastforge.runs.bench"
+    },
+    "R07": {
+      "id": "R07",
+      "title": "Resource profile",
+      "artifacts": [
+        "MOP_FAST_STATE_RESOURCE_REPORT.json"
+      ],
+      "dependencies": [],
+      "status": "ready",
+      "next_exact_action": "run fastforge.runs.bench"
+    },
+    "R08": {
+      "id": "R08",
+      "title": "Within domain battery, HAR",
+      "artifacts": [
+        "MOP_HAR_WITHIN_DOMAIN_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.withinrun shards then aggregate"
+    },
+    "R09": {
+      "id": "R09",
+      "title": "Within domain battery, Speech",
+      "artifacts": [
+        "MOP_SPEECH_WITHIN_DOMAIN_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.withinrun shards then aggregate"
+    },
+    "R10": {
+      "id": "R10",
+      "title": "Cross domain direction 1, HAR to Speech",
+      "artifacts": [
+        "MOP_HAR_TO_SPEECH_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.crossdomain shards then aggregate"
+    },
+    "R11": {
+      "id": "R11",
+      "title": "Cross domain direction 2, Speech to HAR",
+      "artifacts": [
+        "MOP_SPEECH_TO_HAR_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.crossdomain shards then aggregate"
+    },
+    "R12": {
+      "id": "R12",
+      "title": "Bidirectional synthesis",
+      "artifacts": [
+        "MOP_FAST_STATE_BIDIRECTIONAL_SYNTHESIS.json"
+      ],
+      "dependencies": [
+        "R10",
+        "R11"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.crossdomain aggregate"
+    },
+    "R13": {
+      "id": "R13",
+      "title": "Interference map",
+      "artifacts": [
+        "MOP_SUBSTRATE_INTERFERENCE_MAP.json",
+        "MOP_SUBSTRATE_INTERFERENCE_REPORT.md"
+      ],
+      "dependencies": [
+        "R04",
+        "R05"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.interference shards then aggregate"
+    },
+    "R14": {
+      "id": "R14",
+      "title": "Plasticity action headroom gate",
+      "artifacts": [
+        "MOP_SUBSTRATE_PLASTICITY_ACTION_HEADROOM.json",
+        "MOP_SUBSTRATE_PLASTICITY_POLICY_REPORT.json"
+      ],
+      "dependencies": [
+        "R13",
+        "R12"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.plasticity"
+    },
+    "R15": {
+      "id": "R15",
+      "title": "Architecture improvement rounds",
+      "artifacts": [
+        "MOP_FAST_STATE_ARCHITECTURE_COMPARISON.json"
+      ],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.rounds"
+    },
+    "R16": {
+      "id": "R16",
+      "title": "Functional reorganization",
+      "artifacts": [
+        "MOP_FUNCTIONAL_REORGANIZATION_REPORT.json"
+      ],
+      "dependencies": [
+        "R13"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.reorg"
+    },
+    "R17": {
+      "id": "R17",
+      "title": "Task free context inference",
+      "artifacts": [
+        "MOP_TASK_FREE_CONTEXT_REPORT.json"
+      ],
+      "dependencies": [
+        "R13"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.reorg"
+    },
+    "R18": {
+      "id": "R18",
+      "title": "Fast core representation analysis",
+      "artifacts": [
+        "MOP_FAST_CORE_REPRESENTATION_REPORT.json",
+        "MOP_FAST_CORE_REPRESENTATION_REPORT.md"
+      ],
+      "dependencies": [
+        "R12"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.represent"
+    },
+    "R19": {
+      "id": "R19",
+      "title": "Third temporal domain preflight",
+      "artifacts": [
+        "MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json"
+      ],
+      "dependencies": [
+        "R06"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.domaingate"
+    },
+    "R20": {
+      "id": "R20",
+      "title": "Code accounting",
+      "artifacts": [
+        "MOP_FAST_STATE_CODE_REPORT.json"
+      ],
+      "dependencies": [],
+      "status": "ready",
+      "next_exact_action": "run fastforge.runs.codereport"
+    },
+    "R21": {
+      "id": "R21",
+      "title": "Test report",
+      "artifacts": [
+        "MOP_FAST_STATE_TEST_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.testreport"
+    },
+    "R22": {
+      "id": "R22",
+      "title": "Independent verification",
+      "artifacts": [
+        "MOP_FAST_STATE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "dependencies": [
+        "R12",
+        "R13",
+        "R14"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.verify"
+    },
+    "R23": {
+      "id": "R23",
+      "title": "Mutation suites",
+      "artifacts": [
+        "MOP_FAST_STATE_MUTATION_REPORT.json"
+      ],
+      "dependencies": [
+        "R12",
+        "R13",
+        "R14"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.mutations"
+    },
+    "R24": {
+      "id": "R24",
+      "title": "Clean clone validation",
+      "artifacts": [
+        "MOP_FAST_STATE_CLEAN_CLONE.json"
+      ],
+      "dependencies": [
+        "R22",
+        "R23"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.cleanclone"
+    },
+    "R25": {
+      "id": "R25",
+      "title": "Evidence fabric indexing",
+      "artifacts": [
+        "MOP_FAST_STATE_EVIDENCE_FABRIC.json"
+      ],
+      "dependencies": [
+        "R24"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.fabric"
+    },
+    "R26": {
+      "id": "R26",
+      "title": "Synthesis and next frontier",
+      "artifacts": [
+        "MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+        "MOP_FAST_STATE_FORGE_SYNTHESIS.md",
+        "MOP_FAST_STATE_NEXT_FRONTIER.json"
+      ],
+      "dependencies": [
+        "R25"
+      ],
+      "status": "blocked",
+      "next_exact_action": "run fastforge.runs.synthesis"
+    }
+  },
+  "terminal": [
+    "R01",
+    "R02",
+    "R03"
+  ],
+  "ready": [
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R20"
+  ],
+  "blocked": [
+    "R08",
+    "R09",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
+    "R19",
+    "R21",
+    "R22",
+    "R23",
+    "R24",
+    "R25",
+    "R26"
+  ],
+  "resume_rule": "the program resumes from this ledger without replanning: take every ready requirement and execute its next exact action",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "c570b87b96f806d16da9492d5ee6c08c3af854f0",
+  "SESOI": 0.05,
+  "sha256": "e1dd4265fbfdc92f574ea20bc6fe52c325f3d1d42b94c47e1ac15628650f2342"
+}
