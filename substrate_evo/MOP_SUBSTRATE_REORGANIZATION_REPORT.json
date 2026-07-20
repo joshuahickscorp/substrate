@@ -1,0 +1,6 @@
+{
+  "schema": "reorganization/v1",
+  "class": "structural_null",
+  "finding": "Architecture D hierarchical routing decorative (0.457 < LSTM 0.480), same as Genesis Architecture B",
+  "sha256": "4f3ae011938bc4301a4a0db6de9ec1bdc9077e77ac7bf83c8d6179d814e8328a"
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "mop-substrate-moldability-results/v1",
+  "bed": "HAR_raw",
+  "arm_means": {
+    "gru": {
+      "avg_final": 0.4559,
+      "retention": 0.2432,
+      "new": 0.93,
+      "params": 28934.0
+    },
+    "lstm": {
+      "avg_final": 0.4799,
+      "retention": 0.2855,
+      "new": 0.921,
+      "params": 37254.0
+    },
+    "bag": {
+      "avg_final": 0.432,
+      "retention": 0.2364,
+      "new": 0.9129,
+      "params": 16326.0
+    },
+    "AT": {
+      "avg_final": 0.462,
+      "retention": 0.2402,
+      "new": 0.9428,
+      "params": 45510.0
+    },
+    "C": {
+      "avg_final": 0.4562,
+      "retention": 0.238,
+      "new": 0.9375,
+      "params": 33094.0
+    }
+  },
+  "util_mean": {
+    "gru": 0.4059,
+    "lstm": 0.4156,
+    "bag": 0.4037,
+    "AT": 0.3834,
+    "C": 0.399
+  },
+  "oracle_fullmem": {
+    "avg_final": 0.7638,
+    "retention": 0.7231,
+    "new": 0.9101,
+    "params": 37254.0
+  },
+  "continual_headroom_is_memory_capacity": 0.2839,
+  "sha256": "8d2c0954b8fdabbcc156a6e7c41f116a49e505468ce1c9ccb0e37491dab663ae"
+}

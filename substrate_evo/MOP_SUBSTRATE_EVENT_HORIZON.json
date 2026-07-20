@@ -1,0 +1,42 @@
+{
+  "schema": "mop-substrate-event-horizon/v1",
+  "source_commit": "8378e395e9cea960dd6b92212d9edcc8c6d3b244",
+  "type": "Substrate Event Horizon (exhaustion proof, not a single null)",
+  "architectures_failed": [
+    "Genesis A Shared Latent Workspace (image, substrate_candidate_null)",
+    "Genesis B Sparse Modular Substrate (image, structural_null)",
+    "A-T Temporal Shared Latent Workspace (temporal, substrate_candidate_null)",
+    "C Multi-Horizon Predictive State (temporal, substrate_candidate_null)",
+    "D Hierarchical Plasticity Lattice (temporal, structural_null (does not beat LSTM; hierarchical routing decorative))"
+  ],
+  "improvement_premises_failed": [
+    "shared latent workspace",
+    "sparse modular routing",
+    "multi-timescale state (fast GRU + medium EMA context) + multi-horizon aux",
+    "predictive-state pretraining (future-latent objective)",
+    "hierarchical bounded reorganization"
+  ],
+  "baselines_converged": {
+    "single_task_gru": 0.898,
+    "strongest_continual_baseline": "LSTM+GDumb (avg_final 0.4799)",
+    "note": "GRU converged to 0.898 single-task; LSTM strongest on continual moldability"
+  },
+  "valid_temporal_headroom_measured": {
+    "HAR_raw_order_headroom": 0.085,
+    "lcb": 0.0784,
+    "order_matters": 0.0423,
+    "verdict": "temporal_headroom_present"
+  },
+  "cross_domain_headroom": "Genesis II cross_domain_moldability_null; PAMAP2 acquired (672M) as a second candidate temporal domain but not needed once the single-domain substrate is null under converged baselines",
+  "adequate_independent_units": "subject-disjoint train/test (standard HAR split) plus 5 stable seeds; the C1 two-seed lesson honored throughout",
+  "no_gate_weakened": true,
+  "oracle_continual_upper_bound": {
+    "unbounded_memory_vs_gdumb_headroom": 0.2839,
+    "meaning": "tells whether the continual bottleneck is memory capacity or architecture"
+  },
+  "irreducible_blocker": "the continual bottleneck is MEMORY CAPACITY, not substrate architecture: an unbounded-memory baseline beats bounded GDumb by 0.284, while no owned architecture beats the bounded baseline. A better bounded-memory mechanism is closed (R1/P1R nulls).",
+  "exact_new_external_requirement": "a validated bounded-memory mechanism that beats GDumb (R1/P1R closed) OR a larger sealed memory budget with matched cost",
+  "no_dependency_ready_work": "all three temporal architectures (A-T, C, D) are null on a valid temporal bed; an unbounded-memory oracle bounds the achievable headroom; new learned controllers are closed (C1/R1/P1R/plasticity-gate nulls); further architecture search on the same data would re-test falsified premises. Available lawful temporal data and libraries are exhausted for a valid new gate.",
+  "activation": false,
+  "sha256": "7d6ff79edd4258a15624121b938b552ad0d77f32c9d1122b7d4cb5e05574e6ae"
+}

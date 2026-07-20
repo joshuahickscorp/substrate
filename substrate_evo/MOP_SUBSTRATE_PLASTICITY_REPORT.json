@@ -1,0 +1,6 @@
+{
+  "schema": "plasticity/v1",
+  "class": "simple_policy_sufficient",
+  "finding": "no stable headroom for a learned plasticity controller on image or temporal beds",
+  "sha256": "56e8e5dc20ed112450f7fc6d458bdd2ab1a23d87b029e70d1dbbe7bb765a0b4f"
+}

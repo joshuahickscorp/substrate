@@ -1,0 +1,14 @@
+{
+  "schema": "mop-substrate-parameter-inventory/v1",
+  "temporal_architectures_params": {
+    "gru": 28934,
+    "lstm": 37254,
+    "bag": 16326,
+    "AT": 45510,
+    "C": 33094
+  },
+  "D_params": 45834.0,
+  "budget": "<=2M",
+  "within": true,
+  "sha256": "55c9bc851729894b268d5dda24c5f04d1d9e7e2dd8b7d559eed79c40a57473a2"
+}
