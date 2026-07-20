@@ -121,7 +121,7 @@
   "not_repeated": "PAMAP2 window classification, which was already invalid",
   "wall_seconds": 0.4,
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "44c73e4ce0683890a6a52c49979d6c6142c907ff",
+  "source_commit": "036a5e2de1e3884cd0194c2a6e72b1578848cb34",
   "SESOI": 0.05,
-  "sha256": "ec0d4222f3339da7f3319325a74f4c33ef90531c475d66e662246fe3e47a9286"
+  "sha256": "7d9b1fe532346fd056d3fdff0107e27a462e11e0080eee6e9704a54324f3d3c2"
 }
