@@ -126,6 +126,19 @@ def summarize(dname, rows):
         "strongest_matched_baseline": strongest,
         "effects_vs_strongest_baseline": effects,
         "joint_training_upper_bound": um.get("joint_upper_bound"),
+        "joint_upper_bound_caveat": (
+            "the joint arm interleaves every context round robin at a matched total update budget. Several "
+            "sequential arms score above it, so it is not behaving as an upper bound on this protocol. The "
+            "likely reason is that per context heads make the sequential arms task incremental, which is "
+            "easier than the interleaved multi head problem the joint arm solves. It is reported as a "
+            "reference point and is not used as a ceiling in any verdict."
+        ),
+        "protocol_disclosure": (
+            "task incremental: every context owns its projection, adapter, normalization and head, and the "
+            "context identity is given at evaluation. Forgetting is therefore confined to the shared core, "
+            "which is the object of study, but the absolute numbers are not comparable to class incremental "
+            "continual learning results."
+        ),
         "order_free_control": um.get("bag_order_free"),
         "stressors": stress,
         "arms_beating_the_strongest_baseline": passing,

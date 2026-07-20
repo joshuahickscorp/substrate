@@ -1,0 +1,532 @@
+{
+  "schema": "mop-fast-state-within-domain/v1",
+  "domain": "speech",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "steps_per_context": 600,
+  "learning_rate": 0.003,
+  "arms": [
+    "AT_no_slow",
+    "G0_always_trainable",
+    "G1_frozen_after_first",
+    "G4_adapters_only",
+    "G5_projection_and_head",
+    "H_always_update",
+    "H_cosine_gate",
+    "H_never_update",
+    "H_probe_gate",
+    "bag_order_free",
+    "ewc",
+    "gru",
+    "joint_upper_bound",
+    "lstm",
+    "lstm_gdumb",
+    "no_memory",
+    "reservoir",
+    "separate_per_context",
+    "shared_adapters"
+  ],
+  "means": {
+    "AT_no_slow": {
+      "avg_final": 0.7467,
+      "retention": 0.7058,
+      "new_context": 0.9225,
+      "return_to_prior": 0.7317,
+      "future_adaptation": 0.9445,
+      "avg_final_missing_observations": 0.6671,
+      "missing_observation_drop": 0.0796,
+      "params": 82210.0,
+      "updates": 3200.0
+    },
+    "G0_always_trainable": {
+      "avg_final": 0.8525,
+      "retention": 0.8317,
+      "new_context": 0.93,
+      "return_to_prior": 0.8868,
+      "future_adaptation": 0.9601,
+      "avg_final_missing_observations": 0.7973,
+      "missing_observation_drop": 0.0551,
+      "params": 82210.0,
+      "updates": 3200.0
+    },
+    "G1_frozen_after_first": {
+      "avg_final": 0.9234,
+      "retention": 0.9236,
+      "new_context": 0.9234,
+      "return_to_prior": 0.9202,
+      "future_adaptation": 0.9609,
+      "avg_final_missing_observations": 0.8928,
+      "missing_observation_drop": 0.0307,
+      "params": 82210.0,
+      "updates": 3200.0
+    },
+    "G4_adapters_only": {
+      "avg_final": 0.6509,
+      "retention": 0.6743,
+      "new_context": 0.6509,
+      "return_to_prior": 0.9121,
+      "future_adaptation": 0.9378,
+      "avg_final_missing_observations": 0.6364,
+      "missing_observation_drop": 0.0145,
+      "params": 82210.0,
+      "updates": 3200.0
+    },
+    "G5_projection_and_head": {
+      "avg_final": 0.9259,
+      "retention": 0.9221,
+      "new_context": 0.9259,
+      "return_to_prior": 0.9215,
+      "future_adaptation": 0.9519,
+      "avg_final_missing_observations": 0.8244,
+      "missing_observation_drop": 0.1015,
+      "params": 82210.0,
+      "updates": 3200.0
+    },
+    "H_always_update": {
+      "avg_final": 0.818,
+      "retention": 0.7882,
+      "new_context": 0.9282,
+      "return_to_prior": 0.7491,
+      "future_adaptation": 0.9512,
+      "avg_final_missing_observations": 0.798,
+      "missing_observation_drop": 0.02,
+      "params": 101010.0,
+      "updates": 3200.0
+    },
+    "H_cosine_gate": {
+      "avg_final": 0.6749,
+      "retention": 0.6099,
+      "new_context": 0.9188,
+      "return_to_prior": 0.6281,
+      "future_adaptation": 0.9719,
+      "avg_final_missing_observations": 0.6506,
+      "missing_observation_drop": 0.0243,
+      "params": 101010.0,
+      "updates": 3200.0
+    },
+    "H_never_update": {
+      "avg_final": 0.9184,
+      "retention": 0.9161,
+      "new_context": 0.9184,
+      "return_to_prior": 0.9344,
+      "future_adaptation": 0.946,
+      "avg_final_missing_observations": 0.8982,
+      "missing_observation_drop": 0.0202,
+      "params": 101010.0,
+      "updates": 3200.0
+    },
+    "H_probe_gate": {
+      "avg_final": 0.8448,
+      "retention": 0.8266,
+      "new_context": 0.9183,
+      "return_to_prior": 0.8647,
+      "future_adaptation": 0.946,
+      "avg_final_missing_observations": 0.7775,
+      "missing_observation_drop": 0.0673,
+      "params": 101010.0,
+      "updates": 3200.0
+    },
+    "bag_order_free": {
+      "avg_final": 0.8648,
+      "retention": 0.8505,
+      "new_context": 0.9216,
+      "return_to_prior": 0.9032,
+      "future_adaptation": 0.9476,
+      "avg_final_missing_observations": 0.8625,
+      "missing_observation_drop": 0.0023,
+      "params": 36882.0,
+      "updates": 3200.0
+    },
+    "ewc": {
+      "avg_final": 0.7358,
+      "retention": 0.6879,
+      "new_context": 0.9278,
+      "return_to_prior": 0.6667,
+      "future_adaptation": 0.9726,
+      "avg_final_missing_observations": 0.7162,
+      "missing_observation_drop": 0.0196,
+      "params": 79250.0,
+      "updates": 3200.0
+    },
+    "gru": {
+      "avg_final": 0.8316,
+      "retention": 0.8035,
+      "new_context": 0.9271,
+      "return_to_prior": 0.7295,
+      "future_adaptation": 0.9601,
+      "avg_final_missing_observations": 0.795,
+      "missing_observation_drop": 0.0366,
+      "params": 70930.0,
+      "updates": 3200.0
+    },
+    "joint_upper_bound": {
+      "avg_final": 0.9001,
+      "retention": 0.896,
+      "new_context": 0.9001,
+      "return_to_prior": 0.9131,
+      "future_adaptation": 0.9602,
+      "avg_final_missing_observations": 0.8466,
+      "missing_observation_drop": 0.0536,
+      "params": 79250.0,
+      "updates": 3200.0
+    },
+    "lstm": {
+      "avg_final": 0.6748,
+      "retention": 0.6104,
+      "new_context": 0.9301,
+      "return_to_prior": 0.4983,
+      "future_adaptation": 0.9519,
+      "avg_final_missing_observations": 0.6506,
+      "missing_observation_drop": 0.0242,
+      "params": 79250.0,
+      "updates": 3200.0
+    },
+    "lstm_gdumb": {
+      "avg_final": 0.6748,
+      "retention": 0.6104,
+      "new_context": 0.9301,
+      "return_to_prior": 0.4983,
+      "future_adaptation": 0.9519,
+      "avg_final_missing_observations": 0.6506,
+      "missing_observation_drop": 0.0242,
+      "params": 79250.0,
+      "updates": 3200.0
+    },
+    "no_memory": {
+      "avg_final": 0.6748,
+      "retention": 0.6104,
+      "new_context": 0.9301,
+      "return_to_prior": 0.4983,
+      "future_adaptation": 0.9644,
+      "avg_final_missing_observations": 0.6506,
+      "missing_observation_drop": 0.0242,
+      "params": 79250.0,
+      "updates": 3200.0
+    },
+    "reservoir": {
+      "avg_final": 0.6748,
+      "retention": 0.6104,
+      "new_context": 0.9301,
+      "return_to_prior": 0.4983,
+      "future_adaptation": 0.9519,
+      "avg_final_missing_observations": 0.6506,
+      "missing_observation_drop": 0.0242,
+      "params": 79250.0,
+      "updates": 3200.0
+    },
+    "separate_per_context": {
+      "avg_final": 0.9211,
+      "retention": 0.9221,
+      "new_context": 0.9211,
+      "return_to_prior": 0.9214,
+      "future_adaptation": 0.966,
+      "avg_final_missing_observations": 0.9142,
+      "missing_observation_drop": 0.0068,
+      "params": 212370.0,
+      "updates": 3200.0
+    },
+    "shared_adapters": {
+      "avg_final": 0.6908,
+      "retention": 0.6293,
+      "new_context": 0.9253,
+      "return_to_prior": 0.677,
+      "future_adaptation": 0.9439,
+      "avg_final_missing_observations": 0.6704,
+      "missing_observation_drop": 0.0203,
+      "params": 89890.0,
+      "updates": 3200.0
+    }
+  },
+  "utility": {
+    "AT_no_slow": 0.6948,
+    "G0_always_trainable": 0.8006,
+    "G1_frozen_after_first": 0.8716,
+    "G4_adapters_only": 0.599,
+    "G5_projection_and_head": 0.874,
+    "H_always_update": 0.7543,
+    "H_cosine_gate": 0.6112,
+    "H_never_update": 0.8547,
+    "H_probe_gate": 0.7811,
+    "bag_order_free": 0.8415,
+    "ewc": 0.6858,
+    "gru": 0.7869,
+    "joint_upper_bound": 0.8501,
+    "lstm": 0.6248,
+    "lstm_gdumb": 0.6248,
+    "no_memory": 0.6248,
+    "reservoir": 0.6248,
+    "separate_per_context": 0.7871,
+    "shared_adapters": 0.634
+  },
+  "strongest_matched_baseline": "bag_order_free",
+  "effects_vs_strongest_baseline": {
+    "AT_no_slow": {
+      "mean": -0.1467,
+      "lower_95_cb": -0.2457,
+      "n": 5
+    },
+    "G0_always_trainable": {
+      "mean": -0.0409,
+      "lower_95_cb": -0.1283,
+      "n": 5
+    },
+    "G1_frozen_after_first": {
+      "mean": 0.0301,
+      "lower_95_cb": 0.0019,
+      "n": 5
+    },
+    "G4_adapters_only": {
+      "mean": -0.2425,
+      "lower_95_cb": -0.294,
+      "n": 5
+    },
+    "G5_projection_and_head": {
+      "mean": 0.0325,
+      "lower_95_cb": 0.0025,
+      "n": 5
+    },
+    "H_always_update": {
+      "mean": -0.0873,
+      "lower_95_cb": -0.1409,
+      "n": 5
+    },
+    "H_cosine_gate": {
+      "mean": -0.2303,
+      "lower_95_cb": -0.2995,
+      "n": 5
+    },
+    "H_never_update": {
+      "mean": 0.0131,
+      "lower_95_cb": -0.0123,
+      "n": 5
+    },
+    "H_probe_gate": {
+      "mean": -0.0605,
+      "lower_95_cb": -0.1076,
+      "n": 5
+    },
+    "bag_order_free": {
+      "mean": 0.0,
+      "lower_95_cb": 0.0,
+      "n": 5
+    },
+    "ewc": {
+      "mean": -0.1557,
+      "lower_95_cb": -0.2546,
+      "n": 5
+    },
+    "gru": {
+      "mean": -0.0546,
+      "lower_95_cb": -0.1191,
+      "n": 5
+    },
+    "joint_upper_bound": {
+      "mean": 0.0086,
+      "lower_95_cb": -0.0238,
+      "n": 5
+    },
+    "lstm": {
+      "mean": -0.2167,
+      "lower_95_cb": -0.2484,
+      "n": 5
+    },
+    "lstm_gdumb": {
+      "mean": -0.2167,
+      "lower_95_cb": -0.2484,
+      "n": 5
+    },
+    "no_memory": {
+      "mean": -0.2167,
+      "lower_95_cb": -0.2484,
+      "n": 5
+    },
+    "reservoir": {
+      "mean": -0.2167,
+      "lower_95_cb": -0.2484,
+      "n": 5
+    },
+    "separate_per_context": {
+      "mean": -0.0545,
+      "lower_95_cb": -0.0839,
+      "n": 5
+    },
+    "shared_adapters": {
+      "mean": -0.2075,
+      "lower_95_cb": -0.3018,
+      "n": 5
+    }
+  },
+  "joint_training_upper_bound": 0.8501,
+  "joint_upper_bound_caveat": "the joint arm interleaves every context round robin at a matched total update budget. Several sequential arms score above it, so it is not behaving as an upper bound on this protocol. The likely reason is that per context heads make the sequential arms task incremental, which is easier than the interleaved multi head problem the joint arm solves. It is reported as a reference point and is not used as a ceiling in any verdict.",
+  "protocol_disclosure": "task incremental: every context owns its projection, adapter, normalization and head, and the context identity is given at evaluation. Forgetting is therefore confined to the shared core, which is the object of study, but the absolute numbers are not comparable to class incremental continual learning results.",
+  "order_free_control": 0.8415,
+  "stressors": {
+    "G0_always_trainable": {
+      "limited": {
+        "utility": 0.8196,
+        "vs_plain": {
+          "mean": 0.019,
+          "lower_95_cb": -0.0176,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.8505,
+        "vs_plain": {
+          "mean": 0.0499,
+          "lower_95_cb": -0.0162,
+          "n": 5
+        }
+      }
+    },
+    "G1_frozen_after_first": {
+      "limited": {
+        "utility": 0.8698,
+        "vs_plain": {
+          "mean": -0.0018,
+          "lower_95_cb": -0.0107,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.8731,
+        "vs_plain": {
+          "mean": 0.0015,
+          "lower_95_cb": -0.0061,
+          "n": 5
+        }
+      }
+    },
+    "G4_adapters_only": {
+      "limited": {
+        "utility": 0.5566,
+        "vs_plain": {
+          "mean": -0.0425,
+          "lower_95_cb": -0.0828,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.597,
+        "vs_plain": {
+          "mean": -0.002,
+          "lower_95_cb": -0.0159,
+          "n": 5
+        }
+      }
+    },
+    "H_cosine_gate": {
+      "limited": {
+        "utility": 0.6634,
+        "vs_plain": {
+          "mean": 0.0523,
+          "lower_95_cb": -0.015,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.5533,
+        "vs_plain": {
+          "mean": -0.0579,
+          "lower_95_cb": -0.2158,
+          "n": 5
+        }
+      }
+    },
+    "H_never_update": {
+      "limited": {
+        "utility": 0.8503,
+        "vs_plain": {
+          "mean": -0.0044,
+          "lower_95_cb": -0.0218,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.8554,
+        "vs_plain": {
+          "mean": 0.0007,
+          "lower_95_cb": -0.0104,
+          "n": 5
+        }
+      }
+    },
+    "AT_no_slow": {
+      "limited": {
+        "utility": 0.7752,
+        "vs_plain": {
+          "mean": 0.0804,
+          "lower_95_cb": -0.027,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.7648,
+        "vs_plain": {
+          "mean": 0.0699,
+          "lower_95_cb": -0.024,
+          "n": 5
+        }
+      }
+    },
+    "lstm_gdumb": {
+      "limited": {
+        "utility": 0.5927,
+        "vs_plain": {
+          "mean": -0.0322,
+          "lower_95_cb": -0.0688,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.621,
+        "vs_plain": {
+          "mean": -0.0038,
+          "lower_95_cb": -0.064,
+          "n": 5
+        }
+      }
+    },
+    "separate_per_context": {
+      "limited": {
+        "utility": 0.7514,
+        "vs_plain": {
+          "mean": -0.0356,
+          "lower_95_cb": -0.0638,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.7902,
+        "vs_plain": {
+          "mean": 0.0032,
+          "lower_95_cb": -0.0039,
+          "n": 5
+        }
+      }
+    }
+  },
+  "arms_beating_the_strongest_baseline": [],
+  "verdict": "within_domain_null",
+  "simplification_check": {
+    "G1_frozen_vs_G0_always": {
+      "mean": 0.071,
+      "lower_95_cb": 0.0041,
+      "n": 5
+    },
+    "G4_adapters_only_vs_G0": {
+      "mean": -0.2016,
+      "lower_95_cb": -0.2646,
+      "n": 5
+    }
+  },
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "ee54f419f7ead5a2aa7877711d22439d52ee21e2",
+  "SESOI": 0.05,
+  "sha256": "369abed20c43aa5261fbadde3956854c9da68d50c97126c24265df7b77e40006"
+}
