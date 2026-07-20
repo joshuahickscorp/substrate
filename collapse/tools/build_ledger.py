@@ -309,11 +309,12 @@ def main() -> int:
                 "remaining comment-only STARSS documentation removed, net 1717 LOC; duplicated DoA "
                 "architecture training implementations and the local seed projection collapsed onto shared "
                 "dimension-driven and budget-seed lifecycles, exact numerical fingerprint and full 493-case "
-                "STARSS suite preserved, net 118 executable LOC")
+                "STARSS suite preserved, net 118 executable LOC; remaining architecture-specific control, "
+                "budget, statistics, gate, and detail projections collapsed onto indexed records with exact "
+                "fixed-clock artifact parity, net 10 LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
-                                "remaining DoA statistics/control projections need exact artifact parity")
-            it["next_action"] = ("collapse remaining DoA statistics, noisy-TV, and budget projections onto "
-                                 "the existing science engine, then measure residual STARSS lifecycle")
+                                "remaining producer families need sealed-artifact parity")
+            it["next_action"] = "measure and collapse the next residual STARSS producer family"
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -334,6 +335,16 @@ def main() -> int:
                                  "all runtime-unused embedded Python documentation and comment-only prose "
                                  "removed without statement packing; scanner reports zero eligible lines")
             it["next_action"] = "none; enforce anti-regrowth gate"
+        if it["id"] == "SEC-13":
+            it["status"] = "active"
+            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                                    "src/mop/studio/generation1_successor_chain_v7.py",
+                                    "src/mop/studio/generation1_successor_extension_chain_v4.py",
+                                    "src/mop/studio/generation1_successor_recovery_launcher_v2.py"]
+            it["validation"] = ("12 superseded controller modules, 12 dedicated legacy test modules, and "
+                                 "12 wrapper scripts physically deleted; active v7 -> extension-v4 -> "
+                                 "recovery-v2 path passes 77 focused cases; archived v6 path and SHA-256 pinned")
+            it["next_action"] = "collapse the surviving base/extension/recovery modules into one controller"
         if it["id"] == "CC-16":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"]
@@ -341,9 +352,11 @@ def main() -> int:
             it["next_action"] = "none"
         if it["id"] == "CC-17":
             it["status"] = "partial"
-            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"]
-            it["validation"] = "historical documentation sealed and indexed; historical code boundary remains"
-            it["next_action"] = "complete historical code sealing at controller migration"
+            it["evidence_paths"] = ["collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
+                                    "collapse/MOP_HISTORICAL_CODE_INDEX.json"]
+            it["validation"] = ("historical documentation and the superseded Generation-1 controller branch "
+                                 "sealed and indexed; remaining historical code boundaries remain")
+            it["next_action"] = "index each subsequent physical historical-code deletion"
 
     checklist.append(item(
         "ART-MOP_STARSS23_ARCHITECTURE_COMPARISON.json", 11, "artifact",
@@ -622,6 +635,18 @@ def main() -> int:
                     "green in 166.99s"),
         rollback_tag="mop-collapse-python-surface",
         next_action=("collapse remaining DoA statistics/control projections and measure STARSS residual")))
+    checklist.append(item(
+        "RED-doa-projection-controller-predecessors", 13, "verified_reduction",
+        "Collapse DoA projections and delete superseded Generation-1 controller branches",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/studio/generation1_successor_chain_v7.py",
+                  "tests/unit/test_generation1_successor_chain_v7.py"],
+        validation=("145 replaced Python LOC plus 24435 superseded Python LOC removed for 134 replacement "
+                    "LOC, net -24446; exact fixed-clock DoA artifact parity; active controller/DoA battery "
+                    "109/109 green with worktree-first PYTHONPATH; compile-all, ruff, and docs gates green"),
+        rollback_tag="mop-collapse-controller-predecessors",
+        next_action="collapse surviving base/extension/recovery controller modules"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -1202,6 +1227,27 @@ def main() -> int:
     lines.append("- rollback_tag: mop-collapse-python-surface.")
     lines.append("- next_exact_edit: collapse remaining DoA statistics, noisy-TV, and budget projections onto "
                  "the existing science engine, then measure residual STARSS lifecycle.")
+    lines.append("")
+    lines.append("### DoA projection and controller-history collapse (current checkpoint)")
+    lines.append("")
+    lines.append("- DoA projection: architecture-specific runtime constants, deterministic controls, budget points, "
+                 "statistics, gate summaries, and final details now use architecture-indexed records.")
+    lines.append("- DoA exact parity: fixed-clock and fixed-prereg-path output matches checkpoint be4b14f exactly: "
+                 "prereg 860b65e6ca5d97eff9a0b40690c829502b700b3e648883abcad731658da299c2; artifact "
+                 "e21a11bef9f2f969ccc914e9042a68c23b3a1711c8472d80275e071cc6ee9048.")
+    lines.append("- controller deletion: 12 superseded Generation-1 controller modules, their 12 dedicated legacy "
+                 "test modules, and 12 thin wrapper scripts were physically deleted; the active controller "
+                 "path is v7 -> extension-v4 -> recovery-v2.")
+    lines.append("- historical recovery: every deleted path resolves through the pushed "
+                 "mop-collapse-python-surface tag and the 51-line sealed machine index; v7 pins the archived "
+                 "v6 relative path and exact SHA-256 without importing it.")
+    lines.append("- owned Python change: source 134 added/14,141 deleted; tests 0/10,223; scripts 0/216; "
+                 "batch net -24,446 LOC; cumulative verified reduction: 55,268 LOC.")
+    lines.append("- validation: all owned Python compiles; changed active files pass ruff; 109 active controller/DoA "
+                 "cases green with the collapse worktree first on PYTHONPATH; docs gate reports 3,840 tests, "
+                 "133 experiments, and 10 acceptance checks without drift.")
+    lines.append("- rollback_tag: mop-collapse-controller-predecessors.")
+    lines.append("- next_exact_edit: collapse the surviving base/extension/recovery modules into one controller.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

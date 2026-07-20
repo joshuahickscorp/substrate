@@ -510,6 +510,24 @@
       "proof": "both DoA architectures reproduce the exact pre-refactor numerical fingerprint bb336b6c3458ff212903f51e4d75ee80f2759add3c036ab43d8d34cd894e911e across initial/final parameter digests, probabilities, losses, parameter counts, and FLOP totals; targeted DoA/integrity/sensing/docs battery green in 80.36s; full STARSS-focused suite 493/493 green in 166.99s; complete Python surface compiles and changed files pass critical ruff",
       "accounting_note": "src 253 added/5592 deleted; tests 0 added/2312 deleted; scripts 0 added/1732 deleted; 72 required pass bodies and the shared DoA executor account for additions; scanner reports zero remaining removable docstring/comment-only lines after preserving CLI-consumed __doc__, shebangs, legal headers, directives, and every executable statement",
       "tag": "mop-collapse-python-surface"
+    },
+    {
+      "region": "section11_starss23_and_section13_controller",
+      "batch": "doa_architecture_projection_and_superseded_generation1_controller_branch",
+      "checkpoint_status": "green",
+      "primitive": "DoA architecture-specific control, budget, statistics, gate, and detail projections collapsed onto architecture-indexed records; the superseded Generation-1 v4/v5/v6, extension-v1/v2/v3, future-v1/v2, long-v1/v2/v3, and recovery-v1 controller branches and their dedicated tests and wrappers were physically deleted",
+      "deduplicated_LOC": 145,
+      "added_LOC": 134,
+      "eliminated_LOC": 24435,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 24446,
+      "files_changed": 38,
+      "destination_api": "active Generation-1 controller path v7 -> extension-v4 -> recovery-v2 plus architecture-indexed DoA artifact projection",
+      "proof": "fixed-clock and fixed-prereg-path DoA artifacts exactly match checkpoint be4b14f (prereg SHA-256 860b65e6ca5d97eff9a0b40690c829502b700b3e648883abcad731658da299c2; artifact SHA-256 e21a11bef9f2f969ccc914e9042a68c23b3a1711c8472d80275e071cc6ee9048); all 109 active controller/DoA cases green with the collapse worktree first on PYTHONPATH; complete owned Python surface compiles; changed active files pass ruff; docs gate reports 3840 tests, 133 experiments, and 10 acceptance checks without drift",
+      "accounting_note": "src 134 added/14141 deleted; tests 0 added/10223 deleted; scripts 0 added/216 deleted; the 51-line machine historical-code index is excluded from owned Python reduction; v7 retains the exact archived v6 path and SHA-256 without importing the deleted generation",
+      "tag": "mop-collapse-controller-predecessors"
     }
   ],
   "deferred_heavy_validation": {

@@ -40,7 +40,6 @@ from mop.process_labels import set_process_label
 from mop.studies import generation1_successor_horizon_v2_verify as horizon_v2_verify
 from mop.studies import generation1_successor_mechanics_queue as mechanics_queue
 from mop.studio import generation1_successor_chain as v3
-from mop.studio import generation1_successor_chain_v6 as predecessor_v6
 from mop.studio import generation1_supervisor
 from mop.studio.generation1_supervisor import (
     FileLock,
@@ -64,6 +63,10 @@ STATE_SCHEMA = "mop-generation1-successor-evidence-chain-state/v7"
 STATUS_SCHEMA = "mop-generation1-successor-evidence-chain-status/v7"
 ADOPTION_SCHEMA = "mop-generation1-legacy-adoption-receipt/v3"
 CONTROL_SCHEMA = "mop-generation1-successor-evidence-chain-control/v3"
+ARCHIVED_PREDECESSOR = {
+    "path": "src/mop/studio/generation1_successor_chain_v6.py",
+    "sha256": "d01b9d39777a1c208e93b95ea5003f97a064db8922a8caccc847187cd521e70d",
+}
 
 DEFAULT_ROOT = REPO_ROOT / "runs/generation1" / CHAIN_ID
 DEFAULT_HORIZON_PROGRAM = v3.DEFAULT_HORIZON_PROGRAM
@@ -307,14 +310,10 @@ def _status_payload(state: Mapping[str, Any]) -> dict[str, Any]:
 def _implementation_authority(repo_root: Path) -> dict[str, Any]:
     implementation = Path(__file__).resolve()
     base = Path(v3.__file__).resolve()
-    predecessor = Path(predecessor_v6.__file__).resolve()
     return {
         "path": _relative_or_absolute(implementation, repo_root),
         "sha256": sha256_file(implementation),
-        "superseded_predecessor": {
-            "path": _relative_or_absolute(predecessor, repo_root),
-            "sha256": sha256_file(predecessor),
-        },
+        "superseded_predecessor": dict(ARCHIVED_PREDECESSOR),
         "inherited_base": {
             "path": _relative_or_absolute(base, repo_root),
             "sha256": sha256_file(base),

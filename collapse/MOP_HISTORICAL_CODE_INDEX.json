@@ -1,0 +1,51 @@
+{
+  "schema": "mop-collapse-historical-code-index/v1",
+  "source_commit": "be4b14f973cd9b9378a7a036086bd0079534acb6",
+  "source_tag": "mop-collapse-python-surface",
+  "recovery": "git show mop-collapse-python-surface:<path>",
+  "clusters": [
+    {
+      "id": "generation1_successor_controller_predecessors",
+      "reason": "superseded by active v7 -> extension-v4 -> recovery-v2 chain",
+      "pinned_v6_sha256": "d01b9d39777a1c208e93b95ea5003f97a064db8922a8caccc847187cd521e70d",
+      "paths": [
+        "src/mop/studio/generation1_successor_chain_v4.py",
+        "src/mop/studio/generation1_successor_chain_v5.py",
+        "src/mop/studio/generation1_successor_chain_v6.py",
+        "src/mop/studio/generation1_successor_extension_chain.py",
+        "src/mop/studio/generation1_successor_extension_chain_v2.py",
+        "src/mop/studio/generation1_successor_extension_chain_v3.py",
+        "src/mop/studio/generation1_successor_future_chain.py",
+        "src/mop/studio/generation1_successor_future_chain_v2.py",
+        "src/mop/studio/generation1_successor_long_chain.py",
+        "src/mop/studio/generation1_successor_long_chain_v2.py",
+        "src/mop/studio/generation1_successor_long_chain_v3.py",
+        "src/mop/studio/generation1_successor_recovery_launcher.py",
+        "tests/unit/test_generation1_successor_chain_v4.py",
+        "tests/unit/test_generation1_successor_chain_v5.py",
+        "tests/unit/test_generation1_successor_chain_v6.py",
+        "tests/unit/test_generation1_successor_extension_chain.py",
+        "tests/unit/test_generation1_successor_extension_chain_v2.py",
+        "tests/unit/test_generation1_successor_extension_chain_v3.py",
+        "tests/unit/test_generation1_successor_future_chain.py",
+        "tests/unit/test_generation1_successor_future_chain_v2.py",
+        "tests/unit/test_generation1_successor_long_chain.py",
+        "tests/unit/test_generation1_successor_long_chain_v2.py",
+        "tests/unit/test_generation1_successor_long_chain_v3.py",
+        "tests/unit/test_generation1_successor_recovery_launcher.py",
+        "scripts/mop_generation1_successor_chain_v4.py",
+        "scripts/mop_generation1_successor_chain_v5.py",
+        "scripts/mop_generation1_successor_chain_v6.py",
+        "scripts/mop_generation1_successor_extension_chain.py",
+        "scripts/mop_generation1_successor_extension_chain_v2.py",
+        "scripts/mop_generation1_successor_extension_chain_v3.py",
+        "scripts/mop_generation1_successor_future_chain.py",
+        "scripts/mop_generation1_successor_future_chain_v2.py",
+        "scripts/mop_generation1_successor_long_chain.py",
+        "scripts/mop_generation1_successor_long_chain_v2.py",
+        "scripts/mop_generation1_successor_long_chain_v3.py",
+        "scripts/mop_generation1_successor_chain_recovery.py"
+      ]
+    }
+  ]
+}
