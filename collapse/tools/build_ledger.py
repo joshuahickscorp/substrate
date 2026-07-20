@@ -47,7 +47,10 @@ def load(path: Path) -> dict[str, Any]:
 
 
 def write(path: Path, value: Any) -> None:
-    path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(value, separators=(",", ":"), ensure_ascii=True, allow_nan=False) + "\n",
+        encoding="utf-8",
+    )
 
 
 def python_loc(root: str) -> int:
@@ -198,6 +201,8 @@ def main() -> int:
         if set(row) != ITEM_FIELDS:
             raise ValueError(f"checklist field drift: {row.get('id')}")
     index = proof_index()
+    document_index = COLLAPSE / "MOP_HISTORICAL_DOCUMENT_INDEX.json"
+    write(document_index, load(document_index))
 
     source = python_loc("src")
     validation = python_loc("tests")
