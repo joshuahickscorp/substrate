@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "d725ad4daef8328f980aa38dd2e1a56acaed4c45",
+    "base_commit": "f900d94d1f4d4325812ef857cb9d51c3d5a38b36",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -123,13 +123,14 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 385329,
+    "eliminated_LOC": 387506,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 13009,
-    "net_global_reduction_LOC": 388075
+    "added_LOC": 13285,
+    "event_net_LOC": 390081,
+    "net_reduction_LOC": 389976
   },
   "checklist_summary": {
     "total": 261,
@@ -3970,5 +3971,15 @@
       "dependency": "",
       "next_action": "next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection"
     }
-  ]
+  ],
+  "current_measured": {
+    "global_maintained_python_LOC": 15121,
+    "runtime_campaign_kernel_LOC": 10715,
+    "validation_LOC": 3172,
+    "normal_cli_count": 1,
+    "installed_entrypoint_count": 1,
+    "current_document_count": 4,
+    "current_document_LOC": 89,
+    "optional_pack_LOC": 0
+  }
 }

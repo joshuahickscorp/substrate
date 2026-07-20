@@ -1,11 +1,13 @@
 # MOP Collapse Ledger
 
-Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/MOP_REDUCTION_LOG.json`.
+Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP_REDUCTION_LOG.json`, and `collapse/MOP_COMPLETION_AUDIT.json`.
 
 ## Current
 
-- Maintained Python: 17,086 LOC; ceiling: 50,000.
-- Verified net Python reduction: 388,075 LOC.
+- Maintained Python: 15,121 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 10,715 LOC.
+- Validation: 3,172 LOC.
+- Verified reduction ledger: 389,976 LOC.
 - Checklist: {"active": 46, "complete": 85, "partial": 9, "pending": 78, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -17,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-docs-compact | -426 | four_document_machine_first_surface |
 | mop-collapse-35k | 14,566 | retired_one_off_entrypoints_and_dormant_development_verticals |
 | mop-collapse-registry-config | 6,373 | single_registry_and_18k_source_kernel |
 | mop-collapse-event-horizon | 4,612 | single_evidence_controller_and_event_horizon |
@@ -28,6 +29,5 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 | mop-collapse-final | 192 | compacted_final_ledger_reconciliation |
 | mop-collapse-declarative-engine | -307 | selected_record_engine_becomes_global |
 | mop-collapse-declarative-engine | 57 | remove_blanket_completion_override |
-| mop-collapse-pr9-protections | -97 | map_pr9_protections_and_add_shared_collapse_invariants |
-
-Older checkpoints, proof text, and exact accounting remain in the machine log.
+| mop-collapse-pr9-protections | -166 | map_pr9_protections_and_add_shared_collapse_invariants |
+| mop-collapse-ledger-compact | 1,970 | replace_duplicated_checklist_generator_with_compact_state_updater |
