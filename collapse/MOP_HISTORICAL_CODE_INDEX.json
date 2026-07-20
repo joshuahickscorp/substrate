@@ -2163,6 +2163,22 @@
         "tests/unit/test_experiments_registry.py",
         "tests/unit/test_foundation.py"
       ]
+    },
+    {
+      "id": "retired_unconsumed_cache_writer_and_optional_validation_mode",
+      "source_tag": "mop-collapse-lowest-green-17",
+      "reason": "cache-manifest authoring had no maintained source, CLI, configuration, registry, script, or packaging consumer and survived only as test scaffolding; the sole production reader is Studio doctor and always required the citable contract, so the optional non-citable/v1 mode, writer provenance, sidecar construction, index construction, and writer-only tests were physically retired while immutable receipt and content-integrity validation remained exact",
+      "replacement_paths": [
+        "src/mop/substrate/cache_manifest.py",
+        "src/mop/studio_doctor.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-17:<path>",
+      "paths": [
+        "src/mop/studio_doctor.py",
+        "src/mop/substrate/__init__.py",
+        "src/mop/substrate/cache_manifest.py",
+        "tests/unit/test_cache_manifest.py"
+      ]
     }
   ]
 }

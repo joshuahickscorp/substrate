@@ -288,7 +288,7 @@ def _check_cache_manifests() -> tuple[bool, str]:
         return False, "0 latent stores found; a full campaign needs at least one citable cache"
     failures: list[str] = []
     for store in stores:
-        problems = validate_cache_manifest(store, citable=True)
+        problems = validate_cache_manifest(store)
         if problems:
             failures.append(f"{store.name}: {problems[0]}")
     if failures:
