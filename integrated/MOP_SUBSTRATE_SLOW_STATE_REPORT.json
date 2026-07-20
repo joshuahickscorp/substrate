@@ -1,0 +1,6 @@
+{
+  "schema": "slow-state/v1",
+  "contribution": -0.0278,
+  "verdict": "harmful (-0.028); removing the slow readout improves utility",
+  "sha256": "354e16a89ed804f42e2b24a4228dc1606df3a71b0c3915cc3c8c70187bba00bc"
+}

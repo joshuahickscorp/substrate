@@ -1,0 +1,61 @@
+{
+  "schema": "architecture-f/v1",
+  "name": "Predictive Consolidation Substrate",
+  "status": "null",
+  "evidence": {
+    "F_multi_horizon": {
+      "means": {
+        "avg_final": 0.4527,
+        "retention": 0.2388,
+        "new": 0.9294,
+        "params": 33478.0
+      },
+      "util": 0.4078,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0183,
+        "lower_95_cb": -0.0256
+      }
+    },
+    "F_next_step": {
+      "means": {
+        "avg_final": 0.4516,
+        "retention": 0.2369,
+        "new": 0.9279,
+        "params": 33478.0
+      },
+      "util": 0.4067,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0172,
+        "lower_95_cb": -0.0279
+      }
+    },
+    "F_no_objective": {
+      "means": {
+        "avg_final": 0.4654,
+        "retention": 0.2616,
+        "new": 0.9225,
+        "params": 33478.0
+      },
+      "util": 0.4204,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.0309,
+        "lower_95_cb": -0.0024
+      }
+    },
+    "F_shuffled_time": {
+      "means": {
+        "avg_final": 0.4525,
+        "retention": 0.2337,
+        "new": 0.9316,
+        "params": 33478.0
+      },
+      "util": 0.4075,
+      "effect_vs_lstm_gdumb": {
+        "mean": 0.018,
+        "lower_95_cb": -0.0286
+      }
+    }
+  },
+  "decisive": "F_no_objective (util 0.420) exceeds every predictive-objective arm, and F_shuffled_time (0.407) equals F_multi_horizon (0.408): the temporal content of the auxiliary objective is irrelevant. Predictive consolidation falsified, not merely unproven.",
+  "sha256": "7166cc1dc3d8bddbe3c7691d92a582c32b6575b195534b1e3097a1606faaf7e6"
+}
