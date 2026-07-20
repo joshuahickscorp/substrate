@@ -292,7 +292,7 @@
   "verdict": "improvement_round_null",
   "wall_seconds": 0.1,
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "332ac12684f21fcd30e268e7c612e4ffde1a9390",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
   "SESOI": 0.05,
-  "sha256": "71944fe8a5ed75fea02ddbbd7d3eeda18a380df4611dd6c7262fd4cd3de9524e"
+  "sha256": "7d6299823a379286eb02eca2437eea1be0954791a4ba394c7f2e3a91d488d46e"
 }

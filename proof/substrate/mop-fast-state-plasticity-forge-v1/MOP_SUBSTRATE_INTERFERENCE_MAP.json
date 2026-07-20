@@ -729,7 +729,7 @@
   ],
   "keep_frozen": [],
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "22a10ef71d2b3e09c01d439c065ef483601012d4",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
   "SESOI": 0.05,
-  "sha256": "51fef884dd89c1e6b7bb2f2e901fb4684aad6e1521670d11c115d368ac5836d1"
+  "sha256": "6929810ef2941e4df0da40cca2bbdd738c764bcde51c51ac96f9599b53223524"
 }

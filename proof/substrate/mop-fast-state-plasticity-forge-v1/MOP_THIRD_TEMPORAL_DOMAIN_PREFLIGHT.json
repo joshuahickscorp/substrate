@@ -119,9 +119,9 @@
   "verdict": "third_domain_valid",
   "status": "secondary. A third domain can support or fail to support the premise, it cannot carry a principal verdict on its own, and the principal matrix stays HAR and Speech Commands.",
   "not_repeated": "PAMAP2 window classification, which was already invalid",
-  "wall_seconds": 0.3,
+  "wall_seconds": 0.4,
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "852028e50b11c3c00910911221aa4405836ec6ab",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
   "SESOI": 0.05,
-  "sha256": "e33e880a62c3a877ae2f02d9e78f89a62d1153df7f70996b3d4bc0cfcc6aff8f"
+  "sha256": "2f1ca505673d4a623913b7f1f3f7d081fdf86bbcbf508ad370020d4dee4262ef"
 }

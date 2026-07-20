@@ -1403,7 +1403,7 @@
   },
   "note": "the separate baseline is architecturally identical to lstm when only one context is registered, so its single domain curve matches lstm by construction",
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "cec8fd8b99c98ab7793a4b59ab4848896abf237c",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
   "SESOI": 0.05,
-  "sha256": "55736d7096f91a366844a3e07ab04bab2affe841bb2e0a0ea29e03fd9c41c60c"
+  "sha256": "8ffe213519f4b68bbad4d6c9a44925f6e83bd5a83a34c5c5d7e35b45f3b4ec3f"
 }
