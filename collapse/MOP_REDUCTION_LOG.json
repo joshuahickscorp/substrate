@@ -1635,6 +1635,8 @@
       "checkpoint_status": "green",
       "metric": "tracked text physical LOC outside current documentation",
       "eliminated_physical_LOC": 7326,
+      "added_physical_LOC": 68,
+      "net_physical_reduction_LOC": 7258,
       "files_deleted": 7,
       "primitive": "retire generated baseline command/import/duplication/authority/equivalence/migration analyses after their governing totals survive in compact state",
       "proof": "all seven deleted paths have recorded SHA-256 values and resolve byte-exactly from mop-collapse-lowest-green-28; no runtime, test, tooling, proof, or current audit consumer imports or parses them",
