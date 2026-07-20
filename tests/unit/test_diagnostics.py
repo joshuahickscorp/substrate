@@ -13,7 +13,6 @@ from mop.diagnostics import (
 from mop.substrate.datasets import make_task_stream
 
 
-# ---- linear probe ----
 def test_linear_probe_decodes_separable_classes():
     tasks = make_task_stream(
         n_tasks=1, dim=32, classes_per_task=4, samples_per_task=400, separation=3.0, seed=0
@@ -37,7 +36,6 @@ def test_linear_probe_regression_r2():
     assert r["metric"] == "r2" and r["score"] > 0.9
 
 
-# ---- noisy-TV ----
 def test_noisy_tv_epistemic_collapses_but_error_stays_high():
     out = noisy_tv_diagnostic(dim=48, device=devices.resolve("cpu"), steps=250, seed=0)
     assert out["noise_error_stays_high"], out
@@ -45,10 +43,7 @@ def test_noisy_tv_epistemic_collapses_but_error_stays_high():
     assert out["learning_progress_separates"], out
 
 
-# ---- calibration ----
 def test_reliability_perfectly_calibrated_low_ece():
-    # confidence c == P(correct): predicted class is 1 with confidence c in [0.5,1], and the
-    # sample is correct with probability c, so per-bin accuracy ~ confidence -> ECE ~ 0.
     torch.manual_seed(0)
     n = 6000
     c = 0.5 + 0.5 * torch.rand(n)
@@ -67,7 +62,6 @@ def test_reliability_overconfident_high_ece():
     assert rel["ece"] > 0.3
 
 
-# ---- fisher trace ----
 def test_fisher_trace_curve_nonneg_and_signature():
     data = [(torch.randn(16, 8), torch.randint(0, 2, (16,))) for _ in range(6)]
 
@@ -83,7 +77,6 @@ def test_fisher_trace_curve_nonneg_and_signature():
     assert "peak_index" in sig
 
 
-# ---- determinism ----
 def test_determinism_loop_cpu_bit_identical():
     def fn():
         return torch.randn(64) @ torch.randn(64)
@@ -98,7 +91,6 @@ def test_assert_reproducible_passes_on_cpu():
 
 
 def test_assert_reproducible_can_fail():
-    # a fn whose output drifts despite reseeding must trip the absolute-tolerance assertion
     import pytest
 
     state = {"n": 0.0}

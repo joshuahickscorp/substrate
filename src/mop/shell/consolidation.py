@@ -1,11 +1,3 @@
-"""Synaptic consolidation: the weight-space dual of replay. EWC (diagonal Fisher proxy) and
-SI (path integral of the gradient). Both add a per-parameter quadratic penalty pulling
-important weights back toward their post-task values. Composable (method=both).
-
-EWC:  penalty = lambda * sum_i F_i (theta_i - theta*_i)^2,   F_i ~ mean grad_i^2
-SI:   penalty = c      * sum_i Omega_i (theta_i - theta*_i)^2,
-      Omega_i += w_i / ((Dtheta_i)^2 + xi),  w_i = sum_t (-grad_i,t * dtheta_i,t)
-"""
 
 from __future__ import annotations
 
@@ -26,7 +18,6 @@ class EWC:
         self.star: dict[str, torch.Tensor] = {}
 
     def estimate(self, model: nn.Module, batches: Iterable, loss_fn: Callable, samples: int = 64) -> None:
-        """Accumulate diagonal Fisher = mean of squared grads over `samples`, snapshot theta*."""
         fisher = {n: torch.zeros_like(p) for n, p in _named_trainable(model)}
         seen = 0
         for batch in batches:
@@ -40,7 +31,6 @@ class EWC:
             if seen >= samples:
                 break
         seen = max(1, seen)
-        # accumulate across tasks (Fisher adds), refresh anchor to current weights
         for n, p in _named_trainable(model):
             self.fisher[n] = self.fisher.get(n, 0) + fisher[n] / seen
             self.star[n] = p.detach().clone()
@@ -74,8 +64,6 @@ class SI:
             self._prev[n] = p.detach().clone()
 
     def after_step(self, model: nn.Module) -> None:
-        """Call right after optimizer.step() while grads still populated. Accumulates the
-        path integral w_i += -grad_i * (theta_i_new - theta_i_old)."""
         for n, p in _named_trainable(model):
             if p.grad is not None:
                 self._w[n] += -p.grad.detach() * (p.detach() - self._prev[n])
@@ -95,7 +83,6 @@ class SI:
 
 
 class Consolidation:
-    """Selects none|ewc|si|both and exposes one penalty()."""
 
     def __init__(self, cfg):
         self.method = str(cfg.method)

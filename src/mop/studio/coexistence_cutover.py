@@ -71,11 +71,8 @@ V5_GATE_ROW_SHA256 = "8311eb31fdbd897c9190f880f125cbbceeb0cedcfdeb54e112d19f554c
 V5_OBSERVER_IMPLEMENTATION_SHA256 = "9516355d31f9c3f3814bc94e9281c6d15d1d49d7895a5cc1a53187cfcea9bac3"
 V6_COMPATIBLE_LOADED_THROTTLE_SHA256 = frozenset(
     {
-        # Exact implementation captured by the historical v6 active-observer evidence.
         "09f29e76dc6211e5a0ca918a16bda3e5f81c035853ae68f2e58e45d9ac926c91",
-        # Backward-compatible v5-ultra identity support and Generation 1 replay scheduling.
         "b6111a018c7da7a2809cfec144333e3731a06894a78d75465dccea21bb9e99ba",
-        # Adaptive Generation 1 successor scheduling and exact process-group observation.
         "3bbafdbfe02ecd10812f60be73ff9dbc035e2adf530a3bf5d5296fa54d0cb735",
     }
 )
@@ -132,7 +129,7 @@ _CUTOVER_KEYS = {
 
 
 class EvidenceError(ValueError):
-    """Raised when a cutover source fails closed."""
+    pass
 
 
 def canonical_bytes(value: object) -> bytes:
@@ -300,7 +297,6 @@ def capture_active_observer(
     process_probe: Callable[[int], Mapping[str, Any]] = _default_process_probe,
     now_fn: Callable[[], datetime] = lambda: datetime.now(UTC),
 ) -> dict[str, Any]:
-    """Capture one immutable v6 observation of the exact post-exec child."""
 
     status, status_raw = _read_json(root, status_path)
     _validate_seal(status, "status_sha256", "v6 campaign status")

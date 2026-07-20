@@ -1,4 +1,3 @@
-"""Known-answer tests for the P9 workload accountant."""
 
 from __future__ import annotations
 

@@ -1,25 +1,4 @@
 #!/usr/bin/env python
-"""WP-01 cache pass (Q2.5, ENCODER LANE ONLY): a PREREGISTERED deterministic SONIFICATION of the shared
-nuisance clips through wav2vec2-base, real AND from_config random-init, mid-layer mean hidden state,
-into data/cache/wav2vec2_sonified_{real,randominit}.
-
-PREREGISTERED MAPPING (fixed before any result exists): each of 16 subsampled frames becomes a 0.1s
-segment at 16kHz; mean luminance sets the carrier frequency, saturation-weighted mean hue sets a second
-oscillator, spatial gradient energy sets a deterministic chirp amplitude, and the brightness centroid
-sets the segment gain. The waveform is zero-mean unit-variance normalized (the wav2vec2 convention).
-
-PREREGISTERED CAVEAT (per the WP-01 null block): the sonification INJECTS factor structure (hue maps to
-frequency by construction), so decodability from the audio substrate is NOT evidence the factor is
-substrate-universal. The only licensed claim from this cache is pretraining-over-random-init WITHIN this
-rendering. This caveat ships in the output json.
-
-HARD RULES: encoder lane only, strictly after the in-flight V-JEPA encode, one model in memory at a
-time (arms sequential), clips streamed one at a time as uint8 (clip identity rule), local_files_only.
-
-Usage: python scripts/cache_wav2vec2_sonified.py   -> runs/mot/cache_wav2vec2.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -66,8 +45,6 @@ CAVEAT = (
 def sonify_clip(
     frames_u8: torch.Tensor, sr: int = SR, seg: float = SEG_SECONDS, tsub: int = TSUB
 ) -> torch.Tensor:
-    """Deterministic clip -> waveform mapping (no RNG anywhere). [T,3,H,W] uint8 -> [tsub*seg*sr]
-    float waveform, zero-mean unit-variance."""
     t = frames_u8.shape[0]
     frames = frames_u8[:: max(1, t // tsub)][:tsub].float() / 255.0  # [t,3,H,W]
     n_seg = int(sr * seg)
@@ -110,7 +87,6 @@ def load_arm(arm: str, seed: int):
 
 
 def mid_layer_mean(model, wave: torch.Tensor) -> torch.Tensor:
-    """Mid-layer mean hidden state over the sonified waveform -> [D]."""
     with torch.no_grad():
         hs = model(input_values=wave[None], output_hidden_states=True).hidden_states
     return hs[len(hs) // 2][0].mean(dim=0).float()

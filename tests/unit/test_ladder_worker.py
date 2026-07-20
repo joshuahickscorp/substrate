@@ -1,9 +1,3 @@
-"""Unit tests for the ladder worker subprocess entrypoint.
-
-These tests assert that main writes a sealed receipt whose receipt_sha256 verifies and exits zero on
-a good run, that the reps determinism guard rejects a drifting demonstration, and that malformed
-requests fail closed with no receipt. No capability is claimed anywhere.
-"""
 
 from __future__ import annotations
 
@@ -40,15 +34,12 @@ def test_main_writes_a_sealed_receipt_and_exits_zero(tmp_path: Path) -> None:
     assert receipt["is_confirmation"] is False
     assert receipt["verdict"] in ("null", "pending", "mechanics-ok")
 
-    # The seal is over every field except receipt_sha256, exactly as the orchestrator recomputes it.
     declared = receipt["receipt_sha256"]
     core = {key: value for key, value in receipt.items() if key != "receipt_sha256"}
     assert declared == canonical_sha256(core)
 
-    # The sealed result digest matches an independent run of the demonstration.
     assert receipt["result_digest"] == run_demonstration("event_formation", 0).digest()
 
-    # Wall clock time is never sealed into the payload.
     assert "elapsed" not in receipt
     assert "wall" not in receipt
 

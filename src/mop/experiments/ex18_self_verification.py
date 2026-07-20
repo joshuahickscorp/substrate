@@ -1,25 +1,3 @@
-"""EX18: latent self-verification / self-correction. Built directly on EX17's IterativeRefiner. A
-small Verifier head (shell/refine.Verifier) scores the refined latent's confidence; when confidence is
-low the arm spends an EXTRA refinement step (revise) instead of stopping, up to a shared step budget.
-The question is sharp: does verify-then-revise beat a fixed-N single-shot refiner at MATCHED forward
-compute, or was any apparent gain just extra iteration bought for free (taxonomy 9), or noise the
-verifier cannot actually detect (taxonomy 4).
-
-Three arms, one step budget, one trained refiner block per seed:
-  - single-shot: fixed N steps, no verification, no revision (the baseline).
-  - verify-revise: at each step past a minimum, a TRAINED verifier scores the latent; low confidence
-    triggers one more step, spent out of the SAME total step budget as single-shot (matched compute,
-    diagnostics/compute.matched_within on refiner_flops), not added on top of it.
-  - shuffled-verifier: identical revise logic, but the verifier's weights are randomly re-initialized
-    (untrained, shuffled) after being score-called once, isolating whether any gain comes from the
-    TRAINED scoring signal or merely from spending the same extra steps on low-margin samples.
-
-NULL (verbatim, doctrine): verify-revise ties single-shot at matched compute; the verifier carries no
-usable correction signal. Negative-result taxonomy slot 4 (predictor/verifier too weak) or 9 (bought
-compute masquerading as mechanism) if the shuffled control also gains. cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -38,10 +16,6 @@ from .base import Experiment
 
 
 def _fit(refiner: nn.Module, verifier: Verifier, head: nn.Module, x, y, epochs: int, lr: float) -> None:
-    """Fit refiner + head on a fixed-step single-shot forward (the shared trained backbone every arm
-    reuses at eval time), and the verifier as an auxiliary error-predictor: it learns to predict the
-    per-sample head loss AFTER refinement, so score(z) is a trained confidence-of-error estimate, not
-    a random projection."""
     opt = torch.optim.Adam([*refiner.parameters(), *head.parameters(), *verifier.parameters()], lr=lr)
     for _ in range(epochs):
         opt.zero_grad()
@@ -57,7 +31,6 @@ def _fit(refiner: nn.Module, verifier: Verifier, head: nn.Module, x, y, epochs: 
 
 @torch.no_grad()
 def _single_shot(refiner: IterativeRefiner, head: nn.Module, x, y, steps: int) -> tuple[float, int]:
-    """Fixed-N single-pass refinement, no verification. Total step-count spent == steps (per sample)."""
     z, _ = refiner(x, max_steps=steps)
     acc = float((head(z).argmax(-1) == y).float().mean())
     total_steps = steps * x.shape[0]
@@ -75,10 +48,6 @@ def _verify_revise(
     budget: int,
     threshold: float,
 ) -> tuple[float, int, list[int]]:
-    """Run `base_steps` of refinement, then for each low-confidence sample keep spending one extra step
-    at a time (revise) until the verifier is satisfied or `budget` total steps is hit. Every sample is
-    charged its own steps-used, so the arm's TOTAL step budget across the batch is comparable to
-    single-shot at base_steps averaged the same way (matched via refiner_flops on the realized mean)."""
     z = x
     used = torch.zeros(x.shape[0], dtype=torch.long)
     for _ in range(base_steps):
@@ -102,9 +71,6 @@ def _verify_revise(
 
 
 def _shuffle_verifier(dim: int, hidden: int) -> Verifier:
-    """A structurally identical Verifier with freshly re-initialized (untrained, shuffled) weights: the
-    revise LOGIC and step budget are unchanged, only the trained scoring signal is destroyed. If this
-    control gains as much as the trained verifier, the gain was bought compute, not correction."""
     return Verifier(dim, hidden=hidden)
 
 
@@ -189,9 +155,6 @@ class EX18(Experiment):
 
         seed_spread = (max(verify_acc) - min(verify_acc)) if n > 1 else 0.0
 
-        # the explicit, honest null: verify-revise fails to beat single-shot beyond margin, OR the
-        # shuffled-verifier control matches the trained verifier's gain (signal is just extra compute,
-        # not a trained correction) - either condition alone is enough to support the null.
         gain_within_margin = bool(gain <= margin)
         shuffled_matches_trained = bool(abs(gain - shuffled_gain) <= margin)
         null_supported = bool(gain_within_margin or shuffled_matches_trained)

@@ -1,9 +1,3 @@
-"""Atlas verdict ledger.
-
-The at-scale atlas raw JSON contains several internal nulls. This module turns it into a durable
-publishability receipt by checking the paired dense-cache gate, the dedicated atlas null card, and the
-full registered grid/pair status before the scorecard can count density evidence.
-"""
 
 from __future__ import annotations
 
@@ -22,7 +16,6 @@ def build_atlas_verdict_ledger(
     dense_gate: dict[str, Any] | None,
     null_card_path: str | Path = DEFAULT_NULL_CARD,
 ) -> dict[str, Any]:
-    """Build a typed atlas verdict ledger from raw atlas and dense-gate receipts."""
     problems: list[str] = []
     null_card = _null_card_summary(null_card_path)
     if not null_card["exists"]:
@@ -121,7 +114,6 @@ def build_atlas_verdict_ledger(
 
 
 def load_json(path: str | Path | None) -> dict[str, Any] | None:
-    """Load a JSON object if it exists."""
     if path is None:
         return None
     p = Path(path)
@@ -132,7 +124,6 @@ def load_json(path: str | Path | None) -> dict[str, Any] | None:
 
 
 def write_atlas_verdict_ledger(ledger: dict[str, Any], path: str | Path) -> None:
-    """Write the atlas verdict ledger."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(ledger, indent=2, default=str) + "\n")

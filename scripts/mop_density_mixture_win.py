@@ -1,35 +1,3 @@
-"""Density WIN hunt (round 2): can a MATCHED-COMPUTE heterogeneous mixture-of-perspectives beat
-the best single reader AND every param+FLOP-matched HOMOGENEOUS control on a COMPOSITE task where
-the readers are genuinely complementary?
-
-Round 1 finding: on shape-alone the three readers decoded the SAME emergent signal with
-correlated errors (phi 0.27-0.71), oracle headroom ~0.04; a router could not win (density NULL).
-
-Round 2 design: build composite labels y = 2*static_bit + motion_dir_bit (4-way, chance 0.25),
-where the STATIC bit is decoded from a shape/color-strong reader (DINOv2) and the MOTION bit
-(sign of vx) is decodable ONLY from the full-clip temporal reader (V-JEPA full); DINOv2 and the
-tiled single-frame reader are at chance on motion. On such a label the best reader VARIES by the
-factor a sample depends on -> genuine complementarity.
-
-MECHANISM (honest MoP): a FACTORED mixture. expert_static = 2-way head on DINOv2; expert_motion =
-2-way head on V-JEPA-full. The 4-way logit is the outer SUM of the two experts' log-probs
-(argmax over the 2x2 grid, class = 2*a+b). Compared against the SAME factored decoder built on a
-single homogeneous reader, at MATCHED FLOPs and params.
-
-PREREGISTRATION (fixed in code, evaluated after, a TIE IS A NULL, no score faked):
-  Complementarity gate (necessary): oracle-either headroom over best single > 0 AND per-reader
-    error phi < 0.60 on the composite. Else NULL (no headroom).
-  WIN iff over 10 seeds the heterogeneous factored mixture beats ALL of:
-    R1  best single 4-way reader                       (mean>0, seed-CI lo>0, no sign flip)
-    R2a matched-compute factored-homogeneous on V-JEPA (mean>0, CI lo>0, no sign flip)
-    R2b matched-compute factored-homogeneous on DINOv2 (mean>0, CI lo>0, no sign flip)
-    R2c per-seed BEST homogeneous (max of R2a,R2b)      (mean>0, CI lo>0, no sign flip)
-    R3  FLOPs AND params matched within 10% for R2      (het vs homo)
-  MECHANISTIC guard (PR1 analogue): swapping the motion expert onto the motion-BLIND single-frame
-    reader must DESTROY the win (het beats that ablation), proving the motion bit is what the
-    temporal reader uniquely supplies -- not generic capacity.
-Two composite variants are run: shape_x_mdir (expected TIE control) and color_x_mdir (candidate WIN).
-"""
 
 from __future__ import annotations
 
@@ -120,14 +88,12 @@ def block(deltas):
 
 
 def run_variant(name, static_bit, static_reader_name):
-    """static_reader = DINOv2 (shape/color-strong); motion_reader = V-JEPA full. Returns full record."""
     RS = DI  # static expert always reads DINOv2
     RM = VF  # motion expert always reads V-JEPA full
     ds, dm = RS.shape[1], RM.shape[1]
     y = (2 * static_bit.numpy() + MOTION_BIT.numpy()).astype("int64")
     Y = torch.tensor(y).long()
 
-    # --- complementarity (single 4-way linear heads, error correlation + oracle-either) ---
     phis, oracle, acc_vf, acc_di = [], [], [], []
     for s in SEEDS:
         tr, te = split(len(Y), s)
@@ -152,7 +118,6 @@ def run_variant(name, static_bit, static_reader_name):
     headroom = oracle_mean - best_single
     comp_gate = (headroom > 0) and (phi_mean < PHI_MAX)
 
-    # --- factored arms per seed ---
     d_best, d_homoV, d_homoD, d_homoBest, d_ablate_sf = [], [], [], [], []
     fm, pm, best_names = [], [], []
     for s in SEEDS:
@@ -165,11 +130,9 @@ def run_variant(name, static_bit, static_reader_name):
         bn = max(singles, key=lambda k: singles[k])
         best_names.append(bn)
         ba = singles[bn]
-        # heterogeneous factored mixture
         hs = train_head(RS[tr], static_bit[tr], s, 2)
         hm = train_head(RM[tr], MOTION_BIT[tr], s, 2)
         ah = float((facpred(hs, RS[te], hm, RM[te]) == yte).mean())
-        # homogeneous controls (matched per-expert widths ds,dm), on V-JEPA and on DINOv2
         BSv, BMv = tile(VF, ds), tile(VF, dm)
         ahv = float(
             (
@@ -194,7 +157,6 @@ def run_variant(name, static_bit, static_reader_name):
                 == yte
             ).mean()
         )
-        # mechanistic guard: motion expert on the motion-BLIND single-frame reader
         a_sf = float((facpred(hs, RS[te], train_head(SF[tr], MOTION_BIT[tr], s, 2), SF[te]) == yte).mean())
         d_best.append(ah - ba)
         d_homoV.append(ah - ahv)

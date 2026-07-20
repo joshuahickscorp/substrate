@@ -188,7 +188,6 @@ def _python_command(command: str, *arguments: str) -> list[str]:
 
 
 def _scheduler_epoch(epoch_index: int) -> str:
-    """Return the existing H01-H05 scheduler-local identifier."""
 
     return f"h{epoch_index + 1:02d}"
 

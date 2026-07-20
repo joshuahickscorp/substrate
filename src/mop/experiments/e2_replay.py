@@ -1,16 +1,3 @@
-"""E2: latent hippocampus (replay). Over a domain-incremental latent stream (low separation,
-so the naive head forgets), compare four replay arms on the adaptation-retention frontier:
-  (a) no-replay        : ordinary sequential training, the forgetting baseline
-  (b) random replay    : a uniform ReplayBuffer (prioritized=False)
-  (c) prioritized replay: a PER ReplayBuffer (prioritized=True), surprise-weighted
-  (d) replay+EWC       : random replay plus weight-space Consolidation (method=ewc)
-
-Each arm yields a ContinualResult (R from evaluate after each task), a FrontierPoint
-(adaptation=mean diagonal acc, retention=retention_from_bwt(BWT)) and a per-arm BWT. The
-explicit null (corpus E2): prioritized replay merely TIES random replay AND replay merely
-TIES no-replay (stream too short / latents not distinct). We answer it directly with two
-booleans (replay_beats_noreplay, prioritized_beats_random) and the BWT gaps that back them.
-"""
 
 from __future__ import annotations
 
@@ -31,7 +18,6 @@ from ..shell.heads import ClassHead  # noqa: E402
 from ..substrate.datasets import make_task_stream  # noqa: E402
 from .base import Experiment, _diag_mean, _split  # noqa: E402
 
-# arm spec: (uses_replay, prioritized, uses_ewc). None for prioritized => no buffer at all.
 _ARMS = {
     "no_replay": (False, None, False),
     "random_replay": (True, False, False),
@@ -93,7 +79,6 @@ class E2(Experiment):
             "tie_tol": tol,
             "replay_gap": float(replay_gap),
             "prioritized_gap": float(prioritized_gap),
-            # the explicit null answers: null holds when BOTH are False
             "replay_beats_noreplay": replay_beats_noreplay,
             "prioritized_beats_random": prioritized_beats_random,
             "null_holds": bool(not replay_beats_noreplay and not prioritized_beats_random),

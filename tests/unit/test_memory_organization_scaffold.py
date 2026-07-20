@@ -1,10 +1,3 @@
-"""Unit tests for the memory-organization scaffold (epoch G1-R1).
-
-These tests exercise the capability contracts, future-decision value contract, matched budget,
-episodic-harm guard, and activation gate. They assert digest stability, fail-closed refusals,
-determinism under seed, control-set completeness, and that the activation gate refuses by default.
-No capability is claimed. The tests are pure Python: no network, no files, no heavy dependencies.
-"""
 
 from __future__ import annotations
 
@@ -39,11 +32,6 @@ from mop.mechanisms.memory_organization_scaffold import (
 MEMORY_ORGANIZATION_SCHEMA = "mop-memory-organization/v1"
 
 
-# ---------------------------------------------------------------------------
-# Module-level invariants.
-# ---------------------------------------------------------------------------
-
-
 def test_claim_scope_is_exact() -> None:
     assert CLAIM_SCOPE == "deterministic programmatic mechanics only; no capability or natural-data claim"
 
@@ -55,11 +43,6 @@ def test_scientific_capability_claim_is_false() -> None:
 def test_named_prior_nulls_are_fixed() -> None:
     assert PRIOR_NULLS == (REPLAY_NULL, EPISODIC_HARM_NULL)
     assert REQUIRED_CAPABILITIES == ("revision", "provenance", "deletion", "action")
-
-
-# ---------------------------------------------------------------------------
-# Section A. Capability exercises.
-# ---------------------------------------------------------------------------
 
 
 def test_capability_exercise_build_and_digest_stable() -> None:
@@ -92,11 +75,6 @@ def test_capability_exercise_rejects_declaration_without_exercise() -> None:
 def test_capability_exercise_rejects_unknown_capability() -> None:
     with pytest.raises(MemoryOrganizationRefusal, match="unsupported capability"):
         CapabilityExercise.build("telepathy", ("telepathy.op:a",))
-
-
-# ---------------------------------------------------------------------------
-# Section A. Memory organization contract.
-# ---------------------------------------------------------------------------
 
 
 def test_build_memory_organization_is_deterministic() -> None:
@@ -146,11 +124,6 @@ def test_memory_organization_rejects_prediction_only_sufficient() -> None:
             exercises=exercises,
             prediction_only_sufficient=True,
         )
-
-
-# ---------------------------------------------------------------------------
-# Section B. Future-decision value contract and matched budget.
-# ---------------------------------------------------------------------------
 
 
 def test_default_future_decision_contract_valid_and_stable() -> None:
@@ -231,11 +204,6 @@ def test_future_decision_rejects_widened_claim_scope() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Section C. Episodic-harm guard (the episodic-harm null).
-# ---------------------------------------------------------------------------
-
-
 def test_episodic_harm_guard_passes_within_tolerance() -> None:
     guard = default_episodic_harm_guard()
     assert guard.assert_no_episodic_harm(no_memory_value=0.5, episodic_value=0.6) == pytest.approx(-0.1)
@@ -250,11 +218,6 @@ def test_episodic_harm_guard_fails_closed_on_measured_harm() -> None:
 def test_episodic_harm_guard_rejects_negative_tolerance() -> None:
     with pytest.raises(MemoryOrganizationRefusal, match="nonnegative"):
         EpisodicHarmGuard(schema=MEMORY_ORGANIZATION_SCHEMA, harm_tolerance=-0.1)
-
-
-# ---------------------------------------------------------------------------
-# Section D. Activation gate and receipt.
-# ---------------------------------------------------------------------------
 
 
 def test_activation_gate_refuses_by_default() -> None:
@@ -298,11 +261,6 @@ def test_activation_receipt_requires_both_named_nulls() -> None:
             episodic_harm_absent=True,
             receipt_sha256="0" * 64,
         )
-
-
-# ---------------------------------------------------------------------------
-# Section E. Deterministic mechanics probes and coverage.
-# ---------------------------------------------------------------------------
 
 
 def test_simulate_capability_ops_is_deterministic() -> None:

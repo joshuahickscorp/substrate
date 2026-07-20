@@ -1,24 +1,3 @@
-"""Deterministic construction search and its control policies over toy shadow coalitions.
-
-Every arm here is a pure, seeded, CPU-only routine that scores subsets of candidate members against
-a sealed regime objective. The arms are:
-
-- no-search: reuse the G0 formation default coalition; one evaluation, no search.
-- greedy-only: one greedy add pass with no restarts; adds the best improving member until none helps.
-- random-construction: sample subsets under the matched budget and keep the best raw score.
-- construction-search: seeded random-restart hill climbing over subsets, the mechanism under test.
-- oracle-headroom: the exhaustive best over all subsets; an uncharged ceiling reference, not a claim.
-
-Each arm reports its raw objective and the number of objective evaluations it spent. The runner
-charges the per-evaluation cost against that count, so an arm that spends more evaluations pays more.
-Greedy is cheap and deterministic, the search costs more than greedy, and random construction, which
-must brute force, costs the most. The construction search wins on the favorable regime by finding a
-synergy the greedy pass structurally cannot reach, and it wins net of cost because it is far more
-sample efficient than random construction.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim. House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -44,11 +23,10 @@ _RANDOM_SALT = 0x2545F4914F6CDD1D
 
 
 class ConstructionSearchImplRefusal(ValueError):
-    """Raised when an arm is asked to run outside its declared, deterministic scope."""
+    pass
 
 
 class DeterministicStream:
-    """A seeded linear congruential stream of floats in [0, 1). Reproducible, no OS entropy."""
 
     __slots__ = ("_state",)
 
@@ -64,10 +42,6 @@ class DeterministicStream:
 
 @dataclass(frozen=True, slots=True)
 class ArmResult:
-    """One arm's outcome on one regime: the best coalition, its raw score, and evaluations spent.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     arm: str
     raw_score: float
@@ -75,13 +49,11 @@ class ArmResult:
     members: tuple[int, ...]
 
     def charged_net(self, per_eval_cost: float) -> float:
-        """The objective net of the charged search cost: raw score minus cost times evaluations."""
 
         return self.raw_score - per_eval_cost * self.evaluations
 
 
 def score_coalition(spec: RegimeSpec, members: Iterable[int]) -> float:
-    """Multi-task coalition score: mean best-per-task coverage, minus a size penalty, plus synergy."""
 
     member_list = list(members)
     if not member_list:
@@ -99,7 +71,6 @@ def score_coalition(spec: RegimeSpec, members: Iterable[int]) -> float:
 
 
 def run_no_search(spec: RegimeSpec) -> ArmResult:
-    """Reuse the G0 formation default coalition. One evaluation, no search."""
 
     members = tuple(sorted(m for m in spec.formation_default if 0 <= m < spec.num_members))
     score = score_coalition(spec, members)
@@ -107,7 +78,6 @@ def run_no_search(spec: RegimeSpec) -> ArmResult:
 
 
 def run_greedy(spec: RegimeSpec) -> ArmResult:
-    """One greedy add pass with no restarts. Adds the best strictly improving member until none help."""
 
     members: set[int] = set()
     current = score_coalition(spec, members)
@@ -133,7 +103,6 @@ def run_greedy(spec: RegimeSpec) -> ArmResult:
 
 
 def run_random(spec: RegimeSpec, seed: int) -> ArmResult:
-    """Sample subsets under the matched budget and keep the best raw score. No hill climbing."""
 
     stream = DeterministicStream(seed ^ _RANDOM_SALT)
     best_score = float("-inf")
@@ -153,7 +122,6 @@ def run_random(spec: RegimeSpec, seed: int) -> ArmResult:
 
 
 def _hill_climb(spec: RegimeSpec, members: set[int]) -> tuple[set[int], float, int]:
-    """First-improvement hill climb by single-member flips. Returns the polished set and evals."""
 
     score = score_coalition(spec, members)
     evaluations = 0
@@ -177,7 +145,6 @@ def _hill_climb(spec: RegimeSpec, members: set[int]) -> tuple[set[int], float, i
 
 
 def run_construction_search(spec: RegimeSpec, seed: int) -> ArmResult:
-    """Seeded random-restart hill climbing over subsets. The mechanism under test."""
 
     stream = DeterministicStream(seed ^ _SEARCH_SALT)
     best_score = float("-inf")
@@ -197,7 +164,6 @@ def run_construction_search(spec: RegimeSpec, seed: int) -> ArmResult:
 
 
 def run_oracle(spec: RegimeSpec) -> ArmResult:
-    """Exhaustive best over all subsets. An uncharged ceiling reference, never a value claim."""
 
     if spec.num_members > _MAX_ORACLE_MEMBERS:
         raise ConstructionSearchImplRefusal("oracle headroom is only defined for small member counts")
@@ -218,7 +184,6 @@ def run_oracle(spec: RegimeSpec) -> ArmResult:
 
 
 def evaluate_regime(spec: RegimeSpec, seed: int) -> dict[str, ArmResult]:
-    """Run every arm on one regime deterministically and return arm name to result."""
 
     results: dict[str, ArmResult] = {
         "no-search": run_no_search(spec),

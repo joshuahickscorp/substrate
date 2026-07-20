@@ -87,7 +87,6 @@ def make_ledger_event(
     routing_shards: tuple[str, ...] = ("shard:one",),
     evidence_class: EvidenceClass = EvidenceClass.SCRIPTED_MECHANICS,
 ) -> tuple[DispatchEvent, EventLedger]:
-    """Build the external adapter frame from a real ledger-resident hypothesis."""
 
     ledger = EventLedger()
     observation = ObservationEvent.create(
@@ -143,7 +142,6 @@ def make_ledger_event(
 
 
 class ScriptedActor:
-    """Test double whose only public cognitive state is its digest version."""
 
     def __init__(
         self,
@@ -773,8 +771,6 @@ def test_r_is_an_exact_endogenous_round_cap_and_empty_queue_has_a_charged_idle_f
 
 
 def test_messages_are_next_round_only_and_revalidated_for_expiry_state_and_branch():
-    # No endogenous round means a valid outbound edge is explicitly dropped, never
-    # represented as delivered or visible in the emission round.
     sender = ScriptedActor("actor:sender", recipients=("actor:beta",))
     beta = ScriptedActor("actor:beta")
     event = make_event()
@@ -788,7 +784,6 @@ def test_messages_are_next_round_only_and_revalidated_for_expiry_state_and_branc
     assert not dropped.message_deliveries
     assert dropped.rejected_claims[0].phase == "unconsumed"
 
-    # A producer-version change after emission is caught at actual consumption.
     expiring = ScriptedActor(
         "actor:alpha",
         recipients=("actor:beta",),
@@ -830,8 +825,6 @@ def test_messages_are_next_round_only_and_revalidated_for_expiry_state_and_branc
     assert not stale.message_deliveries
     assert ClaimFault.PRODUCER_STATE in stale.rejected_claims[0].faults
 
-    # The exact cross-counterfactual exploit is rejected when cf/one's staged
-    # claim reaches a recipient during cf/two.
     alpha = SiblingMessageActor("actor:alpha")
     beta = ScriptedActor("actor:beta")
     event, event_ledger = make_ledger_event()
@@ -875,7 +868,6 @@ def test_pending_updates_are_branch_partitioned_validate_before_consume_and_atom
     ) == ("actor:root",)
     assert len(root.stage_log) == 1 and not counterfactual.stage_log
 
-    # Simulated action branches never acquire persistent update authority.
     with pytest.raises(Exception, match="no pending|already-consumed|unknown"):
         runtime.apply_consequence(
             trace_id=trace.trace_id,
@@ -887,8 +879,6 @@ def test_pending_updates_are_branch_partitioned_validate_before_consume_and_atom
         )
     assert not counterfactual.stage_log
 
-    # Two-actor update planning is atomic: a later failed plan leaves both live
-    # versions and the authority intact for a retry.
     alpha = ScriptedActor("actor:alpha", emit_action=True)
     failing = ScriptedActor("actor:failing", fail_stage=True)
     runtime, _ = make_runtime(

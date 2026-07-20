@@ -1,13 +1,3 @@
-"""Leg 8B: energy-based associative memory. Store K random latent patterns (dim D), probe with
-noise-corrupted copies, retrieve by the modern-Hopfield softmax-energy update
-x_{t+1} = X^T softmax(beta X x_t) (Ramsauer et al.; exponential capacity in D). The control is a
-linear autoassociator W (closed-form ridge pinv mapping corrupted->clean), parameter-comparable to
-the stored matrix X (both are K x D worth of weights). We sweep load K/D and corruption, score
-retrieval by cosine to the correct stored pattern over a threshold, and report each method's
-capacity (max load still above an accuracy floor). The claim under test: the energy memory's
-content-addressable attractor beats a one-shot linear map at high load. Synthetic latents -> the
-result is tagged provisional.
-"""
 
 from __future__ import annotations
 
@@ -17,20 +7,16 @@ from ..seeding import seed_everything
 
 
 def _store(k: int, dim: int, gen: torch.Generator) -> torch.Tensor:
-    """K unit-norm random latent patterns, rows of X [K, D]."""
     x = torch.randn(k, dim, generator=gen)
     return x / (x.norm(dim=1, keepdim=True) + 1e-8)
 
 
 def _corrupt(patterns: torch.Tensor, level: float, gen: torch.Generator) -> torch.Tensor:
-    """Additive Gaussian corruption at the given fraction of pattern scale, renormalized."""
     q = patterns + level * torch.randn(patterns.shape, generator=gen)
     return q / (q.norm(dim=1, keepdim=True) + 1e-8)
 
 
 def hopfield_retrieve(x_store: torch.Tensor, query: torch.Tensor, beta: float, steps: int) -> torch.Tensor:
-    """Modern-Hopfield update x <- X^T softmax(beta X x), iterated `steps` times. Vectorized over a
-    batch of queries [B, D]; X is [K, D]. Converges to the nearest stored pattern's attractor."""
     x = query
     for _ in range(steps):
         sim = beta * (x @ x_store.t())  # [B, K]
@@ -40,8 +26,6 @@ def hopfield_retrieve(x_store: torch.Tensor, query: torch.Tensor, beta: float, s
 
 
 def ff_autoassociator(x_store: torch.Tensor, queries: torch.Tensor, ridge: float = 1e-2) -> torch.Tensor:
-    """Linear control: closed-form ridge map W [D, D] fit to send corrupted training queries back to
-    their clean pattern, then applied. Parameter-comparable (W holds D*D, the Hopfield store K*D)."""
     q = queries  # [K, D] one corrupted exemplar per stored pattern
     d = x_store.shape[1]
     a = q.t() @ q + ridge * torch.eye(d)  # [D, D]
@@ -51,8 +35,6 @@ def ff_autoassociator(x_store: torch.Tensor, queries: torch.Tensor, ridge: float
 
 
 def _retrieval_acc(retrieved: torch.Tensor, targets: torch.Tensor, thresh: float) -> float:
-    """Fraction of queries whose retrieval cosine-matches its OWN stored target above thresh AND is
-    closest to that target among all stored patterns (a genuine, non-vacuous correct retrieval)."""
     cos_self = (retrieved * targets).sum(dim=1)  # both unit-norm
     sims = retrieved @ targets.t()  # [B, K]
     nearest = sims.argmax(dim=1)
@@ -61,7 +43,6 @@ def _retrieval_acc(retrieved: torch.Tensor, targets: torch.Tensor, thresh: float
 
 
 def _capacity(curve: list[dict], floor: float) -> float:
-    """Max load K/D whose accuracy is still at or above the floor (0.0 if none clear it)."""
     ok = [pt["load"] for pt in curve if pt["acc"] >= floor]
     return max(ok) if ok else 0.0
 
@@ -77,13 +58,6 @@ def assoc_memory(
     seed: int = 0,
     toy: bool = True,
 ) -> dict:
-    """Sweep load K/D for the modern-Hopfield memory and the linear-autoassociator control at a
-    fixed corruption level, scoring retrieval by cosine to the correct stored pattern. The Hopfield
-    beta is picked as the best over `betas`. Returns per-method capacity + accuracy curves and the
-    head-to-head verdict. `toy` caps the largest K for cpu-seconds. The capacity floor is set to
-    meaningful partial recall (default 0.5): the linear control is provably bounded at load 1.0 (it
-    drops to ~0 once K exceeds D), so any retention past that is the energy memory's edge. Tag:
-    provisional (synthetic)."""
     seed_everything(seed)
     gen = torch.Generator().manual_seed(seed)
     kmax = 6 * dim if toy else 32 * dim

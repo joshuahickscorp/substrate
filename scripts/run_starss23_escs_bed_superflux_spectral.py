@@ -1,16 +1,4 @@
 #!/usr/bin/env python3
-"""Producer entrypoint: run the STARSS23 ESCS frozen featurizer "superflux_spectral" and seal its proof.
-
-This runs the SuperFlux frozen front-end feeding the UNCHANGED trained gate on the REAL, MIT-licensed
-STARSS23 FOA subset, reading its own SuperFlux feature cache (built once if absent). It scores through the
-same sealed harness, referee, controls, and sign-flip statistics as the committed real run, charges the
-SuperFlux front-end's own per-frame FLOPs to every arm, reads the SESOI from the already-sealed featurizer
-preregistration (never rebuilding it), and writes the sealed
-``proof/STARSS23_ESCS_BED_superflux_spectral.json`` (activation_allowed=false, scientific_promotion=false,
-independent_scientific_confirmation=false, source_kind=real, rights_clean=true).
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -21,7 +9,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-# A fixed default timestamp so the sealed body is byte-reproducible; the wall clock is never sealed.
 DEFAULT_TIMESTAMP = "2026-07-17T00:00:00Z"
 
 

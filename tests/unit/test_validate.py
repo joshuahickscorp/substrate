@@ -1,4 +1,3 @@
-"""Frontier 7: fail-fast config/leg validation."""
 
 import pytest
 from omegaconf import OmegaConf
@@ -8,7 +7,6 @@ from mop.harness import validate
 
 
 def test_check_all_clean_on_real_repo():
-    # the shipped configs + legs must validate clean
     assert validate.check_all() == []
 
 
@@ -39,7 +37,6 @@ def test_f_series_run_refuses_contract_drift_before_compute():
 
 
 def test_unavailable_encoder_with_prefer_real_raises():
-    # the V-JEPA 2.1 placeholder: marked available=false; asking for real weights must fail loud
     cfg = config.compose(["encoder=vjepa21_vitl", "encoder.prefer_real=true"])
     with pytest.raises(validate.ConfigError):
         validate.validate_encoder(cfg)

@@ -1,8 +1,3 @@
-"""ex2_latent_planning (synthetic arm), ex9_slot_attention, and ex15_rejuvenation: three rows migrated
-from the Studio-gated list to cpu-now this session, once their real blocker was found to be unwritten code
-(ex15, ex9) or a live-environment arm that is separable from a synthetic precursor (ex2), not a hardware
-ceiling. Each ships a SCALED (not toy) default; these tests use small dotlist overrides to stay fast.
-Asserts MECHANICS only, never a particular scientific outcome."""
 
 from pathlib import Path
 
@@ -30,7 +25,6 @@ def test_ex2_latent_planning_runs(tmp_path):
     )
     assert isinstance(out, dict)
     assert "null_supported" in out and isinstance(out["null_supported"], bool)
-    # the two standing controls and the rollout-predictability gate must all be reported
     assert "planner_beats_flat_head" in out
     assert "planner_beats_action_shuffle" in out
     assert "planning_licensed" in out

@@ -1,9 +1,3 @@
-"""Tests for the ladder run-receipt contract, especially the mechanics vs scientific boundary.
-
-The boundary is the honesty guarantee for the whole "scaffold without results" effort: a toy demonstration
-can never be cleared and can never open a stage gate; only a matched, control-cleared, null-overturning
-scientific confirmation can. These tests pin that down. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -57,11 +51,6 @@ def a_confirmation(**overrides: object) -> RunReceipt:
     )
     kwargs.update(overrides)
     return mint_confirmation(**kwargs)  # type: ignore[arg-type]
-
-
-# ---------------------------------------------------------------------------
-# The honesty boundary.
-# ---------------------------------------------------------------------------
 
 
 def test_demonstration_defaults_to_null_and_is_not_a_confirmation() -> None:
@@ -120,11 +109,6 @@ def test_cleared_confirmation_requires_matched_controls_and_null() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Validation fails closed.
-# ---------------------------------------------------------------------------
-
-
 def test_rejects_widened_claim_scope() -> None:
     with pytest.raises(LadderContractRefusal):
         RunReceipt(
@@ -159,11 +143,6 @@ def test_digest_is_stable() -> None:
     assert len(a_demo().digest()) == 64
 
 
-# ---------------------------------------------------------------------------
-# Aggregation: demonstrations never count toward a gate.
-# ---------------------------------------------------------------------------
-
-
 def test_ladder_readiness_counts_only_confirmations() -> None:
     receipts = [a_demo(), a_demo(mechanism_id="niche_dispatch"), a_confirmation()]
     summary = ladder_readiness(receipts)
@@ -175,11 +154,6 @@ def test_ladder_readiness_counts_only_confirmations() -> None:
 
 def test_scientific_confirmations_filters_demonstrations() -> None:
     assert scientific_confirmations([a_demo(), a_confirmation()]) == [a_confirmation()]
-
-
-# ---------------------------------------------------------------------------
-# Protocols are structural and runtime-checkable.
-# ---------------------------------------------------------------------------
 
 
 def test_protocols_are_runtime_checkable() -> None:

@@ -1,12 +1,3 @@
-"""Deterministic mechanics queue for the three new Generation 1 mechanism lanes.
-
-The queue covers G1-U1 (calibrated_uncertainty), G1-N1 (reducible_novelty), and G1-P1R
-(stability_plasticity_r2, the redesigned stable-core bed that replaces the pruned G1-P1 lane).
-Lane and item shapes mirror the sealed successor mechanics queue exactly; the LaneSpec and WorkItem
-dataclasses are imported read-only from it so the two item tables stay structurally identical. Seed
-bands are disjoint from every sealed mechanics band. Receipts remain mechanics demonstrations;
-same-code repetition is never relabeled as independent scientific verification.
-"""
 
 from __future__ import annotations
 
@@ -62,8 +53,6 @@ NEW_LANES = (
 
 CANARY_SEEDS = 256
 
-# Measured mean wall seconds per seed on this host, times a 1.5x conservative planning factor,
-# rounded to 6 significant digits. Observed throughput replaces these rates once receipts exist.
 NEW_PLANNED_SECONDS_PER_SEED = {
     "calibrated_uncertainty": 0.000_154_417,
     "reducible_novelty": 0.000_124_245,
@@ -72,7 +61,6 @@ NEW_PLANNED_SECONDS_PER_SEED = {
 
 
 def build_new_work_items() -> tuple[WorkItem, ...]:
-    """Canary items first, then producer and challenge rungs; indexes are local to this module."""
 
     items = []
     for lane in NEW_LANES:
@@ -188,7 +176,6 @@ def _item_by_index(index: int) -> WorkItem:
 
 
 def run_item(index: int, root: Path = DEFAULT_ROOT) -> dict[str, Any]:
-    """Run one work item, validate its rung receipt, and write it atomically under root."""
 
     item = _item_by_index(index)
     root = Path(root).resolve()
@@ -207,7 +194,6 @@ def run_item(index: int, root: Path = DEFAULT_ROOT) -> dict[str, Any]:
 
 
 def status(root: Path = DEFAULT_ROOT) -> dict[str, Any]:
-    """Summarize which item receipts exist and validate under root; no compute, no promotion."""
 
     root = Path(root).resolve()
     lane_progress: dict[str, dict[str, int]] = {

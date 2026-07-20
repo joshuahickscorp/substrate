@@ -1,16 +1,3 @@
-"""EX17: latent iterative reasoning. Does iterating computation in the frozen latent space before the
-head beat a COMPUTE-MATCHED single-pass network, or was any gain just depth. The refiner (shell/refine
-IterativeRefiner) applies the SAME residual block N times (weight-tied recurrence); the matched control
-applies N residual blocks ONCE each (untied depth) at identical block count and hidden width, so the
-forward FLOPs match (diagnostics/compute) and only weight-tying differs. A tie is the expected result
-and the honest null; a win for the tied refiner at equal FLOPs (and fewer params) is the positive.
-
-NULL: at matched compute, the iterative refiner ties the untied-depth control within `margin` (iteration
-was just depth). Negative-result taxonomy slot 4 (predictor too weak) or 10 (iteration irrelevant on a
-frozen pooled latent). cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -29,9 +16,6 @@ from .base import Experiment, _fit_eval
 
 
 class _UntiedDepth(nn.Module):
-    """The compute-matched control: `steps` UNTIED residual blocks applied once each (depth, not
-    iteration). Same block count and hidden width as the refiner, so forward FLOPs match; it has MORE
-    parameters (untied), which is the fair, generous baseline for the depth-not-iteration null."""
 
     def __init__(self, dim: int, hidden: int, steps: int):
         super().__init__()
@@ -111,7 +95,6 @@ class EX17(Experiment):
             "compute_matched": compute,
             "mean_halting_steps": round(sum(halts) / len(halts), 3),
             "seeds": list(seeds),
-            # the explicit null: refiner ties the compute-matched control (iteration == depth)
             "null_supported": bool(abs(gain) <= margin),
             "refiner_wins_at_equal_flops": bool(gain > margin and compute["matched"]),
         }

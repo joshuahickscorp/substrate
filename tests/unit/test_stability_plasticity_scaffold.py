@@ -1,9 +1,3 @@
-"""Unit tests for the stability vs plasticity mechanism scaffold (epoch G1-P1).
-
-These tests exercise the dual-metric readings, matched-cost budgets, the control family, the joint
-verdict, the seeded toy that exhibits the P6 split, and the activation gate. They assert fail-closed
-behavior and determinism. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -50,11 +44,6 @@ def _family(readings: dict[str, DualMetricReading]) -> ControlFamily:
     return ControlFamily(schema=SCHEMA, arms=arms)
 
 
-# ---------------------------------------------------------------------------
-# Section A. Reading and budget mechanics.
-# ---------------------------------------------------------------------------
-
-
 def test_claim_scope_constant_matches_house_value() -> None:
     assert CLAIM_SCOPE == "deterministic programmatic mechanics only; no capability or natural-data claim"
     assert SCIENTIFIC_CAPABILITY_CLAIM is False
@@ -82,11 +71,6 @@ def test_reading_rejects_widened_claim_scope() -> None:
 def test_matched_budget_must_be_non_vacuous() -> None:
     with pytest.raises(StabilityPlasticityRefusal, match="non-vacuous"):
         MatchedCostBudget(params=0, flops=1, replay_samples=1, update_steps=1)
-
-
-# ---------------------------------------------------------------------------
-# Section B. Control family completeness.
-# ---------------------------------------------------------------------------
 
 
 def test_default_family_is_complete_and_ordered() -> None:
@@ -136,11 +120,6 @@ def test_assert_control_completeness_rejects_drift() -> None:
 def test_control_rejects_unknown_name() -> None:
     with pytest.raises(StabilityPlasticityRefusal, match="unsupported control"):
         ControlArm(control="warm-start", reading=_reading(0.5, 0.5), matched=_BUDGET)
-
-
-# ---------------------------------------------------------------------------
-# Section C. The contract that declares the bar.
-# ---------------------------------------------------------------------------
 
 
 def test_default_contract_is_valid_and_pins_null() -> None:
@@ -200,11 +179,6 @@ def test_contract_rejects_wrong_null() -> None:
             replication_min=2,
             prior_null="some-other-null",
         )
-
-
-# ---------------------------------------------------------------------------
-# Section D. Joint verdict: the fail-closed core.
-# ---------------------------------------------------------------------------
 
 
 def test_verdict_certifies_a_genuine_joint_win() -> None:
@@ -282,11 +256,6 @@ def test_verdict_rejects_widened_claim_scope() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Section E. The seeded toy exhibits the P6 split and is deterministic.
-# ---------------------------------------------------------------------------
-
-
 def test_toy_reading_is_deterministic_under_seed() -> None:
     first = simulate_reading(seed=11, mechanism="candidate")
     second = simulate_reading(seed=11, mechanism="candidate")
@@ -295,7 +264,6 @@ def test_toy_reading_is_deterministic_under_seed() -> None:
 
 def test_toy_exhibits_the_split_and_null_holds() -> None:
     verdict = build_split_verdict(seed=7)
-    # The candidate cannot beat both the retain pole and the adapt pole at once.
     assert not verdict.both_axes_improved
     with pytest.raises(StabilityPlasticityRefusal, match=PRIOR_NULL):
         verdict.certify()
@@ -304,11 +272,6 @@ def test_toy_exhibits_the_split_and_null_holds() -> None:
 def test_toy_rejects_unknown_mechanism() -> None:
     with pytest.raises(StabilityPlasticityRefusal, match="unknown mechanism"):
         simulate_reading(seed=0, mechanism="teleport")
-
-
-# ---------------------------------------------------------------------------
-# Section F. Activation gate refuses by default.
-# ---------------------------------------------------------------------------
 
 
 def test_activation_gate_is_off_by_default() -> None:
@@ -389,11 +352,6 @@ def test_gate_refuses_receipt_for_a_different_verdict() -> None:
     )
     with pytest.raises(StabilityPlasticityRefusal, match="this exact verdict"):
         gate.authorize(verdict, receipt)
-
-
-# ---------------------------------------------------------------------------
-# Section G. Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def test_coverage_lists_every_sub_question_with_bullets() -> None:

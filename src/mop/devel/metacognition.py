@@ -1,15 +1,3 @@
-"""Self-reflection / metacognition report (Frontier 34). Makes the learner INSPECTABLE: what it can
-and cannot decode, where uncertainty is calibrated, what data it wants next, which mechanism to try
-next, and which claims are real / provisional / auxiliary / deferred. This is structured
-self-MONITORING (diagnostics), NOT self-awareness or consciousness (Frontier 35 rails). Every rendered
-report is gated by north_star.assert_no_sentience_claims, so it cannot ship a grandiose claim.
-
-It composes from the capacity ladder + optional live inputs (a curriculum next-lesson manifest, an
-ablation plan, cache provenance). Failure is attributed to one of the engineering categories
-(data, representation, memory, plasticity, optimization, evaluation), never to feelings.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -25,9 +13,6 @@ def report(
     ablation_plan: dict | None = None,
     cache_provenance: dict | None = None,
 ) -> dict:
-    """Build a metacognition report. Optional inputs wire in live state (the next-lesson manifest, the
-    ablation next-best, a cache's provenance). Returns a structured dict; render_md gates it on the
-    sentience rail."""
     rungs = load_capacities()
     by_status: dict[str, list] = {}
     for r in rungs:

@@ -91,7 +91,7 @@ FAVORABLE_REASON = "strict favorable programmatic pattern requires the next scal
 
 
 class RouterRefused(RuntimeError):
-    """Fail-closed router validation or execution refusal."""
+    pass
 
 
 def canonical_bytes(value: object) -> bytes:
@@ -339,11 +339,6 @@ def _campaign_document(path: Path) -> dict[str, Any]:
 
 
 def validate_prepared_router_plan(plan: RouterPlan) -> dict[str, Any]:
-    """Validate new plans against the live baseline plus the prepared additive overlay.
-
-    This does not authorize execution.  It exists so the files can be reviewed before
-    the final policy migration installs the overlay tasks into the live policy.
-    """
 
     tasks, overlay_ids = _prepared_tasks()
     live_task_ids = set(load_policy(DEFAULT_POLICY).tasks)

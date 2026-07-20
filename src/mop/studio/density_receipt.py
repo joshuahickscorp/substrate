@@ -1,9 +1,3 @@
-"""Studio density and artifact-mass receipt.
-
-The shared Studio 10/10 standard asks for a density receipt: repo size, largest files, artifact mass,
-and cleanup deltas. This module is read-only. It does not delete anything; it summarizes the current
-workspace and folds in the disk-recovery receipt when one exists.
-"""
 
 from __future__ import annotations
 
@@ -58,7 +52,6 @@ class DensityReceiptConfig:
 
 
 def build_density_receipt(config: DensityReceiptConfig | None = None) -> dict[str, Any]:
-    """Build a read-only Studio density receipt."""
     cfg = config or DensityReceiptConfig()
     root = Path(cfg.repo_root).resolve()
     limit = max(1, int(cfg.largest_limit))
@@ -94,7 +87,6 @@ def build_density_receipt(config: DensityReceiptConfig | None = None) -> dict[st
 
 
 def write_density_receipt(receipt: dict[str, Any], path: Path | str) -> None:
-    """Write the density receipt."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(receipt, indent=2, default=str) + "\n")

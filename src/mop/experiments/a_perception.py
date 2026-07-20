@@ -481,7 +481,6 @@ class A8(Experiment):
                 "uniform": (1.0, 1.0),
             }
 
-            # coverage of the action-relevant (learnable) region = its selection share
             def share(pair):
                 a, b = max(pair[0], 0.0), max(pair[1], 0.0)
                 return a / (a + b + 1e-8)

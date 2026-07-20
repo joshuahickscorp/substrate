@@ -1,24 +1,4 @@
 #!/usr/bin/env python
-"""WP-11 encoder-lane job Q2.2: the token/frame-matched SINGLE-FRAME V-JEPA pass for AT3 (time-axis
-ablation), writing `data/cache/vjepa2_vitl_singleframe`. Each canonical nuisance clip is reduced to its
-middle frame TILED to the full 64-frame extent, so the encoder consumes the identical token grid
-(64 x 256 x 256) with ZERO temporal variation: any full-clip advantage over this arm is a temporal-axis
-currency, not a raw-token-count advantage.
-
-Because AT3's comparison (and PR2's real arm) needs full-clip V-JEPA features on the SAME clips, and no
-other queue row encodes them, this pass also writes `data/cache/vjepa2_vitl_nuisance` (the full-clip
-pooled column) in the same serial pass by default: the model is loaded once, each clip gets two forwards.
-Disable with --no-full-clip if that column already exists.
-
-Encoder-lane rule: refuses to start while any other encoder process is alive (pgrep guard). Streams one
-clip at a time. Uses the same clip regeneration and cache helpers as cache_randominit_vitl_features.py
-(clip identity rule: torch RNG, seed for seed).
-
-Usage: python scripts/cache_vjepa_single_frame.py \
-    --out-dir data/cache/vjepa2_vitl_singleframe --log runs/mot/cache_singleframe.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -49,8 +29,6 @@ from mop.substrate import load_encoder  # noqa: E402
 
 
 def single_frame_clip(clip: torch.Tensor) -> torch.Tensor:
-    """[T, 3, H, W] -> the middle frame repeated T times: identical token/frame count, no temporal
-    information. The matched control that makes a full-clip advantage a TIME claim."""
     t = clip.shape[0]
     return clip[t // 2].unsqueeze(0).expand(t, -1, -1, -1).contiguous()
 
@@ -65,8 +43,6 @@ def run_cache(
     log_path: str,
     also_full_clip: bool = True,
 ) -> dict:
-    """One serial pass: load real V-JEPA once, per clip encode the single-frame-tiled version (and the
-    full clip when requested), write both caches plus the run log."""
     cfg = compose(
         [
             "encoder=vjepa2_vitl_fpc64_256",

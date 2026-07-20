@@ -440,7 +440,6 @@ def _write_sealed_attempt(path: Path, **fields: Any) -> None:
 def test_verify_operational_summary_classifies_superseded_vs_unresolved(tmp_path: Path) -> None:
     run_root = tmp_path / "runs" / "generation1"
 
-    # Orphaned attempt_001 (no receipt) superseded by a valid attempt_002 for the same cell.
     (run_root / "seed_9" / "classes" / "cell_a" / "attempt_001").mkdir(parents=True)
     _write_sealed_attempt(
         run_root / "seed_9" / "classes" / "cell_a" / "attempt_002" / "attempt_receipt.json",
@@ -448,7 +447,6 @@ def test_verify_operational_summary_classifies_superseded_vs_unresolved(tmp_path
         seed=9,
     )
 
-    # attempt_001 with a broken seal and no later attempt: unresolved.
     broken = run_root / "seed_9" / "classes" / "cell_b" / "attempt_001" / "attempt_receipt.json"
     broken.parent.mkdir(parents=True)
     broken.write_text(json.dumps({"schema": corpus_module.ATTEMPT_SCHEMA, "attempt_sha256": "f" * 64}))

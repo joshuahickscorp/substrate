@@ -1,6 +1,3 @@
-"""Diagnostics that gate the experiments: linear-probe distinctiveness, noisy-TV
-epistemic/aleatoric guard, calibration, Fisher trace (critical-period signature), and the
-determinism sanity loop."""
 
 from __future__ import annotations
 
@@ -87,7 +84,6 @@ __all__ = [
     "critical_period_signature",
     "determinism_loop",
     "assert_reproducible",
-    # geometry battery (D1 / EX12)
     "linear_cka",
     "kernel_cka",
     "rsa",
@@ -95,55 +91,40 @@ __all__ = [
     "anisotropy",
     "neighborhood_overlap",
     "geometry_report",
-    # compute accounting (D5)
     "param_count",
     "mlp_flops",
     "refiner_flops",
     "matched_within",
     "accounting",
-    # substrate-ablation control (D2)
     "substrate_ablation",
-    # convergence / attractor (Y1/Y2/N9)
     "convergence_report",
     "basin_stability",
-    # nonlinear probe + readout-contribution (P10/P1)
     "nonlinear_probe",
     "readout_contribution",
-    # held-out-combination compositionality (C1/C9/S6)
     "factorized_latents",
     "held_out_combination",
     "compositionality_report",
-    # seed-consistency (Y3/P5/S5)
     "cross_seed_cka",
     "hungarian_code_agreement",
     "code_stability",
-    # capability-per-bit (I1/I8)
     "capability_per_bit",
     "quantization_robustness",
-    # system identification / controllability (Y7 / D6 rollout gate)
     "sysid_report",
     "controllability_gramian_rank",
-    # difficulty calibration (D3)
     "reference_separation",
     "calibrated_tie",
-    # transfer matrix (D4)
     "transfer_matrix",
-    # replay-buffer compression (A3)
     "retention_per_byte",
-    # latent robustness (A4)
     "degradation_curve",
-    # alignment aggregator (WP-02, AL rows)
     "permutation_pvalue",
     "alignment_null",
     "alignment_suite",
     "alignment_table",
     "pair_alignment",
     "cross_seed_alignment",
-    # cross-substrate agreement (WP-02, AT1/AL2/WS1)
     "cross_substrate_agreement",
     "random_map_floor",
     "shuffled_label_null",
-    # risk-coverage / selective prediction (WP-02, H-RISKCOV)
     "auroc",
     "ece_equal_mass",
     "risk_coverage",
@@ -151,19 +132,15 @@ __all__ = [
     "pareto_area",
     "seed_ci",
     "sign_flip_report",
-    # continual-learning metrics (WP-02, PR rows)
     "backward_transfer",
     "forward_transfer",
     "forgetting_area",
     "adaptation_speed",
     "LRIntegralAccumulator",
-    # attention / retrieval FLOP counters (WP-02)
     "attention_flops",
     "knn_flops",
-    # performance-density block (Layer 9, PERFORMANCE_DENSITY_DOCTRINE.md)
     "density_block",
     "timed",
-    # operational-awareness suite (OA1-OA8, OPERATIONAL_AWARENESS.md)
     "missing_form_detection",
     "confidence_calibration",
     "memory_availability",

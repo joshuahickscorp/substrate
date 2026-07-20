@@ -1,10 +1,3 @@
-"""Governed fresh-training challenge runner for favorable P5 pilot patterns.
-
-The complete twelve-cell surface is retrained at three fixed disjoint seeds. Every seed uses its
-own resumable P5 subrun, preventing the pilot staging rules from reducing the fresh unit count.
-The wrapper requires every raw subrun and selected cell receipt to be complete, all_ok, source and
-config bound, compute matched, and free of operational stops.
-"""
 
 from __future__ import annotations
 

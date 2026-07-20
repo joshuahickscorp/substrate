@@ -1,23 +1,4 @@
 #!/usr/bin/env python
-"""MP6: trained confidence stopping vs the FREE update-norm early-exit rule (H-HALT, WP-03).
-
-Thesis: a trained halt head carries a real per-sample correctness signal beyond "the latent stopped
-moving". Mechanism: the SAME trained refiner + halt head as MP5 (imported harness), evaluated against
-a free early-exit rule that halts a sample when its relative update norm dips below a threshold, with
-that threshold TUNED ON THE TRAIN SET to realize the same mean step count as the trained arm (matched
-mean FLOPs, the manifest WP-03 mechanism line). Both signals are also scored as error predictors
-(riskcov.auroc against per-sample correctness at the shared decision depth), with a shuffled-halt-
-labels control (a halt head trained on permuted correctness, the registry random control) that must
-sit at chance.
-
-Preregistered null (verbatim, registry MP6): the trained halt head ties the free update-norm rule;
-confidence is just the latent ceasing to move. Appendix thresholds fixed before running: matched on
-MEAN FLOPs within tol 0.10; halting entropy ~0 is an automatic null.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: .venv/bin/python scripts/mop_mt6_confidence_stop.py --seeds 0-4
-"""
 
 from __future__ import annotations
 
@@ -53,9 +34,6 @@ from mop.shell.refine import IterativeRefiner
 def norm_rule_eval(
     refiner: IterativeRefiner, head: nn.Module, x, y, threshold: float, max_steps: int
 ) -> tuple[float, float, torch.Tensor]:
-    """The free early-exit rule: halt a sample once its relative update norm ||u|| / ||z|| falls
-    below `threshold`. The signal is a free byproduct of the update already computed, so the rule
-    charges no extra FLOPs. Returns (acc, mean_steps, used)."""
     z = x.clone()
     active = torch.ones(x.shape[0], dtype=torch.bool)
     used = torch.zeros(x.shape[0])
@@ -75,9 +53,6 @@ def norm_rule_eval(
 def tune_norm_threshold(
     refiner: IterativeRefiner, head: nn.Module, xtr, ytr, target_mean: float, max_steps: int
 ) -> float:
-    """Tune the free rule's threshold ON THE TRAIN SET so its mean step count matches the trained
-    halt arm's (the tuned-baseline doctrine: the free rule gets its best honest shot at the same
-    compute). Bisection over the monotone mean_steps(threshold) curve."""
     lo, hi = 0.0, 10.0
     for _ in range(30):
         mid = 0.5 * (lo + hi)
@@ -93,8 +68,6 @@ def tune_norm_threshold(
 def signals_at_depth(
     refiner: IterativeRefiner, head: nn.Module, x, y, depth: int
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
-    """Both confidence signals at the shared decision depth: the trained halt probability and the
-    (negated) relative update norm, plus per-sample correctness labels and the latent there."""
     z = x.clone()
     u = torch.zeros_like(z)
     for _ in range(max(1, int(depth))):
@@ -108,9 +81,6 @@ def signals_at_depth(
 
 
 def shuffled_label_auroc(z: torch.Tensor, correct: torch.Tensor, seed: int, epochs: int, lr: float) -> float:
-    """The registry random control: a fresh halt head trained toward PERMUTED correctness labels on
-    the same latents. Its error-prediction AUROC must sit at chance, else the AUROC yardstick itself
-    is broken."""
     seed_everything(seed + 13)
     g = torch.Generator().manual_seed(seed + 13)
     perm_labels = correct[torch.randperm(correct.shape[0], generator=g)]

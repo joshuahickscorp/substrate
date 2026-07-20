@@ -1,10 +1,3 @@
-"""Official V-JEPA 2.1 ViT-B dense cache and matched-control task seam.
-
-Cheap preflight and manifest operations never construct a model. ``encode_dense_cache`` is the
-only heavy entrypoint: it is explicit, serial, resumable, and consumes one immutable input tensor
-manifest for either the learned or exact-architecture random arm. E6 and DR14 therefore join on
-ordered referents and tensor hashes instead of filenames or post-encoder feature similarity.
-"""
 
 from __future__ import annotations
 
@@ -64,7 +57,7 @@ VISION_SOURCE = next(
 
 
 class DenseTaskError(RuntimeError):
-    """A runtime authority, input identity, cache, or matched-control contract failed."""
+    pass
 
 
 def _utc_now() -> str:
@@ -121,7 +114,6 @@ def _annotation_authority_payload(rows: list[dict[str, Any]]) -> list[dict[str, 
 
 
 def _normalize_source(source: dict[str, Any], rows: list[dict[str, Any]]) -> dict[str, Any]:
-    """Bind source declarations to their canonical payloads and immutable row annotations."""
 
     normalized = json.loads(json.dumps(source))
     source_authority = normalized.get("source_authority")
@@ -201,7 +193,6 @@ def runtime_authority(
     forward_8f_receipt: Path | str = DEFAULT_FORWARD_8F_RECEIPT,
     forward_64f_receipt: Path | str = DEFAULT_FORWARD_64F_RECEIPT,
 ) -> dict[str, Any]:
-    """Validate retained bytes and prior probes without constructing or forwarding a model."""
 
     repository_path = Path(repository).resolve()
     checkpoint_path = Path(checkpoint).resolve()
@@ -295,7 +286,6 @@ def build_input_manifest(
     *,
     output: Path | str | None = None,
 ) -> dict[str, Any]:
-    """Hash exact preprocessed tensors and freeze ordered factors, labels, and splits."""
 
     normalized: list[dict[str, Any]] = []
     for index, record in enumerate(records):
@@ -788,7 +778,6 @@ def encode_dense_cache(
     repository: Path | str = DEFAULT_REPOSITORY_DIR,
     checkpoint: Path | str = DEFAULT_CHECKPOINT,
 ) -> dict[str, Any]:
-    """Explicit heavy encoder path. Preflight and imports never call this function."""
 
     if arm not in {"learned", "random"}:
         raise ValueError("arm must be learned or random")
@@ -932,13 +921,6 @@ def build_dr14_dense_views(
     group_width: int = 16,
     strict_run_identity: bool = True,
 ) -> dict[str, Any]:
-    """Build shared dropped-channel views from a dense cache without loading an encoder.
-
-    The mask acts on each dense token before pooling. Because mean pooling is linear, the bounded
-    implementation applies the same mask to the pooled row, while retaining hashes of the exact
-    source row, channel mask, and resulting shared view. ``strict_run_identity=False`` exists only
-    for programmatic mechanics fixtures and is recorded as non-promotable.
-    """
 
     root = Path(cache).resolve()
     problems = validate_cache(root, citable=True)
@@ -1048,7 +1030,6 @@ def _active_heavy_processes() -> list[dict[str, Any]]:
 
 
 def registration_audit(task_config: dict[str, Any]) -> dict[str, Any]:
-    """Bind the task seam to the registered E6 config and DR14 script mirror."""
 
     problems: list[str] = []
     registry_raw = yaml.safe_load((REPO_ROOT / "registry/experiments.yaml").read_text())
@@ -1158,7 +1139,6 @@ def no_heavy_preflight(
     task_config: Path | str = DEFAULT_TASK_CONFIG,
     input_manifest: Path | str | None = None,
 ) -> dict[str, Any]:
-    """Audit runtime, wiring, and optional inputs without constructing a model or reading weights."""
 
     config_path = Path(task_config).resolve()
     raw = yaml.safe_load(config_path.read_text())

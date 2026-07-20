@@ -1,12 +1,3 @@
-"""Independent structural closure for the completed frozen G1-D1 aggregate.
-
-This verifier intentionally does not regenerate scientific observations.  It
-independently checks the aggregate's exact field inventory, self-seal, frozen
-centroid identity, rung inventory, summary arithmetic, and preregistered gate
-logic.  A clean verification can therefore close the generated design as a
-nonconfirmatory operational prune without presenting the check as separately
-authored scientific generation.
-"""
 
 from __future__ import annotations
 
@@ -180,7 +171,6 @@ _BYTE_BOUND_FIELDS = frozenset(
 
 
 def canonical_bytes(value: Any) -> bytes:
-    """Return the repository's stable JSON representation."""
 
     return json.dumps(
         value,
@@ -192,7 +182,6 @@ def canonical_bytes(value: Any) -> bytes:
 
 
 def canonical_sha256(value: Any) -> str:
-    """Hash a value using the stable JSON representation."""
 
     return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
@@ -445,7 +434,6 @@ def _validate_phase(value: Any, phase_name: str) -> bool:
 
 
 def validate_frozen_aggregate(value: Mapping[str, Any]) -> None:
-    """Validate the exact frozen aggregate without invoking its producer."""
 
     aggregate = _require_mapping(value, "frozen D1 aggregate")
     _require_exact_fields(aggregate, _AGGREGATE_FIELDS, "frozen D1 aggregate")
@@ -618,7 +606,6 @@ def _classification_from_gates(
 
 
 def classify_frozen_aggregate(value: Mapping[str, Any]) -> dict[str, Any]:
-    """Return a preliminary classification pending raw-rung replay."""
 
     validate_frozen_aggregate(value)
     decision = _require_mapping(value["decision"], "frozen D1 decision")
@@ -630,7 +617,6 @@ def classify_frozen_aggregate(value: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def verify_frozen_aggregate(value: Mapping[str, Any]) -> dict[str, Any]:
-    """Build a sealed preliminary summary check pending raw-rung replay."""
 
     classification = classify_frozen_aggregate(value)
     phases = _require_mapping(value["phases"], "frozen D1 phases")
@@ -679,7 +665,6 @@ def verify_frozen_aggregate(value: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def validate_verification(value: Mapping[str, Any]) -> None:
-    """Validate a preliminary summary receipt's exact fail-closed semantics."""
 
     verification = _require_mapping(value, "frozen D1 verification")
     _require_exact_fields(verification, _VERIFICATION_FIELDS, "frozen D1 verification")
@@ -1130,7 +1115,6 @@ def build_byte_bound_verification(
     *,
     rung_root: Path = DEFAULT_RUNG_ROOT,
 ) -> dict[str, Any]:
-    """Bind the structural closure to the exact source-file bytes read once."""
 
     aggregate, raw, resolved = _read_regular_aggregate(path)
     verification = verify_frozen_aggregate(aggregate)
@@ -1258,7 +1242,6 @@ def validate_byte_bound_verification(
     source_path: Path | None = None,
     rung_root: Path | None = None,
 ) -> None:
-    """Validate a byte-bound closure and optionally replay its source binding."""
 
     artifact = _require_mapping(value, "byte-bound frozen D1 verification")
     _require_exact_fields(
@@ -1356,7 +1339,6 @@ def materialize_frozen_verification(
     *,
     rung_root: Path = DEFAULT_RUNG_ROOT,
 ) -> dict[str, Any]:
-    """Atomically write and replay a byte-bound structural verification artifact."""
 
     artifact = build_byte_bound_verification(source_path, rung_root=rung_root)
     validate_byte_bound_verification(artifact)
@@ -1397,7 +1379,6 @@ def materialize_frozen_verification(
 
 
 def load_and_verify_frozen_aggregate(path: Path = DEFAULT_RESULT) -> dict[str, Any]:
-    """Explicitly load and verify an aggregate; no evidence is read at import time."""
 
     value, _, _ = _read_regular_aggregate(path)
     verification = verify_frozen_aggregate(value)

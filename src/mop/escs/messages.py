@@ -1,11 +1,3 @@
-"""Representation-neutral, provenance-bearing claims for the ESCS chassis.
-
-The types in this module are mechanics, not evidence that heterogeneous actors can
-communicate usefully.  A claim shares identity and epistemic metadata, while its
-payload remains opaque bytes in a declared form.  Receivers fail closed unless the
-schema, content digest, event ancestry, branch, referents, producer state, and
-freshness all validate.
-"""
 
 from __future__ import annotations
 
@@ -53,7 +45,6 @@ def _require_canonical(values: tuple[str, ...], label: str) -> None:
 
 
 def epistemic_rank(status: EpistemicStatus) -> int:
-    """Return derivation depth without inventing a second epistemic type."""
 
     return {
         EpistemicStatus.OBSERVED_CANDIDATE: 0,
@@ -64,7 +55,6 @@ def epistemic_rank(status: EpistemicStatus) -> int:
 
 @dataclass(frozen=True, slots=True)
 class ClaimSchema:
-    """A finite, content-addressed contract for one family of claim payloads."""
 
     schema_id: str
     version: int
@@ -111,11 +101,6 @@ class ClaimSchema:
 
 
 class SchemaRegistry:
-    """Immutable schema lookup used by a receiver.
-
-    Silent schema creation would make corruption indistinguishable from adaptation,
-    so all schemas are supplied up front and duplicate identifiers are rejected.
-    """
 
     def __init__(self, schemas: Iterable[ClaimSchema]):
         rows = tuple(schemas)
@@ -138,7 +123,6 @@ class SchemaRegistry:
 
 @dataclass(frozen=True, slots=True)
 class ClaimHeader:
-    """Shared symbolic header; no payload representation is privileged."""
 
     message_id: str
     wire_schema: str
@@ -202,7 +186,6 @@ class ClaimHeader:
         _require_digest(self.payload_digest, "payload_digest")
 
     def identity_payload(self) -> dict[str, Any]:
-        """Identity fields excluding the identity itself."""
 
         return {
             "wire_schema": self.wire_schema,
@@ -234,7 +217,6 @@ class ClaimHeader:
 
 @dataclass(frozen=True, slots=True)
 class ClaimMessage:
-    """An immutable typed header paired with opaque payload bytes."""
 
     header: ClaimHeader
     payload_bytes: bytes
@@ -324,7 +306,6 @@ class ClaimMessage:
 
 @dataclass(frozen=True, slots=True)
 class EventClaimEvidence:
-    """Receiver-visible event facts required to validate one claim source."""
 
     event_id: str
     event_kind: str
@@ -351,7 +332,6 @@ class EventClaimEvidence:
 
 @dataclass(frozen=True, slots=True)
 class ClaimValidationContext:
-    """Complete bounded receiver context; omissions cause rejection, never guessing."""
 
     now_tick: int
     branch_id: str
@@ -442,7 +422,6 @@ def validate_claim(
     schemas: SchemaRegistry,
     context: ClaimValidationContext,
 ) -> ClaimValidation:
-    """Validate a claim without repair or implicit epistemic conversion."""
 
     faults: list[ClaimFault] = []
     header = message.header

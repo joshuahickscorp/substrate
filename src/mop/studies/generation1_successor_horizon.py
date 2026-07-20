@@ -1,13 +1,3 @@
-"""Bounded post-consolidation robustness horizon for Generation 1.
-
-The horizon deliberately starts after the existing consolidated-v1 authority.
-It adds five disjoint, result-gated robustness epochs.  Each epoch is split into
-sub-five-hour supervisor capsules, checkpoints every underlying work item, and
-publishes a sealed classification before the next epoch is admitted.
-
-This is same-code robustness evidence.  It never becomes independent scientific
-confirmation merely because it uses more seeds or compute.
-"""
 
 from __future__ import annotations
 
@@ -56,11 +46,6 @@ EPOCH_CYCLES = tuple(FIRST_FRESH_CYCLE + index for index in range(len(EPOCH_IDS)
 D1_SHARD_COUNT = 5
 MECHANICS_SHARD_COUNT = 8
 RETRY_LIMIT = 3
-# Declared idle-host pool ceiling: the measured Hawking-idle aggregate throughput peak on this host
-# (dynamic_worker_controller.WORKER_CEILING = 20; 24 workers regress). The ACTUAL pool width floats
-# dynamically from 1 to this ceiling with live host load (see _dynamic_pool_width); this constant is
-# only the declared ceiling recorded in each shard execution block and the planning divisor, never the
-# fluctuating instantaneous count, so every sealed planning field stays deterministic.
 IDLE_WORKERS = 20
 HAWKING_WORKERS = 1
 
@@ -232,7 +217,6 @@ def d1_partitions() -> tuple[tuple[int, ...], ...]:
 
 
 def mechanics_partitions() -> tuple[tuple[int, ...], ...]:
-    """Return stable contiguous shards balanced by the sealed planning rates."""
 
     costs = [
         item.seed_count * mechanics.PLANNED_SECONDS_PER_SEED[item.mechanism] for item in mechanics.WORK_ITEMS
@@ -537,19 +521,6 @@ def validate_shard(
 
 
 def _dynamic_pool_width(pending_count: int) -> tuple[int, int | None]:
-    """Size the process pool from live host load, floating in ``[1, min(IDLE_WORKERS, pending)]``.
-
-    The pool width is a WALL-TIME lever only: it is passed to ``ProcessPoolExecutor(max_workers=...)``
-    and is never written to any receipt, so every seeded-sha256 capsule result is byte-identical at
-    any width. ``IDLE_WORKERS`` (20) is the declared ceiling; the dynamic worker controller floats the
-    instantaneous width beneath it with the live host state, backing off fast under the external
-    Hawking workload and ramping back toward the ceiling when the host is idle. The controller is
-    imported lazily so the wave pays no import cost at module load. If it cannot sample a live host
-    (psutil absent or a refusal) the width falls back to the static ``min(IDLE_WORKERS, pending)``
-    exactly as before, so the wave never fails to run. Returns ``(width, nice_level)`` where
-    ``nice_level`` is the controller's advisory worker priority, or ``None`` when no live sample was
-    available (the fallback path applies no initializer).
-    """
 
     static_cap = min(IDLE_WORKERS, pending_count)
     if static_cap <= 1:
@@ -566,12 +537,6 @@ def _dynamic_pool_width(pending_count: int) -> tuple[int, int | None]:
 
 
 def _pool_worker_priority_init(nice_level: int) -> None:
-    """Best-effort worker priority: nudge each pool worker toward the advised nice level.
-
-    Never fatal and never touches a receipt: OS scheduling priority does not enter the seeded sha256
-    capsule result, so this only changes how the surviving pool yields cores to the external Hawking
-    workload by priority. Any failure is swallowed.
-    """
 
     with suppress(Exception):
         os.nice(int(nice_level))
@@ -622,9 +587,6 @@ def run_shard(
     first_wave = not receipts
     while len(receipts) < len(effective):
         pending = [work for work in effective if work.key not in receipts]
-        # Size the pool dynamically from live host load. The width and priority are wall-time levers
-        # only and never enter any shard receipt, so every seeded-sha256 capsule result is
-        # byte-identical at any width; the sealed idle_workers/hawking_workers fields stay fixed.
         width, nice_level = _dynamic_pool_width(len(pending))
         wave = pending[: 1 if first_wave else width]
         first_wave = False

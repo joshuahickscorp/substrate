@@ -1,11 +1,3 @@
-"""Fail-closed join for the terminal governed P5 evidence chain.
-
-The potential atlas and extended-compute matrix describe the latest durable P5
-state, not an earlier host-admission attempt.  This module validates every
-completed governor leg against the current policy's reviewed legacy-baseline
-compatibility contract, then joins the smoke, pilot, fresh challenge, and
-independent verifier artifacts by exact hashes and terminal semantics.
-"""
 
 from __future__ import annotations
 
@@ -277,12 +269,6 @@ def p5_terminal_evidence(
     *,
     documents: Mapping[str, dict[str, Any]] | None = None,
 ) -> tuple[list[str], dict[str, Any]]:
-    """Return problems and a compact terminal P5 summary.
-
-    Any missing leg, historical-governor compatibility failure, self-seal
-    mismatch, stale source binding, cross-artifact hash mismatch, or semantic
-    promotion drift withholds the summary.
-    """
 
     repo_root = repo_root.resolve()
     loaded, problems = _load_documents(repo_root, documents)

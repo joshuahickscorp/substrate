@@ -1,9 +1,3 @@
-"""Unit tests for the niche-dispatch scaffold (epoch G1 sub-questions C1, C2, D1).
-
-These tests exercise the reproduction, disjointness, complementarity, and dispatch-value contracts.
-They assert fail-closed refusals, digest stability, determinism under seed, control-set completeness,
-the off-by-default activation gate, and claim-scope integrity. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -35,10 +29,6 @@ from mop.mechanisms.niche_dispatch_scaffold import (
     synthesize_valid_assessments,
 )
 
-# ---------------------------------------------------------------------------
-# Claim scope and capability flag.
-# ---------------------------------------------------------------------------
-
 
 def test_claim_scope_is_byte_identical_to_harness() -> None:
     assert CLAIM_SCOPE == HARNESS_CLAIM_SCOPE
@@ -52,11 +42,6 @@ def test_context_partition_rejects_widened_claim_scope() -> None:
             cells=("cell.000", "cell.001"),
             claim_scope="a capability was demonstrated",
         )
-
-
-# ---------------------------------------------------------------------------
-# C1. Partition, niche declaration, reproduction, disjointness.
-# ---------------------------------------------------------------------------
 
 
 def test_partition_digest_is_stable() -> None:
@@ -122,11 +107,6 @@ def test_synthesize_disjoint_bed_is_deterministic_and_valid() -> None:
     assert first.cells_owned_by("perspective.01") == ("cell.002", "cell.003")
 
 
-# ---------------------------------------------------------------------------
-# C2. Complementarity screening and the EDCM invalid-bed null.
-# ---------------------------------------------------------------------------
-
-
 def test_valid_assessments_pass_edcm_bed() -> None:
     assessments = synthesize_valid_assessments(seed=7, n_perspectives=3, cells_each=2)
     assert_valid_edcm_bed(assessments, evenness_tolerance=0.0)
@@ -189,11 +169,6 @@ def test_complementarity_retention_honesty_check() -> None:
         contract.assert_retention_honest(("perspective.99",))
 
 
-# ---------------------------------------------------------------------------
-# D1. Matched compute and the dispatch value contract.
-# ---------------------------------------------------------------------------
-
-
 def test_matched_budget_must_be_non_vacuous() -> None:
     with pytest.raises(NicheDispatchRefusal, match="non-vacuous"):
         MatchedBudget(params=0, flops=1, wall_ticks=1, dispatch_calls=1)
@@ -241,7 +216,6 @@ def test_dispatch_value_only_claimed_when_beating_every_control() -> None:
         "single-best": 0.79,
         "majority-vote": 0.81,
     }
-    # Ties or losses against majority-vote yield no claim.
     assert contract.may_claim_value(0.81, winning) is False
     assert contract.may_claim_value(0.90, winning) is True
 
@@ -250,11 +224,6 @@ def test_dispatch_value_refuses_incomplete_control_scores() -> None:
     contract = build_default_dispatch_value_contract()
     with pytest.raises(NicheDispatchRefusal, match="cover exactly the declared control family"):
         contract.may_claim_value(0.9, {"all-perspectives": 0.5})
-
-
-# ---------------------------------------------------------------------------
-# E. Activation gate.
-# ---------------------------------------------------------------------------
 
 
 def test_activation_gate_refuses_by_default() -> None:
@@ -282,11 +251,6 @@ def test_activation_gate_accepts_valid_receipt() -> None:
 def test_confirmation_receipt_rejects_unknown_scope() -> None:
     with pytest.raises(NicheDispatchRefusal, match="unsupported activation scope"):
         ConfirmationReceipt(issuer="external.authority", license_sha256="a" * 64, scope="production")
-
-
-# ---------------------------------------------------------------------------
-# Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def test_coverage_lists_every_subquestion_with_two_bullets() -> None:

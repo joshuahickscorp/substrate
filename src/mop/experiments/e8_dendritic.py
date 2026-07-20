@@ -1,12 +1,3 @@
-"""E8: dendritic predictor. A parameter-matched plain MLP head vs a DENDRITIC head whose
-units are gated nonlinear subunits (active-dendrites style): several branch sub-linears whose
-context-gated max forms the unit. Both heads see the SAME domain-incremental latent stream in
-an ONLINE regime (one pass, no epochs, one SGD step per minibatch). We report capacity-per-param
-(final accuracy at matched parameter count), online adaptation speed (steps to a accuracy floor
-on each new domain), and forgetting (mean drop on earlier domains). NULL (Experiment 8): the
-dendritic analogy adds complexity without benefit, so it merely ties the matched MLP. We return
-`dendritic_beats_mlp` as the explicit null check.
-"""
 
 from __future__ import annotations
 
@@ -28,7 +19,6 @@ from .base import Experiment  # noqa: E402
 
 
 class MLPHead(nn.Module):
-    """Plain two-layer MLP head: dim -> hidden -> classes."""
 
     def __init__(self, dim: int, hidden: int, n_classes: int):
         super().__init__()
@@ -40,12 +30,6 @@ class MLPHead(nn.Module):
 
 
 class DendriticHead(nn.Module):
-    """Active-dendrites style head. Each of `hidden` units owns `branches` sub-linears; the
-    unit value is the context-gated MAX over its branches (a gated nonlinear subunit). A
-    per-input context vector (here the input itself) selects which branch dominates via a
-    softmax gate, the interference-reducing mechanism the Iyer et al. precedent targets.
-    Branch count is chosen so total params match the MLP head it is compared against.
-    """
 
     def __init__(self, dim: int, hidden: int, branches: int, n_classes: int):
         super().__init__()
@@ -70,9 +54,6 @@ def _n_params(m: nn.Module) -> int:
 
 
 def _matched_mlp_hidden(dim: int, branches: int, n_classes: int, target: int) -> int:
-    """Pick the plain-MLP hidden width whose param count is closest to `target` (the
-    dendritic head's param count), so the comparison is at MATCHED parameters not added ones.
-    """
     best, best_gap = 1, None
     for h in range(1, 4 * target + 4):
         p = _n_params(MLPHead(dim, h, n_classes))
@@ -85,9 +66,6 @@ def _matched_mlp_hidden(dim: int, branches: int, n_classes: int, target: int) ->
 
 
 def _online_pass(model: nn.Module, stream, device, lr: float, batch: int, floor: float, seed: int):
-    """One online pass over the domain stream: no epochs, one SGD step per minibatch. After
-    each domain finishes, snapshot accuracy on every domain's held-out split. Returns
-    (R matrix [domain_seen][domain_eval], adapt_steps per domain)."""
     seed_everything(seed)
     opt = torch.optim.SGD(model.parameters(), lr=lr)
     R: list[list[float]] = []
@@ -126,7 +104,6 @@ def _eval_all(model: nn.Module, stream, device) -> list[float]:
 
 
 def _forgetting(R: list[list[float]]) -> float:
-    """Mean (peak minus final) over domains seen before the last one. Higher = more forgetting."""
     T = len(R)
     if T < 2:
         return 0.0

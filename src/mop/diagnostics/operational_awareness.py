@@ -1,16 +1,3 @@
-"""Operational-awareness diagnostics: the OA1-OA8 suite of OPERATIONAL_AWARENESS.md.
-
-Operational awareness is measurable self-and-world management: missing-form detection, confidence
-calibration, memory availability, mode selection, compute-value estimation, crisis detection,
-rewrite caution, and report grounding. This is structured self-MONITORING (diagnostics over run
-receipts), NOT self-awareness, consciousness, or any mental-state claim: rendered text is gated by
-north_star.assert_no_sentience_claims, same as the metacognition report. Pure torch and python,
-deterministic, nothing trains. Composes riskcov/calibration primitives instead of duplicating them.
-
-Recorded priors these metrics must respect (OPERATIONAL_AWARENESS.md section 4): the test-time
-compute lane closed with matched-compute nulls, the trained router lost on the real cache, and
-uncertainty gating chased noise. An OA score is reported next to its baseline, never alone.
-"""
 
 from __future__ import annotations
 
@@ -40,7 +27,6 @@ def _as1d(x) -> torch.Tensor:
 
 
 def missing_form_detection(scores, absent) -> dict:
-    """OA1: do detector scores rank truly absent/unreliable forms above present ones (AUROC)."""
     s, a = _as1d(scores), _as1d(absent)
     if s.shape != a.shape:
         raise ValueError(f"scores {tuple(s.shape)} != absence labels {tuple(a.shape)}")
@@ -52,7 +38,6 @@ def missing_form_detection(scores, absent) -> dict:
 
 
 def confidence_calibration(confidences, correct) -> dict:
-    """OA2: does confidence predict correctness (equal-mass ECE, lower better; AUROC, higher)."""
     c, y = _as1d(confidences), _as1d(correct)
     return {
         "ece": ece_equal_mass(c, y),
@@ -62,7 +47,6 @@ def confidence_calibration(confidences, correct) -> dict:
 
 
 def memory_availability(claimed, payoff, *, threshold: float = 0.0) -> dict:
-    """OA3: does the claimed-availability signal rank retrievals that actually paid off higher."""
     c, p = _as1d(claimed), _as1d(payoff)
     useful = (p > threshold).float()
     return {
@@ -73,12 +57,6 @@ def memory_availability(claimed, payoff, *, threshold: float = 0.0) -> dict:
 
 
 def mode_selection(chosen, oracle, random_baseline, fixed_baseline=None) -> dict:
-    """OA4: per-episode scores of the selected mode vs oracle, random, and fixed routing.
-
-    Regret is oracle minus chosen (0 is perfect). The deltas restate the doctrine baselines: a
-    selector that does not beat random and fixed routing has no selection competence, whatever
-    its architecture (the EX-ROUTER-DENSITY lesson).
-    """
     ch, orc, rnd = _as1d(chosen), _as1d(oracle), _as1d(random_baseline)
     if not (ch.shape == orc.shape == rnd.shape):
         raise ValueError("chosen, oracle, and random score vectors must align per episode")
@@ -95,7 +73,6 @@ def mode_selection(chosen, oracle, random_baseline, fixed_baseline=None) -> dict
 
 
 def compute_value(continue_scores, marginal_gains, *, step_cost: float = 0.0) -> dict:
-    """OA5: do continue-computing decisions rank the steps whose marginal gain beat the cost."""
     s, g = _as1d(continue_scores), _as1d(marginal_gains)
     worth_it = (g > step_cost).float()
     return {
@@ -106,7 +83,6 @@ def compute_value(continue_scores, marginal_gains, *, step_cost: float = 0.0) ->
 
 
 def crisis_detection(crisis_scores, failed, raw_error=None) -> dict:
-    """OA6: does the crisis score predict realized substrate failure beyond the raw error signal."""
     s, f = _as1d(crisis_scores), _as1d(failed)
     out = {"auroc": auroc(s, f), "failure_rate": float(f.mean()), "chance": 0.5}
     if raw_error is not None:
@@ -117,7 +93,6 @@ def crisis_detection(crisis_scores, failed, raw_error=None) -> dict:
 
 
 def rewrite_caution(triggered_on_noise, triggered_on_real) -> dict:
-    """OA7: trigger rates on aleatoric-noise streams vs real-failure streams (noisy-TV guard)."""
     noise, real = _as1d(triggered_on_noise), _as1d(triggered_on_real)
     false_rate, true_rate = float(noise.mean()), float(real.mean())
     return {
@@ -128,7 +103,6 @@ def rewrite_caution(triggered_on_noise, triggered_on_real) -> dict:
 
 
 def report_grounding(reported: Mapping[str, object], traced: Mapping[str, object]) -> dict:
-    """OA8: does the self-report match the run trace on the fields both sides state."""
     shared = sorted(set(reported) & set(traced))
     if not shared:
         raise ValueError("report_grounding needs at least one shared field between report and trace")
@@ -141,12 +115,6 @@ def report_grounding(reported: Mapping[str, object], traced: Mapping[str, object
 
 
 def oa_suite(**components: Mapping[str, float] | None) -> dict:
-    """Assemble provided OA component results into one suite receipt.
-
-    There is deliberately NO composite awareness score: aggregating OA1-OA8 into one number would
-    invite exactly the prose escalation the rail exists to stop. The suite names what was measured
-    and what is missing, and each component carries its own baseline.
-    """
     unknown = sorted(set(components) - set(OA_COMPONENTS))
     if unknown:
         raise ValueError(f"unknown OA components {unknown}; allowed {OA_COMPONENTS}")
@@ -160,7 +128,6 @@ def oa_suite(**components: Mapping[str, float] | None) -> dict:
 
 
 def render_oa_md(suite: Mapping, *, level_note: str | None = None) -> str:
-    """Render the suite as markdown, gated by the sentience rail (a claim cannot ship)."""
     from ..devel.north_star import assert_no_sentience_claims
 
     lines = ["## Operational awareness suite", ""]

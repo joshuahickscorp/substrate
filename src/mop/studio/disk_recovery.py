@@ -1,10 +1,3 @@
-"""Disk recovery plans with receipt durability checks.
-
-The laptop can sit exactly on the local profile's free-disk floor. This module makes that state
-auditable: it scans a narrow set of known-generated locations, classifies reclaim candidates, refuses
-tracked files, and blocks deletion when a candidate contains untracked receipt-like text artifacts.
-Deletion is opt-in and still limited by explicit classes or paths.
-"""
 
 from __future__ import annotations
 
@@ -39,7 +32,6 @@ class DiskRecoveryConfig:
 
 
 def build_disk_recovery_plan(config: DiskRecoveryConfig | None = None) -> dict[str, Any]:
-    """Build a disk recovery receipt and optionally delete explicitly allowed safe candidates."""
     cfg = config or DiskRecoveryConfig()
     root = Path(cfg.repo_root).resolve()
     profile = get_profile(cfg.profile_name)
@@ -105,7 +97,6 @@ def write_disk_recovery_plan(plan: dict[str, Any], path: Path | str) -> None:
 
 
 def default_candidate_paths(repo_root: Path | str = REPO_ROOT) -> list[Path]:
-    """Known-generated locations worth inspecting before a disk-floor wave spends compute."""
     root = Path(repo_root).resolve()
     out: list[Path] = []
     for name in sorted(_TOOL_CACHE_NAMES):

@@ -1,18 +1,3 @@
-"""Leg 8C: predictive-coding approximation vs depth.
-
-Predictive coding (Whittington-Bogacz) approximates backprop exactly only in a limit (small
-output error, fixed-point relaxation reached). With finite inference steps the local PC update
-is an approximate credit assignment, and the approximation error compounds across layers. So a
-PC-trained head should track a backprop-trained head of the SAME architecture when shallow and
-fall behind as depth grows. This leg measures that gap on a fixed multiclass latent task.
-
-Both heads are depth-L MLPs (L hidden tanh layers + a linear classifier readout) over the same
-standardized latents and the same init. Backprop is full-batch Adam. PC is the standard layered
-relaxation: per-layer value nodes v_l initialized from the feedforward pass, error nodes
-eps_l = v_l - f(W_l v_{l-1}), input clamped, output error driven by the label; relax the value
-nodes by gradient descent on total squared error, then a local Hebbian weight update
-dW_l ~ eps_l * f'(.) (x) v_{l-1}. No weight transport in the credit path.
-"""
 
 from __future__ import annotations
 
@@ -51,7 +36,6 @@ def _acc(o, y):
 
 
 def _init_weights(d: int, hidden: int, depth: int, classes: int, seed: int):
-    """Shared init for both learners: depth hidden layers (d->h, h->h, ...) then h->classes."""
     g = torch.Generator().manual_seed(seed)
     dims = [d] + [hidden] * depth + [classes]
     return [torch.randn(dims[i + 1], dims[i], generator=g) / dims[i] ** 0.5 for i in range(len(dims) - 1)]
@@ -80,8 +64,6 @@ def _train_backprop(xtr, ytr, xte, yte, W0, depth, epochs, lr):
 
 
 def _train_pc(xtr, ytr, xte, yte, W0, depth, classes, epochs, lr, infer, infer_lr=0.1):
-    """Layered predictive coding. Value nodes v[0..depth+1] (v[0]=input clamped,
-    v[depth+1]=output). Hidden layers use tanh; readout is linear with softmax error."""
     Ws = [w.clone() for w in W0]
     f = torch.tanh
 
@@ -93,7 +75,6 @@ def _train_pc(xtr, ytr, xte, yte, W0, depth, classes, epochs, lr, infer, infer_l
     L = depth + 1  # number of weight layers
 
     for _ in range(epochs):
-        # feedforward init of value nodes
         v = [xtr]
         for li in range(depth):
             v.append(f(v[-1] @ Ws[li].T))
@@ -101,7 +82,6 @@ def _train_pc(xtr, ytr, xte, yte, W0, depth, classes, epochs, lr, infer, infer_l
         v = [vi.clone() for vi in v]
 
         for _ in range(infer):  # relax hidden value nodes 1..depth toward fixed point
-            # prediction errors at each layer: eps_l = v_l - mu_l, mu_l = act(W_{l-1} v_{l-1})
             zpre = [v[li] @ Ws[li].T for li in range(L)]  # pre-activations into v_{l+1}
             mu = [f(zpre[li]) if li < depth else zpre[li] for li in range(L)]
             eps = [v[li + 1] - mu[li] for li in range(L)]
@@ -112,7 +92,6 @@ def _train_pc(xtr, ytr, xte, yte, W0, depth, classes, epochs, lr, infer, infer_l
                 dv = -eps[li - 1] + top
                 v[li] = v[li] + infer_lr * dv
 
-        # local Hebbian weight updates from settled values
         zpre = [v[li] @ Ws[li].T for li in range(L)]
         mu = [f(zpre[li]) if li < depth else zpre[li] for li in range(L)]
         eps = [v[li + 1] - mu[li] for li in range(L)]
@@ -140,22 +119,12 @@ def pc_depth(
     hidden: int = 16,
     seed: int = 0,
 ) -> dict:
-    """Backprop vs predictive-coding accuracy gap as a function of MLP depth.
-
-    Returns per-depth backprop acc, PC acc, and gap (bp_acc - pc_acc), plus whether the gap
-    widens monotonically with depth. Synthetic latents, so provenance is 'provisional'.
-    """
     samples = 400 if toy else 1200
     bp_epochs = 200 if toy else 400
     pc_epochs = 200 if toy else 400
-    # Bounded inference: PC reaches the backprop-equivalent fixed point only with enough
-    # relaxation steps, and the steps needed grow with depth. A fixed modest budget is what
-    # makes the deep-net approximation error (the leg's whole point) observable.
     infer = 8 if toy else 16
 
     seed_everything(seed)
-    # sep low enough that backprop still solves it but the relaxation is non-trivial: at this
-    # difficulty backprop holds ~100% across depths while PC degrades, surfacing the gap.
     x, y, C = _task(dim, classes, samples, sep=0.7, seed=seed)
     xtr, ytr, xte, yte = _prep(x, y, seed=seed)
     chance = 1.0 / C

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Write the DR1 real-video source intake receipt."""
 
 from __future__ import annotations
 

@@ -1,24 +1,4 @@
 #!/usr/bin/env python
-"""Cache a FACTORIZED real-encoder latent store: structured synthetic video in which TWO independent
-visual factors vary (color hue = factor A, motion/orientation = factor B), run through the REAL frozen
-V-JEPA 2 encoder. The content is synthetic but the perceptual geometry is the real encoder's. Unlike the
-single-factor cache_real_encoder.py (where one class index entangles freq/angle/motion/color together),
-this gives two SEPARATELY-DECODABLE factors, which is what held-out-combination and compositionality
-probes need: train on a subset of (A, B) pairs, test whether unseen (A, B) pairs decode above the
-shuffled/frozen-random floor on real encoder features.
-
-Storage: LatentStore has one label channel, so the two factors are encoded as a composite label
-y = a*n_b + b, plus a factors.json sidecar recording n_a/n_b. mop.substrate.real_latent.factorized_arrays
-reverses that into (x, y_a, y_b).
-
-Usage: python scripts/cache_factorized_encoder.py [device=cpu] [+n_a=6] [+n_b=6] [+per=8] [+batch=1]
-The encoder config supplies its native frame count and resolution. Use CPU unless a supervised MPS
-probe for that exact encoder and shape has passed.
-
-Matched architecture control: add `+random_init_control=true +encoder.random_init_seed=<seed>`.
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -52,10 +32,7 @@ log = get_logger("cache_factorized")
 FRAMES, RES = 64, 256
 
 
-
-
 def _tensor_sha256(value: torch.Tensor) -> str:
-    """Hash shape, dtype, and exact CPU bytes for one generated encoder input."""
     tensor = value.detach().cpu().contiguous()
     digest = hashlib.sha256()
     digest.update(str(tuple(tensor.shape)).encode("ascii"))
@@ -72,7 +49,6 @@ def _max_rss_bytes() -> int:
 
 
 def _hue_tint(a: int, n_a: int) -> torch.Tensor:
-    """Factor A: color hue, evenly spaced around the wheel. Independent of factor B."""
     h = a / max(1, n_a)
     return torch.tensor(
         [
@@ -84,10 +60,6 @@ def _hue_tint(a: int, n_a: int) -> torch.Tensor:
 
 
 def make_factorized_clip(a: int, b: int, n_a: int, n_b: int, g: torch.Generator) -> torch.Tensor:
-    """One [T,3,RES,RES] clip. Factor A (a) sets the COLOR HUE only; factor B (b) sets the grating
-    ORIENTATION and DRIFT DIRECTION only. The spatial frequency is held fixed so the two factors are
-    visually independent: any (hue, orientation) combination is realizable, which is what makes
-    held-out-combination decoding a real test rather than an artifact of an entangled 1-D family."""
     lin = torch.linspace(0, 1, RES)
     yy, xx = torch.meshgrid(lin, lin, indexing="ij")
     theta = b * math.pi / max(1, n_b)  # factor B: orientation
@@ -113,8 +85,6 @@ def main(argv: list[str] | None = None) -> int:
     OmegaConf.update(cfg, "encoder.prefer_real", not random_control, force_add=True)
     OmegaConf.update(cfg, "encoder.require_real", not random_control, force_add=True)
     if random_control:
-        # A matched random control only needs the pinned architecture config. It must never retrieve or
-        # deserialize a pretrained shard as a side effect of cache construction.
         OmegaConf.update(cfg, "encoder.local_files_only", True, force_add=True)
     FRAMES = int(cfg.encoder.frames_per_clip)
     RES = int(cfg.encoder.resolution)
@@ -158,7 +128,6 @@ def main(argv: list[str] | None = None) -> int:
         key_dim=int(cfg.encoder.embed_dim),
         has_labels=True,
     )
-    # composite label y = a*n_b + b, interleaved over cells then repeats
     cells = [(a, b) for a in range(n_a) for b in range(n_b)]
     order = [cells[i % len(cells)] for i in range(total)]
     labels = torch.tensor([a * n_b + b for (a, b) in order], dtype=torch.long)
@@ -303,7 +272,6 @@ def main(argv: list[str] | None = None) -> int:
         n_b,
     )
 
-    # immediate diagnostics: are BOTH factors independently decodable from the real latents?
     from mop.diagnostics import linear_probe
     from mop.substrate import factorized_arrays
 
@@ -361,8 +329,6 @@ def main(argv: list[str] | None = None) -> int:
         "hardware_limit_reached": False,
     }
     (store.root / "run_receipt.json").write_text(json.dumps(run_receipt, indent=2, sort_keys=True) + "\n")
-    # Refresh the manifest after the run receipt exists so the performance evidence is fingerprinted
-    # alongside arrays, referents, factors, splits, and the immutable weight identity.
     write_cache_manifest(
         store.root,
         encoder_config=encoder_config,

@@ -1,8 +1,3 @@
-"""WP-12 workspace-layer tests (WS1-WS4). Tiny synthetic dual-source caches only, no network, no
-weights, no encoder loads; noisy-TV runs at reduced steps/dim via cfg overrides. Asserts MECHANICS,
-guard wiring, the WS1 -> WS3 gate, and capmatch discipline, never a particular scientific outcome.
-The capmatch_tol used at toy dims is looser than the preregistered 2 percent DEFAULT because parameter
-granularity at tiny widths is coarse; the DEFAULTS entry (the preregistered value) is asserted intact."""
 
 import json
 
@@ -47,9 +42,6 @@ def _write_cache(root, x, y):
 
 
 def _dual_caches(tmp_path, n=96, da=24, db=20, n_classes=4, noise=0.6, seed=0):
-    """Two genuinely different sources over the SAME clip population: each source sees the class
-    prototypes through its own random projection plus independent noise, so neither is a linear remap
-    of the other and their errors are partly complementary."""
     g = torch.Generator().manual_seed(seed)
     y = torch.arange(n) % n_classes
     proto_a = torch.randn(n_classes, da, generator=g)
@@ -60,9 +52,6 @@ def _dual_caches(tmp_path, n=96, da=24, db=20, n_classes=4, noise=0.6, seed=0):
         "cache_a": _write_cache(tmp_path / "a", za, y.tolist()),
         "cache_b": _write_cache(tmp_path / "b", zb, y.tolist()),
     }
-
-
-# ---------------------------------------------------------------- dual-source loading contract
 
 
 def test_load_dual_source_roundtrip_and_identity_checks(tmp_path):
@@ -84,9 +73,6 @@ def test_split_train_test_is_seeded_and_disjoint():
     tr2, te2 = split_train_test(50, 0.3, seed=3)
     assert torch.equal(tr, tr2) and torch.equal(te, te2)
     assert len(tr) + len(te) == 50 and set(tr.tolist()).isdisjoint(te.tolist())
-
-
-# ---------------------------------------------------------------- WS1 signals + end to end
 
 
 def test_agreement_signal_math():
@@ -131,9 +117,6 @@ def test_ws1_preregistered_defaults_intact():
     assert WS1_DEFAULTS["ceiling"] == 0.97 and WS1_DEFAULTS["seeds"] == (0, 1, 2, 3, 4)
 
 
-# ---------------------------------------------------------------- WS2 capmatch discipline
-
-
 def test_ws2_arms_are_param_matched_and_odd_widths_constructible():
     CrossAttention(6, 5, 3, 7)  # odd request rounds up internally, must never crash the search
     tol = 0.25  # toy-dims granularity; the preregistered tol lives in DEFAULTS
@@ -166,9 +149,6 @@ def test_ws2_end_to_end_tiny(tmp_path):
         for sc in r["scores"].values():
             assert 0.0 <= sc["acc"] <= 1.0 and sc["nll"] >= 0.0
     assert (tmp_path / "run" / "result.json").exists()
-
-
-# ---------------------------------------------------------------- WS3 gate + arbitration mechanics
 
 
 def test_inverse_variance_fuse_prefers_the_confident_source():
@@ -226,9 +206,6 @@ def test_ws3_runs_when_the_gate_is_open(tmp_path):
             "random_routed",
         }
     assert (tmp_path / "run" / "result.json").exists()
-
-
-# ---------------------------------------------------------------- WS4 bottleneck sweep
 
 
 def test_bottleneck_fusion_module_mechanics():

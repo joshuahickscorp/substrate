@@ -1,7 +1,3 @@
-"""Known-answer tests for the four remaining cpu-now scaffolding rows completed after the roots-
-expansion build: difficulty calibration (D3), transfer matrix (D4), replay-buffer compression (A3),
-and latent robustness (A4). These extract/generalize patterns already proven inline (I5's quantize-on-
-store loop, the linear_probe-based comparisons), so the tests check the reusable module directly."""
 
 import torch
 
@@ -56,7 +52,6 @@ def test_transfer_matrix_shape_and_diagonal_high():
     rep = transfer_matrix(pairs, epochs=120, seed=0)
     grid = rep["transfer_matrix"]
     assert len(grid) == 3 and all(len(row) == 3 for row in grid)
-    # a head trained and evaluated on its own separable task should decode far above chance
     assert rep["diag_mean"] > rep["chance"] + 0.2
 
 

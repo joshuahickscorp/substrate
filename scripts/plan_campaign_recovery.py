@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Plan or explicitly execute fail-closed null-safe campaign recovery."""
 
 from mop.studio.campaign_recovery import main
 

@@ -1,26 +1,4 @@
 #!/usr/bin/env python
-"""The CORRECTED substrate test. The corpus control (frozen_random_projection) is a square full-rank
-linear map, hence vacuous for probes (any probe absorbs its inverse; real ties frozen-random by
-construction). That never tested whether V-JEPA's TRAINED features are special. This does, with the right
-control: real V-JEPA features vs RANDOM-PIXEL features (a random projection of the downsampled raw pixels,
-i.e. untrained-network-style features), on content with heavy NUISANCE variation.
-
-Content: a shape identity is the class (circle/square/triangle/cross/...), but each clip randomizes
-position, scale, rotation, color, background clutter, and motion. Within a shape class the raw pixels vary
-wildly, so random-pixel features (no learned invariance) should struggle to decode shape, while V-JEPA
-(trained to be invariant to position/scale/appearance) should decode it robustly. If real V-JEPA beats
-random-pixel features here, the encoder does real perceptual work (the substrate IS special, and the fork
-reopens toward keeping it). If they tie even here, the substrate adds nothing over random features.
-
-This is the honest "does pretraining beat random features" test, on the axis pretraining is supposed to
-help: invariance to nuisance. It is NOT ceiling-prone by construction (nuisance makes raw-pixel decoding
-hard) and NOT tautological (the two feature spaces are genuinely different, not linear maps of each other).
-
-Usage: python scripts/substrate_vs_random_features.py --n-shape 6 --per 16 \
-    --out runs/pre_studio/substrate_vs_random.json   (device=cpu)
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -52,7 +30,6 @@ def _hue(c: float) -> torch.Tensor:
 
 
 def _shape_mask(shape, cx, cy, r, rot, yy, xx):
-    # rotate the coordinate frame by rot around (cx, cy) so asymmetric shapes carry orientation nuisance
     dx0, dy0 = xx - cx, yy - cy
     ca, sa = math.cos(rot), math.sin(rot)
     dx, dy = ca * dx0 - sa * dy0, sa * dx0 + ca * dy0
@@ -66,14 +43,11 @@ def _shape_mask(shape, cx, cy, r, rot, yy, xx):
         return ((dx.abs() <= r) & (dy.abs() <= r / 3)) | ((dy.abs() <= r) & (dx.abs() <= r / 3))
     if shape == 4:  # diamond
         return (dx.abs() + dy.abs()) <= r
-    # ring
     d2 = dx * dx + dy * dy
     return (d2 <= r * r) & (d2 >= (0.5 * r) ** 2)
 
 
 def make_nuisance_clip(shape: int, g: torch.Generator) -> torch.Tensor:
-    """A clip whose CLASS is the shape identity, with heavy nuisance: random position, scale, rotation,
-    hue, background clutter, and motion. Raw pixels vary wildly within a shape class."""
     lin = torch.linspace(-1, 1, RES)
     yy, xx = torch.meshgrid(lin, lin, indexing="ij")
     r = 0.15 + 0.2 * float(torch.rand(1, generator=g))  # random scale
@@ -83,7 +57,6 @@ def make_nuisance_clip(shape: int, g: torch.Generator) -> torch.Tensor:
     y0 = -0.5 + float(torch.rand(1, generator=g))
     vx = 0.4 * (float(torch.rand(1, generator=g)) - 0.5)  # random motion
     vy = 0.4 * (float(torch.rand(1, generator=g)) - 0.5)
-    # background clutter: a few random faint blobs (nuisance texture)
     bg = 0.3 + 0.1 * torch.randn(3, RES, RES, generator=g)
     for _ in range(3):
         bcx, bcy = 2 * float(torch.rand(1, generator=g)) - 1, 2 * float(torch.rand(1, generator=g)) - 1
@@ -104,9 +77,6 @@ def make_nuisance_clip(shape: int, g: torch.Generator) -> torch.Tensor:
 def random_pixel_features(
     clip: torch.Tensor, proj: torch.Tensor, ds: int = 32, tsub: int = 8
 ) -> torch.Tensor:
-    """Untrained 'random features' baseline: downsample the clip (avg-pool space + subsample time),
-    flatten, and apply a FIXED random projection to the V-JEPA embed dim, renormalized. This is what
-    random (untrained) features of the raw pixels look like, the honest 'does pretraining help' control."""
     c = clip  # [T,3,H,W]
     c = c[:: (FRAMES // tsub)][:tsub]  # subsample time -> [tsub,3,H,W]
     c = F.avg_pool2d(c, kernel_size=RES // ds)  # -> [tsub,3,ds,ds]

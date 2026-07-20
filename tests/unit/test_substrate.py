@@ -23,7 +23,6 @@ def test_frozen_encoder_has_no_grad_params():
 def test_frozen_encoder_never_accumulates_grad():
     enc = FrozenEncoder(EncoderSpec("t", 16, dense=False, pool="mean"))
     z = enc.encode(torch.randn(3, 3, 2, 8, 8))
-    # encoder output is detached (no_grad); downstream cannot push grad into it
     assert not z.requires_grad
 
 
@@ -189,7 +188,6 @@ def test_make_task_stream_class_incremental():
     )
     assert len(tasks) == 3
     assert tasks[0].n_classes == 6
-    # class-incremental: later tasks use higher label ids
     assert tasks[2].y.min() >= 4
     assert tasks[0].x.shape == (40, 32)
 
@@ -203,5 +201,4 @@ def test_make_task_stream_forward_dynamics():
 def test_noisy_tv_structure():
     d = noisy_tv_dataset(dim=32, n=64, seed=2)
     assert set(d) == {"learnable", "noise"}
-    # noise target variance >> learnable target variance (irreducible)
     assert d["noise"].xnext.var() > d["learnable"].xnext.var()

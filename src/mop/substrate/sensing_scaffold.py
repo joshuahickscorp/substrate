@@ -75,8 +75,6 @@ def _require_id(value: str, label: str) -> None:
         raise ScaffoldRefusal(f"{label} must use stable lowercase characters")
 
 
-
-
 def _seeded_bytes(seed: int, label: str, count: int) -> bytes:
 
     if seed < 0 or count < 0:
@@ -388,8 +386,6 @@ class NativeAudioFormContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class UniqueInformationMetricContract:
 
@@ -504,8 +500,6 @@ def apply_slot_removal(
     }
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class RightsFieldDeclaration:
 
@@ -596,8 +590,6 @@ def assert_natural_experiment_admissible(card: SourceCard, requested_use: str) -
             raise ScaffoldRefusal(
                 f"restricted authority refused: {requested_use!r} needs cleared {name!r} on {card.source_id}"
             )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -877,8 +869,6 @@ def build_causal_binding_contract(bundle: ScenarioBundle) -> CausalCrossmodalBin
         synchronous_unrelated_left_ref=wrong_event.left_observation_ref,
         synchronous_unrelated_right_ref=wrong_event.right_observation_ref,
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)

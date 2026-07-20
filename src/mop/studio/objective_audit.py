@@ -1,9 +1,3 @@
-"""Studio objective audit.
-
-This receipt is a conservative, point-by-point audit of the active Studio 10/10 objective. It does not
-award scientific credit for local launch prep. Instead it names which requirement points are proved by
-current receipts, which are only launch-prepared, and which still need M1 Ultra evidence.
-"""
 
 from __future__ import annotations
 
@@ -44,7 +38,6 @@ def build_studio_objective_audit(
     repo_root: Path | str = REPO_ROOT,
     paths: dict[str, str | Path] | None = None,
 ) -> dict[str, Any]:
-    """Build a point-by-point audit of the Studio objective from local receipts."""
     root = Path(repo_root)
     resolved = {**DEFAULT_PATHS, **{k: str(v) for k, v in (paths or {}).items()}}
     receipts = {name: _load_json(root / rel) for name, rel in resolved.items()}
@@ -81,14 +74,12 @@ def build_studio_objective_audit(
 
 
 def load_json(path: Path | str | None) -> dict[str, Any] | None:
-    """Load a JSON object if it exists."""
     if path is None:
         return None
     return _load_json(Path(path))
 
 
 def write_studio_objective_audit(audit: dict[str, Any], path: Path | str) -> None:
-    """Write the objective-audit receipt."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(audit, indent=2, default=str) + "\n")

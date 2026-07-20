@@ -1,8 +1,3 @@
-"""A3: replay-buffer compression. Quantizing stored replay latents to fewer bits trades memory for
-distortion; this is the reusable retention-per-byte diagnostic (the pattern I5 rate-distortion replay
-already exercises inline, generalized here so other experiments can call it directly instead of
-hand-rolling the continual + quantize-on-store loop).
-"""
 
 from __future__ import annotations
 
@@ -15,9 +10,6 @@ from .substrate_ablation import quantize_dequantize
 
 
 def _bwt_at_bits(tasks, dim: int, n_classes: int, bits: int, epochs: int, lr: float, seed: int) -> float:
-    """Train continually over `tasks` ([.x, .y] per task), replaying each task's latents quantized to
-    `bits` (bits=32 means unquantized). Returns backward transfer on task 0: acc after the full stream
-    minus acc right after task 0 (negative = forgetting)."""
     from ..shell.buffer import ReplayBuffer
 
     seed_everything(seed)
@@ -49,10 +41,6 @@ def _bwt_at_bits(tasks, dim: int, n_classes: int, bits: int, epochs: int, lr: fl
 def retention_per_byte(
     tasks, dim: int, n_classes: int, bits=(32, 8, 4, 2), epochs: int = 40, lr: float = 0.05, seed: int = 0
 ) -> dict:
-    """Sweep stored-latent bit depth; return backward_transfer per bit level, bytes-per-exemplar at each
-    level (dim * bits / 8), and whether a clear retention-per-byte frontier separates from the
-    full-precision (32-bit) arm (low-bit replay ties full precision => memory is cheap here; collapses
-    early => memory needs precision)."""
     curve = {b: round(_bwt_at_bits(tasks, dim, n_classes, b, epochs, lr, seed), 4) for b in bits}
     bytes_per_exemplar = {b: round(dim * b / 8, 2) for b in bits}
     full = curve[max(bits)]

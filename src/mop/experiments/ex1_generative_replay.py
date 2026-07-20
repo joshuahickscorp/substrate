@@ -1,20 +1,3 @@
-"""EX1: generative latent replay (dreaming) vs stored-buffer replay. A tiny per-class diagonal-
-Gaussian generator is fit on task-0 latents (an honest MVP flow/VAE stand-in: mean + diagonal
-variance per class, sampled with reparameterized Gaussian noise). On task 1, three arms train at
-MATCHED replay-sample budget: no replay, stored-buffer replay (real cached task-0 latents via
-shell.buffer.ReplayBuffer), and generated replay (pseudo-latents drawn from the fitted generator).
-
-NULL: generated replay does not match stored-buffer replay on backward transfer (BWT) for task 0
-at matched budget; the distribution gap between generated and real latents costs retention. We
-quantify the gap directly with generator_probe_transfer: a linear probe fit on GENERATED task-0
-latents, evaluated on REAL task-0 latents (low transfer = the generator does not cover the real
-manifold, which is the mechanistic reason any BWT shortfall would occur). Negative-result taxonomy
-slot 4 (predictor/generator too weak) if generated replay underperforms; slot 10-adjacent (the toy
-scale trivializes fitting a diagonal Gaussian, so a tie/win is also a legitimate honest outcome).
-cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -34,10 +17,6 @@ from .base import Experiment
 
 
 class _DiagGaussianGenerator:
-    """Per-class diagonal-Gaussian latent generator, fit by closed-form moment matching. This is
-    the honest MVP called out in the build brief: not a trained VAE/flow, just a per-class
-    mean+diag-variance fit, sampled by reparameterization. Cheap, toy-scale, and named for what
-    it is (no obscuring the toy-ness behind a fancier label)."""
 
     def __init__(self, x: torch.Tensor, y: torch.Tensor, n_classes: int, eps: float = 1e-3):
         self.n_classes = n_classes
@@ -69,8 +48,6 @@ def _fit_eval_epochs(
     replay_x: torch.Tensor | None,
     replay_y: torch.Tensor | None,
 ) -> float:
-    """Train `model` on (xtr, ytr), interleaving (replay_x, replay_y) each step if given (the
-    matched-budget replay arms). Returns held-out accuracy on (xte, yte)."""
     opt = torch.optim.Adam(model.parameters(), lr=lr)
     for _ in range(epochs):
         opt.zero_grad()
@@ -130,17 +107,13 @@ class EX1(Experiment):
             x0tr, y0tr, x0te, y0te = t0.x[:cut0], t0.y[:cut0], t0.x[cut0:], t0.y[cut0:]
             x1tr, y1tr = t1.x[:cut1], t1.y[:cut1]
 
-            # fit the per-class generator on task-0 TRAIN latents only
             gen = _DiagGaussianGenerator(x0tr, y0tr, nc)
             g = torch.Generator().manual_seed(s)
             xgen, ygen = gen.sample(replay_budget, g)
 
-            # generator_probe_transfer: linear probe fit on GENERATED task-0 latents, tested on REAL
-            # task-0 latents (the direct measure of the generator's distribution gap)
             probe_real = _eval_linear_on(xgen, ygen, x0te, y0te, seed=s)
             probe_transfer.append(probe_real)
 
-            # stored-buffer replay: real cached task-0 samples via the shell ReplayBuffer
             buf = ReplayBuffer(capacity=max(replay_budget, x0tr.shape[0]), dim=dim, seed=s)
             buf.add(x0tr, y0tr)
             sampled = buf.sample(min(replay_budget, len(buf)))
@@ -188,8 +161,6 @@ class EX1(Experiment):
             "seeds": list(seeds),
             "generated_beats_noreplay": bool(gap_vs_noreplay > tie_tol),
             "generated_ties_stored": bool(abs(gap_vs_stored) <= tie_tol),
-            # the explicit null: generated replay fails to match stored-buffer replay (ties or
-            # loses), i.e. it does NOT clearly beat stored-buffer replay outside the tie band
             "null_supported": null_supported,
         }
         return out
@@ -201,9 +172,6 @@ def _eval(model: nn.Module, x: torch.Tensor, y: torch.Tensor) -> float:
 
 
 def _eval_linear_on(xtr, ytr, xte, yte, seed: int, epochs: int = 200, lr: float = 0.05) -> float:
-    """Fit a single linear layer on (xtr, ytr) [generated], evaluate on (xte, yte) [real]. This is
-    generator_probe_transfer: how much of the generated-latent decision boundary carries over to
-    the real distribution, the direct measure of the generator's distribution gap."""
     seed_everything(seed)
     n_classes = int(max(int(ytr.max()), int(yte.max())) + 1)
     head = nn.Linear(xtr.shape[1], n_classes)
@@ -217,7 +185,4 @@ def _eval_linear_on(xtr, ytr, xte, yte, seed: int, epochs: int = 200, lr: float 
 
 
 def _frontier_auc_from_bwt(bwt_mean: dict[str, float]) -> float:
-    """A compact frontier scalar for this experiment: retention (1+BWT, clamped >=0) averaged
-    across replay arms, weighting the comparison the way the corpus frontier does (adaptation is
-    not the axis under test here, since task-1 training is identical across arms; retention is)."""
     return round(float(sum(max(0.0, 1.0 + v) for v in bwt_mean.values()) / len(bwt_mean)), 4)

@@ -1,16 +1,3 @@
-"""Tests for the stability vs plasticity runner: determinism and fail-closed on the P6 split.
-
-The runner measures retention and future-learnability for the mechanism and each control on both
-regimes and mints a mechanics-demonstration receipt. The load-bearing guarantees pinned here:
-
-- Determinism: the same bed and seed give a byte-identical result and receipt digest.
-- The NULL regime always mints ``null``; the split genuinely holds there (not a both-axes win).
-- The FAVORABLE regime mints ``mechanics-ok`` only for a strict both-axes win over every control.
-- Improving only retention, or only future-learnability, is NOT mechanics-ok: that is the split.
-- The receipt is never a scientific confirmation.
-
-No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -60,11 +47,6 @@ def _crafted(
     )
 
 
-# ---------------------------------------------------------------------------
-# Structural conformance.
-# ---------------------------------------------------------------------------
-
-
 def test_bed_and_runner_conform_to_protocols() -> None:
     assert isinstance(_bed(), Bed)
     assert isinstance(_runner(), MechanismRunner)
@@ -76,11 +58,6 @@ def test_bed_declares_the_control_family_and_a_non_vacuous_budget() -> None:
     assert bed.controls() == REQUIRED_CONTROLS
     budget = bed.matched_cost()
     assert budget.params > 0 and budget.flops > 0 and budget.wall_ns > 0 and budget.seeds > 0
-
-
-# ---------------------------------------------------------------------------
-# Determinism.
-# ---------------------------------------------------------------------------
 
 
 def test_run_is_deterministic() -> None:
@@ -99,11 +76,6 @@ def test_readings_are_reproducible_at_the_source() -> None:
     assert run_all(stream) == run_all(stream)
 
 
-# ---------------------------------------------------------------------------
-# The null regime holds the split: always null, never a both-axes win.
-# ---------------------------------------------------------------------------
-
-
 def test_null_regime_holds_the_split_and_mints_null() -> None:
     runner, bed = _runner(), _bed()
     for seed in SEEDS:
@@ -112,11 +84,6 @@ def test_null_regime_holds_the_split_and_mints_null() -> None:
         receipt = runner.mint(result)
         assert receipt.verdict == VERDICT_NULL
         assert receipt.is_confirmation is False
-
-
-# ---------------------------------------------------------------------------
-# The favorable regime mints mechanics-ok on a strict both-axes win.
-# ---------------------------------------------------------------------------
 
 
 def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
@@ -133,11 +100,6 @@ def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
         assert receipt.stage == FIRST_ACTIVATION_STAGE
         assert receipt.requirement_id == REQUIREMENT_ID
         assert receipt.is_confirmation is False
-
-
-# ---------------------------------------------------------------------------
-# Fail-closed on the split: a single-axis win is never mechanics-ok.
-# ---------------------------------------------------------------------------
 
 
 def test_only_retention_improved_is_not_mechanics_ok() -> None:
@@ -176,11 +138,6 @@ def test_a_tie_on_an_axis_is_not_a_strict_win() -> None:
     assert result.retention_margin == 0.0
     assert result.both_axes_win is False
     assert runner.mint(result).verdict == VERDICT_NULL
-
-
-# ---------------------------------------------------------------------------
-# Digest stability and receipt honesty.
-# ---------------------------------------------------------------------------
 
 
 def test_evidence_digest_is_stable_and_well_formed() -> None:

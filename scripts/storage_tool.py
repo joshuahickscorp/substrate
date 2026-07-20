@@ -1,15 +1,4 @@
 #!/usr/bin/env python
-"""Disk accounting for the latent cache: estimate before you compute, list what is on disk,
-prune SAFELY. Pruning defaults to a dry run and refuses to delete without an explicit --apply.
-
-Usage:
-  python scripts/storage_tool.py estimate --encoder vjepa2_vitl_fpc64_256 --clips 10000 [--dense]
-  python scripts/storage_tool.py estimate --count 1000 --feat 1024            # raw shape form
-  python scripts/storage_tool.py list   [--root data/cache]
-  python scripts/storage_tool.py prune  --keep vjepa2_vitl_fpc64_256_real [--root data/cache]
-  python scripts/storage_tool.py prune  --keep <name> --apply                # actually deletes
-JSON to stdout, human log lines to stderr. `prune` without --apply is a dry run (deletes nothing).
-"""
 
 from __future__ import annotations
 

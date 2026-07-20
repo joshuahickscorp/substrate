@@ -1,9 +1,3 @@
-"""Resumable mechanics runner for a disk-backed continual event stream.
-
-The runner is intentionally small. A deterministic count learner exercises replay, no-replay, and
-fresh-init controls with matched update counts. The registered EX13 harness remains the scientific
-experiment contract; this module only closes stream, resume, lifecycle, and metric plumbing gaps.
-"""
 
 from __future__ import annotations
 
@@ -386,11 +380,6 @@ def run_smoke_arm(
     checkpoint_path: Path | str,
     event_budget: int | None = None,
 ) -> dict[str, Any]:
-    """Run or resume one bounded mechanics arm.
-
-    ``event_budget`` limits events processed by this invocation. It exists to test interruption and
-    exact resume. Omitting it processes the remaining stream.
-    """
 
     if arm not in ARMS:
         raise ValueError(f"unknown continual smoke arm {arm!r}")

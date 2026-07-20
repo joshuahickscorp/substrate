@@ -1,9 +1,3 @@
-"""Unit tests for the cross-seed cognitive-trace stability scaffold (epoch G1-C0).
-
-These tests exercise the contracts, the deterministic agreement mechanics, the fail-closed verdict,
-and the mechanism license gate. They assert determinism and refusal behavior. No capability is
-claimed anywhere.
-"""
 
 from __future__ import annotations
 
@@ -46,11 +40,6 @@ def _verdict(
     )
 
 
-# ---------------------------------------------------------------------------
-# Claim scope and module-level invariants.
-# ---------------------------------------------------------------------------
-
-
 def test_claim_scope_constant_value() -> None:
     assert CLAIM_SCOPE == "deterministic programmatic mechanics only; no capability or natural-data claim"
     assert SCIENTIFIC_CAPABILITY_CLAIM is False
@@ -59,11 +48,6 @@ def test_claim_scope_constant_value() -> None:
 def test_stability_metric_vocabulary_is_fixed() -> None:
     assert STABILITY_METRICS == ("rank-correlation", "sign-agreement", "effect-direction")
     assert MIN_SEEDS >= 8
-
-
-# ---------------------------------------------------------------------------
-# Contract bar.
-# ---------------------------------------------------------------------------
 
 
 def test_contract_digest_is_stable() -> None:
@@ -155,11 +139,6 @@ def test_controls_completeness_helper() -> None:
         assert_controls_complete(("single-seed",))
 
 
-# ---------------------------------------------------------------------------
-# Records and agreement mechanics.
-# ---------------------------------------------------------------------------
-
-
 def test_synthesize_is_deterministic_under_seed() -> None:
     first = synthesize_trace_records(trace_id="trace.candidate", seeds=range(8))
     second = synthesize_trace_records(trace_id="trace.candidate", seeds=range(8))
@@ -223,11 +202,6 @@ def test_rank_correlation_agreement_for_identical_rankings() -> None:
     assert cross_seed_agreement(records, "rank-correlation") == 1.0
 
 
-# ---------------------------------------------------------------------------
-# Verdict: fail-closed stability.
-# ---------------------------------------------------------------------------
-
-
 def test_verdict_stable_when_controls_dead() -> None:
     contract = build_default_contract()
     records = synthesize_trace_records(trace_id=contract.trace_id, seeds=range(8))
@@ -279,11 +253,6 @@ def test_verdict_rejects_foreign_record_identity() -> None:
         _verdict(contract, records, dead_control_outcomes())
 
 
-# ---------------------------------------------------------------------------
-# Activation gate.
-# ---------------------------------------------------------------------------
-
-
 def test_gate_refuses_by_default() -> None:
     gate = MechanismLicenseGate()
     with pytest.raises(TraceStabilityRefusal, match="no stability receipt"):
@@ -330,11 +299,6 @@ def test_gate_grants_on_stable_replicated_receipt() -> None:
         replication_min=2,
     )
     MechanismLicenseGate().authorize(receipt)  # does not raise
-
-
-# ---------------------------------------------------------------------------
-# Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def test_coverage_lists_all_subquestions() -> None:

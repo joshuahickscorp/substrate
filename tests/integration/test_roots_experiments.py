@@ -1,7 +1,3 @@
-"""Every cross-disciplinary roots experiment (N/D/B/P/C/I/Y/S/A series) runs end to end on its toy
-default config and returns a dict with an explicit null check. This asserts MECHANICS only (the
-experiment executes and reports null_supported), never a particular scientific outcome; the nulls may
-hold (honest toy results). One parametrized case per registered roots experiment."""
 
 import pytest
 
@@ -10,10 +6,6 @@ from mop.experiments import REGISTRY, get_experiment
 
 
 def _roots_ids() -> list[str]:
-    # the roots experiments are every registered id that is not part of the E/EX conducted bank or the
-    # I4 comparison (those have their own tests). Series letters n/d/b/p/c/i/y/s/a, ids like n1_*, d4_*.
-    # Keep this prefix-explicit: registered F8/F16 preflight classes are environment-gated even though
-    # their smoke and fixture-scientific paths run on CPU; the F-series gates cover them separately.
     root_prefixes = ("n", "d", "b", "p", "c", "i", "y", "s", "a")
     return sorted(eid for eid in REGISTRY if eid.startswith(root_prefixes) and eid != "i4_backprop_alts")
 
@@ -22,7 +14,6 @@ ROOTS_IDS = _roots_ids()
 
 
 def test_roots_count():
-    # the full-overkill cpu-now build registered the whole roots bank
     assert len(ROOTS_IDS) >= 70, f"expected the ~77 roots experiments, got {len(ROOTS_IDS)}"
 
 
@@ -37,7 +28,6 @@ def test_roots_experiment_runs(eid, tmp_path):
 
 
 def test_roots_experiments_declare_contract():
-    # the doctrine contract is enforced at class definition; confirm each roots experiment carries it
     for eid in ROOTS_IDS:
         exp = get_experiment(eid)
         assert exp.null_hypothesis and exp.metric and exp.baseline and exp.tier == "cpu-now"

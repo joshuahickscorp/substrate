@@ -1,18 +1,4 @@
 #!/usr/bin/env python
-"""Encode device auto-select (Tier 4.1): microbench a tiny V-JEPA 2 encode on CPU and MPS and pick the
-faster, so the Studio does not hand-choose the encode device. The M3-Pro microbench found CPU 13.7 vs
-MPS 821 s/clip (MPS paged at 18 GB); the M1 Ultra with 128 GB may make MPS the winner, so this script
-MEASURES on whatever box it runs on rather than assuming.
-
-pick_encode_device() returns {winner, cpu_s_per_clip, mps} and (as a CLI) writes runs/mot/encode_device.json
-so the encode step can read the winner. The Studio flow: run this once, then
-`.venv/bin/python scripts/cache_real_encoder.py device=$(jq -r .winner runs/mot/encode_device.json) ...`.
-
-Form (goal loop): no em or en dashes. MEASURE, never assume.
-
-Usage:
-  PYTHONPATH=src:scripts:. .venv/bin/python scripts/mop_encode_autoselect.py [--n-clips 3]
-"""
 
 from __future__ import annotations
 
@@ -48,7 +34,6 @@ def _make_clips(n: int) -> list[torch.Tensor]:
 
 @torch.no_grad()
 def _time_encode(model, clips, device: str, memory: MemorySampler | None = None) -> float:
-    """Mean seconds per clip encoding on `device`. Raises on a device-specific failure (caught upstream)."""
     if memory is not None:
         memory.sample(f"{device}:before_model_to_device")
     m = model.to(device)
@@ -65,11 +50,6 @@ def _time_encode(model, clips, device: str, memory: MemorySampler | None = None)
 
 
 def pick_encode_device(n_clips: int = 3, skip_mps: bool = False, allow_download: bool = False) -> dict:
-    """Microbench CPU (always) and MPS (if available), return the faster as `winner`. MPS that errors or
-    is unavailable is recorded and CPU wins by default. CUDA is reported as the winner unconditionally on
-    a box that has it, since it is the intended fast path and a full timing is unnecessary to prefer it.
-    skip_mps records MPS availability WITHOUT timing it (for the laptop smoke, where the 18 GB MPS path
-    pages badly, about 821 s/clip; the Studio runs without skip_mps to get the real 128 GB measurement)."""
     memory = MemorySampler("mop_encode_autoselect")
     memory.sample("start")
     try:

@@ -1,13 +1,4 @@
 #!/usr/bin/env python
-"""DR1 pre-encode SMOKE (laptop-safe, no encoder, no Studio RAM): build a tiny composable-factor
-fixture and prove the caption-recoverability ACCEPTANCE GATE both PASSES on captions that carry every
-factor AND REFUSES (a tie is a null) when a factor is not recoverable from the caption text. This
-de-risks the spine's binding gate before any Studio encode is spent.
-
-The gate path (validate_source -> assert_bound_and_stocked -> load_captions -> _clip_stems_in_leg ->
-assert_caption_recoverable) does no video decode, so empty .mp4 files plus captions.json exercise it
-fully. Run anywhere: PYTHONPATH=src:. .venv/bin/python scripts/studio/dr1_smoke.py
-"""
 
 from __future__ import annotations
 
@@ -28,9 +19,6 @@ PER_CELL = 10
 
 
 def _build(source: Path, carry_object: bool) -> None:
-    """Lay out <object>-<action>/<stem>.mp4 (empty) plus captions.json. If carry_object is False the
-    caption replaces the object word with a constant 'animal' so the object factor is NOT recoverable
-    from the caption text, which the gate must refuse."""
     import json
 
     caps: dict[str, str] = {}
@@ -48,7 +36,6 @@ def _build(source: Path, carry_object: bool) -> None:
 
 def main() -> int:
     end = len(OBJECTS) * len(ACTIONS) * PER_CELL
-    # (1) POSITIVE: captions carry object and action -> gate must PASS.
     with tempfile.TemporaryDirectory() as d:
         src = Path(d) / "pos"
         _build(src, carry_object=True)
@@ -56,7 +43,6 @@ def main() -> int:
         assert all(report[f]["passed"] for f in FACTORS), f"positive fixture should pass: {report}"
         print(f"[PASS] positive fixture accepted: { {f: report[f]['score'] for f in FACTORS} }")
 
-    # (2) NEGATIVE: captions drop the object word -> object not recoverable -> gate must REFUSE.
     with tempfile.TemporaryDirectory() as d:
         src = Path(d) / "neg"
         _build(src, carry_object=False)

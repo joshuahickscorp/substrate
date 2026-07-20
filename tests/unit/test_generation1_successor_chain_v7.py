@@ -153,8 +153,6 @@ def _fake_horizon_program(parent: chain.SuccessorEvidenceChain, tmp_path: Path) 
     )
 
 
-
-
 def test_v7_adopts_exact_live_parent_under_fresh_identity_and_supersedes_v6(tmp_path: Path) -> None:
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
@@ -214,8 +212,6 @@ def test_v7_status_validator_requires_supersedes_v6(tmp_path: Path) -> None:
         )
 
 
-
-
 def test_v7_resamples_exact_spawn_title_transition_until_worker_label(tmp_path: Path) -> None:
     python = tmp_path / ".venv/bin/python"
     python.parent.mkdir(parents=True)
@@ -263,8 +259,6 @@ def test_v7_resamples_exact_spawn_title_transition_until_worker_label(tmp_path: 
     serialized = parent.status_path.read_text(encoding="utf-8")
     assert "MOP_TEST_SECRET" not in serialized
     assert "spawn_main" not in serialized
-
-
 
 
 def test_tolerable_transient_worker_gate_truth_table_v7(tmp_path: Path) -> None:
@@ -493,8 +487,6 @@ def test_v7_clean_worker_set_adopts_without_resample(tmp_path: Path) -> None:
     assert launches == []
 
 
-
-
 def test_v7_tracked_worker_that_turns_foreign_cwd_fails_closed(tmp_path: Path) -> None:
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
@@ -696,8 +688,6 @@ def test_v7_title_transition_cannot_mask_hard_same_group_intruder(tmp_path: Path
     assert status["state"] == "integrity_hold"
     assert str(intruder.pid) in status["problems"][-1]
     assert calls == 1
-
-
 
 
 def test_v7_launches_horizon_v1_when_legacy_complete(

@@ -153,11 +153,6 @@ def _fake_horizon_program(parent: chain.SuccessorEvidenceChain, tmp_path: Path) 
     )
 
 
-# ----------------------------------------------------------------------------
-# Identity and authority chain (v6 supersedes v5)
-# ----------------------------------------------------------------------------
-
-
 def test_v6_adopts_exact_live_parent_under_fresh_identity_and_supersedes_v5(tmp_path: Path) -> None:
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
@@ -217,11 +212,6 @@ def test_v6_status_validator_requires_supersedes_v5(tmp_path: Path) -> None:
         )
 
 
-# ----------------------------------------------------------------------------
-# Preserved spawn-title-transition re-sample (byte-for-byte v5 behavior)
-# ----------------------------------------------------------------------------
-
-
 def test_v6_resamples_exact_spawn_title_transition_until_worker_label(tmp_path: Path) -> None:
     python = tmp_path / ".venv/bin/python"
     python.parent.mkdir(parents=True)
@@ -269,11 +259,6 @@ def test_v6_resamples_exact_spawn_title_transition_until_worker_label(tmp_path: 
     serialized = parent.status_path.read_text(encoding="utf-8")
     assert "MOP_TEST_SECRET" not in serialized
     assert "spawn_main" not in serialized
-
-
-# ----------------------------------------------------------------------------
-# NEW: boundary-transient worker (mop-final mid setpgid/reparent) hardening
-# ----------------------------------------------------------------------------
 
 
 def test_tolerable_transient_worker_gate_truth_table(tmp_path: Path) -> None:
@@ -527,11 +512,6 @@ def test_v6_boundary_transient_worker_pid_reuse_fails_closed(tmp_path: Path) -> 
     assert calls == 2
 
 
-# ----------------------------------------------------------------------------
-# Preserved fail-closed safety (unchanged from v5)
-# ----------------------------------------------------------------------------
-
-
 def test_v6_same_repo_worker_outside_ownership_still_fails_closed(tmp_path: Path) -> None:
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
@@ -593,10 +573,6 @@ def test_v6_foreign_cwd_worker_claiming_ownership_still_fails_closed(
 
 
 def test_v6_hard_same_group_intruder_surfaces_after_boundary_transient_exits(tmp_path: Path) -> None:
-    # A tolerable boundary-transient short-circuits _matching_processes before the
-    # group-membership check, but the chain can never adopt while a hard intruder
-    # remains in the exact parent group: the moment the transient exits, the
-    # intruder surfaces by exact pid and the chain fails closed.
     spec = _spec(tmp_path)
     _write(spec.status_path, _status(spec))
     owner = _process(tmp_path, pid=67790, label=spec.process_label, command=(spec.process_label, ""))
@@ -701,11 +677,6 @@ def test_v6_clean_worker_set_adopts_without_resample(tmp_path: Path) -> None:
     assert calls == 1
     assert sleeps == []
     assert launches == []
-
-
-# ----------------------------------------------------------------------------
-# Horizon launch (unchanged v1 target) and detached start (v6 entrypoint)
-# ----------------------------------------------------------------------------
 
 
 def test_v6_launches_horizon_v1_when_legacy_complete(

@@ -1,4 +1,3 @@
-"""One matched-budget engine for experiment metrics, controls, and architecture folds."""
 
 from __future__ import annotations
 
@@ -19,19 +18,19 @@ TRAIN_BACKWARD_MULTIPLIER = 3
 
 
 class BudgetRefusal(ValueError):
-    """A matched-budget input or declared policy is malformed."""
+    pass
 
 
 class BudgetMismatch(BudgetRefusal):
-    """Candidate and matched control inference budgets differ."""
+    pass
 
 
 class UnchargedTraining(BudgetRefusal):
-    """A trained candidate omitted its amortized training charge."""
+    pass
 
 
 class CeilingExceeded(BudgetRefusal):
-    """An arm exceeds the declared full-lifecycle FLOP ceiling."""
+    pass
 
 
 def _nonnegative_int(value: object, label: str) -> int:
@@ -58,7 +57,6 @@ def _sealed(value: float) -> float:
 
 @dataclass(frozen=True, slots=True)
 class BudgetPolicy:
-    """The complete experiment-specific data consumed by the generic budget lifecycle."""
 
     schema: str
     bed_id: str
@@ -142,7 +140,6 @@ def arm_flop_model(
     downstream_flops_per_firing: int,
     candidate_train_flops: Callable[[], int],
 ) -> FlopModel:
-    """Project provider-specific costs onto the conventional candidate and control arms."""
 
     runs_gate = kind in (ARM_CANDIDATE, ARM_RATE_MATCHED_RANDOM)
     return FlopModel(
@@ -171,7 +168,6 @@ class SeedResult:
 
 @dataclass(frozen=True, slots=True)
 class BudgetSeedRun:
-    """The conventional per-seed producer record consumed by budget-point projection."""
 
     seed: int
     total_frames: int
@@ -192,7 +188,6 @@ def noise_control_summary(
     mean_base_rate: float,
     rate_key: str,
 ) -> dict[str, Any]:
-    """Project the shared noisy-TV and control-arm audit block."""
 
     if rate_key not in ("mean_firing_rate_on_noise", "mean_reestimate_rate_on_noise"):
         raise BudgetRefusal("noise-control rate_key is not declared")
@@ -425,7 +420,6 @@ def build_budget_points(
     flop_model: Callable[[str], FlopModel],
     architecture: str | None = None,
 ) -> list[BudgetPoint]:
-    """Project conventional per-seed producer records into one certified budget sweep."""
 
     runs = list(seed_runs)
     if not runs:

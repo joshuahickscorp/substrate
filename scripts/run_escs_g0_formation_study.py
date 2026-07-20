@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Run or verify the deterministic inert G0 formation mechanics study."""
 
 from __future__ import annotations
 

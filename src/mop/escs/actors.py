@@ -1,10 +1,3 @@
-"""Actor boundary for the evidence-neutral ESCS mechanics chassis.
-
-Only a compact readiness call is legal before activation.  The actor protocol does
-not expose local state: the runtime can read a content version, but only a selected
-actor receives an event payload and only a previously selected actor receives a
-learning/update call.
-"""
 
 from __future__ import annotations
 
@@ -50,7 +43,6 @@ def _require_canonical(values: tuple[str, ...], label: str) -> None:
 
 @dataclass(frozen=True, slots=True)
 class DispatchEventHeader:
-    """Payload-free view available to indices, policies, and actor readiness."""
 
     event_id: str
     event_kind: str
@@ -125,7 +117,6 @@ class DispatchEventHeader:
 
 @dataclass(frozen=True, slots=True)
 class DispatchEvent:
-    """Header plus opaque payload; only activated actors receive the latter."""
 
     header: DispatchEventHeader
     payload_bytes: bytes
@@ -179,7 +170,6 @@ class DispatchEvent:
 
 @dataclass(frozen=True, slots=True)
 class ActorDescriptor:
-    """Static public routing metadata, never an actor's local state."""
 
     actor_id: str
     subscribed_event_types: tuple[str, ...]
@@ -207,7 +197,6 @@ class ActorDescriptor:
 
 @dataclass(frozen=True, slots=True)
 class ReadinessEstimate:
-    """Bounded estimate computed from a header and the actor's past activations."""
 
     actor_id: str
     state_version: str
@@ -243,7 +232,6 @@ class ReadinessEstimate:
 
 @dataclass(frozen=True, slots=True)
 class OutboundClaim:
-    """One claim staged for next-round delivery; never visible in its emission round."""
 
     message: ClaimMessage
     recipient_actor_ids: tuple[str, ...]
@@ -258,7 +246,6 @@ class OutboundClaim:
 
 @dataclass(frozen=True, slots=True)
 class ActionIntent:
-    """Content-addressed representation-neutral action proposal."""
 
     action_id: str
     source_event_id: str
@@ -392,11 +379,6 @@ class ActorActivationContext:
 
 @dataclass(frozen=True, slots=True)
 class EndogenousHypothesisProposal:
-    """Content-addressed actor request for a ledger-resident HypothesisEvent.
-
-    The proposal has no event identifier or causal-state version.  Only the runtime
-    may create those by appending a typed event to its injected ``EventLedger``.
-    """
 
     proposal_id: str
     producer_actor_id: str
@@ -619,11 +601,6 @@ class ActorUpdateContext:
 
 @dataclass(frozen=True, slots=True)
 class ActorUpdatePlan:
-    """Pure preflight result containing a complete replacement actor.
-
-    ``Actor.stage_update`` must not mutate the live actor.  The runtime validates all
-    plans first and swaps every replacement into the private catalog in one commit.
-    """
 
     actor_id: str
     prior_state_version: str
@@ -645,7 +622,6 @@ class ActorUpdatePlan:
 
 @runtime_checkable
 class Actor(Protocol):
-    """Common actor contract with no public local-state accessor."""
 
     @property
     def descriptor(self) -> ActorDescriptor: ...

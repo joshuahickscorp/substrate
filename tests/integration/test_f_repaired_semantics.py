@@ -1,9 +1,3 @@
-"""Semantic gates for the F-series rows whose original R0 implementations overclaimed mechanics.
-
-These tests never require a positive scientific result. They require the declared comparison to be
-the comparison actually executed: disjoint evidence splits, matched exposure, preserved token
-geometry, full cost axes, Form-B prediction, and a real four-scale indexed memory.
-"""
 
 import json
 from pathlib import Path

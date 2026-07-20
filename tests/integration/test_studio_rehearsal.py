@@ -1,5 +1,3 @@
-"""The Mac-Studio rehearsal capsule runs the whole future Studio workflow end to end on tiny
-local fixtures, tags real vs mocked honestly, and writes a report + JSON summary."""
 
 import json
 
@@ -32,7 +30,6 @@ def test_capsule_writes_artifacts(tmp_path):
     assert (tmp_path / "summary.json").exists()
     summ = json.loads((tmp_path / "summary.json").read_text())
     assert summ["rehearsal"] is True
-    # provenance everywhere
     p = summ["provenance"]
     assert p["git_sha"] and "torch" in p["packages"] and p["result_tag"] in RESULT_TAGS
     assert summ["deferred"] and summ["studio_day_one"]

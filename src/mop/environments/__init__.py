@@ -1,8 +1,3 @@
-"""Small local environments used to test action-conditioned mechanics.
-
-These environments are programmatic instruments.  They make action, consequence, and
-counterfactual contracts executable; they are not evidence of natural embodiment.
-"""
 
 from .persistent_grid import (
     ACTION_NAMES,

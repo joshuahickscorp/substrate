@@ -492,6 +492,24 @@
       "proof": "compile-all over src/mop, tests, and scripts in 0.82s; changed files critical-ruff clean; 776-case boundary battery completed 774 passed and 2 expected skips in 575.80s; documentation battery 32/32 green",
       "accounting_note": "src 53 added/7360 deleted; scripts 1 added/3106 deleted; tests 0 added/828 deleted; CLI-consumed module docs, shebangs, legal headers, directives, and executable statements retained",
       "tag": "mop-collapse-embedded-docs"
+    },
+    {
+      "region": "section11_starss23_and_section18_embedded_documentation",
+      "batch": "doa_gate_seed_lifecycle_and_complete_python_documentation_surface",
+      "checkpoint_status": "green",
+      "primitive": "two duplicated DoA architecture training implementations collapsed onto one dimension-driven gate core; the local DoA seed record and late artifact projection collapsed onto BudgetSeedRun; all remaining runtime-unused Python docstrings, comment-only prose, and excess whitespace removed",
+      "deduplicated_LOC": 297,
+      "added_LOC": 253,
+      "eliminated_LOC": 9339,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 9383,
+      "files_changed": 660,
+      "destination_api": "mop.beds.starss23.doa_gate._DoaGateInterface plus mop.science.budget.BudgetSeedRun plus executable source",
+      "proof": "both DoA architectures reproduce the exact pre-refactor numerical fingerprint bb336b6c3458ff212903f51e4d75ee80f2759add3c036ab43d8d34cd894e911e across initial/final parameter digests, probabilities, losses, parameter counts, and FLOP totals; targeted DoA/integrity/sensing/docs battery green in 80.36s; full STARSS-focused suite 493/493 green in 166.99s; complete Python surface compiles and changed files pass critical ruff",
+      "accounting_note": "src 253 added/5592 deleted; tests 0 added/2312 deleted; scripts 0 added/1732 deleted; 72 required pass bodies and the shared DoA executor account for additions; scanner reports zero remaining removable docstring/comment-only lines after preserving CLI-consumed __doc__, shebangs, legal headers, directives, and every executable statement",
+      "tag": "mop-collapse-python-surface"
     }
   ],
   "deferred_heavy_validation": {

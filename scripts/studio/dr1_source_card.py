@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Generate and validate the DR1 source-card provenance receipt."""
 
 from __future__ import annotations
 

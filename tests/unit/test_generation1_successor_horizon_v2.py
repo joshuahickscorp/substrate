@@ -186,7 +186,6 @@ def test_v2_is_five_fresh_disjoint_cycles_and_more_than_one_parallel_day() -> No
     assert horizon.planned_horizon_compute_seconds() == predecessor.planned_horizon_compute_seconds()
     assert horizon.IDLE_WORKERS == 20
     assert horizon.planned_horizon_compute_seconds() >= 230 * 60 * 60
-    # IDLE_WORKERS is the declared 20-worker ceiling, so the ideal parallel time is serial / 20.
     assert horizon.planned_horizon_compute_seconds() / horizon.IDLE_WORKERS >= 11 * 60 * 60
 
     predecessor_d1 = []
@@ -831,10 +830,6 @@ def test_nested_cli_dispatches_exact_parent_and_worker_arguments(monkeypatch) ->
 
 
 def test_predecessor_identity_scope_restores_v1_contract_inside_v2_scope() -> None:
-    """Regression: the parent-authority validation must check the v1 predecessor under v1's
-    identity even while _v1_runtime_scope has repointed the engine at the v2 plan. Before the
-    fix, validate_result inside the scope checked the v1 parent against the v2 contract and
-    raised "successor horizon result identity or safety drifted"."""
 
     v1_schema = predecessor.RESULT_SCHEMA
     v1_program = predecessor.PROGRAM_ID
@@ -843,18 +838,13 @@ def test_predecessor_identity_scope_restores_v1_contract_inside_v2_scope() -> No
     assert v1_program != horizon.PROGRAM_ID
 
     with horizon._v1_runtime_scope():
-        # inside the v2 runtime scope the engine identity is the v2 plan
         assert predecessor.RESULT_SCHEMA == horizon.RESULT_SCHEMA
         with horizon._predecessor_identity_scope():
-            # the inverse scope restores the pristine v1 identity for the parent check
             assert predecessor.RESULT_SCHEMA == v1_schema
             assert predecessor.PROGRAM_ID == v1_program
             assert predecessor.CLAIM_SCOPE == v1_claim
-        # and the v2 plan is restored on exit of the inverse scope
         assert predecessor.RESULT_SCHEMA == horizon.RESULT_SCHEMA
 
-    # fully restored to v1 outside every scope
     assert predecessor.RESULT_SCHEMA == v1_schema
-    # the inverse scope is a no-op when no v2 scope is active
     with horizon._predecessor_identity_scope():
         assert predecessor.RESULT_SCHEMA == v1_schema

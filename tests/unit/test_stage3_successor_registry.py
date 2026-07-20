@@ -1,9 +1,3 @@
-"""Tests for the successor Stage 3 registry driving the three new mechanism runners.
-
-Confirms the registry constructs and runs all three successor epochs, that every result is an honest
-mechanics-demonstration (never a confirmation from a toy bed), that runs are deterministic per seed, and
-that unknown epochs, negative seeds, and confirmation-minting runners fail closed. No capability claim.
-"""
 
 from __future__ import annotations
 

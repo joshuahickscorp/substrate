@@ -55,8 +55,6 @@ def _crafted(
     )
 
 
-
-
 def test_bed_and_runner_conform_to_protocols() -> None:
     assert isinstance(_bed(), Bed)
     assert isinstance(_runner(), MechanismRunner)
@@ -73,8 +71,6 @@ def test_bed_declares_the_control_family_and_a_non_vacuous_budget() -> None:
 def test_bed_and_runner_are_discoverable_via_the_registry_pattern() -> None:
     assert isinstance(_discover(bed_module, "Bed"), CalibratedUncertaintyBed)
     assert isinstance(_discover(runner_module, "Runner"), CalibratedUncertaintyRunner)
-
-
 
 
 def test_favorable_batch_separates_confidence_by_correctness() -> None:
@@ -105,8 +101,6 @@ def test_null_batch_confidence_is_wholly_below_the_answer_bar() -> None:
         assert all(conf < ANSWER_THRESHOLD for conf in batch.confidence)
 
 
-
-
 def test_run_is_deterministic() -> None:
     runner, bed = _runner(), _bed()
     for seed in SEEDS:
@@ -124,8 +118,6 @@ def test_readings_are_reproducible_at_the_source() -> None:
     assert run_all(batch) == run_all(batch)
 
 
-
-
 def test_null_regime_holds_the_null_and_mints_null() -> None:
     runner, bed = _runner(), _bed()
     for seed in (*SEEDS, *BAND_SEEDS):
@@ -141,8 +133,6 @@ def test_null_regime_mechanism_ties_frozen_uniform_by_construction() -> None:
     for seed in SEEDS:
         readings = run_all(bed.null_regime(seed))
         assert readings["mechanism"] == readings["frozen_uniform"]
-
-
 
 
 def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
@@ -172,8 +162,6 @@ def test_favorable_margins_are_the_engineered_constants() -> None:
         assert result.mechanism_reading.decision_utility == pytest.approx(
             (1.0 - expected_error_rate + 1.0) / 2.0
         )
-
-
 
 
 def test_only_risk_reduction_improved_is_not_mechanics_ok() -> None:
@@ -214,8 +202,6 @@ def test_a_tie_on_an_axis_is_not_a_strict_win() -> None:
     assert runner.mint(result).verdict == VERDICT_NULL
 
 
-
-
 def test_evidence_digest_is_stable_and_well_formed() -> None:
     runner, bed = _runner(), _bed()
     result = runner.run(bed, 0, REGIME_FAVORABLE)
@@ -230,8 +216,6 @@ def test_mint_is_never_a_confirmation_on_either_regime() -> None:
         receipt = runner.mint(runner.run(bed, 0, regime))
         assert receipt.kind == KIND_DEMONSTRATION
         assert receipt.is_confirmation is False
-
-
 
 
 def test_bed_refuses_an_unknown_regime_and_a_negative_seed() -> None:

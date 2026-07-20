@@ -1,5 +1,3 @@
-"""Experiment registry. id -> Experiment class. The doctrine contract is enforced at import
-time (a subclass without a declared null cannot even be defined)."""
 
 from __future__ import annotations
 
@@ -21,22 +19,16 @@ def get_experiment(eid: str) -> Experiment:
     return REGISTRY[eid]()
 
 
-# E2-E10 scaffolds, registered on import
 from . import scaffolds  # noqa: E402
 
 for _cls in scaffolds.SCAFFOLDS:
     REGISTRY[_cls.id] = _cls
 
-# The custom-substrate lane is intentionally kept out of the generic scaffold bank: CM7 is a
-# checkpointed local training workbench and CM8 is its fail-closed upstream-evidence preflight.
 from .custom_substrate import CM7, CM8  # noqa: E402
 
 REGISTRY[CM7.id] = CM7
 REGISTRY[CM8.id] = CM8
 
-# P4 and P5 ride the same lane: each class is a bounded mechanics smoke of its registered
-# codepath; the campaigns run through scripts/p4_capability_density.py and
-# scripts/p5_context_capability.py.
 from .p4_capability_density import P4Screen  # noqa: E402
 from .p5_context_wrapper import P5Context  # noqa: E402
 

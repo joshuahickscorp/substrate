@@ -1,31 +1,4 @@
 #!/usr/bin/env python
-"""The GOLD-STANDARD substrate test: does PRETRAINING (not architecture, not resolution) make the frozen
-V-JEPA substrate special? The primary corrected test (substrate_vs_random_features.py) compares real
-V-JEPA against random-pixel features, but those features see downsampled 32px pixels while V-JEPA sees
-256px, so a skeptic could attribute any V-JEPA win to input resolution rather than learned weights.
-
-This test removes that confound. It compares:
-  1. real V-JEPA ViT-L (pretrained weights)
-  2. random-init ViT-L of the IDENTICAL architecture (AutoModel.from_config, untrained weights), run at
-     the SAME 256px resolution on the SAME clips
-  3. random-pixel features (32px downsample + random projection), the cheap untrained-featurizer floor
-All three decode the same target (shape identity under heavy nuisance) from standardized features. Arms 1
-and 2 differ ONLY in whether the weights were pretrained, so real-minus-randominit isolates the value of
-pretraining itself, with architecture and resolution held fixed. This is the cleanest possible answer to
-"is the substrate special", and it is the control the vacuous latent-projection could never be.
-
-Content is identical to the primary test (make_nuisance_clip): shape identity is the class, with random
-position, scale, rotation, color, background clutter, and motion, so raw appearance varies wildly within a
-class and only learned invariance should decode shape robustly.
-
-Cost: two ViT-L forwards per clip on CPU (~21s each), so ~70 min for 96 clips. Do NOT run concurrently
-with another ViT-L job (two random-init + real param sets plus concurrent activations OOM 18GB).
-
-Usage: python scripts/substrate_vs_random_init_vit.py --n-shape 6 --per 16 \
-    --out runs/pre_studio/substrate_vs_random_init_vit.json   (device=cpu)
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -49,8 +22,6 @@ from mop.substrate.encoder import EncoderSpec, FrozenEncoder
 
 
 def _random_init_vit(cfg) -> FrozenEncoder | None:
-    """An identical-architecture ViT-L with RANDOM (untrained) weights, wrapped so .encode() pools the
-    same way as the real encoder. Returns None if the arch config cannot be built offline."""
     try:
         from transformers import AutoConfig, AutoModel
 
@@ -73,8 +44,6 @@ def _random_init_vit(cfg) -> FrozenEncoder | None:
 
 
 def _zscore(x: torch.Tensor) -> torch.Tensor:
-    """Standardize per feature so the probe compares linear separability, not scale/conditioning. The
-    tiny full-set leakage is identical across all three arms, so the COMPARISON stays unbiased."""
     mu = x.mean(0, keepdim=True)
     sd = x.std(0, keepdim=True) + 1e-6
     return (x - mu) / sd

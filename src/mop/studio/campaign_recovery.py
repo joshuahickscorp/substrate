@@ -356,7 +356,6 @@ def build_recovery_plan(
     process_probe: ProcessProbe = observe_process,
     boot_time: float | None = None,
 ) -> dict[str, Any]:
-    """Return a sealed read-only decision; never launch or mutate controller state."""
 
     problems: list[str] = []
     facts: dict[str, Any] = {}

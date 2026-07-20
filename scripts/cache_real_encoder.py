@@ -1,12 +1,4 @@
 #!/usr/bin/env python
-"""Cache a small REAL-ENCODER latent store. Real V-JEPA 2 ViT-L weights are loaded and run
-over STRUCTURED synthetic video (per-class color / orientation / spatial-frequency / motion),
-chunked on MPS. There is no natural-video dataset here, so the content is synthetic, but the
-PERCEPTUAL GEOMETRY is the real encoder's: this is the real-encoder answer to "is class info
-linearly decodable from V-JEPA latents". Pooled latents + labels land in a memmap store.
-
-Usage: python scripts/cache_real_encoder.py [device=mps] [+classes=8] [+per_class=16]
-"""
 
 from __future__ import annotations
 
@@ -37,9 +29,6 @@ def _class_color(c: int, k: int) -> torch.Tensor:
 
 
 def make_class_clip(c: int, k: int, g: torch.Generator) -> torch.Tensor:
-    """One [T,3,RES,RES] clip: a moving oriented grating with class-specific frequency, angle,
-    motion speed, and color tint. Distinct classes -> distinct V-JEPA latents (if the encoder
-    preserves them, which the linear probe then measures)."""
     lin = torch.linspace(0, 1, RES)
     yy, xx = torch.meshgrid(lin, lin, indexing="ij")
     freq = 3.0 + 2.5 * c
@@ -101,7 +90,6 @@ def main(argv: list[str] | None = None) -> int:
         secs / total,
     )
 
-    # immediate real-encoder diagnostic: is class linearly decodable from the real latents?
     from mop.diagnostics import linear_probe
 
     probe = linear_probe(store.latents(), store.labels(), classification=True, epochs=300)

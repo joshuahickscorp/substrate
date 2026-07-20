@@ -1,7 +1,3 @@
-"""WP-05 rollout/planning harness tests: tiny synthetic tensors only, seconds per test, no encoder
-loads, no network. Each DR6/DR11/DR13 script runs end to end at toy scale through its Experiment
-contract, and the honesty machinery (matched FLOPs, preregistered nulls, true-env scoring, guards)
-is asserted structurally rather than on the scientific verdicts (toy scale is not evidence)."""
 
 import sys
 from pathlib import Path
@@ -56,9 +52,6 @@ def _tiny_dr13_cfg():
     return OmegaConf.merge(dr13.default_cfg(), OmegaConf.create(over))
 
 
-# ---------------------------------------------------------------- shared helpers
-
-
 def test_parse_seeds_forms():
     for mod in (dr6, dr11, dr13):
         assert mod.parse_seeds("0-4") == [0, 1, 2, 3, 4]
@@ -73,16 +66,12 @@ def test_contracts_declared():
         assert c["tier"] == "cpu-now"
 
 
-# ---------------------------------------------------------------- DR6
-
-
 def test_dr6_runs_and_reports_contract(tmp_path):
     out = dr6.DR6RolloutPlanning().run(_tiny_dr6_cfg(), DEV, tmp_path)
     assert isinstance(out["null_supported"], bool)
     assert out["survives"] == (not out["null_supported"])
     assert len(out["per_seed"]) == 2
     assert (tmp_path / "dr6_rollout_planning.json").exists()
-    # preregistered thresholds are in the artifact, not derived from results
     assert out["preregistered"]["planning_margin"] == dr6.PLANNING_MARGIN
     assert out["preregistered"]["r2_floor"] == dr6.R2_FLOOR
 
@@ -93,7 +82,6 @@ def test_dr6_planner_and_greedy_are_flop_matched(tmp_path):
         comp = r["compute"]
         assert comp["planner_forwards_per_trial"] == comp["greedy_forwards_per_trial"]
         assert comp["planner_vs_greedy_matched"]["matched"] is True
-        # the shuffle control never spends MORE than the planner
         assert comp["shuffle_forwards_per_trial"] <= comp["planner_forwards_per_trial"]
         assert "rollout_gate" in r and "planning_licensed" in r["rollout_gate"]
 
@@ -111,9 +99,6 @@ def test_dr6_true_env_execution_is_deterministic_given_generator():
     assert d1 == d2  # noise=0 execution: the honest yardstick is reproducible
 
 
-# ---------------------------------------------------------------- DR11
-
-
 def test_dr11_runs_with_guard_and_matched_flops(tmp_path):
     out = dr11.DR11MCRollouts().run(_tiny_dr11_cfg(), DEV, tmp_path)
     assert isinstance(out["null_supported"], bool)
@@ -122,7 +107,6 @@ def test_dr11_runs_with_guard_and_matched_flops(tmp_path):
         lc = r["learnable_regime"]["compute"]
         assert lc["mc_forwards_per_trial"] == lc["det_forwards_per_trial"]
         assert lc["matched"]["matched"] is True
-        # both regimes present: the noisy-TV guard arm is not optional
         assert "noise_dominant_regime" in r
         assert isinstance(r["noisy_tv_guard_ok"], bool)
         assert r["learnable_regime"]["diversity"] >= 0.0
@@ -143,9 +127,6 @@ def test_dr11_stochastic_rollout_actually_varies():
     assert torch.allclose(d1, d2)  # the matched arm is deterministic by construction
 
 
-# ---------------------------------------------------------------- DR13
-
-
 def test_dr13_runs_horizon_sweep(tmp_path):
     out = dr13.DR13HorizonLimit().run(_tiny_dr13_cfg(), DEV, tmp_path)
     assert isinstance(out["null_supported"], bool)
@@ -158,7 +139,6 @@ def test_dr13_runs_horizon_sweep(tmp_path):
             assert comp["matched"]["matched"] is True
         assert set(r["kstep_r2_decay"].keys()) == {"1", "2"}
         assert r["crossover_horizon"] in (0, 1, 2)
-        # a crossover requires a win AND a later loss, never just a win
         if r["crossover_observed"]:
             assert r["winning_horizons"] and r["crossover_horizon"] < 2
 
@@ -166,7 +146,6 @@ def test_dr13_runs_horizon_sweep(tmp_path):
 def test_dr13_null_reads_only_nontrivial_wins(tmp_path):
     cfg = _tiny_dr13_cfg()
     cfg.seeds = [0]
-    # structural check on the aggregation rule: survives demands a win at some horizon > 1
     out = dr13.DR13HorizonLimit().run(cfg, DEV, tmp_path)
     r = out["per_seed"][0]
     assert out["survives"] == (r["nontrivial_win"] and r["model_licensed"])

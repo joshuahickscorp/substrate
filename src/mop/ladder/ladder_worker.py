@@ -1,20 +1,3 @@
-"""Subprocess entrypoint that runs one Stage 3 mechanism demonstration and seals a receipt.
-
-The orchestrator spawns this module once per (epoch, seed) work item with the exact CLI:
-    python -m mop.ladder.ladder_worker --epoch <key> --seed <int> --reps <int> --out <path>
-It runs the demonstration `reps` times as deliberate repeated deterministic work so the campaign
-has real CPU to schedule, asserts every repetition produced the identical result digest, and writes
-a sealed receipt JSON atomically to the output path. Nondeterminism across repetitions is treated as
-a failure: the worker exits nonzero and writes no receipt.
-
-Wall clock time is never placed inside the sealed payload so the receipt stays deterministic; timing
-is printed to stderr only. The run registry imports each mechanism's bed and runner on demand, so a
-worker pays only for the one epoch it runs. That matters because the campaign schedules many concurrent
-workers. The runner mints a mechanics-demonstration RunReceipt; this worker never emits a confirmation.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -34,10 +17,6 @@ RECEIPT_SCHEMA = "mop-ladder-worker-receipt/v1"
 
 
 def build_receipt(epoch: str, seed: int, reps: int) -> dict[str, Any]:
-    """Run the demonstration `reps` times, assert digest identity, and return a sealed receipt.
-
-    Raises ValueError on a non positive reps count and RuntimeError if any repetition drifts.
-    """
 
     if not isinstance(reps, int) or isinstance(reps, bool) or reps < 1:
         raise ValueError("reps must be a positive integer")
@@ -71,7 +50,6 @@ def build_receipt(epoch: str, seed: int, reps: int) -> dict[str, Any]:
 
 
 def _write_atomic(path: str, receipt: dict[str, Any]) -> None:
-    """Serialize the receipt canonically and replace the target path atomically."""
 
     data = json.dumps(receipt, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
     directory = os.path.dirname(os.path.abspath(path)) or "."
@@ -99,7 +77,6 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Parse the fixed CLI, run the demonstration, and seal a receipt. Returns the exit code."""
 
     parser = _build_parser()
     try:

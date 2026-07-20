@@ -968,8 +968,6 @@ class GeneralRunOrchestrator:
                 self.sleep_fn(self.poll_seconds)
 
 
-
-
 def validate_general_run_status(status: Mapping[str, Any], *, repo_root: Path = REPO_ROOT) -> str:
 
     repo_root = repo_root.resolve()
@@ -1078,8 +1076,6 @@ def request_stop(root: Path = DEFAULT_ROOT, reason: str = "operator requested dr
     payload = {**core, "control_sha256": canonical_sha256(core)}
     atomic_write_json(root / CONTROL_FILE, payload)
     return payload
-
-
 
 
 def _process_identity_alive(identity: object) -> bool:

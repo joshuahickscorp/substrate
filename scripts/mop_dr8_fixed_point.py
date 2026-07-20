@@ -1,26 +1,4 @@
 #!/usr/bin/env python
-"""DR8: recurrent refinement, fixed point vs drift, per substrate arm (WP-03, EXECUTION_MANIFEST).
-
-Thesis: the weight-tied refiner converges to an INPUT-DEPENDENT attractor on real V-JEPA latents, and
-the property is substrate-specific (the typing arm reruns this script later on the random-init-ViT
-cache, WP-11 Q3.3; decay on real AND random-init means geometry, not substrate). Mechanism: train an
-IterativeRefiner + head on cached latents, then unroll(K=64) far past the trained horizon and read the
-update-norm decay curve (diagnostics/convergence), the past-horizon loss curve, basin stability, and a
-fixed-point collapse check (input-dependence: the spread of the K-step latents relative to the input
-spread). A matched-depth UNTIED control (the ex17 control) is trained alongside so any refiner
-accuracy is not read as more than depth.
-
-Preregistered null (verbatim, manifest WP-03): no geometric decay and past-horizon loss rises (the
-n9/y1 result): it is unrolled depth, not an attractor. The positive requires, in EVERY seed: the
-convergence report classifies the dynamics as converging, past-horizon loss does not rise beyond
-PAST_HORIZON_TOL, and the fixed points stay input-dependent (no collapse to a global attractor).
-Substrate typing is cross-run: this script records ONE cache arm per invocation.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: .venv/bin/python scripts/mop_dr8_fixed_point.py --cache vjepa --seeds 0-4
-       .venv/bin/python scripts/mop_dr8_fixed_point.py --cache randominit_vitl --seeds 0-4  (Q3.3)
-"""
 
 from __future__ import annotations
 
@@ -46,7 +24,6 @@ from mop.shell.refine import IterativeRefiner
 from mop.substrate.datasets import make_task_stream
 from mop.substrate.real_latent import open_real_store
 
-# preregistered thresholds, fixed before any result exists
 PAST_HORIZON_TOL = 0.05  # CE (nats) rise at K=64 over the trained horizon that counts as "loss rises"
 COLLAPSE_RATIO_FLOOR = 0.1  # fixed-point spread / input spread below this == global-attractor collapse
 UNROLL_STEPS = 64
@@ -67,7 +44,6 @@ def default_cfg(seeds: list[int], **overrides) -> DictConfig:
         "n_train_steps": 4,
         "epochs": 200,
         "lr": 1e-3,
-        # synthetic fallback scale (tests and the no-cache smoke path)
         "dim": 64,
         "n_classes": 6,
         "samples": 600,
@@ -78,9 +54,6 @@ def default_cfg(seeds: list[int], **overrides) -> DictConfig:
 
 
 def load_cache_xy(e: DictConfig) -> tuple[torch.Tensor, torch.Tensor, str]:
-    """Resolve the --cache arm to (latents, labels, tag). synthetic uses the Gaussian-cluster stream
-    (tests, smoke); real arms open the LatentStore by its manifest cache name. Latents are
-    standardized per dimension so refiner dynamics are comparable across substrates."""
     cache = str(e.cache)
     if cache == "synthetic":
         task = make_task_stream(
@@ -163,9 +136,6 @@ class DR8FixedPoint(Experiment):
             report = convergence_report(refiner, xte, steps=UNROLL_STEPS)
             basin = basin_stability(refiner, xte, steps=UNROLL_STEPS, seed=s)
 
-            # past-horizon loss curve: CE at each checkpoint depth of the SAME trained refiner.
-            # The trained horizon is always a checkpoint (ce_rise reads it), even when n_train is
-            # not one of the preregistered powers of two (tiny test configs).
             checkpoints = sorted(set(CHECKPOINTS) | {n_train})
             ce_curve: dict[str, float] = {}
             with torch.no_grad():
@@ -180,7 +150,6 @@ class DR8FixedPoint(Experiment):
             ce_rise = ce_curve[str(UNROLL_STEPS)] - ce_curve[str(n_train)]
             past_rises = bool(ce_rise > PAST_HORIZON_TOL)
 
-            # input-dependence: did the fixed points collapse to one global attractor
             spread_in = float(torch.pdist(xte).mean()) if xte.shape[0] > 1 else 0.0
             spread_fp = float(torch.pdist(z_final).mean()) if z_final.shape[0] > 1 else 0.0
             spread_ratio = spread_fp / spread_in if spread_in > 0 else 0.0

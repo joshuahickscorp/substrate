@@ -16,13 +16,6 @@ def _build_all_pruned_graph(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> tuple[Path, Path, dict[str, object]]:
-    """Drive a fourteen-epoch, seven-category miniature where every route prunes to zero compute.
-
-    The three new lanes are always admitted by the freeze gate, so the categorized grid cannot be
-    made empty by the parent mechanics survivors alone.  Returning empty work-item tables keeps the
-    graph self-consistent (every category eligible flag resolves False) while executing nothing, and
-    the single tiny I1 work keeps the substituted-dependency lane verdict present without compute.
-    """
 
     monkeypatch.setattr(verifier, "REPO_ROOT", tmp_path)
     root = _materialize_gates(tmp_path, monkeypatch, mechanics_lanes=[])
@@ -150,7 +143,6 @@ def test_v2_boundary_mutations_and_check_tamper_are_rejected(
     assert suite["count"] == suite["rejected"] == verifier.MUTATION_COUNT == 8
     assert suite["all_rejected"] is True
 
-    # The two numeric v2 boundary values (19 -> 18 fresh cycle, 123 -> 122 capsules) each reject.
     assert verifier._mutation_rejected(
         result,
         root,
@@ -162,7 +154,6 @@ def test_v2_boundary_mutations_and_check_tamper_are_rejected(
         lambda candidate: candidate["grid"].__setitem__("manifest_capsule_count", 122),
     )
 
-    # A tampered verifier check ledger fails the sealed round trip even after resealing.
     verification = verifier.build_verification(result_path)
     tampered = copy.deepcopy(verification)
     tampered["checks"]["independent_generator_family_present"] = True

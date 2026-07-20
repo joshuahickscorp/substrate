@@ -1,15 +1,3 @@
-"""Deterministic persistent action environment and content-addressed trajectory adapter.
-
-The adapter exists to remove a software-shaped blocker without inflating the scientific claim.
-It records a real local causal sequence -- observation, policy-chosen action, and resulting
-consequence -- and, before applying the chosen action, evaluates every alternative action from an
-identical cloned state.  Episode, entity, event, state, and counterfactual references are stable and
-all artifacts are replay-verifiable from an exact seed and world hash.
-
-The world is deliberately tiny.  Its observations are programmatic vectors, not natural video or
-robot sensor data.  Passing this contract licenses bounded mechanics for F6/F15/CM10/E5; it does
-not license claims about embodiment, natural affordances, or open-ended intelligence.
-"""
 
 from __future__ import annotations
 
@@ -31,8 +19,6 @@ ACTION_DELTAS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 OBSERVATION_DIM = 16
 
 
-
-
 def _sha256_value(value: Any) -> str:
     return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
@@ -46,7 +32,6 @@ def _stable_index(parts: tuple[Any, ...], count: int) -> int:
 
 @dataclass(frozen=True)
 class WorldSpec:
-    """Immutable world definition.  Dynamic episode state is kept separately."""
 
     seed: int
     grid_size: int
@@ -93,7 +78,6 @@ class WorldSpec:
 
 
 def make_world_spec(*, seed: int, grid_size: int = 6, horizon: int = 12) -> WorldSpec:
-    """Build the canonical bounded world used by all current action-lane preflights."""
     if grid_size < 5:
         raise ValueError("grid_size must be at least five")
     center = grid_size // 2
@@ -151,12 +135,6 @@ class GridState:
 
 
 class PersistentGridEnvironment:
-    """Pure-transition grid wrapped in a mutable episode cursor.
-
-    ``simulate`` never mutates the cursor.  ``step_with_counterfactuals`` first simulates all four
-    actions from the same frozen state, records their shared clone reference, then commits exactly
-    the policy-chosen branch.
-    """
 
     def __init__(self, spec: WorldSpec):
         _validate_spec(spec)
@@ -411,7 +389,6 @@ def collect_trajectory_bundle(
     policy: str = "mixed",
     policy_seed: int | None = None,
 ) -> dict[str, Any]:
-    """Collect actual trajectories plus four-way cloned-state counterfactuals."""
     if episodes < 2:
         raise ValueError("at least two episodes are required")
     policy_seed = spec.seed + 7_919 if policy_seed is None else int(policy_seed)
@@ -571,7 +548,6 @@ def verify_trajectory_bundle(bundle: dict[str, Any]) -> dict[str, Any]:
 
 
 def trajectory_tensors(bundle: dict[str, Any], *, counterfactuals: bool = False) -> dict[str, Any]:
-    """Expose a stable numeric seam without discarding exact string referents."""
     rows = bundle["counterfactual_transitions" if counterfactuals else "actual_transitions"]
     observations = torch.tensor([row["observation_before"] for row in rows], dtype=torch.float32)
     next_observations = torch.tensor([row["observation_after"] for row in rows], dtype=torch.float32)
@@ -592,7 +568,6 @@ def trajectory_tensors(bundle: dict[str, Any], *, counterfactuals: bool = False)
 
 
 def bounded_trajectory_contract(*, seed: int, episodes: int = 4, horizon: int = 8) -> dict[str, Any]:
-    """Cheap contract used inside existing F/E experiment results."""
     bundle = collect_trajectory_bundle(make_world_spec(seed=seed, horizon=horizon), episodes=episodes)
     verification = verify_trajectory_bundle(bundle)
     tensors = trajectory_tensors(bundle)
@@ -615,7 +590,6 @@ def bounded_trajectory_contract(*, seed: int, episodes: int = 4, horizon: int = 
 
 
 def write_trajectory_bundle(path: Path, bundle: dict[str, Any]) -> None:
-    """Atomically persist a bundle after exact replay verification."""
     verification = verify_trajectory_bundle(bundle)
     if not verification["verified"]:
         raise ValueError(f"refusing to write invalid trajectory bundle: {verification['errors']}")

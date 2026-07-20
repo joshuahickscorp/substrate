@@ -1,12 +1,3 @@
-"""Latent hippocampus: an episodic replay buffer over frozen-encoder latents. Because the
-encoder is frozen, stored latents never go stale (the one place the frozen constraint
-actively helps). Carries the three knobs the corpus separates:
-  - prioritization (recency/surprise/reward/learning-progress -> a scalar priority)
-  - a key-value index for content retrieval (faiss, with an exact brute-force fallback)
-  - eviction (reservoir / fifo / priority)
-
-Prioritized sampling is standard PER: P(i) ~ p_i^alpha, importance weight w_i = (N P(i))^-beta.
-"""
 
 from __future__ import annotations
 
@@ -20,11 +11,6 @@ _FAISS_SAFE: bool | None = None
 
 
 def faiss_search_safe() -> bool:
-    """Probe (once, cached) whether faiss.search runs safely AFTER torch is imported. On Apple
-    Silicon, faiss 1.14 + this torch share two OpenMP runtimes and faiss.search SEGFAULTS (rc
-    139), which cannot be caught in-process. So we test it in a throwaway subprocess and fall
-    back to the exact brute-force path if it is unsafe. brute is exact, so correctness is never
-    at risk: only large-scale speed, which is a Studio concern."""
     global _FAISS_SAFE
     if _FAISS_SAFE is None:
         code = (
@@ -40,8 +26,6 @@ def faiss_search_safe() -> bool:
 
 
 class KVIndex:
-    """Nearest-neighbor retrieval over keys. faiss when asked AND safe on this platform, else
-    exact torch cdist (correct at any scale; the API matches so the Studio can use faiss)."""
 
     def __init__(self, dim: int, kind: str = "brute"):
         self.dim = dim
@@ -146,7 +130,6 @@ class ReplayBuffer:
         return priority.detach().float().reshape(-1)
 
     def _slot(self, prio: float) -> int | None:
-        """Pick a write slot per eviction policy. Returns None to reject the item."""
         if self.size < self.capacity:
             s = self.pos
             self.pos = (self.pos + 1) % self.capacity
@@ -158,7 +141,6 @@ class ReplayBuffer:
         if self.eviction == "priority":
             lo = int(self.prio.argmin())
             return lo if prio >= float(self.prio[lo]) else None
-        # reservoir: replace a uniform slot with prob capacity/seen
         if torch.rand(1, generator=self.g).item() < self.capacity / max(1, self.seen):
             return int(torch.randint(0, self.capacity, (1,), generator=self.g))
         return None

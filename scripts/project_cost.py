@@ -1,14 +1,4 @@
 #!/usr/bin/env python
-"""Project full-scale Studio wall-clock for the whole run-queue from measured cpu timings.
-
-Loads per-run-unit timings from a checkpoint dir of run_pool manifest json files if one is
-given (--ckpt DIR), else falls back to a small built-in placeholder (the campaign driver passes
-the real measured timings in code via cost_projection()). Writes runs/cost_projection.md and
-prints the JSON projection to stdout; logs to stderr.
-
-Usage:
-  python scripts/project_cost.py [--ckpt runs] [--workers 10] [--full-seed 5]
-"""
 
 from __future__ import annotations
 
@@ -26,8 +16,6 @@ from mop.studies.cost_projection import (
 
 log = get_logger("project_cost")
 
-# Placeholder measured timings (laptop-throttled, seconds/run-unit). Stand-ins until the campaign
-# driver passes the real numbers; keyed by experiment id so they apply across legs of that exp.
 DEFAULT_TIMINGS = {
     "e1_baseline": 4.0,
     "e2_replay": 7.5,

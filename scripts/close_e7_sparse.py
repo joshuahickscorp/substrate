@@ -54,9 +54,6 @@ REPO = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = REPO / "runs" / "pre_studio" / "close_e7_sparse.json"
 OUT = DEFAULT_OUT
 
-# Stream / head config, matched to configs/experiment/e7_sparse.yaml. Kept identical so the BWT
-# numbers here are the same regime the corpus positive was measured in (only the substrate variant
-# and the multi-seed loop are new).
 CFG = dict(
     n_tasks=5,
     dim=128,
@@ -74,10 +71,6 @@ SEEDS = [0, 1, 2, 3, 4]
 
 
 def _apply_frozen_random(tasks: list[Task], seed: int) -> list[Task]:
-    """Replace every task's x with a FIXED random linear projection of it (same projection W for the
-    whole stream, so the cross-domain interference structure is a rotated / mixed view of the real
-    one). This is the D2 'any projection' control at the input level. Labels and geometry-per-task
-    ordering are untouched, so compute and the continual protocol are identical to the real arm."""
     return [
         Task(
             t.name,
@@ -92,8 +85,6 @@ def _apply_frozen_random(tasks: list[Task], seed: int) -> list[Task]:
 
 
 def _build_arms(dim: int, n_classes: int) -> dict:
-    """The three e7_sparse head builders at matched parameter count, using E7's own expert-width
-    solver so the MoE stays param matched to the dense head (sparsity / routing is the only change)."""
     e7 = E7()
     hidden = CFG["hidden"]
     expert_hidden = e7._matched_expert_hidden(dim, hidden, n_classes, CFG["n_experts"])
@@ -115,8 +106,6 @@ def _evaluate(model: nn.Module, test: list[Task]) -> list[float]:
 
 
 def _run_arm(build, train: list[Task], test: list[Task], chance: float, seed: int) -> dict:
-    """Reproduce E7._run_arm exactly: reseed, full-batch Adam, epochs_per_task steps per task,
-    evaluate the whole test set after each task, then BWT from ContinualResult. CPU, tiny MLP."""
     seed_everything(seed)
     model = build()
     opt = torch.optim.Adam(model.parameters(), lr=CFG["lr"])
@@ -138,8 +127,6 @@ def _run_arm(build, train: list[Task], test: list[Task], chance: float, seed: in
 
 
 def _run_substrate(tasks: list[Task], dim: int, n_classes: int, chance: float, seed: int) -> dict:
-    """Run all three arms on one substrate for one seed and return per-arm BWT plus the
-    best-sparse-minus-dense gain (the e7_sparse effect size)."""
     train = [_split(t)[0] for t in tasks]
     test = [_split(t)[1] for t in tasks]
     arms = {name: _run_arm(b, train, test, chance, seed) for name, b in _build_arms(dim, n_classes).items()}
@@ -173,8 +160,6 @@ def main(argv: list[str] | None = None) -> None:
     dim = CFG["dim"]
     per_seed: list[dict] = []
     for seed in SEEDS:
-        # One stream per seed; the frozen-random arm uses a projection of THAT SAME stream, so the
-        # only difference between the two substrates is the fixed linear map (matched everything else).
         seed_everything(seed)
         raw = make_task_stream(
             n_tasks=CFG["n_tasks"],
@@ -205,16 +190,12 @@ def main(argv: list[str] | None = None) -> None:
     mean_rand = sum(s["frozen_random"]["sparse_minus_dense_gain"] for s in per_seed) / n
     mean_dense_bwt_real = sum(s["real"]["bwt"]["dense"] for s in per_seed) / n
     mean_dense_bwt_rand = sum(s["frozen_random"]["bwt"]["dense"] for s in per_seed) / n
-    # ratio of the frozen-random advantage to the real advantage. Near 1 => generic; near 0 (or
-    # negative / below the margin) => substrate specific.
     ratio = (mean_rand / mean_real) if abs(mean_real) > 1e-9 else float("nan")
 
     margin = CFG["margin"]
     real_clears = mean_real > margin
     rand_clears = mean_rand > margin
 
-    # Honest verdict. The corpus positive requires the real gain to clear the null margin; if it does
-    # not at this scale we say so plainly rather than tuning.
     if not real_clears:
         resolution = "inconclusive"
         verdict = (

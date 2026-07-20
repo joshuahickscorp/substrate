@@ -1,11 +1,3 @@
-"""Risk-coverage and discrimination metrics (WP-02, H-RISKCOV): AUROC (rank-based, tie-corrected),
-equal-mass ECE (fixed-width bins hide miscalibration where confidence mass concentrates), the
-risk-coverage curve and its area (AURC, lower is better), a Pareto-frontier area for accuracy-vs-cost
-tradeoffs, and the seed-CI plus sign-flip report every MoT verdict table requires. All pure torch and
-python, CPU-fine, deterministic, nothing trains.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -20,8 +12,6 @@ def _as1d(x) -> torch.Tensor:
 
 
 def auroc(scores, labels) -> float:
-    """Area under the ROC curve via the rank (Mann-Whitney U) formulation, ties handled by average
-    rank. `scores` higher = more positive; `labels` in {0, 1}. Returns 0.5 for a degenerate class."""
     s, y = _as1d(scores), _as1d(labels)
     n_pos, n_neg = int((y == 1).sum()), int((y == 0).sum())
     if n_pos == 0 or n_neg == 0:
@@ -29,7 +19,6 @@ def auroc(scores, labels) -> float:
     order = s.argsort()
     ranks = torch.empty_like(s)
     ranks[order] = torch.arange(1, len(s) + 1, dtype=torch.float64)
-    # average ranks over ties
     for v in s.unique():
         m = s == v
         if int(m.sum()) > 1:
@@ -39,8 +28,6 @@ def auroc(scores, labels) -> float:
 
 
 def ece_equal_mass(confidences, correct, bins: int = 10) -> float:
-    """Expected calibration error with EQUAL-MASS bins (each bin holds ~n/bins points, sorted by
-    confidence): sum over bins of (mass fraction) * |mean confidence - mean accuracy|."""
     c, k = _as1d(confidences), _as1d(correct)
     n = len(c)
     order = c.argsort()
@@ -55,9 +42,6 @@ def ece_equal_mass(confidences, correct, bins: int = 10) -> float:
 
 
 def risk_coverage(confidences, correct) -> dict:
-    """Selective-prediction curve: sort by descending confidence, at each coverage c the risk is the
-    error rate on the top-c fraction. Keys: coverage (list), risk (list), aurc (area under the curve,
-    lower is better), risk_at_full (error at coverage 1.0)."""
     c, k = _as1d(confidences), _as1d(correct)
     order = c.argsort(descending=True)
     k = k[order]
@@ -76,8 +60,6 @@ def risk_coverage(confidences, correct) -> dict:
 
 
 def pareto_frontier(points: Sequence[tuple[float, float]]) -> list[tuple[float, float]]:
-    """Non-dominated subset of (cost, quality) points: keep a point iff no other point has cost <= and
-    quality >= with one strict. Returned sorted by cost ascending."""
     pts = sorted(set((float(x), float(y)) for x, y in points))
     front: list[tuple[float, float]] = []
     best = -math.inf
@@ -89,9 +71,6 @@ def pareto_frontier(points: Sequence[tuple[float, float]]) -> list[tuple[float, 
 
 
 def pareto_area(points: Sequence[tuple[float, float]], *, x_max: float | None = None) -> float:
-    """Area under the (cost, quality) Pareto frontier by step interpolation up to x_max (default: the
-    max cost seen). A scalar for 'how much quality per unit budget the family buys'; compare arms at
-    identical x_max only."""
     front = pareto_frontier(points)
     if not front:
         return 0.0
@@ -107,8 +86,6 @@ def pareto_area(points: Sequence[tuple[float, float]], *, x_max: float | None = 
 
 
 def seed_ci(values: Sequence[float], z: float = 1.96) -> dict:
-    """Mean, sample SD, and a normal-approximation CI half-width over per-seed values. Keys: n, mean,
-    sd, ci_half, lo, hi. Small-n honesty: with n < 3 the CI is reported but flagged unstable."""
     v = [float(x) for x in values]
     n = len(v)
     mean = sum(v) / max(n, 1)
@@ -126,8 +103,6 @@ def seed_ci(values: Sequence[float], z: float = 1.96) -> dict:
 
 
 def sign_flip_report(deltas: Sequence[float]) -> dict:
-    """Per-seed effect deltas -> the sign-consistency verdict the aggregate table renders. Keys:
-    n, n_pos, n_neg, n_zero, any_flip (both signs present), consistent_sign (+1, -1, or 0)."""
     d = [float(x) for x in deltas]
     n_pos = sum(1 for x in d if x > 0)
     n_neg = sum(1 for x in d if x < 0)

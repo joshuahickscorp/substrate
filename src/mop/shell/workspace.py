@@ -1,11 +1,3 @@
-"""WorkspaceShell (WP-02): PURE COMPOSITION of the existing shell pieces (predictor, heads, ensemble,
-modulation) behind cfg.shell flags. No new science lives here: every module it instantiates already
-exists, this class only wires them into one forward pass so the CM4/WS experiments toggle components by
-config instead of duplicating training scripts. Building parallel shell classes is explicitly rejected
-(13_code_scaffolding.md); extend this composition or the underlying module, never both.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -19,9 +11,6 @@ from .predictor import Predictor
 
 
 class WorkspaceShell(nn.Module):
-    """Frozen-latent in, dict out. Order of operations: context gating (if enabled and a context is
-    given), working memory (if enabled), then predictor or ensemble-of-predictors, plus the head on the
-    modulated latent. Any component may be None (identity for modulation, absent key in the output)."""
 
     def __init__(
         self,
@@ -45,8 +34,6 @@ class WorkspaceShell(nn.Module):
         context: torch.Tensor | None = None,
         mem: torch.Tensor | None = None,
     ) -> dict[str, torch.Tensor]:
-        """x [B, D] -> dict with keys: latent (post-modulation), and when present: mem, prediction,
-        disagreement (ensemble only), head (logits or (mean, logvar) per the head type)."""
         h = x
         out: dict[str, torch.Tensor] = {}
         if "context_gating" in self.modulation and context is not None:
@@ -66,9 +53,6 @@ class WorkspaceShell(nn.Module):
 
     @classmethod
     def from_cfg(cls, shell_cfg, dim: int) -> WorkspaceShell:
-        """Compose from one shell bundle (configs/shell/*.yaml): predictor block always builds; the
-        head builds from shell_cfg.heads; ensemble.size > 1 wraps the predictor in an Ensemble;
-        modulation blocks build iff their flags are set. Exactly the existing builders, no new knobs."""
         predictor = Predictor.from_cfg(shell_cfg.predictor, dim)
         head = build_head(shell_cfg.heads, dim, int(shell_cfg.heads.n_classes), out_dim=dim)
         ensemble = None

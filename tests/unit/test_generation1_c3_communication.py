@@ -1,4 +1,3 @@
-"""Honesty and determinism checks for the G1-C3 V1/M1 mechanics pilot."""
 
 from __future__ import annotations
 

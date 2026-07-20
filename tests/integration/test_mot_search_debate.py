@@ -1,7 +1,3 @@
-"""WP-04 search and debate (MP7 beam search, MP8 latent debate). Tiny synthetic tensors only,
-seconds, no encoder loads, no caches touched. PR1 is never rebuilt: the gate reader is exercised on
-fixture jsons and the missing-file path. Asserts MECHANICS and contract honesty, never a scientific
-outcome (the preregistered nulls may hold)."""
 
 import json
 import sys
@@ -30,7 +26,6 @@ def tiny_backbone(seed=0, n_max=3):
 
 
 def test_mt7_flop_schedule_counts_pruned_work():
-    # k grows 1 -> 2 -> 3; children per round 2, 4, 6; EVERY child charged step + eval
     sched = mt7.beam_flop_schedule(rounds=3, beam_width=3, expansions=2, per_step=100, per_eval=10)
     assert sched["expansions"] == 12
     assert sched["total_flops"] == 12 * 110
@@ -74,7 +69,6 @@ def test_mt8_zero_init_wires_start_at_the_independent_module():
     with torch.no_grad():
         logits, info = mt8.debate_forward(mod, mod, wires, x, 3)
         solo = mt8.unroll_logits(mod, x, 3)
-    # same module both sides + zero wires: latents coincide, so the referee blend is the solo answer
     assert info["dist_mean"] == 0.0
     assert torch.allclose(logits, solo, atol=1e-5)
 
@@ -115,7 +109,6 @@ def test_mt8_runs_all_arms_and_reports_gate(tmp_path):
         assert 0.0 <= rec[key] <= 1.0
     assert -1.0 <= rec["module_error_correlation"] <= 1.0
     assert 0.0 <= rec["referee_weight_mean"] <= 1.0
-    # controls stay inside the deep-supervised horizon and the budgets are matched by construction
     b = out["flop_budget"]
     assert b["n_max_train"] >= max(b["steps_single"], b["steps_ensemble"], 2)
     assert out["compute_vs_single"]["matched"] is True

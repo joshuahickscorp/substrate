@@ -1,10 +1,3 @@
-"""Quiescent assembly of every evidence-bounded ESCS perspective slot.
-
-Gate A is permissive about *installation*, not about activation or truth.  This
-module turns the perspective registry into a content-addressed substrate assembly
-where mechanics, toy candidates, controls, stubs, and exclusions all have an exact
-place while every slot remains computationally quiescent.
-"""
 
 from __future__ import annotations
 

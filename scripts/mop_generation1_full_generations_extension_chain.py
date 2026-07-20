@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Control the full-generations Generation 1 extension chain."""
 
 # ruff: noqa: E402 - direct execution must bootstrap repository imports
 

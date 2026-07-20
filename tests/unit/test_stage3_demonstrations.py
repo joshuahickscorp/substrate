@@ -1,10 +1,3 @@
-"""Unit tests for the Stage 3 demonstration adapter.
-
-These tests assert that every epoch demonstration is deterministic per seed with a stable digest,
-that the honest default holds (the prior null holds and controls are complete), that the three
-verdict bearing epochs report null_holds True, that an unknown epoch fails closed, and that the
-coverage record lists all nine epochs. No capability is claimed anywhere.
-"""
 
 from __future__ import annotations
 
@@ -68,7 +61,6 @@ def test_verdict_bearing_epochs_report_null_holds(epoch: str) -> None:
 
 
 def test_distinct_seeds_yield_distinct_digests() -> None:
-    # The seeded beds depend on the seed, so distinct seeds must produce distinct result digests.
     assert run_demonstration("trace_stability", 1).digest() != run_demonstration(
         "trace_stability", 2
     ).digest()

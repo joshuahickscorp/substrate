@@ -1,10 +1,3 @@
-"""Evidence-bounded metadata for permissive ESCS perspective candidates.
-
-This module does not activate actors, install policies, or promote scientific claims.  It gives the
-research scaffold one immutable vocabulary for recording which perspectives may be integrated as
-infrastructure, feature-flagged toy mechanisms, controls, inert stubs, or exclusions.  Every catalog
-entry is disabled by default and binds its standing to exact evidence references and safety guards.
-"""
 
 from __future__ import annotations
 
@@ -44,7 +37,6 @@ def _require_false(value: object, label: str) -> None:
 
 
 class PerspectiveFacet(StrEnum):
-    """Cognitive facets and coordination mechanisms requested for the ESCS research catalog."""
 
     ABSTRACTION = "abstraction"
     ADAPTIVE_ACTIVATION = "adaptive_activation"
@@ -115,7 +107,6 @@ class EffectBoundary(StrEnum):
 
 
 class TriggerAuthority(StrEnum):
-    """Prospective activation source; independent self-triggering is deliberately absent."""
 
     NONE = "none"
     EXTERNAL_EVENT = "external-event"
@@ -171,7 +162,6 @@ class PerspectiveGuard(StrEnum):
 
 @dataclass(frozen=True, slots=True)
 class EvidenceReference:
-    """One exact repository artifact and locator, with its deliberately narrow claim scope."""
 
     artifact_path: str
     locator: str
@@ -234,7 +224,6 @@ _COUNTERFACTUAL_ONLY = frozenset(
 
 @dataclass(frozen=True, slots=True)
 class PerspectiveCandidate:
-    """Immutable metadata for one disabled perspective candidate."""
 
     candidate_id: str
     facet: PerspectiveFacet
@@ -412,7 +401,6 @@ class PerspectiveCandidate:
 
 @dataclass(frozen=True, slots=True)
 class PerspectiveCandidateRegistry:
-    """Complete disabled catalog; validation is evidence-policy enforcement, not activation."""
 
     candidates: tuple[PerspectiveCandidate, ...]
     default_activation_enabled: bool = False
@@ -494,7 +482,6 @@ class PerspectiveCandidateRegistry:
 
 
 def load_perspective_candidate_registry(path: str | Path) -> PerspectiveCandidateRegistry:
-    """Load and fully validate one machine-readable candidate registry."""
 
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
     if not isinstance(payload, Mapping):

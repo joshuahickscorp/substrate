@@ -1,6 +1,3 @@
-"""The experiment bank registry is the preregistration: schema + closed vocab, every row carries a
-null/metric/falsifier/taxonomy slot, implemented rows point at real code, the REGISTRY and the bank
-file cannot diverge, and EXPERIMENTS.md is generated from the registry (no drift)."""
 
 from mop.devel import registries as R
 from mop.experiments import REGISTRY
@@ -56,7 +53,6 @@ def test_ex_series_present():
 
 
 def test_moonshots_are_not_runnable():
-    # a moonshot resource_tier must never be marked implemented (catalogue-only doctrine)
     for e in R.load_experiments():
         if e["resource_tier"] == "moonshot":
             assert e["status"] != "implemented"
@@ -84,6 +80,5 @@ def test_experiments_md_renders_from_registry():
     md = R.render_experiments_md()
     assert "GENERATED from registry/experiments.yaml" in md
     assert "ex17_latent_reasoning" in md and "FAILURE_TAXONOMY" in md
-    # every catalogued id appears in the rendered doc
     for e in R.load_experiments():
         assert e["id"] in md

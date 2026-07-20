@@ -1,10 +1,3 @@
-"""Studio-native lane manifest.
-
-The Studio audit adds lanes the laptop could not honestly expose: predictor rollouts, hosted real
-corpora, full-width perspectives, live-encoder loops, developmental PR9 streams, and the Process C
-doctrine decision. This module makes those lanes machine-readable without launching science on the
-laptop. Runnable lanes get concrete commands. Blocked lanes carry the release condition as a receipt.
-"""
 
 from __future__ import annotations
 
@@ -22,7 +15,6 @@ SCHEMA = "mop-studio-native-lanes/v1"
 
 @dataclass(frozen=True)
 class NativeLane:
-    """One Studio-native lane or preregistered wall condition."""
 
     lane_id: str
     facet: str
@@ -254,7 +246,6 @@ def build_native_lane_manifest(
     lane_ids: list[str] | None = None,
     inputs: dict[str, str | None] | None = None,
 ) -> dict[str, Any]:
-    """Evaluate native lanes under a profile without running them."""
     profile = get_profile(profile_name)
     selected = _select_lanes(lane_ids)
     variables = {k: v for k, v in (inputs or {}).items() if v}
@@ -281,7 +272,6 @@ def write_native_manifest(manifest: dict[str, Any], path: Path | str) -> None:
 
 
 def write_native_daemon_plan(manifest: dict[str, Any], path: Path | str) -> dict[str, Any]:
-    """Write a long-run daemon plan from ready native lanes only."""
     jobs = [
         {
             "id": lane["id"],

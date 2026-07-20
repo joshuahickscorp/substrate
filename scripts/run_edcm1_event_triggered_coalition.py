@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Entry point for the manifest-governed EDCM-1 v3 mechanics study."""
 
 import sys
 from pathlib import Path

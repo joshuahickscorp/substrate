@@ -1,19 +1,4 @@
 #!/usr/bin/env python
-"""WP-01 cache pass (Q2.3, ENCODER LANE ONLY): DINOv2-S real AND same-arch from_config random-init over
-the shared nuisance clips. 8 subsampled frames per clip at 224px, CLS token per frame, mean pooled over
-frames, into data/cache/dinov2s_nuisance_{real,randominit}. Identical preprocessing for both arms: the
-random-init column is the non-vacuous control (never a square latent projection).
-
-HARD RULES: this is a torch encode job. It queues strictly AFTER the in-flight V-JEPA encode, serially,
-one model in memory at a time (the two arms run sequentially, clips regenerated per arm, which is free
-because regeneration is deterministic). Clips stream one at a time as uint8 (clip identity rule); no
-batching of clips, ever. Weights must already be staged by stage_small_substrates.py; loading is
-local_files_only so this job can never hit the network.
-
-Usage: python scripts/cache_dinov2s_nuisance.py   -> runs/mot/cache_dinov2s.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -60,16 +45,12 @@ def guard_staged() -> None:
 
 
 def preprocess_frames(frames_u8: torch.Tensor, res: int = RES_IN) -> torch.Tensor:
-    """[t,3,H,W] uint8 -> [t,3,res,res] float, bilinear resize + ImageNet normalization. The ONE
-    preprocessing path, shared verbatim by the real and random-init arms."""
     x = frames_u8.float() / 255.0
     x = F.interpolate(x, size=(res, res), mode="bilinear", align_corners=False, antialias=True)
     return (x - IMAGENET_MEAN[None, :, None, None]) / IMAGENET_STD[None, :, None, None]
 
 
 def load_arm(arm: str, seed: int):
-    """Load exactly one model into memory. real = staged pretrained weights; randominit = the same
-    architecture from_config with seeded random weights (the honest control)."""
     from transformers import AutoConfig, AutoModel
 
     if arm == "real":

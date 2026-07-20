@@ -291,7 +291,7 @@ IMPLEMENTATION_PATH = Path(__file__).resolve()
 
 
 class SuccessorExtensionRefused(RuntimeError):
-    """The extension waiter could not establish an exact safe boundary."""
+    pass
 
 
 IdentityProbe = Callable[[Mapping[str, Any]], str]
@@ -627,7 +627,6 @@ def _extension_status_payload(state: Mapping[str, Any]) -> dict[str, Any]:
 
 
 class SuccessorExtensionChain:
-    """Wait for v7 completion and then own the v2 supervisor lifecycle."""
 
     def __init__(
         self,
@@ -1404,7 +1403,6 @@ def validate_extension_status(
     target_program_path: Path = DEFAULT_TARGET_PROGRAM,
     predecessor_status_path: Path = DEFAULT_PREDECESSOR_STATUS,
 ) -> str:
-    """Validate one exact extension status acknowledgement without mutating state."""
 
     repo_root = repo_root.resolve()
     target_program_path = target_program_path.resolve()
@@ -1637,7 +1635,6 @@ def read_validated_complete_extension_status(
     predecessor_status_path: Path | None = None,
     acquire_lock: bool = True,
 ) -> dict[str, Any]:
-    """Read and replay one stable, exact, complete extension snapshot."""
 
     root = root.resolve()
     repo_root = repo_root.resolve()

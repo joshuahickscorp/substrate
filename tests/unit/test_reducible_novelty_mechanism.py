@@ -1,18 +1,3 @@
-"""Tests for the reducible novelty mechanism: determinism and fail-closed on the noise trap.
-
-The runner measures learning progress and allocation efficiency for the mechanism and each control
-on both regimes and mints a mechanics-demonstration receipt. The load-bearing guarantees pinned
-here:
-
-- Determinism: the same bed and seed give a byte-identical result and receipt digest.
-- The NULL regime always mints ``null``; every arm scores zero there, so the trap genuinely holds.
-- The FAVORABLE regime mints ``mechanics-ok`` only for a strict both-axes win over every control.
-- Improving only learning progress, or only allocation efficiency, is NOT mechanics-ok: the trap.
-- The receipt is never a scientific confirmation.
-- The bed and runner are discoverable through the stage3 registry _discover pattern.
-
-No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -73,11 +58,6 @@ def _crafted(
     )
 
 
-# ---------------------------------------------------------------------------
-# Structural conformance and registry discoverability.
-# ---------------------------------------------------------------------------
-
-
 def test_bed_and_runner_conform_to_protocols() -> None:
     assert isinstance(_bed(), Bed)
     assert isinstance(_runner(), MechanismRunner)
@@ -98,11 +78,6 @@ def test_bed_declares_the_control_family_and_a_non_vacuous_budget() -> None:
     assert budget.params > 0 and budget.flops > 0 and budget.wall_ns > 0 and budget.seeds > 0
 
 
-# ---------------------------------------------------------------------------
-# Determinism.
-# ---------------------------------------------------------------------------
-
-
 def test_run_is_deterministic() -> None:
     runner, bed = _runner(), _bed()
     for seed in SEEDS:
@@ -119,11 +94,6 @@ def test_readings_are_reproducible_at_the_source() -> None:
     assert run_all(panel) == run_all(panel)
 
 
-# ---------------------------------------------------------------------------
-# The null regime holds the trap: always null, never a both-axes win.
-# ---------------------------------------------------------------------------
-
-
 def test_null_regime_holds_the_trap_and_mints_null() -> None:
     runner, bed = _runner(), _bed()
     for seed in (*SEEDS, *BAND_SEEDS):
@@ -134,11 +104,6 @@ def test_null_regime_holds_the_trap_and_mints_null() -> None:
         receipt = runner.mint(result)
         assert receipt.verdict == VERDICT_NULL
         assert receipt.is_confirmation is False
-
-
-# ---------------------------------------------------------------------------
-# The favorable regime mints mechanics-ok on a strict both-axes win.
-# ---------------------------------------------------------------------------
 
 
 def test_favorable_regime_mints_mechanics_ok_over_every_control() -> None:
@@ -163,11 +128,6 @@ def test_favorable_novelty_chaser_is_pulled_toward_the_noise() -> None:
     chaser = run_control("novelty_chaser", panel)
     uniform = run_control("uniform_allocation", panel)
     assert chaser.allocation_efficiency < uniform.allocation_efficiency
-
-
-# ---------------------------------------------------------------------------
-# Fail-closed on the trap: a single-axis win is never mechanics-ok.
-# ---------------------------------------------------------------------------
 
 
 def test_only_progress_improved_is_not_mechanics_ok() -> None:
@@ -208,11 +168,6 @@ def test_a_tie_on_an_axis_is_not_a_strict_win() -> None:
     assert runner.mint(result).verdict == VERDICT_NULL
 
 
-# ---------------------------------------------------------------------------
-# Digest stability and receipt honesty.
-# ---------------------------------------------------------------------------
-
-
 def test_evidence_digest_is_stable_and_well_formed() -> None:
     runner, bed = _runner(), _bed()
     result = runner.run(bed, 0, REGIME_FAVORABLE)
@@ -227,11 +182,6 @@ def test_mint_is_never_a_confirmation_on_either_regime() -> None:
         receipt = runner.mint(runner.run(bed, 0, regime))
         assert receipt.kind == KIND_DEMONSTRATION
         assert receipt.is_confirmation is False
-
-
-# ---------------------------------------------------------------------------
-# Refusals: malformed inputs fail closed everywhere.
-# ---------------------------------------------------------------------------
 
 
 def test_run_result_refuses_an_empty_control_family() -> None:

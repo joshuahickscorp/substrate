@@ -1,8 +1,3 @@
-"""The seven learning rules compared in I4. Each trains a small head on standardized latents
-and returns a RuleResult. The bio-plausible rules are implemented faithfully enough to
-train (no autograd weight transport where the rule forbids it); they are expected to trail
-backprop, which is the point. Full-batch GD keeps them deterministic and comparable.
-"""
 
 from __future__ import annotations
 
@@ -60,7 +55,6 @@ def _relu(z):
     return z.clamp_min(0.0)
 
 
-# --------------------------------------------------------------------------- backprop ceiling
 def train_backprop(x, y, hidden=64, epochs=200, lr=0.05, seed=0) -> RuleResult:
     xtr, ytr, xte, yte, C = _prep(x, y, seed=seed)
     net = torch.nn.Sequential(
@@ -85,9 +79,7 @@ def train_backprop(x, y, hidden=64, epochs=200, lr=0.05, seed=0) -> RuleResult:
     )
 
 
-# --------------------------------------------------------------------------- feedback alignment
 def train_feedback_alignment(x, y, hidden=64, epochs=400, lr=0.05, seed=0) -> RuleResult:
-    """1 hidden layer; hidden error uses a FIXED random feedback matrix B, not W2^T."""
     xtr, ytr, xte, yte, C = _prep(x, y, seed=seed)
     g = torch.Generator().manual_seed(seed)
     d = xtr.shape[1]
@@ -127,10 +119,7 @@ def train_feedback_alignment(x, y, hidden=64, epochs=400, lr=0.05, seed=0) -> Ru
     )
 
 
-# --------------------------------------------------------------------------- direct feedback alignment
 def train_dfa(x, y, hidden=64, epochs=400, lr=0.05, seed=0) -> RuleResult:
-    """2 hidden layers; EACH hidden layer gets the output error directly via its own fixed
-    random matrix (no layer-by-layer chaining)."""
     xtr, ytr, xte, yte, C = _prep(x, y, seed=seed)
     g = torch.Generator().manual_seed(seed)
     d = xtr.shape[1]
@@ -173,10 +162,7 @@ def train_dfa(x, y, hidden=64, epochs=400, lr=0.05, seed=0) -> RuleResult:
     )
 
 
-# --------------------------------------------------------------------------- forward-forward
 def train_forward_forward(x, y, hidden=128, epochs=300, lr=0.03, seed=0) -> RuleResult:
-    """Hinton's FF: two layers trained on a local goodness objective (no backward pass). The
-    label is overlaid on the input; predict by the label that maximizes accumulated goodness."""
     xtr, ytr, xte, yte, C = _prep(x, y, seed=seed)
     d = xtr.shape[1]
     torch.manual_seed(seed)
@@ -205,7 +191,6 @@ def train_forward_forward(x, y, hidden=128, epochs=300, lr=0.03, seed=0) -> Rule
         opt.zero_grad()
         gp1, hp = goodness(L1, pos1)
         gn1, hn = goodness(L1, neg1)
-        # layer 2 sees detached normalized activations (locality across layers)
         gp2, _ = goodness(L2, hp.detach())
         gn2, _ = goodness(L2, hn.detach())
         loss = (
@@ -240,10 +225,7 @@ def train_forward_forward(x, y, hidden=128, epochs=300, lr=0.03, seed=0) -> Rule
     )
 
 
-# --------------------------------------------------------------------------- target propagation
 def train_target_prop(x, y, hidden=64, epochs=300, lr=0.05, seed=0) -> RuleResult:
-    """Difference target propagation: a learned inverse propagates targets backward; each
-    layer is trained to a LOCAL target (no global backward pass / weight transport)."""
     xtr, ytr, xte, yte, C = _prep(x, y, seed=seed)
     d = xtr.shape[1]
     torch.manual_seed(seed)
@@ -261,7 +243,6 @@ def train_target_prop(x, y, hidden=64, epochs=300, lr=0.05, seed=0) -> RuleResul
             o = W2(h)
             o_tgt = o - 0.5 * (torch.softmax(o, -1) - T)  # nudge output toward target
             h_tgt = h - torch.tanh(V(o)) + torch.tanh(V(o_tgt))  # difference correction
-        # local layer updates toward their targets
         oW2.zero_grad()
         F.mse_loss(W2(h.detach()), o_tgt).backward()
         oW2.step()
@@ -289,11 +270,7 @@ def train_target_prop(x, y, hidden=64, epochs=300, lr=0.05, seed=0) -> RuleResul
     )
 
 
-# --------------------------------------------------------------------------- equilibrium propagation
 def train_equilibrium_prop(x, y, hidden=64, epochs=120, lr=0.05, seed=0, beta=0.5, relax=12) -> RuleResult:
-    """Minimal real-valued EqProp: a free phase relaxes the network to a fixed point, a
-    nudged phase clamps the output toward the target, and the weight update is the difference
-    of local activity correlations (no separate backward pass, fully local)."""
     xtr, ytr, xte, yte, C = _prep(x, y, seed=seed)
     g = torch.Generator().manual_seed(seed)
     d = xtr.shape[1]
@@ -321,7 +298,6 @@ def train_equilibrium_prop(x, y, hidden=64, epochs=120, lr=0.05, seed=0, beta=0.
     for _ in range(epochs):
         hf, of = settle(xtr)
         hn, on = settle(xtr, T, beta)
-        # local correlation difference (contrastive Hebbian)
         gW2 = (rho(hn).T @ rho(on) - rho(hf).T @ rho(of)).T / (beta * n)
         gW1 = (rho(hn).T @ xtr - rho(hf).T @ xtr) / (beta * n)
         W2 += lr * gW2
@@ -345,11 +321,7 @@ def train_equilibrium_prop(x, y, hidden=64, epochs=120, lr=0.05, seed=0, beta=0.
     )
 
 
-# --------------------------------------------------------------------------- predictive coding
 def train_predictive_coding(x, y, hidden=64, epochs=200, lr=0.05, seed=0, infer=20) -> RuleResult:
-    """Predictive coding (Whittington-Bogacz): clamp input and output to the label, relax the
-    hidden value node to minimize prediction errors, then update weights by local Hebbian
-    error x activity. Approximates backprop without weight transport in the credit path."""
     xtr, ytr, xte, yte, C = _prep(x, y, seed=seed)
     g = torch.Generator().manual_seed(seed)
     d = xtr.shape[1]
@@ -395,11 +367,6 @@ def train_predictive_coding(x, y, hidden=64, epochs=200, lr=0.05, seed=0, infer=
     )
 
 
-# RULES registry and public surface, merged from the former alternatives/__init__.py when the
-# single-module subpackage learning/alternatives/{__init__,rules}.py collapsed to this module.
-# Import path mop.learning.alternatives is unchanged (module vs package is transparent to callers).
-# Each rule trains the SAME small head on the SAME latents and reports accuracy vs backprop,
-# locality (weight transport, separate backward pass), compute cost, and stability.
 RULES = {
     "backprop": train_backprop,
     "feedback_alignment": train_feedback_alignment,

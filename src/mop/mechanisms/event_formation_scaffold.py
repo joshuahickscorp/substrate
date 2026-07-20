@@ -59,8 +59,6 @@ def assert_control_ledger(controls: Sequence[str]) -> None:
         )
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ControlLedgerContract:
 
@@ -84,8 +82,6 @@ class ControlLedgerContract:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -126,8 +122,6 @@ class RelationalEventContract:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -179,8 +173,6 @@ class TemporalEventBindingContract:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -240,8 +232,6 @@ class OracleHeadroomContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
 
@@ -267,8 +257,6 @@ class MatchedBudget:
             "trigger_evals": self.trigger_evals,
             "memory_bytes": self.memory_bytes,
         }
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -359,8 +347,6 @@ class EventUtilityVerdict:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
 
@@ -437,8 +423,6 @@ class EventFormationActivationGate:
         }
 
 
-
-
 def default_matched_budget() -> MatchedBudget:
 
     return MatchedBudget(relational_ops=8, temporal_ops=4, trigger_evals=4, memory_bytes=1024)
@@ -513,9 +497,6 @@ def synthesize_relational_episode(seed: int, *, num_entities: int = 3) -> Relati
         relation=relation,
         entity_refs=entity_refs,
     )
-
-
-# Coverage record.
 
 
 def coverage() -> dict[str, Sequence[str]]:

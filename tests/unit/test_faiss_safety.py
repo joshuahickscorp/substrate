@@ -1,6 +1,3 @@
-"""faiss + torch segfault guard (Apple Silicon). A buffer asked for the faiss index must never
-crash: KVIndex probes faiss.search safety in a subprocess and falls back to exact brute force.
-Correctness (nearest neighbor) holds either way."""
 
 import torch
 

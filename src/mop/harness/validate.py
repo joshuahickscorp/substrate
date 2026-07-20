@@ -1,9 +1,3 @@
-"""Fail-fast validation. Catches the operator mistakes that would otherwise fail deep in a run
-or, worse, silently do the wrong thing: a bad device kind, an unknown tier, a leg missing its
-full grid, a toy axis the full grid lacks, a placeholder (unavailable) encoder asked to load
-real weights, an experiment with no null. Raise early with a clear message, or collect every
-problem at once for the Studio doctor.
-"""
 
 from __future__ import annotations
 
@@ -19,11 +13,10 @@ TIERS = {"C", "E", "R"}
 
 
 class ConfigError(ValueError):
-    """A configuration that cannot be trusted to run correctly."""
+    pass
 
 
 def _declared_null_contract(cfg: DictConfig) -> str:
-    """Return the null declared by a composed config or a sealed study envelope."""
     for path in ("null_hypothesis", "payload.strong_null", "payload.null"):
         value = OmegaConf.select(cfg, path, default="")
         if str(value).strip():
@@ -43,8 +36,6 @@ def validate_experiment(cfg: DictConfig) -> None:
         raise ConfigError("experiment.id missing")
     if not str(e.get("null_hypothesis", "")).strip():
         raise ConfigError(f"experiment {e.get('id')} declares no null_hypothesis (doctrine contract)")
-    # F-series configs are a repeated preregistration surface. Refuse a run before it spends compute
-    # if the composed config weakens or changes the live registry/class contract.
     eid = str(e.get("id"))
     if eid.startswith("f"):
         from ..devel.registries import load_experiments
@@ -65,7 +56,6 @@ def validate_encoder(cfg: DictConfig) -> None:
         return
     if int(enc.get("embed_dim", 0)) <= 0:
         raise ConfigError(f"encoder {enc.get('name')} has non-positive embed_dim")
-    # a placeholder (unavailable) encoder must NOT be asked to load real weights and pretend it is real
     if bool(enc.get("prefer_real", False)) and not bool(enc.get("available", True)):
         raise ConfigError(
             f"encoder {enc.get('name')} is available=false (weights not on HF) but prefer_real=true; "
@@ -80,7 +70,6 @@ def validate_config(cfg: DictConfig) -> None:
 
 
 def validate_leg(leg: dict, known_experiments: set[str] | None = None) -> list[str]:
-    """Return a list of problems with a leg dict (empty == ok)."""
     probs = []
     if leg.get("tier") not in TIERS:
         probs.append(f"tier {leg.get('tier')!r} not in {sorted(TIERS)}")
@@ -98,8 +87,6 @@ def validate_leg(leg: dict, known_experiments: set[str] | None = None) -> list[s
 
 
 def check_all() -> list[dict]:
-    """Validate every encoder config, every experiment config, and every queued leg. Returns a
-    flat list of {where, problem} (empty == clean). Never raises: this is the doctor's surface."""
     from ..experiments import REGISTRY
     from ..falsification.experiment_contracts import build_contract_audit
     from .queue import load_queue

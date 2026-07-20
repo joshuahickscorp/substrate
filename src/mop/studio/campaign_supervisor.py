@@ -267,7 +267,6 @@ def atomic_write_json(path: Path, payload: Mapping[str, Any]) -> None:
 
 
 def write_immutable_json(path: Path, payload: Mapping[str, Any]) -> bool:
-    """Atomically publish one immutable snapshot, returning false if it exists."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
     encoded = canonical_bytes(payload) + b"\n"
@@ -590,7 +589,6 @@ def _registered_child_command_matches(
     declared_command: tuple[str, ...],
     observed_command: tuple[str, ...],
 ) -> bool:
-    """Match a child before or after the exact pinned taskpolicy exec chain."""
     if observed_command == declared_command:
         return True
     prefix_size = len(TASKPOLICY_COEXISTENCE_PREFIX)
@@ -660,8 +658,6 @@ def probe_active_runs(policy: ThrottlePolicy, state_root: Path) -> list[Observed
             if started_at is not None and scheduler_create_time > started_at.timestamp() + 1.0:
                 problems.append("scheduler birth time is newer than its run receipt")
         except (psutil.NoSuchProcess, psutil.ZombieProcess):
-            # The registry snapshot raced with a normal scheduler exit. Omitting
-            # the stale observation lets receipt reconciliation own the outcome.
             continue
         except (psutil.AccessDenied, OSError):
             problems.append("scheduler process identity is unavailable")
@@ -673,8 +669,6 @@ def probe_active_runs(policy: ThrottlePolicy, state_root: Path) -> list[Observed
                 if not _registered_child_command_matches(command, tuple(child.cmdline())):
                     problems.append("registered child command differs from task declaration")
             except (psutil.NoSuchProcess, psutil.ZombieProcess):
-                # A just-finished child may precede the scheduler's terminal
-                # registry update by a few instructions.
                 pass
             except (psutil.AccessDenied, OSError):
                 problems.append("registered child process identity is unavailable")
@@ -959,9 +953,6 @@ class CampaignSupervisor:
         self.events_path = self.out_dir / EVENTS_FILE
         self.control_path = self.out_dir / CONTROL_FILE
         self.lock_path = _campaign_lock_path(plan)
-        # This captures the implementation actually imported by this process.  A
-        # later on-disk change can be authorized at a transition marker, but cannot
-        # safely be treated as loaded until a fresh supervisor process starts.
         self.loaded_throttle_sha256 = sha256_file(THROTTLE_IMPLEMENTATION_PATH)
         self.loaded_supervisor_sha256 = sha256_file(Path(__file__))
         self.pinned_policy_sha256 = self.policy.sha256
@@ -1497,9 +1488,6 @@ class CampaignSupervisor:
                 problems=("restart required to load the authorized governor implementation",),
             )
 
-        # A policy-only migration can be reloaded in-process.  A governor-code
-        # migration reaches here only in the fresh process whose imported hash is
-        # exactly the marker's expected-new hash.
         replacement_policy = load_policy(self.plan.policy_path)
         if replacement_policy.sha256 != current_policy:
             return CompletionResult(False, problems=("policy changed while adopting baseline",))
@@ -1770,7 +1758,6 @@ def create_transition_marker(
     expected_new_policy_sha256: str | None = None,
     expected_new_governor_sha256: str | None = None,
 ) -> dict[str, Any]:
-    """Create the one immutable receipt allowed to authorize baseline drift."""
 
     state_path = out_dir / STATE_FILE
     if not state_path.is_file():

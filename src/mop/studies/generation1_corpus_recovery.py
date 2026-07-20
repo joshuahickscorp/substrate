@@ -37,7 +37,6 @@ def _valid_seal(payload: dict[str, Any], field: str) -> bool:
 
 
 def _successful_receipt(payload: dict[str, Any]) -> bool:
-    """Require a completed worker result before it can supersede an interrupted attempt."""
 
     worker = payload.get("worker_report")
     return bool(
@@ -51,7 +50,6 @@ def _successful_receipt(payload: dict[str, Any]) -> bool:
 
 
 def classify_attempt_receipts(run_root: Path) -> dict[str, int]:
-    """Classify invalid attempt directories without changing scientific attempt authority."""
 
     attempts = sorted(run_root.glob("seed_*/classes/*/attempt_[0-9][0-9][0-9]"))
     invalid: list[tuple[tuple[str, str], int]] = []
@@ -89,7 +87,6 @@ def classify_attempt_receipts(run_root: Path) -> dict[str, int]:
 
 
 def build_recovered_corpus(config_path: Path, run_root: Path) -> dict[str, Any]:
-    """Build the original corpus, append recovery accounting, and reseal the whole artifact."""
 
     corpus = build_corpus(config_path, run_root)
     core = {key: value for key, value in corpus.items() if key != "corpus_sha256"}

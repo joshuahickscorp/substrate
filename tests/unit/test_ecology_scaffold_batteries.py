@@ -1,4 +1,3 @@
-"""Focused tests for the executed ecology scaffold toy-world batteries."""
 
 from __future__ import annotations
 

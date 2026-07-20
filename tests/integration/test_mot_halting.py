@@ -1,7 +1,3 @@
-"""WP-03 halting and verifier harness (MP5, MP6, DR9, DR8). Tiny synthetic tensors only, seconds,
-no encoder loads, no caches touched (DR8 runs its synthetic arm; the real-cache path is asserted to
-fail loudly, not exercised). Asserts MECHANICS and contract honesty, never a scientific outcome (the
-preregistered nulls may hold)."""
 
 import sys
 from pathlib import Path
@@ -37,7 +33,6 @@ def test_mt5_runs_and_matches_mean_flops(tmp_path):
     assert len(out["per_seed"]) == 2
     for rec in out["per_seed"]:
         assert 1.0 <= rec["mean_halt_steps"] <= TINY_MT["max_steps"]
-        # the random-allocation control realizes the adaptive arm's mean step budget
         assert abs(rec["control_mean_steps"] - rec["mean_halt_steps"]) < 0.6
         assert set(rec["compute"]) >= {"matched", "ratio", "tol"}
         assert "regime_calibrated" in rec["d3"]
@@ -50,7 +45,6 @@ def test_mt5_runs_and_matches_mean_flops(tmp_path):
 def test_mt5_entropy_collapse_is_automatic_null():
     import torch
 
-    # a constant halt-step distribution has zero entropy: the automatic-null trigger
     assert mt5.step_entropy_bits(torch.full((32,), 3.0)) == 0.0
     two_level = mt5.step_entropy_bits(torch.tensor([1.0] * 16 + [2.0] * 16))
     assert abs(two_level - 1.0) < 1e-6
@@ -61,11 +55,9 @@ def test_mt6_runs_and_free_rule_is_tuned(tmp_path):
     out = mt6.MT6ConfidenceStop().run(cfg, DEV, tmp_path)
     assert isinstance(out["null_supported"], bool)
     rec = out["per_seed"][0]
-    # the free rule's threshold was tuned toward the trained arm's mean steps on train
     assert abs(rec["free_mean_steps"] - rec["trained_mean_steps"]) < 1.5
     for key in ("auroc_trained", "auroc_free", "auroc_shuffled_labels"):
         assert 0.0 <= rec[key] <= 1.0
-    # shuffled-labels control must sit near chance, else the AUROC yardstick is broken
     assert 0.2 <= out["auroc_shuffled_labels_mean"] <= 0.8
     assert isinstance(out["verdict"], str)
 
@@ -113,11 +105,9 @@ def test_dr8_synthetic_arm_runs(tmp_path):
     assert isinstance(out["null_supported"], bool)
     rec = out["per_seed"][0]
     assert rec["convergence"]["classification"] in {"converges", "drifts", "limit_cycle"}
-    # the curve carries every preregistered checkpoint plus the trained horizon (3 here)
     assert set(rec["ce_curve"]) == {str(k) for k in dr8.CHECKPOINTS} | {"3"}
     assert isinstance(rec["past_horizon_loss_rises"], bool)
     assert isinstance(rec["fixed_point_collapsed"], bool)
-    # weight-tied refiner has strictly fewer params than the untied matched-depth control
     assert out["params"]["refiner"] < out["params"]["untied_control"]
 
 

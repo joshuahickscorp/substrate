@@ -1,4 +1,3 @@
-"""Tiny video-corpus generator: deterministic, class-foldered, with duplicate + short clips."""
 
 import numpy as np
 
@@ -9,7 +8,6 @@ def test_corpus_layout_and_counts(tmp_path):
     man = generate_video_corpus(tmp_path, n_classes=2, clips_per_class=3, frames=6, h=16, w=16, seed=0)
     assert man["classes"] == ["class0", "class1"]
     assert man["mocked"] is True and man["ext"] == ".npy"
-    # class0 has 3 + duplicate + short = 5; class1 has 3
     assert man["per_class"]["class0"] == 5 and man["per_class"]["class1"] == 3
     assert man["n_clips"] == 8
     assert (tmp_path / "class0" / "clip0.npy").exists()

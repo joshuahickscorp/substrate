@@ -1,21 +1,3 @@
-"""Fail-closed runner for the Stage 4 integrated architecture advantage harness.
-
-This module raises the SCAFFOLDING axis only. It ties the deterministic bed and integration function
-together behind the load-bearing composition precondition of Stage 4: an integrated advantage may not
-even be measured until at least two component mechanisms have been INDEPENDENTLY CONFIRMED at Stage 3.
-The runner counts scientific-confirmation receipts via their ``is_confirmation`` property; a toy
-mechanics demonstration never counts. It runs no model, loads no weights, and touches no network.
-
-Honest current state: zero Stage 3 confirmations exist, so the default call reports "not entered" and
-mints a mechanics-demonstration receipt with verdict null. Supplying two or more genuine confirmations
-exercises the composition machinery: on the favorable regime the joint point strictly dominates every
-baseline and the receipt records verdict mechanics-ok; on the null regime the joint dominates nothing
-and the receipt records verdict null. The output is ALWAYS a mechanics demonstration, never a
-scientific confirmation, because a Stage 4 confirmation itself needs an independent verification pass.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -35,15 +17,12 @@ from .stage4_integration_impl import Composition, integrate
 
 STAGE4_RUNNER_SCHEMA = "mop-stage4-integration-runner/v1"
 
-# The mechanism id, stage, and requirement id the Stage 4 output receipt is minted under.
 MECHANISM_ID = "stage4_integration"
 STAGE = 4
 REQUIREMENT_ID = "s4.integration"
 
-# Stage 4 entry demands at least this many independently confirmed mechanisms (read from the ladder).
 MIN_CONFIRMED_MECHANISMS = STAGE_MIN_MECHANISM_RECEIPTS[STAGE]
 
-# Outcome tokens recorded in the receipt detail.
 OUTCOME_NOT_ENTERED = "not-entered"
 OUTCOME_ENTERED_MECHANICS_OK = "entered-mechanics-ok"
 OUTCOME_ENTERED_NULL = "entered-null"
@@ -52,11 +31,10 @@ _ALLOWED_REGIMES = (REGIME_FAVORABLE, REGIME_NULL)
 
 
 class Stage4RunnerRefusal(ValueError):
-    """Raised when the runner is called with a malformed seed or an unsupported regime."""
+    pass
 
 
 def _count_confirmations(confirmations: Sequence[RunReceipt]) -> int:
-    """Count scientific-confirmation receipts. A mechanics demonstration never counts."""
 
     return sum(1 for receipt in confirmations if receipt.is_confirmation)
 
@@ -70,7 +48,6 @@ def _mint(
     confirmations: int,
     composition: Composition | None,
 ) -> RunReceipt:
-    """Mint the Stage 4 mechanics-demonstration receipt with a canonical evidence digest."""
 
     detail: dict[str, Any] = {
         "schema": STAGE4_RUNNER_SCHEMA,
@@ -113,13 +90,6 @@ def run(
     *,
     regime: str = REGIME_FAVORABLE,
 ) -> RunReceipt:
-    """Run the Stage 4 integration harness and mint a mechanics-demonstration receipt.
-
-    Fails closed: with fewer than the required confirmations it reports "not entered" and mints a null
-    receipt without exercising the composition. With enough confirmations it composes the chosen regime
-    and records verdict mechanics-ok on joint Pareto dominance, else verdict null. The output is never a
-    scientific confirmation; a Stage 4 confirmation itself needs an independent verification pass.
-    """
 
     if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
         raise Stage4RunnerRefusal("seed must be a nonnegative integer")

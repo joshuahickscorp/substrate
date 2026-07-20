@@ -1,35 +1,4 @@
 #!/usr/bin/env python
-"""A3 (D3 decisive item): re-run a dead reasoning mechanism (dr8/dr9 test-time compute) against a
-graded, slot-structured task WITH an EXECUTABLE deterministic verifier, and grade on the HARD bin.
-
-The audit killed the learned verify-revise line (ex18: the trained verifier ties a shuffled control).
-A3 asks the sharpest possible follow-up: give the loop a PERFECT oracle checker, not a learned one. The
-task (diagnostics/hardness) labels every sample by a fixed DSL program over four discrete slots (shape,
-color, motion, count) and carries a per-sample hardness (number of corrupted slot blocks). The verifier
-(shell/verifier_exec.ExecutableVerifier) executes that DSL on a candidate's decoded slots on the CPU and
-returns self-consistency, pure code execution with zero learned parameters and no test-label leakage.
-
-Arms (one trained backbone per seed: refiner + per-slot decode heads + a label head, deep-supervised at
-every depth). Feedforward: fixed-N refinement, read the label head, no verifier. Verifier-guided: start
-shallow, and each round the executable verifier checks self-consistency; unverified samples get one more
-refine step, and once a sample verifies its DSL-executed label is committed (the checker both allocates
-depth AND selects the output). Shuffled-verifier control: the identical loop with the consistency
-verdicts row-permuted every round, keeping the reallocation logic but destroying the per-sample DSL
-alignment. Every arm is tuned on the TRAIN set to spend the SAME total FLOPs (refine steps + decode
-evals + verifier checks, all charged), so no arm buys compute.
-
-Preregistered verdict (fixed in code before any result):
-  WIN     iff, on the HARD bin, verifier-guided beats matched-FLOP feedforward with a per-seed delta CI
-          excluding zero and a consistent sign, AND also beats the shuffled-verifier control, on a
-          D3-calibrated regime that carries a real easy-vs-hard hardness gradient.
-  NULL    (kill-switch: test-time compute is dead at this substrate) iff verifier-guided ties feedforward
-          on the hard bin even with the executable oracle, i.e. the hard-bin delta CI includes zero.
-  UNREADABLE iff the regime is not D3-calibrated or has no hardness gradient (nothing to grade).
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-
-Usage: .venv/bin/python scripts/mop_d3_verifier_reasoning.py --seeds 0-9
-"""
 
 from __future__ import annotations
 
@@ -62,9 +31,6 @@ FLOP_TOL = 0.10  # every arm matched to the feedforward budget on TOTAL FLOPs wi
 
 
 class SlotHeads(nn.Module):
-    """Per-slot linear decoders plus a binary label head, all reading the refined latent. The verifier
-    executes the DSL on argmax slot predictions; the label head gives the candidate's own label so the
-    verifier can check self-consistency."""
 
     def __init__(self, dim: int):
         super().__init__()
@@ -79,9 +45,6 @@ class SlotHeads(nn.Module):
 
 
 def train_backbone(task, dim, hidden, n_max, epochs, lr, seed):
-    """Train refiner + slot heads + label head with deep supervision at every depth (so shallow starts
-    and revised depths are all fair reads). Slot heads are supervised toward the TRUE slots, the label
-    head toward the DSL label; both losses at every refine step."""
     seed_everything(seed)
     refiner = IterativeRefiner(dim, hidden, n_max)
     heads = SlotHeads(dim)
@@ -103,14 +66,6 @@ def train_backbone(task, dim, hidden, n_max, epochs, lr, seed):
 
 @torch.no_grad()
 def guided_loop(refiner, heads, verifier, x, n_start, n_max, shuffle_seed=None):
-    """Verifier-guided test-time compute. n_start shared steps, then each round the executable verifier
-    checks self-consistency of every still-active sample (decoded slots vs the head's own label).
-    Unverified samples get one more refine step; once a sample verifies, its DSL-executed label is
-    committed and it stops. Returns (pred_labels, mean_steps, mean_checks). shuffle_seed permutes the
-    verdicts each round (the shuffled-verifier control): reallocation without per-sample DSL alignment.
-
-    Never reads ground-truth y: the committed label is the DSL executed on the candidate's OWN decoded
-    slots, so this is honest test-time compute, not test-label peeking."""
     z = x.clone()
     n = x.shape[0]
     for _ in range(int(n_start)):
@@ -133,14 +88,12 @@ def guided_loop(refiner, heads, verifier, x, n_start, n_max, shuffle_seed=None):
             ok = ok[perm]
         verify_now = active & ok
         committed = torch.where(verify_now, executed, committed)
-        # samples still unverified and under the cap take one more refine step
         revise = active & (~ok) & (used < n_max)
         if not revise.any():
             break
         upd = refiner._update(z)
         z = torch.where(revise.unsqueeze(-1), z + upd, z)
         used = torch.where(revise, used + 1, used)
-    # any sample never verified commits its final label-head read (best effort)
     fallback = heads.label(z).argmax(-1)
     pred = torch.where(committed >= 0, committed, fallback)
     return pred, float(used.mean()), float(checks.mean())
@@ -148,10 +101,6 @@ def guided_loop(refiner, heads, verifier, x, n_start, n_max, shuffle_seed=None):
 
 @torch.no_grad()
 def matched_feedforward_eval(refiner, heads, x, mean_steps, n_max, seed):
-    """The matched-FLOP feedforward control (mt5 style): the verifier-guided arm spends its own
-    realized mean refine steps, so the fair feedforward baseline realizes EXACTLY that mean via a random
-    floor/ceil mixture of fixed depths (so the two arms match on refine FLOPs to the fraction, not just
-    the rounded integer). Returns (pred_labels, realized_mean_steps)."""
     import math
 
     lo = int(math.floor(mean_steps))
@@ -213,22 +162,14 @@ class D3VerifierReasoning(Experiment):
             refiner, heads = train_backbone(task_slice(task, tr), dim, hidden, n_max, epochs, lr, s)
 
             per_step = refiner_flops(dim, hidden, 1)
-            # one decode = the label head plus the four slot heads, charged to BOTH arms once per read.
             per_decode = mlp_flops([dim, 2]) + sum(mlp_flops([dim, SLOT_CARD[nm]]) for nm in SLOT_ORDER)
             per_check = verifier.flops_per_check(1)
 
-            # The verifier-guided arm runs at its NATURAL cost (it stops early once samples verify), so
-            # the fair baseline is feedforward matched to the guided arm's REALIZED total FLOPs, expressed
-            # as an equivalent mean refine-step count (mt5 style). n_start is tuned on TRAIN so guided
-            # spends near the n_single reference budget, keeping the regime non-trivial.
             n_start = int(e.n_start)
             g_pred, g_steps, g_checks = guided_loop(refiner, heads, verifier, xte, n_start, n_max)
             sh_pred, sh_steps, sh_checks = guided_loop(
                 refiner, heads, verifier, xte, n_start, n_max, shuffle_seed=s + 991
             )
-            # guided total FLOPs: refine steps + one decode+check per verifier round. Feedforward also
-            # pays exactly one decode (its single label read), so the matched refine budget absorbs the
-            # guided arm's EXTRA decodes+checks as equivalent refine steps.
             g_flops = g_steps * per_step + g_checks * (per_decode + per_check)
             ff_extra_decode = per_decode  # feedforward's single label read, charged symmetrically
             g_total = g_flops + per_decode  # guided's final fallback read, charged too
@@ -343,8 +284,6 @@ class D3VerifierReasoning(Experiment):
 
 
 def task_slice(task, idx):
-    """Return a GradedTask restricted to index tensor `idx` (train split), so train-time supervision
-    never sees test samples. Preserves slot_dim/dim and the derived fields."""
     from mop.diagnostics.hardness import GradedTask
 
     return GradedTask(

@@ -1,6 +1,3 @@
-"""Acquisition registry: the shipped catalog must validate clean, the schema must reject malformed
-or DISHONEST entries (signed-terms marked available, full Ego4D not deferred, a non-canonical model
-claiming real-encoder), and the merged model registry must keep canonical V-JEPA protected."""
 
 from mop.studio import registry
 
@@ -21,7 +18,6 @@ def test_full_ego4d_is_deferred_by_default():
 
 def test_seeded_broad_categories_present():
     slugs = {d["slug"] for d in registry.load_datasets()}
-    # action/motion, egocentric, instructional, audio, image-aux, synthetic, local lane all seeded
     for must in (
         "ssv2",
         "kinetics700_subset",
@@ -78,7 +74,6 @@ def test_canonical_vjepa_marked_real_only_when_verified():
     models = registry.load_models()
     canon = [m for m in models if m["role"] == "canonical"]
     real = [m for m in canon if m["result_tag"] == "real-encoder"]
-    # the three hand-verified V-JEPA 2 weights are real; the rest (e.g. 2.1) are provisional
     assert real, "at least one canonical V-JEPA must be real-encoder"
     for m in real:
         assert m["hf_id"] in registry.verified_real_ids()  # real only if hand-verified on HF
@@ -87,7 +82,6 @@ def test_canonical_vjepa_marked_real_only_when_verified():
 
 def test_unavailable_encoder_does_not_pretend_real():
     models = registry.load_models()
-    # any model that is unavailable must NOT carry the real-encoder tag
     for m in models:
         if not m["available"]:
             assert m["result_tag"] != "real-encoder", f"{m['slug']} unavailable but tagged real-encoder"
@@ -117,7 +111,6 @@ def test_validate_model_blocks_noncanonical_real_tag():
 
 
 def test_canonical_real_encoder_requires_verified_hf_id():
-    # a canonical row may claim real-encoder ONLY for a hand-verified HF id, never an arbitrary one
     bad = {
         "slug": "fake_canon",
         "name": "Fake canonical",
@@ -134,7 +127,6 @@ def test_canonical_real_encoder_requires_verified_hf_id():
 
 
 def test_auxiliary_cannot_replace_canonical():
-    # the invariant covers ALL non-canonical roles, not just distilled/quantized
     bad = {
         "slug": "aux_imposter",
         "name": "Aux imposter",
@@ -165,5 +157,4 @@ def test_signed_terms_heuristic_catches_dua_and_request_access():
 
 
 def test_validate_registry_aggregates_both():
-    # the shipped registry is clean across datasets + models in one call
     assert registry.validate_registry() == []

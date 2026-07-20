@@ -201,14 +201,11 @@ def _finite_number(value: Any) -> TypeGuard[int | float]:
 
 
 def _round_one_decimal(value: float) -> float:
-    """Apply the atlas generator's Python one-decimal rounding rule."""
     return round(value, 1)
 
 
 def _sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
-
-
 
 
 def _valid_sha256(value: Any) -> TypeGuard[str]:
@@ -265,7 +262,6 @@ def _check(name: str, problems: list[str], detail: dict[str, Any] | None = None)
 def _guard_pair(
     label: str, operation: Callable[[], tuple[list[str], dict[str, Any]]]
 ) -> tuple[list[str], dict[str, Any]]:
-    """Convert malformed-input exceptions into a closed validation failure."""
     try:
         return operation()
     except Exception as error:  # noqa: BLE001 - malformed artifacts must produce a receipt
@@ -275,7 +271,6 @@ def _guard_pair(
 def _guard_source(
     operation: Callable[[], tuple[list[str], dict[str, Any], dict[str, dict[str, Any]]]],
 ) -> tuple[list[str], dict[str, Any], dict[str, dict[str, Any]]]:
-    """Convert source-snapshot parser errors into a closed validation failure."""
     try:
         return operation()
     except Exception as error:  # noqa: BLE001 - malformed artifacts must produce a receipt
@@ -404,7 +399,6 @@ def _score_contract(atlas: dict[str, Any]) -> tuple[list[str], dict[str, Any]]:
                 values[dimension] = value
         if len(values) != len(SCORE_DIMENSIONS):
             continue
-        # Preserve the declared expression's evaluation order. This matters at binary-float ties.
         raw = (
             0.20 * values["scaffolding"]
             + 0.25 * values["implementation"]
@@ -658,7 +652,6 @@ def _evidence_contract(atlas: dict[str, Any], repo_root: Path) -> tuple[list[str
 def _parse_p5_terminal_evidence(
     documents: Mapping[str, dict[str, Any]], repo_root: Path
 ) -> tuple[list[str], dict[str, Any]]:
-    """Validate all terminal P5 stages from the atlas's parsed source set."""
 
     return p5_terminal_evidence(repo_root, documents=documents)
 
@@ -1852,7 +1845,6 @@ def _markdown_contract(markdown_path: Path, atlas: dict[str, Any]) -> tuple[list
 
 
 def _json_array_span(text: str, member_name: str) -> tuple[int, int]:
-    """Locate one top-level JSON member's array without reformatting the document."""
     marker = json.dumps(member_name)
     marker_positions = [match.start() for match in re.finditer(re.escape(marker), text)]
     if len(marker_positions) != 1:
@@ -1888,7 +1880,6 @@ def _json_array_span(text: str, member_name: str) -> tuple[int, int]:
 def _render_refreshed_source_hashes(
     atlas_path: Path, repo_root: Path
 ) -> tuple[str | None, list[dict[str, str]], list[str]]:
-    """Render source-hash-only updates while preserving every unrelated byte."""
     problems: list[str] = []
     try:
         original_text = atlas_path.read_text(encoding="utf-8")
@@ -1964,7 +1955,6 @@ def validate_potential_atlas(
     requirements_path: Path | None = None,
     markdown_path: Path | None = None,
 ) -> dict[str, Any]:
-    """Return a self-contained validation receipt without mutating any source artifact."""
     repo_root = repo_root.resolve()
     atlas_path = atlas_path.resolve()
     requirements_path = (
@@ -2162,12 +2152,6 @@ def refresh_source_hashes(
     requirements_path: Path | None = None,
     markdown_path: Path | None = None,
 ) -> dict[str, Any]:
-    """Transactionally refresh only source_snapshot hashes after candidate validation.
-
-    The default validator never calls this function. A changed candidate must pass every normal
-    invariant before it can replace the atlas, so refreshing a semantically incompatible gate source
-    is refused without publishing the candidate.
-    """
     repo_root = repo_root.resolve()
     atlas_path = atlas_path.resolve()
     requirements_path = (
@@ -2250,7 +2234,6 @@ def refresh_source_hashes(
 
 
 def write_validation_receipt(receipt: dict[str, Any], path: Path) -> None:
-    """Atomically publish a validation receipt, including failures."""
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(json.dumps(receipt, indent=2, sort_keys=True, allow_nan=False) + "\n")

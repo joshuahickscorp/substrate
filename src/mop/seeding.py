@@ -1,7 +1,3 @@
-"""Seeding and determinism. Apple Metal is only ~half byte-identical at temp 0,
-so we seed everything we can and then MEASURE run-to-run variance rather than
-assume bit-exactness. Tests size their tolerances from `variance_of`.
-"""
 
 from __future__ import annotations
 
@@ -20,12 +16,6 @@ UINT32_MAX = (1 << 32) - 1
 
 
 def derive_seed32(seed: int, namespace: str) -> int:
-    """Return a NumPy-compatible child seed without discarding an oversized parent.
-
-    Existing in-range seeds are preserved byte-for-byte so historical experiment streams do not
-    drift. Oversized downstream seeds are domain-separated and hashed from the full integer rather
-    than truncated or reduced modulo 2**32, which keeps all of the parent seed in the derivation.
-    """
     seed = int(seed)
     if 0 <= seed <= UINT32_MAX:
         return seed
@@ -40,7 +30,6 @@ def derive_seed32(seed: int, namespace: str) -> int:
 
 
 def seed_everything(seed: int, deterministic: bool = True) -> int:
-    """Seed python, numpy, torch (all devices). Returns the seed for logging."""
     os.environ["PYTHONHASHSEED"] = str(seed)
     random.seed(seed)
     np.random.seed(seed)
@@ -69,16 +58,10 @@ class VarianceReport:
     bit_identical: bool
 
     def tol(self, floor: float = 1e-6) -> float:
-        """A tolerance to use in assertions: a few x the observed spread, never below floor."""
         return max(floor, self.max_abs * 4.0)
 
 
 def variance_of(fn: Callable[[], torch.Tensor], runs: int = 5, seed: int = 0) -> VarianceReport:
-    """Run a seeded scalar/tensor-producing fn several times; report spread.
-
-    This is the determinism utility the corpus calls for: it does not assume
-    bit-exactness, it quantifies it so the rest of the suite can set tolerances.
-    """
     outs = []
     for _ in range(runs):
         seed_everything(seed)
@@ -91,8 +74,6 @@ def variance_of(fn: Callable[[], torch.Tensor], runs: int = 5, seed: int = 0) ->
 
 
 def parse_seeds(spec: str) -> list[int]:
-    """Parse a seed spec: 'lo-hi' -> inclusive range, else a comma list. Canonical single source
-    (was duplicated verbatim across ~18 scripts before the condense dedup)."""
     if "-" in spec:
         lo, hi = spec.split("-")
         return list(range(int(lo), int(hi) + 1))

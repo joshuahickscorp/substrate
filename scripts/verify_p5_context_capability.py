@@ -27,14 +27,6 @@ from mop.studies.p5_context_verify import (
 
 @contextmanager
 def _correct_singleton_contrast_classification() -> Iterator[None]:
-    """Restore the producer's preregistered n<2 ``undetermined`` rule during verification.
-
-    The sealed producer classifies every one-observation contrast as ``undetermined``.  The
-    independent verifier recomputes the same interval but historically called ``classify_ci``
-    without carrying the sample count, which incorrectly promoted singleton fresh-seed rows.
-    Keeping this correction in the verifier entry point preserves the already-sealed challenge
-    implementation while the verifier artifact binds these exact wrapper bytes.
-    """
 
     original_paired_ci = verifier._paired_ci
     original_classify_ci = verifier.classify_ci

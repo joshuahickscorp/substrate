@@ -1,11 +1,3 @@
-"""Tests for the Stage 5 session-disjoint validity runner.
-
-The runner is fail-closed: it mints a mechanics-only demonstration whose verdict is "mechanics-ok"
-only when every disjointness axis passes, every leak control stays clean, and every measured resource
-is backed within tolerance, on the favorable candidate regime. Any single failing axis, any
-reproducing leak control, or any declared-versus-measured efficiency disagreement makes it null. It
-is never a scientific confirmation. No capability is claimed.
-"""
 
 from __future__ import annotations
 

@@ -61,7 +61,7 @@ DECIMAL_GB = 1_000_000_000
 
 
 class CanaryRefused(RuntimeError):
-    """The canary cannot proceed without weakening an authority or resource gate."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
@@ -122,7 +122,6 @@ def valid_seal(payload: Mapping[str, Any], field: str = "receipt_sha256") -> boo
 
 
 def derive_exact_batch(config: dict[str, Any]) -> tuple[str, ...]:
-    """Return the aligned sorted 16-class batch containing the frozen anchor."""
 
     eligible = corpus.eligible_experiment_ids(config)
     if CANARY_ANCHOR not in eligible:
@@ -166,7 +165,6 @@ def evaluate_admission(
     active_lanes: Sequence[Mapping[str, Any]],
     thresholds: CanaryThresholds = CanaryThresholds(),
 ) -> dict[str, Any]:
-    """Apply conservative launch gates to one complete local-throttle snapshot."""
 
     available_gb = (_numeric(_nested(telemetry, "memory", "available_bytes")) or 0.0) / DECIMAL_GB
     available_percent = _numeric(_nested(telemetry, "memory", "available_percent"))
@@ -271,7 +269,6 @@ def runtime_safety_problems(
     active_lanes: Sequence[Mapping[str, Any]],
     thresholds: CanaryThresholds = CanaryThresholds(),
 ) -> list[str]:
-    """Return only conditions serious enough to stop canary-owned workers."""
 
     problems: list[str] = []
     available_gb = (_numeric(_nested(telemetry, "memory", "available_bytes")) or 0.0) / DECIMAL_GB
@@ -344,7 +341,6 @@ def record_measurement(
     worker_process_trees_rss_bytes: int,
     full_probe: Mapping[str, Any] | None = None,
 ) -> None:
-    """Fold one fast sample and an optional complete host probe into exact extrema."""
 
     summary["sample_count"] += 1
     summary["aggregate_process_tree_peak_rss_bytes"] = max(
@@ -412,7 +408,6 @@ def recommend_resources(
     *,
     source_stable: bool,
 ) -> dict[str, Any]:
-    """Recommend no more concurrency than was actually observed safely."""
 
     all_ok = len(worker_rows) == CANARY_BATCH_SIZE and all(row.get("outcome") == "ok" for row in worker_rows)
     runtime_safe = not measurements.get("runtime_safety_problems")
@@ -420,8 +415,6 @@ def recommend_resources(
     peak = int(measurements.get("aggregate_process_tree_peak_rss_bytes") or 0)
     individual_peak = max((int(row.get("peak_rss_bytes") or 0) for row in worker_rows), default=0)
     if eligible and peak > 0:
-        # 50% measured margin plus one decimal GB for the supervisor/telemetry envelope, rounded
-        # upward in two-GB steps.  No concurrency extrapolation beyond the tested 16 is allowed.
         recommended_bytes = int(math.ceil((peak * 1.5 + DECIMAL_GB) / (2 * DECIMAL_GB)) * 2 * DECIMAL_GB)
         recommended_memory_gb: float | None = recommended_bytes / DECIMAL_GB
         recommended_workers: int | None = CANARY_BATCH_SIZE
@@ -469,7 +462,6 @@ def source_snapshot(
     *,
     repo_root: Path = REPO_ROOT,
 ) -> tuple[dict[str, Any], dict[str, dict[str, Any]]]:
-    """Bind every file and effective-seed cell authority consumed by the exact batch."""
 
     cells = {
         experiment_id: corpus._expected_cell_authority(config, experiment_id, outer_seed)
@@ -552,7 +544,6 @@ def prepare_plan(
     source_quiet_seconds: float = 60.0,
     thresholds: CanaryThresholds = CanaryThresholds(),
 ) -> tuple[CanaryPlan | None, dict[str, Any]]:
-    """Rebind v2 seed authority and collect a fail-closed launch decision."""
 
     problems: list[str] = []
     config: dict[str, Any] | None = None
@@ -633,7 +624,6 @@ def wait_for_plan(
     poll_seconds: float = 5.0,
     thresholds: CanaryThresholds = CanaryThresholds(),
 ) -> tuple[CanaryPlan | None, dict[str, Any]]:
-    """Recheck source and host gates until safe or a bounded deterministic deadline expires."""
 
     if maximum_wait_seconds < 0 or poll_seconds <= 0:
         raise CanaryRefused("launch wait must be nonnegative and polling must be positive")
@@ -733,7 +723,6 @@ def _owned_identity_verified(handle: WorkerHandle) -> bool:
 
 
 def signal_owned_process_group(handle: WorkerHandle, requested_signal: int) -> bool:
-    """Signal only the exact, still-live session created for this handle."""
 
     if requested_signal not in {signal.SIGTERM, signal.SIGKILL} or not _owned_identity_verified(handle):
         return False
@@ -861,7 +850,6 @@ def _write_attempt_receipt(
     stderr_tail: str,
     report: dict[str, Any] | None,
 ) -> dict[str, Any] | None:
-    """Write the supervisor-side v2 receipt omitted by the direct worker entry point."""
 
     if not handle.run_dir.is_dir():
         return None
@@ -1145,7 +1133,6 @@ def publish_canonical_proof(
     *,
     repo_root: Path = REPO_ROOT,
 ) -> dict[str, Any]:
-    """Atomically publish a successful terminal receipt with exact byte equality."""
 
     expected = (repo_root / "proof/GENERATION1_RESOURCE_CANARY.json").resolve()
     destination = proof_out.resolve()

@@ -1,23 +1,3 @@
-"""P9 end-to-end workload accounting: wall time, CPU time, memory, and storage per phase.
-
-Implements the extended-compute plan item "Implement P9 end-to-end time/memory/storage
-logging; energy remains estimated". A `WorkloadAccountant` wraps a real workload in named
-phases (decode, input, cache, model, evaluation, checkpoint, and any custom label), records
-per-phase wall seconds, CPU user/system deltas, boundary-sampled RSS, accelerator allocation
-where a Metal device is available, storage deltas over watched roots, and retry counts, then
-emits a machine-readable receipt.
-
-Honesty boundaries, stated in the receipt itself:
-
-- RSS is sampled at phase boundaries plus the process-lifetime maximum; an intra-phase spike
-  between samples is bounded only by the lifetime maximum.
-- Idle seconds are the accountant's lifetime span minus the sum of phase walls; overlapping
-  phases are refused.
-- Energy is never reported as measured. Until a wall-power meter with a stated system
-  boundary exists, energy fields carry estimates only and say so.
-
-No em or en dashes (BLACKHOLE.md). Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -110,7 +90,6 @@ class _Phase:
 
 @dataclass
 class WorkloadAccountant:
-    """Phase-scoped time/memory/storage accounting for one workload process."""
 
     workload: str
     watch_paths: dict[str, Path] = field(default_factory=dict)

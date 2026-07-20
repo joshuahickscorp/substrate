@@ -1,8 +1,3 @@
-"""ex13_long_stream and ex5_local_rules_scale: the two Studio-gated registry rows whose real blocker
-turned out to be unwritten code, not hardware, so they were implemented for real and now run cpu-now.
-Each ships a SCALED (not toy) default config designed to run for real minutes on a CPU laptop; these
-tests use small dotlist overrides to keep the suite fast, mirroring the pattern used for every other
-toy-scale integration test in this repo. Asserts MECHANICS only, never a particular scientific outcome."""
 
 from pathlib import Path
 

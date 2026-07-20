@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Append-only one-command recovery launcher for the Generation 1 successor chain."""
 
 # ruff: noqa: E402 - direct execution must bootstrap the repository before MOP imports
 

@@ -261,11 +261,6 @@ def _extension(
     return extension, loads, program
 
 
-# ----------------------------------------------------------------------------
-# Predecessor rebind (v6) and preserved target (horizon v2) identity
-# ----------------------------------------------------------------------------
-
-
 def test_extv3_predecessor_binding_points_at_v6_and_target_stays_horizon_v2(tmp_path: Path) -> None:
     assert chain.PROGRAM_ID == "generation1-successor-extension-chain-v3"
     assert chain.STATE_SCHEMA == "mop-generation1-successor-extension-chain-state/v3"
@@ -296,11 +291,6 @@ def test_extv3_initial_state_binds_v6_predecessor_and_horizon_v2_capsule(tmp_pat
     )
     assert predecessor["signals_allowed"] is False
     assert set(extension.state["capsules"]) == {"predecessor_chain_v6", "successor_horizon_v2"}
-
-
-# ----------------------------------------------------------------------------
-# Observation-only waiting on v6, no signals
-# ----------------------------------------------------------------------------
 
 
 def test_extv3_waits_for_v6_after_validating_target_without_starting_or_signalling(
@@ -364,7 +354,6 @@ def test_extv3_requires_predecessor_supersedes_v5(tmp_path: Path) -> None:
         "problems": [],
         "activation_allowed": False,
         "scientific_promotion": False,
-        # v6 must declare it supersedes v5; a v4 claim is the dead v5's own value.
         "supersedes": "generation1-successor-evidence-chain-v4",
     }
     _write(extension.predecessor_status_path, _sealed(core, "status_sha256"))
@@ -373,11 +362,6 @@ def test_extv3_requires_predecessor_supersedes_v5(tmp_path: Path) -> None:
 
     assert status["state"] == "integrity_hold"
     assert "v6 predecessor status identity, safety, or state drifted" in status["problems"][-1]
-
-
-# ----------------------------------------------------------------------------
-# Launching horizon v2 once v6 is durably complete
-# ----------------------------------------------------------------------------
 
 
 def test_extv3_launches_horizon_v2_when_v6_complete(tmp_path: Path) -> None:
@@ -446,11 +430,6 @@ def test_extv3_structurally_complete_fake_v6_status_without_durable_state_is_rej
     assert status["capsules"]["successor_horizon_v2"]["status"] == "pending"
     assert starts == []
     assert "v6 predecessor complete snapshot is invalid" in status["problems"][-1]
-
-
-# ----------------------------------------------------------------------------
-# Status round-trip and detached start (v3 entrypoint)
-# ----------------------------------------------------------------------------
 
 
 def test_extv3_validate_extension_status_round_trip(tmp_path: Path) -> None:

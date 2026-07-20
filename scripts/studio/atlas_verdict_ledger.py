@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Synthesize the atlas verdict ledger from dense-gate and atlas receipts."""
 
 from __future__ import annotations
 

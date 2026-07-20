@@ -1,20 +1,4 @@
 #!/usr/bin/env python
-"""Cache REAL natural-video latents. Decodes class-foldered video clips through the real frozen
-V-JEPA encoder into a memmap store the whole shell consumes. This is the Studio day-one path:
-drop clips under <source>/<class>/*.mp4 and run this.
-
-Usage:
-  python scripts/cache_video.py +source=/path/to/clips encoder=vjepa2_vitl_fpc64_256 device=mps +total=512
-Needs a video backend: uv pip install -e ".[video]" (torchvision) or `uv pip install decord`.
-On this laptop the 64-frame ViT-L forward is faster on cpu (Metal compiler limit); the Studio
-should run it on mps. Latents are tagged backend=vjepa_hf (real) in the store meta.
-
-HARDENING: the source layout is validated before any decode (clear message on missing/empty/no-
-class dirs); a pre-existing store is detected and reported (cache_latents overwrites, not resumes);
-the sorted-folder->index label_map is persisted to <cache>/<name>/label_map.json so labels are
-reproducible; per-clip sha256 content hashes are recorded and duplicates are counted; corrupt
-files are skipped (logged) rather than crashing the run.
-"""
 
 from __future__ import annotations
 

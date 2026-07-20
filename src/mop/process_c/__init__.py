@@ -1,4 +1,3 @@
-"""Process C modules, gated trainable dense-token pilots."""
 
 from __future__ import annotations
 

@@ -114,7 +114,6 @@ def test_result_rejects_resealed_arithmetic_mutation() -> None:
     row = mutated["rows"][0]
     row["favorable"]["charged_margins"]["greedy-only"] += 0.5
     _reseal(row, "row_sha256")
-    # Re-sealing the outside cannot conceal inconsistent charged-cost arithmetic.
     _reseal(mutated, "result_sha256")
     with pytest.raises(construction.Generation1C3ConstructionRefusal, match="charged margin"):
         construction.validate_pilot_result(mutated)

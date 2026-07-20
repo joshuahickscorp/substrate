@@ -1,4 +1,3 @@
-"""CM7 local custom-substrate pilot and CM8 fail-closed preflight wrappers."""
 
 from __future__ import annotations
 

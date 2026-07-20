@@ -1,15 +1,3 @@
-"""Deterministic, counterfactual-only formation records for G0 candidates.
-
-The construction and shadow-coalition modules provide pure mutation and
-execution mechanics.  This module composes their immutable receipts into the
-smallest useful formation boundary: self-hashed candidate bundles, fully
-charged formation attempts, an append-only hash chain, and a Pareto projection.
-
-It deliberately grants no execution, installation, factual-effect, or
-scientific authority.  Scores are fixed-point declarations bound to an exact
-scorer digest.  Replay verifies construction and shadow mechanics; it does not
-turn a declared task score into a scientific claim.
-"""
 
 from __future__ import annotations
 
@@ -706,7 +694,6 @@ class G0ObjectiveVector:
 
 
 def g0_objective_dominates(left: G0ObjectiveVector, right: G0ObjectiveVector) -> bool:
-    """Return strict Pareto dominance without manufacturing a scalar fitness."""
 
     if left.evaluation_cohort_sha256 != right.evaluation_cohort_sha256:
         return False
@@ -1195,7 +1182,6 @@ def verify_g0_formation_attempt(
     episodes: Mapping[str, G0ShadowEpisode],
     traces: Mapping[str, G0ShadowTrace],
 ) -> tuple[str, ...]:
-    """Replay every available construction and trace authority for one attempt."""
 
     if type(attempt) is not G0FormationAttempt:
         raise ValueError("G0 formation verifier requires an exact attempt")
@@ -1554,11 +1540,6 @@ class G0ParetoArchive:
 
 
 def build_g0_pareto_archive(ledger: G0FormationLedger) -> G0ParetoArchive:
-    """Project declared scores into a deterministic structural frontier.
-
-    Scientific use still requires replaying each formation attempt from its
-    external construction, episode, trace, task, and scorer authorities.
-    """
 
     _require(type(ledger) is G0FormationLedger, "G0 Pareto source must be an exact ledger")
     _require(not ledger.verify(), "G0 Pareto source ledger does not replay")
@@ -1639,7 +1620,6 @@ def verify_g0_pareto_archive(
     archive: G0ParetoArchive,
     ledger: G0FormationLedger,
 ) -> bool:
-    """Regenerate one Pareto receipt from its exact append-only ledger."""
 
     _require(type(archive) is G0ParetoArchive, "G0 Pareto verifier requires an exact archive")
     _require(type(ledger) is G0FormationLedger, "G0 Pareto verifier requires an exact ledger")

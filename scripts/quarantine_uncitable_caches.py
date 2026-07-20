@@ -10,7 +10,6 @@ receipt. It never removes or rewrites an array.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from datetime import UTC, datetime
 from pathlib import Path
@@ -20,8 +19,6 @@ from mop.substrate.cache_tools import validate_cache
 from mop.substrate.events import sha256_file
 
 SCHEMA = "mop-cache-quarantine/v1"
-
-
 
 
 def _inventory(store: Path) -> list[dict]:

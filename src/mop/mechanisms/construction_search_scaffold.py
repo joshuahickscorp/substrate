@@ -63,8 +63,6 @@ def _require_positive(value: int, label: str) -> None:
         raise ConstructionSearchRefusal(f"{label} must be positive (non-vacuous)")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class SearchBudget:
 
@@ -93,8 +91,6 @@ class SearchBudget:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -176,8 +172,6 @@ def seal_objective(
         size_penalty=size_penalty,
         objective_sha256=core,
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -267,8 +261,6 @@ def build_default_control_set() -> ConstructionControlSet:
     return ConstructionControlSet(schema=CONSTRUCTION_SEARCH_SCHEMA, controls=controls)
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ConstructionSearchContract:
 
@@ -332,8 +324,6 @@ def build_default_contract(
     )
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class SearchValueVerdict:
 
@@ -383,8 +373,6 @@ class SearchValueVerdict:
         return canonical_sha256(self.payload())
 
 
-
-
 class ConstructionSearchActivationRefusal(ConstructionSearchRefusal):
     pass
 
@@ -422,7 +410,6 @@ class ConstructionSearchActivationGate:
             "license_id": self.license_id,
             "claim_scope": self.claim_scope,
         }
-
 
 
 _MAX_ORACLE_MEMBERS = 16
@@ -669,9 +656,6 @@ def verdict_from_trace(trace: SearchTrace, *, matched_cost_charged: bool = True)
         claims_improvement=net > 0.0,
         matched_cost_charged=matched_cost_charged,
     )
-
-
-# Section H. Coverage record for the epoch sub-questions (readiness only).
 
 
 def coverage() -> dict[str, Sequence[str]]:

@@ -1,12 +1,3 @@
-"""Harness-level gates for the runnable form-substrate experiments (F-series).
-
-The E and EX series are exercised through the runner; the F-series had only unit tests on
-`substrate/form.py`. This closes that parity gap: every IMPLEMENTED F experiment (read live from the
-registry, so the list never drifts) is composed from its default config, run through
-`get_experiment(...).run(...)`, and checked for MECHANICS only, never a particular scientific outcome
-(a null may hold, that is an honest bound, not a failure). Every result must also carry the
-performance-density block (Layer 9, PERFORMANCE_DENSITY_DOCTRINE.md).
-"""
 
 import pytest
 

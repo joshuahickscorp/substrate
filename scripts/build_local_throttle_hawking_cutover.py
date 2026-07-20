@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Build or validate the deterministic Hawking coexistence cutover evidence."""
 
 from mop.studio.coexistence_cutover import main
 

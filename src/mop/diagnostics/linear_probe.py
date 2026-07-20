@@ -1,9 +1,3 @@
-"""Linear-probe distinctiveness: the single most important diagnostic. Before testing any
-mechanism that needs variable X, check whether X is LINEARLY decodable from the frozen
-latent. If not, the mechanism's failure is pre-ordained and uninformative (negative-result
-category 3: frozen latent lacks the info). Also used to test buffer episodic distinctiveness
-and controllability decodability (before ICM).
-"""
 
 from __future__ import annotations
 
@@ -22,9 +16,6 @@ def linear_probe(
     test_frac: float = 0.3,
     seed: int = 0,
 ) -> dict:
-    """Fit a SINGLE linear layer on frozen latents. Returns decodability:
-    classification -> test accuracy (vs chance); regression -> test R^2.
-    A low score means X is not in the latent; do not blame the downstream mechanism."""
     seed_everything(seed)
     n = x.shape[0]
     perm = torch.randperm(n)

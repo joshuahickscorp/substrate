@@ -1,15 +1,3 @@
-"""EX16: discrete codebook / VQ abstraction (and a successor-representation probe). Does a learned VQ
-codebook over the frozen latents form reusable discrete concepts that decode the label better than a
-RANDOM codebook, and does it add structure over the raw-latent probe. The codebook is fit by k-means
-(the VQ assignment in the no-pixel-decoder setting); cluster purity against labels is the headline; a
-random-codebook assignment and the raw-latent linear probe are the controls.
-
-NULL: the codebook adds no decodable structure over raw latents (a random codebook ties the learned
-one on purity, and the code-probe does not beat the raw-latent probe). Taxonomy slot 3 (no extra
-structure in the pooled latent to discretize) or 4 (codebook too small). cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -25,8 +13,6 @@ from .base import Experiment, _mean
 
 
 def _kmeans(x: torch.Tensor, k: int, iters: int, seed: int) -> torch.Tensor:
-    """Lloyd k-means; returns the hard code assignment per row. The VQ codebook in the frozen-latent
-    setting (no pixel decoder, the codes ARE the abstraction)."""
     g = torch.Generator().manual_seed(seed)
     idx = torch.randperm(x.shape[0], generator=g)[:k]
     cent = x[idx].clone()
@@ -42,7 +28,6 @@ def _kmeans(x: torch.Tensor, k: int, iters: int, seed: int) -> torch.Tensor:
 
 
 def _purity(codes: torch.Tensor, y: torch.Tensor, k: int) -> float:
-    """Cluster purity: the fraction of points whose cluster-majority label matches their own."""
     correct = 0
     for c in range(k):
         m = codes == c
@@ -101,7 +86,6 @@ class EX16(Experiment):
             "code_vs_raw_gain": round(ca - ra, 4),
             "codebook_size": k,
             "seeds": list(seeds),
-            # the explicit null: codebook adds nothing (ties random purity AND does not beat raw probe)
             "null_supported": bool((lp - rp) <= 0.05 and (ca - ra) <= 0.0),
             "codebook_beats_random": bool((lp - rp) > 0.05),
         }

@@ -1,9 +1,3 @@
-"""Unit tests for the G1-E1 event-formation scaffold.
-
-These tests exercise the relational, temporal, oracle, and verdict contracts, the control ledger,
-the seeded episode builder, and the activation gate. They assert fail-closed behavior, digest
-stability, and determinism. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -35,19 +29,9 @@ from mop.mechanisms.event_formation_scaffold import (
 EVENT_FORMATION_SCHEMA = "mop-event-formation/v1"
 
 
-# ---------------------------------------------------------------------------
-# Module invariants.
-# ---------------------------------------------------------------------------
-
-
 def test_module_declares_no_capability_claim() -> None:
     assert SCIENTIFIC_CAPABILITY_CLAIM is False
     assert CLAIM_SCOPE == "deterministic programmatic mechanics only; no capability or natural-data claim"
-
-
-# ---------------------------------------------------------------------------
-# Control ledger completeness.
-# ---------------------------------------------------------------------------
 
 
 def test_control_ledger_digest_is_stable() -> None:
@@ -66,11 +50,6 @@ def test_control_ledger_rejects_membership_or_order_drift() -> None:
 def test_control_ledger_rejects_widened_claim_scope() -> None:
     with pytest.raises(ValueError, match="claim scope cannot be widened"):
         ControlLedgerContract(claim_scope="a useful event was demonstrated")
-
-
-# ---------------------------------------------------------------------------
-# Relational event contract.
-# ---------------------------------------------------------------------------
 
 
 def test_relational_event_valid_and_digest_stable() -> None:
@@ -100,11 +79,6 @@ def test_relational_event_needs_two_distinct_entities() -> None:
         RelationalEventContract(
             event_id="event.rel.4", relation="contains", entity_refs=("entity.a", "entity.a")
         )
-
-
-# ---------------------------------------------------------------------------
-# Temporal event binding contract.
-# ---------------------------------------------------------------------------
 
 
 def test_temporal_binding_valid() -> None:
@@ -156,11 +130,6 @@ def test_temporal_binding_refuses_empty_window() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Oracle headroom contract.
-# ---------------------------------------------------------------------------
-
-
 def test_oracle_headroom_valid_and_measures_savings() -> None:
     oracle = OracleHeadroomContract(
         oracle_id="oracle.x",
@@ -201,19 +170,9 @@ def test_oracle_headroom_refuses_absent_headroom() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Matched budget.
-# ---------------------------------------------------------------------------
-
-
 def test_matched_budget_must_be_non_vacuous() -> None:
     with pytest.raises(ValueError, match="non-vacuous"):
         MatchedBudget(relational_ops=0, temporal_ops=1, trigger_evals=1, memory_bytes=1)
-
-
-# ---------------------------------------------------------------------------
-# Event utility verdict: the named X0 null.
-# ---------------------------------------------------------------------------
 
 
 def test_x0_strong_null_never_claims_useful_event() -> None:
@@ -274,7 +233,6 @@ def test_verdict_refuses_incomplete_control_coverage() -> None:
 def test_verdict_fails_when_compute_not_cut_vs_both_controls() -> None:
     verdict = build_hypothetical_useful_verdict()
     assert verdict.claims_useful_event() is True
-    # Nudge one untrained control below the candidate compute: the both-controls gate must fail.
     broken = EventUtilityVerdict(
         candidate_id=verdict.candidate_id,
         oracle=verdict.oracle,
@@ -314,11 +272,6 @@ def test_verdict_widened_claim_scope_rejected() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Activation gate.
-# ---------------------------------------------------------------------------
-
-
 def test_activation_gate_refuses_by_default() -> None:
     gate = EventFormationActivationGate()
     with pytest.raises(EventFormationRefusal):
@@ -354,11 +307,6 @@ def test_activation_gate_opens_for_earned_replicated_receipt() -> None:
     gate.authorize(receipt)  # must not raise
 
 
-# ---------------------------------------------------------------------------
-# Seeded episode builder: determinism.
-# ---------------------------------------------------------------------------
-
-
 def test_episode_is_deterministic_under_seed() -> None:
     first = synthesize_relational_episode(7)
     second = synthesize_relational_episode(7)
@@ -374,11 +322,6 @@ def test_episode_refuses_bad_arguments() -> None:
         synthesize_relational_episode(-1)
     with pytest.raises(ValueError, match="at least two entities"):
         synthesize_relational_episode(0, num_entities=1)
-
-
-# ---------------------------------------------------------------------------
-# Receipt digest and coverage.
-# ---------------------------------------------------------------------------
 
 
 def test_receipt_digest_stable_and_scope_locked() -> None:

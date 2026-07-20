@@ -1,10 +1,3 @@
-"""Latent predictor: the main trainable object. Forward latent dynamics on frozen-encoder
-latents. MLP by default; action-conditioned variant injects an action vector (the AC model
-in miniature). Tens of millions of params at most; trains on cached latents.
-
-This is NOT the encoder and NOT a JEPA objective. It is a small forward model whose
-prediction error is the surprise signal the neuromodulation/curiosity machinery reads.
-"""
 
 from __future__ import annotations
 
@@ -28,7 +21,6 @@ def mlp(din: int, dout: int, hidden: int, depth: int, dropout: float = 0.0, ln: 
 
 
 class Predictor(nn.Module):
-    """latent -> next latent. action_dim>0 -> concatenate an action vector (AC predictor)."""
 
     def __init__(
         self,

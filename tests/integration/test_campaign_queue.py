@@ -1,5 +1,3 @@
-"""The Volume IV campaign queue (synthesized from the corpus DAG) validates, resolves tiers
-and dependencies, and runs one Tier C leg end to end at toy scale."""
 
 from mop.harness.queue import load_queue, plan, run_queue, topo_order, validate
 
@@ -23,10 +21,8 @@ def test_tier_gating_defaults_C_only():
     legs = load_queue()
     c_plan = plan(legs, {"C"})
     assert all(l.tier == "C" and l.enabled for l in c_plan)
-    # E and R legs are gated out by default
     names = {l.name for l in c_plan}
     assert not any("e10" in n or "poet" in n or "cultural" in n for n in names)
-    # all of E1's children that are Tier C appear, E1 gate first
     assert c_plan[0].depends_on == []
 
 

@@ -5,8 +5,6 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import json
-import os
 import sys
 from pathlib import Path
 from statistics import mean
@@ -183,7 +181,6 @@ def _strictly_beats(
 
 
 def candidate_favorable(experiment: dict[str, Any]) -> tuple[bool, str]:
-    """Apply the preregistered strict tie-as-null rule to one unit or aggregate."""
 
     experiment_id = experiment["experiment_id"]
     arms = experiment["arms"]
@@ -479,8 +476,6 @@ def build_receipt() -> dict[str, Any]:
     }
     receipt["payload_sha256"] = canonical_sha256(receipt)
     return receipt
-
-
 
 
 def main(argv: list[str] | None = None) -> int:

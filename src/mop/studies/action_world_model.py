@@ -1,13 +1,3 @@
-"""P7 shared action-conditioned world-model mechanics over the persistent grid.
-
-This module deliberately reuses the existing environment, four-way counterfactual records,
-Wave E0 immutable branch primitives, and the shell ``Predictor``.  It adds only the missing seam:
-deterministic raster observations and one fixture-scale comparison ledger spanning transition,
-reactive, recurrent, oracle, action-control, and matched-depth arms.
-
-Every result is mechanics-only.  The renderer is programmatic, the hidden state is available to the
-verifier and oracle, and no inherited encoder or external weights are loaded.
-"""
 
 from __future__ import annotations
 
@@ -170,7 +160,6 @@ def _spec_from_construction(construction: dict[str, Any]) -> WorldSpec:
 
 
 def render_observation(spec: WorldSpec, state: GridState, *, cell_pixels: int) -> torch.Tensor:
-    """Render one exact RGB observation without Pillow, torchvision, or an encoder."""
 
     if cell_pixels < 1:
         raise ValueError("cell_pixels must be positive")
@@ -366,7 +355,6 @@ def _group_payloads(
 
 
 def build_unit_dataset(construction: dict[str, Any]) -> dict[str, Any]:
-    """Build one exact seed/layout unit and its disjoint intervention splits."""
 
     spec = _spec_from_construction(construction)
     env_cfg = construction["environment"]
@@ -518,7 +506,6 @@ def _rehash_mutation(dataset: dict[str, Any]) -> None:
 
 
 def mutation_suite(dataset: dict[str, Any]) -> dict[str, Any]:
-    """Prove replay rejection after meaningful mutations, even with a recomputed outer hash."""
 
     mutations: dict[str, Any] = {}
 
@@ -578,7 +565,6 @@ def mutation_suite(dataset: dict[str, Any]) -> dict[str, Any]:
 
 
 def compact_render_latent(frame: torch.Tensor) -> torch.Tensor:
-    """Twelve generic global colour moments, with no palette or hidden-state access."""
 
     image = frame.float() / 255.0
     height, width, _ = image.shape
@@ -602,7 +588,6 @@ def _cell_grid(frame: torch.Tensor, spec: WorldSpec, cell_pixels: int) -> torch.
 
 
 def object_render_slots(frame: torch.Tensor, spec: WorldSpec, *, cell_pixels: int) -> torch.Tensor:
-    """Decode explicit agent, goal, and local-affordance slots from rendered pixels only."""
 
     cells = _cell_grid(frame, spec, cell_pixels)
     agent_colour = torch.tensor(PALETTE["agent"], dtype=torch.float32)

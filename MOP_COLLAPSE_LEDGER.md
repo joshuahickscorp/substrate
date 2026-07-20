@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `7c70cda` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `61c6e46` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 241. By status: `{"complete": 17, "active": 49, "pending": 141, "partial": 9, "verified": 25}`.
+Total items: 242. By status: `{"complete": 17, "active": 49, "pending": 141, "partial": 9, "verified": 26}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -134,7 +134,7 @@ Total items: 241. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 | SEC-8 | 8 | region | pending | Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface) | converge domains without wrapper dirs |
 | SEC-9 | 9 | region | active | One evidence authority (compact evidence core; verifier structurally independent) | deletion map ready (collapse/MOP_EVIDENCE_EQUIVALENCE.json): 64 byte-identical primitive defs collapsible onto one core; implement core, redirect, delete, run parity+mutation+replay (HEAVY: queue behind live run per section 2) |
 | SEC-10 | 10 | region | active | One experiment engine (ExperimentSpec..IndependentVerifier) | build engine; simple<=150 LOC, complex<=400 LOC declarations |
-| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | finish the remaining dual-architecture DoA producer shell and measure the residual STARSS lifecycle surface |
+| SEC-11 | 11 | region | active | STARSS23 first high-pressure region collapse (12-step process) | collapse remaining DoA statistics, noisy-TV, and budget projections onto the existing science engine, then measure residual STARSS lifecycle |
 | SEC-12 | 12 | region | pending | Mechanism-family collapse (one provider contract) | replace *_scaffold/_impl/_bed/_runner boilerplate (152 files) |
 | SEC-13 | 13 | region | pending | One campaign controller (AFTER live run terminal + PR30 closure) | build vs fixtures only while live; archive historical bytes; replay-equivalence then delete |
 | SEC-14 | 14 | region | pending | Entrypoint and script collapse (313 -> ~10 CLI verbs) | classify scripts/; remove wrappers/bootstraps/argparse dup |
@@ -277,6 +277,7 @@ Total items: 241. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 | RED-starss23-family-prereg-cli-comments | 11 | verified_reduction | verified | Centralize family preregistrations and delete local commands and comments | finish the dual-architecture DoA producer shell and measure STARSS residual |
 | RED-current-documentation-authority | 18 | verified_reduction | verified | Collapse current documentation to eight recoverable authorities | finish the dual-architecture DoA producer shell |
 | RED-embedded-python-documentation | 18 | verified_reduction | verified | Remove runtime-unused embedded Python documentation | finish the dual-architecture DoA producer shell |
+| RED-doa-gate-complete-python-surface | 11 | verified_reduction | verified | Centralize DoA gates and seed records; finish embedded Python documentation removal | collapse remaining DoA statistics/control projections and measure STARSS residual |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -285,7 +286,7 @@ Total items: 241. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base 7c70cda
+- commit: pending; base 61c6e46
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)
@@ -564,4 +565,17 @@ Total items: 241. By status: `{"complete": 17, "active": 49, "pending": 141, "pa
 - live-run non-interference: fixture and unit paths only under nice -n 10; live checkout remained read-only and clean.
 - rollback_tag: mop-collapse-embedded-docs.
 - next_exact_edit: finish the dual-architecture DoA producer shell.
+
+### DoA lifecycle and complete Python documentation surface (current checkpoint)
+
+- executable deduplication: the separate architecture-A and architecture-B initialization, digest, forward, validation, and backpropagation loops now use one dimension-driven DoA gate core; public architecture classes, topology parameters, and FLOP APIs remain.
+- producer deduplication: the DoA-local seed dataclass and late per-seed artifact projection were replaced by the existing BudgetSeedRun lifecycle used by the count producers.
+- exact parity: both architectures preserve one pre/post fingerprint over initial and final parameter digests, probabilities, loss histories, parameter counts, and FLOP totals: bb336b6c3458ff212903f51e4d75ee80f2759add3c036ab43d8d34cd894e911e.
+- documentation completion: 6,574 remaining runtime-unused docstring lines, 1,762 comment-only prose lines, 991 excess blank lines, and 12 newly exposed unused imports were removed; the post-pass scanner reports zero eligible lines.
+- preservation: CLI-consumed __doc__, shebangs, legal headers, type/lint/format/security/coverage directives, every executable statement, and 72 required pass bodies remain.
+- source change: 253 added, 9,636 deleted, net -9,383 owned Python LOC; cumulative verified owned Python reduction: 30,822 LOC.
+- validation: complete Python surface compiles; changed files pass critical ruff; targeted DoA/end-to-end/verifier-independence/integrity/sensing/docs battery green in 80.36s; full STARSS-focused suite 493/493 green in 166.99s.
+- live-run non-interference: fixture and unit paths only under nice -n 10; live checkout remained read-only and clean.
+- rollback_tag: mop-collapse-python-surface.
+- next_exact_edit: collapse remaining DoA statistics, noisy-TV, and budget projections onto the existing science engine, then measure residual STARSS lifecycle.
 

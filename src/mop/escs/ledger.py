@@ -1,4 +1,3 @@
-"""Causally validated append-only replay ledger for ESCS events."""
 
 from __future__ import annotations
 
@@ -116,7 +115,6 @@ class EventLedgerEntry:
 
 
 class EventLedger:
-    """Append-only event graph that rejects invalid causal or epistemic transitions."""
 
     def __init__(self) -> None:
         self._entries: list[EventLedgerEntry] = []
@@ -165,7 +163,6 @@ class EventLedger:
         return tuple(rows)
 
     def commitments_for(self, hypothesis_event_id: EventRef) -> tuple[CommitmentEvent, ...]:
-        """Return direct commitment children without scanning unrelated history."""
 
         return tuple(
             event
@@ -193,14 +190,6 @@ class EventLedger:
             return entry
 
     def append_batch(self, events: tuple[ESCSEvent, ...]) -> tuple[EventLedgerEntry, ...]:
-        """Append a finite batch atomically using current indices and bounded tail rollback.
-
-        The rollback also covers a subclass or injected fault that raises after an earlier append.
-        All writers must enter through ``append``/``append_batch`` so the re-entrant lock serializes
-        validation and publication against the same graph frontier.  It records only branches named
-        by this batch and removes only entries published after the original tail; it never copies the
-        historical entry list, event index, or unrelated branch lists.
-        """
 
         if not isinstance(events, tuple):
             raise TypeError("event batch must be an immutable tuple")

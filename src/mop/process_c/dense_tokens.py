@@ -1,9 +1,3 @@
-"""Process C dense-token module.
-
-Process C is not licensed by default. The sanctioned pilot is narrow: a 1 to 10M trainable
-object-centric module over frozen dense tokens, compared to dense tokens without slots and run only after
-PR9 or DR1 licenses it. This file provides that module and its bookkeeping, not a launcher.
-"""
 
 from __future__ import annotations
 
@@ -15,26 +9,15 @@ from torch import nn
 
 
 def param_count(module: nn.Module) -> int:
-    """Trainable parameter count."""
     return int(sum(p.numel() for p in module.parameters() if p.requires_grad))
 
 
 def dense_hidden_for_target_params(input_dim: int, n_classes: int, target_params: int) -> int:
-    """Hidden width for mean-pooled dense-token baseline at roughly `target_params`.
-
-    Baseline params are input_dim*hidden + hidden + hidden*n_classes + n_classes. This helper is the
-    Process C control: slots must beat a dense-token arm at matched capacity, not buy the win.
-    """
     denom = input_dim + n_classes + 1
     return max(1, int(round(max(1, target_params - n_classes) / denom)))
 
 
 class DenseTokenSlotModule(nn.Module):
-    """Learn object-centric slots from frozen dense tokens.
-
-    Input: tokens [B, N, D]. Output: slots [B, K, H], a pooled representation [B, H], and attention
-    weights [B, K, N]. The module is intentionally small and shell-side: it never touches encoder weights.
-    """
 
     def __init__(
         self,
@@ -107,7 +90,6 @@ class DenseTokenSlotModule(nn.Module):
 
 
 class ProcessCDenseTokenClassifier(nn.Module):
-    """Slot module plus a classifier head for CM9-style binding probes."""
 
     def __init__(
         self,
@@ -136,7 +118,6 @@ class ProcessCDenseTokenClassifier(nn.Module):
 
 
 class DenseTokenMeanBaseline(nn.Module):
-    """Dense-token control with no object slots."""
 
     def __init__(self, input_dim: int, n_classes: int, hidden: int):
         super().__init__()
@@ -159,14 +140,12 @@ class DenseTokenMeanBaseline(nn.Module):
 
 
 def assignment_entropy(attn: torch.Tensor) -> torch.Tensor:
-    """Mean attention entropy over slots and batch, normalized by log(token_count)."""
     p = attn.clamp_min(1e-9)
     raw = -(p * p.log()).sum(dim=-1).mean()
     return raw / math.log(max(attn.shape[-1], 2))
 
 
 def binding_specificity(before: torch.Tensor, after: torch.Tensor, target_slot: int) -> dict[str, Any]:
-    """Slot-swap diagnostic: target slot should move more than non-target slots."""
     if before.shape != after.shape or before.ndim != 3:
         raise ValueError("before and after must both have shape [B, K, H]")
     k = before.shape[1]
@@ -194,7 +173,6 @@ def process_c_budget_report(
     min_params: int = 1_000_000,
     max_params: int = 10_000_000,
 ) -> dict[str, Any]:
-    """Budget and license gate for the sanctioned Process C pilot."""
     params = param_count(module)
     problems: list[str] = []
     if not licensed:

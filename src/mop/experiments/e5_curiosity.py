@@ -1,20 +1,3 @@
-"""E5: curiosity as self-curriculum, including a bounded local rollout contract.
-
-A fixed pool mixes LEARNABLE latents (structured forward dynamics) with NOISE latents
-(irreducibly random targets: the noisy-TV). Three selection policies decide which samples a
-forward predictor trains on each round: (a) random/uniform, (b) prediction-error curiosity
-(pick the highest current error), (c) learning-progress curiosity (pick the largest recent
-error DECREASE). We track the fraction of selected samples drawn from the NOISE region
-(noise attraction) and downstream predictor improvement on the learnable region.
-
-The corpus prediction (Experiment 5): prediction-error/RND curiosity fixates on the noisy-TV
-(high noise fraction) while learning-progress does not, because the noise region's error stays
-high yet its learning progress is ~0. NULL CHECK returns pe_chases_noise and lp_resists_noise.
-
-The fixed-pool comparison remains the scored experiment.  A shared persistent local environment now
-also executes learnable-versus-noisy action trajectories with exact replay and counterfactuals.  It
-removes the environment-software blocker but remains programmatic evidence, not natural embodiment.
-"""
 
 from __future__ import annotations
 
@@ -73,7 +56,6 @@ def _train_on(
 def _select(
     policy: str, err: torch.Tensor, prev_err: torch.Tensor | None, k: int, g: torch.Generator
 ) -> torch.Tensor:
-    """Return indices of the k samples this policy would train on next."""
     if policy == "random":
         return torch.randperm(err.shape[0], generator=g)[:k]
     if policy == "prediction_error":

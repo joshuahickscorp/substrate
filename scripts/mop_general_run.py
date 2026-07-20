@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Control the single-process General Run Generation 1 orchestrator."""
 
 # ruff: noqa: E402 - direct execution must bootstrap the repository before MOP imports
 

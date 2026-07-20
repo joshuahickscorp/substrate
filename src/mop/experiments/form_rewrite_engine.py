@@ -1,19 +1,3 @@
-"""Fail-closed scientific execution for the gated F8 and F16 substrate rewrites.
-
-The default experiment configuration remains a mechanics-only smoke. Scientific mode accepts one
-explicit local package: immutable train/validation/test tensors, two referent-aligned views, an
-inherited encoder checkpoint, and the inherited features recomputed from that checkpoint. Every file
-is content hashed and every provenance document is scope typed as either ``natural`` or ``fixture``.
-
-Fixture evidence is useful: it exercises the exact scientific arms, compute matcher, null decision,
-uncertainty report, and resource receipts. It is also permanently tainted as fixture evidence. No
-combination of fixture metrics can set ``natural_claim_eligible`` or ``promotion_eligible`` true.
-
-The supported checkpoint is deliberately safe and portable: a small MLP stored as NPZ, never pickle.
-That is a genuine trainable encoder, not a fabricated claim about unavailable V-JEPA weights. A future
-natural run must provide a rights manifest, real-weight and inherited-feature receipts, and a checkpoint
-in this executable format. Unsupported model formats fail closed until an explicit backend is added.
-"""
 
 from __future__ import annotations
 
@@ -76,7 +60,7 @@ F16_ARMS = (
 
 
 class ScientificExecutionRefused(RuntimeError):
-    """A gated result was requested without a complete, internally consistent evidence package."""
+    pass
 
 
 @dataclass
@@ -137,8 +121,6 @@ class _ManifestMLP(nn.Module):
 
 
 def _activation_forward_flops(activation: str) -> int:
-    # ReLU is one comparison. GELU and tanh are charged eight scalar operations as an explicit
-    # approximation for multiply/add plus the transcendental implementation.
     return 1 if activation == "relu" else 8
 
 
@@ -150,15 +132,11 @@ def _mlp_forward_flops(dims: Sequence[int], activation: str = "none") -> int:
 
 
 def _classification_train_flops(dims: Sequence[int], classes: int, activation: str = "none") -> int:
-    # Three forward equivalents price forward, activation backward, and parameter/input gradients.
-    # Ten operations per logit price stable softmax, log loss, and its gradient.
     return 3 * _mlp_forward_flops(dims, activation) + 10 * int(classes)
 
 
 def _ssl_train_flops(dims: Sequence[int], activation: str) -> int:
     output_dim = int(dims[-1])
-    # Two encoder views, each with forward and backward, plus MSE, variance, square root, ReLU, and
-    # reduction gradients. This is an estimator, recorded as such, not a hardware instruction count.
     return 6 * _mlp_forward_flops(dims, activation) + 24 * output_dim
 
 
@@ -205,8 +183,6 @@ def _write_json(path: Path, value: Mapping[str, Any]) -> Path:
     tmp.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
     tmp.replace(path)
     return path
-
-
 
 
 def _json_sha256(value: Any) -> str:
@@ -260,7 +236,6 @@ def _device_allocated_bytes(device: DeviceInfo) -> int:
 
 
 class _AttemptResourceMeter:
-    """Sample process RSS and accelerator allocation only during one attempt window."""
 
     def __init__(self, device: DeviceInfo, interval_seconds: float = 0.01):
         self.device = device
@@ -1517,9 +1492,6 @@ def _scientific_result(
     flips = cast(dict[str, Any], null_decision["sign_flip"])
     rejects = bool(null_decision["rejects"])
     natural_evidence_declared = package.evidence_scope == "natural"
-    # Legal rights and "real pretrained" status are assertions in local JSON. The execution engine can
-    # verify bytes and cross-bind receipts, but it is not a trust authority. Promotion therefore remains
-    # fail closed until an external verifier with a configured trust root attests those claims.
     natural_claim_eligible = False
     promotion_eligible = False
     primary_value = accuracy_by_arm[candidate]
@@ -1765,7 +1737,6 @@ def run_gated_rewrite(
     device: DeviceInfo,
     run_dir: Path,
 ) -> dict[str, Any]:
-    """Run a smoke or the full evidence-gated F8/F16 engine and persist all attempt receipts."""
     run_dir.mkdir(parents=True, exist_ok=True)
     e = cfg.experiment
     mode = str(e.execution_mode)

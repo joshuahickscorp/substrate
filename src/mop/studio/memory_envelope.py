@@ -1,9 +1,3 @@
-"""Memory-envelope receipts for Studio microbenchmarks.
-
-The encode benchmark must report more than s/clip. On Apple Silicon, a route can look fast while
-quietly consuming the unified-memory headroom the next stage needs. This module samples process RSS,
-system memory, and MPS allocator counters when available, then summarizes start/end/peak/min values.
-"""
 
 from __future__ import annotations
 
@@ -19,7 +13,6 @@ SCHEMA = "mop-memory-envelope/v1"
 
 @dataclass
 class MemorySampler:
-    """Collect lightweight memory snapshots during a benchmark."""
 
     label: str
     samples: list[dict[str, Any]] = field(default_factory=list)
@@ -36,7 +29,6 @@ class MemorySampler:
 
 
 def memory_snapshot(stage: str) -> dict[str, Any]:
-    """One memory snapshot. Missing optional backends are represented as null fields."""
     process_rss_gb = _process_rss_gb()
     system = _system_memory()
     mps = _mps_memory()
@@ -53,7 +45,6 @@ def memory_snapshot(stage: str) -> dict[str, Any]:
 
 
 def summarize_samples(label: str, samples: list[dict[str, Any]]) -> dict[str, Any]:
-    """Summarize snapshots into the envelope fields the Studio report should quote."""
     return {
         "schema": SCHEMA,
         "label": str(label),

@@ -1,12 +1,3 @@
-"""Tests for the integrated ESCS runner: determinism, the null and favorable verdicts, and fail-closed.
-
-The runner mints mechanics demonstrations only. The verdict is mechanics-ok exactly when the
-integrated organization Pareto-dominates every matched baseline on the favorable regime and every
-added mechanism justifies its marginal compute, while the null regime still holds null. Any baseline
-that ties or beats the integrated point at matched cost blocks mechanics-ok. No capability is claimed.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -79,8 +70,6 @@ def test_combined_mint_is_a_mechanics_demonstration() -> None:
 
 def test_fail_closed_when_a_baseline_is_not_dominated() -> None:
     runner = build_default_runner()
-    # A regime where the first mechanism is not demanded: the single-perspective baseline, which
-    # ablates that mechanism, ties the integrated organization at matched cost, so it is not dominated.
     tie_regime = EscsRegime(name="tie", demands=(0.0, 0.5, 0.6, 0.5), seed=1)
     report = evaluate_regime(tie_regime, 1)
     assert "single-perspective" not in report.dominated

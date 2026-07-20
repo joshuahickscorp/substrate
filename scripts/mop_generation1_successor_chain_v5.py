@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Control the append-only v5 Generation 1 successor evidence chain."""
 
 # ruff: noqa: E402 - direct execution must bootstrap the repository before MOP imports
 

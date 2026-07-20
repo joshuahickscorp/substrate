@@ -1,17 +1,3 @@
-"""EX8: intrinsic-motivation curriculum bake-off. Four selection signals on the noisy-TV split, where
-the learnable region has reducible error and the noise region is irreducibly random. Only signals that
-measure REDUCIBLE uncertainty should pick the learnable region and reject the noisy-TV; the rest chase
-irreducible noise. The four: prediction-error (DA proxy), ensemble disagreement (epistemic), learning
-progress (LP), and random network distillation (RND). The first three come from the same noisy-TV
-diagnostic E4 uses (so the bake-off is consistent with the E4 gate); RND is added here.
-
-NULL: prediction-error and RND chase the noisy-TV as much as a naive baseline, and only disagreement
-and learning-progress reject it (the rung-6 prediction); a sharper null is that even learning-progress
-ties uniform on a homogeneous stream. Taxonomy slot 10 (a signal that chases noise is mis-specified for
-reducible-uncertainty selection). cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -29,9 +15,6 @@ from .base import Experiment, _mean
 
 
 def _rnd_novelty(dim: int, noise_scale: float, steps: int, batch: int, seed: int) -> tuple[float, float]:
-    """RND novelty on the learnable vs noise region: a fixed random target net + a trained predictor;
-    novelty is the predictor error. On the isotropic noise region the predictor covers the unbounded
-    input space worse, so RND novelty stays high (it chases the noisy-TV, like prediction-error)."""
     seed_everything(seed)
     g = torch.Generator().manual_seed(seed)
     centers = torch.randn(2, dim, generator=g)
@@ -103,14 +86,11 @@ class EX8(Experiment):
         table: dict[str, dict] = {}
         for sig, d in agg.items():
             lm, nm = _mean(d["learnable"]), _mean(d["noise"])
-            # a signal "rejects" the noisy-TV if it does NOT rank the noise region above the learnable
-            # one (it would not spend exploration budget on irreducible noise).
             table[sig] = {
                 "learnable": round(lm, 4),
                 "noise": round(nm, 4),
                 "rejects_noise": bool(nm <= lm + 1e-4),
             }
-        # the canonical pattern: chasers (prediction-error, RND) do NOT reject; epistemic + LP DO
         chasers_chase = (not table["prediction_error"]["rejects_noise"]) and (
             not table["rnd"]["rejects_noise"]
         )
@@ -122,6 +102,5 @@ class EX8(Experiment):
             "seeds": list(seeds),
             "chasers_chase_noise": bool(chasers_chase),
             "reducible_signals_reject_noise": bool(reducible_reject),
-            # the explicit null pattern holds: naive signals chase, reducible-uncertainty signals reject
             "null_supported": bool(chasers_chase and reducible_reject),
         }

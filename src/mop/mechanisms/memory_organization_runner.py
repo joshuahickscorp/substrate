@@ -1,21 +1,3 @@
-"""MechanismRunner for the memory-organization epoch. Scores future decisions and mints a receipt.
-
-A run scores the future-decision value of the organized memory and each of the four controls on both
-the null regime and the favorable regime, and it checks the episodic-harm guard by comparing the
-organized memory against the memory-free no-memory arm. The receipt it mints is always a mechanics
-demonstration, never a scientific confirmation, so it can never open a stage gate.
-
-The receipt verdict is null unless three things all hold on the favorable regime: the organized
-memory beats every control on future-decision value, it does not measurably harm relative to
-no-memory, and the named prior null still holds on the null regime. Only then is the verdict
-mechanics-ok, and even then it stays a mechanics demonstration. A prediction-only improvement that
-raises recall accuracy without moving any future decision does not clear the bar, because the win is
-measured on decisions and not on prediction.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-
-House style: no em or en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -50,7 +32,6 @@ NO_MEMORY_ARM = "no-memory"
 
 @dataclass(frozen=True, slots=True)
 class RegimeScore:
-    """Per-arm future-decision and prediction counts for one regime, sealed by the stream digest."""
 
     regime: str
     total: int
@@ -67,7 +48,6 @@ class RegimeScore:
 
 @dataclass(frozen=True, slots=True)
 class MemoryRunResult:
-    """The full result of one run: both regimes scored plus the episodic-harm verdict."""
 
     seed: int
     null: RegimeScore
@@ -97,15 +77,10 @@ def _score_regime(stream: DecisionStream) -> RegimeScore:
 
 @dataclass(frozen=True, slots=True)
 class MemoryOrganizationRunner:
-    """Runs the memory-organization bed and mints a mechanics demonstration receipt.
-
-    Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-    """
 
     mechanism_id: str = MECHANISM_ID
 
     def run(self, bed: Any, seed: int) -> MemoryRunResult:
-        """Score both regimes and check the episodic-harm guard on the favorable regime."""
 
         null = _score_regime(bed.null_regime(seed))
         favorable = _score_regime(bed.favorable_regime(seed))
@@ -125,7 +100,6 @@ class MemoryOrganizationRunner:
         )
 
     def mint(self, results: MemoryRunResult) -> RunReceipt:
-        """Mint a demonstration receipt: mechanics-ok only on a clean, non-harming favorable win."""
 
         favorable = results.favorable
         null = results.null

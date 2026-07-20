@@ -1,15 +1,3 @@
-"""Activation-disabled causal-factor frontier projection for ESCS.
-
-This module materializes an immutable, branch-aware index over ledger-resident
-``HypothesisEvent`` records.  It deliberately does not interpret factor values,
-select actors, authorize factual writes, or provide runtime input.  Projection,
-query, and invalidation outputs are shadow receipts with declared-but-unapplied
-abstract accounting.
-
-The word *causal* refers only to preserved ESCS event lineage.  No causal relation,
-semantic truth, memory benefit, reasoning capability, or efficiency advantage is
-inferred by these mechanics.
-"""
 
 from __future__ import annotations
 
@@ -73,11 +61,11 @@ _INVALIDATION_PLAN_ISSUANCE_TOKEN = object()
 
 
 class FactorFrontierError(ValueError):
-    """A frontier artifact or authority violated its exact contract."""
+    pass
 
 
 class FactorFrontierCapExceeded(FactorFrontierError):
-    """A declared or hard finite bound was exceeded."""
+    pass
 
 
 def _require(condition: bool, message: str) -> None:
@@ -216,7 +204,6 @@ def _index_from_payload(value: object, label: str) -> IndexRows:
 
 @dataclass(frozen=True, slots=True)
 class FactorFrontierCaps:
-    """Finite bounds checked before ledger scans or index queries."""
 
     max_events: int = 512
     max_nodes: int = 512
@@ -300,7 +287,6 @@ class FactorFrontierCaps:
 
 @dataclass(frozen=True, slots=True)
 class ShadowFactorNode:
-    """One opaque factor-hypothesis index node derived from exactly one event."""
 
     factor_id: str
     source_hypothesis_event_id: str
@@ -561,7 +547,6 @@ def _index_posting_count(rows: IndexRows) -> int:
 
 
 def _validate_factor_dag(nodes: Sequence[ShadowFactorNode]) -> None:
-    """Validate the finite factor-parent DAG iteratively, never recursively."""
 
     by_id = {node.factor_id: node for node in nodes}
     indegree = {node.factor_id: len(node.parent_factor_ids) for node in nodes}
@@ -612,7 +597,6 @@ def _snapshot_fixed_point(base: Mapping[str, Any]) -> tuple[int, str]:
 
 @dataclass(frozen=True, slots=True)
 class ShadowCausalFactorFrontier:
-    """A nonconsumable snapshot of opaque factor-hypothesis lineage."""
 
     source_ledger_sha256: str
     source_ledger_head_sha256: str | None
@@ -849,7 +833,6 @@ class ShadowCausalFactorFrontier:
 
 
 def _opaque_size(value: FrozenJSON, label: str, caps: FactorFrontierCaps) -> None:
-    # FrozenJSON canonical text is ASCII by construction, so character and byte lengths agree.
     if len(value.canonical) > caps.max_opaque_payload_bytes:
         raise FactorFrontierCapExceeded(f"{label} exceeds the opaque-payload cap")
 
@@ -890,9 +873,6 @@ def _precheck_event_shape(event: ESCSEvent, caps: FactorFrontierCaps) -> None:
 def _authoritative_replay(ledger: EventLedger, caps: FactorFrontierCaps) -> EventLedger:
     if type(ledger) is not EventLedger:
         raise FactorFrontierError("factor-frontier source must be an exact EventLedger")
-    # EventLedger has no public atomic-snapshot API. Exact-type restriction makes its
-    # re-entrant writer lock the authoritative in-process snapshot boundary. Writers
-    # from other threads cannot append between precheck and payload capture.
     with ledger._lock:  # noqa: SLF001
         if ledger.entry_count > caps.max_events:
             raise FactorFrontierCapExceeded("source ledger exceeds the declared event cap")
@@ -1240,12 +1220,6 @@ def project_shadow_factor_frontier(
     caps: FactorFrontierCaps,
     previous: ShadowCausalFactorFrontier | None = None,
 ) -> FrontierProjectionReceipt:
-    """Project one exact ledger into a nonconsumable factor frontier.
-
-    ``previous`` is verified as an exact current-ledger prefix.  Projection still
-    charges the complete replay performed by this reference implementation; it does
-    not pretend that incremental validation was free.
-    """
 
     if type(caps) is not FactorFrontierCaps:
         raise FactorFrontierError("projection requires typed FactorFrontierCaps")
@@ -1283,7 +1257,6 @@ def verify_shadow_factor_frontier(
     ledger: EventLedger,
     caps: FactorFrontierCaps,
 ) -> tuple[str, ...]:
-    """Independently rebuild a snapshot from its exact ledger authority."""
 
     problems: list[str] = []
     try:
@@ -1604,7 +1577,6 @@ def query_shadow_factor_frontier(
     ledger: EventLedger,
     caps: FactorFrontierCaps,
 ) -> FrontierQueryReceipt:
-    """Replay exact source authority, then return a capped shadow factor-ID query."""
 
     if type(snapshot) is not ShadowCausalFactorFrontier:
         raise FactorFrontierError("query requires a typed shadow frontier")
@@ -1926,12 +1898,6 @@ def plan_shadow_invalidation(
     ledger: EventLedger,
     caps: FactorFrontierCaps,
 ) -> FactorInvalidationPlan:
-    """Plan conservative descendant invalidation without applying deletion.
-
-    The caller's event IDs are not treated as proof that archive deletion occurred.
-    Every descendant is conservatively affected; alternative-support semantics are
-    deliberately deferred rather than guessed.
-    """
 
     if type(snapshot) is not ShadowCausalFactorFrontier:
         raise FactorFrontierError("invalidation requires an exact shadow frontier")

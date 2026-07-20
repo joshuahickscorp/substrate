@@ -1,11 +1,3 @@
-"""Unit tests for the Stage 5 session-disjoint general-validity scaffold.
-
-These tests exercise the axis and control declarations, the measured-efficiency contract, the
-composite validity contract, and the fail-closed external-validity activation gate. They assert
-digest stability, determinism under seed, control-set completeness, refusal of a declared-only
-efficiency claim, and refusal of any generality claim until the gate is licensed and every axis
-passes. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -33,10 +25,6 @@ from mop.mechanisms.stage5_session_disjoint_validity_scaffold import (
     synthesize_axis_evidence,
 )
 
-# ---------------------------------------------------------------------------
-# Claim scope and constants.
-# ---------------------------------------------------------------------------
-
 
 def test_claim_scope_matches_harness_byte_for_byte() -> None:
     assert CLAIM_SCOPE == HARNESS_CLAIM_SCOPE
@@ -48,11 +36,6 @@ def test_prior_null_and_capability_flag() -> None:
 
     assert PRIOR_NULL == "session-bound-leakage"
     assert SCIENTIFIC_CAPABILITY_CLAIM is False
-
-
-# ---------------------------------------------------------------------------
-# Axis and control outcomes.
-# ---------------------------------------------------------------------------
 
 
 def test_axis_outcome_digest_is_stable_and_deterministic() -> None:
@@ -123,11 +106,6 @@ def test_control_outcome_rejects_unknown_control() -> None:
     ev = synthesize_axis_evidence(1, "fresh-session")
     with pytest.raises(SessionDisjointValidityRefusal, match="unsupported negative control"):
         ControlOutcome(control="hindsight", leaked=False, evidence_sha256=ev)
-
-
-# ---------------------------------------------------------------------------
-# Matched cost and measured efficiency.
-# ---------------------------------------------------------------------------
 
 
 def test_matched_cost_budget_must_be_non_vacuous() -> None:
@@ -214,11 +192,6 @@ def test_measured_efficiency_needs_a_compute_resource() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Composite contract and completeness.
-# ---------------------------------------------------------------------------
-
-
 def test_contract_is_deterministic_under_seed() -> None:
     first = build_session_disjoint_contract(11)
     second = build_session_disjoint_contract(11)
@@ -255,11 +228,6 @@ def test_contract_reports_unmet_axes_and_leaks() -> None:
     assert set(failing.leaked_controls()) == set(NEGATIVE_CONTROLS)
     assert not failing.all_axes_pass()
     assert failing.any_control_leaked()
-
-
-# ---------------------------------------------------------------------------
-# External validity activation gate.
-# ---------------------------------------------------------------------------
 
 
 def test_gate_is_off_by_default_and_refuses() -> None:
@@ -305,11 +273,6 @@ def test_gate_refuses_when_a_control_leaked() -> None:
     receipt = gate.expected_receipt(contract)
     with pytest.raises(SessionDisjointValidityRefusal, match="negative controls leaked"):
         gate.certify_generality(contract, receipt)
-
-
-# ---------------------------------------------------------------------------
-# Coverage record.
-# ---------------------------------------------------------------------------
 
 
 def test_coverage_lists_every_sub_question_with_two_bullets() -> None:

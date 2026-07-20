@@ -72,7 +72,7 @@ HORIZON_TERMINAL_STATES = frozenset({"complete", "failure_hold", "integrity_hold
 
 
 class SuccessorChainRefused(RuntimeError):
-    """The adopting parent could not establish an exact safe boundary."""
+    pass
 
 
 ResultValidator = Callable[[Mapping[str, Any]], None]
@@ -228,9 +228,6 @@ def _default_process_table() -> tuple[ProcessSnapshot, ...]:
         except (psutil.NoSuchProcess, psutil.ZombieProcess):
             continue
         except (psutil.AccessDenied, OSError, RuntimeError, ValueError):
-            # An inaccessible unrelated process cannot safely be classified as
-            # one of our labelled queues. A previously adopted exact PID is
-            # probed separately and fails closed if it becomes inaccessible.
             continue
     return tuple(snapshots)
 
@@ -297,7 +294,6 @@ def _empty_capsule() -> dict[str, Any]:
 
 
 class SuccessorEvidenceChain:
-    """One durable parent for legacy adoption and the bounded horizon."""
 
     def __init__(
         self,

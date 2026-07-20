@@ -1,9 +1,3 @@
-"""Long-run daemon for Studio jobs.
-
-This is a small supervisor, not a scheduler of science. It runs a JSON list of commands under one
-Profile, writes resumable state after every transition, emits heartbeat events, and stops cleanly on
-disk-floor, command failure, or operator dry-run. Long Studio jobs should be boring in exactly this way.
-"""
 
 from __future__ import annotations
 
@@ -28,7 +22,6 @@ POSITIVE_LEDGER_KINDS = {"positive-ledger", "positive_ledger", "ledger-positive"
 
 @dataclass(frozen=True)
 class DaemonJob:
-    """One supervised command."""
 
     job_id: str
     command: tuple[str, ...]
@@ -48,7 +41,6 @@ DiskProbe = Callable[[], tuple[bool, float]]
 
 
 def load_plan(path: Path | str) -> list[DaemonJob]:
-    """Read a daemon plan."""
     raw = json.loads(Path(path).read_text())
     if raw.get("schema") != SCHEMA:
         raise ValueError(f"plan schema {raw.get('schema')!r} != {SCHEMA!r}")
@@ -63,13 +55,6 @@ def load_plan(path: Path | str) -> list[DaemonJob]:
 
 
 def validate_plan_contract(jobs: Sequence[DaemonJob]) -> list[str]:
-    """Static honesty contract for daemon plans.
-
-    A positive-ledger job is a doc/ledger mutation that records a candidate positive. It must appear
-    after a verdict-gate job and an artifact-bundle job. Because the daemon stops on failed prior jobs,
-    static ordering plus normal execution makes those gates mandatory without teaching the daemon
-    experiment-specific semantics.
-    """
     problems: list[str] = []
     seen_verdict_gate = False
     seen_artifact_bundle = False
@@ -97,7 +82,6 @@ def validate_plan_contract(jobs: Sequence[DaemonJob]) -> list[str]:
 
 
 def write_plan_template(path: Path | str) -> dict[str, Any]:
-    """Write a safe template plan with dry-run-friendly commands."""
     plan = {
         "schema": SCHEMA,
         "jobs": [
@@ -223,11 +207,6 @@ def run_daemon(
     runner: Runner | None = None,
     disk_probe: DiskProbe | None = None,
 ) -> dict[str, Any]:
-    """Run or dry-run a daemon plan.
-
-    When `execute` is false, every pending job is marked `dry-run` and no command starts. When true,
-    jobs run sequentially and completed jobs are skipped on resume.
-    """
     jobs = load_plan(plan) if isinstance(plan, str | Path) else list(plan)
     problems = validate_plan_contract(jobs)
     if problems:

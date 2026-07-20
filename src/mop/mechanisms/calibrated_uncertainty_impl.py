@@ -45,14 +45,10 @@ def _reading_from_answers(batch: TaskBatch, answers: Sequence[bool]) -> DualMetr
     )
 
 
-
-
 def run_mechanism(batch: TaskBatch) -> DualMetricReading:
 
     answers = tuple(conf > ANSWER_THRESHOLD for conf in batch.confidence)
     return _reading_from_answers(batch, answers)
-
-
 
 
 def run_always_answer(batch: TaskBatch) -> DualMetricReading:

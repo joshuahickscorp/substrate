@@ -70,7 +70,6 @@ def test_pair_gate_requires_random_arm_to_declare_random_initialization(dense_pa
     manifest_path = Path(random) / "cache_manifest.json"
     manifest = json.loads(manifest_path.read_text())
     manifest["encoder_config"]["random_init"] = False
-    # Keep the generic manifest self-hash coherent so this test isolates the E6 control-design gate.
     from mop.substrate.cache_manifest import json_sha256
 
     manifest["encoder_config_hash"] = json_sha256(manifest["encoder_config"])

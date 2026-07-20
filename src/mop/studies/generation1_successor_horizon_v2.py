@@ -1,15 +1,3 @@
-"""Append-only second robustness horizon for Generation 1.
-
-The v2 horizon begins only after the complete v1 result, separately authored
-verification, generated report receipt, and exact H05 classification all
-validate.  It preserves the v1 scientific and safety boundaries while adding
-five further fresh cycles, H06 through H10 (absolute cycles 7 through 11).
-
-The proven v1 execution engine is reused under a process-local, re-entrant,
-scoped substitution.  Every substituted global is restored before the public
-operation returns, including exceptional exits.  No v1 source or artifact is
-mutated.
-"""
 
 from __future__ import annotations
 
@@ -187,7 +175,6 @@ def _mechanics_dependency_map() -> dict[str, list[str]]:
 
 
 def _dependency_closed_lanes(predecessor_survivors: list[str]) -> tuple[list[str], list[str]]:
-    """Apply the transitive in-mechanics dependency closure in canonical lane order."""
 
     order = [lane.lane_id for lane in mechanics.LANES]
     known = set(order)
@@ -654,7 +641,6 @@ _V1_PATCH = {
 
 @contextmanager
 def _v1_runtime_scope() -> Iterator[None]:
-    """Temporarily point the immutable v1 engine at the v2 plan."""
 
     with _RUNTIME_LOCK:
         original = {name: getattr(predecessor, name) for name in _V1_PATCH}
@@ -667,20 +653,11 @@ def _v1_runtime_scope() -> Iterator[None]:
                 setattr(predecessor, name, prior)
 
 
-# The pristine v1 engine identity, snapshotted at import before any _v1_runtime_scope runs.
 _V1_IDENTITY_ORIGINAL = {name: getattr(predecessor, name) for name in _V1_PATCH}
 
 
 @contextmanager
 def _predecessor_identity_scope() -> Iterator[None]:
-    """Restore the pristine v1 engine identity while validating the v1 parent.
-
-    The parent-authority validation runs inside _v1_runtime_scope (the v1 module globals
-    are repointed to the v2 plan), but the parent it checks is a genuine v1 result and
-    must be validated against v1's own identity contract (RESULT_SCHEMA, PROGRAM_ID,
-    CLAIM_SCOPE, ...), not v2's. This reentrant scope (_RUNTIME_LOCK is an RLock) restores
-    the original v1 identity for the parent check, then restores whatever was active on
-    exit. When no v2 scope is active it is a no-op (restores original to original)."""
 
     with _RUNTIME_LOCK:
         active = {name: getattr(predecessor, name) for name in _V1_IDENTITY_ORIGINAL}

@@ -1,21 +1,3 @@
-"""Chained autonomous ladder campaign: climbs Stage 0 to 5 under the dynamic throttler.
-
-This is the "new and improved" detached run. It reuses the disciplined patterns of the sealed
-Generation 1 supervisor (sealed receipts, fail-closed stage gates, self-sealed state, a run that can be
-detached) but drives admission with the self-managing DynamicThrottleController instead of the static
-one-heavy-lane policy. That lets it MAXIMIZE CPU and memory utilization around whatever else the host is
-doing, for example an external quantize job, without ever crossing an out-of-memory floor: it scales
-worker concurrency up when there is headroom and sheds its OWN newest workers when there is not. It
-never signals any process it did not spawn.
-
-Stage 0 to 2 are recorded as satisfied by the constitution and the competence census. Stage 3 runs the
-nine mechanism demonstrations as isolated worker subprocesses across a seed sweep, throttled. Stage 4
-and Stage 5 stay fail-closed until their entry receipts exist, which the honest null demonstrations do
-not mint. The campaign writes a sealed ladder report.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -48,11 +30,10 @@ CENSUS_STATE = (
 
 
 class CampaignRefusal(RuntimeError):
-    """Raised when a campaign configuration or state is malformed. Fails closed."""
+    pass
 
 
 def _capsule_rows(capsules: object) -> list[dict[str, Any]]:
-    """Normalize the census capsule inventory, which is a dict keyed by id, into a list of rows."""
 
     if isinstance(capsules, dict):
         values: list[Any] = list(capsules.values())
@@ -64,7 +45,6 @@ def _capsule_rows(capsules: object) -> list[dict[str, Any]]:
 
 
 def census_complete(state_path: Path = CENSUS_STATE) -> bool:
-    """True if the competence census has finished (or is absent, so there is nothing to wait for)."""
 
     if not state_path.is_file():
         return True
@@ -92,7 +72,6 @@ def _sealed(payload: dict[str, Any], field_name: str) -> dict[str, Any]:
 
 @dataclass(frozen=True, slots=True)
 class CampaignConfig:
-    """Immutable campaign parameters."""
 
     program_root: Path = DEFAULT_PROGRAM_ROOT
     seeds: tuple[int, ...] = tuple(range(24))
@@ -158,13 +137,11 @@ class WorkerHandle:
 
 
 class LadderCampaign:
-    """Throttler-driven, stage-chained, self-sealing campaign runner."""
 
     def __init__(self, config: CampaignConfig) -> None:
         self.config = config
         self._start_ns = time.monotonic_ns()
 
-    # -- planning -----------------------------------------------------------------
 
     def plan_stage3(self) -> list[WorkItem]:
         return [WorkItem(epoch, seed) for epoch in self.config.epochs for seed in self.config.seeds]
@@ -177,7 +154,6 @@ class LadderCampaign:
             max_workers=self.config.max_workers,
         )
 
-    # -- worker lifecycle ---------------------------------------------------------
 
     def _receipt_path(self, item: WorkItem) -> Path:
         return self.config.program_root / "stage3_receipts" / f"{item.label}.json"
@@ -238,7 +214,6 @@ class LadderCampaign:
         return record
 
     def _shed(self, running: list[WorkerHandle], count: int) -> list[WorkItem]:
-        """Terminate our own newest workers and return their items for requeue. Never touches others."""
 
         if count <= 0 or not running:
             return []
@@ -252,7 +227,6 @@ class LadderCampaign:
             requeued.append(handle.item)
         return requeued
 
-    # -- stage 3 pool -------------------------------------------------------------
 
     def run_stage3(self) -> dict[str, Any]:
         queue = self.plan_stage3()
@@ -315,7 +289,6 @@ class LadderCampaign:
             "by_epoch": by_epoch,
         }
 
-    # -- stage records ------------------------------------------------------------
 
     def _stage0(self) -> dict[str, Any]:
         return {
@@ -350,12 +323,6 @@ class LadderCampaign:
         }
 
     def _run_stage45_harnesses(self) -> dict[str, dict[str, Any]]:
-        """Execute the Stage 4 and Stage 5 harness machinery once, in-process. Both are light and gated.
-
-        These run the real harnesses so the whole ladder executes, not just Stage 3. With zero Stage 3
-        confirmations the Stage 4 harness fails closed to null; the Stage 5 harness demonstrates its own
-        machinery on its favorable bed. Neither can mint a confirmation, so neither opens a gate.
-        """
 
         from ..mechanisms import stage4_integration_bed, stage4_integration_runner, stage5_validity_runner
         from ..mechanisms.stage5_validity_bed import Stage5ValidityBed
@@ -393,7 +360,6 @@ class LadderCampaign:
             },
         }
 
-    # -- run ----------------------------------------------------------------------
 
     def _write_state(self, status: str, extra: dict[str, Any] | None = None) -> None:
         payload = {
@@ -410,7 +376,6 @@ class LadderCampaign:
         _atomic_write_json(self.config.state_path, _sealed(payload, "state_sha256"))
 
     def _wait_for_census(self) -> None:
-        """Idle politely (a sleep loop, negligible resource) until the census finishes or we time out."""
 
         waited = 0.0
         while not census_complete() and waited < self.config.census_max_wait_s:
@@ -445,9 +410,6 @@ class LadderCampaign:
         _atomic_write_json(self.config.report_path, sealed)
         self._write_state("complete", {"report_sha256": sealed["report_sha256"]})
         return sealed
-
-
-# -- CLI ---------------------------------------------------------------------------
 
 
 def _config_from_args(args: argparse.Namespace) -> CampaignConfig:

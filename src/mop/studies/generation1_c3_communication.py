@@ -1,18 +1,3 @@
-"""Sealed multi-seed communication mechanics pilot for Generation 1 C3.
-
-This adapter batches two questions over the existing messaging-repair toy bed:
-
-* V1 compares the composite selective policy with no verification and always-on
-  verification.
-* M1 compares the same composite policy with the messaging controls available in
-  the runnable mechanics scaffold.
-
-The null and favorable regimes are evaluated separately over disjoint fresh seed
-ranges.  A favorable result is useful only as a harness-discrimination check.  It
-is not a scientific confirmation because the seeded bed was constructed to have
-these mechanics.  Activation and scientific promotion remain false in every
-configuration and result this module accepts.
-"""
 
 from __future__ import annotations
 
@@ -62,7 +47,7 @@ AGGREGATE_METRICS: tuple[str, ...] = (
 
 
 class CommunicationPilotError(ValueError):
-    """Raised when a pilot authority, seed range, control set, or seal drifts."""
+    pass
 
 
 def _canonical_without(value: Mapping[str, Any], field: str) -> dict[str, Any]:
@@ -142,7 +127,6 @@ def build_config(
     v1_seed_start: int = 20_278_001,
     m1_seed_start: int = 20_279_001,
 ) -> dict[str, Any]:
-    """Build a C2-bound, sealed pilot configuration with disjoint fresh lane seeds."""
 
     core: dict[str, Any] = {
         "schema": CONFIG_SCHEMA,
@@ -227,7 +211,6 @@ def _validate_prerequisite(config: Mapping[str, Any], repo_root: Path) -> None:
 
 
 def validate_config(config: Mapping[str, Any], *, repo_root: Path = REPO_ROOT) -> None:
-    """Fail closed on proof drift, leakage, seed overlap, widened scope, or a bad seal."""
 
     _require_exact(config.get("schema"), CONFIG_SCHEMA, "config schema")
     _require_exact(config.get("pilot_id"), PILOT_ID, "pilot id")
@@ -397,7 +380,6 @@ def run_pilot(
     runner: MessagingRepairRunner | None = None,
     bed: MessagingRepairBed | None = None,
 ) -> dict[str, Any]:
-    """Run both mechanics lanes after validating their C2-bound authority."""
 
     validate_config(config, repo_root=repo_root)
     return _run_pilot(
@@ -413,7 +395,6 @@ def validate_result(
     repo_root: Path = REPO_ROOT,
     replay: bool = True,
 ) -> None:
-    """Validate the receipt and optionally replay all seeds with canonical mechanics."""
 
     _require_exact(result.get("schema"), RESULT_SCHEMA, "result schema")
     _require_exact(result.get("pilot_id"), PILOT_ID, "result pilot id")

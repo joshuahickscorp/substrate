@@ -22,8 +22,6 @@ class MessagingRepairRefusal(ValueError):
     pass
 
 
-
-
 def _require_id(value: str, label: str) -> None:
     if _ID_RE.fullmatch(value) is None:
         raise MessagingRepairRefusal(f"{label} must use stable lowercase characters")
@@ -104,8 +102,6 @@ class MatchedBudget:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -246,8 +242,6 @@ def causal_message_plan(*, edges: Sequence[tuple[str, str]], bandwidth_limit: in
     )
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class VerificationValueContract:
 
@@ -297,7 +291,6 @@ class VerificationValueContract:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
 
 
 REPAIR_METRICS: tuple[str, ...] = (
@@ -441,8 +434,6 @@ def assert_disagreement_present(claims: Sequence[tuple[str, int]]) -> None:
         raise MessagingRepairRefusal("repair refused: no detected disagreement to repair")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ActivationReceipt:
 
@@ -494,8 +485,6 @@ class MessagingActivationGate:
 
     def payload(self) -> dict[str, Any]:
         return {"activated": self.activated, "claim_scope": self.claim_scope}
-
-
 
 
 def _default_budget() -> MatchedBudget:

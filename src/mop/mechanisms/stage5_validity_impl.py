@@ -1,21 +1,3 @@
-"""Deterministic validity evaluator for the Stage 5 session-disjoint validity harness.
-
-This module raises the SCAFFOLDING axis only. It reads a seeded regime from the bed and recomputes,
-per disjointness axis, whether the axis cleared its pass threshold while staying disjoint from
-calibration; per leak control, whether the control reproduced the result; and per measured resource,
-whether the declared cost matches the measured cost within a relative tolerance. It returns a
-verdict record. It certifies nothing and mints no receipt; the runner turns the verdict into a
-mechanics-only demonstration.
-
-A regime passes only when every axis passes, no leak control reproduces, and every measured resource
-is backed within tolerance. Any single failing axis, any reproducing leak control, or any declared
-cost that disagrees with its measured cost beyond tolerance makes the regime fail closed.
-
-Claim scope for the whole module: deterministic programmatic mechanics only; no capability or
-natural-data claim.
-
-House style: no em or en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -27,21 +9,17 @@ from .stage5_validity_bed import AxisSample, ControlSample, RegimeEvidence, Reso
 
 STAGE5_VALIDITY_EVAL_SCHEMA = "mop-stage5-validity-eval/v1"
 
-# An axis passes when its separation statistic clears this threshold and it is disjoint from
-# calibration. A leak control reproduces when its statistic clears this threshold.
 AXIS_PASS_THRESHOLD = 0.5
 LEAK_REPRODUCE_THRESHOLD = 0.5
-# The relative tolerance a declared resource cost may differ from its measured cost.
 DEFAULT_RTOL = 0.05
 
 
 class Stage5ValidityEvalRefusal(ValueError):
-    """Raised when the evaluator is handed a tolerance outside the legal range."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class AxisVerdict:
-    """The recomputed verdict for one disjointness axis."""
 
     axis: str
     statistic: float
@@ -61,7 +39,6 @@ class AxisVerdict:
 
 @dataclass(frozen=True, slots=True)
 class ControlVerdict:
-    """The recomputed verdict for one leak control."""
 
     control: str
     statistic: float
@@ -79,7 +56,6 @@ class ControlVerdict:
 
 @dataclass(frozen=True, slots=True)
 class EfficiencyVerdict:
-    """The recomputed verdict for one measured resource, comparing declared vs measured cost."""
 
     kind: str
     declared: float
@@ -98,7 +74,6 @@ class EfficiencyVerdict:
 
 
 def check_axis(sample: AxisSample, *, threshold: float = AXIS_PASS_THRESHOLD) -> AxisVerdict:
-    """Recompute whether one axis passes: statistic clears the threshold and it is disjoint."""
 
     passed = sample.statistic >= threshold and sample.disjoint_from_calibration
     return AxisVerdict(
@@ -113,7 +88,6 @@ def check_axis(sample: AxisSample, *, threshold: float = AXIS_PASS_THRESHOLD) ->
 def check_control(
     sample: ControlSample, *, threshold: float = LEAK_REPRODUCE_THRESHOLD
 ) -> ControlVerdict:
-    """Recompute whether one leak control reproduced: statistic clears the reproduce threshold."""
 
     reproduced = sample.statistic >= threshold
     return ControlVerdict(
@@ -125,7 +99,6 @@ def check_control(
 
 
 def check_efficiency(sample: ResourceSample, *, rtol: float) -> EfficiencyVerdict:
-    """Recompute whether one declared cost matches its measured cost within a relative tolerance."""
 
     within = abs(sample.declared - sample.measured) <= rtol * sample.measured
     return EfficiencyVerdict(
@@ -139,7 +112,6 @@ def check_efficiency(sample: ResourceSample, *, rtol: float) -> EfficiencyVerdic
 
 @dataclass(frozen=True, slots=True)
 class ValidityEvaluation:
-    """The composite verdict over one regime: every axis, every leak control, every resource."""
 
     regime: str
     rtol: float
@@ -192,7 +164,6 @@ class ValidityEvaluation:
 
 
 def evaluate_regime(regime: RegimeEvidence, *, rtol: float = DEFAULT_RTOL) -> ValidityEvaluation:
-    """Evaluate every axis, every leak control, and the measured efficiency of one regime."""
 
     if not 0.0 < rtol <= 0.5:
         raise Stage5ValidityEvalRefusal("efficiency tolerance rtol must be in (0, 0.5]")

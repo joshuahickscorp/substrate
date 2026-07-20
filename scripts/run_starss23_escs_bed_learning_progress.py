@@ -1,16 +1,4 @@
 #!/usr/bin/env python3
-"""Producer entrypoint: run the STARSS23 ESCS "learning_progress" gate variant on the cached real corpus.
-
-This runs the E1 learning_progress gate variant through the EXISTING sealed harness, referee, controls,
-and statistics on the shared frozen-featurizer cache (no re-featurization). It first writes the
-self-sealed preregistration sidecar ``proof/STARSS23_ESCS_BED_learning_progress.prereg.json`` (the SESOI
-and sign-flip plan imported unchanged from the sealed prereg, fixed before any test score is read), then
-runs the bed and writes the sealed artifact ``proof/STARSS23_ESCS_BED_learning_progress.json`` with
-``source_kind=real`` and ``rights_clean=true``. It hardcodes activation_allowed=false,
-scientific_promotion=false, and independent_scientific_confirmation=false.
-
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -21,7 +9,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-# A fixed default preregistration timestamp so the sealed bodies are byte-reproducible across re-runs.
 DEFAULT_PREREG_TIMESTAMP = "2026-07-17T00:00:00Z"
 
 

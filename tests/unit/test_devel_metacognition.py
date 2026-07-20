@@ -1,5 +1,3 @@
-"""Metacognition report: distinguishes MEASURED capacities from philosophical claims, renders clean
-through the sentience rail, and refuses to render if a claim is injected."""
 
 import pytest
 
@@ -11,7 +9,6 @@ def test_report_distinguishes_capacities_from_claims():
     rep = metacognition.report()
     assert rep["what_i_can_decode"]  # measured-now rungs
     assert rep["what_i_cannot_decode_yet"]  # deferred/studio rungs
-    # the claim ledger separates real / provisional / auxiliary / deferred
     assert set(rep["claim_ledger"]) == {"real", "provisional", "auxiliary", "deferred"}
     assert rep["failure_attribution_categories"]  # engineering categories, not feelings
 

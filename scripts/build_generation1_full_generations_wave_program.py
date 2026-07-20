@@ -54,8 +54,6 @@ PARENT_RESULT_PATH = str(wave.DEFAULT_PARENT_RESULT.relative_to(REPO_ROOT))
 PARENT_VERIFICATION_PATH = str(wave.DEFAULT_PARENT_VERIFICATION.relative_to(REPO_ROOT))
 PARENT_REPORT_RECEIPT_PATH = str(wave.DEFAULT_PARENT_REPORT_RECEIPT.relative_to(REPO_ROOT))
 
-# The carried categorized batch-wave v1 lineage: its runtime module, verifier, sealed manifest, and CLI
-# stay pinned so the admission gate binds an authority chain whose bytes are frozen into this program.
 WAVE_V1_MODULE_PATH = "src/mop/studies/generation1_successor_categorized_batch_wave.py"
 WAVE_V1_VERIFIER_PATH = "src/mop/studies/generation1_successor_categorized_batch_wave_verify.py"
 WAVE_V1_MANIFEST_PATH = "configs/campaign/generation1_successor_categorized_batch_wave_v1.json"
@@ -63,7 +61,6 @@ WAVE_V1_CLI_PATH = (
     "scripts/generation1_successor_categorized_batch_wave/mop_generation1_successor_categorized_batch_wave.py"
 )
 
-# The three redesigned mechanism lanes admitted by gate 3; each is four sealed modules under mechanisms/.
 NEW_MECHANISM_MODULES = ("calibrated_uncertainty", "reducible_novelty", "stability_plasticity_r2")
 NEW_MECHANISM_AUTHORITIES = tuple(
     f"src/mop/mechanisms/{mechanism}_{role}.py"
@@ -71,11 +68,6 @@ NEW_MECHANISM_AUTHORITIES = tuple(
     for role in ("scaffold", "bed", "impl", "runner")
 )
 
-# The construction lane (G1-G1) is executed by the proven numpy-vectorized runner instead of the scalar
-# bed. Both vectorized modules are now direct imports of the wave runtime, so they are pinned as runtime
-# authorities and the manifest freezes the exact bytes that mint construction receipts. The vectorized
-# rung is byte-identical to the scalar rung (proven at the receipt and rung level), so pinning them
-# changes no receipt, only which construction code the program authority chain binds.
 CONSTRUCTION_VEC_AUTHORITIES = (
     "src/mop/mechanisms/construction_search_vec_impl.py",
     "src/mop/mechanisms/construction_search_vec_runner.py",

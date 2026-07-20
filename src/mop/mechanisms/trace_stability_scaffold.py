@@ -58,8 +58,6 @@ def assert_controls_complete(controls: Sequence[str]) -> None:
         raise TraceStabilityRefusal("stability control set membership or order drift")
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class TraceRecord:
 
@@ -153,8 +151,6 @@ def cross_seed_agreement(records: Sequence[TraceRecord], metric: str) -> float:
     return (mean_rho + 1.0) / 2.0
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedMeasurementBudget:
 
@@ -180,8 +176,6 @@ class MatchedMeasurementBudget:
             "samples_per_seed": self.samples_per_seed,
             "compute_units": self.compute_units,
         }
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -231,8 +225,6 @@ class TraceStabilityContract:
     @property
     def sha256(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -327,8 +319,6 @@ class StabilityVerdict:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class LicenseReceipt:
 
@@ -394,8 +384,6 @@ class MechanismLicenseGate:
             "license_granted": self.license_granted,
             "claim_scope": self.claim_scope,
         }
-
-
 
 
 def _deterministic_effect(

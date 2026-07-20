@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Run the bounded non-promotable Generation 1 C3/D1 dispatch canary."""
 
 from __future__ import annotations
 

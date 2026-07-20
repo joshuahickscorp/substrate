@@ -1,12 +1,4 @@
 #!/usr/bin/env python
-"""REAL-ENCODER evaluation on the cached real V-JEPA latents. Answers two real-encoder
-questions (tagged real-encoder, structured-synthetic-video content):
-  1. Is visual-class info linearly decodable from the real V-JEPA latent? (linear probe)
-  2. Does a frozen-head continual learner forget, and does replay+EWC retain, on REAL latents?
-Run after scripts/cache_real_encoder.py has populated the store.
-
-Usage: python scripts/real_encoder_eval.py [--store data/cache/vjepa2_vitl_fpc64_256_real] [--tasks 3]
-"""
 
 from __future__ import annotations
 
@@ -87,7 +79,6 @@ def main(argv: list[str] | None = None) -> int:
     train = [_split(t)[0] for t in raw]
     test = [_split(t)[1] for t in raw]
     d = x.shape[1]
-    # continual arms on REAL latents: naive, random replay, prioritized replay, replay+EWC.
     naive = _run_arm(train, test, d, n_classes, dev)
     rnd = _run_arm(train, test, d, n_classes, dev, replay=True, prioritized=False)
     prio = _run_arm(train, test, d, n_classes, dev, replay=True, prioritized=True)

@@ -1,4 +1,3 @@
-"""Frontier 15: encoder registry honesty. No network anywhere in this file."""
 
 import pytest
 from omegaconf import OmegaConf
@@ -54,7 +53,6 @@ def test_vjepa21_configs_distinguish_verified_vitb_from_larger_placeholders():
             assert OmegaConf.load(_ENCODER_DIR / "vjepa21_vitb.yaml").cache_first_only is True
         else:
             assert by_name[name]["available"] is False, f"{name} must carry available:false"
-        # Generic loading remains opt-out: the verified ViT-B uses its official cache-first seam.
         assert by_name[name]["prefer_real"] is False
 
 
@@ -63,7 +61,6 @@ def test_verified_ids_match_non_21_config_hf_ids():
     non_21 = {str(c.get("hf_id")) for stem, c in raw.items() if not stem.startswith("vjepa21_")}
     assert verified_real_ids() == VERIFIED_REAL_IDS
     assert non_21 == set(VERIFIED_REAL_IDS)
-    # the 2.1 placeholders must NOT be in the verified set
     for stem, c in raw.items():
         if stem.startswith("vjepa21_"):
             assert str(c.get("hf_id")) not in VERIFIED_REAL_IDS
@@ -81,18 +78,13 @@ def test_unavailable_encoder_without_prefer_real_loads_frozen_random():
 
 
 def test_unavailable_plus_prefer_real_is_dishonest_and_validate_blocks_it():
-    # The one dishonest quadrant: unavailable AND asking for real weights.
     bad = {"name": "fake", "embed_dim": 768, "available": False, "prefer_real": True}
     assert is_honest(bad) is False
-    # validate is the enforcing surface: it rejects exactly this combination.
     with pytest.raises(ConfigError):
         validate_encoder(OmegaConf.create({"encoder": bad}))
 
 
 def test_unavailable_encoder_never_reports_vjepa_hf_backend():
-    # Honest path only (prefer_real omitted, the shipped default). An unavailable encoder can
-    # only reach backend vjepa_hf by setting prefer_real, which validate blocks above; so on any
-    # honest config the backend is never vjepa_hf without weights actually loading.
     raw = _raw_configs()
     for c in raw.values():
         if bool(c.get("available", True)):
@@ -105,7 +97,6 @@ def test_unavailable_encoder_never_reports_vjepa_hf_backend():
 
 
 def test_available_defaults_true_when_key_absent():
-    # encoders with no `available` key (the verified vjepa2_* ones) are treated as available.
     assert is_honest({"name": "x", "embed_dim": 1024}) is True
     raw = _raw_configs()
     absent = [stem for stem, c in raw.items() if "available" not in c]

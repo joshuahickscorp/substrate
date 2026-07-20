@@ -54,8 +54,6 @@ def seeded_unit(seed: int, salt: str) -> float:
     return int(digest[:8], 16) / float(0xFFFFFFFF)
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class IntegrationPoint:
 
@@ -94,8 +92,6 @@ class IntegrationPoint:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -180,8 +176,6 @@ class RegimeSample:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)

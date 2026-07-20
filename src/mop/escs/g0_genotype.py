@@ -1,11 +1,3 @@
-"""Finite, content-addressed actor genotypes for the disabled G0 scaffold.
-
-This module closes the representation gap between perspective slots and topology
-slots: an actor can be described as bounded state plus a finite operator DAG without
-using generated code or an implicit neural-module convention.  It is static
-mechanics only.  The current G0 grammar remains incomplete, unfrozen, and unable to
-authorize shadow or factual execution.
-"""
 
 from __future__ import annotations
 
@@ -113,7 +105,6 @@ def _walk_strings(value: Any) -> set[str]:
 
 
 def _parameter_schema_bindings(value: Any) -> tuple[tuple[str, str], ...]:
-    """Return normalized parameter-key/schema-reference pairs without recursion."""
 
     result: list[tuple[str, str]] = []
     stack = [value]
@@ -323,7 +314,6 @@ class G0OperatorNode:
 
 
 def _dag_depth(nodes: Sequence[G0OperatorNode]) -> int:
-    """Return maximum DAG depth without Python recursion or input-order dependence."""
 
     by_id = {node.node_id: node for node in nodes}
     if len(by_id) != len(nodes):
@@ -578,7 +568,6 @@ class G0ActorGenotype:
 
     @property
     def declared_actor_bytes(self) -> int:
-        """Conservative peak bound: retained state, all node outputs, and genotype bytes."""
 
         return self.retained_state_bytes + self.declared_output_bytes + self.encoded_bytes
 

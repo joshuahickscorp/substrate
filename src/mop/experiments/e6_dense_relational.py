@@ -1,17 +1,3 @@
-"""Cache-first, token-aware E6 relational mechanics.
-
-The legacy E6 runner flattens dense ``[tokens, features]`` outputs.  At the official V-JEPA 2.1
-ViT-B 64-frame shape that would expose 14,155,776 values per clip to the first learned layer and
-erase the very token geometry E6 is meant to test.  This module instead reads already-built citable
-caches one row at a time, pools fixed contiguous token bins, applies frozen low-rank projections,
-and fits exactly parameter-matched ridge readouts for two factors on held-out combinations.
-
-Scientific promotion is fail closed.  It requires a real learned cache and an exact-architecture
-random-init cache over byte-identical natural-video inputs, identical referents/factors/splits,
-immutable source and weight receipts, enough rows, five projection seeds, off-ceiling behavior,
-and positive confidence bounds over every declared control.  The tiny fixture only exercises the
-data plane and bounded readout; it can never satisfy those source gates.
-"""
 
 from __future__ import annotations
 
@@ -64,12 +50,11 @@ OFFICIAL_VISION_TRANSFORMER_SHA256 = "d2932eabeba684d8f558302a13cfd4be70a0170ee5
 
 
 class E6DenseError(RuntimeError):
-    """A cache, control, split, or bounded-readout contract failed."""
+    pass
 
 
 @dataclass(frozen=True)
 class TokenReadoutSpec:
-    """Immutable bounds for the fixed token summary and matched ridge heads."""
 
     bins: int = 8
     feature_rank: int = 16
@@ -172,11 +157,6 @@ def _split_combo_sets(
 
 
 def inspect_dense_cache(root: Path | str, *, verify_output_rows: bool = False) -> dict[str, Any]:
-    """Read and validate one citable dense cache without flattening its arrays.
-
-    Official scientific promotion also recomputes each dense output row hash. Programmatic fixture
-    receipts remain valid mechanics but fail the separate strict-run-identity gate.
-    """
     path = Path(root).resolve()
     problems = list(validate_cache(path, citable=True)) if path.exists() else ["cache directory missing"]
     required = (
@@ -444,7 +424,6 @@ def build_pair_gate(
     *,
     min_science_count: int = MIN_SCIENCE_COUNT,
 ) -> dict[str, Any]:
-    """Validate mechanics and separately enumerate every promotion blocker."""
     learned = inspect_dense_cache(learned_cache, verify_output_rows=True)
     random = inspect_dense_cache(random_cache, verify_output_rows=True)
     mechanics_problems = [
@@ -587,8 +566,6 @@ def _structured_row(
 ) -> np.ndarray:
     ordered = tokens
     if shuffled:
-        # A different label-independent permutation per referent destroys stable position while
-        # preserving every token value and the exact per-clip token multiset.
         permutation = np.random.default_rng(seed + 104729 * (row_index + 1)).permutation(tokens.shape[0])
         ordered = tokens[permutation]
     bin_means = np.stack([chunk.mean(axis=0) for chunk in np.array_split(ordered, bins)])
@@ -601,7 +578,6 @@ def summarize_cache(
     *,
     spec: TokenReadoutSpec,
 ) -> dict[int, dict[str, np.ndarray]]:
-    """Stream every dense row once and emit only bounded summaries for every declared seed."""
     store = LatentStore.open(Path(root))
     shape = tuple(int(value) for value in store.meta.feat_shape)
     if len(shape) < 2:
@@ -706,8 +682,6 @@ def _score_arm(
             if factor_a["parameters"] + factor_b["parameters"] != 2 * (spec.summary_dim + 1) * len(
                 factor_a["classes"]
             ):
-                # The explicit check below handles different A/B class counts; this branch only
-                # guards an unexpected implementation change for equal-cardinality fixture factors.
                 pass
             output[seed][mode] = {
                 "factor_a": factor_a,
@@ -745,7 +719,6 @@ def run_dense_relational(
     *,
     spec: TokenReadoutSpec | None = None,
 ) -> dict[str, Any]:
-    """Run the bounded E6 readout after the paired cache mechanics gate passes."""
     spec = spec or TokenReadoutSpec()
     pair = build_pair_gate(learned_cache, random_cache)
     if not pair["mechanics_ok"]:
@@ -867,7 +840,6 @@ def _combination_plan() -> dict[str, list[tuple[int, int]]]:
 
 
 def build_mechanics_fixture(root: Path | str, *, seed: int = 20260710) -> dict[str, Any]:
-    """Build a tiny paired dense cache; both arms remain programmatic and non-promotable."""
     from ..substrate.cache_manifest import write_cache_manifest
 
     root = Path(root)

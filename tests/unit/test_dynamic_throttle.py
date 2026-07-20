@@ -1,10 +1,3 @@
-"""Safety and behavior tests for the dynamic ladder throttler.
-
-The controller can, if wrong, over-admit workers and drive the host into OOM or swap thrash, so these
-tests assert the hard guards directly: never admit below the floor, shed when already below it, back off
-under swap, hold under CPU or thermal pressure, and never let the target exceed the CPU or memory cap.
-The decision core is pure, so every property is checked with synthetic samples. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -50,11 +43,6 @@ def default_policy(**overrides: object) -> ThrottlePolicy:
     return ThrottlePolicy(**base)  # type: ignore[arg-type]
 
 
-# ---------------------------------------------------------------------------
-# Validation: fail closed on malformed policy and sample.
-# ---------------------------------------------------------------------------
-
-
 def test_policy_rejects_widened_claim_scope() -> None:
     with pytest.raises(ThrottleRefusal):
         default_policy(claim_scope="a capability was demonstrated")
@@ -95,13 +83,7 @@ def test_policy_digest_is_stable() -> None:
     assert len(default_policy().digest()) == 64
 
 
-# ---------------------------------------------------------------------------
-# The OOM guard is the load-bearing safety property.
-# ---------------------------------------------------------------------------
-
-
 def test_never_admits_when_projection_would_cross_floor() -> None:
-    # 10 GiB free, 8 GiB floor, ~4.6 GiB projected per worker: one worker would drop below the floor.
     controller = DynamicThrottleController(default_policy())
     sample = comfortable_sample(available_memory_bytes=10 * GIB)
     decision = controller.decide(sample, running=0)
@@ -133,14 +115,8 @@ def test_shed_count_never_exceeds_running() -> None:
     assert 0 <= decision.must_shed <= 2
 
 
-# ---------------------------------------------------------------------------
-# Swap, CPU, and thermal back off.
-# ---------------------------------------------------------------------------
-
-
 def test_swap_pressure_backs_off_and_refuses() -> None:
     controller = DynamicThrottleController(default_policy())
-    # grow the target first under comfort
     for _ in range(5):
         controller.decide(comfortable_sample(), running=1)
     grown = controller.target
@@ -173,11 +149,6 @@ def test_thermal_abnormal_holds() -> None:
     assert decision.must_shed == 0
 
 
-# ---------------------------------------------------------------------------
-# Maximization: additive increase toward the smaller of the CPU and memory caps.
-# ---------------------------------------------------------------------------
-
-
 def test_target_grows_toward_cap_under_comfort() -> None:
     controller = DynamicThrottleController(default_policy(max_workers=10))
     targets = []
@@ -202,8 +173,6 @@ def test_target_never_exceeds_logical_cpus() -> None:
 
 
 def test_memory_cap_bounds_target_below_cpu_cap() -> None:
-    # Plenty of CPUs but only room for a few workers by memory. Simulate the real feedback loop:
-    # each admitted worker consumes ~8 GiB, so available drops and own-worker RSS rises as they start.
     per_worker = 8 * GIB
     controller = DynamicThrottleController(
         default_policy(max_workers=28, per_worker_peak_rss_bytes=per_worker)
@@ -221,18 +190,11 @@ def test_memory_cap_bounds_target_below_cpu_cap() -> None:
             ),
             running=running,
         )
-        # Never let the model exceed the CPU cap, and never drive real available below the floor.
         assert decision.memory_capped_workers <= 28
         assert (40 * GIB - running * per_worker) >= default_policy().oom_floor_bytes
         if decision.admit:
             running += 1
-    # 40 GiB usable, 8 GiB floor, 8 GiB per worker with 1.15 headroom -> only a few fit, well below 28.
     assert 1 <= running <= 4
-
-
-# ---------------------------------------------------------------------------
-# Learning and determinism.
-# ---------------------------------------------------------------------------
 
 
 def test_learned_per_worker_rss_is_monotone_non_decreasing() -> None:
@@ -256,11 +218,6 @@ def test_decision_digest_stable() -> None:
     decision = controller.decide(comfortable_sample(), running=0)
     assert isinstance(decision, ThrottleDecision)
     assert len(decision.digest()) == 64
-
-
-# ---------------------------------------------------------------------------
-# Autoscaled policy sizing.
-# ---------------------------------------------------------------------------
 
 
 def test_autoscaled_policy_sizes_floor_and_cap() -> None:

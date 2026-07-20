@@ -1,11 +1,3 @@
-"""Separately authored receipt and aggregation verifier for the successor horizon.
-
-The verifier intentionally does not call the horizon aggregate or classification
-builders.  It streams the raw work receipts, reconstructs the D1 gates and
-mechanics routing, checks disjoint seed spaces, and exercises sealed semantic
-mutations.  This is independent artifact verification, not a second generator
-family and therefore not independent scientific confirmation.
-"""
 
 from __future__ import annotations
 

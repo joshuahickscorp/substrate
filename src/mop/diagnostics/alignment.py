@@ -1,10 +1,3 @@
-"""AlignmentSuite (WP-02): a thin aggregator over the existing geometry battery (linear/kernel CKA,
-RSA, neighborhood overlap, self-geometry) and seed_consistency (cross-seed CKA), plus a permutation
-p-value so an alignment score comes with its own null. This module does not reimplement CKA; it calls
-`diagnostics.geometry` and reports.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -21,8 +14,6 @@ SCHEMA = "mop-alignment-suite/v1"
 
 
 def permutation_pvalue(observed: float, null_samples: Sequence[float], greater: bool = True) -> float:
-    """Permutation p-value with the add-one correction: (1 + #null >= observed) / (1 + n). `greater`
-    False flips the tail. Never returns exactly 0 (honest at small n)."""
     n = len(null_samples)
     if greater:
         hits = sum(1 for s in null_samples if s >= observed)
@@ -32,8 +23,6 @@ def permutation_pvalue(observed: float, null_samples: Sequence[float], greater: 
 
 
 def alignment_null(x: torch.Tensor, y: torch.Tensor, n_permutations: int = 200, seed: int = 0) -> list[float]:
-    """Null distribution for linear CKA under row-shuffled y (breaks the x<->y correspondence while
-    preserving both geometries). Returns n_permutations CKA samples."""
     g = torch.Generator().manual_seed(seed)
     out: list[float] = []
     for _ in range(n_permutations):
@@ -50,12 +39,6 @@ def alignment_suite(
     seed: int = 0,
     k: int = 5,
 ) -> dict:
-    """Alignment report.
-
-    Pair mode, `alignment_suite(x, y)`, returns the historical report between two representations
-    [N, D1], [N, D2]. Mapping mode, `alignment_suite({"a": xa, "b": xb, ...})`, returns a full suite:
-    self-geometry per tag, pair reports, and metric matrices.
-    """
     if isinstance(x, Mapping):
         if y is not None:
             raise ValueError("mapping mode does not accept a second representation")
@@ -73,7 +56,6 @@ def pair_alignment(
     seed: int = 0,
     k: int = 5,
 ) -> dict[str, Any]:
-    """The standard alignment report between two representations [N, D1], [N, D2]."""
     lc = linear_cka(x, y)
     null = alignment_null(x, y, n_permutations=n_permutations, seed=seed)
     return {
@@ -94,11 +76,6 @@ def alignment_table(
     seed: int = 0,
     k: int = 5,
 ) -> dict[str, Any]:
-    """AlignmentSuite table for three or more same-referent representations.
-
-    All tags must have the same first dimension. Pair reports use deterministic seed offsets so the
-    row-shuffle nulls are reproducible but not identical across pairs.
-    """
     prepared = _prepare_reps(reps)
     tags = sorted(prepared)
     n = int(next(iter(prepared.values())).shape[0])
@@ -144,8 +121,6 @@ def alignment_table(
 
 
 def cross_seed_alignment(reps: list[torch.Tensor]) -> dict:
-    """Delegates to seed_consistency.cross_seed_cka: pairwise CKA across seeds of the SAME pipeline
-    (a stability report, not a substrate comparison)."""
     return cross_seed_cka(reps)
 
 

@@ -1,15 +1,3 @@
-"""EX3: test-time adaptation on frozen latents. A trained classifier sees a SHIFTED domain (same
-labels, independent latent geometry, the domain-incremental setting). A small fast-weight overlay (a
-per-feature affine on the latent, initialized to identity) is fit at inference by LABEL-FREE entropy
-minimization on the shifted unlabeled latents (TENT-style), then evaluated; reverting the overlay must
-restore the base. The question is whether the unlabeled proxy carries usable adaptation signal.
-
-NULL: TTA does not beat the frozen head on the shifted domain at matched parameters (the unlabeled
-proxy carries no usable signal, or adapting corrupts the base). Taxonomy slot 3 (the shift is not
-decodable, nothing to adapt to) or 4 (overlay too small / proxy mis-specified). cpu-now, seconds.
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -26,8 +14,6 @@ from .base import Experiment, _mean
 
 
 class _Affine(nn.Module):
-    """A per-feature fast-weight overlay y = gamma * x + beta, identity at init. Tiny (2*dim params),
-    the slow head is never touched; reverting is dropping this module (the base is restored exactly)."""
 
     def __init__(self, dim: int):
         super().__init__()
@@ -64,7 +50,6 @@ class EX3(Experiment):
         tta_acc, frozen_acc, base_ret = [], [], []
         for s in seeds:
             seed_everything(s)
-            # two domains, SHARED labels, independent geometry: domain 0 = source, domain 1 = shift
             stream = make_task_stream(
                 n_tasks=2,
                 dim=dim,
@@ -76,7 +61,6 @@ class EX3(Experiment):
             )
             src, shift = stream[0], stream[1]
             nc = int(max(src.y.max(), shift.y.max())) + 1
-            # train the slow head on the source domain
             head = nn.Sequential(nn.Linear(dim, int(e.hidden)), nn.GELU(), nn.Linear(int(e.hidden), nc))
             opt = torch.optim.Adam(head.parameters(), lr=float(e.lr))
             for _ in range(int(e.epochs)):
@@ -87,7 +71,6 @@ class EX3(Experiment):
 
             frozen_acc.append(_acc(head, shift.x, shift.y))  # frozen head on the shift
 
-            # label-free TTA: fit the affine overlay by entropy minimization on shift's UNLABELED latents
             overlay = _Affine(dim)
             for p in head.parameters():
                 p.requires_grad_(False)
@@ -111,7 +94,6 @@ class EX3(Experiment):
             "base_retention_after_revert": round(_mean(base_ret), 4),
             "margin": float(e.margin),
             "seeds": list(seeds),
-            # the explicit null: TTA does not beat the frozen head by more than the margin
             "null_supported": bool((ta - fa) <= float(e.margin)),
             "tta_helps": bool((ta - fa) > float(e.margin)),
         }

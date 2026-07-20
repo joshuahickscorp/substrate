@@ -11,8 +11,6 @@ from types import ModuleType
 
 
 def _load_notifier() -> ModuleType:
-    # Import the file directly so the two-minute telemetry process does not
-    # initialize mop.studio's training-oriented package surface (including torch).
     path = Path(__file__).resolve().parents[1] / "src/mop/studio/telegram_rung_notifier.py"
     spec = importlib.util.spec_from_file_location("mop_telegram_rung_notifier_runtime", path)
     if spec is None or spec.loader is None:

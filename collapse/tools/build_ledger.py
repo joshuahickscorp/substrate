@@ -306,11 +306,14 @@ def main() -> int:
                 "base onset, refractory-NMS, and learning-progress producer lifecycles centralized behind "
                 "the onset executor, and embedded STARSS narrative documentation removed, net 3320 LOC; "
                 "four family prereg assemblers centralized, eight local command wrappers deleted, and "
-                "remaining comment-only STARSS documentation removed, net 1717 LOC")
+                "remaining comment-only STARSS documentation removed, net 1717 LOC; duplicated DoA "
+                "architecture training implementations and the local seed projection collapsed onto shared "
+                "dimension-driven and budget-seed lifecycles, exact numerical fingerprint and full 493-case "
+                "STARSS suite preserved, net 118 executable LOC")
             it["dependency"] = ("physical deletion of *_producer/*_harness needs sealed-artifact parity; "
-                                "heavy real-audio validation remains deferred to host headroom")
-            it["next_action"] = ("finish the remaining dual-architecture DoA producer shell and measure "
-                                 "the residual STARSS lifecycle surface")
+                                "remaining DoA statistics/control projections need exact artifact parity")
+            it["next_action"] = ("collapse remaining DoA statistics, noisy-TV, and budget projections onto "
+                                 "the existing science engine, then measure residual STARSS lifecycle")
         if it["id"] == "SEC-10":
             it["status"] = "active"
             it["evidence_paths"] = ["src/mop/science/", "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"]
@@ -328,8 +331,8 @@ def main() -> int:
                                     "scripts/check_docs.py"]
             it["validation"] = ("170 original document versions sealed by SHA-256 and Git blob; "
                                  "162 superseded files deleted; eight current authorities under 800 LOC; "
-                                 "runtime-unused embedded Python documentation removed from the 150 "
-                                 "highest-weight modules without statement packing")
+                                 "all runtime-unused embedded Python documentation and comment-only prose "
+                                 "removed without statement packing; scanner reports zero eligible lines")
             it["next_action"] = "none; enforce anti-regrowth gate"
         if it["id"] == "CC-16":
             it["status"] = "complete"
@@ -606,6 +609,19 @@ def main() -> int:
                     "all executable statements retained; compile-all, critical ruff, 774 passed/2 skipped"),
         rollback_tag="mop-collapse-embedded-docs",
         next_action="finish the dual-architecture DoA producer shell"))
+    checklist.append(item(
+        "RED-doa-gate-complete-python-surface", 11, "verified_reduction",
+        "Centralize DoA gates and seed records; finish embedded Python documentation removal",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "src/mop/beds/starss23/doa_gate.py",
+                  "src/mop/beds/starss23/doa_producer.py", "tests/unit/test_starss23_doa_bed.py"],
+        validation=("297 DoA lifecycle LOC replaced by 179 shared/declaration LOC with exact numerical "
+                    "fingerprint; 9339 remaining documentation/whitespace/unused-import LOC eliminated; "
+                    "total 253 added/9636 deleted, net -9383; scanner zero; compile-all and critical ruff "
+                    "green; targeted DoA/integrity/sensing/docs battery green in 80.36s; STARSS 493/493 "
+                    "green in 166.99s"),
+        rollback_tag="mop-collapse-python-surface",
+        next_action=("collapse remaining DoA statistics/control projections and measure STARSS residual")))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
@@ -1160,6 +1176,32 @@ def main() -> int:
                  "remained read-only and clean.")
     lines.append("- rollback_tag: mop-collapse-embedded-docs.")
     lines.append("- next_exact_edit: finish the dual-architecture DoA producer shell.")
+    lines.append("")
+    lines.append("### DoA lifecycle and complete Python documentation surface (current checkpoint)")
+    lines.append("")
+    lines.append("- executable deduplication: the separate architecture-A and architecture-B initialization, "
+                 "digest, forward, validation, and backpropagation loops now use one dimension-driven DoA "
+                 "gate core; public architecture classes, topology parameters, and FLOP APIs remain.")
+    lines.append("- producer deduplication: the DoA-local seed dataclass and late per-seed artifact projection "
+                 "were replaced by the existing BudgetSeedRun lifecycle used by the count producers.")
+    lines.append("- exact parity: both architectures preserve one pre/post fingerprint over initial and final "
+                 "parameter digests, probabilities, loss histories, parameter counts, and FLOP totals: "
+                 "bb336b6c3458ff212903f51e4d75ee80f2759add3c036ab43d8d34cd894e911e.")
+    lines.append("- documentation completion: 6,574 remaining runtime-unused docstring lines, 1,762 "
+                 "comment-only prose lines, 991 excess blank lines, and 12 newly exposed unused imports "
+                 "were removed; the post-pass scanner reports zero eligible lines.")
+    lines.append("- preservation: CLI-consumed __doc__, shebangs, legal headers, type/lint/format/security/"
+                 "coverage directives, every executable statement, and 72 required pass bodies remain.")
+    lines.append("- source change: 253 added, 9,636 deleted, net -9,383 owned Python LOC; cumulative verified "
+                 "owned Python reduction: 30,822 LOC.")
+    lines.append("- validation: complete Python surface compiles; changed files pass critical ruff; targeted "
+                 "DoA/end-to-end/verifier-independence/integrity/sensing/docs battery green in 80.36s; "
+                 "full STARSS-focused suite 493/493 green in 166.99s.")
+    lines.append("- live-run non-interference: fixture and unit paths only under nice -n 10; live checkout "
+                 "remained read-only and clean.")
+    lines.append("- rollback_tag: mop-collapse-python-surface.")
+    lines.append("- next_exact_edit: collapse remaining DoA statistics, noisy-TV, and budget projections onto "
+                 "the existing science engine, then measure residual STARSS lifecycle.")
     lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

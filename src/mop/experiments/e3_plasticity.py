@@ -1,19 +1,3 @@
-"""E3: critical-period schedule (staged plasticity), lever 6.1. On a domain-incremental
-latent stream, compare four plasticity arms driven through the Learner by a
-PlasticityController:
-  constant  : no controller, fixed base LR (the schedule-stays-at-1 reference)
-  decay     : tuned sensitive-period soft decay (schedule="soft")
-  staged    : hard critical-period close then floor (schedule="hard")
-  triggered : staged plus Neuromodulation, so high surprise REOPENS plasticity
-
-Per arm we report the adaptation-retention frontier (BWT + frontier point). The corpus null
-(6.1 failure mode) is that "staged plasticity collapses into a learning-rate trick": staged
-ties BOTH constant and a well-tuned decay. We answer it directly with staged_beats_constant
-and staged_beats_decay (the combined staged_beats_both is the null check). Separately we
-reproduce the Achille/Rovere/Soatto Fisher-trace measurement on a small head and report
-whether the rise-then-fall critical-period signature appears (sanity that there is a real
-sensitivity window to shape, not just a frozen-substrate head).
-"""
 
 from __future__ import annotations
 
@@ -93,12 +77,10 @@ class E3(Experiment):
             "frontier": {p.name: {"adaptation": p.adaptation, "retention": p.retention} for p in points},
             "chance": 1.0 / n_classes,
             "tie_margin": margin,
-            # the explicit null checks (booleans answering the null_hypothesis)
             "staged_beats_constant": bool(staged_beats_constant),
             "staged_beats_decay": bool(staged_beats_decay),
             "staged_beats_both": bool(staged_beats_constant and staged_beats_decay),
             "triggered_beats_staged": bool(triggered_beats_staged),
-            # Fisher critical-period signature (Achille/Rovere/Soatto sanity check)
             "fisher_trace": fisher["trace"],
             "fisher_peak_index": int(fisher["peak_index"]),
             "fisher_rise_then_fall": bool(fisher["rise_then_fall"]),
@@ -152,8 +134,6 @@ class E3(Experiment):
         return ContinualResult(R=R, chance=1.0 / n_classes, adapt_steps=adapt)
 
     def _fisher(self, train, n_classes, dim, cfg) -> dict:
-        """Fisher-information trace over early training on a small head (one task slice).
-        A rise-then-fall is the critical-period signature."""
         seed_everything(int(cfg.seed))
         t0 = train[0]
         x = safe_to(t0.x, torch.device("cpu"))

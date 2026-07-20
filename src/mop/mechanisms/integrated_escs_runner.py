@@ -1,20 +1,3 @@
-"""MechanismRunner for the integrated ESCS advantage frontier (epoch integrated_escs).
-
-The runner computes, for both regimes and the ablation ladder, the (quality, compute) frontier of the
-integrated organization and every matched baseline, then mints a mechanics-demonstration RunReceipt.
-It never mints a scientific confirmation and can never carry the ``cleared`` verdict.
-
-The question this epoch guards: does an integrated ESCS beat simpler organizations on the
-quality-vs-compute Pareto frontier under matched baselines. The named prior null, which holds on the
-null regime, is that there is no integrated advantage: the integrated system fails to dominate at
-matched cost. The demonstration verdict is ``mechanics-ok`` ONLY when the integrated organization
-Pareto-dominates every matched baseline on the favorable regime and every added mechanism justifies
-its marginal compute, while the null regime still holds null. Otherwise the verdict is ``null``.
-
-Claim scope: deterministic programmatic mechanics only; no capability claim.
-
-House style: no em dashes and no en dashes. Use commas, semicolons, or "vs".
-"""
 
 from __future__ import annotations
 
@@ -45,10 +28,6 @@ REQUIREMENT_ID = "s3.integrated_escs"
 
 @dataclass(frozen=True, slots=True)
 class RegimeReport:
-    """The frontier and ablation result for one regime: which baselines the integrated point dominates.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     regime_name: str
     seed: int
@@ -64,7 +43,6 @@ class RegimeReport:
         return all(rung.justified for rung in self.rungs)
 
     def earned(self) -> bool:
-        """Mechanics are earned on this regime only when dominance and marginal justification both hold."""
 
         return self.dominates_all() and self.ablation_all_justified()
 
@@ -85,7 +63,6 @@ class RegimeReport:
 
 
 def evaluate_regime(regime: EscsRegime, seed: int) -> RegimeReport:
-    """Compute the frontier and ablation ladder for one regime under one seed."""
 
     integrated = integrated_point(regime)
     baselines = baseline_points(regime)
@@ -106,10 +83,6 @@ def evaluate_regime(regime: EscsRegime, seed: int) -> RegimeReport:
 
 @dataclass(frozen=True, slots=True)
 class RunResult:
-    """The full run: the frontier and ablation for the null and favorable regimes at one matched budget.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     seed: int
     null_report: RegimeReport
@@ -130,17 +103,12 @@ class RunResult:
 
 @dataclass(frozen=True, slots=True)
 class IntegratedEscsRunner:
-    """Runs the integrated ESCS organizations against a bed and mints a mechanics demonstration.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     mechanism_id: str = "integrated_escs"
     stage: int = FIRST_ACTIVATION_STAGE
     requirement_id: str = REQUIREMENT_ID
 
     def run(self, bed: Bed, seed: int) -> RunResult:
-        """Compute the frontier and ablation ladder on both regimes at the bed's matched budget."""
 
         null_regime = bed.null_regime(seed)
         favorable_regime = bed.favorable_regime(seed)
@@ -152,7 +120,6 @@ class IntegratedEscsRunner:
         )
 
     def demonstration_for(self, report: RegimeReport) -> RunReceipt:
-        """Mint the per-regime demonstration: mechanics-ok only when this regime earns it, else null."""
 
         verdict = VERDICT_MECHANICS_OK if report.earned() else VERDICT_NULL
         detail = report.payload()
@@ -167,7 +134,6 @@ class IntegratedEscsRunner:
         )
 
     def mint(self, results: RunResult) -> RunReceipt:
-        """Mint the run demonstration: mechanics-ok only when favorable earns and the null still holds."""
 
         favorable = results.favorable_report
         null = results.null_report
@@ -194,6 +160,5 @@ class IntegratedEscsRunner:
 
 
 def build_default_runner() -> IntegratedEscsRunner:
-    """Return the canonical integrated ESCS runner."""
 
     return IntegratedEscsRunner()

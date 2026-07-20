@@ -1,17 +1,3 @@
-"""Counterfactual-only composition of finite G0 actor genotypes.
-
-The G0 reference evaluator executes one actor genotype.  This module adds the
-smallest mechanics layer needed to compose those isolated evaluations: explicit
-single-root input ports, a bounded next-round FIFO, staged actor-local state, and
-an exactly replayable trace.  It intentionally lives outside :mod:`mop.escs` and
-has no path to factual effects, live scheduling, topology installation, or
-scientific promotion.
-
-This is not an optimizer and it does not decide whether a constructed coalition
-is useful.  It only makes multi-actor counterfactual behavior finite and
-inspectable so a future, separately sealed study can evaluate candidates without
-silently inventing message, state, or accounting semantics.
-"""
 
 from __future__ import annotations
 
@@ -1155,7 +1141,6 @@ def execute_g0_shadow_coalition(
     grammar: TopologyGrammar,
     candidate_registry: PerspectiveCandidateRegistry,
 ) -> G0ShadowTrace:
-    """Execute one finite, counterfactual-only coalition episode."""
 
     _require(type(source) is G0ConstructionSnapshot, "G0 shadow source must be an exact snapshot")
     _require(type(episode) is G0ShadowEpisode, "G0 shadow episode must be exact")
@@ -1363,7 +1348,6 @@ def verify_g0_shadow_trace(
     grammar: TopologyGrammar,
     candidate_registry: PerspectiveCandidateRegistry,
 ) -> tuple[str, ...]:
-    """Replay a trace from its exact authorities and return all detected problems."""
 
     if type(trace) is not G0ShadowTrace:
         raise ValueError("G0 shadow verifier requires an exact trace")

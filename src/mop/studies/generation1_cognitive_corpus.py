@@ -54,12 +54,6 @@ DEFAULT_OUTPUT = REPO_ROOT / "proof/GENERATION1_COGNITIVE_CORPUS.json"
 MAX_TAIL = 12_000
 
 
-
-
-
-
-
-
 def _atomic_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)

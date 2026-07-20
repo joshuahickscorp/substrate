@@ -1,11 +1,3 @@
-"""P5 exact-versus-factorized context pilot wrapper.
-
-The registered science runs through scripts/p5_context_capability.py (profiles p5smoke and
-p5pilot, resumable, 180-minute wall envelopes). This Experiment class exists so the registry
-row maps to a runnable id: it executes a bounded two-cell mechanics smoke of the exact
-registered codepath (frames 16, exact_global and window_local, reduced width) and never
-claims more than execution integrity. No em or en dashes.
-"""
 
 from __future__ import annotations
 

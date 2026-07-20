@@ -1,21 +1,3 @@
-"""Shared runner interface for the ladder mechanism workstreams.
-
-This is the Phase 0 contract every Stage 3 to 5 workstream builds against. Its one load-bearing job is
-to keep an airtight boundary between two kinds of receipt:
-
-- ``mechanics-demonstration``: mintable now on a deterministic toy bed. It proves the plumbing can emit a
-  receipt. It is labeled mechanics-only, can never carry the ``cleared`` verdict, and can never open a
-  stage gate.
-- ``scientific-confirmation``: requires a real bed, a matched full-system budget, cleared controls, a
-  named overturned null, and an evidence digest from an independent verification pass. Only a ``cleared``
-  scientific-confirmation receipt bridges to a ladder ``ConfirmationReceipt`` and thus opens Stage 4 or 5.
-
-Because toy beds can only mint demonstrations, the whole ladder can be fully wired and dry-run now without
-any scientific result existing. A confirmation is unforgeable by local toy construction.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -28,8 +10,6 @@ from ..substrate.events import canonical_sha256
 from .stage_ladder import FIRST_ACTIVATION_STAGE, ConfirmationReceipt, MatchedBudget
 
 RECEIPT_SCHEMA = "mop-ladder-run-receipt/v1"
-# Must stay byte-identical to experiments.expansion_harness.CLAIM_SCOPE. Duplicated here instead of
-# imported so this module carries no capability-bearing import surface.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 KIND_DEMONSTRATION = "mechanics-demonstration"
@@ -48,7 +28,7 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class LadderContractRefusal(ValueError):
-    """Raised when a receipt is malformed or the mechanics vs scientific boundary is violated."""
+    pass
 
 
 def _require_id(value: str, label: str) -> None:
@@ -63,7 +43,6 @@ def _require_sha256(value: str, label: str) -> None:
 
 @dataclass(frozen=True, slots=True)
 class RunReceipt:
-    """The output of one mechanism run. Its kind decides whether it can ever open a gate."""
 
     kind: str
     mechanism_id: str
@@ -97,8 +76,6 @@ class RunReceipt:
         allowed = CONFIRMATION_VERDICTS if self.kind == KIND_CONFIRMATION else DEMONSTRATION_VERDICTS
         if self.verdict not in allowed:
             raise LadderContractRefusal(f"verdict {self.verdict!r} is not valid for kind {self.kind!r}")
-        # The honesty guarantee: a toy demonstration can never be cleared, and a cleared confirmation
-        # must carry matched cost, cleared controls, a named overturned null, and evidence.
         if self.verdict == VERDICT_CLEARED:
             if self.kind != KIND_CONFIRMATION:
                 raise LadderContractRefusal("only a scientific-confirmation receipt can be cleared")
@@ -143,7 +120,6 @@ def mint_demonstration(
     verdict: str = VERDICT_NULL,
     detail: Mapping[str, Any] | None = None,
 ) -> RunReceipt:
-    """Mint a mechanics-only demonstration receipt. Never clears a gate. Default verdict is null."""
 
     if verdict not in DEMONSTRATION_VERDICTS:
         raise LadderContractRefusal(f"demonstration verdict {verdict!r} is not allowed")
@@ -170,7 +146,6 @@ def mint_confirmation(
     evidence_digest: str,
     detail: Mapping[str, Any] | None = None,
 ) -> RunReceipt:
-    """Mint a cleared scientific-confirmation receipt. Only real verified runs may call this."""
 
     return RunReceipt(
         kind=KIND_CONFIRMATION,
@@ -187,7 +162,6 @@ def mint_confirmation(
 
 
 def to_confirmation(receipt: RunReceipt) -> ConfirmationReceipt:
-    """Bridge a cleared scientific-confirmation into a ladder ConfirmationReceipt. Else fail closed."""
 
     if not receipt.is_confirmation:
         raise LadderContractRefusal(
@@ -207,7 +181,6 @@ def scientific_confirmations(receipts: Sequence[RunReceipt]) -> list[RunReceipt]
 
 
 def ladder_readiness(receipts: Sequence[RunReceipt]) -> dict[str, Any]:
-    """Summarize, per stage, how many scientific confirmations exist. Demonstrations never count."""
 
     confirmations = scientific_confirmations(receipts)
     per_stage: dict[int, int] = {}
@@ -226,7 +199,6 @@ def ladder_readiness(receipts: Sequence[RunReceipt]) -> dict[str, Any]:
 
 @runtime_checkable
 class Bed(Protocol):
-    """A deterministic task environment for one mechanism, with a null and a favorable regime."""
 
     mechanism_id: str
 
@@ -241,7 +213,6 @@ class Bed(Protocol):
 
 @runtime_checkable
 class MechanismRunner(Protocol):
-    """Runs a mechanism against a bed and mints a RunReceipt (a demonstration on a toy bed)."""
 
     mechanism_id: str
 

@@ -1,9 +1,3 @@
-"""Immutable, content-addressed event records for shared local experiments.
-
-This module defines a small evidence plane. It carries exact JSON bytes, typed references,
-event and entity lineage, observation clocks, and same-state intervention branches. The types
-are mechanics infrastructure. They do not establish behavior on natural data.
-"""
 
 from __future__ import annotations
 
@@ -36,7 +30,6 @@ _OBSERVATION_ROLES = frozenset({"primary", "control", "counterfactual"})
 
 
 def canonical_bytes(value: Any) -> bytes:
-    """Return strict canonical JSON bytes used by every Wave E0 identity."""
 
     return json.dumps(
         value,
@@ -119,11 +112,6 @@ class SensorClockRef:
 
 @dataclass(frozen=True, slots=True)
 class FrozenJSON:
-    """Canonical JSON text paired with its digest.
-
-    Storing text instead of a mutable mapping makes the record deeply immutable. ``value`` returns
-    a new decoded object, so callers cannot mutate the identity-bearing bytes.
-    """
 
     canonical: str
     sha256: str
@@ -491,7 +479,6 @@ def sha256_file(path: Path) -> str:
 
 
 def atomic_write_bytes(path: Path, payload: bytes) -> None:
-    """Atomically replace a byte artifact; a crash can leave only an ignored ``.tmp`` sibling."""
 
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -505,7 +492,6 @@ def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
 
 
 def write_canonical_json(payload: dict[str, Any], out_path: str | Path) -> Path:
-    """Crash-safely write canonical JSON bytes and return the resolved path object."""
 
     path = Path(out_path)
     atomic_write_bytes(path, canonical_bytes(payload))

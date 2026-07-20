@@ -146,8 +146,6 @@ def test_p6_scale_edges_require_favorable_independent_verdicts(monkeypatch) -> N
 
 
 def test_phase1_requires_the_reviewed_overlay_before_it_can_load() -> None:
-    # The live policy intentionally remains the P5 authority while P5 is active.
-    # This refusal is the migration barrier, not a malformed campaign plan.
     try:
         campaign_supervisor.load_campaign_plan(PLAN_PATH)
     except ValueError as exc:

@@ -75,8 +75,6 @@ class SubaccomplishmentRefused(RuntimeError):
     pass
 
 
-
-
 def _read_json(path: Path) -> dict[str, Any] | None:
 
     raw = Path(path)
@@ -172,8 +170,6 @@ def _milestone_filename(kind: str, seal: str) -> str:
     if not _valid_seal_str(seal):
         raise SubaccomplishmentRefused("milestone source seal is not a SHA-256")
     return f"{FILENAME_PREFIX}{kind}_{seal[:16]}.json"
-
-
 
 
 def _barrier_milestone(classification: Mapping[str, Any], path: Path, root: Path | str) -> dict[str, Any]:
@@ -329,8 +325,6 @@ def _absorption_milestone(
     )
 
 
-
-
 def _default_classification_validators() -> dict[str, Callable[..., None]]:
     validators: dict[str, Callable[..., None]] = {}
     try:
@@ -403,8 +397,6 @@ def _validate_absorption_receipt(value: Mapping[str, Any]) -> None:
         raise SubaccomplishmentRefused("absorption receipt absorbed_result schema drifted")
     if not _valid_seal_str(absorbed.get("result_sha256")):
         raise SubaccomplishmentRefused("absorption receipt absorbed_result seal is invalid")
-
-
 
 
 def scan_classifications(
@@ -547,8 +539,6 @@ def scan_absorptions(
         yield _absorption_milestone(payload, terminal, path, runs_root)
 
 
-
-
 def collect_milestones(
     runs_root: Path | str = RUNS_ROOT,
     proof_root: Path | str = PROOF_ROOT,
@@ -672,8 +662,6 @@ def scan(
     }
 
 
-
-
 def build_launch_agent_plist() -> dict[str, Any]:
 
     return {
@@ -727,8 +715,6 @@ def status(proof_root: Path | str = PROOF_ROOT) -> dict[str, Any]:
         "milestone_files": files,
         "proof_root": str(proof_dir),
     }
-
-
 
 
 def _cmd_scan(args: argparse.Namespace) -> int:

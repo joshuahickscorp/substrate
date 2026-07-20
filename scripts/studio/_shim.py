@@ -1,4 +1,3 @@
-"""Compatibility helpers for historical Studio wrapper scripts."""
 
 from __future__ import annotations
 

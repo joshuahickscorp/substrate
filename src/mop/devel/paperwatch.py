@@ -1,10 +1,3 @@
-"""Paper-watch command (Frontier 30). OFFLINE by default: reads registry/paperwatch.yaml and reports
-the literature this project tracks, grouped by status, with the primary sources to check. Normal tests
-never hit the network. An online refresh is opt-in and would only stamp last_checked + cache results;
-it is intentionally NOT an auto-fetch here (no network dependency in the hot path).
-
-Form per BLACKHOLE.md: no em dashes or en dashes (commas, colons, parentheses only).
-"""
 
 from __future__ import annotations
 
@@ -12,7 +5,6 @@ from .registries import load_paperwatch
 
 
 def watch_report(path=None) -> dict:
-    """Offline paper-watch report: topics grouped by status, never-checked topics surfaced first."""
     topics = load_paperwatch(path)
     by_status: dict[str, list] = {}
     for t in topics:

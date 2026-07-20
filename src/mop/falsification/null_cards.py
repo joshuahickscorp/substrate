@@ -1,10 +1,3 @@
-"""Null-card generator and validator.
-
-The experiment registry is the preregistration source of truth. This module turns one registry
-row into a draft null/survival card and validates the machine-readable YAML block in an existing
-card. It is deliberately small: the goal is to remove prose drift before Studio-scale runs, not to
-invent a second registry.
-"""
 
 from __future__ import annotations
 
@@ -53,7 +46,6 @@ _TODO = re.compile(r"\bTODO\b|<[^>]+>")
 
 
 def experiment_by_id(exp_id: str) -> dict[str, Any]:
-    """Return one experiment row from registry/experiments.yaml."""
     for row in load_experiments():
         if str(row.get("id")) == exp_id:
             return row
@@ -61,7 +53,6 @@ def experiment_by_id(exp_id: str) -> dict[str, Any]:
 
 
 def generate_from_experiment(exp_id: str, *, encoder: str = "vjepa2_vitl_fpc64_256") -> dict[str, Any]:
-    """Generate a draft card spec from the preregistered experiment row."""
     row = experiment_by_id(exp_id)
     proof = dict(row.get("proof") or {})
     factor = str(proof.get("atlas_factor") or "TODO")
@@ -95,7 +86,6 @@ def generate_from_experiment(exp_id: str, *, encoder: str = "vjepa2_vitl_fpc64_2
 
 
 def render_card(card: dict[str, Any]) -> str:
-    """Render a card as Markdown with one machine-readable YAML block."""
     title = str(card["title"])
     exp_id = str(card["exp_id"])
     yaml_block = _dump_yaml(card)
@@ -121,7 +111,6 @@ def render_card(card: dict[str, Any]) -> str:
 
 
 def extract_card_yaml(text: str) -> dict[str, Any]:
-    """Extract the first fenced YAML block from a null card."""
     m = _YAML_BLOCK.search(text)
     if not m:
         raise ValueError("no fenced yaml block found")
@@ -140,7 +129,6 @@ def load_card(path: Path | str) -> dict[str, Any]:
 
 
 def validate_card(card: dict[str, Any], *, strict: bool = False) -> list[str]:
-    """Validate the machine-readable card fields. strict=True refuses TODO placeholders."""
     problems: list[str] = []
     exp_id = str(card.get("exp_id", "<no-exp-id>"))
     for field in REQUIRED_FIELDS:
@@ -203,7 +191,6 @@ def validate_card(card: dict[str, Any], *, strict: bool = False) -> list[str]:
 
 
 def schema() -> dict[str, Any]:
-    """A compact JSON-schema-like receipt for tools and humans."""
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "title": "MOP null card",
@@ -223,11 +210,6 @@ def _dump_yaml(card: dict[str, Any]) -> str:
 
 
 def _loose_card_yaml(block: str) -> dict[str, Any]:
-    """Parse historical card YAML that left colon-heavy prose unquoted.
-
-    This is not a general YAML parser. It accepts the null-card subset: top-level key/value pairs,
-    one-level nested mappings, and list items. New generated cards still use real YAML.
-    """
     root: dict[str, Any] = {}
     current: str | None = None
     for raw in block.splitlines():

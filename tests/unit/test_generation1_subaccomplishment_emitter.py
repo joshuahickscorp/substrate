@@ -12,11 +12,6 @@ from mop.studio import telegram_rung_notifier as notifier
 canonical_sha256 = emitter.canonical_sha256
 
 
-# --------------------------------------------------------------------------------------------------
-# Synthetic sealed-source builders (each seals with the house canonical_sha256)
-# --------------------------------------------------------------------------------------------------
-
-
 def _seal(core: dict[str, Any], field: str) -> dict[str, Any]:
     return {**core, field: canonical_sha256(core)}
 
@@ -145,7 +140,6 @@ def _receipt_path(runs: Path, name: str = "67790.json") -> Path:
 
 
 def _accepting_seal_validator(field: str):
-    """A faithful stand-in for a wave home validator: accept only a well-sealed artifact."""
 
     def _validate(value, _index, *, root):  # noqa: ANN001, ANN202 - test double signature
         if not emitter._seal_ok(value, field):
@@ -156,11 +150,6 @@ def _accepting_seal_validator(field: str):
 
 def _fullgen_wave_root(runs: Path) -> Path:
     return runs / "generation1-full-generations-wave-v1"
-
-
-# --------------------------------------------------------------------------------------------------
-# Happy-path publication per kind
-# --------------------------------------------------------------------------------------------------
 
 
 def test_reprofile_source_publishes_valid_subaccomp(tmp_path: Path) -> None:
@@ -204,7 +193,6 @@ def test_absorption_source_publishes_valid_subaccomp(tmp_path: Path) -> None:
     assert milestone["milestone_kind"] == "absorption"
     assert milestone["source_program_id"] == emitter.CONSOLIDATED_FINAL_PROGRAM_ID
     assert milestone["decision"]["scientific_confirmation"] is False
-    # the reprofile scanner must not have re-published the GENERATION1-named terminal
     assert not list(proof.glob("GENERATION1_SUBACCOMP_reprofile_*.json"))
 
 
@@ -250,11 +238,6 @@ def test_gate_source_publishes_with_injected_home_validator(tmp_path: Path) -> N
     assert "mechanics lanes admitted: 3" in milestone["summary"]
 
 
-# --------------------------------------------------------------------------------------------------
-# The notifier's EXISTING proof path accepts and renders the emitted milestone
-# --------------------------------------------------------------------------------------------------
-
-
 def test_notifier_proof_path_accepts_and_renders_subaccomp(tmp_path: Path, monkeypatch) -> None:
     runs = tmp_path / "runs"
     proof = tmp_path / "proof"
@@ -291,11 +274,6 @@ def test_notifier_dedupes_subaccomp_across_rescans(tmp_path: Path) -> None:
     assert [event["event_id"] for event in first] == [event["event_id"] for event in second]
 
 
-# --------------------------------------------------------------------------------------------------
-# Forged / unsealed sources are skipped by the real home validators
-# --------------------------------------------------------------------------------------------------
-
-
 def test_forged_reprofile_is_skipped_by_real_validator(tmp_path: Path) -> None:
     runs = tmp_path / "runs"
     proof = tmp_path / "proof"
@@ -315,7 +293,6 @@ def test_forged_classification_is_skipped_by_real_validator(tmp_path: Path) -> N
     forged["epoch_id"] = "TAMPERED"  # seal no longer replays; also lacks wave context
     _write(_fullgen_wave_root(runs) / "classifications" / "w1.json", forged)
 
-    # default (real) validators: rejected at the seal/context gate
     report = emitter.scan(runs_root=runs, proof_root=proof)
     assert report["written_count"] == 0
     assert not list(proof.glob("GENERATION1_SUBACCOMP_barrier_*.json"))
@@ -352,10 +329,8 @@ def test_absorption_without_valid_terminal_is_skipped(tmp_path: Path) -> None:
         receipt,
     )
 
-    # no terminal on disk -> nothing published
     assert emitter.scan(runs_root=runs, proof_root=proof)["written_count"] == 0
 
-    # terminal present but the receipt cross-tie (file_sha256) does not match -> still skipped
     _write(terminal_path, terminal)
     assert emitter.scan(runs_root=runs, proof_root=proof)["written_count"] == 0
 
@@ -395,11 +370,6 @@ def test_forged_absorption_receipt_policy_is_skipped(tmp_path: Path) -> None:
         receipt,
     )
     assert emitter.scan(runs_root=runs, proof_root=proof)["written_count"] == 0
-
-
-# --------------------------------------------------------------------------------------------------
-# Idempotence, determinism, and observe-only invariants
-# --------------------------------------------------------------------------------------------------
 
 
 def test_idempotent_rescan_writes_nothing_new(tmp_path: Path) -> None:
@@ -455,11 +425,6 @@ def test_emitter_module_never_signals_a_process() -> None:
     )
     for forbidden in forbidden_tokens:
         assert forbidden not in text, f"emitter must never signal a process: found {forbidden!r}"
-
-
-# --------------------------------------------------------------------------------------------------
-# Own-schema validator and launchd dry-run
-# --------------------------------------------------------------------------------------------------
 
 
 def test_validate_milestone_accepts_output_and_rejects_tamper(tmp_path: Path) -> None:

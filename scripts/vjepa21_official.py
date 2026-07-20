@@ -292,7 +292,6 @@ def main(argv: list[str] | None = None) -> int:
         elif command == "_probe-child":
             return _probe_child(args)
         else:
-            # Defaults mirror the explicit preflight parser defaults when no subcommand is supplied.
             if args.command is None:
                 args = _parser().parse_args(["preflight"])
             receipt = build_preflight(

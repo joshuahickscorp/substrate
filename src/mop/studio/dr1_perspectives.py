@@ -1,10 +1,3 @@
-"""DR1 FormMatrix receipts under the durable Perspective receipt wire contract.
-
-The real DR1 cache should not hand-wave "vision plus captions" as aligned. This module verifies that the
-merged latent store rows and paired captions share the same referent ids, builds the existing
-FormMatrix contract, and writes a compact JSON receipt with the audit surface. Public function names,
-the filename, and the v1 receipt schema remain unchanged for existing Studio evidence consumers.
-"""
 
 from __future__ import annotations
 
@@ -39,7 +32,6 @@ def build_dr1_perspective_receipt(
     factors: Sequence[str],
     cell_delim: str = "-",
 ) -> dict[str, Any]:
-    """Build a receipt proving the merged DR1 store and captions align by referent id."""
     root = Path(store_dir)
     store = LatentStore.open(root)
     stems = _load_stems(root)
@@ -85,8 +77,6 @@ def build_dr1_perspective_receipt(
     )
     matrix = build_form_matrix([vision, caption])
     audit = form_audit(matrix)
-    # Preserve the Perspective v1 vocabulary on the wire while the in-process implementation is
-    # canonical Form. This is serialization compatibility, not a second matrix or audit stack.
     audit["modalities"] = {tag: _legacy_modality(matrix.metadata[tag].kind) for tag in matrix.tags()}
     return {
         "schema": SCHEMA,
@@ -117,7 +107,6 @@ def write_dr1_perspective_receipt(
     out_path: Path | str | None = None,
     cell_delim: str = "-",
 ) -> dict[str, Any]:
-    """Build and write the durable DR1 Perspective v1 receipt from a canonical FormMatrix."""
     root = Path(store_dir)
     receipt = build_dr1_perspective_receipt(root, captions, factors=factors, cell_delim=cell_delim)
     out = Path(out_path) if out_path is not None else root / DEFAULT_OUT_NAME
@@ -132,7 +121,6 @@ def _legacy_modality(kind: str) -> str:
 
 
 def _receipt_arm(meta: FormMeta, factors: tuple[str, ...]) -> dict[str, Any]:
-    """Serialize canonical metadata with the additive Perspective v1 compatibility fields."""
     data = asdict(meta)
     data.update(
         {

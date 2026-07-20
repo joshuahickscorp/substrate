@@ -1,4 +1,3 @@
-"""Single command surface for Studio receipts, gates, plans, and reports."""
 
 from __future__ import annotations
 

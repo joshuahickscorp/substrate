@@ -1,11 +1,3 @@
-"""The one MOP scientific engine: sealed records interpreted through one explicit lifecycle.
-
-An experiment is an ordinary data record.  The record names its unique mathematics providers and declares
-its question, null, source, split, independent unit, treatments, controls, metric, SESOI, multiplicity,
-budget, stop rule, claim ceiling, and structurally independent verifier.  The engine validates the record's
-canonical authority, executes the declared lifecycle, and seals the artifact.  Graded scientific
-recomputation remains in the experiment family's independent verifier.
-"""
 
 from __future__ import annotations
 
@@ -39,11 +31,10 @@ REQUIRED = {
 
 
 class RecordRefused(ValueError):
-    """The record, provider output, artifact, or independent recomputation is unsafe."""
+    pass
 
 
 def safety_flags() -> dict[str, bool]:
-    """Return a fresh copy of the non-promotion boundary carried by every experiment artifact."""
 
     return {"activation_allowed": False, "scientific_promotion": False,
             "independent_scientific_confirmation": False}
@@ -59,7 +50,6 @@ def read_sealed_prereg_member(
     family_label: str,
     refusal: type[ValueError],
 ) -> dict[str, Any]:
-    """Read an already-sealed preregistration and require one declared family member."""
 
     prereg_path = Path(path)
     if not prereg_path.is_file():
@@ -77,7 +67,6 @@ def read_sealed_prereg_member(
 
 @dataclass(frozen=True, slots=True)
 class ArtifactResult:
-    """One sealed producer artifact with optional preregistration and receipt projections."""
 
     artifact: dict[str, Any]
     verdict: str
@@ -100,7 +89,6 @@ def demonstration_receipt(
     stage: int = 3,
     requirement_id: str = "stage3.confirmed_useful_mechanism",
 ) -> dict[str, Any]:
-    """Mint the shared mechanics-only receipt over one canonical evidence projection."""
 
     return mint_demonstration(
         mechanism_id=mechanism_id,
@@ -128,7 +116,6 @@ def artifact_envelope(
     receipt_payload: Mapping[str, object],
     extra: Mapping[str, object] | None = None,
 ) -> dict[str, Any]:
-    """Build the common sealed-artifact body shared by every producer family."""
 
     policy = report.policy
     body: dict[str, Any] = {
@@ -171,7 +158,6 @@ def finalize_artifact(
     prereg: dict[str, Any] | None = None,
     receipt_payload: dict[str, Any] | None = None,
 ) -> ArtifactResult:
-    """Seal one producer body and return the common immutable result container."""
 
     if "seal" in body:
         raise RecordRefused("an unsealed artifact body is required")
@@ -187,14 +173,12 @@ def finalize_artifact(
 
 
 def seal_record(record: Mapping[str, object]) -> dict[str, object]:
-    """Return a copy bound to the canonical scientific identity of every declared field."""
 
     body = {key: value for key, value in record.items() if key != "record_sha256"}
     return {**body, "record_sha256": canonical_sha256(body)}
 
 
 def validate_record(record: Mapping[str, object]) -> None:
-    """Refuse incomplete, drifted, unsafe, or unknown experiment programs."""
 
     missing = REQUIRED - record.keys()
     if missing:
@@ -292,7 +276,6 @@ OPS = {"run_arms": _run_arms, "pair_primary": _pair_primary, "decide": _decide,
 def run_experiment(
     record: Mapping[str, object], provider: Provider, inputs: object = None
 ) -> dict[str, Any]:
-    """Validate and execute one declarative experiment record."""
 
     validate_record(record)
     state: dict[str, Any] = {"record": record}
@@ -304,7 +287,6 @@ def run_experiment(
 def verify_artifact(
     artifact: Mapping[str, object], record: Mapping[str, object], verifier: Verifier
 ) -> dict[str, object]:
-    """Verify integrity, invariants, and a structurally independent graded recomputation."""
 
     body = {key: value for key, value in artifact.items() if key != "seal"}
     if artifact.get("seal") != canonical_sha256(body):
@@ -336,7 +318,6 @@ def verify_artifact(
 
 
 def render_report(artifact: Mapping[str, object]) -> str:
-    """Render the compact common audit view."""
 
     decision = artifact["decision"]
     return (f"# {artifact['experiment_id']} (stage {artifact['stage']})\n\n"

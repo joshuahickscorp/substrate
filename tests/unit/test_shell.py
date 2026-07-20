@@ -16,7 +16,6 @@ from mop.shell import (
 from mop.shell.heads import ClassHead
 
 
-# ---- predictor / heads / ensemble ----
 def test_predictor_shapes_and_action_conditioning():
     p = Predictor(dim=16, hidden=32, depth=2)
     assert p(torch.randn(8, 16)).shape == (8, 16)
@@ -46,7 +45,6 @@ def test_ensemble_disagreement_positive_when_varied():
     assert (dis > 0).all()
 
 
-# ---- buffer ----
 def _buf(**kw):
     d = dict(capacity=64, dim=8, prioritized=True, eviction="reservoir", seed=0)
     d.update(kw)
@@ -82,8 +80,6 @@ def test_buffer_is_weights_in_unit_range():
 
 
 def test_reservoir_is_uniform_over_stream():
-    # Algorithm-R: every item survives with prob capacity/N. A recency-biased reservoir keeps
-    # almost nothing from the early stream; a correct one keeps ~capacity * (fraction) from any slice.
     b = _buf(capacity=100, eviction="reservoir", seed=0)
     n = 3000
     for i in range(n):
@@ -103,7 +99,6 @@ def test_buffer_retrieval_finds_nearest(tmp_path):
     assert torch.allclose(b.x[r["idx"][0, 0]], x[3], atol=1e-5)
 
 
-# ---- consolidation: hand-case math ----
 def test_ewc_penalty_hand_case():
     lin = torch.nn.Linear(1, 1, bias=False)
     with torch.no_grad():
@@ -113,7 +108,6 @@ def test_ewc_penalty_hand_case():
     ewc.star = {"weight": torch.tensor([[0.0]])}
     with torch.no_grad():
         lin.weight.fill_(4.0)  # moved by 4 from star
-    # penalty = lam * F * (theta-star)^2 = 2 * 3 * 16 = 96
     assert torch.isclose(ewc.penalty(lin), torch.tensor(96.0))
 
 
@@ -124,24 +118,20 @@ def test_si_penalty_hand_case():
     si.star = {"weight": torch.tensor([[1.0]])}
     with torch.no_grad():
         lin.weight.fill_(3.0)  # (3-1)^2 = 4
-    # penalty = c * omega * 4 = 0.5 * 2 * 4 = 4
     assert torch.isclose(si.penalty(lin), torch.tensor(4.0))
 
 
 def test_si_path_integral_uses_per_step_deltas():
-    # the path integral must accumulate -grad * (theta_t - theta_{t-1}), NOT theta_t - theta_start.
     lin = torch.nn.Linear(1, 1, bias=False)
     with torch.no_grad():
         lin.weight.fill_(0.0)
     si = SI()
     si.begin_task(lin)
-    # step 1: prev=0, grad=1, move to 2 -> w += -1*(2-0) = -2
     si.before_step(lin)
     lin.weight.grad = torch.tensor([[1.0]])
     with torch.no_grad():
         lin.weight.fill_(2.0)
     si.after_step(lin)
-    # step 2: prev=2, grad=1, move to 3 -> w += -1*(3-2) = -1   (total -3, NOT -5)
     si.before_step(lin)
     lin.weight.grad = torch.tensor([[1.0]])
     with torch.no_grad():
@@ -165,7 +155,6 @@ def test_ewc_fisher_estimation_runs():
     assert con.penalty(model) >= 0  # zero at star, grows as weights move
 
 
-# ---- plasticity ----
 def _plast(schedule):
     cfg = OmegaConf.create({"schedule": schedule, "lr": 1e-3, "rigidity": 1.0, "pnn_fraction": 0.3})
     return PlasticityController(cfg)
@@ -212,7 +201,6 @@ def test_pnn_freeze_zeros_masked_grads():
     assert (model.weight.grad[mask] == 0).all()
 
 
-# ---- neuromod ----
 def _neuro():
     cfg = OmegaConf.create(
         {
@@ -235,7 +223,6 @@ def test_neuromod_surprise_is_prediction_error():
 
 def test_neuromod_gate_bounded_and_monotone():
     nm = _neuro()
-    # warm up stats then compare low vs high
     for v in [0.5, 0.6, 0.4, 0.55]:
         nm.gate("surprise", v)
     lo = nm.gate("surprise", 0.1)
@@ -258,7 +245,6 @@ def test_neuromod_disabled_returns_unity():
     assert Neuromodulation(cfg).gate("surprise", 99.0) == 1.0
 
 
-# ---- modulation ----
 def test_build_modulation_toggles():
     cfg = OmegaConf.create(
         {"context_gating": True, "working_memory": True, "chunking": True, "n_contexts": 4, "wm_slots": 3}

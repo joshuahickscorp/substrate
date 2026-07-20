@@ -1,34 +1,4 @@
 #!/usr/bin/env python
-"""THE decisive substrate experiment: does pooling destroy compositional/spatial structure that the
-dense pre-pool tokens keep? The whole corpus lands most abstraction/binding tests as taxonomy-3 bounds,
-but we never separated two explanations: (B) the frozen V-JEPA 2 substrate is genuinely bounded, vs
-(C) MEAN-POOLING throws the structure away before the shell ever sees it. This probe collapses that
-ambiguity on real encoder geometry.
-
-One real encoder forward per clip yields the full [8192, 1024] pre-pool tokens. From the SAME tokens we
-form two representations of identical information content upstream:
-  - POOLED: mean over all tokens -> [1024] (what the whole corpus used)
-  - GRID: mean over G contiguous token groups -> [G, 1024] flattened (keeps G centroids, not 1)
-We decode two independent factors of the synthetic-but-real-geometry content:
-  - HUE (factor A): a GLOBAL appearance factor; mean-pooling should preserve it.
-  - ORIENTATION (factor B): a SPATIAL factor; the spatial mean of a full-field grating is near-constant
-    regardless of angle, so if the encoder stores orientation only in the spatial ARRANGEMENT of tokens,
-    mean-pooling destroys it while the grid keeps it.
-Each factor is probed on POOLED and GRID, each against a frozen-random projection control.
-
-Verdict logic:
-  - if ORIENTATION decodes much better from GRID than POOLED (and hue decodes from both): POOLING IS THE
-    BOTTLENECK. The fork answer is a dense/token-level substrate (pre-pool tokens or V-JEPA 2.1 dense).
-  - if ORIENTATION fails on BOTH grid and pooled: the substrate itself does not carry it, bounded, and a
-    custom/plastic representation is the honest direction.
-  - if both decode from POOLED already: pooling is not the bottleneck for these factors.
-
-Usage: python scripts/dense_vs_pooled_probe.py --n-a 4 --n-b 4 --per 3 --grid 64 \
-    --out runs/pre_studio/dense_vs_pooled.json
-  device=cpu (MPS overflows the ViT-L attention buffer at 64-frame/256px).
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -51,10 +21,6 @@ from mop.substrate import load_encoder  # noqa: E402
 
 
 def _grid_pool(tokens: torch.Tensor, g: int) -> torch.Tensor:
-    """tokens [N, D] -> [g*D] by averaging N tokens into g contiguous groups, then flattening. Keeps g
-    local centroids instead of the single global mean, so any structure that survives at coarser
-    granularity is retained. Robust to the exact token ordering: g contiguous groups keep SOME locality
-    regardless of whether the layout is temporal-major or spatial-major."""
     n, d = tokens.shape
     per = max(1, n // g)
     groups = [tokens[i * per : (i + 1) * per].mean(0) for i in range(g)]
@@ -130,7 +96,6 @@ def run(n_a: int, n_b: int, per: int, grid: int, seed: int) -> dict:
         },
     }
 
-    # decisive verdict on the orientation (spatial) factor: does the grid recover it where pooling loses it
     o_pooled = out["orientation_spatial_factor"]["pooled"]["real_acc"]
     o_grid = out["orientation_spatial_factor"]["grid"]["real_acc"]
     chance = out["orientation_spatial_factor"]["pooled"]["chance"]

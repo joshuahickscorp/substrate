@@ -1,20 +1,3 @@
-"""E4: neuromodulation (uncertainty-gated learning), with the mandatory noisy-TV test.
-
-An Ensemble of forward Predictors learns a LEARNABLE region (fixed latent dynamics, low
-aleatoric) while a NOISE region (irreducibly random target) sits beside it. The question is
-where a gate sends learning/attention. We compare three gates:
-  (a) ungated:               constant attention everywhere (the do-nothing reference)
-  (b) point-error gated:     attention ~ raw prediction-error magnitude
-  (c) disagreement gated:    attention ~ ensemble variance (epistemic / Bayesian surprise)
-
-For each gate we report adaptation speed on the learnable region and, critically, the gate
-VALUE on the noise region (the resource it allocates to noisy-TV). The correct mechanism
-spends near-zero on noise. The named null: point-error gating allocates as much to noisy-TV
-as ungated (it cannot tell aleatoric from epistemic), while disagreement does not. We return
-point_error_chases_noise and disagreement_ignores_noise as the explicit null check, reusing
-noisy_tv_diagnostic for the core epistemic-vs-error contrast. A GaussianHead on the learnable
-region reports calibration (reliability + ECE). A plot is saved.
-"""
 
 from __future__ import annotations
 
@@ -74,7 +57,6 @@ class E4(Experiment):
         steps = int(e.steps)
         bs = int(e.batch)
 
-        # per-region gate trajectories for the three mechanisms, and learnable-error trajectory
         traj_err_l: list[float] = []
         gate_pt: dict[str, list[float]] = {"learnable": [], "noise": []}
         gate_dis: dict[str, list[float]] = {"learnable": [], "noise": []}
@@ -103,8 +85,6 @@ class E4(Experiment):
             loss.backward()
             opt.step()
 
-        # gate-on-noise = late-window mean attention each mechanism would send to noisy-TV,
-        # normalized to the ungated reference (a constant 1.0 attention everywhere).
         w = max(1, steps // 4)
         ung_l = 1.0  # ungated: attention is the same constant on both regions
         ung_n = 1.0
@@ -112,8 +92,6 @@ class E4(Experiment):
         pt_n = _late(gate_pt["noise"], w)
         dis_l = _late(gate_dis["learnable"], w)
         dis_n = _late(gate_dis["noise"], w)
-        # normalize each mechanism by its own learnable-region value so "1.0" means
-        # "spends on noise like it spends on learnable", and the ungated bar sits at 1.0.
         pt_noise_rel = _safe_div(pt_n, pt_l)
         dis_noise_rel = _safe_div(dis_n, dis_l)
         ung_noise_rel = _safe_div(ung_n, ung_l)  # exactly 1.0
@@ -154,9 +132,6 @@ class E4(Experiment):
         return out
 
     def _calibrate(self, data, dim: int, dev, e, seed: int) -> dict:
-        """Train a GaussianHead next-latent regressor on the learnable region, then read
-        reliability/ECE. Confidence is per-sample (low predicted variance = high confidence),
-        correctness is per-sample (predicted within a tolerance of the target)."""
         seed_everything(seed)
         x = safe_to(data["learnable"].x, dev)
         t = safe_to(data["learnable"].xnext, dev)

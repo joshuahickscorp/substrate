@@ -1,23 +1,3 @@
-"""MechanismRunner for the intervention-simulation workstream.
-
-The runner ties the bed and the sub-mechanism implementations to the ladder run-receipt contract.
-Its run method scores each of the four sub-mechanisms against its matched control on both regimes
-(five arm-versus-control comparisons per regime, one per declared control). Its mint method returns
-a mechanics-demonstration RunReceipt and never a scientific confirmation:
-
-- the verdict is null unless the demonstration is airtight;
-- the verdict is mechanics-ok only when every sub-mechanism beats its matched control by the
-  required margin on the favorable regime AND the null holds on the null regime (no arm beats its
-  control there);
-- the receipt records the controls cleared on the favorable regime, an evidence digest that content
-  addresses the full two-regime result, and the per-sub-mechanism margins as detail.
-
-A mechanics-ok demonstration proves the plumbing and the seeded arithmetic separation only. It is
-labeled a demonstration, can never be cleared, and can never open a stage gate.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -46,12 +26,11 @@ RUN_SCHEMA = "mop-intervention-simulation-run/v1"
 
 
 class InterventionSimulationRunnerError(ValueError):
-    """Raised when the runner is built or driven with a malformed argument. It fails closed."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class SubComparison:
-    """One matched arm-versus-control comparison for a single sub-mechanism on a single regime."""
 
     sub_mechanism: str
     arm_id: str
@@ -87,7 +66,6 @@ class SubComparison:
 
 @dataclass(frozen=True, slots=True)
 class RegimeEvaluation:
-    """The five sub-mechanism comparisons evaluated on one regime."""
 
     regime_name: str
     comparisons: tuple[SubComparison, ...]
@@ -113,7 +91,6 @@ class RegimeEvaluation:
 
 @dataclass(frozen=True, slots=True)
 class RunResults:
-    """The full result of one run: the favorable and null evaluations, content addressed."""
 
     mechanism_id: str
     seed: int
@@ -137,7 +114,6 @@ class RunResults:
 
 
 def _evaluate_regime(regime: RegimeSpec) -> RegimeEvaluation:
-    """Score every sub-mechanism against its matched control on one regime."""
 
     comparisons = (
         SubComparison(
@@ -188,7 +164,6 @@ def _evaluate_regime(regime: RegimeSpec) -> RegimeEvaluation:
 
 @dataclass(frozen=True, slots=True)
 class InterventionSimulationRunner:
-    """Runs the four sub-mechanisms against the bed and mints a mechanics-demonstration receipt."""
 
     mechanism_id: str = MECHANISM_ID
 
@@ -197,14 +172,12 @@ class InterventionSimulationRunner:
             raise InterventionSimulationRunnerError("runner mechanism id cannot drift")
 
     def run(self, bed: InterventionSimulationBed, seed: int) -> RunResults:
-        """Score each sub-mechanism against its matched control on the favorable and null regimes."""
 
         favorable = _evaluate_regime(bed.favorable_regime(seed))
         null = _evaluate_regime(bed.null_regime(seed))
         return RunResults(mechanism_id=self.mechanism_id, seed=seed, favorable=favorable, null=null)
 
     def mint(self, results: RunResults) -> RunReceipt:
-        """Mint a mechanics-demonstration receipt. Never a confirmation, never cleared."""
 
         favorable_all_beat = results.favorable.all_beat
         null_holds = results.null.none_beat

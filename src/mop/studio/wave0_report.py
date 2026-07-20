@@ -1,10 +1,3 @@
-"""Studio Wave-0 report synthesis.
-
-The Studio Wave-0 run emits several receipts: transfer check, disk recovery, doctor, daemon state,
-encode device, and encode schedule. This module turns them into one JSON summary plus a bounded
-Markdown block for STUDIO_RUN_REPORT.md, so the report records actual launch status, s/clip, and
-memory envelope without hand editing.
-"""
 
 from __future__ import annotations
 
@@ -27,7 +20,6 @@ def build_wave0_report(
     disk_recovery: dict[str, Any] | None = None,
     daemon_state: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Build a compact Wave-0 summary from receipts."""
     memory = (encode_device or {}).get("memory_envelope") or (encode_schedule or {}).get("memory_envelope")
     report: dict[str, Any] = {
         "schema": SCHEMA,
@@ -58,7 +50,6 @@ def write_json(report: dict[str, Any], path: Path | str) -> None:
 
 
 def render_markdown(report: dict[str, Any]) -> str:
-    """Render the bounded Markdown block inserted into STUDIO_RUN_REPORT.md."""
     encode = report["encode"]
     memory = report["memory_envelope"]
     daemon = report["daemon"]
@@ -98,7 +89,6 @@ def render_markdown(report: dict[str, Any]) -> str:
 
 
 def upsert_report_block(report_path: Path | str, block: str) -> None:
-    """Insert or replace the auto block in STUDIO_RUN_REPORT.md."""
     path = Path(report_path)
     text = path.read_text() if path.exists() else "# STUDIO RUN REPORT\n\n"
     if AUTO_START in text and AUTO_END in text:

@@ -76,8 +76,6 @@ def allocation_efficiency(panel: SourcePanel, allocation: Allocation) -> float:
     return min(1.0, max(0.0, ratio))
 
 
-
-
 def allocate_mechanism(panel: SourcePanel) -> Allocation:
 
     pilot_total = PILOT_PROBES_PER_SOURCE * panel.source_count
@@ -103,8 +101,6 @@ def allocate_mechanism(panel: SourcePanel) -> Allocation:
         for index in range(panel.source_count):
             values[index] += per_source
     return _check_allocation(panel, tuple(values))
-
-
 
 
 def allocate_uniform(panel: SourcePanel) -> Allocation:

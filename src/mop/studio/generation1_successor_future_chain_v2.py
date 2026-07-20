@@ -41,7 +41,7 @@ StatusValidator = Callable[[Mapping[str, Any]], str]
 
 
 class SuccessorFutureChainRefused(RuntimeError):
-    """The complete future chain could not be started at an exact safe boundary."""
+    pass
 
 
 def _validated_status_state(
@@ -227,7 +227,6 @@ def start_future_chain(
     ack_interval_seconds: float = ACK_INTERVAL_SECONDS,
     sleep_fn: SleepFn = time.sleep,
 ) -> dict[str, Any]:
-    """Start or resume v5, then start the observation-only post-v5 waiter."""
 
     if not execute:
         raise SuccessorFutureChainRefused("future-chain start requires explicit --execute")

@@ -214,7 +214,7 @@ IMPLEMENTATION_PATH = Path(__file__).resolve()
 
 
 class FullGenerationsExtensionRefused(RuntimeError):
-    """The full-generations successor boundary could not be established exactly."""
+    pass
 
 
 IdentityProbe = Callable[[Mapping[str, Any]], str]
@@ -227,7 +227,6 @@ NowFn = Callable[[], dt.datetime]
 
 
 class ProcessSnapshot:
-    """Exact process identity used to prevent duplicate detached supervisors."""
 
     __slots__ = ("pid", "create_time", "pgid", "cwd", "label", "command")
 
@@ -560,7 +559,6 @@ def validate_generic_status(
     *,
     require_complete: bool = False,
 ) -> str:
-    """Validate an exact zero-injection generic-supervisor status and artifacts."""
 
     _require_fields(status, GENERIC_STATUS_FIELDS, f"{program.program_id} status")
     _validate_seal(status, "status_sha256", f"{program.program_id} status")
@@ -802,7 +800,6 @@ def _status_payload(state: Mapping[str, Any]) -> dict[str, Any]:
 
 
 class FullGenerationsExtensionChain:
-    """Observe categorized wave completion, then own the full-generations generic supervisor."""
 
     def __init__(
         self,
@@ -1317,7 +1314,6 @@ def validate_full_generations_extension_status(
     predecessor_program_path: Path = DEFAULT_PREDECESSOR_PROGRAM,
     target_program_path: Path = DEFAULT_TARGET_PROGRAM,
 ) -> str:
-    """Validate one exact full-generations-waiter acknowledgement."""
 
     repo_root = repo_root.resolve()
     predecessor_program_path = predecessor_program_path.resolve()
@@ -1573,7 +1569,6 @@ def read_validated_complete_full_generations_extension_status(
     target_program_path: Path = DEFAULT_TARGET_PROGRAM,
     acquire_lock: bool = True,
 ) -> dict[str, Any]:
-    """Replay one stable complete full-generations extension snapshot."""
 
     root = root.resolve()
     repo_root = repo_root.resolve()
@@ -1730,7 +1725,6 @@ def start_full_generations_extension_detached(
     execute: bool,
     use_caffeinate: bool = True,
 ) -> dict[str, Any]:
-    """Idempotently start the lightweight full-generations extension parent."""
 
     if not execute:
         raise FullGenerationsExtensionRefused(

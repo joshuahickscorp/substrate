@@ -1,8 +1,3 @@
-"""Immutable four-stage event records for the Event-Sourced Coalition Substrate.
-
-This is evidence-neutral mechanics.  The records enforce temporal, branch, epistemic, and payload
-boundaries; they do not decide which observations are meaningful or whether an actor is useful.
-"""
 
 from __future__ import annotations
 
@@ -66,7 +61,6 @@ class EventKind(StrEnum):
 
 
 class EvidenceClass(StrEnum):
-    """Transitive evidence taint, ordered from least to most promotion-restrictive."""
 
     LEARNED_UNVERIFIED = "learned-unverified"
     SCRIPTED_MECHANICS = "scripted-mechanics-only"
@@ -187,12 +181,6 @@ def _canonical_event_refs(values: Sequence[EventRef], label: str) -> tuple[Event
 
 
 def state_version_for_parents(causal_parent_ids: Sequence[EventRef]) -> str:
-    """Bind a derived producer-state version to its complete canonical parent set.
-
-    Parentless roots share the explicit genesis version.  Every derived version is otherwise a
-    commitment to the entire sorted set, so omitting, replacing, or duplicating a parent changes or
-    invalidates the version before the event can enter a ledger.
-    """
 
     parents = tuple(sorted(causal_parent_ids, key=str))
     _canonical_event_refs(parents, "causal_parent_ids")
@@ -908,7 +896,6 @@ ESCSEvent: TypeAlias = ObservationEvent | HypothesisEvent | CommitmentEvent | Co
 
 
 def event_from_payload(payload: Mapping[str, Any]) -> ESCSEvent:
-    """Parse one exact event payload, rejecting unknown fields and kind/body mismatches."""
 
     _require_exact_keys(payload, {"schema", "envelope", "body"}, "ESCS event")
     if payload["schema"] != EVENT_SCHEMA:

@@ -1,5 +1,3 @@
-"""Data cards + license ledger: every source gets a card with the required fields, the ledger
-surfaces manual/blocked/deferred blockers, and live plan/acquire state merges into the card."""
 
 import json
 
@@ -40,11 +38,9 @@ def test_data_card_merges_live_state():
 def test_license_ledger_surfaces_blockers():
     ledger = datacards.license_ledger()
     blocker_slugs = {b["slug"] for b in ledger["blockers"]}
-    # the known manual/blocked/deferred sources must appear as blockers
     assert "ssv2" in blocker_slugs  # manual
     assert "ego4d_full" in blocker_slugs  # deferred
     assert "laion_tiny_meta" in blocker_slugs  # blocked
-    # and an available source must NOT be a blocker
     assert "synthetic_controls" not in blocker_slugs
 
 

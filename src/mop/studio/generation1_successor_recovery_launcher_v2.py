@@ -51,7 +51,7 @@ StatusValidator = Callable[[Mapping[str, Any]], str]
 
 
 class SuccessorChainRecoveryRefused(RuntimeError):
-    """The append-only recovery chain could not be started at an exact safe boundary."""
+    pass
 
 
 def _validated_status_state(
@@ -241,13 +241,6 @@ def start_recovery(
     ack_interval_seconds: float = ACK_INTERVAL_SECONDS,
     sleep_fn: SleepFn = time.sleep,
 ) -> dict[str, Any]:
-    """Idempotently start or resume the v7 adopter, then the extension v4 waiter.
-
-    Each detached starter refuses to duplicate a live parent under its own start
-    lock, so a second recovery call while the chain is up returns the existing
-    acknowledgements rather than launching a second supervisor.  The held
-    v5/v6/extv2/extv3 runs are never signalled, edited, or read.
-    """
 
     if not execute:
         raise SuccessorChainRecoveryRefused("recovery start requires explicit --execute")

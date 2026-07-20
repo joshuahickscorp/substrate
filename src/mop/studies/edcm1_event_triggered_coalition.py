@@ -42,8 +42,6 @@ OFFICIAL_CONTRACT_ID = "edcm1-v3-2026-07-11"
 OFFICIAL_IMPLEMENTATION_REVIEW_STATUS = "approved-for-official-execution"
 OFFICIAL_VERIFIER_MODE = "full-deterministic-regeneration/v1"
 DIAGNOSTIC_VERIFIER_MODE = "structural-diagnostics-only/v1"
-# Hash of envelope["payload"] only.  Keeping it outside the payload avoids a
-# circular identity.  The finalized value is mirrored in the config envelope.
 OFFICIAL_AUTHORITY_SHA256 = "8b99bf150f8194f1c0485c536b6b240e611914ccf9ed2df0ad28f78b9a78cfff"
 
 PROPOSER_ORDER = ("reactive_spatial", "episodic_retrieval", "short_horizon_planner")
@@ -220,10 +218,6 @@ MAX_CONFIG_BYTES = 1_048_576
 MAX_SCOPED_FILE_RECEIPT_BYTES = 67_108_864
 
 
-
-
-
-
 def _stable_int(*parts: Any, modulus: int = 2**63 - 1) -> int:
     digest = hashlib.sha256(canonical_bytes(list(parts))).digest()
     return int.from_bytes(digest[:8], "big") % modulus
@@ -249,8 +243,6 @@ def _require_distinct_paths(paths: Mapping[str, Path]) -> None:
     resolved = {label: path.resolve() for label, path in paths.items()}
     reverse: dict[tuple[Any, ...], list[str]] = defaultdict(list)
     for label, path in resolved.items():
-        # APFS commonly uses case-insensitive, Unicode-normalizing lookup.  Use a
-        # conservative logical identity even when an output does not exist yet.
         logical = unicodedata.normalize("NFC", str(path)).casefold()
         reverse[("logical", logical)].append(label)
         try:
@@ -261,7 +253,6 @@ def _require_distinct_paths(paths: Mapping[str, Path]) -> None:
             stat.S_ISREG(metadata.st_mode),
             f"artifact path {label!r} must be a regular file",
         )
-        # Also catch hard links and any other names for the same existing inode.
         reverse[("inode", int(metadata.st_dev), int(metadata.st_ino))].append(label)
     labeled_paths = list(resolved.items())
     for index, (left_label, left_path) in enumerate(labeled_paths):
@@ -435,7 +426,6 @@ def load_config(
     *,
     exploratory: bool = False,
 ) -> dict[str, Any]:
-    """Load the official frozen payload or an explicitly non-verdict variant."""
 
     config, _, _ = _load_config_snapshot(path, exploratory=exploratory)
     return config
@@ -504,7 +494,6 @@ def _validate_config(config: Mapping[str, Any]) -> None:
 
 @dataclass
 class AbstractWork:
-    """Deterministic semantic cost model, explicitly not hardware timing."""
 
     scalar_ops: int = 0
     comparisons: int = 0
@@ -532,7 +521,6 @@ def accounting_sensitivity(
     weights: Mapping[str, int],
     factors: Sequence[Any],
 ) -> dict[str, Any]:
-    """One-at-a-time preregistered perturbations of semantic work weights."""
 
     numeric_factors = tuple(float(value) for value in factors)
     scenarios: dict[str, dict[str, float]] = {}
@@ -756,8 +744,6 @@ class PartialChangePointWorld:
         self.previous_reward = reward
         self.tick += 1
         self.terminal = self.tick >= self.horizon
-        # The terminal successor is still a real visible state.  Retaining it
-        # prevents the final transition from silently reporting zero progress.
         after = self.observe()
         visible = VisibleTransition(before, action, feedback, after, self.terminal)
         return EvaluatorTransition(visible, hidden_change, rotation, physical_action, niche, noise)
@@ -836,8 +822,6 @@ class ProposalMessage:
         state_digest = hashlib.sha256(state_bytes).hexdigest()
         work.bytes_serialized += len(state_bytes)
         work.bytes_hashed += len(state_bytes)
-        # Producer cost is sampled only after serializing and hashing the
-        # complete state, so changing state size changes the message's claim.
         producer_work_units = work.total(weights)
         provenance = Provenance(
             producer_id=specialist_id,
@@ -1152,7 +1136,6 @@ class ModelTransition:
 
 
 class ShortHorizonPlannerProposer(Proposer):
-    """A bounded recent-transition model with actual learned successors."""
 
     kind = "short_horizon_planner"
 
@@ -1279,7 +1262,6 @@ class ShortHorizonPlannerProposer(Proposer):
 
 
 class ContradictionVerifier:
-    """Relational verifier: it endorses, contradicts, or abstains; never acts."""
 
     def __init__(self, momentum: float = 0.8):
         self.momentum = momentum
@@ -1405,7 +1387,6 @@ class ActivationRecord:
 
 
 class EventSentinel:
-    """Selects proposers from visible structural/public feedback only."""
 
     def __init__(self, config: Mapping[str, Any]):
         self.settings = config["sentinel"]
@@ -1451,7 +1432,6 @@ class EventSentinel:
         if residual or frame.steps_remaining <= int(self.settings["deadline_steps"]):
             active.append("short_horizon_planner")
             reasons.append("public-residual-or-deadline")
-        # Novelty is read and charged, but deliberately absent from predicates.
         _ = raw_novelty
         ordered = tuple(kind for kind in PROPOSER_ORDER if kind in active)
         return ActivationRecord(ordered, (), "event", tuple(reasons)), work
@@ -1519,7 +1499,6 @@ def shuffled_coalition_matched_schedule(
     records: Sequence[ActivationRecord],
     seed: int,
 ) -> list[ActivationRecord]:
-    """Permute intact coalition records, preserving within-tick coactivation."""
 
     shuffled = list(records)
     random.Random(seed).shuffle(shuffled)
@@ -1718,7 +1697,6 @@ def _resolve_prepared(
 
 
 class CoalitionController:
-    """Hard proposer dispatch, optional relational verification, and arbitration."""
 
     def __init__(self, config: Mapping[str, Any], mode: str, single_kind: str | None = None):
         self.config = config
@@ -1808,8 +1786,6 @@ class CoalitionController:
                 self.hard_dispatch_violations += 1
         state_payload = self.state_payload()
         state_bytes = canonical_bytes(state_payload)
-        # This digest is evaluator-side fork/audit evidence.  It is excluded
-        # from cognitive work and cannot influence activation or arbitration.
         prepared = PreparedDecision(
             observation=observation,
             activation=record,
@@ -1863,7 +1839,6 @@ class CoalitionController:
 
 
 class HomogeneousController:
-    """Balanced rotating copies of one tuned proposer kind."""
 
     def __init__(self, config: Mapping[str, Any], kind: str):
         _require(kind in PROPOSER_ORDER, "homogeneous kind must be a proposer")
@@ -1891,8 +1866,6 @@ class HomogeneousController:
         }
 
     def prepare(self, observation: VisibleObservation, reference: ActivationRecord) -> PreparedDecision:
-        # Replace proposer roles only.  The relational verifier remains a
-        # persistent verifier in the separately matched optional round.
         count = len(reference.initial)
         _require(0 <= count <= 4, "homogeneous reference count outside [0, 4]")
         identifiers = tuple(self.copies)
@@ -1915,7 +1888,6 @@ class HomogeneousController:
             if proposer.telemetry.propose_calls - before[identifier] != int(identifier in active_ids):
                 self.hard_dispatch_violations += 1
         state_bytes = canonical_bytes(self.state_payload())
-        # Evaluator-side audit identity, excluded from cognitive work.
         prepared = PreparedDecision(
             observation=observation,
             activation=ActivationRecord(
@@ -1992,7 +1964,6 @@ class RecurrentTrace:
 
 
 class EqualBudgetRecurrentController:
-    """Tuned recurrent comparator whose every charged sweep changes its state."""
 
     def __init__(
         self,
@@ -2353,13 +2324,6 @@ def _two_tick_channel_delay_assay(
     controller: CoalitionController,
     prepared: PreparedDecision,
 ) -> tuple[float, float, int] | None:
-    """Compare clean, one-channel delayed, and lesioned two-tick forks.
-
-    All forks start at the same post-proposal common origin.  At the first tick
-    the delayed branch withholds the origin planner message.  At the second tick
-    it delivers that exact age-one message while withholding the current planner
-    message; the lesion branch receives neither planner message.
-    """
 
     origin_planner = next(
         (proposal for proposal in prepared.proposals if proposal.specialist_kind == "short_horizon_planner"),
@@ -3746,7 +3710,6 @@ def validate_intervention_evidence(
     row: Mapping[str, Any],
     config: Mapping[str, Any],
 ) -> None:
-    """Regenerate capped event-arm interventions for receipt verification."""
 
     episode_cap = int(config["splits"]["intervention_episodes"])
     regenerated = run_coalition_arm(
@@ -4356,7 +4319,6 @@ def validate_full_regeneration(
     heldout_rows: Sequence[Mapping[str, Any]],
     gate_result: Mapping[str, Any],
 ) -> dict[str, Any]:
-    """Official evidence authority: regenerate every completed seed row."""
 
     regenerated_gate: list[dict[str, Any]] = []
     for stored in gate_rows:
@@ -4855,7 +4817,6 @@ def _require_terminal_verification_result(result: Mapping[str, Any]) -> None:
 
 
 def build_verification_artifact(result: Mapping[str, Any]) -> dict[str, Any]:
-    """Seal one successful terminal verification result for durable publication."""
 
     _require_terminal_verification_result(result)
     core = {

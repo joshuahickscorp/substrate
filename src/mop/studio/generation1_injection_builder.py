@@ -27,7 +27,7 @@ ACTION = "append-capsules"
 
 
 class InjectionBuildError(ValueError):
-    """An injection request cannot be constructed without weakening its contract."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
@@ -101,7 +101,6 @@ def _valid_seal(payload: Mapping[str, Any], field: str) -> bool:
 
 
 def context_from_status_payload(status: Mapping[str, Any]) -> InjectionContext:
-    """Extract the exact append boundary from a self-hashed supervisor status payload."""
 
     _require(status.get("schema") == supervisor.STATUS_SCHEMA, "status schema is not Generation 1")
     _require(_valid_seal(status, "status_sha256"), "status self-seal mismatch")
@@ -133,7 +132,6 @@ def context_from_program(
     *,
     repo_root: Path = REPO_ROOT,
 ) -> InjectionContext:
-    """Load the governed program and its current sealed status without changing either."""
 
     try:
         program = supervisor.load_program(program_path, repo_root=repo_root)
@@ -149,7 +147,6 @@ def validate_exploratory_capsule(
     repo_root: Path = REPO_ROOT,
     label: str = "injection capsule",
 ) -> dict[str, Any]:
-    """Validate the supervisor's complete capsule contract and its injection-only kind rule."""
 
     _require(raw.get("kind") == "exploratory", f"{label} must have kind 'exploratory'")
     capsule = copy.deepcopy(dict(raw))
@@ -205,7 +202,6 @@ def build_exploratory_capsule(
     wall_minutes: int = 60,
     process_marker: str | None = None,
 ) -> dict[str, Any]:
-    """Build one sealed capsule while fixing its kind to ``exploratory``."""
 
     argv = list(command)
     _require(bool(argv) and all(isinstance(item, str) and bool(item) for item in argv), "command is invalid")
@@ -262,7 +258,6 @@ def build_injection_request(
     repo_root: Path = REPO_ROOT,
     injection_id: str | None = None,
 ) -> dict[str, Any]:
-    """Build a canonical request bound to one exact supervisor queue boundary."""
 
     program_id = _validate_identifier(context.program_id, "program_id")
     _require(
@@ -310,7 +305,6 @@ def build_injection_request(
 
 
 def write_injection_request(path: Path, request: Mapping[str, Any]) -> None:
-    """Write once, or accept an exact deterministic rerun at the same path."""
 
     if path.exists():
         existing = _read_object(path, "existing injection request")

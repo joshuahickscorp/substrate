@@ -1,6 +1,3 @@
-"""Frontier 1: full-grid accounting. The run_queue manifest, what `run_queue --full` actually
-expands (sweep), and what cost_projection projects must agree EXACTLY, all from the leg YAMLs.
-Also guards that every toy axis is a subset of the full grid (no toy knob the full grid lacks)."""
 
 from mop.harness.queue import load_queue
 from mop.harness.sweep import expand, full_run_units, load_leg, toy_run_units
@@ -18,7 +15,6 @@ def test_manifest_run_units_equal_full_grid():
 
 
 def test_sweep_full_expansion_matches_count():
-    # the number of override-lists `run_sweep(toy=False)` would run == full_run_units, exactly
     for _leg, d in _legs():
         axes = dict(d.get("full_axes", d.get("axes", {})))
         seeds = list(d.get("full_seeds", d.get("seeds", [0])))

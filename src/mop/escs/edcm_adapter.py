@@ -1,9 +1,3 @@
-"""Strict, quiescent EDCM-1 to ESCS mechanics adapter.
-
-The adapter is a deterministic compatibility boundary, not an execution bridge.  It translates only
-future-blind, factual EDCM-1 records into repository-native ESCS events, claims, actions, and lifecycle
-charges.  Candidate activation is frozen off even when a terminal verified EDCM authority is supplied.
-"""
 
 from __future__ import annotations
 
@@ -141,11 +135,11 @@ _AUTHORITY_VALIDATION_TOKEN = object()
 
 
 class AdapterContractError(ValueError):
-    """A source record cannot be translated without changing its factual meaning."""
+    pass
 
 
 class AdapterActivationError(RuntimeError):
-    """The activation-disabled scaffold was asked to execute or dispatch."""
+    pass
 
 
 def _require(condition: bool, message: str) -> None:
@@ -683,7 +677,6 @@ def load_verified_edcm_authority(
     config_path: Path | str = edcm.DEFAULT_CONFIG_PATH,
     implementation_authority_path: Path | str = edcm.DEFAULT_IMPLEMENTATION_AUTHORITY_PATH,
 ) -> VerifiedEDCMAuthority:
-    """Join terminal full verification to the producer and every current authority file."""
 
     producer_source = Path(producer_path)
     verification_source = Path(verification_path)
@@ -1193,7 +1186,6 @@ def _coerce_proposal(value: edcm.ProposalMessage | Mapping[str, Any]) -> edcm.Pr
 
 
 class EDCMToESCSAdapter:
-    """Pure translator whose runtime activation authority is permanently false in this revision."""
 
     def __init__(
         self,
@@ -1402,9 +1394,6 @@ class EDCMToESCSAdapter:
             producer_state_version=proposal.provenance.state_digest,
             calibrated_confidence=proposal.confidence,
             created_tick=proposal.created_tick,
-            # EDCM's age-one allowance exists only for the preregistered delay
-            # control. The factual clean adapter makes every translated claim
-            # current-tick-only even when the source message carries that cap.
             expiry_tick=proposal.created_tick,
             predicted_utility=(proposal.expected_progress,),
             producer_operations=proposal.producer_work_units,

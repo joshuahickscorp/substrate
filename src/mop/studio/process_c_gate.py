@@ -1,10 +1,3 @@
-"""Process C license gate.
-
-Process C is an explicitly conditional pilot. This module turns the doctrine rule into a durable
-receipt: PR9 can license the small dense-token pilot via its verdict ledger, or DR1 can license it
-only when the real-video cache is integrity-clean and the adversarial A6 condition exposes the
-frozen-representation wall. The receipt decides authorization; it never trains a module.
-"""
 
 from __future__ import annotations
 
@@ -27,7 +20,6 @@ def build_process_c_license_gate(
     min_params: int = 1_000_000,
     max_params: int = 10_000_000,
 ) -> dict[str, Any]:
-    """Build the Process C authorization receipt from PR9 and DR1 verdict artifacts."""
     null_card = _null_card_summary(null_card_path)
     pr9 = _pr9_source(pr9_verdict)
     dr1 = _dr1_source(dr1_verification)
@@ -87,7 +79,6 @@ def build_process_c_license_gate(
 
 
 def load_json(path: str | Path | None) -> dict[str, Any] | None:
-    """Load a JSON object if it exists."""
     if path is None:
         return None
     p = Path(path)
@@ -98,7 +89,6 @@ def load_json(path: str | Path | None) -> dict[str, Any] | None:
 
 
 def write_process_c_license_gate(receipt: dict[str, Any], path: str | Path) -> None:
-    """Write the Process C license gate receipt."""
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(receipt, indent=2, default=str) + "\n")

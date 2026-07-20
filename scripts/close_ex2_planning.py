@@ -60,10 +60,6 @@ from mop.seeding import seed_everything
 REPO = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = REPO / "runs" / "pre_studio" / "close_ex2_planning.json"
 
-# ------------------------------------------------------------------------------------------------
-# scale (matches configs/experiment/ex2_latent_planning.yaml, trimmed n_trials for a bounded
-# multi-seed budget: small MLPs, seconds to a couple of minutes on CPU, nothing encoder-heavy)
-# ------------------------------------------------------------------------------------------------
 DIM = 32
 ACTION_DIM = 8
 HIDDEN = 256
@@ -94,19 +90,9 @@ def _plan_true_terminal_dist(
     true_params,
     g: torch.Generator,
 ) -> tuple[float, float]:
-    """Plan with the learned model (legitimate: search is in-belief), then EXECUTE the selected
-    action sequence through the TRUE dynamics and measure the real terminal distance to goal.
-
-    Returns (in_belief_dist, true_env_dist):
-      in_belief_dist: what the shipped EX2 reports (planner's own optimistic self-assessment).
-      true_env_dist:  the honest, same-yardstick number (executed through _step_true, noise=0.0,
-                      exactly as _run_flat_head_trial scores the flat baseline).
-    """
     best_seq, in_belief_dist = _mpc_plan(
         model, z0, goal, HORIZON, N_SHOOTING_SAMPLES, ACTION_DIM, CEM_ITERS, CEM_ELITE_FRAC, g
     )
-    # execute the SAME selected sequence through the true environment (noise=0.0, matching the flat
-    # baseline's _run_flat_head_trial, so planner and flat are graded identically)
     z = z0.clone()
     with torch.no_grad():
         for t in range(HORIZON):
@@ -124,15 +110,6 @@ def _shuffle_true_terminal_dist(
     true_params,
     g: torch.Generator,
 ) -> tuple[float, float]:
-    """Action-shuffle control, scored on the TRUE dynamics.
-
-    We mirror _mpc_plan_shuffled's selection procedure exactly (sample candidates, permute the
-    action assignment across candidates, roll the SHUFFLED sequences through the learned model,
-    take the argmin terminal distance in-belief), then execute the SELECTED shuffled sequence
-    through _step_true and measure the real terminal distance. This keeps the control's
-    information-destroying step (the permutation) intact while grading it on the same true-env
-    yardstick as the planner and the flat head.
-    """
     cand = torch.randn(N_SHOOTING_SAMPLES, HORIZON, ACTION_DIM, generator=g).clamp(-2.0, 2.0)
     perm = torch.randperm(N_SHOOTING_SAMPLES, generator=g)
     shuffled = cand[perm]
@@ -141,7 +118,6 @@ def _shuffle_true_terminal_dist(
     in_belief_dist = float(dist.min())
     best_idx = int(torch.argmin(dist))
     best_seq = shuffled[best_idx]
-    # execute the selected shuffled sequence through the TRUE dynamics
     z = z0.clone()
     with torch.no_grad():
         for t in range(HORIZON):
@@ -156,17 +132,14 @@ def _run_seed(seed: int) -> dict:
     seed_everything(seed)
     g = torch.Generator().manual_seed(seed)
 
-    # 1) ground-truth synthetic action-conditioned dynamical system (reused helper)
     true_params = _true_dynamics_params(DIM, ACTION_DIM, NONLINEARITY, g)
 
-    # 2) fit the learned dynamics model g(z,a) -> z' on random transitions (reused helpers)
     z_train = torch.randn(N_TRAIN_TRANSITIONS, DIM, generator=g)
     a_train = _sample_actions(N_TRAIN_TRANSITIONS, ACTION_DIM, g)
     znext_train = _step_true(z_train, a_train, true_params, NONLINEARITY, NOISE, g)
     model = _DynamicsModel(DIM, ACTION_DIM, HIDDEN)
     _train_dynamics(model, z_train, a_train, znext_train, EPOCHS, LR)
 
-    # held-out one-step R2 (the gate's core number, reused helper)
     z_val = torch.randn(max(64, N_TRAIN_TRANSITIONS // 4), DIM, generator=g)
     a_val = _sample_actions(z_val.shape[0], ACTION_DIM, g)
     znext_val = _step_true(z_val, a_val, true_params, NONLINEARITY, NOISE, g)
@@ -174,7 +147,6 @@ def _run_seed(seed: int) -> dict:
         pred_val = model(z_val, a_val)
     one_step_r2 = _r2(pred_val, znext_val)
 
-    # k-step rollout R2 (learned vs true under the same action sequence, reused pattern)
     k_starts = torch.randn(max(32, N_TRIALS // 4), DIM, generator=g)
     k_actions = torch.randn(k_starts.shape[0], ROLLOUT_K, ACTION_DIM, generator=g).clamp(-2.0, 2.0)
     z_true, z_pred = k_starts.clone(), k_starts.clone()
@@ -184,13 +156,11 @@ def _run_seed(seed: int) -> dict:
             z_pred = model(z_pred, k_actions[:, t, :])
     kstep_r2 = _r2(z_pred, z_true)
 
-    # 3) flat-reactive-head baseline (reused helper; already scored in the true env)
     flat_head = _FlatReactiveHead(DIM, ACTION_DIM, HIDDEN)
     z0_train = torch.randn(N_TRAIN_TRANSITIONS // 2, DIM, generator=g)
     goal_train = torch.randn(N_TRAIN_TRANSITIONS // 2, DIM, generator=g)
     _train_flat_head(flat_head, model, z0_train, goal_train, ACTION_DIM, EPOCHS, LR, 32, g)
 
-    # 4) goal-reaching trials, scoring planner + shuffle on the TRUE dynamics (the fix)
     planner_true, flat_true, shuffle_true = [], [], []
     planner_belief, shuffle_belief = [], []  # kept only to quantify the in-belief optimism
     planner_success_true, flat_success, planner_success_belief = 0, 0, 0
@@ -226,7 +196,6 @@ def _run_seed(seed: int) -> dict:
     mean_planner_belief = _mean(planner_belief)
     mean_shuffle_belief = _mean(shuffle_belief)
 
-    # honest, same-yardstick comparisons (all three in the TRUE env)
     goal_distance_reduction_true = mean_flat_true - mean_planner_true  # positive = planner closer
     shuffle_gap_true = mean_shuffle_true - mean_planner_true  # positive = real actions beat shuffled
     goal_success_true = planner_success_true / max(1, N_TRIALS)
@@ -243,7 +212,6 @@ def _run_seed(seed: int) -> dict:
         "one_step_rollout_r2": round(one_step_r2, 4),
         "kstep_rollout_r2": round(kstep_r2, 4),
         "rollout_predictable": bool(rollout_predictable),
-        # honest TRUE-env numbers (the fix)
         "mean_planner_terminal_dist_true": round(mean_planner_true, 4),
         "mean_flat_terminal_dist_true": round(mean_flat_true, 4),
         "mean_shuffle_terminal_dist_true": round(mean_shuffle_true, 4),
@@ -253,7 +221,6 @@ def _run_seed(seed: int) -> dict:
         "flat_head_goal_success_true": round(flat_success_rate, 4),
         "planner_beats_flat_head_true": bool(planner_beats_flat_true),
         "planner_beats_action_shuffle_true": bool(planner_beats_shuffle_true),
-        # in-belief numbers (what the shipped EX2 reports), kept to quantify the optimism gap
         "mean_planner_terminal_dist_belief": round(mean_planner_belief, 4),
         "mean_shuffle_terminal_dist_belief": round(mean_shuffle_belief, 4),
         "goal_success_belief": round(planner_success_belief / max(1, N_TRIALS), 4),
@@ -303,8 +270,6 @@ def main(argv: list[str] | None = None) -> int:
     n_predictable = sum(1 for r in per_seed if r["rollout_predictable"])
     n_seeds = len(per_seed)
 
-    # planning survives honest scoring iff, on the TRUE-env yardstick, it beats BOTH the flat
-    # baseline and the shuffle control on EVERY seed (and rollout is predictable, the gate)
     survives = n_beats_flat == n_seeds and n_beats_shuffle == n_seeds and n_predictable == n_seeds
 
     agg_planner = _agg("mean_planner_terminal_dist_true")
@@ -322,7 +287,6 @@ def main(argv: list[str] | None = None) -> int:
             "goal, on every seed (in-belief scoring was not the whole story)."
         )
     else:
-        # distinguish a full collapse from a partial one
         if n_beats_flat == 0 or n_beats_shuffle == 0:
             resolution = "refuted"
         else:

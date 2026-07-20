@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-"""Synthesize the PR9 long-stream verdict ledger."""
 
 from __future__ import annotations
 

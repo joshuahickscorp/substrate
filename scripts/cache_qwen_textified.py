@@ -1,20 +1,4 @@
 #!/usr/bin/env python
-"""WP-01 cache pass (Q2.4, ENCODER LANE ONLY): label-free TEXTIFICATION of the shared nuisance clips
-through the staged small LLM (Qwen2.5-0.5B, or its staged fallback), real AND from_config random-init,
-mid-layer mean hidden state, into data/cache/qwen05b_textified_{real,randominit}.
-
-LABEL-FREE RULE: the textification reads ONLY pixels (coarse grid of palette-quantized cell colors plus
-the brightest-cell position per frame). It never sees the shape or color labels, so any decodability in
-the text substrate was carried through the rendering, not injected by it. The random-init same-arch arm
-at identical textification is the non-vacuous control.
-
-HARD RULES: encoder lane only, strictly after the in-flight V-JEPA encode, one model in memory at a
-time (arms sequential), clips streamed one at a time as uint8 (clip identity rule), local_files_only.
-
-Usage: python scripts/cache_qwen_textified.py   -> runs/mot/cache_qwen.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -64,8 +48,6 @@ PALETTE = {
 
 
 def textify_clip(frames_u8: torch.Tensor, tsub: int = TSUB, grid: int = GRID) -> str:
-    """Deterministic label-free textification: for each of tsub subsampled frames, a grid x grid table
-    of nearest-palette cell colors and the brightest cell's coordinates. Pure pixels in, prose out."""
     t = frames_u8.shape[0]
     frames = frames_u8[:: max(1, t // tsub)][:tsub].float() / 255.0  # [t,3,H,W]
     names = list(PALETTE)
@@ -107,7 +89,6 @@ def load_arm(model_id: str, arm: str, seed: int):
 
 
 def mid_layer_mean(model, tokenizer, text: str) -> torch.Tensor:
-    """Mid-layer mean hidden state: layer len(hidden_states)//2, mean over tokens -> [D]."""
     enc = tokenizer(text, return_tensors="pt", truncation=True, max_length=1024)
     with torch.no_grad():
         hs = model(**enc, output_hidden_states=True).hidden_states

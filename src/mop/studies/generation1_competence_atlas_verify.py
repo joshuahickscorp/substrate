@@ -1,4 +1,3 @@
-"""Independent verifier for the Generation 1 C1 competence atlas."""
 
 from __future__ import annotations
 

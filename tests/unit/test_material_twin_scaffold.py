@@ -1,8 +1,3 @@
-"""Unit tests for the bio-morphogenic material digital-twin scaffold.
-
-These tests exercise the contracts, priors, controls, damage/repair, drift, portability, and bench
-handoff mechanics. They assert fail-closed behavior and determinism. No capability is claimed.
-"""
 
 from __future__ import annotations
 
@@ -43,11 +38,6 @@ MATERIAL_TWIN_SCHEMA = "mop-material-twin/v1"
 ALL_PRIORS = (LeakyEchoStateReservoir, DecayingConductanceMap, OscillatorBank)
 
 
-# ---------------------------------------------------------------------------
-# Section A. Twin interface contract.
-# ---------------------------------------------------------------------------
-
-
 def test_interface_contract_digest_is_stable() -> None:
     contract = TwinInterfaceContract()
     assert contract.interface_digest() == TwinInterfaceContract().interface_digest()
@@ -77,11 +67,6 @@ def test_validate_twin_interface_fails_closed_on_partial_object() -> None:
 
     with pytest.raises(ValueError, match="missing callable method"):
         validate_twin_interface(Partial())
-
-
-# ---------------------------------------------------------------------------
-# Section B. Toy material priors: determinism and mechanics.
-# ---------------------------------------------------------------------------
 
 
 @pytest.mark.parametrize("prior_cls", ALL_PRIORS)
@@ -143,11 +128,6 @@ def test_lineage_digest_detects_tampering() -> None:
         Lineage(schema=MATERIAL_TWIN_SCHEMA, ops=("reset:seed=0",), head_digest="0" * 64)
 
 
-# ---------------------------------------------------------------------------
-# Section C. Control family declarations.
-# ---------------------------------------------------------------------------
-
-
 def test_default_control_set_covers_every_family() -> None:
     control_set = build_default_control_set()
     covered = {d.family for d in control_set.declarations}
@@ -196,11 +176,6 @@ def test_control_rejects_unknown_family() -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Section C helper. Native-dynamics value contract.
-# ---------------------------------------------------------------------------
-
-
 def test_native_dynamics_contract_valid() -> None:
     contract = NativeDynamicsValueContract(
         schema=MATERIAL_TWIN_SCHEMA,
@@ -232,11 +207,6 @@ def test_native_dynamics_rejects_single_replication() -> None:
             retain_only=("capability-density",),
             replication_min=1,
         )
-
-
-# ---------------------------------------------------------------------------
-# Section D. Damage / repair contracts and mechanics.
-# ---------------------------------------------------------------------------
 
 
 def test_default_damage_repair_contract_valid() -> None:
@@ -331,11 +301,6 @@ def test_repair_rejects_unknown_policy() -> None:
         twin.repair("teleport")
 
 
-# ---------------------------------------------------------------------------
-# Section D helper. Drift and portability contracts.
-# ---------------------------------------------------------------------------
-
-
 def test_drift_contract_valid_and_fails_closed() -> None:
     ok = DriftAdaptationContract(
         schema=MATERIAL_TWIN_SCHEMA,
@@ -381,11 +346,6 @@ def test_portability_contract_valid() -> None:
         controls=("identity", "random-remap", "full-retrain"),
     )
     assert contract.payload()["source_kind"] != contract.payload()["target_kind"]
-
-
-# ---------------------------------------------------------------------------
-# Section E. Bench handoff and external specimen gate.
-# ---------------------------------------------------------------------------
 
 
 def test_external_gate_refuses_local_execution() -> None:
@@ -468,11 +428,6 @@ def test_specimen_transfer_needs_distinct_specimens() -> None:
             transfer_metric="x",
             controls=("within-specimen", "random-specimen", "full-refit"),
         )
-
-
-# ---------------------------------------------------------------------------
-# Facet coverage record.
-# ---------------------------------------------------------------------------
 
 
 def test_facet_coverage_map_lists_all_bm_facets() -> None:

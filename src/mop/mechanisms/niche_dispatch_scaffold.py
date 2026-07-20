@@ -55,8 +55,6 @@ def _require_cells(cells: Sequence[str], label: str) -> tuple[str, ...]:
     return tuple(sorted(cells))
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ContextPartition:
 
@@ -123,8 +121,6 @@ class NicheDeclaration:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -229,8 +225,6 @@ class DisjointNicheContract:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -363,8 +357,6 @@ class ComplementarityContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
 
@@ -446,8 +438,6 @@ class DispatchValueContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class ConfirmationReceipt:
 
@@ -493,8 +483,6 @@ class DispatchActivationGate:
             "activation_required": self.activation_required,
             "local_activation_permitted": self.local_activation_permitted,
         }
-
-
 
 
 def _cell_id(index: int) -> str:
@@ -569,8 +557,6 @@ def build_default_dispatch_value_contract() -> DispatchValueContract:
         metric_name="held_out_task_score",
     )
 
-
-# Coverage record and capability declaration.
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 

@@ -1,5 +1,3 @@
-"""IterativeRefiner (EX17 primitive): shape preservation, determinism, fixed-N step accounting,
-adaptive halting never exceeds the budget and stays weight-tied (fewer params than untied depth)."""
 
 import torch
 
@@ -32,7 +30,6 @@ def test_weight_tying_is_cheaper_than_untied_depth():
 
     tied = IterativeRefiner(32, 64, steps=4)
     untied = _UntiedDepth(32, 64, steps=4)
-    # the tied refiner reuses one block across steps -> far fewer params at matched FLOPs
     assert param_count(tied) < param_count(untied)
 
 

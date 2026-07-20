@@ -1,19 +1,3 @@
-"""Uniform adapter over the nine Stage 3 mechanism demonstration epochs.
-
-Each epoch demonstration exercises the real mechanism scaffold under a seed: it constructs the
-module's own default contracts, synthesizes its seeded bed where the module exposes a synthesizer,
-and for the three epochs that carry a verdict builder it runs that builder and reads its status
-token. The honest default across every epoch is that the prior null holds and the fail closed
-activation gate stays closed, so a demonstration never earns a capability claim and never widens a
-claim scope. All work is deterministic in the seed with no wall clock and no unseeded randomness.
-
-Imports of the individual mechanism scaffolds are deferred into each epoch handler so a worker
-process that runs a single epoch pays only for that one module, which matters because the campaign
-schedules many concurrent worker processes.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes.
-"""
 
 from __future__ import annotations
 
@@ -24,11 +8,8 @@ from typing import Any
 from ..substrate.events import canonical_sha256
 
 SCHEMA = "mop-stage3-demonstration/v1"
-# Must stay byte-identical to the mechanism scaffolds' CLAIM_SCOPE. Duplicated as a literal so this
-# adapter carries no capability-bearing import surface at module load time.
 CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
-# The nine Stage 3 epochs in ladder order. The orchestrator sweeps exactly these keys.
 STAGE3_EPOCHS: tuple[str, ...] = (
     "trace_stability",
     "niche_dispatch",
@@ -41,20 +22,15 @@ STAGE3_EPOCHS: tuple[str, ...] = (
     "integrated_escs",
 )
 
-# (verdict_status, null_holds, controls_ok, detail) returned by every epoch handler.
 _Outcome = tuple[str, bool, bool, dict[str, Any]]
 
 
 class Stage3DemonstrationError(ValueError):
-    """Raised when a demonstration request is malformed. The adapter fails closed."""
+    pass
 
 
 @dataclass(frozen=True, slots=True)
 class DemonstrationResult:
-    """One epoch's deterministic demonstration outcome, sealed by a content digest.
-
-    Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-    """
 
     epoch: str
     seed: int
@@ -93,14 +69,7 @@ class DemonstrationResult:
         return canonical_sha256(self.payload())
 
 
-# ---------------------------------------------------------------------------
-# Fail closed helpers. null_holds and controls_ok are read from each module's own guards, never
-# reimplemented here, so the honest default is whatever the scaffold enforces.
-# ---------------------------------------------------------------------------
-
-
 def _refuses(thunk: Callable[[], object], expected: type[BaseException]) -> bool:
-    """Return True when the module's claim or activation path refuses (its prior null holds)."""
 
     try:
         thunk()
@@ -110,18 +79,12 @@ def _refuses(thunk: Callable[[], object], expected: type[BaseException]) -> bool
 
 
 def _completes(thunk: Callable[[], object], expected: type[BaseException]) -> bool:
-    """Return True when the module's control completeness check passes without refusing."""
 
     try:
         thunk()
     except expected:
         return False
     return True
-
-
-# ---------------------------------------------------------------------------
-# Epoch handlers. Each constructs the module's real artifacts and reads its real guards.
-# ---------------------------------------------------------------------------
 
 
 def _demo_trace_stability(seed: int) -> _Outcome:
@@ -344,7 +307,6 @@ _HANDLERS: dict[str, Callable[[int], _Outcome]] = {
 
 
 def run_demonstration(epoch: str, seed: int) -> DemonstrationResult:
-    """Run one Stage 3 epoch demonstration deterministically. Fails closed on an unknown epoch."""
 
     if not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
         raise Stage3DemonstrationError("seed must be a nonnegative integer")
@@ -363,7 +325,6 @@ def run_demonstration(epoch: str, seed: int) -> DemonstrationResult:
 
 
 def coverage() -> dict[str, list[str]]:
-    """Summarize what each Stage 3 epoch demonstration exercises. Readiness only, not a result."""
 
     return {
         "trace_stability": [

@@ -81,7 +81,6 @@ def _json_sha256(payload: Any) -> str:
 
 
 def _source_bindings() -> list[dict[str, str]]:
-    """Hash every live source that defines the training-grid measurement contract."""
 
     return [
         {"path": relative, "file_sha256": _sha256_file(REPO_ROOT / relative)} for relative in SOURCE_PATHS
@@ -108,7 +107,6 @@ def _row_key(frames: int, mechanism: str, batch: int, repeat: int) -> str:
 
 
 def _memory_pressure_level() -> int | None:
-    """macOS kernel memory-pressure level (1 normal, 2 warn, 4 critical); None when unreadable."""
 
     try:
         out = subprocess.check_output(
@@ -120,7 +118,6 @@ def _memory_pressure_level() -> int | None:
 
 
 def _mps_memory() -> dict[str, int | None]:
-    """The MPS fields the P5 card names; None off Metal or when torch cannot report them."""
 
     try:
         import torch
@@ -141,7 +138,6 @@ def _mps_memory() -> dict[str, int | None]:
 
 
 def _child_payload(spec: dict[str, Any]) -> dict[str, Any]:
-    """Run one full training step in this (child) process and report measured peaks."""
 
     import torch
 
@@ -180,7 +176,6 @@ def _child_payload(spec: dict[str, Any]) -> dict[str, Any]:
             target_parameter.mul_(EMA_DECAY).add_(online_parameter, alpha=1.0 - EMA_DECAY)
     wall_seconds = time.perf_counter() - start
 
-    # ru_maxrss is bytes on macOS and kilobytes on Linux.
     raw_maxrss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     peak_rss_gb = raw_maxrss * (1024 if platform.system() == "Linux" else 1) / 1e9
     return {
@@ -205,7 +200,6 @@ def _child_payload(spec: dict[str, Any]) -> dict[str, Any]:
 
 
 def _child_env() -> dict[str, str]:
-    """Child inherits the environment; the repo src path is guaranteed on PYTHONPATH."""
 
     src = str(REPO_ROOT / "src")
     env = dict(os.environ)
@@ -216,7 +210,6 @@ def _child_env() -> dict[str, str]:
 
 
 def run_child(spec: dict[str, Any]) -> dict[str, Any]:
-    """Cold-process execution so peak RSS is per cell, not cumulative."""
 
     started = time.perf_counter()
     proc = subprocess.run(

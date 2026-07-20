@@ -1,10 +1,3 @@
-"""Exact, append-only lifecycle accounting for the ESCS mechanics scaffold.
-
-The counters in this module are evidence records, not hardware-energy estimates.  They keep every
-declared subsystem visible, retain byte-time as its own dimension, and make idle work impossible to
-hide inside a zero-cost quiescence claim.  Records are immutable and hash linked; ledgers are
-append-only and can be reconstructed from their canonical payload.
-"""
 
 from __future__ import annotations
 
@@ -35,11 +28,6 @@ def _require_exact_keys(value: Mapping[str, Any], expected: set[str], label: str
 
 @dataclass(frozen=True, slots=True)
 class WorkVector:
-    """Nonnegative exact counters for the complete declared ESCS lifecycle boundary.
-
-    ``total_work`` sums only operation-like work.  ``retained_byte_time`` deliberately remains a
-    separate dimension: adding byte-ticks to abstract operations would manufacture a unitless score.
-    """
 
     raw_transport_and_adapters: int = 0
     event_formation: int = 0
@@ -71,7 +59,6 @@ class WorkVector:
 
     @classmethod
     def retention(cls, *, retained_bytes: int, start_tick: int, end_tick: int) -> Self:
-        """Construct a half-open ``[start_tick, end_tick)`` byte-time charge."""
 
         retained_bytes = _require_nonnegative_int(retained_bytes, "retained_bytes")
         start_tick = _require_nonnegative_int(start_tick, "start_tick")
@@ -123,7 +110,6 @@ class WorkVector:
 
 @dataclass(frozen=True, slots=True)
 class LifecycleCharge:
-    """One immutable, hash-linked lifecycle charge."""
 
     sequence: int
     owner: str
@@ -265,7 +251,6 @@ def _require_digest(value: object, label: str) -> str:
 
 
 class LifecycleLedger:
-    """Append-only work ledger with exact deterministic replay."""
 
     def __init__(self) -> None:
         self._entries: list[LifecycleCharge] = []
@@ -276,7 +261,6 @@ class LifecycleLedger:
 
     @property
     def entry_count(self) -> int:
-        """Return the next append sequence without materializing ledger history."""
 
         return len(self._entries)
 

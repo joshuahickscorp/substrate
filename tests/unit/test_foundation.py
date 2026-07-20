@@ -7,7 +7,6 @@ def test_device_resolves_to_real_device():
     info = devices.resolve("auto")
     assert info.kind in ("cpu", "mps", "cuda")
     assert isinstance(info.device, torch.device)
-    # explicit unavailable request degrades, never crashes
     cpu = devices.resolve("cpu")
     assert cpu.kind == "cpu"
 
@@ -34,7 +33,6 @@ def test_variance_utility_quantifies_spread():
     rep = seeding.variance_of(fn, runs=4, seed=7)
     assert rep.runs == 4
     assert rep.tol() > 0
-    # seeded cpu randn is deterministic -> bit identical
     assert rep.bit_identical
 
 

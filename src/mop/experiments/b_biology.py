@@ -335,7 +335,6 @@ class B3(Experiment):
             stig = self._select_run("lp", samplers, dim, steps, decay, s)
             stig_raw = self._select_run("raw_error", samplers, dim, steps, decay, s)
             lp = self._explicit_lp(samplers, dim, steps, s)
-            # learnable coverage = share spent on the two learnable regions
             stig_cov.append(stig["share"][0] + stig["share"][1])
             lp_cov.append(lp[0] + lp[1])
             stig_noise.append(stig["share"][noise_idx])

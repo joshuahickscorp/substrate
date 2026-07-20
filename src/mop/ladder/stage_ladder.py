@@ -32,7 +32,6 @@ def _require_sha256(value: str, label: str) -> None:
         raise LadderRefusal(f"{label} must be a lowercase SHA-256 digest")
 
 
-
 STAGE_NAMES: tuple[str, ...] = (
     "Governance, measurement, falsification, recovery",
     "Programmable heterogeneous mechanics",
@@ -157,8 +156,6 @@ def assert_control_manifest() -> ControlManifest:
     return ControlManifest()
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class MatchedBudget:
 
@@ -184,8 +181,6 @@ class MatchedBudget:
             "wall_ns": self.wall_ns,
             "seeds": self.seeds,
         }
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -227,8 +222,6 @@ class ConfirmationReceipt:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class StageActivationGate:
 
@@ -261,8 +254,6 @@ class StageActivationGate:
             "activation_required": self.activation_required,
             "local_activation_permitted": self.local_activation_permitted,
         }
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -339,8 +330,6 @@ def build_stage_definitions() -> tuple[StageDefinition, ...]:
         )
         for index in range(MAX_STAGE_INDEX + 1)
     )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -473,9 +462,6 @@ class StageLadder:
 def build_default_ladder() -> StageLadder:
 
     return StageLadder(stages=build_stage_definitions())
-
-
-# Coverage record: which sub-question of this epoch each stage rung answers (readiness only).
 
 
 def coverage() -> dict[str, Sequence[str]]:

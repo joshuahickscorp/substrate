@@ -8,7 +8,6 @@ import copy
 import hashlib
 import json
 import math
-import os
 import re
 import sys
 from pathlib import Path
@@ -67,8 +66,6 @@ SESOI = 0.02
 UNITS = 12
 _SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 FloatArray = NDArray[np.float64]
-
-
 
 
 def _sha(value: Any) -> str:
@@ -543,8 +540,6 @@ def verify_payload_sha256(receipt: dict[str, Any]) -> bool:
     return isinstance(digest, str) and digest == _sha(
         {key: value for key, value in receipt.items() if key != "payload_sha256"}
     )
-
-
 
 
 def main(argv: list[str] | None = None) -> int:

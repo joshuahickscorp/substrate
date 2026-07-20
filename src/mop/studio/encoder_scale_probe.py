@@ -8,7 +8,6 @@ result, and a model that merely exists in the Hugging Face cache must never be c
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 import resource
@@ -32,10 +31,7 @@ MODES = {"load", "forward"}
 DEVICES = {"cpu", "mps"}
 
 
-
-
 def _rss_tree_bytes(pid: int) -> int:
-    """Resident bytes for the child and live descendants, or zero after it exits."""
     try:
         process = psutil.Process(pid)
         members = [process, *process.children(recursive=True)]
@@ -51,13 +47,11 @@ def _rss_tree_bytes(pid: int) -> int:
 
 
 def _self_max_rss_bytes() -> int:
-    """Normalize getrusage units: bytes on macOS, KiB on Linux."""
     raw = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     return raw if sys.platform == "darwin" else raw * 1024
 
 
 def _child(config_path: Path, mode: str, device: str, result_path: Path) -> int:
-    """Load exactly one pinned encoder and optionally execute one real forward pass."""
     started = time.perf_counter()
     cfg = OmegaConf.load(config_path)
     cfg.random_init = False
@@ -80,8 +74,6 @@ def _child(config_path: Path, mode: str, device: str, result_path: Path) -> int:
     if mode == "forward":
         frames = int(cfg.frames_per_clip)
         resolution = int(cfg.resolution)
-        # [B,T,C,H,W], the transformers V-JEPA contract.  A bounded deterministic pattern avoids
-        # the cost and nondeterminism of random generation while still exercising every layer.
         clip = torch.zeros((1, frames, 3, resolution, resolution), dtype=torch.float32, device=device)
         clip[:, :, 0, ::16, :] = 0.5
         clip[:, :, 1, :, ::16] = -0.5
@@ -126,7 +118,6 @@ def run_supervised_probe(
     timeout_seconds: float,
     poll_seconds: float = 0.1,
 ) -> dict[str, Any]:
-    """Run a real-weight probe in a disposable child and return an always-present receipt."""
     path = Path(config_path).resolve()
     if mode not in MODES:
         raise ValueError(f"mode must be one of {sorted(MODES)}, got {mode!r}")
@@ -244,7 +235,6 @@ def run_supervised_probe(
 
 
 def validate_probe_receipt(receipt: dict[str, Any]) -> list[str]:
-    """Return semantic errors that would make a scale-probe receipt uncitable."""
     problems: list[str] = []
     if receipt.get("schema") != SCHEMA:
         problems.append("wrong schema")

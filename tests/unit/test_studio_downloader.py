@@ -1,6 +1,3 @@
-"""Downloader orchestrator: dry-run writes NO bytes, the budget is a hard stop, manual sources need
-a license ack, unsafe archive members are refused, resume skips completed sources, and duplicate
-content is detected. The safety invariants the whole acquisition lane rests on."""
 
 import json
 
@@ -24,10 +21,8 @@ def test_dry_run_writes_no_bytes(tmp_path):
     m = downloader.acquire(plan, M3PRO_LOCAL_MAX, out_dir=tmp_path, execute=False)
     assert m["mode"] == "dry-run"
     assert m["totals"]["bytes_spent"] == 0
-    # all planned, nothing written to a data dir
     assert all(s["status"] == "planned" for s in m["sources"])
     assert not (tmp_path / "data").exists()
-    # manifest checkpoint exists
     assert (tmp_path / "acquire_manifest.json").exists()
 
 
@@ -55,7 +50,6 @@ def test_generate_method_executes_and_counts_bytes(tmp_path):
 
 
 def test_budget_is_a_hard_stop(tmp_path):
-    # a tiny budget profile: the second source would exceed it and must be skipped, not downloaded
     prof = Profile(
         name="tiny",
         disk_total_gb=10,
@@ -77,14 +71,12 @@ def test_budget_is_a_hard_stop(tmp_path):
         (dest / "c.bin").write_bytes(b"x" * 100)
         return {"bytes": 100, "n_clips": 1}
 
-    # both sources declare 0 planned bytes so the first passes the pre-check; make them real-sized
     plan = _plan(
         {"slug": "a", "download_method": "generate", "raw_gb": 0.0, "cache_gb": 0.0, "status": "available"},
         {"slug": "b", "download_method": "generate", "raw_gb": 1.0, "cache_gb": 0.0, "status": "available"},
     )
     m = downloader.acquire(plan, prof, out_dir=tmp_path, execute=True, gen_fn=gen, budget_gb=0.000001)
     by = {s["slug"]: s for s in m["sources"]}
-    # 'b' has planned_bytes ~1 GB which exceeds the ~1 KB budget -> skipped-budget (the kill switch)
     assert by["b"]["status"] == "skipped-budget"
 
 
@@ -98,19 +90,16 @@ def test_manual_source_needs_license(tmp_path):
 def test_remote_without_fetcher_blocks_cleanly(tmp_path):
     plan = _plan(_src("epic", method="epic-download-script", raw_gb=1.0, status="available"))
     m = downloader.acquire(plan, M3PRO_LOCAL_MAX, out_dir=tmp_path, execute=True, budget_gb=10)
-    # no fetcher/credentials on this device -> clean BLOCKED, never a crash or a partial
     assert m["sources"][0]["status"] == "blocked"
 
 
 def test_local_path_without_source_is_needs_source_not_error(tmp_path):
-    # the local-import lane with no user-supplied path is a clean needs-source, never an 'error'
     plan = _plan(_src("local_import", method="local-path", status="available"))
     m = downloader.acquire(plan, M3PRO_LOCAL_MAX, out_dir=tmp_path, execute=True, budget_gb=10)
     assert m["sources"][0]["status"] == "needs-source"
 
 
 def test_local_path_with_source_ingests_and_hashes(tmp_path):
-    # a real local class-folder dir is validated + hashed in place (nothing downloaded)
     src = tmp_path / "userdata" / "classA"
     src.mkdir(parents=True)
     (src / "a.bin").write_bytes(b"clipbytes")
@@ -140,7 +129,6 @@ def test_resume_skips_completed_source(tmp_path):
     plan = _plan(_src("synthetic_controls", method="generate"))
     m1 = downloader.acquire(plan, M3PRO_LOCAL_MAX, out_dir=tmp_path, execute=True, gen_fn=gen)
     assert m1["sources"][0]["status"] == "complete" and calls["n"] == 1
-    # second run resumes: the generator must NOT be called again
     m2 = downloader.acquire(plan, M3PRO_LOCAL_MAX, out_dir=tmp_path, execute=True, gen_fn=gen)
     assert calls["n"] == 1  # not recomputed
     assert m2["sources"][0].get("resumed") is True
@@ -149,7 +137,6 @@ def test_resume_skips_completed_source(tmp_path):
 def test_duplicate_content_detected(tmp_path):
     def gen(sel, dest):
         dest.mkdir(parents=True, exist_ok=True)
-        # two identical files -> one duplicate by content hash
         (dest / "a.bin").write_bytes(b"same")
         (dest / "b.bin").write_bytes(b"same")
         return {"bytes": 8, "n_clips": 2}
@@ -179,7 +166,6 @@ def test_manifest_has_provenance(tmp_path):
 
 
 def test_post_fetch_overrun_is_flagged_and_stops(tmp_path):
-    # a misbehaving fetcher returns MORE than planned: the bytes are on disk, so flag over-budget + stop
     def fat(sel, dest, remaining):
         dest.mkdir(parents=True, exist_ok=True)
         (dest / "big.bin").write_bytes(b"x" * 10)
@@ -196,8 +182,6 @@ def test_post_fetch_overrun_is_flagged_and_stops(tmp_path):
 
 
 def test_cumulative_budget_across_resume(tmp_path):
-    # first run completes source 'a' (spends ~0.6 GB); a resumed run must count that toward the
-    # budget so 'b' (0.6 GB) is refused, total on-disk never exceeds the 1 GB budget.
     def gen(sel, dest):
         dest.mkdir(parents=True, exist_ok=True)
         (dest / "c.bin").write_bytes(b"z" * 100)
@@ -209,7 +193,6 @@ def test_cumulative_budget_across_resume(tmp_path):
         _plan(a), M3PRO_LOCAL_MAX, out_dir=tmp_path, execute=True, budget_gb=1.0, gen_fn=gen
     )
     assert m1["sources"][0]["status"] == "complete"
-    # resume with both: 'a' resumes (counts 0.6 GB), 'b' would push to 1.2 GB > 1 GB -> skipped
     m2 = downloader.acquire(
         _plan(a, b), M3PRO_LOCAL_MAX, out_dir=tmp_path, execute=True, budget_gb=1.0, gen_fn=gen
     )
@@ -219,7 +202,6 @@ def test_cumulative_budget_across_resume(tmp_path):
 
 
 def test_partial_removed_on_fetcher_error(tmp_path):
-    # a fetcher that writes bytes then raises must not leave orphaned, untracked data on disk
     def boom(sel, dest, remaining):
         dest.mkdir(parents=True, exist_ok=True)
         (dest / "partial.bin").write_bytes(b"halfway")
@@ -243,7 +225,6 @@ def test_resume_refetches_when_data_missing(tmp_path):
     plan = _plan(_src("synthetic_controls", method="generate"))
     downloader.acquire(plan, M3PRO_LOCAL_MAX, out_dir=tmp_path, execute=True, gen_fn=gen)
     assert calls["n"] == 1
-    # delete the landed data: a resume must NOT trust the manifest's 'complete', it re-fetches
     import shutil
 
     shutil.rmtree(tmp_path / "data" / "synthetic_controls")

@@ -1,9 +1,3 @@
-"""Fail-closed preparation of additive local-throttle task migrations.
-
-This module renders a candidate policy in memory.  It never writes the live policy;
-the controlled campaign transition remains the only authority for adopting the
-rendered bytes after active legacy work and its verifier are terminal.
-"""
 
 from __future__ import annotations
 

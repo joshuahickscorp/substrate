@@ -1,11 +1,3 @@
-"""Durable evidence campaign for the F1-F20 form-substrate series.
-
-Raw harness runs live below ``runs/`` and are ignored by default.  This module does not treat their
-presence as evidence.  It locks registry-backed null cards, verifies class/config/registry equality,
-rejects stale run snapshots, and promotes a self-contained small JSON receipt into ``proof/``.  It
-also emits component-wise operational-awareness and performance-density inputs for the campaign
-scorecard.  Scientific positives remain gated by :mod:`mop.falsification.verdict_gate`.
-"""
 
 from __future__ import annotations
 
@@ -87,7 +79,6 @@ def load_form_campaign(
 def validate_form_campaign(
     campaign: dict[str, Any], *, registry_rows: list[dict[str, Any]] | None = None
 ) -> list[str]:
-    """Validate campaign schema, closed vocabularies, coverage, and dependency DAG."""
     from ..devel.registries import load_experiments
 
     problems: list[str] = []
@@ -103,9 +94,6 @@ def validate_form_campaign(
     if not isinstance(legs, list) or not legs:
         return [*problems, "campaign legs must be a non-empty list"]
     rows = registry_rows if registry_rows is not None else load_experiments()
-    # This durable campaign is frozen to the original F1-F20 contracts. Numeric inference would
-    # silently admit an alias such as ``f1_variant`` and would make later F-series scaffolds mutate
-    # an already published campaign.
     expected = set(FORM_CAMPAIGN_IDS)
     registry_counts = {
         experiment_id: sum(str(row.get("id") or "") == experiment_id for row in rows)
@@ -156,12 +144,6 @@ def validate_form_campaign(
 def build_null_card(
     row: dict[str, Any], *, intended_seeds: int, reconstructed_after_audit: bool = True
 ) -> dict[str, Any]:
-    """Build a strict registry-backed F-series null card.
-
-    The card remains conservative: its declared verdict is a tie until a separate run receipt and
-    verdict gate decide otherwise.  ``reconstructed-after-audit`` is explicit because historical F
-    runs predate this durable card layer; future canonical reruns occur after the contract lock.
-    """
     proof = dict(row.get("proof") or {})
     controls = [str(value) for value in row.get("controls") or []]
     factor = str(proof.get("atlas_factor") or "explicit-structured-factor")
@@ -204,7 +186,6 @@ def build_null_card(
 
 
 def write_null_cards(*, repo_root: Path | str = REPO_ROOT, overwrite: bool = False) -> dict[str, Any]:
-    """Write or verify one canonical null card for every F-series registry row."""
     from ..devel.registries import load_experiments
 
     root = Path(repo_root)
@@ -229,8 +210,6 @@ def write_null_cards(*, repo_root: Path | str = REPO_ROOT, overwrite: bool = Fal
         output = root / PROOF_ROOT / "NULL_CARDS" / f"{eid}.md"
         action = "verified"
         if output.exists() and not overwrite:
-            # Existing cards are immutable by default.  Verify their exact canonical null instead of
-            # silently rewriting history after a result is known.
             from .null_cards import load_card
 
             existing = load_card(output)
@@ -257,7 +236,6 @@ def write_null_cards(*, repo_root: Path | str = REPO_ROOT, overwrite: bool = Fal
 
 
 def latest_run_dir(experiment_id: str, *, repo_root: Path | str = REPO_ROOT) -> Path | None:
-    """Return the newest numeric harness directory, without claiming it is canonical."""
     base = Path(repo_root) / "runs" / experiment_id
     candidates = (
         [path for path in base.iterdir() if path.is_dir() and path.name.isdigit()] if base.exists() else []
@@ -273,7 +251,6 @@ def build_run_receipt(
     repo_root: Path | str = REPO_ROOT,
     contract_audit: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Build a self-contained canonical-candidate receipt from one ignored harness run."""
     from ..devel.registries import load_experiments
 
     root = Path(repo_root)
@@ -409,7 +386,6 @@ def collect_run_receipts(
     repo_root: Path | str = REPO_ROOT,
     source_dirs: dict[str, Path | str] | None = None,
 ) -> dict[str, Any]:
-    """Collect a durable receipt for every currently implemented F experiment."""
     from ..devel.registries import load_experiments
 
     root = Path(repo_root)
@@ -454,7 +430,6 @@ def collect_run_receipts(
 def run_local_campaign(
     *, repo_root: Path | str = REPO_ROOT, experiment_ids: list[str] | None = None
 ) -> dict[str, Any]:
-    """Run every implemented local F leg once under its exact canonical default config."""
     from .. import config
     from ..devel.registries import load_experiments
     from ..harness.runner import run_experiment
@@ -539,12 +514,6 @@ def run_local_campaign(
 
 
 def run_fail_closed_preflights(*, repo_root: Path | str = REPO_ROOT) -> dict[str, Any]:
-    """Execute the tiny F8/F16 smoke and prove that scientific mode refuses missing evidence.
-
-    This is intentionally the only campaign helper that runs experiment code.  Both lanes are tiny,
-    local, non-scientific mechanics checks.  The scientific invocation is made in a temporary
-    directory and must raise ``ScientificExecutionRefused`` while leaving its raw refusal receipt.
-    """
     from .. import config, devices
     from ..experiments import get_experiment
     from ..harness.runner import run_experiment
@@ -639,7 +608,6 @@ def run_fail_closed_preflights(*, repo_root: Path | str = REPO_ROOT) -> dict[str
 
 
 def build_form_verdict_gates(*, repo_root: Path | str = REPO_ROOT) -> dict[str, Any]:
-    """Gate every implemented F receipt; positives require an independent verifier receipt."""
     from ..devel.registries import load_experiments
 
     root = Path(repo_root)
@@ -701,7 +669,6 @@ def build_form_verdict_gates(*, repo_root: Path | str = REPO_ROOT) -> dict[str, 
 
 
 def extract_oa_components(experiment_id: str, metrics: dict[str, Any]) -> dict[str, Any]:
-    """Translate only directly measured F metrics into OA suite inputs; never infer a composite."""
     components: dict[str, dict[str, Any]] = {}
     if "oa1_missing_form_auroc" in metrics:
         components["oa1_missing_form"] = {
@@ -806,7 +773,6 @@ def build_density_input(receipts: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def build_campaign_scorecard(*, repo_root: Path | str = REPO_ROOT) -> dict[str, Any]:
-    """Build the receipt-backed F campaign scorecard without inventing missing evidence."""
     from ..devel.registries import load_experiments
     from .null_cards import load_card
 
@@ -958,8 +924,6 @@ def _seed_evidence_problems(
         interval_n = 0
     else:
         interval_n = int(interval.get("n") or 0)
-        # Cross-seed stability tests may form adjacent seed pairs, so S seed models legitimately
-        # yield S-1 paired deltas. Require at least three deltas and never more than the seed count.
         if interval_n < 3 or interval_n > observed_count:
             problems.append(
                 f"{experiment_id}: seed_ci.n {interval.get('n')!r} must be in [3, {observed_count}] "
@@ -977,8 +941,6 @@ def _seed_evidence_problems(
 
 
 def _render_form_card(card: dict[str, Any]) -> str:
-    """Render an F card without the legacy frozen-encoder assumptions in ``render_card``."""
-    # Reuse the canonical YAML serializer/parser contract, replacing only the generic prose wrapper.
     rendered = render_card(card)
     yaml_start = rendered.index("```yaml")
     yaml_block = rendered[yaml_start:].rstrip()

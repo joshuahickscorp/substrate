@@ -1,31 +1,4 @@
 #!/usr/bin/env python
-"""WS4 (WP-12): the broadcast-bottleneck bandwidth sweep. Does a NARROW shared global-workspace slot
-with broadcast-back show a bandwidth benefit at FIXED total capacity, beating both unbottlenecked
-matched-capacity fusion and generic regularization tuned to the same effective bandwidth? Slot width is
-swept while total params are held constant by the capmatch fixed-total-params solver (widening the
-per-source streams as the slot narrows), so narrow-vs-wide is bandwidth allocation, never raw capacity.
-
-Arms per seed (all trained on the same fit split, tuned on the same validation split, scored on the
-same test split, identical steps and optimizer):
-  bottleneck sweep: BottleneckFusion at each slot width in the sweep, total params fixed.
-  write_only: the classifier reads the slot alone at the validation-best slot width (isolates
-  broadcast-back, the null's 'broadcast adds nothing over write-only' clause).
-  unbottlenecked: the same fusion with slot = stream width (no narrowing) at the same total params.
-  regularization: the unbottlenecked model with dropout rates and weight-decay values tuned on the
-  validation split (the preregistered 'it is just regularization' null arm).
-
-PREREGISTERED NULL (verbatim, registry WS4): the bottleneck's benefit is indistinguishable from generic
-regularization at matched capacity, and broadcast-back adds nothing over write-only: narrow-vs-wide is
-just a capacity effect.
-PREREGISTERED VERDICT RULE (fixed before any result exists): the null is REJECTED only if the
-bandwidth benefit (best-slot minus unbottlenecked accuracy) AND the regularization delta (best-slot
-minus best-regularized accuracy) both have 5-seed 95 percent CIs excluding zero from below with no sign
-flips, AND the validation-best slot is interior (narrower than the widest slot) in a majority of seeds.
-
-Usage: python scripts/mop_ws4_bandwidth_sweep.py --seeds 0-4
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -80,9 +53,6 @@ def _get(cfg, key, default):
 
 
 class BottleneckFusion(nn.Module):
-    """Two source streams write into a narrow shared slot; the slot is broadcast back into both streams
-    (write_only=False) or read out alone (write_only=True). Param count is monotone in `width` at fixed
-    slot, so the capmatch solver can hold total params constant across the sweep."""
 
     def __init__(
         self,

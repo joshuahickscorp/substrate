@@ -1,12 +1,3 @@
-"""Shadow-only construction mutations for the finite ESCS G0 language.
-
-This module deliberately lives outside :mod:`mop.escs`.  The sealed ESCS
-mechanics receipt covers every immediate ``src/mop/escs/*.py`` file, so a
-construction prototype must not silently join that authority.  These mechanics
-transform immutable actor-genotype snapshots and emit conservative attempt
-receipts.  They cannot schedule an actor, mutate a runtime, authorize a factual
-effect, or promote a scientific claim.
-"""
 
 from __future__ import annotations
 
@@ -1087,12 +1078,6 @@ def attempt_g0_construction(
     grammar: TopologyGrammar,
     candidate_registry: PerspectiveCandidateRegistry,
 ) -> G0ConstructionAttempt:
-    """Attempt one pure construction mutation and conservatively charge it.
-
-    Every refusal is charged the request's full declared work envelope.  A clean
-    result is still only an immutable candidate snapshot; this function never
-    grants even shadow-execution authority.
-    """
 
     if type(request) is not G0ConstructionRequest:
         raise ValueError("request must be an exact G0ConstructionRequest")
@@ -1165,7 +1150,6 @@ def verify_g0_construction_attempt(
     grammar: TopologyGrammar,
     candidate_registry: PerspectiveCandidateRegistry,
 ) -> bool:
-    """Replay one attempt from its exact immutable authorities."""
 
     if type(attempt) is not G0ConstructionAttempt:
         raise ValueError("attempt must be an exact G0ConstructionAttempt")

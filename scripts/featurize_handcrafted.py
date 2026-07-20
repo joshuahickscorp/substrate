@@ -1,19 +1,4 @@
 #!/usr/bin/env python
-"""AT4 handcrafted-descriptor featurizer (WP-01): HOG + hue histogram + frame-difference flow stats on
-the SAME nuisance clips as every encoder cache (clip identity rule: torch regeneration seed for seed via
-featurize_programmatic.iter_bound_nuisance_clips, streamed one clip at a time as uint8, RAM <1GB).
-
-This column is the classical-vision reference substrate for AT4: if a perceptual encoder TIES it on an
-atlas factor, the tie reads test-too-easy; only when the handcrafted/programmatic columns exceed the
-perceptual ones does a tie read substrate-bounded. The random control for this arm (a random read-head
-over the descriptors) is applied by the consuming experiment (WP-09), not here.
-
-Queue class: light post-encode (Q1.0b). Guarded against running during the in-flight encode.
-
-Usage: python scripts/featurize_handcrafted.py --out runs/mot/at4_handcrafted_features.json
-
-No em dashes or en dashes (BLACKHOLE.md).
-"""
 
 from __future__ import annotations
 
@@ -54,7 +39,6 @@ DESCRIPTOR_DIM = HOG_CELLS * HOG_CELLS * HOG_BINS + HUE_BINS + FLOW_STATS
 
 
 def subsample_frames(frames_u8: torch.Tensor, tsub: int = TSUB) -> torch.Tensor:
-    """[T,3,H,W] uint8 -> [t<=tsub,3,H,W] uint8, same stride rule as the encoder caches."""
     t = frames_u8.shape[0]
     if t <= tsub:
         return frames_u8
@@ -62,8 +46,6 @@ def subsample_frames(frames_u8: torch.Tensor, tsub: int = TSUB) -> torch.Tensor:
 
 
 def hog_features(frames_u8: torch.Tensor, cells: int = HOG_CELLS, bins: int = HOG_BINS) -> torch.Tensor:
-    """Unsigned-gradient HOG on grayscale frames: per-cell orientation histograms, magnitude weighted,
-    L2 normalized per frame, averaged over frames. [T,3,H,W] uint8 -> [cells*cells*bins]."""
     gray = frames_u8.float().mean(dim=1) / 255.0  # [T,H,W]
     gx = torch.zeros_like(gray)
     gy = torch.zeros_like(gray)
@@ -84,8 +66,6 @@ def hog_features(frames_u8: torch.Tensor, cells: int = HOG_CELLS, bins: int = HO
 
 
 def hue_histogram(frames_u8: torch.Tensor, bins: int = HUE_BINS) -> torch.Tensor:
-    """Saturation-weighted hue histogram averaged over frames. [T,3,H,W] uint8 -> [bins], sums to ~1
-    per frame when any saturation exists."""
     rgb = frames_u8.float() / 255.0
     r, g, b = rgb[:, 0], rgb[:, 1], rgb[:, 2]
     mx, _ = rgb.max(dim=1)
@@ -105,8 +85,6 @@ def hue_histogram(frames_u8: torch.Tensor, bins: int = HUE_BINS) -> torch.Tensor
 
 
 def flow_stats(frames_u8: torch.Tensor) -> torch.Tensor:
-    """Frame-difference motion statistics over consecutive subsampled frames: per pair the diff mean,
-    std, max, moving fraction, and diff-mass centroid (x, y), then mean and std across pairs -> [12]."""
     gray = frames_u8.float().mean(dim=1) / 255.0  # [T,H,W]
     if gray.shape[0] < 2:
         return torch.zeros(FLOW_STATS)
@@ -131,7 +109,6 @@ def flow_stats(frames_u8: torch.Tensor) -> torch.Tensor:
 
 
 def handcrafted_descriptor(frames_u8: torch.Tensor) -> torch.Tensor:
-    """[T,3,H,W] uint8 (already subsampled) -> [DESCRIPTOR_DIM] float descriptor."""
     return torch.cat([hog_features(frames_u8), hue_histogram(frames_u8), flow_stats(frames_u8)])
 
 

@@ -1,9 +1,3 @@
-"""Durable artifact index and small-receipt bundle.
-
-Studio waves produce JSON and Markdown receipts under `runs/`, which is ignored by default. This module
-turns a list of receipt paths into a hash index and, when requested, copies small text receipts into a
-durable bundle directory. Large cache arrays stay out of the bundle; their cache manifests carry hashes.
-"""
 
 from __future__ import annotations
 
@@ -150,7 +144,6 @@ def build_artifact_index(
     require_durable: bool = False,
     allow_missing: bool = False,
 ) -> dict[str, Any]:
-    """Build a receipt index, optionally copying small text artifacts into `copy_dir`."""
     root = Path(repo_root)
     bundle = Path(copy_dir) if copy_dir is not None else None
     artifacts = [_artifact_record(root, raw, bundle, max_copy_bytes=max_copy_bytes) for raw in _dedupe(paths)]

@@ -48,7 +48,7 @@ SleepFn = Callable[[float], None]
 
 
 class SuccessorLongChainV3Refused(RuntimeError):
-    """The extended successor chain could not be started at a safe boundary."""
+    pass
 
 
 def _valid_process_identity(identity: Mapping[str, Any]) -> bool:
@@ -166,7 +166,6 @@ def start_long_chain(
     ack_interval_seconds: float = ACK_INTERVAL_SECONDS,
     sleep_fn: SleepFn = time.sleep,
 ) -> dict[str, Any]:
-    """Start the full long chain v2, then the full-generations waiter."""
 
     if not execute:
         raise SuccessorLongChainV3Refused("successor long-chain start requires explicit --execute")

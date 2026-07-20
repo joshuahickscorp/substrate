@@ -301,8 +301,6 @@ class HostSample:
         }
 
 
-
-
 def _capture(command: list[str], timeout: float = 5.0) -> tuple[bool, str]:
     try:
         result = subprocess.run(command, capture_output=True, text=True, timeout=timeout, check=False)
@@ -403,8 +401,6 @@ def sample_host_state(
         telemetry=telemetry,
         created_at=float(now_fn()),
     )
-
-
 
 
 def _cmd_report(args: argparse.Namespace) -> int:

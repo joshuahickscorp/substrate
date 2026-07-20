@@ -23,8 +23,6 @@ class Stage4ImplRefusal(ValueError):
     pass
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class AblationRung:
 
@@ -100,8 +98,6 @@ class AblationLadder:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)

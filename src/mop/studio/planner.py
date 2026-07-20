@@ -65,7 +65,6 @@ def plan(
         exc = set(exclude)
         sources = [d for d in sources if d.get("slug") not in exc]
 
-    # picked, so we re-score against the running coverage each step.
     remaining = list(sources)
     selected: list[dict] = []
     skipped: list[dict] = []
@@ -84,7 +83,6 @@ def plan(
             pool.append(d)
 
     while pool and len(selected) < profile.max_source_count:
-        # score every remaining candidate against current coverage, pick the best
         scored = []
         for d in pool:
             mult = _diversity_multiplier(d, modalities, domains)

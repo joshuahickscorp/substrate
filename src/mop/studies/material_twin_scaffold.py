@@ -21,7 +21,6 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 Vector = NDArray[np.float64]
 
 
-
 REQUIRED_TWIN_METHODS: tuple[str, ...] = (
     "reset",  # deterministic reseed to a known state
     "excite",  # excitation: inject an input drive
@@ -110,8 +109,6 @@ def validate_twin_interface(candidate: object) -> None:
     TwinInterfaceContract().validate(candidate)
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class LesionSpec:
 
@@ -139,7 +136,6 @@ class LesionSpec:
             "seed": self.seed,
             "selective": self.selective,
         }
-
 
 
 REPAIR_POLICIES: tuple[str, ...] = ("fixed-final", "restart", "spare", "random", "full-retraining")
@@ -343,7 +339,6 @@ TOY_PRIORS: tuple[type[_ToyMaterialPrior], ...] = (
 )
 
 
-
 CONTROL_FAMILIES: frozenset[str] = frozenset(
     {
         "tuned-rnn",
@@ -444,7 +439,6 @@ class ControlDeclarationSet:
         }
 
 
-
 RETAIN_ONLY_WINS: frozenset[str] = frozenset({"cross-task-future-learnability", "capability-density"})
 
 
@@ -483,7 +477,6 @@ class NativeDynamicsValueContract:
             "replication_min": self.replication_min,
             "claim_scope": self.claim_scope,
         }
-
 
 
 REPAIR_CONTROLS: tuple[str, ...] = ("fixed-final", "restart", "spare", "random", "full-retraining")
@@ -542,7 +535,6 @@ def selective_lesion_delta(twin: _ToyMaterialPrior, lesion: LesionSpec) -> dict[
     return {"readout_norm_before": before, "readout_norm_after": after, "delta": after - before}
 
 
-
 DRIFT_CONTROLS: tuple[str, ...] = ("no-adapt", "oracle-reset", "full-retraining")
 DRIFT_METRICS: tuple[str, ...] = (
     "drift_rate",
@@ -585,7 +577,6 @@ class DriftAdaptationContract:
         }
 
 
-
 PORTABILITY_CONTROLS: tuple[str, ...] = ("identity", "random-remap", "full-retrain")
 
 
@@ -620,8 +611,6 @@ class CrossSubstratePortabilityContract:
             "controls": list(self.controls),
             "claim_scope": self.claim_scope,
         }
-
-
 
 
 class ExternalSpecimenRefusal(RuntimeError):
@@ -746,8 +735,6 @@ class SpecimenTransferContract:
             "gate": self.gate.payload(),
             "claim_scope": self.claim_scope,
         }
-
-
 
 
 def build_default_control_set() -> ControlDeclarationSet:

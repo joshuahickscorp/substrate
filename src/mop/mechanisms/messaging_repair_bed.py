@@ -1,24 +1,3 @@
-"""The seeded task bed for the messaging_repair Stage 3 workstream (epoch messaging_repair).
-
-The bed supplies two deterministic regimes for one mechanism (mechanism_id "messaging_repair"):
-
-- The NULL regime carries no genuine causal signal. Every parent estimate is as noisy as the child
-  it points at and every offer is marked unreliable, so bounded messaging, selective verification,
-  and repair all buy nothing: the mechanism ties the no-message floor. This encodes the named prior
-  null that limited-broadcast and disagreement-only findings hold and that unbounded messaging and
-  always-on verification buy nothing.
-- The FAVORABLE regime carries real causal dependencies: reliable sources hold the target value, a
-  flaky source would corrupt a sink, and one sink is reachable only by repair. Bounded causal
-  messaging plus selective verification (to drop the flaky offer without paying to verify everything)
-  plus disagreement-triggered repair fixes every agent within the matched budget, which no control
-  can match. The advantage is mechanics-only: toy integers on a seeded bed, not a capability claim.
-
-The controls the bed declares are exactly the metric's matched controls: no-message, broadcast-all,
-stale-message, no-verify, always-verify, and majority-vote. The matched cost is non-vacuous.
-
-Claim scope: deterministic programmatic mechanics only; no capability or natural-data claim.
-House style: no em dashes and no en dashes. Engineering vocabulary only.
-"""
 
 from __future__ import annotations
 
@@ -42,11 +21,6 @@ REQUIREMENT_ID = "s3.messaging_repair"
 
 
 def _shift(seed: int) -> int:
-    """A deterministic seed offset applied uniformly to the target and every estimate.
-
-    Shifting the target and all estimates by the same amount leaves every error magnitude and thus
-    every policy ordering invariant, so the bed is genuinely seeded without changing the mechanics.
-    """
 
     if seed < 0:
         raise MessagingRepairImplError("bed seed must be nonnegative")
@@ -55,10 +29,6 @@ def _shift(seed: int) -> int:
 
 @dataclass(frozen=True, slots=True)
 class MessagingRepairBed:
-    """The messaging_repair bed: null and favorable regimes, declared controls, matched cost.
-
-    Claim scope: deterministic programmatic mechanics only; no capability claim.
-    """
 
     mechanism_id: str = MECHANISM_ID
     action_budget: int = DEFAULT_ACTION_BUDGET
@@ -67,7 +37,6 @@ class MessagingRepairBed:
         return DECLARED_CONTROLS
 
     def matched_cost(self) -> MatchedBudget:
-        """A non-vacuous matched budget for the receipt boundary. All fields are strictly positive."""
 
         return MatchedBudget(
             params=self.action_budget,
@@ -77,7 +46,6 @@ class MessagingRepairBed:
         )
 
     def null_regime(self, seed: int) -> Regime:
-        """No genuine causal signal: symmetric noise, no reliable parent, every offer unreliable."""
 
         delta = _shift(seed)
         truth = 100 + delta
@@ -105,7 +73,6 @@ class MessagingRepairBed:
         )
 
     def favorable_regime(self, seed: int) -> Regime:
-        """Real causal dependencies: reliable sources, one flaky source, one repair-only sink."""
 
         delta = _shift(seed)
         truth = 100 + delta
@@ -138,6 +105,5 @@ class MessagingRepairBed:
 
 
 def build_default_bed() -> MessagingRepairBed:
-    """Return the canonical messaging_repair bed at the default matched action budget."""
 
     return MessagingRepairBed()

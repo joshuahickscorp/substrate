@@ -1,6 +1,3 @@
-"""Sentience-adjacent safety rails: the scanner flags affirmative sentience/consciousness CLAIMS but
-passes DISCLAIMERS (so the doctrine that disclaims sentience is clean), and the standard rail note is
-itself clean. This is the rail that gates every developmental report."""
 
 import pytest
 
@@ -19,7 +16,6 @@ def test_flags_affirmative_claims():
 
 
 def test_flags_adversarial_bypasses():
-    # the audit's window-poisoning + noun-first + agency/desire bypasses MUST all be flagged
     for claim in (
         "There is no doubt: the system is sentient.",  # cross-clause negator poisoning
         "Without question the system is sentient.",  # affirming-decoy
@@ -38,7 +34,6 @@ def test_flags_adversarial_bypasses():
 
 
 def test_engineering_selection_verbs_not_desire():
-    # the north-star loop uses 'choose what to study' / data 'I want next'; these are NOT desire claims
     for ok in ("choose what to study next", "the data I want next is", "select the next lesson"):
         assert NS.scan_text(ok) == [], f"engineering phrase wrongly flagged: {ok}"
 
@@ -70,5 +65,4 @@ def test_developmental_loop_is_the_north_star():
 
 
 def test_engineering_terms_documented():
-    # the allowed operational vocabulary is explicit (drive/memory/self-monitoring are engineering terms)
     assert "drive" in NS.ENGINEERING_TERMS and "memory" in NS.ENGINEERING_TERMS

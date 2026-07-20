@@ -611,9 +611,6 @@ def _score_trace(
         and trace.pending_delivery_count == 0
         and trace.rollback_snapshot_sha256 == trace.source_snapshot_sha256
     )
-    # These two coordinates are deliberately synthetic mechanics proxies.  They
-    # exercise the multi-objective receipt without asserting scientific
-    # robustness or behavioral diversity.
     robustness_proxy = maximum if mechanics_stable else 0
     mean_response = sum(abs(_finite_number(value, "actual output")) for value in actual) / len(actual)
     response_activity_proxy = min(
@@ -735,7 +732,6 @@ def _mutation_request(row: Mapping[str, Any], source: G0ConstructionSnapshot) ->
 
 
 def build_receipt(config_path: Path = DEFAULT_CONFIG_PATH) -> dict[str, Any]:
-    """Build one deterministic, fully inert G0 mechanics receipt."""
 
     config_path = config_path.resolve()
     _require(
@@ -934,7 +930,6 @@ def verify_receipt(
     config_path: Path,
     receipt_path: Path,
 ) -> dict[str, Any]:
-    """Verify structural joins and regenerate with the same implementation authority."""
 
     problems: list[str] = []
     receipt_raw = b""

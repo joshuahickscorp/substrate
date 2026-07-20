@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Manifest-governed entry point for the activation-disabled ESCS X2 scaffold."""
 
 import importlib
 import sys

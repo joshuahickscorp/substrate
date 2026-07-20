@@ -37,7 +37,6 @@ def _require_nonempty(value: str, label: str) -> None:
         raise SessionDisjointValidityRefusal(f"{label} must not be empty")
 
 
-
 VALIDITY_AXES: tuple[str, ...] = (
     "fresh-session",  # a session distinct from every calibration session
     "new-seeds",  # seeds never used during calibration
@@ -77,8 +76,6 @@ def assert_control_completeness(controls: tuple[ControlOutcome, ...]) -> None:
         raise SessionDisjointValidityRefusal(
             "negative control coverage is incomplete or out of canonical order"
         )
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -151,8 +148,6 @@ class ControlOutcome:
 
     def digest(self) -> str:
         return canonical_sha256(self.payload())
-
-
 
 
 @dataclass(frozen=True, slots=True)
@@ -277,8 +272,6 @@ class MeasuredEfficiencyContract:
         return canonical_sha256(self.payload())
 
 
-
-
 @dataclass(frozen=True, slots=True)
 class SessionDisjointValidityContract:
 
@@ -399,8 +392,6 @@ class ExternalValidityGate:
         }
 
 
-
-
 def _seeded_int(seed: int, label: str, modulo: int) -> int:
 
     if modulo <= 0:
@@ -500,8 +491,6 @@ def build_activation_gate(license_token: str | None = None) -> ExternalValidityG
 
     return ExternalValidityGate(license_token=license_token)
 
-
-# Section G. Epoch coverage record and capability flag.
 
 SCIENTIFIC_CAPABILITY_CLAIM = False
 

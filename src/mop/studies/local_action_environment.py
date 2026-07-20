@@ -1,16 +1,3 @@
-"""Bounded local action-environment and trajectory-lane preflights.
-
-This study exercises one shared deterministic adapter against four consumers:
-
-* F6: observation/action/next-state closure and action-blind/shuffled seams;
-* F15: affordances and paired alternative consequences from cloned states;
-* CM10: a small action-forward-model and true-dynamics planning mechanics pilot;
-* E5: learnable versus noisy-TV trajectory regions.
-
-Every numerical result is a programmatic pilot.  The proof refuses scientific promotion and names
-the still-external evidence required for natural embodiment, V-JEPA action planning, and sustained
-open-endedness.
-"""
 
 from __future__ import annotations
 
@@ -190,9 +177,6 @@ def _planning_success(
             last, _branches = env.step_with_counterfactuals(action)
             assert env.state is not None
             state = env.state
-        # Planning arms can reach a terminal state at different times.  Execute shape-identical
-        # inference-only padding so the comparison prices the predeclared horizon rather than
-        # rewarding early termination with a smaller compute bill.
         while steps < horizon:
             obs = torch.tensor(env.observe(state), dtype=torch.float32)[:12].repeat(4, 1)
             actions = torch.eye(4) if mode != "blind" else torch.zeros(4, 4)

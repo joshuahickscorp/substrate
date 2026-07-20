@@ -1,4 +1,3 @@
-"""Semantic and fail-closed gates for the six formerly registry-only F-series lanes."""
 
 import hashlib
 import json
@@ -32,7 +31,6 @@ def _write_json(path: Path, value: dict) -> Path:
 
 
 def _build_rewrite_fixture(root: Path, eid: str) -> dict[str, str]:
-    """Build a complete, content-hashed fixture package for the real scientific execution path."""
     root.mkdir(parents=True, exist_ok=True)
     rng = np.random.default_rng(7301)
     classes, per_class, input_dim = 3, 30, 6
