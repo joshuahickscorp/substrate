@@ -38,7 +38,7 @@
       "configuration": {"files": 9, "physical_LOC": 360},
       "build_and_ci": {"files": 5, "physical_LOC": 2156},
       "current_documentation": {"files": 4, "physical_LOC": 89},
-      "durable_collapse_state": {"files": 22, "physical_LOC": 85980},
+      "durable_collapse_state": {"files": 22, "physical_LOC": 85982},
       "scientific_evidence": {"files": 61, "physical_LOC": 40616},
       "run_artifacts": {"files": 8, "physical_LOC": 1303},
       "fixtures": {"files": 0, "physical_LOC": 0},
@@ -190,7 +190,7 @@
   "pull_requests": {
     "pr9": "CLOSED as superseded after exact mapping and replacement gates",
     "pr30": "OPEN DRAFT; General Run closure remains deferred",
-    "pr31": "OPEN DRAFT against current main; never marked ready or merged"
+    "pr31": "OPEN DRAFT against current main; body updated at f68ec7b with the complete measured result and explicit live boundary; never marked ready or merged"
   },
   "live_boundary": {
     "protected_checkout": "clean at 094bdd934de3bb170c89ee95a0bc089f32172448 on agent/mop-evidence-salvage",
@@ -233,12 +233,12 @@
   },
   "external_deferred": [
     {"id": "SEC-13", "reason": "binding controller replacement completion waits for a clean General Run terminal and PR 30 closure"},
-    {"id": "CC-25", "reason": "binding full release validation is explicitly post-terminal even though the current bounded full suite is green"},
-    {"id": "CC-30", "reason": "PR 31 body must be updated after this consolidated audit checkpoint is pushed"}
+    {"id": "CC-25", "reason": "binding full release validation is explicitly post-terminal even though the current bounded full suite is green"}
   ],
   "checklist_evidence": [
     {"id": "GIT-1", "status": "complete", "evidence_paths": ["collapse/MOP_COMPLETION_AUDIT.json"], "validation": "PR 31 is open and draft against current origin/main"},
-    {"id": "PR9-8", "status": "complete", "evidence_paths": ["collapse/MOP_PR9_DISPOSITION.json"], "validation": "PR 9 closed only after its 11 files and eight protection classes had exact dispositions and replacement gates passed"}
+    {"id": "PR9-8", "status": "complete", "evidence_paths": ["collapse/MOP_PR9_DISPOSITION.json"], "validation": "PR 9 closed only after its 11 files and eight protection classes had exact dispositions and replacement gates passed"},
+    {"id": "CC-30", "status": "complete", "evidence_paths": ["collapse/MOP_COMPLETION_AUDIT.json"], "validation": "PR 31 remains open draft and its body now contains the exact measured result, validation, recovery, and explicit live-bound deferral"}
   ],
   "checklist_groups": [
     {

@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "0d4f21d93123835af35575c570793ecbe5119fa6",
+    "base_commit": "f68ec7b5647a9d9de06d5d8c7fc099d03f4ae5ed",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -135,9 +135,9 @@
   "checklist_summary": {
     "total": 261,
     "by_status": {
-      "complete": 215,
+      "complete": 216,
       "active": 1,
-      "pending": 2,
+      "pending": 1,
       "verified": 43
     }
   },
@@ -2815,13 +2815,15 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "draft PR contains the complete measured result",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_COMPLETION_AUDIT.json"
+      ],
+      "validation": "PR 31 remains open draft and its body now contains the exact measured result, validation, recovery, and explicit live-bound deferral",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "FO-1",
