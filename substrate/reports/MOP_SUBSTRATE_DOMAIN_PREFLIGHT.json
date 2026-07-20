@@ -1,0 +1,72 @@
+{
+  "schema": "mop-substrate-domain-preflight/v1",
+  "source_commit": "ba78fe875de469a0493aecaf94882a32b00612e9",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "strong_baseline": "GDumb (class-balanced replay), not naive fine-tuning",
+  "domains": {
+    "emnist": {
+      "is_image": true,
+      "naive_mean": 0.0615,
+      "gdumb_mean": 0.1475,
+      "joint_upper_mean": 0.7351,
+      "forgetting_mean": 0.6736,
+      "forgetting_lcb": 0.6587,
+      "residual_headroom_beyond_gdumb_mean": 0.5876,
+      "residual_headroom_lcb": 0.569,
+      "classification": "eligible_principal",
+      "seeds": 5
+    },
+    "cifar100": {
+      "is_image": true,
+      "naive_mean": 0.0333,
+      "gdumb_mean": 0.0489,
+      "joint_upper_mean": 0.2205,
+      "forgetting_mean": 0.1872,
+      "forgetting_lcb": 0.1706,
+      "residual_headroom_beyond_gdumb_mean": 0.1717,
+      "residual_headroom_lcb": 0.1443,
+      "classification": "eligible_principal",
+      "seeds": 5
+    },
+    "har_class": {
+      "is_image": false,
+      "naive_mean": 0.4095,
+      "gdumb_mean": 0.5346,
+      "joint_upper_mean": 0.9272,
+      "forgetting_mean": 0.5177,
+      "forgetting_lcb": 0.4569,
+      "residual_headroom_beyond_gdumb_mean": 0.3926,
+      "residual_headroom_lcb": 0.3223,
+      "classification": "eligible_principal",
+      "seeds": 5
+    },
+    "har_shift": {
+      "is_image": false,
+      "naive_mean": 0.9183,
+      "gdumb_mean": 0.9194,
+      "joint_upper_mean": 0.9074,
+      "forgetting_mean": -0.0109,
+      "forgetting_lcb": -0.0384,
+      "residual_headroom_beyond_gdumb_mean": -0.012,
+      "residual_headroom_lcb": -0.0344,
+      "classification": "invalid_no_forgetting",
+      "seeds": 5
+    }
+  },
+  "eligible_principal": [
+    "emnist",
+    "cifar100",
+    "har_class"
+  ],
+  "eligible_non_image": [
+    "har_class"
+  ],
+  "wall_seconds": 77.1,
+  "sha256": "032ae8ab5e679d67374ee7a08423f39c2f197308b5a5e6a9aae77c20f02fa474"
+}
