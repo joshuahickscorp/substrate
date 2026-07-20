@@ -20,11 +20,12 @@ import torch.nn.functional as F
 import yaml
 from torch import nn
 
-from mop.evidence import atomic_write_json, canonical_bytes, canonical_sha256, sha256_file
+from mop.evidence import atomic_write_json, canonical_sha256, sha256_file
 
 from ..config import REPO_ROOT
 from ..devices import DeviceInfo
 from .cache_manifest import validate_cache_manifest
+from .custom_model import ModelSpec, TinyVideoSubstrate, parameter_count, state_sha256
 from .latent_store import LatentStore
 
 WORKBENCH_SCHEMA = "mop-custom-substrate-workbench/v1"
@@ -57,17 +58,6 @@ def _atomic_torch_save(path: Path, payload: Any) -> None:
 def _resolve_repo_path(value: str | Path, repo_root: Path = REPO_ROOT) -> Path:
     path = Path(value)
     return path if path.is_absolute() else repo_root / path
-
-
-def _state_sha256(state: Mapping[str, torch.Tensor]) -> str:
-    digest = hashlib.sha256()
-    for name in sorted(state):
-        tensor = state[name].detach().cpu().contiguous()
-        digest.update(name.encode("utf-8"))
-        digest.update(str(tensor.dtype).encode("ascii"))
-        digest.update(canonical_bytes(list(tensor.shape)))
-        digest.update(tensor.numpy().tobytes())
-    return digest.hexdigest()
 
 
 def _source_observation(payload: Any) -> dict[str, Any]:
@@ -225,6 +215,7 @@ def snapshot_implementation_sources(
 
     candidates = (
         Path(__file__).resolve(),
+        repo_root / "src/mop/substrate/custom_model.py",
         repo_root / "src/mop/experiments/custom_substrate.py",
         repo_root / "scripts/custom_substrate_workbench.py",
         repo_root / "configs/experiment/mop_cm7_min_objective_probe.yaml",
@@ -545,85 +536,6 @@ class ProgrammaticVideoCorpus:
 
     def batch(self, indices: Sequence[int], *, view: int) -> torch.Tensor:
         return torch.stack([self.clip(self.records[index], view=view) for index in indices])
-
-
-@dataclass(frozen=True)
-class ModelSpec:
-    dim: int = 128
-    depth: int = 4
-    heads: int = 4
-    mlp_ratio: int = 4
-    patch_size: int = 32
-    tubelet: int = 2
-    max_resolution: int = 256
-    max_frames: int = 16
-
-    def validate(self) -> None:
-        if self.dim % self.heads:
-            raise ValueError("model dim must be divisible by heads")
-        if self.patch_size <= 0 or self.tubelet <= 0:
-            raise ValueError("patch_size and tubelet must be positive")
-        if self.max_resolution % self.patch_size or self.max_frames % self.tubelet:
-            raise ValueError("maximum input geometry must divide exactly into patches")
-
-    @property
-    def max_tokens(self) -> int:
-        return (self.max_frames // self.tubelet) * (self.max_resolution // self.patch_size) ** 2
-
-
-class TinyVideoSubstrate(nn.Module):
-    def __init__(self, spec: ModelSpec):
-        super().__init__()
-        spec.validate()
-        self.spec = spec
-        self.patch_embed = nn.Conv3d(
-            3,
-            spec.dim,
-            kernel_size=(spec.tubelet, spec.patch_size, spec.patch_size),
-            stride=(spec.tubelet, spec.patch_size, spec.patch_size),
-        )
-        self.mask_token = nn.Parameter(torch.zeros(1, 1, spec.dim))
-        self.position = nn.Parameter(torch.zeros(1, spec.max_tokens, spec.dim))
-        layer = nn.TransformerEncoderLayer(
-            d_model=spec.dim,
-            nhead=spec.heads,
-            dim_feedforward=spec.dim * spec.mlp_ratio,
-            dropout=0.0,
-            activation="gelu",
-            batch_first=True,
-            norm_first=True,
-        )
-        self.blocks = nn.TransformerEncoder(layer, num_layers=spec.depth, enable_nested_tensor=False)
-        self.norm = nn.LayerNorm(spec.dim)
-        self.predictor = nn.Sequential(
-            nn.LayerNorm(spec.dim),
-            nn.Linear(spec.dim, spec.dim),
-            nn.GELU(),
-            nn.Linear(spec.dim, spec.dim),
-        )
-        nn.init.trunc_normal_(self.position, std=0.02)
-        nn.init.normal_(self.mask_token, std=0.02)
-
-    def encode(self, clips: torch.Tensor, mask: torch.Tensor | None = None) -> torch.Tensor:
-        if clips.ndim != 5 or clips.shape[1] != 3:
-            raise ValueError("clips must be [batch,3,time,height,width]")
-        patches = self.patch_embed(clips).flatten(2).transpose(1, 2)
-        tokens = patches.shape[1]
-        if tokens > self.position.shape[1]:
-            raise ValueError(f"input has {tokens} tokens but model maximum is {self.position.shape[1]}")
-        hidden = patches + self.position[:, :tokens]
-        if mask is not None:
-            if mask.shape != hidden.shape[:2]:
-                raise ValueError("token mask shape does not match token geometry")
-            hidden = torch.where(mask.unsqueeze(-1), self.mask_token.expand_as(hidden), hidden)
-        return self.norm(self.blocks(hidden))
-
-    def forward(self, clips: torch.Tensor, mask: torch.Tensor | None = None) -> torch.Tensor:
-        return self.encode(clips, mask).mean(dim=1)
-
-
-def parameter_count(model: nn.Module) -> int:
-    return sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad)
 
 
 def token_count(data: CorpusSpec, model: ModelSpec) -> int:
@@ -987,7 +899,7 @@ def train_arm(
         raise ValueError(f"unknown objective {objective!r}")
     arm_dir.mkdir(parents=True, exist_ok=True)
     receipt_path = arm_dir / "arm_receipt.json"
-    initial_hash = _state_sha256(initial_state)
+    initial_hash = state_sha256(initial_state)
     if receipt_path.is_file():
         prior = json.loads(receipt_path.read_text())
         identity_ok = all(
@@ -1164,8 +1076,8 @@ def train_arm(
         "data_sha256": data_sha256,
         "requirements_sha256": requirements_sha256,
         "initial_state_sha256": initial_hash,
-        "final_state_sha256": _state_sha256(model.state_dict()),
-        "target_state_sha256": _state_sha256(target.state_dict()),
+        "final_state_sha256": state_sha256(model.state_dict()),
+        "target_state_sha256": state_sha256(target.state_dict()),
         "checkpoint": checkpoint_record,
         "loss": {
             "initial": losses[0] if losses else None,
@@ -1222,7 +1134,7 @@ def _extract_embeddings(
             stop = min(len(records), start + batch_size)
             indices = list(range(start, stop))
             clips = corpus.batch(indices, view=view).permute(0, 2, 1, 3, 4).to(device.device)
-            output.append(model(clips).float().cpu())
+            output.append(model(clips).pooled_retrieval_key.float().cpu())
     return torch.cat(output)
 
 
@@ -1624,7 +1536,7 @@ def run_workbench(
         initial_state = {
             key: value.detach().cpu().clone() for key, value in initial_model.state_dict().items()
         }
-        initial_hash = _state_sha256(initial_state)
+        initial_hash = state_sha256(initial_state)
         seed_key = str(seed)
         seed_results[seed_key] = {}
         frozen_model = TinyVideoSubstrate(model_spec)

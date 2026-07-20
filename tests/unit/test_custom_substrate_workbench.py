@@ -9,13 +9,13 @@ import yaml
 import mop.substrate.custom_workbench as workbench_module
 from mop.config import REPO_ROOT
 from mop.devices import resolve
+from mop.substrate.custom_model import state_sha256
 from mop.substrate.custom_workbench import (
     CorpusSpec,
     ModelSpec,
     ProgrammaticVideoCorpus,
     TinyVideoSubstrate,
     WorkbenchRefused,
-    _state_sha256,
     attest_current_requirements,
     audit_requirements,
     audit_teacher_cache,
@@ -177,7 +177,9 @@ def test_tiny_video_substrate_is_token_preserving_and_in_1_to_5m_envelope():
     clips = torch.rand(2, 3, 4, 64, 64)
     tokens = model.encode(clips)
     assert tokens.shape == (2, 32, 128)
-    assert model(clips).shape == (2, 128)
+    output = model(clips)
+    assert output.dense_spatiotemporal_tokens.shape == (2, 32, 128)
+    assert output.pooled_retrieval_key.shape == (2, 128)
 
 
 def test_objective_flop_estimates_share_one_matched_core():
@@ -363,4 +365,4 @@ def test_checkpoint_resume_matches_uninterrupted_training(tmp_path: Path):
     assert resumed["resumed"] and resumed["completed_steps"] == 4
     assert full["final_state_sha256"] == resumed["final_state_sha256"]
     checkpoint = torch.load(tmp_path / "resume/checkpoint.pt", map_location="cpu", weights_only=True)
-    assert checkpoint["initial_state_sha256"] == _state_sha256(initial)
+    assert checkpoint["initial_state_sha256"] == state_sha256(initial)

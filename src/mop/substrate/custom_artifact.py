@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import json
 import math
 import os
@@ -10,12 +9,22 @@ import sys
 from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, NamedTuple, cast
+from typing import Any, cast
 
 import torch
-from torch import nn
 
 from mop.evidence import atomic_write_json, canonical_bytes, canonical_sha256, sha256_file
+
+from .custom_model import (
+    ModelSpec as PortableModelSpec,
+)
+from .custom_model import (
+    TinyVideoSubstrate as PortableTinyVideoSubstrate,
+)
+from .custom_model import (
+    parameter_count,
+    state_sha256,
+)
 
 ARTIFACT_SCHEMA = "mop-portable-custom-substrate/v1"
 PREFLIGHT_SCHEMA = "mop-portable-custom-substrate-preflight/v1"
@@ -82,19 +91,6 @@ json_sha256 = canonical_sha256
 _atomic_json = atomic_write_json
 
 
-def state_sha256(state: Mapping[str, torch.Tensor]) -> str:
-
-    digest = hashlib.sha256()
-    for name in sorted(state):
-        tensor = state[name].detach().cpu().contiguous()
-        digest.update(name.encode("utf-8"))
-        digest.update(str(tensor.dtype).encode("ascii"))
-        digest.update(canonical_bytes(list(tensor.shape)))
-        array = tensor.numpy()
-        digest.update(array.astype(array.dtype.newbyteorder("<"), copy=False).tobytes(order="C"))
-    return digest.hexdigest()
-
-
 def _is_sha256(value: Any) -> bool:
     return (
         isinstance(value, str)
@@ -118,141 +114,11 @@ def _read_json(path: Path, label: str) -> dict[str, Any]:
     return value
 
 
-@dataclass(frozen=True)
-class PortableModelSpec:
-    dim: int
-    depth: int
-    heads: int
-    mlp_ratio: int
-    patch_size: int
-    tubelet: int
-    max_resolution: int
-    max_frames: int
-
-    @classmethod
-    def from_mapping(cls, value: Mapping[str, Any]) -> PortableModelSpec:
-        expected = {
-            "dim",
-            "depth",
-            "heads",
-            "mlp_ratio",
-            "patch_size",
-            "tubelet",
-            "max_resolution",
-            "max_frames",
-        }
-        _require(set(value) == expected, "model spec fields do not match the portable architecture")
-        for key in expected:
-            _require(
-                isinstance(value[key], int) and not isinstance(value[key], bool),
-                f"model spec {key} must be an integer",
-            )
-        spec = cls(
-            dim=int(value["dim"]),
-            depth=int(value["depth"]),
-            heads=int(value["heads"]),
-            mlp_ratio=int(value["mlp_ratio"]),
-            patch_size=int(value["patch_size"]),
-            tubelet=int(value["tubelet"]),
-            max_resolution=int(value["max_resolution"]),
-            max_frames=int(value["max_frames"]),
-        )
-        spec.validate()
-        return spec
-
-    def validate(self) -> None:
-        _require(self.dim > 0 and self.depth > 0 and self.heads > 0, "model widths must be positive")
-        _require(self.mlp_ratio > 0, "model mlp_ratio must be positive")
-        _require(self.dim % self.heads == 0, "model dim must be divisible by heads")
-        _require(self.patch_size > 0 and self.tubelet > 0, "patch and tubelet must be positive")
-        _require(
-            self.max_resolution > 0 and self.max_resolution % self.patch_size == 0,
-            "maximum resolution must divide exactly into patches",
-        )
-        _require(
-            self.max_frames > 0 and self.max_frames % self.tubelet == 0,
-            "maximum frames must divide exactly into tubelets",
-        )
-
-    @property
-    def max_tokens(self) -> int:
-        return (self.max_frames // self.tubelet) * (self.max_resolution // self.patch_size) ** 2
-
-
-class PortableSubstrateOutput(NamedTuple):
-    dense_spatiotemporal_tokens: torch.Tensor
-    pooled_retrieval_key: torch.Tensor
-
-
-class PortableTinyVideoSubstrate(nn.Module):
-    def __init__(self, spec: PortableModelSpec):
-        super().__init__()
-        spec.validate()
-        self.spec = spec
-        self.patch_embed = nn.Conv3d(
-            3,
-            spec.dim,
-            kernel_size=(spec.tubelet, spec.patch_size, spec.patch_size),
-            stride=(spec.tubelet, spec.patch_size, spec.patch_size),
-        )
-        self.mask_token = nn.Parameter(torch.zeros(1, 1, spec.dim))
-        self.position = nn.Parameter(torch.zeros(1, spec.max_tokens, spec.dim))
-        layer = nn.TransformerEncoderLayer(
-            d_model=spec.dim,
-            nhead=spec.heads,
-            dim_feedforward=spec.dim * spec.mlp_ratio,
-            dropout=0.0,
-            activation="gelu",
-            batch_first=True,
-            norm_first=True,
-        )
-        self.blocks = nn.TransformerEncoder(layer, num_layers=spec.depth, enable_nested_tensor=False)
-        self.norm = nn.LayerNorm(spec.dim)
-        self.predictor = nn.Sequential(
-            nn.LayerNorm(spec.dim),
-            nn.Linear(spec.dim, spec.dim),
-            nn.GELU(),
-            nn.Linear(spec.dim, spec.dim),
-        )
-        nn.init.trunc_normal_(self.position, std=0.02)
-        nn.init.normal_(self.mask_token, std=0.02)
-
-    def encode(self, clips: torch.Tensor, mask: torch.Tensor | None = None) -> torch.Tensor:
-        if clips.ndim != 5 or clips.shape[1] != 3:
-            raise ValueError("clips must be [batch,3,time,height,width]")
-        frames, height, width = (int(clips.shape[2]), int(clips.shape[3]), int(clips.shape[4]))
-        if frames <= 0 or height <= 0 or width <= 0:
-            raise ValueError("clip geometry must be positive")
-        if (
-            frames > self.spec.max_frames
-            or height > self.spec.max_resolution
-            or width > self.spec.max_resolution
-        ):
-            raise ValueError("clip geometry exceeds the exported model maxima")
-        if frames % self.spec.tubelet or height % self.spec.patch_size or width % self.spec.patch_size:
-            raise ValueError("clip geometry must divide exactly into tubelets and patches")
-        patches = self.patch_embed(clips).flatten(2).transpose(1, 2)
-        token_total = int(patches.shape[1])
-        hidden = patches + self.position[:, :token_total]
-        if mask is not None:
-            if mask.dtype is not torch.bool:
-                raise ValueError("token mask must have bool dtype")
-            if tuple(mask.shape) != tuple(hidden.shape[:2]):
-                raise ValueError("token mask shape does not match token geometry")
-            hidden = torch.where(mask.unsqueeze(-1), self.mask_token.expand_as(hidden), hidden)
-        return self.norm(self.blocks(hidden))
-
-    def forward(
-        self,
-        clips: torch.Tensor,
-        mask: torch.Tensor | None = None,
-    ) -> PortableSubstrateOutput:
-        dense = self.encode(clips, mask)
-        return PortableSubstrateOutput(dense, dense.mean(dim=1))
-
-
-def _parameter_count(model: nn.Module) -> int:
-    return sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad)
+def _model_spec(value: Mapping[str, Any]) -> PortableModelSpec:
+    try:
+        return PortableModelSpec.from_mapping(value)
+    except ValueError as exc:
+        raise ArtifactRefused(str(exc)) from exc
 
 
 _DTYPE_TO_NAME: dict[torch.dtype, str] = {
@@ -872,14 +738,13 @@ def _validate_provenance(
     )
     _require(teacher.get("all_ok") is True, "teacher audit failed")
 
-    runtime_source = Path(__file__).resolve()
-    sources.append(
-        _SourceFile(
-            "portable_runtime_source",
-            runtime_source,
-            "runtime/custom_artifact.py",
-            sha256_file(runtime_source),
-        )
+    runtime_sources = (
+        ("portable_runtime_source", Path(__file__).resolve(), "runtime/custom_artifact.py"),
+        ("portable_model_source", Path(__file__).with_name("custom_model.py"), "runtime/custom_model.py"),
+    )
+    sources.extend(
+        _SourceFile(role, source, artifact_path, sha256_file(source))
+        for role, source, artifact_path in runtime_sources
     )
     paths = [source.artifact_path for source in sources]
     _require(len(paths) == len(set(paths)), "portable provenance paths collide")
@@ -1045,7 +910,7 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
     spec_value = model_record.get("spec")
     _require(isinstance(spec_value, dict), "workbench model spec is missing")
     spec_value = cast(dict[str, Any], spec_value)
-    spec = PortableModelSpec.from_mapping(spec_value)
+    spec = _model_spec(spec_value)
     config = _read_json(run_dir / "resolved_config.json", "resolved config")
     _require(config.get("model") == asdict(spec), "resolved config and receipt model specs disagree")
     with torch.random.fork_rng(devices=[]):
@@ -1055,7 +920,7 @@ def _prepare_export(run_dir: Path, verifier_path: Path) -> _PreparedExport:
         model.load_state_dict(state, strict=True)
     except RuntimeError as exc:
         raise ArtifactRefused(f"selected state does not match portable model spec: {exc}") from exc
-    parameters = _parameter_count(model)
+    parameters = parameter_count(model)
     _require(parameters == model_record.get("trainable_parameters"), "model parameter count mismatch")
     _require(1_000_000 <= parameters <= 5_000_000, "model is outside the CM7 parameter envelope")
     dataset_record = receipt.get("dataset")
@@ -1424,6 +1289,7 @@ def load_portable_artifact(
         "independent_verifier",
         "selected_arm_receipt",
         "portable_runtime_source",
+        "portable_model_source",
     ):
         _require(required_role in by_role, f"required artifact provenance role missing: {required_role}")
 
@@ -1485,7 +1351,7 @@ def load_portable_artifact(
     spec_value = model_record.get("spec")
     _require(isinstance(spec_value, dict), "portable model spec is missing")
     spec_value = cast(dict[str, Any], spec_value)
-    spec = PortableModelSpec.from_mapping(spec_value)
+    spec = _model_spec(spec_value)
     _require(config.get("model") == asdict(spec), "portable spec disagrees with frozen training config")
     with torch.random.fork_rng(devices=[]):
         torch.manual_seed(0)
@@ -1495,7 +1361,7 @@ def load_portable_artifact(
     except RuntimeError as exc:
         raise ArtifactRefused(f"portable state does not match its model spec: {exc}") from exc
     _require(
-        _parameter_count(model) == model_record.get("trainable_parameters"),
+        parameter_count(model) == model_record.get("trainable_parameters"),
         "portable parameter count drift",
     )
     model.requires_grad_(False)
