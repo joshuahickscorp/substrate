@@ -8,7 +8,7 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 - Runtime and campaign kernel: 10,715 LOC.
 - Validation: 3,172 LOC.
 - Verified reduction ledger: 389,971 LOC.
-- Checklist: {"active": 1, "complete": 215, "pending": 2, "verified": 43}.
+- Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
 ## Active boundaries
