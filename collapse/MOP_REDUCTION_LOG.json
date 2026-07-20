@@ -906,7 +906,7 @@
       "documentation_net_reduction_LOC": 786,
       "files_changed": 19,
       "destination_api": "four current Markdown documents plus MOP_COLLAPSE_STATE.json and collapse/MOP_REDUCTION_LOG.json as machine authorities",
-      "proof": "the exact Markdown authority is four files and 94 lines; documentation and registry regression battery is 41/41 green; deleted documents recover exactly from mop-collapse-50k; the generated ledger is 38 lines and contains no copied test, experiment, or run counts",
+      "proof": "the exact Markdown authority is four files and 91 lines; documentation and registry regression battery is 41/41 green; deleted documents recover exactly from mop-collapse-50k; the generated ledger is 35 lines and contains no copied test, experiment, or run counts",
       "accounting_note": "Markdown changed by 78 additions and 864 deletions, net -786; the generator and retained Python surface changed by 1758 additions and 1332 deletions, net +426, mostly whole-file Ruff formatting of the ledger generator; total tracked physical reduction is net -360 before regenerated state accounting",
       "tag": "mop-collapse-docs-compact"
     }
