@@ -25,8 +25,9 @@ def sha_obj(v) -> str:
 
 
 def commit() -> str:
-    return subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True,
-                          text=True).stdout.strip()
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True
+    ).stdout.strip()
 
 
 def seal(name: str, obj: dict, subdir: str = "") -> Path:

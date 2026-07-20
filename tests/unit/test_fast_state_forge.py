@@ -70,8 +70,16 @@ def test_frozen_group_identity_never_changes_during_a_fit():
 def test_domain_adapter_isolation_the_inactive_domain_never_moves():
     m = A.build("G", DOMS)
     x, y = torch.randn(16, 32, 9), torch.randint(0, 6, (16,))
-    r = E.fit(m, "har", x, y, train_groups=["fast_core"] + [f"{k}.har" for k in
-              ("proj_conv", "proj_lin", "adapter", "norm", "head")], steps=3, rng=np.random.default_rng(0))
+    r = E.fit(
+        m,
+        "har",
+        x,
+        y,
+        train_groups=["fast_core"]
+        + [f"{k}.har" for k in ("proj_conv", "proj_lin", "adapter", "norm", "head")],
+        steps=3,
+        rng=np.random.default_rng(0),
+    )
     assert not any(n.endswith(".speech") or ".speech." in n for n in r["changed_params"])
 
 
@@ -101,11 +109,49 @@ def test_anchor_restoration_returns_the_core_to_the_anchor():
 
 def test_plasticity_action_bounds_no_action_may_train_an_undeclared_group():
     from fastforge.runs import interference as IF
+
     m = A.build("G", DOMS)
     for kinds in IF.ACTIONS.values():
         g = IF._groups_for(m, kinds, "har", "fast_core")
         assert all(x in m.param_groups for x in g)
         assert not any(x.endswith(".speech") for x in g)
+
+
+def test_round_architectures_are_materially_different_from_their_base():
+    base = A.build("G", DOMS)
+    r1 = A.build("G_R1_domain_input_norm", DOMS)
+    r2 = A.build("G_R2_bounded_core_delta", DOMS)
+    r3 = A.build("G_R3_split_core", DOMS)
+    assert any(g.startswith("input_norm.") for g in r1.param_groups)
+    assert not any(g.startswith("input_norm.") for g in base.param_groups)
+    assert r2.core_delta and r2.drift() == 0.0
+    with torch.no_grad():
+        for k in r2.delta:
+            r2.delta[k].normal_(0, 0.1)
+    assert r2.drift() > 0
+    r2.restore_anchor(1.0)
+    assert r2.drift() == pytest.approx(0.0, abs=1e-6)
+    assert "fast_core_ih" in r3.param_groups and "fast_core_hh" in r3.param_groups
+    assert not set(r3.param_groups["fast_core_ih"]) & set(r3.param_groups["fast_core_hh"])
+
+
+def test_anchor_restore_gate_actually_restores():
+    m = A.build("H", DOMS)
+    x, y = torch.randn(16, 32, 9), torch.randint(0, 6, (16,))
+    gate = E.Gate("anchor_restore", thresh=-1.0, rng=np.random.default_rng(0))  # always over the bound
+    r = E.fit(
+        m,
+        "har",
+        x,
+        y,
+        train_groups=["fast_delta", "head.har"],
+        steps=4,
+        rng=np.random.default_rng(0),
+        gate=gate,
+        shared_group="fast_delta",
+    )
+    assert r["gate_blocked_updates"] == 4
+    assert m.drift() == pytest.approx(0.0, abs=1e-6)
 
 
 def test_gate_kinds_are_all_simple_rules_with_no_learned_parameters():
@@ -196,7 +242,8 @@ def test_oracle_headroom_cannot_leak_the_test_split():
     tune_acc = S.E.evaluate  # the selection signal is built only from tune and return_tune
     assert "tune_utility" in r["metrics"]
     assert r["metrics"]["tune_utility"] == pytest.approx(
-        float(np.mean([r["metrics"]["second_tune"], r["metrics"]["return_tune"]])))
+        float(np.mean([r["metrics"]["second_tune"], r["metrics"]["return_tune"]]))
+    )
     assert tune_acc is not None and len(sp["test"][0]) > 0
 
 
@@ -206,7 +253,7 @@ def test_oracle_headroom_cannot_leak_the_test_split():
 def test_interference_map_invariants():
     m = _proof("MOP_SUBSTRATE_INTERFERENCE_MAP.json")
     assert m["scored_on"].startswith("tuning split")
-    for name, v in m["classification"].items():
+    for v in m["classification"].values():
         assert not (v["transferable"] and v["domain_specific"])
         assert not (v["safe_to_reopen"] and v["should_remain_frozen"])
     assert set(m["transferable_groups"]) & set(m["keep_frozen"]) == set()

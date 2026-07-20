@@ -120,7 +120,10 @@ class ArchH(nn.Module):
         for p in self._template.parameters():
             p.requires_grad_(False)
         self.delta = nn.ParameterDict(
-            {n.replace(".", "_"): nn.Parameter(torch.zeros_like(p)) for n, p in self._template.named_parameters()}
+            {
+                n.replace(".", "_"): nn.Parameter(torch.zeros_like(p))
+                for n, p in self._template.named_parameters()
+            }
         )
         self.adapters = nn.ModuleDict({d: LowRankAdapter() for d in domains})
         self.heads = nn.ModuleDict({d: nn.Linear(LATENT, n) for d, (_, n) in domains.items()})
@@ -140,9 +143,7 @@ class ArchH(nn.Module):
     def drift(self) -> float:
         """L2 distance of the effective core from the anchor, in weight units."""
         with torch.no_grad():
-            return float(
-                torch.sqrt(sum((self.bounded_delta(n) ** 2).sum() for n in self.anchor_keys)).item()
-            )
+            return float(torch.sqrt(sum((self.bounded_delta(n) ** 2).sum() for n in self.anchor_keys)).item())
 
     def restore_anchor(self, frac: float = 1.0):
         with torch.no_grad():
@@ -172,8 +173,9 @@ class ArchGR(nn.Module):
 
     name = "GR"
 
-    def __init__(self, domains: dict[str, tuple[int, int]], input_norm=False, core_delta=False,
-                 split_core=False):
+    def __init__(
+        self, domains: dict[str, tuple[int, int]], input_norm=False, core_delta=False, split_core=False
+    ):
         super().__init__()
         self.domains = list(domains)
         self.input_norm, self.core_delta, self.split_core = input_norm, core_delta, split_core
@@ -189,14 +191,19 @@ class ArchGR(nn.Module):
                 p.requires_grad_(False)
             self.anchor_keys = [n for n, _ in self.core.named_parameters()]
             self.delta = nn.ParameterDict(
-                {n.replace(".", "_"): nn.Parameter(torch.zeros_like(p))
-                 for n, p in self.core.named_parameters()})
+                {
+                    n.replace(".", "_"): nn.Parameter(torch.zeros_like(p))
+                    for n, p in self.core.named_parameters()
+                }
+            )
         core_names = _names(self.core, "core")
         if core_delta:
             self.param_groups = {"fast_core": [f"delta.{n.replace('.', '_')}" for n in self.anchor_keys]}
         elif split_core:
-            self.param_groups = {"fast_core_ih": [n for n in core_names if "weight_ih" in n or "bias_ih" in n],
-                                 "fast_core_hh": [n for n in core_names if "weight_hh" in n or "bias_hh" in n]}
+            self.param_groups = {
+                "fast_core_ih": [n for n in core_names if "weight_ih" in n or "bias_ih" in n],
+                "fast_core_hh": [n for n in core_names if "weight_hh" in n or "bias_hh" in n],
+            }
         else:
             self.param_groups = {"fast_core": core_names}
         for d in domains:
@@ -253,10 +260,15 @@ class ArchXD(nn.Module):
         self.domains = list(domains)
         self.projs = nn.ModuleDict({d: Projection(ch) for d, (ch, _) in domains.items()})
         self.core = nn.GRU(LATENT, LATENT, batch_first=True)  # shared fast
-        self.slow = nn.Sequential(nn.Linear(LATENT, LATENT), nn.ReLU(), nn.Linear(LATENT, LATENT))  # shared slow
+        self.slow = nn.Sequential(
+            nn.Linear(LATENT, LATENT), nn.ReLU(), nn.Linear(LATENT, LATENT)
+        )  # shared slow
         self.adapters = nn.ModuleDict({d: Adapter() for d in domains})  # domain local adapter
         self.local_slow = nn.ModuleDict(  # domain local slow state
-            {d: nn.Sequential(nn.Linear(LATENT, LATENT), nn.ReLU(), nn.Linear(LATENT, LATENT)) for d in domains}
+            {
+                d: nn.Sequential(nn.Linear(LATENT, LATENT), nn.ReLU(), nn.Linear(LATENT, LATENT))
+                for d in domains
+            }
         )
         self.heads = nn.ModuleDict({d: nn.Linear(LATENT * 2, n) for d, (_, n) in domains.items()})
         self.param_groups = {
@@ -290,14 +302,22 @@ class Conventional(nn.Module):
     adapt  True                  add a domain local adapter (shared core plus adapters)
     """
 
-    def __init__(self, domains: dict[str, tuple[int, int]], core: str = "lstm", share: bool = True,
-                 adapt: bool = False, hidden: int = LATENT):
+    def __init__(
+        self,
+        domains: dict[str, tuple[int, int]],
+        core: str = "lstm",
+        share: bool = True,
+        adapt: bool = False,
+        hidden: int = LATENT,
+    ):
         super().__init__()
         self.name = f"{core}{'_shared' if share else '_separate'}{'_adapters' if adapt else ''}"
         self.domains = list(domains)
         self.share, self.adapt = share, adapt
-        make = (lambda: nn.GRU(LATENT, hidden, batch_first=True)) if core == "gru" else (
-            lambda: nn.LSTM(LATENT, hidden, batch_first=True)
+        make = (
+            (lambda: nn.GRU(LATENT, hidden, batch_first=True))
+            if core == "gru"
+            else (lambda: nn.LSTM(LATENT, hidden, batch_first=True))
         )
         self.projs = nn.ModuleDict({d: Projection(ch) for d, (ch, _) in domains.items()})
         self.cores = nn.ModuleDict({"shared": make()} if share else {d: make() for d in domains})
@@ -326,19 +346,38 @@ class Conventional(nn.Module):
         return self.heads[d](h), None
 
 
+class BagProjection(nn.Module):
+    """Per timestep projection with no temporal operator at all.
+
+    Bounded repair. The first version of the order free control reused Projection, whose Conv1d has a kernel
+    width of five and therefore reads local temporal order. That control then beat every recurrent model on
+    both principal domains, which would have been read as those domains being order insensitive. The defect
+    was in the control, not in the domains. This projection is a per timestep linear map, so pooling its
+    output over time is genuinely invariant to the order of the timesteps.
+    """
+
+    def __init__(self, ch: int, latent: int = LATENT):
+        super().__init__()
+        self.a = nn.Linear(ch, 32)
+        self.b = nn.Linear(32, latent)
+
+    def forward(self, x):
+        return F.relu(self.b(F.relu(self.a(x))))
+
+
 class BagControl(nn.Module):
     """Order free control. Required by the temporal validity gate, never a principal arm."""
 
     def __init__(self, domains: dict[str, tuple[int, int]]):
         super().__init__()
         self.domains = list(domains)
-        self.projs = nn.ModuleDict({d: Projection(ch) for d, (ch, _) in domains.items()})
+        self.projs = nn.ModuleDict({d: BagProjection(ch) for d, (ch, _) in domains.items()})
         self.trunk = nn.Sequential(nn.Linear(LATENT * 3, LATENT), nn.ReLU(), nn.Linear(LATENT, LATENT))
         self.heads = nn.ModuleDict({d: nn.Linear(LATENT, n) for d, (_, n) in domains.items()})
         self.param_groups = {"fast_core": _names(self.trunk, "trunk")}
         for d in domains:
-            self.param_groups[f"proj_conv.{d}"] = [f"projs.{d}.conv.weight", f"projs.{d}.conv.bias"]
-            self.param_groups[f"proj_lin.{d}"] = [f"projs.{d}.lin.weight", f"projs.{d}.lin.bias"]
+            self.param_groups[f"proj_conv.{d}"] = [f"projs.{d}.a.weight", f"projs.{d}.a.bias"]
+            self.param_groups[f"proj_lin.{d}"] = [f"projs.{d}.b.weight", f"projs.{d}.b.bias"]
             self.param_groups[f"head.{d}"] = _names(self.heads[d], f"heads.{d}")
 
     def features(self, x, d):

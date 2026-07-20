@@ -12,7 +12,6 @@ from __future__ import annotations
 import hashlib
 import json
 import time
-from pathlib import Path
 
 from fastforge.runs import io
 
@@ -27,8 +26,10 @@ def sha_bytes(b: bytes) -> str:
 def merkle(hashes: list[str]) -> str:
     nodes = sorted(hashes) or [sha_bytes(b"")]
     while len(nodes) > 1:
-        nodes = [sha_bytes((nodes[i] + (nodes[i + 1] if i + 1 < len(nodes) else nodes[i])).encode())
-                 for i in range(0, len(nodes), 2)]
+        nodes = [
+            sha_bytes((nodes[i] + (nodes[i + 1] if i + 1 < len(nodes) else nodes[i])).encode())
+            for i in range(0, len(nodes), 2)
+        ]
     return nodes[0]
 
 
@@ -55,14 +56,28 @@ def index_new():
             uniq[ch] = len(payload)
             (STORE / ch).write_bytes(payload)
         cls = meta.get("verdict")
-        artifacts.append({
-            "logical_id": rel, "original_path": rel, "canonical_path": f"integrated/evidence_store/{ch}",
-            "content_hash": ch, "bytes": len(payload), "set": "fast_state",
-            "schema": meta.get("schema"), "program": meta.get("program"), "evidence_class": cls,
-            "is_null": bool(cls and ("null" in str(cls).lower() or "invalid" in str(cls).lower()
-                                     or "sufficient" in str(cls).lower())),
-            "pack": "fast-state-v1",
-        })
+        artifacts.append(
+            {
+                "logical_id": rel,
+                "original_path": rel,
+                "canonical_path": f"integrated/evidence_store/{ch}",
+                "content_hash": ch,
+                "bytes": len(payload),
+                "set": "fast_state",
+                "schema": meta.get("schema"),
+                "program": meta.get("program"),
+                "evidence_class": cls,
+                "is_null": bool(
+                    cls
+                    and (
+                        "null" in str(cls).lower()
+                        or "invalid" in str(cls).lower()
+                        or "sufficient" in str(cls).lower()
+                    )
+                ),
+                "pack": "fast-state-v1",
+            }
+        )
     return artifacts, uniq, dup
 
 
@@ -110,27 +125,41 @@ def main():
     v = verify(artifacts)
     mut = mutations(artifacts)
     inherited = json.loads(INHERITED.read_text()) if INHERITED.is_file() else {"union": {"count": 0}}
-    io.seal("MOP_FAST_STATE_EVIDENCE_FABRIC.json", {
-        "schema": "mop-evidence-fabric/v1-fast-state",
-        "pack": "fast-state-v1",
-        "extends": {"authority": "integrated/MOP_EVIDENCE_FABRIC.json",
-                    "inherited_artifact_count": inherited["union"]["count"],
-                    "inherited_union_merkle_root": inherited["union"].get("merkle_root")},
-        "artifacts": artifacts,
-        "union": {
-            "count": len(artifacts), "unique_objects": len(uniq), "unique_bytes": sum(uniq.values()),
-            "duplicate_bytes_eliminated": dup,
-            "merkle_root": merkle([a["content_hash"] for a in artifacts]),
+    io.seal(
+        "MOP_FAST_STATE_EVIDENCE_FABRIC.json",
+        {
+            "schema": "mop-evidence-fabric/v1-fast-state",
+            "pack": "fast-state-v1",
+            "extends": {
+                "authority": "integrated/MOP_EVIDENCE_FABRIC.json",
+                "inherited_artifact_count": inherited["union"]["count"],
+                "inherited_union_merkle_root": inherited["union"].get("merkle_root"),
+            },
+            "artifacts": artifacts,
+            "union": {
+                "count": len(artifacts),
+                "unique_objects": len(uniq),
+                "unique_bytes": sum(uniq.values()),
+                "duplicate_bytes_eliminated": dup,
+                "merkle_root": merkle([a["content_hash"] for a in artifacts]),
+            },
+            "by_null": [a["logical_id"] for a in artifacts if a["is_null"]],
+            "by_claim": {str(a["evidence_class"]): a["logical_id"] for a in artifacts if a["evidence_class"]},
+            "verification": v,
+            "mutations": mut,
+            "content_store": "integrated/evidence_store, shared with the inherited fabric, additive only",
+            "wall_seconds": round(time.time() - t0, 1),
         },
-        "by_null": [a["logical_id"] for a in artifacts if a["is_null"]],
-        "by_claim": {str(a["evidence_class"]): a["logical_id"] for a in artifacts if a["evidence_class"]},
-        "verification": v,
-        "mutations": mut,
-        "content_store": "integrated/evidence_store, shared with the inherited fabric, additive only",
-        "wall_seconds": round(time.time() - t0, 1),
-    })
-    print("indexed", len(artifacts), "artifacts | verify", v["all_pass"], "| mutations", mut["all_rejected"],
-          flush=True)
+    )
+    print(
+        "indexed",
+        len(artifacts),
+        "artifacts | verify",
+        v["all_pass"],
+        "| mutations",
+        mut["all_rejected"],
+        flush=True,
+    )
     print("FABRIC_DONE", flush=True)
 
 

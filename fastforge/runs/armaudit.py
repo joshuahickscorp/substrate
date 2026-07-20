@@ -16,7 +16,6 @@ import time
 import torch
 
 from fastforge import arms as AR
-from fastforge import engine as E
 from fastforge.runs import io
 
 PROBE = {"acquire": 8, "second": 8, "return": 4, "adapt": 4}
@@ -35,8 +34,7 @@ def audit(ids: list[dict]) -> dict:
             not (set(i["phase2_changed_params"]) & set(i["phase2_frozen_params"])) for i in ids
         ),
         "fresh_controls_reinitialize": all(
-            set(i["reinitialized"]) <= set(i["shared_groups_changed_at_boundary"])
-            for i in ids
+            set(i["reinitialized"]) <= set(i["shared_groups_changed_at_boundary"]) for i in ids
         ),
         "persistent_arms_do_not_reinitialize": all(
             not (set(AR.SHARED) - set(i["reinitialized"])) & set(i["shared_groups_changed_at_boundary"])
@@ -101,34 +99,51 @@ def main():
     torch.manual_seed(0)
     ids = [AR.arm_identity(a, steps=PROBE) for a in AR.ARMS]
     for i in ids:
-        print(f"  {i['arm']:26s} carried={i['carried']} reinit={i['reinitialized']} "
-              f"changed={len(i['phase2_changed_params'])}", flush=True)
+        print(
+            f"  {i['arm']:26s} carried={i['carried']} reinit={i['reinitialized']} "
+            f"changed={len(i['phase2_changed_params'])}",
+            flush=True,
+        )
     checks = audit(ids)
     mut = mutations(ids)
 
-    io.seal("MOP_CROSS_DOMAIN_ARM_AUTHORITY.json", {
-        "schema": "mop-cross-domain-arm-authority/v1",
-        "repairs": {
-            "projection_only_transfer": "was a shared code path with fresh_core; now carries the domain "
-                                        "independent projection weights and is behaviourally distinct",
-            "slow_core_transfer": "was a shared code path with fine tuned and full persistent; now carries "
-                                  "only the shared slow group, with the fast core reinitialized",
+    io.seal(
+        "MOP_CROSS_DOMAIN_ARM_AUTHORITY.json",
+        {
+            "schema": "mop-cross-domain-arm-authority/v1",
+            "repairs": {
+                "projection_only_transfer": "was a shared code path with fresh_core; now carries the domain "
+                "independent projection weights and is behaviourally distinct",
+                "slow_core_transfer": "was a shared code path with fine tuned and full persistent; now "
+                "carries "
+                "only the shared slow group, with the fast core reinitialized",
+            },
+            "arms": {a: AR.ARMS[a] for a in AR.ARMS},
+            "arm_count": len(AR.ARMS),
+            "fixture_architecture": "ArchXD, one capacity, one optimizer, only the update partition changes",
+            "identities": ids,
+            "probe_steps": PROBE,
+            "note": "the historical cross domain null is not reinterpreted. This is an implementation "
+            "validation "
+            "fixture only.",
         },
-        "arms": {a: AR.ARMS[a] for a in AR.ARMS},
-        "arm_count": len(AR.ARMS),
-        "fixture_architecture": "ArchXD, one capacity, one optimizer, only the update partition changes",
-        "identities": ids,
-        "probe_steps": PROBE,
-        "note": "the historical cross domain null is not reinterpreted. This is an implementation validation "
-                "fixture only.",
-    })
-    io.seal("MOP_CROSS_DOMAIN_ARM_AUDIT.json", {
-        "schema": "mop-cross-domain-arm-audit/v1", "checks": checks,
-        "arm_count": len(ids), "wall_seconds": round(time.time() - t0, 1),
-    })
-    io.seal("MOP_CROSS_DOMAIN_ARM_MUTATIONS.json", {
-        "schema": "mop-cross-domain-arm-mutations/v1", "mutations": mut,
-    })
+    )
+    io.seal(
+        "MOP_CROSS_DOMAIN_ARM_AUDIT.json",
+        {
+            "schema": "mop-cross-domain-arm-audit/v1",
+            "checks": checks,
+            "arm_count": len(ids),
+            "wall_seconds": round(time.time() - t0, 1),
+        },
+    )
+    io.seal(
+        "MOP_CROSS_DOMAIN_ARM_MUTATIONS.json",
+        {
+            "schema": "mop-cross-domain-arm-mutations/v1",
+            "mutations": mut,
+        },
+    )
     print("audit", checks, flush=True)
     print("mutations", mut, flush=True)
     print("ARMAUDIT_DONE", flush=True)

@@ -88,20 +88,25 @@ def analyse(arm, direction, seed):
         model.load_state_dict(cur)
     out["representation_drift_l2"] = float((f_now - f_before).norm(dim=1).mean())
     out["representation_drift_cosine"] = float(
-        torch.nn.functional.cosine_similarity(f_now, f_before, dim=1).mean())
+        torch.nn.functional.cosine_similarity(f_now, f_before, dim=1).mean()
+    )
+
     # return to domain geometry: do class centroids come back to where they were
     def cents(F, Y):
-        return torch.stack([F[Y == c].mean(0) for c in sorted(set(Y.tolist())) if (Y == c).any()])
+        return torch.stack([F[c == Y].mean(0) for c in sorted(set(Y.tolist())) if (c == Y).any()])
+
     ya = sa["test"][1][:800]
     ca, cb = cents(f_before, ya), cents(f_now, ya)
     out["return_to_domain_centroid_cosine"] = float(
-        torch.nn.functional.cosine_similarity(ca, cb, dim=1).mean())
+        torch.nn.functional.cosine_similarity(ca, cb, dim=1).mean()
+    )
 
     # fast state reset sensitivity: only the second half of the sequence is shown
     half = sa["test"][0][:1500][:, sa["test"][0].shape[1] // 2 :]
     out["fast_state_reset_accuracy"] = linear_probe(feats(model, a, half), sa["test"][1][:1500], seed)
-    out["fast_state_reset_sensitivity"] = (out["linear_decodability_first_domain"]
-                                           - out["fast_state_reset_accuracy"])
+    out["fast_state_reset_sensitivity"] = (
+        out["linear_decodability_first_domain"] - out["fast_state_reset_accuracy"]
+    )
     # dependence ablations
     out["accuracy_first_domain"] = E.evaluate(model, a, *sa["test"])
     if hasattr(model, "adapters"):
@@ -112,8 +117,10 @@ def analyse(arm, direction, seed):
         out["accuracy_without_adapter"] = E.evaluate(model, a, *sa["test"])
         model.adapters[a].load_state_dict(saved)
         out["adapter_dependence"] = out["accuracy_first_domain"] - out["accuracy_without_adapter"]
-    fresh = A.build(model.name if hasattr(model, "name") else "G",
-                    {a: (sa["channels"], sa["classes"]), b: (sb["channels"], sb["classes"])})
+    fresh = A.build(
+        model.name if hasattr(model, "name") else "G",
+        {a: (sa["channels"], sa["classes"]), b: (sb["channels"], sb["classes"])},
+    )
     shared = S.shared_group_name(model)
     if shared:
         named, fnamed = dict(model.named_parameters()), dict(fresh.named_parameters())
@@ -139,15 +146,24 @@ def _train(arm, direction, seed):
     shared = S.shared_group_name(model)
     rng = np.random.default_rng(seed)
     mem_a, mem_b = E.Memory("gdumb", 600), E.Memory("gdumb", 600)
-    E.fit(model, a, *sa["main"], train_groups=S.local_groups(model, a) + [shared],
-          steps=S.budget(a), lr=S.lr_for(a), rng=rng, memory=mem_a)
+    E.fit(
+        model,
+        a,
+        *sa["main"],
+        train_groups=S.local_groups(model, a) + [shared],
+        steps=S.budget(a),
+        lr=S.lr_for(a),
+        rng=rng,
+        memory=mem_a,
+    )
     mem_a.add(*sa["main"], rng)
     pre = copy.deepcopy(model.state_dict())
     g2 = S.local_groups(model, b) + ([shared] if p.get("shared_p2", True) else [])
     E.fit(model, b, *sb["main"], train_groups=g2, steps=S.budget(b), lr=S.lr_for(b), rng=rng, memory=mem_b)
     g3 = S.local_groups(model, a) + ([shared] if p.get("shared_p3", True) else [])
-    E.fit(model, a, *sa["main"], train_groups=g3, steps=S.budget(a, "r"), lr=S.lr_for(a), rng=rng,
-          memory=mem_a)
+    E.fit(
+        model, a, *sa["main"], train_groups=g3, steps=S.budget(a, "r"), lr=S.lr_for(a), rng=rng, memory=mem_a
+    )
     return model, sa, sb, pre
 
 
@@ -158,22 +174,29 @@ def main():
         dname = f"{direction[0]}->{direction[1]}"
         for arm in ARMS:
             per = [analyse(arm, direction, s) for s in SEEDS]
-            rows[f"{dname}|{arm}"] = {
-                k: round(float(np.mean([p[k] for p in per])), 4) for k in per[0]
-            }
+            rows[f"{dname}|{arm}"] = {k: round(float(np.mean([p[k] for p in per])), 4) for k in per[0]}
             print(f"  {dname} {arm} done", flush=True)
     keys = sorted({k for v in rows.values() for k in v})
-    io.seal("MOP_FAST_CORE_REPRESENTATION_REPORT.json", {
-        "schema": "mop-fast-core-representation/v1",
-        "seeds": SEEDS, "arms": ARMS, "directions": [f"{a}->{b}" for a, b in DIRECTIONS],
-        "measurements": rows,
-        "status": "explanatory only, cannot determine a verdict",
-    })
-    lines = ["# Fast core representation report", "",
-             "Explanatory only. These numbers describe what the shared fast dynamics encode after a domain",
-             "sequence. They cannot make a null into a positive.", "",
-             "| measurement | " + " | ".join(rows) + " |",
-             "| --- | " + " | ".join("---" for _ in rows) + " |"]
+    io.seal(
+        "MOP_FAST_CORE_REPRESENTATION_REPORT.json",
+        {
+            "schema": "mop-fast-core-representation/v1",
+            "seeds": SEEDS,
+            "arms": ARMS,
+            "directions": [f"{a}->{b}" for a, b in DIRECTIONS],
+            "measurements": rows,
+            "status": "explanatory only, cannot determine a verdict",
+        },
+    )
+    lines = [
+        "# Fast core representation report",
+        "",
+        "Explanatory only. These numbers describe what the shared fast dynamics encode after a domain",
+        "sequence. They cannot make a null into a positive.",
+        "",
+        "| measurement | " + " | ".join(rows) + " |",
+        "| --- | " + " | ".join("---" for _ in rows) + " |",
+    ]
     for k in keys:
         lines.append(f"| {k} | " + " | ".join(str(rows[r].get(k, "")) for r in rows) + " |")
     io.seal_md("MOP_FAST_CORE_REPRESENTATION_REPORT.md", "\n".join(lines) + "\n")

@@ -23,7 +23,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-
 # ---------------------------------------------------------------- identity and receipts
 
 
@@ -52,9 +51,7 @@ def _snapshot(model):
 
 
 def _changed(model, before, tol=1e-9) -> list[str]:
-    return sorted(
-        n for n, p in model.named_parameters() if float((p.detach() - before[n]).abs().max()) > tol
-    )
+    return sorted(n for n, p in model.named_parameters() if float((p.detach() - before[n]).abs().max()) > tol)
 
 
 def trainable_names(model, groups) -> list[str]:
@@ -162,8 +159,18 @@ class Gate:
                     rather than merely freezing it
     """
 
-    KINDS = ("always", "never", "cosine", "probe", "drift", "perf", "random", "shuffled", "wrong",
-             "anchor_restore")
+    KINDS = (
+        "always",
+        "never",
+        "cosine",
+        "probe",
+        "drift",
+        "perf",
+        "random",
+        "shuffled",
+        "wrong",
+        "anchor_restore",
+    )
 
     def __init__(self, kind="always", thresh=0.0, rng=None, rate=0.5, every=10):
         self.kind, self.thresh, self.every = kind, thresh, every
@@ -211,9 +218,27 @@ class Gate:
 # ---------------------------------------------------------------- fit and evaluate
 
 
-def fit(model, d, X, Y, *, train_groups, steps, lr=1e-3, rng=None, memory=None, batch=64,
-        gate=None, shared_group=None, ref_batch=None, ref_domain=None, ewc=None, ewc_lambda=0.0,
-        update_recent=False, probe_every=10):
+def fit(
+    model,
+    d,
+    X,
+    Y,
+    *,
+    train_groups,
+    steps,
+    lr=1e-3,
+    rng=None,
+    memory=None,
+    batch=64,
+    gate=None,
+    shared_group=None,
+    ref_batch=None,
+    ref_domain=None,
+    ewc=None,
+    ewc_lambda=0.0,
+    update_recent=False,
+    probe_every=10,
+):
     """Train the declared groups on domain d. Everything else is frozen and proven frozen by the receipt."""
     rng = rng or np.random.default_rng(0)
     names = trainable_names(model, train_groups)
@@ -241,7 +266,8 @@ def fit(model, d, X, Y, *, train_groups, steps, lr=1e-3, rng=None, memory=None, 
         if ewc and ewc_lambda:
             pen = sum(
                 (ewc["fisher"][n] * (named[n] - ewc["star"][n]) ** 2).sum()
-                for n in names if n in ewc["fisher"]
+                for n in names
+                if n in ewc["fisher"]
             )
             loss = loss + ewc_lambda * pen
         opt.zero_grad(set_to_none=True)
@@ -327,5 +353,5 @@ def lcb(effects) -> float:
 
 
 def effect(a, b) -> dict:
-    e = [float(x) - float(y) for x, y in zip(a, b)]
+    e = [float(x) - float(y) for x, y in zip(a, b, strict=True)]
     return {"mean": round(float(np.mean(e)), 4), "lower_95_cb": round(lcb(e), 4), "n": len(e)}

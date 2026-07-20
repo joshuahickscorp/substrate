@@ -9,7 +9,6 @@ House style: no dashes.
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 from fastforge.runs import io
 
@@ -57,9 +56,9 @@ def main():
             "maintained_python_excluding_proof_loc": code["maintained_python_excludes_proof"],
             "mandate_stated_maintained_python": 15788,
             "discrepancy_note": "the mandate states approximately 15,788 maintained Python LOC; the sealed "
-                                "integrated accounting measures 22,266 excluding proof serialization. The "
-                                "sealed measurement is binding and the 18,000 target is already exceeded at "
-                                "inheritance, so this program budgets net new code against 22,266.",
+            "integrated accounting measures 22,266 excluding proof serialization. The "
+            "sealed measurement is binding and the 18,000 target is already exceeded at "
+            "inheritance, so this program budgets net new code against 22,266.",
             "acceptance": "11/11",
             "proof_artifacts": ev["artifacts"],
             "proof_unique_objects": ev["unique_objects"],
@@ -68,17 +67,17 @@ def main():
         "valid_temporal_domains": {
             "HAR_raw": "valid temporal domain",
             "SpeechCommands_v0.02": f"valid after the mel filterbank instrumentation repair "
-                                    f"(gru {audio['gru_correct']}, bag {audio['bag_order_free']}, "
-                                    f"shuffled {audio['gru_shuffled']}, headroom lcb {audio['temporal_headroom_lcb']})",
+            f"(gru {audio['gru_correct']}, bag {audio['bag_order_free']}, "
+            f"shuffled {audio['gru_shuffled']}, headroom lcb {audio['temporal_headroom_lcb']})",
             "PAMAP2_window_classification": "invalid_no_temporal_headroom",
             "STARSS23_cached_eight_clip": "invalid for the required substrate sequence",
         },
         "closed_premises": {
             "architecture_E": "compression null, terminal",
             "architecture_F": "predictive objective falsified: no objective arm scored highest "
-                              f"({res['F_no_objective']['util']}) and shuffled time "
-                              f"({res['F_shuffled_time']['util']}) matched real multi horizon "
-                              f"({res['F_multi_horizon']['util']})",
+            f"({res['F_no_objective']['util']}) and shuffled time "
+            f"({res['F_shuffled_time']['util']}) matched real multi horizon "
+            f"({res['F_multi_horizon']['util']})",
             "medium_state": f"decorative, contribution {ts['medium']}",
             "shared_slow_state": f"harmful, contribution {ts['slow']}",
             "multi_horizon_objective": "no downstream benefit",
@@ -93,22 +92,26 @@ def main():
                 "util": res["AT1_no_slow"]["util"],
                 "effect_vs_lstm_gdumb": res["AT1_no_slow"]["effect_vs_lstm_gdumb"],
                 "status": "strongest substrate arm, lower confidence bound below SESOI 0.05, a near miss "
-                          "that this program does not reopen by adding seeds",
+                "that this program does not reopen by adding seeds",
             },
             "persistent_cross_domain_core": {
-                "return_recovery": cross["effects_vs_fresh_core"]["frozen_transferred_core"]["har_return_vs_fresh"],
-                "second_domain_acquisition": cross["effects_vs_fresh_core"]["frozen_transferred_core"]["speech_acq_vs_fresh"],
+                "return_recovery": cross["effects_vs_fresh_core"]["frozen_transferred_core"][
+                    "har_return_vs_fresh"
+                ],
+                "second_domain_acquisition": cross["effects_vs_fresh_core"]["frozen_transferred_core"][
+                    "speech_acq_vs_fresh"
+                ],
                 "verdict": cross["verdict"],
                 "known_defect": "the prior matrix aliased arms: projection_only shared a code path with "
-                                "fresh_core, and slow_core_transfer shared one with fine tuned and full "
-                                "persistent. Repaired by this program before any new transfer inference.",
+                "fresh_core, and slow_core_transfer shared one with fine tuned and full "
+                "persistent. Repaired by this program before any new transfer inference.",
             },
         },
         "new_causal_premise": "a substrate can preserve transferable fast temporal dynamics while preventing "
-                              "cross domain interference by restricting slow change to domain local "
-                              "parameters and selectively controlling shared core updates",
+        "cross domain interference by restricting slow change to domain local "
+        "parameters and selectively controlling shared core updates",
         "premise_fails_if": "a strong conventional learner with separate domain heads or adapters remains "
-                            "superior after matched costs",
+        "superior after matched costs",
         "inherited_forbidden_claims": forbidden["forbidden"],
         "activation": False,
     }
@@ -117,7 +120,7 @@ def main():
     binding = {
         "schema": "mop-fast-state-binding-nulls/v1",
         "binding_rule": "a null listed here is immutable. It may be superseded only by an appended authority "
-                        "that states the new evidence, never by rewriting or relabelling the original.",
+        "that states the new evidence, never by rewriting or relabelling the original.",
         "inherited_nulls": nulls["nulls"],
         "inherited_null_effect_sizes": {
             k: res[k]["effect_vs_lstm_gdumb"] for k in sorted(res) if k != "lstm_gdumb"
@@ -136,8 +139,8 @@ def main():
         ],
         "reopened_and_why": {
             "cross_domain_transfer": "the prior matrix contained aliased arm implementations, so its arm "
-                                     "level attribution was never valid. The historical null verdict stands "
-                                     "unchanged; only the implementation is repaired and rerun as a fixture.",
+            "level attribution was never valid. The historical null verdict stands "
+            "unchanged; only the implementation is repaired and rerun as a fixture.",
             "shared_slow_state_as_control": "retained only as a control arm, never as a proposed mechanism",
         },
     }
@@ -151,10 +154,13 @@ historical authorities.
 
 ## What is inherited as fact
 
-* active runtime {code["active_runtime_loc"]} LOC, substrate surface {code["substrate_implementation_loc"]} LOC,
+* active runtime {code["active_runtime_loc"]} LOC, substrate surface
+  {code["substrate_implementation_loc"]} LOC,
   maintained Python excluding proof {code["maintained_python_excludes_proof"]} LOC, acceptance 11/11
-* {ev["artifacts"]} indexed proof artifacts, {ev["unique_objects"]} unique objects, every tamper mutation rejected
-* two valid temporal domains, HAR raw and Speech Commands, the latter valid only after the mel filterbank repair
+* {ev["artifacts"]} indexed proof artifacts, {ev["unique_objects"]} unique objects, every tamper mutation
+  rejected
+* two inherited temporal domains, HAR raw and Speech Commands, the latter valid only after the mel
+  filterbank repair
 * PAMAP2 window classification and the cached eight clip STARSS23 representation are invalid beds
 
 ## What is closed

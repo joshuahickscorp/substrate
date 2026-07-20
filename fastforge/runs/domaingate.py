@@ -42,20 +42,37 @@ def gate(dname: str, steps: int, seeds=SEEDS):
             x, xte = d["x"], d["xte"]
             if shuffled:
                 x, xte = shuffle_time(x, rng), shuffle_time(xte, np.random.default_rng(s))
-            E.fit(m, dname, x, d["y"], train_groups=list(m.param_groups), steps=steps,
-                  lr=S.lr_for(dname), rng=rng)
+            E.fit(
+                m,
+                dname,
+                x,
+                d["y"],
+                train_groups=list(m.param_groups),
+                steps=steps,
+                lr=S.lr_for(dname),
+                rng=rng,
+            )
             accs.append(E.evaluate(m, dname, xte, d["yte"]))
         res[name] = accs
-    th = [g - b for g, b in zip(res["gru"], res["bag"])]
-    om = [g - s for g, s in zip(res["gru"], res["gru_shuffled"])]
+    th = [g - b for g, b in zip(res["gru"], res["bag"], strict=True)]
+    om = [g - s for g, s in zip(res["gru"], res["gru_shuffled"], strict=True)]
     th_lcb = E.lcb(th)
-    verdict = ("temporal_headroom_present" if th_lcb >= 0.03 and float(np.mean(om)) > 0.02
-               else "invalid_no_temporal_headroom")
+    verdict = (
+        "temporal_headroom_present"
+        if th_lcb >= 0.03 and float(np.mean(om)) > 0.02
+        else "invalid_no_temporal_headroom"
+    )
     return {
-        "domain": dname, "steps": steps, "seeds": list(seeds),
-        "n_train": int(len(d["x"])), "n_test": int(len(d["xte"])),
-        "channels": d["channels"], "classes": d["classes"], "unit": d["unit"],
-        "n_units_train": int(len(np.unique(d["u"]))), "n_units_test": int(len(np.unique(d["ute"]))),
+        "domain": dname,
+        "steps": steps,
+        "seeds": list(seeds),
+        "n_train": int(len(d["x"])),
+        "n_test": int(len(d["xte"])),
+        "channels": d["channels"],
+        "classes": d["classes"],
+        "unit": d["unit"],
+        "n_units_train": int(len(np.unique(d["u"]))),
+        "n_units_test": int(len(np.unique(d["ute"]))),
         "gru": round(float(np.mean(res["gru"])), 4),
         "gru_shuffled": round(float(np.mean(res["gru_shuffled"])), 4),
         "bag_order_free": round(float(np.mean(res["bag"])), 4),
@@ -71,10 +88,21 @@ def main():
     which = sys.argv[1] if len(sys.argv) > 1 else "pamap2_transition"
     steps = int(sys.argv[2]) if len(sys.argv) > 2 else 800
     r = gate(which, steps)
-    print(r["domain"], r["verdict"], "gru", r["gru"], "bag", r["bag_order_free"],
-          "shuffled", r["gru_shuffled"], flush=True)
-    io.seal(f"MOP_DOMAIN_GATE_{which.upper()}.json",
-            {"schema": "mop-domain-order-gate/v1", **r, "wall_seconds": round(time.time() - t0, 1)})
+    print(
+        r["domain"],
+        r["verdict"],
+        "gru",
+        r["gru"],
+        "bag",
+        r["bag_order_free"],
+        "shuffled",
+        r["gru_shuffled"],
+        flush=True,
+    )
+    io.seal(
+        f"MOP_DOMAIN_GATE_{which.upper()}.json",
+        {"schema": "mop-domain-order-gate/v1", **r, "wall_seconds": round(time.time() - t0, 1)},
+    )
     print("DOMAINGATE_DONE", flush=True)
 
 
