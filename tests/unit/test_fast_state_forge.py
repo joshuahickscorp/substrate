@@ -313,3 +313,33 @@ def test_domain_validity_records_marginal_beds_rather_than_rounding_them_up():
         assert g["status"] in ("temporal", "order insensitive") or g["status"].startswith("marginal")
         if g["verdict"] == "temporal_headroom_present":
             assert g["beats_order_free_control"] and g["order_matters"]
+
+
+def test_interference_map_does_not_seal_phantom_or_causally_empty_rows():
+    """Regression for three audit findings.
+
+    An architecture that does not declare a group must not get a row for it, because _groups_for silently
+    drops absent kinds and the row would be a bit identical alias of the head row. A replay manipulation
+    must not be sealed as a group at all, because the second domain buffer is empty at the switch and the
+    first domain buffer is not representable in the second domain.
+    """
+    m = _proof("MOP_SUBSTRATE_INTERFERENCE_MAP.json")
+    names = set(m["classification"])
+    assert not any("memory_state" in n for n in names)
+    assert "H.norm" not in names
+    h = A.build("H", DOMS)
+    for n in names:
+        arch, kind = n.split(".", 1)
+        if arch == "H" and not kind.startswith("shared_"):
+            assert f"{kind}.har" in h.param_groups, n
+
+
+def test_structural_zeros_are_labelled_analytic_not_measured():
+    m = _proof("MOP_SUBSTRATE_INTERFERENCE_MAP.json")
+    for name, v in m["classification"].items():
+        if v["is_shared_across_domains"]:
+            assert v["forgetting_measurement_status"] == "measured", name
+        else:
+            assert v["forgetting_is_structurally_zero"] is True, name
+            assert v["mean_old_domain_loss"] == 0.0, name
+            assert v["forgetting_measurement_status"].startswith("analytic"), name

@@ -4,7 +4,7 @@
     "evidence_and_falsification": 100,
     "orchestration": 80,
     "failure_understanding": 100,
-    "owned_substrate": 100,
+    "owned_substrate": 83,
     "multi_timescale_and_partitioned_plasticity": 100,
     "functional_reorganization": 100,
     "cross_domain_entity": 100
@@ -19,9 +19,9 @@
     "cross_domain_entity": 90
   },
   "evidence": {
-    "evidence_and_falsification": 91,
-    "orchestration": 91,
-    "failure_understanding": 91,
+    "evidence_and_falsification": 84,
+    "orchestration": 84,
+    "failure_understanding": 84,
     "useful_plasticity": 5,
     "owned_substrate": 45,
     "partitioned_moldability": 15,
@@ -42,16 +42,11 @@
     "cross_domain": "cross_domain_null",
     "plasticity": "simple_partition_policy_sufficient",
     "reorganization": "functional_reorganization_null",
-    "third_domain": "third_domain_valid",
-    "secondary_stream_matrix": "secondary_null",
-    "valid_temporal_beds": [
-      "har_stream",
-      "speech_stream"
-    ]
+    "third_domain_gate": null
   },
   "rule": "evidence remains earned. Implementation completeness never raises an evidence score.",
   "program": "mop-fast-state-plasticity-forge-v1",
   "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
   "SESOI": 0.05,
-  "sha256": "c40783bec45670bc7efad7a5998ccbdffa37bd0fea3a48cc33ba114e3427bcb2"
+  "sha256": "e8b75ca6fed6f971cdff3cf913a9b648ab75f18e9261e405db2cfb9c39cb0ca9"
 }

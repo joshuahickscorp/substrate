@@ -11,9 +11,11 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import sys
 
 from fastforge.runs import io
 
+PY = sys.executable
 CRITICAL = [
     "fastforge/arch.py",
     "fastforge/engine.py",
@@ -46,12 +48,12 @@ def run(cmd, env=None):
 
 def main():
     env = {"PYTHONPATH": "src", "OMP_NUM_THREADS": "1"}
-    full = run(["python", "-m", "pytest", "tests", "-q", "--no-header"], env)
+    full = run([PY, "-m", "pytest", "tests", "-q", "--no-header"], env)
     if full.returncode != 0 and "no tests ran" in full.stdout:
-        full = run(["python", "-m", "pytest", "tests/unit", "-q"], env)
+        full = run([PY, "-m", "pytest", "tests/unit", "-q"], env)
     cov = run(
         [
-            "python",
+            PY,
             "-m",
             "pytest",
             "tests/unit/test_fast_state_forge.py",

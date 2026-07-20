@@ -71,27 +71,14 @@
     "split_leakage_rejected": true,
     "future_information_rejected": true
   },
-  "within_domain_suite": {
-    "har": {
-      "verdict": "within_domain_null",
-      "mutations": {},
-      "all_rejected": true,
-      "note": "no positive to attack"
-    },
-    "speech": {
-      "verdict": "within_domain_null",
-      "mutations": {},
-      "all_rejected": true,
-      "note": "no positive to attack"
-    }
-  },
+  "within_domain_suite": {},
   "live_all_rejected": true,
   "within_all_rejected": true,
   "all_rejected": true,
   "rule": "a mutation that changes nothing is accepted, and an accepted mutation invalidates the result it was applied to",
-  "wall_seconds": 21.3,
+  "wall_seconds": 19.8,
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "source_commit": "852028e50b11c3c00910911221aa4405836ec6ab",
   "SESOI": 0.05,
-  "sha256": "4de6ad6c4caf95bac4b7fc46671622f2ea2e05d72d876463effa1e7c2c8f539e"
+  "sha256": "0f7f6c58e3fd88b5ad7743b45246418fbc80e00bd9119c761fe86dd15b0d2512"
 }

@@ -1,0 +1,177 @@
+# Fast State Plasticity Forge, synthesis
+
+Preserve dynamics, localize plasticity. The premise was that a small owned fast temporal core
+could carry reusable dynamics while domain local parameters absorb change. It was tested in
+both domain directions, with two materially different owned architectures, against converged
+conventional baselines.
+
+## Terminal questions
+
+**1 were all transfer arms truly distinct**  
+yes: True on declared identity and True on behaviour, across 11 arms, with True on the mutation suite
+
+**2 which parameters persisted between domains**  
+the shared fast core in every carrying arm, plus the domain independent half of the projection in the projection only arm. Everything else is domain local by construction.
+
+**3 which parameters remained domain local**  
+projection convolution, adapter, normalization and head, one set per domain, plus the low rank adapter in Architecture H
+
+**4 which groups caused new domain acquisition**  
+['G.adapter', 'G.head', 'G.norm', 'G.proj_conv', 'G.proj_lin', 'G.shared_fast_core', 'H.adapter', 'H.head', 'H.proj_conv', 'H.proj_lin', 'H.shared_fast_delta']
+
+**5 which groups caused old domain forgetting**  
+['G.shared_fast_core', 'H.shared_fast_delta']
+
+**6 did shared fast dynamics transfer**  
+no: the bidirectional verdict is cross_domain_null
+
+**7 did freezing the fast core preserve acquisition**  
+G1 frozen after the first domain: {'har->speech': 0.769, 'speech->har': 0.832} against G0 always trainable: {'har->speech': 0.8131, 'speech->har': 0.8372}
+
+**8 did reopening the fast core improve return recovery**  
+G2 return recovery effect versus the strongest baseline: {'har->speech': {'mean': -0.0003, 'lower_95_cb': -0.0095, 'n': 8}, 'speech->har': {'mean': 0.0139, 'lower_95_cb': -0.0082, 'n': 8}}
+
+**9 did adapter isolation reduce interference**  
+G4 adapters only, negative transfer: {'har->speech': 0.0, 'speech->har': 0.0}
+
+**10 did anchored fast dynamics help**  
+H arms against the strongest matched baseline: {'har->speech': -0.0404, 'speech->har': -0.0372}
+
+**11 did gradient conflict gating help**  
+H cosine gate versus H always update: {'har->speech': (0.722, 0.775), 'speech->har': (0.7965, 0.8055)}
+
+**12 did probe loss gating help**  
+H probe gate versus H always update: {'har->speech': (0.7304, 0.775), 'speech->har': (0.8027, 0.8055)}
+
+**13 did simple fixed partitioning remain best**  
+{'har->speech': None, 'speech->har': None} with verdict simple_partition_policy_sufficient
+
+**14 did oracle update partitioning show headroom**  
+{'har->speech': {'mean': 0.0052, 'lower_95_cb': 0.0011, 'n': 8}, 'speech->har': {'mean': 0.0129, 'lower_95_cb': 0.0042, 'n': 8}}
+
+**15 did a learned plasticity gate open**  
+False
+
+**16 did a learned gate beat simple policies**  
+no learned gate opened, so the question does not arise
+
+**17 did Architecture G beat LSTM plus GDumb**  
+{'har->speech': 0.0004, 'speech->har': -0.0071} against SESOI 0.05
+
+**18 did Architecture H beat LSTM plus GDumb**  
+{'har->speech': -0.0404, 'speech->har': -0.0372} against SESOI 0.05
+
+**19 did either beat separate per domain models**  
+the strongest matched baseline per direction was {'har->speech': 'fresh_independent', 'speech->har': 'fresh_independent'}, and no substrate arm cleared SESOI against it
+
+**20 did either direction of domain transfer pass**  
+{'har->speech': 'cross_domain_null', 'speech->har': 'cross_domain_null'}
+
+**21 did both directions pass**  
+cross_domain_null
+
+**22 did return recovery improve without acquisition harm**  
+no arm satisfied both at once, which is the sealed rule for calling a return recovery gain a null
+
+**23 did held out adaptation improve**  
+{'har->speech': -0.0131, 'speech->har': 0.0009}
+
+**24 did task free context inference work**  
+task_free_context_null
+
+**25 did functional reorganization add value**  
+functional_reorganization_null
+
+**26 was fast state independently necessary**  
+inherited: fast state is the only timescale with a positive contribution (+0.063). This program did not reopen that measurement and did not contradict it.
+
+**27 was slow shared state correctly removed**  
+consistent with this program: shared groups classified as causing forgetting are ['G.shared_fast_core', 'H.shared_fast_delta']
+
+**28 was medium state correctly removed**  
+inherited as decorative (+0.003) and not reinstated here. Neither architecture carries shared medium state.
+
+**29 did the third temporal domain validate the premise**  
+third_domain_valid: [('PAMAP2 continuous transition prediction', 'invalid_no_temporal_headroom'), ('HARTH free living transition prediction', 'invalid_no_temporal_headroom'), ('Speaker disjoint continuous audio, streaming keyword identity', 'temporal_headroom_present')]
+
+**30 which architecture was selected**  
+none. No architecture cleared SESOI against the strongest matched baseline in both directions.
+
+**31 what implementation scores were reached**  
+{'evidence_and_falsification': 100, 'orchestration': 80, 'failure_understanding': 100, 'owned_substrate': 100, 'multi_timescale_and_partitioned_plasticity': 100, 'functional_reorganization': 100, 'cross_domain_entity': 100}
+
+**32 what evidence scores were earned**  
+{'evidence_and_falsification': 91, 'orchestration': 91, 'failure_understanding': 91, 'useful_plasticity': 5, 'owned_substrate': 45, 'partitioned_moldability': 15, 'functional_reorganization': 5, 'cross_domain_entity': 10}
+
+**33 what strong baseline remained best**  
+{'har->speech': 'fresh_independent', 'speech->har': 'fresh_independent'}
+
+**34 what code was retained**  
+one new package, fastforge, 7341 LOC, plus the inherited runtime at 4930 LOC
+
+**35 what code was deleted**  
+[]. inherited runners under substrate_evo, forge, frontier, campaign2, salvage and integrated are the implementations behind sealed immutable evidence. Deleting them would make prior receipts unreproducible, so they are retained and this program adds exactly one new package instead of forking a second one.
+
+**36 did clean clone pass**  
+not established: the artifact this answer depends on is not sealed with skips 
+
+**37 did proof indexing pass**  
+True over 44 artifacts, mutations True
+
+**38 what exact scientific ceiling remains**  
+the owned substrate now has repaired, non aliased transfer arms, two materially different owned architectures, an interference map, a plasticity action oracle and a bidirectional matrix. None of it clears SESOI against a strong matched conventional learner in both domain directions.
+
+**39 is Owned Substrate v1 selected**  
+no
+
+**40 is a unified cross domain entity evidenced**  
+no
+
+**41 is functional self reorganization evidenced**  
+no
+
+**42 is activation licensed**  
+no. Activation remains false and was never separately authorized.
+
+**43 what exact next frontier remains**  
+the two failures this program can name precisely: shared fast dynamics did not transfer across modalities under any update partition, and every activity recognition style third domain proved order insensitive. The next frontier is either a pair of domains that share temporal structure rather than merely both being sequences, or an honest statement that cross modality transfer of fast dynamics is out of reach at this scale.
+
+**44 were the principal beds actually temporal**  
+no, both are marginal under a genuinely order free control: {'har': 'marginal: order matters but an order free reader is nearly as good', 'speech': 'marginal: order matters but an order free reader is nearly as good'}. The order free control itself had to be repaired first: its projection carried a Conv1d of kernel width five and therefore read local order.
+
+**45 did the premise survive on beds that are strongly temporal**  
+secondary_null on the two strongly temporal beds, still cross modality. The principal beds are marginal under an order free control, so a null there could be read as the beds not needing temporal dynamics. Here they do. pairing, which exists precisely so that a null on marginal beds cannot be explained away
+
+**within_domain**  
+{'har': 'within_domain_null', 'speech': 'within_domain_null'}
+
+**within_domain_arms_beating_the_strongest_baseline**  
+{'har': [], 'speech': []}
+
+**domain_validity**  
+{'har': 'marginal: order matters but an order free reader is nearly as good', 'speech': 'marginal: order matters but an order free reader is nearly as good', 'har_stream': 'temporal', 'speech_stream': 'temporal', 'pamap2_transition': 'order insensitive', 'harth_transition': 'order insensitive'}
+
+**secondary_matrix**  
+secondary_null
+
+**improvement_rounds**  
+improvement_round_null
+
+**independent_verification**  
+{'receipts_consistent': True, 'checkpoint_ancestry_intact': True, 'cross_domain_verdict_reproduced': True, 'effects_reproduced_within_tolerance': True, 'splits_unit_disjoint': True, 'splits_partition_all_units': True, 'all_pass': True}
+
+**mutation_suite**  
+True
+
+## Forbidden claims
+
+* any owned architecture beats strong matched baselines
+* shared fast dynamics transfer across modalities
+* update partitioning improves the stability plasticity tradeoff beyond simple rules
+* a learned plasticity gate is licensed
+* functional self reorganization is evidenced
+* a unified cross domain entity is evidenced
+* any third temporal domain validated the premise
+* activation is licensed
+
+Activation remains false.

@@ -22,21 +22,21 @@
 | R18 | Fast core representation analysis | terminal | none |
 | R19 | Third temporal domain preflight | terminal | none |
 | R20 | Code accounting | terminal | none |
-| R21 | Test report | terminal | none |
+| R21 | Test report | ready | run fastforge.runs.testreport |
 | R22 | Independent verification | terminal | none |
 | R23 | Mutation suites | terminal | none |
 | R24 | Clean clone validation | ready | run fastforge.runs.cleanclone |
 | R25 | Evidence fabric indexing | terminal | none |
-| R26 | Synthesis and next frontier | terminal | none |
+| R26 | Synthesis and next frontier | ready | run fastforge.runs.synthesis |
 
 ## Scores
 
 | dimension | implementation | target | evidence | target |
 | --- | --- | --- | --- | --- |
-| evidence_and_falsification | 100 | 98 | 91 | 95 |
-| orchestration | 80 | 98 | 91 | 95 |
-| failure_understanding | 100 | 98 | 91 | 95 |
-| owned_substrate | 100 | 98 | 45 | 80 |
+| evidence_and_falsification | 100 | 98 | 84 | 95 |
+| orchestration | 80 | 98 | 84 | 95 |
+| failure_understanding | 100 | 98 | 84 | 95 |
+| owned_substrate | 83 | 98 | 45 | 80 |
 | multi_timescale_and_partitioned_plasticity | 100 | 95 |  |  |
 | functional_reorganization | 100 | 85 | 5 | 55 |
 | cross_domain_entity | 100 | 90 | 10 | 65 |

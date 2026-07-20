@@ -112,7 +112,7 @@ def _counterfactual(model, state, shared, sa, sb, a, b, kinds, seed, memory=True
 
 def shard(direction, seed, budget):
     a, b = direction
-    res = {"direction": f"{a}->{b}", "seed": seed, "groups": {}, "actions": {}}
+    res = {"direction": f"{a}->{b}", "seed": seed, "groups": {}, "actions": {}, "skipped_groups": {}}
     for archname in ("G", "H"):
         model, shared, sa, sb, base, state = _phase1(archname, direction, seed, budget)
         res.setdefault("baseline", {})[archname] = base
@@ -121,19 +121,34 @@ def shard(direction, seed, budget):
                 continue
             name = f"{archname}.{'shared_' + shared if k == '__shared__' else k}"
             kinds = (k, "head") if k != "head" else ("head",)
+            # a kind the architecture does not declare silently collapses to head only, which would seal a
+            # phantom row that is a bit identical alias of the head row. Skip it and say so.
+            if k not in ("__shared__", "head") and f"{k}.{b}" not in model.param_groups:
+                res["skipped_groups"][name] = (
+                    f"architecture {archname} declares no {k} group, so this row would be an alias of "
+                    f"{archname}.head rather than a distinct intervention"
+                )
+                continue
             res["groups"][name] = _counterfactual(model, state, shared, sa, sb, a, b, kinds, seed)
             res["groups"][name]["group_kinds"] = list(kinds)
-        # memory state is a declared group in the interference sense: it changes what an update sees
-        res["groups"][f"{archname}.memory_state"] = _counterfactual(
-            model, state, shared, sa, sb, a, b, ("__shared__", "head"), seed, memory=False
+        # The memory state row is deliberately absent. A replay manipulation has no causal path here: the
+        # second domain buffer is empty at the start of phase 2 by construction, and the first domain buffer
+        # cannot be replayed into the second domain because the two domains have different channel counts and
+        # sequence lengths. Running it anyway produced a duplicate of the shared core row that differed only
+        # because populating a buffer consumes random draws and shifted the minibatch stream.
+        res["skipped_groups"][f"{archname}.memory_state"] = (
+            "replay has no causal path in a cross domain counterfactual: the second domain buffer is empty "
+            "at the domain switch and the first domain buffer is not representable in the second domain"
         )
-        res["groups"][f"{archname}.memory_state"]["group_kinds"] = ["shared_and_head_without_memory"]
         for name, kinds in ACTIONS.items():
             res["actions"][f"{archname}.{name}"] = _counterfactual(
                 model, state, shared, sa, sb, a, b, kinds, seed
             )
         print(f"  {archname} {a}->{b} seed{seed} done", flush=True)
     return res
+
+
+DROP_ROWS = ("memory_state", "H.norm")
 
 
 def _u(v):
@@ -147,7 +162,7 @@ def aggregate(rows):
         by_dir.setdefault(r["direction"], []).append(r)
     gmap, amap = {}, {}
     for dname, rs in by_dir.items():
-        names = sorted(rs[0]["groups"])
+        names = sorted(n for n in rs[0]["groups"] if not any(d in n for d in DROP_ROWS))
         for n in names:
             base_old = [r["baseline"][n.split(".")[0]]["a_tune"] for r in rs]
             gmap.setdefault(n, {})[dname] = {
@@ -180,12 +195,20 @@ def classify(gmap):
         # a group is shared only if one tensor set serves every domain. Domain local groups can enable
         # acquisition without forgetting by construction, so calling them transferable would be a category
         # error: nothing about them is carried anywhere.
-        shared = "shared_" in n or "memory_state" in n
+        shared = "shared_" in n
         out[n] = {
             "mean_new_domain_gain": round(acq, 4),
             "mean_old_domain_loss": round(forget, 4),
             "mean_return_recovery": round(rec, 4),
             "is_shared_across_domains": shared,
+            "forgetting_is_structurally_zero": not shared,
+            "forgetting_measurement_status": (
+                "measured"
+                if shared
+                else "analytic: a domain local group is not read by the other domain's "
+                "forward pass, so its old domain loss is exactly zero by construction and no forgetting was "
+                "measured for it"
+            ),
             "enables_acquisition": acq >= io.SESOI,
             "causes_forgetting": forget >= io.SESOI,
             "acquires_without_forgetting": acq >= io.SESOI and forget < io.SESOI,
@@ -230,6 +253,27 @@ def main():
             "directions": [f"{a}->{b}" for a, b in DIRECTIONS],
             "short_horizon_budget": SHORT,
             "scored_on": "tuning split, unit disjoint from both training and test",
+            "audit_corrections": {
+                "removed_memory_state_rows": "an independent audit found that the memory manipulation had "
+                "no causal path: the second domain buffer is empty at the domain switch and the first "
+                "domain buffer is not representable in the second domain, so the two memory_state rows were "
+                "duplicates of the shared core row whose only difference came from a shifted random stream. "
+                "Both rows are removed rather than reinterpreted.",
+                "removed_phantom_norm_row": "Architecture H declares no normalization group, so the H.norm "
+                "row silently collapsed to a head only run and was a bit identical alias of H.head. It is "
+                "removed and the skip is recorded in every shard.",
+                "relabelled_structural_zeros": "for a domain local group the old domain loss is exactly zero "
+                "by construction, because those parameters are not read by the other domain's forward pass. "
+                "That column is now marked analytic rather than measured, and the claim it supports is "
+                "stated accordingly.",
+                "what_survives": "the load bearing half is unchanged and is genuinely measured on the two "
+                "distinct shared parameter sets: opening a shared group buys new domain acquisition and "
+                "costs old domain accuracy, with lower confidence bounds well above zero.",
+            },
+            "claim_ceiling": "the only parameter groups whose updates can reach the other domain are the "
+            "shared ones, and both of them buy acquisition with forgetting. Nothing here shows that domain "
+            "local plasticity is preferable, only that domain local plasticity cannot interfere, which is "
+            "true by construction.",
             "groups": gmap,
             "classification": cls,
             "transferable_groups": sorted(n for n, v in cls.items() if v["transferable"]),
@@ -257,6 +301,10 @@ def main():
         "tuning split only. Effects are lower 95 percent confidence bounds over 8 seeds and two domain",
         "directions.",
         "",
+        "Read the old domain loss column carefully. For a domain local group it is exactly zero by",
+        "construction, because those parameters are not read by the other domain's forward pass, so no",
+        "forgetting was measured for them. Only the two shared rows carry a measured forgetting number.",
+        "",
         "| group | new domain gain | old domain loss | return recovery | verdict |",
         "| --- | --- | --- | --- | --- |",
     ]
@@ -267,7 +315,7 @@ def main():
             if v["transferable"]
             else "shared, acquisition bought with forgetting"
             if v["acquisition_bought_with_forgetting"]
-            else "domain local, acquires without forgetting"
+            else "domain local, acquires; zero forgetting is structural not measured"
             if v["domain_specific"]
             else "keep frozen"
             if v["should_remain_frozen"]
