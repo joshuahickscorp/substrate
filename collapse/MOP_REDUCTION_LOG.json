@@ -1349,11 +1349,30 @@
       "performance": "the deleted lifecycle had no maintained execution or import path, so active runtime performance is unchanged by construction",
       "accounting_note": "543 zero-consumer finalizer lines and 167 dedicated-test lines are physically deleted with no replacement, net -710; runtime source remains 9535 LOC, validation falls to 2725 LOC, scripts fall to 229 LOC, and maintained Python falls to 12740 LOC",
       "tag": "mop-collapse-retired-custom-finalizer"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section12_registry_section17_validation",
+      "batch": "minimal_content_addressed_portable_hydration_core",
+      "checkpoint_status": "green",
+      "primitive": "Architecture B retains deterministic tensor bytes, canonical model/state/output identity, content-addressed export and offline load, scoped proof-hash bindings, and fail-closed manifest/weight validation; Architecture A's zero-consumer run-chain preflight, selected-checkpoint recovery, provenance copying, verifier-contract facade, and synthetic run fixture are physically deleted; the CM7 registry declaration now names the verifier actually bound by the experiment engine",
+      "deduplicated_LOC": 0,
+      "added_LOC": 137,
+      "eliminated_LOC": 1339,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 1202,
+      "files_changed": 3,
+      "destination_api": "write_tensor_pack, read_tensor_pack, export_artifact, and load_portable_artifact in src/mop/substrate/custom_artifact.py plus the actual _verify_cm7 registry binding",
+      "proof": "Architecture B is 513 maintained regional LOC versus Architecture A at 1715; tensor-pack bytes/header/state hashes and canonical model dense/pooled output hashes are exact; deterministic export reuses the same content address, offline load reproduces exact outputs, and five identity, weight, binding, interface, and path attacks fail closed; all 9 focused cases and the 152-case full suite pass with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "alternating 60-sample offline load median improved from 18.333ms to 18.205ms (-0.70%)",
+      "accounting_note": "1339 portable runtime and synthetic-test lines replaced by 137 hydration-core and mutation-test lines, net -1202; runtime source falls 871 LOC to 8664, validation falls 331 LOC to 2394, scripts remain 229 LOC, and maintained Python falls to 11538 LOC",
+      "tag": "mop-collapse-portable-hydration-core"
     }
   ],
   "latest_full_validation": {
     "command": ".venv/bin/python -m pytest -q",
-    "result": "155 collected; 149 passed; 6 environment skips",
+    "result": "152 collected; 146 passed; 6 environment skips",
     "acceptance": "10/10 passed",
     "static": "Ruff lint and format clean; mypy clean over 43 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."

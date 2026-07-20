@@ -2089,6 +2089,22 @@
         "scripts/custom_substrate_finalize.py",
         "tests/unit/test_custom_substrate_finalize.py"
       ]
+    },
+    {
+      "id": "collapsed_portable_artifact_run_chain_to_minimal_offline_hydration_core",
+      "source_tag": "mop-collapse-lowest-green-13",
+      "reason": "the portable artifact region expanded an unconsumed run-directory preflight, selected-checkpoint recovery, receipt-chain reconstruction, provenance copying, verifier-contract facade, and 300-line synthetic run fixture; the binding completion gate requires owned offline hydration, so these speculative surfaces were replaced by a minimal content-addressed pack that retains exact tensor/model semantics, scoped evidence hashes, deterministic export/load, and fail-closed identity checks; the CM7 declaration now names its actually bound verifier",
+      "replacement_paths": [
+        "src/mop/substrate/custom_artifact.py",
+        "tests/unit/test_custom_substrate_artifact.py",
+        "registry/experiments.yaml"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-13:<path>",
+      "paths": [
+        "src/mop/substrate/custom_artifact.py",
+        "tests/unit/test_custom_substrate_artifact.py",
+        "registry/experiments.yaml"
+      ]
     }
   ]
 }

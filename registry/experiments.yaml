@@ -24,7 +24,7 @@ experiments:
     stop: {rule: complete-required-arm-matrix, tie: null}
     claim_ceiling: {activation_allowed: false, scientific_promotion: false, independent_confirmation: false}
     provider: mop.experiments.custom_substrate._run_cm7
-    verifier: mop.substrate.custom_artifact.verifier_contract
+    verifier: mop.experiments.custom_substrate._verify_cm7
     program: [execute_provider, verify, project]
     gates: [linear_probe, compute, difficulty_calibration, seed_consistency]
     resource_tier: cpu-now
