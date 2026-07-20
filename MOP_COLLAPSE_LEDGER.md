@@ -4,10 +4,10 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 ## Current
 
-- Maintained Python: 9,175 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 6,812 LOC.
-- Validation: 2,050 LOC.
-- Verified reduction ledger: 395,917 LOC.
+- Maintained Python: 8,934 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 6,596 LOC.
+- Validation: 2,025 LOC.
+- Verified reduction ledger: 396,158 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-cache-receipt-policy | 85 | single_cache_receipt_policy_and_condensed_mutation_fixtures |
 | mop-collapse-workbench-checkpoint-state | 62 | single_workbench_checkpoint_identity_and_saved_state |
 | mop-collapse-workbench-orchestration | 42 | single_workbench_stop_failure_and_teacher_audit_policy |
 | mop-collapse-artifact-provenance-policy | 79 | typed_artifact_json_policy_and_single_export_finalization |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-single-installed-interface | 14 | single_installed_cli_and_retired_parallel_developer_commands |
 | mop-collapse-custom-substrate-exhaustion | 1,971 | retired_completed_cm7_and_blocked_cm8_execution_vertical |
 | mop-collapse-cache-reader-only | 297 | retired_unconsumed_cache_writer_and_optional_validation_mode |
+| mop-collapse-matched-budget-core | 241 | single_source_consumed_matched_budget_projection |
