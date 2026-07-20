@@ -4,10 +4,10 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 ## Current
 
-- Maintained Python: 14,723 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 10,303 LOC.
-- Validation: 3,204 LOC.
-- Verified reduction ledger: 390,369 LOC.
+- Maintained Python: 14,043 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 9,770 LOC.
+- Validation: 3,057 LOC.
+- Verified reduction ledger: 391,049 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-current-main | 1,768 | retired_stage_ladder_falsification_and_reconciled_current_main |
 | mop-collapse-proof-index | 2,320 | retired_generic_substrate_facades_and_indexed_proof |
 | mop-collapse-support-minimal | 1,445 | retired_unconsumed_support_cache_maintenance_and_docs_gates |
 | mop-collapse-validation | 133 | retired_synthetic_acceptance_scaffold_and_reconciled_completion |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-custom-model | 46 | canonical_custom_substrate_model_authority |
 | mop-collapse-budget-facade | 192 | retired_unconsumed_dual_budget_facade |
 | mop-collapse-raw-once-attestation | 160 | raw_once_final_attestation_authority |
+| mop-collapse-unused-surface | 680 | retired_unconsumed_support_and_synthetic_starss_adapter |
