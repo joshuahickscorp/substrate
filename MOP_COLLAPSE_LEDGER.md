@@ -4,10 +4,10 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 
 ## Current
 
-- Maintained Python: 7,409 LOC; ceiling: 50,000.
+- Maintained Python: 7,415 LOC; ceiling: 50,000.
 - Runtime and campaign kernel: 5,259 LOC.
-- Validation: 1,811 LOC.
-- Verified reduction ledger: 397,683 LOC.
+- Validation: 1,817 LOC.
+- Verified reduction ledger: 397,677 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: state `legacy_authorities` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -30,4 +30,4 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 | mop-collapse-direct-count-gate | 68 | direct_fixed_count_gate_lifecycle |
 | mop-collapse-direct-count-corpus | 113 | direct_count_corpus_staging |
 | mop-collapse-retired-dormant-latent-store | 134 | retired_dormant_latent_store_and_git_probe |
-| mop-collapse-single-durable-authority | -85 | normalized_single_durable_authority |
+| mop-collapse-single-durable-authority | -91 | normalized_single_durable_authority |
