@@ -144,12 +144,12 @@ def main():
             "arms_passing_all_conditions": passing,
             "verdict": "secondary_positive" if passing else "secondary_null",
         }
+    names = [f"{a}->{b}" for a, b in DIRECTIONS]
     both = (
         sorted(
-            set(per_dir[f"{a}->{b}"]["arms_passing_all_conditions"])
-            & set(per_dir[f"{b}->{a}"]["arms_passing_all_conditions"])
-            for a, b in [DIRECTIONS[0]]
-        )[0]
+            set(per_dir[names[0]]["arms_passing_all_conditions"])
+            & set(per_dir[names[1]]["arms_passing_all_conditions"])
+        )
         if len(per_dir) == 2
         else []
     )
