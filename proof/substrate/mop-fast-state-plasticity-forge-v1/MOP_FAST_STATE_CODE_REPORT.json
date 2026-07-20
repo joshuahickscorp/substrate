@@ -1,13 +1,13 @@
 {
   "schema": "mop-fast-state-code-report/v1",
   "active_runtime_loc": 4930,
-  "new_substrate_loc": 7138,
+  "new_substrate_loc": 7147,
   "inherited_substrate_loc": 8202,
-  "substrate_surface_loc": 15340,
+  "substrate_surface_loc": 15349,
   "tests_loc": 2420,
   "new_tests_loc": 315,
   "tooling_loc": 116,
-  "maintained_python_excluding_proof": 22806,
+  "maintained_python_excluding_proof": 22815,
   "file_counts": {
     "runtime": 37,
     "new_substrate": 33,
@@ -41,7 +41,7 @@
     "fastforge/runs/reorg.py": 278,
     "fastforge/runs/represent.py": 209,
     "fastforge/runs/rounds.py": 249,
-    "fastforge/runs/secondary.py": 177,
+    "fastforge/runs/secondary.py": 186,
     "fastforge/runs/supervisor.py": 193,
     "fastforge/runs/synthesis.py": 373,
     "fastforge/runs/testreport.py": 127,
@@ -75,7 +75,7 @@
   "deletions": [],
   "deletion_policy": "inherited runners under substrate_evo, forge, frontier, campaign2, salvage and integrated are the implementations behind sealed immutable evidence. Deleting them would make prior receipts unreproducible, so they are retained and this program adds exactly one new package instead of forking a second one.",
   "program": "mop-fast-state-plasticity-forge-v1",
-  "source_commit": "036a5e2de1e3884cd0194c2a6e72b1578848cb34",
+  "source_commit": "4c7dc721a07c24aec1047bddb3e482efb94581e8",
   "SESOI": 0.05,
-  "sha256": "4da0107a3d2aeb115018fb33e9c93259b9bc4e38640bcd3e4595c9572811c4e8"
+  "sha256": "2250903d2b37a00ea670dc38eea8ad0f7d98b608a51a6d8c968e1c0df8e9d869"
 }

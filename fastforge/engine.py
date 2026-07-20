@@ -277,8 +277,10 @@ def fit(
         if gate is not None and shared_names:
             if gate.kind in ("probe", "perf") and ref_batch is not None and step % probe_every == 0:
                 cur_probe = probe_loss(model, ref_batch[0], ref_batch[1], ref_domain)
-            if gate.kind in ("drift", "anchor_restore") and hasattr(model, "drift"):
+            if gate.kind == "drift" and hasattr(model, "drift"):
                 drift = model.drift()
+            elif gate.kind == "anchor_restore" and hasattr(model, "drift_ratio"):
+                drift = model.drift_ratio()  # scale free, so the threshold is not a threshold on model size
             if gate.kind == "perf":
                 with torch.no_grad():
                     acc = float((logits.argmax(1) == yb).float().mean())

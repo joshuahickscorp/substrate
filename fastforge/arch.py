@@ -145,6 +145,13 @@ class ArchH(nn.Module):
         with torch.no_grad():
             return float(torch.sqrt(sum((self.bounded_delta(n) ** 2).sum() for n in self.anchor_keys)).item())
 
+    def drift_ratio(self) -> float:
+        """Drift as a fraction of the anchor norm. The absolute L2 scales with parameter count, so an
+        absolute threshold is a threshold on model size as much as on drift."""
+        with torch.no_grad():
+            anchor = torch.sqrt(sum((getattr(self, f"anchor_{n}") ** 2).sum() for n in self.anchor_keys))
+            return float(self.drift() / max(1e-8, float(anchor)))
+
     def restore_anchor(self, frac: float = 1.0):
         with torch.no_grad():
             for k in self.delta:
