@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "d11dc0bc0387a4b9e4e841b2436f686ffc5bad3a",
+    "base_commit": "f7d3c7cded47663d84b0775acaa5f9408e430a29",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 79170,
+    "eliminated_LOC": 86216,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
     "added_LOC": 8990,
-    "net_global_reduction_LOC": 86040
+    "net_global_reduction_LOC": 93086
   },
   "checklist_summary": {
-    "total": 253,
+    "total": 254,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 37
+      "verified": 38
     }
   },
   "checklist": [
@@ -3652,6 +3652,24 @@
       "rollback_tag": "mop-collapse-controller-extension-v4",
       "dependency": "",
       "next_action": "collapse duplication within the surviving General Run controller path"
+    },
+    {
+      "id": "RED-controller-general-run-orchestrator",
+      "section": 13,
+      "kind": "verified_reduction",
+      "title": "Delete isolated General Run and legacy v3/v7 orchestration layer",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+        "src/mop/studio/generation1_full_generations_extension_chain.py"
+      ],
+      "validation": "7046 unreachable coordinator/wrapper/test LOC physically deleted after terminal closure; retained direct stage controllers 25/25 green; 3306-case collection, compile-all, critical ruff, and docs gate clean; all nine paths recover; protected checkout unchanged",
+      "commit": "",
+      "rollback_tag": "mop-collapse-controller-orchestrator",
+      "dependency": "",
+      "next_action": "collapse duplication between the two surviving direct stage controllers"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",
