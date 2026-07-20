@@ -4,10 +4,10 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 ## Current
 
-- Maintained Python: 7,458 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 5,393 LOC.
+- Maintained Python: 7,324 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 5,259 LOC.
 - Validation: 1,752 LOC.
-- Verified reduction ledger: 397,634 LOC.
+- Verified reduction ledger: 397,768 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-custom-substrate-exhaustion | 1,971 | retired_completed_cm7_and_blocked_cm8_execution_vertical |
 | mop-collapse-cache-reader-only | 297 | retired_unconsumed_cache_writer_and_optional_validation_mode |
 | mop-collapse-matched-budget-core | 241 | single_source_consumed_matched_budget_projection |
 | mop-collapse-studio-readiness-core | 252 | single_studio_readiness_profile_memory_vertical |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-direct-count-prereg | 68 | direct_count_preregistration_projection |
 | mop-collapse-direct-count-gate | 68 | direct_fixed_count_gate_lifecycle |
 | mop-collapse-direct-count-corpus | 113 | direct_count_corpus_staging |
+| mop-collapse-retired-dormant-latent-store | 134 | retired_dormant_latent_store_and_git_probe |
