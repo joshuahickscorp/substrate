@@ -25,7 +25,7 @@
 | R21 | Test report | terminal | none |
 | R22 | Independent verification | terminal | none |
 | R23 | Mutation suites | terminal | none |
-| R24 | Clean clone validation | ready | run fastforge.runs.cleanclone |
+| R24 | Clean clone validation | terminal | none |
 | R25 | Evidence fabric indexing | terminal | none |
 | R26 | Synthesis and next frontier | terminal | none |
 
@@ -33,9 +33,9 @@
 
 | dimension | implementation | target | evidence | target |
 | --- | --- | --- | --- | --- |
-| evidence_and_falsification | 100 | 98 | 91 | 95 |
-| orchestration | 80 | 98 | 91 | 95 |
-| failure_understanding | 100 | 98 | 91 | 95 |
+| evidence_and_falsification | 100 | 98 | 95 | 95 |
+| orchestration | 100 | 98 | 95 | 95 |
+| failure_understanding | 100 | 98 | 95 | 95 |
 | owned_substrate | 100 | 98 | 45 | 80 |
 | multi_timescale_and_partitioned_plasticity | 100 | 95 |  |  |
 | functional_reorganization | 100 | 85 | 5 | 55 |

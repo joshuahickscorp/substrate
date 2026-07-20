@@ -343,3 +343,20 @@ def test_structural_zeros_are_labelled_analytic_not_measured():
             assert v["forgetting_is_structurally_zero"] is True, name
             assert v["mean_old_domain_loss"] == 0.0, name
             assert v["forgetting_measurement_status"].startswith("analytic"), name
+
+
+def test_every_indexed_artifact_matches_its_live_bytes():
+    """Regression: anything re-sealed after the fabric leaves a stale hash in the index.
+
+    Caught by the clean clone the first time. The index must be rebuilt after the last artifact is written,
+    which for this program means a second fabric pass after the synthesis.
+    """
+    import hashlib as _h
+
+    fab = _proof("MOP_FAST_STATE_EVIDENCE_FABRIC.json")
+    stale = [
+        a["logical_id"]
+        for a in fab["artifacts"]
+        if _h.sha256((ROOT / a["original_path"]).read_bytes()).hexdigest() != a["content_hash"]
+    ]
+    assert stale == [], stale

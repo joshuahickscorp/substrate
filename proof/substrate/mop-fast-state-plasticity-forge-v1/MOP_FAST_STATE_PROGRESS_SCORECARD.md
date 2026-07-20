@@ -3,7 +3,7 @@
 {
   "implementation": {
     "evidence_and_falsification": 100,
-    "orchestration": 80,
+    "orchestration": 100,
     "failure_understanding": 100,
     "owned_substrate": 100,
     "multi_timescale_and_partitioned_plasticity": 100,
@@ -11,9 +11,9 @@
     "cross_domain_entity": 100
   },
   "evidence": {
-    "evidence_and_falsification": 91,
-    "orchestration": 91,
-    "failure_understanding": 91,
+    "evidence_and_falsification": 95,
+    "orchestration": 95,
+    "failure_understanding": 95,
     "useful_plasticity": 5,
     "owned_substrate": 45,
     "partitioned_moldability": 15,

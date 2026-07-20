@@ -113,10 +113,10 @@ one new package, fastforge, 7341 LOC, plus the inherited runtime at 4930 LOC
 []. inherited runners under substrate_evo, forge, frontier, campaign2, salvage and integrated are the implementations behind sealed immutable evidence. Deleting them would make prior receipts unreproducible, so they are retained and this program adds exactly one new package instead of forking a second one.
 
 **36 did clean clone pass**  
-False with skips domain data lives outside the repository by design, so a clean clone can validate code, tests and evidence but cannot rerun training without those paths. Tests that need data skip themselves rather than pass silently.
+not established: the artifact this answer depends on is not sealed with skips 
 
 **37 did proof indexing pass**  
-True over 45 artifacts, mutations True
+True over 44 artifacts, mutations True
 
 **38 what exact scientific ceiling remains**  
 the owned substrate now has repaired, non aliased transfer arms, two materially different owned architectures, an interference map, a plasticity action oracle and a bidirectional matrix. None of it clears SESOI against a strong matched conventional learner in both domain directions.
