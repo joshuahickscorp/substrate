@@ -68,6 +68,8 @@ def main():
     within_names = [f"{d}_{s}" for d in ("har", "speech") for s in SEEDS5]
     inter_names = [f"{d}_{s}" for d in DIRS for s in SEEDS8]
     round_names = [f"{d}_{s}" for d in DIRS for s in SEEDS8]
+    sec_dirs = ["har_stream-speech_stream", "speech_stream-har_stream"]
+    sec_names = [f"{d}_{s}" for d in sec_dirs for s in SEEDS8]
     started: set[str] = set()
     done: set[str] = set()
 
@@ -101,6 +103,26 @@ def main():
                 launch(mod, ["shard", f"{d}:{s}"], f"{kind}_{n}.log")
                 started.add(tag)
                 free -= 1
+
+        # the secondary matrix is dependency ready once the architectures exist. It pairs two beds that
+        # share temporal structure, which the principal sensor to audio pairing does not.
+        if "secondary" not in done:
+            if have("secondary", sec_names):
+                run_sync("fastforge.runs.secondary")
+                done.add("secondary")
+            else:
+                for n in missing("secondary", sec_names):
+                    tag = f"secondary:{n}"
+                    if tag in started or free <= 0:
+                        continue
+                    d, s = n.rsplit("_", 1)
+                    launch(
+                        "fastforge.runs.secondary",
+                        ["shard", f"{d.replace('-', '|')}:{s}"],
+                        f"secondary_{n}.log",
+                    )
+                    started.add(tag)
+                    free -= 1
 
         # rounds depend on the interference map and the first matrix
         if "cross" in done and "interference" in done and "rounds" not in done:

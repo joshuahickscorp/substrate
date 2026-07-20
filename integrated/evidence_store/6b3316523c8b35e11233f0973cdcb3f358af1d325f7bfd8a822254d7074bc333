@@ -179,8 +179,8 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_CODE_REPORT.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_CODE_REPORT.json",
-      "canonical_path": "integrated/evidence_store/e71d8fd5762724051193131643117de22179147fd4444d7dbf53d945880cb6a7",
-      "content_hash": "e71d8fd5762724051193131643117de22179147fd4444d7dbf53d945880cb6a7",
+      "canonical_path": "integrated/evidence_store/1fb03872f9da2e699d9b9b701ff0dee1c81ec54ed07030c61bb72468a60299bc",
+      "content_hash": "1fb03872f9da2e699d9b9b701ff0dee1c81ec54ed07030c61bb72468a60299bc",
       "bytes": 3293,
       "set": "fast_state",
       "schema": "mop-fast-state-code-report/v1",
@@ -192,9 +192,9 @@
     {
       "logical_id": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_EVIDENCE_FABRIC.json",
       "original_path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_EVIDENCE_FABRIC.json",
-      "canonical_path": "integrated/evidence_store/6b3316523c8b35e11233f0973cdcb3f358af1d325f7bfd8a822254d7074bc333",
-      "content_hash": "6b3316523c8b35e11233f0973cdcb3f358af1d325f7bfd8a822254d7074bc333",
-      "bytes": 16956,
+      "canonical_path": "integrated/evidence_store/c1899da2c3fe2c77b0355c073656cb37dfb2b702b6f129b27e1313a32567ca18",
+      "content_hash": "c1899da2c3fe2c77b0355c073656cb37dfb2b702b6f129b27e1313a32567ca18",
+      "bytes": 16198,
       "set": "fast_state",
       "schema": "mop-evidence-fabric/v1-fast-state",
       "program": "mop-fast-state-plasticity-forge-v1",
@@ -297,9 +297,9 @@
   "union": {
     "count": 22,
     "unique_objects": 22,
-    "unique_bytes": 150899,
+    "unique_bytes": 150141,
     "duplicate_bytes_eliminated": 0,
-    "merkle_root": "36973459a1475c6e36cd6f745407270f45526b1f44d6802c29c5908779d306ac"
+    "merkle_root": "2365d75c9094f2bffed9926ea7f593919ba34e392ab9e5e0a6c516e81795bfd9"
   },
   "by_null": [
     "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_HAR.json",
@@ -335,5 +335,5 @@
   "program": "mop-fast-state-plasticity-forge-v1",
   "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
   "SESOI": 0.05,
-  "sha256": "7e9a5ffbbd8f7d4b70268428e784110c9aa64bc63e7b1c0c04fea05bee6bfe53"
+  "sha256": "034a9dd4c1fc76d69e01f6762b7fad241392807a83180bab158b1372589a0734"
 }

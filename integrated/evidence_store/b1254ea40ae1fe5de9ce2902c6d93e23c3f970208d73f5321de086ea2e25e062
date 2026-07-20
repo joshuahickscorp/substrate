@@ -1,0 +1,31 @@
+{
+  "schema": "mop-domain-order-gate/v1",
+  "domain": "speech",
+  "steps": 1400,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_train": 2343,
+  "n_test": 857,
+  "channels": 40,
+  "classes": 10,
+  "unit": "speaker",
+  "n_units_train": 160,
+  "n_units_test": 68,
+  "gru": 0.8,
+  "gru_shuffled": 0.6821,
+  "bag_order_free": 0.7608,
+  "temporal_headroom_gru_vs_bag": 0.0392,
+  "temporal_headroom_lcb": 0.0106,
+  "order_matters_gru_vs_shuffled": 0.1179,
+  "verdict": "invalid_no_temporal_headroom",
+  "wall_seconds": 538.4,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
+  "SESOI": 0.05,
+  "sha256": "804e4f3bcd47db925b791ae325289450f5c348fc4ff0bd7ba48af38bc8804fc2"
+}

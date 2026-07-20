@@ -1,13 +1,13 @@
 {
   "schema": "mop-fast-state-code-report/v1",
   "active_runtime_loc": 4930,
-  "new_substrate_loc": 7120,
+  "new_substrate_loc": 7045,
   "inherited_substrate_loc": 8202,
-  "substrate_surface_loc": 15322,
+  "substrate_surface_loc": 15247,
   "tests_loc": 2420,
   "new_tests_loc": 315,
   "tooling_loc": 116,
-  "maintained_python_excluding_proof": 22788,
+  "maintained_python_excluding_proof": 22713,
   "file_counts": {
     "runtime": 37,
     "new_substrate": 33,
@@ -20,7 +20,7 @@
     "fastforge/__init__.py": 1,
     "fastforge/arch.py": 424,
     "fastforge/arms.py": 280,
-    "fastforge/data.py": 503,
+    "fastforge/data.py": 443,
     "fastforge/engine.py": 357,
     "fastforge/runs/__init__.py": 0,
     "fastforge/runs/architectures.py": 141,
@@ -41,13 +41,13 @@
     "fastforge/runs/reorg.py": 278,
     "fastforge/runs/represent.py": 209,
     "fastforge/runs/rounds.py": 249,
-    "fastforge/runs/secondary.py": 176,
+    "fastforge/runs/secondary.py": 169,
     "fastforge/runs/supervisor.py": 193,
     "fastforge/runs/synthesis.py": 373,
     "fastforge/runs/testreport.py": 127,
     "fastforge/runs/thirddomain.py": 136,
     "fastforge/runs/withinrun.py": 174,
-    "fastforge/sequence.py": 330,
+    "fastforge/sequence.py": 322,
     "fastforge/verify.py": 264,
     "fastforge/within.py": 233
   },
@@ -77,5 +77,5 @@
   "program": "mop-fast-state-plasticity-forge-v1",
   "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
   "SESOI": 0.05,
-  "sha256": "9561d66f6c3d8e41e921ca23a32a1e5656faeba19048ab78289f092d61ec1f87"
+  "sha256": "d821644747a0b209f8eef9f601975f099ae3f6c4f0f691856c08ef2a4547defd"
 }

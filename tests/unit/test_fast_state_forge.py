@@ -282,3 +282,34 @@ def test_task_free_context_inference_beats_its_simple_control_or_is_a_null():
     if r["verdict"] == "task_free_context_positive":
         assert r["beats_simple_classifier"] is True
         assert r["shuffled_context_rejected"] is True
+
+
+def test_the_order_free_control_is_actually_order_free():
+    """Regression for the defect that the first control reused a Conv1d and therefore read local order."""
+    m = A.build("bag", DOMS)
+    assert not any(isinstance(mod, torch.nn.Conv1d) for mod in m.modules())
+    x = torch.randn(4, 24, 9)
+    perm = torch.randperm(24)
+    with torch.no_grad():
+        a = m(x, "har")[0]
+        b = m(x[:, perm], "har")[0]
+    assert torch.allclose(a, b, atol=1e-5), "pooling a per timestep map must be invariant to time order"
+
+
+def test_the_recurrent_core_is_not_order_free():
+    """The same probe must fail for the architectures under test, or the control proves nothing."""
+    m = A.build("G", DOMS)
+    x = torch.randn(4, 24, 9)
+    perm = torch.randperm(24)
+    with torch.no_grad():
+        a = m(x, "har")[0]
+        b = m(x[:, perm], "har")[0]
+    assert not torch.allclose(a, b, atol=1e-4)
+
+
+def test_domain_validity_records_marginal_beds_rather_than_rounding_them_up():
+    v = _proof("MOP_DOMAIN_VALIDITY.json")
+    for name, g in v["gates"].items():
+        assert g["status"] in ("temporal", "order insensitive") or g["status"].startswith("marginal")
+        if g["verdict"] == "temporal_headroom_present":
+            assert g["beats_order_free_control"] and g["order_matters"]
