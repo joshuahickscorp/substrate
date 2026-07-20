@@ -4,10 +4,10 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 ## Current
 
-- Maintained Python: 11,538 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 8,664 LOC.
+- Maintained Python: 11,457 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 8,583 LOC.
 - Validation: 2,394 LOC.
-- Verified reduction ledger: 393,554 LOC.
+- Verified reduction ledger: 393,635 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-budget-facade | 192 | retired_unconsumed_dual_budget_facade |
 | mop-collapse-raw-once-attestation | 160 | raw_once_final_attestation_authority |
 | mop-collapse-unused-surface | 680 | retired_unconsumed_support_and_synthetic_starss_adapter |
 | mop-collapse-custom-chain | 145 | single_receipt_chain_validator_and_one_pass_snapshot_provenance |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-finalizer-lifecycle-cli | 53 | direct_finalizer_copy_snapshot_and_promotion_policy_without_cli_dispatch |
 | mop-collapse-retired-custom-finalizer | 710 | retired_completed_zero_consumer_custom_finalizer_lifecycle |
 | mop-collapse-portable-hydration-core | 1,202 | minimal_content_addressed_portable_hydration_core |
+| mop-collapse-workbench-snapshot-lifecycle | 81 | retired_orphaned_workbench_source_snapshot_copy_lifecycle |
