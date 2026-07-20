@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "5a444d96a59b892bc6cc91d001c74459a656beb5",
+    "base_commit": "9f9de9a1e335f7d533896b325ffa99d14e0c5279",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 62074,
+    "eliminated_LOC": 70812,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 8911,
-    "net_global_reduction_LOC": 69023
+    "added_LOC": 8913,
+    "net_global_reduction_LOC": 77759
   },
   "checklist_summary": {
-    "total": 250,
+    "total": 251,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 34
+      "verified": 35
     }
   },
   "checklist": [
@@ -3595,6 +3595,25 @@
       "rollback_tag": "mop-collapse-starss23-null-explorations",
       "dependency": "",
       "next_action": "delete the next sealed-null or unreachable experimental vertical slice"
+    },
+    {
+      "id": "RED-starss23-null-family",
+      "section": 11,
+      "kind": "verified_reduction",
+      "title": "Delete null STARSS23 variant family and DoA axis",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/beds/starss23/artifact.py",
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "8738 null, unreachable, dedicated-test, or orphaned-output Python LOC removed for 2 active-record/test LOC, net -8736; 6.37 MiB of proof output removed; retained base/count battery 161/161 green; 3520-case collection, compile-all, critical ruff, and docs gate clean; all 62 deleted paths recover from the prior tag",
+      "commit": "",
+      "rollback_tag": "mop-collapse-starss23-null-family",
+      "dependency": "",
+      "next_action": "audit whether the null base onset bed should remain executable or historical only"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

@@ -770,6 +770,19 @@ def main() -> int:
                     "critical ruff, and docs gate clean; all paths recover from the prior tag"),
         rollback_tag="mop-collapse-starss23-null-explorations",
         next_action="delete the next sealed-null or unreachable experimental vertical slice"))
+    checklist.append(item(
+        "RED-starss23-null-family", 11, "verified_reduction",
+        "Delete null STARSS23 variant family and DoA axis",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/beds/starss23/artifact.py", "src/mop/beds/starss23/count_producer.py",
+                  "src/mop/beds/starss23/count_verifier.py"],
+        validation=("8738 null, unreachable, dedicated-test, or orphaned-output Python LOC removed for "
+                    "2 active-record/test LOC, net -8736; 6.37 MiB of proof output removed; retained "
+                    "base/count battery 161/161 green; 3520-case collection, compile-all, critical "
+                    "ruff, and docs gate clean; all 62 deleted paths recover from the prior tag"),
+        rollback_tag="mop-collapse-starss23-null-family",
+        next_action="audit whether the null base onset bed should remain executable or historical only"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,
