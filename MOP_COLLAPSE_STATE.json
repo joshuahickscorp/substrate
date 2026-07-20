@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "4a5faebead055173f3de32c7874424ae67b3d951",
+    "base_commit": "ea88bbaf31474303131f8ed5dd79cc349ea50844",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -123,13 +123,13 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 384918,
+    "eliminated_LOC": 385160,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 12443,
-    "net_global_reduction_LOC": 388230
+    "added_LOC": 12493,
+    "net_global_reduction_LOC": 388422
   },
   "checklist_summary": {
     "total": 261,
@@ -146,9 +146,12 @@
       "title": "Isolated worktree + branch off current origin/main",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "current main is merged, the protected checkout is clean, and PR #31 remains draft",
+      "validation": "origin/main a1d6be3 is merged into the collapse branch",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -161,13 +164,12 @@
       "title": "Separate build/cache/test-temp/report/pack roots",
       "status": "complete",
       "evidence_paths": [
-        ".collapse/build",
-        ".collapse/cache",
-        ".collapse/testtmp",
-        ".collapse/reports",
-        ".collapse/packs"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "created under worktree .collapse/",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -180,9 +182,12 @@
       "title": "Absolute non-interference with the live General Run (2.1)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "current main is merged, the protected checkout is clean, and PR #31 remains draft",
+      "validation": "protected checkout clean; no General Run controller touched",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -195,12 +200,15 @@
       "title": "Draft PR against current main; not ready/merge until all gates",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "current main is merged, the protected checkout is clean, and PR #31 remains draft",
+      "validation": "PR #31 remains draft against current main",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "census+precheck commit pushed",
+      "dependency": "",
       "next_action": "none"
     },
     {
@@ -210,9 +218,12 @@
       "title": "Create rollback tag mop-collapse-precheck",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-precheck exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -225,9 +236,12 @@
       "title": "Create rollback tag mop-collapse-evidence",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-evidence exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -240,9 +254,12 @@
       "title": "Create rollback tag mop-collapse-experiment-engine",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-experiment-engine exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -255,9 +272,12 @@
       "title": "Create rollback tag mop-collapse-starss23",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-starss23 exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -270,9 +290,12 @@
       "title": "Create rollback tag mop-collapse-mechanisms",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-mechanisms exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -285,9 +308,12 @@
       "title": "Create rollback tag mop-collapse-controller",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-controller exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -300,9 +326,12 @@
       "title": "Create rollback tag mop-collapse-registry-config",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-registry-config exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -315,9 +344,12 @@
       "title": "Create rollback tag mop-collapse-validation",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-validation exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -330,9 +362,12 @@
       "title": "Create rollback tag mop-collapse-docs",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-docs exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -345,9 +380,12 @@
       "title": "Create rollback tag mop-collapse-packs",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-packs exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -360,9 +398,12 @@
       "title": "Create rollback tag mop-collapse-300k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-300k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -375,9 +416,12 @@
       "title": "Create rollback tag mop-collapse-250k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-250k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -390,9 +434,12 @@
       "title": "Create rollback tag mop-collapse-200k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-200k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -405,9 +452,12 @@
       "title": "Create rollback tag mop-collapse-150k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-150k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -420,9 +470,12 @@
       "title": "Create rollback tag mop-collapse-125k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-125k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -435,9 +488,12 @@
       "title": "Create rollback tag mop-collapse-100k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-100k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -450,9 +506,12 @@
       "title": "Create rollback tag mop-collapse-75k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-75k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -465,9 +524,12 @@
       "title": "Create rollback tag mop-collapse-50k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-50k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -480,9 +542,12 @@
       "title": "Create rollback tag mop-collapse-35k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-35k exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -495,9 +560,12 @@
       "title": "Create rollback tag mop-collapse-event-horizon",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tag mop-collapse-event-horizon exists",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -510,9 +578,12 @@
       "title": "Inspect every PR #9 file",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained protections mapped; stale PR #9 implementation superseded",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -525,9 +596,12 @@
       "title": "Test PR #9 controller against current main",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained protections mapped; stale PR #9 implementation superseded",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -540,9 +614,12 @@
       "title": "Port or rewrite only useful mechanisms",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained protections mapped; stale PR #9 implementation superseded",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -555,9 +632,12 @@
       "title": "Discard assumptions invalidated by Generation-1 era",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained protections mapped; stale PR #9 implementation superseded",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -570,9 +650,12 @@
       "title": "Replace active-checkout LOC metric with honest global reduction",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained protections mapped; stale PR #9 implementation superseded",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -585,9 +668,12 @@
       "title": "Open a new draft PR from current main",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained protections mapped; stale PR #9 implementation superseded",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -600,9 +686,12 @@
       "title": "Keep PR #9 open until protections exist on replacement",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained protections mapped; stale PR #9 implementation superseded",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -615,9 +704,12 @@
       "title": "Close PR #9 only after exact retained-vs-retired mapping exists",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained protections mapped; stale PR #9 implementation superseded",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -630,13 +722,16 @@
       "title": "MOP_CONTEXT_SURFACE.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CONTEXT_SURFACE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "emitted by census.py",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "extend with cold_import/test_collection timings under host headroom"
+      "next_action": "none"
     },
     {
       "id": "ART-CONTEXT-MD",
@@ -645,14 +740,12 @@
       "title": "MOP_CONTEXT_SURFACE.md (orientation benchmark 10 Qs)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -665,10 +758,12 @@
       "title": "Context/orientation metrics measured",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -681,9 +776,12 @@
       "title": "MOP_CODEBASE_CENSUS.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -696,14 +794,12 @@
       "title": "MOP_CODEBASE_CENSUS.md",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -716,9 +812,12 @@
       "title": "MOP_IMPORT_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_IMPORT_GRAPH.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -731,14 +830,12 @@
       "title": "MOP_CALL_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -751,9 +848,12 @@
       "title": "MOP_COMMAND_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_COMMAND_GRAPH.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -766,14 +866,12 @@
       "title": "MOP_SCHEMA_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -786,14 +884,12 @@
       "title": "MOP_CONFIG_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -806,14 +902,12 @@
       "title": "MOP_TEST_OWNERSHIP.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -826,14 +920,12 @@
       "title": "MOP_DOCUMENTATION_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -846,9 +938,12 @@
       "title": "MOP_DUPLICATION_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_DUPLICATION_GRAPH.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -861,9 +956,12 @@
       "title": "MOP_AUTHORITY_GRAPH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_AUTHORITY_GRAPH.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -876,14 +974,12 @@
       "title": "MOP_HISTORICAL_BOUNDARY.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -896,14 +992,12 @@
       "title": "MOP_IRREDUCIBLE_KERNEL_ESTIMATE.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -916,9 +1010,12 @@
       "title": "MOP_LIVE_NO_TOUCH.json",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_LIVE_NO_TOUCH.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -931,17 +1028,15 @@
       "title": "Classify every file into exactly one of 16 categories; unknown->0",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json",
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_COMMAND_GRAPH.json",
-        "collapse/MOP_DUPLICATION_GRAPH.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "final survivor reachability and authority audit has zero unknowns",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "import/call/authority graphs",
+      "dependency": "",
       "next_action": "none"
     },
     {
@@ -951,10 +1046,12 @@
       "title": "Measure global_owned_source_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -967,10 +1064,12 @@
       "title": "Measure global_maintained_source_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -983,10 +1082,12 @@
       "title": "Measure active_kernel_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -999,10 +1100,12 @@
       "title": "Measure active_product_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1015,10 +1118,12 @@
       "title": "Measure default_validation_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1031,10 +1136,12 @@
       "title": "Measure optional_pack_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1047,10 +1154,12 @@
       "title": "Measure laboratory_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1063,10 +1172,12 @@
       "title": "Measure compatibility_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1079,10 +1190,12 @@
       "title": "Measure historical_source_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1095,10 +1208,12 @@
       "title": "Measure generated_owned_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1111,10 +1226,12 @@
       "title": "Measure test_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1127,10 +1244,12 @@
       "title": "Measure documentation_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1143,10 +1262,12 @@
       "title": "Measure configuration_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1159,10 +1280,12 @@
       "title": "Measure CI_build_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1175,10 +1298,12 @@
       "title": "Measure fixture_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1191,10 +1316,12 @@
       "title": "Measure third_party_LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1207,10 +1334,12 @@
       "title": "Track eliminated_LOC (relocation!=elimination)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1223,10 +1352,12 @@
       "title": "Track deduplicated_LOC (relocation!=elimination)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1239,10 +1370,12 @@
       "title": "Track relocated_LOC (relocation!=elimination)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1255,10 +1388,12 @@
       "title": "Track archived_LOC (relocation!=elimination)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1271,10 +1406,12 @@
       "title": "Track generated_replacement_LOC (relocation!=elimination)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1287,10 +1424,12 @@
       "title": "Track added_LOC (relocation!=elimination)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1303,10 +1442,12 @@
       "title": "Track net_global_reduction_LOC (relocation!=elimination)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1319,13 +1460,16 @@
       "title": "active kernel <=25000 (stretch 18000) LOC",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "src/mop is 10513 LOC, below the 15000 stretch target",
+      "validation": "10513 src/mop LOC, below 15000",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "TGT-GLOBAL",
@@ -1334,13 +1478,16 @@
       "title": "global maintained <=75000 (extreme 50000) LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "maintained Python is 16862 LOC, below the 35000 challenge",
+      "validation": "16670 maintained Python LOC, below 35000",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "TGT-TESTS",
@@ -1349,13 +1496,16 @@
       "title": "default test harness <=15000 LOC",
       "status": "complete",
       "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
         "tests/"
       ],
-      "validation": "maintained validation is 2970 LOC, below the 12000 target",
+      "validation": "2970 test LOC, below 12000",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "TGT-DOCS",
@@ -1364,13 +1514,16 @@
       "title": "current-facing docs <=8 documents and <=8000 lines",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "exactly four current Markdown authorities totaling under 8000 LOC",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "documentation is intentionally non-gating during experimentation"
+      "next_action": "none"
     },
     {
       "id": "TGT-ENTRYPOINTS",
@@ -1379,14 +1532,16 @@
       "title": "normal executable entrypoints <=10",
       "status": "complete",
       "evidence_paths": [
-        "pyproject.toml",
-        "scripts/"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "one installed CLI and 5 developer scripts remain",
+      "validation": "one installed CLI plus 5 developer scripts",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "TGT-CONTROLLER",
@@ -1395,13 +1550,16 @@
       "title": "production controllers exactly 1",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/harness/runner.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "mop.harness.runner is the sole installed experiment controller",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent parallel controllers"
+      "next_action": "none"
     },
     {
       "id": "TGT-EVIDENCE",
@@ -1410,14 +1568,16 @@
       "title": "receipt/evidence engines exactly 1",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/evidence.py",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "mop.evidence is the sole production serializer and hasher; the STARSS verifier keeps its required independent implementation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent local evidence writers"
+      "next_action": "none"
     },
     {
       "id": "TGT-EXPERIMENT",
@@ -1426,10 +1586,12 @@
       "title": "experiment execution frameworks exactly 1",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/science/",
-        "src/mop/experiments/base.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "one experiment execution framework remains",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1442,13 +1604,16 @@
       "title": "capability/mechanism registries exactly 1",
       "status": "complete",
       "evidence_paths": [
-        "registry/experiments.yaml"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "registry/experiments.yaml is the sole maintained registry",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent parallel registries"
+      "next_action": "none"
     },
     {
       "id": "TGT-CONFIG",
@@ -1457,14 +1622,16 @@
       "title": "normal configuration roots exactly 1 typed tree",
       "status": "complete",
       "evidence_paths": [
-        "configs/config.yaml",
-        "src/mop/config.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "one configs/ tree is composed through the single mop.config authority",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent alternate config loaders"
+      "next_action": "none"
     },
     {
       "id": "TGT-CLI",
@@ -1473,14 +1640,16 @@
       "title": "normal user-facing CLI exactly 1",
       "status": "complete",
       "evidence_paths": [
-        "pyproject.toml",
-        "scripts/"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "one installed CLI and 5 developer scripts remain",
+      "validation": "exactly one installed CLI",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "CKPT-300k",
@@ -1489,9 +1658,12 @@
       "title": "Reach green global checkpoint 300k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1504,9 +1676,12 @@
       "title": "Reach green global checkpoint 250k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1519,9 +1694,12 @@
       "title": "Reach green global checkpoint 200k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1534,9 +1712,12 @@
       "title": "Reach green global checkpoint 150k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1549,9 +1730,12 @@
       "title": "Reach green global checkpoint 125k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1564,9 +1748,12 @@
       "title": "Reach green global checkpoint 100k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1579,9 +1766,12 @@
       "title": "Reach green global checkpoint 75k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1594,9 +1784,12 @@
       "title": "Reach green global checkpoint 50k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1609,9 +1802,12 @@
       "title": "Reach green global checkpoint 35k",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "tracked Python is 33513 LOC and the full retained suite is green",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "mop-collapse-35k",
       "dependency": "",
@@ -1624,9 +1820,12 @@
       "title": "Two-architecture escape rule before rejecting a lower target",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "not invoked: all ceilings were met; the material STARSS choice still received an implemented A/B comparison",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1639,14 +1838,16 @@
       "title": "Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface)",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/",
-        "collapse/MOP_PROOF_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "SEC-9",
@@ -1655,14 +1856,16 @@
       "title": "One evidence authority (compact evidence core; verifier structurally independent)",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/evidence.py",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "the original map identified 38 byte-identical definitions; the final tree has one production serializer/hasher and retains the required independent verifier",
+      "validation": "one production evidence authority plus independent STARSS verifier",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent parallel evidence authorities"
+      "next_action": "none"
     },
     {
       "id": "SEC-10",
@@ -1671,10 +1874,12 @@
       "title": "One experiment engine (ExperimentSpec..IndependentVerifier)",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/science/",
-        "src/mop/experiments/base.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "one shared experiment lifecycle serves the two active declarations",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1687,14 +1892,16 @@
       "title": "STARSS23 first high-pressure region collapse (12-step process)",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/",
-        "collapse/MOP_PROOF_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
+      "validation": "STARSS lifecycle deleted; unique counting science and verifier retained",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity; remaining producer families need sealed-artifact parity",
-      "next_action": "prevent regrowth"
+      "dependency": "",
+      "next_action": "none"
     },
     {
       "id": "SEC-12",
@@ -1703,9 +1910,12 @@
       "title": "Mechanism-family collapse (one provider contract)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "all completed mechanism scaffold, bed, implementation, and runner families are retired",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1718,9 +1928,12 @@
       "title": "One campaign controller (AFTER live run terminal + PR30 closure)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "historical campaign controllers are tag-recoverable and no parallel controller remains",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1733,10 +1946,12 @@
       "title": "Entrypoint and script collapse (313 -> ~10 CLI verbs)",
       "status": "complete",
       "evidence_paths": [
-        "scripts/studio/__main__.py",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "parallel Studio command wrappers and completed campaign entrypoints are retired; the host operations parser retains only doctor and profiles",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1749,13 +1964,16 @@
       "title": "One registry (typed capability registry)",
       "status": "complete",
       "evidence_paths": [
-        "registry/experiments.yaml"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "registry/experiments.yaml is the sole maintained registry",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent parallel registries"
+      "next_action": "none"
     },
     {
       "id": "SEC-16",
@@ -1764,14 +1982,16 @@
       "title": "One typed configuration authority",
       "status": "complete",
       "evidence_paths": [
-        "configs/config.yaml",
-        "src/mop/config.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "one configs/ tree is composed through the single mop.config authority",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent alternate config loaders"
+      "next_action": "none"
     },
     {
       "id": "SEC-17",
@@ -1780,14 +2000,16 @@
       "title": "Validation condensation (properties/matrices/mutation; coverage-equivalence receipts)",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "scripts/acceptance.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained validation is 2970 LOC and all release gates pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "SEC-18",
@@ -1796,13 +2018,16 @@
       "title": "Documentation collapse (<=8 front-door docs; sealed history index)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "170 original document versions sealed by SHA-256 and Git blob; 162 superseded files deleted; four current authorities under 800 LOC; all runtime-unused embedded Python documentation and comment-only prose removed without statement packing; scanner reports zero eligible lines",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "none; enforce anti-regrowth gate"
+      "next_action": "none"
     },
     {
       "id": "SEC-19",
@@ -1811,14 +2036,16 @@
       "title": "Proof/evidence compaction (content-addressed index; no claim reduction)",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/",
-        "collapse/MOP_PROOF_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
+      "validation": "61 proof files indexed; zero duplicate SHA-256 groups",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "SEC-20",
@@ -1827,14 +2054,16 @@
       "title": "Packs follow collapse (no pack owns a 2nd controller/engine/registry/CLI)",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/",
-        "collapse/MOP_PROOF_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
+      "validation": "no pack exists, so no pack owns a duplicate authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "TGT-EXP-SIMPLE",
@@ -1843,14 +2072,16 @@
       "title": "simple experiment <=150 LOC declaration + math",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/",
-        "collapse/MOP_PROOF_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "TGT-EXP-COMPLEX",
@@ -1859,14 +2090,16 @@
       "title": "complex experiment <=400 LOC declaration + math",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/",
-        "collapse/MOP_PROOF_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "INV-frozen_instruments",
@@ -1875,10 +2108,12 @@
       "title": "Preserve invariant: frozen_instruments",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1891,10 +2126,12 @@
       "title": "Preserve invariant: owned_substrate_separation",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1907,10 +2144,12 @@
       "title": "Preserve invariant: nulls",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1923,10 +2162,12 @@
       "title": "Preserve invariant: controls",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1939,10 +2180,12 @@
       "title": "Preserve invariant: independent_units",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1955,10 +2198,12 @@
       "title": "Preserve invariant: SESOI",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1971,10 +2216,12 @@
       "title": "Preserve invariant: multiplicity",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1987,10 +2234,12 @@
       "title": "Preserve invariant: stop_rules",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2003,10 +2252,12 @@
       "title": "Preserve invariant: negative_results",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2019,10 +2270,12 @@
       "title": "Preserve invariant: exact_evidence_classes",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2035,10 +2288,12 @@
       "title": "Preserve invariant: independent_scientific_recomputation",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2051,10 +2306,12 @@
       "title": "Preserve invariant: no_activation_or_promotion_without_authority",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2067,10 +2324,12 @@
       "title": "Preserve invariant: honest_hardware_boundaries",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2083,10 +2342,12 @@
       "title": "Preserve invariant: crash_safe_writes",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2099,10 +2360,12 @@
       "title": "Preserve invariant: deterministic_resume",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2115,10 +2378,12 @@
       "title": "Preserve invariant: historical_authority_replay",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2131,10 +2396,12 @@
       "title": "Preserve invariant: producer_verifier_structural_independence",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2147,11 +2414,12 @@
       "title": "Gate: no minification",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2164,11 +2432,12 @@
       "title": "Gate: no line packing",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2181,11 +2450,12 @@
       "title": "Gate: behavior + receipt parity",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2198,11 +2468,12 @@
       "title": "Gate: receipt/verifier mutation attacks",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2215,11 +2486,12 @@
       "title": "Gate: sealed proof replay",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2232,11 +2504,12 @@
       "title": "Gate: crash and deterministic resume",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2249,11 +2522,12 @@
       "title": "Gate: deterministic regeneration",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2266,11 +2540,12 @@
       "title": "Gate: coverage-equivalence receipt per replaced cluster",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2283,11 +2558,12 @@
       "title": "Gate: clean clone builds+validates",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2300,11 +2576,12 @@
       "title": "Gate: offline pack hydration",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2317,11 +2594,12 @@
       "title": "Gate: relocation/archive/pack counted separately from elimination",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2334,11 +2612,12 @@
       "title": "Gate: perf regressions >2% investigated",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py",
-        "tests/",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2351,9 +2630,12 @@
       "title": "current main and live-run identities verified",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "origin/main a1d6be3 is merged; process audit found no General Run controller",
+      "validation": "current main merged; live identities audited without interference",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2366,9 +2648,12 @@
       "title": "PR #9 useful machinery ported or explicitly retired",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "PR #9 protections were mapped and its stale implementation explicitly retired",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2381,9 +2666,12 @@
       "title": "complete owned-system census exists",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CODEBASE_CENSUS.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "the complete baseline census is sealed and every later deletion is indexed",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2396,9 +2684,12 @@
       "title": "unknown classifications are zero",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "no unclassified maintained survivor remains after the final reachability audit",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2411,9 +2702,12 @@
       "title": "global accounting is honest",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "append-only events separate added, eliminated, relocated, archived, generated, and deduplicated LOC",
+      "validation": "append-only accounting separates every LOC category",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2426,9 +2720,12 @@
       "title": "one evidence authority remains",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2441,9 +2738,12 @@
       "title": "one experiment engine remains",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2456,9 +2756,12 @@
       "title": "one campaign controller remains active",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2471,9 +2774,12 @@
       "title": "one registry remains",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2486,9 +2792,12 @@
       "title": "one typed configuration authority remains",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2501,10 +2810,12 @@
       "title": "one normal CLI remains",
       "status": "complete",
       "evidence_paths": [
-        "pyproject.toml",
-        "scripts/"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "one installed CLI and 5 bounded developer scripts remain",
+      "validation": "one installed CLI plus 5 developer scripts",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2517,10 +2828,12 @@
       "title": "STARSS23 framework duplication removed",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/beds/starss23/",
-        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "STARSS lifecycle duplication was physically deleted; the unique counting bed and independent verifier remain",
+      "validation": "STARSS duplication removed with replay and mutation coverage retained",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2533,9 +2846,12 @@
       "title": "mechanism-family boilerplate removed",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2548,9 +2864,12 @@
       "title": "script wrappers collapsed",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2563,14 +2882,16 @@
       "title": "validation uses shared matrices and properties",
       "status": "complete",
       "evidence_paths": [
-        "tests/",
-        "scripts/acceptance.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "retained validation is 2970 LOC and all release gates pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent regrowth"
+      "next_action": "none"
     },
     {
       "id": "CC-16",
@@ -2579,9 +2900,12 @@
       "title": "current-facing docs consolidated",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2594,10 +2918,12 @@
       "title": "historical docs and code sealed and indexed",
       "status": "complete",
       "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
-        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "all retired code and documents are tag/blob indexed with exact recovery commands",
+      "validation": "all retired code and documents have tag/blob recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2610,9 +2936,12 @@
       "title": "packs contain no duplicate authorities",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_PROOF_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "no optional packs exist and the proof index reports zero duplicate payload groups",
+      "validation": "no packs and zero duplicate proof payloads",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2625,9 +2954,12 @@
       "title": "sealed results remain replayable",
       "status": "complete",
       "evidence_paths": [
-        "tests/unit/test_starss23_counting_bed.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "sealed STARSS replay and mutation batteries pass",
+      "validation": "sealed STARSS replay and mutation tests pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2640,9 +2972,12 @@
       "title": "independent verifiers remain structurally independent",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/beds/starss23/count_verifier.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "the STARSS verifier remains a separate implementation and rejects producer mutations",
+      "validation": "independent STARSS verifier remains structurally separate",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2655,10 +2990,12 @@
       "title": "crash/resume and rollback pass",
       "status": "complete",
       "evidence_paths": [
-        "tests/unit/test_custom_substrate_workbench.py",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "custom-workbench resume tests pass and every deletion wave has a rollback tag",
+      "validation": "resume tests and rollback tags pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2671,9 +3008,12 @@
       "title": "clean clone passes",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "fresh GitHub clone builds sdist and wheel and passes the full retained validation",
+      "validation": "fresh clone builds sdist/wheel and passes release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2686,9 +3026,12 @@
       "title": "offline hydration passes",
       "status": "complete",
       "evidence_paths": [
-        "tests/unit/test_custom_substrate_artifact.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "fresh-clone custom-artifact portability and offline hydration tests pass",
+      "validation": "fresh-clone offline portability tests pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2701,9 +3044,12 @@
       "title": "no live-run source was modified",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2716,9 +3062,12 @@
       "title": "full release validation passes after run releases host",
       "status": "complete",
       "evidence_paths": [
-        "scripts/acceptance.py"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2731,9 +3080,12 @@
       "title": "global LOC reduction measured",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2746,9 +3098,12 @@
       "title": "orientation-token reduction measured",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "cl100k_base front-door orientation fell from 77893 to 1068 tokens, a 98.63 percent reduction",
+      "validation": "cl100k_base orientation tokens fell 77893 to 1068 (98.63 percent)",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2761,9 +3116,12 @@
       "title": "lowest green checkpoint tagged",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2776,9 +3134,12 @@
       "title": "rollback documented",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "satisfied by the measured final authority surface and release validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2791,9 +3152,12 @@
       "title": "draft PR contains the complete measured result",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "draft PR #31 contains the final measured collapse and validation result",
+      "validation": "draft PR #31 contains the final measured result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2806,9 +3170,12 @@
       "title": "MUST NOT end with: census only",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2821,9 +3188,12 @@
       "title": "MUST NOT end with: plan only",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2836,9 +3206,12 @@
       "title": "MUST NOT end with: new abstraction beside every old abstraction",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2851,9 +3224,12 @@
       "title": "MUST NOT end with: pack-only reduction",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2866,9 +3242,12 @@
       "title": "MUST NOT end with: smaller default checkout with unchanged global owned code",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2881,9 +3260,12 @@
       "title": "MUST NOT end with: duplicated old and new experiment engines",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2896,9 +3278,12 @@
       "title": "MUST NOT end with: duplicated old and new controllers",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2911,9 +3296,12 @@
       "title": "MUST NOT end with: deferred documentation consolidation",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2926,9 +3314,12 @@
       "title": "MUST NOT end with: deletion candidates without deletion",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2941,9 +3332,12 @@
       "title": "MUST NOT end with: permanent wrappers around legacy implementations",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2956,9 +3350,12 @@
       "title": "MUST NOT end with: an under-tested generic engine",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2971,9 +3368,12 @@
       "title": "MUST NOT end with: hidden generated code",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2986,9 +3386,12 @@
       "title": "MUST NOT end with: deleted scientific evidence",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3001,9 +3404,12 @@
       "title": "MUST NOT end with: reduced independent-verifier rigor",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3016,9 +3422,12 @@
       "title": "MUST NOT end with: request to finish next region in another session",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3031,9 +3440,12 @@
       "title": "MUST NOT end with: claim of irreducible before two architectures attempted",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3046,10 +3458,12 @@
       "title": "Final report clause 1",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3062,10 +3476,12 @@
       "title": "Final report clause 2",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3078,10 +3494,12 @@
       "title": "Final report clause 3",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3094,10 +3512,12 @@
       "title": "Final report clause 4",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3110,10 +3530,12 @@
       "title": "Final report clause 5",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3126,10 +3548,12 @@
       "title": "Final report clause 6",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3142,10 +3566,12 @@
       "title": "Final report clause 7",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3158,10 +3584,12 @@
       "title": "Final report clause 8",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3174,10 +3602,12 @@
       "title": "Final report clause 9",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3190,10 +3620,12 @@
       "title": "Final report clause 10",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3206,10 +3638,12 @@
       "title": "Final report clause 11",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3222,10 +3656,12 @@
       "title": "Final report clause 12",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3238,10 +3674,12 @@
       "title": "Final report clause 13",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3254,10 +3692,12 @@
       "title": "Final report clause 14",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3270,10 +3710,12 @@
       "title": "Final report clause 15",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3286,10 +3728,12 @@
       "title": "Final report clause 16",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3302,10 +3746,12 @@
       "title": "Final report clause 17",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3318,10 +3764,12 @@
       "title": "Final report clause 18",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3334,10 +3782,12 @@
       "title": "Final report clause 19",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3350,10 +3800,12 @@
       "title": "Final report clause 20",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3366,10 +3818,12 @@
       "title": "Final report clause 21",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3382,10 +3836,12 @@
       "title": "Final report clause 22",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3398,10 +3854,12 @@
       "title": "Final report clause 23",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3414,10 +3872,12 @@
       "title": "Final report clause 24",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3430,10 +3890,12 @@
       "title": "Final report clause 25",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3446,10 +3908,12 @@
       "title": "Final report clause 26",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3462,10 +3926,12 @@
       "title": "Final report clause 27",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3478,10 +3944,12 @@
       "title": "Final report clause 28",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3494,10 +3962,12 @@
       "title": "Final report clause 29",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3510,10 +3980,12 @@
       "title": "Final report clause 30",
       "status": "complete",
       "evidence_paths": [
-        "MOP_COLLAPSE_STATE.json",
-        "collapse/MOP_REDUCTION_LOG.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "covered by the machine state and draft PR #31 final result",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3526,9 +3998,12 @@
       "title": "MOP_STARSS23_ARCHITECTURE_COMPARISON.json (implemented A/B selection)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "four axes in both designs; LOC/API/dependency/import/runtime/audit/mutation measured",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3541,13 +4016,16 @@
       "title": "MOP_STARSS23_SOURCE_DECOMPOSITION.json (complete line-range ownership map)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "75 files and 2364 top-level ranges partition every physical line exactly once",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "use named parity and rollback fields as the deletion gate for each cluster"
+      "next_action": "none"
     },
     {
       "id": "RED-starss23-architecture-b",
@@ -4320,9 +4798,12 @@
       "title": "MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_EVIDENCE_EQUIVALENCE.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "normalized-AST body clustering of every owned primitive definition",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -4335,13 +4816,16 @@
       "title": "MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_EVIDENCE_MIGRATION.json"
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_PROOF_INDEX.json",
+        "tests/"
       ],
-      "validation": "123 rows; batches: batch1_studies_safe/verifier-defer/controller-defer/inspect",
+      "validation": "full suite, Ruff, mypy, compile-all, 10/10 acceptance, clean-clone build, and offline checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "execute remaining batches under their gates"
+      "next_action": "none"
     },
     {
       "id": "RED-batch1",

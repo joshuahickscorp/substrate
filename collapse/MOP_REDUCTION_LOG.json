@@ -1035,6 +1035,24 @@
       "proof": "all 162 retained tests pass with 6 environment skips; all 10 acceptance checks pass; Ruff, mypy, compile-all, exact recovery, JSON, proof-index, portability, and protected-checkout audits are clean; the 261-item checklist has no active or partial items",
       "accounting_note": "402 Python lines deleted for 269 final reconciliation and survivor lines, net -133; maintained Python is 16862 LOC, src/mop is 10513 LOC, and validation is 2970 LOC",
       "tag": "mop-collapse-validation"
+    },
+    {
+      "region": "section18_documentation_section24_completion",
+      "batch": "compacted_final_ledger_reconciliation",
+      "checkpoint_status": "green",
+      "primitive": "the verbose per-condition completion override was replaced by a compact data-driven status reconciliation that preserves the same machine evidence and terminal checklist",
+      "deduplicated_LOC": 0,
+      "added_LOC": 50,
+      "eliminated_LOC": 242,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 192,
+      "files_changed": 3,
+      "destination_api": "one compact final reconciliation table in collapse/tools/build_ledger.py",
+      "proof": "the generator is Ruff-clean, deterministically regenerates the proof index, state, and compact ledger, and all 261 checklist items remain terminal (218 complete, 43 verified)",
+      "accounting_note": "242 Python lines deleted for 50 compact replacement lines, net -192; maintained Python is 16670 LOC, src/mop remains 10513 LOC, and validation remains 2970 LOC",
+      "tag": "mop-collapse-final"
     }
   ],
   "deferred_heavy_validation": {
