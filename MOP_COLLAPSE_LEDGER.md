@@ -4,10 +4,10 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 ## Current
 
-- Maintained Python: 8,352 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 6,234 LOC.
+- Maintained Python: 8,170 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 6,052 LOC.
 - Validation: 1,805 LOC.
-- Verified reduction ledger: 396,740 LOC.
+- Verified reduction ledger: 396,922 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-artifact-provenance-policy | 79 | typed_artifact_json_policy_and_single_export_finalization |
 | mop-collapse-finalizer-chain-cli | 127 | canonical_finalizer_writes_and_retired_artifact_cli_wrapper |
 | mop-collapse-finalizer-lifecycle-cli | 53 | direct_finalizer_copy_snapshot_and_promotion_policy_without_cli_dispatch |
 | mop-collapse-retired-custom-finalizer | 710 | retired_completed_zero_consumer_custom_finalizer_lifecycle |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-matched-budget-core | 241 | single_source_consumed_matched_budget_projection |
 | mop-collapse-studio-readiness-core | 252 | single_studio_readiness_profile_memory_vertical |
 | mop-collapse-count-statistics-core | 330 | source_consumed_count_statistics_projection |
+| mop-collapse-direct-count-producer | 182 | direct_single_consumer_count_production_vertical |
