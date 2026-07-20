@@ -1,15 +1,15 @@
 # MOP Collapse Ledger
 
-Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP_REDUCTION_LOG.json`, and `collapse/MOP_COMPLETION_AUDIT.json`.
+Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 
 ## Current
 
-- Maintained Python: 7,324 LOC; ceiling: 50,000.
+- Maintained Python: 7,409 LOC; ceiling: 50,000.
 - Runtime and campaign kernel: 5,259 LOC.
-- Validation: 1,752 LOC.
-- Verified reduction ledger: 397,768 LOC.
+- Validation: 1,811 LOC.
+- Verified reduction ledger: 397,683 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
-- Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
+- Recovery: state `legacy_authorities` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
 ## Active boundaries
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-cache-reader-only | 297 | retired_unconsumed_cache_writer_and_optional_validation_mode |
 | mop-collapse-matched-budget-core | 241 | single_source_consumed_matched_budget_projection |
 | mop-collapse-studio-readiness-core | 252 | single_studio_readiness_profile_memory_vertical |
 | mop-collapse-count-statistics-core | 330 | source_consumed_count_statistics_projection |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-direct-count-gate | 68 | direct_fixed_count_gate_lifecycle |
 | mop-collapse-direct-count-corpus | 113 | direct_count_corpus_staging |
 | mop-collapse-retired-dormant-latent-store | 134 | retired_dormant_latent_store_and_git_probe |
+| mop-collapse-single-durable-authority | -85 | normalized_single_durable_authority |
