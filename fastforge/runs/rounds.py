@@ -48,22 +48,25 @@ CANDIDATES = {
         evidence_key="return_recovery_is_the_failing_component",
     ),
     "H-R1": dict(
-        name="H_R1_conflict_gate_tightened",
-        policy=dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="cosine", thresh=0.2),
-        responds_to="the conflict gate at threshold zero blocked too little to protect the old domain",
-        evidence_key="cosine_gate_blocked_too_little",
+        name="H_R1_conflict_gate_loosened",
+        policy=dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="cosine", thresh=-0.3),
+        responds_to="the conflict gate at threshold zero blocked most updates and starved second domain "
+        "acquisition, so the round loosens it rather than tightening it",
+        evidence_key="cosine_gate_blocked_most_updates",
     ),
     "H-R2": dict(
-        name="H_R2_probe_gate_tightened",
-        policy=dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="probe", thresh=0.01),
-        responds_to="the probe loss gate tolerated too much old domain loss before freezing",
-        evidence_key="probe_gate_tolerated_forgetting",
+        name="H_R2_probe_gate_loosened",
+        policy=dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="probe", thresh=0.3),
+        responds_to="the probe loss gate blocked almost every update, so the round widens the tolerance it "
+        "allows before freezing",
+        evidence_key="probe_gate_blocked_most_updates",
     ),
     "H-R3": dict(
         name="H_R3_anchor_restoration",
-        policy=dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="anchor_restore", thresh=0.5),
-        responds_to="measured drift away from the anchor tracked the loss of the old domain, so "
-        "the response is restoration rather than freezing",
+        policy=dict(arch="H", carry=True, shared_p2=True, shared_p3=True, gate="anchor_restore", thresh=0.15),
+        responds_to="measured drift away from the anchor tracked the loss of the old domain, so the response "
+        "is partial restoration toward the anchor rather than freezing. The threshold is a ratio to the "
+        "anchor norm, because the absolute drift scales with parameter count",
         evidence_key="drift_tracks_forgetting",
     ),
 }
@@ -120,9 +123,10 @@ def causal_evidence():
             if a in d0[seeds[0]]
         }
         ev["gate_block_rates"] = {k: round(v, 4) for k, v in block.items()}
-        ev["cosine_gate_blocked_too_little"] = block.get("H_cosine_gate", 1.0) < 0.5
-        ev["probe_gate_tolerated_forgetting"] = block.get("H_probe_gate", 1.0) < 0.5
+        ev["cosine_gate_blocked_most_updates"] = block.get("H_cosine_gate", 0.0) > 0.6
+        ev["probe_gate_blocked_most_updates"] = block.get("H_probe_gate", 0.0) > 0.6
         ev["drift_tracks_forgetting"] = block.get("H_drift_gate", 0.0) > 0.0
+        ev["absolute_drift_threshold_was_never_satisfied"] = block.get("H_drift_gate", 0.0) > 0.99
     return ev
 
 
