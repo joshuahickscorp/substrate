@@ -62,7 +62,17 @@ def test_one_cli_registry_config_tree_and_production_evidence_authority():
 
 
 def test_proof_index_is_complete_content_addressed_and_deduplicated():
-    index = json.loads((ROOT / "collapse/MOP_PROOF_INDEX.json").read_text(encoding="utf-8"))
+    payload = (ROOT / "collapse/MOP_PROOF_INDEX.json").read_bytes()
+    assert payload.endswith(b"\n") and payload.count(b"\n") == 1
+    index = json.loads(payload, object_pairs_hook=_unique_object)
+    prior = json.loads(
+        subprocess.check_output(
+            ["git", "show", "mop-collapse-lowest-green-38-audit-corrected:collapse/MOP_PROOF_INDEX.json"],
+            cwd=ROOT,
+        ),
+        object_pairs_hook=_unique_object,
+    )
+    assert index == prior
     indexed = {row["path"]: row for row in index["entries"]}
     actual = sorted(
         path.relative_to(ROOT).as_posix() for path in (ROOT / "proof").rglob("*") if path.is_file()
@@ -224,7 +234,21 @@ def test_retired_code_and_documents_have_explicit_git_recovery():
     assert len(recovered.splitlines()) == len(objects) == 1544
     assert " missing" not in recovered
 
-    documents = json.loads((ROOT / "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json").read_text(encoding="utf-8"))
+    document_payload = (ROOT / "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json").read_bytes()
+    assert document_payload.endswith(b"\n") and document_payload.count(b"\n") == 1
+    documents = json.loads(document_payload, object_pairs_hook=_unique_object)
+    prior_documents = json.loads(
+        subprocess.check_output(
+            [
+                "git",
+                "show",
+                "mop-collapse-lowest-green-38-audit-corrected:collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
+            ],
+            cwd=ROOT,
+        ),
+        object_pairs_hook=_unique_object,
+    )
+    assert documents == prior_documents
     assert documents["archive_tag"] and documents["recovery"]
     assert documents["removed_document_count"] == len(documents["removed_documents"])
     for row in documents["removed_documents"]:
@@ -239,7 +263,19 @@ def test_retired_code_and_documents_have_explicit_git_recovery():
 
 
 def test_normalized_state_projects_exact_checklist_reductions_and_legacy_bytes():
-    state = json.loads((ROOT / "MOP_COLLAPSE_STATE.json").read_text(encoding="utf-8"))
+    payload = (ROOT / "MOP_COLLAPSE_STATE.json").read_bytes()
+    assert payload.endswith(b"\n") and payload.count(b"\n") == 1
+    state = json.loads(payload, object_pairs_hook=_unique_object)
+    compact_source = json.loads(
+        subprocess.check_output(
+            ["git", "show", "mop-collapse-lowest-green-38-audit-corrected:MOP_COLLAPSE_STATE.json"],
+            cwd=ROOT,
+        ),
+        object_pairs_hook=_unique_object,
+    )
+    for live_projection in ("meta", "current_measured", "reductions", "reduction_accounting_verified"):
+        compact_source[live_projection] = state[live_projection]
+    assert state == compact_source
     checklist = decode_checklist(state["checklist"])
     reductions = decode_reductions(state["reductions"])
 
