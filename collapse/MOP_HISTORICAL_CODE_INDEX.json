@@ -2047,6 +2047,20 @@
         "src/mop/substrate/custom_artifact.py",
         "tests/unit/test_custom_substrate_artifact.py"
       ]
+    },
+    {
+      "id": "collapsed_finalizer_atomic_chain_writes_and_unreferenced_artifact_cli",
+      "source_tag": "mop-collapse-lowest-green-10",
+      "reason": "finalization manually reimplemented the canonical atomic-byte writer, repeated the same write/hash/link assembly for three chain documents, and retained a standalone artifact argparse wrapper with no active consumer after the portable-artifact API became the tested authority",
+      "replacement_paths": [
+        "scripts/custom_substrate_finalize.py",
+        "src/mop/substrate/custom_artifact.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-10:<path>",
+      "paths": [
+        "scripts/custom_substrate_finalize.py",
+        "scripts/custom_substrate_artifact.py"
+      ]
     }
   ]
 }

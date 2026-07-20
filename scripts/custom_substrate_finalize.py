@@ -8,7 +8,6 @@ import hashlib
 import importlib.metadata
 import json
 import math
-import os
 import platform
 import shutil
 import subprocess
@@ -20,7 +19,7 @@ from typing import Any
 import torch
 
 from mop.config import REPO_ROOT
-from mop.evidence import atomic_write_json, json_bytes, sha256_file
+from mop.evidence import atomic_write_bytes, atomic_write_json, json_bytes, sha256_file
 from mop.substrate.custom_workbench import audit_requirements
 
 RAW_SCHEMA = "mop-custom-substrate-workbench/v1"
@@ -54,10 +53,7 @@ def _atomic_copy_exact(
             return
         if not replace_existing or existing != previously_bound_sha256:
             raise RuntimeError(f"durable receipt-chain target already exists with a different hash: {target}")
-    target.parent.mkdir(parents=True, exist_ok=True)
-    tmp = target.with_suffix(target.suffix + ".tmp")
-    tmp.write_bytes(raw)
-    os.replace(tmp, target)
+    atomic_write_bytes(target, raw)
 
 
 def materialize_proof_chain(
@@ -113,10 +109,7 @@ def materialize_proof_chain(
             replace_existing=replace_existing,
             previously_bound_sha256=previously_bound_sha256,
         )
-        try:
-            display_path = str(target.relative_to(REPO_ROOT))
-        except ValueError:
-            display_path = str(target)
+        display_path = str(target.relative_to(REPO_ROOT) if target.is_relative_to(REPO_ROOT) else target)
         durable_links[str(role)] = {"path": display_path, "sha256": expected}
 
     durable = dict(composite)
@@ -164,9 +157,7 @@ def freeze_raw(run_dir: Path, *, allow_finalized: bool = False) -> tuple[dict[st
     if raw_path.exists() and sha256_file(raw_path) != raw_hash:
         raise RuntimeError("immutable raw receipt already exists with a different hash")
     if not raw_path.exists():
-        tmp = raw_path.with_suffix(".json.tmp")
-        tmp.write_bytes(raw_bytes)
-        os.replace(tmp, raw_path)
+        atomic_write_bytes(raw_path, raw_bytes)
     if current.get("schema") != RAW_SCHEMA or not current.get("complete"):
         raise RuntimeError("raw receipt is not a complete workbench result")
     return current, raw_hash
@@ -502,6 +493,12 @@ def build_verifier(
     }
 
 
+def _write_chain_document(run_dir: Path, filename: str, payload: Any) -> dict[str, str]:
+    path = run_dir / filename
+    atomic_write_json(path, payload)
+    return {"path": filename, "sha256": sha256_file(path)}
+
+
 def finalize(
     run_dir: Path,
     proof_path: Path,
@@ -511,32 +508,23 @@ def finalize(
 ) -> dict[str, Any]:
     raw, raw_hash = freeze_raw(run_dir, allow_finalized=allow_finalized)
     attestation = build_attestation(run_dir, raw_hash)
-    attestation_path = run_dir / "current_evidence_attestation.json"
-    atomic_write_json(attestation_path, attestation)
-    attestation_hash = sha256_file(attestation_path)
+    attestation_link = _write_chain_document(run_dir, "current_evidence_attestation.json", attestation)
     environment = build_environment(run_dir, raw_hash)
-    environment_path = run_dir / "environment_receipt.json"
-    atomic_write_json(environment_path, environment)
-    environment_hash = sha256_file(environment_path)
+    environment_link = _write_chain_document(run_dir, "environment_receipt.json", environment)
     verifier = build_verifier(
         raw,
         raw_hash=raw_hash,
-        attestation_hash=attestation_hash,
-        environment_hash=environment_hash,
+        attestation_hash=attestation_link["sha256"],
+        environment_hash=environment_link["sha256"],
         evidence_ok=attestation["all_ok"],
         environment_ok=environment["all_ok"],
     )
-    verifier_path = run_dir / "independent_verifier.json"
-    atomic_write_json(verifier_path, verifier)
-    verifier_hash = sha256_file(verifier_path)
+    verifier_link = _write_chain_document(run_dir, "independent_verifier.json", verifier)
     links = {
         "raw_training_receipt": {"path": "raw_workbench_receipt.json", "sha256": raw_hash},
-        "current_evidence_attestation": {
-            "path": "current_evidence_attestation.json",
-            "sha256": attestation_hash,
-        },
-        "environment_receipt": {"path": "environment_receipt.json", "sha256": environment_hash},
-        "independent_verifier": {"path": "independent_verifier.json", "sha256": verifier_hash},
+        "current_evidence_attestation": attestation_link,
+        "environment_receipt": environment_link,
+        "independent_verifier": verifier_link,
     }
     gates = {
         "raw_training_complete": bool(raw["complete"]),
