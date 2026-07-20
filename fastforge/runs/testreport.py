@@ -58,7 +58,7 @@ def main():
             "pytest",
             "tests/unit/test_fast_state_forge.py",
             "-q",
-            "--cov=" + ",".join(CRITICAL),
+            *[f"--cov={m.replace('/', '.')[:-3]}" for m in CRITICAL],
             "--cov-branch",
             "--cov-report=json:cov.json",
         ],
@@ -91,6 +91,11 @@ def main():
             "suite_summary": tail[-1] if tail else "",
             "coverage_command_exit_code": cov.returncode,
             "critical_substrate_modules": CRITICAL,
+            "coverage_scope": CRITICAL,
+            "coverage_scope_note": "the mandate sets the target for critical substrate coverage, so "
+            "coverage is measured over the architecture, engine, sequence, arm, within domain and data "
+            "modules. The experiment runners are exercised by real runs rather than by unit tests and are "
+            "excluded from the target, which is stated here rather than left implicit.",
             "coverage": cov_data
             or {
                 "note": "coverage plugin unavailable in this environment, recorded as a "

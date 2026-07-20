@@ -69,26 +69,36 @@ class Memory:
 
     def __init__(self, policy: str = "gdumb", cap: int = 600):
         self.policy, self.cap = policy, cap
-        self.x, self.y, self.seen = [], [], 0
+        self.x, self.y, self.tag, self.seen = [], [], [], 0
 
-    def add(self, x, y, rng):
+    def add(self, x, y, rng, tag=None):
+        """tag names the context a sequence came from, so a replayed item can be routed back through the
+        modules that own it. Without it, cross context replay would feed one context's data through
+        another's head, which is not replay, it is noise."""
         if self.policy == "none":
             return
         for i in range(len(x)):
             self.seen += 1
-            if len(self.x) < self.cap:
+            # GDumb admits everything and rebalances afterwards. Gating admission on a free slot would mean
+            # that once the buffer fills, no later class is ever admitted, and the policy degenerates into
+            # "keep whatever arrived first". That defect was live in this file and is what the balance test
+            # below now guards.
+            if self.policy == "gdumb" or len(self.x) < self.cap:
                 self.x.append(x[i])
                 self.y.append(int(y[i]))
+                self.tag.append(tag)
             elif self.policy == "reservoir":
                 j = int(rng.integers(0, self.seen))
                 if j < self.cap:
-                    self.x[j], self.y[j] = x[i], int(y[i])
+                    self.x[j], self.y[j], self.tag[j] = x[i], int(y[i]), tag
             elif self.policy == "recent":
                 self.x.pop(0)
                 self.y.pop(0)
+                self.tag.pop(0)
                 self.x.append(x[i])
                 self.y.append(int(y[i]))
-        if self.policy == "gdumb" and len(self.x) >= self.cap:
+                self.tag.append(tag)
+        if self.policy == "gdumb" and len(self.x) > self.cap:
             yy = np.array(self.y)
             cls = np.unique(yy)
             per = max(1, self.cap // len(cls))
@@ -99,12 +109,17 @@ class Memory:
             keep = keep[: self.cap]
             self.x = [self.x[i] for i in keep]
             self.y = [self.y[i] for i in keep]
+            self.tag = [self.tag[i] for i in keep]
 
     def sample(self, n, rng):
         if not self.x:
             return None
         idx = rng.choice(len(self.x), min(n, len(self.x)), replace=False)
-        return torch.stack([self.x[i] for i in idx]), torch.tensor([self.y[i] for i in idx])
+        return (
+            torch.stack([self.x[i] for i in idx]),
+            torch.tensor([self.y[i] for i in idx]),
+            [self.tag[i] for i in idx],
+        )
 
     def size(self):
         return len(self.x)
@@ -259,12 +274,27 @@ def fit(
     for step in range(steps):
         bi = rng.choice(len(X), min(batch, len(X)), replace=False)
         xb, yb = X[bi], Y[bi]
-        if memory is not None and memory.size():
-            s = memory.sample(batch, rng)
-            if s:
-                xb, yb = torch.cat([xb, s[0]]), torch.cat([yb, s[1]])
+        replay = memory.sample(batch, rng) if memory is not None and memory.size() else None
+        # Replayed items from the active context join the batch directly. Items from another context are
+        # routed through the modules that own them, because feeding one context's data through another
+        # context's head is not replay.
+        same = None
+        if replay:
+            rx, ry, rtags = replay
+            keep = [i for i, t in enumerate(rtags) if t is None or t == d]
+            if keep:
+                xb = torch.cat([xb, rx[keep]])
+                yb = torch.cat([yb, ry[keep]])
+            same = [
+                (t, [i for i, tt in enumerate(rtags) if tt == t]) for t in {t for t in rtags if t and t != d}
+            ]
         logits, _ = model(xb, d, update_recent=update_recent)
         loss = F.cross_entropy(logits, yb)
+        if same:
+            n_now = len(yb)
+            for tag, idx in same:
+                lg, _ = model(rx[idx], tag)
+                loss = loss + (len(idx) / max(1, n_now)) * F.cross_entropy(lg, ry[idx])
         if ewc and ewc_lambda:
             pen = sum(
                 (ewc["fisher"][n] * (named[n] - ewc["star"][n]) ** 2).sum()

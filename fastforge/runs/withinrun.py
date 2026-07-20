@@ -43,7 +43,6 @@ BASELINES = [
     "shared_adapters",
     "ewc",
     "reservoir",
-    "no_memory",
     "joint_upper_bound",
     "bag_order_free",
 ]
