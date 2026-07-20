@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping
 
 import torch
@@ -127,8 +128,6 @@ def oa_suite(**components: Mapping[str, float] | None) -> dict:
 
 
 def render_oa_md(suite: Mapping, *, level_note: str | None = None) -> str:
-    from ..devel.north_star import assert_no_sentience_claims
-
     lines = ["## Operational awareness suite", ""]
     lines.append(
         "Structured self-monitoring diagnostics. This report makes no claim of sentience, "
@@ -146,5 +145,10 @@ def render_oa_md(suite: Mapping, *, level_note: str | None = None) -> str:
         lines.append("")
         lines.append(level_note)
     text = "\n".join(lines)
-    assert_no_sentience_claims(text, where="operational_awareness report")
+    if re.search(
+        r"\b(?:is|are|becomes?|became)\s+(?:sentient|conscious|self-aware|sapient)\b",
+        text,
+        re.IGNORECASE,
+    ):
+        raise ValueError("sentience-claim safety rail tripped in operational_awareness report")
     return text

@@ -1,7 +1,7 @@
 VENV=.venv/bin
 PY=$(VENV)/python
 
-.PHONY: install install-studio verify-install test lint types fmt diag accept clean doctor cache-list storage docs devel ladder curriculum
+.PHONY: install install-studio verify-install test lint types fmt diag accept clean doctor cache-list storage docs
 
 install:
 	uv venv --python 3.12 .venv
@@ -36,15 +36,6 @@ diag:
 accept:
 	$(PY) scripts/acceptance.py
 
-devel:
-	$(PY) scripts/devel.py validate       # validate paradigm/capacity/paperwatch registries
-
-ladder:
-	$(PY) scripts/devel.py capacities     # the developmental capacity ladder (Frontier 32)
-
-curriculum:
-	$(PY) scripts/devel.py curriculum     # next-lesson manifest: REAL probes over controls (Frontier 26/33)
-
 doctor:
 	$(PY) -m scripts.studio doctor        # Studio readiness report (JSON + runs/studio_doctor.md)
 
@@ -52,7 +43,7 @@ cache-list:
 	$(PY) scripts/cache_tool.py list      # list + integrity of cached latent stores
 
 storage:
-	$(PY) scripts/storage_tool.py list    # cache sizes; `prune` (dry-run) / `estimate`
+	$(PY) scripts/cache_tool.py storage list
 
 docs:
 	$(PY) scripts/check_docs.py           # docs-drift gate (stale counts / dead refs)

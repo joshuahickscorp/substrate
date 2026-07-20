@@ -5,9 +5,10 @@ import re
 from pathlib import Path
 from typing import Any
 
+import yaml
 from omegaconf import OmegaConf
 
-from ..devel.registries import load_experiments
+from ..config import REPO_ROOT
 from ..provenance import RESULT_TAGS
 
 REQUIRED_FIELDS = (
@@ -45,7 +46,8 @@ _TODO = re.compile(r"\bTODO\b|<[^>]+>")
 
 
 def experiment_by_id(exp_id: str) -> dict[str, Any]:
-    for row in load_experiments():
+    payload = yaml.safe_load((REPO_ROOT / "registry/experiments.yaml").read_text())
+    for row in payload.get("experiments", []):
         if str(row.get("id")) == exp_id:
             return row
     raise KeyError(f"unknown experiment id {exp_id!r}")

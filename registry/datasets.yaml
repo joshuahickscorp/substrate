@@ -1,5 +1,5 @@
 # Dataset acquisition registry (Frontier 1). Machine-readable source catalog the Studio planner,
-# downloader, data-card writer, and license ledger all read. ONE schema, validated by
+# intake and license checks read this single validated schema.
 # mop.studio.registry.validate_dataset (every entry must carry every required field).
 #
 # Honesty rules enforced in code (mop.studio.registry):
