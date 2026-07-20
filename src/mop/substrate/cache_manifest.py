@@ -10,7 +10,31 @@ import numpy as np
 
 from ..evidence import atomic_write_json, canonical_sha256
 from ..provenance import git_dirty, git_sha, package_versions
-from .form import FORM_KINDS, OBJECTIVE_FAMILIES
+
+FORM_KINDS = (
+    "vision",
+    "audio",
+    "text",
+    "symbolic",
+    "timeseries",
+    "control",
+    "code",
+    "math",
+    "latent",
+    "mixed",
+)
+OBJECTIVE_FAMILIES = (
+    "unknown",
+    "inherited-frozen",
+    "random-control",
+    "handcrafted",
+    "self-supervised",
+    "supervised",
+    "programmatic",
+    "metadata",
+    "learned-shell",
+    "custom-substrate",
+)
 
 SCHEMA = "mop-cache-data-plane/v2"
 SCHEMA_V1 = "mop-cache-data-plane/v1"

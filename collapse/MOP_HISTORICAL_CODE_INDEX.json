@@ -1770,6 +1770,33 @@
         "tests/unit/test_null_cards.py",
         "tests/unit/test_verdict_gate.py"
       ]
+    },
+    {
+      "id": "retired_generic_substrate_facades",
+      "source_tag": "mop-collapse-current-main",
+      "reason": "generic frozen-encoder, adapter, form, fixture, video, and cache-construction surfaces had no active CM7/CM8, STARSS, config, registry, or script consumer; the retained custom-substrate and cache-manifest paths own the actual active data plane",
+      "replacement_paths": [
+        "src/mop/substrate/custom_workbench.py",
+        "src/mop/substrate/custom_artifact.py",
+        "src/mop/substrate/cache_manifest.py",
+        "src/mop/substrate/cache_tools.py",
+        "src/mop/evidence.py"
+      ],
+      "recovery": "git show mop-collapse-current-main:<path>",
+      "paths": [
+        "src/mop/substrate/adapter.py",
+        "src/mop/substrate/cache.py",
+        "src/mop/substrate/encoder.py",
+        "src/mop/substrate/events.py",
+        "src/mop/substrate/fixtures.py",
+        "src/mop/substrate/form.py",
+        "src/mop/substrate/video.py",
+        "tests/unit/test_cache_tools.py",
+        "tests/unit/test_fixtures.py",
+        "tests/unit/test_substrate.py",
+        "tests/unit/test_video.py",
+        "tests/unit/test_video_hardening.py"
+      ]
     }
   ]
 }

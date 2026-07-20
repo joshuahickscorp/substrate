@@ -13,6 +13,7 @@ House style: no em dashes and no en dashes.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 from pathlib import Path
@@ -28,6 +29,36 @@ def sh(*args: str) -> str:
 def load(name: str) -> dict:
     p = COLLAPSE / name
     return json.loads(p.read_text()) if p.exists() else {}
+
+
+def build_proof_index() -> dict:
+    entries = []
+    by_sha256: dict[str, list[str]] = {}
+    total_bytes = 0
+    for relative in sh("git", "ls-files", "proof").splitlines():
+        path = ROOT / relative
+        raw = path.read_bytes()
+        sha256 = hashlib.sha256(raw).hexdigest()
+        total_bytes += len(raw)
+        by_sha256.setdefault(sha256, []).append(relative)
+        entries.append(
+            {
+                "path": relative,
+                "bytes": len(raw),
+                "sha256": sha256,
+                "git_blob": sh("git", "hash-object", relative),
+            }
+        )
+    duplicates = {digest: paths for digest, paths in by_sha256.items() if len(paths) > 1}
+    index = {
+        "schema": "mop-proof-index/v1",
+        "files": len(entries),
+        "bytes": total_bytes,
+        "duplicate_groups": duplicates,
+        "entries": entries,
+    }
+    (COLLAPSE / "MOP_PROOF_INDEX.json").write_text(json.dumps(index, indent=2) + "\n")
+    return index
 
 
 ITEM_FIELDS = (
@@ -644,6 +675,7 @@ def build_checklist() -> list[dict]:
 
 
 def main() -> int:
+    proof_index = build_proof_index()
     census = load("MOP_CODEBASE_CENSUS.json")
     acct = load("MOP_GLOBAL_ACCOUNTING.json")
     ctx = load("MOP_CONTEXT_SURFACE.json")
@@ -719,17 +751,17 @@ def main() -> int:
         if it["id"] == "TGT-GLOBAL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "tracked maintained Python is 20760 LOC, below the 35000 challenge"
+            it["validation"] = "tracked maintained Python is 18440 LOC, below the 35000 challenge"
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-KERNEL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "the complete src/mop tree is 13057 LOC, below the 18000 stretch target"
+            it["validation"] = "the complete src/mop tree is 11383 LOC, below the 18000 stretch target"
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-TESTS":
             it["status"] = "complete"
             it["evidence_paths"] = ["tests/"]
-            it["validation"] = "retained test harness is 4153 LOC"
+            it["validation"] = "retained test harness is 3470 LOC"
             it["next_action"] = "prevent regrowth"
         if it["id"] in {"TGT-REGISTRY", "SEC-15", "CC-9"}:
             it["status"] = "complete"
@@ -772,7 +804,7 @@ def main() -> int:
         if it["id"] in {"SEC-17", "CC-15"}:
             it["status"] = "complete"
             it["evidence_paths"] = ["tests/", "scripts/acceptance.py"]
-            it["validation"] = "276 retained tests and all ten acceptance checks pass in 4153 test LOC"
+            it["validation"] = "218 retained tests and all ten acceptance checks pass in 3470 test LOC"
             it["next_action"] = "prevent duplicated fixture-specific suites"
         if it["id"] == "TGT-DOCS":
             it["status"] = "complete"
@@ -2001,6 +2033,11 @@ def main() -> int:
                 "onset and count artifact projections"
             ),
             "selected_experiment_architecture": (architecture.get("selection") or {}).get("selected"),
+            "proof_index": {
+                "files": proof_index["files"],
+                "bytes": proof_index["bytes"],
+                "duplicate_groups": len(proof_index["duplicate_groups"]),
+            },
             "starss23_source_decomposition": {
                 "files": len(decomposition.get("files") or []),
                 "ranges": sum(len(f.get("ranges") or []) for f in (decomposition.get("files") or [])),

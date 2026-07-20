@@ -981,6 +981,24 @@
       "proof": "origin/main a1d6be3 was merged after a process audit confirmed no General Run controller remains; the latest notifier blobs recover directly from that main commit; all 276 retained tests pass with 6 environment skips; Ruff, mypy, compile-all, and all 10 acceptance checks are clean; all deleted facades recover from mop-collapse-event-horizon; the protected checkout remains clean and untouched",
       "accounting_note": "1824 Python lines deleted for 56 survivor and ledger lines, net -1768; total tracked physical change is 135 added/1836 deleted, net -1701; maintained Python is 20760 LOC, src/mop is 13057 LOC, and validation is 4153 LOC",
       "tag": "mop-collapse-current-main"
+    },
+    {
+      "region": "section8_kernel_section17_validation_section19_proof_compaction",
+      "batch": "retired_generic_substrate_facades_and_indexed_proof",
+      "checkpoint_status": "green",
+      "primitive": "unused generic frozen-encoder, adapter, form, fixture, video, and cache-construction facades and their dedicated tests were retired; the complete proof tree was indexed by SHA-256 and Git blob after confirming zero duplicate payloads",
+      "deduplicated_LOC": 0,
+      "added_LOC": 69,
+      "eliminated_LOC": 2389,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 2320,
+      "files_changed": 21,
+      "destination_api": "the custom workbench/artifact path and cache manifest/tools form the active substrate data plane; mop.evidence is the shared identity authority; collapse/MOP_PROOF_INDEX.json binds all 61 proof files",
+      "proof": "all 218 retained tests pass with 6 environment skips; all 10 acceptance checks, Ruff, mypy over 53 source files, compile-all, and proof-index JSON validation pass; all 12 deleted paths recover from mop-collapse-current-main; 61 proof files total 2918932 bytes with zero duplicate SHA-256 groups",
+      "accounting_note": "2389 Python lines deleted for 69 survivor and proof-index-generator lines, net -2320; total tracked physical change is 505 added/2401 deleted, net -1896; maintained Python is 18440 LOC, src/mop is 11383 LOC, validation is 3470 LOC, and the proof index is 374 machine-readable lines",
+      "tag": "mop-collapse-proof-index"
     }
   ],
   "deferred_heavy_validation": {
