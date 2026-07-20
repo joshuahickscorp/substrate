@@ -1,0 +1,106 @@
+{
+  "schema": "mop-gen2-evidence-matrix/v1",
+  "ladder": [
+    "mechanics_robustness",
+    "controlled_bed_plausibility",
+    "real_benchmark_canary",
+    "same_team_cross_architecture_confirmation",
+    "external_method_replication",
+    "independent_scientific_confirmation",
+    "cluster_interaction",
+    "construction",
+    "integration",
+    "activation"
+  ],
+  "matrix": {
+    "G1-P1R": {
+      "mechanics_robustness": true,
+      "controlled_bed_plausibility": true,
+      "real_benchmark_canary": "positive (split-MNIST)",
+      "same_team_cross_architecture_confirmation": "positive (CIFAR-100, KMNIST)",
+      "external_method_replication": "replication_null",
+      "independent_scientific_confirmation": false,
+      "cluster_interaction": "unlicensed",
+      "construction": "unlicensed",
+      "integration": "unlicensed",
+      "activation": false
+    },
+    "G1-N1": {
+      "mechanics_robustness": true,
+      "controlled_bed_plausibility": true,
+      "real_benchmark_canary": "positive (MNIST)",
+      "same_team_cross_architecture_confirmation": "confirmation_null (CIFAR-10)",
+      "external_method_replication": "n/a",
+      "independent_scientific_confirmation": false,
+      "activation": false,
+      "terminal": "negative"
+    },
+    "G1-U1": {
+      "mechanics_robustness": true,
+      "controlled_bed_plausibility": true,
+      "real_benchmark_canary": "canary_null",
+      "terminal": "negative",
+      "activation": false
+    },
+    "G1-R1": {
+      "mechanics_robustness": true,
+      "controlled_bed_plausibility": true,
+      "real_benchmark_canary": "canary_null (KMNIST)",
+      "terminal": "negative",
+      "activation": false
+    },
+    "G1-D1": {
+      "terminal": "retired_frozen_design",
+      "activation": false
+    },
+    "historical_G1-I1": {
+      "terminal": "retired_route",
+      "activation": false
+    },
+    "G1-V1": {
+      "mechanics_robustness": true,
+      "controlled_bed_plausibility": true,
+      "real_benchmark_canary": "admission=architecture_dependent",
+      "terminal": "not_admitted",
+      "activation": false
+    },
+    "G1-K1": {
+      "mechanics_robustness": true,
+      "real_benchmark_canary": "admission=pruned_mechanism",
+      "terminal": "not_admitted",
+      "activation": false
+    },
+    "G1-M1": {
+      "mechanics_robustness": true,
+      "real_benchmark_canary": "admission=pruned_mechanism",
+      "terminal": "not_admitted",
+      "activation": false
+    },
+    "G1-E1": {
+      "mechanics_robustness": true,
+      "real_benchmark_canary": "admission=pruned_mechanism",
+      "terminal": "not_admitted",
+      "activation": false
+    },
+    "G1-C0": {
+      "mechanics_robustness": true,
+      "real_benchmark_canary": "admission=pruned_mechanism",
+      "terminal": "not_admitted",
+      "activation": false
+    },
+    "G1-A1": {
+      "mechanics_robustness": true,
+      "real_benchmark_canary": "admission=pruned_mechanism",
+      "terminal": "not_admitted",
+      "activation": false
+    },
+    "G1-S1": {
+      "mechanics_robustness": true,
+      "real_benchmark_canary": "admission=pruned_mechanism",
+      "terminal": "not_admitted",
+      "activation": false
+    }
+  },
+  "source_commit": "b59a5fa5ee34c2a78a4455b43a8bebcb34465044",
+  "artifact_sha256": "fd61532c2be45008bd07642af1d08fb59aa791b81ff817192e7020ee6e32e848"
+}

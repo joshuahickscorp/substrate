@@ -1,0 +1,69 @@
+{
+  "battery_lanes": {
+    "V": {
+      "sealed": "architecture_dependent",
+      "independent": "architecture_dependent",
+      "match": true,
+      "clauses_passed_recount": 9,
+      "first_fail_recount": "F_architecture_independence",
+      "licenses_canary": false,
+      "receipt_intact": true
+    },
+    "K": {
+      "sealed": "pruned_mechanism",
+      "independent": "pruned_mechanism",
+      "match": true,
+      "clauses_passed_recount": 9,
+      "first_fail_recount": "G_noisy_tv",
+      "licenses_canary": false,
+      "receipt_intact": true
+    },
+    "M": {
+      "sealed": "pruned_mechanism",
+      "independent": "pruned_mechanism",
+      "match": true,
+      "clauses_passed_recount": 9,
+      "first_fail_recount": "G_noisy_tv",
+      "licenses_canary": false,
+      "receipt_intact": true
+    }
+  },
+  "temporal_control_lanes": {
+    "E": {
+      "sealed": "pruned_mechanism",
+      "lcb": -0.0043,
+      "independent_admit": false,
+      "match": true,
+      "receipt_intact": true
+    },
+    "C": {
+      "sealed": "pruned_mechanism",
+      "lcb": -0.0357,
+      "independent_admit": false,
+      "match": true,
+      "receipt_intact": true
+    },
+    "A": {
+      "sealed": "pruned_mechanism",
+      "lcb": -0.8842,
+      "independent_admit": false,
+      "match": true,
+      "receipt_intact": true
+    },
+    "S": {
+      "sealed": "pruned_mechanism",
+      "lcb": -0.5584,
+      "independent_admit": false,
+      "match": true,
+      "receipt_intact": true
+    }
+  },
+  "integrity": {},
+  "all_consistent": true,
+  "summary": {
+    "lanes_verified": 7,
+    "all_match_and_intact": true,
+    "admitted_count": 0,
+    "none_licenses_canary": true
+  }
+}

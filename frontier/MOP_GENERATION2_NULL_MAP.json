@@ -1,0 +1,19 @@
+{
+  "schema": "mop-gen2-null-map/v1",
+  "nulls": {
+    "G1-S1": "learned-model planning worse than random (imperfect model errors compound over the horizon)",
+    "G1-A1": "reading affordance from the latent ties a fitted value estimator; no incremental value",
+    "G1-C0": "confidence-weighted trace worse than EMA smoothing (wrong direction)",
+    "G1-E1": "relational boundaries help but not beyond simple change detectors by SESOI",
+    "G1-M1": "message value predictable and architecture-robust but fires on uncertain items where the message does not causally help (noisy-TV)",
+    "G1-K1": "value architecture-robust but fires on contradictions not warranting repair, including false-repair harm (noisy-TV)",
+    "G1-V1": "real verification value that avoids the U1 noisy-TV trap, but only 1 of 3 capable estimators robustly decodes it (architecture_dependent)",
+    "G1-N1": "MNIST canary positive but CIFAR-10 second-source confirmation null",
+    "G1-U1": "raw uncertainty fails reducibility discrimination on real data",
+    "G1-R1": "no incremental retrieval value beyond nearest-similarity",
+    "G1-D1": "retired frozen design",
+    "historical_G1-I1": "retired route"
+  },
+  "source_commit": "b59a5fa5ee34c2a78a4455b43a8bebcb34465044",
+  "artifact_sha256": "9e1b3a560278afbb320e58c743486f877b14519f25363e5713b9ebc121666436"
+}

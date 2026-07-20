@@ -61,10 +61,12 @@ def run():
     p1r_fa = float(np.mean(per_seed_fa["p1r"])); p1r_fa_sd = float(np.std(per_seed_fa["p1r"]))
     est_fa = {m: float(np.mean(per_seed_fa[m])) for m in ESTABLISHED}
     best_est_name = max(est_fa, key=est_fa.get); best_est_fa = est_fa[best_est_name]
-    harm = re["mean"] < -0.05 and re["lower_95_cb"] < 0
+    none_fa = float(np.mean(per_seed_fa["none"]))
+    # harm means P1R is worse than doing nothing (no-replay); losing to the best established method is a null,
+    # not harm, as long as P1R still provides replay benefit over the no-replay baseline.
     if re["pass"] and p1r_fa >= best_est_fa:
         cls = "same_team_external_method_positive"
-    elif harm:
+    elif p1r_fa < none_fa - 0.02:
         cls = "replication_harm"
     else:
         cls = "replication_null"
