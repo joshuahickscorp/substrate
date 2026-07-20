@@ -927,6 +927,24 @@
       "proof": "all 527 retained tests collect and the full suite passes with 6 environment skips; the complete src/scripts/tests surface passes Ruff and compile-all; all 85 deleted paths recover from mop-collapse-docs-compact; the protected checkout remains clean and untouched",
       "accounting_note": "14688 Python lines deleted for 122 survivor and ledger-generator lines, net -14566; configuration and generated authority updates bring total tracked physical change to 350 added/15343 deleted, net -14993; maintained Python is 33513 LOC, src is 20909 LOC, validation is 7335 LOC, and nine developer scripts remain",
       "tag": "mop-collapse-35k"
+    },
+    {
+      "region": "section8_kernel_section15_registry_section16_configuration_section17_validation",
+      "batch": "single_registry_and_18k_source_kernel",
+      "checkpoint_status": "green",
+      "primitive": "unused dataset and model registries, completed Sanpo and V-JEPA 2.1 lanes, test-only environment, perspective, Process-C and Studio-control facades, inactive config variants, and superseded collapse analyzers were converted to recoverable history",
+      "deduplicated_LOC": 0,
+      "added_LOC": 48,
+      "eliminated_LOC": 6421,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 6373,
+      "files_changed": 48,
+      "destination_api": "registry/experiments.yaml is the sole registry; configs/ composed by mop.config is the sole typed config tree; CM7/CM8, the shared science engine, and the independent STARSS producer/verifier remain",
+      "proof": "all 459 retained tests collect and the full suite passes with 6 environment skips; Ruff, compile-all, documentation and JSON integrity are clean; all 38 deleted paths recover from mop-collapse-35k; the protected checkout remains clean and untouched",
+      "accounting_note": "6421 Python lines deleted for 48 survivor and ledger-generator lines, net -6373; total tracked physical change is 181 added/7347 deleted, net -7166; maintained Python is 27140 LOC, src/mop is 17423 LOC, validation is 6116 LOC, one registry file remains, and the config surface is one composed tree",
+      "tag": "mop-collapse-registry-config"
     }
   ],
   "deferred_heavy_validation": {

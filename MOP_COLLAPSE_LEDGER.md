@@ -4,9 +4,9 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 
 ## Current
 
-- Maintained Python: 33,513 LOC; ceiling: 50,000.
-- Verified net Python reduction: 371,684 LOC.
-- Checklist: {"active": 48, "complete": 43, "partial": 9, "pending": 118, "verified": 43}.
+- Maintained Python: 27,140 LOC; ceiling: 50,000.
+- Verified net Python reduction: 378,057 LOC.
+- Checklist: {"active": 48, "complete": 50, "partial": 9, "pending": 111, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
 ## Active boundaries
@@ -18,7 +18,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-controller-orchestrator | 7,046 | general_run_and_legacy_v3_v7_orchestration |
 | mop-collapse-full-generations | 8,018 | unexecuted_full_generations_future_phase |
 | mop-collapse-categorized-wave | 8,141 | completed_categorized_wave_execution_framework |
 | mop-collapse-successor-horizons | 8,154 | completed_successor_horizon_v1_v2_campaigns |
@@ -30,5 +29,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 | mop-collapse-50k | 28,268 | retired_completed_mechanism_and_studio_campaign_surfaces |
 | mop-collapse-docs-compact | -426 | four_document_machine_first_surface |
 | mop-collapse-35k | 14,566 | retired_one_off_entrypoints_and_dormant_development_verticals |
+| mop-collapse-registry-config | 6,373 | single_registry_and_18k_source_kernel |
 
 Older checkpoints, proof text, and exact accounting remain in the machine log.

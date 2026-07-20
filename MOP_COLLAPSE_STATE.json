@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "36cc3fd265448157edb0cf202b0488371f079072",
+    "base_commit": "116fed5f9f8830006a9ac11d2bede9077ec9294a",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,20 +118,20 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 367668,
+    "eliminated_LOC": 374089,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 11844,
-    "net_global_reduction_LOC": 371684
+    "added_LOC": 11892,
+    "net_global_reduction_LOC": 378057
   },
   "checklist_summary": {
     "total": 261,
     "by_status": {
-      "complete": 43,
+      "complete": 50,
       "active": 48,
-      "pending": 118,
+      "pending": 111,
       "partial": 9,
       "verified": 43
     }
@@ -280,13 +280,15 @@
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-registry-config",
-      "status": "pending",
-      "evidence_paths": [],
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
       "validation": "",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-registry-config at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-validation",
@@ -1133,11 +1135,11 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "the complete src/mop tree is 20909 LOC, below the 25000 ceiling",
+      "validation": "the complete src/mop tree is 17423 LOC, below the 18000 stretch target",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "measure the narrower runtime kernel"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "TGT-GLOBAL",
@@ -1148,7 +1150,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked maintained Python is 33513 LOC, below the 35000 challenge",
+      "validation": "tracked maintained Python is 27140 LOC, below the 35000 challenge",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1163,7 +1165,7 @@
       "evidence_paths": [
         "tests/"
       ],
-      "validation": "retained test harness is 7335 LOC",
+      "validation": "retained test harness is 6116 LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1248,26 +1250,31 @@
       "section": 5,
       "kind": "target",
       "title": "capability/mechanism registries exactly 1",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "registry/experiments.yaml"
+      ],
+      "validation": "registry/experiments.yaml is the sole maintained registry",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent parallel registries"
     },
     {
       "id": "TGT-CONFIG",
       "section": 5,
       "kind": "target",
       "title": "normal configuration roots exactly 1 typed tree",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "configs/config.yaml",
+        "src/mop/config.py"
+      ],
+      "validation": "one configs/ tree is composed through the single mop.config authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "drive region collapses toward target; measure"
+      "next_action": "prevent alternate config loaders"
     },
     {
       "id": "TGT-CLI",
@@ -1550,26 +1557,31 @@
       "section": 15,
       "kind": "region",
       "title": "One registry (typed capability registry)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "registry/experiments.yaml"
+      ],
+      "validation": "registry/experiments.yaml is the sole maintained registry",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "unify experiment/mechanism/dataset/instrument/verifier registries"
+      "next_action": "prevent parallel registries"
     },
     {
       "id": "SEC-16",
       "section": 16,
       "kind": "region",
       "title": "One typed configuration authority",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "configs/config.yaml",
+        "src/mop/config.py"
+      ],
+      "validation": "one configs/ tree is composed through the single mop.config authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "separate frozen-identity/runtime-policy/machine-profile/overrides"
+      "next_action": "prevent alternate config loaders"
     },
     {
       "id": "SEC-17",
@@ -2138,26 +2150,31 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "one registry remains",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "registry/experiments.yaml"
+      ],
+      "validation": "registry/experiments.yaml is the sole maintained registry",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "prevent parallel registries"
     },
     {
       "id": "CC-10",
       "section": 26,
       "kind": "completion_condition",
       "title": "one typed configuration authority remains",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "configs/config.yaml",
+        "src/mop/config.py"
+      ],
+      "validation": "one configs/ tree is composed through the single mop.config authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "prevent alternate config loaders"
     },
     {
       "id": "CC-11",
@@ -2400,7 +2417,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "the 35k green checkpoint is tagged and every deletion has tag recovery",
+      "validation": "the registry/config checkpoint is tagged and every deletion has tag recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2415,7 +2432,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "the 35k green checkpoint is tagged and every deletion has tag recovery",
+      "validation": "the registry/config checkpoint is tagged and every deletion has tag recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3054,8 +3071,7 @@
       "title": "MOP_STARSS23_SOURCE_DECOMPOSITION.json (complete line-range ownership map)",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
-        "collapse/tools/starss23_decompose.py"
+        "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json"
       ],
       "validation": "75 files and 2364 top-level ranges partition every physical line exactly once",
       "commit": "",

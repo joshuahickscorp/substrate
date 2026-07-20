@@ -1,7 +1,6 @@
 import pytest
 from omegaconf import OmegaConf
 
-from mop import config
 from mop.harness import validate
 
 
@@ -28,11 +27,15 @@ def test_sealed_envelope_payload_declares_null_contract(field):
 
 
 def test_unavailable_encoder_with_prefer_real_raises():
-    cfg = config.compose(["encoder=vjepa21_vitl", "encoder.prefer_real=true"])
+    cfg = OmegaConf.create(
+        {"encoder": {"name": "unavailable", "embed_dim": 8, "available": False, "prefer_real": True}}
+    )
     with pytest.raises(validate.ConfigError):
         validate.validate_encoder(cfg)
 
 
 def test_unavailable_encoder_without_prefer_real_ok():
-    cfg = config.compose(["encoder=vjepa21_vitl"])  # prefer_real defaults false -> frozen-random, fine
+    cfg = OmegaConf.create(
+        {"encoder": {"name": "unavailable", "embed_dim": 8, "available": False, "prefer_real": False}}
+    )
     validate.validate_encoder(cfg)

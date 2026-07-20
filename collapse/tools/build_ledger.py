@@ -154,7 +154,7 @@ def build_checklist() -> list[dict]:
         "mop-collapse-35k",
         "mop-collapse-event-horizon",
     ]:
-        done = tag in {"mop-collapse-50k", "mop-collapse-35k"}
+        done = tag in {"mop-collapse-50k", "mop-collapse-35k", "mop-collapse-registry-config"}
         A(
             item(
                 f"TAG-{tag}",
@@ -227,7 +227,9 @@ def build_checklist() -> list[dict]:
             status="partial",
             evidence=["collapse/MOP_CONTEXT_SURFACE.json"],
             validation="files/dirs/modules/public_symbols/import_edges/SCC/entrypoints measured",
-            next_action="add reading tokens + cold_import + collection/docs-validation timings (heavy: queue)",
+            next_action=(
+                "add reading tokens + cold_import + collection/docs-validation timings (heavy: queue)"
+            ),
         )
     )
 
@@ -372,7 +374,10 @@ def build_checklist() -> list[dict]:
             5,
             "gate",
             "Two-architecture escape rule before rejecting a lower target",
-            next_action="only after 2 architectures implemented+failed for measured reasons + green restore + sealed receipt",
+            next_action=(
+                "only after 2 architectures implemented+failed for measured reasons + green restore "
+                "+ sealed receipt"
+            ),
         )
     )
 
@@ -668,7 +673,8 @@ def main() -> int:
                 "cluster physically deleted with net owned Python reduction of 1174 LOC; three "
                 "matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; "
                 "producer budget projection and canonical writes centralized, net 378 LOC; producer "
-                "result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; "
+                "result, receipt, finalization, seed-record, and prereg-write paths centralized, "
+                "net 316 LOC; "
                 "statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common "
                 "artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count "
                 "seed execution loops centralized with exact provider-specific records, net 191 LOC; native "
@@ -708,18 +714,28 @@ def main() -> int:
         if it["id"] == "TGT-GLOBAL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "tracked maintained Python is 33513 LOC, below the 35000 challenge"
+            it["validation"] = "tracked maintained Python is 27140 LOC, below the 35000 challenge"
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-KERNEL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "the complete src/mop tree is 20909 LOC, below the 25000 ceiling"
-            it["next_action"] = "measure the narrower runtime kernel"
+            it["validation"] = "the complete src/mop tree is 17423 LOC, below the 18000 stretch target"
+            it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-TESTS":
             it["status"] = "complete"
             it["evidence_paths"] = ["tests/"]
-            it["validation"] = "retained test harness is 7335 LOC"
+            it["validation"] = "retained test harness is 6116 LOC"
             it["next_action"] = "prevent regrowth"
+        if it["id"] in {"TGT-REGISTRY", "SEC-15", "CC-9"}:
+            it["status"] = "complete"
+            it["evidence_paths"] = ["registry/experiments.yaml"]
+            it["validation"] = "registry/experiments.yaml is the sole maintained registry"
+            it["next_action"] = "prevent parallel registries"
+        if it["id"] in {"TGT-CONFIG", "SEC-16", "CC-10"}:
+            it["status"] = "complete"
+            it["evidence_paths"] = ["configs/config.yaml", "src/mop/config.py"]
+            it["validation"] = "one configs/ tree is composed through the single mop.config authority"
+            it["next_action"] = "prevent alternate config loaders"
         if it["id"] in {"TGT-ENTRYPOINTS", "TGT-CLI"}:
             it["status"] = "complete"
             it["evidence_paths"] = ["pyproject.toml", "scripts/"]
@@ -751,12 +767,16 @@ def main() -> int:
         if it["id"] == "SEC-13":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_CODE_INDEX.json"]
-            it["validation"] = "historical campaign controllers are tag-recoverable and no parallel controller remains"
+            it["validation"] = (
+                "historical campaign controllers are tag-recoverable and no parallel controller remains"
+            )
             it["next_action"] = "none"
         if it["id"] == "SEC-12":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_HISTORICAL_CODE_INDEX.json"]
-            it["validation"] = "all completed mechanism scaffold, bed, implementation, and runner families are retired"
+            it["validation"] = (
+                "all completed mechanism scaffold, bed, implementation, and runner families are retired"
+            )
             it["next_action"] = "none"
         if it["id"] == "CC-16":
             it["status"] = "complete"
@@ -800,7 +820,7 @@ def main() -> int:
         if it["id"] in {"CC-28", "CC-29"}:
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "the 35k green checkpoint is tagged and every deletion has tag recovery"
+            it["validation"] = "the registry/config checkpoint is tagged and every deletion has tag recovery"
             it["next_action"] = "none"
 
     checklist.append(
@@ -824,7 +844,6 @@ def main() -> int:
             status="complete",
             evidence=[
                 "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
-                "collapse/tools/starss23_decompose.py",
             ],
             validation=(
                 f"{len(decomposition.get('files') or [])} files and "
@@ -1832,7 +1851,10 @@ def main() -> int:
             validation="77 LOC removed; byte-identical + py_compile + 9/9 import parity + known-answer",
             commit="",
             rollback_tag="mop-collapse-evidence-batch1",
-            next_action="next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection",
+            next_action=(
+                "next batch: sha256_file dominant cluster (9), then _atomic_write (6), "
+                "then distinct-body inspection"
+            ),
         )
     )
     collapsible = (equiv.get("totals") or {}).get("redundant_definitions_collapsible")
