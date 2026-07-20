@@ -1520,11 +1520,30 @@
       "performance": "ten alternating cold imports improve median count-producer import from 0.647127s to 0.642745s (-0.68%)",
       "accounting_note": "456 generic variant and duplicated direct-wiring lines are replaced by 274 single-source count-production lines, net -182; runtime source falls to 6052 LOC, validation remains 1805 LOC, scripts remain 62 LOC, and maintained Python falls to 8170 LOC",
       "tag": "mop-collapse-direct-count-producer"
+    },
+    {
+      "region": "section8_starss23_section17_validation",
+      "batch": "retired_historical_onset_object_and_roundtrip_schema",
+      "checkpoint_status": "green",
+      "primitive": "the active adapter/schema boundary now retains only clip identity, audio digest, acquisition constants, room-disjoint splits, count metadata validation, and a minimal onset-frame set used for exact truncation accounting; unconsumed OnsetEvent objects, clip onset payload/digest round trips, adapter.onsets, split serialization, and their self-tests are physically retired",
+      "deduplicated_LOC": 0,
+      "added_LOC": 30,
+      "eliminated_LOC": 217,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 187,
+      "files_changed": 4,
+      "destination_api": "RealStarssAdapter, parse_starss23_metadata, native_fold_split, Clip, and ClipSplit with aggregate onset-frame truncation projection",
+      "proof": "a three-clip synthetic 24 kHz four-channel real-WAV intake preserves clip identities, room IDs, frame counts, audio SHA-256, capped/tail/onset truncation receipts, native dev and train/val/test splits, and count tracks with canonical SHA-256 0db08a9f012af21b52f893415b4d9cd241331632560017a7ce95a6a4a124f42e; valid metadata/onset frames plus eleven metadata/onset refusals are exact; valid clip/split construction plus eight identity, digest, overlap, empty, and type refusals are exact; sealed artifact fb3a7112906a4e3a5c32fef0f3980e5642ac93996559a7cf59152e559b8044e6 independently reproduces scores and statistics; 22 focused cases pass with 6 environment skips; the 128-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 39 source files, compile-all and diff checks clean",
+      "performance": "ten alternating cold imports improve median adapter import from 0.058028s to 0.057648s (-0.65%)",
+      "accounting_note": "217 self-consumed onset schema, adapter projection, and dedicated-test lines are replaced by 30 minimal truncation/identity contract lines, net -187; runtime source falls 154 LOC to 5898, validation falls 33 LOC to 1772, scripts remain 62 LOC, and maintained Python falls to 7983 LOC",
+      "tag": "mop-collapse-retired-onset-schema"
     }
   ],
   "latest_full_validation": {
     "command": ".venv/bin/python -m pytest -q",
-    "result": "130 collected; 124 passed; 6 environment skips",
+    "result": "128 collected; 122 passed; 6 environment skips",
     "acceptance": "10/10 passed",
     "static": "Ruff lint and format clean; mypy clean over 39 source files",
     "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
