@@ -12,8 +12,6 @@ from typing import Any, Protocol, runtime_checkable
 
 import numpy as np
 
-from mop.escs.accounting import WorkVector
-
 from .schema import (
     N_CHANNELS,
     N_CLASSES,
@@ -37,6 +35,15 @@ _ELEVATION_MIN, _ELEVATION_MAX = -90, 90
 _DISTANCE_MAX_CM = 100_000  # 1 km ceiling; a physical sanity bound, not a knob
 
 _CLIP_NAME_RE = re.compile(r"^fold(\d+)_room(\d+)_mix(\d+)$")
+
+
+@dataclass(frozen=True, slots=True)
+class TransportCharge:
+    raw_transport_and_adapters: int = 0
+
+    def __post_init__(self) -> None:
+        if self.raw_transport_and_adapters < 0:
+            raise ValueError("raw transport charge must be nonnegative")
 
 
 class AdapterRefusal(ValueError):
@@ -488,10 +495,10 @@ class SyntheticStarssAdapter:
             self._clips, n_train_rooms=n_train_rooms, n_val_rooms=n_val_rooms
         )
 
-    def transport_charge(self) -> WorkVector:
+    def transport_charge(self) -> TransportCharge:
 
         total_bytes = sum(array.nbytes for array in self._audio.values())
-        return WorkVector(raw_transport_and_adapters=int(total_bytes))
+        return TransportCharge(raw_transport_and_adapters=int(total_bytes))
 
     @classmethod
     def from_dir(cls, root: str | Path, *, rights_clean: bool = True) -> SyntheticStarssAdapter:
@@ -677,7 +684,7 @@ class RealStarssAdapter:
     def dev_split(self) -> NativeDevSplit:
         return native_dev_split(self._clips)
 
-    def transport_charge(self) -> WorkVector:
+    def transport_charge(self) -> TransportCharge:
 
         total_bytes = sum(array.nbytes for array in self._audio.values())
-        return WorkVector(raw_transport_and_adapters=int(total_bytes))
+        return TransportCharge(raw_transport_and_adapters=int(total_bytes))

@@ -14,7 +14,6 @@ from mop.ladder.ladder_campaign import (
     WorkerHandle,
     WorkItem,
     _sealed,
-    census_complete,
 )
 from mop.substrate.events import canonical_sha256
 
@@ -64,10 +63,10 @@ def test_config_rejects_nonpositive_poll(tmp_path: Path) -> None:
 
 
 def test_plan_stage3_is_epochs_by_seeds(tmp_path: Path) -> None:
-    config = tiny_config(tmp_path, seeds=(0, 1, 2), epochs=("event_formation", "integrated_escs"))
+    config = tiny_config(tmp_path, seeds=(0, 1, 2), epochs=("event_formation", "trace_stability"))
     items = LadderCampaign(config).plan_stage3()
     assert len(items) == 6
-    assert {item.epoch for item in items} == {"event_formation", "integrated_escs"}
+    assert {item.epoch for item in items} == {"event_formation", "trace_stability"}
 
 
 def test_sealed_round_trips() -> None:
@@ -158,50 +157,6 @@ def test_shed_terminates_newest_and_requeues(tmp_path: Path) -> None:
     assert running[0].order == 0
     assert procs[2].terminated and procs[1].terminated
     assert not procs[0].terminated
-
-
-def _write_census(path: Path, capsules: list[dict[str, Any]], status: str = "running") -> None:
-    path.write_text(json.dumps({"status": status, "capsules": capsules}), encoding="utf-8")
-
-
-def test_census_complete_true_when_absent(tmp_path: Path) -> None:
-    assert census_complete(tmp_path / "nope.json") is True
-
-
-def test_census_complete_true_on_status_complete(tmp_path: Path) -> None:
-    state = tmp_path / "census.json"
-    _write_census(state, [{"status": "running"}], status="complete")
-    assert census_complete(state) is True
-
-
-def test_census_complete_true_when_all_capsules_done(tmp_path: Path) -> None:
-    state = tmp_path / "census.json"
-    _write_census(state, [{"status": "complete"}, {"status": "complete"}])
-    assert census_complete(state) is True
-
-
-def test_census_complete_false_while_running(tmp_path: Path) -> None:
-    state = tmp_path / "census.json"
-    _write_census(state, [{"status": "complete"}, {"status": "running"}])
-    assert census_complete(state) is False
-
-
-def test_census_complete_handles_dict_keyed_capsules_all_done(tmp_path: Path) -> None:
-    state = tmp_path / "census.json"
-    state.write_text(
-        json.dumps({"status": "running", "capsules": {"a": {"status": "complete"}, "b": {"status": "complete"}}}),
-        encoding="utf-8",
-    )
-    assert census_complete(state) is True
-
-
-def test_census_complete_false_when_dict_capsules_partial(tmp_path: Path) -> None:
-    state = tmp_path / "census.json"
-    state.write_text(
-        json.dumps({"status": "running", "capsules": {"a": {"status": "complete"}, "b": {"status": "running"}}}),
-        encoding="utf-8",
-    )
-    assert census_complete(state) is False
 
 
 def test_minimal_end_to_end_run_writes_sealed_report(tmp_path: Path) -> None:

@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "e00d70f1bcc3f33df2b7f7b5040f22e0601d59bd",
+    "base_commit": "a559140e310442b8af406d687d6a87303aeb02a3",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 148038,
+    "eliminated_LOC": 243943,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 9042,
-    "net_global_reduction_LOC": 154856
+    "added_LOC": 9061,
+    "net_global_reduction_LOC": 250742
   },
   "checklist_summary": {
-    "total": 258,
+    "total": 259,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 42
+      "verified": 43
     }
   },
   "checklist": [
@@ -3745,6 +3745,24 @@
       "rollback_tag": "mop-collapse-generation1-program",
       "dependency": "",
       "next_action": "delete the next completed experimental vertical slice"
+    },
+    {
+      "id": "RED-pre-generation1-campaign-escs",
+      "section": 8,
+      "kind": "verified_reduction",
+      "title": "Retire the pre-Generation1 campaign, throttle, and ESCS substrate stack",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/ladder/stage3_registry.py",
+        "src/mop/beds/starss23/adapter.py"
+      ],
+      "validation": "95905 campaign, evidence, controller, throttle, ESCS substrate, and dedicated-test Python LOC removed for 19 retained-kernel LOC, net -95886; generated outputs add 88876 non-Python deletions; 2110-case collection, compile-all, 24-case registry/ladder boundary, 119-case Stage-3/event/STARSS boundary, and 32-case docs gate green; all 222 deleted paths recover and protected live evidence remains present",
+      "commit": "",
+      "rollback_tag": "mop-collapse-pre-generation1-campaign",
+      "dependency": "",
+      "next_action": "delete the next sealed campaign or unreachable experimental framework"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

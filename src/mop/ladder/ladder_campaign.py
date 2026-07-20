@@ -24,11 +24,6 @@ WORKER_MODULE = "mop.ladder.ladder_worker"
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_PROGRAM_ROOT = REPO_ROOT / "runs" / "ladder_campaign" / "stage0_to_5_v1"
-CENSUS_STATE = (
-    REPO_ROOT / "runs" / "generation1" / "generation1-empirical-cognitive-corpus-v2" / "program_state.json"
-)
-
-
 class CampaignRefusal(RuntimeError):
     pass
 
@@ -42,20 +37,6 @@ def _capsule_rows(capsules: object) -> list[dict[str, Any]]:
     else:
         return []
     return [row for row in values if isinstance(row, dict)]
-
-
-def census_complete(state_path: Path = CENSUS_STATE) -> bool:
-
-    if not state_path.is_file():
-        return True
-    try:
-        state = json.loads(state_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return False
-    if state.get("status") == "complete":
-        return True
-    rows = _capsule_rows(state.get("capsules"))
-    return bool(rows) and all(row.get("status") == "complete" for row in rows)
 
 
 def _atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -81,10 +62,6 @@ class CampaignConfig:
     max_workers: int | None = None
     worker_python: str = sys.executable
     epochs: tuple[str, ...] = STAGE3_EPOCHS
-    wait_for_census: bool = False
-    census_poll_s: float = 60.0
-    census_max_wait_s: float = 43200.0
-
     def __post_init__(self) -> None:
         if not self.seeds:
             raise CampaignRefusal("campaign needs at least one seed")
@@ -299,27 +276,11 @@ class LadderCampaign:
         }
 
     def _stage12(self) -> dict[str, Any]:
-        census_root = REPO_ROOT / "runs" / "generation1" / "generation1-empirical-cognitive-corpus-v2"
-        census_state = census_root / "program_state.json"
-        detail: dict[str, Any] = {
-            "census_program_root": str(census_root),
-            "census_present": census_state.is_file(),
-        }
-        if census_state.is_file():
-            try:
-                state = json.loads(census_state.read_text(encoding="utf-8"))
-                rows = _capsule_rows(state.get("capsules"))
-                detail["census_complete"] = sum(1 for row in rows if row.get("status") == "complete")
-                detail["census_total"] = len(rows)
-                detail["census_status"] = state.get("status")
-            except (OSError, json.JSONDecodeError):
-                detail["census_present"] = False
         return {
             "stage": "1-2",
             "name": "programmable mechanics and counterfactual ecology",
             "status": "complete",
-            "basis": "the competence census is the Stage 1 to 2 empirical layer",
-            "detail": detail,
+            "basis": "retained mechanics and counterfactual ecology authorities",
         }
 
     def _run_stage45_harnesses(self) -> dict[str, dict[str, Any]]:
@@ -375,18 +336,8 @@ class LadderCampaign:
             payload.update(extra)
         _atomic_write_json(self.config.state_path, _sealed(payload, "state_sha256"))
 
-    def _wait_for_census(self) -> None:
-
-        waited = 0.0
-        while not census_complete() and waited < self.config.census_max_wait_s:
-            self._write_state("waiting_for_census", {"waited_seconds": round(waited, 1)})
-            time.sleep(self.config.census_poll_s)
-            waited += self.config.census_poll_s
-
     def run(self) -> dict[str, Any]:
         self.config.program_root.mkdir(parents=True, exist_ok=True)
-        if self.config.wait_for_census:
-            self._wait_for_census()
         self._write_state("running")
         stage0 = self._stage0()
         stage12 = self._stage12()
@@ -419,7 +370,6 @@ def _config_from_args(args: argparse.Namespace) -> CampaignConfig:
         reps=args.reps,
         per_worker_peak_gb=args.per_worker_gb,
         max_workers=args.max_workers,
-        wait_for_census=args.wait_for_census,
     )
 
 
@@ -444,8 +394,6 @@ def _start_detached(config: CampaignConfig) -> dict[str, Any]:
     ]
     if config.max_workers is not None:
         args += ["--max-workers", str(config.max_workers)]
-    if config.wait_for_census:
-        args.append("--wait-for-census")
     process = subprocess.Popen(
         args,
         cwd=str(REPO_ROOT),
@@ -475,7 +423,6 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--reps", type=int, default=24)
     parser.add_argument("--per-worker-gb", type=float, default=0.5)
     parser.add_argument("--max-workers", type=int, default=None)
-    parser.add_argument("--wait-for-census", action="store_true")
     args = parser.parse_args(argv)
     config = _config_from_args(args)
 
