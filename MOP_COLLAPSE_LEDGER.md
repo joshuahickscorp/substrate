@@ -8,7 +8,7 @@ Durable progress ledger for MOP_ACCRETION_COLLAPSE.md. Machine authority: `MOP_C
 
 ## Boundary
 
-- Branch `agent/mop-accretion-collapse` @ `d11dc0b` (base = current origin/main `a1d6be3`).
+- Branch `agent/mop-accretion-collapse` @ `f7d3c7c` (base = current origin/main `a1d6be3`).
 - Live tree: /Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH).
 - Live General Run: {"state": "run_categorized_wave", "stage": "run_categorized_wave", "updated_at": "2026-07-19T18:13:03.965920+00:00", "counts": {"compute_complete": 2, "compute_total": 4, "legacy_complete": 3, "legacy_total": 3, "stage_index": 3, "stage_total": 5}}.
 - Only light work while the run occupies the host; heavy validation is queued.
@@ -35,7 +35,7 @@ Lifecycle-boilerplate suffix clusters: `{"_scaffold.py": 37, "_runner.py": 26, "
 
 ## Checklist status
 
-Total items: 253. By status: `{"complete": 17, "active": 52, "pending": 137, "partial": 10, "verified": 37}`.
+Total items: 254. By status: `{"complete": 17, "active": 52, "pending": 137, "partial": 10, "verified": 38}`.
 
 | id | sec | kind | status | title | next action |
 |---|---|---|---|---|---|
@@ -289,6 +289,7 @@ Total items: 253. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 | RED-starss23-null-family | 11 | verified_reduction | verified | Delete null STARSS23 variant family and DoA axis | audit whether the null base onset bed should remain executable or historical only |
 | RED-starss23-count-kernel | 11 | verified_reduction | verified | Retire null base onset bed and isolate counting kernel | audit remaining STARSS23 package layers around the mechanics-ok counting kernel |
 | RED-controller-extension-v4-recovery-v2 | 13 | verified_reduction | verified | Delete superseded extension-v4 and recovery-v2 controller branch | collapse duplication within the surviving General Run controller path |
+| RED-controller-general-run-orchestrator | 13 | verified_reduction | verified | Delete isolated General Run and legacy v3/v7 orchestration layer | collapse duplication between the two surviving direct stage controllers |
 | ART-MOP_EVIDENCE_EQUIVALENCE.json | 9 | artifact | complete | MOP_EVIDENCE_EQUIVALENCE.json (evidence-primitive deletion map) | none |
 | ART-MOP_EVIDENCE_MIGRATION.json | 9 | artifact | complete | MOP_EVIDENCE_MIGRATION.json (per-duplicate migration table) | execute remaining batches under their gates |
 | RED-batch1 | 9 | verified_reduction | verified | Evidence core batch1: 9 studies modules deduplicated onto mop.substrate.events | next batch: sha256_file dominant cluster (9), then _atomic_write (6), then distinct-body inspection |
@@ -297,7 +298,7 @@ Total items: 253. By status: `{"complete": 17, "active": 52, "pending": 137, "pa
 
 ### precheck (this checkpoint)
 
-- commit: pending; base d11dc0b
+- commit: pending; base f7d3c7c
 - global_owned_source_LOC: 401194
 - global_maintained_source_LOC: 401155
 - eliminated_LOC: 0; relocated_LOC: 0; archived_LOC: 0; added_LOC: (ledger+census tooling)

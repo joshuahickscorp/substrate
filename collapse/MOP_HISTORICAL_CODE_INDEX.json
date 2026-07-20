@@ -342,6 +342,29 @@
         "tests/unit/test_generation1_successor_extension_chain_v4.py",
         "tests/unit/test_generation1_successor_recovery_launcher_v2.py"
       ]
+    },
+    {
+      "id": "retired_general_run_legacy_orchestrator",
+      "reason": "after live terminal closure, reachability showed the high-level General Run and legacy v3/v7 successor coordinators had no runtime, configuration, or registry consumer; the categorized and full-generations stages remain directly executable",
+      "source_tag": "mop-collapse-controller-extension-v4",
+      "recovery": "git show mop-collapse-controller-extension-v4:<path>",
+      "replacement_paths": [
+        "scripts/mop_generation1_categorized_batch_extension_chain.py",
+        "scripts/mop_generation1_full_generations_extension_chain.py",
+        "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+        "src/mop/studio/generation1_full_generations_extension_chain.py"
+      ],
+      "paths": [
+        "scripts/mop_general_run.py",
+        "scripts/mop_generation1_successor_chain.py",
+        "scripts/mop_generation1_successor_chain_v7.py",
+        "src/mop/studio/general_run_orchestrator.py",
+        "src/mop/studio/generation1_successor_chain.py",
+        "src/mop/studio/generation1_successor_chain_v7.py",
+        "tests/unit/test_general_run_orchestrator.py",
+        "tests/unit/test_generation1_successor_chain.py",
+        "tests/unit/test_generation1_successor_chain_v7.py"
+      ]
     }
   ]
 }

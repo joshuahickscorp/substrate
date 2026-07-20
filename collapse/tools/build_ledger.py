@@ -811,6 +811,19 @@ def main() -> int:
                     "unchanged"),
         rollback_tag="mop-collapse-controller-extension-v4",
         next_action="collapse duplication within the surviving General Run controller path"))
+    checklist.append(item(
+        "RED-controller-general-run-orchestrator", 13, "verified_reduction",
+        "Delete isolated General Run and legacy v3/v7 orchestration layer",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+                  "src/mop/studio/generation1_full_generations_extension_chain.py"],
+        validation=("7046 unreachable coordinator/wrapper/test LOC physically deleted after terminal "
+                    "closure; retained direct stage controllers 25/25 green; 3306-case collection, "
+                    "compile-all, critical ruff, and docs gate clean; all nine paths recover; "
+                    "protected checkout unchanged"),
+        rollback_tag="mop-collapse-controller-orchestrator",
+        next_action="collapse duplication between the two surviving direct stage controllers"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

@@ -708,6 +708,24 @@
       "proof": "no live controller process remains and the app terminal is closed; the last protected status is stale rather than terminal and the live checkout was not mutated; no current runtime/config consumer references the deleted branch; retained orchestrator/v7/categorized/full-generations battery is 59/59 green; full 3366-case collection, compile-all, critical ruff, and 29-case docs gate are clean; all six deleted paths recover from the prior tag",
       "accounting_note": "src 0 added/2386 deleted; scripts 0 added/36 deleted; tests 0 added/661 deleted; the protected checkout and its stale run state remain untouched",
       "tag": "mop-collapse-controller-extension-v4"
+    },
+    {
+      "region": "section13_controller_section14_entrypoints_and_section17_validation",
+      "batch": "general_run_and_legacy_v3_v7_orchestration",
+      "checkpoint_status": "green",
+      "primitive": "the isolated General Run coordinator and legacy v3/v7 successor orchestration layer, wrappers, and dedicated tests were physically deleted after terminal closure; the categorized and full-generations stages retain direct controllers and entrypoints",
+      "deduplicated_LOC": 0,
+      "added_LOC": 0,
+      "eliminated_LOC": 7046,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 7046,
+      "files_changed": 9,
+      "destination_api": "generation1_categorized_batch_extension_chain and generation1_full_generations_extension_chain direct stage controllers",
+      "proof": "no live controller process remains and the app terminal is closed; the last protected status is stale with the legacy stage already 3/3 complete and the live checkout was not mutated; no runtime/config/registry consumer references the deleted orchestration cluster; retained categorized/full-generations battery is 25/25 green; full 3306-case collection, compile-all, critical ruff, and 32-case docs gate are clean; all nine deleted paths recover from the prior tag",
+      "accounting_note": "src 0 added/4766 deleted; scripts 0 added/54 deleted; tests 0 added/2226 deleted; the protected checkout and its stale run state remain untouched",
+      "tag": "mop-collapse-controller-orchestrator"
     }
   ],
   "deferred_heavy_validation": {
