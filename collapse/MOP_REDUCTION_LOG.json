@@ -726,6 +726,24 @@
       "proof": "no live controller process remains and the app terminal is closed; the last protected status is stale with the legacy stage already 3/3 complete and the live checkout was not mutated; no runtime/config/registry consumer references the deleted orchestration cluster; retained categorized/full-generations battery is 25/25 green; full 3306-case collection, compile-all, critical ruff, and 32-case docs gate are clean; all nine deleted paths recover from the prior tag",
       "accounting_note": "src 0 added/4766 deleted; scripts 0 added/54 deleted; tests 0 added/2226 deleted; the protected checkout and its stale run state remain untouched",
       "tag": "mop-collapse-controller-orchestrator"
+    },
+    {
+      "region": "section8_studies_section13_controller_section14_entrypoints_section15_configuration_and_section17_validation",
+      "batch": "unexecuted_full_generations_future_phase",
+      "checkpoint_status": "green",
+      "primitive": "the never-started full-generations future phase was physically deleted as one closed experimental cluster: manifest, throttle policy, builder, runner, verifier, waiter, wrappers, and dedicated tests; generic notification and oracle coverage were detached from the canceled phase and retained",
+      "deduplicated_LOC": 0,
+      "added_LOC": 18,
+      "eliminated_LOC": 8036,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 8018,
+      "files_changed": 18,
+      "destination_api": "the completed categorized-wave authority plus retained generic subaccomplishment, notifier, and construction-search oracle paths",
+      "proof": "the protected run never created a full-generations run root, result, verification, report receipt, release audit, or proof artifact; repository reachability found only the phase's own closed cluster plus removable labels and validators in two generic observers; retained categorized/observer/oracle boundary battery is 67/67 green; full 3267-case collection, compile-all, critical ruff, and 32-case docs gate are clean; all 13 deleted paths recover from the prior tag",
+      "accounting_note": "src 1 added/5174 deleted; scripts 0 added/852 deleted; tests 17 added/2010 deleted; the one-line sealed manifest and 1677-line dedicated throttle policy were also deleted but contribute zero to Python LOC accounting",
+      "tag": "mop-collapse-full-generations"
     }
   ],
   "deferred_heavy_validation": {

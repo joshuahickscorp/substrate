@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "f7d3c7cded47663d84b0775acaa5f9408e430a29",
+    "base_commit": "f0de151bb4665a58c05bdb3f4a2c0ef0c943c2a6",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 86216,
+    "eliminated_LOC": 94252,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 8990,
-    "net_global_reduction_LOC": 93086
+    "added_LOC": 9008,
+    "net_global_reduction_LOC": 101104
   },
   "checklist_summary": {
-    "total": 254,
+    "total": 255,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 38
+      "verified": 39
     }
   },
   "checklist": [
@@ -3670,6 +3670,25 @@
       "rollback_tag": "mop-collapse-controller-orchestrator",
       "dependency": "",
       "next_action": "collapse duplication between the two surviving direct stage controllers"
+    },
+    {
+      "id": "RED-full-generations-future-phase",
+      "section": 8,
+      "kind": "verified_reduction",
+      "title": "Delete the never-started full-generations future phase",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/studies/generation1_successor_categorized_batch_wave.py",
+        "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+        "src/mop/studio/generation1_subaccomplishment_emitter.py"
+      ],
+      "validation": "8036 future-phase Python LOC removed for 18 generic-observer/test LOC, net -8018; the dedicated 1678-line manifest/policy surface was also deleted; no run or proof artifact ever existed; retained boundary 67/67 green; 3267-case collection, compile-all, critical ruff, and docs gate clean; all 13 paths recover",
+      "commit": "",
+      "rollback_tag": "mop-collapse-full-generations",
+      "dependency": "",
+      "next_action": "audit the categorized wave for completed or unexecuted experimental slices"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",

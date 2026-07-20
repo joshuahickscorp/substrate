@@ -23,8 +23,8 @@ def _write(path: Path, value: dict[str, Any]) -> None:
 
 def _classification(epoch_index: int = 0, epoch_id: str = "W1") -> dict[str, Any]:
     core = {
-        "schema": emitter.FULL_GENERATIONS_CLASSIFICATION_SCHEMA,
-        "program_id": "generation1-full-generations-wave-v1",
+        "schema": emitter.CATEGORIZED_CLASSIFICATION_SCHEMA,
+        "program_id": "generation1-successor-categorized-batch-wave-v1",
         "epoch_id": epoch_id,
         "epoch_index": epoch_index,
         "summary": {
@@ -43,8 +43,8 @@ def _classification(epoch_index: int = 0, epoch_id: str = "W1") -> dict[str, Any
 
 def _gate(gate_index: int = 0, gate_id: str = "admit_wave_v1") -> dict[str, Any]:
     core = {
-        "schema": emitter.FULL_GENERATIONS_GATE_SCHEMA,
-        "program_id": "generation1-full-generations-wave-v1",
+        "schema": emitter.CATEGORIZED_GATE_SCHEMA,
+        "program_id": "generation1-successor-categorized-batch-wave-v1",
         "gate_id": gate_id,
         "gate_index": gate_index,
         "payload": {"operation": "bind", "mechanics_lanes": ["G1-P1", "G1-P2", "G1-P3"], "admitted": True},
@@ -148,8 +148,8 @@ def _accepting_seal_validator(field: str):
     return _validate
 
 
-def _fullgen_wave_root(runs: Path) -> Path:
-    return runs / "generation1-full-generations-wave-v1"
+def _categorized_wave_root(runs: Path) -> Path:
+    return runs / "generation1-successor-categorized-batch-wave-v1"
 
 
 def test_reprofile_source_publishes_valid_subaccomp(tmp_path: Path) -> None:
@@ -199,13 +199,13 @@ def test_absorption_source_publishes_valid_subaccomp(tmp_path: Path) -> None:
 def test_barrier_source_publishes_with_injected_home_validator(tmp_path: Path) -> None:
     runs = tmp_path / "runs"
     proof = tmp_path / "proof"
-    _write(_fullgen_wave_root(runs) / "classifications" / "w1.json", _classification())
+    _write(_categorized_wave_root(runs) / "classifications" / "w1.json", _classification())
 
     report = emitter.scan(
         runs_root=runs,
         proof_root=proof,
         classification_validators={
-            emitter.FULL_GENERATIONS_CLASSIFICATION_SCHEMA: _accepting_seal_validator("classification_sha256")
+            emitter.CATEGORIZED_CLASSIFICATION_SCHEMA: _accepting_seal_validator("classification_sha256")
         },
     )
 
@@ -221,12 +221,12 @@ def test_barrier_source_publishes_with_injected_home_validator(tmp_path: Path) -
 def test_gate_source_publishes_with_injected_home_validator(tmp_path: Path) -> None:
     runs = tmp_path / "runs"
     proof = tmp_path / "proof"
-    _write(_fullgen_wave_root(runs) / "gates" / "admit_wave_v1.json", _gate())
+    _write(_categorized_wave_root(runs) / "gates" / "admit_wave_v1.json", _gate())
 
     report = emitter.scan(
         runs_root=runs,
         proof_root=proof,
-        gate_validators={emitter.FULL_GENERATIONS_GATE_SCHEMA: _accepting_seal_validator("gate_sha256")},
+        gate_validators={emitter.CATEGORIZED_GATE_SCHEMA: _accepting_seal_validator("gate_sha256")},
     )
 
     assert report["written_count"] == 1
@@ -291,7 +291,7 @@ def test_forged_classification_is_skipped_by_real_validator(tmp_path: Path) -> N
     proof = tmp_path / "proof"
     forged = _classification()
     forged["epoch_id"] = "TAMPERED"  # seal no longer replays; also lacks wave context
-    _write(_fullgen_wave_root(runs) / "classifications" / "w1.json", forged)
+    _write(_categorized_wave_root(runs) / "classifications" / "w1.json", forged)
 
     report = emitter.scan(runs_root=runs, proof_root=proof)
     assert report["written_count"] == 0
@@ -303,13 +303,13 @@ def test_injected_validator_rejects_forged_classification(tmp_path: Path) -> Non
     proof = tmp_path / "proof"
     forged = _classification()
     forged["epoch_id"] = "TAMPERED"
-    _write(_fullgen_wave_root(runs) / "classifications" / "w1.json", forged)
+    _write(_categorized_wave_root(runs) / "classifications" / "w1.json", forged)
 
     report = emitter.scan(
         runs_root=runs,
         proof_root=proof,
         classification_validators={
-            emitter.FULL_GENERATIONS_CLASSIFICATION_SCHEMA: _accepting_seal_validator("classification_sha256")
+            emitter.CATEGORIZED_CLASSIFICATION_SCHEMA: _accepting_seal_validator("classification_sha256")
         },
     )
     assert report["written_count"] == 0
