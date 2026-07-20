@@ -1823,6 +1823,26 @@
         "tests/unit/test_docs_drift.py",
         "tests/unit/test_markdown_consolidation.py"
       ]
+    },
+    {
+      "id": "retired_synthetic_acceptance_scaffold",
+      "source_tag": "mop-collapse-support-minimal",
+      "reason": "the remaining diagnostics, shell predictor, and synthetic task modules were consumed only by acceptance; the final acceptance contract now exercises the active evidence identity primitive directly, and the experiment base retains only its real abstract contract",
+      "replacement_paths": [
+        "src/mop/evidence.py",
+        "src/mop/experiments/base.py",
+        "scripts/acceptance.py"
+      ],
+      "recovery": "git show mop-collapse-support-minimal:<path>",
+      "paths": [
+        "src/mop/diagnostics/__init__.py",
+        "src/mop/diagnostics/linear_probe.py",
+        "src/mop/diagnostics/noisy_tv.py",
+        "src/mop/shell/__init__.py",
+        "src/mop/shell/ensemble.py",
+        "src/mop/shell/predictor.py",
+        "src/mop/substrate/datasets.py"
+      ]
     }
   ]
 }

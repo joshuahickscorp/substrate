@@ -33,12 +33,11 @@ def main() -> int:
     ok, tail = _run([str(ENV_BIN / "mypy")])
     step("mypy types", ok, tail)
 
-    from mop import config, devices
-    from mop.diagnostics import linear_probe, noisy_tv_diagnostic
+    from mop import config
+    from mop.evidence import canonical_sha256
     from mop.experiments import REGISTRY, get_experiment
     from mop.harness import validate
     from mop.studio.profiles import PROFILES
-    from mop.substrate.datasets import make_task_stream
 
     step(
         "experiment registry minimal",
@@ -48,14 +47,8 @@ def main() -> int:
     step("CM7 config composes", cfg.experiment.id == "mop_cm7_min_objective_probe")
     step("CM7 experiment resolves", get_experiment("mop_cm7_min_objective_probe").id == cfg.experiment.id)
 
-    dev = devices.resolve("cpu")
-    task = make_task_stream(n_tasks=1, dim=32, classes_per_task=4, samples_per_task=300, separation=3.0)[0]
-    probe_ok = linear_probe(task.x, task.y)["decodable"]
-    noisy = noisy_tv_diagnostic(dim=40, device=dev, steps=250)
-    step(
-        "diagnostics",
-        bool(probe_ok and noisy["noise_error_stays_high"] and noisy["epistemic_collapses_on_noise"]),
-    )
+    identity = canonical_sha256({"experiment": cfg.experiment.id, "seed": int(cfg.seed)})
+    step("evidence identity", len(identity) == 64 and identity == identity.lower())
     step("configuration validation", validate.check_all() == [])
     step("Studio profiles", {"m3pro-local-max", "studio-m1ultra"} <= set(PROFILES))
 

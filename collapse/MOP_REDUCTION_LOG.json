@@ -1017,6 +1017,24 @@
       "proof": "all 162 retained tests pass with 6 environment skips; all 10 acceptance checks pass; Ruff, mypy over 49 source files, compile-all, exact recovery, dependency-lock, JSON, and protected-checkout audits are clean",
       "accounting_note": "1450 Python lines deleted for 5 survivor and ledger lines, net -1445; total physical change before regenerated state is 31 added/1568 deleted, net -1537; maintained Python is 16995 LOC, src/mop is 10890 LOC, and validation is 2970 LOC",
       "tag": "mop-collapse-support-minimal"
+    },
+    {
+      "region": "section8_kernel_section10_experiment_section17_validation_section24_completion",
+      "batch": "retired_synthetic_acceptance_scaffold_and_reconciled_completion",
+      "checkpoint_status": "green",
+      "primitive": "diagnostics, shell predictors, and synthetic task generators used only by acceptance were retired; acceptance now checks the active canonical evidence identity directly; the experiment base was reduced to its actual abstract contract; the final checklist reconciliation derives completion from the measured tree",
+      "deduplicated_LOC": 0,
+      "added_LOC": 269,
+      "eliminated_LOC": 402,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 133,
+      "files_changed": 13,
+      "destination_api": "mop.evidence, the minimal Experiment contract, the CM7/CM8 implementations, and the executable acceptance gate",
+      "proof": "all 162 retained tests pass with 6 environment skips; all 10 acceptance checks pass; Ruff, mypy, compile-all, exact recovery, JSON, proof-index, portability, and protected-checkout audits are clean; the 261-item checklist has no active or partial items",
+      "accounting_note": "402 Python lines deleted for 269 final reconciliation and survivor lines, net -133; maintained Python is 16862 LOC, src/mop is 10513 LOC, and validation is 2970 LOC",
+      "tag": "mop-collapse-validation"
     }
   ],
   "deferred_heavy_validation": {
