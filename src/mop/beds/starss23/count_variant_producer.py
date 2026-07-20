@@ -23,7 +23,6 @@ from mop.science.budget import (
     ARM_CANDIDATE,
     ARM_NEVER_UPDATE,
     ARM_RATE_MATCHED_RANDOM,
-    build_budget_points,
     noise_control_summary,
     run_matched_budget,
 )
@@ -182,17 +181,13 @@ def build_count_variant_artifact(
     ]
     measured_wall_ns = max(1, clock_ns() - started)
 
-    budget_points = build_budget_points(
+    report = run_matched_budget(
         COUNT_BUDGET_POLICY,
         seed_runs,
         score_group="arm_scores",
         score_field=spec.score_field,
         action_group="reestimations",
         flop_model=lambda kind: spec.flop_model(kind, seed_runs[0].total_frames, seed_runs[0].train_frames),
-    )
-    report = run_matched_budget(
-        budget_points,
-        wall_ns=max(1, max(point.candidate.max_lifecycle_flops() for point in budget_points)),
         operating_budget_id=seed_runs[0].operating_budget_id,
         source_kind="real",
         ceiling=FLOP_CEILING,

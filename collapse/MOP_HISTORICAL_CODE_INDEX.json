@@ -2179,6 +2179,21 @@
         "src/mop/substrate/cache_manifest.py",
         "tests/unit/test_cache_manifest.py"
       ]
+    },
+    {
+      "id": "collapsed_two_stage_matched_budget_facade_to_source_projection",
+      "source_tag": "mop-collapse-lowest-green-18",
+      "reason": "STARSS immediately consumed build_budget_points through run_matched_budget, while public Arm, SeedResult, BudgetPoint, ComputePoint, three exception subclasses, and ten helper exports had no maintained source consumer and existed only to test the intermediate facade; one source-facing projection now builds, certifies, analyzes, and reports the same matched-control record directly from seed runs",
+      "replacement_paths": [
+        "src/mop/science/budget.py",
+        "src/mop/beds/starss23/count_variant_producer.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-18:<path>",
+      "paths": [
+        "src/mop/science/budget.py",
+        "src/mop/beds/starss23/count_variant_producer.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ]
     }
   ]
 }
