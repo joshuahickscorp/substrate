@@ -273,8 +273,8 @@ def test_normalized_state_projects_exact_checklist_reductions_and_legacy_bytes()
         ),
         object_pairs_hook=_unique_object,
     )
-    for live_projection in ("meta", "current_measured", "reductions", "reduction_accounting_verified"):
-        compact_source[live_projection] = state[live_projection]
+    for key in ("meta", "current_measured", "reductions", "reduction_accounting_verified", "audit"):
+        compact_source[key] = state[key]
     assert state == compact_source
     checklist = decode_checklist(state["checklist"])
     reductions = decode_reductions(state["reductions"])
