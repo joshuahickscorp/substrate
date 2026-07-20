@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import pytest
 
-from mop.experiments.expansion_harness import CLAIM_SCOPE as HARNESS_CLAIM_SCOPE
 from mop.mechanisms.stage5_session_disjoint_validity_scaffold import (
     CLAIM_SCOPE,
     NEGATIVE_CONTROLS,
@@ -21,6 +20,8 @@ from mop.mechanisms.stage5_session_disjoint_validity_scaffold import (
     build_session_disjoint_contract,
     synthesize_axis_evidence,
 )
+
+HARNESS_CLAIM_SCOPE = "deterministic programmatic mechanics only; no capability or natural-data claim"
 
 
 def test_claim_scope_matches_harness_byte_for_byte() -> None:

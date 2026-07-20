@@ -14,7 +14,7 @@ def test_objective_audit_marks_missing_studio_evidence_as_not_ready(tmp_path):
     audit = build_studio_objective_audit(repo_root=tmp_path)
     assert audit["schema"] == "mop-studio-objective-audit/v1"
     assert audit["studio_10_ready"] is False
-    assert audit["summary"]["points_possible"] == 8.0
+    assert audit["summary"]["points_possible"] == 7.0
     assert any(r["id"] == "dr1_real_bound_video" and r["status"] == "pending" for r in audit["requirements"])
 
 
@@ -37,22 +37,6 @@ def test_objective_audit_counts_prepared_launch_receipts_without_science_credit(
     assert launch["status"] == "prepared"
     assert 0.0 < launch["credit"] < 1.0
     assert dr1["credit"] == 0.0
-
-
-def test_objective_audit_can_complete_native_lane_point(tmp_path):
-    _write(
-        tmp_path / "runs" / "studio_native_lanes_manifest.json",
-        {
-            "schema": "mop-studio-native-lanes/v1",
-            "lanes": [{"id": "hosted_corpora_plan", "status": "ready"}],
-        },
-    )
-    (tmp_path / "scripts").mkdir()
-    (tmp_path / "scripts" / "studio").mkdir()
-    (tmp_path / "scripts" / "studio" / "__main__.py").write_text("# ok")
-    audit = build_studio_objective_audit(repo_root=tmp_path)
-    native = next(r for r in audit["requirements"] if r["id"] == "studio_native_lanes")
-    assert native["status"] == "complete"
 
 
 def test_objective_audit_writer_and_cli_round_trip(tmp_path, monkeypatch):

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import subprocess
-import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,9 +16,9 @@ def step(name: str, ok: bool, detail: str = "") -> None:
 
 
 def _run(cmd: list[str]) -> tuple[bool, str]:
-    p = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
-    tail = (p.stdout + p.stderr).strip().splitlines()[-1:] or [""]
-    return p.returncode == 0, tail[0]
+    result = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+    tail = (result.stdout + result.stderr).strip().splitlines()[-1:] or [""]
+    return result.returncode == 0, tail[0]
 
 
 def main() -> int:
@@ -33,69 +32,32 @@ def main() -> int:
     step("mypy types", ok, tail)
 
     from mop import config, devices
+    from mop.diagnostics import linear_probe, noisy_tv_diagnostic
     from mop.experiments import REGISTRY, get_experiment
-    from mop.harness.queue import run_queue
+    from mop.harness import validate
+    from mop.studio.profiles import PROFILES
+    from mop.substrate.datasets import make_task_stream
+
+    step(
+        "experiment registry minimal",
+        set(REGISTRY) == {"mop_cm7_min_objective_probe", "mop_cm8_custom_jepa_pilot"},
+    )
+    cfg = config.compose(["experiment=mop_cm7_min_objective_probe", "device=cpu"])
+    step("CM7 config composes", cfg.experiment.id == "mop_cm7_min_objective_probe")
+    step("CM7 experiment resolves", get_experiment("mop_cm7_min_objective_probe").id == cfg.experiment.id)
 
     dev = devices.resolve("cpu")
-    tmp = Path(tempfile.mkdtemp())
-
-    try:
-        cfg = config.compose(
-            [
-                "experiment=e1_baseline",
-                "device=cpu",
-                "experiment.stream.dim=48",
-                "experiment.stream.samples_per_task=200",
-                "shell.buffer.index=brute",
-                "shell.consolidation.method=ewc",
-                "shell.consolidation.ewc_lambda=1000.0",
-            ]
-        )
-        out = get_experiment("e1_baseline").run(cfg, dev, tmp / "e1")
-        step("E1 gate (forget then retain)", bool(out["gate"]["passed"]), str(out["gate"]))
-    except Exception as e:
-        step("E1 gate (forget then retain)", False, repr(e))
-
-    try:
-        from mop.diagnostics import linear_probe, noisy_tv_diagnostic
-        from mop.substrate.datasets import make_task_stream
-
-        t = make_task_stream(n_tasks=1, dim=32, classes_per_task=4, samples_per_task=300, separation=3.0)[0]
-        lp = linear_probe(t.x, t.y)["decodable"]
-        nt = noisy_tv_diagnostic(dim=40, device=dev, steps=250)
-        ok = lp and nt["noise_error_stays_high"] and nt["epistemic_collapses_on_noise"]
-        step("diagnostics (linear-probe + noisy-TV)", bool(ok))
-    except Exception as e:
-        step("diagnostics (linear-probe + noisy-TV)", False, repr(e))
-
-    try:
-        cfg = config.compose(
-            [
-                "experiment=i4_backprop_alts",
-                "device=cpu",
-                "experiment.samples=240",
-                "experiment.epochs=120",
-                "experiment.seeds=[0,1]",
-            ]
-        )
-        out = get_experiment("i4_backprop_alts").run(cfg, dev, tmp / "i4")
-        step("I4 comparison table", len(out["table"]) == 7 and (tmp / "i4" / "i4_table.md").exists())
-    except Exception as e:
-        step("I4 comparison table", False, repr(e))
-
-    try:
-        plan = run_queue(dry_run=True, enabled_tiers={"C"})
-        step("campaign queue dry-run", len(plan["planned"]) >= 1, f"{len(plan['planned'])} legs planned")
-    except Exception as e:
-        step("campaign queue dry-run", False, repr(e))
-
-    try:
-        ran = run_queue(dry_run=False, enabled_tiers={"C"}, toy=True, max_runs_per_leg=1, max_legs=1)
-        step("one toy Tier C leg", len(ran.get("results", {})) >= 1, str(ran.get("results")))
-    except Exception as e:
-        step("one toy Tier C leg", False, repr(e))
-
-    step("experiment registry populated", len(REGISTRY) >= 11, f"{len(REGISTRY)} experiments")
+    task = make_task_stream(
+        n_tasks=1, dim=32, classes_per_task=4, samples_per_task=300, separation=3.0
+    )[0]
+    probe_ok = linear_probe(task.x, task.y)["decodable"]
+    noisy = noisy_tv_diagnostic(dim=40, device=dev, steps=250)
+    step(
+        "diagnostics",
+        bool(probe_ok and noisy["noise_error_stays_high"] and noisy["epistemic_collapses_on_noise"]),
+    )
+    step("configuration validation", validate.check_all() == [])
+    step("Studio profiles", {"m3pro-local-max", "studio-m1ultra"} <= set(PROFILES))
 
     passed = sum(1 for _, ok, _ in results if ok)
     print(f"\n==== ACCEPTANCE: {passed}/{len(results)} checks passed ====")

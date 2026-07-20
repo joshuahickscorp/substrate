@@ -46,10 +46,9 @@ def test_implemented_diagnostics_name_existing_modules():
             assert e.get("module") and (REPO_ROOT / e["module"]).exists(), f"{e['id']} module missing"
 
 
-def test_ex_series_present():
+def test_active_custom_substrate_rows_present():
     ids = {e["id"] for e in R.load_experiments()}
-    for ex in ("ex8_curiosity_bakeoff", "ex12_atlas", "ex16_codebook_sr", "ex17_latent_reasoning"):
-        assert ex in ids
+    assert ids == {"mop_cm7_min_objective_probe", "mop_cm8_custom_jepa_pilot"}
 
 
 def test_moonshots_are_not_runnable():
@@ -79,6 +78,6 @@ def test_validator_blocks_unbacked_implemented_row():
 def test_experiments_md_renders_from_registry():
     md = R.render_experiments_md()
     assert "GENERATED from registry/experiments.yaml" in md
-    assert "ex17_latent_reasoning" in md and "FAILURE_TAXONOMY" in md
+    assert "mop_cm7_min_objective_probe" in md and "FAILURE_TAXONOMY" in md
     for e in R.load_experiments():
         assert e["id"] in md

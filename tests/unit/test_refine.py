@@ -1,7 +1,6 @@
 
 import torch
 
-from mop.diagnostics.compute import param_count
 from mop.seeding import seed_everything
 from mop.shell.refine import IterativeRefiner
 
@@ -23,14 +22,6 @@ def test_refiner_deterministic():
     o1, _ = r1(z)
     o2, _ = r2(z)
     assert torch.allclose(o1, o2)
-
-
-def test_weight_tying_is_cheaper_than_untied_depth():
-    from mop.experiments.ex17_latent_reasoning import _UntiedDepth
-
-    tied = IterativeRefiner(32, 64, steps=4)
-    untied = _UntiedDepth(32, 64, steps=4)
-    assert param_count(tied) < param_count(untied)
 
 
 def test_adaptive_halting_never_exceeds_budget():

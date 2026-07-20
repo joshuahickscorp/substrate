@@ -2,10 +2,9 @@
 from __future__ import annotations
 
 from .base import Experiment
-from .e1_baseline_harness import E1
-from .i4_backprop_alternatives import I4
+from .custom_substrate import CM7, CM8
 
-REGISTRY: dict[str, type[Experiment]] = {E1.id: E1, I4.id: I4}
+REGISTRY: dict[str, type[Experiment]] = {CM7.id: CM7, CM8.id: CM8}
 
 
 def register(cls: type[Experiment]) -> type[Experiment]:
@@ -19,20 +18,8 @@ def get_experiment(eid: str) -> Experiment:
     return REGISTRY[eid]()
 
 
-from . import scaffolds  # noqa: E402
-
-for _cls in scaffolds.SCAFFOLDS:
-    REGISTRY[_cls.id] = _cls
-
-from .custom_substrate import CM7, CM8  # noqa: E402
-
-REGISTRY[CM7.id] = CM7
-REGISTRY[CM8.id] = CM8
-
 __all__ = [
     "Experiment",
-    "E1",
-    "I4",
     "CM7",
     "CM8",
     "REGISTRY",

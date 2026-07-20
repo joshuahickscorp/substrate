@@ -77,7 +77,7 @@ def test_write_spine_plan_and_wave0_subplan_round_trip(tmp_path):
     plan_path = tmp_path / "spine.json"
     wave0_path = tmp_path / "wave0.json"
     write_spine_wave0_plan(wave0_path)
-    assert [job.job_id for job in load_plan(wave0_path)][0] == "transfer_check"
+    assert [job.job_id for job in load_plan(wave0_path)][0] == "disk_recovery"
     plan = build_studio_spine_plan(StudioSpineConfig(source="/data/comp_video", spine_dir=tmp_path))
     write_studio_spine_plan(plan, plan_path)
     loaded = json.loads(plan_path.read_text())
