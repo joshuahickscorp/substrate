@@ -86,17 +86,6 @@ def write_plan_template(path: Path | str) -> dict[str, Any]:
         "schema": SCHEMA,
         "jobs": [
             {
-                "id": "transfer_check",
-                "cmd": _studio_cmd(
-                    "transfer-check",
-                    "--profile",
-                    "studio-m1ultra",
-                    "--out",
-                    "runs/studio_wave0/transfer_check.json",
-                ),
-                "kind": "gate",
-            },
-            {
                 "id": "disk_recovery",
                 "cmd": _studio_cmd(
                     "disk-recovery",

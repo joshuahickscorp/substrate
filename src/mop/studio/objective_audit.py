@@ -26,9 +26,6 @@ DEFAULT_PATHS = {
     "pr9_index": "proof/ARTIFACT_INDEX/pr9.json",
     "atlas_index": "proof/ARTIFACT_INDEX/atlas.json",
     "spine_index": "proof/ARTIFACT_INDEX/spine.json",
-    "form_scorecard": "proof/FORM_SUBSTRATE/SCORECARD.json",
-    "form_boundary": "proof/FORM_SUBSTRATE/PRE_STUDIO_BOUNDARY.json",
-    "form_index": "proof/ARTIFACT_INDEX/form_substrate.json",
 }
 
 
@@ -49,7 +46,6 @@ def build_studio_objective_audit(
         _adversarial_and_nulls(root),
         _durability(root, receipts),
         _native_lanes(root, receipts),
-        _form_substrate_boundary(receipts),
     ]
     summary = {
         "points_possible": sum(float(r["point_value"]) for r in requirements),
@@ -252,40 +248,6 @@ def _native_lanes(root: Path, receipts: dict[str, dict[str, Any] | None]) -> dic
         checks,
         complete_detail="native lane manifest records ready/blocked states",
         prepared_detail="native lane CLI exists, but a current manifest receipt is missing",
-    )
-
-
-def _form_substrate_boundary(receipts: dict[str, dict[str, Any] | None]) -> dict[str, Any]:
-    scorecard = receipts["form_scorecard"]
-    boundary = receipts["form_boundary"]
-    index = receipts["form_index"]
-    checks = [
-        _check(
-            "form_scorecard",
-            _schema(scorecard, "mop-form-campaign-scorecard/v1")
-            and bool((scorecard or {}).get("local_obligations_exhausted")),
-            "F1-F20 local campaign obligations exhausted",
-        ),
-        _check(
-            "form_boundary",
-            _schema(boundary, "mop-form-pre-studio-boundary/v1")
-            and bool((boundary or {}).get("studio_is_only_remaining_hardware_boundary")),
-            "measured F-series Studio-only hardware boundary",
-        ),
-        _check(
-            "form_artifact_index",
-            _schema(index, "mop-artifact-bundle/v1") and _all_ok(index),
-            "durable F-series artifact index",
-        ),
-    ]
-    return _requirement(
-        "form_substrate_pre_studio_boundary",
-        "F1-F20 durable evidence and measured pre-Studio boundary",
-        checks,
-        complete_detail="F-series local work is exhausted and the remaining hardware wall is Studio",
-        prepared_detail=(
-            "F-series proof exists, but local work, durability, or the Studio boundary remains open"
-        ),
     )
 
 

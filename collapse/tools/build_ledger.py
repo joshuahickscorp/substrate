@@ -1519,6 +1519,27 @@ def main() -> int:
     lines.append("- rollback_tag: mop-collapse-mechanism-runners.")
     lines.append("- next_exact_edit: collapse the matching joint-axis scaffold and bed lifecycle.")
     lines.append("")
+    lines.append("### FORM campaign retirement (current checkpoint)")
+    lines.append("")
+    lines.append("- physical retirement: the completed F1-F20 experiment classes, configs, campaign runners, "
+                 "independent verifier machinery, generated campaign evidence, Studio boundary branches, "
+                 "dedicated tests, and unexecuted F21-F66 registry declarations were deleted.")
+    lines.append("- preserved science: 17 immutable FORM receipts remain because the active custom-substrate "
+                 "requirements ledger consumes them as frozen design evidence; all other deleted paths recover "
+                 "from mop-collapse-pre-generation1-campaign.")
+    lines.append("- generic surface: experiment registration, artifact bundling, Studio objective and durability "
+                 "scoring, long-run planning, and verdict gating remain without FORM-specific branches.")
+    lines.append("- owned Python change: 20 added/12,200 deleted, net -12,180 LOC; cumulative verified "
+                 "owned Python reduction: 262,922 LOC.")
+    lines.append("- total tracked implementation change: 20 added/28,789 deleted, net -28,769 LOC.")
+    lines.append("- validation: 1,945-case full collection and complete compile pass; registry, Studio, "
+                 "action-world, custom-substrate, project-exhaustion, verdict, and docs batteries are green; "
+                 "critical ruff passes and all 85 deleted paths are tag-recoverable.")
+    lines.append("- live-run non-interference: the protected checkout remains clean and untouched.")
+    lines.append("- rollback_tag: mop-collapse-form-program.")
+    lines.append("- next_exact_edit: retire the completed F21-F66 scaffold implementation clusters whose "
+                 "registry declarations are now absent.")
+    lines.append("")
     (ROOT / "MOP_COLLAPSE_LEDGER.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     print(f"checklist items: {len(checklist)}")

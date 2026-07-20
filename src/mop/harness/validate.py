@@ -36,18 +36,6 @@ def validate_experiment(cfg: DictConfig) -> None:
         raise ConfigError("experiment.id missing")
     if not str(e.get("null_hypothesis", "")).strip():
         raise ConfigError(f"experiment {e.get('id')} declares no null_hypothesis (doctrine contract)")
-    eid = str(e.get("id"))
-    if eid.startswith("f"):
-        from ..devel.registries import load_experiments
-        from ..experiments import REGISTRY
-        from ..falsification.experiment_contracts import compare_contract_sources
-
-        row = next((row for row in load_experiments() if row.get("id") == eid), None)
-        cls = REGISTRY.get(eid)
-        if row is not None and row.get("series") == "F" and cls is not None:
-            audit = compare_contract_sources(row, cls, e)
-            if audit["problems"]:
-                raise ConfigError(str(audit["problems"][0]))
 
 
 def validate_encoder(cfg: DictConfig) -> None:
@@ -88,7 +76,6 @@ def validate_leg(leg: dict, known_experiments: set[str] | None = None) -> list[s
 
 def check_all() -> list[dict]:
     from ..experiments import REGISTRY
-    from ..falsification.experiment_contracts import build_contract_audit
     from .queue import load_queue
 
     problems: list[dict] = []
@@ -110,8 +97,6 @@ def check_all() -> list[dict]:
             continue
         if not _declared_null_contract(cfg):
             problems.append({"where": f"experiment/{f.stem}", "problem": "no null_hypothesis"})
-    for problem in build_contract_audit(series="F", implemented_only=False).get("problems", []):
-        problems.append({"where": "experiment-contract/F", "problem": str(problem)})
     known = set(REGISTRY)
     for leg in load_queue():
         d = load_leg(Path(leg.sweep)) if Path(leg.sweep).is_absolute() else load_leg(REPO_ROOT / leg.sweep)
