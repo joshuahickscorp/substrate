@@ -5,7 +5,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Protocol, runtime_checkable
 
-from ..substrate.events import canonical_sha256
+from ..evidence import canonical_sha256
 from .stage_ladder import FIRST_ACTIVATION_STAGE, ConfirmationReceipt, MatchedBudget
 
 RECEIPT_SCHEMA = "mop-ladder-run-receipt/v1"

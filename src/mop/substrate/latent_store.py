@@ -8,6 +8,8 @@ from typing import Literal
 import numpy as np
 import torch
 
+from ..evidence import atomic_write_json
+
 
 @dataclass
 class StoreMeta:
@@ -55,7 +57,7 @@ class LatentStore:
         if has_labels:
             np.lib.format.open_memmap(d / "labels.npy", mode="w+", dtype="int64", shape=(capacity,))
         meta = StoreMeta(name, list(feat_shape), dtype, key_dim, 0, has_labels)
-        (d / "meta.json").write_text(json.dumps(asdict(meta), indent=2))
+        atomic_write_json(d / "meta.json", asdict(meta))
         return cls(d, meta, mode="r+")
 
     @classmethod
@@ -97,7 +99,7 @@ class LatentStore:
             self._keys.flush()
         if self._labels is not None:
             self._labels.flush()
-        (self.root / "meta.json").write_text(json.dumps(asdict(self.meta), indent=2))
+        atomic_write_json(self.root / "meta.json", asdict(self.meta))
 
     def __len__(self) -> int:
         return self.meta.count

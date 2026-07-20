@@ -20,7 +20,8 @@ from typing import Any
 import torch
 
 from mop.config import REPO_ROOT
-from mop.substrate.custom_workbench import audit_requirements, sha256_file
+from mop.evidence import atomic_write_json, json_bytes, sha256_file
+from mop.substrate.custom_workbench import audit_requirements
 
 RAW_SCHEMA = "mop-custom-substrate-workbench/v1"
 ATTEST_SCHEMA = "mop-custom-substrate-current-evidence-attestation/v1"
@@ -29,17 +30,6 @@ VERIFIER_SCHEMA = "mop-custom-substrate-cm7-independent-verifier/v1"
 CHAIN_SCHEMA = "mop-custom-substrate-receipt-chain/v1"
 CANDIDATES = ("predictive", "invariance", "reconstruction")
 CONTROLS = ("random_target", "frozen_random")
-
-
-def _json_bytes(payload: Any) -> bytes:
-    return (json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
-
-
-def _atomic_json(path: Path, payload: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_bytes(_json_bytes(payload))
-    os.replace(tmp, path)
 
 
 def _sha_bytes(value: bytes) -> str:
@@ -131,7 +121,7 @@ def materialize_proof_chain(
 
     durable = dict(composite)
     durable["receipt_chain"] = durable_links
-    _atomic_json(proof, durable)
+    atomic_write_json(proof, durable)
     return durable
 
 
@@ -159,12 +149,12 @@ def freeze_raw(run_dir: Path, *, allow_finalized: bool = False) -> tuple[dict[st
             for key, value in current.items()
             if key not in {"receipt_chain_schema", "receipt_chain", "authoritative_promotion"}
         }
-        if _json_bytes(reconstructed) != raw_bytes:
+        if json_bytes(reconstructed) != raw_bytes:
             raise RuntimeError("finalized composite does not reconstruct its bound raw receipt")
         if raw.get("schema") != RAW_SCHEMA or not raw.get("complete"):
             raise RuntimeError("bound raw receipt is not a complete workbench result")
         return raw, expected
-    raw_bytes = _json_bytes(current)
+    raw_bytes = json_bytes(current)
     raw_hash = _sha_bytes(raw_bytes)
     expected = str(embedded.get("original_receipt_sha256", ""))
     if raw_hash != expected:
@@ -187,7 +177,7 @@ def build_attestation(run_dir: Path, raw_hash: str) -> dict[str, Any]:
     start = json.loads(start_path.read_text())
     current = audit_requirements(config["requirements_ledger"])
     current_path = run_dir / "requirements_current_audit.json"
-    _atomic_json(current_path, current)
+    atomic_write_json(current_path, current)
     problems: list[str] = []
     snapshot_checks: list[dict[str, Any]] = []
     start_sources: dict[str, dict[str, Any]] = {}
@@ -536,11 +526,11 @@ def finalize(
     raw, raw_hash = freeze_raw(run_dir, allow_finalized=allow_finalized)
     attestation = build_attestation(run_dir, raw_hash)
     attestation_path = run_dir / "current_evidence_attestation.json"
-    _atomic_json(attestation_path, attestation)
+    atomic_write_json(attestation_path, attestation)
     attestation_hash = sha256_file(attestation_path)
     environment = build_environment(run_dir, raw_hash)
     environment_path = run_dir / "environment_receipt.json"
-    _atomic_json(environment_path, environment)
+    atomic_write_json(environment_path, environment)
     environment_hash = sha256_file(environment_path)
     verifier = build_verifier(
         raw,
@@ -551,7 +541,7 @@ def finalize(
         environment_ok=environment["all_ok"],
     )
     verifier_path = run_dir / "independent_verifier.json"
-    _atomic_json(verifier_path, verifier)
+    atomic_write_json(verifier_path, verifier)
     verifier_hash = sha256_file(verifier_path)
     links = {
         "raw_training_receipt": {"path": "raw_workbench_receipt.json", "sha256": raw_hash},
@@ -588,7 +578,7 @@ def finalize(
             "authoritative_promotion": authoritative,
         }
     )
-    _atomic_json(run_dir / "workbench_receipt.json", composite)
+    atomic_write_json(run_dir / "workbench_receipt.json", composite)
     proof = proof_path if proof_path.is_absolute() else REPO_ROOT / proof_path
     materialize_proof_chain(run_dir, proof, replace_existing=replace_durable_chain)
     return composite

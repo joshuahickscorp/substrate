@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from mop.substrate.events import canonical_sha256
+from mop.evidence import canonical_sha256
 
 from .adapter import FrozenFeatureProvider
 from .schema import N_CHANNELS, SAMPLES_PER_FRAME

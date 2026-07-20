@@ -5,8 +5,8 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from typing import Any
 
+from mop.evidence import canonical_sha256
 from mop.ladder.stage_ladder import MatchedBudget
-from mop.substrate.events import canonical_sha256
 
 ARM_CANDIDATE = "candidate"
 ARM_RATE_MATCHED_RANDOM = "rate_matched_random"

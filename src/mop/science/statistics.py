@@ -5,7 +5,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
 
-from mop.substrate.events import canonical_sha256
+from mop.evidence import canonical_sha256
 
 STATS_SCHEMA = "mop-starss23-escs-stats/v1"
 PROVISIONAL_SESOI_F1 = 0.05

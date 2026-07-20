@@ -154,7 +154,12 @@ def build_checklist() -> list[dict]:
         "mop-collapse-35k",
         "mop-collapse-event-horizon",
     ]:
-        done = tag in {"mop-collapse-50k", "mop-collapse-35k", "mop-collapse-registry-config"}
+        done = tag in {
+            "mop-collapse-50k",
+            "mop-collapse-35k",
+            "mop-collapse-registry-config",
+            "mop-collapse-event-horizon",
+        }
         A(
             item(
                 f"TAG-{tag}",
@@ -714,17 +719,17 @@ def main() -> int:
         if it["id"] == "TGT-GLOBAL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "tracked maintained Python is 27140 LOC, below the 35000 challenge"
+            it["validation"] = "tracked maintained Python is 22528 LOC, below the 35000 challenge"
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-KERNEL":
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "the complete src/mop tree is 17423 LOC, below the 18000 stretch target"
+            it["validation"] = "the complete src/mop tree is 14128 LOC, below the 18000 stretch target"
             it["next_action"] = "prevent regrowth"
         if it["id"] == "TGT-TESTS":
             it["status"] = "complete"
             it["evidence_paths"] = ["tests/"]
-            it["validation"] = "retained test harness is 6116 LOC"
+            it["validation"] = "retained test harness is 4850 LOC"
             it["next_action"] = "prevent regrowth"
         if it["id"] in {"TGT-REGISTRY", "SEC-15", "CC-9"}:
             it["status"] = "complete"
@@ -739,13 +744,36 @@ def main() -> int:
         if it["id"] in {"TGT-ENTRYPOINTS", "TGT-CLI"}:
             it["status"] = "complete"
             it["evidence_paths"] = ["pyproject.toml", "scripts/"]
-            it["validation"] = "one installed CLI plus nine bounded developer entrypoints remain"
+            it["validation"] = "one installed CLI plus eight bounded developer entrypoints remain"
             it["next_action"] = "prevent wrapper regrowth"
+        if it["id"] in {"TGT-EVIDENCE", "SEC-9", "CC-6"}:
+            it["status"] = "complete"
+            it["evidence_paths"] = ["src/mop/evidence.py", "src/mop/beds/starss23/count_verifier.py"]
+            it["validation"] = (
+                "mop.evidence is the sole production serializer and hasher; "
+                "the STARSS verifier keeps its required independent implementation"
+            )
+            it["next_action"] = "prevent local evidence writers"
+        if it["id"] in {"TGT-CONTROLLER", "CC-8"}:
+            it["status"] = "complete"
+            it["evidence_paths"] = ["src/mop/harness/runner.py"]
+            it["validation"] = "mop.harness.runner is the sole installed experiment controller"
+            it["next_action"] = "prevent parallel controllers"
         if it["id"] == "TGT-EXPERIMENT":
             it["status"] = "complete"
             it["evidence_paths"] = ["src/mop/science/", "src/mop/experiments/base.py"]
             it["validation"] = "one experiment execution framework remains"
             it["next_action"] = "none"
+        if it["id"] == "CC-7":
+            it["status"] = "complete"
+            it["evidence_paths"] = ["src/mop/harness/runner.py", "src/mop/experiments/"]
+            it["validation"] = "one installed experiment lifecycle serves the two active declarations"
+            it["next_action"] = "none"
+        if it["id"] in {"SEC-17", "CC-15"}:
+            it["status"] = "complete"
+            it["evidence_paths"] = ["tests/", "scripts/acceptance.py"]
+            it["validation"] = "329 retained tests and all ten acceptance checks pass in 4850 test LOC"
+            it["next_action"] = "prevent duplicated fixture-specific suites"
         if it["id"] == "TGT-DOCS":
             it["status"] = "complete"
             it["evidence_paths"] = [
@@ -820,7 +848,7 @@ def main() -> int:
         if it["id"] in {"CC-28", "CC-29"}:
             it["status"] = "complete"
             it["evidence_paths"] = ["collapse/MOP_REDUCTION_LOG.json"]
-            it["validation"] = "the registry/config checkpoint is tagged and every deletion has tag recovery"
+            it["validation"] = "the event-horizon checkpoint is tagged and every deletion has tag recovery"
             it["next_action"] = "none"
 
     checklist.append(

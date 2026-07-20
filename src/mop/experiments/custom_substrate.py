@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Any, cast
 
 from omegaconf import DictConfig, OmegaConf
 
 from ..devices import DeviceInfo
+from ..evidence import atomic_write_json
 from ..substrate.custom_workbench import cm8_preflight, run_workbench
 from .base import Experiment
 
@@ -72,9 +72,7 @@ class CM8(Experiment):
         del device
         receipt = cm8_preflight(_plain(cfg.experiment))
         run_dir.mkdir(parents=True, exist_ok=True)
-        (run_dir / "cm8_preflight.json").write_text(
-            json.dumps(receipt, indent=2, sort_keys=True, allow_nan=False) + "\n"
-        )
+        atomic_write_json(run_dir / "cm8_preflight.json", receipt)
         return {
             "held_out_factoring_off_ceiling": 0.0,
             "runnable_local_preflight": receipt["runnable_local_preflight"],

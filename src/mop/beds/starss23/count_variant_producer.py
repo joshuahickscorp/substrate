@@ -8,6 +8,7 @@ from typing import Any
 
 import numpy as np
 
+from mop.evidence import write_canonical_json
 from mop.ladder.ladder_contracts import VERDICT_MECHANICS_OK, VERDICT_NULL
 from mop.science import (
     ArtifactResult,
@@ -26,7 +27,6 @@ from mop.science.budget import (
     run_matched_budget,
 )
 from mop.science.statistics import count_sign_flip_payload, exact_sign_flip, sesoi_check
-from mop.substrate.events import write_canonical_json
 
 from . import FLOP_CEILING, STAGE3_FORCING_NULL
 from .adapter import map_clip_audio

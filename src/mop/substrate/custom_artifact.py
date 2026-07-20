@@ -15,7 +15,7 @@ from typing import Any, NamedTuple, cast
 import torch
 from torch import nn
 
-from mop.substrate.events import sha256_file
+from mop.evidence import atomic_write_json, canonical_bytes, canonical_sha256, sha256_file
 
 ARTIFACT_SCHEMA = "mop-portable-custom-substrate/v1"
 PREFLIGHT_SCHEMA = "mop-portable-custom-substrate-preflight/v1"
@@ -78,18 +78,8 @@ class ArtifactRefused(RuntimeError):
     pass
 
 
-def _canonical_json(value: Any) -> bytes:
-    return json.dumps(
-        value,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=True,
-        allow_nan=False,
-    ).encode("utf-8")
-
-
-def json_sha256(value: Any) -> str:
-    return hashlib.sha256(_canonical_json(value)).hexdigest()
+json_sha256 = canonical_sha256
+_atomic_json = atomic_write_json
 
 
 def state_sha256(state: Mapping[str, torch.Tensor]) -> str:
@@ -99,7 +89,7 @@ def state_sha256(state: Mapping[str, torch.Tensor]) -> str:
         tensor = state[name].detach().cpu().contiguous()
         digest.update(name.encode("utf-8"))
         digest.update(str(tensor.dtype).encode("ascii"))
-        digest.update(_canonical_json(list(tensor.shape)))
+        digest.update(canonical_bytes(list(tensor.shape)))
         array = tensor.numpy()
         digest.update(array.astype(array.dtype.newbyteorder("<"), copy=False).tobytes(order="C"))
     return digest.hexdigest()
@@ -126,13 +116,6 @@ def _read_json(path: Path, label: str) -> dict[str, Any]:
         raise ArtifactRefused(f"{label} is not valid JSON: {exc}") from exc
     _require(isinstance(value, dict), f"{label} must be a JSON object")
     return value
-
-
-def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(payload, indent=2, sort_keys=True, allow_nan=False) + "\n")
-    os.replace(temporary, path)
 
 
 @dataclass(frozen=True)
@@ -327,7 +310,7 @@ def write_tensor_pack(state: Mapping[str, torch.Tensor], path: Path) -> dict[str
         "payload_bytes": offset,
         "tensors": tensors,
     }
-    header_bytes = _canonical_json(header)
+    header_bytes = canonical_bytes(header)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
     try:

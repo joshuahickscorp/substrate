@@ -4,7 +4,7 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from typing import Any
 
-from mop.substrate.events import canonical_sha256
+from mop.evidence import canonical_sha256
 
 COUNT_REFEREE_SCHEMA = "mop-starss23-count-referee/v1"
 COLD_START = 0

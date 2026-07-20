@@ -7,7 +7,7 @@ from typing import Any
 
 import numpy as np
 
-from mop.substrate.events import canonical_sha256
+from mop.evidence import canonical_sha256
 
 from .adapter import MetadataRow, RealStarssAdapter, parse_starss23_metadata
 

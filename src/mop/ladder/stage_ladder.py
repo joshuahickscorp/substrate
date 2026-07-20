@@ -5,7 +5,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field, replace
 from typing import Any
 
-from ..substrate.events import canonical_sha256
+from ..evidence import canonical_sha256
 
 STAGE_LADDER_SCHEMA = "mop-stage-ladder/v1"
 

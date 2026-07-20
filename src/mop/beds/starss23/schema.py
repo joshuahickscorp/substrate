@@ -5,7 +5,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
-from mop.substrate.events import canonical_sha256
+from mop.evidence import canonical_sha256
 
 SCHEMA = "mop-starss23-clip-contract/v1"
 

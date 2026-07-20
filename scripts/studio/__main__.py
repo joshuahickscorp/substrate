@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from mop.config import REPO_ROOT
+from mop.evidence import atomic_write_json
 from mop.studio.profiles import list_profiles
 from mop.studio_doctor import doctor, render_md
 
@@ -18,8 +19,7 @@ def _doctor(args: argparse.Namespace) -> int:
     if args.out:
         out = Path(args.out)
         out = out if out.is_absolute() else REPO_ROOT / out
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(report, indent=2, default=str) + "\n")
+        atomic_write_json(out, report)
     print(json.dumps(report, indent=2, default=str))
     return 0 if report["all_ok"] else 1
 
