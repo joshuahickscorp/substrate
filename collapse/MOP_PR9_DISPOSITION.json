@@ -3,7 +3,7 @@
   "pr": 9,
   "head": "de43a9a3f2af628735d5446bcdf1876d36a5feaa",
   "base": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
-  "decision": "supersede after replacement checks pass",
+  "decision": "superseded and closed after replacement checks passed",
   "summary": "PR 9 adds 3786 lines and a second 1934-line controller. Its protections are retained as smaller authorities and executable invariants; its stale pack topology and duplicate CLI are retired.",
   "validation": {
     "isolated_checkout": "/tmp/mop-pr9-audit.oAhe3j",
@@ -159,5 +159,13 @@
     "replacement full suite and acceptance pass",
     "replacement branch is pushed and PR 31 remains draft",
     "a supersession comment links this mapping before PR 9 is closed"
-  ]
+  ],
+  "closure": {
+    "state": "CLOSED",
+    "closed_at": "2026-07-20T05:38:21Z",
+    "url": "https://github.com/joshuahickscorp/mop/pull/9",
+    "supersession_comment": "https://github.com/joshuahickscorp/mop/pull/9#issuecomment-5019119985",
+    "replacement_pr": 31,
+    "replacement_pr_state": "OPEN DRAFT"
+  }
 }
