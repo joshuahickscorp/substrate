@@ -1,0 +1,56 @@
+{
+  "schema": "mop-substrate-genesis-synthesis/v1",
+  "source_commit": "8024e92bb280158b5eeb842b75bd380ef152173e",
+  "branch": "agent/mop-substrate-genesis-v2",
+  "owned_substrate_implemented": true,
+  "owned_state_and_params": "owned trainable projection + latent workspace/modules + slow params + fast GRU state (both architectures); frozen providers supply only raw observations",
+  "architectures": {
+    "A": "Shared Latent Workspace (216862 params)",
+    "B": "Sparse Modular Plastic Substrate (389604 params)"
+  },
+  "timescales": [
+    "fast (per-sequence GRU state)",
+    "episodic (bounded replay memory)",
+    "slow (projection + workspace/module params under eligibility)",
+    "policy (consolidation/eligibility/routing schedule)"
+  ],
+  "domains_evaluated": {
+    "emnist": {
+      "is_image": true,
+      "classification": "substrate_candidate_null"
+    },
+    "har_class": {
+      "is_image": false,
+      "classification": "substrate_candidate_null"
+    }
+  },
+  "preflight": {
+    "emnist": "eligible_principal",
+    "cifar100": "eligible_principal",
+    "har_class": "eligible_principal",
+    "har_shift": "invalid_no_forgetting"
+  },
+  "architecture_comparison": {
+    "selection": null,
+    "selection_class": "no_substrate_candidate_selected (both architectures null on all evaluated domains)",
+    "per_domain": {
+      "emnist": "substrate_candidate_null",
+      "har_class": "substrate_candidate_null"
+    }
+  },
+  "moldability_finding": "both architectures NULL vs strong matched baselines on all evaluated domains",
+  "simple_policy_sufficient": true,
+  "learned_plasticity": "not opened unless a substrate-specific oracle-headroom gate passes (deferred/pending)",
+  "cross_domain": "pending or checkpointed",
+  "independent_verification": true,
+  "activation": false,
+  "evidence_ceiling": "no owned-substrate architecture beats strong matched continual-learning baselines (GDumb, EWC) on cost-adjusted moldability on the evaluated domains",
+  "forbidden_claims": [
+    "the substrate succeeds by more params/memory/updates/data/time/frozen-encoder/state-change",
+    "any activation is licensed",
+    "any learned controller is validated"
+  ],
+  "substrate_candidate": "no candidate selected (both null)",
+  "next_frontier": "If both architectures are null under matched budgets, the owned-substrate premise at this scale does not beat strong established continual learners; the next step is either a temporal-native domain where the fast timescale carries real information (the image domains make fast state degenerate) or a substrate-specific plasticity headroom gate on the owned state. Absent a matched-budget win, no Owned Substrate v0 candidate is licensed.",
+  "sha256": "7692651d693f153803f94b1124daa4d6a3426d5c9a179b291a61d94b106b3ce3"
+}

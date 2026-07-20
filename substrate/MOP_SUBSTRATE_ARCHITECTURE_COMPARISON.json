@@ -1,0 +1,30 @@
+{
+  "schema": "mop-substrate-architecture-comparison/v1",
+  "source_commit": "8024e92bb280158b5eeb842b75bd380ef152173e",
+  "per_domain_classification": {
+    "emnist": "substrate_candidate_null",
+    "har_class": "substrate_candidate_null"
+  },
+  "domain_details": {
+    "emnist": {
+      "best_baseline": "gru_gdumb",
+      "A_util": 0.1252,
+      "B_util": 0.0558,
+      "best_baseline_util": 0.1436,
+      "A_effect_lcb": -0.0295,
+      "B_effect_lcb": -0.1094
+    },
+    "har_class": {
+      "best_baseline": "gru_gdumb",
+      "A_util": 0.586,
+      "B_util": 0.396,
+      "best_baseline_util": 0.474,
+      "A_effect_lcb": -0.0283,
+      "B_effect_lcb": -0.1553
+    }
+  },
+  "selection": null,
+  "selection_class": "no_substrate_candidate_selected (both architectures null on all evaluated domains)",
+  "independent_verification_consistent": true,
+  "sha256": "ac5b05762b8c3f24e790211f1466a66af7a788ba0c717844363e08a5d9716d02"
+}

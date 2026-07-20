@@ -1,0 +1,16 @@
+{
+  "schema": "mop-substrate-unit-audit/v1",
+  "units": {
+    "emnist": "class-incremental tasks; group-disjoint test",
+    "har_class": "class-incremental over activities; subject-disjoint train/test (standard HAR split)"
+  },
+  "leakage_checks": [
+    "group-disjoint train/test",
+    "no future-label leakage (untouched test)",
+    "normalization fit on train only (HAR)",
+    "task order randomized per seed"
+  ],
+  "seeds": 5,
+  "seed_lesson": "C1 two-seed artifact avoided; all decisions on 5-seed lower-95pct-CB",
+  "sha256": "e5e750c605e2b67685631a5300629131cbe7a00c0e6d1d370e6c4dcbe043a3b0"
+}

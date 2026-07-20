@@ -1,0 +1,14 @@
+{
+  "schema": "mop-substrate-memory-report/v1",
+  "policies": [
+    "none",
+    "reservoir",
+    "gdumb",
+    "recent"
+  ],
+  "active": "gdumb (established, class-balanced)",
+  "learned_retrieval": "not included (R1 closed; nearest-similarity control only)",
+  "bounded": true,
+  "cap": 1000,
+  "sha256": "41bd952715a9143feca6002681338ca0ef52b0f290d019ebf81b93cbd0ed4369"
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "mop-owned-substrate-v0-spec/v1",
+  "status": "implemented and tested; NO candidate selected (both architectures null vs strong matched baselines)",
+  "owned": [
+    "trainable observation projection",
+    "latent workspace/modules",
+    "slow representation",
+    "fast GRU state",
+    "heads"
+  ],
+  "timescales": [
+    "immediate fast state",
+    "episodic memory",
+    "slow params",
+    "policy schedule"
+  ],
+  "controllers": {
+    "memory": "GDumb (established)",
+    "consolidation": "EWC at boundaries (simple)",
+    "routing": "context-gain (A) / sparse top-2 (B)",
+    "plasticity": "simple all-update; no learned controller (no headroom)"
+  },
+  "evidence_ceiling": "no owned-substrate architecture beats GRU+GDumb on cost-adjusted moldability at matched budget on the evaluated domains",
+  "activation": false,
+  "sha256": "0fbba19a582fd704a7f4f523281e9c65742e1789def9c81f49ba31550d5590d2"
+}

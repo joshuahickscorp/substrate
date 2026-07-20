@@ -1,0 +1,7 @@
+{
+  "schema": "mop-substrate-routing-report/v1",
+  "arch_A": "simple context-gain routing",
+  "arch_B": "top-2 sparse module router over 6 modules",
+  "learned_routing_vs_simple": "B (modular routing) is dominated by A (simple) on utility; routing_only_effect not positive; routing did not reorganize usefully -> simple_routing_sufficient / structural_null",
+  "sha256": "a14d099c93e587866ccd5174bc2db06316eda7e6c60339c5ef15b3efc473d360"
+}

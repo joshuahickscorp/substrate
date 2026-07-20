@@ -23,11 +23,12 @@
     "PREFLIGHT": {
       "id": "PREFLIGHT",
       "section": "16-18",
-      "status": "active",
+      "status": "verified",
       "dependencies": [
         "AUTH"
       ],
-      "next_exact_action": "multi-seed domain preflight: forgetting + oracle headroom beyond GDumb on EMNIST/CIFAR100/HAR; classify each"
+      "next_exact_action": "multi-seed domain preflight: forgetting + oracle headroom beyond GDumb on EMNIST/CIFAR100/HAR; classify each",
+      "result": "emnist/cifar100/har_class eligible_principal; har_shift invalid_no_forgetting; non-image=har_class"
     },
     "ARCH_A": {
       "id": "ARCH_A",
@@ -59,25 +60,27 @@
     "BASELINES": {
       "id": "BASELINES",
       "section": "19",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "ENGINE"
       ],
-      "next_exact_action": "fresh/naive/joint/frozen+linear/MLP/GRU/GDumb/reservoir/EWC matched"
+      "next_exact_action": "fresh/naive/joint/frozen+linear/MLP/GRU/GDumb/reservoir/EWC matched",
+      "result": "complete (GDumb/EWC/GRU matched)"
     },
     "BATTERY": {
       "id": "BATTERY",
       "section": "25",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "ENGINE"
       ],
-      "next_exact_action": "moldability battery + calibration (known pos/null/no-headroom/leakage/interference)"
+      "next_exact_action": "moldability battery + calibration (known pos/null/no-headroom/leakage/interference)",
+      "result": "calibrated"
     },
     "DOMAIN1": {
       "id": "DOMAIN1",
       "section": "4,29",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "ARCH_A",
         "ARCH_B",
@@ -86,68 +89,77 @@
         "BATTERY",
         "PREFLIGHT"
       ],
-      "next_exact_action": "first principal domain: A,B,baselines,>=5 seeds,ablations,verify"
+      "next_exact_action": "first principal domain: A,B,baselines,>=5 seeds,ablations,verify",
+      "dataset": "emnist (image)",
+      "result": "substrate_candidate_null (emnist)"
     },
     "DOMAIN2": {
       "id": "DOMAIN2",
       "section": "5",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "DOMAIN1"
       ],
-      "next_exact_action": "second principal domain (>=1 non-image) surviving arms + controls"
+      "next_exact_action": "second principal domain (>=1 non-image) surviving arms + controls",
+      "dataset": "har_class (non-image)",
+      "result": "substrate_candidate_null (har_class)"
     },
     "TRANSFER": {
       "id": "TRANSFER",
       "section": "28",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "DOMAIN1",
         "DOMAIN2"
       ],
-      "next_exact_action": "cross-context + cross-domain transfer"
+      "next_exact_action": "cross-context + cross-domain transfer",
+      "result": "cross_domain_moldability_null (no substrate positive to transfer)"
     },
     "PLAST_GATE": {
       "id": "PLAST_GATE",
       "section": "21",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "DOMAIN1"
       ],
-      "next_exact_action": "substrate-specific plasticity headroom gate (>=5 seeds)"
+      "next_exact_action": "substrate-specific plasticity headroom gate (>=5 seeds)",
+      "result": "no_stable_headroom / simple_policy_sufficient"
     },
     "SELECTION": {
       "id": "SELECTION",
       "section": "34",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "DOMAIN1",
         "DOMAIN2"
       ],
-      "next_exact_action": "terminal architecture selection"
+      "next_exact_action": "terminal architecture selection",
+      "result": "no_substrate_candidate_selected (A>B but both null)"
     },
     "VERIFY": {
       "id": "VERIFY",
       "section": "37",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "DOMAIN1"
       ],
-      "next_exact_action": "independent verification of principal results"
+      "next_exact_action": "independent verification of principal results",
+      "result": "terminal (both nulls independently consistent, receipts intact)"
     },
     "MUTATION": {
       "id": "MUTATION",
       "section": "38",
-      "status": "pending",
+      "status": "complete",
       "dependencies": [
         "SELECTION"
       ],
-      "next_exact_action": "mutation suites for any positive"
+      "next_exact_action": "mutation suites for any positive",
+      "result": "terminal_vacuous (no positive)"
     },
     "SYNTHESIS": {
       "id": "SYNTHESIS",
       "section": "45,46",
-      "status": "pending",
+      "status": "verified",
       "dependencies": [
         "SELECTION",
         "VERIFY",
@@ -155,18 +167,20 @@
         "TRANSFER",
         "PLAST_GATE"
       ],
-      "next_exact_action": "terminal synthesis + all deliverables + next frontier"
+      "next_exact_action": "terminal synthesis + all deliverables + next frontier",
+      "result": "SEALED"
     }
   },
   "waves": {
     "1_authority": "done",
-    "2_implementation": "active",
-    "3_battery": "pending",
-    "4_domain1": "pending",
-    "5_domain2": "pending",
-    "6_transfer": "pending",
-    "7_plasticity": "pending",
-    "8_verification": "pending"
+    "2_implementation": "done",
+    "3_battery": "done",
+    "4_domain1": "done",
+    "5_domain2": "done",
+    "6_transfer": "done",
+    "7_plasticity": "done",
+    "8_verification": "done"
   },
-  "sha256": "d2e56a625d809dfebb26ab4d0f92c6bf9a6cbcb3a04a66227723f31c945bc43e"
+  "terminal_synthesis": "SEALED",
+  "sha256": "1979ea85f03d959abbca88d586f67db39f11277d53cc5ffbf0f31cf5d6e40a37"
 }

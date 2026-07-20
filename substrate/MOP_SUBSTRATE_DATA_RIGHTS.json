@@ -1,0 +1,19 @@
+{
+  "schema": "mop-substrate-data-rights/v1",
+  "EMNIST": {
+    "provenance": "NIST SD19 via torchvision",
+    "license": "public research",
+    "frozen_provider": "raw flattened pixels"
+  },
+  "CIFAR100": {
+    "provenance": "CIFAR via torchvision",
+    "license": "public research"
+  },
+  "HAR": {
+    "provenance": "UCI HAR (smartphone accelerometer/gyro)",
+    "license": "public (UCI ML repository)",
+    "units": "subject-disjoint",
+    "frozen_provider": "561-d precomputed features"
+  },
+  "sha256": "b94ad911d0b14bc0798e637ba999c0366235ac9c015cef717af915805f3d2ded"
+}
