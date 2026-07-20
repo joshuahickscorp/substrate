@@ -2061,6 +2061,18 @@
         "scripts/custom_substrate_finalize.py",
         "scripts/custom_substrate_artifact.py"
       ]
+    },
+    {
+      "id": "collapsed_finalizer_copy_snapshot_hash_and_cli_dispatch_lifecycle",
+      "source_tag": "mop-collapse-lowest-green-11",
+      "reason": "the finalizer retained a one-caller exact-copy facade around the canonical atomic writer, duplicated snapshot-audit traversal, returned an unused process status, recomputed the same promotion conjunction, and exposed an unreferenced three-mode argparse dispatcher",
+      "replacement_paths": [
+        "scripts/custom_substrate_finalize.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-11:<path>",
+      "paths": [
+        "scripts/custom_substrate_finalize.py"
+      ]
     }
   ]
 }

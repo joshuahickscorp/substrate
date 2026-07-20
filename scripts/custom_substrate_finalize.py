@@ -1,9 +1,7 @@
-#!/usr/bin/env python
 """Freeze, attest, independently verify, and compose the completed CM7 receipt chain."""
 
 from __future__ import annotations
 
-import argparse
 import hashlib
 import importlib.metadata
 import json
@@ -33,27 +31,6 @@ CONTROLS = ("random_target", "frozen_random")
 
 def _sha_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
-
-
-def _atomic_copy_exact(
-    source: Path,
-    target: Path,
-    expected_sha256: str,
-    *,
-    replace_existing: bool = False,
-    previously_bound_sha256: str | None = None,
-) -> None:
-    raw = source.read_bytes()
-    actual = _sha_bytes(raw)
-    if actual != expected_sha256:
-        raise RuntimeError(f"receipt-chain source hash drift at {source}: {actual} != {expected_sha256}")
-    if target.exists():
-        existing = sha256_file(target)
-        if existing == expected_sha256:
-            return
-        if not replace_existing or existing != previously_bound_sha256:
-            raise RuntimeError(f"durable receipt-chain target already exists with a different hash: {target}")
-    atomic_write_bytes(target, raw)
 
 
 def materialize_proof_chain(
@@ -102,13 +79,20 @@ def materialize_proof_chain(
             if prior_path.resolve() != target.resolve():
                 raise RuntimeError(f"existing durable composite path drift for {role}")
             previously_bound_sha256 = str(prior_link.get("sha256") or "")
-        _atomic_copy_exact(
-            source,
-            target,
-            expected,
-            replace_existing=replace_existing,
-            previously_bound_sha256=previously_bound_sha256,
-        )
+        raw = source.read_bytes()
+        actual = _sha_bytes(raw)
+        if actual != expected:
+            raise RuntimeError(f"receipt-chain source hash drift at {source}: {actual} != {expected}")
+        if target.exists():
+            existing = sha256_file(target)
+            if existing != expected:
+                if not replace_existing or existing != previously_bound_sha256:
+                    raise RuntimeError(
+                        f"durable receipt-chain target already exists with a different hash: {target}"
+                    )
+                atomic_write_bytes(target, raw)
+        else:
+            atomic_write_bytes(target, raw)
         display_path = str(target.relative_to(REPO_ROOT) if target.is_relative_to(REPO_ROOT) else target)
         durable_links[str(role)] = {"path": display_path, "sha256": expected}
 
@@ -170,16 +154,13 @@ def build_attestation(run_dir: Path, raw_hash: str, *, repo_root: Path = REPO_RO
     current = audit_requirements(config["requirements_ledger"], repo_root=repo_root)
     current_path = run_dir / "requirements_current_audit.json"
     atomic_write_json(current_path, current)
-    problems: list[str] = []
     implementation_path = run_dir / "implementation_manifest.json"
     implementation = json.loads(implementation_path.read_text())
     start_rows = [source for requirement in start["requirements"] for source in requirement["sources"]]
-    snapshot_checks: list[dict[str, Any]] = []
-    implementation_checks: list[dict[str, Any]] = []
-    for rows, path_key, label, checks in (
-        (start_rows, "path", "requirements", snapshot_checks),
-        (implementation["files"], "source_path", "core implementation", implementation_checks),
-    ):
+    problems: list[str] = []
+
+    def snapshot_audit(rows: list[dict[str, Any]], path_key: str, label: str) -> list[dict[str, Any]]:
+        checks = []
         for row in rows:
             snapshot = repo_root / row["snapshot_path"]
             actual = sha256_file(snapshot) if snapshot.is_file() else None
@@ -196,7 +177,10 @@ def build_attestation(run_dir: Path, raw_hash: str, *, repo_root: Path = REPO_RO
             )
             if not ok:
                 problems.append(f"invalid {label} snapshot: {row[path_key]}")
+        return checks
 
+    snapshot_checks = snapshot_audit(start_rows, "path", "requirements")
+    implementation_checks = snapshot_audit(implementation["files"], "source_path", "core implementation")
     start_sources = {str(source["path"]): source for source in start_rows}
     live_sources = {
         str(source["path"]): source
@@ -258,7 +242,7 @@ def build_attestation(run_dir: Path, raw_hash: str, *, repo_root: Path = REPO_RO
     }
 
 
-def _hash_command(command: list[str]) -> tuple[str, int]:
+def _hash_command(command: list[str]) -> str:
     process = subprocess.Popen(command, cwd=REPO_ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     digest = hashlib.sha256()
     assert process.stdout is not None
@@ -267,15 +251,15 @@ def _hash_command(command: list[str]) -> tuple[str, int]:
     _, stderr = process.communicate()
     if process.returncode != 0:
         raise RuntimeError(f"{command} failed: {stderr.decode(errors='replace')}")
-    return digest.hexdigest(), process.returncode
+    return digest.hexdigest()
 
 
 def build_environment(run_dir: Path, raw_hash: str) -> dict[str, Any]:
     implementation_path = run_dir / "implementation_manifest.json"
     implementation = json.loads(implementation_path.read_text())
     lock_paths = [REPO_ROOT / "pyproject.toml", REPO_ROOT / "scaffolding/requirements.freeze.txt"]
-    diff_hash, _ = _hash_command(["git", "diff", "HEAD", "--binary", "--no-ext-diff"])
-    status_hash, _ = _hash_command(["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"])
+    diff_hash = _hash_command(["git", "diff", "HEAD", "--binary", "--no-ext-diff"])
+    status_hash = _hash_command(["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"])
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT).decode().strip()
     packages = {}
     for name in ("torch", "numpy", "omegaconf", "psutil"):
@@ -532,10 +516,11 @@ def finalize(
         "environment_all_ok": bool(environment["all_ok"]),
         "independent_verifier_promotes": bool(verifier["promotion"]),
     }
+    promotion = all(gates.values())
     authoritative = {
-        "cm7_local_objective_lever_promotable": all(gates.values()),
+        "cm7_local_objective_lever_promotable": promotion,
         "cm8_custom_build_promotable": False,
-        "verdict": "promote-local-objective-lever" if all(gates.values()) else "not-promoted",
+        "verdict": "promote-local-objective-lever" if promotion else "not-promoted",
         "raw_promotion_is_preliminary": True,
         "gates": gates,
         "reasons": verifier["problems"],
@@ -556,41 +541,3 @@ def finalize(
     proof = proof_path if proof_path.is_absolute() else REPO_ROOT / proof_path
     materialize_proof_chain(run_dir, proof, replace_existing=replace_durable_chain)
     return composite
-
-
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run-dir", type=Path, required=True)
-    parser.add_argument("--proof", type=Path, default=Path("proof/CUSTOM_SUBSTRATE_PILOT.json"))
-    parser.add_argument(
-        "--materialize-existing",
-        action="store_true",
-        help="materialize the durable chain from an already-finalized run without recomputing it",
-    )
-    parser.add_argument(
-        "--refinalize-existing",
-        action="store_true",
-        help="recompute a finalized run's generated chain while preserving its bound raw receipt",
-    )
-    args = parser.parse_args()
-    if abs(student_t_ppf(0.95, 4) - 2.131846786) > 1e-6:
-        raise RuntimeError("dependency-free Student-t implementation failed its df=4 reference")
-    if args.materialize_existing and args.refinalize_existing:
-        parser.error("--materialize-existing and --refinalize-existing are mutually exclusive")
-    if args.materialize_existing:
-        composite = materialize_proof_chain(args.run_dir, args.proof)
-    elif args.refinalize_existing:
-        composite = finalize(
-            args.run_dir,
-            args.proof,
-            allow_finalized=True,
-            replace_durable_chain=True,
-        )
-    else:
-        composite = finalize(args.run_dir, args.proof)
-    print(json.dumps(composite["authoritative_promotion"], indent=2))
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())

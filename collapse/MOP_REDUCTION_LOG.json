@@ -1311,6 +1311,25 @@
       "performance": "alternating 60-sample refinalization median improved from 1.500ms to 1.464ms (-2.41%)",
       "accounting_note": "145 script lines deleted for 18 shared-write lines, net -127; runtime source remains 9535 LOC, validation remains 2892 LOC, scripts fall to 825 LOC, and maintained Python falls to 13503 LOC",
       "tag": "mop-collapse-finalizer-chain-cli"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section14_cli_section17_validation",
+      "batch": "direct_finalizer_copy_snapshot_and_promotion_policy_without_cli_dispatch",
+      "checkpoint_status": "green",
+      "primitive": "the sole materializer directly owns exact copy validation around the canonical atomic writer; one snapshot traversal handles requirement and implementation rows; command hashing returns only its consumed digest; final promotion is computed once; and the zero-consumer three-mode CLI dispatcher is physically deleted while every finalization API remains importable and tested",
+      "deduplicated_LOC": 0,
+      "added_LOC": 28,
+      "eliminated_LOC": 81,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 53,
+      "files_changed": 1,
+      "destination_api": "materialize_proof_chain, build_attestation, build_environment, and finalize in scripts/custom_substrate_finalize.py",
+      "proof": "prior and selected implementations produce byte-for-byte identical normalized initial-finalization/refinalization chains, clean and schema-drift attestation outputs, and environment receipts; independent verifier, comparison, and Student-t AST fingerprints are exact; all 16 focused finalizer/artifact logical cases and the 159-case full suite pass with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "alternating 800-sample refinalization median moved from 1.459ms to 1.473ms (+1.01%), inside the 2% gate",
+      "accounting_note": "81 finalizer lifecycle and CLI lines deleted for 28 direct-policy lines, net -53; runtime source remains 9535 LOC, validation remains 2892 LOC, scripts fall to 772 LOC, and maintained Python falls to 13450 LOC",
+      "tag": "mop-collapse-finalizer-lifecycle-cli"
     }
   ],
   "latest_full_validation": {
