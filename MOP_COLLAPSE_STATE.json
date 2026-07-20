@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "015b9d7507abd8e0487caeec30d0750e4051952d",
+    "base_commit": "8190782e6bbcfd07db1e4dc0f049d8fca22abdf1",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -106,7 +106,7 @@
     "selected_experiment_architecture": "architecture_b",
     "proof_index": {
       "files": 60,
-      "bytes": 916889,
+      "bytes": 844285,
       "duplicate_groups": 0
     },
     "starss23_source_decomposition": {
@@ -123,9 +123,9 @@
     }
   },
   "current_measured": {
-    "global_maintained_python_LOC": 7415,
-    "runtime_campaign_kernel_LOC": 5259,
-    "validation_LOC": 1817,
+    "global_maintained_python_LOC": 7370,
+    "runtime_campaign_kernel_LOC": 5200,
+    "validation_LOC": 1819,
     "normal_cli_count": 1,
     "installed_entrypoint_count": 1,
     "current_document_count": 4,
@@ -1324,7 +1324,7 @@
   },
   "reductions": {
     "schema": "mop-collapse-reduction-table/v1",
-    "canonical_sha256": "6b2340aafb7a5b1485736409aa7d89ee385b31b8627652221346f847264cf554",
+    "canonical_sha256": "91ada7216a6581156a3af5e3e3db1a4ee131306a82b23b973c67bc2d3a1163f7",
     "row_encoding": "JSON scalars joined by commas in fields order; wrap a row in brackets to decode",
     "baseline_global_owned_source_LOC": 401396,
     "fields": [
@@ -1402,7 +1402,8 @@
         "section8_starss23",
         "section6_global_engine_section8_starss23",
         "section6_global_engine_section12_operational_scaffolding",
-        "section7_durable_authority"
+        "section7_durable_authority",
+        "section8_starss23_section9_evidence_authority"
       ],
       "batch": [
         "batch1_canonical_studies",
@@ -1495,7 +1496,8 @@
         "direct_fixed_count_gate_lifecycle",
         "direct_count_corpus_staging",
         "retired_dormant_latent_store_and_git_probe",
-        "normalized_single_durable_authority"
+        "normalized_single_durable_authority",
+        "direct_count_production_and_compact_cm7_authority"
       ],
       "checkpoint_status": [
         "provisional_pending_full_suite",
@@ -1593,7 +1595,8 @@
         "the fixed STARSS count gate now owns inference and training directly: the one-implementation CountGateInterface, test-only CountTrainingReport/payload/loss-history materialization, configurable-dimension constructor, duplicate parameter-count facade, and unused instance FLOP adapter are physically retired while the fixed parameter ceiling remains fail-closed",
         "the sole count producer now consumes concurrent-count tracks from the real adapter that already parsed and validated each metadata file: the duplicate metadata index/read, CountClip serialization and validation record, count-label module, and change-density/zero-coast aggregation facades are physically retired",
         "the exported latent-store creation/write/read API and git-dirty probe had no source, test, script, registry, CLI, or campaign consumer; active cache integrity remains owned by the manifest validator and Studio doctor, while retained provenance still reports the commit and package versions",
-        "replace expanded checklist, reduction, audit, recovery, census, architecture, PR9, and STARSS analysis projections with one normalized state authority and generated views; exact retired bytes remain tag/blob/digest recoverable"
+        "replace expanded checklist, reduction, audit, recovery, census, architecture, PR9, and STARSS analysis projections with one normalized state authority and generated views; exact retired bytes remain tag/blob/digest recoverable",
+        "the sole public count producer directly owns its one-use corpus preparation and artifact assembly, removing the private 16-field carrier and wrapper boundary; the CM7 pilot authority retains only its final null verdict and sealed receipt-chain manifest instead of embedding the complete raw training receipt a second time"
       ],
       "destination_api": [
         "mop.substrate.events.{canonical_bytes,canonical_sha256}",
@@ -1686,7 +1689,8 @@
         "CountGate, CountOnlineState, inference_flops, and training_flops in src/mop/beds/starss23/count_gate.py",
         "RealStarssAdapter.count_track plus direct _track_totals consumption in src/mop/beds/starss23/count_producer.py",
         "mop.substrate.validate_cache_manifest for active cache integrity; mop.provenance.{git_sha,package_versions} for consumed provenance",
-        "MOP_COLLAPSE_STATE.json v2 columnar checklist, exact reduction table, embedded current audit, and legacy_authorities"
+        "MOP_COLLAPSE_STATE.json v2 columnar checklist, exact reduction table, embedded current audit, and legacy_authorities",
+        "build_real_count_bed_artifact plus proof/CUSTOM_SUBSTRATE_PILOT.json v2 referencing the sealed raw receipt and three independent chain receipts"
       ],
       "proof": [
         "byte-identical normalized-AST bodies + per-file py_compile + 9/9 import identity and known-answer parity",
@@ -1779,7 +1783,8 @@
         "three seeded initialization/training regimes preserve every parameter digest, forward/probability byte hash, inference result, final re-estimation rate, parameter count, online-state vector, and FLOP projection; fourteen shape/target/hyperparameter refusals are exact; the fixed 3193-parameter architecture remains guarded against the 4096 ceiling; deterministic artifact 2365a6ffea32bd9b964061b071181e98d8711a603a54e720d4ed28a004c07aff, seal 889677248e783f826098de44a84703c3b6ceddbad99fc77c01e88fca8f311ce5, detail, preregistration bytes, receipt, verdict, and six independent-verifier outcomes are exact; the 128-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 39 source files, compile-all and diff checks clean",
         "a deterministic four-clip/two-seed real-WAV artifact preserves artifact SHA-256 72d2a3fb1a2a31907e8ac63531f5aa17ad299a961ca7b369c9d13bffd5329f74, seal 7d7f83e2028ddee9877335c924f694eb4116f7a7522a016d853cef04ab58735e, corpus-track SHA-256 aef5dbcee5bc85afd3c2829c98225f8091c189036eca06c7ba5741ac496714fb, per-seed SHA-256 a2feb355bff7150ff0685a412a41ed777e8b8dee9b30df74ae2cb0a5e8674cc6, preregistration SHA-256 699b90d662f91292edfc6e3b9270bb568389d8a2e95d9026f7f92f6aefdf8be6, split identity, truncation, count tracks, density, coast, and key order exactly; 9/9 metadata/count refusals are exact; retained STARSS artifact a474dc88717dff57ce916f1bb7f0852a9fe2248d09fd8b21362f2b7d52ccdff8 independently reproduces scores/statistics/honesty with zero mismatches; full suite 128 collected/122 passed/6 dataset skips, acceptance 10/10, Ruff/format clean, mypy clean over 38 source files, compile-all and diff checks clean",
         "repository-wide symbol and registry search finds zero LatentStore, StoreMeta, latent_store, or git_dirty consumers; active manifest/doctor/foundation focused suite passes 31 cases; the full suite collects 128 cases with 122 passing and 6 environment skips; acceptance 10/10, Ruff/format clean, mypy clean over 37 source files, compile-all and diff checks clean",
-        "261/261 checklist rows and 90/90 prior reduction events reconstruct canonically; 11/11 retired authorities recover with exact bytes, lines, SHA-256, and Git blobs; 1544/1544 code/audit/evidence plus 162/162 document paths recover; full suite, acceptance, Ruff, mypy, compile-all, and no-gaming gates pass"
+        "261/261 checklist rows and 90/90 prior reduction events reconstruct canonically; 11/11 retired authorities recover with exact bytes, lines, SHA-256, and Git blobs; 1544/1544 code/audit/evidence plus 162/162 document paths recover; full suite, acceptance, Ruff, mypy, compile-all, and no-gaming gates pass",
+        "the deterministic count producer focused suite collects 26 cases with 20 passing and six dataset skips; the compact CM7 authority verifies 4/4 receipt byte hashes and the same authoritative not-promoted verdict; the retired 74504-byte/1734-line aggregate recovers exactly at mop-collapse-lowest-green-33 with blob 2741e99bfb71cdae3c18fd2fcbe1bd582141c2b2 and SHA-256 bcd1fe9f1eacdf4fd7fc3b2d75aad01a799a7b0912c8d1d2553607c7b66387a2; full suite 129 collected/123 passed/6 environment skips, acceptance 10/10, Ruff/format clean, mypy clean over 37 source files, compile-all and diff checks clean"
       ],
       "tag": [
         "mop-collapse-evidence-batch1",
@@ -1871,7 +1876,8 @@
         "mop-collapse-direct-count-gate",
         "mop-collapse-direct-count-corpus",
         "mop-collapse-retired-dormant-latent-store",
-        "mop-collapse-single-durable-authority"
+        "mop-collapse-single-durable-authority",
+        "mop-collapse-direct-count-pilot-authority"
       ],
       "note_added_LOC": [
         "24 added = two public primitives added once to the one evidence core (sha256_file, atomic_write_json, with pathlib and os imports) plus redirect import lines; net owned-system change is -36"
@@ -1967,7 +1973,8 @@
         "91 interface, report, payload, loss-history, configurable-dimension, and facade lines are replaced by 23 fixed-gate and direct test lines, net -68; runtime source falls to 5486 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7571 LOC",
         "122 count-label module, 20 repeated test, and 20 replaced staging lines are replaced by 49 single-pass adapter/producer/test lines, net -113; runtime source falls to 5393 LOC, validation falls to 1752 LOC, scripts remain 62 LOC, and maintained Python falls to 7458 LOC",
         "the 121-line dormant module, three export lines, and ten-line uncalled probe are physically deleted with no replacement Python; runtime source falls to 5259 LOC, validation remains 1752 LOC, scripts remain 62 LOC, and maintained Python falls to 7324 LOC",
-        "runtime science remains 5259 LOC; validation grows 65 LOC and audit tooling grows 26 LOC for exact normalized projection, strict JSON, and recovery tests, so maintained Python grows 91 LOC to 7415 while total tracked text falls by 6939 LOC"
+        "runtime science remains 5259 LOC; validation grows 65 LOC and audit tooling grows 26 LOC for exact normalized projection, strict JSON, and recovery tests, so maintained Python grows 91 LOC to 7415 while total tracked text falls by 6939 LOC",
+        "111 private producer lines are replaced by 52 direct public-boundary lines; the acceptance chain gate and generalized recovery invariant add 14 net Python lines; the duplicated 1734-line/74504-byte CM7 aggregate is replaced by a 47-line/1900-byte authority, so maintained Python falls 45 LOC to 7370, the four target files fall 1732 physical lines, and normalized state growth leaves total tracked text down 1724 lines"
       ],
       "performance": [
         "seven-run fixture/export/load median improved 112.347ms to 100.613ms (-10.45%); nine-process cold import median moved 549.286ms to 550.948ms (+0.30%), inside the 2% gate",
@@ -2088,7 +2095,8 @@
       "44,87,2,87,0,23,91,0,0,0,68,2,87,87,86,null,null,84,null,null,null,null,null,21",
       "44,88,2,88,0,49,162,0,0,0,113,4,88,88,87,null,null,85,null,null,null,null,null,22",
       "46,89,2,89,0,0,134,0,0,0,134,3,89,89,88,null,null,86,null,null,null,null,null,23",
-      "47,90,2,90,0,91,0,0,0,0,-91,16,90,90,89,null,null,87,null,null,null,null,null,24"
+      "47,90,2,90,0,91,0,0,0,0,-91,16,90,90,89,null,null,87,null,null,null,null,null,24",
+      "48,91,2,91,1734,113,111,0,0,0,1732,4,91,91,90,null,null,88,null,null,null,1732,null,null"
     ],
     "physical_state_events": [
       {
@@ -2650,14 +2658,14 @@
     ]
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 397997,
-    "deduplicated_LOC": 15755,
+    "eliminated_LOC": 398108,
+    "deduplicated_LOC": 17489,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 16075,
-    "event_net_LOC": 397782,
-    "net_reduction_LOC": 397677
+    "added_LOC": 16188,
+    "event_net_LOC": 399514,
+    "net_reduction_LOC": 399409
   },
   "checklist_summary": {
     "total": 261,
