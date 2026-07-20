@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "236ac36ad64b594a16f28e96d33eb2338e572d3a",
+    "base_commit": "c1feb16f3f1ac4fa5b319b1618b2e9d0addda336",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -123,14 +123,14 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 396867,
+    "eliminated_LOC": 397084,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 15700,
-    "event_net_LOC": 397027,
-    "net_reduction_LOC": 396922
+    "added_LOC": 15730,
+    "event_net_LOC": 397214,
+    "net_reduction_LOC": 397109
   },
   "checklist_summary": {
     "total": 261,
@@ -2836,7 +2836,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2853,7 +2853,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2870,7 +2870,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2887,7 +2887,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2904,7 +2904,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2921,7 +2921,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2938,7 +2938,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2955,7 +2955,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2972,7 +2972,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2989,7 +2989,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3006,7 +3006,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3023,7 +3023,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3040,7 +3040,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3057,7 +3057,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3074,7 +3074,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -3091,7 +3091,7 @@
         "collapse/MOP_HISTORICAL_CODE_INDEX.json",
         "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "the final tree is a 97.96% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
+      "validation": "the final tree is a 98.01% physical collapse with singular authorities, no packs, no wrappers, retained evidence/verifiers, two measured architectures, and exact recovery",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -4388,9 +4388,9 @@
     }
   ],
   "current_measured": {
-    "global_maintained_python_LOC": 8170,
-    "runtime_campaign_kernel_LOC": 6052,
-    "validation_LOC": 1805,
+    "global_maintained_python_LOC": 7983,
+    "runtime_campaign_kernel_LOC": 5898,
+    "validation_LOC": 1772,
     "normal_cli_count": 1,
     "installed_entrypoint_count": 1,
     "current_document_count": 4,
