@@ -37,7 +37,8 @@ def index_new():
     STORE.mkdir(parents=True, exist_ok=True)
     artifacts, uniq, dup = [], {}, 0
     for p in sorted(io.PROOF.rglob("*")):
-        if not p.is_file():
+        # the index cannot index itself
+        if not p.is_file() or p.name.endswith("_EVIDENCE_FABRIC.json"):
             continue
         rel = p.relative_to(io.ROOT).as_posix()
         payload = p.read_bytes()
@@ -93,7 +94,9 @@ def verify(artifacts) -> dict:
             ok = False
     checks["exact_byte_recovery"] = ok
     checks["old_path_lookup"] = all((io.ROOT / a["original_path"]).exists() for a in artifacts)
-    on_disk = sum(1 for p in io.PROOF.rglob("*") if p.is_file())
+    on_disk = sum(
+        1 for p in io.PROOF.rglob("*") if p.is_file() and not p.name.endswith("_EVIDENCE_FABRIC.json")
+    )
     checks["no_hidden_unindexed_proof"] = len(artifacts) == on_disk
     ids = [a["logical_id"] for a in artifacts]
     checks["no_duplicate_identity"] = len(ids) == len(set(ids))

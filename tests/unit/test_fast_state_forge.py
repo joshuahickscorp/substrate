@@ -309,7 +309,7 @@ def test_the_recurrent_core_is_not_order_free():
 
 def test_domain_validity_records_marginal_beds_rather_than_rounding_them_up():
     v = _proof("MOP_DOMAIN_VALIDITY.json")
-    for name, g in v["gates"].items():
+    for g in v["gates"].values():
         assert g["status"] in ("temporal", "order insensitive") or g["status"].startswith("marginal")
         if g["verdict"] == "temporal_headroom_present":
             assert g["beats_order_free_control"] and g["order_matters"]

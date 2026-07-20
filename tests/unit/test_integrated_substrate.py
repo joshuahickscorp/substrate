@@ -39,9 +39,28 @@ def test_original_paths_still_resolve_and_match_content():
 
 
 def test_no_hidden_unindexed_proof():
+    """Every proof file is indexed by exactly one fabric pack.
+
+    Scoped rather than pinned to a count. The integrated fabric indexes the evidence that existed at its
+    own commit; successor programs add their own packs, each with its own root. The invariant that matters
+    is that the packs together cover every file on disk and never claim the same file twice.
+    """
     fab = _fabric()
-    on_disk = sum(1 for p in (ROOT / "proof").rglob("*") if p.is_file())
-    assert len(fab["artifacts"]) == on_disk
+    packs = [fab] + [
+        json.loads(p.read_text()) for p in sorted((ROOT / "proof").rglob("*_EVIDENCE_FABRIC.json"))
+    ]
+    indexed: set[str] = set()
+    for pack in packs:
+        ids = {a["logical_id"] for a in pack["artifacts"]}
+        assert not (ids & indexed), "a proof file is claimed by two packs"
+        indexed |= ids
+    # a fabric index cannot contain itself, so the index files are excluded from the covered set
+    on_disk = {
+        p.relative_to(ROOT).as_posix()
+        for p in (ROOT / "proof").rglob("*")
+        if p.is_file() and not p.name.endswith("_EVIDENCE_FABRIC.json")
+    }
+    assert on_disk - indexed == set(), sorted(on_disk - indexed)[:5]
 
 
 def test_proof_sets_are_disjoint_and_cover_the_union():
