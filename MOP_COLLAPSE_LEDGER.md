@@ -7,7 +7,7 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 - Maintained Python: 7,567 LOC; ceiling: 50,000.
 - Runtime and campaign kernel: 5,200 LOC.
 - Validation: 1,969 LOC.
-- Verified reduction ledger: 421,465 LOC.
+- Verified reduction ledger: 421,464 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: state `legacy_authorities` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -30,4 +30,4 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 | mop-collapse-compact-unbound-proof-json | 5,785 | canonical_unbound_proof_json |
 | mop-collapse-compact-bound-run-json | 1,259 | compact_bound_run_json_and_retire_stale_mot_runner |
 | mop-collapse-compact-bound-proof-merkle | 10,733 | compact_complete_bound_proof_merkle_graph |
-| mop-collapse-compact-machine-authorities | 3,239 | compact_generated_machine_authorities |
+| mop-collapse-compact-machine-authorities | 3,238 | compact_generated_machine_authorities |
