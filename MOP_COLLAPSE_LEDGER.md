@@ -4,21 +4,18 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 
 ## Current
 
-- Maintained Python: 16,995 LOC; ceiling: 50,000.
-- Verified net Python reduction: 388,097 LOC.
-- Checklist: {"active": 48, "complete": 58, "partial": 9, "pending": 103, "verified": 43}.
+- Maintained Python: 16,862 LOC; ceiling: 50,000.
+- Verified net Python reduction: 388,230 LOC.
+- Checklist: {"complete": 218, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
 ## Active boundaries
 
-- SEC-9: One evidence authority (compact evidence core; verifier structurally independent) -> prevent local evidence writers
-- SEC-11: STARSS23 first high-pressure region collapse (12-step process) -> measure and collapse the next residual STARSS producer family
 
 ## Recent green reductions
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-pre-generation1-campaign | 95,886 | retired_pre_generation1_campaign_and_escs_substrate |
 | mop-collapse-form-program | 12,180 | retired_form_campaign_and_future_registry |
 | mop-collapse-future-scaffolds | 15,265 | retired_future_form_scaffold_implementations |
 | mop-collapse-legacy-experiment-bank | 51,089 | retired_legacy_experiment_and_preflight_bank |
@@ -30,5 +27,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json` and `collapse/
 | mop-collapse-current-main | 1,768 | retired_stage_ladder_falsification_and_reconciled_current_main |
 | mop-collapse-proof-index | 2,320 | retired_generic_substrate_facades_and_indexed_proof |
 | mop-collapse-support-minimal | 1,445 | retired_unconsumed_support_cache_maintenance_and_docs_gates |
+| mop-collapse-validation | 133 | retired_synthetic_acceptance_scaffold_and_reconciled_completion |
 
 Older checkpoints, proof text, and exact accounting remain in the machine log.

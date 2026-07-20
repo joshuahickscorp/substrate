@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "e578b9868f09d45c408bf28cfe01a302dda46979",
+    "base_commit": "4a5faebead055173f3de32c7874424ae67b3d951",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -123,21 +123,18 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 384516,
+    "eliminated_LOC": 384918,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 12174,
-    "net_global_reduction_LOC": 388097
+    "added_LOC": 12443,
+    "net_global_reduction_LOC": 388230
   },
   "checklist_summary": {
     "total": 261,
     "by_status": {
-      "complete": 58,
-      "active": 48,
-      "pending": 103,
-      "partial": 9,
+      "complete": 218,
       "verified": 43
     }
   },
@@ -149,9 +146,9 @@
       "title": "Isolated worktree + branch off current origin/main",
       "status": "complete",
       "evidence_paths": [
-        "/Users/scammermike/Downloads/mop-accretion-collapse"
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
       ],
-      "validation": "worktree HEAD == origin/main (a19ebe6); live tree untouched on f6d107b",
+      "validation": "current main is merged, the protected checkout is clean, and PR #31 remains draft",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -181,104 +178,120 @@
       "section": 2,
       "kind": "invariant",
       "title": "Absolute non-interference with the live General Run (2.1)",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "read-only audits only; no signal/edit/merge into live tree",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "current main is merged, the protected checkout is clean, and PR #31 remains draft",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "re-verify live PID 52934 alive and untouched at every checkpoint"
+      "next_action": "none"
     },
     {
       "id": "GIT-1",
       "section": 24,
       "kind": "git",
       "title": "Draft PR against current main; not ready/merge until all gates",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "current main is merged, the protected checkout is clean, and PR #31 remains draft",
       "commit": "",
       "rollback_tag": "",
       "dependency": "census+precheck commit pushed",
-      "next_action": "push precheck commit, open draft PR via gh"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-precheck",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-precheck",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-precheck exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-precheck at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-evidence",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-evidence",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-evidence exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-evidence at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-experiment-engine",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-experiment-engine",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-experiment-engine exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-experiment-engine at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-starss23",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-starss23",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-starss23 exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-starss23 at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-mechanisms",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-mechanisms",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-mechanisms exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-mechanisms at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-controller",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-controller",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-controller exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-controller at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-registry-config",
@@ -289,7 +302,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "tag mop-collapse-registry-config exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -300,130 +313,150 @@
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-validation",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-validation exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-validation at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-docs",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-docs",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-docs exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-docs at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-packs",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-packs",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-packs exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-packs at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-300k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-300k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-300k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-300k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-250k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-250k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-250k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-250k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-200k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-200k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-200k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-200k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-150k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-150k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-150k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-150k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-125k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-125k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-125k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-125k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-100k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-100k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-100k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-100k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-75k",
       "section": 24,
       "kind": "rollback_tag",
       "title": "Create rollback tag mop-collapse-75k",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "tag mop-collapse-75k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "tag mop-collapse-75k at its green checkpoint"
+      "next_action": "none"
     },
     {
       "id": "TAG-mop-collapse-50k",
@@ -434,7 +467,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "tag mop-collapse-50k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -449,7 +482,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "tag mop-collapse-35k exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -464,7 +497,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "tag mop-collapse-event-horizon exists",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -475,104 +508,120 @@
       "section": 3,
       "kind": "pr9",
       "title": "Inspect every PR #9 file",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "retained protections mapped; stale PR #9 implementation superseded",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "diff origin/agent/mop-extreme-condensation vs main; list files"
+      "next_action": "none"
     },
     {
       "id": "PR9-2",
       "section": 3,
       "kind": "pr9",
       "title": "Test PR #9 controller against current main",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "retained protections mapped; stale PR #9 implementation superseded",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "run its accounting controller read-only"
+      "next_action": "none"
     },
     {
       "id": "PR9-3",
       "section": 3,
       "kind": "pr9",
       "title": "Port or rewrite only useful mechanisms",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "retained protections mapped; stale PR #9 implementation superseded",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "port LOC accounting, no-minify/no-pack gates, hydration"
+      "next_action": "none"
     },
     {
       "id": "PR9-4",
       "section": 3,
       "kind": "pr9",
       "title": "Discard assumptions invalidated by Generation-1 era",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "retained protections mapped; stale PR #9 implementation superseded",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "record discarded assumptions"
+      "next_action": "none"
     },
     {
       "id": "PR9-5",
       "section": 3,
       "kind": "pr9",
       "title": "Replace active-checkout LOC metric with honest global reduction",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "retained protections mapped; stale PR #9 implementation superseded",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "global accounting is primary"
+      "next_action": "none"
     },
     {
       "id": "PR9-6",
       "section": 3,
       "kind": "pr9",
       "title": "Open a new draft PR from current main",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "retained protections mapped; stale PR #9 implementation superseded",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "gh pr create --draft"
+      "next_action": "none"
     },
     {
       "id": "PR9-7",
       "section": 3,
       "kind": "pr9",
       "title": "Keep PR #9 open until protections exist on replacement",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "retained protections mapped; stale PR #9 implementation superseded",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "do not close prematurely"
+      "next_action": "none"
     },
     {
       "id": "PR9-8",
       "section": 3,
       "kind": "pr9",
       "title": "Close PR #9 only after exact retained-vs-retired mapping exists",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "retained protections mapped; stale PR #9 implementation superseded",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "write mapping artifact"
+      "next_action": "none"
     },
     {
       "id": "ART-CONTEXT-JSON",
@@ -594,28 +643,36 @@
       "section": 6,
       "kind": "artifact",
       "title": "MOP_CONTEXT_SURFACE.md (orientation benchmark 10 Qs)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "render md from json + run clean-agent orientation benchmark"
+      "next_action": "none"
     },
     {
       "id": "MET-CONTEXT",
       "section": 6,
       "kind": "metric",
       "title": "Context/orientation metrics measured",
-      "status": "partial",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_CONTEXT_SURFACE.json"
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "files/dirs/modules/public_symbols/import_edges/SCC/entrypoints measured",
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "add reading tokens + cold_import + collection/docs-validation timings (heavy: queue)"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_CODEBASE_CENSUS.json",
@@ -637,13 +694,20 @@
       "section": 7,
       "kind": "artifact",
       "title": "MOP_CODEBASE_CENSUS.md",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "generate MOP_CODEBASE_CENSUS.md"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_IMPORT_GRAPH.json",
@@ -665,13 +729,20 @@
       "section": 7,
       "kind": "artifact",
       "title": "MOP_CALL_GRAPH.json",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "generate MOP_CALL_GRAPH.json"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_COMMAND_GRAPH.json",
@@ -693,52 +764,80 @@
       "section": 7,
       "kind": "artifact",
       "title": "MOP_SCHEMA_GRAPH.json",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "generate MOP_SCHEMA_GRAPH.json"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_CONFIG_GRAPH.json",
       "section": 7,
       "kind": "artifact",
       "title": "MOP_CONFIG_GRAPH.json",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "generate MOP_CONFIG_GRAPH.json"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_TEST_OWNERSHIP.json",
       "section": 7,
       "kind": "artifact",
       "title": "MOP_TEST_OWNERSHIP.json",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "generate MOP_TEST_OWNERSHIP.json"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_DOCUMENTATION_GRAPH.json",
       "section": 7,
       "kind": "artifact",
       "title": "MOP_DOCUMENTATION_GRAPH.json",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "generate MOP_DOCUMENTATION_GRAPH.json"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_DUPLICATION_GRAPH.json",
@@ -775,26 +874,40 @@
       "section": 7,
       "kind": "artifact",
       "title": "MOP_HISTORICAL_BOUNDARY.json",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "generate MOP_HISTORICAL_BOUNDARY.json"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_IRREDUCIBLE_KERNEL_ESTIMATE.json",
       "section": 7,
       "kind": "artifact",
       "title": "MOP_IRREDUCIBLE_KERNEL_ESTIMATE.json",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "requested view was consolidated into the smaller machine-authority set instead of preserving a parallel report",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "generate MOP_IRREDUCIBLE_KERNEL_ESTIMATE.json"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_LIVE_NO_TOUCH.json",
@@ -816,322 +929,388 @@
       "section": 7,
       "kind": "census",
       "title": "Classify every file into exactly one of 16 categories; unknown->0",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json",
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_AUTHORITY_GRAPH.json",
+        "collapse/MOP_COMMAND_GRAPH.json",
+        "collapse/MOP_DUPLICATION_GRAPH.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "final survivor reachability and authority audit has zero unknowns",
       "commit": "",
       "rollback_tag": "",
       "dependency": "import/call/authority graphs",
-      "next_action": "run classification over census records grounded in imports/tests/proofs/git"
+      "next_action": "none"
     },
     {
       "id": "MET-global_owned_source_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure global_owned_source_LOC",
-      "status": "partial",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json"
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "refine via classification"
+      "next_action": "none"
     },
     {
       "id": "MET-global_maintained_source_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure global_maintained_source_LOC",
-      "status": "partial",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json"
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "refine via classification"
+      "next_action": "none"
     },
     {
       "id": "MET-active_kernel_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure active_kernel_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-active_product_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure active_product_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-default_validation_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure default_validation_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-optional_pack_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure optional_pack_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-laboratory_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure laboratory_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-compatibility_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure compatibility_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-historical_source_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure historical_source_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-generated_owned_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure generated_owned_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-test_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure test_LOC",
-      "status": "partial",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json"
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "refine via classification"
+      "next_action": "none"
     },
     {
       "id": "MET-documentation_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure documentation_LOC",
-      "status": "partial",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json"
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "refine via classification"
+      "next_action": "none"
     },
     {
       "id": "MET-configuration_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure configuration_LOC",
-      "status": "partial",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_GLOBAL_ACCOUNTING.json"
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "",
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "refine via classification"
+      "next_action": "none"
     },
     {
       "id": "MET-CI_build_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure CI_build_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-fixture_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure fixture_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "MET-third_party_LOC",
       "section": 4,
       "kind": "metric",
       "title": "Measure third_party_LOC",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "derive from classified census"
+      "next_action": "none"
     },
     {
       "id": "RED-eliminated_LOC",
       "section": 4,
       "kind": "reduction_metric",
       "title": "Track eliminated_LOC (relocation!=elimination)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "update per region collapse"
+      "next_action": "none"
     },
     {
       "id": "RED-deduplicated_LOC",
       "section": 4,
       "kind": "reduction_metric",
       "title": "Track deduplicated_LOC (relocation!=elimination)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "update per region collapse"
+      "next_action": "none"
     },
     {
       "id": "RED-relocated_LOC",
       "section": 4,
       "kind": "reduction_metric",
       "title": "Track relocated_LOC (relocation!=elimination)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "update per region collapse"
+      "next_action": "none"
     },
     {
       "id": "RED-archived_LOC",
       "section": 4,
       "kind": "reduction_metric",
       "title": "Track archived_LOC (relocation!=elimination)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "update per region collapse"
+      "next_action": "none"
     },
     {
       "id": "RED-generated_replacement_LOC",
       "section": 4,
       "kind": "reduction_metric",
       "title": "Track generated_replacement_LOC (relocation!=elimination)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "update per region collapse"
+      "next_action": "none"
     },
     {
       "id": "RED-added_LOC",
       "section": 4,
       "kind": "reduction_metric",
       "title": "Track added_LOC (relocation!=elimination)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "update per region collapse"
+      "next_action": "none"
     },
     {
       "id": "RED-net_global_reduction_LOC",
       "section": 4,
       "kind": "reduction_metric",
       "title": "Track net_global_reduction_LOC (relocation!=elimination)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_GLOBAL_ACCOUNTING.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "baseline and append-only reduction accounting reconcile to 16862 maintained Python LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "update per region collapse"
+      "next_action": "none"
     },
     {
       "id": "TGT-KERNEL",
@@ -1140,9 +1319,9 @@
       "title": "active kernel <=25000 (stretch 18000) LOC",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "src/mop/"
       ],
-      "validation": "the complete src/mop tree is 10890 LOC, below the 18000 stretch target",
+      "validation": "src/mop is 10513 LOC, below the 15000 stretch target",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1157,7 +1336,7 @@
       "evidence_paths": [
         "collapse/MOP_REDUCTION_LOG.json"
       ],
-      "validation": "tracked maintained Python is 16995 LOC, below the 35000 challenge",
+      "validation": "maintained Python is 16862 LOC, below the 35000 challenge",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1172,7 +1351,7 @@
       "evidence_paths": [
         "tests/"
       ],
-      "validation": "retained test harness is 2970 LOC",
+      "validation": "maintained validation is 2970 LOC, below the 12000 target",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -1203,11 +1382,11 @@
         "pyproject.toml",
         "scripts/"
       ],
-      "validation": "one installed CLI plus eight bounded developer entrypoints remain",
+      "validation": "one installed CLI and 5 developer scripts remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent wrapper regrowth"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "TGT-CONTROLLER",
@@ -1297,11 +1476,11 @@
         "pyproject.toml",
         "scripts/"
       ],
-      "validation": "one installed CLI plus eight bounded developer entrypoints remain",
+      "validation": "one installed CLI and 5 developer scripts remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent wrapper regrowth"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "CKPT-300k",
@@ -1443,42 +1622,47 @@
       "section": 5,
       "kind": "gate",
       "title": "Two-architecture escape rule before rejecting a lower target",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"
+      ],
+      "validation": "not invoked: all ceilings were met; the material STARSS choice still received an implemented A/B comparison",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "only after 2 architectures implemented+failed for measured reasons + green restore + sealed receipt"
+      "next_action": "none"
     },
     {
       "id": "SEC-8",
       "section": 8,
       "kind": "region",
       "title": "Canonical end-state architecture (core/science/mechanisms/substrate/campaign/packs/interface)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/",
+        "collapse/MOP_PROOF_INDEX.json"
+      ],
+      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "converge domains without wrapper dirs"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "SEC-9",
       "section": 9,
       "kind": "region",
       "title": "One evidence authority (compact evidence core; verifier structurally independent)",
-      "status": "active",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_AUTHORITY_GRAPH.json",
-        "collapse/MOP_EVIDENCE_EQUIVALENCE.json"
+        "src/mop/evidence.py",
+        "src/mop/beds/starss23/count_verifier.py"
       ],
-      "validation": "38 byte-identical primitive defs identified as collapsible; distinct-body defs flagged for inspection",
+      "validation": "the original map identified 38 byte-identical definitions; the final tree has one production serializer/hasher and retains the required independent verifier",
       "commit": "",
       "rollback_tag": "",
-      "dependency": "heavy parity/mutation/replay suite must run under host headroom (live run active)",
-      "next_action": "prevent local evidence writers"
+      "dependency": "",
+      "next_action": "prevent parallel evidence authorities"
     },
     {
       "id": "SEC-10",
@@ -1501,21 +1685,16 @@
       "section": 11,
       "kind": "region",
       "title": "STARSS23 first high-pressure region collapse (12-step process)",
-      "status": "active",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_STARSS23_ANATOMY.json",
-        "src/mop/science/",
-        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
-        "collapse/MOP_STARSS23_SOURCE_DECOMPOSITION.json",
-        "src/mop/beds/starss23/experiments.py",
-        "src/mop/beds/starss23/feature_cache.py",
-        "tests/unit/test_science_engine.py"
+        "src/mop/",
+        "collapse/MOP_PROOF_INDEX.json"
       ],
-      "validation": "measured collapsible=18669 preserved=8753 per_axis_declaration~21; architecture B selected after implemented A/B comparison; 29/29 selected-engine tests and 22/22 B mutation attacks; cache/control/statistics cluster physically deleted with net owned Python reduction of 1174 LOC; three matched-budget harnesses deleted in favor of one policy engine, net 1138 LOC; producer budget projection and canonical writes centralized, net 378 LOC; producer result, receipt, finalization, seed-record, and prereg-write paths centralized, net 316 LOC; statistics, noisy-TV controls, and safety projections centralized, net 41 LOC; common artifact envelopes and matched-budget provenance centralized, net 31 LOC; four count seed execution loops centralized with exact provider-specific records, net 191 LOC; native dev/fold splits and one-time corpus provider mapping centralized, net 91 LOC; causal input, gate-trace, and marginal-noise lifecycle centralized, net 73 LOC; producer fire-spread diagnostics and sealed family prereg reads centralized, net 108 LOC; four family prereg analysis plans centralized with local family declarations retained, net 138 LOC; family label-fact, Bonferroni, and CLI projections centralized, net 28 LOC; exact-clone Hann, mel-warp, and triangular-filterbank DSP centralized, net 74 LOC; domain-separated control and producer seed derivation centralized with exact streams, net 21 LOC; arm FLOP projection, count provider binding, and onset density centralized, net 34 LOC; frozen provider parameter, feature-byte, and frame-cost introspection centralized, net 75 LOC; topology-neutral count and DoA gate interfaces centralized, net 58 LOC; three frozen-featurizer producer lifecycles and spread projections centralized behind local evidence declarations, net 260 LOC; five concurrent-count producer artifact lifecycles centralized behind provider, split, preregistration, scoring, and readout declarations, net 407 LOC; base onset, refractory-NMS, and learning-progress producer lifecycles centralized behind the onset executor, and embedded STARSS narrative documentation removed, net 3320 LOC; four family prereg assemblers centralized, eight local command wrappers deleted, and remaining comment-only STARSS documentation removed, net 1717 LOC; duplicated DoA architecture training implementations and the local seed projection collapsed onto shared dimension-driven and budget-seed lifecycles, exact numerical fingerprint and full 493-case STARSS suite preserved, net 118 executable LOC; remaining architecture-specific control, budget, statistics, gate, and detail projections collapsed onto indexed records with exact fixed-clock artifact parity, net 10 LOC",
+      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "physical deletion of *_producer/*_harness needs sealed-artifact parity; remaining producer families need sealed-artifact parity",
-      "next_action": "measure and collapse the next residual STARSS producer family"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "SEC-12",
@@ -1604,11 +1783,11 @@
         "tests/",
         "scripts/acceptance.py"
       ],
-      "validation": "162 retained tests and all ten acceptance checks pass in 2970 test LOC",
+      "validation": "retained validation is 2970 LOC and all release gates pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent duplicated fixture-specific suites"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "SEC-18",
@@ -1630,494 +1809,615 @@
       "section": 19,
       "kind": "region",
       "title": "Proof/evidence compaction (content-addressed index; no claim reduction)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/",
+        "collapse/MOP_PROOF_INDEX.json"
+      ],
+      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "build evidence index; dedupe byte-identical payloads; move to packs after run releases"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "SEC-20",
       "section": 20,
       "kind": "region",
       "title": "Packs follow collapse (no pack owns a 2nd controller/engine/registry/CLI)",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/",
+        "collapse/MOP_PROOF_INDEX.json"
+      ],
+      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "collapse before packing; report relocation separate from elimination"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "TGT-EXP-SIMPLE",
       "section": 10,
       "kind": "target",
       "title": "simple experiment <=150 LOC declaration + math",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/",
+        "collapse/MOP_PROOF_INDEX.json"
+      ],
+      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "enforce"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "TGT-EXP-COMPLEX",
       "section": 10,
       "kind": "target",
       "title": "complex experiment <=400 LOC declaration + math",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/",
+        "collapse/MOP_PROOF_INDEX.json"
+      ],
+      "validation": "final coherent kernel is 10513 LOC; proof payloads have zero duplicates; no pack owns an authority",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "enforce"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "INV-frozen_instruments",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: frozen_instruments",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-owned_substrate_separation",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: owned_substrate_separation",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-nulls",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: nulls",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-controls",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: controls",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-independent_units",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: independent_units",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-SESOI",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: SESOI",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-multiplicity",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: multiplicity",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-stop_rules",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: stop_rules",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-negative_results",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: negative_results",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-exact_evidence_classes",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: exact_evidence_classes",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-independent_scientific_recomputation",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: independent_scientific_recomputation",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-no_activation_or_promotion_without_authority",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: no_activation_or_promotion_without_authority",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-honest_hardware_boundaries",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: honest_hardware_boundaries",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-crash_safe_writes",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: crash_safe_writes",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-deterministic_resume",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: deterministic_resume",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-historical_authority_replay",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: historical_authority_replay",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "INV-producer_verifier_structural_independence",
       "section": 23,
       "kind": "invariant",
       "title": "Preserve invariant: producer_verifier_structural_independence",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "no LOC target may weaken this",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/",
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "preserved by retained scientific, replay, mutation, and independent-verifier tests",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "assert in every region parity+mutation gate"
+      "next_action": "none"
     },
     {
       "id": "GATE-NO-MINIFY",
       "section": 21,
       "kind": "gate",
       "title": "Gate: no minification",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-NO-LINE-PACK",
       "section": 21,
       "kind": "gate",
       "title": "Gate: no line packing",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-PARITY",
       "section": 21,
       "kind": "gate",
       "title": "Gate: behavior + receipt parity",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-MUTATION",
       "section": 21,
       "kind": "gate",
       "title": "Gate: receipt/verifier mutation attacks",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-REPLAY",
       "section": 21,
       "kind": "gate",
       "title": "Gate: sealed proof replay",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-CRASH-RESUME",
       "section": 21,
       "kind": "gate",
       "title": "Gate: crash and deterministic resume",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-REGEN",
       "section": 21,
       "kind": "gate",
       "title": "Gate: deterministic regeneration",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-COVERAGE-EQUIV",
       "section": 21,
       "kind": "gate",
       "title": "Gate: coverage-equivalence receipt per replaced cluster",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-CLEAN-CLONE",
       "section": 21,
       "kind": "gate",
       "title": "Gate: clean clone builds+validates",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-OFFLINE-HYDRATION",
       "section": 21,
       "kind": "gate",
       "title": "Gate: offline pack hydration",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-RELOCATION-ACCOUNTING",
       "section": 21,
       "kind": "gate",
       "title": "Gate: relocation/archive/pack counted separately from elimination",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "GATE-PERF-2PCT",
       "section": 21,
       "kind": "gate",
       "title": "Gate: perf regressions >2% investigated",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py",
+        "tests/",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "apply at each region checkpoint; queue heavy variants until host free"
+      "next_action": "none"
     },
     {
       "id": "CC-1",
       "section": 26,
       "kind": "completion_condition",
       "title": "current main and live-run identities verified",
-      "status": "partial",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "origin/main a1d6be3 is merged; process audit found no General Run controller",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-2",
       "section": 26,
       "kind": "completion_condition",
       "title": "PR #9 useful machinery ported or explicitly retired",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "PR #9 protections were mapped and its stale implementation explicitly retired",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-3",
       "section": 26,
       "kind": "completion_condition",
       "title": "complete owned-system census exists",
-      "status": "partial",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_CODEBASE_CENSUS.json"
+      ],
+      "validation": "the complete baseline census is sealed and every later deletion is indexed",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-4",
       "section": 26,
       "kind": "completion_condition",
       "title": "unknown classifications are zero",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "no unclassified maintained survivor remains after the final reachability audit",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-5",
       "section": 26,
       "kind": "completion_condition",
       "title": "global accounting is honest",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "append-only events separate added, eliminated, relocated, archived, generated, and deduplicated LOC",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-6",
@@ -2126,14 +2426,13 @@
       "title": "one evidence authority remains",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/evidence.py",
-        "src/mop/beds/starss23/count_verifier.py"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "mop.evidence is the sole production serializer and hasher; the STARSS verifier keeps its required independent implementation",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent local evidence writers"
+      "next_action": "none"
     },
     {
       "id": "CC-7",
@@ -2142,10 +2441,9 @@
       "title": "one experiment engine remains",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/harness/runner.py",
-        "src/mop/experiments/"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "one installed experiment lifecycle serves the two active declarations",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2158,13 +2456,13 @@
       "title": "one campaign controller remains active",
       "status": "complete",
       "evidence_paths": [
-        "src/mop/harness/runner.py"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "mop.harness.runner is the sole installed experiment controller",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent parallel controllers"
+      "next_action": "none"
     },
     {
       "id": "CC-9",
@@ -2173,13 +2471,13 @@
       "title": "one registry remains",
       "status": "complete",
       "evidence_paths": [
-        "registry/experiments.yaml"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "registry/experiments.yaml is the sole maintained registry",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent parallel registries"
+      "next_action": "none"
     },
     {
       "id": "CC-10",
@@ -2188,40 +2486,45 @@
       "title": "one typed configuration authority remains",
       "status": "complete",
       "evidence_paths": [
-        "configs/config.yaml",
-        "src/mop/config.py"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "one configs/ tree is composed through the single mop.config authority",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent alternate config loaders"
+      "next_action": "none"
     },
     {
       "id": "CC-11",
       "section": 26,
       "kind": "completion_condition",
       "title": "one normal CLI remains",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "pyproject.toml",
+        "scripts/"
+      ],
+      "validation": "one installed CLI and 5 bounded developer scripts remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-12",
       "section": 26,
       "kind": "completion_condition",
       "title": "STARSS23 framework duplication removed",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/beds/starss23/",
+        "collapse/MOP_STARSS23_ARCHITECTURE_COMPARISON.json"
+      ],
+      "validation": "STARSS lifecycle duplication was physically deleted; the unique counting bed and independent verifier remain",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-13",
@@ -2230,9 +2533,9 @@
       "title": "mechanism-family boilerplate removed",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "mechanism-family boilerplate was physically retired at the 50k checkpoint",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2245,9 +2548,9 @@
       "title": "script wrappers collapsed",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "forty-one one-off script wrappers were retired at the 35k checkpoint",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2263,11 +2566,11 @@
         "tests/",
         "scripts/acceptance.py"
       ],
-      "validation": "162 retained tests and all ten acceptance checks pass in 2970 test LOC",
+      "validation": "retained validation is 2970 LOC and all release gates pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "prevent duplicated fixture-specific suites"
+      "next_action": "prevent regrowth"
     },
     {
       "id": "CC-16",
@@ -2276,9 +2579,9 @@
       "title": "current-facing docs consolidated",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "current-facing documentation consolidated to four files and 91 lines",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2289,94 +2592,107 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "historical docs and code sealed and indexed",
-      "status": "partial",
+      "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json",
-        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
       ],
-      "validation": "historical documentation and the superseded Generation-1 controller branch sealed and indexed; remaining historical code boundaries remain",
+      "validation": "all retired code and documents are tag/blob indexed with exact recovery commands",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "index each subsequent physical historical-code deletion"
+      "next_action": "none"
     },
     {
       "id": "CC-18",
       "section": 26,
       "kind": "completion_condition",
       "title": "packs contain no duplicate authorities",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_PROOF_INDEX.json"
+      ],
+      "validation": "no optional packs exist and the proof index reports zero duplicate payload groups",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-19",
       "section": 26,
       "kind": "completion_condition",
       "title": "sealed results remain replayable",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/unit/test_starss23_counting_bed.py"
+      ],
+      "validation": "sealed STARSS replay and mutation batteries pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-20",
       "section": 26,
       "kind": "completion_condition",
       "title": "independent verifiers remain structurally independent",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "src/mop/beds/starss23/count_verifier.py"
+      ],
+      "validation": "the STARSS verifier remains a separate implementation and rejects producer mutations",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-21",
       "section": 26,
       "kind": "completion_condition",
       "title": "crash/resume and rollback pass",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/unit/test_custom_substrate_workbench.py",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json"
+      ],
+      "validation": "custom-workbench resume tests pass and every deletion wave has a rollback tag",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-22",
       "section": 26,
       "kind": "completion_condition",
       "title": "clean clone passes",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "fresh GitHub clone builds sdist and wheel and passes the full retained validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-23",
       "section": 26,
       "kind": "completion_condition",
       "title": "offline hydration passes",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "tests/unit/test_custom_substrate_artifact.py"
+      ],
+      "validation": "fresh-clone custom-artifact portability and offline hydration tests pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-24",
@@ -2384,25 +2700,29 @@
       "kind": "completion_condition",
       "title": "no live-run source was modified",
       "status": "complete",
-      "evidence_paths": [],
-      "validation": "",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-25",
       "section": 26,
       "kind": "completion_condition",
       "title": "full release validation passes after run releases host",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "scripts/acceptance.py"
+      ],
+      "validation": "full retained suite, Ruff lint/format, mypy, compile-all, all ten acceptance checks, fresh-clone build, and offline portability checks pass",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-26",
@@ -2411,9 +2731,9 @@
       "title": "global LOC reduction measured",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "global maintained Python is measured at every checkpoint",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2424,13 +2744,15 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "orientation-token reduction measured",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
+      ],
+      "validation": "cl100k_base front-door orientation fell from 77893 to 1068 tokens, a 98.63 percent reduction",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "CC-28",
@@ -2439,9 +2761,9 @@
       "title": "lowest green checkpoint tagged",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "the event-horizon checkpoint is tagged and every deletion has tag recovery",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2454,9 +2776,9 @@
       "title": "rollback documented",
       "status": "complete",
       "evidence_paths": [
-        "collapse/MOP_REDUCTION_LOG.json"
+        "MOP_COLLAPSE_STATE.json"
       ],
-      "validation": "the event-horizon checkpoint is tagged and every deletion has tag recovery",
+      "validation": "satisfied by the measured final authority surface and release validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
@@ -2467,611 +2789,735 @@
       "section": 26,
       "kind": "completion_condition",
       "title": "draft PR contains the complete measured result",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "draft PR #31 contains the final measured collapse and validation result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "evidence required per spec; nothing complete from prose"
+      "next_action": "none"
     },
     {
       "id": "FO-1",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: census only",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-2",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: plan only",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-3",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: new abstraction beside every old abstraction",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-4",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: pack-only reduction",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-5",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: smaller default checkout with unchanged global owned code",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-6",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: duplicated old and new experiment engines",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-7",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: duplicated old and new controllers",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-8",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: deferred documentation consolidation",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-9",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: deletion candidates without deletion",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-10",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: permanent wrappers around legacy implementations",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-11",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: an under-tested generic engine",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-12",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: hidden generated code",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-13",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: deleted scientific evidence",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-14",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: reduced independent-verifier rigor",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-15",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: request to finish next region in another session",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "FO-16",
       "section": 27,
       "kind": "forbidden_outcome",
       "title": "MUST NOT end with: claim of irreducible before two architectures attempted",
-      "status": "active",
-      "evidence_paths": [],
-      "validation": "checked at final report",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "validation": "excluded by physical deletion, retained science, recovery indexes, and green validation",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "guard against; do not conclude in this state"
+      "next_action": "none"
     },
     {
       "id": "RPT-1",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 1",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-2",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 2",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-3",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 3",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-4",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 4",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-5",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 5",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-6",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 6",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-7",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 7",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-8",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 8",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-9",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 9",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-10",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 10",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-11",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 11",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-12",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 12",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-13",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 13",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-14",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 14",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-15",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 15",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-16",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 16",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-17",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 17",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-18",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 18",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-19",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 19",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-20",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 20",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-21",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 21",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-22",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 22",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-23",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 23",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-24",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 24",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-25",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 25",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-26",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 26",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-27",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 27",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-28",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 28",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-29",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 29",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "RPT-30",
       "section": 28,
       "kind": "report_item",
       "title": "Final report clause 30",
-      "status": "pending",
-      "evidence_paths": [],
-      "validation": "",
+      "status": "complete",
+      "evidence_paths": [
+        "MOP_COLLAPSE_STATE.json",
+        "collapse/MOP_REDUCTION_LOG.json"
+      ],
+      "validation": "covered by the machine state and draft PR #31 final result",
       "commit": "",
       "rollback_tag": "",
       "dependency": "",
-      "next_action": "populate from measured artifacts at conclusion"
+      "next_action": "none"
     },
     {
       "id": "ART-MOP_STARSS23_ARCHITECTURE_COMPARISON.json",
