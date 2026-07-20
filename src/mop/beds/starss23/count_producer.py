@@ -569,7 +569,7 @@ def build_real_count_bed_artifact(
 ) -> ArtifactResult:
     config = config or RealCountBedConfig()
     featurizer, estimator = FrozenCountFeaturizer(), FrozenCountEstimator()
-    adapter = RealStarssAdapter(foa_root, metadata_root, rights_clean=True, max_frames=config.max_frames)
+    adapter = RealStarssAdapter(foa_root, metadata_root, max_frames=config.max_frames)
     corpus = _prepare_count_corpus(adapter, foa_root, metadata_root, featurizer, estimator, config)
     return _build_count_artifact(
         timestamp, config, corpus, featurizer, estimator, prereg_path, time.perf_counter_ns

@@ -4,10 +4,10 @@ import hashlib
 import json
 import re
 import wave
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Protocol, runtime_checkable
+from typing import Any
 
 import numpy as np
 
@@ -20,12 +20,9 @@ from .schema import (
     ClipSplit,
 )
 
-SOURCE_KIND_REAL = "real"
-
 FOLD_DEV_TRAIN = 3
 FOLD_DEV_TEST = 4
 
-DISTANCE_ABSENT = -1
 _AZIMUTH_MIN, _AZIMUTH_MAX = -180, 180
 _ELEVATION_MIN, _ELEVATION_MAX = -90, 90
 _DISTANCE_MAX_CM = 100_000  # 1 km ceiling; a physical sanity bound, not a knob
@@ -69,18 +66,13 @@ class MetadataRow:
     frame: int
     class_id: int
     source_id: int
-    azimuth: int
-    elevation: int
-    distance: int = DISTANCE_ABSENT
+    has_distance: bool
 
     def __post_init__(self) -> None:
         for name, value in (
             ("frame", self.frame),
             ("class_id", self.class_id),
             ("source_id", self.source_id),
-            ("azimuth", self.azimuth),
-            ("elevation", self.elevation),
-            ("distance", self.distance),
         ):
             if isinstance(value, bool) or not isinstance(value, int):
                 raise AdapterRefusal(f"MetadataRow.{name} must be an integer")
@@ -90,16 +82,6 @@ class MetadataRow:
             raise AdapterRefusal(f"MetadataRow.class_id must be in [0, {N_CLASSES})")
         if self.source_id < 0:
             raise AdapterRefusal("MetadataRow.source_id must be nonnegative")
-        if not _AZIMUTH_MIN <= self.azimuth <= _AZIMUTH_MAX:
-            raise AdapterRefusal("MetadataRow.azimuth must lie in [-180, 180] degrees")
-        if not _ELEVATION_MIN <= self.elevation <= _ELEVATION_MAX:
-            raise AdapterRefusal("MetadataRow.elevation must lie in [-90, 90] degrees")
-        if self.distance != DISTANCE_ABSENT and not 0 < self.distance <= _DISTANCE_MAX_CM:
-            raise AdapterRefusal("MetadataRow.distance must be a positive centimeter count")
-
-    @property
-    def has_distance(self) -> bool:
-        return self.distance != DISTANCE_ABSENT
 
 
 def parse_starss23_metadata(text: str) -> tuple[MetadataRow, ...]:
@@ -118,21 +100,15 @@ def parse_starss23_metadata(text: str) -> tuple[MetadataRow, ...]:
             values = [int(part) for part in parts]
         except ValueError as exc:
             raise AdapterRefusal(f"metadata line {lineno} has a non-integer field") from exc
-        if len(values) == 5:
-            frame, class_id, source_id, azimuth, elevation = values
-            distance = DISTANCE_ABSENT
-        else:
-            frame, class_id, source_id, azimuth, elevation, distance = values
-        rows.append(
-            MetadataRow(
-                frame=frame,
-                class_id=class_id,
-                source_id=source_id,
-                azimuth=azimuth,
-                elevation=elevation,
-                distance=distance,
-            )
-        )
+        frame, class_id, source_id, azimuth, elevation, *distance = values
+        row = MetadataRow(frame, class_id, source_id, bool(distance))
+        if not _AZIMUTH_MIN <= azimuth <= _AZIMUTH_MAX:
+            raise AdapterRefusal("MetadataRow.azimuth must lie in [-180, 180] degrees")
+        if not _ELEVATION_MIN <= elevation <= _ELEVATION_MAX:
+            raise AdapterRefusal("MetadataRow.elevation must lie in [-90, 90] degrees")
+        if distance and not 0 < distance[0] <= _DISTANCE_MAX_CM:
+            raise AdapterRefusal("MetadataRow.distance must be a positive centimeter count")
+        rows.append(row)
     return tuple(rows)
 
 
@@ -159,66 +135,29 @@ def audio_sha256(audio: np.ndarray) -> str:
     return hashlib.sha256(array.tobytes()).hexdigest()
 
 
-@dataclass(frozen=True, slots=True)
-class NativeDevSplit:
-    dev_train: tuple[str, ...]
-    dev_test: tuple[str, ...]
-
-    def __post_init__(self) -> None:
-        overlap = set(self.dev_train) & set(self.dev_test)
-        if overlap:
-            raise AdapterRefusal(f"dev-train and dev-test share clips: {sorted(overlap)}")
-
-
-@runtime_checkable
-class StarssAdapter(Protocol):
-    def source_kind(self) -> str: ...
-
-    def rights_clean(self) -> bool: ...
-
-    def clips(self) -> tuple[Clip, ...]: ...
-
-    def audio(self, clip_id: str) -> np.ndarray: ...
-
-    def dev_split(self) -> NativeDevSplit: ...
-
-
-def native_dev_split(clips: Sequence[Clip]) -> NativeDevSplit:
-
-    dev_train: list[str] = []
-    dev_test: list[str] = []
-    train_rooms: set[str] = set()
-    test_rooms: set[str] = set()
-    for clip in clips:
-        name = parse_clip_name(clip.clip_id)
-        if name.fold == FOLD_DEV_TRAIN:
-            dev_train.append(clip.clip_id)
-            train_rooms.add(clip.room_id)
-        elif name.fold == FOLD_DEV_TEST:
-            dev_test.append(clip.clip_id)
-            test_rooms.add(clip.room_id)
-        else:
-            raise AdapterRefusal(
-                f"clip {clip.clip_id} is not in a STARSS23 dev fold ({FOLD_DEV_TRAIN} or {FOLD_DEV_TEST})"
-            )
-    shared_rooms = train_rooms & test_rooms
-    if shared_rooms:
-        raise AdapterRefusal(f"dev split is not room-disjoint, shared rooms: {sorted(shared_rooms)}")
-    return NativeDevSplit(dev_train=tuple(sorted(dev_train)), dev_test=tuple(sorted(dev_test)))
-
-
 def native_fold_split(
-    adapter: StarssAdapter,
+    adapter: RealStarssAdapter,
     n_val_rooms: int,
     *,
     refusal: type[Exception] = AdapterRefusal,
     refuse_empty: bool = True,
 ) -> ClipSplit:
 
-    dev = adapter.dev_split()
-    by_id = {clip.clip_id: clip for clip in adapter.clips()}
-    fold3 = [by_id[clip_id] for clip_id in dev.dev_train]
-    fold4 = [by_id[clip_id] for clip_id in dev.dev_test]
+    fold3: list[Clip] = []
+    fold4: list[Clip] = []
+    for clip in adapter.clips():
+        fold = parse_clip_name(clip.clip_id).fold
+        if fold == FOLD_DEV_TRAIN:
+            fold3.append(clip)
+        elif fold == FOLD_DEV_TEST:
+            fold4.append(clip)
+        else:
+            raise AdapterRefusal(
+                f"clip {clip.clip_id} is not in a STARSS23 dev fold ({FOLD_DEV_TRAIN} or {FOLD_DEV_TEST})"
+            )
+    shared_rooms = {clip.room_id for clip in fold3} & {clip.room_id for clip in fold4}
+    if shared_rooms:
+        raise AdapterRefusal(f"dev split is not room-disjoint, shared rooms: {sorted(shared_rooms)}")
     fold3_rooms = sorted({clip.room_id for clip in fold3})
     if n_val_rooms <= 0 or n_val_rooms >= len(fold3_rooms):
         raise refusal(
@@ -244,7 +183,7 @@ def native_fold_split(
 
 
 def map_clip_audio(
-    adapter: StarssAdapter, transform: Callable[[np.ndarray], np.ndarray]
+    adapter: RealStarssAdapter, transform: Callable[[np.ndarray], np.ndarray]
 ) -> dict[str, np.ndarray]:
 
     return {clip.clip_id: transform(adapter.audio(clip.clip_id)) for clip in adapter.clips()}
@@ -353,12 +292,10 @@ class RealStarssAdapter:
         foa_root: str | Path,
         metadata_root: str | Path,
         *,
-        rights_clean: bool = True,
         max_frames: int | None = None,
     ) -> None:
         self._foa_root = Path(foa_root)
         self._metadata_root = Path(metadata_root)
-        self._rights_clean = bool(rights_clean)
         if max_frames is not None and (isinstance(max_frames, bool) or not isinstance(max_frames, int)):
             raise AdapterRefusal("max_frames must be an integer or None")
         if max_frames is not None and max_frames <= 0:
@@ -413,21 +350,9 @@ class RealStarssAdapter:
                 )
             )
         self._clips: tuple[Clip, ...] = tuple(clips)
-        self._by_id: dict[str, Clip] = {clip.clip_id: clip for clip in self._clips}
-
-    def source_kind(self) -> str:
-        return SOURCE_KIND_REAL
-
-    def rights_clean(self) -> bool:
-        return self._rights_clean
 
     def clips(self) -> tuple[Clip, ...]:
         return self._clips
-
-    def clip(self, clip_id: str) -> Clip:
-        if clip_id not in self._by_id:
-            raise AdapterRefusal(f"unknown clip id {clip_id!r}")
-        return self._by_id[clip_id]
 
     def audio(self, clip_id: str) -> np.ndarray:
         if clip_id not in self._audio:
@@ -437,6 +362,3 @@ class RealStarssAdapter:
     def truncations(self) -> tuple[ClipTruncation, ...]:
 
         return tuple(self._truncations)
-
-    def dev_split(self) -> NativeDevSplit:
-        return native_dev_split(self._clips)

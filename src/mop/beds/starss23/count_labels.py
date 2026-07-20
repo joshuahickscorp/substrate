@@ -3,15 +3,10 @@ from __future__ import annotations
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 
-from mop.evidence import canonical_sha256
-
 from .adapter import MetadataRow, RealStarssAdapter, parse_starss23_metadata
-
-COUNT_LABELS_SCHEMA = "mop-starss23-count-labels/v1"
 
 COUNT_CEILING = 16
 
@@ -55,7 +50,6 @@ class CountClip:
     n_frames: int
     audio_sha256: str
     count_track: tuple[int, ...]
-    schema: str = COUNT_LABELS_SCHEMA
 
     def __post_init__(self) -> None:
         if not isinstance(self.clip_id, str) or not self.clip_id.strip():
@@ -70,19 +64,6 @@ class CountClip:
                 raise CountLabelRefusal("CountClip.count_track must hold nonnegative integers")
             if value > COUNT_CEILING:
                 raise CountLabelRefusal("CountClip.count_track value exceeds COUNT_CEILING")
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "schema": self.schema,
-            "clip_id": self.clip_id,
-            "room_id": self.room_id,
-            "n_frames": self.n_frames,
-            "audio_sha256": self.audio_sha256,
-            "count_track": list(self.count_track),
-        }
-
-    def digest(self) -> str:
-        return canonical_sha256(self.payload())
 
     @property
     def n_changes(self) -> int:
