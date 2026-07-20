@@ -2301,6 +2301,20 @@
       "paths": [
         "src/mop/beds/starss23/count_prereg.py"
       ]
+    },
+    {
+      "id": "collapsed_fixed_count_gate_interface_and_report",
+      "source_tag": "mop-collapse-lowest-green-26-audit-corrected",
+      "reason": "CountGateInterface had one implementation and the training report/loss history was discarded by production while one test consumed only the final rate; the gate now retains the exact fixed architecture, initialization, gradients, inference, state, parameter ceiling, digests, FLOP accounting, and refusal behavior without intermediate protocol/report structure",
+      "replacement_paths": [
+        "src/mop/beds/starss23/count_gate.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-26-audit-corrected:<path>",
+      "paths": [
+        "src/mop/beds/starss23/count_gate.py",
+        "tests/unit/test_starss23_counting_bed.py"
+      ]
     }
   ]
 }
