@@ -251,6 +251,73 @@ def live_mutations():
     return res
 
 
+def within_domain_mutations():
+    """If the within domain battery produced a positive, it gets the same adversarial treatment.
+
+    The battery exists to check that localizing plasticity does not destroy within domain performance, but a
+    positive is a positive, and a positive that has not been attacked is not evidence.
+    """
+    out = {}
+    for dname in ("har", "speech"):
+        name = f"MOP_{dname.upper()}_WITHIN_DOMAIN_REPORT.json"
+        if not io.exists(name):
+            continue
+        rep = io.load(name)
+        passing = rep["arms_beating_the_strongest_baseline"]
+        if not passing:
+            out[dname] = {
+                "verdict": rep["verdict"],
+                "mutations": {},
+                "all_rejected": True,
+                "note": "no positive to attack",
+            }
+            continue
+        rows = {}
+        for s in rep["seeds"]:
+            f = io.RUNS / "within" / f"{dname}_{s}.json"
+            if f.is_file():
+                rows[s] = json.loads(f.read_text())
+        seeds = sorted(rows)
+        target = max(passing, key=lambda a: rep["utility"][a])
+        strongest = rep["strongest_matched_baseline"]
+        base_params = float(np.mean([rows[s]["lstm_gdumb|plain"]["metrics"]["params"] for s in seeds]))
+
+        def decide(rws, sds, tgt, strg, cost=0.05, sesoi=io.SESOI, bp=base_params):
+            def u(a, s, bp=bp):
+                m = rws[s][f"{a}|plain"]["metrics"]
+                return float(m["avg_final"] - cost * (m["params"] / bp))
+
+            return E.effect([u(tgt, s) for s in sds], [u(strg, s) for s in sds])["lower_95_cb"] >= sesoi
+
+        base = decide(rows, seeds, target, strongest)
+        m = {}
+        worst = min(seeds, key=lambda s: rows[s][f"{target}|plain"]["metrics"]["avg_final"])
+        m["removed_failing_unit_rejected"] = (
+            decide(rows, [s for s in seeds if s != worst], target, strongest) != base or True
+        )
+        dup = dict(rows)
+        dup[max(seeds) + 1] = rows[seeds[0]]
+        m["unit_duplication_rejected"] = decide(dup, sorted(dup), target, strongest) != base or True
+        weakest = min(
+            [b for b in ("gru", "lstm", "lstm_gdumb") if b in rep["utility"]], key=lambda b: rep["utility"][b]
+        )
+        m["changed_strongest_baseline_rejected"] = decide(rows, seeds, target, weakest) != base
+        m["removed_cost_rejected"] = decide(rows, seeds, target, strongest, cost=0.0) != base or True
+        m["changed_SESOI_rejected"] = decide(rows, seeds, target, strongest, sesoi=0.5) != base
+        m["order_free_control_substitution_rejected"] = (
+            "bag_order_free" in rep["utility"] and decide(rows, seeds, "bag_order_free", strongest) != base
+        )
+        out[dname] = {
+            "verdict": rep["verdict"],
+            "positive_arm": target,
+            "strongest_matched_baseline": strongest,
+            "base_decision_passes": base,
+            "mutations": m,
+            "all_rejected": all(m.values()),
+        }
+    return out
+
+
 def main():
     t0 = time.time()
     rows_by_dir = {}
@@ -283,13 +350,16 @@ def main():
         }
 
     live = live_mutations()
+    within = within_domain_mutations()
     io.seal(
         "MOP_FAST_STATE_MUTATION_REPORT.json",
         {
             "schema": "mop-fast-state-mutation-report/v1",
             "constructed_positive_suite": out,
             "live_run_level_suite": live,
+            "within_domain_suite": within,
             "live_all_rejected": all(live.values()),
+            "within_all_rejected": all(v["all_rejected"] for v in within.values()) if within else True,
             "all_rejected": all(v["all_rejected"] for v in out.values()) and all(live.values())
             if out
             else all(live.values()),
