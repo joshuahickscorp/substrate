@@ -1387,6 +1387,25 @@
       "performance": "alternating 400-sample refusal orchestration median improved 3.168ms to 3.163ms (-0.15%)",
       "accounting_note": "82 orphaned workbench snapshot-copy and receipt-projection lines replaced by one direct requirements-audit call, net -81; runtime source falls to 8583 LOC, validation remains 2394 LOC, scripts remain 229 LOC, and maintained Python falls to 11457 LOC",
       "tag": "mop-collapse-workbench-snapshot-lifecycle"
+    },
+    {
+      "region": "section8_substrate_section12_registry_section14_cli",
+      "batch": "single_installed_cli_and_retired_parallel_developer_commands",
+      "checkpoint_status": "green",
+      "primitive": "the installed mop interface now owns ordinary experiment overrides, CM7 profiled resume, CM8 preflight, Studio doctor, and resource-profile listing; two parallel argparse modules and their stale active references are physically deleted, while lightweight operations lazily avoid the training stack and top-level help no longer starts an experiment",
+      "deduplicated_LOC": 0,
+      "added_LOC": 156,
+      "eliminated_LOC": 170,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 14,
+      "files_changed": 5,
+      "destination_api": "mop.harness.cli:main, the sole installed entrypoint",
+      "proof": "CM7, CM8 preflight, Studio doctor, ordinary experiment dispatch, and profile JSON are exact against mop-collapse-lowest-green-15; top-level help exits zero without execution; the 152-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 43 source files, compile-all clean, and collapse invariants 5/5",
+      "performance": "six-process alternating medians: profile listing improves from 0.6958s to 0.6505s (-6.51%) and harness cold import improves from 0.6970s to 0.6915s (-0.79%)",
+      "accounting_note": "170 Python interface lines replaced by 156 installed-CLI lines, net -14; runtime source rises to 8737 LOC, validation remains 2394 LOC, scripts fall to 61 LOC, and maintained Python falls to 11443 LOC",
+      "tag": "mop-collapse-single-installed-interface"
     }
   ],
   "latest_full_validation": {

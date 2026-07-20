@@ -9,7 +9,7 @@ requirements_ledger: configs/custom_substrate/requirements.yaml
 strict_requirements: true
 
 # This default is a bounded 256px one-seed execution suitable for the normal experiment harness.
-# scripts/custom_substrate_workbench.py --profile local180 expands it to five seeds and an interruptible
+# mop cm7 --profile local180 expands it to five seeds and an interruptible
 # 180-minute wall envelope without changing the scientific contract.
 data:
   resolution: 256
