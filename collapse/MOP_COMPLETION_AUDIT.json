@@ -3,13 +3,13 @@
   "status": "green_with_external_live_boundary",
   "subject": {
     "branch": "agent/mop-accretion-collapse",
-    "code_checkpoint": "40bd52d",
-    "code_tree": "b04f53ae2f9c90c0014e8086add3717eaa93a707",
+    "code_checkpoint": "f69ca7b",
+    "code_tree": "d8f37e4dd0233e43f68935b32c3bf6ac444f8272",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "starting_owned_python_LOC": 401396,
-    "current_maintained_python_LOC": 12740,
-    "direct_physical_reduction_LOC": 388656,
-    "direct_physical_reduction_percent": 96.8261
+    "current_maintained_python_LOC": 11538,
+    "direct_physical_reduction_LOC": 389858,
+    "direct_physical_reduction_percent": 97.1255
   },
   "consolidates": [
     "MOP_CONTEXT_SURFACE.md",
@@ -30,15 +30,15 @@
     "classification_unknown": 0,
     "classification_rule": "Rules are ordered and mutually exclusive; every Git-tracked path belongs to exactly one of the 16 categories below.",
     "categories": {
-      "runtime_kernel": {"files": 43, "physical_LOC": 9535},
-      "validation": {"files": 21, "physical_LOC": 2725},
+      "runtime_kernel": {"files": 43, "physical_LOC": 8664},
+      "validation": {"files": 21, "physical_LOC": 2394},
       "laboratory_scripts": {"files": 3, "physical_LOC": 229},
       "audit_tooling": {"files": 1, "physical_LOC": 212},
       "compatibility": {"files": 1, "physical_LOC": 39},
       "configuration": {"files": 9, "physical_LOC": 360},
       "build_and_ci": {"files": 5, "physical_LOC": 2156},
       "current_documentation": {"files": 4, "physical_LOC": 89},
-      "durable_collapse_state": {"files": 24, "physical_LOC": 86625},
+      "durable_collapse_state": {"files": 24, "physical_LOC": 86671},
       "scientific_evidence": {"files": 61, "physical_LOC": 40616},
       "run_artifacts": {"files": 8, "physical_LOC": 1303},
       "fixtures": {"files": 0, "physical_LOC": 0},
@@ -48,18 +48,18 @@
       "third_party_vendored_source": {"files": 0, "physical_LOC": 0}
     },
     "maintained_metrics": {
-      "global_owned_source_LOC": 12740,
-      "global_maintained_source_LOC": 12740,
-      "active_kernel_LOC": 9535,
-      "active_product_LOC": 9764,
-      "default_active_checkout_LOC": 15256,
-      "default_validation_LOC": 2725,
+      "global_owned_source_LOC": 11538,
+      "global_maintained_source_LOC": 11538,
+      "active_kernel_LOC": 8664,
+      "active_product_LOC": 8893,
+      "default_active_checkout_LOC": 14054,
+      "default_validation_LOC": 2394,
       "optional_pack_LOC": 0,
       "laboratory_LOC": 229,
       "compatibility_LOC": 39,
       "historical_source_LOC": 0,
       "generated_owned_LOC": 0,
-      "test_LOC": 2725,
+      "test_LOC": 2394,
       "documentation_LOC": 89,
       "configuration_LOC": 360,
       "CI_build_LOC": 2156,
@@ -94,7 +94,7 @@
     "ordinary_parallel_controllers": 0
   },
   "schema_graph": {
-    "schema_constants": 33,
+    "schema_constants": 23,
     "families": ["STARSS23 counting", "shared receipts", "custom substrate", "cache manifests"],
     "authority_rule": "Schemas remain local to the unique producer or independent verifier family; canonical bytes, hashes, and atomic writes resolve to mop.evidence."
   },
@@ -107,8 +107,8 @@
   },
   "test_ownership": {
     "physical_test_files": 18,
-    "collected_logical_cases": 155,
-    "physical_test_LOC": 2725,
+    "collected_logical_cases": 152,
+    "physical_test_LOC": 2394,
     "owners": ["global record engine", "STARSS23 science", "custom substrate and portable artifacts", "cache and host boundaries", "configuration and Studio readiness"],
     "shared_properties": "tests/unit/test_collapse_invariants.py enforces source readability, authority cardinality, proof integrity, recovery metadata, and no hidden packs"
   },
@@ -119,8 +119,8 @@
     "historical_index": "collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json"
   },
   "historical_boundary": {
-    "retired_code_clusters": 45,
-    "retired_code_paths_checked": 1476,
+    "retired_code_clusters": 46,
+    "retired_code_paths_checked": 1479,
     "retired_code_recovery_failures": 0,
     "retired_documents_checked": 162,
     "retired_document_recovery_failures": 0,
@@ -207,6 +207,17 @@
     "differential_cases": "normalized manifest, weights, states, output, preflight, 7/7 refusal cases, and offline drift refusal exact",
     "performance": "preflight +0.46%; offline load +1.33%, both inside the 2% gate"
   },
+  "portable_hydration": {
+    "architecture_a_region_LOC": 1715,
+    "architecture_b_region_LOC": 513,
+    "runtime_reduction_LOC": 871,
+    "test_reduction_LOC": 331,
+    "net_reduction_LOC": 1202,
+    "exact_semantics": "tensor-pack bytes/header/state hashes and canonical dense/pooled model output hashes",
+    "mutation_attacks_refused": 5,
+    "registry_binding": "CM7 declaration names the actually bound _verify_cm7 provider",
+    "performance": "offline load median improved 0.70%"
+  },
   "custom_finalizer": {
     "region_LOC_before": 890,
     "region_LOC_after": 763,
@@ -246,19 +257,19 @@
     "resume_and_history": "checkpoint/resume properties pass and every retired path has exact Git recovery"
   },
   "reduction_accounting": {
-    "eliminated_LOC": 390838,
+    "eliminated_LOC": 392177,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 14241,
-    "net_accounted_reduction_LOC": 392352,
-    "event_reported_net_LOC": 392457,
-    "direct_baseline_to_current_reduction_LOC": 388656,
+    "added_LOC": 14378,
+    "net_accounted_reduction_LOC": 393554,
+    "event_reported_net_LOC": 393659,
+    "direct_baseline_to_current_reduction_LOC": 389858,
     "note": "The direct baseline delta is primary. The ledger category total is reported separately because historical events include deduplication accounting and one early event's net field differs by 105 LOC from its category fields."
   },
   "validation": {
-    "full_suite": "155 collected; 149 passed; 6 environment-specific skips",
+    "full_suite": "152 collected; 146 passed; 6 environment-specific skips",
     "acceptance": "10/10 passed",
     "ruff": "lint and format clean over maintained Python",
     "mypy": "clean over 43 source files",
@@ -273,19 +284,19 @@
     },
     "current_clean_clone": {
       "path": "/tmp/mop-collapse-cont.9URUfp",
-      "commit": "40bd52d",
+      "commit": "f69ca7b",
       "environment": "disposable uv environment with declared dev and encoder dependencies",
-      "full_suite": "155 collected; 149 passed; 6 environment skips",
+      "full_suite": "152 collected; 146 passed; 6 environment skips",
       "acceptance": "10/10 passed"
     },
-    "offline_hydration": "all 7 portable custom-artifact tests passed without network; deterministic tensor export/load and hash-drift refusal cover the owned hydration path; no optional source pack exists",
-    "rollback": "1476 retired code paths and 162 retired document paths resolved from recorded tags with zero failures",
+    "offline_hydration": "all 9 portable hydration cases passed without network; deterministic content-addressed export/load, exact tensor/model semantics, scoped evidence hashes, and five fail-closed mutations cover the owned hydration path; no optional source pack exists",
+    "rollback": "1479 retired code paths and 162 retired document paths resolved from recorded tags with zero failures",
     "proof_index": "61 files, 2918932 bytes, zero duplicate groups; sizes and SHA-256 values recomputed by the invariant suite"
   },
   "pull_requests": {
     "pr9": "CLOSED as superseded after exact mapping and replacement gates",
     "pr30": "OPEN DRAFT; General Run closure remains deferred",
-    "pr31": "OPEN DRAFT against current main; body reflects code checkpoint 40bd52d and the 12740-LOC measured result; never marked ready or merged"
+    "pr31": "OPEN DRAFT against current main; body reflects code checkpoint f69ca7b and the 11538-LOC measured result; never marked ready or merged"
   },
   "live_boundary": {
     "protected_checkout": "clean at 094bdd934de3bb170c89ee95a0bc089f32172448 on agent/mop-evidence-salvage",
@@ -296,35 +307,35 @@
   },
   "final_report": {
     "1_starting_LOC": 401396,
-    "2_current_LOC": 12740,
-    "3_direct_net_reduction_LOC": 388656,
-    "4_accounted_net_reduction_LOC": 392352,
-    "5_runtime_kernel_LOC": 9535,
+    "2_current_LOC": 11538,
+    "3_direct_net_reduction_LOC": 389858,
+    "4_accounted_net_reduction_LOC": 393554,
+    "5_runtime_kernel_LOC": 8664,
     "6_engine_LOC_added": 126,
     "7_science_LOC_preserved": 8753,
     "8_independent_verifier_LOC_preserved": 414,
     "9_compatibility_LOC_retained": 39,
-    "10_lifecycle_LOC_deleted": 390348,
-    "11_test_LOC_current": 2725,
+    "10_lifecycle_LOC_deleted": 391687,
+    "11_test_LOC_current": 2394,
     "12_script_LOC_current": 229,
     "13_module_reduction": "1072 baseline Python files to 69 current Python files",
     "14_entrypoint_reduction": "319 measured baseline surfaces to 1 installed CLI plus 3 bounded developer scripts",
     "15_orientation_token_reduction": 76825,
-    "16_tests": "155 collected; 149 passed; 6 skipped",
-    "17_mutation_attacks": "selected STARSS engine 22/22 plus record drift, ordering, metrics, verifier, claim-ceiling, checkpoint/workbench refusals, and 7/7 artifact provenance mutations",
-    "18_performance": "selected interpreter overhead +9.793us investigated; custom-chain -10.45%; cache validation -3.42%; checkpoint -27.14%; workbench -13.20%; artifact preflight +0.46% and load +1.33%; finalizer writes -2.41%; finalizer lifecycle +1.01%",
+    "16_tests": "152 collected; 146 passed; 6 skipped",
+    "17_mutation_attacks": "selected STARSS engine 22/22 plus record drift, ordering, metrics, verifier, claim-ceiling, checkpoint/workbench refusals, and 5/5 portable hydration mutations",
+    "18_performance": "selected interpreter overhead +9.793us investigated; custom-chain -10.45%; cache validation -3.42%; checkpoint -27.14%; workbench -13.20%; historical artifact preflight +0.46% and load +1.33%; portable hydration load -0.70%",
     "19_architecture_selection": "sealed-record Architecture B selected; Architecture A deleted and recoverable",
     "20_evidence_authority": "one production authority plus structurally independent scientific verifiers",
     "21_registry_config_cli": "one YAML registry, one config tree/loader, one installed CLI",
     "22_documents": "4 current documents, 89 LOC, 162 historical documents indexed",
     "23_proof": "61 content-addressed files, zero duplicate groups",
-    "24_recovery": "1476 code and 162 document paths resolved, zero failures",
+    "24_recovery": "1479 code and 162 document paths resolved, zero failures",
     "25_pr9": "mapped, validated, commented, and closed as superseded",
-    "26_commits": ["d725ad4 declarative engine", "0d4f21d compact durable-state updater", "ad1a723 canonical custom-substrate model", "10c42d4 retired unused dual-budget facade", "71004fa raw-once custom attestation", "8c0cd11 unused support and synthetic adapter retirement", "6926231 custom receipt-chain lifecycle", "10ca18a cache receipt policy", "aa5841e custom checkpoint lifecycle", "d0becc4 custom workbench orchestration", "8a6801a custom artifact provenance policy", "844f404 finalizer chain and artifact wrapper", "d467c7b finalizer lifecycle and CLI", "40bd52d retired completed custom finalizer"],
-    "27_rollback_tags": ["mop-collapse-declarative-engine", "mop-collapse-ledger-compact", "mop-collapse-custom-model", "mop-collapse-budget-facade", "mop-collapse-raw-once-attestation", "mop-collapse-unused-surface", "mop-collapse-custom-chain", "mop-collapse-cache-receipt-policy", "mop-collapse-workbench-checkpoint-state", "mop-collapse-workbench-orchestration", "mop-collapse-artifact-provenance-policy", "mop-collapse-finalizer-chain-cli", "mop-collapse-finalizer-lifecycle-cli", "mop-collapse-retired-custom-finalizer"],
+    "26_commits": ["d725ad4 declarative engine", "0d4f21d compact durable-state updater", "ad1a723 canonical custom-substrate model", "10c42d4 retired unused dual-budget facade", "71004fa raw-once custom attestation", "8c0cd11 unused support and synthetic adapter retirement", "6926231 custom receipt-chain lifecycle", "10ca18a cache receipt policy", "aa5841e custom checkpoint lifecycle", "d0becc4 custom workbench orchestration", "8a6801a custom artifact provenance policy", "844f404 finalizer chain and artifact wrapper", "d467c7b finalizer lifecycle and CLI", "40bd52d retired completed custom finalizer", "f69ca7b portable hydration core"],
+    "27_rollback_tags": ["mop-collapse-declarative-engine", "mop-collapse-ledger-compact", "mop-collapse-custom-model", "mop-collapse-budget-facade", "mop-collapse-raw-once-attestation", "mop-collapse-unused-surface", "mop-collapse-custom-chain", "mop-collapse-cache-receipt-policy", "mop-collapse-workbench-checkpoint-state", "mop-collapse-workbench-orchestration", "mop-collapse-artifact-provenance-policy", "mop-collapse-finalizer-chain-cli", "mop-collapse-finalizer-lifecycle-cli", "mop-collapse-retired-custom-finalizer", "mop-collapse-portable-hydration-core"],
     "28_live_non_interference": "protected checkout clean and untouched; unrelated PID 14418 observed only",
     "29_external_boundary": "General Run has stale nonterminal state; PR 30 closure incomplete",
-    "30_next_exact_region": "audit the 1715-line portable custom-artifact module/test region: its only non-test textual reference is a registry verifier string that does not bind execution, while active CM7 verification uses mop.experiments.custom_substrate._verify_cm7; preserve any genuinely consumed export capability and retire speculative test-only lifecycle"
+    "30_next_exact_region": "map the 1861-line custom-workbench module/test region from the two active roots run_workbench and cm8_preflight, preserve training/evaluation/checkpoint science, and physically retire unreachable public helpers, completed receipt lifecycle, and synthetic-only test scaffolding"
   },
   "external_deferred": [
     {"id": "SEC-13", "reason": "binding controller replacement completion waits for a clean General Run terminal and PR 30 closure"},

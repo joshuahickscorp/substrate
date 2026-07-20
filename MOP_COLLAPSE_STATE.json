@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "40bd52dedcbd7e91ca73812ac7b8a4c0bf5e60d3",
+    "base_commit": "f69ca7b48e15ae82c3e2acd173e9b6b7bea86f2e",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -123,14 +123,14 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 390838,
+    "eliminated_LOC": 392177,
     "deduplicated_LOC": 15755,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 14241,
-    "event_net_LOC": 392457,
-    "net_reduction_LOC": 392352
+    "added_LOC": 14378,
+    "event_net_LOC": 393659,
+    "net_reduction_LOC": 393554
   },
   "checklist_summary": {
     "total": 261,
@@ -4388,9 +4388,9 @@
     }
   ],
   "current_measured": {
-    "global_maintained_python_LOC": 12740,
-    "runtime_campaign_kernel_LOC": 9535,
-    "validation_LOC": 2725,
+    "global_maintained_python_LOC": 11538,
+    "runtime_campaign_kernel_LOC": 8664,
+    "validation_LOC": 2394,
     "normal_cli_count": 1,
     "installed_entrypoint_count": 1,
     "current_document_count": 4,
