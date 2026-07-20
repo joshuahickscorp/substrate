@@ -330,7 +330,7 @@ def real_count_artifact(tmp_path_factory):
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_producer_seals_wellformed_artifact_within_ceiling(real_count_artifact):
-    art = real_count_artifact.artifact
+    art = real_count_artifact
     assert "seal" in art and isinstance(art["seal"], str) and len(art["seal"]) == 64
     assert art["schema"] == "mop-starss23-escs-count-bed/v1"
     assert art["source_kind"] == "real" and art["rights_clean"] is True
@@ -350,14 +350,14 @@ def test_producer_receipt_and_seal_byte_reproducible(tmp_path):
     prereg_path = tmp_path / "prereg.json"
     a = build_real_count_bed_artifact(timestamp=_TIMESTAMP, config=_SMALL_CONFIG, prereg_path=prereg_path)
     b = build_real_count_bed_artifact(timestamp=_TIMESTAMP, config=_SMALL_CONFIG, prereg_path=prereg_path)
-    assert a.artifact["seal"] == b.artifact["seal"]
-    assert a.artifact["demonstration_receipt"] == b.artifact["demonstration_receipt"]
-    assert a.prereg["canonical_sha256"] == b.prereg["canonical_sha256"]
+    assert a["seal"] == b["seal"]
+    assert a["demonstration_receipt"] == b["demonstration_receipt"]
+    assert a["prereg"]["canonical_sha256"] == b["prereg"]["canonical_sha256"]
 
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_reproduces_referee_and_stats(real_count_artifact):
-    result = V.verify_count_artifact(real_count_artifact.artifact)
+    result = V.verify_count_artifact(real_count_artifact)
     assert result.seal_intact is True
     assert result.scores_reproduced is True
     assert result.stats_reproduced is True
@@ -368,7 +368,7 @@ def test_verifier_reproduces_referee_and_stats(real_count_artifact):
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_detects_tampered_score(real_count_artifact):
-    art = copy.deepcopy(real_count_artifact.artifact)
+    art = copy.deepcopy(real_count_artifact)
     art["per_seed"][0]["arm_scores"]["candidate"]["mae"] += 0.5
     body = {k: v for k, v in art.items() if k != "seal"}
     art["seal"] = V._canonical_sha256(body)
@@ -380,14 +380,14 @@ def test_verifier_detects_tampered_score(real_count_artifact):
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_detects_tampered_reestimates_and_estimator_track(real_count_artifact):
-    art = copy.deepcopy(real_count_artifact.artifact)
+    art = copy.deepcopy(real_count_artifact)
     clip0 = art["per_seed"][0]["clips"][0]
     if clip0["reestimate_frames"]["candidate"]:
         clip0["reestimate_frames"]["candidate"] = clip0["reestimate_frames"]["candidate"][:-1]
     art["seal"] = V._canonical_sha256({k: v for k, v in art.items() if k != "seal"})
     assert V.verify_count_artifact(art).scores_reproduced is False
 
-    art2 = copy.deepcopy(real_count_artifact.artifact)
+    art2 = copy.deepcopy(real_count_artifact)
     some_clip = next(iter(art2["corpus_tracks"]))
     track = art2["corpus_tracks"][some_clip]["estimator_track"]
     track[0] = track[0] + 3
@@ -397,7 +397,7 @@ def test_verifier_detects_tampered_reestimates_and_estimator_track(real_count_ar
 
 @pytest.mark.skipif(not _REAL_PRESENT, reason="real STARSS23 subset not present")
 def test_verifier_detects_broken_seal(real_count_artifact):
-    art = copy.deepcopy(real_count_artifact.artifact)
+    art = copy.deepcopy(real_count_artifact)
     art["seal"] = "0" * 64
     result = V.verify_count_artifact(art)
     assert result.seal_intact is False

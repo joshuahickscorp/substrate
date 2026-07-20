@@ -331,33 +331,6 @@ def _pareto(points: list[_ComputePoint]) -> tuple[_ComputePoint, ...]:
 
 
 @dataclass(frozen=True, slots=True)
-class _BreakEven:
-    train_flops: int
-    per_query_saving: float
-    n_star_frames: int | None
-    amortizable: bool
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "train_flops": self.train_flops,
-            "per_query_saving": _sealed(self.per_query_saving),
-            "n_star_frames": self.n_star_frames,
-            "amortizable": self.amortizable,
-        }
-
-
-@dataclass(frozen=True, slots=True)
-class _MatchedBudget:
-    params: int
-    flops: int
-    wall_ns: int
-    seeds: int
-
-    def payload(self) -> dict[str, int]:
-        return {"params": self.params, "flops": self.flops, "wall_ns": self.wall_ns, "seeds": self.seeds}
-
-
-@dataclass(frozen=True, slots=True)
 class BudgetReport:
     policy: BudgetPolicy
     source_kind: str
@@ -367,8 +340,8 @@ class BudgetReport:
     pareto: tuple[_ComputePoint, ...]
     rows: tuple[dict[str, Any], ...]
     candidate_strictly_dominates_rate_matched_random: bool
-    break_even: _BreakEven
-    matched_budget: _MatchedBudget
+    break_even: dict[str, Any]
+    matched_budget: dict[str, int]
     verdict: str
 
     def payload(self) -> dict[str, Any]:
@@ -384,8 +357,8 @@ class BudgetReport:
             "candidate_strictly_dominates_rate_matched_random": (
                 self.candidate_strictly_dominates_rate_matched_random
             ),
-            "break_even": self.break_even.payload(),
-            "matched_budget": self.matched_budget.payload(),
+            "break_even": dict(self.break_even),
+            "matched_budget": dict(self.matched_budget),
             "verdict": self.verdict,
             "activation_allowed": False,
             "scientific_promotion": False,
@@ -495,18 +468,21 @@ def run_matched_budget(
     actions = round(operating.candidate.mean_actions())
     saving = (frames - actions) / frames * operating.candidate.flop_model.downstream_flops_per_firing
     training = operating.candidate.flop_model.train_flops
-    break_even = _BreakEven(
-        training, saving, math.ceil(training / saving) if saving > 0 else None, saving > 0
-    )
+    break_even = {
+        "train_flops": training,
+        "per_query_saving": _sealed(saving),
+        "n_star_frames": math.ceil(training / saving) if saving > 0 else None,
+        "amortizable": saving > 0,
+    }
     binding = max(point.candidate.max_flops() for point in points)
     if binding > limit:
         raise BudgetRefusal(f"binding candidate FLOPs {binding} exceed ceiling {limit}")
-    matched = _MatchedBudget(
-        points[0].candidate.params,
-        binding,
-        binding if wall_ns is None else _integer(wall_ns, "wall_ns", positive=True),
-        len(points[0].candidate.seeds),
-    )
+    matched = {
+        "params": points[0].candidate.params,
+        "flops": binding,
+        "wall_ns": binding if wall_ns is None else _integer(wall_ns, "wall_ns", positive=True),
+        "seeds": len(points[0].candidate.seeds),
+    }
     return BudgetReport(
         policy,
         source_kind,
