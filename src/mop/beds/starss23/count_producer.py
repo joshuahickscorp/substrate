@@ -47,7 +47,6 @@ from .count_gate import (
     training_flops,
     voc_targets_from_count_track,
 )
-from .count_labels import build_count_clips, change_density, coast_from_zero_mae
 from .count_prereg import (
     DEFAULT_COUNT_PREREG_PATH,
     build_count_prereg,
@@ -167,6 +166,14 @@ def _real_noisy_tv_features(
     return marginal_matched_noise(noise_seed, n_frames, featurizer, target_mean, target_std)
 
 
+def _track_totals(clips: tuple[Clip, ...], tracks: dict[str, tuple[int, ...]]) -> tuple[int, int, int]:
+    frames = sum(clip.n_frames for clip in clips)
+    values = (tracks[clip.clip_id] for clip in clips)
+    changes = sum(sum(a != b for a, b in zip(track, track[1:], strict=False)) for track in values)
+    coast = sum(sum(abs(value) for value in tracks[clip.clip_id]) for clip in clips)
+    return frames, changes, coast
+
+
 def _prepare_count_corpus(
     adapter: RealStarssAdapter,
     foa_root: str | Path,
@@ -175,14 +182,13 @@ def _prepare_count_corpus(
     estimator: FrozenCountEstimator,
     config: RealCountBedConfig,
 ) -> _CountCorpus:
-    count_clips = build_count_clips(adapter, metadata_root)
-    gt_by_clip = {clip_id: clip.count_track for clip_id, clip in count_clips.items()}
+    gt_by_clip = {clip.clip_id: adapter.count_track(clip.clip_id) for clip in adapter.clips()}
     features_by_clip = map_clip_audio(adapter, featurizer.featurize)
     estimator_by_clip = map_clip_audio(adapter, estimator.estimate_track)
     split = native_fold_split(adapter, config.n_val_rooms, refusal=CountProducerRefusal)
-    train_count_clips = [count_clips[clip.clip_id] for clip in split.train]
-    test_count_clips = [count_clips[clip.clip_id] for clip in split.test]
-    train_density = change_density(train_count_clips)
+    train_frames, train_changes, _ = _track_totals(split.train, gt_by_clip)
+    test_frames, test_changes, test_coast = _track_totals(split.test, gt_by_clip)
+    train_density = train_changes / train_frames
     return _CountCorpus(
         adapter,
         Path(foa_root),
@@ -195,9 +201,9 @@ def _prepare_count_corpus(
         estimator_by_clip,
         gt_by_clip,
         train_density,
-        int(sum(clip.n_frames for clip in split.test)),
-        int(sum(clip.n_changes for clip in test_count_clips)),
-        coast_from_zero_mae(test_count_clips),
+        test_frames,
+        test_changes,
+        test_coast / test_frames,
         min(config.target_rates, key=lambda rate: abs(rate - train_density)),
     )
 
