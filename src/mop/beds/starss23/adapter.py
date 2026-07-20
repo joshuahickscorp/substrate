@@ -35,23 +35,7 @@ class AdapterRefusal(ValueError):
     pass
 
 
-@dataclass(frozen=True, slots=True)
-class ClipName:
-    fold: int
-    room: int
-    mix: int
-
-    def __post_init__(self) -> None:
-        for name, value in (("fold", self.fold), ("room", self.room), ("mix", self.mix)):
-            if isinstance(value, bool) or not isinstance(value, int) or value < 0:
-                raise AdapterRefusal(f"ClipName.{name} must be a nonnegative integer")
-
-    @property
-    def room_id(self) -> str:
-        return f"room{self.room:02d}"
-
-
-def parse_clip_name(name: str) -> ClipName:
+def _clip_fold_room(name: str) -> tuple[int, int]:
 
     if not isinstance(name, str) or not name.strip():
         raise AdapterRefusal("clip name must be a nonempty string")
@@ -59,7 +43,7 @@ def parse_clip_name(name: str) -> ClipName:
     match = _CLIP_NAME_RE.fullmatch(stem)
     if match is None:
         raise AdapterRefusal(f"clip name {name!r} is not fold<F>_room<R>_mix<M>")
-    return ClipName(fold=int(match.group(1)), room=int(match.group(2)), mix=int(match.group(3)))
+    return int(match.group(1)), int(match.group(2))
 
 
 @dataclass(frozen=True, slots=True)
@@ -162,7 +146,7 @@ def native_fold_split(
     fold3: list[Clip] = []
     fold4: list[Clip] = []
     for clip in adapter.clips():
-        fold = parse_clip_name(clip.clip_id).fold
+        fold = _clip_fold_room(clip.clip_id)[0]
         if fold == FOLD_DEV_TRAIN:
             fold3.append(clip)
         elif fold == FOLD_DEV_TEST:
@@ -246,26 +230,6 @@ _REAL_SAMPLE_WIDTH_BYTES = 2  # 16-bit PCM
 _INT16_FULL_SCALE = 32768.0
 
 
-@dataclass(frozen=True, slots=True)
-class ClipTruncation:
-    clip_id: str
-    raw_samples: int
-    kept_frames: int
-    dropped_tail_samples: int
-    dropped_onsets_past_end: int
-    capped_by_max_frames: bool
-
-    def payload(self) -> dict[str, Any]:
-        return {
-            "clip_id": self.clip_id,
-            "raw_samples": self.raw_samples,
-            "kept_frames": self.kept_frames,
-            "dropped_tail_samples": self.dropped_tail_samples,
-            "dropped_onsets_past_end": self.dropped_onsets_past_end,
-            "capped_by_max_frames": self.capped_by_max_frames,
-        }
-
-
 def decode_foa_wav(path: str | Path) -> np.ndarray:
 
     path = Path(path)
@@ -331,11 +295,11 @@ class RealStarssAdapter:
 
         self._audio: dict[str, np.ndarray] = {}
         self._count_tracks: dict[str, tuple[int, ...]] = {}
-        self._truncations: list[ClipTruncation] = []
+        self._truncations: list[dict[str, Any]] = []
         clips: list[Clip] = []
         for wav_path in wav_paths:
             clip_id = wav_path.stem
-            name = parse_clip_name(clip_id)  # refuses any non STARSS23 filename before any decode
+            _, room = _clip_fold_room(clip_id)  # refuses any non STARSS23 filename before any decode
             matching_meta_path = meta_by_stem.get(clip_id)
             if matching_meta_path is None:
                 raise AdapterRefusal(
@@ -350,19 +314,19 @@ class RealStarssAdapter:
             onset_frames = _onset_frames(metadata_rows)
             self._count_tracks[clip_id] = _count_track(metadata_rows, n_frames)
             self._truncations.append(
-                ClipTruncation(
-                    clip_id=clip_id,
-                    raw_samples=raw_samples,
-                    kept_frames=n_frames,
-                    dropped_tail_samples=raw_samples - n_frames * SAMPLES_PER_FRAME,
-                    dropped_onsets_past_end=sum(frame >= n_frames for frame in onset_frames),
-                    capped_by_max_frames=capped,
-                )
+                {
+                    "clip_id": clip_id,
+                    "raw_samples": raw_samples,
+                    "kept_frames": n_frames,
+                    "dropped_tail_samples": raw_samples - n_frames * SAMPLES_PER_FRAME,
+                    "dropped_onsets_past_end": sum(frame >= n_frames for frame in onset_frames),
+                    "capped_by_max_frames": capped,
+                }
             )
             clips.append(
                 Clip(
                     clip_id=clip_id,
-                    room_id=name.room_id,
+                    room_id=f"room{room:02d}",
                     n_frames=n_frames,
                     audio_sha256=audio_sha256(audio),
                 )
@@ -382,6 +346,6 @@ class RealStarssAdapter:
             raise AdapterRefusal(f"unknown clip id {clip_id!r}")
         return self._count_tracks[clip_id]
 
-    def truncations(self) -> tuple[ClipTruncation, ...]:
+    def truncations(self) -> tuple[dict[str, Any], ...]:
 
         return tuple(self._truncations)

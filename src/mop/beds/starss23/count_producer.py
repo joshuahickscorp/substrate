@@ -350,7 +350,7 @@ def build_real_count_bed_artifact(
     dominates = report["candidate_strictly_dominates_rate_matched_random"]
     meets_bar = dominates and sign_flip.one_sided_significant and exceeds_sesoi
     verdict = "mechanics-ok" if meets_bar else "null"
-    truncations = [truncation.payload() for truncation in adapter.truncations()]
+    truncations = list(adapter.truncations())
     core_evidence = {
         "per_seed": per_seed,
         "stats": stats,
