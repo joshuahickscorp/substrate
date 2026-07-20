@@ -31,7 +31,7 @@
       "lane": "P",
       "mechanism": "G1-P1R external replication",
       "question": "P1R beats established replay under matched memory+compute on a stronger external source",
-      "status": "repaired_rerun_in_progress",
+      "status": "terminal",
       "dataset": "EMNIST-balanced class-incremental (downloading)",
       "independent_units": "tasks (class groups)",
       "implementation": "independent CNN + established methods reservoir/GDumb/uniform/loss/oracle",
@@ -40,12 +40,12 @@
       "SESOI": 0.05,
       "compute_budget": "bounded per lane",
       "wall_boundary": "checkpointed",
-      "result": null,
+      "result": "replication_null (faithful; EMNIST; P1R 0.104 vs GDumb 0.594, above no-replay 0.068)",
       "verification": null,
       "commit": null,
       "rollback": "drop lane artifacts; branch intact",
       "dependencies": "EMNIST download",
-      "next_exact_action": "await 5-seed faithful run; seal replication_null/positive per result",
+      "next_exact_action": "closed: P1R does not beat established replay on a stronger external source",
       "v1_result": "replication_harm (SUPERSEDED: unfaithful operationalization per 4-auditor adversarial audit)",
       "repair": "one bounded bed-validity repair: faithful learned replay-value predictor + validated toxic-value gate; instrumentation hardened (torch-seeded, 5 seeds, Vitter reservoir)"
     },
@@ -212,14 +212,14 @@
     "R": {
       "lane": "R",
       "purpose": "resource benchmarking + scheduler profiles",
-      "status": "standby",
-      "next_exact_action": "benchmark per task class before heavy runs"
+      "status": "done",
+      "result": "measured 1-4 concurrent torch capsules: slowdown 1.00/1.03/1.12/1.22x; recommended 4-wide; DAG scheduler built"
     },
     "Q": {
       "lane": "Q",
       "purpose": "cluster + construction preparation",
-      "status": "blocked_on_confirmations",
-      "next_exact_action": "prepare only when >=2 components confirm or a cluster is licensed"
+      "status": "closed",
+      "result": "no cluster licensed (no admitted components); construction unlicensed (P1R replication_null); integration unlicensed"
     }
   },
   "clusters": {
@@ -227,9 +227,22 @@
     "verification_repair_messaging": "unlicensed (V1 architecture_dependent, K1/M1 pruned)",
     "event_trace": "unlicensed (E1,C0 not admitted)"
   },
-  "construction": "unlicensed pending Lane P (needs external P1R replication or >=2 confirmed components or a confirmed cluster)",
-  "integration": "unlicensed (needs three confirmation-level functional domains; not met)",
+  "construction": "unlicensed and CLOSED (external P1R replication is null; no confirmed cluster; <2 confirmed components)",
+  "integration": "unlicensed and CLOSED (fewer than three confirmation-level functional domains)",
   "activation": false,
-  "terminal_synthesis": "pending",
-  "state_sha256": "1f16d7b17f7f8b76550273f174d89ef94cc430dd6e7c3e089a4f30e365a19686"
+  "terminal_synthesis": "SEALED (MOP_GENERATION2_FRONTIER_SYNTHESIS.json/.md + 6 matrices + observed/parallel schedules)",
+  "execution_correction": {
+    "observed_wall_excl_rework_s": 3865.5,
+    "corrected_parallel_wall_s": 1226.3,
+    "speedup": 3.15,
+    "avg_concurrency_observed": 1.24,
+    "avg_concurrency_corrected": 3.81,
+    "measured_slowdown": {
+      "1": 1.0,
+      "2": 1.03,
+      "3": 1.12,
+      "4": 1.22
+    }
+  },
+  "state_sha256": "17c218eb7c2e3573f7593ec78b12c88ad9b9742bf3391ec69a8e0b143f08a721"
 }

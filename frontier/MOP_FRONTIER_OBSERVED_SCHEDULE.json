@@ -1,0 +1,64 @@
+{
+  "schema": "mop-frontier-observed-schedule/v1",
+  "note": "Reconstructed from measured wall times and the actual execution order.",
+  "phases": [
+    {
+      "phase": "authority+download",
+      "capsules": [
+        "authority",
+        "emnist_dl"
+      ],
+      "concurrent": true,
+      "wall_s": 120
+    },
+    {
+      "phase": "selection_batch",
+      "capsules": [
+        "adm_V",
+        "adm_K",
+        "adm_M"
+      ],
+      "concurrent": false,
+      "wall_s": 691.5
+    },
+    {
+      "phase": "temporal+control",
+      "capsules": [
+        "adm_E",
+        "adm_C",
+        "adm_A",
+        "adm_S"
+      ],
+      "concurrent": true,
+      "wall_s": 36.2
+    },
+    {
+      "phase": "lane_P_v1",
+      "capsules": [
+        "lane_P_v1_superseded"
+      ],
+      "concurrent": false,
+      "wall_s": 1025.5
+    },
+    {
+      "phase": "adversarial_audit",
+      "capsules": [
+        "audit_workflow"
+      ],
+      "concurrent": false,
+      "wall_s": 2748.3,
+      "note": "science-quality rework: v1 was unfaithful; audit + repair were required"
+    },
+    {
+      "phase": "lane_P_v2_faithful",
+      "capsules": [
+        "lane_P"
+      ],
+      "concurrent": false,
+      "wall_s": 3017.8
+    }
+  ],
+  "observed_wall_seconds_total": 7639.3,
+  "observed_wall_seconds_excluding_rework": 3865.5,
+  "sha256": "a6951ca6e3adb1abc5ef6280c83e19c62a500baba22ad8b0fe75fa2feb70e8c5"
+}
