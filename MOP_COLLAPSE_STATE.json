@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "b07ef6031f79a92009e2aa7101d5c2d51f0626b2",
+    "base_commit": "2e7be18c764bc762fb28eb0470de0f3c1cc2c9c0",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/mop-evidence-salvage, DO NOT TOUCH)",
     "live_general_run": {
@@ -2159,7 +2159,7 @@
     "latest_full_validation": {
       "command": ".venv/bin/python -m pytest -q",
       "result": "129 collected; 123 passed; 6 environment skips",
-      "acceptance": "10/10 passed",
+      "acceptance": "11/11 passed",
       "static": "Ruff lint and format clean; mypy clean over 37 source files",
       "general_run_note": "This bounded validation completed without touching the protected checkout. It does not convert the stale nonterminal General Run status into a scientific terminal."
     }
@@ -2168,15 +2168,15 @@
     "status": "green_with_external_live_boundary",
     "subject": {
       "branch": "agent/mop-accretion-collapse",
-      "code_checkpoint": "d607d5d",
-      "code_tree": "070d9f92c7196e01c0b773d26a00b2665ef664a9",
-      "physical_checkpoint": "d607d5d",
-      "physical_tree": "070d9f92c7196e01c0b773d26a00b2665ef664a9",
+      "code_checkpoint": "2e7be18",
+      "code_tree": "81e01e51171ee8c2f485a7ddab279ef37662f641",
+      "physical_checkpoint": "2e7be18",
+      "physical_tree": "81e01e51171ee8c2f485a7ddab279ef37662f641",
       "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
       "starting_owned_python_LOC": 401396,
-      "current_maintained_python_LOC": 7370,
-      "direct_physical_reduction_LOC": 394026,
-      "direct_physical_reduction_percent": 98.1639
+      "current_maintained_python_LOC": 7401,
+      "direct_physical_reduction_LOC": 393995,
+      "direct_physical_reduction_percent": 98.1562
     },
     "physical_census": {
       "tracked_files": 147,
@@ -2195,7 +2195,7 @@
         },
         "laboratory_scripts": {
           "files": 1,
-          "physical_LOC": 74
+          "physical_LOC": 105
         },
         "audit_tooling": {
           "files": 1,
@@ -2219,11 +2219,11 @@
         },
         "durable_collapse_state": {
           "files": 5,
-          "physical_LOC": 3289
+          "physical_LOC": 3299
         },
         "scientific_evidence": {
           "files": 60,
-          "physical_LOC": 17738
+          "physical_LOC": 16667
         },
         "run_artifacts": {
           "files": 8,
@@ -2251,14 +2251,14 @@
         }
       },
       "maintained_metrics": {
-        "global_owned_source_LOC": 7370,
-        "global_maintained_source_LOC": 7370,
+        "global_owned_source_LOC": 7401,
+        "global_maintained_source_LOC": 7401,
         "active_kernel_LOC": 5200,
-        "active_product_LOC": 5274,
-        "default_active_checkout_LOC": 9665,
+        "active_product_LOC": 5305,
+        "default_active_checkout_LOC": 9696,
         "default_validation_LOC": 1819,
         "optional_pack_LOC": 0,
-        "laboratory_LOC": 74,
+        "laboratory_LOC": 105,
         "compatibility_LOC": 39,
         "historical_source_LOC": 0,
         "generated_owned_LOC": 0,
@@ -2344,7 +2344,7 @@
       "retired_documents_checked": 162,
       "retired_document_recovery_failures": 0,
       "proof_files": 60,
-      "proof_bytes": 844285,
+      "proof_bytes": 826367,
       "proof_duplicate_groups": 0
     },
     "irreducible_kernel_estimate": {
@@ -2379,19 +2379,19 @@
     },
     "reduction_accounting": {
       "eliminated_LOC": 398108,
-      "deduplicated_LOC": 17489,
+      "deduplicated_LOC": 18746,
       "relocated_LOC": 0,
       "archived_LOC": 0,
       "generated_replacement_LOC": 0,
-      "added_LOC": 16188,
-      "net_accounted_reduction_LOC": 399409,
-      "event_reported_net_LOC": 399514,
-      "direct_baseline_to_current_reduction_LOC": 394026,
+      "added_LOC": 16405,
+      "net_accounted_reduction_LOC": 400449,
+      "event_reported_net_LOC": 400554,
+      "direct_baseline_to_current_reduction_LOC": 393995,
       "note": "The direct baseline delta is primary. The ledger category total is reported separately because historical events include deduplication accounting and one early event's net field differs by 105 LOC from its category fields."
     },
     "validation": {
       "full_suite": "129 collected; 123 passed; 6 environment-specific skips",
-      "acceptance": "10/10 passed",
+      "acceptance": "11/11 passed",
       "ruff": "lint and format clean over maintained Python",
       "mypy": "clean over 37 source files",
       "no_gaming": "PR 9 controller probe found zero violations; current property gate parses every Python file, rejects semicolon line packing, and caps lines at 4096 bytes",
@@ -2405,19 +2405,19 @@
       },
       "current_clean_clone": {
         "path": "/tmp/mop-collapse-cont.9URUfp",
-        "commit": "d607d5d",
+        "commit": "2e7be18",
         "environment": "disposable uv environment with declared dev and encoder dependencies",
         "full_suite": "129 collected; 123 passed; 6 environment skips",
-        "acceptance": "10/10 passed"
+        "acceptance": "11/11 passed"
       },
       "offline_hydration": "all 9 portable hydration cases passed without network; deterministic content-addressed export/load, exact tensor/model semantics, scoped evidence hashes, and five fail-closed mutations cover the owned hydration path; no optional source pack exists",
       "rollback": "1555 retired code/audit/evidence paths and 162 retired document paths resolved from recorded tags with zero failures",
-      "proof_index": "60 files, 844285 bytes, zero duplicate groups; sizes and SHA-256 values recomputed by the invariant suite"
+      "proof_index": "60 files, 826367 bytes, zero duplicate groups; sizes and SHA-256 values recomputed by the invariant suite"
     },
     "pull_requests": {
       "pr9": "CLOSED as superseded after exact mapping and replacement gates",
       "pr30": "OPEN DRAFT; General Run closure remains deferred",
-      "pr31": "OPEN DRAFT against current main; body reflects code/physical checkpoint d607d5d and the 7370-LOC measured result; never marked ready or merged"
+      "pr31": "OPEN DRAFT against current main; body reflects code/physical checkpoint 2e7be18 and the 7401-LOC measured result; never marked ready or merged"
     },
     "live_boundary": {
       "protected_checkout": "clean at 094bdd934de3bb170c89ee95a0bc089f32172448 on agent/mop-evidence-salvage",
@@ -2428,9 +2428,9 @@
     },
     "final_report": {
       "1_starting_LOC": 401396,
-      "2_current_LOC": 7370,
-      "3_direct_net_reduction_LOC": 394026,
-      "4_accounted_net_reduction_LOC": 399409,
+      "2_current_LOC": 7401,
+      "3_direct_net_reduction_LOC": 393995,
+      "4_accounted_net_reduction_LOC": 400449,
       "5_runtime_kernel_LOC": 5200,
       "6_engine_LOC_added": 126,
       "7_science_LOC_preserved": 8753,
@@ -2438,18 +2438,18 @@
       "9_compatibility_LOC_retained": 39,
       "10_lifecycle_LOC_deleted": 395846,
       "11_test_LOC_current": 1819,
-      "12_script_LOC_current": 74,
+      "12_script_LOC_current": 105,
       "13_module_reduction": "1072 baseline Python files to 59 current Python files",
       "14_entrypoint_reduction": "319 measured baseline surfaces to 1 installed CLI plus 1 bounded developer script",
       "15_orientation_token_reduction": 76825,
       "16_tests": "129 collected; 123 passed; 6 skipped",
       "17_mutation_attacks": "selected STARSS engine 22/22 plus record drift, ordering, metrics, verifier, claim-ceiling, 13/13 matched-budget valid/refusal parity, 24/24 count-statistics success/refusal parity, 15/15 direct count-intake refusal parity, 22/22 preregistration success/refusal parity, 17/17 fixed-gate numerical/refusal parity, 9/9 count-corpus metadata/refusal parity, historical CM7 independent recomputation, 30/30 cache receipt problem lists, and 5/5 portable hydration mutations; normalized checklist/reduction width, digest, tag, blob, line, and byte drift refusals",
-      "18_performance": "selected interpreter overhead +9.793us investigated; custom-chain -10.45%; cache validation -3.42%; checkpoint -27.14%; workbench -13.20%; portable hydration load -0.70%; workbench snapshot retirement -0.15%; unified profile listing -6.51%; harness import -0.79%; historical registry import -1.49%; CLI help -1.10%; read-only cache validation -2.50%; matched-budget projection -2.28%; Studio report projection -0.82%; Studio profile import +0.34% inside gate; count statistics -9.16%; direct count producer import -0.68%; onset-schema adapter import -0.65%; direct count-intake adapter import -0.52%; direct count-artifact import -0.16%; direct preregistration -6.21%; fixed-gate training -14.35%; count-corpus staging -0.23%; substrate import -89.39%; durable authority -68.20% LOC and -52.92% bytes; CM7 pilot authority -97.29% LOC and -97.45% bytes",
+      "18_performance": "selected interpreter overhead +9.793us investigated; custom-chain -10.45%; cache validation -3.42%; checkpoint -27.14%; workbench -13.20%; portable hydration load -0.70%; workbench snapshot retirement -0.15%; unified profile listing -6.51%; harness import -0.79%; historical registry import -1.49%; CLI help -1.10%; read-only cache validation -2.50%; matched-budget projection -2.28%; Studio report projection -0.82%; Studio profile import +0.34% inside gate; count statistics -9.16%; direct count producer import -0.68%; onset-schema adapter import -0.65%; direct count-intake adapter import -0.52%; direct count-artifact import -0.16%; direct preregistration -6.21%; fixed-gate training -14.35%; count-corpus staging -0.23%; substrate import -89.39%; durable authority -68.20% LOC and -52.92% bytes; CM7 pilot authority -97.29% LOC and -97.45% bytes; SANPO attribute authority parse -40.96%",
       "19_architecture_selection": "sealed-record Architecture B selected; Architecture A deleted and recoverable",
       "20_evidence_authority": "one production authority plus structurally independent scientific verifiers",
       "21_registry_config_cli": "one YAML registry, one config tree/loader, one installed CLI",
       "22_documents": "4 current documents, 89 LOC, 162 historical documents indexed",
-      "23_proof": "60 active content-addressed files, 844285 bytes, zero duplicate groups; retired meta-aggregates remain tag-addressable",
+      "23_proof": "60 active content-addressed files, 826367 bytes, zero duplicate groups; retired meta-aggregates remain tag-addressable",
       "24_recovery": "1555 code/audit/evidence and 162 document paths resolved, zero failures",
       "25_pr9": "mapped, validated, commented, and closed as superseded",
       "26_commits": [
@@ -2487,7 +2487,8 @@
         "d982d4b direct count corpus staging",
         "8234b9b retired dormant latent store",
         "015b9d7 normalized durable authority",
-        "d607d5d direct count and compact CM7 pilot authority"
+        "d607d5d direct count and compact CM7 pilot authority",
+        "2e7be18 normalized SANPO attribute authority"
       ],
       "27_rollback_tags": [
         "mop-collapse-declarative-engine",
@@ -2524,11 +2525,12 @@
         "mop-collapse-direct-count-corpus",
         "mop-collapse-retired-dormant-latent-store",
         "mop-collapse-single-durable-authority",
-        "mop-collapse-direct-count-pilot-authority"
+        "mop-collapse-direct-count-pilot-authority",
+        "mop-collapse-normalized-sanpo-attribute-map"
       ],
       "28_live_non_interference": "protected checkout untouched; cached boundary reports no General Run process and a stale nonterminal status only",
       "29_external_boundary": "General Run has stale nonterminal state; PR 30 closure incomplete",
-      "30_next_exact_region": "audit the 1931-line proof/SANPO_REAL_SMOKE_INTAKE.json against its sealed downstream receipts; retire only a demonstrably duplicated aggregate body, otherwise retain it as primary raw evidence"
+      "30_next_exact_region": "canonicalize the 24 proof JSON artifacts whose file-byte SHA-256 has no tracked consumer; projected representation-only reduction is 5800 lines and 55300 bytes, with strict duplicate-key rejection and semantic parity required before any rewrite"
     },
     "external_deferred": [
       {
