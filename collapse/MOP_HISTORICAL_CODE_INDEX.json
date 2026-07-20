@@ -1843,6 +1843,19 @@
         "src/mop/shell/predictor.py",
         "src/mop/substrate/datasets.py"
       ]
+    },
+    {
+      "id": "compacted_final_ledger_reconciliation",
+      "source_tag": "mop-collapse-validation",
+      "reason": "the verbose per-condition completion override duplicated evidence prose already present in the durable state; one compact data-driven reconciliation now derives the same 261 terminal statuses and current LOC metrics",
+      "replacement_paths": [
+        "collapse/tools/build_ledger.py",
+        "MOP_COLLAPSE_STATE.json"
+      ],
+      "recovery": "git show mop-collapse-validation:<path>",
+      "paths": [
+        "collapse/tools/build_ledger.py"
+      ]
     }
   ]
 }
