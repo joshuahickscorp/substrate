@@ -232,24 +232,17 @@ def _budget_report(runs=None, **options):
     return H.run_matched_budget(
         COUNT_BUDGET_POLICY,
         runs or _budget_runs(),
-        score_group="arm_scores",
-        score_field="mae",
-        action_group="reestimations",
         flop_model=options.pop("flop_model", _fixture_flops),
         operating_budget_id="rate_0.05",
-        source_kind="real",
         **options,
     )
 
 
 def test_harness_payload_is_exact_and_matched():
     report = _budget_report()
-    assert report.candidate_strictly_dominates_rate_matched_random is True
-    assert report.verdict == "mechanics-ok"
-    assert (
-        canonical_sha256(report.payload())
-        == "0b489f0e2304ce5e458d68bad6ac0243f0b669d424f7d67b7f08287be7443fdf"
-    )
+    assert report["candidate_strictly_dominates_rate_matched_random"] is True
+    assert report["verdict"] == "mechanics-ok"
+    assert canonical_sha256(report) == "0b489f0e2304ce5e458d68bad6ac0243f0b669d424f7d67b7f08287be7443fdf"
 
 
 def test_harness_refuses_uncharged_training_and_action_mismatch():
@@ -265,7 +258,7 @@ def test_harness_refuses_ceiling_exceeded():
 
 
 def test_pareto_minimizes_flops_and_mae():
-    pareto = {(row["budget_id"], row["arm_kind"]) for row in _budget_report().payload()["pareto"]}
+    pareto = {(row["budget_id"], row["arm_kind"]) for row in _budget_report()["pareto"]}
     assert ("rate_0.10", H.ARM_RATE_MATCHED_RANDOM) not in pareto
     assert ("rate_0.05", H.ARM_RATE_MATCHED_RANDOM) in pareto
 
