@@ -853,6 +853,21 @@ def main() -> int:
                     "recover"),
         rollback_tag="mop-collapse-categorized-wave",
         next_action="audit the remaining Generation-1 successor mechanics and final-campaign surfaces"))
+    checklist.append(item(
+        "RED-successor-horizon-v1-v2", 8, "verified_reduction",
+        "Retire completed successor horizon v1/v2 campaign stacks",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/studies/generation1_context_routing.py",
+                  "src/mop/studio/generation1_supervisor.py", "src/mop/studio/local_throttle.py"],
+        validation=("8166 completed campaign/scheduler/test Python LOC removed for 12 survivor and "
+                    "integrity-pin LOC, net -8154; dedicated 1345-line manifest/policy surface also "
+                    "deleted; four live result/verification artifacts are complete and their 100 MB "
+                    "evidence trees remain untouched; retained C2 direct assertions and 45-case "
+                    "notifier/supervisor boundary green; 3177-case collection, compile-all, critical "
+                    "ruff, and docs gate clean; all 16 paths recover"),
+        rollback_tag="mop-collapse-successor-horizons",
+        next_action="audit completed Generation-1 mechanics, context-routing, and final-campaign layers"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

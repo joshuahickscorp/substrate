@@ -229,8 +229,6 @@ def test_successor_chain_family_renders_as_unified_general_run() -> None:
     assert notifier._program_label("generation1-successor-evidence-chain-v5") == "General Run: Adopter"
     assert notifier._program_label("generation1-successor-evidence-chain-v6") == "General Run: Adopter"
     assert notifier._program_label("generation1-successor-evidence-chain-v7") == "General Run: Adopter"
-    assert notifier._program_label("generation1-successor-horizon-v1") == "General Run: Horizon 1"
-    assert notifier._program_label("generation1-successor-horizon-v2") == "General Run: Horizon 2"
     assert notifier._program_label("generation1-successor-extension-chain-v1") == "General Run: Horizon Waiter"
     assert notifier._program_label("generation1-successor-extension-chain-v3") == "General Run: Horizon Waiter"
     assert notifier._program_label("generation1-consolidated-final-campaign-v1") == "General Run: Final"
@@ -326,25 +324,25 @@ def test_collect_events_shows_workers_and_eta_for_a_dynamic_pool_stage_with_no_c
     )
     runs = tmp_path / "runs"
     _write(
-        runs / "horizon" / "current_status.json",
+        runs / "mechanics" / "current_status.json",
         {
-            "program_id": "successor-horizon-v1",
+            "program_id": "successor-mechanics-extended-v1",
             "state": "running",
             "problems": [],
             "capsules": {
-                "g1_h01_classify": {
+                "g1_mechanics_classify": {
                     "returncode": 0,
                     "finished_at": "2026-07-18T00:00:00+00:00",
                     "attempts": 1,
                     "artifacts": [{"all_ok": True, "sha256": "a" * 64}],
                 },
-                "g1_h01_d1_shard_00": {
+                "g1_mechanics_shard_00": {
                     "returncode": 0,
                     "finished_at": "2026-07-18T00:01:00+00:00",
                     "attempts": 1,
                     "artifacts": [{"all_ok": True, "sha256": "b" * 64}],
                 },
-                "g1_h01_d1_shard_01": {},
+                "g1_mechanics_shard_01": {},
             },
         },
     )

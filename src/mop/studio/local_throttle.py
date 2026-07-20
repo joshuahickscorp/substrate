@@ -66,25 +66,6 @@ EXTERNAL_COEXISTENCE_TASKS = frozenset(
         "escs_x0_verify_cpu",
     }
 )
-GENERATION1_SUCCESSOR_HORIZON_EPOCHS = tuple(f"h{index:02d}" for index in range(1, 6))
-GENERATION1_SUCCESSOR_HORIZON_COMPUTE_TASKS = frozenset(
-    f"g1_{epoch}_{lane}_shard_{shard:02d}"
-    for epoch in GENERATION1_SUCCESSOR_HORIZON_EPOCHS
-    for lane, shard_count in (("d1", 5), ("mechanics", 8))
-    for shard in range(shard_count)
-)
-GENERATION1_SUCCESSOR_HORIZON_LIGHT_TASKS = frozenset(
-    {
-        "g1_horizon_admit",
-        "g1_horizon_aggregate",
-        "g1_horizon_verify",
-        "g1_horizon_report",
-        *(f"g1_{epoch}_classify" for epoch in GENERATION1_SUCCESSOR_HORIZON_EPOCHS),
-    }
-)
-GENERATION1_SUCCESSOR_HORIZON_TASKS = (
-    GENERATION1_SUCCESSOR_HORIZON_COMPUTE_TASKS | GENERATION1_SUCCESSOR_HORIZON_LIGHT_TASKS
-)
 GENERATION1_EXTERNAL_COEXISTENCE_TASKS = (
     frozenset(
         {
@@ -104,7 +85,6 @@ GENERATION1_EXTERNAL_COEXISTENCE_TASKS = (
             "g1_c2_context_routing_verify_parallel",
         }
     )
-    | GENERATION1_SUCCESSOR_HORIZON_TASKS
 )
 GENERATION1_C2_ADAPTIVE_TASKS = frozenset(
     {
@@ -161,9 +141,9 @@ DEFAULT_POLICY = REPO_ROOT / "configs/local_execution_throttle.yaml"
 DEFAULT_STATE_ROOT = REPO_ROOT / "runs/local_throttle"
 IMPLEMENTATION_PATH = Path(__file__).resolve()
 TASK_POLICY_HELPER_PATH = Path(task_policy.__file__).resolve()
-TASK_POLICY_HELPER_SHA256 = "7a31d461e3fb795ff137816696c82139903bde5ac2e19462a2c61c4fbf52780e"
+TASK_POLICY_HELPER_SHA256 = "db6adcd470c11195b842e7ddc27bb1a1b1b03942425c1d126240cbf7641d8c88"
 EXTERNAL_COEXISTENCE_HELPER_PATH = Path(coexistence.__file__).resolve()
-EXTERNAL_COEXISTENCE_HELPER_SHA256 = "cbd872697ebc1bc7107c45190ef46ed3c099255acb3e46b693b2334cedd4aeeb"
+EXTERNAL_COEXISTENCE_HELPER_SHA256 = "2e9a3a5ce05268ee3b947151a2bf9261457c93241994742ecf535ac24e723a19"
 HAWKING_ROOT = Path.home() / "Downloads/hawking"
 HAWKING_PYTHON = Path(
     "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python"
@@ -481,19 +461,15 @@ def _external_coexistence_task_problems(task: TaskDeclaration) -> list[str]:
         problems.append("task id is outside the exact reviewed coexistence set")
     atlas_parallel = task.task_id == "g1_c1_difficulty_atlas" and 1 <= task.cpu_cores <= 6
     adaptive_c2 = task.task_id in GENERATION1_C2_ADAPTIVE_TASKS
-    adaptive_horizon = task.task_id in GENERATION1_SUCCESSOR_HORIZON_COMPUTE_TASKS
-    adaptive = adaptive_c2 or adaptive_horizon
+    adaptive = adaptive_c2
     if adaptive_c2:
         cpu_ok = task.cpu_cores == 25
-    elif adaptive_horizon:
-        cpu_ok = task.cpu_cores == 8
     else:
         cpu_ok = task.cpu_cores == 1 or atlas_parallel
     if task.lane != "cpu" or task.accelerator != "none" or not cpu_ok:
         problems.append(
             "coexistence is restricted to one CPU core, six bounded C1 atlas cores, "
-            "the reviewed 25-to-6 adaptive C2 envelope, or the reviewed 8-to-1 "
-            "successor-horizon envelope"
+            "or the reviewed 25-to-6 adaptive C2 envelope"
         )
     expected_cap = TASKPOLICY_ADAPTIVE_CAP_GB if adaptive else TASKPOLICY_COEXISTENCE_CAP_GB
     expected_prefix = TASKPOLICY_ADAPTIVE_PREFIX if adaptive else TASKPOLICY_COEXISTENCE_PREFIX
@@ -516,20 +492,14 @@ def _external_coexistence_task_problems(task: TaskDeclaration) -> list[str]:
         ):
             problems.append("parallel C1 atlas cores must equal the exact seed-worker argument")
     if adaptive:
-        worker_contract = (
-            (("--idle-workers", "25"), ("--hawking-workers", "6"))
-            if adaptive_c2
-            else (("--idle-workers", "8"), ("--hawking-workers", "1"))
-        )
-        contract_label = "adaptive C2" if adaptive_c2 else "successor-horizon"
-        for flag, expected in worker_contract:
+        for flag, expected in (("--idle-workers", "25"), ("--hawking-workers", "6")):
             indexes = [index for index, value in enumerate(task.command) if value == flag]
             if (
                 len(indexes) != 1
                 or indexes[0] + 1 >= len(task.command)
                 or task.command[indexes[0] + 1] != expected
             ):
-                problems.append(f"{contract_label} command must declare exact {flag} {expected}")
+                problems.append(f"adaptive C2 command must declare exact {flag} {expected}")
     return problems
 
 
@@ -542,7 +512,7 @@ def is_taskpolicy_coexistence_command(command: Sequence[str]) -> bool:
 
 
 def _effective_external_task_cores(task: TaskDeclaration) -> int:
-    if task.task_id not in (GENERATION1_C2_ADAPTIVE_TASKS | GENERATION1_SUCCESSOR_HORIZON_COMPUTE_TASKS):
+    if task.task_id not in GENERATION1_C2_ADAPTIVE_TASKS:
         return task.cpu_cores
     indexes = [index for index, value in enumerate(task.command) if value == "--hawking-workers"]
     if len(indexes) != 1 or indexes[0] + 1 >= len(task.command):

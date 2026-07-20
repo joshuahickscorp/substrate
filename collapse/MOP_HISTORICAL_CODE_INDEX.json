@@ -421,6 +421,37 @@
         "tests/unit/test_generation1_successor_categorized_batch_wave_program.py",
         "tests/unit/test_generation1_successor_categorized_batch_wave_verify.py"
       ]
+    },
+    {
+      "id": "completed_successor_horizon_v1_v2_campaigns",
+      "reason": "both bounded horizon campaigns emitted complete problem-free results and complete independent artifact verifications with activation and promotion disabled; their 100 MB live evidence trees remain protected outside the collapse branch",
+      "source_tag": "mop-collapse-categorized-wave",
+      "recovery": "git show mop-collapse-categorized-wave:<path>",
+      "replacement_paths": [
+        "src/mop/studies/generation1_context_routing.py",
+        "src/mop/studies/generation1_successor_mechanics_queue.py",
+        "src/mop/studio/generation1_supervisor.py",
+        "src/mop/studio/local_throttle.py",
+        "src/mop/studio/telegram_rung_notifier.py"
+      ],
+      "paths": [
+        "configs/campaign/generation1_successor_horizon_v1.json",
+        "configs/campaign/generation1_successor_horizon_v2.json",
+        "configs/local_execution_throttle_v5_opportunistic.yaml",
+        "scripts/build_generation1_successor_horizon_program.py",
+        "scripts/build_generation1_successor_horizon_v2_program.py",
+        "scripts/generation1_successor_horizon_v2/mop_generation1_successor_horizon.py",
+        "scripts/mop_generation1_successor_horizon.py",
+        "src/mop/studies/generation1_successor_horizon.py",
+        "src/mop/studies/generation1_successor_horizon_v2.py",
+        "src/mop/studies/generation1_successor_horizon_v2_verify.py",
+        "src/mop/studies/generation1_successor_horizon_verify.py",
+        "tests/unit/test_generation1_successor_horizon.py",
+        "tests/unit/test_generation1_successor_horizon_program.py",
+        "tests/unit/test_generation1_successor_horizon_v2.py",
+        "tests/unit/test_generation1_successor_horizon_v2_program.py",
+        "tests/unit/test_generation1_successor_horizon_v2_verify.py"
+      ]
     }
   ]
 }

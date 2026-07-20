@@ -5,7 +5,7 @@
   "meta": {
     "branch": "agent/mop-accretion-collapse",
     "worktree": "/Users/scammermike/Downloads/mop-accretion-collapse",
-    "base_commit": "a8d978052e0ee330beb87772e6758191c9d25bce",
+    "base_commit": "2ef8e796e0dd946ca9d3fe1c48d1d3f201914136",
     "current_main": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
     "live_tree": "/Users/scammermike/Downloads/mop (agent/save-mop-stable-work, DO NOT TOUCH)",
     "live_general_run": {
@@ -118,22 +118,22 @@
     }
   },
   "reduction_accounting_verified": {
-    "eliminated_LOC": 102405,
+    "eliminated_LOC": 110571,
     "deduplicated_LOC": 15860,
     "relocated_LOC": 0,
     "archived_LOC": 0,
     "generated_replacement_LOC": 0,
-    "added_LOC": 9020,
-    "net_global_reduction_LOC": 109245
+    "added_LOC": 9032,
+    "net_global_reduction_LOC": 117399
   },
   "checklist_summary": {
-    "total": 256,
+    "total": 257,
     "by_status": {
       "complete": 17,
       "active": 52,
       "pending": 137,
       "partial": 10,
-      "verified": 40
+      "verified": 41
     }
   },
   "checklist": [
@@ -3708,6 +3708,25 @@
       "rollback_tag": "mop-collapse-categorized-wave",
       "dependency": "",
       "next_action": "audit the remaining Generation-1 successor mechanics and final-campaign surfaces"
+    },
+    {
+      "id": "RED-successor-horizon-v1-v2",
+      "section": 8,
+      "kind": "verified_reduction",
+      "title": "Retire completed successor horizon v1/v2 campaign stacks",
+      "status": "verified",
+      "evidence_paths": [
+        "collapse/MOP_REDUCTION_LOG.json",
+        "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+        "src/mop/studies/generation1_context_routing.py",
+        "src/mop/studio/generation1_supervisor.py",
+        "src/mop/studio/local_throttle.py"
+      ],
+      "validation": "8166 completed campaign/scheduler/test Python LOC removed for 12 survivor and integrity-pin LOC, net -8154; dedicated 1345-line manifest/policy surface also deleted; four live result/verification artifacts are complete and their 100 MB evidence trees remain untouched; retained C2 direct assertions and 45-case notifier/supervisor boundary green; 3177-case collection, compile-all, critical ruff, and docs gate clean; all 16 paths recover",
+      "commit": "",
+      "rollback_tag": "mop-collapse-successor-horizons",
+      "dependency": "",
+      "next_action": "audit completed Generation-1 mechanics, context-routing, and final-campaign layers"
     },
     {
       "id": "ART-MOP_EVIDENCE_EQUIVALENCE.json",
