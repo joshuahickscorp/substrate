@@ -58,6 +58,37 @@ def main() -> int:
     )
     cm8 = json.loads((ROOT / "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json").read_text())
     step("CM8 closed descendant", not cm8["scientific_execution_ready"] and not cm8["scientific_promotion"])
+    sanpo = json.loads((ROOT / "proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json").read_text())
+    sessions, pairs = sanpo["development_sessions"], sanpo["candidate_factor_pairs"]
+    gate_column = pairs["fields"].index("dr1_gate_met_at_smoke_scale")
+    legacy = sanpo["legacy_aggregate"]
+    legacy_bytes = subprocess.check_output(
+        ["git", "show", f"{legacy['tag']}:proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json"], cwd=ROOT
+    )
+    legacy_blob = subprocess.check_output(
+        ["git", "rev-parse", f"{legacy['tag']}:proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json"],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+    legacy_body = json.loads(legacy_bytes)
+    reconstructed = {k: v for k, v in sanpo.items() if k not in {"complete", "legacy_aggregate"}}
+    reconstructed.update(schema=legacy_body["schema"], all_ok=sanpo["complete"])
+    reconstructed["dr1_cm1_verdict"] = reconstructed.pop("authoritative_verdict")
+    for name, table in (("development_sessions", sessions), ("candidate_factor_pairs", pairs)):
+        reconstructed[name] = [dict(zip(table["fields"], row, strict=True)) for row in table["rows"]]
+    step(
+        "SANPO compact attribute authority",
+        sanpo["complete"]
+        and len(sessions["rows"]) == 8
+        and all(len(row) == len(sessions["fields"]) for row in sessions["rows"])
+        and len(pairs["rows"]) == 36
+        and all(len(row) == len(pairs["fields"]) and not row[gate_column] for row in pairs["rows"])
+        and not sanpo["authoritative_verdict"]["any_pair_meets_dr1_min_per_cell"]
+        and reconstructed == legacy_body
+        and (len(legacy_bytes), len(legacy_bytes.decode().splitlines())) == (legacy["bytes"], legacy["lines"])
+        and hashlib.sha256(legacy_bytes).hexdigest() == legacy["sha256"]
+        and legacy_blob == legacy["git_blob"],
+    )
     cfg = config.compose(["device=cpu"])
 
     identity = canonical_sha256({"experiments": sorted(REGISTRY), "seed": int(cfg.seed)})
