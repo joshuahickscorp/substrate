@@ -4,10 +4,10 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 
 ## Current
 
-- Maintained Python: 7,489 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 5,122 LOC.
-- Validation: 1,969 LOC.
-- Verified reduction ledger: 421,542 LOC.
+- Maintained Python: 7,326 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 4,966 LOC.
+- Validation: 1,962 LOC.
+- Verified reduction ledger: 421,705 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: state `legacy_authorities` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-retired-dormant-latent-store | 134 | retired_dormant_latent_store_and_git_probe |
 | mop-collapse-single-durable-authority | -91 | normalized_single_durable_authority |
 | mop-collapse-direct-count-pilot-authority | 1,732 | direct_count_production_and_compact_cm7_authority |
 | mop-collapse-normalized-sanpo-attribute-map | 1,040 | normalized_sanpo_dr1_cm1_attribute_authority |
@@ -31,3 +30,4 @@ Compact generated view. Machine authority: `MOP_COLLAPSE_STATE.json`.
 | mop-collapse-retired-count-artifact-detail | 19 | retired_unconsumed_count_artifact_detail |
 | mop-collapse-direct-count-budget-flops | 7 | direct_count_budget_flop_projection |
 | mop-collapse-retired-count-result-wrappers | 29 | retired_one_use_count_result_wrappers |
+| mop-collapse-count-budget-interpreter | 163 | specialized_single_consumer_count_budget_interpreter |
