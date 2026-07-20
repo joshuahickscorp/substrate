@@ -53,9 +53,7 @@ SOURCE_FIELDS = frozenset({"path", "file_sha256", "seal_field", "seal"})
 FILENAME_PREFIX = "GENERATION1_SUBACCOMP_"
 
 REPROFILE_SCHEMA = "mop-generation1-reprofile/v1"
-FULL_GENERATIONS_CLASSIFICATION_SCHEMA = "mop-generation1-full-generations-classification/v1"
 CATEGORIZED_CLASSIFICATION_SCHEMA = "mop-generation1-successor-categorized-classification/v1"
-FULL_GENERATIONS_GATE_SCHEMA = "mop-generation1-full-generations-gate/v1"
 CATEGORIZED_GATE_SCHEMA = "mop-generation1-successor-categorized-gate/v1"
 CONSOLIDATED_FINAL_PROGRAM_ID = "generation1-consolidated-final-campaign-v1"
 CONSOLIDATED_FINAL_RESULT_SCHEMA = "mop-generation1-consolidated-final-result/v1"
@@ -65,7 +63,6 @@ ABSORPTION_RECEIPT_SCHEMA = "mop-generation1-consolidated-final-absorption-recei
 _SHA_RE = re.compile(r"[0-9a-f]{64}")
 
 _PROGRAM_LABELS = {
-    "generation1-full-generations-wave-v1": "Full Generations Wave",
     "generation1-successor-categorized-batch-wave-v1": "Categorized Batch Wave",
     "generation1-consolidated-final-campaign-v1": "Final Campaign",
 }
@@ -192,7 +189,7 @@ def _barrier_milestone(classification: Mapping[str, Any], path: Path, root: Path
     decision = {
         "verdict": "epoch_barrier_sealed",
         "scientific_confirmation": False,
-        "next_action": "interpret_full_generations_barriers",
+        "next_action": "review",
     }
     return _milestone_core(
         kind="barrier",
@@ -328,12 +325,6 @@ def _absorption_milestone(
 def _default_classification_validators() -> dict[str, Callable[..., None]]:
     validators: dict[str, Callable[..., None]] = {}
     try:
-        from mop.studies import generation1_full_generations_wave as fgw
-
-        validators[FULL_GENERATIONS_CLASSIFICATION_SCHEMA] = fgw.validate_classification
-    except Exception:
-        pass
-    try:
         from mop.studies import generation1_successor_categorized_batch_wave as cbw
 
         validators[CATEGORIZED_CLASSIFICATION_SCHEMA] = cbw.validate_classification
@@ -344,12 +335,6 @@ def _default_classification_validators() -> dict[str, Callable[..., None]]:
 
 def _default_gate_validators() -> dict[str, Callable[..., None]]:
     validators: dict[str, Callable[..., None]] = {}
-    try:
-        from mop.studies import generation1_full_generations_wave as fgw
-
-        validators[FULL_GENERATIONS_GATE_SCHEMA] = fgw.validate_gate
-    except Exception:
-        pass
     try:
         from mop.studies import generation1_successor_categorized_batch_wave as cbw
 

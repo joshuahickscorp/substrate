@@ -13,11 +13,6 @@ from mop.mechanisms import construction_search_vec_impl as vec
 from mop.mechanisms.construction_search_bed import ConstructionSearchBed
 from mop.mechanisms.construction_search_runner import ConstructionSearchRunner
 from mop.mechanisms.construction_search_vec_impl import VecArmResult, vec_run_oracle
-from mop.studies.generation1_consolidated_final_campaign import (
-    MECHANICS_CYCLE_STRIDE,
-    MECHANICS_FRESH_BASE,
-)
-from mop.studies.generation1_full_generations_wave import EPOCH_CYCLES
 from mop.studies.generation1_successor_mechanics_queue import CANARY_SEEDS, LANES
 
 _RUNG_SAMPLE = (0, 240, 479)
@@ -59,31 +54,11 @@ def _g1g1_lane():
     return next(lane for lane in LANES if lane.lane_id == "G1-G1")
 
 
-def _cycle_shifted_seed(base_start: int, rung: int, offset: int, cycle: int) -> int:
-
-    lane = _g1g1_lane()
-    source_seed = base_start + rung * lane.seeds_per_rung + offset
-    return source_seed + MECHANICS_FRESH_BASE + cycle * MECHANICS_CYCLE_STRIDE
-
-
-def _cycle_band_seeds() -> list[int]:
-
-    lane = _g1g1_lane()
-    seeds: list[int] = []
-    for cycle in EPOCH_CYCLES:
-        for base in (lane.producer_start, lane.challenge_start):
-            for rung in _RUNG_SAMPLE:
-                for offset in _OFFSET_SAMPLE:
-                    seeds.append(_cycle_shifted_seed(base, rung, offset, cycle))
-    return seeds
-
-
 def _wide_sweep_seeds() -> list[int]:
 
     lane = _g1g1_lane()
     seeds: list[int] = list(range(1000))
     seeds.extend(range(lane.canary_start, lane.canary_start + CANARY_SEEDS))
-    seeds.extend(_cycle_band_seeds())
     seen: set[int] = set()
     unique: list[int] = []
     for seed in seeds:
@@ -109,9 +84,6 @@ def test_chunked_oracle_is_bit_identical_to_monolithic_over_wide_sweep() -> None
     bed = ConstructionSearchBed()
     seeds = _wide_sweep_seeds()
     assert len(seeds) >= 1000, f"wide sweep must exceed 1000 seeds, got {len(seeds)}"
-    cycle_seeds = set(_cycle_band_seeds())
-    assert cycle_seeds & set(seeds), "the sweep must include the real G1-G1 cycle bands 19..32"
-    assert tuple(EPOCH_CYCLES) == tuple(range(19, 33)), f"cycles must be 19..32, got {EPOCH_CYCLES}"
 
     mismatches: list[tuple] = []
     for seed in seeds:
@@ -157,8 +129,6 @@ def test_chunked_oracle_receipt_digest_matches_monolithic_through_the_runner(
     bed = ConstructionSearchBed()
     lane = _g1g1_lane()
     seeds = list(range(60)) + [lane.canary_start, lane.producer_start, lane.challenge_start]
-    seeds += _cycle_band_seeds()[:24]
-
     runner = ConstructionSearchRunner()
 
     chunked = {seed: runner.mint(runner.run(bed, seed)) for seed in seeds}

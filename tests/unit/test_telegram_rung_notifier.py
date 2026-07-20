@@ -524,16 +524,6 @@ def test_state_seal_rejects_mutation(tmp_path: Path) -> None:
         raise AssertionError("mutated notifier state was accepted")
 
 
-def test_full_generations_programs_render_under_general_chain() -> None:
-    assert (
-        notifier._program_label("generation1-full-generations-wave-v1") == "General Run: Full Generations"
-    )
-    assert (
-        notifier._program_label("generation1-full-generations-extension-chain-v1")
-        == "General Run: Full Gen Waiter"
-    )
-
-
 def test_worker_line_reflects_mode_and_is_omitted_when_absent(monkeypatch) -> None:
     monkeypatch.setattr(
         notifier,
@@ -774,7 +764,7 @@ def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path:
         _write(
             runs / "wave" / "current_status.json",
             {
-                "program_id": "full-generations-wave-v1",
+                "program_id": "successor-categorized-batch-wave-v1",
                 "state": "running",
                 "problems": [],
                 "capsules": {"w08_construction": row},
@@ -790,7 +780,9 @@ def test_wave_capsule_subtask_parses_epoch_and_category_and_fires_once(tmp_path:
     assert len(events) == 1
     assert events[0]["wave_epoch"] == "08"
     assert events[0]["category"] == "construction"
-    assert events[0]["event_id"] == "subtask/capsule/generation1-full-generations-wave-v1/w08_construction"
+    assert events[0]["event_id"] == (
+        "subtask/capsule/generation1-successor-categorized-batch-wave-v1/w08_construction"
+    )
     assert notifier.format_event(events[0]) == "General Run: W08 construction sub-task complete (G1)"
 
     events, lanes, capsules = notifier._collect_subtask_events(lanes, capsules, runs_root=runs)

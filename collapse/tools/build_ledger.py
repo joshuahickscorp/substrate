@@ -824,6 +824,20 @@ def main() -> int:
                     "protected checkout unchanged"),
         rollback_tag="mop-collapse-controller-orchestrator",
         next_action="collapse duplication between the two surviving direct stage controllers"))
+    checklist.append(item(
+        "RED-full-generations-future-phase", 8, "verified_reduction",
+        "Delete the never-started full-generations future phase",
+        status="verified",
+        evidence=["collapse/MOP_REDUCTION_LOG.json", "collapse/MOP_HISTORICAL_CODE_INDEX.json",
+                  "src/mop/studies/generation1_successor_categorized_batch_wave.py",
+                  "src/mop/studio/generation1_categorized_batch_extension_chain.py",
+                  "src/mop/studio/generation1_subaccomplishment_emitter.py"],
+        validation=("8036 future-phase Python LOC removed for 18 generic-observer/test LOC, net -8018; "
+                    "the dedicated 1678-line manifest/policy surface was also deleted; no run or proof "
+                    "artifact ever existed; retained boundary 67/67 green; 3267-case collection, "
+                    "compile-all, critical ruff, and docs gate clean; all 13 paths recover"),
+        rollback_tag="mop-collapse-full-generations",
+        next_action="audit the categorized wave for completed or unexecuted experimental slices"))
 
     # accumulate verified reductions from the append-only log
     red = {"eliminated_LOC": 0, "deduplicated_LOC": 0, "relocated_LOC": 0, "archived_LOC": 0,

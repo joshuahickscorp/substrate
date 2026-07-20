@@ -67,8 +67,6 @@ PROGRAM_LABELS = {
     "generation1-categorized-batch-extension-chain-v1": "General Run: Categorized Waiter",
     "generation1-successor-categorized-batch-wave-v1": "General Run: Categorized Wave",
     "generation1-consolidated-final-campaign-v1": "General Run: Final",
-    "generation1-full-generations-wave-v1": "General Run: Full Generations",
-    "generation1-full-generations-extension-chain-v1": "General Run: Full Gen Waiter",
 }
 
 CATEGORY_MECHANISMS = {
