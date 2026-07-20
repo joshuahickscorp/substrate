@@ -1444,6 +1444,25 @@
       "performance": "eight alternating batches over 600 validations: median improves from 0.357195s to 0.348282s (-2.50%)",
       "accounting_note": "502 writer, optional-mode, duplicate helper, and writer-fixture lines are replaced by 205 read-only validator and compact mutation-test lines, net -297; runtime source falls 215 LOC to 6812, validation falls 82 LOC to 2050, scripts remain 62 LOC, and maintained Python falls to 9175 LOC",
       "tag": "mop-collapse-cache-reader-only"
+    },
+    {
+      "region": "section6_global_engine_section7_science_section8_starss23_section17_validation",
+      "batch": "single_source_consumed_matched_budget_projection",
+      "checkpoint_status": "green",
+      "primitive": "STARSS now projects, certifies, analyzes, and reports matched budgets through one seed-run API instead of materializing a public two-stage Arm/SeedResult/BudgetPoint/ComputePoint facade; the 27-symbol public surface contracts to the 13 source-consumed constants, records, and functions while paired controls, training charges, FLOP ceilings, Pareto selection, break-even accounting, safety flags, and report payloads remain intact",
+      "deduplicated_LOC": 0,
+      "added_LOC": 310,
+      "eliminated_LOC": 551,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 241,
+      "files_changed": 3,
+      "destination_api": "run_matched_budget(policy, seed_runs, projections...) in src/mop/science/budget.py, called directly by the shared STARSS count-variant producer",
+      "proof": "the complete active two-budget/eight-arm report payload is byte-for-byte exact with canonical SHA-256 0b489f0e2304ce5e458d68bad6ac0243f0b669d424f7d67b7f08287be7443fdf; valid execution plus 12 empty/source/training/control/action/inference/ceiling/metric/frame/seed/operating mutations have 13/13 old/new semantic parity; 43 focused counting/statistics cases pass with 6 environment skips; the 138-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 41 source files, compile-all and diff checks clean",
+      "performance": "eight alternating 600-report batches: median improves from 0.067326s to 0.065789s (-2.28%)",
+      "accounting_note": "551 intermediate facade, helper, caller, and test lines are replaced by 310 direct projection and compact parity-test lines, net -241; runtime source falls 216 LOC to 6596, validation falls 25 LOC to 2025, scripts remain 62 LOC, and maintained Python falls to 8934 LOC",
+      "tag": "mop-collapse-matched-budget-core"
     }
   ],
   "latest_full_validation": {

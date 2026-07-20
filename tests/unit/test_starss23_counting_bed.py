@@ -23,7 +23,6 @@ from mop.beds.starss23.count_gate import (
     FLOPS_PER_INFERENCE,
     CountGate,
     CountOnlineState,
-    training_flops,
     voc_targets_from_count_track,
 )
 from mop.beds.starss23.count_labels import (
@@ -217,102 +216,78 @@ def test_referee_pooling_micro_averages_across_clips():
     assert score.mae == pytest.approx(0.4)
 
 
-def _flop_model(kind, total_frames, train_frames):
-    runs_gate = kind in (H.ARM_CANDIDATE, H.ARM_RATE_MATCHED_RANDOM)
+def _budget_runs(*, random_action_delta=0):
+    rows = []
+    for seed in (0, 1, 2):
+        per_budget = {}
+        for budget_id, shift, actions in (("rate_0.10", 0.0, 100), ("rate_0.05", 0.02, 50)):
+            per_budget[budget_id] = {
+                "arm_scores": {
+                    H.ARM_CANDIDATE: {"mae": 0.30 + shift},
+                    H.ARM_RATE_MATCHED_RANDOM: {"mae": 0.34 + shift},
+                    H.ARM_ALWAYS_ON: {"mae": 0.25},
+                    H.ARM_NEVER_UPDATE: {"mae": 1.25},
+                },
+                "reestimations": {
+                    H.ARM_CANDIDATE: actions,
+                    H.ARM_RATE_MATCHED_RANDOM: actions + (random_action_delta if seed == 0 else 0),
+                    H.ARM_ALWAYS_ON: 1000,
+                    H.ARM_NEVER_UPDATE: 0,
+                },
+            }
+        rows.append(H.BudgetSeedRun(seed, 1000, 1000, 3193, per_budget, "rate_0.05", {}, {}))
+    return rows
+
+
+def _fixture_flops(kind, *, candidate_training=500):
     return H.FlopModel(
-        featurize_flops=FLOPS_PER_FRAME_COUNT * total_frames,
-        gate_infer_flops=FLOPS_PER_INFERENCE * total_frames if runs_gate else 0,
-        downstream_flops_per_firing=FLOPS_PER_REESTIMATE,
-        train_flops=training_flops(train_frames, 8) if kind == H.ARM_CANDIDATE else 0,
+        1000,
+        100 if kind in (H.ARM_CANDIDATE, H.ARM_RATE_MATCHED_RANDOM) else 0,
+        10,
+        candidate_training if kind == H.ARM_CANDIDATE else 0,
     )
 
 
-def _arm(kind, mae_by_seed, k_by_seed, total_frames, train_frames, seeds):
-    return H.Arm(
-        policy=COUNT_BUDGET_POLICY,
-        name=f"{kind}",
-        kind=kind,
-        total_frames=total_frames,
-        params=3193 if kind == H.ARM_CANDIDATE else 0,
-        flop_model=_flop_model(kind, total_frames, train_frames),
-        seed_results=tuple(
-            H.SeedResult(seed=s, metric_value=mae_by_seed[i], actions=k_by_seed[i])
-            for i, s in enumerate(seeds)
-        ),
+def _budget_report(runs=None, **options):
+    return H.run_matched_budget(
+        COUNT_BUDGET_POLICY,
+        runs or _budget_runs(),
+        score_group="arm_scores",
+        score_field="mae",
+        action_group="reestimations",
+        flop_model=options.pop("flop_model", _fixture_flops),
+        operating_budget_id="rate_0.05",
+        source_kind="real",
+        **options,
     )
 
 
-def test_harness_matched_budget_and_ceiling_and_dominance():
-    seeds = (0, 1, 2, 3, 4)
-    total_frames = 22569
-    train_frames = 25000
-    k = [1128] * 5
-    cand = _arm(H.ARM_CANDIDATE, [0.30] * 5, k, total_frames, train_frames, seeds)
-    rmr = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.34] * 5, k, total_frames, train_frames, seeds)
-    ao = _arm(H.ARM_ALWAYS_ON, [0.25] * 5, [total_frames] * 5, total_frames, train_frames, seeds)
-    nu = _arm(H.ARM_NEVER_UPDATE, [1.25] * 5, [0] * 5, total_frames, train_frames, seeds)
-    H.assert_matched_ex_training(cand, rmr)
-    point = H.BudgetPoint(COUNT_BUDGET_POLICY, "rate_0.05", cand, rmr, ao, nu)
-    point.certify()
-    for arm in point.arms():
-        assert arm.max_lifecycle_flops() <= FLOP_CEILING
-    report = H.run_matched_budget([point], wall_ns=1, source_kind="real")
+def test_harness_payload_is_exact_and_matched():
+    report = _budget_report()
     assert report.candidate_strictly_dominates_rate_matched_random is True
     assert report.verdict == "mechanics-ok"
-    assert report.activation_allowed is False
-    assert report.scientific_promotion is False
-    assert report.independent_scientific_confirmation is False
-    assert report.digest() == "4d090c3efdb3915c12b4cd59d39f6da2d16081fa2fdc36cb820fb35c7be9d288"
-
-
-def test_harness_matched_budget_refuses_uncharged_training_and_k_mismatch():
-    seeds = (0, 1)
-    total_frames = 1000
-    cand = _arm(H.ARM_CANDIDATE, [0.3, 0.3], [50, 50], total_frames, 1000, seeds)
-    cand_no_train = H.Arm(
-        policy=COUNT_BUDGET_POLICY,
-        name="candidate",
-        kind=H.ARM_CANDIDATE,
-        total_frames=total_frames,
-        params=3193,
-        flop_model=H.FlopModel(
-            featurize_flops=1, gate_infer_flops=1, downstream_flops_per_firing=1, train_flops=0
-        ),
-        seed_results=cand.seed_results,
+    assert (
+        canonical_sha256(report.payload())
+        == "0b489f0e2304ce5e458d68bad6ac0243f0b669d424f7d67b7f08287be7443fdf"
     )
-    rmr = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.3, 0.3], [50, 50], total_frames, 1000, seeds)
-    with pytest.raises(H.UnchargedTraining):
-        H.assert_matched_ex_training(cand_no_train, rmr)
-    rmr_bad = _arm(H.ARM_RATE_MATCHED_RANDOM, [0.3, 0.3], [40, 50], total_frames, 1000, seeds)
-    with pytest.raises(H.BudgetMismatch):
-        H.assert_matched_ex_training(cand, rmr_bad)
+
+
+def test_harness_refuses_uncharged_training_and_action_mismatch():
+    with pytest.raises(H.BudgetRefusal, match="training cost"):
+        _budget_report(flop_model=lambda kind: _fixture_flops(kind, candidate_training=0))
+    with pytest.raises(H.BudgetRefusal, match="action count"):
+        _budget_report(_budget_runs(random_action_delta=1))
 
 
 def test_harness_refuses_ceiling_exceeded():
-    seeds = (0, 1)
-    huge = H.Arm(
-        policy=COUNT_BUDGET_POLICY,
-        name="candidate",
-        kind=H.ARM_CANDIDATE,
-        total_frames=1000,
-        params=3193,
-        flop_model=H.FlopModel(
-            featurize_flops=FLOP_CEILING, gate_infer_flops=1, downstream_flops_per_firing=1, train_flops=1
-        ),
-        seed_results=tuple(H.SeedResult(seed=s, metric_value=0.1, actions=1) for s in seeds),
-    )
-    with pytest.raises(H.CeilingExceeded):
-        H.assert_within_ceiling(huge)
+    with pytest.raises(H.BudgetRefusal, match="ceiling"):
+        _budget_report(ceiling=2000)
 
 
-def test_pareto_minimizes_both_flops_and_mae():
-    pts = [
-        H.ComputePoint(COUNT_BUDGET_POLICY, "a", "x", 10.0, 0.5, 0, 1.0),
-        H.ComputePoint(COUNT_BUDGET_POLICY, "b", "y", 20.0, 0.6, 0, 1.0),  # dominated
-        H.ComputePoint(COUNT_BUDGET_POLICY, "c", "z", 30.0, 0.3, 0, 1.0),
-    ]
-    frontier = {p.budget_id for p in H.pareto_frontier(pts)}
-    assert frontier == {"a", "c"}
+def test_pareto_minimizes_flops_and_mae():
+    pareto = {(row["budget_id"], row["arm_kind"]) for row in _budget_report().payload()["pareto"]}
+    assert ("rate_0.10", H.ARM_RATE_MATCHED_RANDOM) not in pareto
+    assert ("rate_0.05", H.ARM_RATE_MATCHED_RANDOM) in pareto
 
 
 def test_prereg_sesoi_and_rationale_numbers():
