@@ -2005,6 +2005,20 @@
         "src/mop/substrate/cache_manifest.py",
         "tests/unit/test_cache_manifest.py"
       ]
+    },
+    {
+      "id": "collapsed_custom_workbench_checkpoint_identity_and_fixture_duplication",
+      "source_tag": "mop-collapse-lowest-green-7",
+      "reason": "checkpoint loading, saving, complete-receipt validation, and final receipt assembly expanded the same four identity fields independently; the training loop reread a checkpoint it had just saved; failure callers repeated an exception classification already determined by exception type; and workbench tests repeated canonical corpus and model declarations",
+      "replacement_paths": [
+        "src/mop/substrate/custom_workbench.py",
+        "tests/unit/test_custom_substrate_workbench.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-7:<path>",
+      "paths": [
+        "src/mop/substrate/custom_workbench.py",
+        "tests/unit/test_custom_substrate_workbench.py"
+      ]
     }
   ]
 }

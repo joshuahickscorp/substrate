@@ -1235,6 +1235,25 @@
       "performance": "nine-batch citable random-control validation median improved 573.527us to 553.916us (-3.42%)",
       "accounting_note": "211 Python lines deleted for 126 policy and condensed-test lines, net -85; runtime source falls 6 LOC to 9672, validation falls 79 LOC to 2938, scripts remain 952 LOC, and maintained Python falls to 13813 LOC",
       "tag": "mop-collapse-cache-receipt-policy"
+    },
+    {
+      "region": "section8_substrate_section9_integrity_section17_validation",
+      "batch": "single_workbench_checkpoint_identity_and_saved_state",
+      "checkpoint_status": "green",
+      "primitive": "one checkpoint identity mapping now owns config, data, requirements, and initial-state bindings across load, save, complete-receipt validation, and final receipt assembly; the training loop tracks the checkpoint step it just saved instead of deserializing it again; failure receipt kind follows the caught exception type; compact fixtures reuse the canonical corpus and model specifications",
+      "deduplicated_LOC": 0,
+      "added_LOC": 35,
+      "eliminated_LOC": 97,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 62,
+      "files_changed": 2,
+      "destination_api": "the identity mapping in train_arm, _load_checkpoint, and _save_checkpoint plus canonical CorpusSpec and ModelSpec fixture construction in tests/unit/test_custom_substrate_workbench.py",
+      "proof": "Architecture B is 1903 maintained regional LOC versus Architecture A at 1965; prior and selected implementations produce byte-for-byte identical semantic outputs for uninterrupted, partial, and resumed training, including loss values and model, target, and initial-state hashes; six schema and identity mutations produce identical fail-closed errors; all 16 focused cases and the unchanged 155-case full suite pass with 6 environment skips; acceptance 10/10, collapse invariants 5/5, Ruff clean, and mypy clean over 43 source files",
+      "performance": "thirty-sample one-step checkpoint median improved 12.909ms to 9.406ms (-27.14%) after removal of the redundant deserialization",
+      "accounting_note": "97 Python lines deleted for 35 replacement and condensed-test lines, net -62; runtime source falls 32 LOC to 9640, validation falls 30 LOC to 2908, scripts remain 952 LOC, and maintained Python falls to 13751 LOC",
+      "tag": "mop-collapse-workbench-checkpoint-state"
     }
   ],
   "latest_full_validation": {

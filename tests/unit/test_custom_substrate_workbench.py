@@ -1,4 +1,5 @@
 import json
+from dataclasses import asdict
 from pathlib import Path
 
 import pytest
@@ -52,24 +53,8 @@ def _failure_injection_config(tmp_path: Path) -> dict:
     return {
         "requirements_ledger": str(ledger),
         "strict_requirements": True,
-        "data": {
-            "resolution": 32,
-            "frames": 2,
-            "factor_a_levels": 4,
-            "factor_b_levels": 4,
-            "replicates": 3,
-            "seed": 1,
-        },
-        "model": {
-            "dim": 16,
-            "depth": 1,
-            "heads": 2,
-            "mlp_ratio": 2,
-            "patch_size": 16,
-            "tubelet": 2,
-            "max_resolution": 32,
-            "max_frames": 2,
-        },
+        "data": asdict(CorpusSpec(resolution=32, frames=2, replicates=3, seed=1)),
+        "model": asdict(ModelSpec(16, 1, 2, 2, 16, 2, 32, 2)),
         "training": {
             "objectives": ["predictive", "invariance", "reconstruction", "random_target"],
             "seeds": [0, 1],
@@ -245,24 +230,9 @@ def test_unexpected_arm_exception_writes_crash_then_reraises(tmp_path: Path, mon
 
 
 def test_checkpoint_resume_matches_uninterrupted_training(tmp_path: Path):
-    data = CorpusSpec(
-        resolution=32,
-        frames=2,
-        factor_a_levels=4,
-        factor_b_levels=4,
-        replicates=3,
-        seed=19,
-    )
-    model_spec = ModelSpec(
-        dim=16,
-        depth=1,
-        heads=2,
-        mlp_ratio=2,
-        patch_size=16,
-        tubelet=2,
-        max_resolution=32,
-        max_frames=2,
-    )
+    config = _failure_injection_config(tmp_path)
+    data = CorpusSpec(**{**config["data"], "seed": 19})
+    model_spec = ModelSpec(**config["model"])
     records = build_referent_records(data)
     corpus = ProgrammaticVideoCorpus(data, records)
     torch.manual_seed(5)

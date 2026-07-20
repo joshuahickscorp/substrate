@@ -492,16 +492,15 @@ def _last_checkpoint_evidence(arm_dir: Path) -> dict[str, Any] | None:
     }
     try:
         checkpoint = torch.load(path, map_location="cpu", weights_only=True)
-        evidence.update(
-            {
-                "schema": checkpoint.get("schema"),
-                "step": checkpoint.get("step"),
-                "objective": checkpoint.get("objective"),
-                "config_sha256": checkpoint.get("config_sha256"),
-                "data_sha256": checkpoint.get("data_sha256"),
-                "requirements_sha256": checkpoint.get("requirements_sha256"),
-            }
-        )
+        for key in (
+            "schema",
+            "step",
+            "objective",
+            "config_sha256",
+            "data_sha256",
+            "requirements_sha256",
+        ):
+            evidence[key] = checkpoint.get(key)
     except Exception as exc:  # the failure receipt must survive even a damaged checkpoint
         evidence["inspection_error"] = f"{type(exc).__name__}: {exc}"
     return evidence
@@ -514,8 +513,8 @@ def _write_arm_failure(
     objective: str,
     error: BaseException,
     device: DeviceInfo,
-    kind: str,
 ) -> dict[str, Any]:
+    kind = "scientific-refusal" if isinstance(error, WorkbenchRefused) else "unexpected-exception"
     payload = {
         "schema": "mop-custom-substrate-required-arm-failure/v1",
         "created_at": datetime.now(UTC).isoformat(),
@@ -544,21 +543,12 @@ def _load_checkpoint(
     path: Path,
     *,
     objective: str,
-    config_sha256: str,
-    data_sha256: str,
-    requirements_sha256: str,
-    initial_state_sha256: str,
+    identity: Mapping[str, str],
 ) -> dict[str, Any]:
     checkpoint = torch.load(path, map_location="cpu", weights_only=True)
     if checkpoint.get("schema") != CHECKPOINT_SCHEMA:
         raise WorkbenchRefused("checkpoint schema mismatch")
-    expected = {
-        "objective": objective,
-        "config_sha256": config_sha256,
-        "data_sha256": data_sha256,
-        "requirements_sha256": requirements_sha256,
-        "initial_state_sha256": initial_state_sha256,
-    }
+    expected = {"objective": objective, **identity}
     mismatched = [key for key, value in expected.items() if checkpoint.get(key) != value]
     if mismatched:
         raise WorkbenchRefused(f"checkpoint identity mismatch: {mismatched}")
@@ -573,20 +563,14 @@ def _save_checkpoint(
     model: TinyVideoSubstrate,
     target: TinyVideoSubstrate,
     optimizer: torch.optim.Optimizer,
-    config_sha256: str,
-    data_sha256: str,
-    requirements_sha256: str,
-    initial_state_sha256: str,
+    identity: Mapping[str, str],
     losses: Sequence[float],
 ) -> dict[str, Any]:
     payload = {
         "schema": CHECKPOINT_SCHEMA,
         "objective": objective,
         "step": step,
-        "config_sha256": config_sha256,
-        "data_sha256": data_sha256,
-        "requirements_sha256": requirements_sha256,
-        "initial_state_sha256": initial_state_sha256,
+        **identity,
         "model": {key: value.detach().cpu() for key, value in model.state_dict().items()},
         "target": {key: value.detach().cpu() for key, value in target.state_dict().items()},
         "optimizer": optimizer.state_dict(),
@@ -758,16 +742,16 @@ def train_arm(
     arm_dir.mkdir(parents=True, exist_ok=True)
     receipt_path = arm_dir / "arm_receipt.json"
     initial_hash = state_sha256(initial_state)
+    identity = {
+        "config_sha256": config_sha256,
+        "data_sha256": data_sha256,
+        "requirements_sha256": requirements_sha256,
+        "initial_state_sha256": initial_hash,
+    }
     if receipt_path.is_file():
         prior = json.loads(receipt_path.read_text())
-        identity_ok = all(
-            (
-                prior.get("objective") == objective,
-                prior.get("config_sha256") == config_sha256,
-                prior.get("data_sha256") == data_sha256,
-                prior.get("requirements_sha256") == requirements_sha256,
-                prior.get("initial_state_sha256") == initial_hash,
-            )
+        identity_ok = prior.get("objective") == objective and all(
+            prior.get(key) == value for key, value in identity.items()
         )
         if prior.get("complete") and int(prior.get("completed_steps", 0)) >= steps and identity_ok:
             completed_checkpoint = arm_dir / "checkpoint.pt"
@@ -795,10 +779,7 @@ def train_arm(
         loaded_checkpoint = _load_checkpoint(
             checkpoint_path,
             objective=objective,
-            config_sha256=config_sha256,
-            data_sha256=data_sha256,
-            requirements_sha256=requirements_sha256,
-            initial_state_sha256=initial_hash,
+            identity=identity,
         )
         model.load_state_dict(loaded_checkpoint["model"])
         target.load_state_dict(loaded_checkpoint["target"])
@@ -824,6 +805,7 @@ def train_arm(
     stop_reason: str | None = None
     minimum_free_disk = shutil.disk_usage(disk_path).free
     checkpoint_record: dict[str, Any] = {}
+    saved_step = -1
     for step in range(start_step, steps):
         free_disk = shutil.disk_usage(disk_path).free
         minimum_free_disk = min(minimum_free_disk, free_disk)
@@ -882,19 +864,13 @@ def train_arm(
                 model=model,
                 target=target,
                 optimizer=optimizer,
-                config_sha256=config_sha256,
-                data_sha256=data_sha256,
-                requirements_sha256=requirements_sha256,
-                initial_state_sha256=initial_hash,
+                identity=identity,
                 losses=losses,
             )
+            saved_step = completed_step
 
     completed_steps = len(losses)
-    if not checkpoint_record or int(completed_steps) != int(
-        torch.load(checkpoint_path, map_location="cpu", weights_only=True).get("step", -1)
-        if checkpoint_path.is_file()
-        else -1
-    ):
+    if not checkpoint_record or completed_steps != saved_step:
         checkpoint_record = _save_checkpoint(
             checkpoint_path,
             objective=objective,
@@ -902,10 +878,7 @@ def train_arm(
             model=model,
             target=target,
             optimizer=optimizer,
-            config_sha256=config_sha256,
-            data_sha256=data_sha256,
-            requirements_sha256=requirements_sha256,
-            initial_state_sha256=initial_hash,
+            identity=identity,
             losses=losses,
         )
     elapsed = time.perf_counter() - started
@@ -930,10 +903,7 @@ def train_arm(
         "requested_steps": steps,
         "completed_steps": completed_steps,
         "batch_size": batch_size,
-        "config_sha256": config_sha256,
-        "data_sha256": data_sha256,
-        "requirements_sha256": requirements_sha256,
-        "initial_state_sha256": initial_hash,
+        **identity,
         "final_state_sha256": state_sha256(model.state_dict()),
         "target_state_sha256": state_sha256(target.state_dict()),
         "checkpoint": checkpoint_record,
@@ -1476,7 +1446,6 @@ def run_workbench(
                     objective=objective,
                     error=exc,
                     device=device,
-                    kind="scientific-refusal",
                 )
                 seed_results[seed_key][objective] = {
                     "training": {
@@ -1495,7 +1464,6 @@ def run_workbench(
                     objective=objective,
                     error=exc,
                     device=device,
-                    kind="unexpected-exception",
                 )
                 raise
         if stopped_for_wall or stopped_for_disk or stopped_for_required_arm:
