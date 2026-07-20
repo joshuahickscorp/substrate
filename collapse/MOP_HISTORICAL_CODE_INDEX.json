@@ -2105,6 +2105,18 @@
         "tests/unit/test_custom_substrate_artifact.py",
         "registry/experiments.yaml"
       ]
+    },
+    {
+      "id": "retired_orphaned_workbench_source_snapshot_copy_lifecycle",
+      "source_tag": "mop-collapse-lowest-green-14",
+      "reason": "requirements-source copies and the six-file implementation snapshot manifest were produced for the completed finalizer and provenance-heavy artifact architecture; after those consumers were retired, no maintained reader remained, while the active workbench already seals resolved config, requirements hashes, dataset identity, and the generator source hash",
+      "replacement_paths": [
+        "src/mop/substrate/custom_workbench.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-14:<path>",
+      "paths": [
+        "src/mop/substrate/custom_workbench.py"
+      ]
     }
   ]
 }
