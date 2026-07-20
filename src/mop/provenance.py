@@ -22,16 +22,6 @@ def git_sha() -> str:
         return "nogit"
 
 
-def git_dirty() -> bool:
-    try:
-        out = subprocess.check_output(
-            ["git", "status", "--porcelain"], cwd=REPO_ROOT, stderr=subprocess.DEVNULL
-        )
-        return bool(out.strip())
-    except Exception:
-        return False
-
-
 def package_versions() -> dict[str, str]:
     out = {"python": sys.version.split()[0]}
     for p in _PKGS:

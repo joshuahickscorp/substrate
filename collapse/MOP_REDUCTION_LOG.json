@@ -1634,6 +1634,25 @@
       "performance": "thirty corpus preparations improve median from 17.9091ms to 17.8673ms (-0.23%)",
       "accounting_note": "122 count-label module, 20 repeated test, and 20 replaced staging lines are replaced by 49 single-pass adapter/producer/test lines, net -113; runtime source falls to 5393 LOC, validation falls to 1752 LOC, scripts remain 62 LOC, and maintained Python falls to 7458 LOC",
       "tag": "mop-collapse-direct-count-corpus"
+    },
+    {
+      "region": "section6_global_engine_section12_operational_scaffolding",
+      "batch": "retired_dormant_latent_store_and_git_probe",
+      "checkpoint_status": "green",
+      "primitive": "the exported latent-store creation/write/read API and git-dirty probe had no source, test, script, registry, CLI, or campaign consumer; active cache integrity remains owned by the manifest validator and Studio doctor, while retained provenance still reports the commit and package versions",
+      "deduplicated_LOC": 0,
+      "added_LOC": 0,
+      "eliminated_LOC": 134,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 134,
+      "files_changed": 3,
+      "destination_api": "mop.substrate.validate_cache_manifest for active cache integrity; mop.provenance.{git_sha,package_versions} for consumed provenance",
+      "proof": "repository-wide symbol and registry search finds zero LatentStore, StoreMeta, latent_store, or git_dirty consumers; active manifest/doctor/foundation focused suite passes 31 cases; the full suite collects 128 cases with 122 passing and 6 environment skips; acceptance 10/10, Ruff/format clean, mypy clean over 37 source files, compile-all and diff checks clean",
+      "performance": "twelve fresh-process imports improve median mop.substrate import from 0.604203s to 0.064118s (-89.39%) because the package root no longer imports dormant NumPy/Torch storage machinery",
+      "accounting_note": "the 121-line dormant module, three export lines, and ten-line uncalled probe are physically deleted with no replacement Python; runtime source falls to 5259 LOC, validation remains 1752 LOC, scripts remain 62 LOC, and maintained Python falls to 7324 LOC",
+      "tag": "mop-collapse-retired-dormant-latent-store"
     }
   ],
   "physical_state_events": [
