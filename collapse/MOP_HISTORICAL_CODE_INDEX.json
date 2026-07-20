@@ -2276,6 +2276,19 @@
         "src/mop/beds/starss23/count_labels.py",
         "src/mop/beds/starss23/count_producer.py"
       ]
+    },
+    {
+      "id": "collapsed_single_consumer_count_artifact_lifecycle",
+      "source_tag": "mop-collapse-lowest-green-24",
+      "reason": "the generic science artifact module and callback-configured seed runner had exactly one maintained source consumer after all other experimental lifecycles became historical; the real count producer now emits the same receipt, envelope, seal, result detail, preregistration, and seed science directly, with the independent verifier unchanged",
+      "replacement_paths": [
+        "src/mop/beds/starss23/count_producer.py"
+      ],
+      "recovery": "git show mop-collapse-lowest-green-24:<path>",
+      "paths": [
+        "src/mop/beds/starss23/count_producer.py",
+        "src/mop/science/__init__.py"
+      ]
     }
   ]
 }

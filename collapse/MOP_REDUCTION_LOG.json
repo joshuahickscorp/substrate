@@ -1558,6 +1558,25 @@
       "performance": "24 alternating cold imports improve median adapter import from 0.059485s to 0.059173s (-0.52%)",
       "accounting_note": "127 unconsumed adapter, split, spatial-storage, and label-serialization lines are replaced by 30 direct count-intake lines, net -97; runtime source falls to 5801 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7886 LOC",
       "tag": "mop-collapse-direct-count-intake"
+    },
+    {
+      "region": "section6_global_engine_section8_starss23",
+      "batch": "direct_single_consumer_count_artifact_lifecycle",
+      "checkpoint_status": "green",
+      "primitive": "the real STARSS count producer now owns its one artifact boundary directly: the generic ArtifactResult, safety flag, demonstration receipt, envelope, finalization, and callback-configured seed lifecycle APIs had exactly one maintained source consumer, so their intermediate module surface is physically retired while the count producer emits the identical preregistered, sealed artifact and the independent verifier remains structurally separate",
+      "deduplicated_LOC": 0,
+      "added_LOC": 97,
+      "eliminated_LOC": 276,
+      "relocated_LOC": 0,
+      "archived_LOC": 0,
+      "generated_replacement_LOC": 0,
+      "net_reduction_LOC": 179,
+      "files_changed": 2,
+      "destination_api": "build_real_count_bed_artifact and its direct CountArtifact, seed, receipt, envelope, and sealing projection in src/mop/beds/starss23/count_producer.py",
+      "proof": "a deterministic two-seed full count artifact preserves artifact SHA-256 7f8d09fbec90d2cc4fa20cdf4beb9481a03e40a54ec69628dc1f92586046c811, seal c3c51e2c2ae75011eba73b61c9ac32869b3b7ff141ffeaa96743dc065e42beac, detail SHA-256 9bdcfdddd6ec4655f4930fc4acdf3b85a84503239b10fe23fd0c0f511dbdf832, preregistration SHA-256 5afba8797b303da8a8e8e6cc1bcadef08e22df6ef0adcca685985bdc027135d5, receipt, key order, and written prereg bytes exactly; the retained seed lifecycle hash passes; sealed artifact fb3a7112906a4e3a5c32fef0f3980e5642ac93996559a7cf59152e559b8044e6 independently reproduces scores and statistics; the 128-case full suite passes with 6 environment skips; acceptance 10/10, Ruff clean, mypy clean over 39 source files, compile-all and diff checks clean",
+      "performance": "24 alternating cold imports improve median count-producer import from 0.696789s to 0.695650s (-0.16%)",
+      "accounting_note": "276 one-consumer generic artifact and callback-lifecycle lines are replaced by 97 direct count artifact lines, net -179; runtime source falls to 5622 LOC, validation remains 1772 LOC, scripts remain 62 LOC, and maintained Python falls to 7707 LOC",
+      "tag": "mop-collapse-direct-count-artifact"
     }
   ],
   "latest_full_validation": {

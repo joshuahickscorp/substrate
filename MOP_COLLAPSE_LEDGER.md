@@ -4,10 +4,10 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 ## Current
 
-- Maintained Python: 7,886 LOC; ceiling: 50,000.
-- Runtime and campaign kernel: 5,801 LOC.
+- Maintained Python: 7,707 LOC; ceiling: 50,000.
+- Runtime and campaign kernel: 5,622 LOC.
 - Validation: 1,772 LOC.
-- Verified reduction ledger: 397,206 LOC.
+- Verified reduction ledger: 397,385 LOC.
 - Checklist: {"active": 1, "complete": 216, "pending": 1, "verified": 43}.
 - Recovery: `collapse/MOP_HISTORICAL_CODE_INDEX.json` and `collapse/MOP_HISTORICAL_DOCUMENT_INDEX.json`.
 
@@ -19,7 +19,6 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 
 | tag | net LOC | batch |
 | --- | ---: | --- |
-| mop-collapse-retired-custom-finalizer | 710 | retired_completed_zero_consumer_custom_finalizer_lifecycle |
 | mop-collapse-portable-hydration-core | 1,202 | minimal_content_addressed_portable_hydration_core |
 | mop-collapse-workbench-snapshot-lifecycle | 81 | retired_orphaned_workbench_source_snapshot_copy_lifecycle |
 | mop-collapse-single-installed-interface | 14 | single_installed_cli_and_retired_parallel_developer_commands |
@@ -31,3 +30,4 @@ Compact view only. Machine authorities: `MOP_COLLAPSE_STATE.json`, `collapse/MOP
 | mop-collapse-direct-count-producer | 182 | direct_single_consumer_count_production_vertical |
 | mop-collapse-retired-onset-schema | 187 | retired_historical_onset_object_and_roundtrip_schema |
 | mop-collapse-direct-count-intake | 97 | direct_real_count_intake_without_facades |
+| mop-collapse-direct-count-artifact | 179 | direct_single_consumer_count_artifact_lifecycle |
