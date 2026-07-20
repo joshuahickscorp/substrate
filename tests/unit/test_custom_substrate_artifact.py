@@ -17,7 +17,7 @@ from mop.substrate.custom_artifact import (
     state_sha256,
     write_tensor_pack,
 )
-from mop.substrate.custom_workbench import ModelSpec, TinyVideoSubstrate
+from mop.substrate.custom_model import ModelSpec, TinyVideoSubstrate
 
 
 def _model() -> PortableTinyVideoSubstrate:
@@ -39,7 +39,7 @@ def _reidentify(path: Path, mutation) -> None:
     atomic_write_json(path, manifest)
 
 
-def test_portable_architecture_matches_workbench_interface():
+def test_portable_architecture_uses_the_canonical_model():
     assert PortableModelSpec is ModelSpec
     assert PortableTinyVideoSubstrate is TinyVideoSubstrate
     source_spec = ModelSpec(16, 1, 2, 2, 16, 2, 32, 4)

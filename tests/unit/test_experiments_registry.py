@@ -9,13 +9,13 @@ def _rows():
     return payload["experiments"]
 
 
-def test_active_registry_is_exact_and_runnable_rows_are_bound():
+def test_registry_is_exact_and_scientifically_exhausted():
     rows = _rows()
     ids = {row["id"] for row in rows}
     assert ids == {"mop_cm7_min_objective_probe", "mop_cm8_custom_jepa_pilot"}
     assert set(REGISTRY) == ids
-    implemented = {row["id"] for row in rows if row["status"] == "implemented"}
-    assert implemented <= set(REGISTRY)
+    assert {row["status"] for row in rows} == {"historical"}
+    assert all(spec.executor is spec.verifier is None for spec in REGISTRY.values())
 
 
 def test_every_row_has_the_scientific_contract():
