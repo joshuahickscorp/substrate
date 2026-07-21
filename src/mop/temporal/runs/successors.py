@@ -74,11 +74,13 @@ def gates() -> dict:
                            "zero hidden core updates"),
         },
         "third_bed_replication": {
-            "condition": "a third valid secondary bed exists and its replication experiment is terminal",
+            "condition": "a third valid secondary bed exists and independently reproduces the core effect",
             "bed_admitted": "harth_stream" in (third_preflight.get("selected") or []),
             "terminal_result": third_result.get("classification"),
             "opens": ("harth_stream" in (third_preflight.get("selected") or [])
-                      and bool(third_result.get("classification"))),
+                      and third_result.get("classification") == "replicated"),
+            "why_not": (None if third_result.get("classification") == "replicated" else
+                        "the terminal third bed result did not independently reproduce the core effect"),
         },
     }
 

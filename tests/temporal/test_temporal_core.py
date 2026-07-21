@@ -464,6 +464,19 @@ def test_successor_ranking_selects_only_the_top_two_open_gates():
         "third_bed_replication", "E3_shared_versus_local"]
 
 
+def test_failed_third_bed_replication_does_not_consume_a_successor_slot(monkeypatch):
+    artifacts = {
+        "MOP_E2_PRINCIPAL_RESULT.json": {"principal_beds": []},
+        "MOP_OWNED_TEMPORAL_CORE_V1.json": {},
+        "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json": {"selected": ["harth_stream"]},
+        "MOP_THIRD_TEMPORAL_BED_RESULT.json": {
+            "classification": "valid_secondary_bed_did_not_reproduce_the_principal_effect"},
+    }
+    monkeypatch.setattr(successors.io, "exists", lambda name: name in artifacts)
+    monkeypatch.setattr(successors.io, "load", lambda name: artifacts[name])
+    assert not successors.gates()["third_bed_replication"]["opens"]
+
+
 def test_required_positive_mutation_vocabulary_is_complete():
     assert set(mutations.REQUIRED) == {
         "core_bypassed", "core_output_ignored", "readout_substituted", "readout_inflated",
