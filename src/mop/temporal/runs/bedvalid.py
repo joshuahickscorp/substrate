@@ -33,17 +33,33 @@ def bed_report(name: str) -> dict:
     means = s.get("cell_means", {})
     rec = means.get("gru|small|linear|none|h1")
     pooled = means.get("pooled|small|linear|none|h1")
+    order_required = (rec - pooled) > io.SESOI if (rec is not None and pooled is not None) else None
     checks = {
         "group_disjoint": not (tr & tu or tr & te or tu & te),
         "enough_units": len(tr | tu | te) >= 4,
         "test_untouched": True,
         "classes_balanced_enough": True,
         "static_reader_gap_measured": rec is not None and pooled is not None,
-        "temporal_order_required": (rec - pooled) > io.SESOI if (rec is not None and pooled is not None) else None,
+        "temporal_order_required": order_required,
         "baseline_convergence_measured": bool(c),
-        "baselines_converged": c.get("all_converged"),
+        "load_bearing_baselines_converged": c.get("load_bearing_all_converged", False),
     }
-    checks["all_pass"] = all(v for v in checks.values() if isinstance(v, bool))
+    required = ("group_disjoint", "enough_units", "test_untouched", "classes_balanced_enough",
+                "static_reader_gap_measured", "temporal_order_required", "baseline_convergence_measured",
+                "load_bearing_baselines_converged")
+    checks["all_pass"] = all(checks.get(k) is True for k in required)
+    if not checks["group_disjoint"] or not checks["enough_units"]:
+        classification = "invalid_units"
+    elif rec is None or pooled is None or not c:
+        classification = "preflight_incomplete"
+    elif not order_required:
+        classification = "invalid_no_temporal_requirement"
+    elif not checks["load_bearing_baselines_converged"]:
+        classification = "preflight_incomplete"
+    elif name in B.PRINCIPAL:
+        classification = "valid_principal_bed"
+    else:
+        classification = "valid_secondary_bed"
     return {
         "identity": ident,
         "unit_counts": {"train": len(tr), "tune": len(tu), "test": len(te)},
@@ -55,11 +71,19 @@ def bed_report(name: str) -> dict:
         "null_reference": W.null_reference("majority_class", observed=pooled or 0.0,
                                            reference=B.majority_rate(sp["test"][1]), band=0.10)
         if pooled is not None else None,
-        "convergence": {"all_converged": c.get("all_converged"), "unconverged": c.get("unconverged", [])},
+        "convergence": {"all_converged": c.get("all_converged"),
+                        "unconverged": c.get("unconverged", []),
+                        "load_bearing_all_converged": c.get("load_bearing_all_converged", False),
+                        "load_bearing_unconverged": c.get("load_bearing_unconverged", [])},
         "checks": checks,
-        "classification": ("valid_principal_bed" if checks["all_pass"] else
-                           "valid_secondary_bed" if checks.get("temporal_order_required") else
-                           "preflight_incomplete"),
+        "principal_only_gates": {
+            "boundary_crossing_witness": name in B.PRINCIPAL,
+            "returning_context_witness": name in B.PRINCIPAL,
+            "future_adaptation_task": name in B.PRINCIPAL,
+            "note": ("a natural order task can be a valid secondary replication bed without being promoted "
+                     "to a principal adaptation bed"),
+        },
+        "classification": classification,
     }
 
 

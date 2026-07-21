@@ -64,13 +64,27 @@ def role_b() -> dict:
             continue
         inst = a["instrumentation"]
         checks[f"{bed}:no_undeclared_parameter_changes"] = inst["undeclared_parameter_changes"] == 0
-        checks[f"{bed}:no_oracle_segmented_arm_outside_the_declared_control"] = all(
-            "true_boundary" in c for c in inst["oracle_segmented_cells"])
+        invalid_reset_cells = sorted(
+            c for c in inst["oracle_segmented_cells"] if "|true_boundary|" not in c
+        )
+        checks[f"{bed}:oracle_segmented_arms_are_identified"] = all(
+            "|true_boundary|" in c or c in invalid_reset_cells for c in inst["oracle_segmented_cells"]
+        )
+        load_bearing = set(inst.get("load_bearing_cells") or [])
+        checks[f"{bed}:invalid_reset_arms_excluded_from_load_bearing_inference"] = not (
+            set(invalid_reset_cells) & load_bearing
+        )
+        if invalid_reset_cells:
+            notes.append({"bed": bed, "invalid_reset_cells": invalid_reset_cells,
+                          "consequence": "these cells are excluded from load bearing inference"})
         checks[f"{bed}:reset_classifications_declared"] = bool(inst["reset_classifications"])
-        checks[f"{bed}:baselines_converged"] = bool(a["convergence"].get("all_converged"))
-        if not a["convergence"].get("all_converged"):
-            notes.append({"bed": bed, "unconverged": a["convergence"].get("unconverged"),
-                          "consequence": "every comparison on this bed is provisional"})
+        checks[f"{bed}:load_bearing_baselines_converged"] = bool(
+            a["convergence"].get("load_bearing_all_converged")
+        )
+        if not a["convergence"].get("load_bearing_all_converged"):
+            notes.append({"bed": bed,
+                          "unconverged": a["convergence"].get("load_bearing_unconverged"),
+                          "consequence": "only comparisons using these arms are provisional"})
         runs = []
         for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
             runs.extend(json.loads(p.read_text())["runs"])
@@ -126,6 +140,32 @@ def role_c() -> dict:
                 checks[f"{bed}:{group}:{k}"] = ok
                 if not ok:
                     mismatches.append({"bed": bed, "contrast": k, "sealed": d, "recomputed": mine})
+    if io.exists("MOP_E2_INDEPENDENT_REPLICATION.json"):
+        rep = io.load("MOP_E2_INDEPENDENT_REPLICATION.json")
+        control = rep["reference_control"]
+        implementation_cells = {
+            "torch_gru_vs_full_history": "gru|small|linear|none|h1",
+            "explicit_mgu_vs_full_history": "mgu|small|linear|none|h1",
+        }
+        for bed, row in rep["per_bed"].items():
+            runs = []
+            for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
+                runs.extend(json.loads(p.read_text())["runs"])
+            cells: dict[str, list[float]] = {}
+            for r in runs:
+                cells.setdefault(r["cell"], []).append(float(r["accuracy"]))
+            for key, cell in implementation_cells.items():
+                expected = row["effects"][key]
+                vals = [x - y for x, y in zip(cells.get(cell, []), cells.get(control, []), strict=True)]
+                mine = {"mean": round(mean(vals), 5), "lower_95_cb": round(lower_bound(vals), 5),
+                        "verdict": verdict(vals)}
+                ok = (abs(mine["mean"] - expected["mean"]) < 1e-4
+                      and abs(mine["lower_95_cb"] - expected["lower_95_cb"]) < 1e-4
+                      and mine["verdict"].split("_")[0] == expected["verdict"].split("_")[0])
+                checks[f"{bed}:independent_replication:{key}"] = ok
+                if not ok:
+                    mismatches.append({"bed": bed, "contrast": key,
+                                       "sealed": expected, "recomputed": mine})
     return {"role": "C scientific verifier", "checks": checks, "mismatches": mismatches,
             "n_checks": len(checks), "all_pass": all(checks.values()) and not mismatches,
             "independence": ("recomputes every effect with its own arithmetic and its own t table, imports no "

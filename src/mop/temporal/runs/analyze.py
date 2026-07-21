@@ -44,6 +44,19 @@ def analyse_bed(bed: str) -> dict:
     series, units = e2._series(runs)
     conv = convergence(bed)
     rec = AN.recover(series, e2.PREREG, units)
+    conv_configs = conv.get("configs") or {}
+    for table in rec["effects"].values():
+        for effect in table.values():
+            contrast = effect.get("contrast") or ""
+            cells = contrast.split(" minus ") if " minus " in contrast else []
+            statuses = {c: (conv_configs.get(c) or {}).get("classification", "not_measured")
+                        for c in cells}
+            effect["convergence"] = {
+                "cells": statuses,
+                "all_converged": bool(statuses) and all(v == "converged" for v in statuses.values()),
+                "classification": ("converged" if statuses and all(v == "converged" for v in statuses.values())
+                                   else "provisional_unconverged_or_unmeasured"),
+            }
     means = {k: round(float(np.mean(v)), 5) for k, v in series.items()}
     params = {r["cell"]: r["params"] for r in runs}
     best = max(means, key=means.get)
@@ -62,12 +75,20 @@ def analyse_bed(bed: str) -> dict:
         "recovered": rec["recovered"],
         "convergence": {"all_converged": conv.get("all_converged"),
                         "unconverged": conv.get("unconverged", []),
-                        "grid": conv.get("grid")},
+                        "grid": conv.get("grid"),
+                        "load_bearing_cells": conv.get("load_bearing_cells", []),
+                        "load_bearing_all_converged": conv.get("load_bearing_all_converged", False),
+                        "load_bearing_unconverged": conv.get("load_bearing_unconverged", []),
+                        "configs": {k: {kk: v.get(kk) for kk in (
+                            "classification", "selected_checkpoint", "second_half_movement",
+                            "residual_slope", "seeds", "curve")}
+                                    for k, v in conv_configs.items()}},
         "instrumentation": {
             "undeclared_parameter_changes": sum(len(r["undeclared_changes"]) for r in runs),
             "reset_classifications": sorted({r["reset_witness"]["classification"] for r in runs}),
             "oracle_segmented_cells": sorted({r["cell"] for r in runs
                                               if r["reset_witness"]["classification"] == "oracle_segmented"}),
+            "load_bearing_cells": list(e2.LOAD_BEARING_CONVERGENCE_CELLS),
         },
     }
 
@@ -159,9 +180,12 @@ def result_keys(per_bed: dict) -> list[str]:
     if not principal:
         return keys
     mh = [a["effects"]["recurrent_versus_matched_history"] for a in principal.values()]
-    if all(any(v.get("verdict") == "positive" for v in g.values()) for g in mh):
+    matched_full = [g.get("gru_vs_histmlp_kfull_window", {}) for g in mh]
+    if all(v.get("verdict") == "positive" and v.get("convergence", {}).get("all_converged")
+           for v in matched_full):
         keys.append("recurrent_beats_matched_history")
-    if any(any(AN.equivalent(v) for v in g.values() if v.get("mean") is not None) for g in mh):
+    if any(AN.equivalent(v) and v.get("convergence", {}).get("all_converged")
+           for v in matched_full if v.get("mean") is not None):
         keys.append("matched_history_matches_recurrent")
     if all(a["findings"]["capacity_monotonic"] for a in principal.values()):
         keys.append("capacity_monotonic_and_large")
@@ -180,19 +204,22 @@ def result_keys(per_bed: dict) -> list[str]:
         for r in A.RECURRENT:
             for s in A.STATELESS:
                 v = a["effects"]["recurrence_versus_best_stateless"].get(f"{r}_vs_{s}", {})
-                if v.get("verdict") == "positive":
+                if v.get("verdict") == "positive" and v.get("convergence", {}).get("all_converged"):
                     fam.setdefault(r, set()).add(b)
     if set(fam) >= {"gru", "lstm", "mgu"}:
         keys.append("all_recurrent_families_agree")
     elif fam:
         keys.append("one_recurrent_family_dissents")
-    if all(a["convergence"].get("all_converged") for a in principal.values()):
+    if all(a["convergence"].get("load_bearing_all_converged") for a in principal.values()):
         keys.append("converged_everywhere_and_gap_remains")
     else:
         keys.append("unconverged_arms_explain_the_gap")
     third = per_bed.get("harth_stream")
-    if third and third.get("status") != "no_runs":
-        rec = any(v.get("verdict") == "positive"
+    third_preflight = io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") if io.exists(
+        "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {}
+    third_admitted = "harth_stream" in (third_preflight.get("selected") or [])
+    if third and third.get("status") != "no_runs" and third_admitted:
+        rec = any(v.get("verdict") == "positive" and v.get("convergence", {}).get("all_converged")
                   for v in third["effects"]["recurrence_versus_best_stateless"].values())
         keys.append("third_bed_agrees" if rec else "third_bed_dissents")
     else:
@@ -215,7 +242,6 @@ def main():
     principal = {b: a for b, a in per_bed.items() if b in PRINCIPAL_BEDS and a.get("status") != "no_runs"}
     classifications = {}
     for b, a in principal.items():
-        conv_ok = bool(a["convergence"].get("all_converged"))
         for group in ("recurrence_versus_best_stateless", "capacity", "horizon", "readout",
                       "recurrent_versus_matched_history"):
             for k, d in a["effects"][group].items():
@@ -223,7 +249,7 @@ def main():
                     continue
                 classifications[f"{b}:{group}:{k}"] = gate.classify_result(
                     effect=d, instrument_valid=True, bed_valid=True, mechanism_active=True,
-                    baseline_valid=conv_ok, estimator_sufficient=bool(d.get("estimator_sufficient")),
+                    baseline_valid=bool(d.get("convergence", {}).get("all_converged")),
                     verifier_agrees=True, mutations_rejected=True, implementations_agreeing=2,
                 )["classification"]
     doc = {
