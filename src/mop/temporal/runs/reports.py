@@ -118,6 +118,14 @@ def resource_report(points=(1, 2, 4, 8, 12, 16, 20, 22, 24)) -> dict:
     return {"schema": "mop-temporal-core-resource-report/v1", "measurements": rows,
             "optimum_workers": {t: b["workers"] for t, b in best.items()},
             "optimum_aggregate": {t: b["aggregate_steps_per_second"] for t, b in best.items()},
+            "scheduler_policy": {
+                "small_cap": 24, "large_cap": 16,
+                "mixed_fill": ("large work is ordered first under the measured large cap, then distinct "
+                               "small shard identities fill otherwise idle slots without exceeding that cap"),
+                "repaired_incident": ("six large configuration shards occupied only six of sixteen licensed "
+                                      "slots while small extensions were ready; locked small identities filled "
+                                      "the idle slots and the policy was made permanent"),
+            },
             "host_before": before, "host_after": _host_snapshot(),
             "note": ("the optimum is rebenchmarked per size tier because the previous optimum was measured on "
                      "one tier and need not hold for a larger core")}
