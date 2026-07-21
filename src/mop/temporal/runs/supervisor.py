@@ -84,7 +84,8 @@ def scheduling_class(pending_extended: list[str]) -> tuple[int, list[str], str]:
                 continue
     large = [n for n in pending_extended if _large_convergence_name(n)]
     if active_large or large:
-        return CAP_LARGE, large, "large"
+        small = [n for n in pending_extended if n not in large]
+        return CAP_LARGE, large + small, "large_cap_mixed_fill"
     return CAP_SMALL, pending_extended, "small"
 
 
