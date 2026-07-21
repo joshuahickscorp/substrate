@@ -6,11 +6,14 @@ import json
 import tempfile
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from mop.temporal import analysis as AN
 from mop.temporal import arch as A
 from mop.temporal import custody as C
+from mop.temporal import beds as B
+from mop.temporal import factorial as Fx
 from mop.temporal import hypotheses as H
 from mop.temporal import io as TIO
 from mop.temporal import witness as W
@@ -70,6 +73,50 @@ def test_corpus_recovery_command_is_recorded_when_absent():
 
 def test_corpus_requires_a_canonical_root():
     assert _corpus(Path("/tmp/elsewhere")).violations()
+
+
+def test_custody_inventory_integrity_rebuild_and_removal_paths(monkeypatch, tmp_path):
+    monkeypatch.setattr(C, "CANONICAL_ROOT", tmp_path)
+    monkeypatch.setattr(C.io, "ROOT", tmp_path)
+    target = tmp_path / "worktree"
+    raw = tmp_path / "raw"
+    cache = target / "cache"
+    raw.mkdir()
+    cache.mkdir(parents=True)
+    (raw / "source.bin").write_bytes(b"source")
+    (cache / "derived.bin").write_bytes(b"derived")
+    raw_c = _corpus(raw, logical_identity="raw", rebuild_command="not applicable to raw data",
+                    extracted_hashes={
+        "source.bin": TIO.sha_file(raw / "source.bin")})
+    cache_c = _corpus(cache, logical_identity="cache", retention_class="derived_rebuildable",
+                      kind="non_rebuildable_cache", rebuild_command="rebuild from raw",
+                      derived_caches=["raw"])
+    inv = C.inventory([raw_c, cache_c])
+    assert inv["n"] == 2 and inv["all_declared"] and set(inv["present"]) == {"raw", "cache"}
+    assert C.verify_corpus(raw_c)["status"] == "intact"
+    (raw / "source.bin").write_bytes(b"changed")
+    assert C.verify_corpus(raw_c)["status"] == "damaged"
+    (raw / "source.bin").unlink()
+    assert C.verify_corpus(raw_c)["checks"]["no_missing_files"] is False
+    (raw / "source.bin").write_bytes(b"source")
+    assert not C.unique_holdings(target, [raw_c, cache_c])
+
+    proof = target / "proof" / "only.json"
+    proof.parent.mkdir(parents=True)
+    proof.write_text("{}")
+    held = C.unique_holdings(target, [], {"worktree/proof/only.json"})
+    assert held[0]["kind"] == "unindexed_evidence"
+    assert not C.guard(target, [], {"worktree/proof/only.json"})["allowed"]
+
+    disposable = tmp_path / "disposable"
+    disposable.mkdir()
+    temp_c = _corpus(disposable, logical_identity="temp", retention_class="temporary")
+    removed = C.remove_worktree(disposable, [temp_c], dry_run=False)
+    assert removed["removed"] and not disposable.exists()
+
+    inventory_path = tmp_path / "inventory.json"
+    inventory_path.write_text(json.dumps({"corpora": [cache_c.as_dict()]}))
+    assert C.load_inventory(inventory_path)[0].logical_identity == "cache"
 
 
 # ---------------------------------------------------------------- witnesses
@@ -176,6 +223,71 @@ def test_reset_shortens_the_declared_horizon():
     prof_full = A.history_profile("gru", history_k=1, reset=[], sequence_length=192)
     prof_cut = A.history_profile("gru", history_k=1, reset=[45, 90, 135], sequence_length=192)
     assert prof_full["effective_horizon"] == 192 and prof_cut["effective_horizon"] < 192
+
+
+def test_every_live_reset_schedule_and_history_resolution_is_explicit():
+    sp = {"sequence_length": 192, "segment_length": 64, "boundaries": [64, 128]}
+    for kind in Fx.RESET_KINDS:
+        idx, witness = Fx.reset_schedule(kind, sp, 0)
+        assert witness["kind"] == kind and witness["n_resets"] == len(idx)
+    for horizon in (1, 2, 5, 10, 20, 45, 90, "full"):
+        idx, witness = Fx.reset_schedule(f"horizon_{horizon}", sp, 0)
+        assert witness["kind"] == f"horizon_{horizon}" and witness["n_resets"] == len(idx)
+    assert Fx.resolve_history_k("full_window", sp) == 192
+    assert Fx.resolve_history_k("pooled_summary", sp) == 192
+    assert Fx.resolve_history_k(5, sp) == 5
+
+
+def test_factorial_run_emits_a_complete_training_and_unit_receipt():
+    rng = np.random.default_rng(0)
+    x = torch.tensor(rng.normal(size=(48, 30, 2)).astype(np.float32))
+    y = torch.tensor(np.arange(48) % 3)
+    units = np.repeat(np.arange(8), 6)
+    sp = {
+        "bed": "synthetic_stream", "main": (x[:24], y[:24]),
+        "tune": (x[24:36], y[24:36]), "test": (x[36:], y[36:]),
+        "tune_units": units[24:36], "test_units": units[36:],
+        "channels": 2, "classes": 3, "sequence_length": 30,
+        "segment_length": 10, "boundaries": [10, 20],
+    }
+    receipt = Fx.run_cell(sp, dict(Fx.REFERENCE), seed=0, eval_on="test", steps=1)
+    assert receipt["steps"] == receipt["updates"] == 1
+    assert receipt["checkpoint_sha_after"] and not receipt["undeclared_changes"]
+    assert receipt["params"]["total"] == receipt["params"]["core"] + receipt["params"]["readout"]
+
+
+def test_third_bed_cached_authorities_build_group_disjoint_splits(monkeypatch, tmp_path):
+    monkeypatch.setattr(B.io, "DATA_ROOT", tmp_path)
+    B._CACHE.clear()
+    for bed, t, ch, classes in (("harth", 75, 6, 6), ("pamap2", 96, 18, 6)):
+        root = tmp_path / bed
+        root.mkdir()
+        rng = np.random.default_rng(len(bed))
+        np.savez(root / f"{bed}_stream.npz",
+                 Xtr=rng.normal(size=(30, t, ch)).astype(np.float32),
+                 Ytr=np.arange(30) % classes, Utr=np.repeat(np.arange(5), 6),
+                 Xte=rng.normal(size=(12, t, ch)).astype(np.float32),
+                 Yte=np.arange(12) % classes, Ute=np.repeat(np.arange(2) + 10, 6))
+    for bed in ("harth_stream", "pamap2_stream"):
+        ident = B.identity(bed)
+        sp = B.splits(bed, 0)
+        assert set(sp["units"]["main"]).isdisjoint(sp["units"]["tune"])
+        assert set(sp["units"]["test"]).isdisjoint(sp["units"]["main"] + sp["units"]["tune"])
+        assert ident["sequence_length"] == sp["sequence_length"]
+        assert B.chance_rate(sp["classes"]) == pytest.approx(1 / sp["classes"])
+        assert 0 < B.majority_rate(sp["test"][1]) <= 1
+    B._CACHE.clear()
+
+
+def test_stream_and_window_builders_preserve_unit_and_endpoint_identity():
+    sig = np.arange(120, dtype=np.float32).reshape(60, 2)
+    act = np.array([1] * 20 + [0] * 10 + [2] * 30)
+    x, y, u = B._windows(sig, act, "subject", win=10, stride=10, decim=2)
+    assert len(x) == len(y) == len(u) == 4 and set(y) == {1, 2}
+    streams = B._stream_from(x, np.asarray(y), np.asarray(u), per_stream=3,
+                             n_streams=4, decim=1, seed=0)
+    assert streams[0].shape[0] == 4 and streams[0].shape[1] == x[0].shape[0] * 3
+    assert set(streams[2]) == {"subject"}
 
 
 # ---------------------------------------------------------------- factorial identity and selection
