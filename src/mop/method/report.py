@@ -115,12 +115,22 @@ def wording_check(prose: str, sealed_verdict: str) -> dict:
     limit = VERDICT_STRENGTH[sealed_class]
     low = prose.lower()
     offenders = []
+    # A term inside a negation does not assert its class. This handles the short forms that actually occur,
+    # "not licensed", "no architecture is selected", "never positive", and nothing cleverer.
+    # ponytail: three word negation window, replace with a parser only if a real sentence defeats it
+    negators = r"(?:not|no|never|nothing|neither|cannot|fails? to|remains? false)"
     for cls, terms in CLASS_TERMS.items():
         if VERDICT_STRENGTH[cls] <= limit:
             continue
         for t in terms:
-            if re.search(rf"\b{re.escape(t)}\b", low):
+            pat = rf"\b{re.escape(t)}\b"
+            hits = [m for m in re.finditer(pat, low)]
+            for m in hits:
+                window = low[max(0, m.start() - 40) : m.start()]
+                if re.search(rf"\b{negators}\b(?:\s+\w+){{0,3}}\s*$", window):
+                    continue
                 offenders.append({"term": t, "asserts_class": cls, "sealed_class": sealed_class})
+                break
     return {
         "sealed_verdict": sealed_verdict,
         "sealed_class": sealed_class,

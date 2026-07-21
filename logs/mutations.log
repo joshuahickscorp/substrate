@@ -1,0 +1,3 @@
+mutations: all_rejected=False in 1188.0s
+  SURVIVED E1 har_stream shuffling_labels_destroys_the_core_effect: real 0.4192 mutated 0.04746
+MUTATIONS_DONE

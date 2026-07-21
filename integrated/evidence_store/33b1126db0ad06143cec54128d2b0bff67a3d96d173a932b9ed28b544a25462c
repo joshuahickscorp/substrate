@@ -1,0 +1,15 @@
+{
+  "schema": "mop-method-test-report/v1",
+  "command": "coverage run --source=src/mop/method -m pytest tests/method -q",
+  "returncode": 0,
+  "passed": true,
+  "tail": [
+    "........................................................................ [ 61%]",
+    "..............................................                           [100%]"
+  ],
+  "n_tests_reported": 0,
+  "wall_seconds": 2.2,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "ba6e1026cfb07456995671bbb0c92606b68c25753835a9039dbeb3ab2786a19e"
+}

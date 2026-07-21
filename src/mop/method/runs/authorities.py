@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 import time
 
-from mop.method import acceptance, arms, controls, graph, io
+from mop.method import arms, bed, graph, io, mechanism
 
 
 def _adm(name: str) -> dict:
@@ -124,8 +124,8 @@ def mechanism_authority(e1: dict, e4: dict) -> dict:
                                  "accuracies": m.get("accuracies")}
     return {
         "schema": "mop-mechanism-activity-authority/v1",
-        "required_measurements": list(__import__("mop.method.mechanism", fromlist=["x"]).REQUIRED_MEASUREMENTS),
-        "conditions": list(__import__("mop.method.mechanism", fromlist=["x"]).CONDITIONS),
+        "required_measurements": list(mechanism.REQUIRED_MEASUREMENTS),
+        "conditions": list(mechanism.CONDITIONS),
         "rule": "a mechanism with no measurable causal effect is inactive instrumentation, not a null",
         "per_experiment": per,
         "all_active": all(v["active"] for v in per.values()) if per else None,
@@ -153,7 +153,7 @@ def bed_authority(e1: dict, e4: dict, scouts: dict) -> dict:
             per[f"{exp}:{b}"] = entry
     return {
         "schema": "mop-data-bed-validity-authority/v1",
-        "classifications": list(__import__("mop.method.bed", fromlist=["x"]).CLASSIFICATIONS),
+        "classifications": list(bed.CLASSIFICATIONS),
         "rule": ("a dataset being real does not make the task valid, a task being temporal does not make "
                  "temporal state necessary, and a task being sequentialized does not make it continual"),
         "per_experiment": per,

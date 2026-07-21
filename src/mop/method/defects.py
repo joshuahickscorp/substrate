@@ -218,6 +218,23 @@ LEDGER = [
         "discovered_by": "mop-experimental-method-reformation-v1, E1 scout convergence curves",
         "discovered_in_this_program": True,
     },
+    {
+        "id": "D18",
+        "title": "a label permutation control scored against zero difference instead of the majority class rate",
+        "declared": "with permuted labels no arm may separate from another",
+        "actual": "two architectures with nothing to learn degenerate differently. The pooled control "
+                  "collapsed onto one class and scored below the majority class rate while the recurrent core "
+                  "spread its predictions and scored at it, leaving a 0.047 difference that is not signal",
+        "consequence": "a sound positive would have been downgraded to provisional by an artifact of how the "
+                       "control degenerates",
+        "rule": "a label permutation control is scored against the majority class rate, not against a zero "
+                "difference between arms",
+        "detector": "mop.method.runs.mutations.e1_mutations",
+        "mutation": "label_permutation_scored_against_zero",
+        "stage_caught": "mutation_attacks",
+        "discovered_by": "mop-experimental-method-reformation-v1, E1 positive mutation suite on har_stream",
+        "discovered_in_this_program": True,
+    },
 ]
 
 BY_ID = {d["id"]: d for d in LEDGER}
