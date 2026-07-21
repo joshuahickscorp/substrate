@@ -1,6 +1,6 @@
 # Experiment validity kernel
 
-`src/mop/method`, 2890 lines of kernel plus 347 lines of program
+`src/mop/method`, 3060 lines of kernel plus 4351 lines of program
 stages. No new CLI command, no new configuration root, no new registry, no second experiment engine.
 
 ## Admission sequence
@@ -47,6 +47,8 @@ an invalid experiment dies before it can spend any.
 | future_information_leakage | D13 | causal_model | compute | rejected |
 | two_seed_false_headroom | D14 | oracle_headroom | compute | rejected |
 | unconverged_baseline | D15 | baseline_convergence | compute | rejected |
+| context_split_that_crosses_no_boundary | D16 | bed_validity | compute | rejected |
+| brittle_plateau_criterion | D17 | baseline_convergence | compute | rejected |
 | underpowered_design_admitted | D14 | power_and_units | compute | rejected |
 
 report integrity and adjudication defects are caught automatically but after execution, because prose and reviewer votes do not exist before the run. They block the claim, not the compute, and no claim can be sealed while one is open.

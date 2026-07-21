@@ -1,0 +1,166 @@
+{
+  "schema": "mop-control-semantic-verification/v1",
+  "per_experiment": {
+    "E1:har_stream": {
+      "controls": {
+        "pooled_order_free": {
+          "timestep_permutation_invariant": true,
+          "sequence_reversal_invariant": true,
+          "block_permutation_invariant": true,
+          "timestamp_removal_invariant": true,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": true,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": true
+        },
+        "frozen_core": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        }
+      },
+      "discrimination": {
+        "fast": false,
+        "reset3": false,
+        "reset5": false,
+        "every_recurrent_core_fails_the_order_free_proof": true
+      }
+    },
+    "E1:speech_stream": {
+      "controls": {
+        "pooled_order_free": {
+          "timestep_permutation_invariant": true,
+          "sequence_reversal_invariant": true,
+          "block_permutation_invariant": true,
+          "timestamp_removal_invariant": true,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": true,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": true
+        },
+        "frozen_core": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        }
+      },
+      "discrimination": {
+        "fast": false,
+        "reset3": false,
+        "reset5": false,
+        "every_recurrent_core_fails_the_order_free_proof": true
+      }
+    },
+    "E4:speech_stream": {
+      "controls": {
+        "no_adapt": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "state_only": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true,
+          "zero_parameter_updates": true
+        },
+        "state_noise": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "head_only": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "adapter_only": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "core_only": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "full": {
+          "not_applicable": true,
+          "all_pass": true
+        },
+        "budget_matching": {
+          "every_arm_uses_the_same_passes": true,
+          "all_pass": true
+        }
+      },
+      "discrimination": {}
+    },
+    "E4:har_stream": {
+      "controls": {
+        "no_adapt": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "state_only": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true,
+          "zero_parameter_updates": true
+        },
+        "state_noise": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "head_only": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "adapter_only": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "core_only": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        },
+        "full": {
+          "not_applicable": true,
+          "all_pass": true
+        },
+        "budget_matching": {
+          "every_arm_uses_the_same_passes": true,
+          "all_pass": true
+        }
+      },
+      "discrimination": {}
+    }
+  },
+  "all_pass": true,
+  "controls_discriminate": true,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "e1a5308497fd84fe36f4edf535863091f27b110c5de51cb7d10a77e80d70d35e"
+}

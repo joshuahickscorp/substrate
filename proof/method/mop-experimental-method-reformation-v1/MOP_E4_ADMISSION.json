@@ -760,18 +760,61 @@
       "context_boundary": {
         "checks": {
           "new_context_is_measurably_harder": true,
-          "adaptation_costs_the_old_context": true,
+          "adaptation_has_something_to_gain": true,
+          "adaptation_does_not_improve_the_old_context": true,
           "boundary_crossed": true
         },
-        "distribution_shift": 0.19883,
-        "retention_change_under_adaptation": -0.02435,
+        "n_seeds": 5,
+        "distribution_shift_mean": 0.24734,
+        "distribution_shift_lower_95_cb": 0.12232,
+        "retention_cost_mean": -0.03117,
+        "retention_cost_lower_95_cb": -0.07801,
+        "acquisition_gain_mean": 0.2714,
+        "acquisition_gain_lower_95_cb": 0.12948,
+        "rows": [
+          {
+            "no_adapt_new": 0.48968,
+            "no_adapt_old": 0.65782,
+            "adapted_new": 0.60248,
+            "adapted_old": 0.64854
+          },
+          {
+            "no_adapt_new": 0.32759,
+            "no_adapt_old": 0.6356,
+            "adapted_new": 0.67507,
+            "adapted_old": 0.57719
+          },
+          {
+            "no_adapt_new": 0.59067,
+            "no_adapt_old": 0.71102,
+            "adapted_new": 0.78109,
+            "adapted_old": 0.70565
+          },
+          {
+            "no_adapt_new": 0.5536,
+            "no_adapt_old": 0.74699,
+            "adapted_new": 0.76934,
+            "adapted_old": 0.76707
+          },
+          {
+            "no_adapt_new": 0.20946,
+            "no_adapt_old": 0.65625,
+            "adapted_new": 0.7,
+            "adapted_old": 0.55339
+          }
+        ],
         "classification": "context_boundary_crossed",
-        "n_probe_seeds": 3,
         "per_seed": [
           true,
           true,
+          true,
+          false,
           true
-        ]
+        ],
+        "probe_evaluation_units": {
+          "A_eval": 18,
+          "B_eval": 18
+        }
       },
       "covariate_shift": {
         "applied": true,
@@ -1388,18 +1431,61 @@
       "context_boundary": {
         "checks": {
           "new_context_is_measurably_harder": true,
-          "adaptation_costs_the_old_context": false,
-          "boundary_crossed": false
+          "adaptation_has_something_to_gain": true,
+          "adaptation_does_not_improve_the_old_context": true,
+          "boundary_crossed": true
         },
-        "distribution_shift": 0.30132,
-        "retention_change_under_adaptation": 0.06822,
-        "classification": "invalid_no_context_boundary",
-        "n_probe_seeds": 3,
+        "n_seeds": 5,
+        "distribution_shift_mean": 0.31221,
+        "distribution_shift_lower_95_cb": 0.24402,
+        "retention_cost_mean": -0.01607,
+        "retention_cost_lower_95_cb": -0.15226,
+        "acquisition_gain_mean": 0.38796,
+        "acquisition_gain_lower_95_cb": 0.27963,
+        "rows": [
+          {
+            "no_adapt_new": 0.50174,
+            "no_adapt_old": 0.72727,
+            "adapted_new": 0.9338,
+            "adapted_old": 0.88868
+          },
+          {
+            "no_adapt_new": 0.55516,
+            "no_adapt_old": 0.84354,
+            "adapted_new": 0.90214,
+            "adapted_old": 0.86224
+          },
+          {
+            "no_adapt_new": 0.41696,
+            "no_adapt_old": 0.80702,
+            "adapted_new": 0.97059,
+            "adapted_old": 0.83158
+          },
+          {
+            "no_adapt_new": 0.60453,
+            "no_adapt_old": 0.98686,
+            "adapted_new": 0.85192,
+            "adapted_old": 0.75698
+          },
+          {
+            "no_adapt_new": 0.60069,
+            "no_adapt_old": 0.87544,
+            "adapted_new": 0.96041,
+            "adapted_old": 0.82028
+          }
+        ],
+        "classification": "context_boundary_crossed",
         "per_seed": [
           false,
           false,
-          false
-        ]
+          false,
+          true,
+          true
+        ],
+        "probe_evaluation_units": {
+          "A_eval": 2,
+          "B_eval": 2
+        }
       },
       "covariate_shift": {
         "applied": true,
@@ -1512,22 +1598,18 @@
           "har_stream",
           "har_stream"
         ],
-        "violations": [
-          "dataset:har_stream: bed classified invalid_no_context_boundary"
-        ],
-        "passed": false,
+        "violations": [],
+        "passed": true,
         "reached": true
       }
     },
-    "blocked_at": "bed_validity",
-    "blocking_violations": [
-      "dataset:har_stream: bed classified invalid_no_context_boundary"
-    ],
-    "licensed": false,
+    "blocked_at": null,
+    "blocking_violations": [],
+    "licensed": true,
     "principal_execution_licensed": false
   },
-  "wall_seconds": 517.9,
+  "wall_seconds": 585.3,
   "program": "mop-experimental-method-reformation-v1",
-  "source_commit": "a41f4ff217543cd0f72c0322b0b074fd2ce43e8d",
-  "sha256": "9cc9989924c19ff447c43bb69f4e59e06a0050c031ae0039032cd030bf43fba4"
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "8ff3f5658a878203f410118d5de6c4ca2047dfa2fe737dc659cab00d6eb635f4"
 }

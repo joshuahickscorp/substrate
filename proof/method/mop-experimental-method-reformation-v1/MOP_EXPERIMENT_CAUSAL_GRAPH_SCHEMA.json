@@ -50,6 +50,6 @@
     "claim broader than the measured path"
   ],
   "program": "mop-experimental-method-reformation-v1",
-  "source_commit": "cb2fb61301773c9e1b58228242f902644d945731",
-  "sha256": "dcdad76a0351cb5941f163ca88b10a3c4e584b66b28c38ec473c8af8fa839c47"
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "4880003223604c087c2223e3860a607755530700886ea4a8eabc305ad2f49f23"
 }

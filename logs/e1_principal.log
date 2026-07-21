@@ -1,0 +1,33 @@
+E1 principal har_stream seed 5: pooled_linear=0.425 pooled_mlp=0.437 fast_linear=0.871 fast_mlp=0.878 reset3_linear=0.8885 reset3_mlp=0.879 reset5_linear=0.724 reset5_mlp=0.7275
+E1_PRINCIPAL_DONE
+E1 principal har_stream seed 6: pooled_linear=0.4445 pooled_mlp=0.4215 fast_linear=0.9065 fast_mlp=0.893 reset3_linear=0.8935 reset3_mlp=0.887 reset5_linear=0.739 reset5_mlp=0.734
+E1_PRINCIPAL_DONE
+E1 principal har_stream seed 0: pooled_linear=0.4285 pooled_mlp=0.4395 fast_linear=0.88 fast_mlp=0.862 reset3_linear=0.886 reset3_mlp=0.8785 reset5_linear=0.6935 reset5_mlp=0.7015
+E1_PRINCIPAL_DONE
+E1 principal har_stream seed 3: pooled_linear=0.429 pooled_mlp=0.424 fast_linear=0.897 fast_mlp=0.9005 reset3_linear=0.9025 reset3_mlp=0.9075 reset5_linear=0.7545 reset5_mlp=0.763
+E1_PRINCIPAL_DONE
+E1 principal har_stream seed 2: pooled_linear=0.4235 pooled_mlp=0.4265 fast_linear=0.881 fast_mlp=0.897 reset3_linear=0.9015 reset3_mlp=0.877 reset5_linear=0.711 reset5_mlp=0.709
+E1_PRINCIPAL_DONE
+E1 principal har_stream seed 4: pooled_linear=0.4375 pooled_mlp=0.437 fast_linear=0.87 fast_mlp=0.8785 reset3_linear=0.883 reset3_mlp=0.8775 reset5_linear=0.6985 reset5_mlp=0.7055
+E1_PRINCIPAL_DONE
+E1 principal har_stream seed 1: pooled_linear=0.437 pooled_mlp=0.421 fast_linear=0.9 fast_mlp=0.891 reset3_linear=0.89 reset3_mlp=0.907 reset5_linear=0.717 reset5_mlp=0.7255
+E1_PRINCIPAL_DONE
+E1 principal speech_stream seed 1: pooled_linear=0.258 pooled_mlp=0.2265 fast_linear=0.7085 fast_mlp=0.71 reset3_linear=0.74 reset3_mlp=0.755 reset5_linear=0.128 reset5_mlp=0.094
+E1_PRINCIPAL_DONE
+E1 principal speech_stream seed 4: pooled_linear=0.2495 pooled_mlp=0.224 fast_linear=0.695 fast_mlp=0.72 reset3_linear=0.726 reset3_mlp=0.7055 reset5_linear=0.1245 reset5_mlp=0.1325
+E1_PRINCIPAL_DONE
+E1 principal speech_stream seed 2: pooled_linear=0.246 pooled_mlp=0.2365 fast_linear=0.7025 fast_mlp=0.702 reset3_linear=0.762 reset3_mlp=0.723 reset5_linear=0.1175 reset5_mlp=0.1295
+E1_PRINCIPAL_DONE
+E1 principal speech_stream seed 0: pooled_linear=0.2485 pooled_mlp=0.2375 fast_linear=0.77 fast_mlp=0.748 reset3_linear=0.786 reset3_mlp=0.7225 reset5_linear=0.126 reset5_mlp=0.1235
+E1_PRINCIPAL_DONE
+E1 principal speech_stream seed 3: pooled_linear=0.2575 pooled_mlp=0.241 fast_linear=0.697 fast_mlp=0.725 reset3_linear=0.711 reset3_mlp=0.7595 reset5_linear=0.13 reset5_mlp=0.1455
+E1_PRINCIPAL_DONE
+E1 principal speech_stream seed 5: pooled_linear=0.2645 pooled_mlp=0.257 fast_linear=0.6845 fast_mlp=0.7525 reset3_linear=0.752 reset3_mlp=0.7545 reset5_linear=0.1215 reset5_mlp=0.12
+E1_PRINCIPAL_DONE
+E1 principal har_stream seed 7: pooled_linear=0.4335 pooled_mlp=0.447 fast_linear=0.893 fast_mlp=0.8955 reset3_linear=0.905 reset3_mlp=0.8805 reset5_linear=0.733 reset5_mlp=0.724
+E1_PRINCIPAL_DONE
+E1 principal speech_stream seed 7: pooled_linear=0.238 pooled_mlp=0.2305 fast_linear=0.7345 fast_mlp=0.722 reset3_linear=0.738 reset3_mlp=0.742 reset5_linear=0.1325 reset5_mlp=0.1345
+E1_PRINCIPAL_DONE
+E1 principal speech_stream seed 6: pooled_linear=0.2285 pooled_mlp=0.2485 fast_linear=0.7165 fast_mlp=0.748 reset3_linear=0.761 reset3_mlp=0.764 reset5_linear=0.1125 reset5_mlp=0.1035
+E1_PRINCIPAL_DONE
+E1_PRINCIPAL_ALL_DONE

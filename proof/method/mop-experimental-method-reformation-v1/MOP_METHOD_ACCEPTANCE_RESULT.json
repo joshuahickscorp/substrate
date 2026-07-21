@@ -77,7 +77,7 @@
     }
   },
   "mutations_rejected": true,
-  "n_mutations": 17,
+  "n_mutations": 19,
   "mutation_failures": [],
   "defect_classes_covered": [
     "D1",
@@ -87,6 +87,8 @@
     "D13",
     "D14",
     "D15",
+    "D16",
+    "D17",
     "D2",
     "D3",
     "D4",
@@ -100,7 +102,9 @@
   "blocks_compute": [
     "aliased_lstm_and_lstm_gdumb",
     "analytic_value_marked_measured",
+    "brittle_plateau_criterion",
     "buffer_that_stops_replacing",
+    "context_split_that_crosses_no_boundary",
     "future_information_leakage",
     "ignored_treatment_flag",
     "inactive_replay",
@@ -121,8 +125,8 @@
   "note": "report integrity and adjudication defects are caught automatically but after execution, because prose and reviewer votes do not exist before the run. They block the claim, not the compute, and no claim can be sealed while one is open.",
   "green": true,
   "principal_execution_licensed_by_this_gate": true,
-  "wall_seconds": 0.5,
+  "wall_seconds": 0.7,
   "program": "mop-experimental-method-reformation-v1",
-  "source_commit": "cb2fb61301773c9e1b58228242f902644d945731",
-  "sha256": "0a84e54c42a6ad93633458ba5b28cf84e7f67a3c48e7bdd2e5344fafb2f6c84b"
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "ff0be38a40126f0b12597983b0b63bc237d9b53b8227324c41b83469956bf6a3"
 }

@@ -38,9 +38,14 @@ def audit_experiment(admission_file: str, principal_sub: str, arm_key: str) -> d
         checks[f"{b}:test_untouched"] = not v["unit_audit"]["test_touched"]
         checks[f"{b}:mechanism_active"] = v["mechanism_activity"]["active"]
         sem = v.get("control_semantics") or v.get("control_receipts") or {}
+        sem = sem.get("controls", sem)
         for name, r in sem.items():
             if isinstance(r, dict) and "all_pass" in r:
                 checks[f"{b}:control_{name}"] = bool(r["all_pass"])
+        disc = (v.get("control_semantics") or {}).get("discrimination")
+        if disc:
+            checks[f"{b}:control_discriminates"] = bool(
+                disc.get("every_recurrent_core_fails_the_order_free_proof"))
         if "config_sensitivity" in v:
             checks[f"{b}:configuration_fields_honoured"] = v["config_sensitivity"]["all_honoured"]
         if "parameter_match" in v:

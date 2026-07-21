@@ -44,7 +44,10 @@ def plateau(curve, patience: int = 3, rel_tol: float = 0.005, abs_tol: float = 0
     tail_mean = sum(c[-third:]) / third
     half = c[len(c) // 2 :]
     slope = (half[-1] - half[0]) / max(1, len(half) - 1)
-    plateaued = (max(c) - tail_mean) <= abs_tol and slope <= rel_tol
+    # No remaining training headroom means the curve is not rising in its later half and its peak is not at
+    # the end. A curve that peaked mid range and came down is overtrained, not undertrained, so comparing the
+    # tail to the global maximum would have failed it for the opposite reason to the one that matters.
+    plateaued = slope <= rel_tol and (max(c) - max(half)) <= abs_tol
 
     converged = strict or plateaued
     return {
@@ -53,13 +56,15 @@ def plateau(curve, patience: int = 3, rel_tol: float = 0.005, abs_tol: float = 0
         "converged_plateau": plateaued,
         "criterion_used": "patience" if strict else ("plateau" if plateaued else "none"),
         "reason": "" if converged else (
-            f"still rising: best at check {best_i} of {len(c) - 1}, tail mean {round(tail_mean, 4)} is "
-            f"{round(max(c) - tail_mean, 4)} below the best and the second half slope is {round(slope, 4)}"
+            f"still rising: best at check {best_i} of {len(c) - 1}, the second half peak is "
+            f"{round(max(c) - max(half), 4)} below the global best and the second half slope is "
+            f"{round(slope, 4)}"
         ),
         "best_value": best,
         "best_index": best_i,
         "checks_after_best": tail,
         "tail_mean": round(tail_mean, 5),
+        "second_half_peak_gap": round(max(c) - max(half), 5),
         "second_half_slope": round(slope, 5),
     }
 

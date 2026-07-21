@@ -173,9 +173,35 @@
       "detector": "mop.method.baseline.comparison",
       "mutation": "unconverged_baseline",
       "stage_caught": "baseline_convergence"
+    },
+    {
+      "id": "D16",
+      "title": "a context split that crosses no boundary",
+      "declared": "two contexts with an adaptation phase between them",
+      "actual": "two random unit groups from one corpus, so adapting to the second improved the first as well",
+      "consequence": "an adaptation experiment with no stability plasticity tradeoff to measure, and an oracle headroom below the smallest effect the design declared interesting",
+      "rule": "a context boundary must be proven by measurement: the new context must be measurably harder before adaptation, and adapting to it must cost something on the old one",
+      "detector": "mop.method.bed.context_boundary",
+      "mutation": "context_split_that_crosses_no_boundary",
+      "stage_caught": "bed_validity",
+      "discovered_by": "mop-experimental-method-reformation-v1, E4 scout on speech_stream",
+      "discovered_in_this_program": true
+    },
+    {
+      "id": "D17",
+      "title": "a brittle plateau criterion reported a flat curve as still improving",
+      "declared": "a convergence receipt",
+      "actual": "on a noisy single seed validation curve the argmax lands late by chance, so a curve that moved 0.016 across a tenfold budget range was classified unconverged",
+      "consequence": "a comparison whose baselines were converged in substance would have been sealed as provisional, which understates the evidence exactly as badly as overstating it",
+      "rule": "a convergence criterion must answer whether training headroom remains, and when two criteria disagree both are reported and the one used is named",
+      "detector": "mop.method.baseline.plateau",
+      "mutation": "brittle_plateau_criterion",
+      "stage_caught": "baseline_convergence",
+      "discovered_by": "mop-experimental-method-reformation-v1, E1 scout convergence curves",
+      "discovered_in_this_program": true
     }
   ],
-  "n_defects": 15,
+  "n_defects": 17,
   "veto_rule": "a reproduced defect is confirmed regardless of reviewer votes. Consensus is evidence, not proof. Votes alone can never refute an attack; only a failed reproduction can.",
   "required_followups": [
     "freeze the original result",
@@ -187,6 +213,6 @@
   ],
   "coverage_rule": "coverage misses remain visible. Test scopes may not be narrowed merely to claim compliance.",
   "program": "mop-experimental-method-reformation-v1",
-  "source_commit": "cb2fb61301773c9e1b58228242f902644d945731",
-  "sha256": "6c625184dc17fdf75cfa586dc5d8387703a3a4b726f90784bc26128e1e9b4efa"
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "c90aa9da19e926ec84562c917797bdcfc4c4b4076471f0ce670fe63881f37aab"
 }

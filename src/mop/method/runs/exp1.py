@@ -228,22 +228,35 @@ def causal_graph() -> dict:
 
 
 def control_semantics(sp: dict) -> dict:
+    """Two different things, kept apart on purpose.
+
+    controls holds the arms that make a claim about removal and must pass their proof. discrimination holds
+    the treatment arms, which must FAIL the order free proof: a control that everything passes would prove
+    nothing, so the counterexample is evidence rather than a failure.
+    """
     x = sp["main"][0][:8]
-    out = {}
+    out: dict = {"controls": {}, "discrimination": {}}
     for core in Fx.CORES:
         torch.manual_seed(0)
         hidden = Fx.match_hidden(sp["channels"], sp["classes"], "mlp")
         m = Fx.build(sp["channels"], sp["classes"], core, "mlp", hidden=hidden).eval()
         r = controls.order_free(lambda t: m(t, None)[0], x, module=m)
-        out[core] = {k: v for k, v in r.items() if isinstance(v, bool)}
-        out[core]["structural_findings"] = r.get("structural_findings")
+        rec = {k: v for k, v in r.items() if isinstance(v, bool)}
+        rec["structural_findings"] = r.get("structural_findings")
+        if core == "pooled":
+            out["controls"]["pooled_order_free"] = rec
+        else:
+            out["discrimination"][core] = rec
     # the frozen control: a cell whose core is not in the trainable groups must not move its core
     torch.manual_seed(0)
     hidden = Fx.match_hidden(sp["channels"], sp["classes"], "linear")
     m = Fx.build(sp["channels"], sp["classes"], "fast", "linear", hidden=hidden)
     rec = E.fit(m, None, sp["main"][0], sp["main"][1], train_groups=["readout"], steps=15, lr=LR,
                 rng=np.random.default_rng(0), batch=32)
-    out["frozen_core"] = controls.frozen_control(rec, ["core"], m.param_groups)
+    out["controls"]["frozen_core"] = controls.frozen_control(rec, ["core"], m.param_groups)
+    out["discrimination"]["every_recurrent_core_fails_the_order_free_proof"] = all(
+        not v["all_pass"] for k, v in out["discrimination"].items() if isinstance(v, dict)
+    )
     return out
 
 
@@ -325,10 +338,9 @@ def admit(write: bool = True) -> dict:
         for name in dist["per_arm"]:
             contracts_all.append(contracts.ArmContract(name=f"{b}:{name}",
                                                        evidence={"distinctness": dist["per_arm"][name]}))
-        contracts_all.append(contracts.ControlContract(name=f"{b}:pooled_order_free",
-                                                       evidence={"semantic": sem["pooled"]}))
-        contracts_all.append(contracts.ControlContract(name=f"{b}:frozen_core",
-                                                       evidence={"semantic": sem["frozen_core"]}))
+        for cname, crec in sem["controls"].items():
+            contracts_all.append(contracts.ControlContract(name=f"{b}:{cname}",
+                                                           evidence={"semantic": crec}))
         contracts_all.append(contracts.IndependentUnitContract(name=b, evidence={"units": ua}))
 
     g = causal_graph()
@@ -364,7 +376,7 @@ def admit(write: bool = True) -> dict:
         "cells": [f"{c}_{r}" for c, r in CELLS],
         "hypothesis_predictions": HYPOTHESIS_PREDICTIONS,
         "causal_graph": g,
-        "causal_graph_rejections": graph.validate(g, evidence={"pooled_control": per_bed[BEDS[0]]["control_semantics"]["pooled"]}),
+        "causal_graph_rejections": graph.validate(g, evidence={"pooled_control": per_bed[BEDS[0]]["control_semantics"]["controls"]["pooled_order_free"]}),
         "causal_graph_summary": graph.summarize(g),
         "per_bed": per_bed,
         "admission": admission,

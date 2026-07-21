@@ -499,3 +499,29 @@ def test_d17_a_flat_noisy_curve_is_accepted_by_the_plateau_criterion_and_both_ar
 def test_d17_a_clean_plateau_still_passes_the_strict_criterion():
     r = baseline.plateau([0.80, 0.81, 0.81, 0.81, 0.81])
     assert r["converged_strict"] and r["criterion_used"] == "patience"
+
+
+def test_d16_powered_boundary_rejects_the_measured_no_boundary_case():
+    # five seeds around the measured E4 version one means: adaptation improved both contexts
+    rows = [{"no_adapt_new": 0.687 + 0.01 * i, "no_adapt_old": 0.682 + 0.01 * i,
+             "adapted_new": 0.726 + 0.01 * i, "adapted_old": 0.730 + 0.01 * i} for i in range(-2, 3)]
+    r = bed.context_boundary_over_seeds(rows)
+    assert r["classification"] == "invalid_no_context_boundary"
+    assert not r["checks"]["adaptation_does_not_improve_the_old_context"]
+
+
+def test_d16_powered_boundary_accepts_a_real_shift():
+    rows = [{"no_adapt_new": 0.41 + 0.01 * i, "no_adapt_old": 0.69 + 0.01 * i,
+             "adapted_new": 0.68 + 0.01 * i, "adapted_old": 0.64 + 0.01 * i} for i in range(-2, 3)]
+    assert bed.context_boundary_over_seeds(rows)["classification"] == "context_boundary_crossed"
+
+
+def test_d17_a_declining_curve_is_converged_not_still_improving():
+    # peaked mid range and came down: overtrained, not undertrained. The measured E1 pooled control curve.
+    r = baseline.plateau([0.4428, 0.4362, 0.4222, 0.451, 0.4115, 0.4132])
+    assert r["converged"] and r["criterion_used"] == "plateau"
+
+
+def test_d17_a_curve_still_rising_at_the_end_is_rejected():
+    r = baseline.plateau([0.20, 0.30, 0.40, 0.55, 0.70, 0.86])
+    assert not r["converged"]

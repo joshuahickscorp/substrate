@@ -21,7 +21,7 @@ learned gate opened `False`, architecture selected
 
 ## Bound methodological failures
 
-15 defect classes, listed in `MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.md`. The one this
+17 defect classes, listed in `MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.md`. The one this
 program was named after: the order free control contained a Conv1d with kernel 5, so the temporal headroom
 interpretation built on it was invalid.
 
