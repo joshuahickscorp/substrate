@@ -179,7 +179,19 @@ for p in paths:
 print(len(paths))
 """
         checkpoint = run([sys.executable, "-c", checkpoint_script])
-        supervisor = run([sys.executable, "-m", "mop.temporal.runs.supervisor", "status"])
+        supervisor_script = """
+import json
+from mop.temporal import io
+from mop.temporal.runs.supervisor import status
+s=status(); q=io.load('MOP_EXPERIMENT_VALUE_QUEUE.json'); licensed=q.get('licensed_top_two') or []
+required={'scout','convergence','extended_convergence','principal','third_bed_preflight'}
+if 'E3_shared_versus_local' in licensed: required.add('e3')
+if 'hybrid_adaptation' in licensed: required.add('hybrid')
+assert not s['stop_switch_active'] and not s['active_shards']
+assert all(not s['missing'][k] and not s['invalid'][k] and not s['partial_receipts'][k] for k in required)
+print(json.dumps(s))
+"""
+        supervisor = run([sys.executable, "-c", supervisor_script])
         fabric_script = """
 import json
 from pathlib import Path

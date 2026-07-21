@@ -6,6 +6,7 @@ import json
 import time
 
 from mop.temporal import io
+from mop.temporal.runs import e2 as E2
 
 
 def L(n, d=None):
@@ -166,6 +167,19 @@ def main():
                                                "MOP_TEMPORAL_CORE_SYNTHESIS.md",
                                                "MOP_TEMPORAL_CORE_NEXT_FRONTIER.json"))
     licensed = queue.get("licensed_top_two") or []
+    convergence_terminal = bool(e2.get("beds")) and all(
+        len((e2.get("per_bed", {}).get(b, {}).get("convergence", {}).get("configs") or {}))
+        == len(E2.CONVERGE_CONFIGS)
+        and max(e2["per_bed"][b]["convergence"].get("grid") or [0]) >= max(E2.EXTENDED_CONVERGENCE_GRID)
+        and all(c.get("classification") in ("converged", "unconverged") for c in
+                e2["per_bed"][b]["convergence"]["configs"].values()) for b in e2.get("beds", []))
+    replication_terminal = (len(rep.get("per_bed") or {}) == len(e2.get("beds") or [])
+                            and all(r.get("n_seeds") == len(E2.PRINCIPAL_SEEDS)
+                                    for r in (rep.get("per_bed") or {}).values()))
+    core_terminal = io.exists("MOP_OWNED_TEMPORAL_CORE_V1.json") and (
+        bool(core.get("selected")) or bool((core.get("selection") or {}).get("reason")))
+    successor_gates_terminal = io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json") and (
+        len(licensed) == min(2, len(queue.get("opened") or [])))
     successor_terminal = all(
         (name == "third_bed_replication" and bool(third_result.get("classification")))
         or (name == "E3_shared_versus_local" and bool(e3.get("experiment_terminal")))
@@ -180,16 +194,15 @@ def main():
         "method_extension": io.exists("MOP_TEMPORAL_METHOD_EXTENSION.json"),
         "e2_calibration": bool(L("MOP_E2_CALIBRATION.json").get("all_pass")),
         "scout": bool(scout.get("all_pass")),
-        "convergence": all((e2.get("per_bed", {}).get(b, {}).get("convergence", {})
-                            .get("load_bearing_all_converged")) for b in e2.get("principal_beds", [])),
+        "convergence": convergence_terminal,
         "bed_validity": bool(factorial.get("all_principal_beds_valid")),
         "third_bed_preflight": bool(third.get("candidates")) and all(
             v.get("classification") not in ("preflight_incomplete", "unavailable", None)
             for v in third.get("candidates", {}).values()),
         "e2_principal": bool(e2.get("all_shards_verified")),
-        "independent_replication": bool(rep.get("all_pass")),
-        "core_selection": bool(core.get("selected")) and all((core.get("evidence_gates") or {}).values()),
-        "successor_gates": len(licensed) == 2,
+        "independent_replication": replication_terminal,
+        "core_selection": core_terminal,
+        "successor_gates": successor_gates_terminal,
         "successors_terminal": successor_terminal,
         "mutations": bool(L("MOP_TEMPORAL_CORE_MUTATION_REPORT.json").get("all_rejected")),
         "verification": bool(L("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json").get("all_pass")),
@@ -241,7 +254,7 @@ def main():
             "calibration": 100 if stages["e2_calibration"] else 0,
             "bed_validity": 100 if stages["bed_validity"] else 0,
             "principal_factorial": 100 if stages["e2_principal"] else 0,
-            "independent_replication": 100 if a["38 did independent replication pass"] else 0,
+            "independent_replication": 100 if rep.get("all_pass") else 0,
             "verification": 100 if stages["verification"] else 0,
             "mutations": 100 if stages["mutations"] else 0,
             "coverage": 100 if stages["tests_and_coverage"] else 0,
