@@ -121,6 +121,16 @@ def role_b() -> dict:
         checks[f"{key}:unit_disjoint"] = all(not a & b for i, a in enumerate(sets) for b in sets[i + 1:])
         checks[f"{key}:test_untouched"] = bool(d.get("test_split_untouched"))
         checks[f"{key}:training_receipts"] = bool(d.get("all_checks_pass"))
+    hybrid_paths = sorted((io.RUNS / "hybrid").glob("*.json")) if (io.RUNS / "hybrid").is_dir() else []
+    for p in hybrid_paths:
+        d = json.loads(p.read_text())
+        key = f"hybrid:{d.get('bed')}:{d.get('seed')}"
+        checks[f"{key}:six_arms"] = len(d.get("arms", {})) == 6
+        checks[f"{key}:state_only_zero_parameter_updates"] = bool(
+            (d.get("checks") or {}).get("state_only_zero_parameter_updates"))
+        checks[f"{key}:matched_updates"] = bool((d.get("checks") or {}).get("matched_adaptation_updates"))
+        checks[f"{key}:state_noise_matched"] = bool(
+            (d.get("checks") or {}).get("state_noise_magnitude_matched"))
     return {"role": "B instrumentation auditor", "checks": checks, "notes": notes,
             "failed": [k for k, v in checks.items() if not v], "all_pass": all(checks.values()),
             "outcomes_inspected": False}
@@ -261,6 +271,25 @@ def role_c() -> dict:
         checks["HARTH-preflight:boundary"] = (
             abs(round(lower_bound(shifts), 5) - boundary["distribution_shift_lower_95_cb"]) < 1e-4
             and abs(round(lower_bound(costs), 5) - boundary["retention_cost_lower_95_cb"]) < 1e-4)
+    if io.exists("MOP_HYBRID_ADAPTATION_RESULT.json"):
+        hybrid = io.load("MOP_HYBRID_ADAPTATION_RESULT.json")
+        result = hybrid.get("result") or {}
+        for bedname, expected in (result.get("per_bed") or {}).items():
+            rows = [json.loads(p.read_text()) for p in sorted((io.RUNS / "hybrid").glob(
+                f"{bedname}_*.json"))]
+            gain = [r["arms"]["head_plus_state"]["future_acquisition_B"]["accuracy"]
+                    - r["arms"]["head_only"]["future_acquisition_B"]["accuracy"] for r in rows]
+            noise = [r["arms"]["head_plus_state"]["future_acquisition_B"]["accuracy"]
+                     - r["arms"]["head_plus_state_noise"]["future_acquisition_B"]["accuracy"] for r in rows]
+            checks[f"hybrid:{bedname}:hybrid_vs_head"] = (
+                len(rows) == 8 and abs(round(mean(gain), 5) - expected["hybrid_minus_head"]["mean"]) < 1e-4
+                and abs(round(lower_bound(gain), 5)
+                        - expected["hybrid_minus_head"]["lower_95_cb"]) < 1e-4)
+            checks[f"hybrid:{bedname}:hybrid_vs_noise"] = (
+                len(rows) == 8 and abs(round(mean(noise), 5)
+                                       - expected["hybrid_minus_head_noise"]["mean"]) < 1e-4
+                and abs(round(lower_bound(noise), 5)
+                        - expected["hybrid_minus_head_noise"]["lower_95_cb"]) < 1e-4)
     return {"role": "C scientific verifier", "checks": checks, "mismatches": mismatches,
             "n_checks": len(checks), "all_pass": all(checks.values()) and not mismatches,
             "independence": ("recomputes every effect with its own arithmetic and its own t table, imports no "

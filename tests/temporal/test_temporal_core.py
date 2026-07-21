@@ -17,7 +17,7 @@ from mop.temporal import factorial as Fx
 from mop.temporal import hypotheses as H
 from mop.temporal import io as TIO
 from mop.temporal import witness as W
-from mop.temporal.runs import analyze, codelife, coresel, e2, e3, mutations, successors, supervisor
+from mop.temporal.runs import analyze, codelife, coresel, e2, e3, hybrid, mutations, successors, supervisor
 
 torch = pytest.importorskip("torch")
 
@@ -438,6 +438,18 @@ def test_required_positive_mutation_vocabulary_is_complete():
         "null_reference_changed", "effect_comparison_changed", "verdict_changed", "claim_broadened",
         "forged_completion",
     }
+
+
+def test_hybrid_state_only_rule_changes_no_parameters(monkeypatch):
+    monkeypatch.setattr(hybrid, "ADAPT_STEPS", 1)
+    model = hybrid.HybridModel(A.build(family="gru", ch=2, classes=3, tier="micro"))
+    x = torch.randn(12, 8, 2)
+    y = torch.arange(12) % 3
+    before = {n: p.detach().clone() for n, p in model.named_parameters()}
+    trace = hybrid.state_adapt(model, (x, y, np.arange(12)), seed=0, train_head=False)
+    assert trace["parameter_updates"] == 0 and not trace["changed_params"]
+    assert all(torch.equal(before[n], p) for n, p in model.named_parameters())
+    assert trace["not_E4_recentering_rule"] and model.state.norm() > 0
 
 
 def test_code_lifecycle_keeps_resume_surface_active_and_sealed_drivers_frozen():

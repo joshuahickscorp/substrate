@@ -148,6 +148,7 @@ def status() -> dict:
         ("har_stream", "speech_stream"), ("speech_stream", "har_stream"))
                  for seed in e2.PRINCIPAL_SEEDS]
     third = [f"harth_preflight_{seed}" for seed in e2.PRINCIPAL_SEEDS]
+    hybrid = [f"{bed}_{seed}" for bed in e2.B.PRINCIPAL for seed in e2.PRINCIPAL_SEEDS]
     active = []
     if LOCKS.is_dir():
         for p in sorted(LOCKS.glob("*.json")):
@@ -166,6 +167,7 @@ def status() -> dict:
             "principal": len(principal) - len(missing("e2_principal", principal)),
             "e3": len(e3_shards) - len(missing("e3", e3_shards)),
             "third_bed_preflight": len(third) - len(missing("third_bed_preflight", third)),
+            "hybrid": len(hybrid) - len(missing("hybrid", hybrid)),
         },
         "missing": {
             "scout": missing("e2_scout", scout),
@@ -174,6 +176,7 @@ def status() -> dict:
             "principal": missing("e2_principal", principal),
             "e3": missing("e3", e3_shards),
             "third_bed_preflight": missing("third_bed_preflight", third),
+            "hybrid": missing("hybrid", hybrid),
         },
         "invalid": {
             "scout": invalid("e2_scout", scout),
@@ -182,6 +185,7 @@ def status() -> dict:
             "principal": invalid("e2_principal", principal),
             "e3": invalid("e3", e3_shards),
             "third_bed_preflight": invalid("third_bed_preflight", third),
+            "hybrid": invalid("hybrid", hybrid),
         },
         "partial_receipts": {
             "scout": partials("e2_scout"),
@@ -190,6 +194,7 @@ def status() -> dict:
             "principal": partials("e2_principal"),
             "e3": partials("e3"),
             "third_bed_preflight": partials("third_bed_preflight"),
+            "hybrid": partials("hybrid"),
         },
         "orchestration_incidents": sorted(
             p.name for p in (io.RUNS / "orchestration").glob("*.json")
@@ -324,6 +329,11 @@ def main(argv=None):
     queue = io.load("MOP_EXPERIMENT_VALUE_QUEUE.json") if io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json") else {}
     if "E3_shared_versus_local" in (queue.get("licensed_top_two") or []):
         run_e3()
+        run_sync("mop.temporal.runs.mutations")
+        run_sync("mop.temporal.runs.verify")
+        run_sync("mop.temporal.runs.successors")
+    if "hybrid_adaptation" in (queue.get("licensed_top_two") or []):
+        run_sync("mop.temporal.runs.hybrid", ["all"])
         run_sync("mop.temporal.runs.mutations")
         run_sync("mop.temporal.runs.verify")
         run_sync("mop.temporal.runs.successors")
