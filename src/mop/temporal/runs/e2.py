@@ -16,6 +16,7 @@ House style: no dashes.
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 
@@ -32,6 +33,7 @@ SCOUT_SEEDS = (0, 1, 2, 3)
 PRINCIPAL_SEEDS = tuple(range(8))
 MAX_SEEDS = 12
 CONVERGENCE_GRID = (400, 800, 1600, 3200)
+EXTENDED_CONVERGENCE_GRID = (6400, 12800)
 CONVERGENCE_SEEDS = (0, 1, 2)
 PREREG = power.preregistration(
     name="E2", independent_unit="natural unit of the bed", expected_sd=0.035, sesoi=io.SESOI,
@@ -214,7 +216,14 @@ CONVERGE_CONFIGS = [
     dict(Fx.REFERENCE, family=f) for f in ("gru", "lstm", "mgu", "pooled", "tcn")
 ] + [dict(Fx.REFERENCE, family="histmlp", history_k=20),
      dict(Fx.REFERENCE, tier="large"),
-     dict(Fx.REFERENCE, family="pooled", tier="large", readout="mlp_strong")]
+     dict(Fx.REFERENCE, family="pooled", tier="large", readout="mlp_strong"),
+     dict(Fx.REFERENCE, family="histmlp", history_k="full_window"),
+     dict(Fx.REFERENCE, reset="horizon_45"),
+     dict(Fx.REFERENCE, reset="horizon_90")]
+
+LOAD_BEARING_CONVERGENCE_CELLS = tuple(
+    Fx.cell_name(**CONVERGE_CONFIGS[i]) for i in (0, 2, 3, 4, 8, 9, 10)
+)
 
 
 def converge_shard(bedname: str, idx: int) -> dict:
@@ -238,6 +247,45 @@ def converge_shard(bedname: str, idx: int) -> dict:
     return doc
 
 
+def extend_converge_shard(bedname: str, idx: int) -> dict:
+    """Append larger budgets under a new shard identity, preserving the original curve receipt."""
+    from mop.temporal import witness as W
+
+    t0 = time.time()
+    spec = CONVERGE_CONFIGS[idx]
+    base_path = io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
+    base = json.loads(base_path.read_text()) if base_path.is_file() else converge_shard(bedname, idx)
+    curve = {int(k): float(v) for k, v in base["curve"].items()}
+    spread = {int(k): float(v) for k, v in base["seed_spread"].items()}
+    for steps in EXTENDED_CONVERGENCE_GRID:
+        vals = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)["accuracy"]
+                for s_ in CONVERGENCE_SEEDS]
+        curve[steps] = float(np.mean(vals))
+        spread[steps] = round(float(np.std(vals, ddof=1)), 5)
+    w = W.plateau_validity(curve)
+    doc = {
+        "schema": "mop-e2-extended-convergence-shard/v1",
+        "bed": bedname,
+        "spec": spec,
+        "cell": Fx.cell_name(**spec),
+        "curve": curve,
+        "seed_spread": spread,
+        "seeds": list(CONVERGENCE_SEEDS),
+        "extends": {
+            "path": base_path.relative_to(io.ROOT).as_posix(),
+            "sha256": io.sha_file(base_path),
+            "grid": base.get("budgets", list(CONVERGENCE_GRID)),
+        },
+        "authority_commit": io.commit(),
+        **w,
+        "wall_seconds": round(time.time() - t0, 1),
+    }
+    io.run_json(f"xshard_{bedname}_{idx}.json", doc, "e2_converge_extended")
+    print(f"E2 extended convergence {bedname} {doc['cell']}: {w['classification']} "
+          f"movement {w.get('second_half_movement')} in {doc['wall_seconds']}s", flush=True)
+    return doc
+
+
 def converge(bedname: str) -> dict:
     """Long budget curves for every load bearing configuration, judged by the strict plateau witness."""
     from mop.temporal import witness as W
@@ -245,22 +293,68 @@ def converge(bedname: str) -> dict:
     t0 = time.time()
     out = {}
     for idx, spec in enumerate(CONVERGE_CONFIGS):
-        p = io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
+        extended = io.RUNS / "e2_converge_extended" / f"xshard_{bedname}_{idx}.json"
+        p = extended if extended.is_file() else io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
         if p.is_file():
             d = json.loads(p.read_text())
             out[d["cell"]] = d
             continue
         d = converge_shard(bedname, idx)
         out[d["cell"]] = d
-    doc = {"schema": "mop-e2-convergence/v2", "bed": bedname, "grid": list(CONVERGENCE_GRID),
+    grid = sorted({int(x) for d in out.values() for x in d.get("curve", {})})
+    load = {k: out.get(k) for k in LOAD_BEARING_CONVERGENCE_CELLS}
+    doc = {"schema": "mop-e2-convergence/v3", "bed": bedname, "grid": grid,
            "seeds_per_budget": list(CONVERGENCE_SEEDS),
            "configs": out,
            "all_converged": all(v["converged"] for v in out.values()),
            "unconverged": [k for k, v in out.items() if not v["converged"]],
+           "load_bearing_cells": list(LOAD_BEARING_CONVERGENCE_CELLS),
+           "load_bearing_all_converged": all(v and v["converged"] for v in load.values()),
+           "load_bearing_unconverged": [k for k, v in load.items() if not v or not v["converged"]],
            "wall_seconds": round(time.time() - t0, 1)}
     io.run_json(f"converge_{bedname}.json", doc, "e2_converge")
     print(f"E2 convergence {bedname}: all converged {doc['all_converged']}, "
           f"unconverged {doc['unconverged']}", flush=True)
+    return doc
+
+
+def scout_result() -> dict:
+    """Seal the scout reduction and a hash inventory of every completed raw scout shard."""
+    beds, shards, failures = {}, [], []
+    expected_cells = {Fx.cell_name(**s) for s in Fx.sweep_cells()["_all"]}
+    for bed in ("har_stream", "speech_stream", "harth_stream"):
+        aggregate = io.RUNS / "e2_scout" / f"scout_{bed}.json"
+        if aggregate.is_file():
+            d = json.loads(aggregate.read_text())
+            beds[bed] = {k: d.get(k) for k in (
+                "seeds", "steps", "evaluated_on", "n_cells", "best_cell", "high_variance_cells",
+                "clearly_dominated_cells", "median_sd", "not_scientific_evidence")}
+        for seed in SCOUT_SEEDS:
+            p = io.RUNS / "e2_scout" / f"shard_{bed}_{seed}.json"
+            checks = {"exists": p.is_file()}
+            if p.is_file():
+                d = json.loads(p.read_text())
+                cells = [r.get("cell") for r in d.get("runs", [])]
+                checks.update({
+                    "bed_identity": d.get("bed") == bed and all(r.get("bed") == bed for r in d["runs"]),
+                    "seed_identity": d.get("seed") == seed and all(r.get("seed") == seed for r in d["runs"]),
+                    "factorial_identity": len(cells) == len(expected_cells) and set(cells) == expected_cells,
+                    "receipts_complete": all(r.get("checkpoint_sha_after") and r.get("steps")
+                                             and r.get("params") for r in d["runs"]),
+                })
+            checks["all_pass"] = all(checks.values())
+            row = {"path": p.relative_to(io.ROOT).as_posix(), "bed": bed, "seed": seed,
+                   "sha256": io.sha_file(p) if p.is_file() else None, "checks": checks}
+            shards.append(row)
+            if not checks["all_pass"]:
+                failures.append(row["path"])
+    doc = {"schema": "mop-e2-scout-result/v1", "beds": beds, "shards": shards,
+           "n_expected_shards": 12, "n_completed_shards": sum(s["checks"]["all_pass"] for s in shards),
+           "failures": failures, "all_pass": not failures,
+           "reduction_rule": ("only clearly dominated, contrast redundant, instrument invalid, or resource "
+                              "infeasible cells may be removed; this scout removed no selected factorial cell"),
+           "not_principal_scientific_evidence": True}
+    io.seal("MOP_E2_SCOUT_RESULT.json", doc)
     return doc
 
 
@@ -287,11 +381,19 @@ def main(argv=None):
         scout_shard(argv[1], int(argv[2]))
     elif cmd == "converge_shard":
         converge_shard(argv[1], int(argv[2]))
+    elif cmd == "extend_converge_shard":
+        extend_converge_shard(argv[1], int(argv[2]))
     elif cmd == "principal":
         principal(argv[1], int(argv[2]))
     elif cmd == "converge":
         converge(argv[1])
+    elif cmd == "scout_result":
+        scout_result()
     print(f"E2_{cmd.upper()}_DONE", flush=True)
+    lock = os.environ.get("TEMPORAL_SHARD_LOCK")
+    if lock:
+        from pathlib import Path
+        Path(lock).unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

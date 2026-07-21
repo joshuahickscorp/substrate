@@ -56,6 +56,15 @@ def select(principal: dict) -> dict:
     shared = set(principal["per_bed"][beds[0]]["cell_means"])
     for b in beds[1:]:
         shared &= set(principal["per_bed"][b]["cell_means"])
+    shared = {c for c in shared if (parse(c)["reset"] in ("none", "horizon_full")
+                                    or parse(c)["reset"].startswith("horizon_"))}
+    if all("configs" in principal["per_bed"][b].get("convergence", {}) for b in beds):
+        shared = {c for c in shared if all(
+            principal["per_bed"][b]["convergence"]["configs"].get(c, {}).get("classification")
+            == "converged" for b in beds)}
+    if not shared:
+        return {"selected": None,
+                "reason": "no deployment valid recurrent cell has converged on both principal beds"}
     # the region is judged by the worst bed, so a configuration that only works on one bed cannot win
     worst = {c: min(principal["per_bed"][b]["cell_means"][c] for b in beds) for c in shared}
     best_cell = max(worst, key=worst.get)
@@ -107,12 +116,25 @@ def select(principal: dict) -> dict:
 def main():
     t0 = time.time()
     principal = io.load("MOP_E2_PRINCIPAL_RESULT.json")
-    sel = select(principal)
+    evidence = {
+        "independent_replication": (io.load("MOP_E2_INDEPENDENT_REPLICATION.json").get("all_pass")
+                                    if io.exists("MOP_E2_INDEPENDENT_REPLICATION.json") else False),
+        "independent_verification": (io.load("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json").get("all_pass")
+                                     if io.exists("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else False),
+        "mutations": (io.load("MOP_TEMPORAL_CORE_MUTATION_REPORT.json").get("all_rejected")
+                      if io.exists("MOP_TEMPORAL_CORE_MUTATION_REPORT.json") else False),
+    }
+    sel = select(principal) if all(evidence.values()) else {
+        "selected": None,
+        "reason": "load bearing evidence gates are not all green",
+        "evidence_gates": evidence,
+    }
     beds = [b for b in principal["beds"] if principal["per_bed"][b].get("status") != "no_runs"]
     doc = {
         "schema": "mop-owned-temporal-core-v1/v1",
         "selected": bool(sel.get("selected")),
         "selection": sel,
+        "evidence_gates": evidence,
         "evidence_ceiling": (
             "this is a substrate component with evidence on the beds named here. It does not establish a "
             "complete substrate architecture, continual plasticity, cross domain transfer, functional "

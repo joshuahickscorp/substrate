@@ -25,6 +25,16 @@ from mop.temporal.runs import e2
 SEEDS = (0, 1, 2)
 
 
+def _principal_deltas(bed: str, left: str, right: str) -> list[float]:
+    """Read paired principal effects without retraining or changing the sealed seed sample."""
+    vals: dict[int, dict[str, float]] = {}
+    for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
+        for r in json.loads(p.read_text())["runs"]:
+            if r["cell"] in (left, right):
+                vals.setdefault(int(r["seed"]), {})[r["cell"]] = float(r["accuracy"])
+    return [v[left] - v[right] for _, v in sorted(vals.items()) if left in v and right in v]
+
+
 def _acc(bed, spec, seed, steps=600, mutate=None):
     sp = B.splits(bed, seed)
     r = Fx.run_cell(sp, spec, seed, "tune", steps=steps)
@@ -116,11 +126,22 @@ def behavioural(bed: str = "har_stream") -> dict:
         "pass": len(torch.unique(zeroed.argmax(1))) == 1}
 
     reset_all = dict(Fx.REFERENCE, reset="every_observation")
-    silent = np.mean([_acc(bed, reset_all, s)["accuracy"] - _acc(bed, pooled, s)["accuracy"] for s in SEEDS])
+    full_cell = Fx.cell_name(**ref)
+    reset_cell = Fx.cell_name(**reset_all)
+    principal_state_effects = {
+        b: _principal_deltas(b, full_cell, reset_cell) for b in ("har_stream", "speech_stream")
+    }
+    decisions = {b: e2.power.decide(v, e2.PREREG) for b, v in principal_state_effects.items()}
     res["state_reset_silently"] = {
-        "expected": "resetting every observation removes most of the core effect",
-        "real_effect": round(float(real), 5), "mutated_effect": round(float(silent), 5),
-        "pass": float(silent) < 0.5 * float(real)}
+        "expected": ("the same trained architecture with state destroyed every observation loses at least "
+                     "the SESOI on both preregistered principal beds"),
+        "contrast": f"{full_cell} minus {reset_cell}",
+        "per_bed_effects": {b: [round(x, 5) for x in v] for b, v in principal_state_effects.items()},
+        "per_bed_decisions": decisions,
+        "pass": all(len(principal_state_effects[b]) == len(e2.PRINCIPAL_SEEDS)
+                    and decisions[b]["verdict"] == "positive" for b in principal_state_effects),
+        "note": ("this paired intervention isolates carried state. Comparing reset GRU against pooled would "
+                 "confound the state mutation with an architecture change")}
 
     big_readout = dict(Fx.REFERENCE, family="pooled", readout="mlp_strong", tier="large")
     inflated = np.mean([_acc(bed, ref, s)["accuracy"] - _acc(bed, big_readout, s)["accuracy"] for s in SEEDS])

@@ -26,7 +26,7 @@ def gates() -> dict:
     e2, core = _e2(), _core()
     fold = (e2.get("hypothesis_fold") or {}).get("hypotheses", {})
     beds = [b for b in e2.get("principal_beds", []) if e2.get("per_bed", {}).get(b, {}).get("status") != "no_runs"]
-    core_positive = fold.get("H1_recurrence", {}).get("state") in ("supported", "mixed")
+    core_positive = bool(core.get("selected")) and fold.get("H1_recurrence", {}).get("state") == "supported"
 
     capacity_increases_forgetting = False
     bed_heterogeneity = False
@@ -43,6 +43,10 @@ def gates() -> dict:
 
     residual_headroom_for_self_supervision = False
 
+    third_preflight = (io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json")
+                       if io.exists("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {})
+    third_result = (io.load("MOP_THIRD_TEMPORAL_BED_RESULT.json")
+                    if io.exists("MOP_THIRD_TEMPORAL_BED_RESULT.json") else {})
     return {
         "E3_shared_versus_local": {
             "condition": ("an E2 core positive exists and either capacity increases forgetting or bed "
@@ -70,9 +74,11 @@ def gates() -> dict:
                            "zero hidden core updates"),
         },
         "third_bed_replication": {
-            "condition": "a third valid bed exists and the principal effects reproduce on it",
-            "opens": "harth_stream" in (e2.get("beds") or [])
-            and e2.get("per_bed", {}).get("harth_stream", {}).get("status") != "no_runs",
+            "condition": "a third valid secondary bed exists and its replication experiment is terminal",
+            "bed_admitted": "harth_stream" in (third_preflight.get("selected") or []),
+            "terminal_result": third_result.get("classification"),
+            "opens": ("harth_stream" in (third_preflight.get("selected") or [])
+                      and bool(third_result.get("classification"))),
         },
     }
 
@@ -87,12 +93,17 @@ def main():
     for name, key in (("MOP_E3_SHARED_LOCAL_RESULT.json", "E3_shared_versus_local"),
                       ("MOP_E5_SELF_SUPERVISED_RESULT.json", "E5_self_supervised"),
                       ("MOP_HYBRID_ADAPTATION_RESULT.json", "hybrid_adaptation")):
+        existing = io.load(name) if io.exists(name) else {}
+        actually_executed = bool(existing.get("experiment_terminal"))
         io.seal(name, {
             "schema": f"mop-successor-gate/{key}",
             "gate": g[key],
             "opened": key in licensed,
-            "status": "executed" if key in licensed else ("licensed_not_executed" if g[key].get("opens")
-                                                          else "gate_closed"),
+            "status": ("executed" if key in licensed and actually_executed else
+                       "licensed_pending_execution" if key in licensed else
+                       "opened_not_licensed" if g[key].get("opens") else "gate_closed"),
+            "experiment_terminal": actually_executed,
+            "result": existing.get("result") if actually_executed else None,
             "rule": "a conditional experiment that does not open still produces this artifact",
         })
     io.seal("MOP_EXPERIMENT_VALUE_QUEUE.json", {

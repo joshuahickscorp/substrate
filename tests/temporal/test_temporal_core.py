@@ -208,6 +208,38 @@ def test_selection_prefers_the_smallest_equivalent_recurrent_cell():
     assert s["selected"]["cell"] == "gru|small|linear|none|h1"
 
 
+def test_selection_excludes_oracle_controls_and_unconverged_candidates():
+    safe = "gru|small|linear|none|h1"
+    oracle = "gru|small|linear|true_boundary|h1"
+    moving = "gru|micro|linear|horizon_45|h1"
+    cells = {safe: 0.90, oracle: 0.99, moving: 0.91}
+    params = {
+        safe: {"total": 46000, "core": 45910},
+        oracle: {"total": 46000, "core": 45910},
+        moving: {"total": 20000, "core": 19610},
+    }
+    conv = {safe: {"classification": "converged"},
+            oracle: {"classification": "converged"},
+            moving: {"classification": "unconverged"}}
+    principal = {
+        "principal_beds": ["a", "b"],
+        "per_bed": {b: {"cell_means": cells, "cell_params": params,
+                          "convergence": {"configs": conv}} for b in ("a", "b")},
+        "hypothesis_fold": {"hypotheses": {"H1_recurrence": {"state": "supported"}}},
+    }
+    assert coresel.select(principal)["selected"]["cell"] == safe
+
+
+def test_extended_convergence_adds_budget_without_redefining_the_original_grid():
+    assert set(e2.CONVERGENCE_GRID).isdisjoint(e2.EXTENDED_CONVERGENCE_GRID)
+    assert min(e2.EXTENDED_CONVERGENCE_GRID) > max(e2.CONVERGENCE_GRID)
+    cells = set(e2.LOAD_BEARING_CONVERGENCE_CELLS)
+    assert "gru|small|linear|none|h1" in cells
+    assert "mgu|small|linear|none|h1" in cells
+    assert "histmlp|small|linear|none|hfull_window" in cells
+    assert "gru|small|linear|horizon_90|h1" in cells
+
+
 def test_hypothesis_fold_uses_only_preregistered_keys():
     f = H.apply(["recurrent_beats_matched_history", "invented_key"])
     assert f["unknown_result_keys"] == ["invented_key"]
