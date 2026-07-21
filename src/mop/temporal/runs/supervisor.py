@@ -146,6 +146,7 @@ def status() -> dict:
     e3_shards = [f"{source}_to_{target}_{seed}" for source, target in (
         ("har_stream", "speech_stream"), ("speech_stream", "har_stream"))
                  for seed in e2.PRINCIPAL_SEEDS]
+    third = [f"harth_preflight_{seed}" for seed in e2.PRINCIPAL_SEEDS]
     active = []
     if LOCKS.is_dir():
         for p in sorted(LOCKS.glob("*.json")):
@@ -163,6 +164,7 @@ def status() -> dict:
             "extended_convergence": len(ext) - len(missing("e2_converge_extended", ext)),
             "principal": len(principal) - len(missing("e2_principal", principal)),
             "e3": len(e3_shards) - len(missing("e3", e3_shards)),
+            "third_bed_preflight": len(third) - len(missing("third_bed_preflight", third)),
         },
         "missing": {
             "scout": missing("e2_scout", scout),
@@ -170,6 +172,7 @@ def status() -> dict:
             "extended_convergence": missing("e2_converge_extended", ext),
             "principal": missing("e2_principal", principal),
             "e3": missing("e3", e3_shards),
+            "third_bed_preflight": missing("third_bed_preflight", third),
         },
         "invalid": {
             "scout": invalid("e2_scout", scout),
@@ -177,6 +180,7 @@ def status() -> dict:
             "extended_convergence": invalid("e2_converge_extended", ext),
             "principal": invalid("e2_principal", principal),
             "e3": invalid("e3", e3_shards),
+            "third_bed_preflight": invalid("third_bed_preflight", third),
         },
         "partial_receipts": {
             "scout": partials("e2_scout"),
@@ -184,6 +188,7 @@ def status() -> dict:
             "extended_convergence": partials("e2_converge_extended"),
             "principal": partials("e2_principal"),
             "e3": partials("e3"),
+            "third_bed_preflight": partials("third_bed_preflight"),
         },
         "orchestration_incidents": sorted(
             p.name for p in (io.RUNS / "orchestration").glob("*.json")
@@ -310,6 +315,7 @@ def main(argv=None):
     run_sync("mop.temporal.runs.e2", ["scout_result"])
     for b in BEDS:
         run_sync("mop.temporal.runs.e2", ["converge", b])
+    run_sync("mop.temporal.runs.thirdbed", ["all"])
     for mod in ("mop.temporal.runs.bedvalid", "mop.temporal.runs.analyze",
                 "mop.temporal.runs.replicate", "mop.temporal.runs.mutations",
                 "mop.temporal.runs.verify", "mop.temporal.runs.coresel",

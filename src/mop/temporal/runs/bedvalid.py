@@ -34,6 +34,8 @@ def bed_report(name: str) -> dict:
     rec = means.get("gru|small|linear|none|h1")
     pooled = means.get("pooled|small|linear|none|h1")
     order_required = (rec - pooled) > io.SESOI if (rec is not None and pooled is not None) else None
+    probe = (io.load("MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json")
+             if name == "harth_stream" and io.exists("MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json") else {})
     checks = {
         "group_disjoint": not (tr & tu or tr & te or tu & te),
         "enough_units": len(tr | tu | te) >= 4,
@@ -43,19 +45,32 @@ def bed_report(name: str) -> dict:
         "temporal_order_required": order_required,
         "baseline_convergence_measured": bool(c),
         "load_bearing_baselines_converged": c.get("load_bearing_all_converged", False),
+        "boundary_crossing_witness": (probe.get("checks") or {}).get("context_boundary_crossed")
+        if name == "harth_stream" else name in B.PRINCIPAL,
+        "future_adaptation_task": (probe.get("checks") or {}).get("future_adaptation_headroom")
+        if name == "harth_stream" else name in B.PRINCIPAL,
+        "returning_context_witness": (probe.get("checks") or {}).get("returning_context_recovery")
+        if name == "harth_stream" else name in B.PRINCIPAL,
+        "oracle_headroom": (probe.get("checks") or {}).get("future_adaptation_headroom")
+        if name == "harth_stream" else name in B.PRINCIPAL,
     }
     required = ("group_disjoint", "enough_units", "test_untouched", "classes_balanced_enough",
                 "static_reader_gap_measured", "temporal_order_required", "baseline_convergence_measured",
-                "load_bearing_baselines_converged")
+                "load_bearing_baselines_converged", "boundary_crossing_witness",
+                "future_adaptation_task", "returning_context_witness", "oracle_headroom")
     checks["all_pass"] = all(checks.get(k) is True for k in required)
     if not checks["group_disjoint"] or not checks["enough_units"]:
         classification = "invalid_units"
-    elif rec is None or pooled is None or not c:
+    elif rec is None or pooled is None or not c or (name == "harth_stream" and not probe):
         classification = "invalid_instrumentation" if name == "pamap2_stream" else "preflight_incomplete"
     elif not order_required:
         classification = "invalid_no_temporal_requirement"
     elif not checks["load_bearing_baselines_converged"]:
         classification = "preflight_incomplete"
+    elif not checks["boundary_crossing_witness"] or not checks["returning_context_witness"]:
+        classification = "invalid_no_context_boundary"
+    elif not checks["oracle_headroom"] or not checks["future_adaptation_task"]:
+        classification = "invalid_no_headroom"
     elif name in B.PRINCIPAL:
         classification = "valid_principal_bed"
     else:
@@ -76,13 +91,8 @@ def bed_report(name: str) -> dict:
                         "load_bearing_all_converged": c.get("load_bearing_all_converged", False),
                         "load_bearing_unconverged": c.get("load_bearing_unconverged", [])},
         "checks": checks,
-        "principal_only_gates": {
-            "boundary_crossing_witness": name in B.PRINCIPAL,
-            "returning_context_witness": name in B.PRINCIPAL,
-            "future_adaptation_task": name in B.PRINCIPAL,
-            "note": ("a natural order task can be a valid secondary replication bed without being promoted "
-                     "to a principal adaptation bed"),
-        },
+        "temporal_admission_probe": probe if name == "harth_stream" else {
+            "source": "inherited exact E1 stream authority" if name in B.PRINCIPAL else "not_measured"},
         "terminal_reason": ("PAMAP2 remains under canonical custody but has no sealed scout, convergence, "
                             "or headroom authority in this selected E2 design"
                             if classification == "invalid_instrumentation" else ""),

@@ -111,6 +111,16 @@ def role_b() -> dict:
         checks[f"{key}:wrong_bed_control"] = bool(
             (d.get("wrong_bed_control") or {}).get("distinct_bed"))
         checks[f"{key}:component_interventions"] = len(d.get("component_interventions", {})) == 8
+    third_paths = sorted((io.RUNS / "third_bed_preflight").glob("*.json")) \
+        if (io.RUNS / "third_bed_preflight").is_dir() else []
+    for p in third_paths:
+        d = json.loads(p.read_text())
+        key = f"HARTH-preflight:{d.get('seed')}"
+        sets = [set(v) for v in d.get("units", {}).values()]
+        checks[f"{key}:bed_identity"] = d.get("bed") == "harth_stream"
+        checks[f"{key}:unit_disjoint"] = all(not a & b for i, a in enumerate(sets) for b in sets[i + 1:])
+        checks[f"{key}:test_untouched"] = bool(d.get("test_split_untouched"))
+        checks[f"{key}:training_receipts"] = bool(d.get("all_checks_pass"))
     return {"role": "B instrumentation auditor", "checks": checks, "notes": notes,
             "failed": [k for k, v in checks.items() if not v], "all_pass": all(checks.values()),
             "outcomes_inspected": False}
@@ -221,6 +231,36 @@ def role_c() -> dict:
             if not ok:
                 mismatches.append({"bed": direction, "contrast": "E3 shared versus local",
                                    "sealed": sealed, "recomputed": mine})
+    if io.exists("MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json"):
+        expected = io.load("MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json")
+        rows = [json.loads(p.read_text()) for p in sorted(
+            (io.RUNS / "third_bed_preflight").glob("*.json"))]
+        gains = [r["after_B_adaptation"]["B"]["accuracy"] - r["before_adaptation"]["B"]["accuracy"]
+                 for r in rows]
+        returns = [r["return_after_recovery"]["accuracy"] - r["return_before_recovery"]["accuracy"]
+                   for r in rows]
+        shifts = [r["before_adaptation"]["A"]["accuracy"] - r["before_adaptation"]["B"]["accuracy"]
+                  for r in rows]
+        costs = [r["after_B_adaptation"]["A"]["accuracy"] - r["before_adaptation"]["A"]["accuracy"]
+                 for r in rows]
+        unit_values: dict[str, list[float]] = {}
+        for row in rows:
+            before = row["before_adaptation"]["B"]["per_unit_accuracy"]
+            after = row["after_B_adaptation"]["B"]["per_unit_accuracy"]
+            for unit in set(before) & set(after):
+                unit_values.setdefault(unit, []).append(after[unit] - before[unit])
+        units = [mean(v) for v in unit_values.values()]
+        checks["HARTH-preflight:seed_count"] = len(rows) == 8
+        checks["HARTH-preflight:future_gain"] = (
+            abs(round(mean(gains), 5) - expected["future_adaptation"]["mean"]) < 1e-4
+            and abs(round(lower_bound(gains), 5) - expected["future_adaptation"]["lower_95_cb"]) < 1e-4
+            and abs(lower_bound(units) - expected["future_adaptation"]["group_lower_95_cb"]) < 1e-4)
+        checks["HARTH-preflight:return_gain"] = (
+            abs(round(mean(returns), 5) - expected["returning_context"]["mean"]) < 1e-4)
+        boundary = expected["context_boundary"]
+        checks["HARTH-preflight:boundary"] = (
+            abs(round(lower_bound(shifts), 5) - boundary["distribution_shift_lower_95_cb"]) < 1e-4
+            and abs(round(lower_bound(costs), 5) - boundary["retention_cost_lower_95_cb"]) < 1e-4)
     return {"role": "C scientific verifier", "checks": checks, "mismatches": mismatches,
             "n_checks": len(checks), "all_pass": all(checks.values()) and not mismatches,
             "independence": ("recomputes every effect with its own arithmetic and its own t table, imports no "
