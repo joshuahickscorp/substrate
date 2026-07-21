@@ -213,7 +213,7 @@ def count(model: Cell) -> dict:
 
 
 def width_for(family: str, ch: int, classes: int, tier: str, history_k: int = 1, lo: int = 4,
-              hi: int = 5000) -> int:
+              hi: int = 20000) -> int:
     """Smallest width whose core parameter count lands inside the tier band, else the closest available."""
     want_lo, want_hi = TIER_RANGE[tier]
     target = (want_lo + want_hi) / 2

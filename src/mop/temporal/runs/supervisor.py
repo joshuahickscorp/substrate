@@ -321,7 +321,7 @@ def main(argv=None):
     for b in BEDS:
         run_sync("mop.temporal.runs.e2", ["converge", b])
     run_sync("mop.temporal.runs.thirdbed", ["all"])
-    for mod in ("mop.temporal.runs.bedvalid", "mop.temporal.runs.analyze",
+    for mod in ("mop.temporal.runs.corrections", "mop.temporal.runs.bedvalid", "mop.temporal.runs.analyze",
                 "mop.temporal.runs.replicate", "mop.temporal.runs.mutations",
                 "mop.temporal.runs.verify", "mop.temporal.runs.coresel",
                 "mop.temporal.runs.successors"):

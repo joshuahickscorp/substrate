@@ -44,11 +44,15 @@ def interaction(series: dict, units: dict, cells: tuple[str, str, str, str], lab
 
 
 def load_runs(bed: str) -> list[dict]:
-    d = io.RUNS / "e2_principal"
-    out = []
-    for p in sorted(d.glob(f"{bed}_*.json")):
-        out.extend(json.loads(p.read_text())["runs"])
-    return out
+    """Load immutable principal receipts with exact key corrections taking precedence."""
+    out = {}
+    for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
+        for row in json.loads(p.read_text())["runs"]:
+            out[(int(row["seed"]), row["cell"])] = row
+    for p in sorted((io.RUNS / "e2_principal_corrections").glob(f"capacity_{bed}_*.json")):
+        for row in json.loads(p.read_text())["runs"]:
+            out[(int(row["seed"]), row["cell"])] = row
+    return list(out.values())
 
 
 def convergence(bed: str) -> dict:
@@ -434,6 +438,16 @@ def main():
             checks["all_pass"] = all(checks.values())
             shard_index.append({"path": p.relative_to(io.ROOT).as_posix(), "bed": b, "seed": seed,
                                 "sha256": io.sha_file(p) if p.is_file() else None, "checks": checks})
+    correction = io.load("MOP_E2_CAPACITY_TIER_CORRECTION.json") if io.exists(
+        "MOP_E2_CAPACITY_TIER_CORRECTION.json") else {"all_pass": False}
+    correction_index = []
+    for b in BEDS:
+        for seed in e2.PRINCIPAL_SEEDS:
+            p = io.RUNS / "e2_principal_corrections" / f"capacity_{b}_{seed}.json"
+            d = json.loads(p.read_text()) if p.is_file() else {}
+            correction_index.append({"path": p.relative_to(io.ROOT).as_posix(), "bed": b, "seed": seed,
+                                     "sha256": io.sha_file(p) if p.is_file() else None,
+                                     "all_pass": bool(d.get("all_checks_pass"))})
     doc = {
         "schema": "mop-e2-principal-result/v1",
         "beds": list(BEDS),
@@ -447,9 +461,13 @@ def main():
         "hypothesis_fold": fold,
         "terminal_classification": classifications,
         "shard_index": shard_index,
+        "capacity_tier_correction": correction,
+        "correction_shard_index": correction_index,
         "n_expected_shards": len(BEDS) * len(e2.PRINCIPAL_SEEDS),
         "n_verified_shards": sum(s["checks"]["all_pass"] for s in shard_index),
-        "all_shards_verified": all(s["checks"]["all_pass"] for s in shard_index),
+        "all_shards_verified": (all(s["checks"]["all_pass"] for s in shard_index)
+                                and correction.get("all_pass")
+                                and all(s["all_pass"] for s in correction_index)),
         "wall_seconds": round(time.time() - t0, 1),
     }
     io.seal("MOP_E2_PRINCIPAL_RESULT.json", doc)

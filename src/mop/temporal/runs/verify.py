@@ -12,11 +12,16 @@ import json
 import math
 import time
 
+from mop.temporal import arch as A
+from mop.temporal import factorial as Fx
 from mop.temporal import io
 
 T95 = {2: 6.314, 3: 2.920, 4: 2.353, 5: 2.132, 6: 2.015, 7: 1.943, 8: 1.895, 9: 1.860, 10: 1.833,
        11: 1.812, 12: 1.796}
 SESOI = 0.05
+CORRECTED_CELLS = {Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large")),
+                   Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large",
+                                       readout="mlp_strong"))}
 
 
 def mean(v):
@@ -49,6 +54,18 @@ def verdict(v):
     if m <= 0.01:
         return "null_futile"
     return "null"
+
+
+def _principal_runs(bed: str) -> list[dict]:
+    """Apply only exact bed, seed and cell corrections while retaining original files."""
+    rows = {}
+    for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
+        for row in json.loads(p.read_text())["runs"]:
+            rows[(int(row["seed"]), row["cell"])] = row
+    for p in sorted((io.RUNS / "e2_principal_corrections").glob(f"capacity_{bed}_*.json")):
+        for row in json.loads(p.read_text())["runs"]:
+            rows[(int(row["seed"]), row["cell"])] = row
+    return list(rows.values())
 
 
 # ---------------------------------------------------------------- role B
@@ -85,14 +102,29 @@ def role_b() -> dict:
             notes.append({"bed": bed,
                           "unconverged": a["convergence"].get("load_bearing_unconverged"),
                           "consequence": "only comparisons using these arms are provisional"})
-        runs = []
+        original = []
         for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
-            runs.extend(json.loads(p.read_text())["runs"])
+            original.extend(json.loads(p.read_text())["runs"])
+        invalid_originals = [r for r in original if r["cell"] in CORRECTED_CELLS and not (
+            A.TIER_RANGE["large"][0] <= r["params"]["core"] <= A.TIER_RANGE["large"][1])]
+        correction = io.load("MOP_E2_CAPACITY_TIER_CORRECTION.json") if io.exists(
+            "MOP_E2_CAPACITY_TIER_CORRECTION.json") else {}
+        checks[f"{bed}:original_capacity_defects_quarantined"] = len(invalid_originals) == 16
+        checks[f"{bed}:capacity_correction_authority_passes"] = bool(correction.get("all_pass"))
+        runs = _principal_runs(bed)
         by_tier: dict = {}
         for r in runs:
             by_tier.setdefault(r["spec"]["tier"], set()).add(r["params"]["core"])
         checks[f"{bed}:capacity_tiers_are_banded"] = all(
-            max(v) / max(1, min(v)) < 3.0 for v in by_tier.values())
+            A.TIER_RANGE[tier][0] <= value <= A.TIER_RANGE[tier][1]
+            for tier, values in by_tier.items() for value in values)
+        checks[f"{bed}:factorial_cell_identity"] = all(
+            r["cell"] == Fx.cell_name(**r["spec"]) for r in runs)
+        checks[f"{bed}:training_budget_matches_updates"] = all(
+            r["steps"] == r["updates"] == Fx.STEPS for r in runs)
+        checks[f"{bed}:checkpoint_receipts_present"] = all(r.get("checkpoint_sha_after") for r in runs)
+        checks[f"{bed}:parameter_inventory_sums"] = all(
+            r["params"]["total"] == r["params"]["core"] + r["params"]["readout"] for r in runs)
         readouts = {r["spec"]["readout"]: r["params"]["readout"] for r in runs}
         checks[f"{bed}:readout_parameter_count_depends_only_on_the_readout"] = len(readouts) == len(
             {v for v in readouts.values()})
@@ -147,9 +179,7 @@ def role_c() -> dict:
     for bed, a in sealed["per_bed"].items():
         if a.get("status") == "no_runs":
             continue
-        runs = []
-        for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
-            runs.extend(json.loads(p.read_text())["runs"])
+        runs = _principal_runs(bed)
         cells: dict[str, list] = {}
         unit_cells: dict[str, dict[str, list[float]]] = {}
         for r in runs:
@@ -197,9 +227,7 @@ def role_c() -> dict:
             "explicit_mgu_vs_full_history": "mgu|small|linear|none|h1",
         }
         for bed, row in rep["per_bed"].items():
-            runs = []
-            for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
-                runs.extend(json.loads(p.read_text())["runs"])
+            runs = _principal_runs(bed)
             cells: dict[str, list[float]] = {}
             for r in runs:
                 cells.setdefault(r["cell"], []).append(float(r["accuracy"]))

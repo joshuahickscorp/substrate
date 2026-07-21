@@ -23,6 +23,7 @@ from mop.temporal import analysis as AN
 from mop.temporal import arch as A
 from mop.temporal import io
 from mop.temporal.runs import e2
+from mop.temporal.runs.analyze import load_runs
 
 SIMPLICITY = {"pooled": 0, "histmlp": 1, "tcn": 2, "mgu": 3, "gru": 4, "lstm": 5, "ff_gru": 6}
 READOUT_SIMPLICITY = {"linear": 0, "mlp1": 1, "mlp_strong": 2}
@@ -75,9 +76,7 @@ def equivalence_to_best(candidate: str, best: str, beds: list[str], principal: d
     """Paired seed and independent-unit equivalence on every production bed."""
     per, raw_available = {}, True
     for bed in beds:
-        runs = []
-        for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
-            runs.extend(json.loads(p.read_text())["runs"])
+        runs = load_runs(bed)
         series, units = e2._series(runs) if runs else ({}, {})
         if candidate not in series or best not in series:
             raw_available = False
