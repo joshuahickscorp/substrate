@@ -12,6 +12,7 @@ House style: no dashes.
 from __future__ import annotations
 import json
 import os
+import subprocess
 import sys
 import time
 import numpy as np
@@ -206,6 +207,29 @@ CORRECTED_CONVERGENCE_CELLS = {
     Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large")):
         "convergence_{bed}.json",
 }
+LEGACY_CONVERGENCE_CONFIG_COUNT = 66
+BACKFILL_WORKERS = 16
+def _parallel_backfill(bedname: str, command: str, indices: list[int]) -> None:
+    """Fill appended convergence identities at the measured large class optimum."""
+    for start in range(0, len(indices), BACKFILL_WORKERS):
+        batch = [subprocess.Popen([sys.executable, "-m", "mop.temporal.runs.e2",
+                                  command, bedname, str(idx)])
+                 for idx in indices[start:start + BACKFILL_WORKERS]]
+        failed = [proc.returncode for proc in batch if proc.wait() != 0]
+        if failed:
+            raise RuntimeError(f"{command} backfill failed on {bedname}: {failed}")
+def _backfill_appended_convergence(bedname: str) -> None:
+    """The live predecessor knew 66 identities; append later sealed cells without serial fallback."""
+    appended = range(min(LEGACY_CONVERGENCE_CONFIG_COUNT, len(CONVERGE_CONFIGS)),
+                     len(CONVERGE_CONFIGS))
+    base = [idx for idx in appended if not (io.RUNS / "e2_converge" /
+            f"cshard_{bedname}_{idx}.json").is_file()]
+    if base:
+        _parallel_backfill(bedname, "converge_shard", base)
+    extended = [idx for idx in appended if not (io.RUNS / "e2_converge_extended" /
+                f"xshard_{bedname}_{idx}.json").is_file()]
+    if extended:
+        _parallel_backfill(bedname, "extend_converge_shard", extended)
 def converge_shard(bedname: str, idx: int) -> dict:
     from mop.temporal import witness as W
     t0 = time.time()
@@ -274,6 +298,7 @@ def converge(bedname: str) -> dict:
     """Long budget curves for every load bearing configuration, judged by the strict plateau witness."""
     from mop.temporal import witness as W
     t0 = time.time()
+    _backfill_appended_convergence(bedname)
     out = {}
     for idx, spec in enumerate(CONVERGE_CONFIGS):
         cell = Fx.cell_name(**spec)
