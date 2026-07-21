@@ -532,3 +532,13 @@ def test_defect_followups_and_ledger_ids():
     assert len(defects.required_followups("D1")) == 6
     assert defects.MUTATIONS and len(defects.BY_ID) == len(defects.LEDGER)
     assert not defects.substantiated({"path": "x"})
+
+
+def test_power_is_a_precondition_for_a_null_not_for_a_positive():
+    pre = power.preregistration(name="p", independent_unit="u", expected_sd=0.02, sesoi=0.05, seeds=16,
+                                units=16, max_seeds=16, futility=0.01, harm=0.05)
+    big = power.decide([0.27 + 0.11 * ((i % 5) - 2) for i in range(16)], pre)
+    assert big["verdict"] == "positive"
+    assert not big["adequately_powered"] and big["estimator_sufficient"]
+    small = power.decide([0.002 + 0.001 * ((i % 3) - 1) for i in range(16)], pre)
+    assert small["verdict"].startswith("null") and small["estimator_sufficient"]

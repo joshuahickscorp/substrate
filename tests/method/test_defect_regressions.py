@@ -484,3 +484,18 @@ def test_calibration_classifies_every_known_world():
 def test_ledger_entries_are_complete():
     for d in defects.LEDGER:
         assert set(d) >= {"id", "title", "declared", "actual", "rule", "detector", "mutation", "stage_caught"}
+
+
+def test_d17_a_rising_curve_is_rejected_by_both_criteria():
+    r = baseline.plateau([0.20, 0.40, 0.55, 0.70, 0.82, 0.95])
+    assert not r["converged"] and not r["converged_strict"] and not r["converged_plateau"]
+
+
+def test_d17_a_flat_noisy_curve_is_accepted_by_the_plateau_criterion_and_both_are_reported():
+    r = baseline.plateau([0.8469, 0.8411, 0.8609, 0.8667, 0.8543, 0.8626])
+    assert r["converged"] and r["criterion_used"] == "plateau" and not r["converged_strict"]
+
+
+def test_d17_a_clean_plateau_still_passes_the_strict_criterion():
+    r = baseline.plateau([0.80, 0.81, 0.81, 0.81, 0.81])
+    assert r["converged_strict"] and r["criterion_used"] == "patience"

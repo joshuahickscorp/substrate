@@ -91,6 +91,7 @@ def decide(effects, prereg: dict, sesoi: float | None = None) -> dict:
         v = "null_futile"
     else:
         v = "null"
+    powered = mde(float(e.std(ddof=1)), len(e)) <= s
     return {
         "verdict": v,
         "n": int(len(e)),
@@ -99,7 +100,11 @@ def decide(effects, prereg: dict, sesoi: float | None = None) -> dict:
         "sesoi": s,
         "observed_sd": round(float(e.std(ddof=1)), 5),
         "achieved_mde": round(mde(float(e.std(ddof=1)), len(e)), 5),
-        "adequately_powered": bool(mde(float(e.std(ddof=1)), len(e)) <= s),
+        "adequately_powered": bool(powered),
+        # Power is a precondition for believing a null, not for believing a positive. An effect whose lower
+        # bound already clears the SESOI has demonstrated that the estimator could see it, whatever the
+        # planned minimum detectable effect said.
+        "estimator_sufficient": bool(powered or v in ("positive", "harm")),
     }
 
 

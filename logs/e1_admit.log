@@ -21,3 +21,5 @@ Traceback (most recent call last):
 AssertionError
 E1 admission through control_semantics: licensed=True blocked_at=None
 E1_ADMIT_DONE
+E1_CHAIN_DONE
+E1_CHAIN_DONE

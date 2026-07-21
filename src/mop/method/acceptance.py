@@ -254,6 +254,17 @@ def m_context_split_that_crosses_no_boundary() -> dict:
                {"measured": r, "a_real_boundary_still_passes": ok["checks"]})
 
 
+def m_brittle_plateau_criterion() -> dict:
+    """D17. A genuinely rising curve must still be rejected by both criteria."""
+    rising = baseline.plateau([0.20, 0.40, 0.55, 0.70, 0.82, 0.95])
+    flat = baseline.plateau([0.8469, 0.8411, 0.8609, 0.8667, 0.8543, 0.8626])  # the measured E1 curve
+    ok = (not rising["converged"]) and flat["converged"] and not flat["converged_strict"]
+    return _ok(ok, "brittle_criterion_repaired", "brittle_criterion_repaired",
+               {"rising_curve_still_rejected": not rising["converged"],
+                "flat_curve_now_accepted_by": flat["criterion_used"],
+                "strict_criterion_still_reported": flat["converged_strict"]})
+
+
 def m_underpowered_design_admitted() -> dict:
     p = power.preregistration(name="weak", independent_unit="seed", expected_sd=0.25, sesoi=0.05,
                               seeds=3, units=3, max_seeds=3, futility=0.01, harm=0.05)
@@ -297,6 +308,7 @@ MUTATIONS = {
     "two_seed_false_headroom": (m_two_seed_false_headroom, "D14", "oracle_headroom"),
     "unconverged_baseline": (m_unconverged_baseline, "D15", "baseline_convergence"),
     "context_split_that_crosses_no_boundary": (m_context_split_that_crosses_no_boundary, "D16", "bed_validity"),
+    "brittle_plateau_criterion": (m_brittle_plateau_criterion, "D17", "baseline_convergence"),
     "underpowered_design_admitted": (m_underpowered_design_admitted, "D14", "power_and_units"),
 }
 

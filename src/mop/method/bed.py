@@ -141,6 +141,36 @@ def context_boundary(no_adapt_new: float, no_adapt_old: float, adapted_new: floa
     }
 
 
+def context_boundary_over_seeds(rows, min_gap: float = 0.02) -> dict:
+    """The powered form of the boundary check.
+
+    rows is a list of per seed dicts with no_adapt_new, no_adapt_old, adapted_new, adapted_old. The decision
+    uses a lower confidence bound over seeds rather than a comparison of means, because a bed validity gate
+    that is less powered than the experiment it gates will sometimes admit a bed the experiment then
+    contradicts, and sometimes refuse one it would have confirmed. Both happened here on a bed with two
+    evaluation units.
+    """
+    from mop.method.power import lcb
+
+    shift = [float(r["no_adapt_old"]) - float(r["no_adapt_new"]) for r in rows]
+    cost = [float(r["adapted_old"]) - float(r["no_adapt_old"]) for r in rows]
+    shift_lcb, cost_ucb = lcb(shift), -lcb([-c for c in cost])
+    checks = {
+        "new_context_is_measurably_harder": shift_lcb >= min_gap,
+        "adaptation_costs_the_old_context": cost_ucb < 0,
+    }
+    checks["boundary_crossed"] = all(checks.values())
+    return {
+        "checks": checks,
+        "n_seeds": len(rows),
+        "distribution_shift_mean": round(sum(shift) / max(1, len(shift)), 5),
+        "distribution_shift_lower_95_cb": round(shift_lcb, 5),
+        "retention_cost_mean": round(sum(cost) / max(1, len(cost)), 5),
+        "retention_cost_upper_95_cb": round(cost_ucb, 5),
+        "classification": "context_boundary_crossed" if checks["boundary_crossed"] else "invalid_no_context_boundary",
+    }
+
+
 def order_necessity(temporal_score: float, order_free_score: float) -> float:
     """How much of the achievable performance requires order. Zero means an order free reader suffices."""
     return round(float(temporal_score) - float(order_free_score), 5)

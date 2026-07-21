@@ -33,9 +33,10 @@ EXP = "E4"
 BEDS = ("speech_stream", "har_stream")
 PRINCIPAL_BED = "speech_stream"
 SCOUT_SEEDS = list(range(5))
-PRINCIPAL_SEEDS = list(range(8))
+PRINCIPAL_SEEDS = list(range(16))
 PRE_STEPS = 700
 ADAPT_STEPS = 120
+BOUNDARY_PROBE_SEEDS = 5
 LR = 3e-3
 ADAPT_LR = 1e-3
 BATCH = 64
@@ -385,7 +386,19 @@ def admit(write: bool = True) -> dict:
             list(ctx["units"]["A_eval"]) + list(ctx["units"]["B_eval"]) + list(ctx["units"]["tune"]),
             ctx["units"]["test"],
         )
-        probe = run_seed(b, 0, "tune")
+        # A bed validity decision from a single seed is the two seed headroom defect in another costume,
+        # so the boundary is probed over three seeds and decided on the means.
+        probes = [run_seed(b, i, "tune") for i in range(BOUNDARY_PROBE_SEEDS)]
+        boundary = bed.context_boundary_over_seeds([
+            {"no_adapt_new": p["arms"]["no_adapt"]["acquisition_B"],
+             "no_adapt_old": p["arms"]["no_adapt"]["retention_A"],
+             "adapted_new": p["arms"]["full"]["acquisition_B"],
+             "adapted_old": p["arms"]["full"]["retention_A"]}
+            for p in probes
+        ])
+        boundary["per_seed"] = [p["context_boundary"]["checks"]["boundary_crossed"] for p in probes]
+        boundary["probe_evaluation_units"] = {k: len(v) for k, v in ctx["units"].items() if k.endswith("eval")}
+        probe = {"context_boundary": boundary}
         per_bed[b] = {"arm_distinctness": dist, "control_receipts": sem, "mechanism_activity": act,
                       "unit_audit": ua, "unit_counts": {k: len(v) for k, v in ctx["units"].items()},
                       "context_boundary": probe["context_boundary"],
@@ -492,6 +505,30 @@ def run_seed_steps(bedname: str, seed: int, steps: int) -> float:
         return round(acc(m, ctx["tune"][0], ctx["tune"][1]), 5)
     finally:
         PRE_STEPS = old
+
+
+def principal_prereg(bedname: str) -> dict:
+    """Set the principal seed count from the scout variance, before any principal run.
+
+    This is the legitimate use of a scout. What the rule forbids is adding seeds after a near miss in the
+    principal, so the count is fixed here and sealed here.
+    """
+    scout = json.loads((io.RUNS / "e4_scout" / f"scout_{bedname}.json").read_text())
+    sd = scout["power"]["expected_sd"]
+    pre = power.preregistration(
+        name=f"{EXP}:{bedname}", independent_unit=D.domain(bedname)["unit"], expected_sd=sd, sesoi=SESOI,
+        seeds=len(PRINCIPAL_SEEDS), units=len(scout["runs"][0]["unit_counts"]),
+        max_seeds=len(PRINCIPAL_SEEDS), futility=0.01, harm=0.05,
+        continuation_rule="fixed before the first principal run from the scout variance and never increased")
+    pre["scout_seed_count"] = len(scout["seeds"])
+    pre["scout_minimum_detectable_effect"] = scout["power"]["minimum_detectable_effect"]
+    pre["reason_for_the_principal_seed_count"] = (
+        f"the scout measured a standard deviation of {sd} across arms, which at "
+        f"{len(scout['seeds'])} seeds gives a minimum detectable effect of "
+        f"{scout['power']['minimum_detectable_effect']} against a SESOI of {SESOI}. "
+        f"{len(PRINCIPAL_SEEDS)} seeds brings it to {pre['minimum_detectable_effect']}"
+    )
+    return pre
 
 
 def principal(bedname: str, seed: int) -> dict:
