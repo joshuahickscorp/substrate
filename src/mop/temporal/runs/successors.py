@@ -9,6 +9,7 @@ House style: no dashes.
 
 from __future__ import annotations
 
+import math
 import time
 
 from mop.method import power
@@ -46,12 +47,29 @@ def _capacity_forgetting(e2: dict) -> dict:
     }
 
 
-def _ranking(voi: float, cost: int, evidence: list[dict]) -> dict:
-    complete = bool(voi >= 0 and cost > 0 and evidence and all(e.get("artifact") and e.get("field")
-                                                               for e in evidence))
+def _ranking(voi: float | None, cost: int | None, evidence: list[dict]) -> dict:
+    def resolved(value) -> bool:
+        if value is None:
+            return False
+        if isinstance(value, bool):
+            return True
+        if isinstance(value, (int, float)):
+            return math.isfinite(float(value))
+        if isinstance(value, dict):
+            return bool(value) and all(resolved(v) for v in value.values())
+        if isinstance(value, (list, tuple)):
+            return bool(value) and all(resolved(v) for v in value)
+        return bool(value)
+
+    numeric_voi = isinstance(voi, (int, float)) and not isinstance(voi, bool) \
+        and math.isfinite(float(voi))
+    numeric_cost = isinstance(cost, (int, float)) and not isinstance(cost, bool) \
+        and math.isfinite(float(cost))
+    complete = bool(numeric_voi and numeric_cost and voi >= 0 and cost > 0 and evidence and all(
+        e.get("artifact") and e.get("field") and resolved(e.get("value")) for e in evidence))
     return {
-        "value_of_information": round(float(voi), 8),
-        "estimated_parameter_update_cost": int(cost),
+        "value_of_information": round(float(voi), 8) if numeric_voi else None,
+        "estimated_parameter_update_cost": int(cost) if numeric_cost else None,
         "priority_score": float(voi / cost) if complete else None,
         "evidence": evidence,
         "complete": complete,
@@ -82,15 +100,24 @@ def gates() -> dict:
     third_result = (io.load("MOP_THIRD_TEMPORAL_BED_RESULT.json")
                     if io.exists("MOP_THIRD_TEMPORAL_BED_RESULT.json") else {})
     selected = (core.get("selection") or {}).get("selected") or {}
-    owned_params = int(selected.get("params_total") or (core.get("core") or {}).get("owned_parameters") or 1)
+    owned_value = selected.get("params_total") or (core.get("core") or {}).get("owned_parameters")
+    owned_params = int(owned_value) if isinstance(owned_value, (int, float)) and owned_value > 0 else None
+    cost_params = owned_params or 0
     e3_voi = max(heterogeneity_magnitude,
                  float(capacity_measurement.get("lower_95_cb") or 0.0))
-    e3_cost = 2 * len(E2.PRINCIPAL_SEEDS) * 2 * Fx.STEPS * owned_params
+    e3_cost = 2 * len(E2.PRINCIPAL_SEEDS) * 2 * Fx.STEPS * cost_params
     hybrid_voi = float(e2.get("sesoi") or io.SESOI)
-    hybrid_cost = len(beds or (1,)) * len(E2.PRINCIPAL_SEEDS) * 3 * (Fx.STEPS // 4) * owned_params
-    third_voi = float((third_result.get("effect") or {}).get("group_lower_95_cb") or (
-        e2.get("sesoi") or io.SESOI if third_result.get("classification") == "replicated" else 0.0))
-    third_cost = len(E2.PRINCIPAL_SEEDS) * Fx.STEPS * owned_params
+    hybrid_cost = len(beds or (1,)) * len(E2.PRINCIPAL_SEEDS) * 3 * (Fx.STEPS // 4) * cost_params
+    third_effects = third_result.get("effects") or {}
+    third_lcbs = {
+        name: effect.get("group_lower_95_cb") for name, effect in third_effects.items()
+        if isinstance(effect, dict)
+    }
+    measured_third_lcbs = [float(v) for v in third_lcbs.values()
+                            if isinstance(v, (int, float)) and math.isfinite(float(v))]
+    third_voi_raw = min(measured_third_lcbs) if len(measured_third_lcbs) == 2 else None
+    third_voi = third_voi_raw if third_voi_raw is not None else 0.0
+    third_cost = len(E2.PRINCIPAL_SEEDS) * Fx.STEPS * cost_params
     e3_rank = _ranking(e3_voi, e3_cost, [
         {"artifact": "MOP_FACTORIAL_INTERACTION_REPORT.json", "field": "/architecture_by_bed",
          "value": round(heterogeneity_magnitude, 8)},
@@ -106,13 +133,18 @@ def gates() -> dict:
          "value": owned_params},
     ])
     third_rank = _ranking(third_voi, third_cost, [
-        {"artifact": "MOP_THIRD_TEMPORAL_BED_RESULT.json", "field": "/effect/group_lower_95_cb",
-         "value": third_voi},
+        {"artifact": "MOP_THIRD_TEMPORAL_BED_RESULT.json",
+         "field": "/effects/torch_gru_vs_full_history/group_lower_95_cb",
+         "value": third_lcbs.get("torch_gru_vs_full_history")},
+        {"artifact": "MOP_THIRD_TEMPORAL_BED_RESULT.json",
+         "field": "/effects/explicit_mgu_vs_full_history/group_lower_95_cb",
+         "value": third_lcbs.get("explicit_mgu_vs_full_history")},
         {"artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json", "field": "/core/owned_parameters",
          "value": owned_params},
     ])
     return {
         "E3_shared_versus_local": {
+            "candidate_id": "E3",
             "condition": ("an E2 core positive exists and either capacity increases forgetting or bed "
                           "heterogeneity indicates domain specific representation"),
             "core_positive": core_positive,
@@ -124,6 +156,7 @@ def gates() -> dict:
             "ranking": e3_rank,
         },
         "E5_self_supervised": {
+            "candidate_id": "E5",
             "condition": ("a robust E2 core positive remains, capacity, explicit history and optimization do "
                           "not explain all value, and self supervision has measurable residual oracle headroom"),
             "core_positive": core_positive,
@@ -136,6 +169,7 @@ def gates() -> dict:
                  "value": None}]),
         },
         "hybrid_adaptation": {
+            "candidate_id": "E6",
             "condition": "a minimal temporal core is selected",
             "core_selected": bool(core.get("selected")),
             "opens": bool(core.get("selected")),
@@ -145,6 +179,7 @@ def gates() -> dict:
             "ranking": hybrid_rank,
         },
         "third_bed_replication": {
+            "candidate_id": "E7",
             "condition": "a third valid secondary bed exists and independently reproduces the core effect",
             "bed_admitted": "harth_stream" in (third_preflight.get("selected") or []),
             "terminal_result": third_result.get("classification"),
@@ -154,13 +189,29 @@ def gates() -> dict:
                         "the terminal third bed result did not independently reproduce the core effect"),
             "ranking": third_rank,
         },
+        "minimal_core_cross_domain_transfer": {
+            "candidate_id": "E8",
+            "condition": "a sealed minimal core cross domain transfer admission premise",
+            "core_selected": bool(core.get("selected")),
+            "opens": False,
+            "why_not": ("the authority declares E8 as a candidate but supplies no admission predicate or "
+                        "measured cross domain transfer estimand; inventing either would create a new premise"),
+            "no_invented_premise": True,
+            "ranking": _ranking(0.0, e3_cost, [{
+                "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+                "field": "/minimal_core_cross_domain_transfer_estimand",
+                "value": None,
+            }]),
+        },
     }
 
 
 def ranked_successors(g: dict) -> list[str]:
-    opened = [k for k, v in g.items() if v.get("opens")]
+    opened = [k for k, v in g.items() if v.get("opens")
+              and (v.get("ranking") or {}).get("complete") is not False]
     legacy = {"third_bed_replication": 0, "E3_shared_versus_local": 1,
-              "hybrid_adaptation": 2, "E5_self_supervised": 3}
+              "hybrid_adaptation": 2, "E5_self_supervised": 3,
+              "minimal_core_cross_domain_transfer": 4}
 
     def rank(k):
         score = (g[k].get("ranking") or {}).get("priority_score")
@@ -173,6 +224,9 @@ def ranked_successors(g: dict) -> list[str]:
 def main():
     t0 = time.time()
     g = gates()
+    candidate_ids = [v.get("candidate_id") for v in g.values()]
+    if set(candidate_ids) != {"E3", "E5", "E6", "E7", "E8"} or len(candidate_ids) != 5:
+        raise RuntimeError(f"successor candidate set is not the declared five: {candidate_ids}")
     opened = [k for k, v in g.items() if v.get("opens")]
     ranked = ranked_successors(g)
     licensed = ranked[:2]
@@ -197,10 +251,14 @@ def main():
         })
     io.seal("MOP_EXPERIMENT_VALUE_QUEUE.json", {
         "schema": "mop-experiment-value-queue/v2-temporal",
+        "candidate_set": candidate_ids,
         "gates": g,
         "opened": opened,
         "licensed_top_two": licensed,
-        "numerical_ranking": {k: g[k].get("ranking") for k in ranked},
+        "ranked_opened": ranked,
+        "ranking_incomplete": [k for k, v in g.items()
+                               if not (v.get("ranking") or {}).get("complete")],
+        "numerical_ranking": {k: v.get("ranking") for k, v in g.items()},
         "rule": "execute the top two licensed successors, not every branch that is listed",
     })
     print(f"successor gates: opened {opened}, licensed {licensed}", flush=True)

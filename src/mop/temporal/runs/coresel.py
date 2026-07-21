@@ -29,6 +29,32 @@ SIMPLICITY = {"pooled": 0, "histmlp": 1, "tcn": 2, "mgu": 3, "gru": 4, "lstm": 5
 READOUT_SIMPLICITY = {"linear": 0, "mlp1": 1, "mlp_strong": 2}
 
 
+def factorial_evidence_gates(authority: dict) -> dict[str, bool]:
+    principal = authority.get("principal_beds") or {}
+    expected = set(e2.B.PRINCIPAL)
+    return {
+        "all_principal_beds_valid": authority.get("all_principal_beds_valid") is True,
+        "exact_principal_bed_checks": (
+            isinstance(principal, dict)
+            and set(principal) == expected
+            and all(isinstance(principal[bed], dict) for bed in expected)
+            and all((principal[bed].get("checks") or {}).get("all_pass") is True for bed in expected)
+        ),
+    }
+
+
+def third_bed_licensed(preflight: dict, replication: dict, result: dict) -> bool:
+    """A secondary domain is licensed only by admission and consistent replication artifacts."""
+    selected = preflight.get("selected")
+    return (
+        isinstance(selected, list)
+        and "harth_stream" in selected
+        and replication.get("third_bed_classification") == "replicated"
+        and result.get("bed") == "harth_stream"
+        and result.get("classification") == "replicated"
+    )
+
+
 def package_checkpoints(selected: dict, beds: list[str]) -> dict:
     """Retrain the sealed minimal cell for packaging; these runs are not new principal evidence."""
     out = {}
@@ -182,6 +208,8 @@ def select(principal: dict) -> dict:
 def main():
     t0 = time.time()
     principal = io.load("MOP_E2_PRINCIPAL_RESULT.json")
+    factorial = (io.load("MOP_E2_FACTORIAL_AUTHORITY.json")
+                 if io.exists("MOP_E2_FACTORIAL_AUTHORITY.json") else {})
     evidence = {
         "independent_replication": (io.load("MOP_E2_INDEPENDENT_REPLICATION.json").get("all_pass")
                                     if io.exists("MOP_E2_INDEPENDENT_REPLICATION.json") else False),
@@ -189,6 +217,7 @@ def main():
                                      if io.exists("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else False),
         "mutations": (io.load("MOP_TEMPORAL_CORE_MUTATION_REPORT.json").get("all_rejected")
                       if io.exists("MOP_TEMPORAL_CORE_MUTATION_REPORT.json") else False),
+        **factorial_evidence_gates(factorial),
     }
     sel = select(principal) if all(evidence.values()) else {
         "selected": None,
@@ -198,7 +227,11 @@ def main():
     beds = [b for b in principal["principal_beds"] if principal["per_bed"][b].get("status") != "no_runs"]
     replication = (io.load("MOP_E2_INDEPENDENT_REPLICATION.json")
                    if io.exists("MOP_E2_INDEPENDENT_REPLICATION.json") else {})
-    if replication.get("third_bed_classification") == "replicated":
+    preflight = (io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json")
+                 if io.exists("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {})
+    third_result = (io.load("MOP_THIRD_TEMPORAL_BED_RESULT.json")
+                    if io.exists("MOP_THIRD_TEMPORAL_BED_RESULT.json") else {})
+    if third_bed_licensed(preflight, replication, third_result):
         beds.append("harth_stream")
     doc = {
         "schema": "mop-owned-temporal-core-v1/v1",

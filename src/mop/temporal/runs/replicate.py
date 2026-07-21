@@ -20,6 +20,20 @@ MGU = Fx.cell_name(**dict(Fx.REFERENCE, family="mgu"))
 HISTORY = Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", history_k="full_window"))
 
 
+def third_bed_admitted(preflight: dict) -> bool:
+    """The sealed preflight is the sole authority that may admit the secondary bed."""
+    selected = preflight.get("selected")
+    return isinstance(selected, list) and "harth_stream" in selected
+
+
+def third_bed_classification(preflight: dict, effects_reproduce: bool) -> str:
+    if not third_bed_admitted(preflight):
+        return "invalid_secondary_bed"
+    if effects_reproduce:
+        return "replicated"
+    return "valid_secondary_bed_did_not_reproduce_the_principal_effect"
+
+
 def _runs(bed: str) -> list[dict]:
     out = []
     for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
@@ -75,6 +89,7 @@ def implementation_audit() -> dict:
 
 def main():
     t0 = time.time()
+    preflight = io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json")
     per_bed = {}
     for bed in BEDS:
         runs = _runs(bed)
@@ -89,14 +104,16 @@ def main():
     audit = implementation_audit()
     principal_pass = audit["pass"] and all(per_bed[b]["implementations_agree"] for b in B.PRINCIPAL)
     third = per_bed["harth_stream"]
+    third_admitted = third_bed_admitted(preflight)
+    third_classification = third_bed_classification(preflight, third["implementations_agree"])
     doc = {
         "schema": "mop-e2-independent-replication/v1",
         "reference_control": HISTORY,
         "per_bed": per_bed,
         "implementation_audit": audit,
         "principal_beds_pass": principal_pass,
-        "third_bed_classification": ("replicated" if third["implementations_agree"]
-                                     else "valid_secondary_bed_did_not_reproduce_the_principal_effect"),
+        "third_bed_admitted": third_admitted,
+        "third_bed_classification": third_classification,
         "all_pass": principal_pass,
         "rule": ("a load bearing recurrence positive requires both independent recurrent implementations, "
                  "both principal beds, a group lower bound above the SESOI, and converged alternatives"),
@@ -106,10 +123,10 @@ def main():
     io.seal("MOP_THIRD_TEMPORAL_BED_RESULT.json", {
         "schema": "mop-third-temporal-bed-result/v1",
         "bed": "harth_stream",
-        "admission": (io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json").get("candidates") or {}).get(
-            "harth_stream"),
+        "admitted": third_admitted,
+        "admission": (preflight.get("candidates") or {}).get("harth_stream"),
         "effects": third["effects"],
-        "classification": doc["third_bed_classification"],
+        "classification": third_classification,
         "claim_ceiling": "secondary natural bed only; it is not promoted to a principal adaptation bed",
     })
     print(f"independent replication: principal {principal_pass}, third {doc['third_bed_classification']}")

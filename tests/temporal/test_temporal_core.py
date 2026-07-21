@@ -210,23 +210,27 @@ def test_principal_loader_replaces_only_the_exact_corrected_key(monkeypatch, tmp
     assert rows[(0, untouched)]["accuracy"] == 0.2
 
 
-def test_convergence_aggregate_prefers_the_sealed_index_25_correction(monkeypatch, tmp_path):
+def test_convergence_aggregate_prefers_the_exact_corrected_cell(monkeypatch, tmp_path):
     base = tmp_path / "e2_converge"
     corrected = tmp_path / "e2_converge_corrections"
     base.mkdir()
     corrected.mkdir()
     monkeypatch.setattr(TIO, "RUNS", tmp_path)
-    monkeypatch.setattr(e2, "CONVERGE_CONFIGS", tuple({} for _ in range(26)))
+    corrected_spec = dict(Fx.REFERENCE, family="histmlp", tier="large")
+    configs = tuple([dict(Fx.REFERENCE)] * 25 + [corrected_spec])
+    corrected_cell = Fx.cell_name(**corrected_spec)
+    monkeypatch.setattr(e2, "CONVERGE_CONFIGS", configs)
     monkeypatch.setattr(e2, "LOAD_BEARING_CONVERGENCE_CELLS", ())
     for idx in range(26):
         (base / f"cshard_har_stream_{idx}.json").write_text(json.dumps({
-            "cell": f"cell{idx}", "curve": {"400": 0.1}, "converged": True,
+            "cell": corrected_cell if idx == 25 else f"cell{idx}",
+            "curve": {"400": 0.1}, "converged": True,
             "classification": "converged", "source": "original"}))
     (corrected / "convergence_har_stream.json").write_text(json.dumps({
-        "cell": "cell25", "curve": {"400": 0.2}, "converged": True,
+        "cell": corrected_cell, "curve": {"400": 0.2}, "converged": True,
         "classification": "converged", "parameter_band_valid": True, "source": "correction"}))
     result = e2.converge("har_stream")
-    assert result["configs"]["cell25"]["source"] == "correction"
+    assert result["configs"][corrected_cell]["source"] == "correction"
 
 
 def test_readout_parameter_count_is_identical_across_families():

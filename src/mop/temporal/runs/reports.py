@@ -132,13 +132,19 @@ def resource_report(points=(1, 2, 4, 8, 12, 16, 20, 22, 24)) -> dict:
 
 def verify_fabric_tree(root: Path) -> dict:
     """Verify the final manifest, source files and content addressed objects in a clean tree."""
-    from mop.temporal.runs.fabric import merkle, sha_bytes
+    from mop.temporal.runs.fabric import FABRIC_NAME, _atomic_partial, merkle, sha_bytes
 
     root = root.resolve()
-    fabric_path = root / "proof" / "substrate" / io.PROGRAM / "MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json"
+    proof_root = root / "proof" / "substrate" / io.PROGRAM
+    fabric_path = proof_root / FABRIC_NAME
     doc = json.loads(fabric_path.read_text())
+    assert isinstance(doc, dict)
+    assert doc.get("sha256_version") == "canonical_json_v2"
+    assert doc.get("sha256") == io.sha_obj({k: v for k, v in doc.items() if k != "sha256"})
     assert doc["verification"]["all_pass"] and doc["mutations"]["all_rejected"]
+    assert all(doc["mutations"].get("mutation_application", {}).values())
     artifacts = doc["artifacts"]
+    assert isinstance(artifacts, list) and all(isinstance(a, dict) for a in artifacts)
     ids = [a["logical_id"] for a in artifacts]
     assert len(ids) == len(set(ids)) == doc["union"]["count"]
     hashes = []
@@ -153,8 +159,9 @@ def verify_fabric_tree(root: Path) -> dict:
         if original.suffix != ".json":
             continue
         parsed = json.loads(payload)
-        assert artifact["json_parse_valid"]
-        if artifact["set"] == "temporal_core_raw_receipt":
+        assert artifact["json_parse_valid"] and isinstance(parsed, dict)
+        if artifact["set"] in ("temporal_core_raw_receipt",
+                                "temporal_core_quarantined_receipt"):
             version, hash_key = parsed.get("result_hash_version"), "result_sha256"
         else:
             version, hash_key = parsed.get("sha256_version"), "sha256"
@@ -167,26 +174,78 @@ def verify_fabric_tree(root: Path) -> dict:
             assert artifact["canonical_hash_valid"] is None
             assert artifact["legacy_whole_file_sha256"] == content_hash
     assert merkle(hashes) == doc["union"]["merkle_root"]
+    actual_proof = {p.relative_to(root).as_posix() for p in proof_root.rglob("*")
+                    if p.is_file() and p.resolve() != fabric_path.resolve() and not _atomic_partial(p)}
+    indexed_proof = {a["logical_id"] for a in artifacts if a["set"] == "temporal_core_proof"}
+    assert actual_proof == indexed_proof
     runs = root / "runs" / "substrate" / io.PROGRAM
-    actual_raw = {p.relative_to(root).as_posix() for p in runs.rglob("*.json")
-                  if "locks" not in p.relative_to(runs).parts and ".partial." not in p.name
-                  and not p.name.endswith(".partial.json")}
+    receipt_paths = [p for p in runs.rglob("*.json") if p.is_file()
+                     and "locks" not in p.relative_to(runs).parts and ".partial." not in p.name
+                     and not p.name.endswith(".partial.json")]
+    actual_raw = {p.relative_to(root).as_posix() for p in receipt_paths
+                  if "quarantine" not in p.relative_to(runs).parts}
+    actual_quarantine = {p.relative_to(root).as_posix() for p in receipt_paths
+                         if "quarantine" in p.relative_to(runs).parts}
     indexed_raw = {a["logical_id"] for a in artifacts
                    if a["set"] == "temporal_core_raw_receipt"}
+    indexed_quarantine = {a["logical_id"] for a in artifacts
+                          if a["set"] == "temporal_core_quarantined_receipt"}
     assert actual_raw == indexed_raw
+    assert actual_quarantine == indexed_quarantine
+    assert doc["union"]["proof_count"] == len(actual_proof)
+    assert doc["union"]["raw_receipt_count"] == len(actual_raw)
+    assert doc["union"]["quarantined_receipt_count"] == len(actual_quarantine)
+    inherited = doc.get("extends") or {}
+    loaded = {}
+    for name in ("integrated", "method"):
+        binding = inherited.get(name)
+        assert isinstance(binding, dict)
+        path = root / binding["path"]
+        payload = path.read_bytes()
+        assert sha_bytes(payload) == binding["whole_file_sha256"]
+        parent = json.loads(payload)
+        assert isinstance(parent, dict) and isinstance(parent.get("union"), dict)
+        assert parent["union"].get("count") == binding["count"]
+        assert parent["union"].get("merkle_root") == binding["merkle_root"]
+        parent_artifacts = parent.get("artifacts")
+        if isinstance(parent_artifacts, list):
+            assert all(isinstance(a, dict) and isinstance(a.get("content_hash"), str)
+                       for a in parent_artifacts)
+            assert len(parent_artifacts) == parent["union"]["count"]
+            assert merkle([a["content_hash"] for a in parent_artifacts]) == parent["union"]["merkle_root"]
+            assert binding.get("artifact_manifest_valid")
+        if binding.get("embedded_sha256") is not None:
+            assert parent.get("sha256") == binding["embedded_sha256"]
+            assert parent["sha256"] == io.sha_obj({k: v for k, v in parent.items() if k != "sha256"})
+            assert binding["embedded_sha256_valid"]
+        loaded[name] = parent
+    root_chain = inherited.get("root_chain") or {}
+    if root_chain.get("method_extends_integrated_applicable"):
+        declared = (loaded["method"].get("extends") or {}).get("integrated") or {}
+        assert declared.get("count") == (loaded["integrated"].get("union") or {}).get("count")
+        assert declared.get("merkle_root") == (loaded["integrated"].get("union") or {}).get("merkle_root")
+        assert root_chain.get("method_extends_integrated_verified")
+    if root_chain.get("binding_results_method_root_applicable"):
+        binding_result = json.loads((proof_root / "MOP_TEMPORAL_CORE_BINDING_RESULTS.json").read_text())
+        assert isinstance(binding_result, dict)
+        assert binding_result.get("evidence_fabric_root") == (loaded["method"].get("union") or {}).get(
+            "merkle_root")
+        assert root_chain.get("binding_results_method_root_verified")
     return {"artifacts": len(artifacts), "raw_receipts": len(actual_raw),
+            "quarantined_receipts": len(actual_quarantine), "proof_artifacts": len(actual_proof),
             "merkle_root": doc["union"]["merkle_root"]}
 
 
-def clean_clone() -> dict:
+def clean_clone(science_snapshot_commit: str | None = None) -> dict:
     import tempfile
     with tempfile.TemporaryDirectory() as td:
-        commit = io.commit()
+        commit = science_snapshot_commit or io.commit()
         clone = td + "/c"
         r = subprocess.run(["git", "clone", "--quiet", "--no-local", str(io.ROOT), clone],
                            capture_output=True, text=True)
         if r.returncode != 0:
-            return {"cloned": False, "error": r.stderr[-300:]}
+            return {"cloned": False, "commit": commit, "science_snapshot_commit": commit,
+                    "error": r.stderr[-300:]}
         checkout = subprocess.run(["git", "checkout", "--quiet", commit], cwd=clone,
                                   capture_output=True, text=True)
         env = _env()
@@ -233,7 +292,7 @@ import json
 from mop.temporal import io
 from mop.temporal.runs.supervisor import status
 s=status(); q=io.load('MOP_EXPERIMENT_VALUE_QUEUE.json'); licensed=q.get('licensed_top_two') or []
-required={'scout','convergence','extended_convergence','principal','principal_corrections','convergence_corrections','third_bed_preflight'}
+required={'scout','convergence','extended_convergence','principal','principal_corrections','convergence_corrections','optimization_corrections','third_bed_preflight'}
 if 'E3_shared_versus_local' in licensed: required.add('e3')
 if 'hybrid_adaptation' in licensed: required.add('hybrid')
 assert not s['stop_switch_active'] and not s['active_shards']
@@ -241,12 +300,6 @@ assert all(not s['missing'][k] and not s['invalid'][k] and not s['partial_receip
 print(json.dumps(s))
 """
         supervisor = run([sys.executable, "-c", supervisor_script])
-        fabric_script = """
-from pathlib import Path
-from mop.temporal.runs.reports import verify_fabric_tree
-print(verify_fabric_tree(Path('.'))['merkle_root'])
-"""
-        fabric = run([sys.executable, "-c", fabric_script])
         clean = run(["git", "status", "--porcelain"])
         checks = {
             "exact_commit_checkout": checkout.returncode == 0 and head.stdout.strip() == commit,
@@ -257,13 +310,14 @@ print(verify_fabric_tree(Path('.'))['merkle_root'])
             "proof_hash_verification": proof.returncode == 0,
             "checkpoint_restoration": checkpoint.returncode == 0,
             "supervisor_status": supervisor.returncode == 0,
-            "evidence_fabric_lookup": fabric.returncode == 0,
             "cli_inspection": supervisor.returncode == 0 and 'mop-temporal-supervisor-status/v1' in supervisor.stdout,
             "clean_worktree": clean.returncode == 0 and not clean.stdout.strip(),
         }
         checks["all_pass"] = all(checks.values())
         return {"schema": "mop-temporal-core-clean-clone/v2", "cloned": True,
-                "commit": commit, "checks": checks,
+                "commit": commit, "science_snapshot_commit": commit, "checks": checks,
+                "provenance_rule": ("this commit contains the sealed science snapshot; evidence fabric and "
+                                    "terminal metadata may be committed only as descendants"),
                 "method_tail": (method.stdout or method.stderr).strip().splitlines()[-3:],
                 "temporal_tail": (temporal.stdout or temporal.stderr).strip().splitlines()[-3:],
                 "proof_artifacts_present": int(proof.stdout.strip() or 0) if proof.returncode == 0 else 0,

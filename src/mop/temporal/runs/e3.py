@@ -105,6 +105,40 @@ def _evaluate(model, sp: dict) -> dict:
     }
 
 
+def _effect_summary(seed_effects: list[float], per_unit: dict[str, float],
+                    prereg: dict, parameter_update_cost: int,
+                    component_floor_status: dict, bed_specific: dict) -> dict:
+    """Emit the complete effect contract used by every successor aggregate."""
+    decision = power.decide(seed_effects, prereg)
+    unit_values = list(per_unit.values())
+    group_lower = power.lcb(unit_values) if len(unit_values) > 1 else None
+    group_upper = -power.lcb([-x for x in unit_values]) if len(unit_values) > 1 else None
+    mean = float(decision["mean"])
+    return {
+        **decision,
+        "upper_95_cb": round(-power.lcb([-x for x in seed_effects]), 5)
+        if len(seed_effects) > 1 else None,
+        "per_seed_effects": [round(float(x), 5) for x in seed_effects],
+        "per_unit_effects": {str(k): round(float(v), 5) for k, v in sorted(per_unit.items())},
+        "group_mean": round(float(np.mean(unit_values)), 5) if unit_values else None,
+        "group_lower_95_cb": round(group_lower, 5) if group_lower is not None else None,
+        "group_upper_95_cb": round(group_upper, 5) if group_upper is not None else None,
+        "group_heterogeneity": round(float(np.std(unit_values, ddof=1)), 5)
+        if len(unit_values) > 1 else None,
+        "n_units": len(unit_values),
+        "bed_specific_effects": bed_specific,
+        "cost_adjusted_effect_per_million_parameter_updates": (
+            round(mean * 1_000_000 / parameter_update_cost, 8)
+            if parameter_update_cost > 0 else None),
+        "cost_denominator": {
+            "parameter_update_exposure": int(parameter_update_cost),
+            "unit": "trainable parameters multiplied by optimizer updates",
+            "all_source_and_target_training_charged": True,
+        },
+        "component_floor_status": component_floor_status,
+    }
+
+
 def _arm(model, sp: dict, receipt: dict | None = None, source_retention: dict | None = None) -> dict:
     out = _evaluate(model, sp)
     out.update({"checkpoint_sha": E.checkpoint_sha(model), "params": A.count(model)})
@@ -265,18 +299,28 @@ def aggregate() -> dict:
         scores = {a: [d["arms"][a]["accuracy"] for d in rows] for a in ARMS}
         effects = [d["arms"]["shared_component"]["accuracy"]
                    - d["arms"]["domain_local_component"]["accuracy"] for d in rows]
-        decision = power.decide(effects, e2.PREREG)
         unit_effects = {}
         for d in rows:
             shared_units = d["arms"]["shared_component"]["per_unit_accuracy"]
             local_units = d["arms"]["domain_local_component"]["per_unit_accuracy"]
             for unit in set(shared_units) & set(local_units):
                 unit_effects.setdefault(unit, []).append(shared_units[unit] - local_units[unit])
-        unit_means = [float(np.mean(v)) for v in unit_effects.values()]
+        per_unit = {unit: float(np.mean(v)) for unit, v in unit_effects.items()}
+        unit_means = list(per_unit.values())
         group_lcb = power.lcb(unit_means) if len(unit_means) > 1 else None
         inverse_group_lcb = power.lcb([-x for x in unit_means]) if len(unit_means) > 1 else None
-        group_ucb = -inverse_group_lcb if inverse_group_lcb is not None else None
         retention = [d["arms"]["shared_component"]["source_retention"] for d in rows]
+        parameter_update_cost = int(round(float(np.mean([
+            int(d["source_training"].get("trainable_param_count", 0))
+            * int(d["source_training"].get("updates", 0))
+            + 2 * int(d["target_training_match"].get("parameter_exposure_per_arm", 0))
+            for d in rows]))))
+        decision = _effect_summary(
+            effects, per_unit, e2.PREREG, parameter_update_cost,
+            {"name": "source_retention", "per_seed": [r["floor_met"] for r in retention],
+             "all_pass": all(r["floor_met"] for r in retention), "margin": io.SESOI},
+            {target: {"mean": round(float(np.mean(effects)), 5),
+                      "per_seed_effects": [round(float(x), 5) for x in effects]}})
         if decision["verdict"] == "positive" and group_lcb is not None and group_lcb >= io.SESOI \
                 and all(r["floor_met"] for r in retention):
             classification = "shared_component_supported"
@@ -288,11 +332,11 @@ def aggregate() -> dict:
         direction_verdicts.append(classification)
         per_direction[f"{source}_to_{target}"] = {
             "arm_scores": scores,
-            "shared_minus_domain_local": {**decision, "per_seed_effects": effects,
-                                           "group_lower_95_cb": group_lcb,
-                                           "group_upper_95_cb": group_ucb,
-                                           "inverse_group_lower_95_cb": inverse_group_lcb,
-                                           "n_units": len(unit_means)},
+            "shared_minus_domain_local": {
+                **decision,
+                "inverse_group_lower_95_cb": round(inverse_group_lcb, 5)
+                if inverse_group_lcb is not None else None,
+            },
             "retention": retention,
             "classification": classification,
         }

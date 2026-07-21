@@ -21,6 +21,7 @@ def contrast(series: dict, a: str, b: str, prereg: dict, unit_series: dict | Non
     d = power.decide(eff, prereg)
     d["contrast"] = f"{a} minus {b}"
     d["per_seed_effects"] = [round(x, 5) for x in eff]
+    d["upper_95_cb"] = round(-power.lcb([-x for x in eff]), 5) if eff else None
     if unit_series and a in unit_series and b in unit_series:
         ua, ub = unit_series[a], unit_series[b]
         shared = sorted(set(ua) & set(ub))
@@ -54,11 +55,19 @@ def interaction(series: dict, cells: tuple[str, str, str, str], prereg: dict,
                 "estimand": "difference_in_differences"})
     return out
 def equivalent(d: dict, margin: float = EQUIV) -> bool:
-    """Two configurations are equivalent when the difference is bounded inside the margin on both sides."""
-    if d.get("mean") is None or d.get("lower_95_cb") is None:
+    """Require two sided seed and independent unit bounds inside the natural unit margin."""
+    needed = ("mean", "lower_95_cb", "upper_95_cb", "group_mean",
+              "group_lower_95_cb", "group_upper_95_cb")
+    if any(d.get(field) is None for field in needed):
         return False
-    upper = d["mean"] + (d["mean"] - d["lower_95_cb"])
-    return abs(d["mean"]) <= margin and d["lower_95_cb"] >= -margin and upper <= margin
+    return (abs(d["mean"]) <= margin and d["lower_95_cb"] >= -margin
+            and d["upper_95_cb"] <= margin and abs(d["group_mean"]) <= margin
+            and d["group_lower_95_cb"] >= -margin and d["group_upper_95_cb"] <= margin)
+def seed_equivalent(d: dict, margin: float = EQUIV) -> bool:
+    """Seed-only calibration helper; production inference must use ``equivalent`` above."""
+    needed = ("mean", "lower_95_cb", "upper_95_cb")
+    return not any(d.get(field) is None for field in needed) \
+        and abs(d["mean"]) <= margin and d["lower_95_cb"] >= -margin and d["upper_95_cb"] <= margin
 def name(family="gru", tier="small", readout="linear", reset="none", history_k=1) -> str:
     return f"{family}|{tier}|{readout}|{reset}|h{history_k}"
 # ---------------------------------------------------------------- factor sweeps
@@ -155,10 +164,11 @@ def recover(series: dict, prereg: dict, units: dict | None = None) -> dict:
         "readout": any_positive(read),
         "horizon": has_base_effect and any(
             v.get("mean") is not None and v["mean"] <= -SESOI for v in hor.values()),
-        "horizon_threshold": _threshold(hor, "gru"),
+        "horizon_threshold": _threshold(hor, "gru", require_groups=units is not None),
         "capacity_by_horizon_interaction": has_base_effect and _interaction(cxh),
         "explicit_history_sufficient": has_base_effect and any(
-            equivalent(v) for k, v in matched_hist.items() if v.get("mean") is not None),
+            (equivalent(v) if units is not None else seed_equivalent(v))
+            for k, v in matched_hist.items() if v.get("mean") is not None),
         "reset_alignment_artifact": _reset_artifact(eff["reset"]),
     }
     truth = []
@@ -183,7 +193,7 @@ def recover(series: dict, prereg: dict, units: dict | None = None) -> dict:
 def _monotonic(vals) -> bool:
     v = [x for x in vals if x is not None]
     return len(v) >= 2 and all(v[i] <= v[i + 1] + 1e-9 for i in range(len(v) - 1)) and v[-1] > SESOI
-def _threshold(horizon_group: dict, family: str) -> int | None:
+def _threshold(horizon_group: dict, family: str, *, require_groups: bool = True) -> int | None:
     """The shortest horizon whose loss against full persistence is inside the equivalence margin."""
     got = []
     for h in (1, 2, 5, 10, 20, 45, 90):
@@ -191,18 +201,14 @@ def _threshold(horizon_group: dict, family: str) -> int | None:
         if d and d.get("mean") is not None:
             got.append((h, d))
     for h, d in got:
-        if abs(d["mean"]) <= EQUIV:
+        if (equivalent(d) if require_groups else seed_equivalent(d)):
             return h
     return None
-
-
 def _interaction(group: dict) -> bool:
     """A declared interaction must clear the seed decision and independent unit floor when available."""
     return any(v.get("verdict") == "positive" and
                (v.get("group_lower_95_cb") is None or v["group_lower_95_cb"] >= SESOI)
                for v in group.values())
-
-
 def _reset_artifact(reset_group: dict) -> bool:
     """A reset schedule that beats its misaligned peers by more than the margin is doing oracle work."""
     tb = reset_group.get("true_boundary", {}).get("mean")

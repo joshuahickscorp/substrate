@@ -15,12 +15,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from fastforge import engine as E
-from mop.method import bed, power
+from mop.method import bed
 from mop.temporal import arch as A
 from mop.temporal import beds as B
 from mop.temporal import factorial as Fx
 from mop.temporal import io
-from mop.temporal.runs import e2
+from mop.temporal.runs import e2, e3
 
 BEDS = B.PRINCIPAL
 SEEDS = e2.PRINCIPAL_SEEDS
@@ -42,8 +42,29 @@ def _batch_plan_sha(n: int, seed: int) -> str:
     return h.hexdigest()
 
 
-def _noise_matched_to(reference: torch.Tensor) -> torch.Tensor:
-    noise = torch.randn_like(reference)
+def _tensor_sha(value: torch.Tensor) -> str:
+    array = value.detach().cpu().contiguous().numpy()
+    h = hashlib.sha256()
+    h.update(str(array.dtype).encode())
+    h.update(str(tuple(array.shape)).encode())
+    h.update(array.tobytes())
+    return h.hexdigest()
+
+
+def _group_sha(model: nn.Module, names: list[str]) -> str:
+    state = model.state_dict()
+    h = hashlib.sha256()
+    for name in sorted(names):
+        value = state[name].detach().cpu().contiguous()
+        h.update(name.encode())
+        h.update(_tensor_sha(value).encode())
+    return h.hexdigest()
+
+
+def _noise_matched_to(reference: torch.Tensor, seed: int = 0) -> torch.Tensor:
+    generator = torch.Generator(device=reference.device).manual_seed(seed)
+    noise = torch.randn(reference.shape, dtype=reference.dtype, device=reference.device,
+                        generator=generator)
     return noise * float(reference.norm()) / float(noise.norm() + 1e-9)
 
 
@@ -145,8 +166,11 @@ def state_adapt(model: HybridModel, row, seed: int, train_head: bool) -> dict:
     with torch.no_grad():
         model.state.copy_(state)
     changed = [n for n, p in model.named_parameters() if not torch.equal(before[n], p.detach())]
+    trainable_count = int(state.numel() + sum(p.numel() for p in params))
     return {"updates": ADAPT_STEPS, "parameter_updates": ADAPT_STEPS if train_head else 0,
             "changed_params": changed, "state_norm": round(float(model.state.norm()), 6),
+            "trainable_param_count": trainable_count,
+            "parameter_update_exposure": trainable_count * ADAPT_STEPS,
             "optimizer": "Adam", "head_lr": Fx.LR if train_head else None,
             "state_lr": STATE_LR, "batch": Fx.BATCH, "batch_seed": batch_seed,
             "batch_plan_sha": _batch_plan_sha(len(x), batch_seed),
@@ -173,32 +197,73 @@ def run_seed(bedname: str, seed: int) -> dict:
         model.load_state_dict(snapshot)
 
     learned_hybrid_state = None
+    learned_hybrid_state_sha = None
+    learned_hybrid_head_sha = None
     batch_seed = _adapt_batch_seed(seed)
     batch_plan_sha = _batch_plan_sha(len(xb), batch_seed)
     for arm in ARMS:
         reset()
+        head_sha_before = _group_sha(model, model.param_groups["readout"])
+        state_sha_before = _tensor_sha(model.state)
         if arm == "head_only":
             trace = E.fit(model, None, xb, yb, train_groups=["readout"], steps=ADAPT_STEPS, lr=Fx.LR,
                           rng=np.random.default_rng(batch_seed), batch=Fx.BATCH)
             trace.update({"optimizer": "Adam", "head_lr": Fx.LR, "batch_seed": batch_seed,
-                          "batch_plan_sha": batch_plan_sha})
+                          "batch_plan_sha": batch_plan_sha,
+                          "parameter_update_exposure": int(trace.get("trainable_param_count", 0))
+                          * int(trace.get("updates", 0))})
         elif arm == "state_only":
             trace = state_adapt(model, ctx["B_train"], seed, False)
         elif arm == "head_plus_state":
             trace = state_adapt(model, ctx["B_train"], seed, True)
             learned_hybrid_state = model.state.detach().clone()
+            learned_hybrid_state_sha = _tensor_sha(learned_hybrid_state)
+            learned_hybrid_head_sha = _group_sha(model, model.param_groups["readout"])
         elif arm == "head_plus_state_noise":
             trace = state_adapt(model, ctx["B_train"], seed, True)
             head_parameters_match = E.checkpoint_sha(model) == out["head_plus_state"]["checkpoint_sha"]
+            regenerated_learned_state_sha = _tensor_sha(model.state)
+            regenerated_head_sha = _group_sha(model, model.param_groups["readout"])
+            noise_seed = 150_000 + seed
+            noise = _noise_matched_to(learned_hybrid_state, noise_seed)
+            direction = noise / (noise.norm() + 1e-12)
+            cosine = float(F.cosine_similarity(
+                learned_hybrid_state.flatten(), noise.flatten(), dim=0))
             with torch.no_grad():
-                model.state.copy_(_noise_matched_to(learned_hybrid_state))
+                model.state.copy_(noise)
             trace.update({"state_norm": round(float(model.state.norm()), 6),
                           "head_parameters_match_learned_head_plus_state": head_parameters_match,
-                          "magnitude_matched_to_learned_head_plus_state": True})
+                          "magnitude_matched_to_learned_head_plus_state": True,
+                          "matched_noise_identity": {
+                              "rng_seed": noise_seed,
+                              "rng_algorithm": "torch.Generator manual_seed then randn",
+                              "torch_version": torch.__version__,
+                              "dtype": str(noise.dtype), "device": str(noise.device),
+                              "shape": list(noise.shape),
+                              "learned_state_sha256": learned_hybrid_state_sha,
+                              "regenerated_learned_state_sha256": regenerated_learned_state_sha,
+                              "learned_state_norm": round(float(learned_hybrid_state.norm()), 8),
+                              "noise_tensor_sha256": _tensor_sha(noise),
+                              "noise_direction_sha256": _tensor_sha(direction),
+                              "noise_norm": round(float(noise.norm()), 8),
+                              "cosine_with_learned_state": round(cosine, 8),
+                              "l2_difference_from_learned_state": round(float(
+                                  (noise - learned_hybrid_state).norm()), 8),
+                              "readout_group_sha256_before": head_sha_before,
+                              "readout_group_sha256_after": regenerated_head_sha,
+                              "reference_learned_readout_group_sha256": learned_hybrid_head_sha,
+                              "readout_matches_reference": regenerated_head_sha == learned_hybrid_head_sha,
+                          }})
         else:
             group = "adapter" if arm == "adapter_only" else "core"
             trace = E.fit(model, None, xb, yb, train_groups=[group], steps=ADAPT_STEPS, lr=Fx.LR,
                           rng=np.random.default_rng(160_000 + seed), batch=Fx.BATCH)
+            trace["parameter_update_exposure"] = int(trace.get("trainable_param_count", 0)) \
+                * int(trace.get("updates", 0))
+        trace.update({"state_sha256_before": state_sha_before,
+                      "state_sha256_after": _tensor_sha(model.state),
+                      "readout_group_sha256_before": head_sha_before,
+                      "readout_group_sha256_after": _group_sha(model, model.param_groups["readout"])})
         out[arm] = {"trace": trace, "future_acquisition_B": evaluate(model, ctx["B_eval"]),
                     "return_retention_A": evaluate(model, ctx["A_eval"]),
                     "checkpoint_sha": E.checkpoint_sha(model),
@@ -218,6 +283,15 @@ def run_seed(bedname: str, seed: int) -> dict:
             "magnitude_matched_to_learned_head_plus_state"],
         "state_noise_preserves_learned_hybrid_head": out["head_plus_state_noise"]["trace"][
             "head_parameters_match_learned_head_plus_state"],
+        "state_noise_identity_reconstructable": all((
+            out["head_plus_state_noise"]["trace"]["matched_noise_identity"][
+                "learned_state_sha256"] == out["head_plus_state_noise"]["trace"][
+                    "matched_noise_identity"]["regenerated_learned_state_sha256"],
+            out["head_plus_state_noise"]["trace"]["matched_noise_identity"][
+                "readout_matches_reference"],
+            out["head_plus_state_noise"]["trace"]["matched_noise_identity"][
+                "noise_tensor_sha256"] == out["head_plus_state_noise"]["trace"]["state_sha256_after"],
+        )),
         "new_state_rule": out["state_only"]["trace"]["not_E4_recentering_rule"],
     }
     doc = {"schema": "mop-hybrid-adaptation-shard/v1", "bed": bedname, "seed": seed,
@@ -239,7 +313,6 @@ def aggregate() -> dict:
                 - r["arms"]["head_only"]["future_acquisition_B"]["accuracy"] for r in selected]
         noise = [r["arms"]["head_plus_state"]["future_acquisition_B"]["accuracy"]
                  - r["arms"]["head_plus_state_noise"]["future_acquisition_B"]["accuracy"] for r in selected]
-        gain_d, noise_d = power.decide(gain, e2.PREREG), power.decide(noise, e2.PREREG)
         gain_units, noise_units = {}, {}
         for r in selected:
             hybrid_units = r["arms"]["head_plus_state"]["future_acquisition_B"]["per_unit_accuracy"]
@@ -248,12 +321,27 @@ def aggregate() -> dict:
             for unit in set(hybrid_units) & set(head_units) & set(noisy_units):
                 gain_units.setdefault(unit, []).append(hybrid_units[unit] - head_units[unit])
                 noise_units.setdefault(unit, []).append(hybrid_units[unit] - noisy_units[unit])
-        gain_group = power.lcb([float(np.mean(v)) for v in gain_units.values()])
-        noise_group = power.lcb([float(np.mean(v)) for v in noise_units.values()])
-        gain_d.update({"group_lower_95_cb": gain_group, "n_units": len(gain_units)})
-        noise_d.update({"group_lower_95_cb": noise_group, "n_units": len(noise_units)})
         floors = [r["arms"]["head_plus_state"]["return_retention_A"]["accuracy"]
                   >= r["before_adaptation"]["A"]["accuracy"] - io.SESOI for r in selected]
+        gain_cost = int(round(float(np.mean([
+            int(r["arms"]["head_plus_state"]["trace"].get("parameter_update_exposure", 0))
+            + int(r["arms"]["head_only"]["trace"].get("parameter_update_exposure", 0))
+            for r in selected]))))
+        noise_cost = int(round(float(np.mean([
+            int(r["arms"]["head_plus_state"]["trace"].get("parameter_update_exposure", 0))
+            + int(r["arms"]["head_plus_state_noise"]["trace"].get("parameter_update_exposure", 0))
+            for r in selected]))))
+        floor_status = {"name": "return_retention_A", "per_seed": floors,
+                        "all_pass": all(floors), "margin": io.SESOI}
+        def bed_effect(values):
+            return {b: {"mean": round(float(np.mean(values)), 5),
+                        "per_seed_effects": [round(float(x), 5) for x in values]}}
+        gain_d = e3._effect_summary(gain, {u: float(np.mean(v)) for u, v in gain_units.items()},
+                                    e2.PREREG, gain_cost, floor_status, bed_effect(gain))
+        noise_d = e3._effect_summary(noise, {u: float(np.mean(v)) for u, v in noise_units.items()},
+                                     e2.PREREG, noise_cost, floor_status, bed_effect(noise))
+        gain_group = gain_d["group_lower_95_cb"]
+        noise_group = noise_d["group_lower_95_cb"]
         boundary = bed.context_boundary_over_seeds([
             {"no_adapt_new": r["before_adaptation"]["B"]["accuracy"],
              "no_adapt_old": r["before_adaptation"]["A"]["accuracy"],
@@ -261,7 +349,8 @@ def aggregate() -> dict:
              "adapted_old": r["arms"]["head_plus_state"]["return_retention_A"]["accuracy"]}
             for r in selected])
         ok = (gain_d["verdict"] == "positive" and noise_d["verdict"] == "positive"
-              and gain_group >= io.SESOI and noise_group >= io.SESOI
+              and (gain_group or float("-inf")) >= io.SESOI
+              and (noise_group or float("-inf")) >= io.SESOI
               and all(floors) and boundary["checks"]["boundary_crossed"])
         supported.append(ok)
         per_bed[b] = {"hybrid_minus_head": gain_d, "hybrid_minus_head_noise": noise_d,

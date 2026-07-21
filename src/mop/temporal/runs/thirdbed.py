@@ -17,7 +17,7 @@ from mop.temporal import arch as A
 from mop.temporal import beds as B
 from mop.temporal import factorial as Fx
 from mop.temporal import io
-from mop.temporal.runs import e2
+from mop.temporal.runs import e2, e3
 
 SEEDS = e2.PRINCIPAL_SEEDS
 ADAPT_STEPS = Fx.STEPS // 4
@@ -79,6 +79,10 @@ def permute_time(row, seed: int):
     return x[:, order, :], y, units
 
 
+def _training_exposure(receipt: dict) -> int:
+    return int(receipt.get("trainable_param_count", 0)) * int(receipt.get("updates", 0))
+
+
 def shard(seed: int) -> dict:
     t0 = time.time()
     ctx = contexts(seed)
@@ -128,6 +132,8 @@ def shard(seed: int) -> dict:
             "intervention": "within_window_timestep_permutation", "labels_unchanged": True,
             "timestep_multiset_preserved_per_example": True,
             "ordered_accuracy": ordered_order["accuracy"], "permuted_accuracy": permuted_order["accuracy"],
+            "pooled_ordered_accuracy": pooled_ordered["accuracy"],
+            "pooled_permuted_accuracy": pooled_permuted["accuracy"],
             "ordered_per_unit_accuracy": ordered_order["per_unit_accuracy"],
             "permuted_per_unit_accuracy": permuted_order["per_unit_accuracy"],
             "pooled_ordered_per_unit_accuracy": pooled_ordered["per_unit_accuracy"],
@@ -155,12 +161,18 @@ def aggregate() -> dict:
     returns = [r["return_after_recovery"]["accuracy"] - r["return_before_recovery"]["accuracy"]
                for r in rows]
     unit_effects: dict[str, list[float]] = {}
+    return_unit_effects: dict[str, list[float]] = {}
     for row in rows:
         before = row["before_adaptation"]["B"]["per_unit_accuracy"]
         after = row["after_B_adaptation"]["B"]["per_unit_accuracy"]
         for unit in set(before) & set(after):
             unit_effects.setdefault(unit, []).append(after[unit] - before[unit])
-    unit_means = [float(np.mean(v)) for v in unit_effects.values()]
+        return_before = row["return_before_recovery"]["per_unit_accuracy"]
+        return_after = row["return_after_recovery"]["per_unit_accuracy"]
+        for unit in set(return_before) & set(return_after):
+            return_unit_effects.setdefault(unit, []).append(return_after[unit] - return_before[unit])
+    unit_means = {unit: float(np.mean(v)) for unit, v in unit_effects.items()}
+    return_unit_means = {unit: float(np.mean(v)) for unit, v in return_unit_effects.items()}
     order_units, pooled_units = {}, {}
     for row in rows:
         witness = row["temporal_order_permutation"]
@@ -184,8 +196,47 @@ def aggregate() -> dict:
          "no_adapt_old": r["before_adaptation"]["A"]["accuracy"],
          "adapted_new": r["after_B_adaptation"]["B"]["accuracy"],
          "adapted_old": r["after_B_adaptation"]["A"]["accuracy"]} for r in rows])
-    gain_decision, return_decision = power.decide(gains, e2.PREREG), power.decide(returns, e2.PREREG)
-    group_lcb = power.lcb(unit_means) if len(unit_means) > 1 else None
+    future_floors = [r["after_B_adaptation"]["A"]["accuracy"]
+                     >= r["before_adaptation"]["A"]["accuracy"] - io.SESOI for r in rows]
+    return_floors = [r["return_after_recovery"]["accuracy"]
+                     >= r["before_adaptation"]["A"]["accuracy"] - io.SESOI for r in rows]
+    future_cost = int(round(float(np.mean([_training_exposure(r["receipts"]["adapt_B"])
+                                           for r in rows]))))
+    return_cost = int(round(float(np.mean([_training_exposure(r["receipts"]["recover_A_readout"])
+                                           for r in rows]))))
+    order_cost = int(round(float(np.mean([_training_exposure(r["receipts"]["pretrain"])
+                                          for r in rows]))))
+    pooled_cost = int(round(float(np.mean([_training_exposure(r["receipts"]["pooled_control_pretrain"])
+                                           for r in rows]))))
+    def bed_effect(values):
+        return {"harth_stream": {"mean": round(float(np.mean(values)), 5),
+                                  "per_seed_effects": [round(float(x), 5) for x in values]}}
+    gain_decision = e3._effect_summary(gains, unit_means, e2.PREREG, future_cost, {
+        "name": "A_context_retention_during_B_adaptation", "per_seed": future_floors,
+        "all_pass": all(future_floors), "margin": io.SESOI}, bed_effect(gains))
+    return_decision = e3._effect_summary(returns, return_unit_means, e2.PREREG, return_cost, {
+        "name": "return_to_A_accuracy", "per_seed": return_floors,
+        "all_pass": all(return_floors), "margin": io.SESOI}, bed_effect(returns))
+    order_decision = e3._effect_summary(order_seed_effects, order_effects, e2.PREREG, order_cost, {
+        "name": "pooled_reader_order_invariance_control", "per_seed": [],
+        "all_pass": pooled_lower is not None and pooled_lower >= -io.EQUIVALENCE_MARGIN
+        and pooled_upper is not None and pooled_upper <= io.EQUIVALENCE_MARGIN,
+        "margin": io.EQUIVALENCE_MARGIN}, bed_effect(order_seed_effects))
+    pooled_seed_effects = []
+    for r in rows:
+        witness = r["temporal_order_permutation"]
+        ordered = witness.get("pooled_ordered_accuracy")
+        permuted = witness.get("pooled_permuted_accuracy")
+        if ordered is None or permuted is None:
+            ordered = float(np.mean(list(witness["pooled_ordered_per_unit_accuracy"].values())))
+            permuted = float(np.mean(list(witness["pooled_permuted_per_unit_accuracy"].values())))
+        pooled_seed_effects.append(float(ordered) - float(permuted))
+    pooled_decision = e3._effect_summary(pooled_seed_effects, pooled_effects, e2.PREREG, pooled_cost, {
+        "name": "order_invariance_equivalence", "per_seed": [],
+        "all_pass": pooled_lower is not None and pooled_lower >= -io.EQUIVALENCE_MARGIN
+        and pooled_upper is not None and pooled_upper <= io.EQUIVALENCE_MARGIN,
+        "margin": io.EQUIVALENCE_MARGIN}, bed_effect(pooled_seed_effects))
+    group_lcb = gain_decision["group_lower_95_cb"]
     checks = {
         "all_eight_shards_valid": len(rows) == 8 and all(r["all_checks_pass"] for r in rows),
         "context_boundary_crossed": boundary["checks"]["boundary_crossed"],
@@ -201,10 +252,10 @@ def aggregate() -> dict:
     doc = {
         "schema": "mop-harth-admission-probe/v1", "bed": "harth_stream", "seeds": list(SEEDS),
         "context_boundary": boundary,
-        "future_adaptation": {**gain_decision, "group_lower_95_cb": group_lcb,
-                              "per_seed_effects": gains, "n_units": len(unit_means)},
-        "returning_context": {**return_decision, "per_seed_effects": returns},
+        "future_adaptation": gain_decision,
+        "returning_context": return_decision,
         "temporal_order_permutation": {
+            **order_decision,
             "intervention": "within_window_timestep_permutation", "labels_unchanged": True,
             "ordered_per_unit_accuracy": {u: round(float(np.mean([
                 r["temporal_order_permutation"]["ordered_per_unit_accuracy"][u] for r in rows
@@ -214,13 +265,11 @@ def aggregate() -> dict:
                 r["temporal_order_permutation"]["permuted_per_unit_accuracy"][u] for r in rows
                 if u in r["temporal_order_permutation"]["permuted_per_unit_accuracy"]])), 5)
                 for u in order_effects},
-            "per_unit_effects": {u: round(v, 5) for u, v in order_effects.items()},
-            "per_seed_effects": [round(v, 5) for v in order_seed_effects],
             "seed_decision": order_seed_decision,
-            "group_lower_95_cb": round(order_lcb, 5) if order_lcb is not None else None,
             "pooled_per_unit_effects": {u: round(v, 5) for u, v in pooled_effects.items()},
             "pooled_group_lower_95_cb": round(pooled_lower, 5) if pooled_lower is not None else None,
             "pooled_group_upper_95_cb": round(pooled_upper, 5) if pooled_upper is not None else None,
+            "pooled_control_effect": pooled_decision,
             "resource_match": {"same_examples": True, "same_model_checkpoint": True,
                                "same_evaluation_code": True}},
         "checks": checks, "all_pass": all(checks.values()),

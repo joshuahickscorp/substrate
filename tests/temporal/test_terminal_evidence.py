@@ -74,8 +74,10 @@ def test_supervisor_status_exposes_all_correction_receipts(monkeypatch, tmp_path
     status = supervisor.status()
     assert status["completed"]["principal_corrections"] == 0
     assert status["completed"]["convergence_corrections"] == 0
+    assert status["completed"]["optimization_corrections"] == 0
     assert len(status["missing"]["principal_corrections"]) == 24
     assert len(status["missing"]["convergence_corrections"]) == 3
+    assert len(status["missing"]["optimization_corrections"]) == 6
     assert set(status["invalid"]) == set(status["missing"]) == set(status["partial_receipts"])
 
 
