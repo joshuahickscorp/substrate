@@ -1,0 +1,18 @@
+{
+  "schema": "mop-temporal-orchestration-incident/v1",
+  "classification": "legacy_pre_persistence_object_hash_not_recomputable_after_json_normalization",
+  "trigger": "resume validation recomputed embedded result_sha256 fields from persisted JSON",
+  "observation": {
+    "legacy_receipts_examined_at_detection": 73,
+    "legacy_receipts_with_recomputable_embedded_hash": 0,
+    "json_parse_failures": 0,
+    "partial_receipts": 0,
+    "cause": "the v1 writer hashed Python tuples and integer-key dictionaries before JSON converted them to lists and string keys"
+  },
+  "scientific_consequence": "none: legacy files remain immutable and are indexed by whole-file SHA-256 in shard indexes, durable state and the evidence fabric",
+  "repair": "canonical_json_v2 normalizes the complete object through JSON before hashing; resume validation enforces embedded hashes only when that version is declared",
+  "compatibility": "legacy receipts remain accepted only when parseable and are independently bound by their whole-file hashes; no legacy embedded hash is represented as a persisted-content hash",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "b3f7421e6545527b3385f1368784ac2f0e1602a6",
+  "result_sha256": "85d2db169377e8f35a2279e797c9b99ea2a30264e79d3788fe2cf293a5567873"
+}

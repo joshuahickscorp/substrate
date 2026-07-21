@@ -135,7 +135,8 @@
   ],
   "honest_blocker": "",
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "390197f4c3cb2b4b61dfc86a64f512b444cc937c",
+  "source_commit": "b3f7421e6545527b3385f1368784ac2f0e1602a6",
   "SESOI": 0.05,
-  "sha256": "89c96c5b1ba1751e4e4a7a822dddd0cf2c281f26cb3936346a9d8e7c04a10389"
+  "sha256_version": "canonical_json_v2",
+  "sha256": "d7ba27ed55b2b69d98b5886ec7df454daed85d5fbd0d37155b3ad35bb5260c9d"
 }
