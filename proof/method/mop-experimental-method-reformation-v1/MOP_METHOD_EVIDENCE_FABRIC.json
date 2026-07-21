@@ -279,8 +279,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_CODE_REPORT.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_CODE_REPORT.json",
-      "canonical_path": "integrated/evidence_store/77573ce2f5d87a9fa7f365c3ba8c01fe801390f90a37ff65b1b181272b2fdf58",
-      "content_hash": "77573ce2f5d87a9fa7f365c3ba8c01fe801390f90a37ff65b1b181272b2fdf58",
+      "canonical_path": "integrated/evidence_store/1dcf0c62a31b5a8860f4e678c3d27573aa9d540e2576365e19e75021ba376b12",
+      "content_hash": "1dcf0c62a31b5a8860f4e678c3d27573aa9d540e2576365e19e75021ba376b12",
       "bytes": 7189,
       "set": "experimental_method",
       "schema": "mop-method-code-report/v1",
@@ -291,8 +291,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_COVERAGE_REPORT.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_COVERAGE_REPORT.json",
-      "canonical_path": "integrated/evidence_store/301f93743da458e3edd6f5058b9fbd502a233a7b9f1b8b7f8f7a47435d2d0687",
-      "content_hash": "301f93743da458e3edd6f5058b9fbd502a233a7b9f1b8b7f8f7a47435d2d0687",
+      "canonical_path": "integrated/evidence_store/9f2c5f57131a8abe0d92ce4ee0c5e34d3f6716c88e27cda2056df71cb87f2297",
+      "content_hash": "9f2c5f57131a8abe0d92ce4ee0c5e34d3f6716c88e27cda2056df71cb87f2297",
       "bytes": 10312,
       "set": "experimental_method",
       "schema": "mop-method-coverage-report/v1",
@@ -303,9 +303,9 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_INDEPENDENT_AUDIT.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_INDEPENDENT_AUDIT.json",
-      "canonical_path": "integrated/evidence_store/87ea1a320b9d70ea8ecd7f42269a5a4a69cc5b1882d952b191da65315c0a1150",
-      "content_hash": "87ea1a320b9d70ea8ecd7f42269a5a4a69cc5b1882d952b191da65315c0a1150",
-      "bytes": 13798,
+      "canonical_path": "integrated/evidence_store/84ac75bc834951abfa905f4520ed9c597eda3e8c369428282df13d8da74dc2cb",
+      "content_hash": "84ac75bc834951abfa905f4520ed9c597eda3e8c369428282df13d8da74dc2cb",
+      "bytes": 14086,
       "set": "experimental_method",
       "schema": "mop-method-independent-audit/v1",
       "evidence_class": null,
@@ -315,8 +315,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_INDEPENDENT_VERIFICATION.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_INDEPENDENT_VERIFICATION.json",
-      "canonical_path": "integrated/evidence_store/f8fc569b2864606342e5df5e51b275ebc6c692a02ad564f33abc5055c39889ca",
-      "content_hash": "f8fc569b2864606342e5df5e51b275ebc6c692a02ad564f33abc5055c39889ca",
+      "canonical_path": "integrated/evidence_store/269b087d3e4f6c8e3e0e4b82b1ba076df3790eac0e38a085fe3c422f484def8f",
+      "content_hash": "269b087d3e4f6c8e3e0e4b82b1ba076df3790eac0e38a085fe3c422f484def8f",
       "bytes": 5043,
       "set": "experimental_method",
       "schema": "mop-independent-verification/v1",
@@ -327,8 +327,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
-      "canonical_path": "integrated/evidence_store/da08990df696b01319e2d90cc38486e4aae27aec08507b74300d1d1195d5ebc4",
-      "content_hash": "da08990df696b01319e2d90cc38486e4aae27aec08507b74300d1d1195d5ebc4",
+      "canonical_path": "integrated/evidence_store/70b09760a6ede7f7f856474d3f780c87212ec2916dbb060475876e4ff5f1901f",
+      "content_hash": "70b09760a6ede7f7f856474d3f780c87212ec2916dbb060475876e4ff5f1901f",
       "bytes": 1027,
       "set": "experimental_method",
       "schema": "mop-method-next-substrate-frontier/v1",
@@ -363,8 +363,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SCORECARD.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SCORECARD.json",
-      "canonical_path": "integrated/evidence_store/f9e25bf2dee52420033aeb0ccd35a761102b419ecc41235c3d5f60b96578b1c8",
-      "content_hash": "f9e25bf2dee52420033aeb0ccd35a761102b419ecc41235c3d5f60b96578b1c8",
+      "canonical_path": "integrated/evidence_store/c8100b0732ea1cf0142bc101bf9a0abff8ac21a5b99229fae4968cfcd1c0137a",
+      "content_hash": "c8100b0732ea1cf0142bc101bf9a0abff8ac21a5b99229fae4968cfcd1c0137a",
       "bytes": 2833,
       "set": "experimental_method",
       "schema": "mop-method-reformation-scorecard/v1",
@@ -423,8 +423,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SYNTHESIS.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SYNTHESIS.json",
-      "canonical_path": "integrated/evidence_store/ca9501f3462616f4b47aa40ebc32d91d63ce5e430ecb2e0ff2880046b044e3c3",
-      "content_hash": "ca9501f3462616f4b47aa40ebc32d91d63ce5e430ecb2e0ff2880046b044e3c3",
+      "canonical_path": "integrated/evidence_store/f34adc03a71d152e7b15dd32bab5d8f9ae0c29f24ac7913cfe4834d24d7c3017",
+      "content_hash": "f34adc03a71d152e7b15dd32bab5d8f9ae0c29f24ac7913cfe4834d24d7c3017",
       "bytes": 13672,
       "set": "experimental_method",
       "schema": "mop-method-reformation-synthesis/v1",
@@ -435,8 +435,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SYNTHESIS.md",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SYNTHESIS.md",
-      "canonical_path": "integrated/evidence_store/630356120213a5a8994713a484f17b6a88b2835a415d3075bfbf17ac21b109ec",
-      "content_hash": "630356120213a5a8994713a484f17b6a88b2835a415d3075bfbf17ac21b109ec",
+      "canonical_path": "integrated/evidence_store/798ab9ebc5f0e65db2aa6d0a05c520edb08dbbee74522e03acdbaf8f87f3dd90",
+      "content_hash": "798ab9ebc5f0e65db2aa6d0a05c520edb08dbbee74522e03acdbaf8f87f3dd90",
       "bytes": 4433,
       "set": "experimental_method",
       "schema": null,
@@ -447,9 +447,9 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_RESOURCE_REPORT.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_RESOURCE_REPORT.json",
-      "canonical_path": "integrated/evidence_store/e14ca964fdc5cfe6a51017576f33084d77ad7d5902e4c5926b8ebfa666bf0b29",
-      "content_hash": "e14ca964fdc5cfe6a51017576f33084d77ad7d5902e4c5926b8ebfa666bf0b29",
-      "bytes": 2137,
+      "canonical_path": "integrated/evidence_store/56bd9d35b8379a167b9f7fa3b209e5a8ffbc7bf09c137ce64ebdfd4e4d96f584",
+      "content_hash": "56bd9d35b8379a167b9f7fa3b209e5a8ffbc7bf09c137ce64ebdfd4e4d96f584",
+      "bytes": 2138,
       "set": "experimental_method",
       "schema": "mop-method-resource-report/v1",
       "evidence_class": null,
@@ -459,8 +459,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_TEST_REPORT.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_TEST_REPORT.json",
-      "canonical_path": "integrated/evidence_store/ee706210b8d98b47c136523e67616fe5f6451ce14a4df3cddb71dc639f0f258d",
-      "content_hash": "ee706210b8d98b47c136523e67616fe5f6451ce14a4df3cddb71dc639f0f258d",
+      "canonical_path": "integrated/evidence_store/56464b313b08e241d60f2db9e0cf631409a52bc9999b6ef9c184cabefa896a20",
+      "content_hash": "56464b313b08e241d60f2db9e0cf631409a52bc9999b6ef9c184cabefa896a20",
       "bytes": 595,
       "set": "experimental_method",
       "schema": "mop-method-test-report/v1",
@@ -495,8 +495,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_PRINCIPAL_EXPERIMENT_1.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_PRINCIPAL_EXPERIMENT_1.json",
-      "canonical_path": "integrated/evidence_store/f1312d87155385fdb7a1243d1901d801a684bceaedef8c3a18b3fdaf9e7b3a1a",
-      "content_hash": "f1312d87155385fdb7a1243d1901d801a684bceaedef8c3a18b3fdaf9e7b3a1a",
+      "canonical_path": "integrated/evidence_store/ce3d09113b707c2a25ec3cfb9dc93042325633c9e0e80c9b5ff16c143e6105e3",
+      "content_hash": "ce3d09113b707c2a25ec3cfb9dc93042325633c9e0e80c9b5ff16c143e6105e3",
       "bytes": 20924,
       "set": "experimental_method",
       "schema": "mop-principal-experiment/v1",
@@ -507,8 +507,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_PRINCIPAL_EXPERIMENT_2.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_PRINCIPAL_EXPERIMENT_2.json",
-      "canonical_path": "integrated/evidence_store/ed5ef3232d916e8e7347af76219bf709b8b9d534df504f71f87e2fbaffc7b403",
-      "content_hash": "ed5ef3232d916e8e7347af76219bf709b8b9d534df504f71f87e2fbaffc7b403",
+      "canonical_path": "integrated/evidence_store/1b60f05b6264f00178a963e36835e97f94dd699b5c92549ab6d2f10130696b24",
+      "content_hash": "1b60f05b6264f00178a963e36835e97f94dd699b5c92549ab6d2f10130696b24",
       "bytes": 41411,
       "set": "experimental_method",
       "schema": "mop-principal-experiment/v1",
@@ -555,8 +555,8 @@
     {
       "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
       "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
-      "canonical_path": "integrated/evidence_store/f9ddb067188a50821449e84cd6d14b7844154215bde4fd674fdb52dca616592b",
-      "content_hash": "f9ddb067188a50821449e84cd6d14b7844154215bde4fd674fdb52dca616592b",
+      "canonical_path": "integrated/evidence_store/ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa",
+      "content_hash": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa",
       "bytes": 11203,
       "set": "experimental_method",
       "schema": "mop-substrate-hypothesis-graph/v1",
@@ -580,9 +580,9 @@
   "union": {
     "count": 47,
     "unique_objects": 47,
-    "unique_bytes": 649960,
+    "unique_bytes": 650249,
     "duplicate_bytes_eliminated": 0,
-    "merkle_root": "9a032f3be7fedd0b967ecf4baa7358928347ab97bc530f5bf0d3f3ed7d66e3f1"
+    "merkle_root": "c59e4573cef0272fbba6fd1708fb7c6e10afa33effd08f4c85c2ccb9a2cc4bc9"
   },
   "verification": {
     "exact_byte_recovery": true,
@@ -604,6 +604,6 @@
   "content_store": "integrated/evidence_store, shared with the inherited fabric, additive only",
   "wall_seconds": 0.0,
   "program": "mop-experimental-method-reformation-v1",
-  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
-  "sha256": "1c205eab1e98b1ffda0b8d7df0a6b336eb58bbfda6a6c98001027984eb9c6504"
+  "source_commit": "56a860ac125e0e5b235defde815f94db1789a4c6",
+  "sha256": "19d628b4901b280606b155ec5aef52be027c1b1d943c6cd52930dc0e582c93f3"
 }
