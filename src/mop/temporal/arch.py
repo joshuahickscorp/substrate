@@ -1,11 +1,8 @@
 """Core architectures for the E2 causal factorial.
-
 Every core emits a representation of the same fixed width, so the readout is identical in shape and in
 parameter count across families. E1 established that this matters: a core comparison that also changes the
 readout is two experiments pretending to be one.
-
 Families
-
     pooled    order free pooling over per timestep features. No recurrence, no position, no state
     histmlp   the last k timesteps flattened into one vector. Explicit causal history, still no recurrence
     tcn       causal dilated convolution. A receptive field without a carried state
@@ -15,19 +12,14 @@ Families
               independent of torch's fused recurrent kernels, which is what makes it a real replication
               rather than the same implementation under another name
     ff_gru    the inherited fastforge shared fast core path
-
 State horizon is implemented as a reset schedule over the recurrent state, so horizon and reset are the same
 mechanism seen from two directions and neither can be changed without the other being recorded.
-
 House style: no dashes.
 """
-
 from __future__ import annotations
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 LATENT = 64
 FAMILIES = ("pooled", "histmlp", "tcn", "gru", "lstm", "mgu", "ff_gru")
 RECURRENT = ("gru", "lstm", "mgu", "ff_gru")
@@ -36,44 +28,31 @@ READOUTS = ("linear", "mlp1", "mlp_strong")
 CAPACITY_TIERS = ("micro", "small", "medium", "large")
 TIER_RANGE = {"micro": (10_000, 25_000), "small": (40_000, 80_000),
               "medium": (150_000, 300_000), "large": (600_000, 1_200_000)}
-
-
 # ---------------------------------------------------------------- cores
-
-
 class Pooled(nn.Module):
     """Order free. mean, standard deviation and max over time are all permutation invariant."""
-
     def __init__(self, ch: int, width: int):
         super().__init__()
         self.a = nn.Linear(ch, width)
         self.b = nn.Linear(width, width)
         self.mix = nn.Linear(width * 3, LATENT)
-
     def forward(self, x, reset=None):
         z = F.relu(self.b(F.relu(self.a(x))))
         return F.relu(self.mix(torch.cat([z.mean(1), z.std(1), z.amax(1)], 1)))
-
-
 class HistMLP(nn.Module):
     """The last k timesteps, flattened. Explicit causal history and nothing else."""
-
     def __init__(self, ch: int, width: int, k: int):
         super().__init__()
         self.k = k
         self.a = nn.Linear(ch * k, width)
         self.b = nn.Linear(width, LATENT)
-
     def forward(self, x, reset=None):
         w = x[:, -self.k :]
         if w.shape[1] < self.k:
             w = F.pad(w, (0, 0, self.k - w.shape[1], 0))
         return F.relu(self.b(F.relu(self.a(w.flatten(1)))))
-
-
 class CausalTCN(nn.Module):
     """Dilated causal convolution. A receptive field, not a carried state."""
-
     def __init__(self, ch: int, width: int, levels: int = 4, kernel: int = 3):
         super().__init__()
         self.kernel, self.levels = kernel, levels
@@ -82,7 +61,6 @@ class CausalTCN(nn.Module):
             [nn.Conv1d(chans[i], chans[i + 1], kernel, dilation=2**i) for i in range(levels)]
         )
         self.out = nn.Linear(width, LATENT)
-
     @property
     def receptive_field(self) -> int:
         return 1 + sum((self.kernel - 1) * 2**i for i in range(self.levels))
