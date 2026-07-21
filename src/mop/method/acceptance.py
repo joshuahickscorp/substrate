@@ -241,6 +241,19 @@ def m_narrowed_coverage_scope() -> dict:
     return _ok(c["scope_narrowing_declared"], "coverage_scope_narrowed", "coverage_scope_narrowed", c)
 
 
+def m_context_split_that_crosses_no_boundary() -> dict:
+    """D16, discovered by this program's own E4 scout on speech_stream."""
+    from mop.method import bed as B
+
+    # the measured numbers from that scout: adaptation improved both contexts
+    r = B.context_boundary(no_adapt_new=0.68699, no_adapt_old=0.68154,
+                           adapted_new=0.72635, adapted_old=0.73007)
+    ok = B.context_boundary(no_adapt_new=0.40, no_adapt_old=0.70, adapted_new=0.65, adapted_old=0.62)
+    return _ok(r["classification"] == "invalid_no_context_boundary" and ok["checks"]["boundary_crossed"],
+               r["classification"], "invalid_no_context_boundary",
+               {"measured": r, "a_real_boundary_still_passes": ok["checks"]})
+
+
 def m_underpowered_design_admitted() -> dict:
     p = power.preregistration(name="weak", independent_unit="seed", expected_sd=0.25, sesoi=0.05,
                               seeds=3, units=3, max_seeds=3, futility=0.01, harm=0.05)
@@ -283,6 +296,7 @@ MUTATIONS = {
     "future_information_leakage": (m_future_information_leakage, "D13", "causal_model"),
     "two_seed_false_headroom": (m_two_seed_false_headroom, "D14", "oracle_headroom"),
     "unconverged_baseline": (m_unconverged_baseline, "D15", "baseline_convergence"),
+    "context_split_that_crosses_no_boundary": (m_context_split_that_crosses_no_boundary, "D16", "bed_validity"),
     "underpowered_design_admitted": (m_underpowered_design_admitted, "D14", "power_and_units"),
 }
 

@@ -1,0 +1,163 @@
+{
+  "schema": "mop-substrate-hypothesis-graph/v1",
+  "states": [
+    "unopened",
+    "headroom_pending",
+    "instrument_pending",
+    "admitted",
+    "supported",
+    "mixed",
+    "null",
+    "harm",
+    "invalid",
+    "superseded",
+    "closed"
+  ],
+  "hypotheses": [
+    {
+      "id": "H_fast_state",
+      "premise": "a fast recurrent state is the component that carries the useful temporal capability",
+      "predecessor": null,
+      "support": [
+        "inherited timescale ablation: fast state is the only timescale with a positive contribution, +0.063"
+      ],
+      "contradictions": [
+        "cross domain transfer of the shared fast core is null in both directions",
+        "the within domain battery is null, but only on beds that do not require dynamics"
+      ],
+      "required_bed": "a bed sealed temporal_headroom_present",
+      "required_headroom": "residual headroom over the strongest order free and readout matched control",
+      "strongest_baseline": "matched capacity conventional recurrent model",
+      "cheapest_falsifier": "a core by readout factorial on a valid temporal bed",
+      "dependent_hypotheses": [
+        "H_readout_capacity",
+        "H_shared_core_capacity"
+      ],
+      "requires_premise_of": [],
+      "state": "instrument_pending"
+    },
+    {
+      "id": "H_readout_capacity",
+      "premise": "the measured advantage of the owned substrate comes from readout capacity, not from state",
+      "predecessor": "H_fast_state",
+      "support": [
+        "never separated: every prior arm changed core and readout together"
+      ],
+      "contradictions": [],
+      "required_bed": "a bed sealed temporal_headroom_present",
+      "required_headroom": "any measurable difference between the two factors",
+      "strongest_baseline": "simple core with strong readout",
+      "cheapest_falsifier": "the same factorial, read along the readout axis",
+      "dependent_hypotheses": [],
+      "requires_premise_of": [],
+      "state": "unopened"
+    },
+    {
+      "id": "H_shared_core_capacity",
+      "premise": "shared core capacity moves the acquisition retention frontier rather than scaling both",
+      "predecessor": "H_fast_state",
+      "support": [],
+      "contradictions": [
+        "matched capacity conventional baselines were never beaten"
+      ],
+      "required_bed": "a bed sealed temporal_headroom_present with two contexts",
+      "required_headroom": "a frontier that moves, not two curves that scale together",
+      "strongest_baseline": "matched capacity separate per context models",
+      "cheapest_falsifier": "three capacities against matched separate models",
+      "dependent_hypotheses": [],
+      "requires_premise_of": [],
+      "state": "unopened"
+    },
+    {
+      "id": "H_domain_specific_representation",
+      "premise": "no transferable temporal structure exists because representations are domain specific",
+      "predecessor": null,
+      "support": [
+        "cross domain null in both directions",
+        "secondary matrix null on two strongly temporal beds"
+      ],
+      "contradictions": [],
+      "required_bed": "two beds from different modalities",
+      "required_headroom": "an oracle that shows any transferable component at all",
+      "strongest_baseline": "fresh independent per domain",
+      "cheapest_falsifier": "causal parameter group interventions on the shared groups",
+      "dependent_hypotheses": [],
+      "requires_premise_of": [],
+      "state": "supported"
+    },
+    {
+      "id": "H_interference",
+      "premise": "shared updates interfere destructively and that interference is the binding constraint",
+      "predecessor": null,
+      "support": [
+        "the interference map attributes forgetting to the shared groups"
+      ],
+      "contradictions": [
+        "simple fixed partitioning already removes it and does not produce a gain"
+      ],
+      "required_bed": "a bed with two contexts and a return phase",
+      "required_headroom": "a partition oracle above SESOI",
+      "strongest_baseline": "simple fixed partition",
+      "cheapest_falsifier": "adaptation locus factorial: state only, head only, adapter only, core, full",
+      "dependent_hypotheses": [],
+      "requires_premise_of": [],
+      "state": "mixed"
+    },
+    {
+      "id": "H_bed_insufficiency",
+      "premise": "the nulls are explained by beds that never required the capability under test",
+      "predecessor": null,
+      "support": [
+        "har and speech carry the sealed verdict invalid_no_temporal_headroom",
+        "the principal matrix and the within domain battery ran on exactly those beds"
+      ],
+      "contradictions": [
+        "the secondary matrix is null on two beds sealed temporal_headroom_present"
+      ],
+      "required_bed": "a bed sealed temporal_headroom_present",
+      "required_headroom": "not applicable: this hypothesis is about the bed, not the mechanism",
+      "strongest_baseline": "the same arms on a valid bed",
+      "cheapest_falsifier": "rerun the unmeasured within domain cell on har_stream and speech_stream",
+      "dependent_hypotheses": [
+        "H_fast_state"
+      ],
+      "requires_premise_of": [],
+      "state": "admitted"
+    }
+  ],
+  "summary": {
+    "n": 6,
+    "by_state": {
+      "unopened": [
+        "H_readout_capacity",
+        "H_shared_core_capacity"
+      ],
+      "instrument_pending": [
+        "H_fast_state"
+      ],
+      "admitted": [
+        "H_bed_insufficiency"
+      ],
+      "supported": [
+        "H_domain_specific_representation"
+      ],
+      "mixed": [
+        "H_interference"
+      ]
+    },
+    "open": [
+      "H_fast_state",
+      "H_readout_capacity",
+      "H_shared_core_capacity",
+      "H_interference",
+      "H_bed_insufficiency"
+    ],
+    "terminal": [
+      "H_domain_specific_representation"
+    ]
+  },
+  "rule": "a null closes only the descendants that require the failed premise; independent hypotheses continue",
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "4181372d04257e811221c3855b5a1e0d8146eb92",
+  "sha256": "5a7df805934490e63f72384d563643c33c9914d814b5260a0ced1f73579044fd"
+}

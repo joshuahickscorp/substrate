@@ -265,7 +265,7 @@ def mechanism_activity(sp: dict) -> dict:
 
     m_on, rec_on, acc_on, rep_on = probe("fast")
     m_off, rec_off, acc_off, rep_off = probe("pooled")
-    m_sh, rec_sh, acc_sh, rep_sh = probe("reset")
+    m_sh, rec_sh, acc_sh, rep_sh = probe("reset5")
     on = {
         "intervention_count": int(rec_on["updates"]),
         "intervention_timing": [0, rec_on["updates"] // 2, rec_on["updates"]],
@@ -284,10 +284,10 @@ def mechanism_activity(sp: dict) -> dict:
     forced = dict(on)
     r = mechanism.activity({"enabled": on, "disabled": off, "shuffled": shuffled, "forced_active": forced,
                             "randomized": shuffled})
-    r["accuracies"] = {"fast": round(acc_on, 5), "pooled": round(acc_off, 5), "reset": round(acc_sh, 5)}
+    r["accuracies"] = {"fast": round(acc_on, 5), "pooled": round(acc_off, 5), "reset5": round(acc_sh, 5)}
     r["representation_l2_gap"] = {
         "fast_vs_pooled": round(float((rep_on - rep_off).pow(2).sum().sqrt()), 4),
-        "fast_vs_reset": round(float((rep_on - rep_sh).pow(2).sum().sqrt()), 4),
+        "fast_vs_reset5": round(float((rep_on - rep_sh).pow(2).sum().sqrt()), 4),
     }
     return r
 

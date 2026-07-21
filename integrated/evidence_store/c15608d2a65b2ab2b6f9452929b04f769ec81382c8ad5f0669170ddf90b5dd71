@@ -1,0 +1,412 @@
+{
+  "schema": "mop-fast-state-reaudit/v1",
+  "corrected_claim_ceilings": {
+    "cross_domain_matrix": {
+      "sealed_claim": "shared fast dynamics did not transfer across modalities under any update partition",
+      "corrected_claim": "on har and speech, beds this program sealed as invalid_no_temporal_headroom, no update partition beat separate per domain models. That is a null about transfer, not about temporal dynamics, because the beds do not require dynamics to be solved",
+      "claim_about_dynamics_is_carried_by": "MOP_FAST_STATE_SECONDARY_MATRIX.json on har_stream and speech_stream",
+      "secondary_verdict": "secondary_null",
+      "scientific_conclusion_changes": false,
+      "rerun_required": false
+    },
+    "within_domain_battery": {
+      "sealed_claim": "within domain null on both domains",
+      "corrected_claim": "within domain, no arm beat the strongest baseline on har and speech, beds sealed as invalid_no_temporal_headroom. No within domain measurement exists on a bed that requires temporal dynamics, so the within domain question is open on har_stream and speech_stream",
+      "claim_about_dynamics_is_carried_by": "nothing: this is an unmeasured cell",
+      "scientific_conclusion_changes": true,
+      "opens": "within domain fast state on the two sealed valid temporal beds",
+      "rerun_required": false
+    }
+  },
+  "audited_program": "mop-fast-state-plasticity-forge-v1",
+  "audited_commit": "a20ba41f17ec6a674cc768e913d1fab2d1ec5420",
+  "instrument_reproofs": {
+    "order_free_control": {
+      "control": "bag order free control (fastforge.arch.BagControl)",
+      "semantic": {
+        "timestep_permutation_invariant": true,
+        "sequence_reversal_invariant": true,
+        "block_permutation_invariant": true,
+        "timestamp_removal_invariant": true,
+        "deterministic": true,
+        "no_temporal_convolution": true,
+        "no_recurrence": true,
+        "no_position_encoding": true,
+        "no_carried_state_buffer": true,
+        "all_pass": true
+      },
+      "structural_findings": {
+        "conv": [],
+        "recurrent": [],
+        "position": [],
+        "state": []
+      },
+      "passes": true,
+      "discriminates": true,
+      "recurrent_arch_fails_same_proof": {
+        "timestep_permutation_invariant": false,
+        "sequence_reversal_invariant": false,
+        "block_permutation_invariant": true,
+        "timestamp_removal_invariant": false,
+        "deterministic": true,
+        "no_temporal_convolution": false,
+        "no_recurrence": false,
+        "no_position_encoding": true,
+        "no_carried_state_buffer": true,
+        "all_pass": false
+      },
+      "defect": "D1",
+      "verdict": "repaired_and_proven"
+    },
+    "arm_distinctness": {
+      "n_arms": 11,
+      "all_distinct": true,
+      "aliased_pairs": [],
+      "sealed_claim": "the historical cross domain null is not reinterpreted. This is an implementation validation fixture only.",
+      "sealed_audit_all_pass": true,
+      "verdict": "reproduced",
+      "identity_fields_used": [
+        "source_sha",
+        "config_sha",
+        "call_graph_sha",
+        "state_transition_sha",
+        "param_delta_sha",
+        "memory_sha",
+        "resource_sha",
+        "output_sha"
+      ]
+    },
+    "latent_builder_aliases": {
+      "duplicate_builder_groups": {
+        "Conventional(dom, core=\"gru\", share=True),": [
+          "gru",
+          "shared_heads"
+        ]
+      },
+      "load_bearing": {},
+      "any_load_bearing": false
+    }
+  },
+  "bed_use_audit": {
+    "sealed_gate_verdicts": {
+      "har": "invalid_no_temporal_headroom",
+      "speech": "invalid_no_temporal_headroom",
+      "har_stream": "temporal_headroom_present",
+      "speech_stream": "temporal_headroom_present",
+      "pamap2_transition": "invalid_no_temporal_headroom",
+      "harth_transition": "invalid_no_temporal_headroom"
+    },
+    "sealed_valid_domains": [
+      "har_stream",
+      "speech_stream"
+    ],
+    "sealed_invalid_domains": [
+      "har",
+      "speech",
+      "pamap2_transition",
+      "harth_transition"
+    ],
+    "sealed_principal_domains": [],
+    "beds_used_by_the_principal_matrix": [
+      "har",
+      "speech"
+    ],
+    "beds_used_within_domain": [
+      "har",
+      "speech"
+    ],
+    "beds_used_by_the_secondary_matrix": [
+      ">har_stream",
+      ">speech_stream",
+      "har_stream",
+      "speech_stream"
+    ],
+    "principal_matrix_ran_on_invalid_beds": [
+      "har",
+      "speech"
+    ],
+    "secondary_matrix_ran_on_valid_beds": [
+      "har_stream",
+      "speech_stream"
+    ],
+    "finding": "the principal cross domain matrix and the within domain battery ran on beds the same program sealed as invalid_no_temporal_headroom, and the sealed principal domain list is empty"
+  },
+  "report_field_audit": {
+    "n_questions": 52,
+    "all_resolve": true,
+    "errors": [],
+    "null_answers": [],
+    "empty_answers": [],
+    "defect": "D7",
+    "verdict": "no unresolved report field"
+  },
+  "wording_audit": {
+    "checks": {
+      "synthesis_q44_vs_sealed_gate": false,
+      "domain_validity_marginal_meaning": false,
+      "domain_validity_status_strings": false
+    },
+    "offenders": {
+      "synthesis_q44_vs_sealed_gate": [
+        {
+          "term": "marginal",
+          "asserts_class": "mixed",
+          "sealed_class": "invalid"
+        },
+        {
+          "term": "nearly",
+          "asserts_class": "mixed",
+          "sealed_class": "invalid"
+        }
+      ],
+      "domain_validity_marginal_meaning": [
+        {
+          "term": "marginal",
+          "asserts_class": "mixed",
+          "sealed_class": "invalid"
+        }
+      ],
+      "domain_validity_status_strings": [
+        {
+          "term": "marginal",
+          "asserts_class": "mixed",
+          "sealed_class": "invalid"
+        },
+        {
+          "term": "nearly",
+          "asserts_class": "mixed",
+          "sealed_class": "invalid"
+        }
+      ]
+    },
+    "defect": "D9",
+    "verdict": "verdict_softening_present"
+  },
+  "measured_versus_analytic_audit": {
+    "zero_valued_entries": [],
+    "defect": "D6",
+    "rule": "a zero produced by parameter partitioning is structurally guaranteed and may not be labelled measured",
+    "labelled_in_source": null
+  },
+  "terminal_result_classification": {
+    "cross_domain_matrix": {
+      "sealed_verdict": "cross_domain_null",
+      "beds": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_invalid": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_valid": [],
+      "claim_requires_temporal_dynamics": true,
+      "kernel_classification": "invalid_bed",
+      "kernel_reason": "the bed is not a valid principal bed",
+      "sealed_asserts_a_scientific_finding": true,
+      "agrees_with_sealed": false,
+      "reaudit_class": "requires_append_only_correction"
+    },
+    "within_domain_battery": {
+      "sealed_verdict": "within_domain_null",
+      "beds": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_invalid": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_valid": [],
+      "claim_requires_temporal_dynamics": true,
+      "kernel_classification": "invalid_bed",
+      "kernel_reason": "the bed is not a valid principal bed",
+      "sealed_asserts_a_scientific_finding": true,
+      "agrees_with_sealed": false,
+      "reaudit_class": "requires_append_only_correction"
+    },
+    "secondary_matrix": {
+      "sealed_verdict": "secondary_null",
+      "beds": [
+        "har_stream",
+        "speech_stream"
+      ],
+      "beds_sealed_invalid": [],
+      "beds_sealed_valid": [
+        "har_stream",
+        "speech_stream"
+      ],
+      "claim_requires_temporal_dynamics": true,
+      "kernel_classification": "mechanism_null",
+      "kernel_reason": "",
+      "sealed_asserts_a_scientific_finding": true,
+      "agrees_with_sealed": true,
+      "reaudit_class": "fully_valid"
+    },
+    "functional_reorganization": {
+      "sealed_verdict": "functional_reorganization_null",
+      "beds": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_invalid": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_valid": [],
+      "claim_requires_temporal_dynamics": false,
+      "kernel_classification": "mechanism_null",
+      "kernel_reason": "",
+      "sealed_asserts_a_scientific_finding": true,
+      "agrees_with_sealed": true,
+      "reaudit_class": "fully_valid"
+    },
+    "task_free_context": {
+      "sealed_verdict": "task_free_context_null",
+      "beds": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_invalid": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_valid": [],
+      "claim_requires_temporal_dynamics": false,
+      "kernel_classification": "mechanism_null",
+      "kernel_reason": "",
+      "sealed_asserts_a_scientific_finding": true,
+      "agrees_with_sealed": true,
+      "reaudit_class": "fully_valid"
+    },
+    "plasticity_policy": {
+      "sealed_verdict": "simple_partition_policy_sufficient",
+      "beds": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_invalid": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_valid": [],
+      "claim_requires_temporal_dynamics": false,
+      "kernel_classification": "mechanism_null",
+      "kernel_reason": "",
+      "sealed_asserts_a_scientific_finding": true,
+      "agrees_with_sealed": true,
+      "reaudit_class": "fully_valid"
+    },
+    "improvement_rounds": {
+      "sealed_verdict": "improvement_round_null",
+      "beds": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_invalid": [
+        "har",
+        "speech"
+      ],
+      "beds_sealed_valid": [],
+      "claim_requires_temporal_dynamics": false,
+      "kernel_classification": "mechanism_null",
+      "kernel_reason": "",
+      "sealed_asserts_a_scientific_finding": true,
+      "agrees_with_sealed": true,
+      "reaudit_class": "fully_valid"
+    },
+    "third_domain_preflight": {
+      "sealed_verdict": "invalid_no_temporal_headroom",
+      "beds": [
+        "harth_transition",
+        "pamap2_transition"
+      ],
+      "beds_sealed_invalid": [
+        "harth_transition",
+        "pamap2_transition"
+      ],
+      "beds_sealed_valid": [],
+      "claim_requires_temporal_dynamics": false,
+      "kernel_classification": "mechanism_null",
+      "kernel_reason": "",
+      "sealed_asserts_a_scientific_finding": false,
+      "agrees_with_sealed": true,
+      "reaudit_class": "fully_valid"
+    }
+  },
+  "classification_counts": {
+    "fully_valid": [
+      "functional_reorganization",
+      "improvement_rounds",
+      "plasticity_policy",
+      "secondary_matrix",
+      "task_free_context",
+      "third_domain_preflight"
+    ],
+    "valid_with_nonloadbearing_issue": [],
+    "requires_append_only_correction": [
+      "cross_domain_matrix",
+      "within_domain_battery"
+    ],
+    "invalid_instrument": [],
+    "scientifically_unresolved": []
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "load_bearing",
+      "title": "principal results were measured on beds the same program sealed as invalid",
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json",
+      "condition": "valid_domains is [har_stream, speech_stream] and principal_domains is empty, while the principal cross domain matrix and the within domain battery ran on har and speech",
+      "reproduction": "PYTHONPATH=src python3.12 -m mop.method.runs.reaudit",
+      "expected": "a claim about shared temporal dynamics is measured on a bed that requires them",
+      "actual": "measured on beds sealed invalid_no_temporal_headroom",
+      "consequence": "the nulls stand as nulls about transfer, but not as nulls about temporal dynamics. The dynamics claim is carried by the secondary matrix on har_stream and speech_stream, which is also null, so the scientific conclusion survives with a corrected claim ceiling",
+      "affected": [
+        "cross_domain_matrix",
+        "within_domain_battery"
+      ],
+      "repair": "append only claim ceiling correction, no rerun required"
+    },
+    {
+      "id": "R2",
+      "severity": "load_bearing",
+      "title": "human readable prose broadened a sealed invalid verdict",
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json",
+      "condition": "the sealed gate verdict is invalid_no_temporal_headroom and the prose calls the bed marginal",
+      "reproduction": "PYTHONPATH=src python3.12 -m mop.method.runs.reaudit",
+      "expected": "prose narrows or restates the sealed verdict",
+      "actual": "prose asserts the stronger class via ['marginal', 'nearly']",
+      "consequence": "a reader of the summary receives a weaker statement of invalidity than the machine sealed",
+      "affected": [
+        "domain_validity_marginal_meaning",
+        "domain_validity_status_strings",
+        "synthesis_q44_vs_sealed_gate"
+      ],
+      "repair": "append only wording correction in this program's synthesis, inherited text untouched"
+    },
+    {
+      "id": "R3",
+      "severity": "non_load_bearing",
+      "title": "two registered builders construct the same architecture",
+      "path": "fastforge/arch.py BUILDERS",
+      "condition": "gru and shared_heads both build Conventional(dom, core=gru, share=True)",
+      "reproduction": "PYTHONPATH=src python3.12 -m mop.method.runs.reaudit",
+      "expected": "every registered builder is distinct or declared as an alias",
+      "actual": "an undeclared alias exists in the registry",
+      "consequence": "none in the sealed evidence, because shared_heads was never used by a principal run",
+      "affected": [],
+      "repair": "declare the alias or delete the unused builder"
+    }
+  ],
+  "new_load_bearing_defects": [
+    "R1",
+    "R2"
+  ],
+  "inherited_receipts_modified": 0,
+  "correction_mode": "append only",
+  "wall_seconds": 0.5,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "a0c4115c43c482918dba75e6ef17f9cf3f7575f6",
+  "sha256": "e0ce4c566ded25cc4a2ae4715efc76540c143079f6478dc03acae42d68c6aae4"
+}

@@ -1,0 +1,261 @@
+{
+  "schema": "mop-evidence-fabric/v1-method",
+  "pack": "method-reformation-v1",
+  "extends": {
+    "integrated": {
+      "count": 134,
+      "merkle_root": "6e6eded9806773780e6b1196803b72c1f6e1c88500160d5c25fa6609608abb89"
+    },
+    "fast_state": {
+      "count": 46,
+      "merkle_root": "67437cd8a2aa1e1f5a38d061a818c005d9e3d705cc467d99e257c87395cba514"
+    }
+  },
+  "artifacts": [
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_E1_ADMISSION.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_E1_ADMISSION.json",
+      "canonical_path": "integrated/evidence_store/f1883e43dc9ce9ad272a7b2768a6d1fba0fea9b4187b6cd1849c936b11eda8f4",
+      "content_hash": "f1883e43dc9ce9ad272a7b2768a6d1fba0fea9b4187b6cd1849c936b11eda8f4",
+      "bytes": 50511,
+      "set": "experimental_method",
+      "schema": "mop-experiment-admission/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_E4_ADMISSION.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_E4_ADMISSION.json",
+      "canonical_path": "integrated/evidence_store/8d99a5f5b03bbff018713402af90cf1aa34d0f5ec618786b6894edd5c5afd04a",
+      "content_hash": "8d99a5f5b03bbff018713402af90cf1aa34d0f5ec618786b6894edd5c5afd04a",
+      "bytes": 38508,
+      "set": "experimental_method",
+      "schema": "mop-experiment-admission/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_CAUSAL_GRAPH_SCHEMA.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_CAUSAL_GRAPH_SCHEMA.json",
+      "canonical_path": "integrated/evidence_store/d629e9b07dff8ab2d767e3eca23078815aabab68c328b2cea797b0b29e513814",
+      "content_hash": "d629e9b07dff8ab2d767e3eca23078815aabab68c328b2cea797b0b29e513814",
+      "bytes": 1728,
+      "set": "experimental_method",
+      "schema": "mop-experiment-causal-graph/v1",
+      "evidence_class": null,
+      "is_null": false,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "canonical_path": "integrated/evidence_store/cd608b443b79718ba55597f6972f734f5b8adec9a273fe30e76893825037e79e",
+      "content_hash": "cd608b443b79718ba55597f6972f734f5b8adec9a273fe30e76893825037e79e",
+      "bytes": 5311,
+      "set": "experimental_method",
+      "schema": "mop-experiment-validity-kernel/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.md",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.md",
+      "canonical_path": "integrated/evidence_store/95475904f1e4eba4bd9d64d0f699bbecd933aeec2002155abd610cfbfacd838a",
+      "content_hash": "95475904f1e4eba4bd9d64d0f699bbecd933aeec2002155abd610cfbfacd838a",
+      "bytes": 3381,
+      "set": "experimental_method",
+      "schema": null,
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALUE_QUEUE.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALUE_QUEUE.json",
+      "canonical_path": "integrated/evidence_store/567a68a87a2291b8d5539dbc577159eb4f600f6bce071e539911ef5b8a54e8bc",
+      "content_hash": "567a68a87a2291b8d5539dbc577159eb4f600f6bce071e539911ef5b8a54e8bc",
+      "bytes": 12023,
+      "set": "experimental_method",
+      "schema": "mop-experiment-value-queue/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALUE_QUEUE.md",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALUE_QUEUE.md",
+      "canonical_path": "integrated/evidence_store/029a2f4cd734c27d2c134199514b427f41d4b4ae43d3becd9a5339a8c5f7b05b",
+      "content_hash": "029a2f4cd734c27d2c134199514b427f41d4b4ae43d3becd9a5339a8c5f7b05b",
+      "bytes": 1383,
+      "set": "experimental_method",
+      "schema": null,
+      "evidence_class": null,
+      "is_null": false,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_FAST_STATE_REAUDIT.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_FAST_STATE_REAUDIT.json",
+      "canonical_path": "integrated/evidence_store/c15608d2a65b2ab2b6f9452929b04f769ec81382c8ad5f0669170ddf90b5dd71",
+      "content_hash": "c15608d2a65b2ab2b6f9452929b04f769ec81382c8ad5f0669170ddf90b5dd71",
+      "bytes": 14054,
+      "set": "experimental_method",
+      "schema": "mop-fast-state-reaudit/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_FAST_STATE_REAUDIT.md",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_FAST_STATE_REAUDIT.md",
+      "canonical_path": "integrated/evidence_store/aefbe75bbaf40baaa3f07b7b1e0e6d29705cf96f83bfc3a86d6cc9109075371a",
+      "content_hash": "aefbe75bbaf40baaa3f07b7b1e0e6d29705cf96f83bfc3a86d6cc9109075371a",
+      "bytes": 3380,
+      "set": "experimental_method",
+      "schema": null,
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "canonical_path": "integrated/evidence_store/f3fb0442acdb79f432b2ad676bda6e573ab0dda0fbe7fb82a9ddd10c4d16e593",
+      "content_hash": "f3fb0442acdb79f432b2ad676bda6e573ab0dda0fbe7fb82a9ddd10c4d16e593",
+      "bytes": 9524,
+      "set": "experimental_method",
+      "schema": "mop-historical-experiment-defect-ledger/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.md",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.md",
+      "canonical_path": "integrated/evidence_store/30d27f2d371f2511473b9eff679f688073b9eba12a3352dca051a5e3b4cac921",
+      "content_hash": "30d27f2d371f2511473b9eff679f688073b9eba12a3352dca051a5e3b4cac921",
+      "bytes": 3925,
+      "set": "experimental_method",
+      "schema": null,
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_ACCEPTANCE_MUTATIONS.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_ACCEPTANCE_MUTATIONS.json",
+      "canonical_path": "integrated/evidence_store/b134c892d925a4e5ea130e88d6439d961d53fc95879b49dee5b00fb811f5d499",
+      "content_hash": "b134c892d925a4e5ea130e88d6439d961d53fc95879b49dee5b00fb811f5d499",
+      "bytes": 11539,
+      "set": "experimental_method",
+      "schema": "mop-method-acceptance-mutations/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_ACCEPTANCE_RESULT.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_ACCEPTANCE_RESULT.json",
+      "canonical_path": "integrated/evidence_store/4243f1e0a8e56e41d057044541fd14be571188eb68ae38a79dd9ff017f42fb0a",
+      "content_hash": "4243f1e0a8e56e41d057044541fd14be571188eb68ae38a79dd9ff017f42fb0a",
+      "bytes": 3604,
+      "set": "experimental_method",
+      "schema": "mop-method-acceptance/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_START_AUTHORITY.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_START_AUTHORITY.json",
+      "canonical_path": "integrated/evidence_store/0d6ca3a10501d3c8107e330ad95475cd49253c0223466f2fa5decd0d33473dff",
+      "content_hash": "0d6ca3a10501d3c8107e330ad95475cd49253c0223466f2fa5decd0d33473dff",
+      "bytes": 7851,
+      "set": "experimental_method",
+      "schema": "mop-method-reformation-start-authority/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_START_AUTHORITY.md",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_START_AUTHORITY.md",
+      "canonical_path": "integrated/evidence_store/8f21b9b8b4df25b6fe871f01878cef9f0e79c70dc80e3c14b7397eebb720b16a",
+      "content_hash": "8f21b9b8b4df25b6fe871f01878cef9f0e79c70dc80e3c14b7397eebb720b16a",
+      "bytes": 1803,
+      "set": "experimental_method",
+      "schema": null,
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_SELECTED_EXPERIMENTS.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_SELECTED_EXPERIMENTS.json",
+      "canonical_path": "integrated/evidence_store/0c634f9a90be0948fce8feb1d25b816a26d46987a291baae0efe0754dc3b1534",
+      "content_hash": "0c634f9a90be0948fce8feb1d25b816a26d46987a291baae0efe0754dc3b1534",
+      "bytes": 4151,
+      "set": "experimental_method",
+      "schema": "mop-selected-experiments/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "canonical_path": "integrated/evidence_store/27b02703226af6f83b1c9b225d82fa86373ce9af5ce64243ee569608e22b479e",
+      "content_hash": "27b02703226af6f83b1c9b225d82fa86373ce9af5ce64243ee569608e22b479e",
+      "bytes": 6125,
+      "set": "experimental_method",
+      "schema": "mop-substrate-hypothesis-graph/v1",
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    },
+    {
+      "logical_id": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.md",
+      "original_path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.md",
+      "canonical_path": "integrated/evidence_store/99f774d743ad1cc44753157840fe4ddb3517079f2f7ef4c61ec519335c21d288",
+      "content_hash": "99f774d743ad1cc44753157840fe4ddb3517079f2f7ef4c61ec519335c21d288",
+      "bytes": 879,
+      "set": "experimental_method",
+      "schema": null,
+      "evidence_class": null,
+      "is_null": true,
+      "pack": "method-reformation-v1"
+    }
+  ],
+  "union": {
+    "count": 18,
+    "unique_objects": 18,
+    "unique_bytes": 179680,
+    "duplicate_bytes_eliminated": 0,
+    "merkle_root": "1844e52cf412d478a7395290e008310cf8fd5454f750e6fff7ed9ab701eaa8bf"
+  },
+  "verification": {
+    "exact_byte_recovery": true,
+    "old_path_lookup": true,
+    "no_hidden_unindexed_proof": true,
+    "no_duplicate_identity": true,
+    "nulls_indexed": true,
+    "inherited_fabric_untouched": true,
+    "all_pass": true
+  },
+  "mutations": {
+    "mutated_proof_rejected": true,
+    "missing_proof_rejected": true,
+    "duplicate_identity_rejected": true,
+    "path_substitution_rejected": true,
+    "omitted_null_evidence_rejected": true,
+    "all_rejected": true
+  },
+  "content_store": "integrated/evidence_store, shared with the inherited fabric, additive only",
+  "wall_seconds": 0.0,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "b8cf98c1366783296edebcbf5efba7334af9e7fa",
+  "sha256": "7fd1f5cde46f6bd8b08acad78e369a151e5bd7081b7f15d508c1208bac2c59db"
+}
