@@ -809,89 +809,94 @@
         "all_honoured": true
       },
       "control_semantics": {
-        "pooled": {
-          "timestep_permutation_invariant": true,
-          "sequence_reversal_invariant": true,
-          "block_permutation_invariant": true,
-          "timestamp_removal_invariant": true,
-          "deterministic": true,
-          "no_temporal_convolution": true,
-          "no_recurrence": true,
-          "no_position_encoding": true,
-          "no_carried_state_buffer": true,
-          "all_pass": true,
-          "structural_findings": {
-            "conv": [],
-            "recurrent": [],
-            "position": [],
-            "state": []
+        "controls": {
+          "pooled_order_free": {
+            "timestep_permutation_invariant": true,
+            "sequence_reversal_invariant": true,
+            "block_permutation_invariant": true,
+            "timestamp_removal_invariant": true,
+            "deterministic": true,
+            "no_temporal_convolution": true,
+            "no_recurrence": true,
+            "no_position_encoding": true,
+            "no_carried_state_buffer": true,
+            "all_pass": true,
+            "structural_findings": {
+              "conv": [],
+              "recurrent": [],
+              "position": [],
+              "state": []
+            }
+          },
+          "frozen_core": {
+            "no_target_parameter_changed": true,
+            "targets_exist": true,
+            "receipt_lists_changes": true,
+            "all_pass": true
           }
         },
-        "fast": {
-          "timestep_permutation_invariant": false,
-          "sequence_reversal_invariant": false,
-          "block_permutation_invariant": false,
-          "timestamp_removal_invariant": false,
-          "deterministic": true,
-          "no_temporal_convolution": true,
-          "no_recurrence": false,
-          "no_position_encoding": true,
-          "no_carried_state_buffer": true,
-          "all_pass": false,
-          "structural_findings": {
-            "conv": [],
-            "recurrent": [
-              "rnn:GRU"
-            ],
-            "position": [],
-            "state": []
-          }
-        },
-        "reset3": {
-          "timestep_permutation_invariant": false,
-          "sequence_reversal_invariant": false,
-          "block_permutation_invariant": false,
-          "timestamp_removal_invariant": false,
-          "deterministic": true,
-          "no_temporal_convolution": true,
-          "no_recurrence": false,
-          "no_position_encoding": true,
-          "no_carried_state_buffer": true,
-          "all_pass": false,
-          "structural_findings": {
-            "conv": [],
-            "recurrent": [
-              "rnn:GRU"
-            ],
-            "position": [],
-            "state": []
-          }
-        },
-        "reset5": {
-          "timestep_permutation_invariant": false,
-          "sequence_reversal_invariant": false,
-          "block_permutation_invariant": false,
-          "timestamp_removal_invariant": false,
-          "deterministic": true,
-          "no_temporal_convolution": true,
-          "no_recurrence": false,
-          "no_position_encoding": true,
-          "no_carried_state_buffer": true,
-          "all_pass": false,
-          "structural_findings": {
-            "conv": [],
-            "recurrent": [
-              "rnn:GRU"
-            ],
-            "position": [],
-            "state": []
-          }
-        },
-        "frozen_core": {
-          "no_target_parameter_changed": true,
-          "targets_exist": true,
-          "receipt_lists_changes": true,
-          "all_pass": true
+        "discrimination": {
+          "fast": {
+            "timestep_permutation_invariant": false,
+            "sequence_reversal_invariant": false,
+            "block_permutation_invariant": false,
+            "timestamp_removal_invariant": false,
+            "deterministic": true,
+            "no_temporal_convolution": true,
+            "no_recurrence": false,
+            "no_position_encoding": true,
+            "no_carried_state_buffer": true,
+            "all_pass": false,
+            "structural_findings": {
+              "conv": [],
+              "recurrent": [
+                "rnn:GRU"
+              ],
+              "position": [],
+              "state": []
+            }
+          },
+          "reset3": {
+            "timestep_permutation_invariant": false,
+            "sequence_reversal_invariant": false,
+            "block_permutation_invariant": false,
+            "timestamp_removal_invariant": false,
+            "deterministic": true,
+            "no_temporal_convolution": true,
+            "no_recurrence": false,
+            "no_position_encoding": true,
+            "no_carried_state_buffer": true,
+            "all_pass": false,
+            "structural_findings": {
+              "conv": [],
+              "recurrent": [
+                "rnn:GRU"
+              ],
+              "position": [],
+              "state": []
+            }
+          },
+          "reset5": {
+            "timestep_permutation_invariant": false,
+            "sequence_reversal_invariant": false,
+            "block_permutation_invariant": false,
+            "timestamp_removal_invariant": false,
+            "deterministic": true,
+            "no_temporal_convolution": true,
+            "no_recurrence": false,
+            "no_position_encoding": true,
+            "no_carried_state_buffer": true,
+            "all_pass": false,
+            "structural_findings": {
+              "conv": [],
+              "recurrent": [
+                "rnn:GRU"
+              ],
+              "position": [],
+              "state": []
+            }
+          },
+          "every_recurrent_core_fails_the_order_free_proof": true
         }
       },
       "mechanism_activity": {
@@ -1527,89 +1532,94 @@
         "all_honoured": true
       },
       "control_semantics": {
-        "pooled": {
-          "timestep_permutation_invariant": true,
-          "sequence_reversal_invariant": true,
-          "block_permutation_invariant": true,
-          "timestamp_removal_invariant": true,
-          "deterministic": true,
-          "no_temporal_convolution": true,
-          "no_recurrence": true,
-          "no_position_encoding": true,
-          "no_carried_state_buffer": true,
-          "all_pass": true,
-          "structural_findings": {
-            "conv": [],
-            "recurrent": [],
-            "position": [],
-            "state": []
+        "controls": {
+          "pooled_order_free": {
+            "timestep_permutation_invariant": true,
+            "sequence_reversal_invariant": true,
+            "block_permutation_invariant": true,
+            "timestamp_removal_invariant": true,
+            "deterministic": true,
+            "no_temporal_convolution": true,
+            "no_recurrence": true,
+            "no_position_encoding": true,
+            "no_carried_state_buffer": true,
+            "all_pass": true,
+            "structural_findings": {
+              "conv": [],
+              "recurrent": [],
+              "position": [],
+              "state": []
+            }
+          },
+          "frozen_core": {
+            "no_target_parameter_changed": true,
+            "targets_exist": true,
+            "receipt_lists_changes": true,
+            "all_pass": true
           }
         },
-        "fast": {
-          "timestep_permutation_invariant": false,
-          "sequence_reversal_invariant": false,
-          "block_permutation_invariant": true,
-          "timestamp_removal_invariant": false,
-          "deterministic": true,
-          "no_temporal_convolution": true,
-          "no_recurrence": false,
-          "no_position_encoding": true,
-          "no_carried_state_buffer": true,
-          "all_pass": false,
-          "structural_findings": {
-            "conv": [],
-            "recurrent": [
-              "rnn:GRU"
-            ],
-            "position": [],
-            "state": []
-          }
-        },
-        "reset3": {
-          "timestep_permutation_invariant": false,
-          "sequence_reversal_invariant": false,
-          "block_permutation_invariant": true,
-          "timestamp_removal_invariant": false,
-          "deterministic": true,
-          "no_temporal_convolution": true,
-          "no_recurrence": false,
-          "no_position_encoding": true,
-          "no_carried_state_buffer": true,
-          "all_pass": false,
-          "structural_findings": {
-            "conv": [],
-            "recurrent": [
-              "rnn:GRU"
-            ],
-            "position": [],
-            "state": []
-          }
-        },
-        "reset5": {
-          "timestep_permutation_invariant": false,
-          "sequence_reversal_invariant": false,
-          "block_permutation_invariant": true,
-          "timestamp_removal_invariant": false,
-          "deterministic": true,
-          "no_temporal_convolution": true,
-          "no_recurrence": false,
-          "no_position_encoding": true,
-          "no_carried_state_buffer": true,
-          "all_pass": false,
-          "structural_findings": {
-            "conv": [],
-            "recurrent": [
-              "rnn:GRU"
-            ],
-            "position": [],
-            "state": []
-          }
-        },
-        "frozen_core": {
-          "no_target_parameter_changed": true,
-          "targets_exist": true,
-          "receipt_lists_changes": true,
-          "all_pass": true
+        "discrimination": {
+          "fast": {
+            "timestep_permutation_invariant": false,
+            "sequence_reversal_invariant": false,
+            "block_permutation_invariant": true,
+            "timestamp_removal_invariant": false,
+            "deterministic": true,
+            "no_temporal_convolution": true,
+            "no_recurrence": false,
+            "no_position_encoding": true,
+            "no_carried_state_buffer": true,
+            "all_pass": false,
+            "structural_findings": {
+              "conv": [],
+              "recurrent": [
+                "rnn:GRU"
+              ],
+              "position": [],
+              "state": []
+            }
+          },
+          "reset3": {
+            "timestep_permutation_invariant": false,
+            "sequence_reversal_invariant": false,
+            "block_permutation_invariant": true,
+            "timestamp_removal_invariant": false,
+            "deterministic": true,
+            "no_temporal_convolution": true,
+            "no_recurrence": false,
+            "no_position_encoding": true,
+            "no_carried_state_buffer": true,
+            "all_pass": false,
+            "structural_findings": {
+              "conv": [],
+              "recurrent": [
+                "rnn:GRU"
+              ],
+              "position": [],
+              "state": []
+            }
+          },
+          "reset5": {
+            "timestep_permutation_invariant": false,
+            "sequence_reversal_invariant": false,
+            "block_permutation_invariant": true,
+            "timestamp_removal_invariant": false,
+            "deterministic": true,
+            "no_temporal_convolution": true,
+            "no_recurrence": false,
+            "no_position_encoding": true,
+            "no_carried_state_buffer": true,
+            "all_pass": false,
+            "structural_findings": {
+              "conv": [],
+              "recurrent": [
+                "rnn:GRU"
+              ],
+              "position": [],
+              "state": []
+            }
+          },
+          "every_recurrent_core_fails_the_order_free_proof": true
         }
       },
       "mechanism_activity": {
@@ -1768,8 +1778,8 @@
     "licensed": true,
     "principal_execution_licensed": false
   },
-  "wall_seconds": 16.3,
+  "wall_seconds": 12.1,
   "program": "mop-experimental-method-reformation-v1",
-  "source_commit": "b8cf98c1366783296edebcbf5efba7334af9e7fa",
-  "sha256": "8eecde7601148df0fc7053b05e2ca232e9a43c7142d1c06d80c80b141df07530"
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "8f3996412cf1b271598fd9898b2dceb1a670090293e87e9a89a61b748a837826"
 }

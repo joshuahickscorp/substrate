@@ -31,7 +31,248 @@
   "per_bed": {
     "har_stream": {
       "bed": "har_stream",
-      "status": "no_runs",
+      "n_seeds": 8,
+      "cell_means": {
+        "pooled_linear": 0.43231,
+        "pooled_mlp": 0.43169,
+        "fast_linear": 0.88731,
+        "fast_mlp": 0.88694,
+        "reset3_linear": 0.89375,
+        "reset3_mlp": 0.88675,
+        "reset5_linear": 0.72131,
+        "reset5_mlp": 0.72375,
+        "external": 0.88538
+      },
+      "cell_sds": {
+        "pooled_linear": 0.00713,
+        "pooled_mlp": 0.00968,
+        "fast_linear": 0.0137,
+        "fast_mlp": 0.01301,
+        "reset3_linear": 0.00829,
+        "reset3_mlp": 0.01303,
+        "reset5_linear": 0.02062,
+        "reset5_mlp": 0.01967,
+        "external": 0.01429
+      },
+      "best_cell": "reset3_linear",
+      "contrasts": {
+        "core_effect_at_linear": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.455,
+          "lower_95_cb": 0.44737,
+          "sesoi": 0.05,
+          "observed_sd": 0.01139,
+          "achieved_mde": 0.00763,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.4515,
+            0.463,
+            0.4575,
+            0.468,
+            0.4325,
+            0.446,
+            0.462,
+            0.4595
+          ],
+          "group_lower_95_cb": 0.3883,
+          "n_units": 9,
+          "contrast": "fast_linear minus pooled_linear"
+        },
+        "core_effect_at_mlp": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.45525,
+          "lower_95_cb": 0.44215,
+          "sesoi": 0.05,
+          "observed_sd": 0.01955,
+          "achieved_mde": 0.0131,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.4225,
+            0.47,
+            0.4705,
+            0.4765,
+            0.4415,
+            0.441,
+            0.4715,
+            0.4485
+          ],
+          "group_lower_95_cb": 0.38605,
+          "n_units": 9,
+          "contrast": "fast_mlp minus pooled_mlp"
+        },
+        "readout_effect_at_pooled": {
+          "verdict": "wrong_direction_failure",
+          "n": 8,
+          "mean": -0.00063,
+          "lower_95_cb": -0.00963,
+          "sesoi": 0.05,
+          "observed_sd": 0.01343,
+          "achieved_mde": 0.009,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.011,
+            -0.016,
+            0.003,
+            -0.005,
+            -0.0005,
+            0.012,
+            -0.023,
+            0.0135
+          ],
+          "group_lower_95_cb": -0.00675,
+          "n_units": 9,
+          "contrast": "pooled_mlp minus pooled_linear"
+        },
+        "readout_effect_at_fast": {
+          "verdict": "wrong_direction_failure",
+          "n": 8,
+          "mean": -0.00038,
+          "lower_95_cb": -0.00831,
+          "sesoi": 0.05,
+          "observed_sd": 0.01184,
+          "achieved_mde": 0.00793,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            -0.018,
+            -0.009,
+            0.016,
+            0.0035,
+            0.0085,
+            0.007,
+            -0.0135,
+            0.0025
+          ],
+          "group_lower_95_cb": -0.00554,
+          "n_units": 9,
+          "contrast": "fast_mlp minus fast_linear"
+        },
+        "long_range_state_at_linear": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.166,
+          "lower_95_cb": 0.15554,
+          "sesoi": 0.05,
+          "observed_sd": 0.01562,
+          "achieved_mde": 0.01046,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.1865,
+            0.183,
+            0.17,
+            0.1425,
+            0.1715,
+            0.147,
+            0.1675,
+            0.16
+          ],
+          "group_lower_95_cb": 0.13462,
+          "n_units": 9,
+          "contrast": "fast_linear minus reset5_linear"
+        },
+        "long_range_state_at_mlp": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.16319,
+          "lower_95_cb": 0.15296,
+          "sesoi": 0.05,
+          "observed_sd": 0.01527,
+          "achieved_mde": 0.01023,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.1605,
+            0.1655,
+            0.188,
+            0.1375,
+            0.173,
+            0.1505,
+            0.159,
+            0.1715
+          ],
+          "group_lower_95_cb": 0.13233,
+          "n_units": 9,
+          "contrast": "fast_mlp minus reset5_mlp"
+        },
+        "oracle_segmentation_value_at_linear": {
+          "verdict": "null_futile",
+          "n": 8,
+          "mean": 0.00644,
+          "lower_95_cb": -0.00174,
+          "sesoi": 0.05,
+          "observed_sd": 0.01221,
+          "achieved_mde": 0.00818,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.006,
+            -0.01,
+            0.0205,
+            0.0055,
+            0.013,
+            0.0175,
+            -0.013,
+            0.012
+          ],
+          "group_lower_95_cb": 0.00196,
+          "n_units": 9,
+          "contrast": "reset3_linear minus fast_linear"
+        },
+        "oracle_segmentation_value_at_mlp": {
+          "verdict": "wrong_direction_failure",
+          "n": 8,
+          "mean": -0.00019,
+          "lower_95_cb": -0.0091,
+          "sesoi": 0.05,
+          "observed_sd": 0.01331,
+          "achieved_mde": 0.00892,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.0165,
+            0.016,
+            -0.02,
+            0.007,
+            -0.001,
+            0.001,
+            -0.006,
+            -0.015
+          ],
+          "group_lower_95_cb": -0.00587,
+          "n_units": 9,
+          "contrast": "reset3_mlp minus fast_mlp"
+        },
+        "best_cell_over_external_baseline": {
+          "verdict": "null_futile",
+          "n": 8,
+          "mean": 0.00838,
+          "lower_95_cb": -0.00158,
+          "sesoi": 0.05,
+          "observed_sd": 0.01486,
+          "achieved_mde": 0.00995,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.0045,
+            -0.0175,
+            0.015,
+            0.0125,
+            0.0115,
+            0.0235,
+            -0.008,
+            0.0255
+          ],
+          "group_lower_95_cb": null,
+          "n_units": 0,
+          "contrast": "reset3_linear minus external"
+        }
+      },
       "scout": {
         "residual_headroom": {
           "mean": 0.46027,
@@ -68,11 +309,11 @@
               0.4115,
               0.4132
             ],
-            "converged": false,
+            "converged": true,
             "converged_strict": false,
-            "converged_plateau": false,
-            "criterion_used": "none",
-            "reason": "still rising: best at check 3 of 5, tail mean 0.4123 is 0.0387 below the best and the second half slope is -0.0189",
+            "converged_plateau": true,
+            "criterion_used": "plateau",
+            "reason": "",
             "original_scout_verdict": false,
             "quantity_kind": "recomputed"
           }
@@ -105,7 +346,248 @@
     },
     "speech_stream": {
       "bed": "speech_stream",
-      "status": "no_runs",
+      "n_seeds": 8,
+      "cell_means": {
+        "pooled_linear": 0.24881,
+        "pooled_mlp": 0.23769,
+        "fast_linear": 0.71356,
+        "fast_mlp": 0.72844,
+        "reset3_linear": 0.747,
+        "reset3_mlp": 0.74075,
+        "reset5_linear": 0.12406,
+        "reset5_mlp": 0.12288,
+        "external": 0.67881
+      },
+      "cell_sds": {
+        "pooled_linear": 0.01161,
+        "pooled_mlp": 0.01113,
+        "fast_linear": 0.02737,
+        "fast_mlp": 0.01893,
+        "reset3_linear": 0.0234,
+        "reset3_mlp": 0.0213,
+        "reset5_linear": 0.00665,
+        "reset5_mlp": 0.01691,
+        "external": 0.00888
+      },
+      "best_cell": "reset3_linear",
+      "contrasts": {
+        "core_effect_at_linear": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.46475,
+          "lower_95_cb": 0.44203,
+          "sesoi": 0.05,
+          "observed_sd": 0.03391,
+          "achieved_mde": 0.02272,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.5215,
+            0.4505,
+            0.4565,
+            0.4395,
+            0.4455,
+            0.42,
+            0.488,
+            0.4965
+          ],
+          "group_lower_95_cb": 0.41545,
+          "n_units": 63,
+          "contrast": "fast_linear minus pooled_linear"
+        },
+        "core_effect_at_mlp": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.49075,
+          "lower_95_cb": 0.48179,
+          "sesoi": 0.05,
+          "observed_sd": 0.01338,
+          "achieved_mde": 0.00896,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.5105,
+            0.4835,
+            0.4655,
+            0.484,
+            0.496,
+            0.4955,
+            0.4995,
+            0.4915
+          ],
+          "group_lower_95_cb": 0.44289,
+          "n_units": 63,
+          "contrast": "fast_mlp minus pooled_mlp"
+        },
+        "readout_effect_at_pooled": {
+          "verdict": "wrong_direction_failure",
+          "n": 8,
+          "mean": -0.01113,
+          "lower_95_cb": -0.02141,
+          "sesoi": 0.05,
+          "observed_sd": 0.01535,
+          "achieved_mde": 0.01028,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            -0.011,
+            -0.0315,
+            -0.0095,
+            -0.0165,
+            -0.0255,
+            -0.0075,
+            0.02,
+            -0.0075
+          ],
+          "group_lower_95_cb": -0.02709,
+          "n_units": 63,
+          "contrast": "pooled_mlp minus pooled_linear"
+        },
+        "readout_effect_at_fast": {
+          "verdict": "null",
+          "n": 8,
+          "mean": 0.01487,
+          "lower_95_cb": -0.00457,
+          "sesoi": 0.05,
+          "observed_sd": 0.02903,
+          "achieved_mde": 0.01945,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            -0.022,
+            0.0015,
+            -0.0005,
+            0.028,
+            0.025,
+            0.068,
+            0.0315,
+            -0.0125
+          ],
+          "group_lower_95_cb": 0.00483,
+          "n_units": 63,
+          "contrast": "fast_mlp minus fast_linear"
+        },
+        "long_range_state_at_linear": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.5895,
+          "lower_95_cb": 0.57158,
+          "sesoi": 0.05,
+          "observed_sd": 0.02675,
+          "achieved_mde": 0.01792,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.644,
+            0.5805,
+            0.585,
+            0.567,
+            0.5705,
+            0.563,
+            0.604,
+            0.602
+          ],
+          "group_lower_95_cb": 0.53577,
+          "n_units": 63,
+          "contrast": "fast_linear minus reset5_linear"
+        },
+        "long_range_state_at_mlp": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.60556,
+          "lower_95_cb": 0.58742,
+          "sesoi": 0.05,
+          "observed_sd": 0.02708,
+          "achieved_mde": 0.01814,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.6245,
+            0.616,
+            0.5725,
+            0.5795,
+            0.5875,
+            0.6325,
+            0.6445,
+            0.5875
+          ],
+          "group_lower_95_cb": 0.55362,
+          "n_units": 63,
+          "contrast": "fast_mlp minus reset5_mlp"
+        },
+        "oracle_segmentation_value_at_linear": {
+          "verdict": "null",
+          "n": 8,
+          "mean": 0.03344,
+          "lower_95_cb": 0.01835,
+          "sesoi": 0.05,
+          "observed_sd": 0.02252,
+          "achieved_mde": 0.01509,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.016,
+            0.0315,
+            0.0595,
+            0.014,
+            0.031,
+            0.0675,
+            0.0445,
+            0.0035
+          ],
+          "group_lower_95_cb": 0.02148,
+          "n_units": 63,
+          "contrast": "reset3_linear minus fast_linear"
+        },
+        "oracle_segmentation_value_at_mlp": {
+          "verdict": "null",
+          "n": 8,
+          "mean": 0.01231,
+          "lower_95_cb": -0.00363,
+          "sesoi": 0.05,
+          "observed_sd": 0.0238,
+          "achieved_mde": 0.01594,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            -0.0255,
+            0.045,
+            0.021,
+            0.0345,
+            -0.0145,
+            0.002,
+            0.016,
+            0.02
+          ],
+          "group_lower_95_cb": -0.00136,
+          "n_units": 63,
+          "contrast": "reset3_mlp minus fast_mlp"
+        },
+        "best_cell_over_external_baseline": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.06819,
+          "lower_95_cb": 0.05021,
+          "sesoi": 0.05,
+          "observed_sd": 0.02684,
+          "achieved_mde": 0.01798,
+          "adequately_powered": true,
+          "estimator_sufficient": true,
+          "per_seed_effects": [
+            0.1085,
+            0.058,
+            0.0805,
+            0.023,
+            0.0545,
+            0.091,
+            0.079,
+            0.051
+          ],
+          "group_lower_95_cb": null,
+          "n_units": 0,
+          "contrast": "reset3_linear minus external"
+        }
+      },
       "scout": {
         "residual_headroom": {
           "mean": 0.51964,
@@ -142,11 +624,11 @@
               0.2422,
               0.2613
             ],
-            "converged": false,
+            "converged": true,
             "converged_strict": false,
-            "converged_plateau": false,
-            "criterion_used": "none",
-            "reason": "still rising: best at check 3 of 5, tail mean 0.2517 is 0.0183 below the best and the second half slope is -0.0044",
+            "converged_plateau": true,
+            "criterion_used": "plateau",
+            "reason": "",
             "original_scout_verdict": false,
             "quantity_kind": "recomputed"
           }
@@ -181,34 +663,70 @@
   "hypothesis_table": {
     "H_fast_state": {
       "prediction": "fast beats pooled at both readouts, and fast beats the misaligned reset control",
-      "supported_on": {},
-      "supported_everywhere": false
+      "supported_on": {
+        "har_stream": true,
+        "speech_stream": true
+      },
+      "supported_everywhere": true
     },
     "H_readout_capacity": {
       "prediction": "mlp beats linear at both cores, and fast does not beat pooled",
-      "supported_on": {},
+      "supported_on": {
+        "har_stream": false,
+        "speech_stream": false
+      },
       "supported_everywhere": false
     },
     "H_core_readout_interaction": {
       "prediction": "fast beats pooled only under one readout",
-      "supported_on": {},
+      "supported_on": {
+        "har_stream": false,
+        "speech_stream": false
+      },
       "supported_everywhere": false
     },
     "H_bed_insufficiency": {
       "prediction": "pooled matches fast, so the bed does not require order after all",
-      "supported_on": {},
+      "supported_on": {
+        "har_stream": false,
+        "speech_stream": false
+      },
       "supported_everywhere": false
     },
     "H_shared_core_capacity": {
       "prediction": "no cell separates, because capacity is matched and capacity is what mattered",
-      "supported_on": {},
+      "supported_on": {
+        "har_stream": false,
+        "speech_stream": false
+      },
       "supported_everywhere": false
     }
   },
-  "terminal_classification": {},
-  "surviving_hypotheses": [],
+  "terminal_classification": {
+    "har_stream:core_effect_at_linear": "positive",
+    "har_stream:core_effect_at_mlp": "positive",
+    "har_stream:readout_effect_at_pooled": "failure_wrong_direction",
+    "har_stream:readout_effect_at_fast": "failure_wrong_direction",
+    "har_stream:long_range_state_at_linear": "positive",
+    "har_stream:long_range_state_at_mlp": "positive",
+    "har_stream:oracle_segmentation_value_at_linear": "mechanism_null",
+    "har_stream:oracle_segmentation_value_at_mlp": "failure_wrong_direction",
+    "har_stream:best_cell_over_external_baseline": "mechanism_null",
+    "speech_stream:core_effect_at_linear": "positive",
+    "speech_stream:core_effect_at_mlp": "positive",
+    "speech_stream:readout_effect_at_pooled": "failure_wrong_direction",
+    "speech_stream:readout_effect_at_fast": "mechanism_null",
+    "speech_stream:long_range_state_at_linear": "positive",
+    "speech_stream:long_range_state_at_mlp": "positive",
+    "speech_stream:oracle_segmentation_value_at_linear": "mechanism_null",
+    "speech_stream:oracle_segmentation_value_at_mlp": "mechanism_null",
+    "speech_stream:best_cell_over_external_baseline": "positive"
+  },
+  "surviving_hypotheses": [
+    "H_fast_state"
+  ],
   "wall_seconds": 0.0,
   "program": "mop-experimental-method-reformation-v1",
-  "source_commit": "a41f4ff217543cd0f72c0322b0b074fd2ce43e8d",
-  "sha256": "fee49df6750fe5c86eefa924d91275667efb12063c505785e693e1aa1d5fba52"
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "577fedf99ddeef18dbcf87787e5132543359eae2984c940445ace91753f4e6b6"
 }

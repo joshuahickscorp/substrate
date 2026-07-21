@@ -96,13 +96,21 @@ def control_authority(e1: dict, e4: dict) -> tuple[dict, dict]:
     for exp, adm in (("E1", e1), ("E4", e4)):
         for b, v in (adm.get("per_bed") or {}).items():
             sem = v.get("control_semantics") or v.get("control_receipts") or {}
-            ver[f"{exp}:{b}"] = {k: {kk: vv for kk, vv in r.items() if isinstance(vv, bool)}
-                                 for k, r in sem.items() if isinstance(r, dict)}
+            ctrls = sem.get("controls", sem)
+            ver[f"{exp}:{b}"] = {
+                "controls": {k: {kk: vv for kk, vv in r.items() if isinstance(vv, bool)}
+                             for k, r in ctrls.items() if isinstance(r, dict)},
+                "discrimination": {k: (v2.get("all_pass") if isinstance(v2, dict) else v2)
+                                   for k, v2 in (sem.get("discrimination") or {}).items()},
+            }
     return (
         {"schema": "mop-control-semantic-registry/v1", "controls": registry,
          "rule": "a control that fails any proof cannot be the comparison for a verdict"},
         {"schema": "mop-control-semantic-verification/v1", "per_experiment": ver,
-         "all_pass": all(r.get("all_pass", True) for v in ver.values() for r in v.values()) if ver else None},
+         "all_pass": all(r.get("all_pass", True) for v in ver.values() for r in v["controls"].values())
+         if ver else None,
+         "controls_discriminate": all(v["discrimination"].get(
+             "every_recurrent_core_fails_the_order_free_proof", True) for v in ver.values()) if ver else None},
     )
 
 

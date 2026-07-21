@@ -1,0 +1,312 @@
+{
+  "schema": "mop-arm-distinctness-authority/v1",
+  "load_bearing_traces": [
+    "source_sha",
+    "config_sha",
+    "call_graph_sha",
+    "state_transition_sha",
+    "param_delta_sha",
+    "memory_sha",
+    "resource_sha",
+    "output_sha"
+  ],
+  "declared_only_fields": [
+    "name",
+    "declared_difference"
+  ],
+  "rule": "two arms that match on every load bearing trace are the same experiment run twice",
+  "per_experiment": {
+    "E1:har_stream": {
+      "n_arms": 8,
+      "all_distinct": true,
+      "aliased_pairs": [],
+      "per_arm": {
+        "pooled_linear": {
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "pooled_mlp": {
+          "pooled_linear": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "fast_linear": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "fast_mlp": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "reset3_linear": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "reset3_mlp": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "reset5_linear": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "reset5_mlp": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct"
+        }
+      },
+      "configuration_fields_honoured": true
+    },
+    "E1:speech_stream": {
+      "n_arms": 8,
+      "all_distinct": true,
+      "aliased_pairs": [],
+      "per_arm": {
+        "pooled_linear": {
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "pooled_mlp": {
+          "pooled_linear": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "fast_linear": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "fast_mlp": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "reset3_linear": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "reset3_mlp": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset5_linear": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "reset5_linear": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_mlp": "distinct"
+        },
+        "reset5_mlp": {
+          "pooled_linear": "distinct",
+          "pooled_mlp": "distinct",
+          "fast_linear": "distinct",
+          "fast_mlp": "distinct",
+          "reset3_linear": "distinct",
+          "reset3_mlp": "distinct",
+          "reset5_linear": "distinct"
+        }
+      },
+      "configuration_fields_honoured": true
+    },
+    "E4:speech_stream": {
+      "n_arms": 7,
+      "all_distinct": true,
+      "aliased_pairs": [],
+      "per_arm": {
+        "no_adapt": {
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "state_only": {
+          "no_adapt": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "state_noise": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "head_only": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "adapter_only": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "core_only": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "full": "distinct"
+        },
+        "full": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct"
+        }
+      },
+      "configuration_fields_honoured": null
+    },
+    "E4:har_stream": {
+      "n_arms": 7,
+      "all_distinct": true,
+      "aliased_pairs": [],
+      "per_arm": {
+        "no_adapt": {
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "state_only": {
+          "no_adapt": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "state_noise": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "head_only": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "adapter_only": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "core_only": "distinct",
+          "full": "distinct"
+        },
+        "core_only": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "full": "distinct"
+        },
+        "full": {
+          "no_adapt": "distinct",
+          "state_only": "distinct",
+          "state_noise": "distinct",
+          "head_only": "distinct",
+          "adapter_only": "distinct",
+          "core_only": "distinct"
+        }
+      },
+      "configuration_fields_honoured": null
+    }
+  },
+  "all_distinct": true,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "2cc64562b8e005a074cc85be6bc57ef5a4ad24d9d2c2a498e53f21abda0eb2eb"
+}

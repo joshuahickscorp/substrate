@@ -37,6 +37,12 @@ PRINCIPAL_SEEDS = list(range(16))
 PRE_STEPS = 700
 ADAPT_STEPS = 120
 BOUNDARY_PROBE_SEEDS = 5
+# har_stream carries a longer grid because the first one did not settle whether training headroom remained.
+# The grid is a property of the bed and is declared, not chosen after seeing an effect.
+CONVERGENCE_GRID = {
+    "speech_stream": (350, 700, 1100, 1600, 2200),
+    "har_stream": (350, 700, 1100, 1600, 2200, 3000, 4000),
+}
 LR = 3e-3
 ADAPT_LR = 1e-3
 BATCH = 64
@@ -468,7 +474,7 @@ def scout(bedname: str) -> dict:
         seeds=len(PRINCIPAL_SEEDS), units=len(runs[0]["unit_counts"]), max_seeds=len(PRINCIPAL_SEEDS),
         futility=0.01, harm=0.05)
     curve = [
-        run_seed_steps(bedname, 0, s) for s in (350, 700, 1100, 1600, 2200)
+        run_seed_steps(bedname, 0, s) for s in CONVERGENCE_GRID[bedname]
     ]
     conv = baseline.receipt(
         "pretrain_convergence", identity="locus_pretrain", model="GRU core, adapter, mlp readout",

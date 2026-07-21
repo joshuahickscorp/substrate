@@ -1,0 +1,336 @@
+{
+  "schema": "mop-method-independent-audit/v1",
+  "roles": {
+    "B_instrumentation_E1": {
+      "role": "B instrumentation auditor",
+      "admission": "MOP_E1_ADMISSION.json",
+      "checks": {
+        "har_stream:arms_distinct": true,
+        "har_stream:units_group_disjoint": true,
+        "har_stream:test_untouched": true,
+        "har_stream:mechanism_active": true,
+        "har_stream:control_pooled_order_free": true,
+        "har_stream:control_frozen_core": true,
+        "har_stream:control_discriminates": true,
+        "har_stream:configuration_fields_honoured": true,
+        "har_stream:capacity_matched": true,
+        "speech_stream:arms_distinct": true,
+        "speech_stream:units_group_disjoint": true,
+        "speech_stream:test_untouched": true,
+        "speech_stream:mechanism_active": true,
+        "speech_stream:control_pooled_order_free": true,
+        "speech_stream:control_frozen_core": true,
+        "speech_stream:control_discriminates": true,
+        "speech_stream:configuration_fields_honoured": true,
+        "speech_stream:capacity_matched": true,
+        "causal_graph_admissible": true,
+        "admission_licensed": true,
+        "no_undeclared_parameter_changes": true
+      },
+      "notes": [
+        {
+          "bed": "har_stream",
+          "core_parameter_spread": 98
+        },
+        {
+          "bed": "speech_stream",
+          "core_parameter_spread": 98
+        }
+      ],
+      "failed": [],
+      "all_pass": true,
+      "outcomes_inspected": false
+    },
+    "B_instrumentation_E4": {
+      "role": "B instrumentation auditor",
+      "admission": "MOP_E4_ADMISSION.json",
+      "checks": {
+        "speech_stream:arms_distinct": true,
+        "speech_stream:units_group_disjoint": true,
+        "speech_stream:test_untouched": true,
+        "speech_stream:mechanism_active": true,
+        "speech_stream:control_no_adapt": true,
+        "speech_stream:control_state_only": true,
+        "speech_stream:control_state_noise": true,
+        "speech_stream:control_head_only": true,
+        "speech_stream:control_adapter_only": true,
+        "speech_stream:control_core_only": true,
+        "speech_stream:control_full": true,
+        "speech_stream:control_budget_matching": true,
+        "har_stream:arms_distinct": true,
+        "har_stream:units_group_disjoint": true,
+        "har_stream:test_untouched": true,
+        "har_stream:mechanism_active": true,
+        "har_stream:control_no_adapt": true,
+        "har_stream:control_state_only": true,
+        "har_stream:control_state_noise": true,
+        "har_stream:control_head_only": true,
+        "har_stream:control_adapter_only": true,
+        "har_stream:control_core_only": true,
+        "har_stream:control_full": true,
+        "har_stream:control_budget_matching": true,
+        "causal_graph_admissible": true,
+        "admission_licensed": true,
+        "no_undeclared_parameter_changes": true
+      },
+      "notes": [
+        {
+          "bed": "har_stream",
+          "thin_evaluation_unit_groups": {
+            "A_eval": 2,
+            "B_eval": 2
+          },
+          "consequence": "the group lower bound on this bed is weak and is reported as such"
+        }
+      ],
+      "failed": [],
+      "all_pass": true,
+      "outcomes_inspected": false
+    },
+    "method_audit_roles": [
+      {
+        "role": "instrumentation auditor",
+        "attacks": [
+          {
+            "attack": "a historical defect mutation reaches principal execution",
+            "path": "src/mop/method/acceptance.py",
+            "condition": "every ledger defect is injected as a live mutation",
+            "reproduction": "PYTHONPATH=src python3.12 -c 'from mop.method import acceptance; print(acceptance.run()[\"all_rejected\"])'",
+            "expected": "every mutation rejected",
+            "actual": "all_rejected=True, failures=[]",
+            "consequence": "an unrejected mutation means the defect class can recur silently",
+            "confirmed": false
+          },
+          {
+            "attack": "the instrument misclassifies a known world",
+            "path": "src/mop/method/calibration.py",
+            "condition": "twelve synthetic worlds with known answers",
+            "reproduction": "PYTHONPATH=src python3.12 -c 'from mop.method import calibration; print(calibration.run()[\"all_pass\"])'",
+            "expected": "every case classified correctly",
+            "actual": "all_pass=True",
+            "consequence": "a miscalibrated instrument cannot certify an unknown result",
+            "confirmed": false
+          },
+          {
+            "attack": "an empty causal graph is admitted",
+            "path": "src/mop/method/graph.py",
+            "condition": "validate on an empty document",
+            "reproduction": "PYTHONPATH=src python3.12 -c 'from mop.method import graph; print(graph.validate({}))'",
+            "expected": "rejected",
+            "actual": "['graph has no nodes']",
+            "consequence": "an experiment with no declared causal structure would pass the gate",
+            "confirmed": false
+          }
+        ],
+        "confirmed": []
+      },
+      {
+        "role": "scientific statistical auditor",
+        "attacks": [
+          {
+            "attack": "a tie is reported as a positive",
+            "path": "src/mop/method/power.py",
+            "condition": "eight identical zero effects",
+            "reproduction": "PYTHONPATH=src python3.12 -m pytest tests/method -k tie_is_a_null",
+            "expected": "null",
+            "actual": "null_futile",
+            "consequence": "a null would license a mechanism",
+            "confirmed": false
+          },
+          {
+            "attack": "an effect in the wrong direction is reported as a null",
+            "path": "src/mop/method/power.py",
+            "condition": "eight identical negative effects below the harm boundary",
+            "reproduction": "PYTHONPATH=src python3.12 -m pytest tests/method -k wrong_direction",
+            "expected": "wrong_direction_failure",
+            "actual": "wrong_direction_failure",
+            "consequence": "a harmful mechanism would read as neutral",
+            "confirmed": false
+          },
+          {
+            "attack": "an underpowered estimate produces a terminal verdict",
+            "path": "src/mop/method/power.py",
+            "condition": "three seeds with a standard deviation five times the SESOI",
+            "reproduction": "PYTHONPATH=src python3.12 -m pytest tests/method -k underpowered",
+            "expected": "adequately_powered false",
+            "actual": "adequately_powered=False",
+            "consequence": "method failure would be reported as scientific null",
+            "confirmed": false
+          }
+        ],
+        "confirmed": []
+      },
+      {
+        "role": "software evidence auditor",
+        "attacks": [
+          {
+            "attack": "prose broadens a sealed verdict",
+            "path": "src/mop/method/report.py",
+            "condition": "the word marginal over a sealed invalid verdict",
+            "reproduction": "PYTHONPATH=src python3.12 -m pytest tests/method -k broaden",
+            "expected": "rejected",
+            "actual": "passes=False",
+            "consequence": "the summary contradicts the machine classification",
+            "confirmed": false
+          },
+          {
+            "attack": "a faithful restatement is rejected as broadening",
+            "path": "src/mop/method/report.py",
+            "condition": "prose that restates a sealed null",
+            "reproduction": "PYTHONPATH=src python3.12 -m pytest tests/method -k restate",
+            "expected": "accepted",
+            "actual": "passes=True",
+            "consequence": "a false rejection would make the check unusable and it would be switched off",
+            "confirmed": false
+          },
+          {
+            "attack": "a sealed artifact no longer matches its own hash",
+            "path": "/Users/scammermike/Downloads/mop-experimental-method-reformation/proof/method/mop-experimental-method-reformation-v1",
+            "condition": "recompute every seal",
+            "reproduction": "PYTHONPATH=src python3.12 -m mop.method.runs.audit",
+            "expected": "every seal verifies",
+            "actual": "31 of 31 verify",
+            "consequence": "a tampered or stale artifact would be read as authoritative",
+            "confirmed": false
+          }
+        ],
+        "seal_check": {
+          "MOP_ARM_DISTINCTNESS_AUTHORITY.json": true,
+          "MOP_ARM_DISTINCTNESS_MUTATIONS.json": true,
+          "MOP_BASELINE_CONVERGENCE_AUTHORITY.json": true,
+          "MOP_CAUSAL_EXPERIMENT_GRAPH.json": true,
+          "MOP_CONTROL_SEMANTIC_REGISTRY.json": true,
+          "MOP_CONTROL_SEMANTIC_VERIFICATION.json": true,
+          "MOP_DATA_BED_VALIDITY_AUTHORITY.json": true,
+          "MOP_E1_ADMISSION.json": true,
+          "MOP_E4_ADMISSION.json": true,
+          "MOP_EXPERIMENT_CAUSAL_GRAPH_SCHEMA.json": true,
+          "MOP_EXPERIMENT_VALIDITY_KERNEL.json": true,
+          "MOP_EXPERIMENT_VALUE_QUEUE.json": true,
+          "MOP_FAST_STATE_REAUDIT.json": true,
+          "MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json": true,
+          "MOP_MECHANISM_ACTIVITY_AUTHORITY.json": true,
+          "MOP_METHOD_ACCEPTANCE_MUTATIONS.json": true,
+          "MOP_METHOD_ACCEPTANCE_RESULT.json": true,
+          "MOP_METHOD_CODE_REPORT.json": true,
+          "MOP_METHOD_COVERAGE_REPORT.json": true,
+          "MOP_METHOD_EVIDENCE_FABRIC.json": true,
+          "MOP_METHOD_INDEPENDENT_AUDIT.json": true,
+          "MOP_METHOD_INDEPENDENT_VERIFICATION.json": true,
+          "MOP_METHOD_REFORMATION_START_AUTHORITY.json": true,
+          "MOP_METHOD_RESOURCE_REPORT.json": true,
+          "MOP_METHOD_TEST_REPORT.json": true,
+          "MOP_POWER_AND_SEQUENTIAL_DESIGN.json": true,
+          "MOP_PRINCIPAL_EXPERIMENT_1.json": true,
+          "MOP_PRINCIPAL_EXPERIMENT_2.json": true,
+          "MOP_SCOUT_EXPERIMENT_RESULTS.json": true,
+          "MOP_SELECTED_EXPERIMENTS.json": true,
+          "MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json": true
+        },
+        "confirmed": []
+      }
+    ]
+  },
+  "reconciliation": {
+    "reconciled": [
+      {
+        "role": "instrumentation auditor",
+        "attack": "a historical defect mutation reaches principal execution",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "all_rejected=True, failures=[]"
+      },
+      {
+        "role": "instrumentation auditor",
+        "attack": "the instrument misclassifies a known world",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "all_pass=True"
+      },
+      {
+        "role": "instrumentation auditor",
+        "attack": "an empty causal graph is admitted",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "['graph has no nodes']"
+      },
+      {
+        "role": "scientific statistical auditor",
+        "attack": "a tie is reported as a positive",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "null_futile"
+      },
+      {
+        "role": "scientific statistical auditor",
+        "attack": "an effect in the wrong direction is reported as a null",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "wrong_direction_failure"
+      },
+      {
+        "role": "scientific statistical auditor",
+        "attack": "an underpowered estimate produces a terminal verdict",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "adequately_powered=False"
+      },
+      {
+        "role": "software evidence auditor",
+        "attack": "prose broadens a sealed verdict",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "passes=False"
+      },
+      {
+        "role": "software evidence auditor",
+        "attack": "a faithful restatement is rejected as broadening",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "passes=True"
+      },
+      {
+        "role": "software evidence auditor",
+        "attack": "a sealed artifact no longer matches its own hash",
+        "status": "refuted_by_reproduction",
+        "authority": "reproduction",
+        "actual": "31 of 31 verify"
+      }
+    ],
+    "confirmed_defects": [],
+    "refuted_by_reproduction": [
+      "a historical defect mutation reaches principal execution",
+      "the instrument misclassifies a known world",
+      "an empty causal graph is admitted",
+      "a tie is reported as a positive",
+      "an effect in the wrong direction is reported as a null",
+      "an underpowered estimate produces a terminal verdict",
+      "prose broadens a sealed verdict",
+      "a faithful restatement is rejected as broadening",
+      "a sealed artifact no longer matches its own hash"
+    ],
+    "decided_by_vote": 0,
+    "rule": "decided from reproducibility, never from vote count"
+  },
+  "confirmed_defect_count": 0,
+  "unresolved": [],
+  "all_pass": true,
+  "stages_before_principal_compute": [
+    "scientific_premise",
+    "causal_model",
+    "measurement_model",
+    "instrument_calibration",
+    "arm_distinctness",
+    "control_semantics",
+    "bed_validity",
+    "baseline_convergence",
+    "oracle_headroom",
+    "power_and_units",
+    "scout",
+    "independent_reproduction"
+  ],
+  "wall_seconds": 0.6,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "6f18237b42b86ed977c7c557250b48b7269e087d17703cf42d9ac293a4795a06"
+}

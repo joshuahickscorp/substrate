@@ -1,0 +1,372 @@
+{
+  "schema": "mop-data-bed-validity-authority/v1",
+  "classifications": [
+    "valid_principal_bed",
+    "valid_secondary_bed",
+    "invalid_no_construct",
+    "invalid_no_headroom",
+    "invalid_no_independent_units",
+    "invalid_no_intervention",
+    "invalid_no_temporal_requirement",
+    "invalid_unconverged_baseline",
+    "invalid_instrumentation"
+  ],
+  "rule": "a dataset being real does not make the task valid, a task being temporal does not make temporal state necessary, and a task being sequentialized does not make it continual",
+  "per_experiment": {
+    "E1:har_stream": {
+      "inherited_gate_verdict": "temporal_headroom_present",
+      "inherited_source": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json",
+      "unit_audit": {
+        "n_units": 25,
+        "n_train_units": 12,
+        "n_tune_units": 4,
+        "n_test_units": 9,
+        "overlaps": {
+          "train_tune": [],
+          "train_test": [],
+          "tune_test": []
+        },
+        "group_disjoint": true,
+        "test_touched": false
+      },
+      "unit_counts": null,
+      "residual_headroom": {
+        "mean": 0.46027,
+        "lower_95_cb": 0.43673,
+        "n_seeds": 5
+      },
+      "oracle_headroom": 0.46298
+    },
+    "E1:speech_stream": {
+      "inherited_gate_verdict": "temporal_headroom_present",
+      "inherited_source": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json",
+      "unit_audit": {
+        "n_units": 171,
+        "n_train_units": 80,
+        "n_tune_units": 28,
+        "n_test_units": 63,
+        "overlaps": {
+          "train_tune": [],
+          "train_test": [],
+          "tune_test": []
+        },
+        "group_disjoint": true,
+        "test_touched": false
+      },
+      "unit_counts": null,
+      "residual_headroom": {
+        "mean": 0.51964,
+        "lower_95_cb": 0.47122,
+        "n_seeds": 5
+      },
+      "oracle_headroom": 0.63228
+    },
+    "E4:speech_stream": {
+      "inherited_gate_verdict": "temporal_headroom_present",
+      "inherited_source": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json",
+      "unit_audit": {
+        "n_units": 207,
+        "n_train_units": 87,
+        "n_tune_units": 57,
+        "n_test_units": 63,
+        "overlaps": {
+          "train_tune": [],
+          "train_test": [],
+          "tune_test": []
+        },
+        "group_disjoint": true,
+        "test_touched": false
+      },
+      "unit_counts": {
+        "A_train": 43,
+        "A_eval": 18,
+        "B_train": 44,
+        "B_eval": 18,
+        "tune": 21,
+        "test": 63
+      },
+      "context_boundary": {
+        "checks": {
+          "new_context_is_measurably_harder": true,
+          "adaptation_has_something_to_gain": true,
+          "adaptation_does_not_improve_the_old_context": true,
+          "boundary_crossed": true
+        },
+        "n_seeds": 5,
+        "distribution_shift_mean": 0.24734,
+        "distribution_shift_lower_95_cb": 0.12232,
+        "retention_cost_mean": -0.03117,
+        "retention_cost_lower_95_cb": -0.07801,
+        "acquisition_gain_mean": 0.2714,
+        "acquisition_gain_lower_95_cb": 0.12948,
+        "rows": [
+          {
+            "no_adapt_new": 0.48968,
+            "no_adapt_old": 0.65782,
+            "adapted_new": 0.60248,
+            "adapted_old": 0.64854
+          },
+          {
+            "no_adapt_new": 0.32759,
+            "no_adapt_old": 0.6356,
+            "adapted_new": 0.67507,
+            "adapted_old": 0.57719
+          },
+          {
+            "no_adapt_new": 0.59067,
+            "no_adapt_old": 0.71102,
+            "adapted_new": 0.78109,
+            "adapted_old": 0.70565
+          },
+          {
+            "no_adapt_new": 0.5536,
+            "no_adapt_old": 0.74699,
+            "adapted_new": 0.76934,
+            "adapted_old": 0.76707
+          },
+          {
+            "no_adapt_new": 0.20946,
+            "no_adapt_old": 0.65625,
+            "adapted_new": 0.7,
+            "adapted_old": 0.55339
+          }
+        ],
+        "classification": "context_boundary_crossed",
+        "per_seed": [
+          true,
+          true,
+          true,
+          false,
+          true
+        ],
+        "probe_evaluation_units": {
+          "A_eval": 18,
+          "B_eval": 18
+        }
+      },
+      "covariate_shift": {
+        "applied": true,
+        "kind": "per channel affine on the raw input, declared synthetic",
+        "gain": [
+          0.7468,
+          0.5738,
+          1.0505,
+          1.3923,
+          1.3728,
+          1.2595,
+          0.9039,
+          0.6811,
+          1.4094,
+          1.008,
+          1.0489,
+          1.2134,
+          1.1027,
+          1.0008,
+          1.1057,
+          1.1357,
+          1.359,
+          1.1939,
+          0.6012,
+          0.5553,
+          0.6887,
+          1.0817,
+          0.9566,
+          1.4134,
+          1.11,
+          0.8015,
+          0.8218,
+          1.3159,
+          0.6009,
+          0.9762,
+          0.7235,
+          1.1795,
+          0.9674,
+          1.0356,
+          0.9824,
+          0.7504,
+          0.5693,
+          0.9558,
+          1.3216,
+          0.6458
+        ],
+        "offset": [
+          0.2926,
+          0.4601,
+          0.5278,
+          0.1948,
+          0.8356,
+          -0.4217,
+          0.0622,
+          -0.9174,
+          0.5806,
+          -0.4038,
+          -0.4151,
+          -0.3496,
+          0.6794,
+          -0.3139,
+          -0.6994,
+          -0.5898,
+          0.4703,
+          0.7149,
+          -0.472,
+          -0.3433,
+          -0.8424,
+          -0.4906,
+          -0.162,
+          0.2412,
+          1.4379,
+          0.3351,
+          -0.3916,
+          -0.4509,
+          0.3494,
+          1.1083,
+          0.4934,
+          0.2207,
+          -0.527,
+          0.3484,
+          0.6177,
+          0.1488,
+          -0.6918,
+          0.3352,
+          0.2136,
+          0.4605
+        ],
+        "identical_across_arms_within_a_seed": true
+      },
+      "residual_headroom": {
+        "mean": 0.08761,
+        "lower_95_cb": 0.02892,
+        "n_seeds": 5
+      },
+      "oracle_headroom": {
+        "mean": 0.2714,
+        "lower_95_cb": 0.12948,
+        "n_seeds": 5
+      }
+    },
+    "E4:har_stream": {
+      "inherited_gate_verdict": "temporal_headroom_present",
+      "inherited_source": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json",
+      "unit_audit": {
+        "n_units": 30,
+        "n_train_units": 14,
+        "n_tune_units": 7,
+        "n_test_units": 9,
+        "overlaps": {
+          "train_tune": [],
+          "train_test": [],
+          "tune_test": []
+        },
+        "group_disjoint": true,
+        "test_touched": false
+      },
+      "unit_counts": {
+        "A_train": 7,
+        "A_eval": 2,
+        "B_train": 7,
+        "B_eval": 2,
+        "tune": 3,
+        "test": 9
+      },
+      "context_boundary": {
+        "checks": {
+          "new_context_is_measurably_harder": true,
+          "adaptation_has_something_to_gain": true,
+          "adaptation_does_not_improve_the_old_context": true,
+          "boundary_crossed": true
+        },
+        "n_seeds": 5,
+        "distribution_shift_mean": 0.31221,
+        "distribution_shift_lower_95_cb": 0.24402,
+        "retention_cost_mean": -0.01607,
+        "retention_cost_lower_95_cb": -0.15226,
+        "acquisition_gain_mean": 0.38796,
+        "acquisition_gain_lower_95_cb": 0.27963,
+        "rows": [
+          {
+            "no_adapt_new": 0.50174,
+            "no_adapt_old": 0.72727,
+            "adapted_new": 0.9338,
+            "adapted_old": 0.88868
+          },
+          {
+            "no_adapt_new": 0.55516,
+            "no_adapt_old": 0.84354,
+            "adapted_new": 0.90214,
+            "adapted_old": 0.86224
+          },
+          {
+            "no_adapt_new": 0.41696,
+            "no_adapt_old": 0.80702,
+            "adapted_new": 0.97059,
+            "adapted_old": 0.83158
+          },
+          {
+            "no_adapt_new": 0.60453,
+            "no_adapt_old": 0.98686,
+            "adapted_new": 0.85192,
+            "adapted_old": 0.75698
+          },
+          {
+            "no_adapt_new": 0.60069,
+            "no_adapt_old": 0.87544,
+            "adapted_new": 0.96041,
+            "adapted_old": 0.82028
+          }
+        ],
+        "classification": "context_boundary_crossed",
+        "per_seed": [
+          false,
+          false,
+          false,
+          true,
+          true
+        ],
+        "probe_evaluation_units": {
+          "A_eval": 2,
+          "B_eval": 2
+        }
+      },
+      "covariate_shift": {
+        "applied": true,
+        "kind": "per channel affine on the raw input, declared synthetic",
+        "gain": [
+          0.7468,
+          0.5738,
+          1.0505,
+          1.3923,
+          1.3728,
+          1.2595,
+          0.9039,
+          0.6811,
+          1.4094
+        ],
+        "offset": [
+          -0.0669,
+          0.278,
+          -0.5039,
+          -0.6973,
+          -0.0049,
+          1.3674,
+          0.1349,
+          0.1853,
+          0.7113
+        ],
+        "identical_across_arms_within_a_seed": true
+      },
+      "residual_headroom": {
+        "mean": 0.12953,
+        "lower_95_cb": 0.0177,
+        "n_seeds": 5
+      },
+      "oracle_headroom": {
+        "mean": 0.38796,
+        "lower_95_cb": 0.27963,
+        "n_seeds": 5
+      }
+    }
+  },
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "adc92d18c8e4e5dc0d48ab5946c182421b9dac8779850d974839e921a1f28c40"
+}

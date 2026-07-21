@@ -1,6 +1,6 @@
 # Historical experiment defect ledger
 
-15 defect classes discovered in the Fast State Plasticity Forge and its predecessors.
+17 defect classes discovered in the Fast State Plasticity Forge and its predecessors.
 Every one is rebuilt as a live mutation in `mop.method.acceptance` and as a permanent regression test.
 
 | id | defect | declared | actual | detector | caught at |
@@ -20,6 +20,8 @@ Every one is rebuilt as a live mutation in `mop.method.acceptance` and as a perm
 | D13 | future information reached a decision time mechanism | a decision made from information available at the time | a statistic computed over the whole sequence entered a per step decision | `mop.method.graph.validate` | causal_graph_validation |
 | D14 | headroom authority from two seeds | measured oracle headroom | the headroom rested on two seeds, inside its own noise | `mop.method.contracts.OracleContract` | oracle_headroom |
 | D15 | unconverged baseline produced a verdict | a comparison against a strong baseline | the baseline had not plateaued when the comparison was taken | `mop.method.baseline.comparison` | baseline_convergence |
+| D16 | a context split that crosses no boundary | two contexts with an adaptation phase between them | two random unit groups from one corpus, so adapting to the second improved the first as well | `mop.method.bed.context_boundary` | bed_validity |
+| D17 | a brittle plateau criterion reported a flat curve as still improving | a convergence receipt | on a noisy single seed validation curve the argmax lands late by chance, so a curve that moved 0.016 across a tenfold budget range was classified unconverged | `mop.method.baseline.plateau` | baseline_convergence |
 
 ## The veto rule
 

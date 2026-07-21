@@ -1,0 +1,510 @@
+{
+  "schema": "mop-causal-experiment-graph/v1",
+  "schema_definition": {
+    "schema": "mop-experiment-causal-graph/v1",
+    "node_types": [
+      "scientific_construct",
+      "mechanism",
+      "intervention",
+      "available_information",
+      "hidden_information",
+      "treatment",
+      "control",
+      "mediator",
+      "confounder",
+      "independent_unit",
+      "primary_outcome",
+      "cost",
+      "verdict",
+      "claim"
+    ],
+    "edge_types": [
+      "implemented_causal_path",
+      "assumed_scientific_relation",
+      "measured_relation",
+      "analytic_relation",
+      "structural_guarantee",
+      "forbidden_information_path"
+    ],
+    "node_fields": {
+      "id": "unique string",
+      "type": "one of node_types",
+      "label": "human readable",
+      "implementation": "dotted code path, required for mechanism, intervention, treatment, control",
+      "time": "decision_time | future | any, required on information nodes",
+      "declared": "bool, required on confounder nodes",
+      "removes": "capability string, required on control nodes",
+      "requires": "list of node ids, required on claim and verdict nodes"
+    },
+    "edge_fields": {
+      "src": "node id",
+      "dst": "node id",
+      "type": "one of edge_types"
+    },
+    "rejections": [
+      "mechanism without intervention",
+      "reported variable without implementation",
+      "output without measurement path",
+      "control that still retains the removed capability",
+      "future information entering a decision time mechanism",
+      "analytic quantity reported as measured",
+      "hidden confounder ignored without declaration",
+      "claim broader than the measured path"
+    ]
+  },
+  "experiments": {
+    "E1": {
+      "graph": {
+        "nodes": [
+          {
+            "id": "temporal_capability",
+            "type": "scientific_construct",
+            "label": "the capability that lets a model use order in a stream"
+          },
+          {
+            "id": "recurrent_core",
+            "type": "mechanism",
+            "implementation": "mop.method.runs.factorial.Cell.represent"
+          },
+          {
+            "id": "readout_capacity",
+            "type": "mechanism",
+            "implementation": "mop.method.runs.factorial.Cell.head"
+          },
+          {
+            "id": "set_core",
+            "type": "intervention",
+            "implementation": "mop.method.runs.factorial.build"
+          },
+          {
+            "id": "set_readout",
+            "type": "intervention",
+            "implementation": "mop.method.runs.factorial.build"
+          },
+          {
+            "id": "pooled_control",
+            "type": "control",
+            "implementation": "mop.method.runs.factorial.Cell",
+            "removes": "the ability to consume temporal order"
+          },
+          {
+            "id": "reset_control",
+            "type": "control",
+            "implementation": "mop.method.runs.factorial.Cell",
+            "removes": "state carried across a block boundary"
+          },
+          {
+            "id": "stream_order",
+            "type": "available_information",
+            "time": "decision_time"
+          },
+          {
+            "id": "final_window_label",
+            "type": "hidden_information",
+            "time": "future",
+            "declared": true
+          },
+          {
+            "id": "unit_identity",
+            "type": "confounder",
+            "declared": true,
+            "label": "subject or speaker, controlled by unit disjoint splits"
+          },
+          {
+            "id": "capacity",
+            "type": "confounder",
+            "declared": true,
+            "label": "parameter count, matched by construction and measured"
+          },
+          {
+            "id": "segment_alignment",
+            "type": "confounder",
+            "declared": true,
+            "label": "a reset period of three lands on the real stream boundaries on both beds, so reset3 is oracle segmented. reset5 lands on no boundary and is the neutral ablation"
+          },
+          {
+            "id": "representation",
+            "type": "mediator",
+            "label": "the fixed width vector the core emits, identical in shape across every cell"
+          },
+          {
+            "id": "logits",
+            "type": "mediator",
+            "label": "the readout output"
+          },
+          {
+            "id": "subject_or_speaker",
+            "type": "independent_unit"
+          },
+          {
+            "id": "test_accuracy",
+            "type": "primary_outcome"
+          },
+          {
+            "id": "compute",
+            "type": "cost"
+          },
+          {
+            "id": "core_vs_readout_verdict",
+            "type": "verdict",
+            "requires": [
+              "test_accuracy"
+            ]
+          },
+          {
+            "id": "claim_fast_state_carries_capability",
+            "type": "claim",
+            "requires": [
+              "test_accuracy"
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "src": "temporal_capability",
+            "dst": "recurrent_core",
+            "type": "assumed_scientific_relation"
+          },
+          {
+            "src": "recurrent_core",
+            "dst": "set_core",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "readout_capacity",
+            "dst": "set_readout",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "set_core",
+            "dst": "representation",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "set_readout",
+            "dst": "logits",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "representation",
+            "dst": "logits",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "logits",
+            "dst": "test_accuracy",
+            "type": "measured_relation"
+          },
+          {
+            "src": "set_core",
+            "dst": "test_accuracy",
+            "type": "measured_relation"
+          },
+          {
+            "src": "set_readout",
+            "dst": "test_accuracy",
+            "type": "measured_relation"
+          },
+          {
+            "src": "pooled_control",
+            "dst": "representation",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "reset_control",
+            "dst": "representation",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "stream_order",
+            "dst": "recurrent_core",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "final_window_label",
+            "dst": "set_core",
+            "type": "forbidden_information_path",
+            "realized": false
+          },
+          {
+            "src": "unit_identity",
+            "dst": "test_accuracy",
+            "type": "assumed_scientific_relation"
+          },
+          {
+            "src": "capacity",
+            "dst": "test_accuracy",
+            "type": "structural_guarantee"
+          },
+          {
+            "src": "segment_alignment",
+            "dst": "test_accuracy",
+            "type": "assumed_scientific_relation"
+          },
+          {
+            "src": "subject_or_speaker",
+            "dst": "test_accuracy",
+            "type": "measured_relation"
+          },
+          {
+            "src": "set_core",
+            "dst": "compute",
+            "type": "measured_relation"
+          },
+          {
+            "src": "recurrent_core",
+            "dst": "temporal_capability",
+            "type": "assumed_scientific_relation"
+          }
+        ]
+      },
+      "summary": {
+        "nodes": 19,
+        "edges": 19,
+        "by_node_type": {
+          "scientific_construct": 1,
+          "mechanism": 2,
+          "intervention": 2,
+          "available_information": 1,
+          "hidden_information": 1,
+          "treatment": 0,
+          "control": 2,
+          "mediator": 2,
+          "confounder": 3,
+          "independent_unit": 1,
+          "primary_outcome": 1,
+          "cost": 1,
+          "verdict": 1,
+          "claim": 1
+        },
+        "by_edge_type": {
+          "implemented_causal_path": 8,
+          "assumed_scientific_relation": 4,
+          "measured_relation": 5,
+          "analytic_relation": 0,
+          "structural_guarantee": 1,
+          "forbidden_information_path": 1
+        }
+      },
+      "rejections": [],
+      "admissible": true
+    },
+    "E4": {
+      "graph": {
+        "nodes": [
+          {
+            "id": "fast_adaptation",
+            "type": "scientific_construct",
+            "label": "the capability to adjust to a new context quickly"
+          },
+          {
+            "id": "owned_state",
+            "type": "mechanism",
+            "implementation": "mop.method.runs.locus.LocusModel.state"
+          },
+          {
+            "id": "slow_parameters",
+            "type": "mechanism",
+            "implementation": "mop.method.runs.locus.LocusModel.param_groups"
+          },
+          {
+            "id": "recentre_state",
+            "type": "intervention",
+            "implementation": "mop.method.runs.locus.adapt_state"
+          },
+          {
+            "id": "gradient_update",
+            "type": "intervention",
+            "implementation": "fastforge.engine.fit"
+          },
+          {
+            "id": "state_noise_control",
+            "type": "control",
+            "implementation": "mop.method.runs.locus.adapt_state",
+            "removes": "the information content of the state update, keeping its magnitude"
+          },
+          {
+            "id": "no_adapt_control",
+            "type": "control",
+            "implementation": "mop.method.runs.exp4.adapt",
+            "removes": "every change, while keeping the data exposure"
+          },
+          {
+            "id": "context_B_statistics",
+            "type": "available_information",
+            "time": "decision_time"
+          },
+          {
+            "id": "context_A_labels_during_B",
+            "type": "hidden_information",
+            "time": "future",
+            "declared": true
+          },
+          {
+            "id": "unit_identity",
+            "type": "confounder",
+            "declared": true
+          },
+          {
+            "id": "adaptation_budget",
+            "type": "confounder",
+            "declared": true,
+            "label": "batches and batch size, matched across every arm"
+          },
+          {
+            "id": "representation",
+            "type": "mediator"
+          },
+          {
+            "id": "speaker_or_subject",
+            "type": "independent_unit"
+          },
+          {
+            "id": "acquisition_B",
+            "type": "primary_outcome"
+          },
+          {
+            "id": "retention_A",
+            "type": "primary_outcome"
+          },
+          {
+            "id": "compute",
+            "type": "cost"
+          },
+          {
+            "id": "locus_verdict",
+            "type": "verdict",
+            "requires": [
+              "acquisition_B",
+              "retention_A"
+            ]
+          },
+          {
+            "id": "claim_state_only_adaptation_works",
+            "type": "claim",
+            "requires": [
+              "acquisition_B",
+              "retention_A"
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "src": "fast_adaptation",
+            "dst": "owned_state",
+            "type": "assumed_scientific_relation"
+          },
+          {
+            "src": "owned_state",
+            "dst": "recentre_state",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "slow_parameters",
+            "dst": "gradient_update",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "recentre_state",
+            "dst": "representation",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "gradient_update",
+            "dst": "representation",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "state_noise_control",
+            "dst": "representation",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "no_adapt_control",
+            "dst": "representation",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "context_B_statistics",
+            "dst": "recentre_state",
+            "type": "implemented_causal_path"
+          },
+          {
+            "src": "representation",
+            "dst": "acquisition_B",
+            "type": "measured_relation"
+          },
+          {
+            "src": "representation",
+            "dst": "retention_A",
+            "type": "measured_relation"
+          },
+          {
+            "src": "speaker_or_subject",
+            "dst": "acquisition_B",
+            "type": "measured_relation"
+          },
+          {
+            "src": "speaker_or_subject",
+            "dst": "retention_A",
+            "type": "measured_relation"
+          },
+          {
+            "src": "context_A_labels_during_B",
+            "dst": "recentre_state",
+            "type": "forbidden_information_path",
+            "realized": false
+          },
+          {
+            "src": "unit_identity",
+            "dst": "acquisition_B",
+            "type": "assumed_scientific_relation"
+          },
+          {
+            "src": "adaptation_budget",
+            "dst": "acquisition_B",
+            "type": "structural_guarantee"
+          },
+          {
+            "src": "gradient_update",
+            "dst": "compute",
+            "type": "measured_relation"
+          }
+        ]
+      },
+      "summary": {
+        "nodes": 18,
+        "edges": 16,
+        "by_node_type": {
+          "scientific_construct": 1,
+          "mechanism": 2,
+          "intervention": 2,
+          "available_information": 1,
+          "hidden_information": 1,
+          "treatment": 0,
+          "control": 2,
+          "mediator": 1,
+          "confounder": 2,
+          "independent_unit": 1,
+          "primary_outcome": 2,
+          "cost": 1,
+          "verdict": 1,
+          "claim": 1
+        },
+        "by_edge_type": {
+          "implemented_causal_path": 7,
+          "assumed_scientific_relation": 2,
+          "measured_relation": 5,
+          "analytic_relation": 0,
+          "structural_guarantee": 1,
+          "forbidden_information_path": 1
+        }
+      },
+      "rejections": [],
+      "admissible": true
+    }
+  },
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "e7deffb545241bad1498343d2e56d5cee57965bc",
+  "sha256": "e008ff90da4ce380de62b3568292d1f459520f4606b2571c1d2e366d2217aee0"
+}
