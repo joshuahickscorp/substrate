@@ -17,7 +17,7 @@ from mop.temporal import factorial as Fx
 from mop.temporal import hypotheses as H
 from mop.temporal import io as TIO
 from mop.temporal import witness as W
-from mop.temporal.runs import coresel, e2, e3, supervisor
+from mop.temporal.runs import codelife, coresel, e2, e3, supervisor
 
 torch = pytest.importorskip("torch")
 
@@ -396,6 +396,13 @@ def test_e3_common_width_is_in_band_and_shared_groups_are_shape_compatible():
     copied = e3._copy_group(models[1], models[0], "shared")
     assert copied == models[1].param_groups["shared"]
     assert len(e3.ARMS) == 8 and len(set(e3.ARMS)) == 8
+
+
+def test_code_lifecycle_keeps_resume_surface_active_and_sealed_drivers_frozen():
+    assert codelife.classify("src/mop/temporal/runs/supervisor.py") == "active_substrate"
+    assert codelife.classify("src/mop/temporal/runs/e2.py") == "active_substrate"
+    assert codelife.classify("src/mop/temporal/runs/analyze.py") == "frozen_reproducibility"
+    assert codelife.classify("src/mop/temporal/runs/e3.py") == "frozen_reproducibility"
 
 
 def test_hypothesis_fold_uses_only_preregistered_keys():
