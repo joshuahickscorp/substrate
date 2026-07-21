@@ -1,10 +1,3 @@
-"""Factorial estimation and the classification rules that read it.
-Every contrast is a paired difference over seeds, so the seed is the pairing unit and the lower bound is a
-random effects bound over seeds. Group inference over independent units is reported alongside, never instead.
-The recovery function is what the calibration worlds test: given a set of cell results whose generative truth
-is known, does the analysis name that truth.
-House style: no dashes.
-"""
 from __future__ import annotations
 import numpy as np
 from mop.method import power
@@ -35,7 +28,6 @@ def contrast(series: dict, a: str, b: str, prereg: dict, unit_series: dict | Non
     return d
 def interaction(series: dict, cells: tuple[str, str, str, str], prereg: dict,
                 unit_series: dict | None = None, label: str = "difference in differences") -> dict:
-    """Estimate a four cell difference in differences over seeds and independent units."""
     signs = (1, -1, -1, 1)
     if any(c not in series for c in cells):
         return {"contrast": label, "verdict": "missing_cell", "mean": None,
@@ -55,7 +47,6 @@ def interaction(series: dict, cells: tuple[str, str, str, str], prereg: dict,
                 "estimand": "difference_in_differences"})
     return out
 def equivalent(d: dict, margin: float = EQUIV) -> bool:
-    """Require two sided seed and independent unit bounds inside the natural unit margin."""
     needed = ("mean", "lower_95_cb", "upper_95_cb", "group_mean",
               "group_lower_95_cb", "group_upper_95_cb")
     if any(d.get(field) is None for field in needed):
@@ -64,15 +55,12 @@ def equivalent(d: dict, margin: float = EQUIV) -> bool:
             and d["upper_95_cb"] <= margin and abs(d["group_mean"]) <= margin
             and d["group_lower_95_cb"] >= -margin and d["group_upper_95_cb"] <= margin)
 def seed_equivalent(d: dict, margin: float = EQUIV) -> bool:
-    """Seed-only calibration helper; production inference must use ``equivalent`` above."""
     needed = ("mean", "lower_95_cb", "upper_95_cb")
     return not any(d.get(field) is None for field in needed) \
         and abs(d["mean"]) <= margin and d["lower_95_cb"] >= -margin and d["upper_95_cb"] <= margin
 def name(family="gru", tier="small", readout="linear", reset="none", history_k=1) -> str:
     return f"{family}|{tier}|{readout}|{reset}|h{history_k}"
-# ---------------------------------------------------------------- factor sweeps
 def factor_effects(series: dict, prereg: dict, units: dict | None = None) -> dict:
-    """Main effects and interactions, each read off the sweep that was designed to carry it."""
     out: dict[str, dict] = {}
     ref = name()
     out["architecture"] = {
@@ -129,9 +117,7 @@ def factor_effects(series: dict, prereg: dict, units: dict | None = None) -> dic
         for f in ("pooled", "histmlp", "tcn")
     }
     return out
-# ---------------------------------------------------------------- recovery
 def recover(series: dict, prereg: dict, units: dict | None = None) -> dict:
-    """Name which factors carry real effects. This is what the calibration worlds check."""
     eff = factor_effects(series, prereg, units)
     def any_positive(group: dict, keys=None) -> bool:
         return any(v.get("verdict") == "positive" for k, v in group.items() if keys is None or k in keys)
@@ -144,8 +130,6 @@ def recover(series: dict, prereg: dict, units: dict | None = None) -> dict:
     hor = eff["horizon"]
     read = eff["readout"]
     cxh = eff["capacity_by_horizon"]
-    # Nothing is sufficient for an effect that is not there, and a horizon cannot matter when no horizon
-    # helps. Every downstream finding is gated on there being a base effect to explain.
     def spread(group):
         vals = [abs(v["mean"]) for v in group.values() if v.get("mean") is not None]
         return max(vals) if vals else 0.0
@@ -194,7 +178,6 @@ def _monotonic(vals) -> bool:
     v = [x for x in vals if x is not None]
     return len(v) >= 2 and all(v[i] <= v[i + 1] + 1e-9 for i in range(len(v) - 1)) and v[-1] > SESOI
 def _threshold(horizon_group: dict, family: str, *, require_groups: bool = True) -> int | None:
-    """The shortest horizon whose loss against full persistence is inside the equivalence margin."""
     got = []
     for h in (1, 2, 5, 10, 20, 45, 90):
         d = horizon_group.get(f"{family}_h{h}_vs_full")
@@ -205,12 +188,10 @@ def _threshold(horizon_group: dict, family: str, *, require_groups: bool = True)
             return h
     return None
 def _interaction(group: dict) -> bool:
-    """A declared interaction must clear the seed decision and independent unit floor when available."""
     return any(v.get("verdict") == "positive" and
                (v.get("group_lower_95_cb") is None or v["group_lower_95_cb"] >= SESOI)
                for v in group.values())
 def _reset_artifact(reset_group: dict) -> bool:
-    """A reset schedule that beats its misaligned peers by more than the margin is doing oracle work."""
     tb = reset_group.get("true_boundary", {}).get("mean")
     ma = [reset_group.get(k, {}).get("mean") for k in ("misaligned_a", "misaligned_b")]
     ma = [x for x in ma if x is not None]

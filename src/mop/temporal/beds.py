@@ -1,27 +1,9 @@
-"""Beds for E2: the two revalidated E1 stream beds plus a third natural stream.
-
-A stream is several sequences from one unit concatenated, labelled by the sequence that ends it. An order
-free reader sees the same multiset whichever sequence came last, so the label is only recoverable from
-position. That construction is what made har_stream and speech_stream pass the inherited temporal gate while
-the raw window beds did not.
-
-The third bed applies the same construction to a corpus this program recovered, so it is a genuinely
-different natural stream rather than a third view of the same two.
-
-House style: no dashes.
-"""
-
 from __future__ import annotations
-
 import numpy as np
 import torch
-
 from mop.temporal import io
-
 PRINCIPAL = ("har_stream", "speech_stream")
 _CACHE: dict = {}
-
-# what one bed needs to declare before it may carry a principal result
 BED_IDENTITY_FIELDS = (
     "bed",
     "task_identity",
@@ -37,15 +19,11 @@ BED_IDENTITY_FIELDS = (
     "n_units_test",
     "data_hash",
 )
-
-
 def load(name: str) -> dict:
-    """The two principal beds come straight from the inherited provider, unchanged."""
     if name in _CACHE:
         return _CACHE[name]
     if name in PRINCIPAL:
         from fastforge import data as D
-
         d = D.domain(name)
         d = dict(d)
         d["segments_per_stream"] = int(d.get("sequences_per_stream") or d.get("clips_per_stream") or 3)
@@ -59,8 +37,6 @@ def load(name: str) -> dict:
     d["boundaries"] = [d["segment_length"] * i for i in range(1, d["segments_per_stream"])]
     _CACHE[name] = d
     return d
-
-
 def identity(name: str) -> dict:
     d = load(name)
     h = io.sha_obj({
@@ -83,10 +59,7 @@ def identity(name: str) -> dict:
         "n_units_test": int(len(set(np.asarray(d["ute"]).tolist()))),
         "data_hash": h,
     }
-
-
 def splits(name: str, seed: int, tune_frac: float = 0.2) -> dict:
-    """Unit disjoint train and tuning inside the training pool. The official test split stays untouched."""
     d = load(name)
     u = np.asarray(d["u"])
     uniq = np.unique(u)
@@ -113,20 +86,11 @@ def splits(name: str, seed: int, tune_frac: float = 0.2) -> dict:
         "units": {"main": main_u.tolist(), "tune": tune_u.tolist(),
                   "test": np.unique(np.asarray(d["ute"])).tolist()},
     }
-
-
 def majority_rate(y) -> float:
     y = torch.as_tensor(y)
     return float(torch.bincount(y).max()) / len(y)
-
-
 def chance_rate(classes: int) -> float:
     return 1.0 / classes
-
-
-# ---------------------------------------------------------------- the third bed
-
-
 def _stream_from(X, Y, U, per_stream: int, n_streams: int, decim: int, seed: int):
     by_unit: dict = {}
     for i, u in enumerate(U):
@@ -143,8 +107,6 @@ def _stream_from(X, Y, U, per_stream: int, n_streams: int, decim: int, seed: int
         ys.append(int(Y[pick[-1]]))
         us.append(u)
     return np.stack(xs).astype(np.float32), np.array(ys), np.array(us)
-
-
 def _windows(sig: np.ndarray, act: np.ndarray, subj, win: int, stride: int, decim: int):
     X, Y, U = [], [], []
     for s in range(0, len(sig) - win, stride):
@@ -155,10 +117,7 @@ def _windows(sig: np.ndarray, act: np.ndarray, subj, win: int, stride: int, deci
         Y.append(int(seg[0]))
         U.append(subj)
     return X, Y, U
-
-
 def _pamap2_stream(per_stream: int = 3, n_train: int = 4000):
-    """PAMAP2 continuous inertial stream: three same activity windows from one subject, labelled by the last."""
     cache = io.DATA_ROOT / "pamap2" / "pamap2_stream.npz"
     if cache.exists():
         z = np.load(cache, allow_pickle=True)
@@ -208,12 +167,8 @@ def _pamap2_stream(per_stream: int = 3, n_train: int = 4000):
         "channels": int(Xtr.shape[2]), "classes": int(Ytr.max() + 1), "unit": "subject",
         "segments_per_stream": per_stream,
     }
-
-
 def _harth_stream(per_stream: int = 3, n_train: int = 4000):
-    """HARTH free living stream: three same activity windows from one subject, labelled by the last."""
     import csv
-
     cache = io.DATA_ROOT / "harth" / "harth_stream.npz"
     if cache.exists():
         z = np.load(cache, allow_pickle=True)
@@ -226,8 +181,6 @@ def _harth_stream(per_stream: int = 3, n_train: int = 4000):
         for f in sorted(root.rglob("*.csv")):
             sid = f.stem
             rows, labs = [], []
-            # a fixed column set by name: some files carry an extra index column and one carries extra
-            # derived columns, so taking whatever is left over would give different channels per subject
             cols = ["back_x", "back_y", "back_z", "thigh_x", "thigh_y", "thigh_z"]
             with open(f, newline="") as fh:
                 rd = csv.DictReader(fh)

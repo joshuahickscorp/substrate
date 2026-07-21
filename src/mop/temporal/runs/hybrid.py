@@ -375,7 +375,7 @@ def run_all() -> dict:
 
     names = [f"{b}_{s}" for b in BEDS for s in SEEDS]
     while True:
-        pending = supervisor.missing("hybrid", names)
+        pending = supervisor.recoverable_pending("hybrid", names)
         if not pending:
             return aggregate()
         for name in pending:

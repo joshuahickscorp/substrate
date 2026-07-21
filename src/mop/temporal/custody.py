@@ -1,28 +1,11 @@
-"""Corpus custody: one canonical root, one inventory, and a deletion guard that can say no.
-
-The prior cleanup removed the only local copies of PAMAP2 and HARTH because two worktrees pointed absolute
-paths at each other's data directories. Nothing scientific depended on them, which is exactly why it went
-unnoticed. The operational method was still invalid, so this module makes the failure impossible to repeat
-rather than merely unlikely.
-
-The guard is the load bearing part. It answers one question: if this directory disappeared right now, what
-would be unrecoverable.
-
-House style: no dashes.
-"""
-
 from __future__ import annotations
-
 import json
 import os
 import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
-
 from mop.temporal import io
-
 CANONICAL_ROOT = io.DATA_ROOT
-
 RETENTION_CLASSES = (
     "principal_active",  # a live principal bed depends on it
     "secondary_active",  # a secondary or replication bed depends on it
@@ -31,8 +14,6 @@ RETENTION_CLASSES = (
     "derived_rebuildable",  # a cache that a recorded command regenerates
     "temporary",  # safe to remove at any time
 )
-
-# what makes a path unique and therefore undeletable when it is the only copy
 UNIQUE_KINDS = (
     "raw_data",
     "non_rebuildable_cache",
@@ -40,7 +21,6 @@ UNIQUE_KINDS = (
     "principal_checkpoint",
     "unindexed_evidence",
 )
-
 REQUIRED_FIELDS = (
     "logical_identity",
     "official_source",
@@ -56,8 +36,6 @@ REQUIRED_FIELDS = (
     "rebuild_command",
     "retention_class",
 )
-
-
 @dataclass
 class Corpus:
     logical_identity: str
@@ -74,7 +52,6 @@ class Corpus:
     derived_caches: list = field(default_factory=list)
     experiments_using_it: list = field(default_factory=list)
     kind: str = "raw_data"
-
     def violations(self) -> list[str]:
         v = [f"{self.logical_identity}: {f} is empty" for f in REQUIRED_FIELDS
              if not getattr(self, f, None) and f not in ("archive_hash", "extracted_hashes",
@@ -89,21 +66,14 @@ class Corpus:
         elif not str(p).startswith(str(CANONICAL_ROOT)):
             v.append(f"{self.logical_identity}: canonical path sits outside {CANONICAL_ROOT}")
         return v
-
     def present(self) -> bool:
         return Path(self.canonical_path).exists()
-
     def as_dict(self) -> dict:
         d = {f: getattr(self, f) for f in REQUIRED_FIELDS}
         d["kind"] = self.kind
         d["present"] = self.present()
         d["violations"] = self.violations()
         return d
-
-
-# ---------------------------------------------------------------- inventory
-
-
 def inventory(corpora: list[Corpus]) -> dict:
     rows = [c.as_dict() for c in corpora]
     return {
@@ -118,11 +88,6 @@ def inventory(corpora: list[Corpus]) -> dict:
         "violations": [x for r in rows for x in r["violations"]],
         "all_declared": not any(r["violations"] for r in rows),
     }
-
-
-# ---------------------------------------------------------------- the deletion guard
-
-
 def _dir_size(p: Path, cap: int = 4000) -> int:
     n = 0
     for i, f in enumerate(p.rglob("*")):
@@ -131,14 +96,7 @@ def _dir_size(p: Path, cap: int = 4000) -> int:
         if f.is_file():
             n += 1
     return n
-
-
 def unique_holdings(target: Path, corpora: list[Corpus], evidence_index: set[str] | None = None) -> list[dict]:
-    """What would become unrecoverable if target were removed right now.
-
-    A corpus counts as held only inside target when its canonical path is inside target and no other declared
-    copy exists. A derived cache is exempt only when its rebuild command names a source that survives.
-    """
     target = Path(target).resolve()
     out = []
     for c in corpora:
@@ -174,11 +132,8 @@ def unique_holdings(target: Path, corpora: list[Corpus], evidence_index: set[str
                         "publicly_recoverable": False, "rebuildable": False,
                         "source_survives_removal": False})
     return out
-
-
 def guard(target: Path, corpora: list[Corpus], evidence_index: set[str] | None = None,
           allow_publicly_recoverable: bool = False) -> dict:
-    """Decide whether target may be removed. Refusal is the default when anything unique lives inside it."""
     held = unique_holdings(target, corpora, evidence_index)
     blocking = [h for h in held if not (allow_publicly_recoverable and h["publicly_recoverable"])]
     return {
@@ -193,8 +148,6 @@ def guard(target: Path, corpora: list[Corpus], evidence_index: set[str] | None =
         ),
         "override_available": bool(held) and all(h["publicly_recoverable"] for h in held),
     }
-
-
 def remove_worktree(target: Path, corpora: list[Corpus], evidence_index: set[str] | None = None,
                     allow_publicly_recoverable: bool = False, dry_run: bool = True) -> dict:
     g = guard(target, corpora, evidence_index, allow_publicly_recoverable)
@@ -204,11 +157,6 @@ def remove_worktree(target: Path, corpora: list[Corpus], evidence_index: set[str
         shutil.rmtree(target)
         g["removed"] = True
     return g
-
-
-# ---------------------------------------------------------------- integrity checks
-
-
 def verify_corpus(c: Corpus) -> dict:
     p = Path(c.canonical_path)
     checks = {"present": p.exists()}
@@ -234,8 +182,6 @@ def verify_corpus(c: Corpus) -> dict:
         "status": "intact" if checks["all_pass"] else "damaged",
         "recovery": c.redownload_command if not checks["all_pass"] else "",
     }
-
-
 def load_inventory(path: Path | None = None) -> list[Corpus]:
     p = Path(path or (io.PROOF / "MOP_DATA_CUSTODY_INVENTORY.json"))
     doc = json.loads(p.read_text())

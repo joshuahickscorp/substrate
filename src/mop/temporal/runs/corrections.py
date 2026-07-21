@@ -52,14 +52,25 @@ def measure_curve(bedname: str, spec: dict, budgets: tuple[int, ...]) -> dict:
 def principal_shard(bedname: str, seed: int) -> dict:
     t0 = time.time()
     sp = B.splits(bedname, seed)
-    runs = [Fx.run_cell(sp, spec, seed, "test") for spec in SPECS]
+    convergence_path = io.RUNS / "e2_converge" / f"converge_{bedname}.json"
+    if not convergence_path.is_file():
+        raise RuntimeError(f"correction principal requires convergence: {convergence_path}")
+    convergence = json.loads(convergence_path.read_text()).get("configs") or {}
+    checkpoints = {Fx.cell_name(**spec): int(convergence[Fx.cell_name(**spec)][
+        "selected_checkpoint"]) for spec in SPECS}
+    runs = [Fx.run_cell(sp, spec, seed, "test", steps=checkpoints[Fx.cell_name(**spec)])
+            for spec in SPECS]
     lo, hi = A.TIER_RANGE["large"]
     checks = {"two_affected_cells": len(runs) == 2,
               "large_core_band": all(lo <= r["params"]["core"] <= hi for r in runs),
-              "exact_budget": all(r["steps"] == r["updates"] == Fx.STEPS for r in runs),
+              "exact_selected_budget": all(r["steps"] == r["updates"] == checkpoints[r["cell"]]
+                                           for r in runs),
               "no_undeclared_changes": all(not r["undeclared_changes"] for r in runs)}
-    doc = {"schema": "mop-e2-capacity-tier-correction-shard/v1", "bed": bedname, "seed": seed,
+    doc = {"schema": "mop-e2-capacity-tier-correction-shard/v2", "bed": bedname, "seed": seed,
            "supersedes_for_analysis": [Fx.cell_name(**s) for s in SPECS], "runs": runs,
+           "convergence_authority": {"path": convergence_path.relative_to(io.ROOT).as_posix(),
+                                     "sha256": io.sha_file(convergence_path),
+                                     "selected_checkpoints": checkpoints},
            "checks": checks, "all_checks_pass": all(checks.values()),
            "reason": "the original width search ceiling left the large HistMLP core below 600000 parameters",
            "wall_seconds": round(time.time() - t0, 1)}
@@ -162,8 +173,10 @@ def aggregate() -> dict:
               "all_optimization_receipts_valid": all(d["all_checks_pass"] for d in optimization),
               "optimization_same_compute_measured": all(
                   d["compute_match"]["relative_parameter_update_error"] <= 0.0001 for d in optimization),
-              "original_receipts_quarantined_not_deleted": all(v == 16 for v in original_invalid.values())}
-    refreshed = {bed: e2.converge(bed) for bed in BEDS}
+              "original_receipts_preserved": all(len(list((io.RUNS / "e2_principal").glob(
+                  f"{bed}_*.json"))) == len(e2.PRINCIPAL_SEEDS) for bed in BEDS)}
+    refreshed = {bed: json.loads((io.RUNS / "e2_converge" /
+                 f"converge_{bed}.json").read_text()) for bed in BEDS}
     checks["convergence_aggregates_refreshed_with_corrections"] = all(
         (d.get("configs") or {}).get(Fx.cell_name(**LINEAR), {}).get("parameter_band_valid") for d in refreshed.values())
     doc = {"schema": "mop-e2-capacity-tier-correction/v1", "affected_cells": [
@@ -184,22 +197,36 @@ def aggregate() -> dict:
     return doc
 
 
-def run_all() -> dict:
+def run_all(phase: str = "all") -> dict:
     from mop.temporal.runs import supervisor
+
+    if phase == "all":
+        run_all("preprincipal")
+        return run_all("postprincipal")
 
     principal = [f"capacity_{bed}_{seed}" for bed in BEDS for seed in e2.PRINCIPAL_SEEDS]
     convergence = [f"convergence_{bed}" for bed in BEDS]
     optimization = [f"optimization_{bed}_{tier}" for bed in BEDS for tier in OPTIMIZATION_SPECS]
     while True:
-        pending_p = supervisor.recoverable_pending("e2_principal_corrections", principal)
         pending_c = supervisor.recoverable_pending("e2_converge_corrections", convergence)
         pending_o = supervisor.recoverable_pending("e2_optimization_corrections", optimization)
+        if phase == "postprincipal" and (pending_c or pending_o):
+            raise RuntimeError("postprincipal corrections require terminal preprincipal corrections")
+        pending_p = (supervisor.recoverable_pending("e2_principal_corrections", principal)
+                     if phase != "preprincipal" and not pending_c else [])
+        if phase == "preprincipal":
+            pending_p = []
+        elif phase == "postprincipal":
+            pending_c = pending_o = []
         if not pending_p and not pending_c and not pending_o:
+            if phase == "preprincipal":
+                refreshed = {bed: e2.converge(bed) for bed in BEDS}
+                return {"preprincipal_terminal": True, "aggregates": refreshed}
             return aggregate()
         active = sum(supervisor.lock_active(p.stem.replace("_", ":", 1))
                      for p in supervisor.LOCKS.glob("*.json"))
         free = max(0, supervisor.CAP_LARGE - active)
-        for name in pending_p + pending_c + pending_o:
+        for name in pending_c + pending_o + pending_p:
             if free <= 0:
                 break
             if name.startswith("capacity_"):
@@ -221,6 +248,10 @@ def main(argv=None):
     argv = argv or sys.argv[1:]
     if not argv or argv[0] == "all":
         run_all()
+    elif argv[0] == "preprincipal":
+        run_all("preprincipal")
+    elif argv[0] == "postprincipal":
+        run_all("postprincipal")
     elif argv[0] == "principal":
         principal_shard(argv[1], int(argv[2]))
     elif argv[0] == "convergence":

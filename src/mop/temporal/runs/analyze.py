@@ -37,7 +37,11 @@ def load_runs(bed: str) -> list[dict]:
             out[(int(row["seed"]), row["cell"])] = row
     for p in sorted((io.RUNS / "e2_principal_corrections").glob(f"capacity_{bed}_*.json")):
         for row in json.loads(p.read_text())["runs"]:
-            out[(int(row["seed"]), row["cell"])] = row
+            key = (int(row["seed"]), row["cell"])
+            original = out.get(key) or {}
+            lo, hi = A.TIER_RANGE["large"]
+            if not lo <= int((original.get("params") or {}).get("core", 0)) <= hi:
+                out[key] = row
     return list(out.values())
 
 
@@ -82,6 +86,9 @@ def independent_bed_difference(left: dict, right: dict, label: str) -> dict:
     component_parameters = int(left.get("component_parameter_sum") or 0) + int(
         right.get("component_parameter_sum") or 0)
     converged = all((d.get("convergence") or {}).get("all_converged") for d in (left, right))
+    sufficient = all(d.get("estimator_sufficient") is True for d in (left, right))
+    if not sufficient:
+        verdict = "insufficient_power"
     group_floor = lower_unit >= io.SESOI
     return {"contrast": label, "estimand": "independent_bed_difference_in_differences",
             "mean": round(mean_seed, 5), "lower_95_cb": round(lower_seed, 5),
@@ -96,6 +103,7 @@ def independent_bed_difference(left: dict, right: dict, label: str) -> dict:
                 "right": (right.get("convergence") or {}).get("classification")},
             "convergence": {"all_converged": converged,
                             "classification": "converged" if converged else "provisional_unconverged"},
+            "estimator_sufficient": sufficient,
             "component_parameter_sum": component_parameters,
             "cost_adjusted_effect_per_100k_parameters": (
                 round(mean_seed * 100_000 / component_parameters, 5) if component_parameters else None),
@@ -530,8 +538,11 @@ def result_keys(per_bed: dict) -> list[str]:
     if all(equivalent(v) for v in matched_full):
         keys.append("matched_history_matches_recurrent")
     capacity_tables = [a["effects"]["capacity"] for a in principal.values()]
-    if all(a["findings"]["capacity_monotonic"] and positive(
-            a["effects"]["capacity"].get("gru_large_vs_small", {})) for a in principal.values()):
+    if all(all(positive(a["effects"]["capacity"].get(f"gru_{tier}_vs_small", {}))
+                   for tier in ("medium", "large"))
+           and a["effects"]["capacity"]["gru_medium_vs_small"]["mean"]
+           <= a["effects"]["capacity"]["gru_large_vs_small"]["mean"] + 1e-9
+           for a in principal.values()):
         keys.append("capacity_monotonic_and_large")
     elif all(table and all(equivalent(d) for d in table.values()) for table in capacity_tables):
         keys.append("capacity_flat_or_saturating")
@@ -539,8 +550,13 @@ def result_keys(per_bed: dict) -> list[str]:
     horizon_effects = [[a["effects"]["horizon"].get(k, {}) for k in (
         "gru_h45_vs_full", "gru_h90_vs_full")] for a in principal.values()]
     horizon_ready = all(sufficient(d) for rows in horizon_effects for d in rows)
+    threshold_rows = []
+    for a in principal.values():
+        threshold = a["findings"]["horizon_threshold"]
+        threshold_rows.append(a["effects"]["horizon"].get(f"gru_h{threshold}_vs_full", {})
+                              if threshold is not None else {})
     if horizon_ready and horizon_gate["all_pass"] and all(
-            a["findings"]["horizon_threshold"] is not None for a in principal.values()):
+            sufficient(d) and equivalent(d) for d in threshold_rows):
         keys.append("horizon_threshold_at_dependency_length")
     elif horizon_ready and all(equivalent(d) for rows in horizon_effects for d in rows):
         keys.append("horizon_flat")
@@ -569,10 +585,14 @@ def result_keys(per_bed: dict) -> list[str]:
         "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {}
     third_admitted = "harth_stream" in (third_preflight.get("selected") or [])
     if third and third.get("status") != "no_runs" and third_admitted:
-        rec = positive(third["effects"]["recurrent_versus_matched_history"].get(
-            "gru_vs_histmlp_kfull_window", {}))
-        keys.append("third_bed_agrees" if rec else "third_bed_dissents")
-    else:
+        effect = third["effects"]["recurrent_versus_matched_history"].get(
+            "gru_vs_histmlp_kfull_window", {})
+        if positive(effect):
+            keys.append("third_bed_agrees")
+        elif sufficient(effect) and (equivalent(effect)
+                                     or effect["group_upper_95_cb"] <= -io.SESOI):
+            keys.append("third_bed_dissents")
+    elif not third_admitted:
         keys.append("third_bed_invalid")
     readout_tables = [a["effects"]["readout"] for a in principal.values()]
     readout_ready = all(table and all(sufficient(d) for d in table.values()) for table in readout_tables)
@@ -595,8 +615,6 @@ def main():
     correction = io.load("MOP_E2_CAPACITY_TIER_CORRECTION.json") if io.exists(
         "MOP_E2_CAPACITY_TIER_CORRECTION.json") else {"all_pass": False}
     factorial = io.load("MOP_E2_FACTORIAL_AUTHORITY.json") if io.exists("MOP_E2_FACTORIAL_AUTHORITY.json") else {}
-    verification = io.load("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") if io.exists(
-        "MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else {}
     mutations = io.load("MOP_TEMPORAL_CORE_MUTATION_REPORT.json") if io.exists(
         "MOP_TEMPORAL_CORE_MUTATION_REPORT.json") else {}
     replication = io.load("MOP_E2_INDEPENDENT_REPLICATION.json") if io.exists(
@@ -613,7 +631,7 @@ def main():
                         (factorial.get("principal_beds", {}).get(b, {}).get("checks") or {}).get("all_pass")),
                     mechanism_active=True,
                     baseline_valid=bool(d.get("convergence", {}).get("all_converged")),
-                    verifier_agrees=bool(verification.get("all_pass")),
+                    verifier_agrees=False,
                     mutations_rejected=bool(mutations.get("all_rejected")),
                     implementations_agreeing=2 if replication.get("all_pass") else 0,
                     estimator_sufficient=bool(d.get("estimator_sufficient")),
@@ -631,7 +649,10 @@ def main():
                     "bed_identity": raw.get("bed") == b and all(r.get("bed") == b for r in raw["runs"]),
                     "seed_identity": raw.get("seed") == seed and all(r.get("seed") == seed for r in raw["runs"]),
                     "factorial_identity": len(cells) == len(expected_cells) and set(cells) == expected_cells,
-                    "training_budget": all(r.get("steps") == e2.Fx.STEPS for r in raw["runs"]),
+                    "training_budget": all(r.get("steps") == (raw.get("convergence_authority", {})
+                        .get("selected_checkpoints", {}).get(r.get("cell"))) for r in raw["runs"]),
+                    "convergence_binding": raw.get("convergence_authority", {}).get("sha256") ==
+                        io.sha_file(io.RUNS / "e2_converge" / f"converge_{b}.json"),
                     "checkpoint_receipts": all(r.get("checkpoint_sha_after") for r in raw["runs"]),
                     "parameter_inventory": all(r.get("params", {}).get("total") for r in raw["runs"]),
                     "no_undeclared_changes": all(not r.get("undeclared_changes") for r in raw["runs"]),
@@ -658,6 +679,7 @@ def main():
         "per_bed": per_bed,
         "observed_result_keys": keys,
         "hypothesis_fold": fold,
+        "classification_phase": "pre_independent_verification",
         "terminal_classification": classifications,
         "shard_index": shard_index,
         "capacity_tier_correction": correction,

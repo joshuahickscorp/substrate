@@ -89,7 +89,9 @@ def gates() -> dict:
     bed_dids = interaction_report.get("architecture_by_bed") or {}
     bounded = [max(float(d.get("group_lower_95_cb") or 0.0),
                    -float(d.get("group_upper_95_cb") or 0.0), 0.0)
-               for d in bed_dids.values() if d.get("mean") is not None]
+               for d in bed_dids.values() if d.get("mean") is not None
+               and d.get("estimator_sufficient") is True
+               and (d.get("convergence") or {}).get("all_converged") is True]
     heterogeneity_magnitude = max(bounded, default=0.0)
     bed_heterogeneity = heterogeneity_magnitude >= io.SESOI
 
@@ -103,10 +105,21 @@ def gates() -> dict:
     owned_value = selected.get("params_total") or (core.get("core") or {}).get("owned_parameters")
     owned_params = int(owned_value) if isinstance(owned_value, (int, float)) and owned_value > 0 else None
     cost_params = owned_params or 0
-    e3_voi = max(heterogeneity_magnitude,
-                 float(capacity_measurement.get("lower_95_cb") or 0.0))
+    capacity_information = float(capacity_measurement.get("lower_95_cb") or 0.0) \
+        if capacity_increases_forgetting else 0.0
+    heterogeneity_information = heterogeneity_magnitude if bed_heterogeneity else 0.0
+    e3_voi = max(heterogeneity_information, capacity_information)
     e3_cost = 2 * len(E2.PRINCIPAL_SEEDS) * 2 * Fx.STEPS * cost_params
-    hybrid_voi = float(e2.get("sesoi") or io.SESOI)
+    core_effect_rows = []
+    for bed_name in beds:
+        effect = (((e2.get("per_bed") or {}).get(bed_name, {}).get("effects") or {})
+                  .get("recurrent_versus_matched_history", {}).get(
+                      "gru_vs_histmlp_kfull_window", {}))
+        core_effect_rows.append((bed_name, effect.get("group_lower_95_cb")))
+    measured_core_lcbs = [float(v) for _, v in core_effect_rows
+                          if isinstance(v, (int, float)) and math.isfinite(float(v))]
+    hybrid_voi = max(0.0, min(measured_core_lcbs)) \
+        if len(measured_core_lcbs) == len(beds) == 2 else None
     hybrid_cost = len(beds or (1,)) * len(E2.PRINCIPAL_SEEDS) * 3 * (Fx.STEPS // 4) * cost_params
     third_effects = third_result.get("effects") or {}
     third_lcbs = {
@@ -118,17 +131,24 @@ def gates() -> dict:
     third_voi_raw = min(measured_third_lcbs) if len(measured_third_lcbs) == 2 else None
     third_voi = third_voi_raw if third_voi_raw is not None else 0.0
     third_cost = len(E2.PRINCIPAL_SEEDS) * Fx.STEPS * cost_params
-    e3_rank = _ranking(e3_voi, e3_cost, [
-        {"artifact": "MOP_FACTORIAL_INTERACTION_REPORT.json", "field": "/architecture_by_bed",
-         "value": round(heterogeneity_magnitude, 8)},
-        {"artifact": "MOP_E2_PRINCIPAL_RESULT.json",
-         "field": "/capacity_retention_or_interference/lower_95_cb",
-         "value": capacity_measurement.get("lower_95_cb")},
-        {"artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json", "field": "/core/owned_parameters",
-         "value": owned_params},
-    ])
+    e3_evidence = []
+    if bed_heterogeneity:
+        e3_evidence.append({"artifact": "MOP_FACTORIAL_INTERACTION_REPORT.json",
+                            "field": "/architecture_by_bed", "value": round(
+                                heterogeneity_magnitude, 8)})
+    if capacity_increases_forgetting:
+        e3_evidence.append({"artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+                            "field": "/capacity_retention_or_interference/lower_95_cb",
+                            "value": capacity_measurement.get("lower_95_cb")})
+    e3_evidence.append({"artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+                        "field": "/core/owned_parameters", "value": owned_params})
+    e3_rank = _ranking(e3_voi, e3_cost, e3_evidence)
     hybrid_rank = _ranking(hybrid_voi, hybrid_cost, [
-        {"artifact": "MOP_E2_PRINCIPAL_RESULT.json", "field": "/sesoi", "value": hybrid_voi},
+        {"artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+         "field": f"/per_bed/{bed_name}/effects/recurrent_versus_matched_history/"
+                  "gru_vs_histmlp_kfull_window/group_lower_95_cb", "value": value}
+        for bed_name, value in core_effect_rows
+    ] + [
         {"artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json", "field": "/core/owned_parameters",
          "value": owned_params},
     ])

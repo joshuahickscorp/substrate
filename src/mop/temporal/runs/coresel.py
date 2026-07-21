@@ -49,10 +49,24 @@ def third_bed_licensed(preflight: dict, replication: dict, result: dict) -> bool
     return (
         isinstance(selected, list)
         and "harth_stream" in selected
+        and ((preflight.get("candidates") or {}).get("harth_stream") or {}).get(
+            "classification") == "valid_secondary_bed"
         and replication.get("third_bed_classification") == "replicated"
         and result.get("bed") == "harth_stream"
         and result.get("classification") == "replicated"
     )
+
+
+def quarantine_stale_checkpoints(beds: list[str]) -> None:
+    root = io.PROOF / "checkpoints"
+    root.mkdir(parents=True, exist_ok=True)
+    expected_names = {f"owned_temporal_core_v1_{bed}.pt" for bed in beds}
+    stale = [p for p in root.glob("owned_temporal_core_v1_*.pt") if p.name not in expected_names]
+    if stale:
+        quarantine = io.PROOF / "checkpoint_quarantine" / str(time.time_ns())
+        quarantine.mkdir(parents=True, exist_ok=True)
+        for path in stale:
+            path.replace(quarantine / path.name)
 
 
 def package_checkpoints(selected: dict, beds: list[str]) -> dict:
@@ -61,14 +75,17 @@ def package_checkpoints(selected: dict, beds: list[str]) -> dict:
     spec = dict(selected["spec"])
     spec["history_k"] = int(spec["history_k"]) if str(spec["history_k"]).isdigit() else spec["history_k"]
     root = io.PROOF / "checkpoints"
-    root.mkdir(parents=True, exist_ok=True)
+    quarantine_stale_checkpoints(beds)
+    principal = io.load("MOP_E2_PRINCIPAL_RESULT.json")
     for bed in beds:
         seed = 0
         sp = e2.B.splits(bed, seed)
         torch.manual_seed(seed)
         model, reset_witness, history = e2.Fx.build_cell(sp, seed=seed, **spec)
+        checkpoint = int(principal["per_bed"][bed]["convergence"]["configs"][selected["cell"]][
+            "selected_checkpoint"])
         receipt = E.fit(model, None, sp["main"][0], sp["main"][1], train_groups=["core", "readout"],
-                        steps=e2.Fx.STEPS, lr=e2.Fx.LR, rng=np.random.default_rng(seed),
+                        steps=checkpoint, lr=e2.Fx.LR, rng=np.random.default_rng(seed),
                         batch=e2.Fx.BATCH)
         score = E.evaluate(model, None, sp["test"][0], sp["test"][1])
         path = root / f"owned_temporal_core_v1_{bed}.pt"
@@ -76,11 +93,12 @@ def package_checkpoints(selected: dict, beds: list[str]) -> dict:
                     "spec": spec, "state_dict": model.state_dict(), "params": A.count(model),
                     "test_accuracy": score, "training_receipt": receipt,
                     "reset_witness": reset_witness, "history_profile": history,
-                    "source_commit": io.commit()}, path)
+                    "source_commit": io.launch_commit(), "source_tree_oid": io.launch_tree_oid(),
+                    "selected_checkpoint": checkpoint}, path)
         out[bed] = {"path": path.relative_to(io.ROOT).as_posix(), "sha256": io.sha_file(path),
                     "test_accuracy": round(float(score), 5), "params": A.count(model),
                     "checkpoint_sha": E.checkpoint_sha(model),
-                    "not_additional_principal_evidence": True}
+                    "selected_checkpoint": checkpoint, "not_additional_principal_evidence": True}
     return out
 
 
@@ -183,10 +201,11 @@ def select(principal: dict) -> dict:
             "is_recurrent": spec["family"] in A.RECURRENT,
         })
     # a selected core must actually own state, otherwise it is not a temporal core
-    recurrent_rows = [r for r in rows if r["is_recurrent"] and r["spec"]["family"] in ("gru", "mgu")]
+    independently_replicated = {AN.name(family=family) for family in ("gru", "mgu")}
+    recurrent_rows = [r for r in rows if r["cell"] in independently_replicated]
     if not recurrent_rows:
         return {"selected": None,
-                "reason": ("no independently replicated GRU or MGU configuration is inside the equivalence "
+                "reason": ("no exactly independently replicated reference GRU or MGU is inside the equivalence "
                            "region of the best cell"),
                 "equivalent_region": sorted(equivalent)}
     ordered = sorted(recurrent_rows, key=lambda r: (r["params_total"], r["measured_compute_seconds"], r["horizon"],
@@ -201,7 +220,8 @@ def select(principal: dict) -> dict:
         "ordered_candidates": ordered[:12],
         "selection_order": ["best valid region", "statistically equivalent inside the sealed margin",
                             "lowest parameter count", "lowest compute", "shortest sufficient horizon",
-                            "simplest readout", "simplest architecture"],
+                            "simplest readout", "simplest architecture",
+                            "exact independently replicated reference configuration only"],
     }
 
 
@@ -257,8 +277,8 @@ def main():
             "readout": s["spec"]["readout"],
             "horizon": s["horizon"],
             "reset_semantics": s["spec"]["reset"],
-            "training_rule": f"Adam at {e2.Fx.LR}, batch {e2.Fx.BATCH}, {e2.Fx.STEPS} updates, "
-                             f"all declared groups trainable",
+            "training_rule": (f"Adam at {e2.Fx.LR}, batch {e2.Fx.BATCH}, each bed's strict convergence "
+                              "selected checkpoint, all declared groups trainable"),
             "adaptation_rule": "none is selected. The E4 state only rule is explicitly not reused",
             "memory_cost_bytes": s["params_total"] * 4,
             "compute_cost": {"principal_wall_seconds_worst_bed": s["measured_compute_seconds"],
@@ -304,6 +324,7 @@ Selection took the smallest recurrent configuration whose worst bed score sits w
 {doc['evidence_ceiling']}
 """)
     else:
+        quarantine_stale_checkpoints([])
         io.seal_md("MOP_OWNED_TEMPORAL_CORE_V1.md", f"""# Owned Temporal Core v1
 
 Not selected.
