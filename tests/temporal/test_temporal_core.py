@@ -367,6 +367,10 @@ def test_extended_convergence_adds_budget_without_redefining_the_original_grid()
     assert "mgu|small|linear|none|h1" in cells
     assert "histmlp|small|linear|none|hfull_window" in cells
     assert "gru|small|linear|horizon_90|h1" in cells
+    converged_cells = {Fx.cell_name(**c) for c in e2.CONVERGE_CONFIGS}
+    assert all(Fx.cell_name(**dict(Fx.REFERENCE, family=f, tier=t)) in converged_cells
+               for f in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn")
+               for t in A.CAPACITY_TIERS)
 
 
 def test_supervisor_uses_the_measured_resource_class_optima():

@@ -220,6 +220,11 @@ CONVERGE_CONFIGS = [
      dict(Fx.REFERENCE, family="histmlp", history_k="full_window"),
      dict(Fx.REFERENCE, reset="horizon_45"),
      dict(Fx.REFERENCE, reset="horizon_90")]
+for family in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn"):
+    for tier in A.CAPACITY_TIERS:
+        spec = dict(Fx.REFERENCE, family=family, tier=tier)
+        if Fx.cell_name(**spec) not in {Fx.cell_name(**c) for c in CONVERGE_CONFIGS}:
+            CONVERGE_CONFIGS.append(spec)
 
 LOAD_BEARING_CONVERGENCE_CELLS = tuple(
     Fx.cell_name(**CONVERGE_CONFIGS[i]) for i in (0, 2, 3, 4, 8, 9, 10)

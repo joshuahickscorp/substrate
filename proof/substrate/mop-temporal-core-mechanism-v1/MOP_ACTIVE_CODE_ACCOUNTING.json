@@ -78,11 +78,11 @@
       "src/mop/temporal/hypotheses.py": 164,
       "src/mop/temporal/io.py": 99,
       "src/mop/temporal/runs/__init__.py": 1,
-      "src/mop/temporal/runs/e2.py": 400,
+      "src/mop/temporal/runs/e2.py": 405,
       "src/mop/temporal/runs/supervisor.py": 338,
       "src/mop/temporal/witness.py": 272
     },
-    "loc": 2480
+    "loc": 2485
   },
   "active_tests": {
     "files": {
@@ -90,11 +90,11 @@
       "tests/method/test_defect_regressions.py": 540,
       "tests/method/test_kernel.py": 553,
       "tests/temporal/__init__.py": 0,
-      "tests/temporal/test_temporal_core.py": 484
+      "tests/temporal/test_temporal_core.py": 488
     },
-    "loc": 1577
+    "loc": 1581
   },
-  "active_runtime_plus_substrate": 5006,
+  "active_runtime_plus_substrate": 5011,
   "active_runtime_target": 8000,
   "active_runtime_within_target": true,
   "new_e2_implementation": {
@@ -108,11 +108,11 @@
       "src/mop/temporal/hypotheses.py": 164,
       "src/mop/temporal/io.py": 99,
       "src/mop/temporal/runs/__init__.py": 1,
-      "src/mop/temporal/runs/e2.py": 400,
+      "src/mop/temporal/runs/e2.py": 405,
       "src/mop/temporal/runs/supervisor.py": 338,
       "src/mop/temporal/witness.py": 272
     },
-    "loc": 2480,
+    "loc": 2485,
     "target": 2500,
     "within_target": true
   },
@@ -135,7 +135,7 @@
   ],
   "honest_blocker": "",
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "ce95e8522bd20594f0f4126472d289510e1bfb51",
+  "source_commit": "a7f61d8f337d7d8fbbe67d46518e236626754f0c",
   "SESOI": 0.05,
-  "sha256": "209854c404a086c7814658f13c5ac5448df71f261c0e0b9b0d011ec42ed748c3"
+  "sha256": "a58449bffaa2b5beea8268fc58f3f31294e19828347699be4dc74aed184ae38a"
 }
