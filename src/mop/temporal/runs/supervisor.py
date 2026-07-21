@@ -23,7 +23,9 @@ from mop.temporal.runs import e2
 
 PY = sys.executable
 LOGS = io.ROOT / "logs"
-CAP = int(os.environ.get("TEMPORAL_WORKERS", "20"))
+CAP_OVERRIDE = int(os.environ["TEMPORAL_WORKERS"]) if os.environ.get("TEMPORAL_WORKERS") else None
+CAP_SMALL = 24
+CAP_LARGE = 16
 ENV = dict(os.environ, OMP_NUM_THREADS="1", MKL_NUM_THREADS="1", PYTHONPATH="src")
 BEDS = ("har_stream", "speech_stream", "harth_stream")
 LOCKS = io.RUNS / "locks"
@@ -58,6 +60,32 @@ def lock_active(tag: str) -> bool:
         pass
     p.unlink(missing_ok=True)
     return False
+
+
+def _large_convergence_name(name: str) -> bool:
+    try:
+        idx = int(name.rsplit("_", 1)[1])
+    except (ValueError, IndexError):
+        return False
+    return e2.CONVERGE_CONFIGS[idx].get("tier") == "large"
+
+
+def scheduling_class(pending_extended: list[str]) -> tuple[int, list[str], str]:
+    """Large curves run at their measured optimum before small curves use the wider optimum."""
+    if CAP_OVERRIDE is not None:
+        return CAP_OVERRIDE, pending_extended, "operator_override"
+    active_large = False
+    if LOCKS.is_dir():
+        for p in LOCKS.glob("x_*.json"):
+            try:
+                d = json.loads(p.read_text())
+                active_large = active_large or _large_convergence_name(d["tag"].split(":", 1)[1])
+            except (OSError, KeyError, json.JSONDecodeError):
+                continue
+    large = [n for n in pending_extended if _large_convergence_name(n)]
+    if active_large or large:
+        return CAP_LARGE, large, "large"
+    return CAP_SMALL, pending_extended, "small"
 
 
 def launch(args: list[str], log: str, tag: str) -> bool:
@@ -146,10 +174,14 @@ def main(argv=None):
 
     while not io.STOP.exists():
         started = {tag for tag in started if lock_active(tag)}
-        free = max(0, CAP - workers())
         pending_scout = missing("e2_scout", scout_shards)
         pending_conv = missing("e2_converge", conv_shards)
         pending_ext = missing("e2_converge_extended", ext_shards)
+        if pending_conv:
+            cap, eligible_ext, resource_class = (CAP_OVERRIDE or CAP_SMALL), [], "small_base"
+        else:
+            cap, eligible_ext, resource_class = scheduling_class(pending_ext)
+        free = max(0, cap - workers())
         stage1_done = not pending_scout and not pending_conv and not pending_ext
 
         for n in pending_conv:
@@ -170,7 +202,7 @@ def main(argv=None):
                 free -= 1
 
         if not pending_conv:
-            for n in pending_ext:
+            for n in eligible_ext:
                 tag = f"x:{n}"
                 if tag in started or lock_active(tag) or free <= 0:
                     continue
@@ -196,7 +228,7 @@ def main(argv=None):
 
         rem = {"scout": len(pending_scout), "converge": len(pending_conv), "extended": len(pending_ext),
                "principal": len(missing("e2_principal", principal_shards))}
-        print(f"[supervisor] workers={workers()} remaining={rem}", flush=True)
+        print(f"[supervisor] workers={workers()} cap={cap} class={resource_class} remaining={rem}", flush=True)
         if not any(rem.values()):
             break
         time.sleep(60)
