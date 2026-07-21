@@ -225,6 +225,10 @@ for family in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn"):
         spec = dict(Fx.REFERENCE, family=family, tier=tier)
         if Fx.cell_name(**spec) not in {Fx.cell_name(**c) for c in CONVERGE_CONFIGS}:
             CONVERGE_CONFIGS.append(spec)
+for group in ("architecture", "readout", "horizon", "reset", "capacity_by_horizon"):
+    for spec in Fx.sweep_cells()[group]:
+        if Fx.cell_name(**spec) not in {Fx.cell_name(**c) for c in CONVERGE_CONFIGS}:
+            CONVERGE_CONFIGS.append(spec)
 
 LOAD_BEARING_CONVERGENCE_CELLS = tuple(
     Fx.cell_name(**CONVERGE_CONFIGS[i]) for i in (0, 2, 3, 4, 8, 9, 10)

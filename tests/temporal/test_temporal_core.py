@@ -371,6 +371,9 @@ def test_extended_convergence_adds_budget_without_redefining_the_original_grid()
     assert all(Fx.cell_name(**dict(Fx.REFERENCE, family=f, tier=t)) in converged_cells
                for f in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn")
                for t in A.CAPACITY_TIERS)
+    assert all(Fx.cell_name(**spec) in converged_cells for group in (
+        "architecture", "readout", "horizon", "reset", "capacity_by_horizon")
+               for spec in Fx.sweep_cells()[group])
 
 
 def test_supervisor_uses_the_measured_resource_class_optima():
