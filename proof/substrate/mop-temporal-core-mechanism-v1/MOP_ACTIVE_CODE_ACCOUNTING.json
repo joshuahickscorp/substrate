@@ -90,9 +90,9 @@
       "tests/method/test_defect_regressions.py": 540,
       "tests/method/test_kernel.py": 553,
       "tests/temporal/__init__.py": 0,
-      "tests/temporal/test_temporal_core.py": 446
+      "tests/temporal/test_temporal_core.py": 469
     },
-    "loc": 1539
+    "loc": 1562
   },
   "active_runtime_plus_substrate": 4995,
   "active_runtime_target": 8000,
@@ -135,7 +135,7 @@
   ],
   "honest_blocker": "",
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "410965f2556e566ac434c50e8abff465ae694bb7",
+  "source_commit": "b1062f9e3c85628679ec98b1c28a8564f018be5b",
   "SESOI": 0.05,
-  "sha256": "324f2568367de5bf5d0ff348a3ed3c1e85ba143b8893364b52a8013ba65d6e4b"
+  "sha256": "af2dea11af006e8f19a9b23f4ad5ba85cec93e66426a1c779d898e9a180e4de2"
 }

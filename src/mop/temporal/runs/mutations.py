@@ -14,6 +14,7 @@ import time
 import numpy as np
 import torch
 
+from mop.method import graph
 from mop.temporal import analysis as AN
 from mop.temporal import arch as A
 from mop.temporal import beds as B
@@ -23,6 +24,15 @@ from mop.temporal import witness as W
 from mop.temporal.runs import e2
 
 SEEDS = (0, 1, 2)
+REQUIRED = (
+    "core_bypassed", "core_output_ignored", "readout_substituted", "readout_inflated",
+    "history_inserted", "history_removed", "future_history_inserted", "state_silently_reset",
+    "state_silently_preserved", "reset_aligned_with_boundaries", "wrong_reset_rate",
+    "parameter_count_inflated", "training_updates_inflated", "baseline_undertrained",
+    "baseline_substituted", "bed_substituted", "unit_duplicated", "failing_unit_removed",
+    "null_reference_changed", "effect_comparison_changed", "verdict_changed", "claim_broadened",
+    "forged_completion",
+)
 
 
 def _principal_deltas(bed: str, left: str, right: str) -> list[float]:
@@ -44,6 +54,22 @@ def _acc(bed, spec, seed, steps=600, mutate=None):
 def structural() -> dict:
     """Mutations the instrument refuses without training anything."""
     res = {}
+    ref_cell = Fx.cell_name(**Fx.REFERENCE)
+    res["core_bypassed"] = {
+        "expected": "a bypass changes the declared arm and cannot retain the recurrent core identity",
+        "pass": ref_cell != Fx.cell_name(**dict(Fx.REFERENCE, family="pooled")),
+        "detector": "sealed factorial cell identity and core parameter group"}
+
+    linear = A.build(family="gru", ch=9, classes=6, readout="linear")
+    mlp = A.build(family="gru", ch=9, classes=6, readout="mlp1")
+    res["readout_substituted"] = {
+        "expected": "a substituted readout changes its inventory and declared identity",
+        "pass": (A.count(linear)["readout"] != A.count(mlp)["readout"]
+                 and linear.readout_kind != mlp.readout_kind)}
+
+    res["history_inserted"] = {
+        "expected": "inserted full history fails matched information against the declared one step arm",
+        "pass": not W.matched_information({"effective_horizon": 1}, {"effective_horizon": 192})["matched"]}
     sp_len, seg = 192, 64
     res["reset_aligned_with_boundaries"] = {
         "expected": "oracle_segmented",
@@ -62,7 +88,7 @@ def structural() -> dict:
         "actual": W.history_witness({"leaky": {"kinds": ["future_information"], "effective_horizon": 1}})["violations"],
         "pass": bool(W.history_witness({"leaky": {"kinds": ["future_information"]}})["violations"])}
 
-    res["history_removed_silently"] = {
+    res["history_removed"] = {
         "expected": "history profiles differ and the matched check says no",
         "pass": not W.matched_information({"effective_horizon": 192}, {"effective_horizon": 1})["matched"]}
 
@@ -78,6 +104,33 @@ def structural() -> dict:
         "expected": "unconverged",
         "actual": W.plateau_validity({400: 0.2, 800: 0.4, 1600: 0.6, 3200: 0.8})["classification"],
         "pass": W.plateau_validity({400: 0.2, 800: 0.4, 1600: 0.6, 3200: 0.8})["classification"] == "unconverged"}
+
+    res["baseline_substituted"] = {
+        "expected": "a substituted baseline has a different sealed factorial identity",
+        "pass": Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", history_k="full_window")) != ref_cell}
+
+    principal_receipts = []
+    for p in sorted((io.RUNS / "e2_principal").glob("*.json")):
+        principal_receipts.extend(json.loads(p.read_text()).get("runs", []))
+    res["training_updates_inflated"] = {
+        "expected": "every principal receipt binds actual updates to its sealed training budget",
+        "n_receipts": len(principal_receipts),
+        "pass": bool(principal_receipts) and all(
+            r.get("updates") == r.get("steps") == Fx.STEPS for r in principal_receipts)}
+
+    units_complete = []
+    for bed in ("har_stream", "speech_stream"):
+        for seed in e2.PRINCIPAL_SEEDS:
+            p = io.RUNS / "e2_principal" / f"{bed}_{seed}.json"
+            if not p.is_file():
+                units_complete.append(False)
+                continue
+            expected = {str(x) for x in np.unique(B.splits(bed, seed)["test_units"])}
+            rows = json.loads(p.read_text()).get("runs", [])
+            units_complete.append(bool(rows) and all(set(r["per_unit_accuracy"]) == expected for r in rows))
+    res["failing_unit_removed"] = {
+        "expected": "every expected evaluation unit remains in every principal cell receipt",
+        "checks": len(units_complete), "pass": bool(units_complete) and all(units_complete)}
 
     pre = e2.PREREG
     from mop.method import power
@@ -102,6 +155,17 @@ def structural() -> dict:
         "expected": "a missing cell is reported as missing rather than skipped",
         "actual": AN.contrast({"a": [0.9]}, "a", "absent", e2.PREREG)["verdict"],
         "pass": AN.contrast({"a": [0.9]}, "a", "absent", e2.PREREG)["verdict"] == "missing_cell"}
+
+    broadened = {
+        "nodes": [{"id": "measured", "type": "measurement"},
+                  {"id": "unmeasured", "type": "measurement"},
+                  {"id": "claim", "type": "claim", "requires": ["unmeasured"]}],
+        "edges": [{"src": "measured", "dst": "measured", "type": "measured_relation"}],
+    }
+    res["claim_broadened"] = {
+        "expected": "the causal graph rejects a claim whose required path was not measured",
+        "violations": graph.validate(broadened),
+        "pass": any("broader than the measured path" in v for v in graph.validate(broadened))}
     return res
 
 
@@ -132,7 +196,7 @@ def behavioural(bed: str = "har_stream") -> dict:
         b: _principal_deltas(b, full_cell, reset_cell) for b in ("har_stream", "speech_stream")
     }
     decisions = {b: e2.power.decide(v, e2.PREREG) for b, v in principal_state_effects.items()}
-    res["state_reset_silently"] = {
+    res["state_silently_reset"] = {
         "expected": ("the same trained architecture with state destroyed every observation loses at least "
                      "the SESOI on both preregistered principal beds"),
         "contrast": f"{full_cell} minus {reset_cell}",
@@ -143,9 +207,18 @@ def behavioural(bed: str = "har_stream") -> dict:
         "note": ("this paired intervention isolates carried state. Comparing reset GRU against pooled would "
                  "confound the state mutation with an architecture change")}
 
+    idx, _ = Fx.reset_schedule("every_observation", sp, 0)
+    with torch.no_grad():
+        carried = m.core(sp["tune"][0][:16], [])
+        silently_preserved = m.core(sp["tune"][0][:16], idx)
+    res["state_silently_preserved"] = {
+        "expected": "preserving state in a declared destructive reset arm changes the representation",
+        "max_representation_delta": float((carried - silently_preserved).abs().max()),
+        "pass": not torch.allclose(carried, silently_preserved)}
+
     big_readout = dict(Fx.REFERENCE, family="pooled", readout="mlp_strong", tier="large")
     inflated = np.mean([_acc(bed, ref, s)["accuracy"] - _acc(bed, big_readout, s)["accuracy"] for s in SEEDS])
-    res["readout_capacity_inflated"] = {
+    res["readout_inflated"] = {
         "expected": "an order free control with a strong readout and a large core does not close the gap",
         "real_effect": round(float(real), 5), "mutated_effect": round(float(inflated), 5),
         "pass": float(inflated) > 0.5 * float(real)}
@@ -154,7 +227,7 @@ def behavioural(bed: str = "har_stream") -> dict:
     histfull = dict(Fx.REFERENCE, family="histmlp", history_k="full_window")
     h20 = np.mean([_acc(bed, ref, s)["accuracy"] - _acc(bed, hist20, s)["accuracy"] for s in SEEDS])
     hfull = np.mean([_acc(bed, ref, s)["accuracy"] - _acc(bed, histfull, s)["accuracy"] for s in SEEDS])
-    res["history_inflated"] = {
+    res["history_inserted_measured_control"] = {
         "expected": "giving the stateless model the whole window is the honest comparison and it is reported",
         "gap_at_k20": round(float(h20), 5), "gap_at_full_window": round(float(hfull), 5),
         "pass": True, "note": "this mutation reports rather than refuses, and the analysis uses the full window"}
@@ -180,7 +253,10 @@ def main():
     doc = {"schema": "mop-temporal-core-mutation-report/v1",
            "structural": s, "behavioural": b,
            "n_mutations": len(allr),
-           "all_rejected": all(v["pass"] for v in allr.values() if isinstance(v, dict)),
+           "required_mutations": list(REQUIRED),
+           "required_coverage": {k: k in allr for k in REQUIRED},
+           "all_rejected": (all(k in allr and allr[k].get("pass") for k in REQUIRED)
+                            and all(v["pass"] for v in allr.values() if isinstance(v, dict))),
            "survivors": [k for k, v in allr.items() if isinstance(v, dict) and not v["pass"]],
            "rule": "a required mutation that is accepted invalidates the positive it attacks",
            "wall_seconds": round(time.time() - t0, 1)}

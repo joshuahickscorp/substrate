@@ -17,7 +17,7 @@ from mop.temporal import factorial as Fx
 from mop.temporal import hypotheses as H
 from mop.temporal import io as TIO
 from mop.temporal import witness as W
-from mop.temporal.runs import analyze, codelife, coresel, e2, e3, supervisor
+from mop.temporal.runs import analyze, codelife, coresel, e2, e3, mutations, successors, supervisor
 
 torch = pytest.importorskip("torch")
 
@@ -396,6 +396,29 @@ def test_e3_common_width_is_in_band_and_shared_groups_are_shape_compatible():
     copied = e3._copy_group(models[1], models[0], "shared")
     assert copied == models[1].param_groups["shared"]
     assert len(e3.ARMS) == 8 and len(set(e3.ARMS)) == 8
+
+
+def test_successor_ranking_selects_only_the_top_two_open_gates():
+    gates = {
+        "E5_self_supervised": {"opens": False},
+        "hybrid_adaptation": {"opens": True},
+        "E3_shared_versus_local": {"opens": True},
+        "third_bed_replication": {"opens": True},
+    }
+    assert successors.ranked_successors(gates)[:2] == [
+        "third_bed_replication", "E3_shared_versus_local"]
+
+
+def test_required_positive_mutation_vocabulary_is_complete():
+    assert set(mutations.REQUIRED) == {
+        "core_bypassed", "core_output_ignored", "readout_substituted", "readout_inflated",
+        "history_inserted", "history_removed", "future_history_inserted", "state_silently_reset",
+        "state_silently_preserved", "reset_aligned_with_boundaries", "wrong_reset_rate",
+        "parameter_count_inflated", "training_updates_inflated", "baseline_undertrained",
+        "baseline_substituted", "bed_substituted", "unit_duplicated", "failing_unit_removed",
+        "null_reference_changed", "effect_comparison_changed", "verdict_changed", "claim_broadened",
+        "forged_completion",
+    }
 
 
 def test_code_lifecycle_keeps_resume_surface_active_and_sealed_drivers_frozen():
