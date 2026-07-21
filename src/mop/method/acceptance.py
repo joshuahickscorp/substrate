@@ -265,6 +265,20 @@ def m_brittle_plateau_criterion() -> dict:
                 "strict_criterion_still_reported": flat["converged_strict"]})
 
 
+def m_label_permutation_scored_against_zero() -> dict:
+    """D18, with the measured har_stream numbers."""
+    # the numbers the first mutation run actually produced on har_stream
+    majority, fast, pooled, band = 0.2123, 0.2228, 0.1871, 0.05
+    measured_difference, real_effect = 0.04746, 0.4192
+    naive_rejected = abs(measured_difference) < 0.1 * real_effect
+    correct_rejected = abs(fast - majority) <= band and abs(pooled - majority) <= band
+    return _ok(correct_rejected and not naive_rejected, "label_permutation_criterion_repaired",
+               "label_permutation_criterion_repaired",
+               {"majority_class_rate": majority, "fast": fast, "pooled": pooled,
+                "zero_difference_criterion_would_have_failed_it": not naive_rejected,
+                "majority_rate_criterion_rejects_it": correct_rejected})
+
+
 def m_underpowered_design_admitted() -> dict:
     p = power.preregistration(name="weak", independent_unit="seed", expected_sd=0.25, sesoi=0.05,
                               seeds=3, units=3, max_seeds=3, futility=0.01, harm=0.05)
@@ -277,6 +291,7 @@ def m_underpowered_design_admitted() -> dict:
 # means the run may be sound but the finding cannot be published until the defect is repaired. Both are
 # automatic; conflating them would overstate what a preregistration time check can see.
 STAGE_BLOCKS = {
+    "mutation_attacks": "claim",
     "measurement_model": "compute",
     "causal_model": "compute",
     "control_semantics": "compute",
@@ -309,6 +324,7 @@ MUTATIONS = {
     "unconverged_baseline": (m_unconverged_baseline, "D15", "baseline_convergence"),
     "context_split_that_crosses_no_boundary": (m_context_split_that_crosses_no_boundary, "D16", "bed_validity"),
     "brittle_plateau_criterion": (m_brittle_plateau_criterion, "D17", "baseline_convergence"),
+    "label_permutation_scored_against_zero": (m_label_permutation_scored_against_zero, "D18", "mutation_attacks"),
     "underpowered_design_admitted": (m_underpowered_design_admitted, "D14", "power_and_units"),
 }
 

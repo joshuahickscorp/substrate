@@ -1,0 +1,31 @@
+{
+  "schema": "mop-method-next-substrate-frontier/v1",
+  "selected_by": "measured information gain over the value queue, not architectural ambition",
+  "supported_hypotheses": [
+    "H_fast_state",
+    "H_domain_specific_representation",
+    "H_interference"
+  ],
+  "null_hypotheses": [
+    "H_readout_capacity",
+    "H_bed_insufficiency"
+  ],
+  "still_open": [
+    "H_shared_core_capacity"
+  ],
+  "next_experiment": "E2",
+  "next_experiment_title": "shared core capacity scaling against matched separate models",
+  "next_experiment_question": "does more shared core capacity move the acquisition retention frontier or scale both",
+  "refused_forever": [
+    "E3",
+    "E5"
+  ],
+  "why_refused": {
+    "E3": "risk of repeating a closed premise is at or above one half",
+    "E5": "no oracle headroom"
+  },
+  "activation": false,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "fb8a683b4f30a45029cd6523a794ee92eda1cdcba3443c087c75709f576b9438"
+}

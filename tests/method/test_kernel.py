@@ -513,6 +513,8 @@ def test_io_roundtrip_and_hashing():
     p.unlink()
     (io.PROOF / "selftest" / "selftest.md").unlink()
     (io.RUNS / "selftest" / "selftest.json").unlink()
+    (io.PROOF / "selftest").rmdir()
+    (io.RUNS / "selftest").rmdir()
     assert io.commit()
 
 
@@ -542,3 +544,10 @@ def test_power_is_a_precondition_for_a_null_not_for_a_positive():
     assert not big["adequately_powered"] and big["estimator_sufficient"]
     small = power.decide([0.002 + 0.001 * ((i % 3) - 1) for i in range(16)], pre)
     assert small["verdict"].startswith("null") and small["estimator_sufficient"]
+
+
+def test_wording_check_does_not_flag_a_negated_term():
+    assert report.wording_check("activation is not licensed and no architecture is selected", "invalid")["passes"]
+    assert report.wording_check("the mechanism never improves retention", "mechanism_null")["passes"]
+    assert not report.wording_check("activation is licensed", "invalid")["passes"]
+    assert not report.wording_check("the mechanism improves retention", "mechanism_null")["passes"]

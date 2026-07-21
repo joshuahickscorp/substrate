@@ -316,6 +316,24 @@ Open: {", ".join(hypothesis.summarize(HYPOTHESES)["open"])}.
 {graph_doc["rule"]}
 """,
     )
+    io.seal_md(
+        "MOP_SELECTED_EXPERIMENTS.md",
+        "# Selected experiments\n\n"
+        + "\n\n".join(
+            f"## {s['id']} {s['title']}\n\n{s['question']}\n\n"
+            f"Separates: {', '.join(s['hypotheses_separated'])}. "
+            f"Decision information {s['decision_information']}, cost index {s['cost_index']}, "
+            f"priority {s['priority']}."
+            for s in sel
+        )
+        + "\n\n## Why this pair\n\n"
+        + io.load("MOP_SELECTED_EXPERIMENTS.json")["pair_rationale"]
+        + "\n\n## Refused\n\n"
+        + "\n".join(
+            f"- {c['id']}: {c['refusal_reason']}" for c in q["candidates"] if c["status"] != "eligible"
+        )
+        + "\n",
+    )
     print(f"selected {q['selected']} | refused {q['refused']} | open {hypothesis.summarize(HYPOTHESES)['open']}", flush=True)
     print("SELECT_DONE", flush=True)
 

@@ -1,0 +1,65 @@
+{
+  "schema": "mop-method-reformation-scorecard/v1",
+  "implementation": {
+    "instrument_validity": 100,
+    "arm_distinctness": 100,
+    "control_validity": 100,
+    "mechanism_activity": 100,
+    "bed_validity": 100,
+    "baseline_convergence": 100,
+    "power_validity": 100,
+    "independent_verification": 100,
+    "report_integrity": 100,
+    "defect_detection": 100,
+    "experiment_information_value": 100,
+    "compute_efficiency": 100
+  },
+  "implementation_minimum": 100,
+  "demonstrated": {
+    "all_historical_defect_mutations_rejected": true,
+    "zero_unknown_experimental_classifications": true,
+    "zero_unresolved_report_fields": true,
+    "zero_principal_runs_with_invalid_instrumentation": true,
+    "coverage_targets_met": true,
+    "confirmed_defects_open": 0
+  },
+  "defects_caught_before_principal_execution": 17,
+  "defects_caught_after_execution_before_claim": 3,
+  "invalid_runs_prevented": {
+    "blocked": [
+      {
+        "experiment": "E1",
+        "defect": "the reset control at period three lands exactly on the stream segment boundaries, so it was an oracle segmented control read as a neutral ablation",
+        "caught_at": "scout, before principal execution",
+        "runs_that_would_have_been_invalid": 96,
+        "repair": "a misaligned period five control was added and the alignment declared as a confounder"
+      },
+      {
+        "experiment": "E4",
+        "defect": "the state mechanism moved the representation toward zero rather than toward the pretrained anchor, so it could only have produced a null",
+        "caught_at": "admission, mechanism activity probe, before principal execution",
+        "runs_that_would_have_been_invalid": 112,
+        "repair": "the anchor is measured at the end of pretraining and the state aims at it"
+      },
+      {
+        "experiment": "E1",
+        "defect": "two interventions in the causal graph had no implemented causal path to any mediator",
+        "caught_at": "causal model, before any compute",
+        "runs_that_would_have_been_invalid": 0,
+        "repair": "the representation and logits mediators were added, which is what the code actually does"
+      }
+    ],
+    "count": 3,
+    "principal_runs_prevented_from_being_invalid": 208
+  },
+  "compute_avoided": {
+    "principal_runs_that_would_have_been_invalid": 208,
+    "updates_avoided": 249600,
+    "wall_seconds_avoided_at_measured_optimum": 660.3,
+    "basis": "measured aggregate throughput from the resource report at the measured optimum worker count",
+    "caveat": "this counts runs the gate stopped before they were spent, not a projection of future savings"
+  },
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "d39e45e79a13857e5b70c8a8463d37eb4275eff965a1f31e2791fbda2f216bde"
+}

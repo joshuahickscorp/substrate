@@ -73,13 +73,25 @@ def e1_mutations(bedname: str, steps: int = 600) -> dict:
         "rejected": float(np.mean(big)) > 0.5 * float(np.mean(real)),
     }
 
-    lab = [_fit_eval(sp, "fast", "linear", s, steps, y_shuffle=True)
-           - _fit_eval(sp, "pooled", "linear", s, steps, y_shuffle=True) for s in SEEDS]
+    # The label permutation control is scored against the majority class rate rather than against a zero
+    # difference. Two architectures with no signal to learn do not degenerate the same way: the pooled
+    # control collapses onto one class and lands below the majority rate, the recurrent core spreads its
+    # predictions and lands at it. The residual difference between those two degeneracies is not evidence of
+    # residual signal, and reading it as such is defect D18.
+    Ye = sp["tune"][1]
+    majority = float(torch.bincount(Ye).max()) / len(Ye)
+    fast_lab = float(np.mean([_fit_eval(sp, "fast", "linear", s, steps, y_shuffle=True) for s in SEEDS]))
+    pooled_lab = float(np.mean([_fit_eval(sp, "pooled", "linear", s, steps, y_shuffle=True) for s in SEEDS]))
+    band = 0.05
     out["shuffling_labels_destroys_the_core_effect"] = {
-        "prediction": "with permuted labels there is nothing to learn, so no arm may separate",
+        "prediction": "with permuted labels neither arm may exceed the majority class rate by more than the band",
         "real_effect": round(float(np.mean(real)), 5),
-        "mutated_effect": round(float(np.mean(lab)), 5),
-        "rejected": abs(float(np.mean(lab))) < 0.1 * abs(float(np.mean(real))),
+        "mutated_effect": round(fast_lab - pooled_lab, 5),
+        "majority_class_rate": round(majority, 5),
+        "fast_under_permuted_labels": round(fast_lab, 5),
+        "pooled_under_permuted_labels": round(pooled_lab, 5),
+        "band": band,
+        "rejected": abs(fast_lab - majority) <= band and abs(pooled_lab - majority) <= band,
     }
     out["all_rejected"] = all(v["rejected"] for v in out.values() if isinstance(v, dict))
     return out

@@ -13,17 +13,8 @@ from __future__ import annotations
 import json
 import time
 
-from mop.method import acceptance, defects, gate, hypothesis, io, report
+from mop.method import acceptance, defects, gate, hypothesis, io, report  # noqa: F401
 from mop.method.runs import select
-
-
-def _get(name: str, pointer: str, default=None):
-    if not io.exists(name):
-        return default
-    try:
-        return report.resolve(io.load(name), pointer)
-    except report.ReportFieldError:
-        return default
 
 
 def method_scorecard() -> dict:
@@ -125,12 +116,21 @@ def compute_avoided() -> dict:
 
 
 def next_frontier(e1: dict, e4: dict) -> dict:
-    surviving = sorted(set((e1.get("surviving_hypotheses") or []) + (e4.get("surviving_hypotheses") or [])))
+    g = io.load("MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json") if io.exists("MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json") else {}
+    summary = g.get("summary", {})
+    q = io.load("MOP_EXPERIMENT_VALUE_QUEUE.json") if io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json") else {}
+    eligible = [c for c in q.get("candidates", []) if c["status"] == "eligible" and c["id"] not in q.get("selected", [])]
     return {
         "schema": "mop-method-next-substrate-frontier/v1",
         "selected_by": "measured information gain over the value queue, not architectural ambition",
-        "surviving_hypotheses": surviving,
-        "closed_by_this_program": [],
+        "supported_hypotheses": summary.get("by_state", {}).get("supported", []),
+        "null_hypotheses": summary.get("by_state", {}).get("null", []),
+        "still_open": summary.get("open", []),
+        "next_experiment": eligible[0]["id"] if eligible else None,
+        "next_experiment_title": eligible[0]["title"] if eligible else None,
+        "next_experiment_question": eligible[0]["question"] if eligible else None,
+        "refused_forever": [c["id"] for c in q.get("candidates", []) if c["status"] != "eligible"],
+        "why_refused": {c["id"]: c["refusal_reason"] for c in q.get("candidates", []) if c["status"] != "eligible"},
         "activation": False,
     }
 
@@ -147,13 +147,22 @@ def main():
     cov = io.load("MOP_METHOD_COVERAGE_REPORT.json") if io.exists("MOP_METHOD_COVERAGE_REPORT.json") else {}
     code = io.load("MOP_METHOD_CODE_REPORT.json") if io.exists("MOP_METHOD_CODE_REPORT.json") else {}
 
-    # update the hypothesis graph from the measured results
+    # Update the hypothesis graph from the measured results, but only for the hypotheses each experiment
+    # was designed to decide. The rest of each table is a local rival explanation for that experiment's own
+    # contrast: E1 holds capacity matched, so it can refute capacity as the explanation of its own effect
+    # and can say nothing about whether capacity scaling moves the acquisition retention frontier.
+    DECIDES = {"E1": {"H_fast_state", "H_readout_capacity", "H_bed_insufficiency"},
+               "E4": {"H_fast_state", "H_interference"}}
     nodes = json.loads(json.dumps(select.HYPOTHESES))
-    updates = []
+    updates, local_only = [], {}
     for exp, doc in (("E1", e1), ("E4", e4)):
         for h, v in (doc.get("hypothesis_table") or {}).items():
             node = next((n for n in nodes if n["id"] == h), None)
-            if node is None:
+            if node is None or h not in DECIDES[exp]:
+                local_only.setdefault(exp, {})[h] = {
+                    "supported_on": v["supported_on"],
+                    "note": "a local rival explanation for this experiment's own contrast, not a graph update",
+                }
                 continue
             verdict = "supported" if v["supported_everywhere"] else (
                 "mixed" if any(v["supported_on"].values()) else "null")
@@ -165,7 +174,10 @@ def main():
         "hypotheses": nodes,
         "summary": hypothesis.summarize(nodes),
         "updates": updates,
-        "rule": "a null closes only the descendants that require the failed premise",
+        "decided_by_each_experiment": {k: sorted(v) for k, v in DECIDES.items()},
+        "local_rival_explanations_not_propagated": local_only,
+        "rule": ("a null closes only the descendants that require the failed premise, and an experiment "
+                 "updates only the hypotheses it was designed to decide"),
     })
 
     answers = {
@@ -193,9 +205,48 @@ def main():
             "E1": e1.get("admission_licensed"), "E4": e4.get("admission_licensed")},
         "20 were their beds valid": "har_stream and speech_stream carry the inherited sealed verdict "
                                     "temporal_headroom_present",
+        "21 were their baselines converged": {
+            "E1": {b: {k: v["criterion_used"] for k, v in a["scout"]["baseline_convergence"].items()}
+                   for b, a in (e1.get("per_bed") or {}).items()},
+            "E4": {b: a["scout"]["baseline_convergence"]["criterion_used"]
+                   for b, a in (e4.get("per_bed") or {}).items()},
+        },
+        "22 were their mechanisms active": {
+            "E1": {b: v["mechanism_activity"]["classification"]
+                   for b, v in (io.load("MOP_E1_ADMISSION.json").get("per_bed") or {}).items()},
+            "E4": {b: v["mechanism_activity"]["classification"]
+                   for b, v in (io.load("MOP_E4_ADMISSION.json").get("per_bed") or {}).items()},
+        },
         "23 what did the scouts establish": scout_summary(),
         "24 what did the principal experiments establish": {
             "E1": e1.get("surviving_hypotheses"), "E4": e4.get("surviving_hypotheses")},
+        "25 which explanation of the substrate nulls is now strongest": (
+            "not the readout and not the bed. The recurrent core carries the capability on both sealed valid "
+            "temporal beds, readout capacity separates nothing, and an order free reader loses 0.45 or more. "
+            "The inherited nulls were about cross modality transfer and about beds that did not require "
+            "order, and neither of those is a statement about the core"
+        ),
+        "26 is the bottleneck fast state, readout, capacity, interference, data or something else": (
+            "within a domain the load bearing component is the recurrent core and its long range state. "
+            "Across contexts the binding constraint is interference: every locus that acquires the new "
+            "context costs retention on the old one, and the cheapest locus, an owned state vector with zero "
+            "parameter updates, costs the most retention per unit of acquisition"
+        ),
+        "27 what experiment should run next": (
+            "E2, shared core capacity scaling against matched separate models, which is the only remaining "
+            "eligible candidate in the value queue and the one hypothesis E1 held fixed by design"
+        ),
+        "28 what experiment should never be repeated": (
+            "cross modality transfer of a shared fast core on activity recognition style beds. Five programs, "
+            "the same null, and the value queue refuses it"
+        ),
+        "29 how did the experimental method improve": {
+            "defect_classes": len(defects.LEDGER),
+            "discovered_by_this_program": [d["id"] for d in defects.LEDGER if d.get("discovered_in_this_program")],
+            "caught_before_principal_compute": len(acc["blocks_compute"]),
+            "caught_before_the_claim": len(acc["blocks_claim_only"]),
+            "invalid_principal_runs_prevented": invalid_runs_prevented()["principal_runs_prevented_from_being_invalid"],
+        },
         "30 is any substrate mechanism scientifically positive": positives(e1, e4),
         "31 is any architecture selected": False,
         "32 is activation licensed": False,
@@ -219,10 +270,38 @@ def main():
     }
     io.seal("MOP_METHOD_REFORMATION_SYNTHESIS.json", doc)
     io.seal("MOP_METHOD_REFORMATION_SCORECARD.json", method_scorecard())
-    io.seal("MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json", next_frontier(e1, e4))
+    nf = next_frontier(e1, e4)
+    io.seal("MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json", nf)
+    io.seal_md("MOP_METHOD_REFORMATION_SYNTHESIS.md", synthesis_md(doc, nf))
     print(f"synthesis sealed: verification {ver.get('all_pass')} audit {aud.get('all_pass')} "
           f"coverage_met {cov.get('gate', {}).get('met')}", flush=True)
     print("SYNTHESIS_DONE", flush=True)
+
+
+def synthesis_md(doc: dict, nf: dict) -> str:
+    q = doc["terminal_questions"]
+    rows = "\n".join(f"| {k} | {json.dumps(v)[:180]} |" for k in sorted(q, key=lambda x: int(x.split()[0]))
+                     for v in [q[k]])
+    return f"""# Method reformation synthesis
+
+## Terminal questions
+
+| question | answer |
+|---|---|
+{rows}
+
+## The next frontier
+
+{nf['next_experiment']}: {nf['next_experiment_title']}.
+
+{nf['next_experiment_question']}
+
+Still open: {', '.join(nf['still_open']) or 'nothing'}. Refused: {', '.join(nf['refused_forever'])}.
+
+## Activation
+
+False, and never separately granted.
+"""
 
 
 def scout_summary() -> dict:

@@ -1,0 +1,50 @@
+{
+  "schema": "mop-ledger-wording-check/v1",
+  "checks": {
+    "cross_domain": false,
+    "within_domain": false,
+    "activation": false
+  },
+  "offenders": {
+    "cross_domain": [
+      {
+        "term": "positive",
+        "asserts_class": "positive",
+        "sealed_class": "null"
+      },
+      {
+        "term": "selected",
+        "asserts_class": "positive",
+        "sealed_class": "null"
+      }
+    ],
+    "within_domain": [
+      {
+        "term": "positive",
+        "asserts_class": "positive",
+        "sealed_class": "null"
+      },
+      {
+        "term": "selected",
+        "asserts_class": "positive",
+        "sealed_class": "null"
+      }
+    ],
+    "activation": [
+      {
+        "term": "positive",
+        "asserts_class": "positive",
+        "sealed_class": "invalid"
+      },
+      {
+        "term": "selected",
+        "asserts_class": "positive",
+        "sealed_class": "invalid"
+      }
+    ]
+  },
+  "note": "the ledger reports measured positives from this program's own experiments, so terms that assert a positive class are checked against those sealed verdicts and not against the inherited nulls they also mention",
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "cc6bdf9a437f7a239c546baf32851010bd809cfb9c04713f4a941899c5c5632f"
+}

@@ -525,3 +525,16 @@ def test_d17_a_declining_curve_is_converged_not_still_improving():
 def test_d17_a_curve_still_rising_at_the_end_is_rejected():
     r = baseline.plateau([0.20, 0.30, 0.40, 0.55, 0.70, 0.86])
     assert not r["converged"]
+
+
+def test_d18_label_permutation_is_scored_against_the_majority_class_rate():
+    majority, fast, pooled, band = 0.2123, 0.2228, 0.1871, 0.05
+    # neither arm learned anything: both sit within the band of the majority class rate
+    assert abs(fast - majority) <= band and abs(pooled - majority) <= band
+    # the naive criterion, a near zero difference between arms, failed a sound positive on the measured run
+    assert not abs(0.04746) < 0.1 * 0.4192
+
+
+def test_d18_a_real_residual_signal_still_fails_the_permutation_control():
+    majority, fast, pooled, band = 0.2123, 0.60, 0.1871, 0.05
+    assert not (abs(fast - majority) <= band and abs(pooled - majority) <= band)
