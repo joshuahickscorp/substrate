@@ -22,6 +22,7 @@ from mop.temporal import factorial as Fx
 from mop.temporal import io
 from mop.temporal import witness as W
 from mop.temporal.runs import e2
+from mop.temporal.runs.verify import _unit_inventory
 
 SEEDS = (0, 1, 2)
 REQUIRED = (
@@ -49,6 +50,23 @@ def _acc(bed, spec, seed, steps=600, mutate=None):
     sp = B.splits(bed, seed)
     r = Fx.run_cell(sp, spec, seed, "tune", steps=steps)
     return r
+
+
+def duplicated_unit_mutation() -> dict:
+    """Forge one repeated unit record and require the independent inventory to refuse it."""
+    unit_records = [{"unit": "unit_a", "accuracy": 0.2},
+                    {"unit": "unit_b", "accuracy": 0.6},
+                    {"unit": "unit_c", "accuracy": 0.9}]
+    original_values, original_audit = _unit_inventory(unit_records)
+    forged_values, forged_audit = _unit_inventory([*unit_records, dict(unit_records[0])])
+    return {
+        "expected": "the verifier rejects a repeated natural-unit identity before group inference",
+        "mutation": "append a second record carrying unit_a and its score",
+        "original_audit": original_audit, "forged_audit": forged_audit,
+        "original_unique_scores": original_values, "forged_unique_scores": forged_values,
+        "pass": original_audit["all_pass"] and not forged_audit["all_pass"]
+        and forged_audit["duplicate_units"] == ["unit_a"],
+        "detector": "Role C unit identity inventory rejects duplicates before any averaging"}
 
 
 def structural() -> dict:
@@ -146,10 +164,7 @@ def structural() -> dict:
         "pass": AN.contrast({"a": [0.9] * 8, "b": [0.5] * 8, "c": [0.85] * 8}, "a", "b", pre)["mean"]
         != AN.contrast({"a": [0.9] * 8, "b": [0.5] * 8, "c": [0.85] * 8}, "a", "c", pre)["mean"]}
 
-    res["unit_duplicated"] = {
-        "expected": "a duplicated unit does not change the group bound it should",
-        "pass": True,
-        "note": "group bounds are computed over unique unit identifiers, so a duplicate collapses"}
+    res["unit_duplicated"] = duplicated_unit_mutation()
 
     res["forged_completion"] = {
         "expected": "a missing cell is reported as missing rather than skipped",

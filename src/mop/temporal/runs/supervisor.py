@@ -1,5 +1,4 @@
 """One resource token DAG for the temporal core program.
-
 Shard files on disk are the plan, so a restart resumes from what already landed. Stage order is a dependency
 order, not a wish: nothing principal starts before calibration is green and the scout has landed, and nothing
 is analysed before its shards are complete.
@@ -128,7 +127,13 @@ def invalid(sub: str, names: list[str]) -> list[str]:
         if not p.is_file():
             continue
         try:
-            if (doc := json.loads(p.read_text())).get("result_hash_version") == "canonical_json_v2" and doc.get("result_sha256") != io.sha_obj({k: v for k, v in doc.items() if k != "result_sha256"}): raise ValueError("receipt content hash mismatch")
+            doc = json.loads(p.read_text())
+            version = doc.get("result_hash_version")
+            if version == "canonical_json_v2" and doc.get("result_sha256") != io.sha_obj(
+                    {k: v for k, v in doc.items() if k != "result_sha256"}):
+                raise ValueError("receipt content hash mismatch")
+            if version not in (None, "canonical_json_v2"):
+                raise ValueError("unknown receipt content hash version")
         except (OSError, ValueError):
             out.append(n)
     return out
@@ -144,6 +149,8 @@ def status() -> dict:
     conv = [f"cshard_{b}_{i}" for b in BEDS for i in range(len(e2.CONVERGE_CONFIGS))]
     ext = [f"xshard_{b}_{i}" for b in BEDS for i in range(len(e2.CONVERGE_CONFIGS))]
     principal = [f"{b}_{s}" for b in BEDS for s in e2.PRINCIPAL_SEEDS]
+    principal_corrections = [f"capacity_{b}_{s}" for b in BEDS for s in e2.PRINCIPAL_SEEDS]
+    convergence_corrections = [f"convergence_{b}" for b in BEDS]
     e3_shards = [f"{source}_to_{target}_{seed}" for source, target in (
         ("har_stream", "speech_stream"), ("speech_stream", "har_stream"))
                  for seed in e2.PRINCIPAL_SEEDS]
@@ -165,6 +172,10 @@ def status() -> dict:
             "convergence": len(conv) - len(missing("e2_converge", conv)),
             "extended_convergence": len(ext) - len(missing("e2_converge_extended", ext)),
             "principal": len(principal) - len(missing("e2_principal", principal)),
+            "principal_corrections": len(principal_corrections) - len(
+                missing("e2_principal_corrections", principal_corrections)),
+            "convergence_corrections": len(convergence_corrections) - len(
+                missing("e2_converge_corrections", convergence_corrections)),
             "e3": len(e3_shards) - len(missing("e3", e3_shards)),
             "third_bed_preflight": len(third) - len(missing("third_bed_preflight", third)),
             "hybrid": len(hybrid) - len(missing("hybrid", hybrid)),
@@ -174,6 +185,8 @@ def status() -> dict:
             "convergence": missing("e2_converge", conv),
             "extended_convergence": missing("e2_converge_extended", ext),
             "principal": missing("e2_principal", principal),
+            "principal_corrections": missing("e2_principal_corrections", principal_corrections),
+            "convergence_corrections": missing("e2_converge_corrections", convergence_corrections),
             "e3": missing("e3", e3_shards),
             "third_bed_preflight": missing("third_bed_preflight", third),
             "hybrid": missing("hybrid", hybrid),
@@ -183,6 +196,8 @@ def status() -> dict:
             "convergence": invalid("e2_converge", conv),
             "extended_convergence": invalid("e2_converge_extended", ext),
             "principal": invalid("e2_principal", principal),
+            "principal_corrections": invalid("e2_principal_corrections", principal_corrections),
+            "convergence_corrections": invalid("e2_converge_corrections", convergence_corrections),
             "e3": invalid("e3", e3_shards),
             "third_bed_preflight": invalid("third_bed_preflight", third),
             "hybrid": invalid("hybrid", hybrid),
@@ -192,6 +207,8 @@ def status() -> dict:
             "convergence": partials("e2_converge"),
             "extended_convergence": partials("e2_converge_extended"),
             "principal": partials("e2_principal"),
+            "principal_corrections": partials("e2_principal_corrections"),
+            "convergence_corrections": partials("e2_converge_corrections"),
             "e3": partials("e3"),
             "third_bed_preflight": partials("third_bed_preflight"),
             "hybrid": partials("hybrid"),
@@ -323,7 +340,8 @@ def main(argv=None):
     run_sync("mop.temporal.runs.thirdbed", ["all"])
     for mod in ("mop.temporal.runs.corrections", "mop.temporal.runs.bedvalid", "mop.temporal.runs.analyze",
                 "mop.temporal.runs.replicate", "mop.temporal.runs.mutations",
-                "mop.temporal.runs.verify", "mop.temporal.runs.analyze", "mop.temporal.runs.coresel",
+                "mop.temporal.runs.verify", "mop.temporal.runs.analyze", "mop.temporal.runs.verify",
+                "mop.temporal.runs.coresel",
                 "mop.temporal.runs.successors"):
         run_sync(mod)
     queue = io.load("MOP_EXPERIMENT_VALUE_QUEUE.json") if io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json") else {}

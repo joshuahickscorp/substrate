@@ -225,7 +225,7 @@ for family in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn"):
         spec = dict(Fx.REFERENCE, family=family, tier=tier)
         if Fx.cell_name(**spec) not in {Fx.cell_name(**c) for c in CONVERGE_CONFIGS}:
             CONVERGE_CONFIGS.append(spec)
-for group in ("architecture", "readout", "horizon", "reset", "capacity_by_horizon"):
+for group in ("architecture", "readout", "horizon", "reset", "history", "capacity_by_horizon", "capacity_by_readout"):
     for spec in Fx.sweep_cells()[group]:
         if Fx.cell_name(**spec) not in {Fx.cell_name(**c) for c in CONVERGE_CONFIGS}:
             CONVERGE_CONFIGS.append(spec)

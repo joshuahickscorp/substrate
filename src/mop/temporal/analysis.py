@@ -1,26 +1,17 @@
 """Factorial estimation and the classification rules that read it.
-
 Every contrast is a paired difference over seeds, so the seed is the pairing unit and the lower bound is a
 random effects bound over seeds. Group inference over independent units is reported alongside, never instead.
-
 The recovery function is what the calibration worlds test: given a set of cell results whose generative truth
 is known, does the analysis name that truth.
-
 House style: no dashes.
 """
-
 from __future__ import annotations
-
 import numpy as np
-
 from mop.method import power
 from mop.temporal import arch as A
 from mop.temporal import io
-
 SESOI = io.SESOI
 EQUIV = io.EQUIVALENCE_MARGIN
-
-
 def contrast(series: dict, a: str, b: str, prereg: dict, unit_series: dict | None = None) -> dict:
     if a not in series or b not in series:
         return {"contrast": f"{a} minus {b}", "verdict": "missing_cell", "mean": None}
@@ -39,29 +30,42 @@ def contrast(series: dict, a: str, b: str, prereg: dict, unit_series: dict | Non
         d["group_mean"] = round(float(np.mean(ue)), 5) if ue else None
         d["n_units"] = len(shared)
         d["group_heterogeneity"] = round(float(np.std(ue, ddof=1)), 5) if len(ue) > 1 else None
+        d["per_unit_effects"] = {u: round(float(ua[u] - ub[u]), 5) for u in shared}
     return d
-
-
+def interaction(series: dict, cells: tuple[str, str, str, str], prereg: dict,
+                unit_series: dict | None = None, label: str = "difference in differences") -> dict:
+    """Estimate a four cell difference in differences over seeds and independent units."""
+    signs = (1, -1, -1, 1)
+    if any(c not in series for c in cells):
+        return {"contrast": label, "verdict": "missing_cell", "mean": None,
+                "components": list(cells), "formula_signs": list(signs),
+                "estimand": "difference_in_differences"}
+    n = min(len(series[c]) for c in cells)
+    virtual = {"lhs": [series[cells[0]][i] - series[cells[1]][i] for i in range(n)],
+               "rhs": [series[cells[2]][i] - series[cells[3]][i] for i in range(n)]}
+    unit_virtual = None
+    if unit_series and all(c in unit_series for c in cells):
+        shared = sorted(set.intersection(*(set(unit_series[c]) for c in cells)))
+        unit_virtual = {
+            "lhs": {u: unit_series[cells[0]][u] - unit_series[cells[1]][u] for u in shared},
+            "rhs": {u: unit_series[cells[2]][u] - unit_series[cells[3]][u] for u in shared}}
+    out = contrast(virtual, "lhs", "rhs", prereg, unit_virtual)
+    out.update({"contrast": label, "components": list(cells), "formula_signs": list(signs),
+                "estimand": "difference_in_differences"})
+    return out
 def equivalent(d: dict, margin: float = EQUIV) -> bool:
     """Two configurations are equivalent when the difference is bounded inside the margin on both sides."""
     if d.get("mean") is None or d.get("lower_95_cb") is None:
         return False
     upper = d["mean"] + (d["mean"] - d["lower_95_cb"])
     return abs(d["mean"]) <= margin and d["lower_95_cb"] >= -margin and upper <= margin
-
-
 def name(family="gru", tier="small", readout="linear", reset="none", history_k=1) -> str:
     return f"{family}|{tier}|{readout}|{reset}|h{history_k}"
-
-
 # ---------------------------------------------------------------- factor sweeps
-
-
 def factor_effects(series: dict, prereg: dict, units: dict | None = None) -> dict:
     """Main effects and interactions, each read off the sweep that was designed to carry it."""
     out: dict[str, dict] = {}
     ref = name()
-
     out["architecture"] = {
         f: contrast(series, name(family=f), ref, prereg, units)
         for f in A.FAMILIES if f != "gru"
@@ -71,7 +75,6 @@ def factor_effects(series: dict, prereg: dict, units: dict | None = None) -> dic
         for s in A.STATELESS:
             out["recurrence_versus_best_stateless"][f"{r}_vs_{s}"] = contrast(
                 series, name(family=r), name(family=s), prereg, units)
-
     out["capacity"] = {}
     for f in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn"):
         for t in A.CAPACITY_TIERS:
@@ -79,26 +82,22 @@ def factor_effects(series: dict, prereg: dict, units: dict | None = None) -> dic
                 continue
             out["capacity"][f"{f}_{t}_vs_small"] = contrast(
                 series, name(family=f, tier=t), name(family=f), prereg, units)
-
     out["readout"] = {}
     for f in ("gru", "pooled", "histmlp"):
         for r in ("mlp1", "mlp_strong"):
             out["readout"][f"{f}_{r}_vs_linear"] = contrast(
                 series, name(family=f, readout=r), name(family=f), prereg, units)
-
     out["horizon"] = {}
     for f in ("gru", "mgu"):
         for h in (1, 2, 5, 10, 20, 45, 90):
             out["horizon"][f"{f}_h{h}_vs_full"] = contrast(
                 series, name(family=f, reset=f"horizon_{h}"), name(family=f, reset="horizon_full"),
                 prereg, units)
-
     out["reset"] = {
         k: contrast(series, name(reset=k), ref, prereg, units)
         for k in ("every_observation", "misaligned_a", "misaligned_b", "random_rate_matched",
                   "block_shuffled", "true_boundary", "wrong_boundary")
     }
-
     out["history"] = {
         f"histmlp_k{k}_vs_k1": contrast(series, name(family="histmlp", history_k=k),
                                         name(family="histmlp"), prereg, units)
@@ -108,14 +107,12 @@ def factor_effects(series: dict, prereg: dict, units: dict | None = None) -> dic
         f"gru_vs_histmlp_k{k}": contrast(series, ref, name(family="histmlp", history_k=k), prereg, units)
         for k in (1, 2, 5, 10, 20, "full_window")
     }
-
-    out["capacity_by_horizon"] = {}
-    for t in A.CAPACITY_TIERS:
-        for h in (5, 45, "full"):
-            out["capacity_by_horizon"][f"{t}_h{h}_vs_small_h{h}"] = contrast(
-                series, name(tier=t, reset=f"horizon_{h}"), name(tier="small", reset=f"horizon_{h}"),
-                prereg, units)
-
+    out["capacity_by_horizon"] = {
+        f"{t}_h{h}_vs_h5": interaction(series, (
+            name(tier=t, reset=f"horizon_{h}"), name(tier="small", reset=f"horizon_{h}"),
+            name(tier=t, reset="horizon_5"), name(tier="small", reset="horizon_5")), prereg, units,
+            f"({t} minus small at h{h}) minus ({t} minus small at h5)")
+        for t in ("micro", "medium", "large") for h in (45, "full")}
     out["capacity_by_readout"] = {
         f"{f}_large_strong_vs_gru_large_strong": contrast(
             series, name(family=f, tier="large", readout="mlp_strong"),
@@ -123,38 +120,28 @@ def factor_effects(series: dict, prereg: dict, units: dict | None = None) -> dic
         for f in ("pooled", "histmlp", "tcn")
     }
     return out
-
-
 # ---------------------------------------------------------------- recovery
-
-
 def recover(series: dict, prereg: dict, units: dict | None = None) -> dict:
     """Name which factors carry real effects. This is what the calibration worlds check."""
     eff = factor_effects(series, prereg, units)
-
     def any_positive(group: dict, keys=None) -> bool:
         return any(v.get("verdict") == "positive" for k, v in group.items() if keys is None or k in keys)
-
     def best_mean(group: dict) -> float:
         vals = [v["mean"] for v in group.values() if v.get("mean") is not None]
         return max(vals) if vals else 0.0
-
     rec_vs_stateless = eff["recurrence_versus_best_stateless"]
     matched_hist = eff["recurrent_versus_matched_history"]
     cap = eff["capacity"]
     hor = eff["horizon"]
     read = eff["readout"]
     cxh = eff["capacity_by_horizon"]
-
     # Nothing is sufficient for an effect that is not there, and a horizon cannot matter when no horizon
     # helps. Every downstream finding is gated on there being a base effect to explain.
     def spread(group):
         vals = [abs(v["mean"]) for v in group.values() if v.get("mean") is not None]
         return max(vals) if vals else 0.0
-
     base_effect = max(spread(rec_vs_stateless), spread(hor), spread(cap), spread(read), spread(cxh))
     has_base_effect = base_effect > SESOI
-
     findings = {
         "base_effect_present": has_base_effect,
         "base_effect_size": round(base_effect, 5),
@@ -193,13 +180,9 @@ def recover(series: dict, prereg: dict, units: dict | None = None) -> dict:
         truth.append("no_effect")
     return {"effects": eff, "findings": findings, "recovered": sorted(set(truth)),
             "best_architecture_gain": round(best_mean(eff["architecture"]), 5)}
-
-
 def _monotonic(vals) -> bool:
     v = [x for x in vals if x is not None]
     return len(v) >= 2 and all(v[i] <= v[i + 1] + 1e-9 for i in range(len(v) - 1)) and v[-1] > SESOI
-
-
 def _threshold(horizon_group: dict, family: str) -> int | None:
     """The shortest horizon whose loss against full persistence is inside the equivalence margin."""
     got = []
@@ -214,12 +197,10 @@ def _threshold(horizon_group: dict, family: str) -> int | None:
 
 
 def _interaction(group: dict) -> bool:
-    """Capacity helps at a long horizon and not at a short one."""
-    short = [v["mean"] for k, v in group.items() if k.endswith("h5_vs_small_h5") and v.get("mean") is not None]
-    long = [v["mean"] for k, v in group.items() if "hfull" in k and v.get("mean") is not None]
-    if not short or not long:
-        return False
-    return max(long) - max(short) > SESOI
+    """A declared interaction must clear the seed decision and independent unit floor when available."""
+    return any(v.get("verdict") == "positive" and
+               (v.get("group_lower_95_cb") is None or v["group_lower_95_cb"] >= SESOI)
+               for v in group.values())
 
 
 def _reset_artifact(reset_group: dict) -> bool:

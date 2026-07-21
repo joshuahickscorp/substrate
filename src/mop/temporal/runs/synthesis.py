@@ -8,6 +8,11 @@ import time
 from mop.temporal import io
 from mop.temporal.runs import e2 as E2
 
+LEGACY_RECEIPT_AUTHORITY = "b3f7421e6545527b3385f1368784ac2f0e1602a6"
+LEGACY_RECEIPT_BINDING = (
+    "runs/substrate/mop-temporal-core-mechanism-v1/orchestration/"
+    "legacy_receipt_hash_normalization_20260721.json")
+
 
 def L(n, d=None):
     return io.load(n) if io.exists(n) else (d if d is not None else {})
@@ -16,20 +21,33 @@ def L(n, d=None):
 def receipt_items(common: dict) -> dict:
     items = {}
     for p in sorted(io.RUNS.rglob("*.json")):
+        rel = p.relative_to(io.ROOT).as_posix()
+        if "locks" in p.relative_to(io.RUNS).parts or ".partial." in p.name or p.name.startswith("."):
+            continue
+        whole_sha = io.sha_file(p)
         try:
             d = json.loads(p.read_text())
+            version = d.get("result_hash_version")
+            canonical = version == "canonical_json_v2"
+            hash_valid = not canonical or d.get("result_sha256") == io.sha_obj(
+                {k: v for k, v in d.items() if k != "result_sha256"})
+            known_version = version in (None, "canonical_json_v2")
+            valid, failure = hash_valid and known_version, (
+                "hash_mismatch" if not hash_valid else "unknown_hash_version" if not known_version else None)
         except (OSError, json.JSONDecodeError):
-            continue
-        rel = p.relative_to(io.ROOT).as_posix()
+            d, canonical, valid, failure = {}, False, False, "invalid_json"
         params = d.get("params") or {}
         runs = d.get("runs") or []
         parameter_count = params.get("total") or sorted({r.get("params", {}).get("total") for r in runs
                                                           if r.get("params", {}).get("total")}) or None
         checkpoints = d.get("checkpoint_sha_after") or d.get("checkpoint_sha") or sorted({
             r.get("checkpoint_sha_after") for r in runs if r.get("checkpoint_sha_after")}) or None
+        source = d.get("source_commit") or d.get("authority_commit")
+        dependencies = d.get("extends", {}).get("path", []) if isinstance(d.get("extends"), dict) else []
+        dependencies = [dependencies] if isinstance(dependencies, str) else list(dependencies or [])
         items[f"receipt:{rel}"] = {
-            **common, "status": "terminal", "authority": d.get("source_commit") or d.get("authority_commit"),
-            "dependencies": d.get("extends", {}).get("path", []) if isinstance(d.get("extends"), dict) else [],
+            **common, "status": "terminal" if valid else "incomplete",
+            "authority": source or LEGACY_RECEIPT_AUTHORITY, "dependencies": dependencies,
             "bed": d.get("bed") or d.get("target_bed"),
             "factor_levels": d.get("spec") or d.get("cell") or sorted({r.get("cell") for r in runs}),
             "arm": "multi_arm" if d.get("arms") else d.get("arm"), "seed": d.get("seed"),
@@ -38,11 +56,30 @@ def receipt_items(common: dict) -> dict:
             "training_budget": d.get("steps") or d.get("budgets") or d.get("grid") or sorted({
                 r.get("steps") for r in runs if r.get("steps") is not None}),
             "checkpoint": checkpoints,
-            "classification": d.get("classification") or d.get("status") or "receipt_verified",
-            "commit": d.get("source_commit") or d.get("authority_commit"),
-            "next_action": "none", "sha256": io.sha_file(p),
+            "classification": failure or d.get("classification") or d.get("status") or "receipt_verified",
+            "commit": source, "custody_commit": common["commit"],
+            "receipt_integrity": "canonical_json_v2" if canonical and valid else
+            "legacy_outer_sha256" if valid else failure,
+            "custody_binding": None if canonical else LEGACY_RECEIPT_BINDING,
+            "next_action": "none" if valid else "quarantine invalid receipt and resume producing shard",
+            "sha256": whole_sha,
         }
     return items
+
+
+def convergence_is_terminal(doc: dict) -> bool:
+    """Every selected factorial cell must have a terminal extended-budget classification on every bed."""
+    expected = {E2.Fx.cell_name(**spec) for spec in E2.Fx.sweep_cells()["_all"]}
+    return bool(doc.get("beds")) and all(
+        set((doc.get("per_bed", {}).get(b, {}).get("convergence", {}).get("configs") or {})) == expected
+        and max(doc["per_bed"][b]["convergence"].get("grid") or [0]) >= max(E2.EXTENDED_CONVERGENCE_GRID)
+        and all(c.get("classification") in ("converged", "unconverged") for c in
+                doc["per_bed"][b]["convergence"]["configs"].values()) for b in doc.get("beds", []))
+
+
+def ready_stages(stages: dict[str, bool], dependencies: dict[str, list[str]]) -> list[str]:
+    return sorted(name for name, value in stages.items() if not value and
+                  all(stages.get(dep, False) for dep in dependencies[name]))
 
 
 def answers() -> dict:
@@ -139,13 +176,14 @@ def main():
     factorial = L("MOP_E2_FACTORIAL_AUTHORITY.json")
     third = L("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json")
     required = [
-        "MOP_E2_SCOUT_RESULT.json", "MOP_E2_PRINCIPAL_RESULT.json", "MOP_E2_CAPACITY_TIER_CORRECTION.json",
+        "MOP_E2_SCOUT_RESULT.json", "MOP_E2_FACTORIAL_AUTHORITY.json", "MOP_E2_PRINCIPAL_RESULT.json",
+        "MOP_E2_CAPACITY_TIER_CORRECTION.json",
         "MOP_E2_INDEPENDENT_REPLICATION.json", "MOP_CORE_ARCHITECTURE_REPORT.json",
         "MOP_CORE_CAPACITY_REPORT.json", "MOP_READOUT_CAPACITY_REPORT.json",
         "MOP_STATE_HORIZON_REPORT.json", "MOP_RESET_SEMANTICS_REPORT.json",
         "MOP_EXPLICIT_HISTORY_REPORT.json", "MOP_OPTIMIZATION_CONVERGENCE_REPORT.json",
         "MOP_FACTORIAL_INTERACTION_REPORT.json", "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json",
-        "MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json",
+        "MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json", "MOP_THIRD_TEMPORAL_BED_RESULT.json",
         "MOP_OWNED_TEMPORAL_CORE_V1.json", "MOP_OWNED_TEMPORAL_CORE_V1.md",
         "MOP_E3_SHARED_LOCAL_RESULT.json", "MOP_E5_SELF_SUPERVISED_RESULT.json",
         "MOP_HYBRID_ADAPTATION_RESULT.json", "MOP_EXPERIMENT_VALUE_QUEUE.json",
@@ -158,21 +196,13 @@ def main():
         "MOP_TEMPORAL_CORE_SYNTHESIS.json", "MOP_TEMPORAL_CORE_SYNTHESIS.md",
         "MOP_TEMPORAL_CORE_NEXT_FRONTIER.json",
     ]
-    deliverables_present = all((io.PROOF / name).is_file() for name in required
-                               if name not in ("MOP_TEMPORAL_CORE_STATE.json",
-                                               "MOP_TEMPORAL_CORE_LEDGER.md",
-                                               "MOP_TEMPORAL_CORE_SCORECARD.json",
-                                               "MOP_TEMPORAL_CORE_SCORECARD.md",
-                                               "MOP_TEMPORAL_CORE_SYNTHESIS.json",
-                                               "MOP_TEMPORAL_CORE_SYNTHESIS.md",
-                                               "MOP_TEMPORAL_CORE_NEXT_FRONTIER.json"))
+    terminal_outputs = {"MOP_TEMPORAL_CORE_STATE.json", "MOP_TEMPORAL_CORE_LEDGER.md",
+                        "MOP_TEMPORAL_CORE_SCORECARD.json", "MOP_TEMPORAL_CORE_SCORECARD.md",
+                        "MOP_TEMPORAL_CORE_SYNTHESIS.json", "MOP_TEMPORAL_CORE_SYNTHESIS.md",
+                        "MOP_TEMPORAL_CORE_NEXT_FRONTIER.json"}
+    deliverables_present = all((io.PROOF / name).is_file() for name in required if name not in terminal_outputs)
     licensed = queue.get("licensed_top_two") or []
-    convergence_terminal = bool(e2.get("beds")) and all(
-        len((e2.get("per_bed", {}).get(b, {}).get("convergence", {}).get("configs") or {}))
-        == len(E2.CONVERGE_CONFIGS)
-        and max(e2["per_bed"][b]["convergence"].get("grid") or [0]) >= max(E2.EXTENDED_CONVERGENCE_GRID)
-        and all(c.get("classification") in ("converged", "unconverged") for c in
-                e2["per_bed"][b]["convergence"]["configs"].values()) for b in e2.get("beds", []))
+    convergence_terminal = convergence_is_terminal(e2)
     replication_terminal = (len(rep.get("per_bed") or {}) == len(e2.get("beds") or [])
                             and all(r.get("n_seeds") == len(E2.PRINCIPAL_SEEDS)
                                     for r in (rep.get("per_bed") or {}).values()))
@@ -192,6 +222,7 @@ def main():
         or (name == "E5_self_supervised" and L("MOP_E5_SELF_SUPERVISED_RESULT.json").get("experiment_terminal"))
         or (name == "hybrid_adaptation" and L("MOP_HYBRID_ADAPTATION_RESULT.json").get("experiment_terminal"))
         for name in licensed)
+    correction = L("MOP_E2_CAPACITY_TIER_CORRECTION.json")
     stages = {
         "start_authority": io.exists("MOP_TEMPORAL_CORE_START_AUTHORITY.json"),
         "binding_results": io.exists("MOP_TEMPORAL_CORE_BINDING_RESULTS.json"),
@@ -208,6 +239,7 @@ def main():
             v.get("classification") not in ("preflight_incomplete", "unavailable", None)
             for v in third.get("candidates", {}).values()),
         "e2_principal": bool(e2.get("all_shards_verified")),
+        "capacity_corrections": bool(correction.get("all_pass")),
         "independent_replication": replication_terminal,
         "core_selection": core_terminal,
         "successor_gates": successor_gates_terminal,
@@ -221,31 +253,6 @@ def main():
         "evidence_fabric": bool((fabric.get("verification") or {}).get("all_pass"))
         and bool((fabric.get("mutations") or {}).get("all_rejected")),
     }
-    common = {"authority": io.commit(), "bed": None, "factor_levels": None, "arm": None, "seed": None,
-              "implementation": None, "parameter_count": None, "training_budget": None,
-              "checkpoint": None, "tests": tests.get("passed"),
-              "verification": L("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json").get("all_pass"),
-              "mutations": L("MOP_TEMPORAL_CORE_MUTATION_REPORT.json").get("all_rejected"),
-              "commit": io.commit(), "tag": None}
-    items = {f"stage:{name}": {**common, "status": "terminal" if value else "incomplete",
-                    "dependencies": [], "classification": "green" if value else "not_green",
-                    "next_action": "none" if value else "resume supervisor"}
-             for name, value in stages.items()}
-    items.update(receipt_items(common))
-    items.update({f"deliverable:{name}": {**common,
-                  "status": "terminal" if (io.PROOF / name).is_file() else "incomplete",
-                  "dependencies": [], "classification": "sealed" if (io.PROOF / name).is_file() else "missing",
-                  "next_action": "none" if (io.PROOF / name).is_file() else "resume producing stage",
-                  "sha256": io.sha_file(io.PROOF / name) if (io.PROOF / name).is_file() else None}
-                 for name in required})
-    io.seal("MOP_TEMPORAL_CORE_STATE.json", {
-        "schema": "mop-temporal-core-state/v1", "program_id": io.PROGRAM,
-        "branch": "agent/mop-temporal-core-mechanism", "stop_switch": str(io.STOP),
-        "stages": stages, "stages_green": sum(1 for v in stages.values() if v), "n_stages": len(stages),
-        "items": items, "required_deliverables": required,
-        "all_terminal": all(stages.values()), "no_dependency_ready_work": all(stages.values()),
-        "resume": "python3.12 -m mop.temporal.runs.supervisor resumes from shard files on disk",
-        "activation": False})
     io.seal("MOP_TEMPORAL_CORE_SYNTHESIS.json", {
         "schema": "mop-temporal-core-synthesis/v1", "terminal_questions": a,
         "stages": stages, "all_terminal": all(stages.values()),
@@ -294,6 +301,58 @@ False, and never separately granted.
 |---|---|
 {srows}
 """)
+    dependencies = {
+        "start_authority": [], "binding_results": ["start_authority"],
+        "data_custody": ["binding_results"], "code_lifecycle": ["start_authority"],
+        "method_extension": ["binding_results", "data_custody", "code_lifecycle"],
+        "e2_calibration": ["method_extension"], "scout": ["e2_calibration"],
+        "convergence": ["scout"], "third_bed_preflight": ["scout"],
+        "e2_principal": ["convergence"], "capacity_corrections": ["e2_principal", "convergence"],
+        "bed_validity": ["capacity_corrections", "third_bed_preflight"],
+        "independent_replication": ["bed_validity", "e2_principal"],
+        "mutations": ["independent_replication"], "verification": ["mutations"],
+        "core_selection": ["verification"], "successor_gates": ["core_selection"],
+        "successors_terminal": ["successor_gates"],
+        "tests_and_coverage": ["successors_terminal", "verification"],
+        "required_deliverables": ["tests_and_coverage"],
+        "clean_clone": ["required_deliverables"], "evidence_fabric": ["clean_clone"],
+    }
+    actions = {
+        "start_authority": "seal start authority", "binding_results": "seal binding results",
+        "data_custody": "run custody audit", "code_lifecycle": "run code lifecycle accounting",
+        "method_extension": "seal method extension", "e2_calibration": "run E2 calibration",
+        "scout": "resume scout shards", "convergence": "resume base and extended convergence shards",
+        "third_bed_preflight": "resume third bed preflight", "e2_principal": "resume principal shards",
+        "capacity_corrections": "resume append only capacity and optimization corrections",
+        "bed_validity": "recompute bed validity", "independent_replication": "run independent replication",
+        "mutations": "run required mutations", "verification": "run Roles B and C verification",
+        "core_selection": "run minimal core selection", "successor_gates": "recompute value queue",
+        "successors_terminal": "execute only licensed successor shards", "tests_and_coverage": "run reports",
+        "required_deliverables": "seal missing proof deliverables", "clean_clone": "validate science commit clone",
+        "evidence_fabric": "rebuild terminal evidence fabric"}
+    dependency_ready = ready_stages(stages, dependencies)
+    common = {"authority": io.commit(), "bed": None, "factor_levels": None, "arm": None, "seed": None,
+              "implementation": None, "parameter_count": None, "training_budget": None,
+              "checkpoint": None, "tests": tests.get("passed"),
+              "verification": verification_doc.get("all_pass"), "mutations": mutation_doc.get("all_rejected"),
+              "commit": io.commit(), "tag": None}
+    items = {f"stage:{name}": {**common, "status": "terminal" if value else "incomplete",
+                    "dependencies": [f"stage:{dep}" for dep in dependencies[name]],
+                    "classification": "green" if value else "dependency_ready" if name in dependency_ready
+                    else "blocked_by_dependency", "next_action": "none" if value else actions[name]}
+             for name, value in stages.items()}
+    items.update(receipt_items(common))
+    mutable_self = {"MOP_TEMPORAL_CORE_STATE.json", "MOP_TEMPORAL_CORE_LEDGER.md",
+                    "MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json"}
+    proof_files = {p.relative_to(io.PROOF).as_posix(): p for p in io.PROOF.rglob("*") if p.is_file()}
+    for name in sorted(set(proof_files) | set(required)):
+        p = proof_files.get(name)
+        stable = p is not None and name not in mutable_self
+        items[f"deliverable:{name}"] = {**common, "status": "terminal" if p else "incomplete",
+            "dependencies": ["stage:required_deliverables"],
+            "classification": "self_sealed_no_recursive_hash" if p and name in mutable_self else
+            "sealed" if p else "missing", "next_action": "none" if p else "resume producing stage",
+            "sha256": io.sha_file(p) if stable else None}
     io.seal_md("MOP_TEMPORAL_CORE_LEDGER.md", f"""# Temporal core ledger
 
 Stages green: {sum(1 for v in stages.values() if v)} of {len(stages)}.
@@ -312,6 +371,15 @@ Stages green: {sum(1 for v in stages.values() if v)} of {len(stages)}.
 
 `python3.12 -m mop.temporal.runs.supervisor` resumes from the shard files on disk without replanning.
 """)
+    io.seal("MOP_TEMPORAL_CORE_STATE.json", {
+        "schema": "mop-temporal-core-state/v2", "program_id": io.PROGRAM,
+        "branch": "agent/mop-temporal-core-mechanism", "stop_switch": str(io.STOP),
+        "stages": stages, "stage_dependencies": dependencies, "dependency_ready": dependency_ready,
+        "stages_green": sum(1 for v in stages.values() if v), "n_stages": len(stages),
+        "items": items, "required_deliverables": required,
+        "all_terminal": all(stages.values()), "no_dependency_ready_work": not dependency_ready,
+        "resume": "python3.12 -m mop.temporal.runs.supervisor resumes from shard files on disk",
+        "activation": False})
     print(f"synthesis: {sum(1 for v in stages.values() if v)}/{len(stages)} stages green, "
           f"core selected {bool(core.get('selected'))}", flush=True)
     print("SYNTHESIS_DONE", flush=True)

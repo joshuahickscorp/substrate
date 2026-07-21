@@ -13,7 +13,7 @@ import time
 
 import numpy as np
 
-from mop.method import gate
+from mop.method import gate, power
 from mop.temporal import analysis as AN
 from mop.temporal import arch as A
 from mop.temporal import hypotheses as H
@@ -26,21 +26,7 @@ PRINCIPAL_BEDS = ("har_stream", "speech_stream")
 
 def interaction(series: dict, units: dict, cells: tuple[str, str, str, str], label: str) -> dict:
     """Difference in differences from four already sealed factorial cells."""
-    if any(c not in series for c in cells):
-        return {"contrast": label, "verdict": "missing_cell", "mean": None,
-                "components": list(cells), "formula_signs": [1, -1, -1, 1]}
-    n = min(len(series[c]) for c in cells)
-    lhs = [series[cells[0]][i] - series[cells[1]][i] for i in range(n)]
-    rhs = [series[cells[2]][i] - series[cells[3]][i] for i in range(n)]
-    shared = sorted(set.intersection(*(set(units.get(c, {})) for c in cells)))
-    unit_virtual = {
-        "lhs": {u: units[cells[0]][u] - units[cells[1]][u] for u in shared},
-        "rhs": {u: units[cells[2]][u] - units[cells[3]][u] for u in shared},
-    }
-    out = AN.contrast({"lhs": lhs, "rhs": rhs}, "lhs", "rhs", e2.PREREG, unit_virtual)
-    out.update({"contrast": label, "components": list(cells), "formula_signs": [1, -1, -1, 1],
-                "estimand": "difference_in_differences"})
-    return out
+    return AN.interaction(series, cells, e2.PREREG, units, label)
 
 
 def load_runs(bed: str) -> list[dict]:
@@ -58,6 +44,109 @@ def load_runs(bed: str) -> list[dict]:
 def convergence(bed: str) -> dict:
     p = io.RUNS / "e2_converge" / f"converge_{bed}.json"
     return json.loads(p.read_text()) if p.is_file() else {}
+
+
+def independent_bed_difference(left: dict, right: dict, label: str) -> dict:
+    """Welch bounded difference between effects measured on unrelated bed units."""
+    seed_left, seed_right = left.get("per_seed_effects", []), right.get("per_seed_effects", [])
+    unit_left = list((left.get("per_unit_effects") or {}).values())
+    unit_right = list((right.get("per_unit_effects") or {}).values())
+
+    def estimate(a, b):
+        if len(a) < 2 or len(b) < 2:
+            return None, None, None, None
+        ma, mb = float(np.mean(a)), float(np.mean(b))
+        va, vb = float(np.var(a, ddof=1)), float(np.var(b, ddof=1))
+        term_a, term_b = va / len(a), vb / len(b)
+        se = float(np.sqrt(term_a + term_b))
+        denom = term_a ** 2 / (len(a) - 1) + term_b ** 2 / (len(b) - 1)
+        df = (term_a + term_b) ** 2 / denom if denom else len(a) + len(b) - 2
+        critical = power.t95(max(2, int(np.floor(df)) + 1))
+        return ma - mb, ma - mb - critical * se, ma - mb + critical * se, df
+
+    mean_seed, lower_seed, _, seed_df = estimate(seed_left, seed_right)
+    mean_unit, lower_unit, upper_unit, unit_df = estimate(unit_left, unit_right)
+    if mean_seed is None or mean_unit is None:
+        return {"contrast": label, "estimand": "independent_bed_difference_in_differences",
+                "verdict": "insufficient_power", "mean": None}
+    if mean_seed <= -e2.PREREG["harm_boundary"]:
+        verdict = "harm"
+    elif lower_seed >= io.SESOI and lower_unit >= io.SESOI:
+        verdict = "positive"
+    elif mean_seed < 0:
+        verdict = "wrong_direction_failure"
+    elif mean_seed <= e2.PREREG["futility_boundary"]:
+        verdict = "null_futile"
+    else:
+        verdict = "null"
+    return {"contrast": label, "estimand": "independent_bed_difference_in_differences",
+            "mean": round(mean_seed, 5), "lower_95_cb": round(lower_seed, 5),
+            "group_mean": round(mean_unit, 5), "group_lower_95_cb": round(lower_unit, 5),
+            "group_upper_95_cb": round(upper_unit, 5),
+            "group_heterogeneity": round(float(np.sqrt((np.var(unit_left, ddof=1) +
+                                                         np.var(unit_right, ddof=1)) / 2)), 5),
+            "n_units": len(unit_left) + len(unit_right), "seed_welch_df": round(seed_df, 3),
+            "group_welch_df": round(unit_df, 3), "verdict": verdict,
+            "left_per_seed_effects": seed_left, "right_per_seed_effects": seed_right,
+            "left_per_unit_effects": left.get("per_unit_effects", {}),
+            "right_per_unit_effects": right.get("per_unit_effects", {})}
+
+
+def between_bed_interactions(per_bed: dict, group: str) -> dict:
+    left_name, right_name = PRINCIPAL_BEDS
+    left = per_bed.get(left_name, {}).get("effects", {}).get(group, {})
+    right = per_bed.get(right_name, {}).get("effects", {}).get(group, {})
+    return {key: independent_bed_difference(left[key], right[key],
+            f"{key} on {left_name} minus {key} on {right_name}")
+            for key in sorted(set(left) & set(right))}
+
+
+def optimization_interaction(bed: str) -> dict:
+    """Capacity by optimization DID from the append only per seed correction receipt."""
+    p = io.RUNS / "e2_converge_corrections" / f"convergence_{bed}.json"
+    if not p.is_file():
+        return {"estimand": "optimization_by_capacity", "verdict": "missing_receipt", "mean": None}
+    large = json.loads(p.read_text())
+    small = large.get("optimization_control") or {}
+    low, high = min(e2.CONVERGENCE_GRID), max(e2.EXTENDED_CONVERGENCE_GRID)
+
+    def at(doc, key, budget):
+        table = doc.get(key) or {}
+        return table.get(str(budget), table.get(budget))
+
+    vectors = [at(large, "seed_scores", high), at(large, "seed_scores", low),
+               at(small, "seed_scores", high), at(small, "seed_scores", low)]
+    if any(v is None for v in vectors):
+        return {"estimand": "optimization_by_capacity", "verdict": "missing_receipt", "mean": None,
+                "budgets": [low, high]}
+    n = min(map(len, vectors))
+    effects = [vectors[0][i] - vectors[1][i] - vectors[2][i] + vectors[3][i] for i in range(n)]
+    out = power.decide(effects, e2.PREREG)
+    per_unit = {}
+    tables = [at(large, "per_unit_seed_scores", high), at(large, "per_unit_seed_scores", low),
+              at(small, "per_unit_seed_scores", high), at(small, "per_unit_seed_scores", low)]
+    if all(tables):
+        for seed in map(str, e2.CONVERGENCE_SEEDS):
+            shared = set.intersection(*(set(t.get(seed, {})) for t in tables))
+            for unit in shared:
+                per_unit.setdefault(unit, []).append(tables[0][seed][unit] - tables[1][seed][unit]
+                                                     - tables[2][seed][unit] + tables[3][seed][unit])
+    units = {unit: float(np.mean(values)) for unit, values in per_unit.items()}
+    unit_values = list(units.values())
+    out.update({"contrast": "(large long minus common) minus (small long minus common)",
+                "estimand": "difference_in_differences", "formula_signs": [1, -1, -1, 1],
+                "components": [f"large@{high}", f"large@{low}", f"small@{high}", f"small@{low}"],
+                "budgets": [low, high], "per_seed_effects": [round(x, 5) for x in effects],
+                "per_unit_effects": {k: round(v, 5) for k, v in units.items()},
+                "group_mean": round(float(np.mean(unit_values)), 5) if unit_values else None,
+                "group_lower_95_cb": round(power.lcb(unit_values), 5) if len(unit_values) > 1 else None,
+                "group_upper_95_cb": round(-power.lcb([-x for x in unit_values]), 5)
+                if len(unit_values) > 1 else None,
+                "group_heterogeneity": round(float(np.std(unit_values, ddof=1)), 5)
+                if len(unit_values) > 1 else None, "n_units": len(unit_values),
+                "classification": ("converged" if large.get("classification") in ("converged", "unconverged")
+                                   else "provisional_unmeasured")})
+    return out
 
 
 def analyse_bed(bed: str) -> dict:
@@ -184,7 +273,8 @@ def per_factor_reports(per_bed: dict) -> dict:
     def gather(group: str) -> dict:
         return {b: {k: {kk: v.get(kk) for kk in (
                     "mean", "lower_95_cb", "group_mean", "group_lower_95_cb", "group_upper_95_cb",
-                    "group_heterogeneity", "verdict",
+                    "group_heterogeneity", "per_seed_effects", "per_unit_effects", "components",
+                    "formula_signs", "estimand", "verdict",
                     "cost_adjusted_effect_per_100k_parameters", "component_floor_status", "convergence")}
                     for k, v in a["effects"][group].items()}
                 for b, a in per_bed.items() if a.get("status") != "no_runs"}
@@ -271,13 +361,9 @@ def per_factor_reports(per_bed: dict) -> dict:
         "capacity_by_horizon": gather("capacity_by_horizon"),
         "capacity_by_readout": gather("capacity_by_readout"),
         "history_by_architecture": gather("history_by_architecture"),
-        "architecture_by_bed": gather("architecture"),
-        "horizon_by_bed": gather("horizon"),
-        "optimization_by_capacity": {
-            b: {
-                tier: (a["convergence"]["configs"].get(AN.name(tier=tier)) or {})
-                for tier in ("small", "large")
-            } for b, a in per_bed.items() if a.get("status") != "no_runs"},
+        "architecture_by_bed": between_bed_interactions(per_bed, "architecture"),
+        "horizon_by_bed": between_bed_interactions(per_bed, "horizon"),
+        "optimization_by_capacity": {b: optimization_interaction(b) for b in PRINCIPAL_BEDS},
         "omission_status": {
             "reset_by_readout": "not_run_under_sealed_omission_map",
             "history_by_recurrent_architecture": "not_defined_because_recurrent_cores_have_no_history_k_parameter",

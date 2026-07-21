@@ -72,6 +72,13 @@ def evaluate(model, row) -> dict:
                                   for u in np.unique(units) if (units == u).sum() >= 5}}
 
 
+def permute_time(row, seed: int):
+    """Destroy within window order while preserving every example, label and timestep multiset."""
+    x, y, units = row
+    order = torch.as_tensor(np.random.default_rng(110_000 + seed).permutation(x.shape[1])).long()
+    return x[:, order, :], y, units
+
+
 def shard(seed: int) -> dict:
     t0 = time.time()
     ctx = contexts(seed)
@@ -81,6 +88,14 @@ def shard(seed: int) -> dict:
     pre = E.fit(model, None, xa, ya, train_groups=["core", "readout"], steps=Fx.STEPS,
                 lr=Fx.LR, rng=np.random.default_rng(seed), batch=Fx.BATCH)
     frozen = copy.deepcopy(model)
+    torch.manual_seed(seed)
+    pooled = A.build(family="pooled", ch=ctx["channels"], classes=ctx["classes"], tier="small")
+    pooled_pre = E.fit(pooled, None, xa, ya, train_groups=["core", "readout"], steps=Fx.STEPS,
+                       lr=Fx.LR, rng=np.random.default_rng(seed), batch=Fx.BATCH)
+    ordered_order = evaluate(frozen, ctx["A_eval"])
+    permuted_order = evaluate(frozen, permute_time(ctx["A_eval"], seed))
+    pooled_ordered = evaluate(pooled, ctx["A_eval"])
+    pooled_permuted = evaluate(pooled, permute_time(ctx["A_eval"], seed))
     adapted = copy.deepcopy(model)
     before = {"A": evaluate(frozen, ctx["A_eval"]), "B": evaluate(frozen, ctx["B_eval"])}
     xb, yb, _ = ctx["B_train"]
@@ -96,6 +111,7 @@ def shard(seed: int) -> dict:
     checks = {"unit_disjoint": not any(unit_sets[a] & unit_sets[b]
                                         for i, a in enumerate(unit_sets) for b in list(unit_sets)[i + 1:]),
               "pretrain_budget": pre["updates"] == Fx.STEPS,
+              "pooled_control_budget": pooled_pre["updates"] == Fx.STEPS,
               "adapt_budget": adapt["updates"] == ADAPT_STEPS,
               "return_budget": recover["updates"] == RETURN_STEPS,
               "fifteen_train_seven_untouched_evaluation_units": (
@@ -108,7 +124,18 @@ def shard(seed: int) -> dict:
         "units": ctx["units"], "shift": ctx["shift"], "before_adaptation": before,
         "after_B_adaptation": after, "return_before_recovery": return_before,
         "return_after_recovery": return_after,
-        "receipts": {"pretrain": pre, "adapt_B": adapt, "recover_A_readout": recover},
+        "temporal_order_permutation": {
+            "intervention": "within_window_timestep_permutation", "labels_unchanged": True,
+            "timestep_multiset_preserved_per_example": True,
+            "ordered_accuracy": ordered_order["accuracy"], "permuted_accuracy": permuted_order["accuracy"],
+            "ordered_per_unit_accuracy": ordered_order["per_unit_accuracy"],
+            "permuted_per_unit_accuracy": permuted_order["per_unit_accuracy"],
+            "pooled_ordered_per_unit_accuracy": pooled_ordered["per_unit_accuracy"],
+            "pooled_permuted_per_unit_accuracy": pooled_permuted["per_unit_accuracy"],
+            "resource_match": {"same_examples": True, "same_model_checkpoint": True,
+                               "same_evaluation_code": True}},
+        "receipts": {"pretrain": pre, "pooled_control_pretrain": pooled_pre,
+                     "adapt_B": adapt, "recover_A_readout": recover},
         "checkpoints": {"pretrained": E.checkpoint_sha(frozen), "adapted_B": E.checkpoint_sha(adapted),
                         "returned_A": E.checkpoint_sha(returned)},
         "checks": checks, "all_checks_pass": all(checks.values()),
@@ -134,6 +161,24 @@ def aggregate() -> dict:
         for unit in set(before) & set(after):
             unit_effects.setdefault(unit, []).append(after[unit] - before[unit])
     unit_means = [float(np.mean(v)) for v in unit_effects.values()]
+    order_units, pooled_units = {}, {}
+    for row in rows:
+        witness = row["temporal_order_permutation"]
+        ordered, permuted = witness["ordered_per_unit_accuracy"], witness["permuted_per_unit_accuracy"]
+        pooled_ordered = witness["pooled_ordered_per_unit_accuracy"]
+        pooled_permuted = witness["pooled_permuted_per_unit_accuracy"]
+        for unit in set(ordered) & set(permuted):
+            order_units.setdefault(unit, []).append(ordered[unit] - permuted[unit])
+        for unit in set(pooled_ordered) & set(pooled_permuted):
+            pooled_units.setdefault(unit, []).append(pooled_ordered[unit] - pooled_permuted[unit])
+    order_effects = {u: float(np.mean(v)) for u, v in order_units.items()}
+    pooled_effects = {u: float(np.mean(v)) for u, v in pooled_units.items()}
+    order_lcb = power.lcb(order_effects.values()) if len(order_effects) > 1 else None
+    pooled_lower = power.lcb(pooled_effects.values()) if len(pooled_effects) > 1 else None
+    pooled_upper = -power.lcb([-x for x in pooled_effects.values()]) if len(pooled_effects) > 1 else None
+    order_seed_effects = [r["temporal_order_permutation"]["ordered_accuracy"] -
+                          r["temporal_order_permutation"]["permuted_accuracy"] for r in rows]
+    order_seed_decision = power.decide(order_seed_effects, e2.PREREG)
     boundary = bed.context_boundary_over_seeds([
         {"no_adapt_new": r["before_adaptation"]["B"]["accuracy"],
          "no_adapt_old": r["before_adaptation"]["A"]["accuracy"],
@@ -148,6 +193,10 @@ def aggregate() -> dict:
         and (group_lcb or float("-inf")) >= io.SESOI,
         "returning_context_recovery": return_decision["verdict"] == "positive",
         "natural_independent_units": len(unit_means) >= 2,
+        "temporal_order_required": order_seed_decision["verdict"] == "positive"
+        and order_lcb is not None and order_lcb >= io.SESOI,
+        "pooled_reader_order_invariant": pooled_lower is not None and pooled_lower >= -io.EQUIVALENCE_MARGIN
+        and pooled_upper is not None and pooled_upper <= io.EQUIVALENCE_MARGIN,
     }
     doc = {
         "schema": "mop-harth-admission-probe/v1", "bed": "harth_stream", "seeds": list(SEEDS),
@@ -155,6 +204,25 @@ def aggregate() -> dict:
         "future_adaptation": {**gain_decision, "group_lower_95_cb": group_lcb,
                               "per_seed_effects": gains, "n_units": len(unit_means)},
         "returning_context": {**return_decision, "per_seed_effects": returns},
+        "temporal_order_permutation": {
+            "intervention": "within_window_timestep_permutation", "labels_unchanged": True,
+            "ordered_per_unit_accuracy": {u: round(float(np.mean([
+                r["temporal_order_permutation"]["ordered_per_unit_accuracy"][u] for r in rows
+                if u in r["temporal_order_permutation"]["ordered_per_unit_accuracy"]])), 5)
+                for u in order_effects},
+            "permuted_per_unit_accuracy": {u: round(float(np.mean([
+                r["temporal_order_permutation"]["permuted_per_unit_accuracy"][u] for r in rows
+                if u in r["temporal_order_permutation"]["permuted_per_unit_accuracy"]])), 5)
+                for u in order_effects},
+            "per_unit_effects": {u: round(v, 5) for u, v in order_effects.items()},
+            "per_seed_effects": [round(v, 5) for v in order_seed_effects],
+            "seed_decision": order_seed_decision,
+            "group_lower_95_cb": round(order_lcb, 5) if order_lcb is not None else None,
+            "pooled_per_unit_effects": {u: round(v, 5) for u, v in pooled_effects.items()},
+            "pooled_group_lower_95_cb": round(pooled_lower, 5) if pooled_lower is not None else None,
+            "pooled_group_upper_95_cb": round(pooled_upper, 5) if pooled_upper is not None else None,
+            "resource_match": {"same_examples": True, "same_model_checkpoint": True,
+                               "same_evaluation_code": True}},
         "checks": checks, "all_pass": all(checks.values()),
         "classification": "preflight_pass" if all(checks.values()) else "preflight_failed",
         "shards": [{"path": f"runs/substrate/{io.PROGRAM}/third_bed_preflight/harth_preflight_{s}.json",

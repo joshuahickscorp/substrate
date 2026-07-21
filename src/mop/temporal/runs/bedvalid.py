@@ -14,12 +14,49 @@ import time
 
 import numpy as np
 
+from mop.method import power
 from mop.temporal import beds as B
 from mop.temporal import io
 from mop.temporal import witness as W
 
 FORBIDDEN = ("har", "speech")
 CANDIDATES = ("harth_stream", "pamap2_stream")
+
+
+def order_permutation_necessity(probe: dict) -> dict:
+    """Admit order necessity only from a matched within window permutation intervention."""
+    witness = probe.get("temporal_order_permutation") or {}
+    ordered = witness.get("ordered_per_unit_accuracy") or {}
+    permuted = witness.get("permuted_per_unit_accuracy") or {}
+    units = sorted(set(ordered) & set(permuted))
+    effects = [float(ordered[u]) - float(permuted[u]) for u in units]
+    lower = power.lcb(effects) if len(effects) >= 2 else None
+    match = witness.get("resource_match") or {}
+    seed_decision = witness.get("seed_decision") or {}
+    pooled_lower = witness.get("pooled_group_lower_95_cb")
+    pooled_upper = witness.get("pooled_group_upper_95_cb")
+    checks = {
+        "within_window_timestep_permutation": witness.get("intervention") == (
+            "within_window_timestep_permutation"),
+        "labels_unchanged": witness.get("labels_unchanged") is True,
+        "same_examples": match.get("same_examples") is True,
+        "same_model_checkpoint": match.get("same_model_checkpoint") is True,
+        "same_evaluation_code": match.get("same_evaluation_code") is True,
+        "natural_independent_units": len(effects) >= 2,
+        "seed_bound_clears_sesoi": seed_decision.get("verdict") == "positive",
+        "pooled_reader_order_invariant": pooled_lower is not None and pooled_lower >= -io.EQUIVALENCE_MARGIN
+        and pooled_upper is not None and pooled_upper <= io.EQUIVALENCE_MARGIN,
+    }
+    measured = all(checks.values())
+    return {
+        "measured": measured,
+        "necessary": bool(measured and lower is not None and lower >= io.SESOI),
+        "mean_ordered_minus_permuted": (round(float(np.mean(effects)), 5) if effects else None),
+        "group_lower_95_cb": (round(lower, 5) if lower is not None else None),
+        "n_units": len(effects),
+        "checks": checks,
+        "source": "MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json#/temporal_order_permutation",
+    }
 
 
 def bed_report(name: str) -> dict:
@@ -33,9 +70,11 @@ def bed_report(name: str) -> dict:
     means = s.get("cell_means", {})
     rec = means.get("gru|small|linear|none|h1")
     pooled = means.get("pooled|small|linear|none|h1")
-    order_required = (rec - pooled) > io.SESOI if (rec is not None and pooled is not None) else None
     probe = (io.load("MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json")
              if name == "harth_stream" and io.exists("MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json") else {})
+    order_gate = order_permutation_necessity(probe) if name == "harth_stream" else None
+    order_required = (order_gate["necessary"] if order_gate is not None else
+                      (rec - pooled) > io.SESOI if (rec is not None and pooled is not None) else None)
     checks = {
         "group_disjoint": not (tr & tu or tr & te or tu & te),
         "enough_units": len(tr | tu | te) >= 4,
@@ -61,7 +100,8 @@ def bed_report(name: str) -> dict:
     checks["all_pass"] = all(checks.get(k) is True for k in required)
     if not checks["group_disjoint"] or not checks["enough_units"]:
         classification = "invalid_units"
-    elif rec is None or pooled is None or not c or (name == "harth_stream" and not probe):
+    elif rec is None or pooled is None or not c or (name == "harth_stream" and (
+            not probe or not order_gate["measured"])):
         classification = "invalid_instrumentation" if name == "pamap2_stream" else "preflight_incomplete"
     elif not order_required:
         classification = "invalid_no_temporal_requirement"
@@ -81,6 +121,7 @@ def bed_report(name: str) -> dict:
         "static_reader_gap": None if rec is None or pooled is None else round(rec - pooled, 5),
         "recurrent_reference_score": rec,
         "order_free_control_score": pooled,
+        "order_permutation_necessity": order_gate,
         "majority_rate": round(B.majority_rate(sp["test"][1]), 5),
         "chance_rate": round(B.chance_rate(sp["classes"]), 5),
         "null_reference": W.null_reference("majority_class", observed=pooled or 0.0,
