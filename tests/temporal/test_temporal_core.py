@@ -453,8 +453,13 @@ def test_supervisor_reports_invalid_and_partial_receipts_without_deleting_them(m
     stage = tmp_path / "stage"
     stage.mkdir()
     (stage / "bad.json").write_text("{")
+    forged = TIO.run_json("forged.json", {"seed": 1}, "stage")
+    forged_doc = json.loads(forged.read_text())
+    forged_doc["seed"] = 2
+    forged.write_text(json.dumps(forged_doc))
     (stage / ".work.json.partial.7").write_text("partial")
     assert supervisor.invalid("stage", ["bad"]) == ["bad"]
+    assert supervisor.invalid("stage", ["forged"]) == ["forged"]
     assert supervisor.partials("stage") == [".work.json.partial.7"]
     assert (stage / ".work.json.partial.7").is_file()
 
