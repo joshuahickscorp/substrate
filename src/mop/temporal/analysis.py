@@ -35,6 +35,8 @@ def contrast(series: dict, a: str, b: str, prereg: dict, unit_series: dict | Non
         shared = sorted(set(ua) & set(ub))
         ue = [ua[u] - ub[u] for u in shared]
         d["group_lower_95_cb"] = round(power.lcb(ue), 5) if len(ue) > 1 else None
+        d["group_upper_95_cb"] = round(-power.lcb([-x for x in ue]), 5) if len(ue) > 1 else None
+        d["group_mean"] = round(float(np.mean(ue)), 5) if ue else None
         d["n_units"] = len(shared)
         d["group_heterogeneity"] = round(float(np.std(ue, ddof=1)), 5) if len(ue) > 1 else None
     return d
