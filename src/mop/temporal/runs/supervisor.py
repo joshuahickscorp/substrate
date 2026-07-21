@@ -128,8 +128,8 @@ def invalid(sub: str, names: list[str]) -> list[str]:
         if not p.is_file():
             continue
         try:
-            json.loads(p.read_text())
-        except (OSError, json.JSONDecodeError):
+            if (doc := json.loads(p.read_text())).get("result_sha256") != io.sha_obj({k: v for k, v in doc.items() if k != "result_sha256"}): raise ValueError("receipt content hash mismatch")
+        except (OSError, ValueError):
             out.append(n)
     return out
 
