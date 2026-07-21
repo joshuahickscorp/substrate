@@ -12,7 +12,7 @@ from mop.temporal import arch as A
 from mop.temporal import custody as C
 from mop.temporal import hypotheses as H
 from mop.temporal import witness as W
-from mop.temporal.runs import coresel, e2
+from mop.temporal.runs import coresel, e2, supervisor
 
 torch = pytest.importorskip("torch")
 
@@ -238,6 +238,15 @@ def test_extended_convergence_adds_budget_without_redefining_the_original_grid()
     assert "mgu|small|linear|none|h1" in cells
     assert "histmlp|small|linear|none|hfull_window" in cells
     assert "gru|small|linear|horizon_90|h1" in cells
+
+
+def test_supervisor_uses_the_measured_resource_class_optima():
+    large = "xshard_har_stream_6"
+    small = "xshard_har_stream_0"
+    assert supervisor._large_convergence_name(large)
+    assert not supervisor._large_convergence_name(small)
+    cap, eligible, resource_class = supervisor.scheduling_class([small, large])
+    assert (cap, eligible, resource_class) == (16, [large], "large")
 
 
 def test_hypothesis_fold_uses_only_preregistered_keys():
