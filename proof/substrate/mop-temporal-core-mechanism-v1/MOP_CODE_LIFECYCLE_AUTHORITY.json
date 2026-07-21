@@ -1,0 +1,138 @@
+{
+  "schema": "mop-code-lifecycle-authority/v1",
+  "classes": [
+    "active_runtime",
+    "active_method",
+    "active_substrate",
+    "active_tests",
+    "frozen_reproducibility",
+    "historical_migration",
+    "generated"
+  ],
+  "rules": [
+    {
+      "prefix": "src/mop/temporal",
+      "class": "active_substrate"
+    },
+    {
+      "prefix": "src/mop/method",
+      "class": "active_method"
+    },
+    {
+      "prefix": "tests/temporal",
+      "class": "active_tests"
+    },
+    {
+      "prefix": "tests/method",
+      "class": "active_tests"
+    },
+    {
+      "prefix": "fastforge",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/beds",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop/substrate",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop/experiments",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop/science",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/harness",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/studio",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "tests",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "substrate",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "gen3",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "frontier",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "integrated",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "collapse",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "campaign2",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "salvage",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "substrate_evo",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "forge",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "legacy_scaffolding",
+      "class": "historical_migration"
+    },
+    {
+      "prefix": "scaffolding",
+      "class": "historical_migration"
+    },
+    {
+      "prefix": "scripts",
+      "class": "active_runtime"
+    }
+  ],
+  "targets": {
+    "active_runtime_loc": 8000,
+    "new_active_e2_implementation_loc": 2500,
+    "normal_entrypoints": 3,
+    "configuration_roots": 1,
+    "registries": 1,
+    "experiment_engines": 1,
+    "evidence_fabrics": 1
+  },
+  "policy": "frozen reproducibility code is the implementation behind sealed immutable receipts. It stays recoverable and is excluded from the orientation surface by classification, not by deletion. Reclassification is reported as reclassification",
+  "loc_by_class": {
+    "active_runtime": 8868,
+    "active_method": 7999,
+    "active_substrate": 2463,
+    "active_tests": 1093,
+    "frozen_reproducibility": 16475,
+    "historical_migration": 39,
+    "generated": 0
+  },
+  "total_python_loc": 36937,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "SESOI": 0.05,
+  "sha256": "e7970715ad027ebccdb44a178cb4545884486b738571cab2bf7762ed68571dc3"
+}

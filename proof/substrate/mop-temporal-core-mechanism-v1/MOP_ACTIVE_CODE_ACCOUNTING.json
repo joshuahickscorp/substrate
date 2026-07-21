@@ -1,0 +1,171 @@
+{
+  "schema": "mop-active-code-accounting/v1",
+  "active_runtime": {
+    "files": {
+      "fastforge/__init__.py": 1,
+      "fastforge/arch.py": 431,
+      "fastforge/arms.py": 280,
+      "fastforge/data.py": 505,
+      "fastforge/engine.py": 391,
+      "fastforge/runs/__init__.py": 0,
+      "fastforge/runs/architectures.py": 141,
+      "fastforge/runs/armaudit.py": 153,
+      "fastforge/runs/authority.py": 197,
+      "fastforge/runs/bench.py": 247,
+      "fastforge/runs/cleanclone.py": 113,
+      "fastforge/runs/codereport.py": 134,
+      "fastforge/runs/crossdomain.py": 286,
+      "fastforge/runs/domaingate.py": 111,
+      "fastforge/runs/domainvalidity.py": 113,
+      "fastforge/runs/fabric.py": 170,
+      "fastforge/runs/interference.py": 335,
+      "fastforge/runs/io.py": 58,
+      "fastforge/runs/ledger.py": 355,
+      "fastforge/runs/memoryimpact.py": 140,
+      "fastforge/runs/mutations.py": 393,
+      "fastforge/runs/plasticity.py": 199,
+      "fastforge/runs/reorg.py": 278,
+      "fastforge/runs/represent.py": 209,
+      "fastforge/runs/rounds.py": 294,
+      "fastforge/runs/secondary.py": 186,
+      "fastforge/runs/supervisor.py": 201,
+      "fastforge/runs/synthesis.py": 448,
+      "fastforge/runs/testreport.py": 150,
+      "fastforge/runs/thirddomain.py": 136,
+      "fastforge/runs/withinrun.py": 186,
+      "fastforge/sequence.py": 330,
+      "fastforge/verify.py": 264,
+      "fastforge/within.py": 235,
+      "scripts/acceptance.py": 116,
+      "src/mop/__init__.py": 1,
+      "src/mop/config.py": 62,
+      "src/mop/devices.py": 92,
+      "src/mop/evidence.py": 50,
+      "src/mop/harness/__init__.py": 5,
+      "src/mop/harness/cli.py": 66,
+      "src/mop/harness/runner.py": 48,
+      "src/mop/harness/validate.py": 78,
+      "src/mop/logging_utils.py": 65,
+      "src/mop/provenance.py": 32,
+      "src/mop/science/__init__.py": 1,
+      "src/mop/science/budget.py": 370,
+      "src/mop/science/gating.py": 39,
+      "src/mop/science/statistics.py": 132,
+      "src/mop/seeding.py": 41
+    },
+    "loc": 8868
+  },
+  "active_method": {
+    "files": {
+      "src/mop/method/__init__.py": 45,
+      "src/mop/method/acceptance.py": 361,
+      "src/mop/method/arms.py": 186,
+      "src/mop/method/baseline.py": 150,
+      "src/mop/method/bed.py": 190,
+      "src/mop/method/calibration.py": 257,
+      "src/mop/method/contracts.py": 365,
+      "src/mop/method/controls.py": 213,
+      "src/mop/method/defects.py": 296,
+      "src/mop/method/gate.py": 201,
+      "src/mop/method/graph.py": 179,
+      "src/mop/method/hypothesis.py": 96,
+      "src/mop/method/io.py": 67,
+      "src/mop/method/mechanism.py": 75,
+      "src/mop/method/power.py": 121,
+      "src/mop/method/report.py": 194,
+      "src/mop/method/runs/__init__.py": 1,
+      "src/mop/method/runs/acceptance_run.py": 145,
+      "src/mop/method/runs/analyze1.py": 204,
+      "src/mop/method/runs/analyze4.py": 202,
+      "src/mop/method/runs/audit.py": 269,
+      "src/mop/method/runs/authorities.py": 248,
+      "src/mop/method/runs/authority.py": 201,
+      "src/mop/method/runs/exp1.py": 548,
+      "src/mop/method/runs/exp4.py": 557,
+      "src/mop/method/runs/fabric.py": 147,
+      "src/mop/method/runs/factorial.py": 138,
+      "src/mop/method/runs/ledger.py": 221,
+      "src/mop/method/runs/locus.py": 125,
+      "src/mop/method/runs/mutations.py": 180,
+      "src/mop/method/runs/reaudit.py": 455,
+      "src/mop/method/runs/reports.py": 260,
+      "src/mop/method/runs/select.py": 342,
+      "src/mop/method/runs/supervisor.py": 142,
+      "src/mop/method/runs/synthesis.py": 345,
+      "src/mop/method/runs/verify.py": 166,
+      "src/mop/method/voi.py": 107
+    },
+    "loc": 7999
+  },
+  "active_substrate": {
+    "files": {
+      "src/mop/temporal/__init__.py": 1,
+      "src/mop/temporal/arch.py": 263,
+      "src/mop/temporal/beds.py": 274,
+      "src/mop/temporal/custody.py": 243,
+      "src/mop/temporal/factorial.py": 195,
+      "src/mop/temporal/hypotheses.py": 164,
+      "src/mop/temporal/io.py": 86,
+      "src/mop/temporal/runs/__init__.py": 1,
+      "src/mop/temporal/runs/authority.py": 240,
+      "src/mop/temporal/runs/codelife.py": 139,
+      "src/mop/temporal/runs/custody_run.py": 386,
+      "src/mop/temporal/runs/method_ext.py": 199,
+      "src/mop/temporal/witness.py": 272
+    },
+    "loc": 2463
+  },
+  "active_tests": {
+    "files": {
+      "tests/method/__init__.py": 0,
+      "tests/method/test_defect_regressions.py": 540,
+      "tests/method/test_kernel.py": 553
+    },
+    "loc": 1093
+  },
+  "active_runtime_plus_substrate": 11331,
+  "active_runtime_target": 8000,
+  "active_runtime_within_target": false,
+  "new_e2_implementation": {
+    "files": {
+      "src/mop/temporal/__init__.py": 1,
+      "src/mop/temporal/arch.py": 263,
+      "src/mop/temporal/beds.py": 274,
+      "src/mop/temporal/custody.py": 243,
+      "src/mop/temporal/factorial.py": 195,
+      "src/mop/temporal/hypotheses.py": 164,
+      "src/mop/temporal/io.py": 86,
+      "src/mop/temporal/runs/__init__.py": 1,
+      "src/mop/temporal/runs/authority.py": 240,
+      "src/mop/temporal/runs/codelife.py": 139,
+      "src/mop/temporal/runs/custody_run.py": 386,
+      "src/mop/temporal/runs/method_ext.py": 199,
+      "src/mop/temporal/witness.py": 272
+    },
+    "loc": 2463,
+    "target": 2500,
+    "within_target": true
+  },
+  "normal_entrypoints": [
+    "python -m mop.temporal.runs.supervisor",
+    "python -m mop.temporal.runs.<stage>",
+    "python -m mop.method.runs.<stage>"
+  ],
+  "configuration_roots": [
+    "configs/"
+  ],
+  "registries": [
+    "registry/experiments.yaml"
+  ],
+  "experiment_engines": [
+    "fastforge.engine"
+  ],
+  "evidence_fabrics": [
+    "integrated/evidence_store"
+  ],
+  "honest_blocker": "active runtime and substrate together are 11331 against a target of 8000",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "SESOI": 0.05,
+  "sha256": "d0b8f96765b7484250045b4c0d8f72e0c4d5c4d922713f05d9a8ab20e022961b"
+}
