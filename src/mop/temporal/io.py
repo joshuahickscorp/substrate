@@ -13,7 +13,6 @@ import json
 import os
 import subprocess
 from pathlib import Path
-
 ROOT = Path(__file__).resolve().parents[3]
 PROGRAM = "mop-temporal-core-mechanism-v1"
 PROOF = ROOT / "proof" / "substrate" / PROGRAM
@@ -22,7 +21,6 @@ STOP = Path.home() / ".mop_temporal_core_mechanism_stop"
 DATA_ROOT = Path("/Users/scammermike/Downloads/mop-data")
 SESOI = 0.05
 EQUIVALENCE_MARGIN = 0.02  # two configurations are equivalent when the bound sits inside this margin
-
 
 def sha_obj(v) -> str:
     return hashlib.sha256(
@@ -56,9 +54,10 @@ def _atomic_text(path: Path, payload: str) -> None:
 
 
 def seal(name: str, obj: dict, subdir: str = "") -> Path:
-    obj.setdefault("program", PROGRAM)
+    obj = json.loads(json.dumps(dict(obj), default=str)); obj.setdefault("program", PROGRAM)
     obj.setdefault("source_commit", commit())
     obj.setdefault("SESOI", SESOI)
+    obj.setdefault("sha256_version", "canonical_json_v2")
     obj["sha256"] = sha_obj({k: v for k, v in obj.items() if k != "sha256"})
     out = PROOF / subdir
     out.mkdir(parents=True, exist_ok=True)
@@ -87,9 +86,10 @@ def run_json(name: str, obj: dict, subdir: str = "") -> Path:
     out = RUNS / subdir
     out.mkdir(parents=True, exist_ok=True)
     p = out / name
-    doc = dict(obj)
+    doc = json.loads(json.dumps(dict(obj), default=str))
     doc.setdefault("program", PROGRAM)
     doc.setdefault("source_commit", commit())
+    doc.setdefault("result_hash_version", "canonical_json_v2")
     doc["result_sha256"] = sha_obj({k: v for k, v in doc.items() if k != "result_sha256"})
     _atomic_text(p, json.dumps(doc, indent=2, default=str))
     return p

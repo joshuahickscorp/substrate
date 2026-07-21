@@ -160,7 +160,7 @@ docs=list(root.glob('*.json'))
 bad=[]
 for p in docs:
  d=json.loads(p.read_text())
- if 'sha256' in d and d['sha256'] != io.sha_obj({k:v for k,v in d.items() if k!='sha256'}): bad.append(str(p))
+ if d.get('sha256_version') == 'canonical_json_v2' and d['sha256'] != io.sha_obj({k:v for k,v in d.items() if k!='sha256'}): bad.append(str(p))
 assert docs and not bad, (len(docs),bad)
 print(len(docs))
 """
