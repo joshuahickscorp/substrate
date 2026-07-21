@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/scammermike/Downloads/mop-experimental-method-reformation/src/mop/method/runs/exp1.py", line 531, in <module>
+    admit()
+  File "/Users/scammermike/Downloads/mop-experimental-method-reformation/src/mop/method/runs/exp1.py", line 308, in admit
+    act = mechanism_activity(sp)
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/scammermike/Downloads/mop-experimental-method-reformation/src/mop/method/runs/exp1.py", line 268, in mechanism_activity
+    m_sh, rec_sh, acc_sh, rep_sh = probe("reset")
+                                   ^^^^^^^^^^^^^^
+  File "/Users/scammermike/Downloads/mop-experimental-method-reformation/src/mop/method/runs/exp1.py", line 258, in probe
+    m = Fx.build(sp["channels"], sp["classes"], core, "linear", hidden=hidden)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/scammermike/Downloads/mop-experimental-method-reformation/src/mop/method/runs/factorial.py", line 110, in build
+    return Cell(ch, classes, core, readout, hidden=hidden)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/scammermike/Downloads/mop-experimental-method-reformation/src/mop/method/runs/factorial.py", line 66, in __init__
+    assert core in CORES and readout in READOUTS
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
