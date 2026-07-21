@@ -1,14 +1,3 @@
-"""E2: calibration, scout, principal.
-    calibration   synthetic worlds with a known generative truth. The analysis must name each one
-    scout         four seeds on tuning units, to estimate variance and drop dominated cells
-    principal     eight seeds, untouched group disjoint test split
-Usage
-    python -m mop.temporal.runs.e2 calibration
-    python -m mop.temporal.runs.e2 scout <bed>
-    python -m mop.temporal.runs.e2 principal <bed> <seed>
-    python -m mop.temporal.runs.e2 converge <bed>
-House style: no dashes.
-"""
 from __future__ import annotations
 import json
 import os
@@ -33,9 +22,7 @@ PREREG = power.preregistration(
     seeds=len(PRINCIPAL_SEEDS), units=9, max_seeds=MAX_SEEDS, futility=0.01, harm=0.05,
     continuation_rule=("the seed count is fixed at eight before the first principal cell, and a preregistered "
                        "maximum of twelve applies only to cells whose scout standard deviation exceeds 0.06"))
-# ---------------------------------------------------------------- calibration
 def _world(kind: str, seeds: int = 8, sd: float = 0.02, seed: int = 0) -> dict:
-    """Synthetic cell scores whose generative truth is known. No training, this calibrates the analysis."""
     rng = np.random.default_rng(seed)
     base = 0.55
     def draw(mu):
@@ -112,7 +99,6 @@ def calibration() -> dict:
         }
     res["all_pass"] = all(v["pass"] for v in res.values() if isinstance(v, dict))
     return res
-# ---------------------------------------------------------------- scout and principal
 def _series(runs: list[dict]) -> tuple[dict, dict]:
     cells: dict[str, list] = {}
     units: dict[str, dict] = {}
@@ -123,7 +109,6 @@ def _series(runs: list[dict]) -> tuple[dict, dict]:
             acc.setdefault(u, []).append(a)
     return cells, {c: {u: float(np.mean(v)) for u, v in d.items()} for c, d in units.items()}
 def scout_shard(bedname: str, seed: int) -> dict:
-    """One bed, one seed, every cell. Sharding by seed is what lets the scout use the whole host."""
     t0 = time.time()
     sp = B.splits(bedname, seed)
     runs = [Fx.run_cell(sp, spec, seed, "tune", steps=Fx.STEPS // 2) for spec in Fx.sweep_cells()["_all"]]
@@ -176,8 +161,25 @@ def scout(bedname: str) -> dict:
 def principal(bedname: str, seed: int) -> dict:
     sp = B.splits(bedname, seed)
     cells = Fx.sweep_cells()["_all"]
-    runs = [Fx.run_cell(sp, spec, seed, "test") for spec in cells]
-    doc = {"bed": bedname, "seed": seed, "n_cells": len(runs), "runs": runs,
+    convergence_path = io.RUNS / "e2_converge" / f"converge_{bedname}.json"
+    if not convergence_path.is_file():
+        raise RuntimeError(f"principal execution requires sealed convergence: {convergence_path}")
+    convergence_doc = json.loads(convergence_path.read_text())
+    configs = convergence_doc.get("configs") or {}
+    expected = {Fx.cell_name(**spec) for spec in cells}
+    if set(configs) != expected:
+        raise RuntimeError(f"principal convergence inventory mismatch on {bedname}")
+    checkpoints = {cell: int(configs[cell]["selected_checkpoint"]) for cell in expected}
+    runs = [Fx.run_cell(sp, spec, seed, "test", steps=checkpoints[Fx.cell_name(**spec)])
+            for spec in cells]
+    doc = {"schema": "mop-e2-principal-shard/v2", "bed": bedname, "seed": seed,
+           "n_cells": len(runs), "runs": runs,
+           "convergence_authority": {
+               "path": convergence_path.relative_to(io.ROOT).as_posix(),
+               "sha256": io.sha_file(convergence_path),
+               "selected_checkpoints": checkpoints,
+               "all_factorial_cells_measured": set(configs) == expected,
+           },
            "majority_rate": B.majority_rate(sp["test"][1]), "chance_rate": B.chance_rate(sp["classes"])}
     io.run_json(f"{bedname}_{seed}.json", doc, "e2_principal")
     print(f"E2 principal {bedname} seed {seed}: {len(runs)} cells, "
@@ -210,7 +212,6 @@ CORRECTED_CONVERGENCE_CELLS = {
 LEGACY_CONVERGENCE_CONFIG_COUNT = 66
 BACKFILL_WORKERS = 16
 def _parallel_backfill(bedname: str, command: str, indices: list[int]) -> None:
-    """Fill appended convergence identities at the measured large class optimum."""
     for start in range(0, len(indices), BACKFILL_WORKERS):
         batch = [subprocess.Popen([sys.executable, "-m", "mop.temporal.runs.e2",
                                   command, bedname, str(idx)])
@@ -219,7 +220,6 @@ def _parallel_backfill(bedname: str, command: str, indices: list[int]) -> None:
         if failed:
             raise RuntimeError(f"{command} backfill failed on {bedname}: {failed}")
 def _backfill_appended_convergence(bedname: str) -> None:
-    """The live predecessor knew 66 identities; append later sealed cells without serial fallback."""
     appended = range(min(LEGACY_CONVERGENCE_CONFIG_COUNT, len(CONVERGE_CONFIGS)),
                      len(CONVERGE_CONFIGS))
     base = [idx for idx in appended if not (io.RUNS / "e2_converge" /
@@ -234,7 +234,7 @@ def converge_shard(bedname: str, idx: int) -> dict:
     from mop.temporal import witness as W
     t0 = time.time()
     spec = CONVERGE_CONFIGS[idx]
-    curve, spread, parameter_count = {}, {}, None
+    curve, spread, seed_scores, arm_records, parameter_count = {}, {}, {}, {}, None
     for steps in CONVERGENCE_GRID:
         rows = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)
                 for s_ in CONVERGENCE_SEEDS]
@@ -242,9 +242,14 @@ def converge_shard(bedname: str, idx: int) -> dict:
         parameter_count = rows[0]["params"]
         curve[steps] = float(np.mean(vals))
         spread[steps] = round(float(np.std(vals, ddof=1)), 5)
+        seed_scores[steps] = [round(float(v), 5) for v in vals]
+        arm_records[steps] = [{"seed": seed, "updates": row["updates"], "score": row["accuracy"],
+                               "checkpoint_sha": row["checkpoint_sha_after"]}
+                              for seed, row in zip(CONVERGENCE_SEEDS, rows, strict=True)]
     w = W.plateau_validity(curve)
     doc = {"bed": bedname, "spec": spec, "cell": Fx.cell_name(**spec), "curve": curve,
-           "seed_spread": spread, "seeds": list(CONVERGENCE_SEEDS),
+           "seed_spread": spread, "seed_scores": seed_scores, "arm_records": arm_records,
+           "seeds": list(CONVERGENCE_SEEDS),
            "parameter_count": parameter_count, **w,
            "wall_seconds": round(time.time() - t0, 1)}
     io.run_json(f"cshard_{bedname}_{idx}.json", doc, "e2_converge")
@@ -252,7 +257,6 @@ def converge_shard(bedname: str, idx: int) -> dict:
           f"movement {w.get('second_half_movement')} in {doc['wall_seconds']}s", flush=True)
     return doc
 def extend_converge_shard(bedname: str, idx: int) -> dict:
-    """Append larger budgets under a new shard identity, preserving the original curve receipt."""
     from mop.temporal import witness as W
     t0 = time.time()
     spec = CONVERGE_CONFIGS[idx]
@@ -263,6 +267,8 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
         raise RuntimeError(f"base convergence identity mismatch at {base_path}: expected {expected_cell}")
     curve = {int(k): float(v) for k, v in base["curve"].items()}
     spread = {int(k): float(v) for k, v in base["seed_spread"].items()}
+    seed_scores = {int(k): v for k, v in base["seed_scores"].items()}
+    arm_records = {int(k): v for k, v in base["arm_records"].items()}
     parameter_count = base.get("parameter_count")
     for steps in EXTENDED_CONVERGENCE_GRID:
         rows = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)
@@ -271,6 +277,10 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
         parameter_count = rows[0]["params"]
         curve[steps] = float(np.mean(vals))
         spread[steps] = round(float(np.std(vals, ddof=1)), 5)
+        seed_scores[steps] = [round(float(v), 5) for v in vals]
+        arm_records[steps] = [{"seed": seed, "updates": row["updates"], "score": row["accuracy"],
+                               "checkpoint_sha": row["checkpoint_sha_after"]}
+                              for seed, row in zip(CONVERGENCE_SEEDS, rows, strict=True)]
     w = W.plateau_validity(curve)
     doc = {
         "schema": "mop-e2-extended-convergence-shard/v1",
@@ -279,6 +289,8 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
         "cell": expected_cell,
         "curve": curve,
         "seed_spread": spread,
+        "seed_scores": seed_scores,
+        "arm_records": arm_records,
         "seeds": list(CONVERGENCE_SEEDS),
         "parameter_count": parameter_count,
         "extends": {
@@ -286,7 +298,7 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
             "sha256": io.sha_file(base_path),
             "grid": base.get("budgets", list(CONVERGENCE_GRID)),
         },
-        "authority_commit": io.commit(),
+        "authority_commit": io.launch_commit(),
         **w,
         "wall_seconds": round(time.time() - t0, 1),
     }
@@ -295,11 +307,10 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
           f"movement {w.get('second_half_movement')} in {doc['wall_seconds']}s", flush=True)
     return doc
 def converge(bedname: str) -> dict:
-    """Long budget curves for every load bearing configuration, judged by the strict plateau witness."""
     from mop.temporal import witness as W
     t0 = time.time()
     _backfill_appended_convergence(bedname)
-    out = {}
+    out, shard_index = {}, []
     for idx, spec in enumerate(CONVERGE_CONFIGS):
         cell = Fx.cell_name(**spec)
         correction_name = CORRECTED_CONVERGENCE_CELLS.get(cell)
@@ -310,13 +321,17 @@ def converge(bedname: str) -> dict:
         if p.is_file():
             d = json.loads(p.read_text())
             out[d["cell"]] = d
-            continue
-        d = converge_shard(bedname, idx)
-        out[d["cell"]] = d
+        else:
+            d = converge_shard(bedname, idx)
+            p = io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
+            out[d["cell"]] = d
+        shard_index.append({"cell": cell, "path": p.relative_to(io.ROOT).as_posix(),
+                            "sha256": io.sha_file(p)})
     grid = sorted({int(x) for d in out.values() for x in d.get("curve", {})})
     load = {k: out.get(k) for k in LOAD_BEARING_CONVERGENCE_CELLS}
-    doc = {"schema": "mop-e2-convergence/v3", "bed": bedname, "grid": grid,
+    doc = {"schema": "mop-e2-convergence/v4", "bed": bedname, "grid": grid,
            "seeds_per_budget": list(CONVERGENCE_SEEDS),
+           "shard_index": shard_index,
            "configs": out,
            "all_converged": all(v["converged"] for v in out.values()),
            "unconverged": [k for k, v in out.items() if not v["converged"]],
@@ -324,12 +339,21 @@ def converge(bedname: str) -> dict:
            "load_bearing_all_converged": all(v and v["converged"] for v in load.values()),
            "load_bearing_unconverged": [k for k, v in load.items() if not v or not v["converged"]],
            "wall_seconds": round(time.time() - t0, 1)}
+    aggregate_path = io.RUNS / "e2_converge" / f"converge_{bedname}.json"
+    if aggregate_path.is_file():
+        try:
+            existing = json.loads(aggregate_path.read_text())
+            if (existing.get("schema") == doc["schema"]
+                    and existing.get("shard_index") == shard_index
+                    and existing.get("configs") == out):
+                return existing
+        except (OSError, json.JSONDecodeError, TypeError):
+            pass
     io.run_json(f"converge_{bedname}.json", doc, "e2_converge")
     print(f"E2 convergence {bedname}: all converged {doc['all_converged']}, "
           f"unconverged {doc['unconverged']}", flush=True)
     return doc
 def scout_result() -> dict:
-    """Seal the scout reduction and a hash inventory of every completed raw scout shard."""
     beds, shards, failures = {}, [], []
     expected_cells = {Fx.cell_name(**s) for s in Fx.sweep_cells()["_all"]}
     for bed in ("har_stream", "speech_stream", "harth_stream"):

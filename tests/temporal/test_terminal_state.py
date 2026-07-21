@@ -29,16 +29,101 @@ def test_receipt_index_excludes_ephemeral_files_and_retains_invalid_evidence(mon
     (locks / "worker.json").write_text("{}")
     monkeypatch.setattr(io, "ROOT", root)
     monkeypatch.setattr(io, "RUNS", runs)
+    monkeypatch.setattr(io, "PROOF", root / "proof")
     items = synthesis.receipt_items(_common())
     assert len(items) == 4
     assert not any("locks" in key or "partial" in key for key in items)
     legacy_item = next(v for k, v in items.items() if k.endswith("legacy.json"))
-    assert legacy_item["authority"] == synthesis.LEGACY_RECEIPT_AUTHORITY
-    assert legacy_item["receipt_integrity"] == "legacy_outer_sha256"
+    assert legacy_item["authority"] is None
+    assert legacy_item["status"] == "incomplete"
+    assert legacy_item["receipt_integrity"] == "unauthorized_legacy_receipt"
     assert next(v for k, v in items.items() if k.endswith("canonical.json"))["status"] == "terminal"
     assert next(v for k, v in items.items() if k.endswith("forged.json"))["classification"] == "hash_mismatch"
-    assert next(v for k, v in items.items() if k.endswith("malformed.json"))["classification"] == "invalid_json"
+    malformed_item = next(v for k, v in items.items() if k.endswith("malformed.json"))
+    assert malformed_item["classification"] == "invalid_json"
+    assert malformed_item["authority"] is None and malformed_item["custody_binding"] is None
     assert all(isinstance(v["dependencies"], list) for v in items.values())
+
+
+def test_only_exactly_indexed_legacy_bytes_are_authorized(monkeypatch, tmp_path):
+    runs, proof = tmp_path / "runs", tmp_path / "proof"
+    stage = runs / "e2_principal"
+    stage.mkdir(parents=True)
+    proof.mkdir()
+    receipt = stage / "bed_0.json"
+    receipt.write_text(json.dumps({"bed": "bed", "seed": 0, "runs": []}))
+    rel = "runs/e2_principal/bed_0.json"
+    index = {"shard_index": [{"path": rel, "sha256": io.sha_file(receipt)}]}
+    index["sha256"] = io.sha_obj(index)
+    (proof / "MOP_E2_PRINCIPAL_RESULT.json").write_text(json.dumps(index))
+    monkeypatch.setattr(io, "ROOT", tmp_path)
+    monkeypatch.setattr(io, "RUNS", runs)
+    monkeypatch.setattr(io, "PROOF", proof)
+    item = synthesis.receipt_items(_common())[f"receipt:{rel}"]
+    assert item["status"] == "terminal"
+    assert item["receipt_integrity"] == "indexed_legacy_outer_sha256"
+    receipt.write_text(json.dumps({"bed": "bed", "seed": 1, "runs": []}))
+    item = synthesis.receipt_items(_common())[f"receipt:{rel}"]
+    assert item["status"] == "incomplete"
+    assert item["classification"] == "unauthorized_legacy_receipt"
+
+
+def test_convergence_aggregate_authority_is_an_exact_dependency(monkeypatch, tmp_path):
+    runs, proof = tmp_path / "runs", tmp_path / "proof"
+    converge, principal = runs / "e2_converge", runs / "e2_principal"
+    converge.mkdir(parents=True)
+    principal.mkdir()
+    proof.mkdir()
+    authority = {"result_hash_version": "canonical_json_v2", "bed": "bed"}
+    authority["result_sha256"] = io.sha_obj(authority)
+    authority_path = converge / "converge_bed.json"
+    authority_path.write_text(json.dumps(authority))
+    rel = "runs/e2_converge/converge_bed.json"
+    receipt = {"result_hash_version": "canonical_json_v2", "bed": "bed", "seed": 0,
+               "convergence_authority": {"path": rel, "sha256": io.sha_file(authority_path)}}
+    receipt["result_sha256"] = io.sha_obj(receipt)
+    (principal / "bed_0.json").write_text(json.dumps(receipt))
+    monkeypatch.setattr(io, "ROOT", tmp_path)
+    monkeypatch.setattr(io, "RUNS", runs)
+    monkeypatch.setattr(io, "PROOF", proof)
+    item = synthesis.receipt_items(_common())["receipt:runs/e2_principal/bed_0.json"]
+    assert item["status"] == "terminal"
+    assert item["dependencies"] == [f"receipt:{rel}"]
+    assert item["dependency_bindings"][0]["bound"]
+    receipt["convergence_authority"]["sha256"] = "0" * 64
+    receipt["result_sha256"] = io.sha_obj({k: v for k, v in receipt.items() if k != "result_sha256"})
+    (principal / "bed_0.json").write_text(json.dumps(receipt))
+    item = synthesis.receipt_items(_common())["receipt:runs/e2_principal/bed_0.json"]
+    assert item["status"] == "incomplete"
+    assert item["classification"] == "dependency_hash_mismatch"
+
+
+def test_principal_v2_cannot_omit_aggregate_authority(monkeypatch, tmp_path):
+    runs, proof = tmp_path / "runs", tmp_path / "proof"
+    stage = runs / "e2_principal"
+    stage.mkdir(parents=True)
+    proof.mkdir()
+    receipt = {"schema": "mop-e2-principal-shard/v2",
+               "result_hash_version": "canonical_json_v2", "bed": "bed", "seed": 0}
+    receipt["result_sha256"] = io.sha_obj(receipt)
+    (stage / "bed_0.json").write_text(json.dumps(receipt))
+    monkeypatch.setattr(io, "ROOT", tmp_path)
+    monkeypatch.setattr(io, "RUNS", runs)
+    monkeypatch.setattr(io, "PROOF", proof)
+    item = synthesis.receipt_items(_common())["receipt:runs/e2_principal/bed_0.json"]
+    assert item["status"] == "incomplete"
+    assert item["classification"] == "missing_required_aggregate_dependency"
+
+
+def test_convergence_v4_requires_exact_76_shard_dependency_rows():
+    rows = [{"cell": Fx.cell_name(**spec), "path": f"runs/e2_converge/cshard_bed_{i}.json",
+             "sha256": f"{i:064x}"} for i, spec in enumerate(e2.CONVERGE_CONFIGS)]
+    doc = {"schema": "mop-e2-convergence/v4", "shard_index": rows}
+    paths, hashes, shaped = synthesis._declared_dependencies(doc)
+    assert shaped and len(paths) == len(hashes) == 76
+    assert synthesis._required_dependencies_present(doc, paths)
+    assert not synthesis._required_dependencies_present(
+        {"schema": "mop-e2-convergence/v4", "shard_index": rows[:-1]}, paths[:-1])
 
 
 def test_terminal_convergence_requires_every_selected_factorial_cell():

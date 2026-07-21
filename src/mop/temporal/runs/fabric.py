@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+import re
 import time
 
 from mop.temporal import io
@@ -17,6 +18,10 @@ FABRIC_NAME = "MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json"
 
 def sha_bytes(b: bytes) -> str:
     return hashlib.sha256(b).hexdigest()
+
+
+def _digest(value) -> bool:
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
 
 
 def merkle(h: list[str]) -> str:
@@ -88,7 +93,7 @@ def _manifest_valid(artifacts: list[dict], expected_ids: set[str], expected_root
     ids = [a.get("logical_id") for a in artifacts]
     hashes = [a.get("content_hash") for a in artifacts]
     return (len(ids) == len(set(ids)) and set(ids) == expected_ids
-            and all(isinstance(h, str) and len(h) == 64 for h in hashes)
+            and all(_digest(h) for h in hashes)
             and merkle(hashes) == expected_root)
 
 
@@ -106,9 +111,16 @@ def _inherited_binding(path: Path) -> dict:
     artifacts = doc.get("artifacts") if isinstance(doc, dict) else None
     artifact_manifest_valid = None
     if isinstance(artifacts, list):
+        valid_artifacts = all(isinstance(a, dict) for a in artifacts)
         hashes = [a.get("content_hash") for a in artifacts if isinstance(a, dict)]
-        artifact_manifest_valid = (len(hashes) == len(artifacts) == union.get("count")
-                                   and all(isinstance(h, str) and len(h) == 64 for h in hashes)
+        ids = [a.get("logical_id") for a in artifacts if isinstance(a, dict)]
+        artifact_manifest_valid = (valid_artifacts
+                                   and isinstance(union.get("count"), int)
+                                   and not isinstance(union.get("count"), bool)
+                                   and len(hashes) == len(artifacts) == union.get("count")
+                                   and len(ids) == len(set(ids))
+                                   and all(isinstance(i, str) and i for i in ids)
+                                   and all(_digest(h) for h in hashes)
                                    and merkle(hashes) == union.get("merkle_root"))
     return {
         "path": path.relative_to(io.ROOT).as_posix() if path.is_relative_to(io.ROOT) else str(path),
@@ -177,12 +189,15 @@ def main():
     checks["no_hidden_unindexed_receipts"] = raw_ids == indexed_raw
     checks["quarantined_receipts_indexed_but_excluded_from_claims"] = quarantine_ids == indexed_quarantine
     checks["no_duplicate_identity"] = len(expected_ids) == len(artifacts)
-    checks["all_json_parse_valid"] = all(a["json_parse_valid"] is not False for a in artifacts)
+    scientific_artifacts = [a for a in artifacts if a["set"] != "temporal_core_quarantined_receipt"]
+    checks["all_scientific_json_parse_valid"] = all(
+        a["json_parse_valid"] is not False for a in scientific_artifacts)
     checks["canonical_hashes_valid"] = all(
-        a["canonical_hash_valid"] is not False for a in artifacts)
+        a["canonical_hash_valid"] is not False for a in scientific_artifacts)
     checks["legacy_json_bound_by_whole_file_hash"] = all(
         a["legacy_whole_file_sha256"] == a["content_hash"] for a in artifacts
-        if a["json_parse_valid"] and a["hash_version"] is None)
+        if a["set"] != "temporal_core_quarantined_receipt"
+        and a["json_parse_valid"] and a["hash_version"] is None)
     checks["nulls_indexed"] = source_null_ids == indexed_null_ids
     inherited_binding = _inherited_binding(INHERITED)
     method_binding = _inherited_binding(METHOD)
@@ -191,18 +206,18 @@ def main():
     method_integrated = ((method_doc or {}).get("extends") or {}).get("integrated") or {}
     root_chain = {
         "method_extends_integrated_applicable": bool(method_integrated),
-        "method_extends_integrated_verified": not method_integrated or (
+        "method_extends_integrated_verified": bool(method_integrated) and (
             method_integrated.get("count") == inherited_binding["count"]
             and method_integrated.get("merkle_root") == inherited_binding["merkle_root"]),
         "binding_results_method_root_applicable": binding_results is not None,
-        "binding_results_method_root_verified": binding_results is None or
-        binding_results.get("evidence_fabric_root") == method_binding["merkle_root"],
+        "binding_results_method_root_verified": binding_results is not None
+        and binding_results.get("evidence_fabric_root") == method_binding["merkle_root"],
     }
     checks["inherited_fabrics_untouched"] = inherited_doc is not None and method_doc is not None
     checks["inherited_fabric_embedded_hashes_valid"] = all(
-        b["embedded_sha256_valid"] is not False for b in (inherited_binding, method_binding))
+        b["embedded_sha256_valid"] is True for b in (inherited_binding, method_binding))
     checks["inherited_fabric_artifact_roots_valid"] = all(
-        b["artifact_manifest_valid"] is not False for b in (inherited_binding, method_binding))
+        b["artifact_manifest_valid"] is True for b in (inherited_binding, method_binding))
     checks["inherited_fabric_root_chain_valid"] = all(
         v for k, v in root_chain.items() if k.endswith("_verified"))
     checks["all_pass"] = all(checks.values())
@@ -248,6 +263,8 @@ def main():
     print(f"fabric: {len(artifacts)} artifacts, verify {checks['all_pass']}, mutations {mut['all_rejected']}",
           flush=True)
     print("FABRIC_DONE", flush=True)
+    if not checks["all_pass"] or not mut["all_rejected"]:
+        raise RuntimeError("terminal evidence fabric is red")
 
 
 if __name__ == "__main__":

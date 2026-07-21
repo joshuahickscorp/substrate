@@ -23,7 +23,9 @@ HISTORY = Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", history_k="full_wi
 def third_bed_admitted(preflight: dict) -> bool:
     """The sealed preflight is the sole authority that may admit the secondary bed."""
     selected = preflight.get("selected")
-    return isinstance(selected, list) and "harth_stream" in selected
+    candidate = (preflight.get("candidates") or {}).get("harth_stream") or {}
+    return (isinstance(selected, list) and "harth_stream" in selected
+            and candidate.get("classification") == "valid_secondary_bed")
 
 
 def third_bed_classification(preflight: dict, effects_reproduce: bool) -> str:
@@ -57,6 +59,14 @@ def _effect(bed: str, series: dict, units: dict, cell: str) -> dict:
         and (d.get("group_lower_95_cb") or float("-inf")) >= io.SESOI
         and all(v == "converged" for v in conv.values())
     )
+    component_parameters = sum(int((_convergence(bed, c).get("parameter_count") or {}).get(
+        "total", 0)) for c in (cell, HISTORY))
+    d["component_parameter_sum"] = component_parameters
+    d["cost_adjusted_effect_per_100k_parameters"] = (
+        round(float(d["mean"]) * 100_000 / component_parameters, 5)
+        if d.get("mean") is not None and component_parameters else None)
+    d["component_floor_status"] = (
+        "passes" if d["load_bearing_positive"] else "provisional_or_below_floor")
     return d
 
 

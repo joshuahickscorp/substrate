@@ -26,8 +26,17 @@ def test_fabric_indexes_and_binds_proof_and_raw_receipts(monkeypatch, tmp_path):
     (runs / "locks").mkdir()
     inherited.parent.mkdir(parents=True)
     method.parent.mkdir(parents=True)
-    inherited.write_text(json.dumps({"union": {"count": 2}}))
-    method.write_text(json.dumps({"union": {"count": 3, "merkle_root": "method"}}))
+    inherited_root = fabric.merkle(["1" * 64])
+    method_root = fabric.merkle(["2" * 64])
+    inherited.write_text(json.dumps(_canonical_doc({
+        "artifacts": [{"logical_id": "integrated-parent", "content_hash": "1" * 64}],
+        "union": {"count": 1, "merkle_root": inherited_root}})))
+    method.write_text(json.dumps(_canonical_doc({
+        "extends": {"integrated": {"count": 1, "merkle_root": inherited_root}},
+        "artifacts": [{"logical_id": "method-parent", "content_hash": "2" * 64}],
+        "union": {"count": 1, "merkle_root": method_root}})))
+    (proof / "MOP_TEMPORAL_CORE_BINDING_RESULTS.json").write_text(json.dumps(
+        _canonical_doc({"evidence_fabric_root": method_root})))
     (proof / "proof.json").write_text(json.dumps(_canonical_doc({"claim": None})))
     (runs / "stage" / "canonical.json").write_text(json.dumps(
         _canonical_doc({"bed": "har_stream"}, receipt=True)))
@@ -47,7 +56,7 @@ def test_fabric_indexes_and_binds_proof_and_raw_receipts(monkeypatch, tmp_path):
     doc = json.loads((proof / "MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json").read_text())
     assert doc["verification"]["all_pass"]
     assert doc["mutations"]["all_rejected"] and doc["mutations"]["omitted_null_mutation_applied"]
-    assert doc["union"]["proof_count"] == 1 and doc["union"]["raw_receipt_count"] == 2
+    assert doc["union"]["proof_count"] == 2 and doc["union"]["raw_receipt_count"] == 2
     raw = [a for a in doc["artifacts"] if a["set"] == "temporal_core_raw_receipt"]
     assert {a["original_path"].rsplit("/", 1)[-1] for a in raw} == {"canonical.json", "legacy.json"}
     legacy = next(a for a in raw if a["original_path"].endswith("legacy.json"))

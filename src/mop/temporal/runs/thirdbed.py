@@ -289,7 +289,7 @@ def run_all() -> dict:
 
     names = [f"harth_preflight_{s}" for s in SEEDS]
     while True:
-        pending = supervisor.missing("third_bed_preflight", names)
+        pending = supervisor.recoverable_pending("third_bed_preflight", names)
         if not pending:
             return aggregate()
         for name in pending:

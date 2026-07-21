@@ -6,13 +6,19 @@ from mop.temporal.runs import coresel, replicate
 def test_third_bed_cannot_replicate_without_preflight_admission():
     assert not replicate.third_bed_admitted({"selected": []})
     assert replicate.third_bed_classification({"selected": []}, True) == "invalid_secondary_bed"
-    assert replicate.third_bed_classification({"selected": ["harth_stream"]}, True) == "replicated"
-    assert (replicate.third_bed_classification({"selected": ["harth_stream"]}, False)
+    admitted = {"selected": ["harth_stream"],
+                "candidates": {"harth_stream": {"classification": "valid_secondary_bed"}}}
+    assert replicate.third_bed_classification(admitted, True) == "replicated"
+    assert (replicate.third_bed_classification(admitted, False)
             == "valid_secondary_bed_did_not_reproduce_the_principal_effect")
+    assert not replicate.third_bed_admitted({
+        "selected": ["harth_stream"],
+        "candidates": {"harth_stream": {"classification": "preflight_incomplete"}}})
 
 
 def test_core_requires_consistent_admission_and_replication_artifacts():
-    preflight = {"selected": ["harth_stream"]}
+    preflight = {"selected": ["harth_stream"],
+                 "candidates": {"harth_stream": {"classification": "valid_secondary_bed"}}}
     replication = {"third_bed_classification": "replicated"}
     result = {"bed": "harth_stream", "classification": "replicated"}
     assert coresel.third_bed_licensed(preflight, replication, result)

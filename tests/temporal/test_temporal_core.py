@@ -216,6 +216,7 @@ def test_convergence_aggregate_prefers_the_exact_corrected_cell(monkeypatch, tmp
     base.mkdir()
     corrected.mkdir()
     monkeypatch.setattr(TIO, "RUNS", tmp_path)
+    monkeypatch.setattr(TIO, "ROOT", tmp_path.parent)
     corrected_spec = dict(Fx.REFERENCE, family="histmlp", tier="large")
     configs = tuple([dict(Fx.REFERENCE)] * 25 + [corrected_spec])
     corrected_cell = Fx.cell_name(**corrected_spec)
@@ -446,12 +447,44 @@ def test_supervisor_uses_the_measured_resource_class_optima():
 
 def test_shard_receipts_land_atomically_with_commit_and_content_hash(monkeypatch, tmp_path):
     monkeypatch.setattr(TIO, "RUNS", tmp_path)
-    monkeypatch.setattr(TIO, "commit", lambda: "abc123")
+    monkeypatch.setattr(TIO, "PROCESS_SOURCE_COMMIT", "abc123")
+    monkeypatch.setattr(TIO, "PROCESS_SOURCE_TREE_OID", "def456")
     p = TIO.run_json("x.json", {"bed": "b", "seed": 2}, "stage")
     d = json.loads(p.read_text())
-    assert d["source_commit"] == "abc123" and d["program"] == TIO.PROGRAM
+    assert d["source_commit"] == "abc123" and d["source_tree_oid"] == "def456"
+    assert d["program"] == TIO.PROGRAM
     assert d["result_sha256"] == TIO.sha_obj({k: v for k, v in d.items() if k != "result_sha256"})
     assert not list(p.parent.glob(".*.partial.*"))
+
+
+def test_direct_receipt_source_is_bound_once_not_looked_up_at_write(monkeypatch, tmp_path):
+    monkeypatch.setattr(TIO, "RUNS", tmp_path)
+    monkeypatch.setattr(TIO, "PROCESS_SOURCE_COMMIT", "a" * 40)
+    monkeypatch.setattr(TIO, "PROCESS_SOURCE_TREE_OID", "b" * 40)
+    monkeypatch.setattr(TIO, "commit", lambda: "c" * 40)
+    d = json.loads(TIO.run_json("bound.json", {}, "stage").read_text())
+    assert d["source_commit"] == "a" * 40
+    assert d["source_tree_oid"] == "b" * 40
+
+
+def test_principal_uses_each_cells_strict_selected_checkpoint(monkeypatch, tmp_path):
+    monkeypatch.setattr(e2.io, "ROOT", tmp_path)
+    monkeypatch.setattr(e2.io, "RUNS", tmp_path / "runs")
+    path = e2.io.RUNS / "e2_converge" / "converge_har_stream.json"
+    path.parent.mkdir(parents=True)
+    specs = e2.Fx.sweep_cells()["_all"]
+    selected = {e2.Fx.cell_name(**spec): 400 + 400 * (i % 4) for i, spec in enumerate(specs)}
+    path.write_text(json.dumps({"configs": {
+        cell: {"selected_checkpoint": steps} for cell, steps in selected.items()}}))
+    monkeypatch.setattr(e2.B, "splits", lambda *_: {"test": (None, []), "classes": 2})
+    monkeypatch.setattr(e2.B, "majority_rate", lambda *_: 0.5)
+    monkeypatch.setattr(e2.B, "chance_rate", lambda *_: 0.5)
+    monkeypatch.setattr(e2.Fx, "run_cell", lambda sp, spec, seed, split, steps: {
+        "cell": e2.Fx.cell_name(**spec), "steps": steps, "accuracy": 0.5})
+    doc = e2.principal("har_stream", 0)
+    assert doc["schema"] == "mop-e2-principal-shard/v2"
+    assert {row["cell"]: row["steps"] for row in doc["runs"]} == selected
+    assert doc["convergence_authority"]["sha256"] == e2.io.sha_file(path)
 
 
 def test_supervisor_reports_invalid_and_partial_receipts_without_deleting_them(monkeypatch, tmp_path):

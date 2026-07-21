@@ -1,27 +1,5 @@
-"""Method extensions required before E2 may run.
-
-Five witnesses, each answering a question the reformation kernel could ask but not answer, and each born
-from a defect that already happened.
-
-    boundary crossing   did the run actually move between two different contexts
-    reset alignment     is a destructive reset schedule genuinely destructive, or accidentally an oracle
-    plateau validity    is the curve finished, judged against a long budget rather than a short one
-    null reference      what is this control expected to score when nothing is there
-    causal history      exactly what past information does this arm see
-
-The plateau witness is stricter than the reformation's criterion. That criterion accepted a curve still
-moving 0.016 across its measured range, on the argument that the movement was inside the noise. This program
-rejects that: a curve whose last half still moves by more than the threshold is unconverged, and the way to
-settle it is a longer budget rather than a looser rule. The prior receipt stays sealed and untouched; this is
-an append only tightening and it is recorded as one.
-
-House style: no dashes.
-"""
-
 from __future__ import annotations
-
 import math
-
 NULL_REFERENCES = (
     "zero",
     "chance",
@@ -31,7 +9,6 @@ NULL_REFERENCES = (
     "empirical_null",
     "analytic_value",
 )
-
 HISTORY_KINDS = (
     "current_observation_only",
     "last_k_observations",
@@ -42,17 +19,10 @@ HISTORY_KINDS = (
     "timestamp",
     "future_information",
 )
-
 FORBIDDEN_HISTORY = ("future_information",)
-
-
-# ---------------------------------------------------------------- 5.1 boundary crossing
-
-
 def boundary_crossing(*, context_a: dict, context_b: dict, transition_index: int, adapt_window: tuple,
                       baseline_on_a: float, baseline_on_b: float, construct: str,
                       min_gap: float = 0.02) -> dict:
-    """Prove the two contexts differ under the declared construct and that the run crossed between them."""
     checks = {
         "context_a_exists": bool(context_a) and int(context_a.get("n", 0)) > 0,
         "context_b_exists": bool(context_b) and int(context_b.get("n", 0)) > 0,
@@ -73,17 +43,7 @@ def boundary_crossing(*, context_a: dict, context_b: dict, transition_index: int
         "checks": checks,
         "classification": "boundary_crossed" if checks["all_pass"] else "invalid_no_boundary_crossing",
     }
-
-
-# ---------------------------------------------------------------- 5.2 reset alignment
-
-
 def reset_alignment(reset_indices, segment_boundaries, sequence_length: int, tolerance: int = 1) -> dict:
-    """Measure how much of a reset schedule lands on real segment boundaries.
-
-    A schedule that lands on every boundary is an oracle segmentation dressed as an ablation. That is what
-    period three did on both stream beds, where a stream is exactly three concatenated sequences.
-    """
     r = sorted(int(x) for x in reset_indices)
     b = sorted(int(x) for x in segment_boundaries)
     if not r:
@@ -93,7 +53,6 @@ def reset_alignment(reset_indices, segment_boundaries, sequence_length: int, tol
     dists = [min((abs(x - y) for y in b), default=sequence_length) for x in r]
     exact = sum(1 for d in dists if d == 0) / len(r)
     near = sum(1 for d in dists if d <= tolerance) / len(r)
-    # a uniformly placed reset lands within tolerance of a boundary with this probability
     expected = min(1.0, len(b) * (2 * tolerance + 1) / max(1, sequence_length))
     checks = {
         "is_misaligned": exact <= expected + 1e-9,
@@ -113,11 +72,8 @@ def reset_alignment(reset_indices, segment_boundaries, sequence_length: int, tol
         "checks": checks,
         "classification": "misaligned" if checks["all_pass"] else "oracle_segmented",
     }
-
-
 def coprime_periods(sequence_length: int, segment_length: int, count: int = 2, lo: int = 5,
                     hi: int = 40) -> list[int]:
-    """Periods that share no factor with the segment length, so no multiple of them lands on a boundary."""
     out = []
     for p in range(lo, hi + 1):
         if math.gcd(p, max(1, segment_length)) == 1 and p < sequence_length:
@@ -132,11 +88,8 @@ def coprime_periods(sequence_length: int, segment_length: int, count: int = 2, l
         if len(picked) >= count:
             break
     return picked
-
-
 def reset_indices_for(kind: str, sequence_length: int, segment_length: int, period: int = 0,
                       rate: float = 0.0, rng=None) -> list[int]:
-    """The reset index schedule for each declared control. Every schedule is explicit and auditable."""
     n = sequence_length
     if kind == "none":
         return []
@@ -158,18 +111,7 @@ def reset_indices_for(kind: str, sequence_length: int, segment_length: int, peri
         perm = rng.permutation(len(blocks))
         return sorted(int(blocks[i]) for i in perm[: max(1, len(blocks) // 2)] if blocks[i] > 0)
     raise ValueError(f"unknown reset kind {kind!r}")
-
-
-# ---------------------------------------------------------------- 5.3 plateau validity
-
-
 def plateau_validity(curves: dict, *, threshold: float = 0.01, slope_threshold: float = 0.002) -> dict:
-    """curves maps budget to score, and must span a short, a medium and a long budget.
-
-    Converged means the second half of the curve moved less than threshold in total and its slope per
-    budget step is at or below slope_threshold. A curve that is still climbing at the largest budget is
-    unconverged whatever its noise level, because the way to find out is a larger budget.
-    """
     if len(curves) < 4:
         return {"converged": False, "reason": f"{len(curves)} budgets, needs at least 4",
                 "checks": {"enough_budgets": False}, "classification": "insufficient_budget_grid"}
@@ -204,14 +146,8 @@ def plateau_validity(curves: dict, *, threshold: float = 0.01, slope_threshold: 
         ),
         "classification": "converged" if checks["all_pass"] else "unconverged",
     }
-
-
-# ---------------------------------------------------------------- 5.4 null reference
-
-
 def null_reference(kind: str, *, observed: float, reference: float, band: float = 0.05,
                    detail: dict | None = None) -> dict:
-    """A control declares what it is expected to score before it is scored."""
     if kind not in NULL_REFERENCES:
         return {"kind": kind, "valid": False, "reason": f"unknown null reference {kind!r}",
                 "classification": "invalid_null_reference"}
@@ -228,13 +164,7 @@ def null_reference(kind: str, *, observed: float, reference: float, band: float 
         "detail": detail or {},
         "classification": "null_as_expected" if inside else "null_reference_violated",
     }
-
-
-# ---------------------------------------------------------------- 5.5 causal history
-
-
 def history_witness(arms: dict) -> dict:
-    """arms maps arm name to the declared history record. Hidden differences are the defect this catches."""
     rows, violations = {}, []
     for name, h in arms.items():
         kinds = set(h.get("kinds") or [])
@@ -257,10 +187,7 @@ def history_witness(arms: dict) -> dict:
         "all_declared": not violations,
         "distinct_history_profiles": len({tuple(sorted(v["kinds"])) + (v["k"],) for v in rows.values()}),
     }
-
-
 def matched_information(a: dict, b: dict) -> dict:
-    """Two arms are information matched when they can see the same past, whatever route they use."""
     ha, hb = a.get("effective_horizon"), b.get("effective_horizon")
     return {
         "a_horizon": ha,

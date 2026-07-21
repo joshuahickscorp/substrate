@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 import time
 
 import numpy as np
@@ -20,7 +21,6 @@ from fastforge import engine as E
 from mop.temporal import arch as A
 from mop.temporal import beds as B
 from mop.temporal import factorial as Fx
-from mop.temporal import hypotheses as H
 from mop.temporal import io
 
 T95 = {2: 6.314, 3: 2.920, 4: 2.353, 5: 2.132, 6: 2.015, 7: 1.943, 8: 1.895, 9: 1.860, 10: 1.833}
@@ -29,6 +29,185 @@ OPTIMIZATION_SEEDS = {0, 1, 2}
 CORRECTED_CELLS = {Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large")),
                    Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large",
                                        readout="mlp_strong"))}
+BASE_CONVERGENCE_GRID = (400, 800, 1600, 3200)
+EXTENDED_CONVERGENCE_GRID = (6400, 12800)
+CONVERGENCE_SEEDS = {0, 1, 2}
+_PARAMETER_CACHE: dict[tuple, dict] = {}
+
+
+def _expected_convergence_specs() -> list[dict]:
+    """Rebuild the sealed 76 identity inventory without importing the E2 run controller."""
+    specs = [dict(Fx.REFERENCE, family=f) for f in ("gru", "lstm", "mgu", "pooled", "tcn")]
+    specs += [dict(Fx.REFERENCE, family="histmlp", history_k=20),
+              dict(Fx.REFERENCE, tier="large"),
+              dict(Fx.REFERENCE, family="pooled", tier="large", readout="mlp_strong"),
+              dict(Fx.REFERENCE, family="histmlp", history_k="full_window"),
+              dict(Fx.REFERENCE, reset="horizon_45"), dict(Fx.REFERENCE, reset="horizon_90")]
+    for family in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn"):
+        for tier in A.CAPACITY_TIERS:
+            candidate = dict(Fx.REFERENCE, family=family, tier=tier)
+            if Fx.cell_name(**candidate) not in {Fx.cell_name(**s) for s in specs}:
+                specs.append(candidate)
+    for group in ("architecture", "readout", "horizon", "reset", "capacity_by_horizon", "history",
+                  "capacity_by_readout"):
+        for candidate in Fx.sweep_cells()[group]:
+            if Fx.cell_name(**candidate) not in {Fx.cell_name(**s) for s in specs}:
+                specs.append(candidate)
+    return specs
+
+
+def _result_hash_valid(document: dict) -> bool:
+    return (document.get("program") == io.PROGRAM
+            and isinstance(document.get("source_commit"), str)
+            and re.fullmatch(r"[0-9a-f]{40}", document["source_commit"]) is not None
+            and isinstance(document.get("source_tree_oid"), str)
+            and re.fullmatch(r"[0-9a-f]{40}", document["source_tree_oid"]) is not None
+            and document.get("result_hash_version") == "canonical_json_v2"
+            and document.get("result_sha256") == io.sha_obj(
+                {k: v for k, v in document.items() if k != "result_sha256"}))
+
+
+def _parameter_count(bed: str, spec: dict) -> dict:
+    key = (bed, *sorted(spec.items()))
+    if key not in _PARAMETER_CACHE:
+        model = Fx.build_cell(B.splits(bed, 0), seed=0, **spec)[0]
+        _PARAMETER_CACHE[key] = A.count(model)
+    return _PARAMETER_CACHE[key]
+
+
+def _curve_receipt_checks(document: dict, *, bed: str, spec: dict,
+                          grid: tuple[int, ...], scientific: bool = True) -> dict[str, bool]:
+    cell = Fx.cell_name(**spec)
+    curve = {int(k): v for k, v in (document.get("curve") or {}).items()}
+    spread = {int(k): v for k, v in (document.get("seed_spread") or {}).items()}
+    counts = document.get("parameter_count") or {}
+    rebuilt = _parameter_count(bed, spec)
+    band = A.TIER_RANGE.get(spec.get("tier"), (1, 0))
+    checks = {
+        "identity": document.get("bed") == bed and document.get("spec") == spec
+        and document.get("cell") == cell,
+        "exact_grid": set(curve) == set(spread) == set(grid),
+        "exact_seeds": set(map(int, document.get("seeds") or [])) == CONVERGENCE_SEEDS,
+        "parameter_inventory": counts == rebuilt and counts.get("total") == counts.get("core", 0)
+        + counts.get("readout", 0),
+        "tier_band": band[0] <= counts.get("core", -1) <= band[1],
+        "canonical_result_hash": _result_hash_valid(document),
+    }
+    if scientific:
+        finite = all(math.isfinite(float(v)) and 0 <= float(v) <= 1 for v in curve.values()) \
+            and all(math.isfinite(float(v)) and float(v) >= 0 for v in spread.values())
+        plateau = _plateau(curve)
+        checks["finite_scores"] = len(curve) == len(grid) and finite
+        checks["plateau_reconstructed"] = document.get("classification") == plateau["classification"] \
+            and document.get("selected_checkpoint") == plateau["selected_checkpoint"] \
+            and _close(document.get("second_half_movement"), plateau["second_half_movement"]) \
+            and _close(document.get("residual_slope"), plateau["residual_slope"]) \
+            and document.get("converged") is plateau["all_pass"]
+    records = document.get("arm_records")
+    declared_scores = document.get("seed_scores")
+    if isinstance(records, dict):
+        record_checks = []
+        for budget in grid:
+            rows = records.get(str(budget), records.get(budget, []))
+            structural = ({int(row.get("seed", -1)) for row in rows} == CONVERGENCE_SEEDS
+                          and len(rows) == len(CONVERGENCE_SEEDS)
+                          and all(int(row.get("updates", -1)) == budget
+                                  and len(str(row.get("checkpoint_sha", ""))) == 64 for row in rows))
+            if scientific:
+                scores = [float(row.get("score")) for row in rows]
+                shown = (declared_scores or {}).get(str(budget), (declared_scores or {}).get(budget, []))
+                structural = (structural and len(shown) == len(scores)
+                              and all(_close(a, b) for a, b in zip(shown, scores))
+                              and _close(mean(scores), curve.get(budget))
+                              and _close(sd(scores), spread.get(budget)))
+            record_checks.append(structural)
+        checks["raw_arm_records"] = bool(record_checks) and all(record_checks)
+    else:
+        checks["raw_arm_records"] = False
+    return checks
+
+
+def _convergence_audit(bed: str, *, scientific: bool = True) -> dict:
+    """Reconstruct the aggregate from exact base, extension and correction receipts."""
+    specs = _expected_convergence_specs()
+    expected = {Fx.cell_name(**spec): spec for spec in specs}
+    checks: dict[str, bool] = {"exact_76_unique_identities": len(specs) == len(expected) == 76}
+    checks["exact_base_file_inventory"] = {p.name for p in (io.RUNS / "e2_converge").glob(
+        f"cshard_{bed}_*.json")} == {f"cshard_{bed}_{i}.json" for i in range(76)}
+    checks["exact_extended_file_inventory"] = {p.name for p in (
+        io.RUNS / "e2_converge_extended").glob(f"xshard_{bed}_*.json")} == {
+            f"xshard_{bed}_{i}.json" for i in range(76)}
+    sources = {}
+    for index, spec in enumerate(specs):
+        cell = Fx.cell_name(**spec)
+        base_path = io.RUNS / "e2_converge" / f"cshard_{bed}_{index}.json"
+        ext_path = io.RUNS / "e2_converge_extended" / f"xshard_{bed}_{index}.json"
+        base = json.loads(base_path.read_text()) if base_path.is_file() else {}
+        extended = json.loads(ext_path.read_text()) if ext_path.is_file() else {}
+        base_checks = _curve_receipt_checks(base, bed=bed, spec=spec, grid=BASE_CONVERGENCE_GRID,
+                                            scientific=scientific) \
+            if base else {"present": False}
+        ext_checks = _curve_receipt_checks(extended, bed=bed, spec=spec,
+                                           grid=BASE_CONVERGENCE_GRID + EXTENDED_CONVERGENCE_GRID,
+                                           scientific=scientific) \
+            if extended else {"present": False}
+        binding = extended.get("extends") or {}
+        ext_checks["base_hash_binding"] = bool(base) and binding == {
+            "path": base_path.relative_to(io.ROOT).as_posix(), "sha256": io.sha_file(base_path),
+            "grid": list(BASE_CONVERGENCE_GRID)}
+        checks[f"base:{index}:{cell}"] = all(base_checks.values())
+        checks[f"extended:{index}:{cell}"] = all(ext_checks.values())
+        sources[cell] = extended
+    corrected_cell = Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large"))
+    correction_path = io.RUNS / "e2_converge_corrections" / f"convergence_{bed}.json"
+    correction = json.loads(correction_path.read_text()) if correction_path.is_file() else {}
+    correction_checks = _curve_receipt_checks(
+        correction, bed=bed, spec=expected[corrected_cell],
+        grid=BASE_CONVERGENCE_GRID + EXTENDED_CONVERGENCE_GRID,
+        scientific=scientific) if correction else {"present": False}
+    correction_checks["supersedes_exact_identity"] = set(correction.get("supersedes") or []) == {
+        f"e2_converge/cshard_{bed}_25.json", f"e2_converge_extended/xshard_{bed}_25.json"}
+    checks[f"correction:{corrected_cell}"] = all(correction_checks.values())
+    checks["exact_correction_file_inventory"] = {p.name for p in (
+        io.RUNS / "e2_converge_corrections").glob(f"*{bed}*.json")} == {correction_path.name}
+    sources[corrected_cell] = correction
+    aggregate_path = io.RUNS / "e2_converge" / f"converge_{bed}.json"
+    aggregate = json.loads(aggregate_path.read_text()) if aggregate_path.is_file() else {}
+    configs = aggregate.get("configs") or {}
+    checks["aggregate_canonical_result_hash"] = _result_hash_valid(aggregate)
+    checks["aggregate_v4_schema"] = aggregate.get("schema") == "mop-e2-convergence/v4"
+    checks["aggregate_identity_and_inventory"] = aggregate.get("bed") == bed and set(configs) == set(expected)
+    expected_index = []
+    for index, spec in enumerate(specs):
+        cell = Fx.cell_name(**spec)
+        path = (correction_path if cell == corrected_cell else
+                io.RUNS / "e2_converge_extended" / f"xshard_{bed}_{index}.json")
+        expected_index.append({"cell": cell, "path": path.relative_to(io.ROOT).as_posix(),
+                               "sha256": io.sha_file(path) if path.is_file() else None})
+    checks["aggregate_exact_shard_index"] = aggregate.get("shard_index") == expected_index
+    checks["aggregate_exact_source_receipts"] = bool(configs) and all(
+        configs.get(cell) == sources.get(cell) for cell in expected)
+    checks["aggregate_grid"] = set(map(int, aggregate.get("grid") or [])) == set(
+        BASE_CONVERGENCE_GRID + EXTENDED_CONVERGENCE_GRID)
+    if scientific:
+        classifications = {cell: _plateau((row or {}).get("curve") or {})["classification"]
+                           for cell, row in sources.items()}
+        checks["aggregate_classifications"] = all(
+            configs.get(cell, {}).get("classification") == classification
+            for cell, classification in classifications.items())
+        unconverged = sorted(cell for cell, value in classifications.items() if value != "converged")
+        load_bearing = [Fx.cell_name(**specs[i]) for i in (0, 2, 3, 4, 8, 9, 10)]
+        checks["aggregate_terminal_summaries"] = (
+            aggregate.get("unconverged") == unconverged
+            and aggregate.get("all_converged") is (not unconverged)
+            and aggregate.get("load_bearing_cells") == load_bearing
+            and aggregate.get("load_bearing_unconverged") == [
+                cell for cell in load_bearing if classifications.get(cell) != "converged"]
+            and aggregate.get("load_bearing_all_converged") is all(
+                classifications.get(cell) == "converged" for cell in load_bearing))
+    return {"checks": checks, "all_pass": all(checks.values()), "configs": configs,
+            "aggregate_path": aggregate_path, "aggregate_sha256": (
+                io.sha_file(aggregate_path) if aggregate_path.is_file() else None)}
 
 
 def mean(v):
@@ -188,8 +367,35 @@ def _principal_runs(bed: str) -> list[dict]:
             rows[(int(row["seed"]), row["cell"])] = row
     for p in sorted((io.RUNS / "e2_principal_corrections").glob(f"capacity_{bed}_*.json")):
         for row in json.loads(p.read_text())["runs"]:
-            rows[(int(row["seed"]), row["cell"])] = row
+            key = (int(row["seed"]), row["cell"])
+            existing = rows.get(key) or {}
+            tier = (existing.get("spec") or {}).get("tier")
+            band = A.TIER_RANGE.get(tier, (1, 0))
+            if not existing or not band[0] <= (existing.get("params") or {}).get("core", -1) <= band[1]:
+                rows[key] = row
     return list(rows.values())
+
+
+def _principal_correction_binding(bed: str, aggregate_sha: str | None,
+                                  selected: dict[str, int], seeds: set[int]) -> bool:
+    paths = sorted((io.RUNS / "e2_principal_corrections").glob(f"capacity_{bed}_*.json"))
+    expected_cells = CORRECTED_CELLS
+    if len(paths) != len(seeds):
+        return False
+    for path in paths:
+        document = json.loads(path.read_text())
+        authority = document.get("convergence_authority") or {}
+        rows = document.get("runs") or []
+        if not (document.get("schema") == "mop-e2-capacity-tier-correction-shard/v2"
+                and _result_hash_valid(document) and document.get("seed") in seeds
+                and {row.get("cell") for row in rows} == expected_cells
+                and authority.get("sha256") == aggregate_sha
+                and authority.get("selected_checkpoints") == {
+                    cell: selected.get(cell) for cell in expected_cells}
+                and all(row.get("steps") == row.get("updates") == selected.get(row.get("cell"))
+                        for row in rows)):
+            return False
+    return True
 
 
 def _effect_inputs(runs: list[dict]) -> tuple[dict[str, dict[int, dict]], dict[str, dict[str, float]]]:
@@ -257,6 +463,19 @@ def _equivalent(effect: dict, margin: float) -> bool:
         and abs(effect["mean"]) <= margin and effect["lower_95_cb"] >= -margin \
         and effect["upper_95_cb"] <= margin and abs(effect["group_mean"]) <= margin \
         and effect["group_lower_95_cb"] >= -margin and effect["group_upper_95_cb"] <= margin
+
+
+def _equivalence_row_audit(effect: dict, sealed: dict) -> tuple[bool, bool]:
+    """Return scientific equivalence and sealed agreement as deliberately separate facts."""
+    seed_equivalent = _equivalent(effect, io.EQUIVALENCE_MARGIN)
+    group_equivalent = effect.get("group_lower_95_cb", -math.inf) >= -io.EQUIVALENCE_MARGIN \
+        and effect.get("group_upper_95_cb", math.inf) <= io.EQUIVALENCE_MARGIN
+    actual_pass = seed_equivalent and group_equivalent
+    sealed_matches = seed_equivalent == sealed.get("seed_equivalent") \
+        and group_equivalent == sealed.get("group_equivalent") \
+        and all(_close(effect[field], sealed.get(field)) for field in (
+            "mean", "lower_95_cb", "group_lower_95_cb", "group_upper_95_cb"))
+    return actual_pass, sealed_matches
 
 
 def _plateau(curve: dict) -> dict:
@@ -333,8 +552,8 @@ def _independent_result_keys(sealed: dict, recomputed: dict) -> list[str]:
     monotonic = []
     for table in capacity:
         medium, large = table.get("gru_medium_vs_small", {}), table.get("gru_large_vs_small", {})
-        monotonic.append(ready(medium) and ready(large) and medium["mean"] <= large["mean"] + 1e-9
-                         and large["mean"] > SESOI and positive(large))
+        monotonic.append(positive(medium) and positive(large)
+                         and medium["mean"] <= large["mean"] + 1e-9)
     if all(monotonic):
         keys.append("capacity_monotonic_and_large")
     elif all(table and all(equivalent(d) for d in table.values()) for table in capacity):
@@ -349,13 +568,17 @@ def _independent_result_keys(sealed: dict, recomputed: dict) -> list[str]:
         destructive(h.get("gru_h45_vs_full", {}))
         and any(destructive(r.get(k, {})) for k in ("misaligned_a", "misaligned_b"))
         and destructive(r.get("random_rate_matched", {})) for h, r in zip(horizon, reset, strict=True))
-    threshold = [any(equivalent(table.get(f"gru_h{h}_vs_full", {}))
-                     for h in (1, 2, 5, 10, 20, 45, 90)) for table in horizon]
     horizon_focus = [[table.get(k, {}) for k in ("gru_h45_vs_full", "gru_h90_vs_full")]
                      for table in horizon]
-    if horizon_gate and all(threshold):
+    horizon_ready = all(ready(d) for rows in horizon_focus for d in rows)
+    threshold_rows = []
+    for table in horizon:
+        threshold = next((h for h in (1, 2, 5, 10, 20, 45, 90)
+                          if equivalent(table.get(f"gru_h{h}_vs_full", {}))), None)
+        threshold_rows.append(table.get(f"gru_h{threshold}_vs_full", {}) if threshold is not None else {})
+    if horizon_ready and horizon_gate and all(ready(d) and equivalent(d) for d in threshold_rows):
         keys.append("horizon_threshold_at_dependency_length")
-    elif all(equivalent(d) for rows in horizon_focus for d in rows):
+    elif horizon_ready and all(equivalent(d) for rows in horizon_focus for d in rows):
         keys.append("horizon_flat")
     interactions = [group(b, "capacity_by_horizon") for b in beds]
     if all(table and all(ready(d) for d in table.values()) for table in interactions):
@@ -372,8 +595,9 @@ def _independent_result_keys(sealed: dict, recomputed: dict) -> list[str]:
         keys.append("all_recurrent_families_agree")
     elif all(family_ready.values()) and any(family_pass.values()):
         keys.append("one_recurrent_family_dissents")
-    optimization_ready = all((recomputed.get(f"optimization:{b}") or {}).get(
-        "scientific_verdict") not in (None, "provisional_unconverged") for b in beds)
+    optimization_ready = all((recomputed.get(f"optimization:{b}") or {}).get("receipt_valid") is True
+                             and (recomputed.get(f"optimization:{b}") or {}).get("converged") is True
+                             for b in beds)
     if optimization_ready and all(positive(d) for d in matched):
         keys.append("converged_everywhere_and_gap_remains")
     preflight = io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") if io.exists(
@@ -381,7 +605,11 @@ def _independent_result_keys(sealed: dict, recomputed: dict) -> list[str]:
     third = group("harth_stream", "recurrent_versus_matched_history").get(
         "gru_vs_histmlp_kfull_window", {})
     if "harth_stream" in (preflight.get("selected") or []) and third:
-        keys.append("third_bed_agrees" if positive(third) else "third_bed_dissents")
+        if positive(third):
+            keys.append("third_bed_agrees")
+        elif ready(third) and (_equivalent(third, io.EQUIVALENCE_MARGIN)
+                               or third.get("group_upper_95_cb", math.inf) <= -SESOI):
+            keys.append("third_bed_dissents")
     else:
         keys.append("third_bed_invalid")
     readouts = [group(b, "readout") for b in beds]
@@ -391,6 +619,49 @@ def _independent_result_keys(sealed: dict, recomputed: dict) -> list[str]:
         elif all(all(equivalent(d) for d in table.values()) for table in readouts):
             keys.append("readout_capacity_flat")
     return keys
+
+
+def _independent_hypothesis_fold(results: list[str]) -> dict:
+    """Local immutable copy of the preregistered reducer, with no producer hypothesis import."""
+    hypotheses = tuple(f"H{i}_{name}" for i, name in enumerate((
+        "recurrence", "explicit_history", "capacity", "state_horizon", "optimization",
+        "core_horizon_interaction", "architecture_family", "bed_specificity"), 1))
+    mapping = {
+        "recurrent_beats_matched_history": ((hypotheses[0],), (hypotheses[1],), (), (hypotheses[2], hypotheses[3])),
+        "matched_history_matches_recurrent": ((hypotheses[1],), (hypotheses[0],), (hypotheses[0],), (hypotheses[3],)),
+        "capacity_monotonic_and_large": ((hypotheses[2],), (hypotheses[0],), (), (hypotheses[5],)),
+        "capacity_flat_or_saturating": ((), (hypotheses[2],), (hypotheses[2],), ()),
+        "horizon_threshold_at_dependency_length": ((hypotheses[3],), (), (), (hypotheses[5],)),
+        "horizon_flat": ((), (hypotheses[3], hypotheses[0]), (hypotheses[3],), ()),
+        "capacity_helps_only_at_long_horizon": ((hypotheses[5],), (), (), (hypotheses[2],)),
+        "capacity_and_horizon_independent": ((), (hypotheses[5],), (hypotheses[5],), ()),
+        "all_recurrent_families_agree": ((), (hypotheses[6],), (hypotheses[6],), (hypotheses[0],)),
+        "one_recurrent_family_dissents": ((hypotheses[6],), (hypotheses[0],), (), (hypotheses[4],)),
+        "unconverged_arms_explain_the_gap": ((hypotheses[4],), (hypotheses[0], hypotheses[2]), (), ()),
+        "converged_everywhere_and_gap_remains": ((), (hypotheses[4],), (hypotheses[4],), ()),
+        "third_bed_agrees": ((), (hypotheses[7],), (hypotheses[7],), ()),
+        "third_bed_dissents": ((hypotheses[7],), (), (), (hypotheses[0],)),
+        "third_bed_invalid": ((), (), (), (hypotheses[7],)),
+        "readout_capacity_reproduces_the_effect": ((hypotheses[2],), (hypotheses[0],), (), ()),
+        "readout_capacity_flat": ((), (hypotheses[2],), (), ()),
+    }
+    state = {h: {kind: [] for kind in ("supports", "weakens", "closes", "unresolved")}
+             for h in hypotheses}
+    unknown = [result for result in results if result not in mapping]
+    for result in results:
+        for kind, named in zip(("supports", "weakens", "closes", "unresolved"),
+                               mapping.get(result, ((), (), (), ())), strict=True):
+            for hypothesis in named:
+                state[hypothesis][kind].append(result)
+    folded = {}
+    for hypothesis, evidence in state.items():
+        status = ("closed" if evidence["closes"] else "supported" if evidence["supports"]
+                  and not evidence["weakens"] else "mixed" if evidence["supports"]
+                  and evidence["weakens"] else "weakened" if evidence["weakens"] else
+                  "unresolved" if evidence["unresolved"] else "open")
+        folded[hypothesis] = {"state": status, "evidence": evidence}
+    return {"hypotheses": folded, "unknown_result_keys": unknown,
+            "observed_results": sorted(set(results))}
 
 
 # ---------------------------------------------------------------- role B
@@ -434,7 +705,8 @@ def role_b() -> dict:
             A.TIER_RANGE["large"][0] <= r["params"]["core"] <= A.TIER_RANGE["large"][1])]
         correction = io.load("MOP_E2_CAPACITY_TIER_CORRECTION.json") if io.exists(
             "MOP_E2_CAPACITY_TIER_CORRECTION.json") else {}
-        checks[f"{bed}:original_capacity_defects_quarantined"] = len(invalid_originals) == 16
+        checks[f"{bed}:original_capacity_defect_inventory_bound"] = len(invalid_originals) == int(
+            (correction.get("original_invalid_receipts") or {}).get(bed, -1))
         checks[f"{bed}:capacity_correction_authority_passes"] = bool(correction.get("all_pass"))
         runs = _principal_runs(bed)
         by_tier: dict = {}
@@ -445,8 +717,30 @@ def role_b() -> dict:
             for tier, values in by_tier.items() for value in values)
         checks[f"{bed}:factorial_cell_identity"] = all(
             r["cell"] == Fx.cell_name(**r["spec"]) for r in runs)
-        checks[f"{bed}:training_budget_matches_updates"] = all(
-            r["steps"] == r["updates"] == Fx.STEPS for r in runs)
+        checks[f"{bed}:principal_parameters_rebuilt_exactly"] = all(
+            r.get("params") == _parameter_count(bed, r["spec"]) for r in runs)
+        convergence = _convergence_audit(bed, scientific=False)
+        checks[f"{bed}:exact_raw_convergence_authority"] = convergence["all_pass"]
+        checkpoints = {cell: int(row["selected_checkpoint"])
+                       for cell, row in convergence["configs"].items()
+                       if row.get("selected_checkpoint") is not None}
+        checks[f"{bed}:training_budget_matches_selected_checkpoint"] = bool(runs) and all(
+            r["steps"] == r["updates"] == checkpoints.get(r["cell"]) for r in runs)
+        principal_shards = [json.loads(p.read_text()) for p in sorted(
+            (io.RUNS / "e2_principal").glob(f"{bed}_*.json"))]
+        checks[f"{bed}:exact_principal_shard_inventory"] = len(principal_shards) == len(
+            doc.get("seeds") or []) and all(_result_hash_valid(shard) for shard in principal_shards)
+        expected_factorial = {Fx.cell_name(**spec) for spec in Fx.sweep_cells()["_all"]}
+        checks[f"{bed}:principal_shards_bind_exact_convergence_hash"] = bool(principal_shards) and all(
+            shard.get("schema") == "mop-e2-principal-shard/v2"
+            and (shard.get("convergence_authority") or {}).get("sha256")
+            == convergence["aggregate_sha256"]
+            and (shard.get("convergence_authority") or {}).get("selected_checkpoints") == checkpoints
+            and (shard.get("convergence_authority") or {}).get("all_factorial_cells_measured") is True
+            and {row.get("cell") for row in shard.get("runs") or []} == expected_factorial
+            for shard in principal_shards)
+        checks[f"{bed}:principal_corrections_bind_exact_convergence_hash"] = _principal_correction_binding(
+            bed, convergence["aggregate_sha256"], checkpoints, set(doc.get("seeds") or []))
         checks[f"{bed}:checkpoint_receipts_present"] = all(r.get("checkpoint_sha_after") for r in runs)
         checks[f"{bed}:parameter_inventory_sums"] = all(
             r["params"]["total"] == r["params"]["core"] + r["params"]["readout"] for r in runs)
@@ -655,7 +949,14 @@ def role_b() -> dict:
             checks[f"optimization:{bed}:paired_actual_compute_and_spec"] = pair_ok
     if io.exists("MOP_OWNED_TEMPORAL_CORE_V1.json"):
         owned = io.load("MOP_OWNED_TEMPORAL_CORE_V1.json")
-        for bed, receipt in ((owned.get("core") or {}).get("checkpoints") or {}).items():
+        core = owned.get("core") or {}
+        checkpoint_receipts = core.get("checkpoints") or {}
+        valid_domains = set(core.get("valid_domains") or [])
+        disk_beds = {p.stem.removeprefix("owned_temporal_core_v1_")
+                     for p in (io.PROOF / "checkpoints").glob("owned_temporal_core_v1_*.pt")}
+        checks["owned_core:exact_checkpoint_bed_inventory"] = (
+            set(checkpoint_receipts) == valid_domains and disk_beds == valid_domains)
+        for bed, receipt in checkpoint_receipts.items():
             path = io.ROOT / str(receipt.get("path"))
             key = f"owned_core:checkpoint:{bed}"
             checks[f"{key}:file_hash"] = path.is_file() and io.sha_file(path) == receipt.get("sha256")
@@ -674,10 +975,29 @@ def role_b() -> dict:
                     A.count(model) == payload.get("params") == receipt.get("params"))
                 checks[f"{key}:restored_checkpoint_hash"] = E.checkpoint_sha(model) == receipt.get(
                     "checkpoint_sha")
+                selected_cell = ((owned.get("selection") or {}).get("selected") or {}).get("cell")
+                principal = io.load("MOP_E2_PRINCIPAL_RESULT.json")
+                expected_checkpoint = (((principal.get("per_bed") or {}).get(bed, {}).get(
+                    "convergence") or {}).get("configs") or {}).get(selected_cell, {}).get(
+                        "selected_checkpoint")
+                training = payload.get("training_receipt") or {}
+                checks[f"{key}:selected_budget_binding"] = (
+                    isinstance(expected_checkpoint, int)
+                    and payload.get("selected_checkpoint") == receipt.get("selected_checkpoint")
+                    == expected_checkpoint and training.get("updates") == expected_checkpoint)
+                checks[f"{key}:launch_provenance"] = (
+                    payload.get("seed") == 0 and payload.get("source_commit") == owned.get("source_commit")
+                    and payload.get("source_tree_oid") == owned.get("source_tree_oid")
+                    and isinstance(payload.get("source_commit"), str)
+                    and re.fullmatch(r"[0-9a-f]{40}", payload["source_commit"]) is not None
+                    and isinstance(payload.get("source_tree_oid"), str)
+                    and re.fullmatch(r"[0-9a-f]{40}", payload["source_tree_oid"]) is not None)
             except (OSError, RuntimeError, TypeError, ValueError, KeyError):
                 checks[f"{key}:payload_identity"] = False
                 checks[f"{key}:restored_parameter_inventory"] = False
                 checks[f"{key}:restored_checkpoint_hash"] = False
+                checks[f"{key}:selected_budget_binding"] = False
+                checks[f"{key}:launch_provenance"] = False
     return {"role": "B instrumentation auditor", "checks": checks, "notes": notes,
             "failed": [k for k, v in checks.items() if not v], "all_pass": all(checks.values()),
             "outcomes_inspected": False}
@@ -692,19 +1012,23 @@ def role_c() -> dict:
     sealed = io.load("MOP_E2_PRINCIPAL_RESULT.json")
     expected_seeds = [int(s) for s in sealed["seeds"]]
     checks, mismatches, recomputed = {}, [], {}
+    owned, independently_admitted, independently_third_replicated = {}, False, False
     for bed, a in sealed["per_bed"].items():
         if a.get("status") == "no_runs":
             continue
         runs = _principal_runs(bed)
         by_cell, unit_cells = _effect_inputs(runs)
         weights = _test_unit_weights(bed)
-        conv_path = io.RUNS / "e2_converge" / f"converge_{bed}.json"
-        conv_doc = json.loads(conv_path.read_text()) if conv_path.is_file() else {}
-        conv_configs = conv_doc.get("configs") or {}
+        convergence_audit = _convergence_audit(bed)
+        conv_configs = convergence_audit["configs"]
 
         def independent_convergence(cell: str) -> str:
             raw = conv_configs.get(cell) or conv_configs.get(cell.replace("|horizon_full|", "|none|"))
             return _plateau((raw or {}).get("curve") or {})["classification"] if raw else "not_measured"
+        checks[f"{bed}:exact_raw_convergence_authority"] = convergence_audit["all_pass"]
+        selected_checkpoints = {cell: int(row["selected_checkpoint"])
+                                for cell, row in conv_configs.items()
+                                if row.get("selected_checkpoint") is not None}
         checks[f"{bed}:exact_seed_set"] = {int(r["seed"]) for r in runs} == set(expected_seeds)
         checks[f"{bed}:every_cell_has_exact_seed_set"] = bool(by_cell) and all(
             set(rows) == set(expected_seeds) for rows in by_cell.values())
@@ -713,13 +1037,30 @@ def role_c() -> dict:
             values, inventory = _unit_inventory(r.get("per_unit_accuracy"))
             receipt_identity.append(r.get("bed") == bed and int(r.get("seed")) in expected_seeds
                                     and r.get("eval_on") == "test"
-                                    and r.get("cell") == Fx.cell_name(**r.get("spec", {})))
+                                    and r.get("cell") == Fx.cell_name(**r.get("spec", {}))
+                                    and r.get("steps") == r.get("updates")
+                                    == selected_checkpoints.get(r.get("cell")))
             unit_identity.append(inventory["all_pass"] and set(values) == set(weights))
             metric = _weighted_metric(values, weights)
             metrics.append(metric is not None and _close(metric, r.get("accuracy")))
         checks[f"{bed}:receipt_bed_seed_cell_and_split_identity"] = bool(runs) and all(receipt_identity)
         checks[f"{bed}:exact_evaluation_unit_identity"] = bool(runs) and all(unit_identity)
         checks[f"{bed}:accuracy_reconstructed_from_per_unit_receipts"] = bool(runs) and all(metrics)
+        expected_factorial = {Fx.cell_name(**spec) for spec in Fx.sweep_cells()["_all"]}
+        principal_shards = [json.loads(p.read_text()) for p in sorted(
+            (io.RUNS / "e2_principal").glob(f"{bed}_*.json"))]
+        checks[f"{bed}:exact_principal_shard_inventory"] = len(principal_shards) == len(expected_seeds) \
+            and all(_result_hash_valid(shard) for shard in principal_shards)
+        checks[f"{bed}:principal_convergence_hash_binding"] = bool(principal_shards) and all(
+            shard.get("schema") == "mop-e2-principal-shard/v2"
+            and (shard.get("convergence_authority") or {}).get("sha256")
+            == convergence_audit["aggregate_sha256"]
+            and (shard.get("convergence_authority") or {}).get("selected_checkpoints")
+            == selected_checkpoints
+            and {row.get("cell") for row in shard.get("runs") or []} == expected_factorial
+            for shard in principal_shards)
+        checks[f"{bed}:principal_correction_convergence_hash_binding"] = _principal_correction_binding(
+            bed, convergence_audit["aggregate_sha256"], selected_checkpoints, set(expected_seeds))
         recomputed[bed] = {}
         for group, table in a["effects"].items():
             recomputed[bed][group] = {}
@@ -792,22 +1133,36 @@ def role_c() -> dict:
 
     if io.exists("MOP_OWNED_TEMPORAL_CORE_V1.json"):
         owned = io.load("MOP_OWNED_TEMPORAL_CORE_V1.json")
+        selected_core = owned.get("selected") is True
         selection = owned.get("selection") or {}
         evidence = selection.get("equivalence_evidence") or {}
-        # A stale preselection artifact may exist before the supervisor reaches core selection. Once the
-        # current selector emits raw equivalence evidence, every row is independently checked below.
-        checks["owned_core:equivalence_evidence_present"] = (
-            not selection.get("selected") or "equivalence_evidence" not in selection or bool(evidence))
-        best = selection.get("best_cell")
+        principal_beds = list(sealed["principal_beds"])
+        bed_inputs = {bed: _effect_inputs(_principal_runs(bed)) for bed in principal_beds}
+        shared = set.intersection(*(set(cells) for cells, _ in bed_inputs.values())) if bed_inputs else set()
+        shared = {cell for cell in shared if cell.split("|")[3] in ("none", "horizon_full")
+                  or cell.split("|")[3].startswith("horizon_")}
+        convergence_by_bed = {bed: _convergence_audit(bed)["configs"] for bed in principal_beds}
+        shared = {cell for cell in shared if all(
+            _plateau((convergence_by_bed[bed].get(cell) or {}).get("curve") or {})[
+                "classification"] == "converged" for bed in principal_beds)}
+        if not selected_core:
+            shared = set()
+        worst = {cell: min(mean([float(row["accuracy"]) for row in bed_inputs[bed][0][cell].values()])
+                            for bed in principal_beds) for cell in shared}
+        best = max(worst, key=worst.get) if worst else None
+        checks["owned_core:best_cell_recomputed"] = best == selection.get("best_cell")
+        checks["owned_core:exact_equivalence_candidate_inventory"] = set(evidence) == shared
+        checks["owned_core:equivalence_evidence_present"] = not selection.get("selected") or bool(evidence)
         independently_equivalent = []
-        for candidate, expected in evidence.items():
-            per_bed, candidate_pass = {}, True
-            for bed in sealed["principal_beds"]:
-                runs = _principal_runs(bed)
-                by_cell, unit_cells = _effect_inputs(runs)
+        for candidate in sorted(shared):
+            expected = evidence.get(candidate) or {}
+            per_bed, actual_pass, sealed_matches = {}, True, True
+            for bed in principal_beds:
+                by_cell, unit_cells = bed_inputs[bed]
                 effect = _recompute_effect(by_cell, unit_cells, [candidate, best], [1, -1], expected_seeds)
                 if effect is None:
-                    candidate_pass = False
+                    actual_pass = False
+                    sealed_matches = False
                     continue
                 seed_equivalent = _equivalent(effect, io.EQUIVALENCE_MARGIN)
                 group_equivalent = (effect["group_lower_95_cb"] >= -io.EQUIVALENCE_MARGIN
@@ -815,18 +1170,49 @@ def role_c() -> dict:
                 per_bed[bed] = {"seed_equivalent": seed_equivalent,
                                 "group_equivalent": group_equivalent, **effect}
                 sealed_bed = (expected.get("per_bed") or {}).get(bed, {})
-                candidate_pass = candidate_pass and seed_equivalent == sealed_bed.get("seed_equivalent") \
-                    and group_equivalent == sealed_bed.get("group_equivalent") \
-                    and all(_close(effect[field], sealed_bed.get(field)) for field in (
-                        "mean", "lower_95_cb", "group_lower_95_cb", "group_upper_95_cb"))
-            candidate_pass = candidate_pass and all(
-                row["seed_equivalent"] and row["group_equivalent"] for row in per_bed.values())
-            checks[f"owned_core:equivalence:{candidate}"] = candidate_pass == bool(expected.get("passes"))
-            if candidate_pass:
+                row_actual, row_matches = _equivalence_row_audit(effect, sealed_bed)
+                actual_pass = actual_pass and row_actual
+                sealed_matches = sealed_matches and row_matches
+            sealed_matches = (sealed_matches and set((expected.get("per_bed") or {})) == set(principal_beds)
+                              and expected.get("passes") is actual_pass
+                              and expected.get("source") == "paired raw seed and independent-unit effects")
+            checks[f"owned_core:equivalence:{candidate}:sealed_matches"] = sealed_matches
+            if actual_pass:
                 independently_equivalent.append(candidate)
-        if evidence:
-            checks["owned_core:equivalent_region"] = sorted(independently_equivalent) == sorted(
-                selection.get("equivalent_region") or [])
+        checks["owned_core:equivalent_region"] = sorted(independently_equivalent) == sorted(
+            selection.get("equivalent_region") or [])
+        simplicity = {"pooled": 0, "histmlp": 1, "tcn": 2, "mgu": 3, "gru": 4, "lstm": 5,
+                      "ff_gru": 6}
+        readout_simplicity = {"linear": 0, "mlp1": 1, "mlp_strong": 2}
+        ordered = []
+        replicated_cells = {Fx.cell_name(**dict(Fx.REFERENCE, family=family))
+                            for family in ("gru", "mgu")}
+        for cell in independently_equivalent:
+            family, tier, readout, reset, history = cell.split("|")
+            if cell not in replicated_cells:
+                continue
+            rows = [row for bed in principal_beds for row in bed_inputs[bed][0][cell].values()]
+            spec = {"family": family, "tier": tier, "readout": readout, "reset": reset,
+                    "history_k": history.removeprefix("h")}
+            spec["history_k"] = int(spec["history_k"]) if spec["history_k"].isdigit() else spec["history_k"]
+            params = _parameter_count(principal_beds[0], spec)
+            checks[f"owned_core:parameters_rebuilt:{cell}"] = all(row.get("params") == params for row in rows)
+            per_bed_wall = [mean([float(row.get("wall_seconds", math.inf))
+                                  for row in bed_inputs[bed][0][cell].values()]) for bed in principal_beds]
+            horizon = 192 if reset in ("none", "horizon_full") else int(reset.split("_")[1])
+            ordered.append({"cell": cell, "params": int(params["total"]), "compute": max(per_bed_wall),
+                            "horizon": horizon, "readout": readout_simplicity.get(readout, 9),
+                            "architecture": simplicity.get(family, 9), "spec": spec})
+        ordered.sort(key=lambda row: (row["params"], row["compute"], row["horizon"], row["readout"],
+                                     row["architecture"]))
+        sealed_order = [row.get("cell") for row in selection.get("ordered_candidates") or []]
+        checks["owned_core:minimal_order_recomputed"] = sealed_order == [
+            row["cell"] for row in ordered[:12]]
+        selected = selection.get("selected") or {}
+        checks["owned_core:selected_is_actual_minimum"] = ((not selected_core and not selected)
+            or bool(ordered) and selected.get("cell") == ordered[0]["cell"])
+        checks["owned_core:no_selection_is_explicit"] = selected_core or (
+            bool(selection.get("reason")) and not owned.get("core"))
         checks["owned_core:claim_ceiling"] = owned.get("evidence_ceiling") == (
             "this is a substrate component with evidence on the beds named here. It does not establish a "
             "complete substrate architecture, continual plasticity, cross domain transfer, functional "
@@ -850,6 +1236,7 @@ def role_c() -> dict:
                       for effect_cell in effect_cells]
         reproduces = all(d.get("verdict") == "positive" and d.get("group_lower_95_cb", -math.inf) >= SESOI
                          and converged for d, converged in zip(third_effects, conv_pairs, strict=True))
+        independently_third_replicated = reproduces
         third_classification = ("invalid_secondary_bed" if not admitted else "replicated" if reproduces
                                 else "valid_secondary_bed_did_not_reproduce_the_principal_effect")
         checks["third_bed:admission_binding"] = (
@@ -860,8 +1247,13 @@ def role_c() -> dict:
         checks["third_bed:claim_ceiling"] = third_result.get("claim_ceiling") == (
             "secondary natural bed only; it is not promoted to a principal adaptation bed")
         valid_domains = ((owned.get("core") or {}).get("valid_domains") or [])
-        checks["owned_core:third_domain_license"] = (
+        checks["owned_core:third_domain_license"] = ((not selected_core and not valid_domains) or
             ("harth_stream" in valid_domains) == (admitted and third_classification == "replicated"))
+        checkpoint_receipts = ((owned.get("core") or {}).get("checkpoints") or {})
+        disk_beds = {p.stem.removeprefix("owned_temporal_core_v1_")
+                     for p in (io.PROOF / "checkpoints").glob("owned_temporal_core_v1_*.pt")}
+        checks["owned_core:exact_checkpoint_bed_inventory"] = (
+            set(checkpoint_receipts) == set(valid_domains) and disk_beds == set(valid_domains))
 
     if io.exists("MOP_FACTORIAL_INTERACTION_REPORT.json"):
         interactions = io.load("MOP_FACTORIAL_INTERACTION_REPORT.json")
@@ -932,7 +1324,8 @@ def role_c() -> dict:
                                           "small_model_at_strict_selected_convergence"),
                     "small_same_compute": (small, budgets["small_same_compute"],
                                            "small_model_at_same_compute")}
-                records, receipt_checks = {}, {}
+                records, receipt_checks = {}, {"canonical_launch_provenance": all(
+                    _result_hash_valid(document) for document in docs.values())}
                 for name, (doc, budget, role) in arm_defs.items():
                     rows = at(doc, "arm_records", budget) or []
                     ids = [int(row.get("seed", -1)) for row in rows]
@@ -1069,27 +1462,35 @@ def role_c() -> dict:
                       and component_floor == expected.get("component_floor_status"))
                 recomputed[f"optimization:{bed}"] = {"seed": seed_summary, "group": group_summary,
                                                        "plateau": plateau,
+                                                       "receipt_valid": receipt_valid,
+                                                       "converged": converged,
                                                        "scientific_verdict": scientific_verdict}
             else:
                 ok = expected.get("mean") is None and not docs
             checks[f"interaction:optimization_by_capacity:{bed}"] = ok
             if not ok:
                 mismatches.append({"bed": bed, "contrast": "optimization_by_capacity",
-                                   "sealed": expected, "recomputed": None})
+                                   "sealed": expected, "recomputed": {
+                                       "receipt_checks": receipt_checks if docs else {},
+                                       "receipt_valid": receipt_valid if docs else False,
+                                       "plateau": plateau if docs else {},
+                                       "scientific_verdict": scientific_verdict if docs else None,
+                                       "seed": seed_summary if docs else None,
+                                       "group": group_summary if docs else None}})
 
     independent_keys = _independent_result_keys(sealed, recomputed)
     checks["derived:observed_result_keys"] = sorted(independent_keys) == sorted(
         sealed.get("observed_result_keys") or [])
-    independent_fold = H.apply(independent_keys)
+    independent_fold = _independent_hypothesis_fold(independent_keys)
     sealed_fold = sealed.get("hypothesis_fold") or {}
     checks["derived:hypothesis_fold_identity"] = (
         independent_fold.get("observed_results") == sealed_fold.get("observed_results")
-        and independent_fold.get("hypotheses") == sealed_fold.get("hypotheses")
+        and all({k: (sealed_fold.get("hypotheses") or {}).get(hypothesis, {}).get(k)
+                 for k in ("state", "evidence")} == row
+                for hypothesis, row in independent_fold.get("hypotheses", {}).items())
         and not independent_fold.get("unknown_result_keys"))
     recomputed["derived_result_keys"] = independent_keys
 
-    prior_verification = io.load("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") if io.exists(
-        "MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else {}
     correction = io.load("MOP_E2_CAPACITY_TIER_CORRECTION.json") if io.exists(
         "MOP_E2_CAPACITY_TIER_CORRECTION.json") else {}
     factorial = io.load("MOP_E2_FACTORIAL_AUTHORITY.json") if io.exists(
@@ -1098,19 +1499,28 @@ def role_c() -> dict:
         "MOP_TEMPORAL_CORE_MUTATION_REPORT.json") else {}
     replication = io.load("MOP_E2_INDEPENDENT_REPLICATION.json") if io.exists(
         "MOP_E2_INDEPENDENT_REPLICATION.json") else {}
+    current_verifier_agrees = all(checks.values()) and not mismatches
+    current_implementations_agree = bool(replication.get("all_pass")) and all(
+        value for key, value in checks.items() if "independent_replication" in key)
+    verified_classifications = {}
     for identity, expected in (sealed.get("terminal_classification") or {}).items():
         bed, group, key = identity.split(":", 2)
-        effect = sealed["per_bed"][bed]["effects"][group][key]
+        effect = recomputed.get(bed, {}).get(group, {}).get(key) or {}
         bed_valid = bool(((factorial.get("principal_beds") or {}).get(bed, {}).get("checks") or {}).get(
             "all_pass"))
         mine = _terminal_classification(
             effect, instrument_valid=bool(correction.get("all_pass")), bed_valid=bed_valid,
-            verifier_agrees=bool(prior_verification.get("all_pass")),
+            verifier_agrees=False,
             mutations_rejected=bool(mutations.get("all_rejected")),
-            implementations_agree=bool(replication.get("all_pass")))
+            implementations_agree=current_implementations_agree)
         checks[f"terminal:{identity}"] = mine == expected
         if mine != expected:
             mismatches.append({"bed": bed, "contrast": identity, "sealed": expected, "recomputed": mine})
+        verified_classifications[identity] = _terminal_classification(
+            effect, instrument_valid=bool(correction.get("all_pass")), bed_valid=bed_valid,
+            verifier_agrees=current_verifier_agrees,
+            mutations_rejected=bool(mutations.get("all_rejected")),
+            implementations_agree=current_implementations_agree)
 
     if io.exists("MOP_E3_SHARED_LOCAL_RESULT.json"):
         e3 = io.load("MOP_E3_SHARED_LOCAL_RESULT.json")
@@ -1335,6 +1745,61 @@ def role_c() -> dict:
         checks["HARTH-preflight:terminal_classification"] = classification == expected.get("classification")
         checks["HARTH-preflight:claim_ceiling"] = expected.get("claim_ceiling") == (
             "secondary natural bed with a declared synthetic covariate-shift admission task")
+        preflight = io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") if io.exists(
+            "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {}
+        candidates = preflight.get("candidates") or {}
+        harth_candidate = candidates.get("harth_stream") or {}
+        load_bearing = [Fx.cell_name(**_expected_convergence_specs()[i]) for i in (0, 2, 3, 4, 8, 9, 10)]
+        harth_configs = _convergence_audit("harth_stream")["configs"]
+        load_bearing_converged = all(_plateau((harth_configs.get(cell) or {}).get("curve") or {})[
+            "classification"] == "converged" for cell in load_bearing)
+        split = B.splits("harth_stream", 0)
+        main_units, tune_units, test_units = (set(split["units"][key])
+                                             for key in ("main", "tune", "test"))
+        units_valid = (not (main_units & tune_units or main_units & test_units or tune_units & test_units)
+                       and len(main_units | tune_units | test_units) >= 4)
+        scout_path = io.RUNS / "e2_scout" / "scout_harth_stream.json"
+        scout_doc = json.loads(scout_path.read_text()) if scout_path.is_file() else {}
+        scout_means = scout_doc.get("cell_means") or {}
+        static_gap_measured = all(cell in scout_means for cell in (
+            Fx.cell_name(**Fx.REFERENCE), Fx.cell_name(**dict(Fx.REFERENCE, family="pooled"))))
+        instrumentation_complete = (bool(rows) and bool(harth_configs) and static_gap_measured
+                                    and pooled_equivalent and bool(order_resource_checks)
+                                    and all(order_resource_checks))
+        boundary_valid = lower_bound(shifts) >= 0.02
+        future_valid = future["verdict"] == "positive" and future_group["lower_95_cb"] >= io.SESOI
+        return_valid = verdict(returns) == "positive"
+        if not units_valid:
+            expected_candidate_classification = "invalid_units"
+        elif not instrumentation_complete:
+            expected_candidate_classification = "preflight_incomplete"
+        elif not temporal_order_required:
+            expected_candidate_classification = "invalid_no_temporal_requirement"
+        elif not load_bearing_converged:
+            expected_candidate_classification = "invalid_instrumentation"
+        elif not boundary_valid or not return_valid:
+            expected_candidate_classification = "invalid_no_context_boundary"
+        elif not future_valid:
+            expected_candidate_classification = "invalid_no_headroom"
+        else:
+            expected_candidate_classification = "valid_secondary_bed"
+        independently_admitted = (expected_candidate_classification == "valid_secondary_bed"
+                                  and harth_candidate.get("identity") == B.identity("harth_stream"))
+        independent_selected = ["harth_stream"] if independently_admitted else []
+        checks["third_bed:exact_candidate_inventory"] = set(candidates) == {
+            "harth_stream", "pamap2_stream"}
+        checks["third_bed:candidate_classification_recomputed"] = harth_candidate.get(
+            "classification") == expected_candidate_classification
+        checks["third_bed:pamap2_unmeasured_classification"] = (candidates.get(
+            "pamap2_stream") or {}).get("classification") == "invalid_instrumentation"
+        checks["third_bed:exact_selected_set_recomputed"] = preflight.get("selected") == independent_selected
+        third_result = io.load("MOP_THIRD_TEMPORAL_BED_RESULT.json") if io.exists(
+            "MOP_THIRD_TEMPORAL_BED_RESULT.json") else {}
+        replication = io.load("MOP_E2_INDEPENDENT_REPLICATION.json") if io.exists(
+            "MOP_E2_INDEPENDENT_REPLICATION.json") else {}
+        checks["third_bed:independent_admission_propagates"] = (
+            third_result.get("admitted") is independently_admitted
+            and replication.get("third_bed_admitted") is independently_admitted)
         recomputed["HARTH-preflight"] = {"future": future, "future_group": future_group,
                                          "return": summarize(returns), "order_seed": order_seed,
                                          "order_group": order_group, "pooled_group": pooled_group}
@@ -1424,7 +1889,99 @@ def role_c() -> dict:
                 and result.get("classification") == expected_class
             checks["hybrid:claim_ceiling"] = result.get("claim_ceiling") == (
                 "early acquisition and return retention on two controlled shifted contexts")
+    if io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json"):
+        queue = io.load("MOP_EXPERIMENT_VALUE_QUEUE.json")
+        gates = queue.get("gates") or {}
+        checks["successor_queue:exact_candidate_inventory"] = {
+            row.get("candidate_id") for row in gates.values()} == {"E3", "E5", "E6", "E7", "E8"} \
+            and len(gates) == 5
+        fold = independent_fold.get("hypotheses") or {}
+        core_positive = bool(owned.get("selected")) and (fold.get("H1_recurrence") or {}).get(
+            "state") == "supported"
+        capacity = sealed.get("capacity_retention_or_interference") or {}
+        capacity_values = capacity.get("per_independent_unit_effects") or []
+        capacity_valid = capacity.get("measured") is True and capacity.get("estimand") in (
+            "retention_loss_large_minus_small", "interference_cost_large_minus_small") \
+            and len(capacity_values) >= 2
+        capacity_lower = lower_bound([float(v) for v in capacity_values]) if capacity_valid else None
+        capacity_opens = capacity_lower is not None and capacity_lower >= io.SESOI
+        architecture_keys = set(recomputed.get("har_stream", {}).get("architecture", {})) \
+            & set(recomputed.get("speech_stream", {}).get("architecture", {}))
+        heterogeneity_bounds = []
+        for key in architecture_keys:
+            left = recomputed["har_stream"]["architecture"][key] or {}
+            right = recomputed["speech_stream"]["architecture"][key] or {}
+            ready = all(row.get("estimator_sufficient") is True
+                        and (row.get("convergence") or {}).get("all_converged") is True
+                        for row in (left, right))
+            difference = _welch(list((left.get("per_unit_effects") or {}).values()),
+                                list((right.get("per_unit_effects") or {}).values()))
+            if difference and ready:
+                heterogeneity_bounds.append(max(difference["lower_95_cb"],
+                                                -difference["upper_95_cb"], 0.0))
+        heterogeneity = max(heterogeneity_bounds, default=0.0)
+        bed_heterogeneity = heterogeneity >= io.SESOI
+        expected_opens = {
+            "E3_shared_versus_local": core_positive and (capacity_opens or bed_heterogeneity),
+            "E5_self_supervised": False,
+            "hybrid_adaptation": bool(owned.get("selected")),
+            "third_bed_replication": independently_admitted and independently_third_replicated,
+            "minimal_core_cross_domain_transfer": False,
+        }
+        checks["successor_queue:gate_openings_recomputed"] = set(gates) == set(expected_opens) and all(
+            gates[name].get("opens") is value for name, value in expected_opens.items())
+        owned_params = int(((owned.get("selection") or {}).get("selected") or {}).get("params_total")
+                           or (owned.get("core") or {}).get("owned_parameters") or 0)
+        principal_beds = tuple(sealed.get("principal_beds") or ())
+        core_lcbs = [recomputed.get(bed, {}).get("recurrent_versus_matched_history", {}).get(
+            "gru_vs_histmlp_kfull_window", {}).get("group_lower_95_cb") for bed in principal_beds]
+        hybrid_voi = max(0.0, min(map(float, core_lcbs))) if len(core_lcbs) == 2 and all(
+            isinstance(v, (int, float)) for v in core_lcbs) else None
+        third_lcbs = [recomputed.get(f"replication:harth_stream:{key}", {}).get("group_lower_95_cb")
+                      for key in ("torch_gru_vs_full_history", "explicit_mgu_vs_full_history")]
+        third_voi = min(map(float, third_lcbs)) if all(isinstance(v, (int, float))
+                                                      for v in third_lcbs) else 0.0
+        e3_voi = max(heterogeneity if bed_heterogeneity else 0.0,
+                     float(capacity_lower) if capacity_opens else 0.0)
+        costs = {
+            "E3_shared_versus_local": 2 * len(expected_seeds) * 2 * Fx.STEPS * owned_params,
+            "E5_self_supervised": 2 * len(expected_seeds) * 2 * Fx.STEPS * owned_params,
+            "hybrid_adaptation": len(principal_beds or (1,)) * len(expected_seeds) * 3
+            * (Fx.STEPS // 4) * owned_params,
+            "third_bed_replication": len(expected_seeds) * Fx.STEPS * owned_params,
+            "minimal_core_cross_domain_transfer": 2 * len(expected_seeds) * 2 * Fx.STEPS * owned_params,
+        }
+        vois = {"E3_shared_versus_local": e3_voi, "E5_self_supervised": 0.0,
+                "hybrid_adaptation": hybrid_voi, "third_bed_replication": third_voi,
+                "minimal_core_cross_domain_transfer": 0.0}
+        complete = {
+            "E3_shared_versus_local": owned_params > 0 and math.isfinite(e3_voi) and e3_voi >= 0,
+            "E5_self_supervised": False,
+            "hybrid_adaptation": owned_params > 0 and hybrid_voi is not None and hybrid_voi >= 0,
+            "third_bed_replication": owned_params > 0 and len(third_lcbs) == 2
+            and all(isinstance(v, (int, float)) for v in third_lcbs) and third_voi >= 0,
+            "minimal_core_cross_domain_transfer": False,
+        }
+        for name in costs:
+            rank = gates.get(name, {}).get("ranking") or {}
+            priority = float(vois[name]) / costs[name] if complete[name] else None
+            checks[f"successor_queue:{name}:numeric_ranking"] = (
+                _close(rank.get("value_of_information"), vois[name])
+                and rank.get("estimated_parameter_update_cost") == costs[name]
+                and rank.get("complete") is complete[name]
+                and ((priority is None and rank.get("priority_score") is None)
+                     or _close(rank.get("priority_score"), priority, tol=1e-12)))
+        legacy = {"third_bed_replication": 0, "E3_shared_versus_local": 1,
+                  "hybrid_adaptation": 2, "E5_self_supervised": 3,
+                  "minimal_core_cross_domain_transfer": 4}
+        ranked = sorted((name for name, opened in expected_opens.items() if opened and complete[name]),
+                        key=lambda name: (-float(vois[name]) / costs[name], legacy[name], name))
+        checks["successor_queue:ranked_and_licensed_recomputed"] = (
+            queue.get("opened") == [name for name, opened in expected_opens.items() if opened]
+            and queue.get("ranked_opened") == ranked and queue.get("licensed_top_two") == ranked[:2])
     return {"role": "C scientific verifier", "checks": checks, "mismatches": mismatches,
+            "preclassification_checks_pass": current_verifier_agrees,
+            "verified_terminal_classification": verified_classifications,
             "n_checks": len(checks), "all_pass": all(checks.values()) and not mismatches,
             "recomputed": recomputed,
             "independence": ("recomputes every effect with its own arithmetic and its own t table, imports no "

@@ -21,10 +21,15 @@ def test_core_selection_is_independently_verified_before_successor_gating(monkey
                      "mop.temporal.runs.successors"]
 
 
-def test_failed_post_core_verification_withdraws_selection_and_reverifies(monkeypatch):
+def test_failed_post_core_verification_withdraws_selection_and_reverifies(monkeypatch, tmp_path):
     docs = {VERIFY: {"all_pass": True}, CORE: {"selected": False}}
     calls, verifies = [], 0
     _artifacts(monkeypatch, docs)
+    monkeypatch.setattr(supervisor.io, "ROOT", tmp_path)
+    monkeypatch.setattr(supervisor.io, "PROOF", tmp_path / "proof")
+    checkpoint_root = supervisor.io.PROOF / "checkpoints"
+    checkpoint_root.mkdir(parents=True)
+    (checkpoint_root / "owned_temporal_core_v1_har_stream.pt").write_bytes(b"packaged")
 
     def run(mod, args=()):
         nonlocal verifies
@@ -42,6 +47,9 @@ def test_failed_post_core_verification_withdraws_selection_and_reverifies(monkey
                      "mop.temporal.runs.coresel", "mop.temporal.runs.verify",
                      "mop.temporal.runs.successors"]
     assert docs[CORE]["selected"] is False
+    assert not list(checkpoint_root.glob("owned_temporal_core_v1_*.pt"))
+    quarantined = list((supervisor.io.PROOF / "checkpoint_quarantine").rglob("*.pt"))
+    assert len(quarantined) == 1 and quarantined[0].read_bytes() == b"packaged"
 
 
 def test_successors_stay_closed_when_withdrawal_verification_is_not_green(monkeypatch):

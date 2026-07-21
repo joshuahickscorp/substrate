@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
+import re
 import subprocess
 import time
 
@@ -79,14 +81,55 @@ def science_snapshot_binding(clean: dict, final_commit: str, ancestor=None) -> d
             "bound": shaped and relation in ("same_commit", "terminal_metadata_descendant")}
 
 
+def terminal_evidence_binding(clean: dict, final_commit: str, ancestor=None) -> dict:
+    """Independently bind the terminal clone report to its snapshot, fabric commit and final commit."""
+    is_commit = lambda value: isinstance(value, str) and re.fullmatch(r"[0-9a-f]{40}", value) is not None
+    snapshot = clean.get("science_snapshot_commit")
+    evidence = clean.get("terminal_evidence_commit")
+    validated = clean.get("validated_commit")
+    checks = clean.get("checks") if isinstance(clean.get("checks"), dict) else {}
+
+    def descends(parent: str, child: str, key: str) -> bool:
+        if isinstance(ancestor, dict) and key in ancestor:
+            return bool(ancestor[key])
+        if isinstance(ancestor, bool):
+            return ancestor
+        return subprocess.run(["git", "merge-base", "--is-ancestor", parent, child],
+                              cwd=io.ROOT, capture_output=True).returncode == 0
+
+    shaped = (clean.get("schema") == "mop-temporal-core-clean-clone/v2"
+              and clean.get("phase") == "terminal_evidence"
+              and clean.get("commit") == snapshot and validated == evidence
+              and all(is_commit(v) for v in (snapshot, evidence, final_commit)))
+    snapshot_to_evidence = shaped and snapshot != evidence and descends(
+        snapshot, evidence, "snapshot_to_evidence")
+    evidence_to_final = shaped and evidence != final_commit and descends(
+        evidence, final_commit, "evidence_to_final")
+    lookup = checks.get("terminal_evidence_fabric_lookup") is True
+    reported_ancestry = checks.get("terminal_evidence_descends_from_science_snapshot") is True
+    report_green = clean.get("all_pass") is True and checks.get("all_pass") is True
+    return {
+        "science_snapshot_commit": snapshot, "terminal_evidence_commit": evidence,
+        "validated_commit": validated, "final_metadata_commit": final_commit,
+        "terminal_evidence_report_shaped": shaped,
+        "terminal_evidence_fabric_lookup": lookup,
+        "reported_snapshot_ancestry": reported_ancestry,
+        "snapshot_to_terminal_evidence": snapshot_to_evidence,
+        "terminal_evidence_to_final_metadata": evidence_to_final,
+        "report_green": report_green,
+        "bound": bool(shaped and lookup and reported_ancestry and report_green
+                      and snapshot_to_evidence and evidence_to_final),
+    }
+
+
 def deliverable_dependencies(name: str) -> list[str]:
     stage = DELIVERABLE_STAGE[name]
     if stage == "clean_clone":
-        return ["stage:preclone_deliverables"]
-    if stage == "evidence_fabric":
-        return ["stage:clean_clone"]
-    if stage == "terminal_metadata":
         return ["stage:evidence_fabric"]
+    if stage == "evidence_fabric":
+        return ["stage:preclone_deliverables"]
+    if stage == "terminal_metadata":
+        return ["stage:clean_clone"]
     return [f"stage:{stage}"]
 
 
@@ -104,10 +147,11 @@ def stage_dependencies() -> dict[str, list[str]]:
         "mutations": ["independent_replication"], "verification": ["mutations"],
         "core_selection": ["verification"], "successor_gates": ["core_selection"],
         "successors_terminal": ["successor_gates"],
-        "tests_and_coverage": ["successors_terminal", "verification"],
+        "receipt_integrity": ["successors_terminal"],
+        "tests_and_coverage": ["successors_terminal", "verification", "receipt_integrity"],
         "preclone_deliverables": ["tests_and_coverage"],
-        "clean_clone": ["preclone_deliverables"], "evidence_fabric": ["clean_clone"],
-        "terminal_metadata": ["evidence_fabric"],
+        "evidence_fabric": ["preclone_deliverables"], "clean_clone": ["evidence_fabric"],
+        "terminal_metadata": ["clean_clone"],
     }
 
 
@@ -115,8 +159,118 @@ def L(n, d=None):
     return io.load(n) if io.exists(n) else (d if d is not None else {})
 
 
+def _sealed_index_hashes() -> dict[str, str]:
+    """Return exact legacy receipt identities from independently sealed reduction indexes."""
+    indexes = {
+        "MOP_E2_SCOUT_RESULT.json": ("shards",),
+        "MOP_E2_PRINCIPAL_RESULT.json": ("shard_index", "correction_shard_index"),
+    }
+    allowed = {}
+    for name, fields in indexes.items():
+        doc = L(name)
+        digest = doc.get("sha256")
+        if not (isinstance(digest, str) and digest == io.sha_obj(
+                {k: v for k, v in doc.items() if k != "sha256"})):
+            continue
+        for field in fields:
+            for row in doc.get(field, []) if isinstance(doc.get(field), list) else []:
+                path, sha = row.get("path"), row.get("sha256")
+                if isinstance(path, str) and isinstance(sha, str) and re.fullmatch(r"[0-9a-f]{64}", sha):
+                    allowed[path] = sha
+    binding = io.ROOT / LEGACY_RECEIPT_BINDING
+    if binding.is_file():
+        rel = binding.relative_to(io.ROOT).as_posix()
+        shown = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=io.ROOT,
+                               capture_output=True)
+        if shown.returncode == 0 and shown.stdout == binding.read_bytes():
+            allowed[rel] = io.sha_file(binding)
+    return allowed
+
+
+def _declared_dependencies(doc: dict) -> tuple[list[str], dict[str, str], bool]:
+    """Collect every supported receipt-to-receipt authority edge without silently dropping one."""
+    paths, hashes, shaped = [], {}, True
+    for field in ("extends", "convergence_authority"):
+        authority = doc.get(field)
+        if authority is None:
+            continue
+        if not isinstance(authority, dict):
+            shaped = False
+            continue
+        declared = authority.get("path")
+        declared_hash = authority.get("sha256")
+        if isinstance(declared, str):
+            field_paths = [declared]
+        elif isinstance(declared, list) and all(isinstance(v, str) for v in declared):
+            field_paths = declared
+        else:
+            shaped = False
+            continue
+        if isinstance(declared_hash, str) and len(field_paths) == 1:
+            field_hashes = [declared_hash]
+        elif isinstance(declared_hash, list) and len(declared_hash) == len(field_paths):
+            field_hashes = declared_hash
+        elif isinstance(declared_hash, dict):
+            field_hashes = [declared_hash.get(path) for path in field_paths]
+        elif declared_hash is None:
+            field_hashes = [None] * len(field_paths)
+        else:
+            field_hashes = [None] * len(field_paths)
+            shaped = False
+        for path, sha in zip(field_paths, field_hashes):
+            if path in paths and hashes.get(path) != sha:
+                shaped = False
+            paths.append(path)
+            hashes[path] = sha
+    index = doc.get("shard_index")
+    if index is not None:
+        if not isinstance(index, list):
+            shaped = False
+        else:
+            for row in index:
+                if not isinstance(row, dict) or not isinstance(row.get("path"), str):
+                    shaped = False
+                    continue
+                path, sha = row["path"], row.get("sha256")
+                if path in paths and hashes.get(path) != sha:
+                    shaped = False
+                paths.append(path)
+                hashes[path] = sha
+    return list(dict.fromkeys(paths)), hashes, shaped
+
+
+def _required_dependencies_present(doc: dict, paths: list[str]) -> bool:
+    """Fail closed when a receipt schema promises an aggregate authority edge."""
+    schema = doc.get("schema")
+    if schema == "mop-e2-principal-shard/v2":
+        authority = doc.get("convergence_authority")
+        return isinstance(authority, dict) and authority.get("path") in paths
+    if schema == "mop-e2-extended-convergence-shard/v1":
+        extension = doc.get("extends")
+        return isinstance(extension, dict) and extension.get("path") in paths
+    if schema == "mop-e2-convergence/v4":
+        index = doc.get("shard_index")
+        return isinstance(index, list) and len(index) == len(E2.CONVERGE_CONFIGS) \
+            and len(paths) == len(E2.CONVERGE_CONFIGS)
+    return True
+
+
+def _tracked_legacy_receipt(rel: str, doc: dict, whole_sha: str) -> bool:
+    """Authorize a legacy incident only when its declared commit contains these exact bytes."""
+    source = doc.get("source_commit") or doc.get("authority_commit")
+    if (doc.get("schema") != "mop-temporal-orchestration-incident/v1"
+            or not isinstance(source, str) or re.fullmatch(r"[0-9a-f]{40}", source) is None):
+        return False
+    for commit in (source, "HEAD"):
+        shown = subprocess.run(["git", "show", f"{commit}:{rel}"], cwd=io.ROOT, capture_output=True)
+        if shown.returncode == 0 and hashlib.sha256(shown.stdout).hexdigest() == whole_sha:
+            return True
+    return False
+
+
 def receipt_items(common: dict) -> dict:
     items = {}
+    legacy_hashes = _sealed_index_hashes()
     receipt_paths = [p for p in sorted(io.RUNS.rglob("*.json"))
                      if "locks" not in p.relative_to(io.RUNS).parts
                      and ".partial." not in p.name and not p.name.startswith(".")]
@@ -125,6 +279,7 @@ def receipt_items(common: dict) -> dict:
         rel = p.relative_to(io.ROOT).as_posix()
         whole_sha = io.sha_file(p)
         quarantined = "quarantine" in p.relative_to(io.RUNS).parts
+        canonical_valid = legacy_valid = False
         try:
             d = json.loads(p.read_text())
             if not isinstance(d, dict):
@@ -133,9 +288,14 @@ def receipt_items(common: dict) -> dict:
             canonical = version == "canonical_json_v2"
             hash_valid = not canonical or d.get("result_sha256") == io.sha_obj(
                 {k: v for k, v in d.items() if k != "result_sha256"})
+            canonical_valid = canonical and hash_valid
+            legacy_valid = version is None and (
+                legacy_hashes.get(rel) == whole_sha or _tracked_legacy_receipt(rel, d, whole_sha))
             known_version = version in (None, "canonical_json_v2")
-            valid, failure = hash_valid and known_version, (
-                "hash_mismatch" if not hash_valid else "unknown_hash_version" if not known_version else None)
+            valid = canonical_valid or legacy_valid
+            failure = ("hash_mismatch" if canonical and not hash_valid else
+                       "unknown_hash_version" if not known_version else
+                       "unauthorized_legacy_receipt" if version is None and not legacy_valid else None)
         except (OSError, json.JSONDecodeError, TypeError, AttributeError):
             d, canonical, valid, failure = {}, False, False, "invalid_json"
         params = d.get("params") if isinstance(d.get("params"), dict) else {}
@@ -147,24 +307,9 @@ def receipt_items(common: dict) -> dict:
         checkpoints = d.get("checkpoint_sha_after") or d.get("checkpoint_sha") or sorted({
             r.get("checkpoint_sha_after") for r in runs if r.get("checkpoint_sha_after")}) or None
         source = d.get("source_commit") or d.get("authority_commit")
-        extension = d.get("extends") if isinstance(d.get("extends"), dict) else {}
-        declared_paths = extension.get("path", [])
-        dependency_shape_valid = (isinstance(declared_paths, str) or
-                                  (isinstance(declared_paths, list)
-                                   and all(isinstance(path, str) for path in declared_paths)) or
-                                  declared_paths in (None, []))
-        dependency_paths = [declared_paths] if isinstance(declared_paths, str) else list(
-            declared_paths or []) if isinstance(declared_paths, list) else []
+        dependency_paths, declared_by_path, dependency_shape_valid = _declared_dependencies(d)
+        required_dependencies_present = _required_dependencies_present(d, dependency_paths)
         dependencies = [f"receipt:{path}" for path in dependency_paths]
-        declared_hashes = extension.get("sha256")
-        if isinstance(declared_hashes, dict):
-            declared_by_path = declared_hashes
-        elif isinstance(declared_hashes, list) and len(declared_hashes) == len(dependency_paths):
-            declared_by_path = dict(zip(dependency_paths, declared_hashes))
-        elif isinstance(declared_hashes, str) and len(dependency_paths) == 1:
-            declared_by_path = {dependency_paths[0]: declared_hashes}
-        else:
-            declared_by_path = {}
         dependency_bindings = []
         for path in dependency_paths:
             target, declared = io.ROOT / path, declared_by_path.get(path)
@@ -176,11 +321,14 @@ def receipt_items(common: dict) -> dict:
                                         "sha256": declared, "bound": bound})
         if not dependency_shape_valid:
             valid, failure = False, "invalid_dependency_shape"
-        elif dependency_bindings and not all(b["bound"] for b in dependency_bindings):
+        elif not required_dependencies_present:
+            valid, failure = False, "missing_required_aggregate_dependency"
+        elif dependency_paths and not all(b["bound"] for b in dependency_bindings):
             valid, failure = False, "dependency_hash_mismatch"
         items[f"receipt:{rel}"] = {
             **common, "status": "terminal" if valid or quarantined else "incomplete",
-            "authority": source or LEGACY_RECEIPT_AUTHORITY, "dependencies": dependencies,
+            "authority": source or (LEGACY_RECEIPT_AUTHORITY if legacy_valid else None),
+            "dependencies": dependencies,
             "dependency_bindings": dependency_bindings,
             "bed": d.get("bed") or d.get("target_bed"),
             "factor_levels": d.get("spec") or d.get("cell") or [
@@ -195,9 +343,10 @@ def receipt_items(common: dict) -> dict:
             failure or d.get("classification") or d.get("status") or "receipt_verified",
             "scientific_current": bool(valid and not quarantined), "quarantined": quarantined,
             "commit": source, "custody_commit": common["commit"],
-            "receipt_integrity": "canonical_json_v2" if canonical and valid else
-            "legacy_outer_sha256" if valid else failure,
-            "custody_binding": None if canonical else LEGACY_RECEIPT_BINDING,
+            "receipt_integrity": "canonical_json_v2" if canonical_valid and valid else
+            "indexed_legacy_outer_sha256" if valid else failure,
+            "custody_binding": None if canonical else
+            LEGACY_RECEIPT_BINDING if legacy_valid else None,
             "next_action": "none" if valid or quarantined else
             "quarantine invalid receipt and resume producing shard",
             "sha256": whole_sha,
@@ -362,6 +511,15 @@ def main():
     correction = L("MOP_E2_CAPACITY_TIER_CORRECTION.json")
     final_commit = io.commit()
     clean_binding = science_snapshot_binding(clean, final_commit)
+    terminal_binding = terminal_evidence_binding(clean, final_commit)
+    common = {"authority": final_commit, "bed": None, "factor_levels": None, "arm": None, "seed": None,
+              "implementation": None, "parameter_count": None, "training_budget": None,
+              "checkpoint": None, "tests": tests.get("passed"),
+              "verification": verification_doc.get("all_pass"), "mutations": mutation_doc.get("all_rejected"),
+              "commit": final_commit, "tag": None, "activation": False}
+    receipts = receipt_items(common)
+    receipts_terminal = bool(receipts) and all(
+        item["status"] == "terminal" for item in receipts.values())
     stages = {
         "start_authority": io.exists("MOP_TEMPORAL_CORE_START_AUTHORITY.json"),
         "binding_results": io.exists("MOP_TEMPORAL_CORE_BINDING_RESULTS.json"),
@@ -383,12 +541,13 @@ def main():
         "core_selection": core_terminal,
         "successor_gates": successor_gates_terminal,
         "successors_terminal": successor_terminal,
+        "receipt_integrity": receipts_terminal,
         "mutations": mutation_terminal,
         "verification": verification_terminal,
         "tests_and_coverage": bool(tests.get("passed")) and bool((cov.get("method_kernel_gate") or {}).get("met"))
         and bool((cov.get("active_critical_path_gate") or {}).get("met")),
         "preclone_deliverables": deliverables_present,
-        "clean_clone": bool(clean.get("all_pass")) and clean_binding["bound"],
+        "clean_clone": terminal_binding["bound"],
         "evidence_fabric": bool((fabric.get("verification") or {}).get("all_pass"))
         and bool((fabric.get("mutations") or {}).get("all_rejected")),
         "terminal_metadata": terminal_metadata_present,
@@ -401,6 +560,7 @@ def main():
                              "cross domain moldability is evidenced", "activation is licensed",
                              "the E4 state only adaptation rule is competitive"],
         "science_snapshot_binding": clean_binding,
+        "terminal_evidence_binding": terminal_binding,
         "wall_seconds": round(time.time() - t0, 1)})
     scorecard = {
         "schema": "mop-temporal-core-scorecard/v1",
@@ -454,22 +614,18 @@ False, and never separately granted.
         "mutations": "run required mutations", "verification": "run Roles B and C verification",
         "core_selection": "run minimal core selection", "successor_gates": "recompute value queue",
         "successors_terminal": "execute only licensed successor shards", "tests_and_coverage": "run reports",
+        "receipt_integrity": "quarantine or regenerate every unauthorized or dependency-unbound receipt",
         "preclone_deliverables": "seal missing science snapshot deliverables",
-        "clean_clone": "validate the explicit science snapshot commit in a clean clone",
-        "evidence_fabric": "rebuild terminal evidence fabric",
+        "evidence_fabric": "build and commit the terminal evidence fabric",
+        "clean_clone": "validate the committed terminal evidence fabric in an isolated clone",
         "terminal_metadata": "seal terminal state, ledger, scorecard, synthesis, and next frontier"}
     dependency_ready = ready_stages(stages, dependencies)
-    common = {"authority": io.commit(), "bed": None, "factor_levels": None, "arm": None, "seed": None,
-              "implementation": None, "parameter_count": None, "training_budget": None,
-              "checkpoint": None, "tests": tests.get("passed"),
-              "verification": verification_doc.get("all_pass"), "mutations": mutation_doc.get("all_rejected"),
-              "commit": io.commit(), "tag": None}
     items = {f"stage:{name}": {**common, "status": "terminal" if value else "incomplete",
                     "dependencies": [f"stage:{dep}" for dep in dependencies[name]],
                     "classification": "green" if value else "dependency_ready" if name in dependency_ready
                     else "blocked_by_dependency", "next_action": "none" if value else actions[name]}
              for name, value in stages.items()}
-    items.update(receipt_items(common))
+    items.update(receipts)
     mutable_self = TERMINAL_METADATA | {"MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json"}
     for name in sorted(required):
         p = io.PROOF / name
@@ -507,6 +663,7 @@ Stages green: {sum(1 for v in stages.values() if v)} of {len(stages)}.
         "preclone_required_deliverables": preclone_required,
         "post_snapshot_deliverables": sorted(POST_SNAPSHOT_DELIVERABLES),
         "science_snapshot_binding": clean_binding,
+        "terminal_evidence_binding": terminal_binding,
         "all_terminal": all(stages.values()), "no_dependency_ready_work": not dependency_ready,
         "resume": "python3.12 -m mop.temporal.runs.supervisor resumes from shard files on disk",
         "activation": False})
