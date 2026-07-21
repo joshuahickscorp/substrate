@@ -1,0 +1,164 @@
+{
+  "schema": "mop-e2-calibration/v1",
+  "rule": "a world whose generative truth the analysis cannot name is a world the analysis may not judge",
+  "worlds": {
+    "pure_capacity": {
+      "expected_contains": [
+        "capacity"
+      ],
+      "recovered": [
+        "capacity",
+        "explicit_history_sufficiency"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_present": true,
+        "base_effect_size": 0.19543,
+        "capacity": true,
+        "capacity_monotonic": true,
+        "horizon_threshold": 1,
+        "explicit_history_sufficient": true
+      }
+    },
+    "pure_readout": {
+      "expected_contains": [
+        "readout"
+      ],
+      "recovered": [
+        "explicit_history_sufficiency",
+        "readout"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_present": true,
+        "base_effect_size": 0.17969,
+        "readout": true,
+        "horizon_threshold": 1,
+        "explicit_history_sufficient": true
+      }
+    },
+    "pure_horizon": {
+      "expected_contains": [
+        "horizon"
+      ],
+      "recovered": [
+        "explicit_history_sufficiency",
+        "horizon"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_present": true,
+        "base_effect_size": 0.22587,
+        "horizon": true,
+        "horizon_threshold": 45,
+        "explicit_history_sufficient": true
+      }
+    },
+    "pure_recurrence": {
+      "expected_contains": [
+        "recurrence"
+      ],
+      "recovered": [
+        "recurrence"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_present": true,
+        "base_effect_size": 0.20988,
+        "recurrence": true,
+        "recurrence_survives_matched_history": true,
+        "horizon_threshold": 1
+      }
+    },
+    "explicit_history_sufficiency": {
+      "expected_contains": [
+        "explicit_history_sufficiency"
+      ],
+      "recovered": [
+        "capacity",
+        "explicit_history_sufficiency",
+        "readout"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_present": true,
+        "base_effect_size": 0.21543,
+        "recurrence": true,
+        "capacity": true,
+        "readout": true,
+        "horizon_threshold": 1,
+        "explicit_history_sufficient": true
+      }
+    },
+    "core_horizon_interaction": {
+      "expected_contains": [
+        "core_horizon_interaction"
+      ],
+      "recovered": [
+        "core_horizon_interaction",
+        "horizon",
+        "recurrence"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_present": true,
+        "base_effect_size": 0.22587,
+        "recurrence": true,
+        "recurrence_survives_matched_history": true,
+        "horizon": true,
+        "horizon_threshold": 45,
+        "capacity_by_horizon_interaction": true
+      }
+    },
+    "optimization_artifact": {
+      "expected_contains": [
+        "recurrence"
+      ],
+      "recovered": [
+        "recurrence"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_present": true,
+        "base_effect_size": 0.20988,
+        "recurrence": true,
+        "recurrence_survives_matched_history": true,
+        "horizon_threshold": 1
+      }
+    },
+    "reset_alignment_artifact": {
+      "expected_contains": [
+        "reset_alignment_artifact"
+      ],
+      "recovered": [
+        "reset_alignment_artifact"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_size": 0.02598,
+        "horizon_threshold": 1,
+        "reset_alignment_artifact": true
+      }
+    },
+    "no_effect": {
+      "expected_contains": [
+        "no_effect"
+      ],
+      "recovered": [
+        "no_effect"
+      ],
+      "pass": true,
+      "findings": {
+        "base_effect_size": 0.01786,
+        "horizon_threshold": 1
+      }
+    },
+    "all_pass": true
+  },
+  "all_pass": true,
+  "n_worlds": 9,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "13599e3659c88455177b8ddfd8352d8852da138d",
+  "SESOI": 0.05,
+  "sha256": "116eb1fb53b06dc7929fae097ac52ded26ce5155571ccd3efd9b597623e069f2"
+}

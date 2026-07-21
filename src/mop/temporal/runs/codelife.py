@@ -24,6 +24,13 @@ RULES = [
     ("src/mop/method", "active_method"),
     ("tests/temporal", "active_tests"),
     ("tests/method", "active_tests"),
+    # fastforge/runs holds the Fast State Forge program's own stages, which are frozen behind its receipts.
+    # The engine, the architectures and the data providers are the live execution system this program uses.
+    ("fastforge/runs", "frozen_reproducibility"),
+    ("fastforge/verify.py", "frozen_reproducibility"),
+    ("fastforge/arms.py", "frozen_reproducibility"),
+    ("fastforge/within.py", "frozen_reproducibility"),
+    ("fastforge/sequence.py", "frozen_reproducibility"),
     ("fastforge", "active_runtime"),
     ("src/mop/beds", "frozen_reproducibility"),
     ("src/mop/substrate", "frozen_reproducibility"),
