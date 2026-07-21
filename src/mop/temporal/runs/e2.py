@@ -225,7 +225,7 @@ for family in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn"):
         spec = dict(Fx.REFERENCE, family=family, tier=tier)
         if Fx.cell_name(**spec) not in {Fx.cell_name(**c) for c in CONVERGE_CONFIGS}:
             CONVERGE_CONFIGS.append(spec)
-for group in ("architecture", "readout", "horizon", "reset", "history", "capacity_by_horizon", "capacity_by_readout"):
+for group in ("architecture", "readout", "horizon", "reset", "capacity_by_horizon", "history", "capacity_by_readout"):
     for spec in Fx.sweep_cells()[group]:
         if Fx.cell_name(**spec) not in {Fx.cell_name(**c) for c in CONVERGE_CONFIGS}:
             CONVERGE_CONFIGS.append(spec)
@@ -264,6 +264,9 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
     spec = CONVERGE_CONFIGS[idx]
     base_path = io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
     base = json.loads(base_path.read_text()) if base_path.is_file() else converge_shard(bedname, idx)
+    expected_cell = Fx.cell_name(**spec)
+    if base.get("cell") != expected_cell or Fx.cell_name(**base.get("spec", {})) != expected_cell:
+        raise RuntimeError(f"base convergence identity mismatch at {base_path}: expected {expected_cell}")
     curve = {int(k): float(v) for k, v in base["curve"].items()}
     spread = {int(k): float(v) for k, v in base["seed_spread"].items()}
     for steps in EXTENDED_CONVERGENCE_GRID:
@@ -276,7 +279,7 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
         "schema": "mop-e2-extended-convergence-shard/v1",
         "bed": bedname,
         "spec": spec,
-        "cell": Fx.cell_name(**spec),
+        "cell": expected_cell,
         "curve": curve,
         "seed_spread": spread,
         "seeds": list(CONVERGENCE_SEEDS),
