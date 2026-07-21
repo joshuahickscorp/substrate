@@ -1,0 +1,113 @@
+{
+  "schema": "mop-temporal-method-extension-mutations/v1",
+  "D16_context_split_that_crossed_no_boundary": {
+    "expected": "invalid_no_boundary_crossing",
+    "actual": "invalid_no_boundary_crossing",
+    "a_real_boundary_still_passes": true,
+    "pass": true
+  },
+  "transition_outside_the_adaptation_window": {
+    "expected": "invalid_no_boundary_crossing",
+    "actual": "invalid_no_boundary_crossing",
+    "pass": true
+  },
+  "D17_curve_still_moving_is_unconverged": {
+    "expected": "unconverged",
+    "actual": "unconverged",
+    "second_half_movement": 0.0265,
+    "pass": true
+  },
+  "plateau_known_plateau": {
+    "expected": "converged",
+    "actual": "converged",
+    "pass": true
+  },
+  "plateau_slow_monotonic_improvement": {
+    "expected": "unconverged",
+    "actual": "unconverged",
+    "pass": true
+  },
+  "plateau_temporary_plateau_then_improvement": {
+    "expected": "unconverged",
+    "actual": "unconverged",
+    "pass": true
+  },
+  "plateau_overfitting_curve": {
+    "expected": "unconverged",
+    "actual": "unconverged",
+    "pass": true
+  },
+  "plateau_high_variance_curve": {
+    "expected": "unconverged",
+    "actual": "unconverged",
+    "pass": true
+  },
+  "reset_period_three_is_oracle_segmented": {
+    "expected": "oracle_segmented",
+    "actual": "oracle_segmented",
+    "exact_fraction": 1.0,
+    "misaligned_replacement": {
+      "period": 33,
+      "classification": "misaligned",
+      "exact_fraction": 0.0
+    },
+    "pass": true
+  },
+  "true_boundary_differs_from_wrong_boundary": {
+    "expected": "true is oracle segmented and wrong is not",
+    "true": "oracle_segmented",
+    "wrong": "misaligned",
+    "pass": true
+  },
+  "random_reset_rate_matches_fixed_reset": {
+    "expected": "equal counts",
+    "fixed": 5,
+    "random": 5,
+    "pass": true
+  },
+  "two_coprime_misaligned_schedules_exist": {
+    "expected": "two periods coprime with the segment length and with each other",
+    "periods": [
+      33,
+      35
+    ],
+    "pass": true
+  },
+  "D18_permutation_scored_against_zero": {
+    "expected": "the zero reference is violated and the majority class reference is satisfied",
+    "zero_reference": "null_reference_violated",
+    "majority_reference_fast": "null_as_expected",
+    "majority_reference_pooled": "null_as_expected",
+    "pass": true
+  },
+  "undeclared_null_reference_is_rejected": {
+    "expected": "invalid_null_reference",
+    "actual": "invalid_null_reference",
+    "pass": true
+  },
+  "unmatched_history_is_visible": {
+    "expected": "two distinct history profiles and a matched check that says no",
+    "profiles": 2,
+    "matched": false,
+    "pass": true
+  },
+  "future_information_is_rejected": {
+    "expected": "violation",
+    "actual": [
+      "leaky: sees future information"
+    ],
+    "pass": true
+  },
+  "last_k_without_a_k_is_rejected": {
+    "expected": "violation",
+    "actual": [
+      "vague: declares last k observations without a k"
+    ],
+    "pass": true
+  },
+  "all_pass": true,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "SESOI": 0.05,
+  "sha256": "19e26ab83b5fbe039692aac8c869836f07be8d1338fc76e1b235845e487357a4"
+}

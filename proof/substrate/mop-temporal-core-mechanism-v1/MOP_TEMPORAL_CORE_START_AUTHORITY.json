@@ -1,0 +1,63 @@
+{
+  "schema": "mop-temporal-core-start-authority/v1",
+  "program_id": "mop-temporal-core-mechanism-v1",
+  "branch": "agent/mop-temporal-core-mechanism",
+  "worktree": "/Users/scammermike/Downloads/mop-temporal-core-mechanism",
+  "run_root": "runs/substrate/mop-temporal-core-mechanism-v1",
+  "proof_root": "proof/substrate/mop-temporal-core-mechanism-v1",
+  "stop_switch": "/Users/scammermike/.mop_temporal_core_mechanism_stop",
+  "boundary": {
+    "source_branch": "agent/mop-experimental-method-reformation",
+    "local_branch_head": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+    "remote_branch_head": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+    "remote_matches_local": true,
+    "required_tag": "mop-method-terminal",
+    "tag_object": "819001f8a5c43664b8c39b25527aed2a84d45958",
+    "tag_commit": "5b69a6b47452748baabb51edcbaa711e6758caee",
+    "tag_is_ancestor_of_branch_head": true,
+    "commits_after_the_tag": [
+      "5e4ce5e Role C reverified from the consolidated single worktree",
+      "9c4123a Track the method program's raw shard receipts"
+    ],
+    "commits_after_the_tag_are_scientific": false,
+    "why": "the two commits after the tag track the raw shard receipts and rerun the Role C verifier from the consolidated tree. Neither changes a sealed scientific artifact, and this program branches from the branch head so those receipts remain available",
+    "draft_pr": 34
+  },
+  "objective": "determine why E1 was positive, and only then select the smallest scientifically evidenced owned temporal core",
+  "must_distinguish": [
+    "recurrent state",
+    "explicit history",
+    "state persistence",
+    "state horizon",
+    "core parameter capacity",
+    "readout capacity",
+    "optimization quality",
+    "architecture family",
+    "bed specific structure",
+    "interactions"
+  ],
+  "reuses": [
+    "experimental validity kernel",
+    "fastforge execution system",
+    "resource token scheduler",
+    "evidence fabric",
+    "configuration authority",
+    "registry",
+    "CLI",
+    "three role verification system"
+  ],
+  "does_not_create": [
+    "a second experiment engine",
+    "a second scheduler",
+    "a second configuration root",
+    "a second registry",
+    "a second evidence system",
+    "a new normal CLI command"
+  ],
+  "immutability_rule": "all prior scientific evidence remains immutable. Corrections are append only and preserve the original evidence",
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "SESOI": 0.05,
+  "sha256": "fc777eb8db673805f1b3292b7095d1a2270c7348cb3f0914950936ae2e820581"
+}
