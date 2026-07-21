@@ -20,6 +20,12 @@ CLASSES = ("active_runtime", "active_method", "active_substrate", "active_tests"
 
 # path prefix to lifecycle class, longest prefix wins
 RULES = [
+    # The resumable execution surface stays active. Receipt producing stage drivers remain byte for byte
+    # recoverable but are frozen once their authority is sealed; they are not part of the orientation surface.
+    ("src/mop/temporal/runs/supervisor.py", "active_substrate"),
+    ("src/mop/temporal/runs/e2.py", "active_substrate"),
+    ("src/mop/temporal/runs/__init__.py", "active_substrate"),
+    ("src/mop/temporal/runs", "frozen_reproducibility"),
     ("src/mop/temporal", "active_substrate"),
     ("src/mop/method", "active_method"),
     ("tests/temporal", "active_tests"),
