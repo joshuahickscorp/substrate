@@ -30,12 +30,12 @@ def contexts(seed: int) -> dict:
     unique = np.random.default_rng(70_000 + seed).permutation(np.unique(units))
     half = len(unique) // 2
 
-    def partition(group):
-        n_eval = max(1, int(round(0.3 * len(group))))
+    def partition(group, n_eval):
         return group[n_eval:], group[:n_eval]
 
-    a_train, a_eval = partition(unique[:half])
-    b_train, b_eval = partition(unique[half:])
+    total_eval = max(2, int(round(0.3 * len(unique))))
+    a_train, a_eval = partition(unique[:half], (total_eval + 1) // 2)
+    b_train, b_eval = partition(unique[half:], total_eval // 2)
 
     def take(group):
         idx = np.where(np.isin(units, list(group)))[0]
@@ -98,6 +98,9 @@ def shard(seed: int) -> dict:
               "pretrain_budget": pre["updates"] == Fx.STEPS,
               "adapt_budget": adapt["updates"] == ADAPT_STEPS,
               "return_budget": recover["updates"] == RETURN_STEPS,
+              "fifteen_train_seven_untouched_evaluation_units": (
+                  len(unit_sets["A_train"] | unit_sets["B_train"]) == 15
+                  and len(unit_sets["A_eval"] | unit_sets["B_eval"]) == 7),
               "no_undeclared_changes": not (pre["undeclared_changes"] or adapt["undeclared_changes"]
                                              or recover["undeclared_changes"])}
     doc = {

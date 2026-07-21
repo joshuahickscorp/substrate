@@ -320,14 +320,15 @@ def test_third_bed_cached_authorities_build_group_disjoint_splits(monkeypatch, t
 
 
 def test_harth_admission_probe_builds_disjoint_return_contexts(monkeypatch):
-    units = np.repeat(np.arange(10), 6)
-    fake = {"x": torch.randn(60, 12, 2), "y": torch.arange(60) % 3, "u": units,
+    units = np.repeat(np.arange(22), 6)
+    fake = {"x": torch.randn(132, 12, 2), "y": torch.arange(132) % 3, "u": units,
             "channels": 2, "classes": 3}
     monkeypatch.setattr(thirdbed.B, "load", lambda name: fake)
     ctx = thirdbed.contexts(0)
     sets = [set(v) for v in ctx["units"].values()]
     assert all(not a & b for i, a in enumerate(sets) for b in sets[i + 1:])
-    assert ctx["A_train"][0].shape == ctx["B_train"][0].shape
+    assert len(set(ctx["units"]["A_train"]) | set(ctx["units"]["B_train"])) == 15
+    assert len(set(ctx["units"]["A_eval"]) | set(ctx["units"]["B_eval"])) == 7
     assert not torch.allclose(ctx["B_train"][0], fake["x"][np.isin(units, ctx["units"]["B_train"])])
 
 

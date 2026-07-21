@@ -398,6 +398,15 @@ def main():
     for name, doc in reports.items():
         io.seal(name, doc)
     principal = {b: a for b, a in per_bed.items() if b in PRINCIPAL_BEDS and a.get("status") != "no_runs"}
+    correction = io.load("MOP_E2_CAPACITY_TIER_CORRECTION.json") if io.exists(
+        "MOP_E2_CAPACITY_TIER_CORRECTION.json") else {"all_pass": False}
+    factorial = io.load("MOP_E2_FACTORIAL_AUTHORITY.json") if io.exists("MOP_E2_FACTORIAL_AUTHORITY.json") else {}
+    verification = io.load("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") if io.exists(
+        "MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else {}
+    mutations = io.load("MOP_TEMPORAL_CORE_MUTATION_REPORT.json") if io.exists(
+        "MOP_TEMPORAL_CORE_MUTATION_REPORT.json") else {}
+    replication = io.load("MOP_E2_INDEPENDENT_REPLICATION.json") if io.exists(
+        "MOP_E2_INDEPENDENT_REPLICATION.json") else {}
     classifications = {}
     for b, a in principal.items():
         for group in ("recurrence_versus_best_stateless", "capacity", "horizon", "readout",
@@ -406,9 +415,13 @@ def main():
                 if d.get("mean") is None:
                     continue
                 classifications[f"{b}:{group}:{k}"] = gate.classify_result(
-                    effect=d, instrument_valid=True, bed_valid=True, mechanism_active=True,
+                    effect=d, instrument_valid=bool(correction.get("all_pass")), bed_valid=bool(
+                        (factorial.get("principal_beds", {}).get(b, {}).get("checks") or {}).get("all_pass")),
+                    mechanism_active=True,
                     baseline_valid=bool(d.get("convergence", {}).get("all_converged")),
-                    verifier_agrees=True, mutations_rejected=True, implementations_agreeing=2,
+                    verifier_agrees=bool(verification.get("all_pass")),
+                    mutations_rejected=bool(mutations.get("all_rejected")),
+                    implementations_agreeing=2 if replication.get("all_pass") else 0,
                     estimator_sufficient=bool(d.get("estimator_sufficient")),
                 )["classification"]
     expected_cells = {AN.name(**c) for c in e2.Fx.sweep_cells()["_all"]}
@@ -432,8 +445,6 @@ def main():
             checks["all_pass"] = all(checks.values())
             shard_index.append({"path": p.relative_to(io.ROOT).as_posix(), "bed": b, "seed": seed,
                                 "sha256": io.sha_file(p) if p.is_file() else None, "checks": checks})
-    correction = io.load("MOP_E2_CAPACITY_TIER_CORRECTION.json") if io.exists(
-        "MOP_E2_CAPACITY_TIER_CORRECTION.json") else {"all_pass": False}
     correction_index = []
     for b in BEDS:
         for seed in e2.PRINCIPAL_SEEDS:
