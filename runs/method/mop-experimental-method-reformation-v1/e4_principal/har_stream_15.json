@@ -1,0 +1,309 @@
+{
+  "bed": "har_stream",
+  "seed": 15,
+  "eval_on": "test",
+  "context_boundary": {
+    "checks": {
+      "new_context_is_measurably_harder": true,
+      "adaptation_costs_the_old_context": true,
+      "boundary_crossed": true
+    },
+    "distribution_shift": 0.54353,
+    "retention_change_under_adaptation": -0.20496,
+    "classification": "context_boundary_crossed"
+  },
+  "covariate_shift": {
+    "applied": true,
+    "kind": "per channel affine on the raw input, declared synthetic",
+    "gain": [
+      0.792,
+      1.3461,
+      0.5713,
+      0.7669,
+      1.4375,
+      0.9423,
+      1.4108,
+      0.6013,
+      1.0617
+    ],
+    "offset": [
+      -0.5484,
+      0.8343,
+      0.8706,
+      0.4779,
+      0.7435,
+      0.1965,
+      -0.285,
+      1.7834,
+      0.1416
+    ],
+    "identical_across_arms_within_a_seed": true
+  },
+  "pretrain": {
+    "steps": 700,
+    "updates": 700,
+    "undeclared_changes": []
+  },
+  "before_adaptation": {
+    "A_eval": 0.8876,
+    "B_eval": 0.34407,
+    "held_out": 0.8705
+  },
+  "arms": {
+    "no_adapt": {
+      "acquisition_B": 0.34407,
+      "retention_A": 0.8876,
+      "held_out": 0.8705,
+      "per_unit_B": {
+        "19": 0.36364,
+        "5": 0.3227
+      },
+      "per_unit_A": {
+        "26": 0.90136,
+        "8": 0.8746
+      },
+      "trace": {
+        "updates": 120,
+        "undeclared_changes": [],
+        "trainable_groups": [],
+        "samples_seen": 7680,
+        "parameter_updates": 0
+      },
+      "changed_param_count": 0,
+      "parameter_updates": 0,
+      "undeclared_changes": []
+    },
+    "state_only": {
+      "acquisition_B": 0.32034,
+      "retention_A": 0.38347,
+      "held_out": 0.4295,
+      "per_unit_B": {
+        "19": 0.24351,
+        "5": 0.40426
+      },
+      "per_unit_A": {
+        "26": 0.36054,
+        "8": 0.40514
+      },
+      "trace": {
+        "state_before_norm": 0.0,
+        "state_after_norm": 4.949159,
+        "state_l2_shift": 4.949159,
+        "state_trajectory_norms": [
+          0.4977,
+          0.935,
+          1.3353,
+          1.7081,
+          2.0269,
+          2.3144,
+          2.566,
+          2.8057
+        ],
+        "samples_seen": 7680,
+        "passes": 120,
+        "parameter_updates": 0,
+        "noise": false,
+        "updates": 120,
+        "undeclared_changes": [],
+        "trainable_groups": [],
+        "wall_seconds": 0.0
+      },
+      "changed_param_count": 0,
+      "parameter_updates": 0,
+      "undeclared_changes": []
+    },
+    "state_noise": {
+      "acquisition_B": 0.34407,
+      "retention_A": 0.8876,
+      "held_out": 0.858,
+      "per_unit_B": {
+        "19": 0.37662,
+        "5": 0.30851
+      },
+      "per_unit_A": {
+        "26": 0.89796,
+        "8": 0.87781
+      },
+      "trace": {
+        "state_before_norm": 0.0,
+        "state_after_norm": 1.316649,
+        "state_l2_shift": 1.316649,
+        "state_trajectory_norms": [
+          0.4977,
+          0.5994,
+          0.7419,
+          0.8192,
+          0.9081,
+          0.9029,
+          0.9002,
+          0.9524
+        ],
+        "samples_seen": 7680,
+        "passes": 120,
+        "parameter_updates": 0,
+        "noise": true,
+        "updates": 120,
+        "undeclared_changes": [],
+        "trainable_groups": [],
+        "wall_seconds": 0.0
+      },
+      "changed_param_count": 0,
+      "parameter_updates": 0,
+      "undeclared_changes": []
+    },
+    "head_only": {
+      "acquisition_B": 0.73559,
+      "retention_A": 0.67769,
+      "held_out": 0.647,
+      "per_unit_B": {
+        "19": 0.70779,
+        "5": 0.76596
+      },
+      "per_unit_A": {
+        "26": 0.68027,
+        "8": 0.67524
+      },
+      "trace": {
+        "domain": null,
+        "steps": 120,
+        "updates": 120,
+        "batch": 64,
+        "lr": 0.001,
+        "trainable_groups": [
+          "readout"
+        ],
+        "changed_param_count": 4,
+        "undeclared_changes": [],
+        "gate_kind": null,
+        "gate_blocked_updates": 0,
+        "checkpoint_sha_before": "1498b7053fa16da455a60e6aaf15bb062c684facb78463490c226d2477699491",
+        "checkpoint_sha_after": "6f5fe175e05f8f97f3b683962d88ba92db7ec336a8694d42e87e539f2df9acf3",
+        "trainable_param_count": 4550,
+        "wall_seconds": 2.14,
+        "parameter_updates": 120,
+        "samples_seen": 7680
+      },
+      "changed_param_count": 4,
+      "parameter_updates": 120,
+      "undeclared_changes": []
+    },
+    "adapter_only": {
+      "acquisition_B": 0.72373,
+      "retention_A": 0.69917,
+      "held_out": 0.6755,
+      "per_unit_B": {
+        "19": 0.67208,
+        "5": 0.78014
+      },
+      "per_unit_A": {
+        "26": 0.71088,
+        "8": 0.6881
+      },
+      "trace": {
+        "domain": null,
+        "steps": 120,
+        "updates": 120,
+        "batch": 64,
+        "lr": 0.001,
+        "trainable_groups": [
+          "adapter"
+        ],
+        "changed_param_count": 4,
+        "undeclared_changes": [],
+        "gate_kind": null,
+        "gate_blocked_updates": 0,
+        "checkpoint_sha_before": "1498b7053fa16da455a60e6aaf15bb062c684facb78463490c226d2477699491",
+        "checkpoint_sha_after": "8512f6984b8e8185276a10a94764a1004e26d75048f61d647ec796d5d451eacd",
+        "trainable_param_count": 2128,
+        "wall_seconds": 2.14,
+        "parameter_updates": 120,
+        "samples_seen": 7680
+      },
+      "changed_param_count": 4,
+      "parameter_updates": 120,
+      "undeclared_changes": []
+    },
+    "core_only": {
+      "acquisition_B": 0.8661,
+      "retention_A": 0.71405,
+      "held_out": 0.6395,
+      "per_unit_B": {
+        "19": 0.89935,
+        "5": 0.82979
+      },
+      "per_unit_A": {
+        "26": 0.82313,
+        "8": 0.61093
+      },
+      "trace": {
+        "domain": null,
+        "steps": 120,
+        "updates": 120,
+        "batch": 64,
+        "lr": 0.001,
+        "trainable_groups": [
+          "core"
+        ],
+        "changed_param_count": 6,
+        "undeclared_changes": [],
+        "gate_kind": null,
+        "gate_blocked_updates": 0,
+        "checkpoint_sha_before": "1498b7053fa16da455a60e6aaf15bb062c684facb78463490c226d2477699491",
+        "checkpoint_sha_after": "1cb1b1e77e2fd6ebb8bf23f7916946bc414d88a16097b11b84f7366220cd3d00",
+        "trainable_param_count": 25600,
+        "wall_seconds": 5.23,
+        "parameter_updates": 120,
+        "samples_seen": 7680
+      },
+      "changed_param_count": 6,
+      "parameter_updates": 120,
+      "undeclared_changes": []
+    },
+    "full": {
+      "acquisition_B": 0.87627,
+      "retention_A": 0.68264,
+      "held_out": 0.611,
+      "per_unit_B": {
+        "19": 0.91558,
+        "5": 0.83333
+      },
+      "per_unit_A": {
+        "26": 0.7619,
+        "8": 0.60772
+      },
+      "trace": {
+        "domain": null,
+        "steps": 120,
+        "updates": 120,
+        "batch": 64,
+        "lr": 0.001,
+        "trainable_groups": [
+          "adapter",
+          "core",
+          "readout"
+        ],
+        "changed_param_count": 14,
+        "undeclared_changes": [],
+        "gate_kind": null,
+        "gate_blocked_updates": 0,
+        "checkpoint_sha_before": "1498b7053fa16da455a60e6aaf15bb062c684facb78463490c226d2477699491",
+        "checkpoint_sha_after": "4090c0214148dd6c90dbd2701319452035cf5b8f99eb5cb0ffd7394b1e53ef78",
+        "trainable_param_count": 32278,
+        "wall_seconds": 5.02,
+        "parameter_updates": 120,
+        "samples_seen": 7680
+      },
+      "changed_param_count": 14,
+      "parameter_updates": 120,
+      "undeclared_changes": []
+    }
+  },
+  "unit_counts": {
+    "A_train": 7,
+    "A_eval": 2,
+    "B_train": 7,
+    "B_eval": 2,
+    "tune": 3,
+    "test": 9
+  }
+}
