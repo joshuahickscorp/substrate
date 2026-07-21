@@ -1,0 +1,214 @@
+{
+  "schema": "mop-principal-experiment/v1",
+  "experiment": "E1",
+  "title": "core by readout factorial on the two sealed valid temporal beds",
+  "beds": [
+    "har_stream",
+    "speech_stream"
+  ],
+  "cells": [
+    "pooled_linear",
+    "pooled_mlp",
+    "fast_linear",
+    "fast_mlp",
+    "reset3_linear",
+    "reset3_mlp",
+    "reset5_linear",
+    "reset5_mlp"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "sesoi": 0.05,
+  "admission_licensed": true,
+  "per_bed": {
+    "har_stream": {
+      "bed": "har_stream",
+      "status": "no_runs",
+      "scout": {
+        "residual_headroom": {
+          "mean": 0.46027,
+          "lower_95_cb": 0.43673,
+          "n_seeds": 5
+        },
+        "oracle_headroom": 0.46298,
+        "baseline_convergence": {
+          "fast_mlp": {
+            "identity": "fast_mlp",
+            "validation_curve": [
+              0.8469,
+              0.8411,
+              0.8609,
+              0.8667,
+              0.8543,
+              0.8626
+            ],
+            "converged": true,
+            "converged_strict": false,
+            "converged_plateau": true,
+            "criterion_used": "plateau",
+            "reason": "",
+            "original_scout_verdict": false,
+            "quantity_kind": "recomputed"
+          },
+          "pooled_mlp": {
+            "identity": "pooled_mlp",
+            "validation_curve": [
+              0.4428,
+              0.4362,
+              0.4222,
+              0.451,
+              0.4115,
+              0.4132
+            ],
+            "converged": false,
+            "converged_strict": false,
+            "converged_plateau": false,
+            "criterion_used": "none",
+            "reason": "still rising: best at check 3 of 5, tail mean 0.4123 is 0.0387 below the best and the second half slope is -0.0189",
+            "original_scout_verdict": false,
+            "quantity_kind": "recomputed"
+          }
+        },
+        "power": {
+          "name": "E1:har_stream",
+          "independent_unit": "subject",
+          "expected_sd": 0.03084,
+          "sesoi": 0.05,
+          "minimum_detectable_effect": 0.02066,
+          "adequately_powered": true,
+          "seeds": 8,
+          "units": 9,
+          "max_seeds": 8,
+          "futility_boundary": 0.01,
+          "harm_boundary": 0.05,
+          "continuation_boundary": "none: the seed count is fixed before the first run",
+          "multiplicity": 1,
+          "bonferroni_sesoi": 0.05,
+          "decision_rule": "positive requires lower_95_cb >= sesoi over independent units; a tie is a null; an effect in the wrong direction is a failure; seeds may not be added after the fact",
+          "stages": [
+            "calibration",
+            "scout",
+            "canary",
+            "principal",
+            "replication"
+          ]
+        }
+      }
+    },
+    "speech_stream": {
+      "bed": "speech_stream",
+      "status": "no_runs",
+      "scout": {
+        "residual_headroom": {
+          "mean": 0.51964,
+          "lower_95_cb": 0.47122,
+          "n_seeds": 5
+        },
+        "oracle_headroom": 0.63228,
+        "baseline_convergence": {
+          "fast_mlp": {
+            "identity": "fast_mlp",
+            "validation_curve": [
+              0.7483,
+              0.7665,
+              0.763,
+              0.7535,
+              0.7613,
+              0.7665
+            ],
+            "converged": true,
+            "converged_strict": true,
+            "converged_plateau": false,
+            "criterion_used": "patience",
+            "reason": "",
+            "original_scout_verdict": true,
+            "quantity_kind": "recomputed"
+          },
+          "pooled_mlp": {
+            "identity": "pooled_mlp",
+            "validation_curve": [
+              0.2092,
+              0.2292,
+              0.263,
+              0.27,
+              0.2422,
+              0.2613
+            ],
+            "converged": false,
+            "converged_strict": false,
+            "converged_plateau": false,
+            "criterion_used": "none",
+            "reason": "still rising: best at check 3 of 5, tail mean 0.2517 is 0.0183 below the best and the second half slope is -0.0044",
+            "original_scout_verdict": false,
+            "quantity_kind": "recomputed"
+          }
+        },
+        "power": {
+          "name": "E1:speech_stream",
+          "independent_unit": "speaker",
+          "expected_sd": 0.0262,
+          "sesoi": 0.05,
+          "minimum_detectable_effect": 0.01756,
+          "adequately_powered": true,
+          "seeds": 8,
+          "units": 63,
+          "max_seeds": 8,
+          "futility_boundary": 0.01,
+          "harm_boundary": 0.05,
+          "continuation_boundary": "none: the seed count is fixed before the first run",
+          "multiplicity": 1,
+          "bonferroni_sesoi": 0.05,
+          "decision_rule": "positive requires lower_95_cb >= sesoi over independent units; a tie is a null; an effect in the wrong direction is a failure; seeds may not be added after the fact",
+          "stages": [
+            "calibration",
+            "scout",
+            "canary",
+            "principal",
+            "replication"
+          ]
+        }
+      }
+    }
+  },
+  "hypothesis_table": {
+    "H_fast_state": {
+      "prediction": "fast beats pooled at both readouts, and fast beats the misaligned reset control",
+      "supported_on": {},
+      "supported_everywhere": false
+    },
+    "H_readout_capacity": {
+      "prediction": "mlp beats linear at both cores, and fast does not beat pooled",
+      "supported_on": {},
+      "supported_everywhere": false
+    },
+    "H_core_readout_interaction": {
+      "prediction": "fast beats pooled only under one readout",
+      "supported_on": {},
+      "supported_everywhere": false
+    },
+    "H_bed_insufficiency": {
+      "prediction": "pooled matches fast, so the bed does not require order after all",
+      "supported_on": {},
+      "supported_everywhere": false
+    },
+    "H_shared_core_capacity": {
+      "prediction": "no cell separates, because capacity is matched and capacity is what mattered",
+      "supported_on": {},
+      "supported_everywhere": false
+    }
+  },
+  "terminal_classification": {},
+  "surviving_hypotheses": [],
+  "wall_seconds": 0.0,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "a41f4ff217543cd0f72c0322b0b074fd2ce43e8d",
+  "sha256": "fee49df6750fe5c86eefa924d91275667efb12063c505785e693e1aa1d5fba52"
+}

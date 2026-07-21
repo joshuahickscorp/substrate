@@ -14,7 +14,23 @@ import time
 
 import numpy as np
 
-from mop.method import gate, io, power
+from mop.method import baseline, gate, io, power
+
+
+def _reconverge(receipt: dict) -> dict:
+    """Recompute convergence from the stored curve under the repaired criterion, defect D17."""
+    p = baseline.plateau(receipt["validation_curve"])
+    return {
+        "identity": receipt["identity"],
+        "validation_curve": receipt["validation_curve"],
+        "converged": p["converged"],
+        "converged_strict": p["converged_strict"],
+        "converged_plateau": p["converged_plateau"],
+        "criterion_used": p["criterion_used"],
+        "reason": p["reason"],
+        "original_scout_verdict": receipt.get("converged"),
+        "quantity_kind": "recomputed",
+    }
 from mop.method.runs import exp4
 from mop.method.runs import locus as L
 
@@ -128,13 +144,14 @@ def main():
         if not p.is_file():
             continue
         scout = json.loads(p.read_text())
-        per_bed[b] = analyze(b, scout["power"])
+        prereg = exp4.principal_prereg(b)
+        per_bed[b] = analyze(b, prereg)
         per_bed[b]["scout"] = {
             "oracle_headroom": scout["oracle_headroom"],
             "residual_state_only_over_no_adapt": scout["residual_state_only_over_no_adapt"],
-            "baseline_convergence": {k: scout["baseline_convergence"][k]
-                                     for k in ("identity", "converged", "reason")},
-            "power": scout["power"],
+            "baseline_convergence": _reconverge(scout["baseline_convergence"]),
+            "scout_power": scout["power"],
+            "principal_power_preregistration": prereg,
         }
     ht = hypothesis_table(per_bed)
     classifications = {}
@@ -151,7 +168,7 @@ def main():
                     bed_valid=True,
                     mechanism_active=mech,
                     baseline_valid=bool(s["baseline_convergence"]["converged"]),
-                    estimator_sufficient=bool(d.get("adequately_powered")),
+                    estimator_sufficient=bool(d.get("estimator_sufficient")),
                     verifier_agrees=True,
                     mutations_rejected=True,
                     implementations_agreeing=2,

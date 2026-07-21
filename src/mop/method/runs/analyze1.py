@@ -14,7 +14,26 @@ import time
 
 import numpy as np
 
-from mop.method import gate, io, power
+from mop.method import baseline, gate, io, power
+
+
+def _reconverge(receipt: dict) -> dict:
+    """Recompute convergence from the stored curve under the repaired criterion, defect D17.
+
+    The scout receipt is preserved untouched in the run file. This is a recomputation, labelled as one.
+    """
+    p = baseline.plateau(receipt["validation_curve"])
+    return {
+        "identity": receipt["identity"],
+        "validation_curve": receipt["validation_curve"],
+        "converged": p["converged"],
+        "converged_strict": p["converged_strict"],
+        "converged_plateau": p["converged_plateau"],
+        "criterion_used": p["criterion_used"],
+        "reason": p["reason"],
+        "original_scout_verdict": receipt.get("converged"),
+        "quantity_kind": "recomputed",
+    }
 from mop.method.runs import exp1
 
 CONTRASTS = {
@@ -135,9 +154,7 @@ def main():
         per_bed[b]["scout"] = {
             "residual_headroom": scout["residual_headroom_over_strongest_control"],
             "oracle_headroom": scout["oracle_headroom"],
-            "baseline_convergence": {k: {"converged": v["converged"], "reason": v["reason"],
-                                         "identity": v["identity"]}
-                                     for k, v in scout["baseline_convergence"].items()},
+            "baseline_convergence": {k: _reconverge(v) for k, v in scout["baseline_convergence"].items()},
             "power": scout["power"],
         }
 
@@ -155,7 +172,7 @@ def main():
         for name, d in a["contrasts"].items():
             classifications[f"{b}:{name}"] = gate.classify_result(
                 effect=d, instrument_valid=instrument_valid, bed_valid=bed_valid, mechanism_active=mech,
-                baseline_valid=base_ok, estimator_sufficient=powered and d.get("adequately_powered", False),
+                baseline_valid=base_ok, estimator_sufficient=powered and d.get("estimator_sufficient", False),
                 verifier_agrees=True, mutations_rejected=True, implementations_agreeing=2,
             )["classification"]
 

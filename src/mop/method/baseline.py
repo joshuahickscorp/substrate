@@ -15,22 +15,52 @@ from __future__ import annotations
 import numpy as np
 
 
-def plateau(curve, patience: int = 3, rel_tol: float = 0.005) -> dict:
-    """A validation curve has plateaued when the best value stops improving by rel_tol for patience checks."""
+def plateau(curve, patience: int = 3, rel_tol: float = 0.005, abs_tol: float = 0.01) -> dict:
+    """Has the validation curve stopped rising.
+
+    Two criteria, both reported, because they disagree in a way that matters. The patience criterion is the
+    strict one: the best value must be followed by patience checks with no improvement above rel_tol. On a
+    noisy single seed curve its argmax lands late by chance, so a curve that is visibly flat reads as still
+    improving. That produced a false unconverged verdict in this program and is recorded as defect D17.
+
+    The plateau criterion asks the question the strict one is a proxy for: is there remaining training
+    headroom. It requires the tail of the curve to sit within abs_tol of the best value and the slope across
+    the second half to be non positive beyond rel_tol. A genuinely rising curve fails both.
+
+    converged is true when either holds, and criterion_used names which, so nothing is swapped silently.
+    """
     c = [float(x) for x in curve]
     if len(c) < patience + 1:
-        return {"converged": False, "reason": f"only {len(c)} validation points, needs {patience + 1}"}
+        return {"converged": False, "converged_strict": False, "converged_plateau": False,
+                "criterion_used": "none", "reason": f"only {len(c)} validation points, needs {patience + 1}"}
     best, best_i = c[0], 0
     for i, v in enumerate(c):
         if v > best * (1.0 + rel_tol):
             best, best_i = v, i
     tail = len(c) - 1 - best_i
+    strict = tail >= patience
+
+    third = max(1, len(c) // 3)
+    tail_mean = sum(c[-third:]) / third
+    half = c[len(c) // 2 :]
+    slope = (half[-1] - half[0]) / max(1, len(half) - 1)
+    plateaued = (max(c) - tail_mean) <= abs_tol and slope <= rel_tol
+
+    converged = strict or plateaued
     return {
-        "converged": tail >= patience,
-        "reason": "" if tail >= patience else f"still improving, best at check {best_i} of {len(c) - 1}",
+        "converged": converged,
+        "converged_strict": strict,
+        "converged_plateau": plateaued,
+        "criterion_used": "patience" if strict else ("plateau" if plateaued else "none"),
+        "reason": "" if converged else (
+            f"still rising: best at check {best_i} of {len(c) - 1}, tail mean {round(tail_mean, 4)} is "
+            f"{round(max(c) - tail_mean, 4)} below the best and the second half slope is {round(slope, 4)}"
+        ),
         "best_value": best,
         "best_index": best_i,
         "checks_after_best": tail,
+        "tail_mean": round(tail_mean, 5),
+        "second_half_slope": round(slope, 5),
     }
 
 
@@ -62,7 +92,15 @@ def receipt(
         "memory": int(memory),
         "compute_seconds": round(float(compute_seconds), 2),
         "validation_curve": [round(float(x), 4) for x in validation_curve],
-        "plateau_criterion": "no improvement above 0.5 percent for 3 validation checks",
+        "plateau_criterion": (
+            "either no improvement above 0.5 percent for 3 validation checks, or a tail within 1 point of "
+            "the best value with a non positive second half slope. Both are reported"
+        ),
+        "converged_strict": p["converged_strict"],
+        "converged_plateau": p["converged_plateau"],
+        "criterion_used": p["criterion_used"],
+        "tail_mean": p.get("tail_mean"),
+        "second_half_slope": p.get("second_half_slope"),
         "selected_checkpoint": selected_checkpoint,
         "seed_variance": round(float(s.var(ddof=1)), 6) if len(s) > 1 else 0.0,
         "seed_scores": [round(float(x), 4) for x in s],

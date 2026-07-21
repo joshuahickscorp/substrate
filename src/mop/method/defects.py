@@ -202,6 +202,22 @@ LEDGER = [
         "discovered_by": "mop-experimental-method-reformation-v1, E4 scout on speech_stream",
         "discovered_in_this_program": True,
     },
+    {
+        "id": "D17",
+        "title": "a brittle plateau criterion reported a flat curve as still improving",
+        "declared": "a convergence receipt",
+        "actual": "on a noisy single seed validation curve the argmax lands late by chance, so a curve that "
+                  "moved 0.016 across a tenfold budget range was classified unconverged",
+        "consequence": "a comparison whose baselines were converged in substance would have been sealed as "
+                       "provisional, which understates the evidence exactly as badly as overstating it",
+        "rule": "a convergence criterion must answer whether training headroom remains, and when two "
+                "criteria disagree both are reported and the one used is named",
+        "detector": "mop.method.baseline.plateau",
+        "mutation": "brittle_plateau_criterion",
+        "stage_caught": "baseline_convergence",
+        "discovered_by": "mop-experimental-method-reformation-v1, E1 scout convergence curves",
+        "discovered_in_this_program": True,
+    },
 ]
 
 BY_ID = {d["id"]: d for d in LEDGER}
