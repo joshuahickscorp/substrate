@@ -11,6 +11,22 @@
   ],
   "rules": [
     {
+      "prefix": "src/mop/temporal/runs/supervisor.py",
+      "class": "active_substrate"
+    },
+    {
+      "prefix": "src/mop/temporal/runs/e2.py",
+      "class": "active_substrate"
+    },
+    {
+      "prefix": "src/mop/temporal/runs/__init__.py",
+      "class": "active_substrate"
+    },
+    {
+      "prefix": "src/mop/temporal/runs",
+      "class": "frozen_reproducibility"
+    },
+    {
       "prefix": "src/mop/temporal",
       "class": "active_substrate"
     },
@@ -144,15 +160,15 @@
   "loc_by_class": {
     "active_runtime": 2526,
     "active_method": 7999,
-    "active_substrate": 2470,
-    "active_tests": 1093,
-    "frozen_reproducibility": 22817,
+    "active_substrate": 2469,
+    "active_tests": 1539,
+    "frozen_reproducibility": 26105,
     "historical_migration": 39,
     "generated": 0
   },
-  "total_python_loc": 36944,
+  "total_python_loc": 40677,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "13599e3659c88455177b8ddfd8352d8852da138d",
+  "source_commit": "05c090441924451a3faf09e2bd84c1b01ba0531f",
   "SESOI": 0.05,
-  "sha256": "79158dfc4575ad00b72c5b7abc621b8b829f4ad8cc49a8ff61e222d7b1173606"
+  "sha256": "9ff1b933d365b9df84cd59635864b81d4e66eebf1b0d634534b1b2afa200ccff"
 }

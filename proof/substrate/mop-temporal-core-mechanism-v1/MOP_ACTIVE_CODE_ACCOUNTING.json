@@ -70,49 +70,49 @@
   "active_substrate": {
     "files": {
       "src/mop/temporal/__init__.py": 1,
+      "src/mop/temporal/analysis.py": 230,
       "src/mop/temporal/arch.py": 263,
       "src/mop/temporal/beds.py": 274,
       "src/mop/temporal/custody.py": 243,
       "src/mop/temporal/factorial.py": 195,
       "src/mop/temporal/hypotheses.py": 164,
-      "src/mop/temporal/io.py": 86,
+      "src/mop/temporal/io.py": 99,
       "src/mop/temporal/runs/__init__.py": 1,
-      "src/mop/temporal/runs/authority.py": 240,
-      "src/mop/temporal/runs/codelife.py": 146,
-      "src/mop/temporal/runs/custody_run.py": 386,
-      "src/mop/temporal/runs/method_ext.py": 199,
+      "src/mop/temporal/runs/e2.py": 400,
+      "src/mop/temporal/runs/supervisor.py": 327,
       "src/mop/temporal/witness.py": 272
     },
-    "loc": 2470
+    "loc": 2469
   },
   "active_tests": {
     "files": {
       "tests/method/__init__.py": 0,
       "tests/method/test_defect_regressions.py": 540,
-      "tests/method/test_kernel.py": 553
+      "tests/method/test_kernel.py": 553,
+      "tests/temporal/__init__.py": 0,
+      "tests/temporal/test_temporal_core.py": 446
     },
-    "loc": 1093
+    "loc": 1539
   },
-  "active_runtime_plus_substrate": 4996,
+  "active_runtime_plus_substrate": 4995,
   "active_runtime_target": 8000,
   "active_runtime_within_target": true,
   "new_e2_implementation": {
     "files": {
       "src/mop/temporal/__init__.py": 1,
+      "src/mop/temporal/analysis.py": 230,
       "src/mop/temporal/arch.py": 263,
       "src/mop/temporal/beds.py": 274,
       "src/mop/temporal/custody.py": 243,
       "src/mop/temporal/factorial.py": 195,
       "src/mop/temporal/hypotheses.py": 164,
-      "src/mop/temporal/io.py": 86,
+      "src/mop/temporal/io.py": 99,
       "src/mop/temporal/runs/__init__.py": 1,
-      "src/mop/temporal/runs/authority.py": 240,
-      "src/mop/temporal/runs/codelife.py": 146,
-      "src/mop/temporal/runs/custody_run.py": 386,
-      "src/mop/temporal/runs/method_ext.py": 199,
+      "src/mop/temporal/runs/e2.py": 400,
+      "src/mop/temporal/runs/supervisor.py": 327,
       "src/mop/temporal/witness.py": 272
     },
-    "loc": 2470,
+    "loc": 2469,
     "target": 2500,
     "within_target": true
   },
@@ -135,7 +135,7 @@
   ],
   "honest_blocker": "",
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "13599e3659c88455177b8ddfd8352d8852da138d",
+  "source_commit": "05c090441924451a3faf09e2bd84c1b01ba0531f",
   "SESOI": 0.05,
-  "sha256": "6bd97aa5f164d46595c2da5b963382a1a84980a6d0c8de5be9641fc2504b8326"
+  "sha256": "8f2fb71c8da6fc4efb7af3dfb4c54c918cef7c0ab4351a43678754450151be91"
 }

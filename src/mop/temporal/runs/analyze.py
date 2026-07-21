@@ -44,21 +44,39 @@ def analyse_bed(bed: str) -> dict:
     series, units = e2._series(runs)
     conv = convergence(bed)
     rec = AN.recover(series, e2.PREREG, units)
+    params = {r["cell"]: r["params"] for r in runs}
     conv_configs = conv.get("configs") or {}
+
+    def conv_status(cell: str) -> str:
+        if cell in conv_configs:
+            return conv_configs[cell].get("classification", "not_measured")
+        # horizon full and no reset are the same call path and reset index list under the sealed factorial.
+        alias = cell.replace("|horizon_full|", "|none|")
+        return (conv_configs.get(alias) or {}).get("classification", "not_measured")
+
     for table in rec["effects"].values():
         for effect in table.values():
             contrast = effect.get("contrast") or ""
             cells = contrast.split(" minus ") if " minus " in contrast else []
-            statuses = {c: (conv_configs.get(c) or {}).get("classification", "not_measured")
-                        for c in cells}
+            statuses = {c: conv_status(c) for c in cells}
             effect["convergence"] = {
                 "cells": statuses,
                 "all_converged": bool(statuses) and all(v == "converged" for v in statuses.values()),
                 "classification": ("converged" if statuses and all(v == "converged" for v in statuses.values())
                                    else "provisional_unconverged_or_unmeasured"),
             }
+            totals = [params.get(c, {}).get("total", 0) for c in cells]
+            effect["cost_adjusted_effect_per_100k_parameters"] = (
+                round(float(effect["mean"]) * 100_000 / max(1, sum(totals)), 5)
+                if effect.get("mean") is not None else None)
+            effect["component_floor_status"] = (
+                "passes" if effect["convergence"]["all_converged"]
+                and (effect.get("group_lower_95_cb") or float("-inf")) >= io.SESOI
+                else "provisional_or_below_floor")
     means = {k: round(float(np.mean(v)), 5) for k, v in series.items()}
-    params = {r["cell"]: r["params"] for r in runs}
+    wall = {}
+    for r in runs:
+        wall.setdefault(r["cell"], []).append(float(r.get("wall_seconds", 0)))
     best = max(means, key=means.get)
     return {
         "bed": bed,
@@ -67,6 +85,18 @@ def analyse_bed(bed: str) -> dict:
         "cell_means": means,
         "cell_sds": {k: round(float(np.std(v, ddof=1)), 5) for k, v in series.items() if len(v) > 1},
         "cell_params": params,
+        "metric_panel": {
+            "primary_task_performance": means,
+            "transition_performance": {"status": "not_measured_under_E2_classification_authority"},
+            "future_adaptation": {"status": "not_measured_under_E2_classification_authority"},
+            "retention": {"status": "not_measured_under_E2_classification_authority"},
+            "return_recovery": {"status": "not_measured_under_E2_classification_authority"},
+            "latency_wall_seconds_mean": {k: round(float(np.mean(v)), 5) for k, v in wall.items()},
+            "memory_parameter_bytes": {k: v["total"] * 4 for k, v in params.items()},
+            "training_compute_updates": {r["cell"]: r["updates"] for r in runs},
+            "parameter_count": {k: v["total"] for k, v in params.items()},
+            "rule": "unmeasured outcomes remain explicit and are never folded into one utility",
+        },
         "best_cell": best,
         "best_mean": means[best],
         "majority_rate": round(float(np.mean([r.get("prediction_concentration", 0) for r in runs])), 5),
@@ -98,7 +128,10 @@ def per_factor_reports(per_bed: dict) -> dict:
     out = {}
 
     def gather(group: str) -> dict:
-        return {b: {k: {kk: v.get(kk) for kk in ("mean", "lower_95_cb", "group_lower_95_cb", "verdict")}
+        return {b: {k: {kk: v.get(kk) for kk in (
+                    "mean", "lower_95_cb", "group_mean", "group_lower_95_cb", "group_upper_95_cb",
+                    "group_heterogeneity", "verdict",
+                    "cost_adjusted_effect_per_100k_parameters", "component_floor_status", "convergence")}
                     for k, v in a["effects"][group].items()}
                 for b, a in per_bed.items() if a.get("status") != "no_runs"}
 
@@ -127,12 +160,19 @@ def per_factor_reports(per_bed: dict) -> dict:
         "effects": gather("readout"),
         "capacity_by_readout": gather("capacity_by_readout"),
     }
+    horizon_gate = state_horizon_gate(per_bed)
     out["MOP_STATE_HORIZON_REPORT.json"] = {
         "schema": "mop-state-horizon-report/v1",
         "horizons": ["1", "2", "5", "10", "20", "45", "90", "full"],
         "effects": gather("horizon"),
         "shortest_sufficient_horizon": {b: a["findings"]["horizon_threshold"]
                                         for b, a in per_bed.items() if a.get("status") != "no_runs"},
+        "principal_gate": horizon_gate,
+        "classification": ("two_bed_persistent_state_mechanism" if horizon_gate["all_pass"]
+                           else "bed_specific_or_unresolved_horizon_effect"),
+        "rule": ("a principal mechanism positive requires converged group bounds showing that full state "
+                 "beats horizon 45 and both a fixed misaligned reset and a rate matched random reset by "
+                 "the SESOI on each principal bed; one bed cannot license a two bed claim"),
     }
     out["MOP_RESET_SEMANTICS_REPORT.json"] = {
         "schema": "mop-reset-semantics-report/v1",
@@ -152,8 +192,19 @@ def per_factor_reports(per_bed: dict) -> dict:
     }
     out["MOP_OPTIMIZATION_CONVERGENCE_REPORT.json"] = {
         "schema": "mop-optimization-convergence-report/v1",
-        "grid": e2.CONVERGENCE_GRID,
+        "grid": list(e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID),
         "per_bed": {b: a["convergence"] for b, a in per_bed.items() if a.get("status") != "no_runs"},
+        "required_optimization_contrasts": {
+            b: {
+                "large_model_same_update_count": a["cell_means"].get(AN.name(tier="large")),
+                "small_model_same_update_count": a["cell_means"].get(AN.name()),
+                "large_model_at_convergence": a["convergence"]["configs"].get(
+                    AN.name(tier="large"), {}),
+                "small_model_at_convergence": a["convergence"]["configs"].get(AN.name(), {}),
+                "small_model_at_same_compute": a["convergence"]["configs"].get(AN.name(), {}).get("curve"),
+                "large_model_at_same_compute": a["convergence"]["configs"].get(
+                    AN.name(tier="large"), {}).get("curve"),
+            } for b, a in per_bed.items() if a.get("status") != "no_runs"},
         "rule": ("an unconverged arm cannot determine a scientific classification, and the remedy is a "
                  "longer budget rather than a looser plateau rule"),
     }
@@ -173,38 +224,81 @@ def per_factor_reports(per_bed: dict) -> dict:
     return out
 
 
+def state_horizon_gate(per_bed: dict) -> dict:
+    """Require the preregistered persistence and destructive reset witnesses on both principal beds."""
+    per = {}
+    for bed in PRINCIPAL_BEDS:
+        a = per_bed.get(bed, {})
+
+        def destructive(d: dict) -> bool:
+            return (d.get("convergence", {}).get("all_converged")
+                    and d.get("group_upper_95_cb") is not None
+                    and d["group_upper_95_cb"] <= -io.SESOI)
+
+        horizon = a.get("effects", {}).get("horizon", {})
+        reset = a.get("effects", {}).get("reset", {})
+        fixed = {k: destructive(reset.get(k, {})) for k in ("misaligned_a", "misaligned_b")}
+        checks = {
+            "full_beats_horizon_45_by_sesoi": destructive(horizon.get("gru_h45_vs_full", {})),
+            "full_beats_a_misaligned_fixed_reset_by_sesoi": any(fixed.values()),
+            "full_beats_rate_matched_random_reset_by_sesoi": destructive(
+                reset.get("random_rate_matched", {})),
+        }
+        per[bed] = {"checks": checks, "fixed_reset_checks": fixed, "all_pass": all(checks.values())}
+    return {
+        "per_bed": per,
+        "two_principal_beds_agree": len(per) == len(PRINCIPAL_BEDS) and all(v["all_pass"] for v in per.values()),
+        "all_pass": len(per) == len(PRINCIPAL_BEDS) and all(v["all_pass"] for v in per.values()),
+    }
+
+
 def result_keys(per_bed: dict) -> list[str]:
     """Fold the measured effects into the preregistered result vocabulary. No new keys are invented here."""
     keys = []
     principal = {b: a for b, a in per_bed.items() if b in PRINCIPAL_BEDS and a.get("status") != "no_runs"}
     if not principal:
         return keys
+
+    def positive(d: dict) -> bool:
+        return (d.get("verdict") == "positive" and d.get("convergence", {}).get("all_converged")
+                and (d.get("group_lower_95_cb") or float("-inf")) >= io.SESOI)
+
     mh = [a["effects"]["recurrent_versus_matched_history"] for a in principal.values()]
     matched_full = [g.get("gru_vs_histmlp_kfull_window", {}) for g in mh]
-    if all(v.get("verdict") == "positive" and v.get("convergence", {}).get("all_converged")
-           for v in matched_full):
+    if all(positive(v) for v in matched_full):
         keys.append("recurrent_beats_matched_history")
     if any(AN.equivalent(v) and v.get("convergence", {}).get("all_converged")
            for v in matched_full if v.get("mean") is not None):
         keys.append("matched_history_matches_recurrent")
-    if all(a["findings"]["capacity_monotonic"] for a in principal.values()):
+    capacity_ready = all(all(d.get("convergence", {}).get("all_converged")
+                             for d in a["effects"]["capacity"].values()) for a in principal.values())
+    if capacity_ready and all(a["findings"]["capacity_monotonic"] for a in principal.values()):
         keys.append("capacity_monotonic_and_large")
-    elif not any(a["findings"]["capacity"] for a in principal.values()):
+    elif capacity_ready and not any(a["findings"]["capacity"] for a in principal.values()):
         keys.append("capacity_flat_or_saturating")
-    if all(a["findings"]["horizon_threshold"] is not None for a in principal.values()):
+    horizon_gate = state_horizon_gate(per_bed)
+    horizon_ready = all(all(a["effects"]["horizon"].get(k, {}).get("convergence", {}).get("all_converged")
+                            for k in ("gru_h45_vs_full", "gru_h90_vs_full")) for a in principal.values())
+    if horizon_ready and horizon_gate["all_pass"] and all(
+            a["findings"]["horizon_threshold"] is not None for a in principal.values()):
         keys.append("horizon_threshold_at_dependency_length")
-    elif not any(a["findings"]["horizon"] for a in principal.values()):
+    elif horizon_ready and not any(a["findings"]["horizon"] for a in principal.values()) and all(
+            not v["all_pass"] for v in horizon_gate["per_bed"].values()):
         keys.append("horizon_flat")
-    if all(a["findings"]["capacity_by_horizon_interaction"] for a in principal.values()):
+    interaction_ready = all(all(d.get("convergence", {}).get("all_converged")
+                                for d in a["effects"]["capacity_by_horizon"].values())
+                            for a in principal.values())
+    if interaction_ready and all(a["findings"]["capacity_by_horizon_interaction"]
+                                 for a in principal.values()):
         keys.append("capacity_helps_only_at_long_horizon")
-    else:
+    elif interaction_ready:
         keys.append("capacity_and_horizon_independent")
     fam = {}
     for b, a in principal.items():
         for r in A.RECURRENT:
             for s in A.STATELESS:
                 v = a["effects"]["recurrence_versus_best_stateless"].get(f"{r}_vs_{s}", {})
-                if v.get("verdict") == "positive" and v.get("convergence", {}).get("all_converged"):
+                if positive(v):
                     fam.setdefault(r, set()).add(b)
     if set(fam) >= {"gru", "lstm", "mgu"}:
         keys.append("all_recurrent_families_agree")
@@ -219,14 +313,16 @@ def result_keys(per_bed: dict) -> list[str]:
         "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {}
     third_admitted = "harth_stream" in (third_preflight.get("selected") or [])
     if third and third.get("status") != "no_runs" and third_admitted:
-        rec = any(v.get("verdict") == "positive" and v.get("convergence", {}).get("all_converged")
-                  for v in third["effects"]["recurrence_versus_best_stateless"].values())
+        rec = positive(third["effects"]["recurrent_versus_matched_history"].get(
+            "gru_vs_histmlp_kfull_window", {}))
         keys.append("third_bed_agrees" if rec else "third_bed_dissents")
     else:
         keys.append("third_bed_invalid")
-    if any(a["findings"]["readout"] for a in principal.values()):
+    readout_ready = all(all(d.get("convergence", {}).get("all_converged")
+                            for d in a["effects"]["readout"].values()) for a in principal.values())
+    if readout_ready and any(a["findings"]["readout"] for a in principal.values()):
         keys.append("readout_capacity_reproduces_the_effect")
-    else:
+    elif readout_ready:
         keys.append("readout_capacity_flat")
     return keys
 

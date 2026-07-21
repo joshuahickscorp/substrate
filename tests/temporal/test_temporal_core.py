@@ -17,7 +17,7 @@ from mop.temporal import factorial as Fx
 from mop.temporal import hypotheses as H
 from mop.temporal import io as TIO
 from mop.temporal import witness as W
-from mop.temporal.runs import codelife, coresel, e2, e3, supervisor
+from mop.temporal.runs import analyze, codelife, coresel, e2, e3, supervisor
 
 torch = pytest.importorskip("torch")
 
@@ -403,6 +403,30 @@ def test_code_lifecycle_keeps_resume_surface_active_and_sealed_drivers_frozen():
     assert codelife.classify("src/mop/temporal/runs/e2.py") == "active_substrate"
     assert codelife.classify("src/mop/temporal/runs/analyze.py") == "frozen_reproducibility"
     assert codelife.classify("src/mop/temporal/runs/e3.py") == "frozen_reproducibility"
+
+
+def test_group_contrast_reports_both_confidence_bounds():
+    d = AN.contrast({"a": [0.7, 0.8], "b": [0.5, 0.5]}, "a", "b", e2.PREREG,
+                    {"a": {"u1": 0.8, "u2": 0.7, "u3": 0.9},
+                     "b": {"u1": 0.5, "u2": 0.5, "u3": 0.5}})
+    assert d["group_lower_95_cb"] <= d["group_mean"] <= d["group_upper_95_cb"]
+
+
+def test_state_horizon_positive_requires_both_principal_beds():
+    def effect(upper):
+        return {"group_upper_95_cb": upper, "convergence": {"all_converged": True}}
+
+    def bed(upper):
+        return {"effects": {
+            "horizon": {"gru_h45_vs_full": effect(upper)},
+            "reset": {"misaligned_a": effect(upper), "misaligned_b": effect(upper),
+                      "random_rate_matched": effect(upper)},
+        }}
+
+    gate = analyze.state_horizon_gate({"har_stream": bed(-0.04), "speech_stream": bed(-0.08)})
+    assert gate["per_bed"]["speech_stream"]["all_pass"]
+    assert not gate["per_bed"]["har_stream"]["all_pass"]
+    assert not gate["all_pass"] and not gate["two_principal_beds_agree"]
 
 
 def test_hypothesis_fold_uses_only_preregistered_keys():
