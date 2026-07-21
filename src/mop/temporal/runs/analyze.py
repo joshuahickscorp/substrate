@@ -252,6 +252,27 @@ def main():
                     baseline_valid=bool(d.get("convergence", {}).get("all_converged")),
                     verifier_agrees=True, mutations_rejected=True, implementations_agreeing=2,
                 )["classification"]
+    expected_cells = {AN.name(**c) for c in e2.Fx.sweep_cells()["_all"]}
+    shard_index = []
+    for b in BEDS:
+        for seed in e2.PRINCIPAL_SEEDS:
+            p = io.RUNS / "e2_principal" / f"{b}_{seed}.json"
+            checks = {"exists": p.is_file()}
+            if p.is_file():
+                raw = json.loads(p.read_text())
+                cells = [r.get("cell") for r in raw.get("runs", [])]
+                checks.update({
+                    "bed_identity": raw.get("bed") == b and all(r.get("bed") == b for r in raw["runs"]),
+                    "seed_identity": raw.get("seed") == seed and all(r.get("seed") == seed for r in raw["runs"]),
+                    "factorial_identity": len(cells) == len(expected_cells) and set(cells) == expected_cells,
+                    "training_budget": all(r.get("steps") == e2.Fx.STEPS for r in raw["runs"]),
+                    "checkpoint_receipts": all(r.get("checkpoint_sha_after") for r in raw["runs"]),
+                    "parameter_inventory": all(r.get("params", {}).get("total") for r in raw["runs"]),
+                    "no_undeclared_changes": all(not r.get("undeclared_changes") for r in raw["runs"]),
+                })
+            checks["all_pass"] = all(checks.values())
+            shard_index.append({"path": p.relative_to(io.ROOT).as_posix(), "bed": b, "seed": seed,
+                                "sha256": io.sha_file(p) if p.is_file() else None, "checks": checks})
     doc = {
         "schema": "mop-e2-principal-result/v1",
         "beds": list(BEDS),
@@ -264,6 +285,10 @@ def main():
         "observed_result_keys": keys,
         "hypothesis_fold": fold,
         "terminal_classification": classifications,
+        "shard_index": shard_index,
+        "n_expected_shards": len(BEDS) * len(e2.PRINCIPAL_SEEDS),
+        "n_verified_shards": sum(s["checks"]["all_pass"] for s in shard_index),
+        "all_shards_verified": all(s["checks"]["all_pass"] for s in shard_index),
         "wall_seconds": round(time.time() - t0, 1),
     }
     io.seal("MOP_E2_PRINCIPAL_RESULT.json", doc)
@@ -273,6 +298,18 @@ def main():
         "observed_results": fold["observed_results"],
         "rule": "the mapping from result to hypothesis state was sealed before the first principal cell ran",
     })
+    rows = "\n".join(
+        f"| {name} | {row['state']} | {', '.join(row['evidence']['supports']) or 'none'} | "
+        f"{', '.join(row['evidence']['weakens']) or 'none'} | {', '.join(row['evidence']['closes']) or 'none'} |"
+        for name, row in fold["hypotheses"].items())
+    io.seal_md("MOP_SUBSTRATE_HYPOTHESIS_GRAPH.md", f"""# Temporal substrate hypothesis graph
+
+| hypothesis | state | supports | weakens | closes |
+|---|---|---|---|---|
+{rows}
+
+The result to hypothesis mapping was sealed before principal execution. Unknown result keys are refused.
+""")
     print(f"E2 analysis: results {keys}", flush=True)
     for h, v in fold["hypotheses"].items():
         print(f"  {h:32s} {v['state']}", flush=True)

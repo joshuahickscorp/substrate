@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import tempfile
 from pathlib import Path
 
@@ -11,8 +12,9 @@ from mop.temporal import analysis as AN
 from mop.temporal import arch as A
 from mop.temporal import custody as C
 from mop.temporal import hypotheses as H
+from mop.temporal import io as TIO
 from mop.temporal import witness as W
-from mop.temporal.runs import coresel, e2, supervisor
+from mop.temporal.runs import coresel, e2, e3, supervisor
 
 torch = pytest.importorskip("torch")
 
@@ -247,6 +249,41 @@ def test_supervisor_uses_the_measured_resource_class_optima():
     assert not supervisor._large_convergence_name(small)
     cap, eligible, resource_class = supervisor.scheduling_class([small, large])
     assert (cap, eligible, resource_class) == (16, [large], "large")
+
+
+def test_shard_receipts_land_atomically_with_commit_and_content_hash(monkeypatch, tmp_path):
+    monkeypatch.setattr(TIO, "RUNS", tmp_path)
+    monkeypatch.setattr(TIO, "commit", lambda: "abc123")
+    p = TIO.run_json("x.json", {"bed": "b", "seed": 2}, "stage")
+    d = json.loads(p.read_text())
+    assert d["source_commit"] == "abc123" and d["program"] == TIO.PROGRAM
+    assert d["result_sha256"] == TIO.sha_obj({k: v for k, v in d.items() if k != "result_sha256"})
+    assert not list(p.parent.glob(".*.partial.*"))
+
+
+def test_supervisor_reports_invalid_and_partial_receipts_without_deleting_them(monkeypatch, tmp_path):
+    monkeypatch.setattr(supervisor.io, "RUNS", tmp_path)
+    stage = tmp_path / "stage"
+    stage.mkdir()
+    (stage / "bad.json").write_text("{")
+    (stage / ".work.json.partial.7").write_text("partial")
+    assert supervisor.invalid("stage", ["bad"]) == ["bad"]
+    assert supervisor.partials("stage") == [".work.json.partial.7"]
+    assert (stage / ".work.json.partial.7").is_file()
+
+
+def test_e3_common_width_is_in_band_and_shared_groups_are_shape_compatible():
+    models = [e3._model(__import__("mop.temporal.beds", fromlist=["x"]).splits(b, 0), 0)
+              for b in ("har_stream", "speech_stream")]
+    for model in models:
+        lo, hi = A.TIER_RANGE["small"]
+        assert lo <= A.count(model)["core"] <= hi
+        assert set(model.param_groups["local"]).isdisjoint(model.param_groups["shared"])
+        assert set(model.param_groups["local"]) | set(model.param_groups["shared"]) == set(
+            dict(model.named_parameters()))
+    copied = e3._copy_group(models[1], models[0], "shared")
+    assert copied == models[1].param_groups["shared"]
+    assert len(e3.ARMS) == 8 and len(set(e3.ARMS)) == 8
 
 
 def test_hypothesis_fold_uses_only_preregistered_keys():
