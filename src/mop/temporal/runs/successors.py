@@ -109,6 +109,9 @@ def main():
                        "opened_not_licensed" if g[key].get("opens") else "gate_closed"),
             "experiment_terminal": actually_executed,
             "result": existing.get("result") if actually_executed else None,
+            "mutation_checks": (existing.get("mutation_checks")
+                                or (existing.get("result") or {}).get("mutation_checks")
+                                if actually_executed else {}),
             "rule": "a conditional experiment that does not open still produces this artifact",
         })
     io.seal("MOP_EXPERIMENT_VALUE_QUEUE.json", {

@@ -360,7 +360,7 @@ def test_supervisor_uses_the_measured_resource_class_optima():
     assert supervisor._large_convergence_name(large)
     assert not supervisor._large_convergence_name(small)
     cap, eligible, resource_class = supervisor.scheduling_class([small, large])
-    assert (cap, eligible, resource_class) == (16, [large, small], "large_cap_mixed_fill")
+    assert (cap, eligible, resource_class) == (16, [large], "large_class_isolated")
 
 
 def test_shard_receipts_land_atomically_with_commit_and_content_hash(monkeypatch, tmp_path):

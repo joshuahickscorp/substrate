@@ -79,10 +79,10 @@
       "src/mop/temporal/io.py": 99,
       "src/mop/temporal/runs/__init__.py": 1,
       "src/mop/temporal/runs/e2.py": 400,
-      "src/mop/temporal/runs/supervisor.py": 328,
+      "src/mop/temporal/runs/supervisor.py": 332,
       "src/mop/temporal/witness.py": 272
     },
-    "loc": 2470
+    "loc": 2474
   },
   "active_tests": {
     "files": {
@@ -94,7 +94,7 @@
     },
     "loc": 1562
   },
-  "active_runtime_plus_substrate": 4996,
+  "active_runtime_plus_substrate": 5000,
   "active_runtime_target": 8000,
   "active_runtime_within_target": true,
   "new_e2_implementation": {
@@ -109,10 +109,10 @@
       "src/mop/temporal/io.py": 99,
       "src/mop/temporal/runs/__init__.py": 1,
       "src/mop/temporal/runs/e2.py": 400,
-      "src/mop/temporal/runs/supervisor.py": 328,
+      "src/mop/temporal/runs/supervisor.py": 332,
       "src/mop/temporal/witness.py": 272
     },
-    "loc": 2470,
+    "loc": 2474,
     "target": 2500,
     "within_target": true
   },
@@ -135,7 +135,7 @@
   ],
   "honest_blocker": "",
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "7c12b9fff0ef19985d5b4d7e14565ff2b2c64a2f",
+  "source_commit": "f49d0e79a8993d11f2945f534c0734721b334435",
   "SESOI": 0.05,
-  "sha256": "63fe70f8a8b845beb2ec733e899086d3bf9ad5c94eee9583e65d16de71f7321e"
+  "sha256": "ec9eaa95da162f0bdb8a1ef6caeea1ff604390223639f95fc01437e328adec39"
 }

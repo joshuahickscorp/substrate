@@ -120,8 +120,11 @@ def shard(source: str, target: str, seed: int) -> dict:
     random_donor = _model(ssp, 20_000 + seed)
     _copy_group(random_transfer, random_donor, "shared")
 
+    wrong_sp = B.splits("harth_stream", seed)
+    wrong_donor = _model(wrong_sp, 60_000 + seed)
+    wrong_receipt = _fit(wrong_donor, wrong_sp, 60_000 + seed, ["core", "readout"])
     wrong_bed = copy.deepcopy(local)
-    _copy_group(wrong_bed, source_model, "shared")
+    wrong_copied = _copy_group(wrong_bed, wrong_donor, "shared")
 
     frozen = _model(tsp, 30_000 + seed)
     frozen_copied = _copy_group(frozen, source_model, "shared")
@@ -198,7 +201,11 @@ def shard(source: str, target: str, seed: int) -> dict:
         "component_interventions": component_interventions,
         "copied_parameter_sets": {
             "frozen": frozen_copied, "fine_tuned": fine_copied, "shared": shared_copied,
+            "wrong_bed": wrong_copied,
         },
+        "wrong_bed_control": {"donor_bed": "harth_stream", "intended_source_bed": source,
+                              "distinct_bed": source != "harth_stream",
+                              "donor_training": wrong_receipt},
         "source_training": source_receipt,
         "source_baseline": source_base,
         "arm_distinctness": {
@@ -287,6 +294,16 @@ def aggregate() -> dict:
         "all_shards_terminal": True,
         "all_nonoracle_arms_distinct": all(
             d["arm_distinctness"]["all_nonoracle_arms_distinct"] for d in shards),
+        "mutation_checks": {
+            "all_required_arms_present": all(set(d["arms"]) == set(ARMS) for d in shards),
+            "wrong_bed_donor_is_distinct": all(
+                d["wrong_bed_control"]["distinct_bed"] for d in shards),
+            "all_component_replacements_recorded": all(set(d["component_interventions"]) == {
+                "input_projection", "normalization", "input_to_hidden", "hidden_to_hidden",
+                "hidden_bias", "output_projection", "readout", "initial_state"} for d in shards),
+            "all_transfer_arms_have_distinct_checkpoints": all(
+                d["arm_distinctness"]["all_nonoracle_arms_distinct"] for d in shards),
+        },
     }
     io.seal("MOP_E3_SHARED_LOCAL_RESULT.json", result)
     print(f"E3 aggregate: {overall}, {len(shards)} shards", flush=True)

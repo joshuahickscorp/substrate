@@ -1,0 +1,44 @@
+{
+  "schema": "mop-temporal-orchestration-incident/v1",
+  "classification": "mixed_resource_class_trial_failed_without_scientific_receipts",
+  "trigger": "six large jobs occupied fewer than the measured large-class cap while small work was ready",
+  "trial": {
+    "large_jobs_active": 6,
+    "small_jobs_launched": 8,
+    "small_shard_identities": [
+      "xshard_har_stream_0",
+      "xshard_har_stream_1",
+      "xshard_har_stream_2",
+      "xshard_har_stream_3",
+      "xshard_har_stream_4",
+      "xshard_har_stream_5",
+      "xshard_har_stream_8",
+      "xshard_har_stream_9"
+    ],
+    "total_active_shards_after_launch": 14,
+    "large_class_cap": 16
+  },
+  "outcome": {
+    "small_jobs_with_receipts": 0,
+    "small_jobs_exited": 8,
+    "exit_codes": "unavailable after orphaned subprocess exit",
+    "large_jobs_remained_active": true,
+    "partial_receipts": [],
+    "logs_emitted_lines": 0
+  },
+  "scientific_consequence": "none: no result receipt landed and every identity remains missing and retryable",
+  "repair": "restore size-class isolation; finish large jobs, then retry missing small identities under cap 24",
+  "retries_pending": [
+    "xshard_har_stream_0",
+    "xshard_har_stream_1",
+    "xshard_har_stream_2",
+    "xshard_har_stream_3",
+    "xshard_har_stream_4",
+    "xshard_har_stream_5",
+    "xshard_har_stream_8",
+    "xshard_har_stream_9"
+  ],
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "f49d0e79a8993d11f2945f534c0734721b334435",
+  "result_sha256": "42b7626792e106248f50b6e0410c1513b00727936b36936cafe0828f0d4039b9"
+}
