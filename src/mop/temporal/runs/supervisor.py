@@ -317,6 +317,7 @@ def main(argv=None):
         run_e3()
         run_sync("mop.temporal.runs.successors")
     for mod in ("mop.temporal.runs.reports", "mop.temporal.runs.synthesis",
+                "mop.temporal.runs.fabric", "mop.temporal.runs.synthesis",
                 "mop.temporal.runs.fabric"):
         run_sync(mod)
     print("SUPERVISOR_DONE", flush=True)

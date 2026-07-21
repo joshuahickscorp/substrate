@@ -51,7 +51,8 @@ def answers() -> dict:
         "11 what was the shortest useful horizon": {
             b: bed(b, ["findings", "horizon_threshold"]) for b in per if per[b].get("status") != "no_runs"},
         "16 were all load bearing baselines converged": {
-            b: bed(b, ["convergence", "all_converged"]) for b in per if per[b].get("status") != "no_runs"},
+            b: bed(b, ["convergence", "load_bearing_all_converged"])
+            for b in per if per[b].get("status") != "no_runs"},
         "17 did optimization explain any apparent architecture effect": fold.get(
             "H5_optimization", {}).get("state"),
         "19 did both valid beds agree": len([b for b in e2.get("principal_beds", [])
@@ -79,8 +80,8 @@ def answers() -> dict:
         "43 is plasticity evidenced": False,
         "44 is cross domain moldability evidenced": False,
         "45 is activation licensed": False,
-        "46 what exact experiment has the highest information value next": (
-            (gates.get("licensed_top_two") or ["E3 shared versus local temporal representation"])[0]),
+        "46 what exact experiment has the highest information value next": next((x for x in gates.get(
+            "opened", []) if x not in gates.get("licensed_top_two", [])), "no licensed successor remains"),
         "verification": {"role_b": (ver.get("role_b") or {}).get("all_pass"),
                          "role_c": (ver.get("role_c") or {}).get("all_pass")},
         "coverage": {"method_kernel": (cov.get("method_kernel_gate") or {}).get("met"),
@@ -93,6 +94,51 @@ def main():
     a = answers()
     e2 = L("MOP_E2_PRINCIPAL_RESULT.json")
     core = L("MOP_OWNED_TEMPORAL_CORE_V1.json")
+    scout = L("MOP_E2_SCOUT_RESULT.json")
+    rep = L("MOP_E2_INDEPENDENT_REPLICATION.json")
+    queue = L("MOP_EXPERIMENT_VALUE_QUEUE.json")
+    e3 = L("MOP_E3_SHARED_LOCAL_RESULT.json")
+    third_result = L("MOP_THIRD_TEMPORAL_BED_RESULT.json")
+    tests = L("MOP_TEMPORAL_CORE_TEST_REPORT.json")
+    cov = L("MOP_TEMPORAL_CORE_COVERAGE_REPORT.json")
+    clean = L("MOP_TEMPORAL_CORE_CLEAN_CLONE.json")
+    fabric = L("MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json")
+    factorial = L("MOP_E2_FACTORIAL_AUTHORITY.json")
+    third = L("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json")
+    required = [
+        "MOP_E2_SCOUT_RESULT.json", "MOP_E2_PRINCIPAL_RESULT.json",
+        "MOP_E2_INDEPENDENT_REPLICATION.json", "MOP_CORE_ARCHITECTURE_REPORT.json",
+        "MOP_CORE_CAPACITY_REPORT.json", "MOP_READOUT_CAPACITY_REPORT.json",
+        "MOP_STATE_HORIZON_REPORT.json", "MOP_RESET_SEMANTICS_REPORT.json",
+        "MOP_EXPLICIT_HISTORY_REPORT.json", "MOP_OPTIMIZATION_CONVERGENCE_REPORT.json",
+        "MOP_FACTORIAL_INTERACTION_REPORT.json", "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json",
+        "MOP_OWNED_TEMPORAL_CORE_V1.json", "MOP_OWNED_TEMPORAL_CORE_V1.md",
+        "MOP_E3_SHARED_LOCAL_RESULT.json", "MOP_E5_SELF_SUPERVISED_RESULT.json",
+        "MOP_HYBRID_ADAPTATION_RESULT.json", "MOP_EXPERIMENT_VALUE_QUEUE.json",
+        "MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json", "MOP_SUBSTRATE_HYPOTHESIS_GRAPH.md",
+        "MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json", "MOP_TEMPORAL_CORE_MUTATION_REPORT.json",
+        "MOP_TEMPORAL_CORE_TEST_REPORT.json", "MOP_TEMPORAL_CORE_COVERAGE_REPORT.json",
+        "MOP_TEMPORAL_CORE_RESOURCE_REPORT.json", "MOP_TEMPORAL_CORE_CLEAN_CLONE.json",
+        "MOP_TEMPORAL_CORE_STATE.json", "MOP_TEMPORAL_CORE_LEDGER.md",
+        "MOP_TEMPORAL_CORE_SCORECARD.json", "MOP_TEMPORAL_CORE_SCORECARD.md",
+        "MOP_TEMPORAL_CORE_SYNTHESIS.json", "MOP_TEMPORAL_CORE_SYNTHESIS.md",
+        "MOP_TEMPORAL_CORE_NEXT_FRONTIER.json",
+    ]
+    deliverables_present = all((io.PROOF / name).is_file() for name in required
+                               if name not in ("MOP_TEMPORAL_CORE_STATE.json",
+                                               "MOP_TEMPORAL_CORE_LEDGER.md",
+                                               "MOP_TEMPORAL_CORE_SCORECARD.json",
+                                               "MOP_TEMPORAL_CORE_SCORECARD.md",
+                                               "MOP_TEMPORAL_CORE_SYNTHESIS.json",
+                                               "MOP_TEMPORAL_CORE_SYNTHESIS.md",
+                                               "MOP_TEMPORAL_CORE_NEXT_FRONTIER.json"))
+    licensed = queue.get("licensed_top_two") or []
+    successor_terminal = all(
+        (name == "third_bed_replication" and bool(third_result.get("classification")))
+        or (name == "E3_shared_versus_local" and bool(e3.get("experiment_terminal")))
+        or (name == "E5_self_supervised" and L("MOP_E5_SELF_SUPERVISED_RESULT.json").get("experiment_terminal"))
+        or (name == "hybrid_adaptation" and L("MOP_HYBRID_ADAPTATION_RESULT.json").get("experiment_terminal"))
+        for name in licensed)
     stages = {
         "start_authority": io.exists("MOP_TEMPORAL_CORE_START_AUTHORITY.json"),
         "binding_results": io.exists("MOP_TEMPORAL_CORE_BINDING_RESULTS.json"),
@@ -100,24 +146,48 @@ def main():
         "code_lifecycle": io.exists("MOP_CODE_LIFECYCLE_AUTHORITY.json"),
         "method_extension": io.exists("MOP_TEMPORAL_METHOD_EXTENSION.json"),
         "e2_calibration": bool(L("MOP_E2_CALIBRATION.json").get("all_pass")),
-        "bed_validity": io.exists("MOP_E2_FACTORIAL_AUTHORITY.json"),
-        "third_bed_preflight": io.exists("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json"),
-        "e2_principal": io.exists("MOP_E2_PRINCIPAL_RESULT.json"),
-        "core_selection": io.exists("MOP_OWNED_TEMPORAL_CORE_V1.json"),
-        "successor_gates": io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json"),
+        "scout": bool(scout.get("all_pass")),
+        "convergence": all((e2.get("per_bed", {}).get(b, {}).get("convergence", {})
+                            .get("load_bearing_all_converged")) for b in e2.get("principal_beds", [])),
+        "bed_validity": bool(factorial.get("all_principal_beds_valid")),
+        "third_bed_preflight": bool(third.get("candidates")) and all(
+            v.get("classification") not in ("preflight_incomplete", "unavailable", None)
+            for v in third.get("candidates", {}).values()),
+        "e2_principal": bool(e2.get("all_shards_verified")),
+        "independent_replication": bool(rep.get("all_pass")),
+        "core_selection": bool(core.get("selected")) and all((core.get("evidence_gates") or {}).values()),
+        "successor_gates": len(licensed) == 2,
+        "successors_terminal": successor_terminal,
         "mutations": bool(L("MOP_TEMPORAL_CORE_MUTATION_REPORT.json").get("all_rejected")),
         "verification": bool(L("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json").get("all_pass")),
-        "reports": io.exists("MOP_TEMPORAL_CORE_COVERAGE_REPORT.json"),
-        "evidence_fabric": io.exists("MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json"),
+        "tests_and_coverage": bool(tests.get("passed")) and bool((cov.get("method_kernel_gate") or {}).get("met"))
+        and bool((cov.get("active_critical_path_gate") or {}).get("met")),
+        "clean_clone": bool(clean.get("all_pass")),
+        "required_deliverables": deliverables_present,
+        "evidence_fabric": bool((fabric.get("verification") or {}).get("all_pass"))
+        and bool((fabric.get("mutations") or {}).get("all_rejected")),
     }
+    common = {"authority": io.commit(), "bed": None, "factor_levels": None, "arm": None, "seed": None,
+              "implementation": None, "parameter_count": None, "training_budget": None,
+              "checkpoint": None, "tests": tests.get("passed"),
+              "verification": L("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json").get("all_pass"),
+              "mutations": L("MOP_TEMPORAL_CORE_MUTATION_REPORT.json").get("all_rejected"),
+              "commit": io.commit(), "tag": None}
+    items = {name: {**common, "status": "terminal" if value else "incomplete",
+                    "dependencies": [], "classification": "green" if value else "not_green",
+                    "next_action": "none" if value else "resume supervisor"}
+             for name, value in stages.items()}
     io.seal("MOP_TEMPORAL_CORE_STATE.json", {
         "schema": "mop-temporal-core-state/v1", "program_id": io.PROGRAM,
         "branch": "agent/mop-temporal-core-mechanism", "stop_switch": str(io.STOP),
         "stages": stages, "stages_green": sum(1 for v in stages.values() if v), "n_stages": len(stages),
+        "items": items, "required_deliverables": required,
+        "all_terminal": all(stages.values()), "no_dependency_ready_work": all(stages.values()),
         "resume": "python3.12 -m mop.temporal.runs.supervisor resumes from shard files on disk",
         "activation": False})
     io.seal("MOP_TEMPORAL_CORE_SYNTHESIS.json", {
         "schema": "mop-temporal-core-synthesis/v1", "terminal_questions": a,
+        "stages": stages, "all_terminal": all(stages.values()),
         "activation": False,
         "forbidden_claims": ["a complete substrate architecture is selected", "plasticity is evidenced",
                              "cross domain moldability is evidenced", "activation is licensed",
@@ -134,10 +204,10 @@ def main():
             "independent_replication": 100 if a["38 did independent replication pass"] else 0,
             "verification": 100 if stages["verification"] else 0,
             "mutations": 100 if stages["mutations"] else 0,
-            "coverage": 100 if (a["coverage"] or {}).get("method_kernel") else 0,
+            "coverage": 100 if stages["tests_and_coverage"] else 0,
             "code_lifecycle": 100 if stages["code_lifecycle"] else 0,
         },
-        "stages_green": stages, "activation": False}
+        "stages_green": stages, "all_terminal": all(stages.values()), "activation": False}
     io.seal("MOP_TEMPORAL_CORE_SCORECARD.json", scorecard)
     io.seal("MOP_TEMPORAL_CORE_NEXT_FRONTIER.json", {
         "schema": "mop-temporal-core-next-frontier/v1",
@@ -168,6 +238,10 @@ False, and never separately granted.
 Stages green: {sum(1 for v in stages.values() if v)} of {len(stages)}.
 
 {json.dumps(stages, indent=1)}
+
+## Durable item index
+
+{json.dumps(items, indent=1)}
 
 ## Selected core
 
