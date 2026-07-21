@@ -53,8 +53,19 @@ HYPOTHESIS_PREDICTIONS = {
 # ---------------------------------------------------------------- contexts
 
 
-def contexts(bedname: str, seed: int) -> dict:
-    """Two disjoint unit groups inside the training pool, each split into training and evaluation units."""
+SHIFT_GAIN = (0.55, 1.45)
+SHIFT_OFFSET = 0.6
+
+
+def contexts(bedname: str, seed: int, shift: bool = True) -> dict:
+    """Two disjoint unit groups inside the training pool, each split into training and evaluation units.
+
+    Context B additionally carries a declared per channel affine sensor shift. Without it the two contexts
+    are two random halves of one corpus, adapting to the second improves the first, and there is no
+    stability plasticity tradeoff to measure. That is defect D16, discovered by the first version of this
+    experiment and now a permanent bed validity rule. The shift is synthetic and declared as such: it is a
+    covariate shift, not a new task, so the label space and the temporal structure are untouched.
+    """
     d = D.domain(bedname)
     u = np.asarray(d["u"])
     uniq = np.unique(u)
@@ -76,18 +87,34 @@ def contexts(bedname: str, seed: int) -> dict:
         i = np.where(np.isin(u, list(units)))[0]
         return d["x"][i], d["y"][i], u[i]
 
+    ch = d["channels"]
+    srng = np.random.default_rng(50_000 + seed)
+    gain = torch.tensor(srng.uniform(*SHIFT_GAIN, size=ch), dtype=torch.float32)
+    offset = torch.tensor(srng.normal(0.0, SHIFT_OFFSET, size=ch), dtype=torch.float32)
+
+    def apply_shift(t):
+        x, y, uu = t
+        return (x * gain + offset, y, uu) if shift else (x, y, uu)
+
     out = {
         "bed": bedname,
         "seed": seed,
         "A_train": take(a_tr),
         "A_eval": take(a_ev),
-        "B_train": take(b_tr),
-        "B_eval": take(b_ev),
+        "B_train": apply_shift(take(b_tr)),
+        "B_eval": apply_shift(take(b_ev)),
         "tune": take(tune_u),
         "test": (d["xte"], d["yte"], np.asarray(d["ute"])),
         "channels": d["channels"],
         "classes": d["classes"],
         "unit": d["unit"],
+        "covariate_shift": {
+            "applied": bool(shift),
+            "kind": "per channel affine on the raw input, declared synthetic",
+            "gain": [round(float(v), 4) for v in gain],
+            "offset": [round(float(v), 4) for v in offset],
+            "identical_across_arms_within_a_seed": True,
+        },
         "units": {
             "A_train": a_tr.tolist(), "A_eval": a_ev.tolist(),
             "B_train": b_tr.tolist(), "B_eval": b_ev.tolist(),
@@ -170,10 +197,16 @@ def run_seed(bedname: str, seed: int, eval_on: str) -> dict:
             "undeclared_changes": tr.get("undeclared_changes", []),
         }
     base.load_state_dict(snap)
+    boundary = bed.context_boundary(
+        no_adapt_new=out["no_adapt"]["acquisition_B"], no_adapt_old=out["no_adapt"]["retention_A"],
+        adapted_new=out["full"]["acquisition_B"], adapted_old=out["full"]["retention_A"],
+    )
     return {
         "bed": bedname,
         "seed": seed,
         "eval_on": eval_on,
+        "context_boundary": boundary,
+        "covariate_shift": ctx["covariate_shift"],
         "pretrain": {"steps": PRE_STEPS, "updates": pre_rec["updates"],
                      "undeclared_changes": pre_rec["undeclared_changes"]},
         "before_adaptation": {k: round(v, 5) for k, v in pre.items()},
@@ -352,8 +385,18 @@ def admit(write: bool = True) -> dict:
             list(ctx["units"]["A_eval"]) + list(ctx["units"]["B_eval"]) + list(ctx["units"]["tune"]),
             ctx["units"]["test"],
         )
+        probe = run_seed(b, 0, "tune")
         per_bed[b] = {"arm_distinctness": dist, "control_receipts": sem, "mechanism_activity": act,
-                      "unit_audit": ua, "unit_counts": {k: len(v) for k, v in ctx["units"].items()}}
+                      "unit_audit": ua, "unit_counts": {k: len(v) for k, v in ctx["units"].items()},
+                      "context_boundary": probe["context_boundary"],
+                      "covariate_shift": ctx["covariate_shift"]}
+        cs.append(contracts.DatasetContract(
+            name=b,
+            evidence={"bed_validity": {
+                "classification": ("valid_principal_bed"
+                                   if probe["context_boundary"]["checks"]["boundary_crossed"]
+                                   else "invalid_no_context_boundary")}},
+        ))
         for name in dist["per_arm"]:
             cs.append(contracts.ArmContract(name=f"{b}:{name}", evidence={"distinctness": dist["per_arm"][name]}))
         for arm in ("state_only", "state_noise", "no_adapt", "head_only", "adapter_only", "core_only"):
@@ -369,12 +412,16 @@ def admit(write: bool = True) -> dict:
         "retention_A": {"estimator": "accuracy on held out units of the old context", "unit": "speaker or subject"}}}))
     pre = gate.Preregistration(experiment_id=EXP, title="locus of adaptation", contracts=cs,
                                mechanism_activity=per_bed[PRINCIPAL_BED]["mechanism_activity"])
-    admission = pre.admit(stage="control_semantics")
+    admission = pre.admit(stage="bed_validity")
     doc = {
         "schema": "mop-experiment-admission/v1",
         "experiment": EXP,
         "beds": list(BEDS),
         "principal_bed": PRINCIPAL_BED,
+        "context_boundary_rule": (
+            "a context boundary must be proven by measurement, not by naming a split. See defect D16, "
+            "discovered by the first version of this experiment"
+        ),
         "arms": list(L.LOCI),
         "hypothesis_predictions": HYPOTHESIS_PREDICTIONS,
         "causal_graph": g,

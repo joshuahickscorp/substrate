@@ -116,6 +116,31 @@ def classify(m: dict) -> dict:
     }
 
 
+def context_boundary(no_adapt_new: float, no_adapt_old: float, adapted_new: float, adapted_old: float,
+                     min_gap: float = 0.02) -> dict:
+    """Did the run actually cross a context boundary, or is the second context more of the first.
+
+    Two signatures are required. The pretrained model must be measurably worse on the new context than on
+    the old one, and adapting to the new context must cost something on the old one. When adaptation
+    improves both, no boundary was crossed and there is no stability plasticity tradeoff to study, whatever
+    the split was called. This is the reusable form of the defect that made a within domain continual
+    battery not continual.
+    """
+    shift = float(no_adapt_old) - float(no_adapt_new)
+    tradeoff = float(adapted_old) - float(no_adapt_old)
+    checks = {
+        "new_context_is_measurably_harder": shift >= min_gap,
+        "adaptation_costs_the_old_context": tradeoff < 0,
+    }
+    checks["boundary_crossed"] = all(checks.values())
+    return {
+        "checks": checks,
+        "distribution_shift": round(shift, 5),
+        "retention_change_under_adaptation": round(tradeoff, 5),
+        "classification": "context_boundary_crossed" if checks["boundary_crossed"] else "invalid_no_context_boundary",
+    }
+
+
 def order_necessity(temporal_score: float, order_free_score: float) -> float:
     """How much of the achievable performance requires order. Zero means an order free reader suffices."""
     return round(float(temporal_score) - float(order_free_score), 5)

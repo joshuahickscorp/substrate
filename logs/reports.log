@@ -1,0 +1,12 @@
+  workers=1 aggregate=14.27
+  workers=2 aggregate=27.84
+  workers=3 aggregate=45.31
+  workers=4 aggregate=53.87
+  workers=5 aggregate=66.94
+  workers=8 aggregate=104.11
+  workers=12 aggregate=125.84
+  workers=16 aggregate=151.88
+  workers=20 aggregate=182.21
+  workers=24 aggregate=149.12
+tests passed=True | statement=30.6 branch=26.7 | met=False | 78.1s
+REPORTS_DONE

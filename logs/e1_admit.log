@@ -19,3 +19,5 @@ Traceback (most recent call last):
     assert core in CORES and readout in READOUTS
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError
+E1 admission through control_semantics: licensed=True blocked_at=None
+E1_ADMIT_DONE

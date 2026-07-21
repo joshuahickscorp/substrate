@@ -187,6 +187,21 @@ LEDGER = [
         "mutation": "unconverged_baseline",
         "stage_caught": "baseline_convergence",
     },
+    {
+        "id": "D16",
+        "title": "a context split that crosses no boundary",
+        "declared": "two contexts with an adaptation phase between them",
+        "actual": "two random unit groups from one corpus, so adapting to the second improved the first as well",
+        "consequence": "an adaptation experiment with no stability plasticity tradeoff to measure, and an "
+                       "oracle headroom below the smallest effect the design declared interesting",
+        "rule": "a context boundary must be proven by measurement: the new context must be measurably harder "
+                "before adaptation, and adapting to it must cost something on the old one",
+        "detector": "mop.method.bed.context_boundary",
+        "mutation": "context_split_that_crosses_no_boundary",
+        "stage_caught": "bed_validity",
+        "discovered_by": "mop-experimental-method-reformation-v1, E4 scout on speech_stream",
+        "discovered_in_this_program": True,
+    },
 ]
 
 BY_ID = {d["id"]: d for d in LEDGER}
