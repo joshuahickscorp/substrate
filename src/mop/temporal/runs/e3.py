@@ -24,7 +24,7 @@ DIRECTIONS = (("har_stream", "speech_stream"), ("speech_stream", "har_stream"))
 SEEDS = e2.PRINCIPAL_SEEDS
 WIDTH = 76
 STEPS = Fx.STEPS
-SHARED_STEPS = Fx.STEPS // 2
+SHARED_STEPS = Fx.STEPS
 ARMS = (
     "fresh_component",
     "frozen_transferred_component",
@@ -67,8 +67,27 @@ def _copy_group(dst, src, group: str) -> list[str]:
 
 
 def _fit(model, sp: dict, seed: int, groups: list[str], steps: int = STEPS) -> dict:
-    return E.fit(model, None, sp["main"][0], sp["main"][1], train_groups=groups, steps=steps,
-                 lr=Fx.LR, rng=np.random.default_rng(seed), batch=Fx.BATCH)
+    receipt = E.fit(model, None, sp["main"][0], sp["main"][1], train_groups=groups, steps=steps,
+                    lr=Fx.LR, rng=np.random.default_rng(seed), batch=Fx.BATCH)
+    receipt.update({"optimizer": "Adam", "batch_seed": seed})
+    return receipt
+
+
+def _target_training_match(local: dict, shared: dict) -> dict:
+    """Prove that transfer is the only difference in the target training comparison."""
+    fields = ("updates", "batch", "lr", "optimizer", "batch_seed", "trainable_params",
+              "trainable_param_count")
+    checks = {f"same_{field}": local.get(field) == shared.get(field) for field in fields}
+    checks.update({
+        "same_minibatch_stream": checks["same_batch_seed"] and checks["same_batch"],
+    })
+    return {
+        "optimizer": local.get("optimizer"),
+        "batch_seed": local.get("batch_seed"),
+        "parameter_exposure_per_arm": local.get("trainable_param_count", 0) * local.get("updates", 0),
+        "checks": checks,
+        "all_matched": all(checks.values()),
+    }
 
 
 def _evaluate(model, sp: dict) -> dict:
@@ -108,8 +127,10 @@ def shard(source: str, target: str, seed: int) -> dict:
     source_receipt = _fit(source_model, ssp, seed, ["core", "readout"])
     source_base = _evaluate(source_model, ssp)
 
-    local = _model(tsp, seed)
-    local_receipt = _fit(local, tsp, seed, ["core", "readout"])
+    target_initial = _model(tsp, seed)
+    target_batch_seed = 50_000 + seed
+    local = copy.deepcopy(target_initial)
+    local_receipt = _fit(local, tsp, target_batch_seed, ["core", "readout"], SHARED_STEPS)
     domain_local = _arm(local, tsp, local_receipt)
 
     fresh = copy.deepcopy(local)
@@ -134,9 +155,10 @@ def shard(source: str, target: str, seed: int) -> dict:
     fine_copied = _copy_group(fine, source_model, "shared")
     fine_receipt = _fit(fine, tsp, 40_000 + seed, ["core", "readout"])
 
-    shared = copy.deepcopy(local)
+    shared = copy.deepcopy(target_initial)
     shared_copied = _copy_group(shared, source_model, "shared")
-    shared_receipt = _fit(shared, tsp, 50_000 + seed, ["shared"], SHARED_STEPS)
+    shared_receipt = _fit(shared, tsp, target_batch_seed, ["core", "readout"], SHARED_STEPS)
+    target_training_match = _target_training_match(local_receipt, shared_receipt)
     retained_source = copy.deepcopy(source_model)
     _copy_group(retained_source, shared, "shared")
     source_after = _evaluate(retained_source, ssp)
@@ -208,6 +230,7 @@ def shard(source: str, target: str, seed: int) -> dict:
                               "donor_training": wrong_receipt},
         "source_training": source_receipt,
         "source_baseline": source_base,
+        "target_training_match": target_training_match,
         "arm_distinctness": {
             "n_arms": len(arms),
             "n_unique_checkpoints_excluding_oracle_alias": len({
@@ -251,19 +274,24 @@ def aggregate() -> dict:
                 unit_effects.setdefault(unit, []).append(shared_units[unit] - local_units[unit])
         unit_means = [float(np.mean(v)) for v in unit_effects.values()]
         group_lcb = power.lcb(unit_means) if len(unit_means) > 1 else None
+        inverse_group_lcb = power.lcb([-x for x in unit_means]) if len(unit_means) > 1 else None
+        group_ucb = -inverse_group_lcb if inverse_group_lcb is not None else None
         retention = [d["arms"]["shared_component"]["source_retention"] for d in rows]
-        if decision["verdict"] == "positive" and (group_lcb or float("-inf")) >= io.SESOI \
+        if decision["verdict"] == "positive" and group_lcb is not None and group_lcb >= io.SESOI \
                 and all(r["floor_met"] for r in retention):
             classification = "shared_component_supported"
         else:
             inverse = power.decide([-x for x in effects], e2.PREREG)
             classification = ("domain_local_component_supported" if inverse["verdict"] == "positive"
+                              and inverse_group_lcb is not None and inverse_group_lcb >= io.SESOI
                               else "shared_and_domain_local_inconclusive")
         direction_verdicts.append(classification)
         per_direction[f"{source}_to_{target}"] = {
             "arm_scores": scores,
             "shared_minus_domain_local": {**decision, "per_seed_effects": effects,
                                            "group_lower_95_cb": group_lcb,
+                                           "group_upper_95_cb": group_ucb,
+                                           "inverse_group_lower_95_cb": inverse_group_lcb,
                                            "n_units": len(unit_means)},
             "retention": retention,
             "classification": classification,
@@ -287,8 +315,10 @@ def aggregate() -> dict:
             "component_interventions": {f"{d['source_bed']}_to_{d['target_bed']}_seed_{d['seed']}":
                                         d["component_interventions"] for d in shards},
             "compute": {"supervised_steps_per_full_arm": STEPS,
-                        "shared_only_steps": SHARED_STEPS,
-                        "pretraining_compute_charged": True},
+                        "matched_target_steps_per_comparison_arm": SHARED_STEPS,
+                        "pretraining_compute_charged": True,
+                        "target_comparison_resource_matched": all(
+                            d["target_training_match"]["all_matched"] for d in shards)},
             "claim_ceiling": "causal component sharing on the two principal controlled beds",
         },
         "all_shards_terminal": True,
@@ -303,6 +333,8 @@ def aggregate() -> dict:
                 "hidden_bias", "output_projection", "readout", "initial_state"} for d in shards),
             "all_transfer_arms_have_distinct_checkpoints": all(
                 d["arm_distinctness"]["all_nonoracle_arms_distinct"] for d in shards),
+            "shared_and_local_target_training_matched": all(
+                d["target_training_match"]["all_matched"] for d in shards),
         },
     }
     io.seal("MOP_E3_SHARED_LOCAL_RESULT.json", result)

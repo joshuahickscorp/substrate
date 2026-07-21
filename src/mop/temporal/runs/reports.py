@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 import subprocess
 import sys
 import time
@@ -129,6 +130,54 @@ def resource_report(points=(1, 2, 4, 8, 12, 16, 20, 22, 24)) -> dict:
                      "one tier and need not hold for a larger core")}
 
 
+def verify_fabric_tree(root: Path) -> dict:
+    """Verify the final manifest, source files and content addressed objects in a clean tree."""
+    from mop.temporal.runs.fabric import merkle, sha_bytes
+
+    root = root.resolve()
+    fabric_path = root / "proof" / "substrate" / io.PROGRAM / "MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json"
+    doc = json.loads(fabric_path.read_text())
+    assert doc["verification"]["all_pass"] and doc["mutations"]["all_rejected"]
+    artifacts = doc["artifacts"]
+    ids = [a["logical_id"] for a in artifacts]
+    assert len(ids) == len(set(ids)) == doc["union"]["count"]
+    hashes = []
+    for artifact in artifacts:
+        original = root / artifact["original_path"]
+        stored = root / artifact["canonical_path"]
+        payload = original.read_bytes()
+        content_hash = sha_bytes(payload)
+        assert content_hash == artifact["content_hash"] == stored.name
+        assert stored.is_file() and sha_bytes(stored.read_bytes()) == content_hash
+        hashes.append(content_hash)
+        if original.suffix != ".json":
+            continue
+        parsed = json.loads(payload)
+        assert artifact["json_parse_valid"]
+        if artifact["set"] == "temporal_core_raw_receipt":
+            version, hash_key = parsed.get("result_hash_version"), "result_sha256"
+        else:
+            version, hash_key = parsed.get("sha256_version"), "sha256"
+        if version == "canonical_json_v2":
+            assert artifact["canonical_hash_valid"]
+            assert parsed[hash_key] == io.sha_obj({k: v for k, v in parsed.items() if k != hash_key})
+            assert artifact["legacy_whole_file_sha256"] is None
+        else:
+            assert version is None
+            assert artifact["canonical_hash_valid"] is None
+            assert artifact["legacy_whole_file_sha256"] == content_hash
+    assert merkle(hashes) == doc["union"]["merkle_root"]
+    runs = root / "runs" / "substrate" / io.PROGRAM
+    actual_raw = {p.relative_to(root).as_posix() for p in runs.rglob("*.json")
+                  if "locks" not in p.relative_to(runs).parts and ".partial." not in p.name
+                  and not p.name.endswith(".partial.json")}
+    indexed_raw = {a["logical_id"] for a in artifacts
+                   if a["set"] == "temporal_core_raw_receipt"}
+    assert actual_raw == indexed_raw
+    return {"artifacts": len(artifacts), "raw_receipts": len(actual_raw),
+            "merkle_root": doc["union"]["merkle_root"]}
+
+
 def clean_clone() -> dict:
     import tempfile
     with tempfile.TemporaryDirectory() as td:
@@ -184,7 +233,7 @@ import json
 from mop.temporal import io
 from mop.temporal.runs.supervisor import status
 s=status(); q=io.load('MOP_EXPERIMENT_VALUE_QUEUE.json'); licensed=q.get('licensed_top_two') or []
-required={'scout','convergence','extended_convergence','principal','third_bed_preflight'}
+required={'scout','convergence','extended_convergence','principal','principal_corrections','convergence_corrections','third_bed_preflight'}
 if 'E3_shared_versus_local' in licensed: required.add('e3')
 if 'hybrid_adaptation' in licensed: required.add('hybrid')
 assert not s['stop_switch_active'] and not s['active_shards']
@@ -193,13 +242,9 @@ print(json.dumps(s))
 """
         supervisor = run([sys.executable, "-c", supervisor_script])
         fabric_script = """
-import json
 from pathlib import Path
-from mop.temporal import io
-p=Path('proof/substrate')/io.PROGRAM/'MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json'
-d=json.loads(p.read_text()); assert d['verification']['all_pass']
-assert all(Path(a['canonical_path']).is_file() for a in d['artifacts'])
-print(d['union']['merkle_root'])
+from mop.temporal.runs.reports import verify_fabric_tree
+print(verify_fabric_tree(Path('.'))['merkle_root'])
 """
         fabric = run([sys.executable, "-c", fabric_script])
         clean = run(["git", "status", "--porcelain"])

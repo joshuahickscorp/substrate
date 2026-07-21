@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import os
 import sys
@@ -27,6 +28,23 @@ ADAPT_STEPS = Fx.STEPS // 4
 STATE_LR = 0.03
 ARMS = ("head_only", "state_only", "head_plus_state", "head_plus_state_noise",
         "adapter_only", "core_parameter_adaptation")
+
+
+def _adapt_batch_seed(seed: int) -> int:
+    return 140_000 + seed
+
+
+def _batch_plan_sha(n: int, seed: int) -> str:
+    rng = np.random.default_rng(seed)
+    h = hashlib.sha256()
+    for _ in range(ADAPT_STEPS):
+        h.update(np.asarray(rng.choice(n, min(Fx.BATCH, n), replace=False), dtype=np.int64).tobytes())
+    return h.hexdigest()
+
+
+def _noise_matched_to(reference: torch.Tensor) -> torch.Tensor:
+    noise = torch.randn_like(reference)
+    return noise * float(reference.norm()) / float(noise.norm() + 1e-9)
 
 
 class HybridModel(nn.Module):
@@ -110,11 +128,15 @@ def evaluate(model: HybridModel, row) -> dict:
 
 def state_adapt(model: HybridModel, row, seed: int, train_head: bool) -> dict:
     x, y, _ = row
-    rng = np.random.default_rng(130_000 + seed)
+    batch_seed = _adapt_batch_seed(seed)
+    rng = np.random.default_rng(batch_seed)
     before = {n: p.detach().clone() for n, p in model.named_parameters()}
     state = model.state.detach().clone().requires_grad_(True)
     params = [p for n, p in model.named_parameters() if n in model.param_groups["readout"]] if train_head else []
-    optimizer = torch.optim.Adam([state] + params, lr=STATE_LR)
+    groups = [{"params": [state], "lr": STATE_LR}]
+    if params:
+        groups.append({"params": params, "lr": Fx.LR})
+    optimizer = torch.optim.Adam(groups)
     for _ in range(ADAPT_STEPS):
         idx = rng.choice(len(x), min(Fx.BATCH, len(x)), replace=False)
         optimizer.zero_grad(set_to_none=True)
@@ -125,6 +147,9 @@ def state_adapt(model: HybridModel, row, seed: int, train_head: bool) -> dict:
     changed = [n for n, p in model.named_parameters() if not torch.equal(before[n], p.detach())]
     return {"updates": ADAPT_STEPS, "parameter_updates": ADAPT_STEPS if train_head else 0,
             "changed_params": changed, "state_norm": round(float(model.state.norm()), 6),
+            "optimizer": "Adam", "head_lr": Fx.LR if train_head else None,
+            "state_lr": STATE_LR, "batch": Fx.BATCH, "batch_seed": batch_seed,
+            "batch_plan_sha": _batch_plan_sha(len(x), batch_seed),
             "state_rule": "supervised error gradient on a transient state buffer",
             "not_E4_recentering_rule": True}
 
@@ -147,25 +172,29 @@ def run_seed(bedname: str, seed: int) -> dict:
     def reset():
         model.load_state_dict(snapshot)
 
-    state_norm = None
+    learned_hybrid_state = None
+    batch_seed = _adapt_batch_seed(seed)
+    batch_plan_sha = _batch_plan_sha(len(xb), batch_seed)
     for arm in ARMS:
         reset()
         if arm == "head_only":
             trace = E.fit(model, None, xb, yb, train_groups=["readout"], steps=ADAPT_STEPS, lr=Fx.LR,
-                          rng=np.random.default_rng(140_000 + seed), batch=Fx.BATCH)
+                          rng=np.random.default_rng(batch_seed), batch=Fx.BATCH)
+            trace.update({"optimizer": "Adam", "head_lr": Fx.LR, "batch_seed": batch_seed,
+                          "batch_plan_sha": batch_plan_sha})
         elif arm == "state_only":
             trace = state_adapt(model, ctx["B_train"], seed, False)
-            state_norm = float(model.state.norm())
         elif arm == "head_plus_state":
             trace = state_adapt(model, ctx["B_train"], seed, True)
+            learned_hybrid_state = model.state.detach().clone()
         elif arm == "head_plus_state_noise":
-            trace = E.fit(model, None, xb, yb, train_groups=["readout"], steps=ADAPT_STEPS, lr=Fx.LR,
-                          rng=np.random.default_rng(150_000 + seed), batch=Fx.BATCH)
-            noise = torch.randn_like(model.state)
+            trace = state_adapt(model, ctx["B_train"], seed, True)
+            head_parameters_match = E.checkpoint_sha(model) == out["head_plus_state"]["checkpoint_sha"]
             with torch.no_grad():
-                model.state.copy_(noise * state_norm / float(noise.norm() + 1e-9))
+                model.state.copy_(_noise_matched_to(learned_hybrid_state))
             trace.update({"state_norm": round(float(model.state.norm()), 6),
-                          "magnitude_matched_to_state_only": True})
+                          "head_parameters_match_learned_head_plus_state": head_parameters_match,
+                          "magnitude_matched_to_learned_head_plus_state": True})
         else:
             group = "adapter" if arm == "adapter_only" else "core"
             trace = E.fit(model, None, xb, yb, train_groups=[group], steps=ADAPT_STEPS, lr=Fx.LR,
@@ -177,10 +206,18 @@ def run_seed(bedname: str, seed: int) -> dict:
     checks = {
         "six_distinct_arms": set(out) == set(ARMS),
         "matched_adaptation_updates": all(v["trace"].get("updates") == ADAPT_STEPS for v in out.values()),
+        "matched_head_learning_rate": all(out[a]["trace"].get("head_lr") == Fx.LR for a in (
+            "head_only", "head_plus_state", "head_plus_state_noise")),
+        "matched_head_minibatches": len({out[a]["trace"].get("batch_plan_sha") for a in (
+            "head_only", "head_plus_state", "head_plus_state_noise")}) == 1,
         "state_only_zero_parameter_updates": out["state_only"]["trace"]["parameter_updates"] == 0
         and not out["state_only"]["trace"]["changed_params"],
         "state_noise_magnitude_matched": abs(out["head_plus_state_noise"]["state_norm"]
-                                             - out["state_only"]["state_norm"]) <= 1e-5,
+                                             - out["head_plus_state"]["state_norm"]) <= 1e-5,
+        "state_noise_uses_learned_hybrid_norm": out["head_plus_state_noise"]["trace"][
+            "magnitude_matched_to_learned_head_plus_state"],
+        "state_noise_preserves_learned_hybrid_head": out["head_plus_state_noise"]["trace"][
+            "head_parameters_match_learned_head_plus_state"],
         "new_state_rule": out["state_only"]["trace"]["not_E4_recentering_rule"],
     }
     doc = {"schema": "mop-hybrid-adaptation-shard/v1", "bed": bedname, "seed": seed,

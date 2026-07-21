@@ -17,7 +17,8 @@ from mop.temporal import factorial as Fx
 from mop.temporal import hypotheses as H
 from mop.temporal import io as TIO
 from mop.temporal import witness as W
-from mop.temporal.runs import analyze, codelife, coresel, e2, e3, hybrid, mutations, successors, supervisor, thirdbed
+from mop.temporal.runs import (analyze, bedvalid, codelife, coresel, e2, e3, hybrid, mutations,
+                               successors, supervisor, thirdbed)
 
 torch = pytest.importorskip("torch")
 
@@ -425,7 +426,8 @@ def test_extended_convergence_adds_budget_without_redefining_the_original_grid()
                for f in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn")
                for t in A.CAPACITY_TIERS)
     assert all(Fx.cell_name(**spec) in converged_cells for group in (
-        "architecture", "readout", "horizon", "reset", "capacity_by_horizon")
+        "architecture", "readout", "horizon", "reset", "history", "capacity_by_horizon",
+        "capacity_by_readout")
                for spec in Fx.sweep_cells()[group])
 
 
@@ -478,12 +480,21 @@ def test_e3_common_width_is_in_band_and_shared_groups_are_shape_compatible():
     assert len(e3.ARMS) == 8 and len(set(e3.ARMS)) == 8
 
 
+def test_e3_target_comparison_requires_identical_optimizer_exposure_and_batches():
+    receipt = {"updates": 1200, "batch": 64, "lr": 0.003, "optimizer": "Adam",
+               "batch_seed": 50000, "trainable_params": ["core", "head"],
+               "trainable_param_count": 100}
+    assert e3._target_training_match(receipt, dict(receipt))["all_matched"]
+    changed = dict(receipt, batch_seed=50001)
+    assert not e3._target_training_match(receipt, changed)["all_matched"]
+
+
 def test_successor_ranking_selects_only_the_top_two_open_gates():
     gates = {
         "E5_self_supervised": {"opens": False},
-        "hybrid_adaptation": {"opens": True},
-        "E3_shared_versus_local": {"opens": True},
-        "third_bed_replication": {"opens": True},
+        "hybrid_adaptation": {"opens": True, "ranking": {"priority_score": 0.1}},
+        "E3_shared_versus_local": {"opens": True, "ranking": {"priority_score": 0.2}},
+        "third_bed_replication": {"opens": True, "ranking": {"priority_score": 0.3}},
     }
     assert successors.ranked_successors(gates)[:2] == [
         "third_bed_replication", "E3_shared_versus_local"]
@@ -500,6 +511,40 @@ def test_failed_third_bed_replication_does_not_consume_a_successor_slot(monkeypa
     monkeypatch.setattr(successors.io, "exists", lambda name: name in artifacts)
     monkeypatch.setattr(successors.io, "load", lambda name: artifacts[name])
     assert not successors.gates()["third_bed_replication"]["opens"]
+
+
+def test_capacity_is_not_a_forgetting_proxy_without_retention_or_interference_measurement():
+    absent = successors._capacity_forgetting({"per_bed": {"x": {"findings": {
+        "capacity_monotonic": False}}}})
+    assert not absent["measured"] and not absent["increases_forgetting"]
+    measured = successors._capacity_forgetting({"capacity_retention_or_interference": {
+        "measured": True, "estimand": "retention_loss_large_minus_small",
+        "per_independent_unit_effects": [0.2, 0.21, 0.19]}})
+    assert measured["measured"] and measured["increases_forgetting"]
+
+
+def test_harth_order_gate_requires_a_matched_timestep_permutation():
+    assert not bedvalid.order_permutation_necessity({})["measured"]
+    witness = {"temporal_order_permutation": {
+        "intervention": "within_window_timestep_permutation", "labels_unchanged": True,
+        "ordered_per_unit_accuracy": {"u1": 0.9, "u2": 0.9, "u3": 0.9},
+        "permuted_per_unit_accuracy": {"u1": 0.5, "u2": 0.5, "u3": 0.5},
+        "seed_decision": {"verdict": "positive"},
+        "pooled_group_lower_95_cb": -0.001, "pooled_group_upper_95_cb": 0.001,
+        "resource_match": {"same_examples": True, "same_model_checkpoint": True,
+                           "same_evaluation_code": True}}}
+    result = bedvalid.order_permutation_necessity(witness)
+    assert result["measured"] and result["necessary"] and result["group_lower_95_cb"] >= TIO.SESOI
+
+
+def test_harth_time_intervention_preserves_each_example_multiset_and_labels():
+    x = torch.arange(2 * 5 * 3).reshape(2, 5, 3)
+    y, units = torch.tensor([1, 2]), np.asarray(["a", "b"])
+    permuted, py, pu = thirdbed.permute_time((x, y, units), 4)
+    assert torch.equal(y, py) and np.array_equal(units, pu)
+    assert all(torch.equal(torch.sort(x[i], dim=0).values, torch.sort(permuted[i], dim=0).values)
+               for i in range(len(x)))
+    assert not torch.equal(x, permuted)
 
 
 def test_required_positive_mutation_vocabulary_is_complete():
@@ -524,6 +569,17 @@ def test_hybrid_state_only_rule_changes_no_parameters(monkeypatch):
     assert trace["parameter_updates"] == 0 and not trace["changed_params"]
     assert all(torch.equal(before[n], p) for n, p in model.named_parameters())
     assert trace["not_E4_recentering_rule"] and model.state.norm() > 0
+
+
+def test_hybrid_head_uses_control_lr_and_batch_stream_and_noise_uses_learned_norm(monkeypatch):
+    monkeypatch.setattr(hybrid, "ADAPT_STEPS", 1)
+    model = hybrid.HybridModel(A.build(family="gru", ch=2, classes=3, tier="micro"))
+    x, y = torch.randn(12, 8, 2), torch.arange(12) % 3
+    trace = hybrid.state_adapt(model, (x, y, np.arange(12)), seed=3, train_head=True)
+    assert trace["head_lr"] == Fx.LR
+    assert trace["batch_seed"] == hybrid._adapt_batch_seed(3)
+    learned = torch.tensor([3.0, 4.0])
+    assert hybrid._noise_matched_to(learned).norm() == pytest.approx(learned.norm())
 
 
 def test_code_lifecycle_keeps_resume_surface_active_and_sealed_drivers_frozen():

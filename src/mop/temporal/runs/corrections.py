@@ -43,19 +43,35 @@ def principal_shard(bedname: str, seed: int) -> dict:
 
 def convergence_shard(bedname: str) -> dict:
     t0 = time.time()
-    curve, spread, seed_scores = {}, {}, {}
-    for steps in e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID:
-        values = [Fx.run_cell(B.splits(bedname, seed), LINEAR, seed, "tune", steps=steps)["accuracy"]
-                  for seed in e2.CONVERGENCE_SEEDS]
-        curve[steps] = float(np.mean(values))
-        spread[steps] = round(float(np.std(values, ddof=1)), 5)
-        seed_scores[steps] = [round(float(v), 5) for v in values]
+    def measure(spec):
+        curve, spread, seed_scores, unit_scores = {}, {}, {}, {}
+        for steps in e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID:
+            rows = [Fx.run_cell(B.splits(bedname, seed), spec, seed, "tune", steps=steps)
+                    for seed in e2.CONVERGENCE_SEEDS]
+            values = [r["accuracy"] for r in rows]
+            curve[steps] = float(np.mean(values))
+            spread[steps] = round(float(np.std(values, ddof=1)), 5)
+            seed_scores[steps] = [round(float(v), 5) for v in values]
+            unit_scores[steps] = {str(seed): row["per_unit_accuracy"]
+                                  for seed, row in zip(e2.CONVERGENCE_SEEDS, rows, strict=True)}
+        return curve, spread, seed_scores, unit_scores
+
+    curve, spread, seed_scores, unit_scores = measure(LINEAR)
+    small = dict(Fx.REFERENCE)
+    small_curve, small_spread, small_seed_scores, small_unit_scores = measure(small)
     witness = W.plateau_validity(curve)
     probe = Fx.run_cell(B.splits(bedname, 0), LINEAR, 0, "tune", steps=1)
     lo, hi = A.TIER_RANGE["large"]
-    doc = {"schema": "mop-e2-capacity-tier-correction-convergence/v1", "bed": bedname,
+    doc = {"schema": "mop-e2-capacity-tier-correction-convergence/v2", "bed": bedname,
            "spec": LINEAR, "cell": Fx.cell_name(**LINEAR), "curve": curve, "seed_spread": spread,
-           "seed_scores": seed_scores, "seeds": list(e2.CONVERGENCE_SEEDS),
+           "seed_scores": seed_scores, "per_unit_seed_scores": unit_scores,
+           "optimization_control": {"spec": small, "cell": Fx.cell_name(**small),
+                                    "curve": small_curve, "seed_spread": small_spread,
+                                    "seed_scores": small_seed_scores,
+                                    "per_unit_seed_scores": small_unit_scores},
+           "optimization_estimand": ("(large at 12800 minus large at 400) minus "
+                                      "(small at 12800 minus small at 400)"),
+           "seeds": list(e2.CONVERGENCE_SEEDS),
            "parameter_count": probe["params"], "parameter_band_valid": lo <= probe["params"]["core"] <= hi,
            "supersedes": [f"e2_converge/cshard_{bedname}_25.json",
                           f"e2_converge_extended/xshard_{bedname}_25.json"],
@@ -82,6 +98,9 @@ def aggregate() -> dict:
               "all_correction_receipts_valid": all(d["all_checks_pass"] for d in principal),
               "all_three_convergence_corrections": len(convergence) == 3,
               "all_corrected_parameter_bands_valid": all(d["parameter_band_valid"] for d in convergence),
+              "optimization_controls_measured": all(
+                  set(map(int, d.get("optimization_control", {}).get("seed_scores", {}))) >=
+                  {min(e2.CONVERGENCE_GRID), max(e2.EXTENDED_CONVERGENCE_GRID)} for d in convergence),
               "original_receipts_quarantined_not_deleted": all(v == 16 for v in original_invalid.values())}
     refreshed = {bed: e2.converge(bed) for bed in BEDS}
     checks["convergence_aggregates_refreshed_with_corrections"] = all(

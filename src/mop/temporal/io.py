@@ -54,7 +54,8 @@ def _atomic_text(path: Path, payload: str) -> None:
 
 
 def seal(name: str, obj: dict, subdir: str = "") -> Path:
-    obj = json.loads(json.dumps(dict(obj), default=str)); obj.setdefault("program", PROGRAM)
+    obj = json.loads(json.dumps(dict(obj), default=str))
+    obj.setdefault("program", PROGRAM)
     obj.setdefault("source_commit", commit())
     obj.setdefault("SESOI", SESOI)
     obj.setdefault("sha256_version", "canonical_json_v2")
