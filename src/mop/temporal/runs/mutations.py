@@ -250,12 +250,15 @@ def main():
     s = structural()
     b = behavioural()
     successor = {}
-    if io.exists("MOP_E3_SHARED_LOCAL_RESULT.json"):
-        e3 = io.load("MOP_E3_SHARED_LOCAL_RESULT.json")
-        if e3.get("experiment_terminal"):
-            checks = e3.get("mutation_checks") or (e3.get("result") or {}).get("mutation_checks") or {}
-            successor = {f"E3_{k}": {"expected": "rejected", "pass": bool(v)}
-                         for k, v in checks.items()}
+    for name, prefix in (("MOP_E3_SHARED_LOCAL_RESULT.json", "E3"),
+                         ("MOP_HYBRID_ADAPTATION_RESULT.json", "hybrid")):
+        if io.exists(name):
+            result = io.load(name)
+            if result.get("experiment_terminal"):
+                checks = (result.get("mutation_checks")
+                          or (result.get("result") or {}).get("mutation_checks") or {})
+                successor.update({f"{prefix}_{k}": {"expected": "rejected", "pass": bool(v)}
+                                  for k, v in checks.items()})
     allr = {**s, **b, **successor}
     doc = {"schema": "mop-temporal-core-mutation-report/v1",
            "structural": s, "behavioural": b,
