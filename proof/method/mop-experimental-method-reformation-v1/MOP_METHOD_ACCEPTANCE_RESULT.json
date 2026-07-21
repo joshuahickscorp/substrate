@@ -1,0 +1,128 @@
+{
+  "schema": "mop-method-acceptance/v1",
+  "calibration": {
+    "positive_passes": true,
+    "null_fails_positive_gate": true,
+    "harm_triggers_harm_classification": true,
+    "invalid_bed_does_not_become_mechanism_null": true,
+    "no_headroom_bed_becomes_invalid": true,
+    "leakage_is_rejected": true,
+    "arm_aliasing_is_rejected": true,
+    "inactive_mechanism_is_rejected": true,
+    "weak_estimator_distinguished_from_mechanism_failure": true,
+    "unconverged_baseline_blocks_comparison": true,
+    "wrong_control_is_rejected": true,
+    "all_pass": true
+  },
+  "calibration_cases": {
+    "known_positive": {
+      "expected": "positive",
+      "actual": "positive",
+      "pass": true
+    },
+    "known_null": {
+      "expected": "null",
+      "actual": "null",
+      "pass": true
+    },
+    "known_harm": {
+      "expected": "harm",
+      "actual": "harm",
+      "pass": true
+    },
+    "invalid_bed": {
+      "expected": "invalid_no_construct",
+      "actual": "invalid_no_construct",
+      "pass": true
+    },
+    "no_headroom_bed": {
+      "expected": "invalid_no_headroom",
+      "actual": "invalid_no_headroom",
+      "pass": true
+    },
+    "leakage_case": {
+      "expected": "invalid_instrumentation",
+      "actual": "invalid_instrumentation",
+      "pass": true
+    },
+    "aliased_arm_case": {
+      "expected": "rejected",
+      "actual": "rejected",
+      "pass": true
+    },
+    "inactive_mechanism_case": {
+      "expected": "inactive_instrumentation",
+      "actual": "inactive_instrumentation",
+      "pass": true
+    },
+    "active_mechanism_case": {
+      "expected": "active",
+      "actual": "active",
+      "pass": true
+    },
+    "underpowered_estimator_case": {
+      "expected": "insufficient_power",
+      "actual": "insufficient_power",
+      "pass": true
+    },
+    "unconverged_baseline_case": {
+      "expected": "provisional",
+      "actual": "provisional",
+      "pass": true
+    },
+    "wrong_control_case": {
+      "expected": "wrong_control_rejected_and_real_control_accepted",
+      "actual": "wrong_control_rejected_and_real_control_accepted",
+      "pass": true
+    }
+  },
+  "mutations_rejected": true,
+  "n_mutations": 17,
+  "mutation_failures": [],
+  "defect_classes_covered": [
+    "D1",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D15",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9"
+  ],
+  "every_ledger_class_has_a_mutation": true,
+  "blocks_compute": [
+    "aliased_lstm_and_lstm_gdumb",
+    "analytic_value_marked_measured",
+    "buffer_that_stops_replacing",
+    "future_information_leakage",
+    "ignored_treatment_flag",
+    "inactive_replay",
+    "missing_report_key",
+    "narrowed_coverage_scope",
+    "phantom_parameter_group",
+    "temporal_conv_in_order_free_control",
+    "two_seed_false_headroom",
+    "unconverged_baseline",
+    "underpowered_design_admitted",
+    "variable_without_causal_path",
+    "wrong_baseline_comparison"
+  ],
+  "blocks_claim_only": [
+    "reviewer_consensus_overrides_reproduction",
+    "softened_verdict_wording"
+  ],
+  "note": "report integrity and adjudication defects are caught automatically but after execution, because prose and reviewer votes do not exist before the run. They block the claim, not the compute, and no claim can be sealed while one is open.",
+  "green": true,
+  "principal_execution_licensed_by_this_gate": true,
+  "wall_seconds": 0.5,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "cb2fb61301773c9e1b58228242f902644d945731",
+  "sha256": "0a84e54c42a6ad93633458ba5b28cf84e7f67a3c48e7bdd2e5344fafb2f6c84b"
+}

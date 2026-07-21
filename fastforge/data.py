@@ -9,17 +9,19 @@ House style: no dashes.
 
 from __future__ import annotations
 
+import os
 import wave
 from pathlib import Path
 
 import numpy as np
 import torch
 
-HAR_ROOT = Path(
-    "/Users/scammermike/Downloads/mop-gen3/runs/generation3/mop-generation3-discovery-v1/data/UCI HAR Dataset"
-)
-SPEECH_ROOT = Path("/Users/scammermike/Downloads/mop-substrate-forge/integrated/data/speech_commands")
-SPEECH_CACHE = Path("/Users/scammermike/Downloads/mop-substrate-forge/integrated/data/speech_feats.npz")
+# One data root outside every worktree, so a worktree can be removed without taking the corpora with it.
+# Override with MOP_DATA_ROOT if the corpora move again.
+DATA_ROOT = Path(os.environ.get("MOP_DATA_ROOT", "/Users/scammermike/Downloads/mop-data"))
+HAR_ROOT = DATA_ROOT / "har" / "UCI HAR Dataset"
+SPEECH_ROOT = DATA_ROOT / "speech" / "speech_commands"
+SPEECH_CACHE = DATA_ROOT / "speech" / "speech_feats.npz"
 HAR_CH = [
     "body_acc_x",
     "body_acc_y",
