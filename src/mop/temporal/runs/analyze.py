@@ -271,14 +271,8 @@ def per_factor_reports(per_bed: dict) -> dict:
         "capacity_by_horizon": gather("capacity_by_horizon"),
         "capacity_by_readout": gather("capacity_by_readout"),
         "history_by_architecture": gather("history_by_architecture"),
-        "architecture_by_bed": {
-            f: {b: a["effects"]["architecture"].get(f, {}).get("mean")
-                for b, a in per_bed.items() if a.get("status") != "no_runs"}
-            for f in A.FAMILIES if f != "gru"},
-        "horizon_by_bed": {
-            k: {b: a["effects"]["horizon"].get(k, {}).get("mean")
-                for b, a in per_bed.items() if a.get("status") != "no_runs"}
-            for k in [f"gru_h{h}_vs_full" for h in (1, 5, 20, 45, 90)]},
+        "architecture_by_bed": gather("architecture"),
+        "horizon_by_bed": gather("horizon"),
         "optimization_by_capacity": {
             b: {
                 tier: (a["convergence"]["configs"].get(AN.name(tier=tier)) or {})
