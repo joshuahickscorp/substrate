@@ -1,7 +1,7 @@
 {
   "schema": "mop-frozen-reproducibility-accounting/v1",
   "frozen_reproducibility": {
-    "loc": 26931,
+    "loc": 26970,
     "files": [
       "campaign2/lanes/clusterB.py",
       "campaign2/lanes/confirm_beds.py",
@@ -169,7 +169,7 @@
   "recoverable": true,
   "counts_toward_active_targets": false,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "2685bdfc131df5dee054ac7d0439ac87de36ce2f",
+  "source_commit": "5f0853373799c84aa4a175bebeb21eb65c8285d7",
   "SESOI": 0.05,
-  "sha256": "cba0263a30b7fc2c4503b769b15fb1ac208a75abf3b786872c2a9c404bf2ca38"
+  "sha256": "c9aabcd6cfd1923644f8e1a57e7463ec045696b40e18d730474f52d855237921"
 }
