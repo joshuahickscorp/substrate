@@ -76,10 +76,11 @@ def scheduling_class(pending_extended: list[str]) -> tuple[int, list[str], str]:
         return CAP_OVERRIDE, pending_extended, "operator_override"
     active_large = False
     if LOCKS.is_dir():
-        for p in LOCKS.glob("x_*.json"):
+        for p in LOCKS.glob("*.json"):
             try:
                 d = json.loads(p.read_text())
-                active_large = active_large or _large_convergence_name(d["tag"].split(":", 1)[1])
+                if d["tag"].startswith(("c:", "x:")):
+                    active_large = active_large or _large_convergence_name(d["tag"].split(":", 1)[1])
             except (OSError, KeyError, json.JSONDecodeError):
                 continue
     large = [n for n in pending_extended if _large_convergence_name(n)]
@@ -248,16 +249,16 @@ def main(argv=None):
         pending_scout = missing("e2_scout", scout_shards)
         pending_conv = missing("e2_converge", conv_shards)
         pending_ext = missing("e2_converge_extended", ext_shards)
-        if pending_conv:
-            cap, eligible_ext, resource_class = (CAP_OVERRIDE or CAP_SMALL), [], "small_base"
-        else:
-            cap, eligible_ext, resource_class = scheduling_class(pending_ext)
+        ready_ext = [n for n in pending_ext if (io.RUNS / "e2_converge" /
+                     f"cshard_{n.removeprefix('xshard_')}.json").is_file()]
+        cap, eligible, resource_class = scheduling_class(pending_conv + ready_ext)
+        eligible = set(eligible)
         free = max(0, cap - workers())
         stage1_done = not pending_scout and not pending_conv and not pending_ext
 
         for n in pending_conv:
             tag = f"c:{n}"
-            if tag in started or free <= 0:
+            if n not in eligible or tag in started or free <= 0:
                 continue
             _, b, i = n.split("_")[0], "_".join(n.split("_")[1:-1]), n.split("_")[-1]
             if launch(["converge_shard", b, i], f"e2_conv_{b}.log", tag):
@@ -272,15 +273,14 @@ def main(argv=None):
                 started.add(tag)
                 free -= 1
 
-        if not pending_conv:
-            for n in eligible_ext:
-                tag = f"x:{n}"
-                if tag in started or lock_active(tag) or free <= 0:
-                    continue
-                _, b, i = n.split("_")[0], "_".join(n.split("_")[1:-1]), n.split("_")[-1]
-                if launch(["extend_converge_shard", b, i], f"e2_conv_extended_{b}.log", tag):
-                    started.add(tag)
-                    free -= 1
+        for n in ready_ext:
+            tag = f"x:{n}"
+            if n not in eligible or tag in started or lock_active(tag) or free <= 0:
+                continue
+            _, b, i = n.split("_")[0], "_".join(n.split("_")[1:-1]), n.split("_")[-1]
+            if launch(["extend_converge_shard", b, i], f"e2_conv_extended_{b}.log", tag):
+                started.add(tag)
+                free -= 1
 
         if stage1_done:
             for b in BEDS:
