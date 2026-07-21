@@ -111,7 +111,9 @@ def run_all() -> dict:
         pending_c = supervisor.missing("e2_converge_corrections", convergence)
         if not pending_p and not pending_c:
             return aggregate()
-        free = max(0, supervisor.CAP_LARGE - supervisor.workers())
+        active = sum(supervisor.lock_active(p.stem.replace("_", ":", 1))
+                     for p in supervisor.LOCKS.glob("*.json"))
+        free = max(0, supervisor.CAP_LARGE - active)
         for name in pending_p + pending_c:
             if free <= 0:
                 break
