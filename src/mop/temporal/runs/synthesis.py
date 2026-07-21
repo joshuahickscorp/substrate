@@ -180,6 +180,12 @@ def main():
         bool(core.get("selected")) or bool((core.get("selection") or {}).get("reason")))
     successor_gates_terminal = io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json") and (
         len(licensed) == min(2, len(queue.get("opened") or [])))
+    mutation_doc = L("MOP_TEMPORAL_CORE_MUTATION_REPORT.json")
+    mutation_terminal = bool(mutation_doc.get("required_coverage")) and all(
+        mutation_doc["required_coverage"].values())
+    verification_doc = L("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json")
+    verification_terminal = (bool((verification_doc.get("role_b") or {}).get("checks"))
+                             and bool((verification_doc.get("role_c") or {}).get("n_checks")))
     successor_terminal = all(
         (name == "third_bed_replication" and bool(third_result.get("classification")))
         or (name == "E3_shared_versus_local" and bool(e3.get("experiment_terminal")))
@@ -206,8 +212,8 @@ def main():
         "core_selection": core_terminal,
         "successor_gates": successor_gates_terminal,
         "successors_terminal": successor_terminal,
-        "mutations": bool(L("MOP_TEMPORAL_CORE_MUTATION_REPORT.json").get("all_rejected")),
-        "verification": bool(L("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json").get("all_pass")),
+        "mutations": mutation_terminal,
+        "verification": verification_terminal,
         "tests_and_coverage": bool(tests.get("passed")) and bool((cov.get("method_kernel_gate") or {}).get("met"))
         and bool((cov.get("active_critical_path_gate") or {}).get("met")),
         "clean_clone": bool(clean.get("all_pass")),
@@ -257,8 +263,8 @@ def main():
             "bed_validity": 100 if factorial.get("all_principal_beds_valid") else 0,
             "principal_factorial": 100 if stages["e2_principal"] else 0,
             "independent_replication": 100 if rep.get("all_pass") else 0,
-            "verification": 100 if stages["verification"] else 0,
-            "mutations": 100 if stages["mutations"] else 0,
+            "verification": 100 if verification_doc.get("all_pass") else 0,
+            "mutations": 100 if mutation_doc.get("all_rejected") else 0,
             "coverage": 100 if stages["tests_and_coverage"] else 0,
             "code_lifecycle": 100 if stages["code_lifecycle"] else 0,
         },
