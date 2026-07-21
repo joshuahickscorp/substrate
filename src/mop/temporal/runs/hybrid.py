@@ -203,6 +203,18 @@ def aggregate() -> dict:
         noise = [r["arms"]["head_plus_state"]["future_acquisition_B"]["accuracy"]
                  - r["arms"]["head_plus_state_noise"]["future_acquisition_B"]["accuracy"] for r in selected]
         gain_d, noise_d = power.decide(gain, e2.PREREG), power.decide(noise, e2.PREREG)
+        gain_units, noise_units = {}, {}
+        for r in selected:
+            hybrid_units = r["arms"]["head_plus_state"]["future_acquisition_B"]["per_unit_accuracy"]
+            head_units = r["arms"]["head_only"]["future_acquisition_B"]["per_unit_accuracy"]
+            noisy_units = r["arms"]["head_plus_state_noise"]["future_acquisition_B"]["per_unit_accuracy"]
+            for unit in set(hybrid_units) & set(head_units) & set(noisy_units):
+                gain_units.setdefault(unit, []).append(hybrid_units[unit] - head_units[unit])
+                noise_units.setdefault(unit, []).append(hybrid_units[unit] - noisy_units[unit])
+        gain_group = power.lcb([float(np.mean(v)) for v in gain_units.values()])
+        noise_group = power.lcb([float(np.mean(v)) for v in noise_units.values()])
+        gain_d.update({"group_lower_95_cb": gain_group, "n_units": len(gain_units)})
+        noise_d.update({"group_lower_95_cb": noise_group, "n_units": len(noise_units)})
         floors = [r["arms"]["head_plus_state"]["return_retention_A"]["accuracy"]
                   >= r["before_adaptation"]["A"]["accuracy"] - io.SESOI for r in selected]
         boundary = bed.context_boundary_over_seeds([
@@ -212,17 +224,18 @@ def aggregate() -> dict:
              "adapted_old": r["arms"]["head_plus_state"]["return_retention_A"]["accuracy"]}
             for r in selected])
         ok = (gain_d["verdict"] == "positive" and noise_d["verdict"] == "positive"
+              and gain_group >= io.SESOI and noise_group >= io.SESOI
               and all(floors) and boundary["checks"]["boundary_crossed"])
         supported.append(ok)
         per_bed[b] = {"hybrid_minus_head": gain_d, "hybrid_minus_head_noise": noise_d,
                       "retention_floors": floors, "context_boundary": boundary, "supported": ok}
     checks = {"all_shards_terminal": len(rows) == len(BEDS) * len(SEEDS),
-              "all_shard_controls_pass": all(r["all_checks_pass"] for r in rows),
-              "both_principal_beds_support": all(supported)}
+              "all_shard_controls_pass": all(r["all_checks_pass"] for r in rows)}
     doc = {"schema": "mop-hybrid-adaptation-result/v1", "experiment_terminal": True,
            "result": {"classification": "hybrid_supported" if all(supported)
                       else "hybrid_not_supported_under_floors", "per_bed": per_bed,
                       "arms": list(ARMS), "seeds": list(SEEDS),
+                      "both_principal_beds_support": all(supported),
                       "state_rule": "supervised error gradient on a transient state buffer",
                       "claim_ceiling": "early acquisition and return retention on two controlled shifted contexts"},
            "mutation_checks": checks, "all_shards_terminal": checks["all_shards_terminal"]}
