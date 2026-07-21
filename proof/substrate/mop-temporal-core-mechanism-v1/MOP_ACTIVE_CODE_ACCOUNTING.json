@@ -4,38 +4,8 @@
     "files": {
       "fastforge/__init__.py": 1,
       "fastforge/arch.py": 431,
-      "fastforge/arms.py": 280,
       "fastforge/data.py": 505,
       "fastforge/engine.py": 391,
-      "fastforge/runs/__init__.py": 0,
-      "fastforge/runs/architectures.py": 141,
-      "fastforge/runs/armaudit.py": 153,
-      "fastforge/runs/authority.py": 197,
-      "fastforge/runs/bench.py": 247,
-      "fastforge/runs/cleanclone.py": 113,
-      "fastforge/runs/codereport.py": 134,
-      "fastforge/runs/crossdomain.py": 286,
-      "fastforge/runs/domaingate.py": 111,
-      "fastforge/runs/domainvalidity.py": 113,
-      "fastforge/runs/fabric.py": 170,
-      "fastforge/runs/interference.py": 335,
-      "fastforge/runs/io.py": 58,
-      "fastforge/runs/ledger.py": 355,
-      "fastforge/runs/memoryimpact.py": 140,
-      "fastforge/runs/mutations.py": 393,
-      "fastforge/runs/plasticity.py": 199,
-      "fastforge/runs/reorg.py": 278,
-      "fastforge/runs/represent.py": 209,
-      "fastforge/runs/rounds.py": 294,
-      "fastforge/runs/secondary.py": 186,
-      "fastforge/runs/supervisor.py": 201,
-      "fastforge/runs/synthesis.py": 448,
-      "fastforge/runs/testreport.py": 150,
-      "fastforge/runs/thirddomain.py": 136,
-      "fastforge/runs/withinrun.py": 186,
-      "fastforge/sequence.py": 330,
-      "fastforge/verify.py": 264,
-      "fastforge/within.py": 235,
       "scripts/acceptance.py": 116,
       "src/mop/__init__.py": 1,
       "src/mop/config.py": 62,
@@ -53,7 +23,7 @@
       "src/mop/science/statistics.py": 132,
       "src/mop/seeding.py": 41
     },
-    "loc": 8868
+    "loc": 2526
   },
   "active_method": {
     "files": {
@@ -108,12 +78,12 @@
       "src/mop/temporal/io.py": 86,
       "src/mop/temporal/runs/__init__.py": 1,
       "src/mop/temporal/runs/authority.py": 240,
-      "src/mop/temporal/runs/codelife.py": 139,
+      "src/mop/temporal/runs/codelife.py": 146,
       "src/mop/temporal/runs/custody_run.py": 386,
       "src/mop/temporal/runs/method_ext.py": 199,
       "src/mop/temporal/witness.py": 272
     },
-    "loc": 2463
+    "loc": 2470
   },
   "active_tests": {
     "files": {
@@ -123,9 +93,9 @@
     },
     "loc": 1093
   },
-  "active_runtime_plus_substrate": 11331,
+  "active_runtime_plus_substrate": 4996,
   "active_runtime_target": 8000,
-  "active_runtime_within_target": false,
+  "active_runtime_within_target": true,
   "new_e2_implementation": {
     "files": {
       "src/mop/temporal/__init__.py": 1,
@@ -137,12 +107,12 @@
       "src/mop/temporal/io.py": 86,
       "src/mop/temporal/runs/__init__.py": 1,
       "src/mop/temporal/runs/authority.py": 240,
-      "src/mop/temporal/runs/codelife.py": 139,
+      "src/mop/temporal/runs/codelife.py": 146,
       "src/mop/temporal/runs/custody_run.py": 386,
       "src/mop/temporal/runs/method_ext.py": 199,
       "src/mop/temporal/witness.py": 272
     },
-    "loc": 2463,
+    "loc": 2470,
     "target": 2500,
     "within_target": true
   },
@@ -163,9 +133,9 @@
   "evidence_fabrics": [
     "integrated/evidence_store"
   ],
-  "honest_blocker": "active runtime and substrate together are 11331 against a target of 8000",
+  "honest_blocker": "",
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "source_commit": "13599e3659c88455177b8ddfd8352d8852da138d",
   "SESOI": 0.05,
-  "sha256": "d0b8f96765b7484250045b4c0d8f72e0c4d5c4d922713f05d9a8ab20e022961b"
+  "sha256": "6bd97aa5f164d46595c2da5b963382a1a84980a6d0c8de5be9641fc2504b8326"
 }

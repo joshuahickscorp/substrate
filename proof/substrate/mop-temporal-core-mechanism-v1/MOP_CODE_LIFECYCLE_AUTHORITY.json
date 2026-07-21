@@ -27,6 +27,26 @@
       "class": "active_tests"
     },
     {
+      "prefix": "fastforge/runs",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge/verify.py",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge/arms.py",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge/within.py",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge/sequence.py",
+      "class": "frozen_reproducibility"
+    },
+    {
       "prefix": "fastforge",
       "class": "active_runtime"
     },
@@ -122,17 +142,17 @@
   },
   "policy": "frozen reproducibility code is the implementation behind sealed immutable receipts. It stays recoverable and is excluded from the orientation surface by classification, not by deletion. Reclassification is reported as reclassification",
   "loc_by_class": {
-    "active_runtime": 8868,
+    "active_runtime": 2526,
     "active_method": 7999,
-    "active_substrate": 2463,
+    "active_substrate": 2470,
     "active_tests": 1093,
-    "frozen_reproducibility": 16475,
+    "frozen_reproducibility": 22817,
     "historical_migration": 39,
     "generated": 0
   },
-  "total_python_loc": 36937,
+  "total_python_loc": 36944,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "source_commit": "13599e3659c88455177b8ddfd8352d8852da138d",
   "SESOI": 0.05,
-  "sha256": "e7970715ad027ebccdb44a178cb4545884486b738571cab2bf7762ed68571dc3"
+  "sha256": "79158dfc4575ad00b72c5b7abc621b8b829f4ad8cc49a8ff61e222d7b1173606"
 }
