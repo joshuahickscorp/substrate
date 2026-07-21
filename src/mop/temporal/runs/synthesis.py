@@ -195,7 +195,9 @@ def main():
         "e2_calibration": bool(L("MOP_E2_CALIBRATION.json").get("all_pass")),
         "scout": bool(scout.get("all_pass")),
         "convergence": convergence_terminal,
-        "bed_validity": bool(factorial.get("all_principal_beds_valid")),
+        "bed_validity": (len(factorial.get("principal_beds") or {}) == len(e2.get("principal_beds") or [])
+                         and all(v.get("classification") not in (None, "preflight_incomplete")
+                                 for v in (factorial.get("principal_beds") or {}).values())),
         "third_bed_preflight": bool(third.get("candidates")) and all(
             v.get("classification") not in ("preflight_incomplete", "unavailable", None)
             for v in third.get("candidates", {}).values()),
@@ -252,7 +254,7 @@ def main():
             "data_custody": 100 if a["34 did data custody pass"] else 0,
             "method_extension": 100 if io.exists("MOP_TEMPORAL_METHOD_EXTENSION.json") else 0,
             "calibration": 100 if stages["e2_calibration"] else 0,
-            "bed_validity": 100 if stages["bed_validity"] else 0,
+            "bed_validity": 100 if factorial.get("all_principal_beds_valid") else 0,
             "principal_factorial": 100 if stages["e2_principal"] else 0,
             "independent_replication": 100 if rep.get("all_pass") else 0,
             "verification": 100 if stages["verification"] else 0,

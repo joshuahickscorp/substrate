@@ -66,7 +66,7 @@ def bed_report(name: str) -> dict:
     elif not order_required:
         classification = "invalid_no_temporal_requirement"
     elif not checks["load_bearing_baselines_converged"]:
-        classification = "preflight_incomplete"
+        classification = "invalid_instrumentation"
     elif not checks["boundary_crossing_witness"] or not checks["returning_context_witness"]:
         classification = "invalid_no_context_boundary"
     elif not checks["oracle_headroom"] or not checks["future_adaptation_task"]:

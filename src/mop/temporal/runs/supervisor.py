@@ -323,7 +323,7 @@ def main(argv=None):
     run_sync("mop.temporal.runs.thirdbed", ["all"])
     for mod in ("mop.temporal.runs.corrections", "mop.temporal.runs.bedvalid", "mop.temporal.runs.analyze",
                 "mop.temporal.runs.replicate", "mop.temporal.runs.mutations",
-                "mop.temporal.runs.verify", "mop.temporal.runs.coresel",
+                "mop.temporal.runs.verify", "mop.temporal.runs.analyze", "mop.temporal.runs.coresel",
                 "mop.temporal.runs.successors"):
         run_sync(mod)
     queue = io.load("MOP_EXPERIMENT_VALUE_QUEUE.json") if io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json") else {}
