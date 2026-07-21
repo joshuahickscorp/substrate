@@ -100,6 +100,17 @@ def role_b() -> dict:
         checks[f"{bed}:no_arm_sees_future_information"] = all(
             "future_information" not in k for k in hp.values())
         checks[f"{bed}:history_profiles_declared"] = all(bool(k) for k in hp.values())
+    e3_paths = sorted((io.RUNS / "e3").glob("*.json")) if (io.RUNS / "e3").is_dir() else []
+    for p in e3_paths:
+        d = json.loads(p.read_text())
+        key = f"E3:{d.get('source_bed')}:{d.get('target_bed')}:{d.get('seed')}"
+        checks[f"{key}:direction_identity"] = d.get("source_bed") != d.get("target_bed")
+        checks[f"{key}:eight_arms"] = len(d.get("arms", {})) == 8
+        checks[f"{key}:arm_distinctness"] = bool(
+            (d.get("arm_distinctness") or {}).get("all_nonoracle_arms_distinct"))
+        checks[f"{key}:wrong_bed_control"] = bool(
+            (d.get("wrong_bed_control") or {}).get("distinct_bed"))
+        checks[f"{key}:component_interventions"] = len(d.get("component_interventions", {})) == 8
     return {"role": "B instrumentation auditor", "checks": checks, "notes": notes,
             "failed": [k for k, v in checks.items() if not v], "all_pass": all(checks.values()),
             "outcomes_inspected": False}
@@ -184,6 +195,32 @@ def role_c() -> dict:
                 if not ok:
                     mismatches.append({"bed": bed, "contrast": key,
                                        "sealed": expected, "recomputed": mine})
+    if io.exists("MOP_E3_SHARED_LOCAL_RESULT.json"):
+        e3 = io.load("MOP_E3_SHARED_LOCAL_RESULT.json")
+        result = e3.get("result") or {}
+        for direction, expected in (result.get("per_direction") or {}).items():
+            source, target = direction.split("_to_", 1)
+            rows = [json.loads(p.read_text()) for p in sorted((io.RUNS / "e3").glob(
+                f"{source}_to_{target}_*.json"))]
+            effects = [r["arms"]["shared_component"]["accuracy"]
+                       - r["arms"]["domain_local_component"]["accuracy"] for r in rows]
+            unit_values: dict[str, list[float]] = {}
+            for row in rows:
+                shared = row["arms"]["shared_component"]["per_unit_accuracy"]
+                local = row["arms"]["domain_local_component"]["per_unit_accuracy"]
+                for unit in set(shared) & set(local):
+                    unit_values.setdefault(unit, []).append(shared[unit] - local[unit])
+            units = [mean(v) for v in unit_values.values()]
+            sealed = expected["shared_minus_domain_local"]
+            mine = {"mean": round(mean(effects), 5), "lower_95_cb": round(lower_bound(effects), 5),
+                    "group_lower_95_cb": lower_bound(units)}
+            ok = (len(rows) == 8 and abs(mine["mean"] - sealed["mean"]) < 1e-4
+                  and abs(mine["lower_95_cb"] - sealed["lower_95_cb"]) < 1e-4
+                  and abs(mine["group_lower_95_cb"] - sealed["group_lower_95_cb"]) < 1e-4)
+            checks[f"E3:{direction}:shared_vs_local"] = ok
+            if not ok:
+                mismatches.append({"bed": direction, "contrast": "E3 shared versus local",
+                                   "sealed": sealed, "recomputed": mine})
     return {"role": "C scientific verifier", "checks": checks, "mismatches": mismatches,
             "n_checks": len(checks), "all_pass": all(checks.values()) and not mismatches,
             "independence": ("recomputes every effect with its own arithmetic and its own t table, imports no "

@@ -160,15 +160,15 @@
   "loc_by_class": {
     "active_runtime": 2526,
     "active_method": 7999,
-    "active_substrate": 2470,
+    "active_substrate": 2474,
     "active_tests": 1562,
-    "frozen_reproducibility": 26277,
+    "frozen_reproducibility": 26340,
     "historical_migration": 39,
     "generated": 0
   },
-  "total_python_loc": 40873,
+  "total_python_loc": 40940,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "7c12b9fff0ef19985d5b4d7e14565ff2b2c64a2f",
+  "source_commit": "f49d0e79a8993d11f2945f534c0734721b334435",
   "SESOI": 0.05,
-  "sha256": "e90f2005467c217f30e5be407070bd4797d7c6162c9c5ebb828691cb939dc221"
+  "sha256": "d46ccbf1a50d0d85131e3a09027a0614f5ce6f3750a260bd95932b62bd2afcde"
 }

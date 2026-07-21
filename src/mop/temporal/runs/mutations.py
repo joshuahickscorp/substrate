@@ -249,9 +249,17 @@ def main():
     t0 = time.time()
     s = structural()
     b = behavioural()
-    allr = {**s, **b}
+    successor = {}
+    if io.exists("MOP_E3_SHARED_LOCAL_RESULT.json"):
+        e3 = io.load("MOP_E3_SHARED_LOCAL_RESULT.json")
+        if e3.get("experiment_terminal"):
+            checks = e3.get("mutation_checks") or (e3.get("result") or {}).get("mutation_checks") or {}
+            successor = {f"E3_{k}": {"expected": "rejected", "pass": bool(v)}
+                         for k, v in checks.items()}
+    allr = {**s, **b, **successor}
     doc = {"schema": "mop-temporal-core-mutation-report/v1",
            "structural": s, "behavioural": b,
+           "successor": successor,
            "n_mutations": len(allr),
            "required_mutations": list(REQUIRED),
            "required_coverage": {k: k in allr for k in REQUIRED},

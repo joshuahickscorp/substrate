@@ -84,8 +84,7 @@ def scheduling_class(pending_extended: list[str]) -> tuple[int, list[str], str]:
                 continue
     large = [n for n in pending_extended if _large_convergence_name(n)]
     if active_large or large:
-        small = [n for n in pending_extended if n not in large]
-        return CAP_LARGE, large + small, "large_cap_mixed_fill"
+        return CAP_LARGE, large, "large_class_isolated"
     return CAP_SMALL, pending_extended, "small"
 
 
@@ -186,6 +185,9 @@ def status() -> dict:
             "principal": partials("e2_principal"),
             "e3": partials("e3"),
         },
+        "orchestration_incidents": sorted(
+            p.name for p in (io.RUNS / "orchestration").glob("*.json")
+        ) if (io.RUNS / "orchestration").is_dir() else [],
     }
 
 
@@ -316,6 +318,8 @@ def main(argv=None):
     queue = io.load("MOP_EXPERIMENT_VALUE_QUEUE.json") if io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json") else {}
     if "E3_shared_versus_local" in (queue.get("licensed_top_two") or []):
         run_e3()
+        run_sync("mop.temporal.runs.mutations")
+        run_sync("mop.temporal.runs.verify")
         run_sync("mop.temporal.runs.successors")
     for mod in ("mop.temporal.runs.reports", "mop.temporal.runs.synthesis",
                 "mop.temporal.runs.fabric", "mop.temporal.runs.synthesis",
