@@ -12,6 +12,38 @@ def L(n, d=None):
     return io.load(n) if io.exists(n) else (d if d is not None else {})
 
 
+def receipt_items(common: dict) -> dict:
+    items = {}
+    for p in sorted(io.RUNS.rglob("*.json")):
+        try:
+            d = json.loads(p.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        rel = p.relative_to(io.ROOT).as_posix()
+        params = d.get("params") or {}
+        runs = d.get("runs") or []
+        parameter_count = params.get("total") or sorted({r.get("params", {}).get("total") for r in runs
+                                                          if r.get("params", {}).get("total")}) or None
+        checkpoints = d.get("checkpoint_sha_after") or d.get("checkpoint_sha") or sorted({
+            r.get("checkpoint_sha_after") for r in runs if r.get("checkpoint_sha_after")}) or None
+        items[f"receipt:{rel}"] = {
+            **common, "status": "terminal", "authority": d.get("source_commit") or d.get("authority_commit"),
+            "dependencies": d.get("extends", {}).get("path", []) if isinstance(d.get("extends"), dict) else [],
+            "bed": d.get("bed") or d.get("target_bed"),
+            "factor_levels": d.get("spec") or d.get("cell") or sorted({r.get("cell") for r in runs}),
+            "arm": "multi_arm" if d.get("arms") else d.get("arm"), "seed": d.get("seed"),
+            "implementation": d.get("schema") or d.get("program"),
+            "parameter_count": parameter_count,
+            "training_budget": d.get("steps") or d.get("budgets") or d.get("grid") or sorted({
+                r.get("steps") for r in runs if r.get("steps") is not None}),
+            "checkpoint": checkpoints,
+            "classification": d.get("classification") or d.get("status") or "receipt_verified",
+            "commit": d.get("source_commit") or d.get("authority_commit"),
+            "next_action": "none", "sha256": io.sha_file(p),
+        }
+    return items
+
+
 def answers() -> dict:
     e2 = L("MOP_E2_PRINCIPAL_RESULT.json")
     core = L("MOP_OWNED_TEMPORAL_CORE_V1.json")
@@ -174,10 +206,17 @@ def main():
               "verification": L("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json").get("all_pass"),
               "mutations": L("MOP_TEMPORAL_CORE_MUTATION_REPORT.json").get("all_rejected"),
               "commit": io.commit(), "tag": None}
-    items = {name: {**common, "status": "terminal" if value else "incomplete",
+    items = {f"stage:{name}": {**common, "status": "terminal" if value else "incomplete",
                     "dependencies": [], "classification": "green" if value else "not_green",
                     "next_action": "none" if value else "resume supervisor"}
              for name, value in stages.items()}
+    items.update(receipt_items(common))
+    items.update({f"deliverable:{name}": {**common,
+                  "status": "terminal" if (io.PROOF / name).is_file() else "incomplete",
+                  "dependencies": [], "classification": "sealed" if (io.PROOF / name).is_file() else "missing",
+                  "next_action": "none" if (io.PROOF / name).is_file() else "resume producing stage",
+                  "sha256": io.sha_file(io.PROOF / name) if (io.PROOF / name).is_file() else None}
+                 for name in required})
     io.seal("MOP_TEMPORAL_CORE_STATE.json", {
         "schema": "mop-temporal-core-state/v1", "program_id": io.PROGRAM,
         "branch": "agent/mop-temporal-core-mechanism", "stop_switch": str(io.STOP),
