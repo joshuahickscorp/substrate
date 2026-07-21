@@ -169,7 +169,7 @@
   "recoverable": true,
   "counts_toward_active_targets": false,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "5f0853373799c84aa4a175bebeb21eb65c8285d7",
+  "source_commit": "d69e1b9817cc48f21e6111b75eac3a81818ca291",
   "SESOI": 0.05,
-  "sha256": "c9aabcd6cfd1923644f8e1a57e7463ec045696b40e18d730474f52d855237921"
+  "sha256": "f4571a464e92559f80c76bc6d317e897694d1ae37018b45c8c04564cf8064f6e"
 }

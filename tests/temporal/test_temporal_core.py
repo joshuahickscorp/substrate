@@ -17,7 +17,7 @@ from mop.temporal import factorial as Fx
 from mop.temporal import hypotheses as H
 from mop.temporal import io as TIO
 from mop.temporal import witness as W
-from mop.temporal.runs import analyze, codelife, coresel, e2, e3, hybrid, mutations, successors, supervisor
+from mop.temporal.runs import analyze, codelife, coresel, e2, e3, hybrid, mutations, successors, supervisor, thirdbed
 
 torch = pytest.importorskip("torch")
 
@@ -277,6 +277,18 @@ def test_third_bed_cached_authorities_build_group_disjoint_splits(monkeypatch, t
         assert B.chance_rate(sp["classes"]) == pytest.approx(1 / sp["classes"])
         assert 0 < B.majority_rate(sp["test"][1]) <= 1
     B._CACHE.clear()
+
+
+def test_harth_admission_probe_builds_disjoint_return_contexts(monkeypatch):
+    units = np.repeat(np.arange(10), 6)
+    fake = {"x": torch.randn(60, 12, 2), "y": torch.arange(60) % 3, "u": units,
+            "channels": 2, "classes": 3}
+    monkeypatch.setattr(thirdbed.B, "load", lambda name: fake)
+    ctx = thirdbed.contexts(0)
+    sets = [set(v) for v in ctx["units"].values()]
+    assert all(not a & b for i, a in enumerate(sets) for b in sets[i + 1:])
+    assert ctx["A_train"][0].shape == ctx["B_train"][0].shape
+    assert not torch.allclose(ctx["B_train"][0], fake["x"][np.isin(units, ctx["units"]["B_train"])])
 
 
 def test_stream_and_window_builders_preserve_unit_and_endpoint_identity():
