@@ -120,22 +120,40 @@ def role_c() -> dict:
         for p in sorted((io.RUNS / "e2_principal").glob(f"{bed}_*.json")):
             runs.extend(json.loads(p.read_text())["runs"])
         cells: dict[str, list] = {}
+        unit_cells: dict[str, dict[str, list[float]]] = {}
         for r in runs:
             cells.setdefault(r["cell"], []).append(r["accuracy"])
+            for unit, value in r["per_unit_accuracy"].items():
+                unit_cells.setdefault(r["cell"], {}).setdefault(unit, []).append(float(value))
+        unit_cells = {cell: {unit: mean(values) for unit, values in per.items()}
+                      for cell, per in unit_cells.items()}
         checks[f"{bed}:seed_count"] = len({r["seed"] for r in runs}) == len(sealed["seeds"])
         checks[f"{bed}:every_cell_has_every_seed"] = len({len(v) for v in cells.values()}) == 1
         for group, table in a["effects"].items():
             for k, d in table.items():
                 if d.get("mean") is None:
                     continue
-                left, right = d["contrast"].split(" minus ")
-                if left not in cells or right not in cells:
+                components = d.get("components")
+                signs = d.get("formula_signs")
+                if not components:
+                    components = d["contrast"].split(" minus ")
+                    signs = [1, -1]
+                if any(cell not in cells for cell in components):
                     continue
-                eff = [x - y for x, y in zip(cells[left], cells[right], strict=True)]
+                n = min(len(cells[cell]) for cell in components)
+                eff = [sum(sign * cells[cell][i] for sign, cell in zip(signs, components, strict=True))
+                       for i in range(n)]
+                shared_units = sorted(set.intersection(*(set(unit_cells[cell]) for cell in components)))
+                unit_effects = [sum(sign * unit_cells[cell][unit]
+                                    for sign, cell in zip(signs, components, strict=True))
+                                for unit in shared_units]
                 mine = {"mean": round(mean(eff), 5), "lower_95_cb": round(lower_bound(eff), 5),
+                        "group_lower_95_cb": round(lower_bound(unit_effects), 5),
                         "verdict": verdict(eff)}
                 ok = (abs(mine["mean"] - d["mean"]) < 1e-4
                       and abs(mine["lower_95_cb"] - d["lower_95_cb"]) < 1e-4
+                      and (d.get("group_lower_95_cb") is None
+                           or abs(mine["group_lower_95_cb"] - d["group_lower_95_cb"]) < 1e-4)
                       and mine["verdict"].split("_")[0] == d["verdict"].split("_")[0])
                 checks[f"{bed}:{group}:{k}"] = ok
                 if not ok:

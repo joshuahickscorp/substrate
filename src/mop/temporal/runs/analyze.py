@@ -24,6 +24,25 @@ BEDS = ("har_stream", "speech_stream", "harth_stream")
 PRINCIPAL_BEDS = ("har_stream", "speech_stream")
 
 
+def interaction(series: dict, units: dict, cells: tuple[str, str, str, str], label: str) -> dict:
+    """Difference in differences from four already sealed factorial cells."""
+    if any(c not in series for c in cells):
+        return {"contrast": label, "verdict": "missing_cell", "mean": None,
+                "components": list(cells), "formula_signs": [1, -1, -1, 1]}
+    n = min(len(series[c]) for c in cells)
+    lhs = [series[cells[0]][i] - series[cells[1]][i] for i in range(n)]
+    rhs = [series[cells[2]][i] - series[cells[3]][i] for i in range(n)]
+    shared = sorted(set.intersection(*(set(units.get(c, {})) for c in cells)))
+    unit_virtual = {
+        "lhs": {u: units[cells[0]][u] - units[cells[1]][u] for u in shared},
+        "rhs": {u: units[cells[2]][u] - units[cells[3]][u] for u in shared},
+    }
+    out = AN.contrast({"lhs": lhs, "rhs": rhs}, "lhs", "rhs", e2.PREREG, unit_virtual)
+    out.update({"contrast": label, "components": list(cells), "formula_signs": [1, -1, -1, 1],
+                "estimand": "difference_in_differences"})
+    return out
+
+
 def load_runs(bed: str) -> list[dict]:
     d = io.RUNS / "e2_principal"
     out = []
@@ -44,6 +63,37 @@ def analyse_bed(bed: str) -> dict:
     series, units = e2._series(runs)
     conv = convergence(bed)
     rec = AN.recover(series, e2.PREREG, units)
+    ref = AN.name()
+    rec["effects"]["core_by_readout"] = {
+        f"gru_vs_{f}_{r}": interaction(series, units,
+            (AN.name(readout=r), ref, AN.name(family=f, readout=r), AN.name(family=f)),
+            f"(gru {r} minus linear) minus ({f} {r} minus linear)")
+        for f in ("pooled", "histmlp") for r in ("mlp1", "mlp_strong")}
+    rec["effects"]["core_by_capacity"] = {
+        f"gru_vs_{f}_{t}": interaction(series, units,
+            (AN.name(tier=t), ref, AN.name(family=f, tier=t), AN.name(family=f)),
+            f"(gru {t} minus small) minus ({f} {t} minus small)")
+        for f in ("pooled", "histmlp", "tcn") for t in ("micro", "medium", "large")}
+    rec["effects"]["core_by_horizon"] = {
+        f"mgu_vs_gru_h{h}": interaction(series, units,
+            (AN.name(family="mgu", reset=f"horizon_{h}"),
+             AN.name(family="mgu", reset="horizon_full"),
+             AN.name(reset=f"horizon_{h}"), AN.name(reset="horizon_full")),
+            f"(mgu h{h} minus full) minus (gru h{h} minus full)")
+        for h in (5, 45, 90)}
+    rec["effects"]["readout_by_capacity"] = {
+        f"{f}_strong_large_vs_small": interaction(series, units,
+            (AN.name(family=f, tier="large", readout="mlp_strong"),
+             AN.name(family=f, tier="large"), AN.name(family=f, readout="mlp_strong"),
+             AN.name(family=f)),
+            f"({f} large strong minus linear) minus ({f} small strong minus linear)")
+        for f in ("gru", "pooled", "histmlp")}
+    rec["effects"]["history_by_architecture"] = {
+        f"histmlp_vs_tcn_k{k}": interaction(series, units,
+            (AN.name(family="histmlp", history_k=k), AN.name(family="histmlp"),
+             AN.name(family="tcn", history_k=k), AN.name(family="tcn")),
+            f"(histmlp k{k} minus k1) minus (tcn k{k} minus k1)")
+        for k in (5, 20, "full_window")}
     params = {r["cell"]: r["params"] for r in runs}
     conv_configs = conv.get("configs") or {}
 
@@ -57,7 +107,7 @@ def analyse_bed(bed: str) -> dict:
     for table in rec["effects"].values():
         for effect in table.values():
             contrast = effect.get("contrast") or ""
-            cells = contrast.split(" minus ") if " minus " in contrast else []
+            cells = effect.get("components") or (contrast.split(" minus ") if " minus " in contrast else [])
             statuses = {c: conv_status(c) for c in cells}
             effect["convergence"] = {
                 "cells": statuses,
@@ -210,8 +260,13 @@ def per_factor_reports(per_bed: dict) -> dict:
     }
     out["MOP_FACTORIAL_INTERACTION_REPORT.json"] = {
         "schema": "mop-factorial-interaction-report/v1",
+        "core_by_readout": gather("core_by_readout"),
+        "core_by_capacity": gather("core_by_capacity"),
+        "core_by_horizon": gather("core_by_horizon"),
+        "readout_by_capacity": gather("readout_by_capacity"),
         "capacity_by_horizon": gather("capacity_by_horizon"),
         "capacity_by_readout": gather("capacity_by_readout"),
+        "history_by_architecture": gather("history_by_architecture"),
         "architecture_by_bed": {
             f: {b: a["effects"]["architecture"].get(f, {}).get("mean")
                 for b, a in per_bed.items() if a.get("status") != "no_runs"}
@@ -220,6 +275,15 @@ def per_factor_reports(per_bed: dict) -> dict:
             k: {b: a["effects"]["horizon"].get(k, {}).get("mean")
                 for b, a in per_bed.items() if a.get("status") != "no_runs"}
             for k in [f"gru_h{h}_vs_full" for h in (1, 5, 20, 45, 90)]},
+        "optimization_by_capacity": {
+            b: {
+                tier: (a["convergence"]["configs"].get(AN.name(tier=tier)) or {})
+                for tier in ("small", "large")
+            } for b, a in per_bed.items() if a.get("status") != "no_runs"},
+        "omission_status": {
+            "reset_by_readout": "not_run_under_sealed_omission_map",
+            "history_by_recurrent_architecture": "not_defined_because_recurrent_cores_have_no_history_k_parameter",
+        },
     }
     return out
 
@@ -347,6 +411,7 @@ def main():
                     effect=d, instrument_valid=True, bed_valid=True, mechanism_active=True,
                     baseline_valid=bool(d.get("convergence", {}).get("all_converged")),
                     verifier_agrees=True, mutations_rejected=True, implementations_agreeing=2,
+                    estimator_sufficient=bool(d.get("estimator_sufficient")),
                 )["classification"]
     expected_cells = {AN.name(**c) for c in e2.Fx.sweep_cells()["_all"]}
     shard_index = []
