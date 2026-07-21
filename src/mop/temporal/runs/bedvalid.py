@@ -51,7 +51,7 @@ def bed_report(name: str) -> dict:
     if not checks["group_disjoint"] or not checks["enough_units"]:
         classification = "invalid_units"
     elif rec is None or pooled is None or not c:
-        classification = "preflight_incomplete"
+        classification = "invalid_instrumentation" if name == "pamap2_stream" else "preflight_incomplete"
     elif not order_required:
         classification = "invalid_no_temporal_requirement"
     elif not checks["load_bearing_baselines_converged"]:
@@ -83,6 +83,9 @@ def bed_report(name: str) -> dict:
             "note": ("a natural order task can be a valid secondary replication bed without being promoted "
                      "to a principal adaptation bed"),
         },
+        "terminal_reason": ("PAMAP2 remains under canonical custody but has no sealed scout, convergence, "
+                            "or headroom authority in this selected E2 design"
+                            if classification == "invalid_instrumentation" else ""),
         "classification": classification,
     }
 

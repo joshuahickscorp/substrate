@@ -15,7 +15,9 @@ import json
 import time
 
 import numpy as np
+import torch
 
+from fastforge import engine as E
 from mop.method import power
 from mop.temporal import analysis as AN
 from mop.temporal import arch as A
@@ -24,6 +26,35 @@ from mop.temporal.runs import e2
 
 SIMPLICITY = {"pooled": 0, "histmlp": 1, "tcn": 2, "mgu": 3, "gru": 4, "lstm": 5, "ff_gru": 6}
 READOUT_SIMPLICITY = {"linear": 0, "mlp1": 1, "mlp_strong": 2}
+
+
+def package_checkpoints(selected: dict, beds: list[str]) -> dict:
+    """Retrain the sealed minimal cell for packaging; these runs are not new principal evidence."""
+    out = {}
+    spec = dict(selected["spec"])
+    spec["history_k"] = int(spec["history_k"]) if str(spec["history_k"]).isdigit() else spec["history_k"]
+    root = io.PROOF / "checkpoints"
+    root.mkdir(parents=True, exist_ok=True)
+    for bed in beds:
+        seed = 0
+        sp = e2.B.splits(bed, seed)
+        torch.manual_seed(seed)
+        model, reset_witness, history = e2.Fx.build_cell(sp, seed=seed, **spec)
+        receipt = E.fit(model, None, sp["main"][0], sp["main"][1], train_groups=["core", "readout"],
+                        steps=e2.Fx.STEPS, lr=e2.Fx.LR, rng=np.random.default_rng(seed),
+                        batch=e2.Fx.BATCH)
+        score = E.evaluate(model, None, sp["test"][0], sp["test"][1])
+        path = root / f"owned_temporal_core_v1_{bed}.pt"
+        torch.save({"schema": "mop-owned-temporal-core-checkpoint/v1", "bed": bed, "seed": seed,
+                    "spec": spec, "state_dict": model.state_dict(), "params": A.count(model),
+                    "test_accuracy": score, "training_receipt": receipt,
+                    "reset_witness": reset_witness, "history_profile": history,
+                    "source_commit": io.commit()}, path)
+        out[bed] = {"path": path.relative_to(io.ROOT).as_posix(), "sha256": io.sha_file(path),
+                    "test_accuracy": round(float(score), 5), "params": A.count(model),
+                    "checkpoint_sha": E.checkpoint_sha(model),
+                    "not_additional_principal_evidence": True}
+    return out
 
 
 def parse(cell: str) -> dict:
@@ -129,7 +160,11 @@ def main():
         "reason": "load bearing evidence gates are not all green",
         "evidence_gates": evidence,
     }
-    beds = [b for b in principal["beds"] if principal["per_bed"][b].get("status") != "no_runs"]
+    beds = [b for b in principal["principal_beds"] if principal["per_bed"][b].get("status") != "no_runs"]
+    replication = (io.load("MOP_E2_INDEPENDENT_REPLICATION.json")
+                   if io.exists("MOP_E2_INDEPENDENT_REPLICATION.json") else {})
+    if replication.get("third_bed_classification") == "replicated":
+        beds.append("harth_stream")
     doc = {
         "schema": "mop-owned-temporal-core-v1/v1",
         "selected": bool(sel.get("selected")),
@@ -161,6 +196,7 @@ def main():
             "compute_cost": "see MOP_TEMPORAL_CORE_RESOURCE_REPORT.json",
             "valid_domains": beds,
         }
+        doc["core"]["checkpoints"] = package_checkpoints(s, beds)
         rows = "\n".join(
             f"| {r['cell']} | {r['worst_bed_mean']} | {r['gap_to_best']} | {r['params_total']} | "
             f"{r['horizon']} |" for r in sel["ordered_candidates"])
