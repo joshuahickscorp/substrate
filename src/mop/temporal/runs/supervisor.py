@@ -88,7 +88,7 @@ def scheduling_class(pending_extended: list[str]) -> tuple[int, list[str], str]:
     return CAP_SMALL, pending_extended, "small"
 
 
-def launch(args: list[str], log: str, tag: str) -> bool:
+def launch(args: list[str], log: str, tag: str, module: str = "mop.temporal.runs.e2") -> bool:
     LOGS.mkdir(exist_ok=True)
     LOCKS.mkdir(parents=True, exist_ok=True)
     lock = _lock_path(tag)
@@ -102,7 +102,7 @@ def launch(args: list[str], log: str, tag: str) -> bool:
     os.close(fd)
     with open(LOGS / log, "a") as f:
         env = dict(ENV, TEMPORAL_SHARD_LOCK=str(lock), TEMPORAL_SHARD_TAG=tag)
-        proc = subprocess.Popen([PY, "-m", "mop.temporal.runs.e2", *args], cwd=io.ROOT, env=env,
+        proc = subprocess.Popen([PY, "-m", module, *args], cwd=io.ROOT, env=env,
                                 stdout=f, stderr=subprocess.STDOUT)
     lock.write_text(json.dumps({"pid": proc.pid, "tag": tag, "args": args, "state": "active"}))
     return True
@@ -120,11 +120,32 @@ def missing(sub: str, names: list[str]) -> list[str]:
     return [n for n in names if not (d / f"{n}.json").is_file()]
 
 
+def invalid(sub: str, names: list[str]) -> list[str]:
+    d, out = io.RUNS / sub, []
+    for n in names:
+        p = d / f"{n}.json"
+        if not p.is_file():
+            continue
+        try:
+            json.loads(p.read_text())
+        except (OSError, json.JSONDecodeError):
+            out.append(n)
+    return out
+
+
+def partials(sub: str) -> list[str]:
+    d = io.RUNS / sub
+    return sorted(p.name for p in d.glob(".*.partial.*")) if d.is_dir() else []
+
+
 def status() -> dict:
     scout = [f"shard_{b}_{s}" for b in BEDS for s in e2.SCOUT_SEEDS]
     conv = [f"cshard_{b}_{i}" for b in BEDS for i in range(len(e2.CONVERGE_CONFIGS))]
     ext = [f"xshard_{b}_{i}" for b in BEDS for i in range(len(e2.CONVERGE_CONFIGS))]
     principal = [f"{b}_{s}" for b in BEDS for s in e2.PRINCIPAL_SEEDS]
+    e3_shards = [f"{source}_to_{target}_{seed}" for source, target in (
+        ("har_stream", "speech_stream"), ("speech_stream", "har_stream"))
+                 for seed in e2.PRINCIPAL_SEEDS]
     active = []
     if LOCKS.is_dir():
         for p in sorted(LOCKS.glob("*.json")):
@@ -141,14 +162,56 @@ def status() -> dict:
             "convergence": len(conv) - len(missing("e2_converge", conv)),
             "extended_convergence": len(ext) - len(missing("e2_converge_extended", ext)),
             "principal": len(principal) - len(missing("e2_principal", principal)),
+            "e3": len(e3_shards) - len(missing("e3", e3_shards)),
         },
         "missing": {
             "scout": missing("e2_scout", scout),
             "convergence": missing("e2_converge", conv),
             "extended_convergence": missing("e2_converge_extended", ext),
             "principal": missing("e2_principal", principal),
+            "e3": missing("e3", e3_shards),
+        },
+        "invalid": {
+            "scout": invalid("e2_scout", scout),
+            "convergence": invalid("e2_converge", conv),
+            "extended_convergence": invalid("e2_converge_extended", ext),
+            "principal": invalid("e2_principal", principal),
+            "e3": invalid("e3", e3_shards),
+        },
+        "partial_receipts": {
+            "scout": partials("e2_scout"),
+            "convergence": partials("e2_converge"),
+            "extended_convergence": partials("e2_converge_extended"),
+            "principal": partials("e2_principal"),
+            "e3": partials("e3"),
         },
     }
+
+
+def run_e3() -> bool:
+    from mop.temporal.runs import e3
+
+    names = [f"{source}_to_{target}_{seed}" for source, target in e3.DIRECTIONS for seed in e3.SEEDS]
+    started: set[str] = set()
+    while not io.STOP.exists():
+        started = {tag for tag in started if lock_active(tag)}
+        pending = missing("e3", names)
+        if not pending:
+            return run_sync("mop.temporal.runs.e3", ["aggregate"])
+        free = max(0, CAP_SMALL - workers())
+        for name in pending:
+            tag = f"e3:{name}"
+            if tag in started or lock_active(tag) or free <= 0:
+                continue
+            source_target, seed = name.rsplit("_", 1)
+            source, target = source_target.split("_to_", 1)
+            if launch(["shard", source, target, seed], "e3.log", tag,
+                      module="mop.temporal.runs.e3"):
+                started.add(tag)
+                free -= 1
+        print(f"[supervisor] E3 workers={workers()} cap={CAP_SMALL} remaining={len(pending)}", flush=True)
+        time.sleep(60)
+    return False
 
 
 def main(argv=None):
@@ -233,7 +296,12 @@ def main(argv=None):
             break
         time.sleep(60)
 
-    if io.STOP.exists() or any(status()["missing"].values()):
+    remaining = status()["missing"]
+    invalid_receipts = status()["invalid"]
+    scientific_missing = any(remaining[k] for k in ("scout", "convergence", "extended_convergence",
+                                                     "principal"))
+    if io.STOP.exists() or scientific_missing or any(invalid_receipts[k] for k in (
+            "scout", "convergence", "extended_convergence", "principal")):
         print("[supervisor] stopped before downstream aggregation because shard work is not terminal", flush=True)
         return
     run_sync("mop.temporal.runs.e2", ["scout_result"])
@@ -242,7 +310,13 @@ def main(argv=None):
     for mod in ("mop.temporal.runs.bedvalid", "mop.temporal.runs.analyze",
                 "mop.temporal.runs.replicate", "mop.temporal.runs.mutations",
                 "mop.temporal.runs.verify", "mop.temporal.runs.coresel",
-                "mop.temporal.runs.successors", "mop.temporal.runs.reports", "mop.temporal.runs.synthesis",
+                "mop.temporal.runs.successors"):
+        run_sync(mod)
+    queue = io.load("MOP_EXPERIMENT_VALUE_QUEUE.json") if io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json") else {}
+    if "E3_shared_versus_local" in (queue.get("licensed_top_two") or []):
+        run_e3()
+        run_sync("mop.temporal.runs.successors")
+    for mod in ("mop.temporal.runs.reports", "mop.temporal.runs.synthesis",
                 "mop.temporal.runs.fabric"):
         run_sync(mod)
     print("SUPERVISOR_DONE", flush=True)

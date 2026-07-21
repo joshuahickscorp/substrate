@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -46,6 +47,14 @@ def commit() -> str:
     ).stdout.strip()
 
 
+def _atomic_text(path: Path, payload: str) -> None:
+    """Land a receipt atomically; an interrupted writer leaves a visible partial, never a forged final."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    partial = path.with_name(f".{path.name}.partial.{os.getpid()}")
+    partial.write_text(payload)
+    partial.replace(path)
+
+
 def seal(name: str, obj: dict, subdir: str = "") -> Path:
     obj.setdefault("program", PROGRAM)
     obj.setdefault("source_commit", commit())
@@ -54,7 +63,7 @@ def seal(name: str, obj: dict, subdir: str = "") -> Path:
     out = PROOF / subdir
     out.mkdir(parents=True, exist_ok=True)
     p = out / name
-    p.write_text(json.dumps(obj, indent=2, default=str))
+    _atomic_text(p, json.dumps(obj, indent=2, default=str))
     return p
 
 
@@ -62,7 +71,7 @@ def seal_md(name: str, text: str, subdir: str = "") -> Path:
     out = PROOF / subdir
     out.mkdir(parents=True, exist_ok=True)
     p = out / name
-    p.write_text(text)
+    _atomic_text(p, text)
     return p
 
 
@@ -78,7 +87,11 @@ def run_json(name: str, obj: dict, subdir: str = "") -> Path:
     out = RUNS / subdir
     out.mkdir(parents=True, exist_ok=True)
     p = out / name
-    p.write_text(json.dumps(obj, indent=2, default=str))
+    doc = dict(obj)
+    doc.setdefault("program", PROGRAM)
+    doc.setdefault("source_commit", commit())
+    doc["result_sha256"] = sha_obj({k: v for k, v in doc.items() if k != "result_sha256"})
+    _atomic_text(p, json.dumps(doc, indent=2, default=str))
     return p
 
 
