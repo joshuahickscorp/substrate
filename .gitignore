@@ -20,6 +20,13 @@ reports/telegram_notifier/
 # contents, then re-include the specific curated files. See STUDIO_RUN_REPORT.md durability note.
 !runs/
 runs/*
+# The method program's raw shard receipts are 1.9 MB of JSON and are what the independent scientific
+# verifier recomputes from. Tracking them is what makes Role C reproducible from a clean clone.
+!runs/method/
+runs/method/*
+!runs/method/mop-experimental-method-reformation-v1/
+!runs/method/mop-experimental-method-reformation-v1/**
+runs/method/mop-experimental-method-reformation-v1/coverage/
 !runs/pre_studio/
 runs/pre_studio/*
 !runs/pre_studio/close_e7_sparse.json
