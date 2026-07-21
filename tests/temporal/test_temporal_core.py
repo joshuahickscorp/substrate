@@ -209,6 +209,25 @@ def test_principal_loader_replaces_only_the_exact_corrected_key(monkeypatch, tmp
     assert rows[(0, untouched)]["accuracy"] == 0.2
 
 
+def test_convergence_aggregate_prefers_the_sealed_index_25_correction(monkeypatch, tmp_path):
+    base = tmp_path / "e2_converge"
+    corrected = tmp_path / "e2_converge_corrections"
+    base.mkdir()
+    corrected.mkdir()
+    monkeypatch.setattr(TIO, "RUNS", tmp_path)
+    monkeypatch.setattr(e2, "CONVERGE_CONFIGS", tuple({} for _ in range(26)))
+    monkeypatch.setattr(e2, "LOAD_BEARING_CONVERGENCE_CELLS", ())
+    for idx in range(26):
+        (base / f"cshard_har_stream_{idx}.json").write_text(json.dumps({
+            "cell": f"cell{idx}", "curve": {"400": 0.1}, "converged": True,
+            "classification": "converged", "source": "original"}))
+    (corrected / "convergence_har_stream.json").write_text(json.dumps({
+        "cell": "cell25", "curve": {"400": 0.2}, "converged": True,
+        "classification": "converged", "parameter_band_valid": True, "source": "correction"}))
+    result = e2.converge("har_stream")
+    assert result["configs"]["cell25"]["source"] == "correction"
+
+
 def test_readout_parameter_count_is_identical_across_families():
     counts = {f: A.count(A.build(family=f, ch=9, classes=6, readout="mlp1", history_k=5))["readout"]
               for f in A.FAMILIES}

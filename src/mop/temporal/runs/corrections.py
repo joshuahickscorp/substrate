@@ -83,11 +83,17 @@ def aggregate() -> dict:
               "all_three_convergence_corrections": len(convergence) == 3,
               "all_corrected_parameter_bands_valid": all(d["parameter_band_valid"] for d in convergence),
               "original_receipts_quarantined_not_deleted": all(v == 16 for v in original_invalid.values())}
+    refreshed = {bed: e2.converge(bed) for bed in BEDS}
+    checks["convergence_aggregates_refreshed_with_corrections"] = all(
+        (d.get("configs") or {}).get(Fx.cell_name(**LINEAR), {}).get("parameter_band_valid") for d in refreshed.values())
     doc = {"schema": "mop-e2-capacity-tier-correction/v1", "affected_cells": [
            Fx.cell_name(**s) for s in SPECS], "original_invalid_receipts": original_invalid,
            "principal_shards": [{"bed": d["bed"], "seed": d["seed"]} for d in principal],
            "convergence": {d["bed"]: {"classification": d["classification"],
                                       "parameter_count": d["parameter_count"]} for d in convergence},
+           "refreshed_convergence_aggregates": {bed: {"all_converged": d["all_converged"],
+                                                       "load_bearing_all_converged": d["load_bearing_all_converged"]}
+                                                for bed, d in refreshed.items()},
            "checks": checks, "all_pass": all(checks.values()),
            "rule": "analysis replaces only the same bed, seed and cell; original receipts remain immutable"}
     io.seal("MOP_E2_CAPACITY_TIER_CORRECTION.json", doc)
