@@ -83,12 +83,17 @@ def gates() -> dict:
     }
 
 
+def ranked_successors(g: dict) -> list[str]:
+    opened = [k for k, v in g.items() if v.get("opens")]
+    return sorted(opened, key=lambda k: {"third_bed_replication": 0, "E3_shared_versus_local": 1,
+                                         "hybrid_adaptation": 2, "E5_self_supervised": 3}.get(k, 9))
+
+
 def main():
     t0 = time.time()
     g = gates()
     opened = [k for k, v in g.items() if v.get("opens")]
-    ranked = sorted(opened, key=lambda k: {"third_bed_replication": 0, "E3_shared_versus_local": 1,
-                                           "hybrid_adaptation": 2, "E5_self_supervised": 3}.get(k, 9))
+    ranked = ranked_successors(g)
     licensed = ranked[:2]
     for name, key in (("MOP_E3_SHARED_LOCAL_RESULT.json", "E3_shared_versus_local"),
                       ("MOP_E5_SELF_SUPERVISED_RESULT.json", "E5_self_supervised"),
