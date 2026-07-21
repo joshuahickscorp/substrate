@@ -1,13 +1,9 @@
 """The eight central hypotheses and, for every possible result, what it does to each of them.
-
 Preregistering the mapping is the point. Without it, a factorial produces numbers and then an author decides
 afterwards which story they told.
-
 House style: no dashes.
 """
-
 from __future__ import annotations
-
 HYPOTHESES = {
     "H1_recurrence": "a recurrent state transition provides value a stateless model cannot recover, even with "
                      "matched parameter count and explicit causal history",
@@ -24,7 +20,6 @@ HYPOTHESES = {
     "H8_bed_specificity": "the effect is real on the two valid controlled beds and does not transfer to a "
                           "third natural stream",
 }
-
 # result key -> what it does to each hypothesis. Every entry is written before any principal cell runs.
 PREREGISTERED_MAPPING = {
     "recurrent_beats_matched_history": {
@@ -130,10 +125,7 @@ PREREGISTERED_MAPPING = {
         "unresolved": [],
     },
 }
-
 STATES = ("open", "supported", "weakened", "closed", "unresolved")
-
-
 def apply(results: list[str]) -> dict:
     """Fold a set of observed result keys into a state per hypothesis. Support and closure both accumulate."""
     state = {h: {"supports": [], "weakens": [], "closes": [], "unresolved": []} for h in HYPOTHESES}

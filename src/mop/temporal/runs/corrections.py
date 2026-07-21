@@ -20,6 +20,33 @@ BEDS = ("har_stream", "speech_stream", "harth_stream")
 LINEAR = dict(Fx.REFERENCE, family="histmlp", tier="large")
 STRONG = dict(Fx.REFERENCE, family="histmlp", tier="large", readout="mlp_strong")
 SPECS = (LINEAR, STRONG)
+OPTIMIZATION_SPECS = {"small": dict(Fx.REFERENCE), "large": dict(Fx.REFERENCE, tier="large")}
+
+
+def measure_curve(bedname: str, spec: dict, budgets: tuple[int, ...]) -> dict:
+    curve, spread, seed_scores, unit_scores, wall, records = {}, {}, {}, {}, {}, {}
+    params = None
+    for steps in budgets:
+        rows = [Fx.run_cell(B.splits(bedname, seed), spec, seed, "tune", steps=steps)
+                for seed in e2.CONVERGENCE_SEEDS]
+        values = [r["accuracy"] for r in rows]
+        curve[steps] = float(np.mean(values))
+        spread[steps] = round(float(np.std(values, ddof=1)), 5)
+        seed_scores[steps] = [round(float(v), 5) for v in values]
+        unit_scores[steps] = {str(seed): row["per_unit_accuracy"]
+                              for seed, row in zip(e2.CONVERGENCE_SEEDS, rows, strict=True)}
+        wall[steps] = [float(row.get("wall_seconds", 0)) for row in rows]
+        params = rows[0]["params"]
+        records[steps] = [{"seed": seed, "updates": row["updates"],
+                           "trainable_param_count": row["params"]["total"],
+                           "parameter_update_exposure": row["params"]["total"] * row["updates"],
+                           "score": row["accuracy"], "per_unit_accuracy": row["per_unit_accuracy"],
+                           "checkpoint_sha": row["checkpoint_sha_after"],
+                           "wall_seconds": float(row.get("wall_seconds", 0))}
+                          for seed, row in zip(e2.CONVERGENCE_SEEDS, rows, strict=True)]
+    return {"curve": curve, "seed_spread": spread, "seed_scores": seed_scores,
+            "per_unit_seed_scores": unit_scores, "wall_seconds_per_seed": wall,
+            "parameter_count": params, "arm_records": records}
 
 
 def principal_shard(bedname: str, seed: int) -> dict:
@@ -43,36 +70,19 @@ def principal_shard(bedname: str, seed: int) -> dict:
 
 def convergence_shard(bedname: str) -> dict:
     t0 = time.time()
-    def measure(spec):
-        curve, spread, seed_scores, unit_scores = {}, {}, {}, {}
-        for steps in e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID:
-            rows = [Fx.run_cell(B.splits(bedname, seed), spec, seed, "tune", steps=steps)
-                    for seed in e2.CONVERGENCE_SEEDS]
-            values = [r["accuracy"] for r in rows]
-            curve[steps] = float(np.mean(values))
-            spread[steps] = round(float(np.std(values, ddof=1)), 5)
-            seed_scores[steps] = [round(float(v), 5) for v in values]
-            unit_scores[steps] = {str(seed): row["per_unit_accuracy"]
-                                  for seed, row in zip(e2.CONVERGENCE_SEEDS, rows, strict=True)}
-        return curve, spread, seed_scores, unit_scores
-
-    curve, spread, seed_scores, unit_scores = measure(LINEAR)
-    small = dict(Fx.REFERENCE)
-    small_curve, small_spread, small_seed_scores, small_unit_scores = measure(small)
+    measured = measure_curve(bedname, LINEAR, e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID)
+    curve = measured["curve"]
     witness = W.plateau_validity(curve)
-    probe = Fx.run_cell(B.splits(bedname, 0), LINEAR, 0, "tune", steps=1)
     lo, hi = A.TIER_RANGE["large"]
     doc = {"schema": "mop-e2-capacity-tier-correction-convergence/v2", "bed": bedname,
-           "spec": LINEAR, "cell": Fx.cell_name(**LINEAR), "curve": curve, "seed_spread": spread,
-           "seed_scores": seed_scores, "per_unit_seed_scores": unit_scores,
-           "optimization_control": {"spec": small, "cell": Fx.cell_name(**small),
-                                    "curve": small_curve, "seed_spread": small_spread,
-                                    "seed_scores": small_seed_scores,
-                                    "per_unit_seed_scores": small_unit_scores},
-           "optimization_estimand": ("(large at 12800 minus large at 400) minus "
-                                      "(small at 12800 minus small at 400)"),
+           "spec": LINEAR, "cell": Fx.cell_name(**LINEAR), "curve": curve,
+           "seed_spread": measured["seed_spread"],
+           "seed_scores": measured["seed_scores"],
+           "per_unit_seed_scores": measured["per_unit_seed_scores"],
+           "wall_seconds_per_seed": measured["wall_seconds_per_seed"],
            "seeds": list(e2.CONVERGENCE_SEEDS),
-           "parameter_count": probe["params"], "parameter_band_valid": lo <= probe["params"]["core"] <= hi,
+           "parameter_count": measured["parameter_count"],
+           "parameter_band_valid": lo <= measured["parameter_count"]["core"] <= hi,
            "supersedes": [f"e2_converge/cshard_{bedname}_25.json",
                           f"e2_converge_extended/xshard_{bedname}_25.json"],
            **witness, "wall_seconds": round(time.time() - t0, 1)}
@@ -81,11 +91,61 @@ def convergence_shard(bedname: str) -> dict:
     return doc
 
 
+def optimization_shard(bedname: str, tier: str) -> dict:
+    """Per seed GRU capacity curves plus the exact small-model compute match."""
+    t0, spec = time.time(), OPTIMIZATION_SPECS[tier]
+    sp = B.splits(bedname, 0)
+    counts = {name: A.count(Fx.build_cell(sp, seed=0, **candidate)[0])["total"]
+              for name, candidate in OPTIMIZATION_SPECS.items()}
+    large_steps = min(e2.CONVERGENCE_GRID)
+    small_steps = max(1, round(large_steps * counts["large"] / counts["small"]))
+    budgets = e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID
+    measured_budgets = tuple(sorted(set(budgets + ((small_steps,) if tier == "small" else ()))))
+    measured = measure_curve(bedname, spec, measured_budgets)
+    regular_curve = {k: measured["curve"][k] for k in budgets}
+    witness = W.plateau_validity(regular_curve)
+    large_compute, small_compute = large_steps * counts["large"], small_steps * counts["small"]
+    selected = int(witness["selected_checkpoint"])
+    role = ("large_model_at_same_update_count" if tier == "large" else
+            "small_model_at_same_compute")
+    design_checks = {"same_gru_family_differs_only_by_capacity_tier": all(
+                  OPTIMIZATION_SPECS["small"][k] == OPTIMIZATION_SPECS["large"][k]
+                  for k in OPTIMIZATION_SPECS["small"] if k != "tier"),
+              "same_update_anchor_is_preregistered": large_steps in e2.CONVERGENCE_GRID,
+              "compute_match_within_tolerance": abs(large_compute - small_compute) / large_compute <= 0.0001,
+              "small_compute_match_within_feasible_budget": small_steps <= max(e2.EXTENDED_CONVERGENCE_GRID),
+              "strict_selection_from_regular_curve": selected in regular_curve,
+              "all_seed_arm_records_complete": all(len(measured["arm_records"][budget]) ==
+                                                     len(e2.CONVERGENCE_SEEDS)
+                                                     for budget in measured_budgets)}
+    doc = {"schema": "mop-e2-optimization-capacity-correction/v1", "bed": bedname,
+           "tier": tier, "spec": spec, "cell": Fx.cell_name(**spec), "seeds": list(e2.CONVERGENCE_SEEDS),
+           **measured, "regular_grid": list(budgets), "same_update_anchor": large_steps,
+           "compute_match": {"large_steps": large_steps, "large_parameter_updates": large_compute,
+                             "small_steps": small_steps, "small_parameter_updates": small_compute,
+                             "relative_parameter_update_error": round(
+                                 abs(large_compute - small_compute) / large_compute, 8)},
+           "four_contrast_roles": {
+               role: {"budget": large_steps if tier == "large" else small_steps,
+                      "records": measured["arm_records"][large_steps if tier == "large" else small_steps]},
+               f"{tier}_model_at_strict_selected_convergence": {
+                   "budget": selected, "records": measured["arm_records"][selected],
+                   "classification": witness["classification"]}},
+           "design_checks": design_checks, "all_checks_pass": all(design_checks.values()),
+           **witness, "wall_seconds": round(time.time() - t0, 1)}
+    io.run_json(f"optimization_{bedname}_{tier}.json", doc, "e2_optimization_corrections")
+    print(f"optimization correction {bedname} {tier}: {doc['classification']}", flush=True)
+    return doc
+
+
 def aggregate() -> dict:
     principal = [json.loads((io.RUNS / "e2_principal_corrections" /
                  f"capacity_{bed}_{seed}.json").read_text()) for bed in BEDS for seed in e2.PRINCIPAL_SEEDS]
     convergence = [json.loads((io.RUNS / "e2_converge_corrections" /
                    f"convergence_{bed}.json").read_text()) for bed in BEDS]
+    optimization = [json.loads((io.RUNS / "e2_optimization_corrections" /
+                    f"optimization_{bed}_{tier}.json").read_text())
+                    for bed in BEDS for tier in OPTIMIZATION_SPECS]
     original_invalid = {}
     lo, hi = A.TIER_RANGE["large"]
     for bed in BEDS:
@@ -98,9 +158,10 @@ def aggregate() -> dict:
               "all_correction_receipts_valid": all(d["all_checks_pass"] for d in principal),
               "all_three_convergence_corrections": len(convergence) == 3,
               "all_corrected_parameter_bands_valid": all(d["parameter_band_valid"] for d in convergence),
-              "optimization_controls_measured": all(
-                  set(map(int, d.get("optimization_control", {}).get("seed_scores", {}))) >=
-                  {min(e2.CONVERGENCE_GRID), max(e2.EXTENDED_CONVERGENCE_GRID)} for d in convergence),
+              "all_six_optimization_corrections": len(optimization) == 6,
+              "all_optimization_receipts_valid": all(d["all_checks_pass"] for d in optimization),
+              "optimization_same_compute_measured": all(
+                  d["compute_match"]["relative_parameter_update_error"] <= 0.0001 for d in optimization),
               "original_receipts_quarantined_not_deleted": all(v == 16 for v in original_invalid.values())}
     refreshed = {bed: e2.converge(bed) for bed in BEDS}
     checks["convergence_aggregates_refreshed_with_corrections"] = all(
@@ -110,6 +171,9 @@ def aggregate() -> dict:
            "principal_shards": [{"bed": d["bed"], "seed": d["seed"]} for d in principal],
            "convergence": {d["bed"]: {"classification": d["classification"],
                                       "parameter_count": d["parameter_count"]} for d in convergence},
+           "optimization": {f"{d['bed']}:{d['tier']}": {
+               "classification": d["classification"], "compute_match": d["compute_match"],
+               "parameter_count": d["parameter_count"]} for d in optimization},
            "refreshed_convergence_aggregates": {bed: {"all_converged": d["all_converged"],
                                                        "load_bearing_all_converged": d["load_bearing_all_converged"]}
                                                 for bed, d in refreshed.items()},
@@ -125,23 +189,28 @@ def run_all() -> dict:
 
     principal = [f"capacity_{bed}_{seed}" for bed in BEDS for seed in e2.PRINCIPAL_SEEDS]
     convergence = [f"convergence_{bed}" for bed in BEDS]
+    optimization = [f"optimization_{bed}_{tier}" for bed in BEDS for tier in OPTIMIZATION_SPECS]
     while True:
-        pending_p = supervisor.missing("e2_principal_corrections", principal)
-        pending_c = supervisor.missing("e2_converge_corrections", convergence)
-        if not pending_p and not pending_c:
+        pending_p = supervisor.recoverable_pending("e2_principal_corrections", principal)
+        pending_c = supervisor.recoverable_pending("e2_converge_corrections", convergence)
+        pending_o = supervisor.recoverable_pending("e2_optimization_corrections", optimization)
+        if not pending_p and not pending_c and not pending_o:
             return aggregate()
         active = sum(supervisor.lock_active(p.stem.replace("_", ":", 1))
                      for p in supervisor.LOCKS.glob("*.json"))
         free = max(0, supervisor.CAP_LARGE - active)
-        for name in pending_p + pending_c:
+        for name in pending_p + pending_c + pending_o:
             if free <= 0:
                 break
             if name.startswith("capacity_"):
                 bed_seed = name.removeprefix("capacity_")
                 bedname, seed = bed_seed.rsplit("_", 1)
                 args = ["principal", bedname, seed]
-            else:
+            elif name.startswith("convergence_"):
                 args = ["convergence", name.removeprefix("convergence_")]
+            else:
+                bedname, tier = name.removeprefix("optimization_").rsplit("_", 1)
+                args = ["optimization", bedname, tier]
             if supervisor.launch(args, "capacity_corrections.log", f"fix:{name}",
                                  module="mop.temporal.runs.corrections"):
                 free -= 1
@@ -156,6 +225,8 @@ def main(argv=None):
         principal_shard(argv[1], int(argv[2]))
     elif argv[0] == "convergence":
         convergence_shard(argv[1])
+    elif argv[0] == "optimization":
+        optimization_shard(argv[1], argv[2])
     elif argv[0] == "aggregate":
         aggregate()
     else:

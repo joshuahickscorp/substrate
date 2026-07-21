@@ -1,34 +1,26 @@
 """E2: calibration, scout, principal.
-
     calibration   synthetic worlds with a known generative truth. The analysis must name each one
     scout         four seeds on tuning units, to estimate variance and drop dominated cells
     principal     eight seeds, untouched group disjoint test split
-
 Usage
     python -m mop.temporal.runs.e2 calibration
     python -m mop.temporal.runs.e2 scout <bed>
     python -m mop.temporal.runs.e2 principal <bed> <seed>
     python -m mop.temporal.runs.e2 converge <bed>
-
 House style: no dashes.
 """
-
 from __future__ import annotations
-
 import json
 import os
 import sys
 import time
-
 import numpy as np
-
 from mop.method import power
 from mop.temporal import analysis as AN
 from mop.temporal import arch as A
 from mop.temporal import beds as B
 from mop.temporal import factorial as Fx
 from mop.temporal import io
-
 SCOUT_SEEDS = (0, 1, 2, 3)
 PRINCIPAL_SEEDS = tuple(range(8))
 MAX_SEEDS = 12
@@ -40,19 +32,13 @@ PREREG = power.preregistration(
     seeds=len(PRINCIPAL_SEEDS), units=9, max_seeds=MAX_SEEDS, futility=0.01, harm=0.05,
     continuation_rule=("the seed count is fixed at eight before the first principal cell, and a preregistered "
                        "maximum of twelve applies only to cells whose scout standard deviation exceeds 0.06"))
-
-
 # ---------------------------------------------------------------- calibration
-
-
 def _world(kind: str, seeds: int = 8, sd: float = 0.02, seed: int = 0) -> dict:
     """Synthetic cell scores whose generative truth is known. No training, this calibrates the analysis."""
     rng = np.random.default_rng(seed)
     base = 0.55
-
     def draw(mu):
         return [float(mu + rng.normal(0, sd)) for _ in range(seeds)]
-
     cells = {}
     fams = A.FAMILIES
     for f in fams:
@@ -100,8 +86,6 @@ def _world(kind: str, seeds: int = 8, sd: float = 0.02, seed: int = 0) -> dict:
     if kind == "no_effect":
         cells = {k: draw(base) for k in cells}
     return cells
-
-
 CALIBRATION_WORLDS = {
     "pure_capacity": {"capacity"},
     "pure_readout": {"readout"},
@@ -113,8 +97,6 @@ CALIBRATION_WORLDS = {
     "reset_alignment_artifact": {"reset_alignment_artifact"},
     "no_effect": {"no_effect"},
 }
-
-
 def calibration() -> dict:
     res = {}
     for world, expected in CALIBRATION_WORLDS.items():
@@ -129,11 +111,7 @@ def calibration() -> dict:
         }
     res["all_pass"] = all(v["pass"] for v in res.values() if isinstance(v, dict))
     return res
-
-
 # ---------------------------------------------------------------- scout and principal
-
-
 def _series(runs: list[dict]) -> tuple[dict, dict]:
     cells: dict[str, list] = {}
     units: dict[str, dict] = {}
@@ -143,8 +121,6 @@ def _series(runs: list[dict]) -> tuple[dict, dict]:
         for u, a in r["per_unit_accuracy"].items():
             acc.setdefault(u, []).append(a)
     return cells, {c: {u: float(np.mean(v)) for u, v in d.items()} for c, d in units.items()}
-
-
 def scout_shard(bedname: str, seed: int) -> dict:
     """One bed, one seed, every cell. Sharding by seed is what lets the scout use the whole host."""
     t0 = time.time()
@@ -154,8 +130,6 @@ def scout_shard(bedname: str, seed: int) -> dict:
     io.run_json(f"shard_{bedname}_{seed}.json", doc, "e2_scout")
     print(f"E2 scout shard {bedname} seed {seed}: {len(runs)} cells in {doc['wall_seconds']}s", flush=True)
     return doc
-
-
 def scout(bedname: str) -> dict:
     t0 = time.time()
     cells = Fx.sweep_cells()["_all"]
@@ -198,8 +172,6 @@ def scout(bedname: str) -> dict:
     print(f"E2 scout {bedname}: {len(cells)} cells, best {best} {means[best]:.4f}, "
           f"median sd {doc['median_sd']}, dominated {len(dominated)}", flush=True)
     return doc
-
-
 def principal(bedname: str, seed: int) -> dict:
     sp = B.splits(bedname, seed)
     cells = Fx.sweep_cells()["_all"]
@@ -210,8 +182,6 @@ def principal(bedname: str, seed: int) -> dict:
     print(f"E2 principal {bedname} seed {seed}: {len(runs)} cells, "
           f"best {max(r['accuracy'] for r in runs):.4f}", flush=True)
     return doc
-
-
 CONVERGE_CONFIGS = [
     dict(Fx.REFERENCE, family=f) for f in ("gru", "lstm", "mgu", "pooled", "tcn")
 ] + [dict(Fx.REFERENCE, family="histmlp", history_k=20),
@@ -229,37 +199,37 @@ for group in ("architecture", "readout", "horizon", "reset", "capacity_by_horizo
     for spec in Fx.sweep_cells()[group]:
         if Fx.cell_name(**spec) not in {Fx.cell_name(**c) for c in CONVERGE_CONFIGS}:
             CONVERGE_CONFIGS.append(spec)
-
 LOAD_BEARING_CONVERGENCE_CELLS = tuple(
     Fx.cell_name(**CONVERGE_CONFIGS[i]) for i in (0, 2, 3, 4, 8, 9, 10)
 )
-
-
+CORRECTED_CONVERGENCE_CELLS = {
+    Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large")):
+        "convergence_{bed}.json",
+}
 def converge_shard(bedname: str, idx: int) -> dict:
     from mop.temporal import witness as W
-
     t0 = time.time()
     spec = CONVERGE_CONFIGS[idx]
-    curve, spread = {}, {}
+    curve, spread, parameter_count = {}, {}, None
     for steps in CONVERGENCE_GRID:
-        vals = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)["accuracy"]
+        rows = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)
                 for s_ in CONVERGENCE_SEEDS]
+        vals = [row["accuracy"] for row in rows]
+        parameter_count = rows[0]["params"]
         curve[steps] = float(np.mean(vals))
         spread[steps] = round(float(np.std(vals, ddof=1)), 5)
     w = W.plateau_validity(curve)
     doc = {"bed": bedname, "spec": spec, "cell": Fx.cell_name(**spec), "curve": curve,
-           "seed_spread": spread, "seeds": list(CONVERGENCE_SEEDS), **w,
+           "seed_spread": spread, "seeds": list(CONVERGENCE_SEEDS),
+           "parameter_count": parameter_count, **w,
            "wall_seconds": round(time.time() - t0, 1)}
     io.run_json(f"cshard_{bedname}_{idx}.json", doc, "e2_converge")
     print(f"E2 converge shard {bedname} {Fx.cell_name(**spec)}: {w['classification']} "
           f"movement {w.get('second_half_movement')} in {doc['wall_seconds']}s", flush=True)
     return doc
-
-
 def extend_converge_shard(bedname: str, idx: int) -> dict:
     """Append larger budgets under a new shard identity, preserving the original curve receipt."""
     from mop.temporal import witness as W
-
     t0 = time.time()
     spec = CONVERGE_CONFIGS[idx]
     base_path = io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
@@ -269,9 +239,12 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
         raise RuntimeError(f"base convergence identity mismatch at {base_path}: expected {expected_cell}")
     curve = {int(k): float(v) for k, v in base["curve"].items()}
     spread = {int(k): float(v) for k, v in base["seed_spread"].items()}
+    parameter_count = base.get("parameter_count")
     for steps in EXTENDED_CONVERGENCE_GRID:
-        vals = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)["accuracy"]
+        rows = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)
                 for s_ in CONVERGENCE_SEEDS]
+        vals = [row["accuracy"] for row in rows]
+        parameter_count = rows[0]["params"]
         curve[steps] = float(np.mean(vals))
         spread[steps] = round(float(np.std(vals, ddof=1)), 5)
     w = W.plateau_validity(curve)
@@ -283,6 +256,7 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
         "curve": curve,
         "seed_spread": spread,
         "seeds": list(CONVERGENCE_SEEDS),
+        "parameter_count": parameter_count,
         "extends": {
             "path": base_path.relative_to(io.ROOT).as_posix(),
             "sha256": io.sha_file(base_path),
@@ -296,16 +270,16 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
     print(f"E2 extended convergence {bedname} {doc['cell']}: {w['classification']} "
           f"movement {w.get('second_half_movement')} in {doc['wall_seconds']}s", flush=True)
     return doc
-
-
 def converge(bedname: str) -> dict:
     """Long budget curves for every load bearing configuration, judged by the strict plateau witness."""
     from mop.temporal import witness as W
-
     t0 = time.time()
     out = {}
     for idx, spec in enumerate(CONVERGE_CONFIGS):
-        corrected = io.RUNS / "e2_converge_corrections" / f"convergence_{bedname}.json" if idx == 25 else io.RUNS / "absent"
+        cell = Fx.cell_name(**spec)
+        correction_name = CORRECTED_CONVERGENCE_CELLS.get(cell)
+        corrected = (io.RUNS / "e2_converge_corrections" / correction_name.format(bed=bedname)
+                     if correction_name else io.RUNS / "absent")
         p = corrected if corrected.is_file() else io.RUNS / "e2_converge_extended" / f"xshard_{bedname}_{idx}.json"
         p = p if p.is_file() else io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
         if p.is_file():
@@ -329,8 +303,6 @@ def converge(bedname: str) -> dict:
     print(f"E2 convergence {bedname}: all converged {doc['all_converged']}, "
           f"unconverged {doc['unconverged']}", flush=True)
     return doc
-
-
 def scout_result() -> dict:
     """Seal the scout reduction and a hash inventory of every completed raw scout shard."""
     beds, shards, failures = {}, [], []
@@ -369,8 +341,6 @@ def scout_result() -> dict:
            "not_principal_scientific_evidence": True}
     io.seal("MOP_E2_SCOUT_RESULT.json", doc)
     return doc
-
-
 def main(argv=None):
     argv = argv or sys.argv[1:]
     cmd = argv[0] if argv else "calibration"
@@ -407,7 +377,5 @@ def main(argv=None):
     if lock:
         from pathlib import Path
         Path(lock).unlink(missing_ok=True)
-
-
 if __name__ == "__main__":
     main()

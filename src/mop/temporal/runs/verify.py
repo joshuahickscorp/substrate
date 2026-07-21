@@ -14,14 +14,18 @@ import math
 import time
 
 import numpy as np
+import torch
 
+from fastforge import engine as E
 from mop.temporal import arch as A
 from mop.temporal import beds as B
 from mop.temporal import factorial as Fx
+from mop.temporal import hypotheses as H
 from mop.temporal import io
 
 T95 = {2: 6.314, 3: 2.920, 4: 2.353, 5: 2.132, 6: 2.015, 7: 1.943, 8: 1.895, 9: 1.860, 10: 1.833}
 SESOI = 0.05
+OPTIMIZATION_SEEDS = {0, 1, 2}
 CORRECTED_CELLS = {Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large")),
                    Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large",
                                        readout="mlp_strong"))}
@@ -54,6 +58,20 @@ def summarize(v: list[float]) -> dict:
             "upper_95_cb": round(upper_bound(v), 5),
             "heterogeneity": round(sd(v), 5) if len(v) > 1 else None,
             "n": len(v), "verdict": verdict(v)}
+
+
+def _summary_effect(seed_effects: list[float], per_unit: dict[str, float]) -> dict:
+    seed, group = summarize(seed_effects), summarize(list(per_unit.values()))
+    achieved_mde = T95.get(len(seed_effects), 1.729) * sd(seed_effects) / math.sqrt(
+        len(seed_effects)) if len(seed_effects) > 1 else math.inf
+    return {"mean": seed["mean"], "lower_95_cb": seed["lower_95_cb"],
+            "upper_95_cb": seed["upper_95_cb"], "verdict": seed["verdict"],
+            "estimator_sufficient": achieved_mde <= SESOI or seed["verdict"] in ("positive", "harm"),
+            "per_seed_effects": [round(float(v), 5) for v in seed_effects],
+            "per_unit_effects": {str(k): round(float(v), 5) for k, v in sorted(per_unit.items())},
+            "group_mean": group["mean"], "group_lower_95_cb": group["lower_95_cb"],
+            "group_upper_95_cb": group["upper_95_cb"],
+            "group_heterogeneity": group["heterogeneity"], "n_units": len(per_unit)}
 
 
 def _close(a, b, tol: float = 1e-4) -> bool:
@@ -125,6 +143,15 @@ def _batch_plan_hash(n: int, seed: int, steps: int, batch: int) -> str:
     return digest.hexdigest()
 
 
+def _tensor_sha(value: torch.Tensor) -> str:
+    array = value.detach().cpu().contiguous().numpy()
+    digest = hashlib.sha256()
+    digest.update(str(array.dtype).encode())
+    digest.update(str(tuple(array.shape)).encode())
+    digest.update(array.tobytes())
+    return digest.hexdigest()
+
+
 def _welch(left: list[float], right: list[float]) -> dict | None:
     if len(left) < 2 or len(right) < 2:
         return None
@@ -188,8 +215,11 @@ def _recompute_effect(by_cell: dict[str, dict[int, dict]], unit_cells: dict[str,
     unit_effects = [sum(sign * unit_cells[cell][unit]
                         for sign, cell in zip(signs, components, strict=True)) for unit in shared]
     seed_summary, group_summary = summarize(seed_effects), summarize(unit_effects)
+    achieved_mde = T95.get(len(seed_effects), 1.729) * sd(seed_effects) / math.sqrt(
+        len(seed_effects)) if len(seed_effects) > 1 else float("inf")
     return {"mean": seed_summary["mean"], "lower_95_cb": seed_summary["lower_95_cb"],
             "upper_95_cb": seed_summary["upper_95_cb"], "verdict": seed_summary["verdict"],
+            "estimator_sufficient": achieved_mde <= SESOI or seed_summary["verdict"] in ("positive", "harm"),
             "per_seed_effects": [round(v, 5) for v in seed_effects],
             "per_unit_effects": {unit: round(value, 5) for unit, value in zip(
                 shared, unit_effects, strict=True)},
@@ -202,9 +232,11 @@ def _recompute_effect(by_cell: dict[str, dict[int, dict]], unit_cells: dict[str,
 def _effect_matches(mine: dict | None, expected: dict, *, require_group: bool = True) -> bool:
     if mine is None:
         return False
-    pairs = (("mean", "mean"), ("lower_95_cb", "lower_95_cb"))
+    pairs = (("mean", "mean"), ("lower_95_cb", "lower_95_cb"), ("upper_95_cb", "upper_95_cb"))
     ok = all(_close(mine[a], expected.get(b)) for a, b in pairs)
     ok = ok and mine["verdict"] == expected.get("verdict")
+    if "estimator_sufficient" in expected:
+        ok = ok and mine["estimator_sufficient"] == expected.get("estimator_sufficient")
     if "per_seed_effects" in expected:
         ok = ok and len(mine["per_seed_effects"]) == len(expected["per_seed_effects"]) and all(
             _close(a, b) for a, b in zip(mine["per_seed_effects"], expected["per_seed_effects"], strict=True))
@@ -219,8 +251,30 @@ def _effect_matches(mine: dict | None, expected: dict, *, require_group: bool = 
 
 
 def _equivalent(effect: dict, margin: float) -> bool:
-    return (abs(effect["mean"]) <= margin and effect["lower_95_cb"] >= -margin
-            and effect["upper_95_cb"] <= margin)
+    needed = ("mean", "lower_95_cb", "upper_95_cb", "group_mean",
+              "group_lower_95_cb", "group_upper_95_cb")
+    return not any(effect.get(field) is None for field in needed) \
+        and abs(effect["mean"]) <= margin and effect["lower_95_cb"] >= -margin \
+        and effect["upper_95_cb"] <= margin and abs(effect["group_mean"]) <= margin \
+        and effect["group_lower_95_cb"] >= -margin and effect["group_upper_95_cb"] <= margin
+
+
+def _plateau(curve: dict) -> dict:
+    """Independent reconstruction of the strict convergence witness."""
+    budgets = sorted(int(k) for k in curve)
+    values = [float(curve.get(str(k), curve.get(k))) for k in budgets]
+    if len(values) < 4:
+        return {"classification": "insufficient_budget_grid", "selected_checkpoint": None,
+                "second_half_movement": None, "residual_slope": None, "all_pass": False}
+    half = values[len(values) // 2:]
+    movement = max(half) - min(half)
+    slope = (half[-1] - half[0]) / max(1, len(half) - 1)
+    best = max(range(len(values)), key=lambda i: values[i])
+    checks = (best != len(values) - 1 or values[-1] - max(values[:-1]) <= 0.01,
+              movement <= 0.01, slope <= 0.002, max(values) - values[-1] <= 0.03)
+    return {"classification": "converged" if all(checks) else "unconverged",
+            "selected_checkpoint": budgets[best], "second_half_movement": round(movement, 5),
+            "residual_slope": round(slope, 6), "all_pass": all(checks)}
 
 
 def _terminal_classification(effect: dict, *, instrument_valid: bool, bed_valid: bool,
@@ -244,6 +298,99 @@ def _terminal_classification(effect: dict, *, instrument_valid: bool, bed_valid:
     if value == "wrong_direction_failure":
         return "failure_wrong_direction"
     return "mechanism_null" if verifier_agrees else "scientifically_unresolved"
+
+
+def _independent_result_keys(sealed: dict, recomputed: dict) -> list[str]:
+    """Refold the preregistered result vocabulary without calling the producer analysis."""
+    beds = tuple(sealed.get("principal_beds") or ())
+    if set(beds) != {"har_stream", "speech_stream"} or any(b not in recomputed for b in beds):
+        return []
+
+    def ready(d):
+        return (bool(d) and d.get("estimator_sufficient") is True
+                and (d.get("convergence") or {}).get("all_converged") is True
+                and all(d.get(k) is not None for k in (
+                    "mean", "lower_95_cb", "upper_95_cb", "group_mean",
+                    "group_lower_95_cb", "group_upper_95_cb")))
+
+    def positive(d):
+        return ready(d) and d.get("verdict") == "positive" and d["group_lower_95_cb"] >= SESOI
+
+    def equivalent(d):
+        return ready(d) and _equivalent(d, io.EQUIVALENCE_MARGIN)
+
+    def group(bed, name):
+        return recomputed.get(bed, {}).get(name, {})
+
+    keys = []
+    matched = [group(b, "recurrent_versus_matched_history").get(
+        "gru_vs_histmlp_kfull_window", {}) for b in beds]
+    if all(positive(d) for d in matched):
+        keys.append("recurrent_beats_matched_history")
+    if all(equivalent(d) for d in matched):
+        keys.append("matched_history_matches_recurrent")
+    capacity = [group(b, "capacity") for b in beds]
+    monotonic = []
+    for table in capacity:
+        medium, large = table.get("gru_medium_vs_small", {}), table.get("gru_large_vs_small", {})
+        monotonic.append(ready(medium) and ready(large) and medium["mean"] <= large["mean"] + 1e-9
+                         and large["mean"] > SESOI and positive(large))
+    if all(monotonic):
+        keys.append("capacity_monotonic_and_large")
+    elif all(table and all(equivalent(d) for d in table.values()) for table in capacity):
+        keys.append("capacity_flat_or_saturating")
+    horizon = [group(b, "horizon") for b in beds]
+    reset = [group(b, "reset") for b in beds]
+
+    def destructive(d):
+        return ready(d) and d["group_upper_95_cb"] <= -SESOI
+
+    horizon_gate = all(
+        destructive(h.get("gru_h45_vs_full", {}))
+        and any(destructive(r.get(k, {})) for k in ("misaligned_a", "misaligned_b"))
+        and destructive(r.get("random_rate_matched", {})) for h, r in zip(horizon, reset, strict=True))
+    threshold = [any(equivalent(table.get(f"gru_h{h}_vs_full", {}))
+                     for h in (1, 2, 5, 10, 20, 45, 90)) for table in horizon]
+    horizon_focus = [[table.get(k, {}) for k in ("gru_h45_vs_full", "gru_h90_vs_full")]
+                     for table in horizon]
+    if horizon_gate and all(threshold):
+        keys.append("horizon_threshold_at_dependency_length")
+    elif all(equivalent(d) for rows in horizon_focus for d in rows):
+        keys.append("horizon_flat")
+    interactions = [group(b, "capacity_by_horizon") for b in beds]
+    if all(table and all(ready(d) for d in table.values()) for table in interactions):
+        if all(any(positive(d) for d in table.values()) for table in interactions):
+            keys.append("capacity_helps_only_at_long_horizon")
+        elif all(all(equivalent(d) for d in table.values()) for table in interactions):
+            keys.append("capacity_and_horizon_independent")
+    family_pass, family_ready = {}, {}
+    for family in A.RECURRENT:
+        effects = [group(b, "recurrence_versus_best_stateless").get(
+            f"{family}_vs_{stateless}", {}) for b in beds for stateless in A.STATELESS]
+        family_pass[family], family_ready[family] = all(map(positive, effects)), all(map(ready, effects))
+    if set(family_pass) == set(A.RECURRENT) and all(family_pass.values()):
+        keys.append("all_recurrent_families_agree")
+    elif all(family_ready.values()) and any(family_pass.values()):
+        keys.append("one_recurrent_family_dissents")
+    optimization_ready = all((recomputed.get(f"optimization:{b}") or {}).get(
+        "scientific_verdict") not in (None, "provisional_unconverged") for b in beds)
+    if optimization_ready and all(positive(d) for d in matched):
+        keys.append("converged_everywhere_and_gap_remains")
+    preflight = io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") if io.exists(
+        "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {}
+    third = group("harth_stream", "recurrent_versus_matched_history").get(
+        "gru_vs_histmlp_kfull_window", {})
+    if "harth_stream" in (preflight.get("selected") or []) and third:
+        keys.append("third_bed_agrees" if positive(third) else "third_bed_dissents")
+    else:
+        keys.append("third_bed_invalid")
+    readouts = [group(b, "readout") for b in beds]
+    if all(table and all(ready(d) for d in table.values()) for table in readouts):
+        if all(any(positive(d) for d in table.values()) for table in readouts):
+            keys.append("readout_capacity_reproduces_the_effect")
+        elif all(all(equivalent(d) for d in table.values()) for table in readouts):
+            keys.append("readout_capacity_flat")
+    return keys
 
 
 # ---------------------------------------------------------------- role B
@@ -403,12 +550,134 @@ def role_b() -> dict:
             noisy_trace.get("magnitude_matched_to_learned_head_plus_state"))
         checks[f"{key}:noise_preserves_matched_head"] = bool(
             noisy_trace.get("head_parameters_match_learned_head_plus_state"))
+        identity = noisy_trace.get("matched_noise_identity") or {}
+        try:
+            dtype = getattr(torch, str(identity["dtype"]).removeprefix("torch."))
+            generator = torch.Generator(device="cpu").manual_seed(int(identity["rng_seed"]))
+            regenerated = torch.randn(tuple(identity["shape"]), dtype=dtype, generator=generator)
+            regenerated = regenerated * float(identity["learned_state_norm"]) / float(
+                regenerated.norm() + 1e-9)
+            direction = regenerated / (regenerated.norm() + 1e-12)
+            expected_l2 = math.sqrt(max(0.0, float(identity["learned_state_norm"]) ** 2
+                                        + float(identity["noise_norm"]) ** 2
+                                        - 2 * float(identity["learned_state_norm"])
+                                        * float(identity["noise_norm"])
+                                        * float(identity["cosine_with_learned_state"])))
+            learned_trace = (arms.get("head_plus_state") or {}).get("trace") or {}
+            checks[f"{key}:noise_tensor_reconstructed"] = (
+                _tensor_sha(regenerated) == identity.get("noise_tensor_sha256")
+                and _tensor_sha(direction) == identity.get("noise_direction_sha256")
+                and _close(float(regenerated.norm()), identity.get("noise_norm"), tol=1.1e-5))
+            checks[f"{key}:learned_state_and_readout_bound"] = (
+                identity.get("learned_state_sha256") == identity.get("regenerated_learned_state_sha256")
+                == learned_trace.get("state_sha256_after")
+                and identity.get("reference_learned_readout_group_sha256")
+                == learned_trace.get("readout_group_sha256_after")
+                == identity.get("readout_group_sha256_after")
+                and identity.get("readout_matches_reference") is True)
+            checks[f"{key}:noise_difference_witness"] = _close(
+                expected_l2, identity.get("l2_difference_from_learned_state"), tol=1.1e-5)
+        except (KeyError, TypeError, ValueError, RuntimeError, AttributeError):
+            checks[f"{key}:noise_tensor_reconstructed"] = False
+            checks[f"{key}:learned_state_and_readout_bound"] = False
+            checks[f"{key}:noise_difference_witness"] = False
     hybrid_by_bed: dict[str, set] = {}
     for p in hybrid_paths:
         d = json.loads(p.read_text())
         hybrid_by_bed.setdefault(str(d.get("bed")), set()).add(d.get("seed"))
     for bed, seeds in hybrid_by_bed.items():
         checks[f"hybrid:{bed}:exact_seed_set"] = seeds == expected_seeds
+    optimization_paths = sorted((io.RUNS / "e2_optimization_corrections").glob("optimization_*.json")) \
+        if (io.RUNS / "e2_optimization_corrections").is_dir() else []
+    for p in optimization_paths:
+        d = json.loads(p.read_text())
+        bed, tier = d.get("bed"), d.get("tier")
+        key = f"optimization:{bed}:{tier}"
+        spec = d.get("spec") or {}
+        records = d.get("arm_records") or {}
+        expected_budgets = set(map(int, d.get("regular_grid") or []))
+        if tier == "small":
+            expected_budgets.add(int((d.get("compute_match") or {}).get("small_steps", -1)))
+        flattened = [(int(budget), row) for budget, rows in records.items() for row in rows]
+        checks[f"{key}:same_family_capacity_only"] = (
+            spec.get("family") == "gru" and spec.get("tier") == tier
+            and Fx.cell_name(**spec) == d.get("cell"))
+        expected_roles = ({"small_model_at_same_compute", "small_model_at_strict_selected_convergence"}
+                          if tier == "small" else
+                          {"large_model_at_same_update_count", "large_model_at_strict_selected_convergence"})
+        checks[f"{key}:exact_role_inventory"] = set(d.get("four_contrast_roles") or {}) == expected_roles
+        checks[f"{key}:capacity_band"] = tier in A.TIER_RANGE and A.TIER_RANGE[tier][0] <= int(
+            (d.get("parameter_count") or {}).get("core", -1)) <= A.TIER_RANGE[tier][1]
+        checks[f"{key}:exact_budget_inventory"] = set(map(int, records)) == expected_budgets
+        checks[f"{key}:exact_seed_inventory"] = bool(flattened) and all(
+            {int(row.get("seed")) for row in rows} == OPTIMIZATION_SEEDS for rows in records.values())
+        checks[f"{key}:parameter_update_exposure"] = bool(flattened) and all(
+            int(row.get("updates", -1)) == budget
+            and int(row.get("trainable_param_count", -1)) == int((d.get("parameter_count") or {}).get("total", -2))
+            and int(row.get("parameter_update_exposure", -1))
+            == int(row.get("trainable_param_count", 0)) * budget for budget, row in flattened)
+        checks[f"{key}:checkpoint_receipts"] = bool(flattened) and all(
+            isinstance(row.get("checkpoint_sha"), str) and len(row["checkpoint_sha"]) == 64
+            for _, row in flattened)
+        match = d.get("compute_match") or {}
+        checks[f"{key}:declared_compute_match"] = (
+            match.get("large_parameter_updates", 0) > 0 and match.get("small_parameter_updates", 0) > 0
+            and abs(float(match["large_parameter_updates"]) - float(match["small_parameter_updates"]))
+            / float(match["large_parameter_updates"]) <= 0.0001)
+    if optimization_paths:
+        checks["optimization:exact_six_receipts"] = len(optimization_paths) == 6
+        docs = [json.loads(p.read_text()) for p in optimization_paths]
+        expected_cartesian = {(bed, tier) for bed in ("har_stream", "speech_stream", "harth_stream")
+                              for tier in ("small", "large")}
+        checks["optimization:exact_bed_tier_cartesian_inventory"] = {
+            (d.get("bed"), d.get("tier")) for d in docs} == expected_cartesian
+        checks["optimization:filenames_bind_identity"] = all(
+            p.name == f"optimization_{d.get('bed')}_{d.get('tier')}.json"
+            for p, d in zip(optimization_paths, docs, strict=True))
+        for bed in ("har_stream", "speech_stream", "harth_stream"):
+            pair = {d.get("tier"): d for d in docs if d.get("bed") == bed}
+            pair_ok = set(pair) == {"small", "large"}
+            if pair_ok:
+                large, small = pair["large"], pair["small"]
+                anchor = int(large.get("same_update_anchor", -1))
+                match_budget = int((small.get("compute_match") or {}).get("small_steps", -1))
+                large_rows = (large.get("arm_records") or {}).get(str(anchor), [])
+                small_rows = (small.get("arm_records") or {}).get(str(match_budget), [])
+                large_exposure = {int(r.get("seed")): int(r.get("parameter_update_exposure", -1))
+                                  for r in large_rows}
+                small_exposure = {int(r.get("seed")): int(r.get("parameter_update_exposure", -2))
+                                  for r in small_rows}
+                pair_ok = (set(large_exposure) == set(small_exposure) == OPTIMIZATION_SEEDS
+                           and all(abs(large_exposure[s] - small_exposure[s]) / large_exposure[s] <= 0.0001
+                                   for s in OPTIMIZATION_SEEDS)
+                           and {k: v for k, v in large.get("spec", {}).items() if k != "tier"}
+                           == {k: v for k, v in small.get("spec", {}).items() if k != "tier"})
+            checks[f"optimization:{bed}:paired_actual_compute_and_spec"] = pair_ok
+    if io.exists("MOP_OWNED_TEMPORAL_CORE_V1.json"):
+        owned = io.load("MOP_OWNED_TEMPORAL_CORE_V1.json")
+        for bed, receipt in ((owned.get("core") or {}).get("checkpoints") or {}).items():
+            path = io.ROOT / str(receipt.get("path"))
+            key = f"owned_core:checkpoint:{bed}"
+            checks[f"{key}:file_hash"] = path.is_file() and io.sha_file(path) == receipt.get("sha256")
+            try:
+                payload = torch.load(path, map_location="cpu", weights_only=False)
+                spec = payload.get("spec") or {}
+                model = Fx.build_cell(B.splits(bed, int(payload.get("seed", 0))),
+                                      seed=int(payload.get("seed", 0)), **spec)[0]
+                restored = model.load_state_dict(payload.get("state_dict") or {}, strict=True)
+                checks[f"{key}:payload_identity"] = (
+                    payload.get("schema") == "mop-owned-temporal-core-checkpoint/v1"
+                    and payload.get("bed") == bed and spec == (owned.get("selection") or {}).get(
+                        "selected", {}).get("spec") and not restored.missing_keys
+                    and not restored.unexpected_keys)
+                checks[f"{key}:restored_parameter_inventory"] = (
+                    A.count(model) == payload.get("params") == receipt.get("params"))
+                checks[f"{key}:restored_checkpoint_hash"] = E.checkpoint_sha(model) == receipt.get(
+                    "checkpoint_sha")
+            except (OSError, RuntimeError, TypeError, ValueError, KeyError):
+                checks[f"{key}:payload_identity"] = False
+                checks[f"{key}:restored_parameter_inventory"] = False
+                checks[f"{key}:restored_checkpoint_hash"] = False
     return {"role": "B instrumentation auditor", "checks": checks, "notes": notes,
             "failed": [k for k, v in checks.items() if not v], "all_pass": all(checks.values()),
             "outcomes_inspected": False}
@@ -429,6 +698,13 @@ def role_c() -> dict:
         runs = _principal_runs(bed)
         by_cell, unit_cells = _effect_inputs(runs)
         weights = _test_unit_weights(bed)
+        conv_path = io.RUNS / "e2_converge" / f"converge_{bed}.json"
+        conv_doc = json.loads(conv_path.read_text()) if conv_path.is_file() else {}
+        conv_configs = conv_doc.get("configs") or {}
+
+        def independent_convergence(cell: str) -> str:
+            raw = conv_configs.get(cell) or conv_configs.get(cell.replace("|horizon_full|", "|none|"))
+            return _plateau((raw or {}).get("curve") or {})["classification"] if raw else "not_measured"
         checks[f"{bed}:exact_seed_set"] = {int(r["seed"]) for r in runs} == set(expected_seeds)
         checks[f"{bed}:every_cell_has_exact_seed_set"] = bool(by_cell) and all(
             set(rows) == set(expected_seeds) for rows in by_cell.values())
@@ -456,8 +732,27 @@ def role_c() -> dict:
                     components = d["contrast"].split(" minus ")
                     signs = [1, -1]
                 mine = _recompute_effect(by_cell, unit_cells, components, signs, expected_seeds)
+                if mine is not None:
+                    parameter_sum = sum(int(by_cell[cell][expected_seeds[0]]["params"]["total"])
+                                        for cell in components if cell in by_cell)
+                    statuses = {cell: independent_convergence(cell) for cell in components}
+                    all_converged = bool(statuses) and all(v == "converged" for v in statuses.values())
+                    mine["component_parameter_sum"] = parameter_sum
+                    mine["convergence"] = {"cells": statuses, "all_converged": all_converged,
+                                           "classification": ("converged" if all_converged else
+                                                              "provisional_unconverged_or_unmeasured")}
+                    mine["cost_adjusted_effect_per_100k_parameters"] = (
+                        round(float(mine["mean"]) * 100_000 / parameter_sum, 5)
+                        if parameter_sum else None)
+                    mine["component_floor_status"] = (
+                        "passes" if all_converged and mine["group_lower_95_cb"] >= io.SESOI
+                        else "provisional_or_below_floor")
                 recomputed[bed][group][k] = mine
-                ok = _effect_matches(mine, d)
+                ok = (_effect_matches(mine, d) and mine is not None
+                      and mine["component_parameter_sum"] == d.get("component_parameter_sum")
+                      and _close(mine["cost_adjusted_effect_per_100k_parameters"],
+                                 d.get("cost_adjusted_effect_per_100k_parameters"))
+                      and mine["component_floor_status"] == d.get("component_floor_status"))
                 if group in {"core_by_readout", "core_by_capacity", "core_by_horizon",
                              "readout_by_capacity", "history_by_architecture", "capacity_by_horizon"}:
                     did = (len(components) == 4 and signs == [1, -1, -1, 1]
@@ -467,10 +762,10 @@ def role_c() -> dict:
                 convergence = d.get("convergence") or {}
                 declared = convergence.get("cells") or {}
                 checks[f"{bed}:{group}:{k}:convergence_classification"] = (
-                    bool(declared) and convergence.get("all_converged") == all(
-                        status == "converged" for status in declared.values())
+                    bool(declared) and mine is not None and declared == mine["convergence"]["cells"]
+                    and convergence.get("all_converged") == mine["convergence"]["all_converged"]
                     and convergence.get("classification") == (
-                        "converged" if all(status == "converged" for status in declared.values())
+                        "converged" if mine["convergence"]["all_converged"]
                         else "provisional_unconverged_or_unmeasured"))
                 checks[f"{bed}:{group}:{k}"] = ok
                 if not ok:
@@ -489,6 +784,7 @@ def role_c() -> dict:
                 expected = row["effects"][key]
                 mine = _recompute_effect(by_cell, unit_cells, [cell, control], [1, -1], expected_seeds)
                 ok = _effect_matches(mine, expected)
+                recomputed[f"replication:{bed}:{key}"] = mine
                 checks[f"{bed}:independent_replication:{key}"] = ok
                 if not ok:
                     mismatches.append({"bed": bed, "contrast": key,
@@ -535,6 +831,37 @@ def role_c() -> dict:
             "this is a substrate component with evidence on the beds named here. It does not establish a "
             "complete substrate architecture, continual plasticity, cross domain transfer, functional "
             "reorganization or activation") and owned.get("activation") is False
+        preflight = io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") if io.exists(
+            "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {}
+        third_result = io.load("MOP_THIRD_TEMPORAL_BED_RESULT.json") if io.exists(
+            "MOP_THIRD_TEMPORAL_BED_RESULT.json") else {}
+        replication = io.load("MOP_E2_INDEPENDENT_REPLICATION.json") if io.exists(
+            "MOP_E2_INDEPENDENT_REPLICATION.json") else {}
+        admitted = isinstance(preflight.get("selected"), list) and "harth_stream" in preflight["selected"]
+        third_effects = [recomputed.get(f"replication:harth_stream:{key}") or {}
+                         for key in ("torch_gru_vs_full_history", "explicit_mgu_vs_full_history")]
+        third_conv_path = io.RUNS / "e2_converge" / "converge_harth_stream.json"
+        third_configs = (json.loads(third_conv_path.read_text()).get("configs") or {}) \
+            if third_conv_path.is_file() else {}
+        history_cell = "histmlp|small|linear|none|hfull_window"
+        effect_cells = ("gru|small|linear|none|h1", "mgu|small|linear|none|h1")
+        conv_pairs = [all(_plateau((third_configs.get(cell) or {}).get("curve") or {})[
+            "classification"] == "converged" for cell in (effect_cell, history_cell))
+                      for effect_cell in effect_cells]
+        reproduces = all(d.get("verdict") == "positive" and d.get("group_lower_95_cb", -math.inf) >= SESOI
+                         and converged for d, converged in zip(third_effects, conv_pairs, strict=True))
+        third_classification = ("invalid_secondary_bed" if not admitted else "replicated" if reproduces
+                                else "valid_secondary_bed_did_not_reproduce_the_principal_effect")
+        checks["third_bed:admission_binding"] = (
+            third_result.get("admitted") == admitted
+            and replication.get("third_bed_admitted") == admitted
+            and third_result.get("classification") == third_classification
+            and replication.get("third_bed_classification") == third_classification)
+        checks["third_bed:claim_ceiling"] = third_result.get("claim_ceiling") == (
+            "secondary natural bed only; it is not promoted to a principal adaptation bed")
+        valid_domains = ((owned.get("core") or {}).get("valid_domains") or [])
+        checks["owned_core:third_domain_license"] = (
+            ("harth_stream" in valid_domains) == (admitted and third_classification == "replicated"))
 
     if io.exists("MOP_FACTORIAL_INTERACTION_REPORT.json"):
         interactions = io.load("MOP_FACTORIAL_INTERACTION_REPORT.json")
@@ -551,6 +878,14 @@ def role_c() -> dict:
                 ok = seed_welch is not None and unit_welch is not None
                 if ok:
                     heterogeneity = math.sqrt((sd(unit_left) ** 2 + sd(unit_right) ** 2) / 2)
+                    component_parameters = int((left or {}).get("component_parameter_sum") or 0) + int(
+                        (right or {}).get("component_parameter_sum") or 0)
+                    converged = all((row or {}).get("convergence", {}).get("all_converged")
+                                    for row in (left, right))
+                    adjusted = (seed_welch["mean"] * 100_000 / component_parameters
+                                if component_parameters else None)
+                    floor = ("passes" if converged and unit_welch["lower_95_cb"] >= io.SESOI
+                             else "provisional_or_below_floor")
                     independent_verdict = (
                         "harm" if seed_welch["mean"] <= -SESOI else
                         "positive" if seed_welch["lower_95_cb"] >= SESOI
@@ -564,6 +899,10 @@ def role_c() -> dict:
                           and _close(unit_welch["lower_95_cb"], expected.get("group_lower_95_cb"))
                           and _close(unit_welch["upper_95_cb"], expected.get("group_upper_95_cb"))
                           and _close(heterogeneity, expected.get("group_heterogeneity"))
+                          and component_parameters == expected.get("component_parameter_sum")
+                          and _close(adjusted, expected.get("cost_adjusted_effect_per_100k_parameters"))
+                          and converged == (expected.get("convergence") or {}).get("all_converged")
+                          and floor == expected.get("component_floor_status")
                           and independent_verdict == expected.get("verdict"))
                 checks[f"interaction:{report_key}:{key}"] = ok
                 if not ok:
@@ -571,50 +910,183 @@ def role_c() -> dict:
                                        "sealed": expected,
                                        "recomputed": {"seed": seed_welch, "group": unit_welch}})
         for bed, expected in (interactions.get("optimization_by_capacity") or {}).items():
-            path = io.RUNS / "e2_converge_corrections" / f"convergence_{bed}.json"
-            raw = json.loads(path.read_text()) if path.is_file() else {}
-            control = raw.get("optimization_control") or {}
-            budgets = expected.get("budgets") or []
+            paths = {tier: io.RUNS / "e2_optimization_corrections" /
+                     f"optimization_{bed}_{tier}.json" for tier in ("large", "small")}
+            docs = {tier: json.loads(path.read_text()) for tier, path in paths.items()
+                    if path.is_file()}
+            budgets = expected.get("budgets") or {}
 
             def at(document, key, budget):
                 table = document.get(key) or {}
                 return table.get(str(budget), table.get(budget))
 
-            if len(budgets) == 2:
-                low, high = budgets
-                vectors = [at(raw, "seed_scores", high), at(raw, "seed_scores", low),
-                           at(control, "seed_scores", high), at(control, "seed_scores", low)]
-                effects = ([vectors[0][i] - vectors[1][i] - vectors[2][i] + vectors[3][i]
-                            for i in range(min(map(len, vectors)))] if all(vectors) else [])
-                tables = [at(raw, "per_unit_seed_scores", high), at(raw, "per_unit_seed_scores", low),
-                          at(control, "per_unit_seed_scores", high),
-                          at(control, "per_unit_seed_scores", low)]
+            if set(docs) == {"large", "small"} and set(budgets) == {
+                    "large_same_update", "large_convergence", "small_same_compute", "small_convergence"}:
+                large, small = docs["large"], docs["small"]
+                arm_defs = {
+                    "large_convergence": (large, budgets["large_convergence"],
+                                          "large_model_at_strict_selected_convergence"),
+                    "large_same_update": (large, budgets["large_same_update"],
+                                          "large_model_at_same_update_count"),
+                    "small_convergence": (small, budgets["small_convergence"],
+                                          "small_model_at_strict_selected_convergence"),
+                    "small_same_compute": (small, budgets["small_same_compute"],
+                                           "small_model_at_same_compute")}
+                records, receipt_checks = {}, {}
+                for name, (doc, budget, role) in arm_defs.items():
+                    rows = at(doc, "arm_records", budget) or []
+                    ids = [int(row.get("seed", -1)) for row in rows]
+                    records[name] = {int(row["seed"]): row for row in rows if "seed" in row}
+                    role_row = (doc.get("four_contrast_roles") or {}).get(role) or {}
+                    receipt_checks[f"{name}:seeds"] = set(ids) == OPTIMIZATION_SEEDS \
+                        and len(ids) == len(set(ids)) == len(OPTIMIZATION_SEEDS)
+                    receipt_checks[f"{name}:role"] = role_row.get("budget") == budget \
+                        and role_row.get("records") == rows
+                    receipt_checks[f"{name}:exposure"] = bool(rows) and all(
+                        int(row.get("updates", -1)) == budget
+                        and int(row.get("parameter_update_exposure", -1))
+                        == int(row.get("trainable_param_count", 0)) * budget for row in rows)
+                receipt_checks["roles"] = (
+                    set(large.get("four_contrast_roles") or {}) == {
+                        "large_model_at_same_update_count", "large_model_at_strict_selected_convergence"}
+                    and set(small.get("four_contrast_roles") or {}) == {
+                        "small_model_at_same_compute", "small_model_at_strict_selected_convergence"})
+                receipt_checks["specs"] = (
+                    large.get("bed") == small.get("bed") == bed
+                    and large.get("spec", {}).get("family") == small.get("spec", {}).get("family") == "gru"
+                    and large.get("spec", {}).get("tier") == "large"
+                    and small.get("spec", {}).get("tier") == "small"
+                    and {k: v for k, v in large.get("spec", {}).items() if k != "tier"}
+                    == {k: v for k, v in small.get("spec", {}).items() if k != "tier"})
+                receipt_checks["parameter_bands"] = all(
+                    A.TIER_RANGE[tier][0] <= int((docs[tier].get("parameter_count") or {}).get("core", -1))
+                    <= A.TIER_RANGE[tier][1] for tier in docs)
+                for tier, doc in docs.items():
+                    for budget in map(int, doc.get("regular_grid") or []):
+                        rows = at(doc, "arm_records", budget) or []
+                        scores = [float(row["score"]) for row in rows]
+                        receipt_checks[f"{tier}:{budget}:curve"] = (
+                            len(scores) == len(OPTIMIZATION_SEEDS)
+                            and _close(mean(scores), at(doc, "curve", budget))
+                            and _close(sd(scores), at(doc, "seed_spread", budget)))
+                for seed in OPTIMIZATION_SEEDS:
+                    inventories = [set(records.get(name, {}).get(seed, {}).get("per_unit_accuracy") or {})
+                                   for name in arm_defs]
+                    receipt_checks[f"units:{seed}"] = all(inventories) and all(
+                        inv == inventories[0] for inv in inventories[1:])
+                actual_errors = []
+                for seed in OPTIMIZATION_SEEDS:
+                    le = float(records.get("large_same_update", {}).get(seed, {}).get(
+                        "parameter_update_exposure", 0))
+                    se = float(records.get("small_same_compute", {}).get(seed, {}).get(
+                        "parameter_update_exposure", 0))
+                    actual_errors.append(abs(le - se) / le if le else math.inf)
+                receipt_checks["compute_match"] = bool(actual_errors) and max(actual_errors) <= 0.0001
+                receipt_valid = all(receipt_checks.values())
+                ordered = ("large_convergence", "large_same_update",
+                           "small_convergence", "small_same_compute")
+                effects = [records[ordered[0]][seed]["score"] - records[ordered[1]][seed]["score"]
+                           - records[ordered[2]][seed]["score"] + records[ordered[3]][seed]["score"]
+                           for seed in sorted(OPTIMIZATION_SEEDS)] if receipt_valid else []
                 per_unit: dict[str, list[float]] = {}
-                if all(tables):
-                    for seed in map(str, raw.get("seeds") or []):
-                        shared = set.intersection(*(set(table.get(seed, {})) for table in tables))
-                        for unit in shared:
+                if receipt_valid:
+                    for seed in sorted(OPTIMIZATION_SEEDS):
+                        for unit in records[ordered[0]][seed]["per_unit_accuracy"]:
                             per_unit.setdefault(unit, []).append(
-                                tables[0][seed][unit] - tables[1][seed][unit]
-                                - tables[2][seed][unit] + tables[3][seed][unit])
+                                records[ordered[0]][seed]["per_unit_accuracy"][unit]
+                                - records[ordered[1]][seed]["per_unit_accuracy"][unit]
+                                - records[ordered[2]][seed]["per_unit_accuracy"][unit]
+                                + records[ordered[3]][seed]["per_unit_accuracy"][unit])
                 units = [mean(values) for values in per_unit.values()]
                 seed_summary, group_summary = summarize(effects), summarize(units)
-                ok = (raw.get("seeds") == [0, 1, 2]
+                plateau = {tier: _plateau({int(k): v for k, v in doc.get("curve", {}).items()
+                                           if int(k) in set(map(int, doc.get("regular_grid") or []))})
+                           for tier, doc in docs.items()}
+                converged = all(row["classification"] == "converged" for row in plateau.values())
+                scientific_verdict = ("invalid_receipt" if not receipt_valid else
+                                      "provisional_unconverged" if not converged else
+                                      "positive_seed_only_group_floor_not_met"
+                                      if seed_summary["verdict"] == "positive"
+                                      and group_summary["lower_95_cb"] < io.SESOI
+                                      else seed_summary["verdict"])
+                match = small.get("compute_match") or {}
+                large_records = list(records.get("large_same_update", {}).values())
+                small_records = list(records.get("small_same_compute", {}).values())
+                computed_large = {int(r["trainable_param_count"]) * int(r["updates"])
+                                  for r in large_records}
+                computed_small = {int(r["trainable_param_count"]) * int(r["updates"])
+                                  for r in small_records}
+                exposure_match = (len(computed_large) == len(computed_small) == 1
+                                  and abs(next(iter(computed_large)) - next(iter(computed_small)))
+                                  / next(iter(computed_large)) <= 0.0001)
+                exposure_by_arm = {name: sum(float(row["parameter_update_exposure"])
+                                             for row in records.get(name, {}).values()) for name in ordered}
+                exposure_denominator = sum(exposure_by_arm.values())
+                adjusted = (seed_summary["mean"] * 1_000_000_000 / exposure_denominator
+                            if exposure_denominator else None)
+                component_floor = ("passes" if receipt_valid and converged
+                                   and seed_summary["verdict"] == "positive"
+                                   and group_summary["lower_95_cb"] >= io.SESOI
+                                   else "provisional_or_below_floor")
+                roles = {**(large.get("four_contrast_roles") or {}),
+                         **(small.get("four_contrast_roles") or {})}
+                ok = (large.get("seeds") == small.get("seeds") == [0, 1, 2]
+                      and large.get("spec", {}).get("family") == small.get("spec", {}).get("family") == "gru"
+                      and large.get("spec", {}).get("tier") == "large"
+                      and small.get("spec", {}).get("tier") == "small"
+                      and set(roles) == {"large_model_at_same_update_count",
+                                         "large_model_at_strict_selected_convergence",
+                                         "small_model_at_same_compute",
+                                         "small_model_at_strict_selected_convergence"}
+                      and receipt_valid and exposure_match
+                      and _close(match.get("relative_parameter_update_error"),
+                                 abs(next(iter(computed_large)) - next(iter(computed_small)))
+                                 / next(iter(computed_large)))
+                      and all(plateau[tier]["classification"] == docs[tier].get("classification")
+                              and plateau[tier]["selected_checkpoint"] == docs[tier].get(
+                                  "selected_checkpoint") for tier in docs)
                       and expected.get("estimand") == "difference_in_differences"
                       and expected.get("formula_signs") == [1, -1, -1, 1]
-                      and seed_summary["verdict"] == expected.get("verdict")
+                      and seed_summary["verdict"] == expected.get("raw_statistical_verdict")
+                      and scientific_verdict == expected.get("verdict")
                       and _close(seed_summary["mean"], expected.get("mean"))
                       and _close(seed_summary["lower_95_cb"], expected.get("lower_95_cb"))
                       and _close(group_summary["mean"], expected.get("group_mean"))
                       and _close(group_summary["lower_95_cb"], expected.get("group_lower_95_cb"))
                       and _close(group_summary["upper_95_cb"], expected.get("group_upper_95_cb"))
-                      and _close(group_summary["heterogeneity"], expected.get("group_heterogeneity")))
+                      and _close(group_summary["heterogeneity"], expected.get("group_heterogeneity"))
+                      and exposure_by_arm == expected.get("parameter_update_exposure_by_arm")
+                      and _close(exposure_denominator, expected.get(
+                          "parameter_update_exposure_denominator"))
+                      and _close(adjusted, expected.get(
+                          "raw_cost_adjusted_effect_per_billion_parameter_updates"))
+                      and ((converged and _close(adjusted, expected.get(
+                          "cost_adjusted_effect_per_billion_parameter_updates")))
+                           or (not converged and expected.get(
+                               "cost_adjusted_effect_per_billion_parameter_updates") is None))
+                      and expected.get("receipts_valid") is True
+                      and all((expected.get("receipt_checks") or {}).values())
+                      and component_floor == expected.get("component_floor_status"))
+                recomputed[f"optimization:{bed}"] = {"seed": seed_summary, "group": group_summary,
+                                                       "plateau": plateau,
+                                                       "scientific_verdict": scientific_verdict}
             else:
-                ok = expected.get("mean") is None and not raw
+                ok = expected.get("mean") is None and not docs
             checks[f"interaction:optimization_by_capacity:{bed}"] = ok
             if not ok:
                 mismatches.append({"bed": bed, "contrast": "optimization_by_capacity",
                                    "sealed": expected, "recomputed": None})
+
+    independent_keys = _independent_result_keys(sealed, recomputed)
+    checks["derived:observed_result_keys"] = sorted(independent_keys) == sorted(
+        sealed.get("observed_result_keys") or [])
+    independent_fold = H.apply(independent_keys)
+    sealed_fold = sealed.get("hypothesis_fold") or {}
+    checks["derived:hypothesis_fold_identity"] = (
+        independent_fold.get("observed_results") == sealed_fold.get("observed_results")
+        and independent_fold.get("hypotheses") == sealed_fold.get("hypotheses")
+        and not independent_fold.get("unknown_result_keys"))
+    recomputed["derived_result_keys"] = independent_keys
 
     prior_verification = io.load("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") if io.exists(
         "MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else {}
@@ -678,12 +1150,8 @@ def role_c() -> dict:
             units = [mean(v) for v in unit_values.values()]
             seed_summary, group_summary = summarize(effects), summarize(units)
             inverse_group = summarize([-v for v in units])
-            mine = {"mean": seed_summary["mean"], "lower_95_cb": seed_summary["lower_95_cb"],
-                    "upper_95_cb": seed_summary["upper_95_cb"], "verdict": seed_summary["verdict"],
-                    "group_mean": group_summary["mean"],
-                    "group_lower_95_cb": group_summary["lower_95_cb"],
-                    "group_upper_95_cb": group_summary["upper_95_cb"],
-                    "group_heterogeneity": group_summary["heterogeneity"]}
+            unit_means = {unit: mean(values) for unit, values in unit_values.items()}
+            mine = _summary_effect(effects, unit_means)
             sealed_effect = expected["shared_minus_domain_local"]
             inverse = verdict([-v for v in effects])
             classification = ("shared_component_supported" if seed_summary["verdict"] == "positive"
@@ -692,11 +1160,26 @@ def role_c() -> dict:
                               and inverse_group["lower_95_cb"] >= io.SESOI
                               else "shared_and_domain_local_inconclusive")
             e3_classes.append(classification)
-            mine["per_seed_effects"] = [round(v, 5) for v in effects]
-            ok = (len(rows) == len(expected_seeds) and _effect_matches(mine, sealed_effect,
-                                                                       require_group=False)
+            parameter_update_cost = int(round(mean([
+                int(row["source_training"].get("trainable_param_count", 0))
+                * int(row["source_training"].get("updates", 0))
+                + 2 * int(row["target_training_match"].get("parameter_exposure_per_arm", 0))
+                for row in rows])))
+            adjusted = (mine["mean"] * 1_000_000 / parameter_update_cost
+                        if parameter_update_cost else None)
+            floor_status = {"name": "source_retention", "per_seed": floors,
+                            "all_pass": all(floors), "margin": io.SESOI}
+            ok = (len(rows) == len(expected_seeds) and _effect_matches(mine, sealed_effect)
                   and _close(inverse_group["lower_95_cb"],
                              sealed_effect.get("inverse_group_lower_95_cb"))
+                  and (sealed_effect.get("cost_denominator") or {}).get(
+                      "parameter_update_exposure") == parameter_update_cost
+                  and _close(adjusted, sealed_effect.get(
+                      "cost_adjusted_effect_per_million_parameter_updates"))
+                  and floor_status == sealed_effect.get("component_floor_status")
+                  and sealed_effect.get("bed_specific_effects") == {
+                      target: {"mean": round(mean(effects), 5),
+                               "per_seed_effects": [round(v, 5) for v in effects]}}
                   and classification == expected.get("classification"))
             checks[f"E3:{direction}:shared_vs_local"] = ok
             checks[f"E3:{direction}:metrics_reconstructed"] = bool(metric_checks) and all(metric_checks)
@@ -755,6 +1238,26 @@ def role_c() -> dict:
         order_units = [mean(v) for v in order_values.values()]
         pooled_units = [mean(v) for v in pooled_values.values()]
         future, future_group = summarize(gains), summarize(units)
+        future_mine = _summary_effect(gains, {u: mean(v) for u, v in unit_values.items()})
+        return_mine = _summary_effect(returns, {u: mean(v) for u, v in {
+            unit: [row["return_after_recovery"]["per_unit_accuracy"][unit]
+                   - row["return_before_recovery"]["per_unit_accuracy"][unit]
+                   for row in rows if unit in row["return_after_recovery"]["per_unit_accuracy"]
+                   and unit in row["return_before_recovery"]["per_unit_accuracy"]]
+            for unit in set().union(*(set(row["return_after_recovery"]["per_unit_accuracy"])
+                                     & set(row["return_before_recovery"]["per_unit_accuracy"])
+                                     for row in rows))}.items() if v})
+        order_mine = _summary_effect(order_seed_effects, {u: mean(v) for u, v in order_values.items()})
+        pooled_seed_effects = []
+        for row in rows:
+            witness = row["temporal_order_permutation"]
+            ordered = witness.get("pooled_ordered_accuracy")
+            permuted = witness.get("pooled_permuted_accuracy")
+            if ordered is None or permuted is None:
+                ordered = mean(list(witness["pooled_ordered_per_unit_accuracy"].values()))
+                permuted = mean(list(witness["pooled_permuted_per_unit_accuracy"].values()))
+            pooled_seed_effects.append(float(ordered) - float(permuted))
+        pooled_mine = _summary_effect(pooled_seed_effects, {u: mean(v) for u, v in pooled_values.items()})
         checks["HARTH-preflight:seed_count"] = {r.get("seed") for r in rows} == set(expected_seeds)
         checks["HARTH-preflight:future_gain"] = (
             _close(future["mean"], expected["future_adaptation"]["mean"])
@@ -783,6 +1286,43 @@ def role_c() -> dict:
                                    and order_group["lower_95_cb"] >= io.SESOI)
         pooled_equivalent = (pooled_group["lower_95_cb"] >= -io.EQUIVALENCE_MARGIN
                              and pooled_group["upper_95_cb"] <= io.EQUIVALENCE_MARGIN)
+        future_floors = [row["after_B_adaptation"]["A"]["accuracy"]
+                         >= row["before_adaptation"]["A"]["accuracy"] - io.SESOI for row in rows]
+        return_floors = [row["return_after_recovery"]["accuracy"]
+                         >= row["before_adaptation"]["A"]["accuracy"] - io.SESOI for row in rows]
+
+        def third_contract(mine, sealed_effect, receipt_key, floor_status):
+            exposure = int(round(mean([int(row["receipts"][receipt_key].get(
+                "trainable_param_count", 0)) * int(row["receipts"][receipt_key].get("updates", 0))
+                                       for row in rows])))
+            adjusted = mine["mean"] * 1_000_000 / exposure if exposure else None
+            return (_effect_matches(mine, sealed_effect)
+                    and (sealed_effect.get("cost_denominator") or {}).get(
+                        "parameter_update_exposure") == exposure
+                    and _close(adjusted, sealed_effect.get(
+                        "cost_adjusted_effect_per_million_parameter_updates"))
+                    and sealed_effect.get("component_floor_status") == floor_status
+                    and sealed_effect.get("bed_specific_effects") == {
+                        "harth_stream": {"mean": mine["mean"],
+                                         "per_seed_effects": mine["per_seed_effects"]}})
+
+        checks["HARTH-preflight:future_full_effect_contract"] = third_contract(
+            future_mine, expected["future_adaptation"], "adapt_B",
+            {"name": "A_context_retention_during_B_adaptation", "per_seed": future_floors,
+             "all_pass": all(future_floors), "margin": io.SESOI})
+        checks["HARTH-preflight:return_full_effect_contract"] = third_contract(
+            return_mine, expected["returning_context"], "recover_A_readout",
+            {"name": "return_to_A_accuracy", "per_seed": return_floors,
+             "all_pass": all(return_floors), "margin": io.SESOI})
+        order_floor = {"name": "pooled_reader_order_invariance_control", "per_seed": [],
+                       "all_pass": pooled_equivalent, "margin": io.EQUIVALENCE_MARGIN}
+        checks["HARTH-preflight:order_full_effect_contract"] = third_contract(
+            order_mine, expected["temporal_order_permutation"], "pretrain", order_floor)
+        pooled_floor = {"name": "order_invariance_equivalence", "per_seed": [],
+                        "all_pass": pooled_equivalent, "margin": io.EQUIVALENCE_MARGIN}
+        checks["HARTH-preflight:pooled_full_effect_contract"] = third_contract(
+            pooled_mine, expected["temporal_order_permutation"]["pooled_control_effect"],
+            "pooled_control_pretrain", pooled_floor)
         checks["HARTH-preflight:order_equivalence_classifications"] = (
             temporal_order_required == bool(expected["checks"].get("temporal_order_required"))
             and pooled_equivalent == bool(expected["checks"].get("pooled_reader_order_invariant")))
@@ -832,22 +1372,34 @@ def role_c() -> dict:
             gain_seed, noise_seed = summarize(gain), summarize(noise)
             gain_group, noise_group = summarize([mean(v) for v in gain_units.values()]), summarize(
                 [mean(v) for v in noise_units.values()])
-            gain_mine = {"mean": gain_seed["mean"], "lower_95_cb": gain_seed["lower_95_cb"],
-                         "upper_95_cb": gain_seed["upper_95_cb"], "verdict": gain_seed["verdict"],
-                         "group_mean": gain_group["mean"],
-                         "group_lower_95_cb": gain_group["lower_95_cb"],
-                         "group_upper_95_cb": gain_group["upper_95_cb"],
-                         "group_heterogeneity": gain_group["heterogeneity"]}
-            noise_mine = {"mean": noise_seed["mean"], "lower_95_cb": noise_seed["lower_95_cb"],
-                          "upper_95_cb": noise_seed["upper_95_cb"], "verdict": noise_seed["verdict"],
-                          "group_mean": noise_group["mean"],
-                          "group_lower_95_cb": noise_group["lower_95_cb"],
-                          "group_upper_95_cb": noise_group["upper_95_cb"],
-                          "group_heterogeneity": noise_group["heterogeneity"]}
-            checks[f"hybrid:{bedname}:hybrid_vs_head"] = len(rows) == len(expected_seeds) and _effect_matches(
-                gain_mine, expected["hybrid_minus_head"], require_group=False)
-            checks[f"hybrid:{bedname}:hybrid_vs_noise"] = len(rows) == len(expected_seeds) and _effect_matches(
-                noise_mine, expected["hybrid_minus_head_noise"], require_group=False)
+            gain_mine = _summary_effect(gain, {u: mean(v) for u, v in gain_units.items()})
+            noise_mine = _summary_effect(noise, {u: mean(v) for u, v in noise_units.items()})
+            floors = [r["arms"]["head_plus_state"]["return_retention_A"]["accuracy"]
+                      >= r["before_adaptation"]["A"]["accuracy"] - io.SESOI for r in rows]
+            floor_status = {"name": "return_retention_A", "per_seed": floors,
+                            "all_pass": all(floors), "margin": io.SESOI}
+
+            def successor_contract(expected_effect, mine, left, right):
+                exposure = int(round(mean([
+                    int(r["arms"][left]["trace"].get("parameter_update_exposure", 0))
+                    + int(r["arms"][right]["trace"].get("parameter_update_exposure", 0)) for r in rows])))
+                adjusted = mine["mean"] * 1_000_000 / exposure if exposure else None
+                return (_effect_matches(mine, expected_effect)
+                        and (expected_effect.get("cost_denominator") or {}).get(
+                            "parameter_update_exposure") == exposure
+                        and _close(adjusted, expected_effect.get(
+                            "cost_adjusted_effect_per_million_parameter_updates"))
+                        and expected_effect.get("component_floor_status") == floor_status
+                        and expected_effect.get("bed_specific_effects") == {
+                            bedname: {"mean": mine["mean"],
+                                      "per_seed_effects": mine["per_seed_effects"]}})
+
+            checks[f"hybrid:{bedname}:hybrid_vs_head"] = len(rows) == len(expected_seeds) \
+                and successor_contract(expected["hybrid_minus_head"], gain_mine,
+                                       "head_plus_state", "head_only")
+            checks[f"hybrid:{bedname}:hybrid_vs_noise"] = len(rows) == len(expected_seeds) \
+                and successor_contract(expected["hybrid_minus_head_noise"], noise_mine,
+                                       "head_plus_state", "head_plus_state_noise")
             checks[f"hybrid:{bedname}:metrics_reconstructed"] = bool(metric_checks) and all(metric_checks)
             checks[f"hybrid:{bedname}:split_identity"] = bool(split_checks) and all(split_checks)
             shifts = [r["before_adaptation"]["A"]["accuracy"]
@@ -856,8 +1408,6 @@ def role_c() -> dict:
                      - r["before_adaptation"]["A"]["accuracy"] for r in rows]
             acquisitions = [r["arms"]["head_plus_state"]["future_acquisition_B"]["accuracy"]
                             - r["before_adaptation"]["B"]["accuracy"] for r in rows]
-            floors = [r["arms"]["head_plus_state"]["return_retention_A"]["accuracy"]
-                      >= r["before_adaptation"]["A"]["accuracy"] - io.SESOI for r in rows]
             supported = (gain_seed["verdict"] == noise_seed["verdict"] == "positive"
                          and gain_group["lower_95_cb"] >= io.SESOI
                          and noise_group["lower_95_cb"] >= io.SESOI and all(floors)

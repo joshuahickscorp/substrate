@@ -12,6 +12,7 @@ from mop.temporal import io
 STORE = io.ROOT / "integrated" / "evidence_store"
 INHERITED = io.ROOT / "integrated" / "MOP_EVIDENCE_FABRIC.json"
 METHOD = io.ROOT / "proof" / "method" / "mop-experimental-method-reformation-v1" / "MOP_METHOD_EVIDENCE_FABRIC.json"
+FABRIC_NAME = "MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json"
 
 
 def sha_bytes(b: bytes) -> str:
@@ -34,6 +35,19 @@ def _run_json_paths() -> list[Path]:
             and ".partial." not in p.name and not p.name.endswith(".partial.json")]
 
 
+def _atomic_partial(path: Path) -> bool:
+    return path.name.startswith(".") and ".partial." in path.name
+
+
+def _proof_paths() -> list[Path]:
+    """Return every proof byte except this manifest and atomic writer temporaries."""
+    if not io.PROOF.is_dir():
+        return []
+    fabric = (io.PROOF / FABRIC_NAME).resolve()
+    return [p for p in sorted(io.PROOF.rglob("*"))
+            if p.is_file() and p.resolve() != fabric and not _atomic_partial(p)]
+
+
 def _contains_null(value) -> bool:
     if value is None:
         return True
@@ -52,6 +66,10 @@ def _json_binding(payload: bytes, receipt: bool) -> dict:
         return {"json_parse_valid": False, "hash_version": None,
                 "canonical_hash_valid": False, "legacy_whole_file_sha256": None,
                 "contains_null_evidence": False}
+    if not isinstance(doc, dict):
+        return {"json_parse_valid": False, "hash_version": None,
+                "canonical_hash_valid": False, "legacy_whole_file_sha256": None,
+                "contains_null_evidence": _contains_null(doc)}
     version_key = "result_hash_version" if receipt else "sha256_version"
     hash_key = "result_sha256" if receipt else "sha256"
     version = doc.get(version_key) if isinstance(doc, dict) else None
@@ -74,13 +92,44 @@ def _manifest_valid(artifacts: list[dict], expected_ids: set[str], expected_root
             and merkle(hashes) == expected_root)
 
 
+def _object(path: Path) -> dict | None:
+    try:
+        doc = json.loads(path.read_text())
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return None
+    return doc if isinstance(doc, dict) else None
+
+
+def _inherited_binding(path: Path) -> dict:
+    doc = _object(path)
+    union = doc.get("union") if isinstance(doc, dict) and isinstance(doc.get("union"), dict) else {}
+    artifacts = doc.get("artifacts") if isinstance(doc, dict) else None
+    artifact_manifest_valid = None
+    if isinstance(artifacts, list):
+        hashes = [a.get("content_hash") for a in artifacts if isinstance(a, dict)]
+        artifact_manifest_valid = (len(hashes) == len(artifacts) == union.get("count")
+                                   and all(isinstance(h, str) and len(h) == 64 for h in hashes)
+                                   and merkle(hashes) == union.get("merkle_root"))
+    return {
+        "path": path.relative_to(io.ROOT).as_posix() if path.is_relative_to(io.ROOT) else str(path),
+        "whole_file_sha256": sha_bytes(path.read_bytes()) if path.is_file() else None,
+        "count": union.get("count"),
+        "merkle_root": union.get("merkle_root"),
+        "embedded_sha256": doc.get("sha256") if isinstance(doc, dict) else None,
+        "embedded_sha256_valid": (doc.get("sha256") == io.sha_obj(
+            {k: v for k, v in doc.items() if k != "sha256"}))
+        if isinstance(doc, dict) and isinstance(doc.get("sha256"), str) else None,
+        "artifact_manifest_valid": artifact_manifest_valid,
+    }
+
+
 def main():
     t0 = time.time()
     STORE.mkdir(parents=True, exist_ok=True)
-    proof_paths = [p for p in sorted(io.PROOF.rglob("*")) if p.is_file()
-                   and not p.name.endswith("_EVIDENCE_FABRIC.json")]
+    proof_paths = _proof_paths()
     sources = [(p, "temporal_core_proof") for p in proof_paths]
-    sources += [(p, "temporal_core_raw_receipt") for p in _run_json_paths()]
+    sources += [(p, "temporal_core_quarantined_receipt" if "quarantine" in p.relative_to(io.RUNS).parts
+                 else "temporal_core_raw_receipt") for p in _run_json_paths()]
     artifacts, uniq, dup = [], {}, 0
     for p, evidence_set in sources:
         rel = p.relative_to(io.ROOT).as_posix()
@@ -93,7 +142,8 @@ def main():
         store_path = STORE / ch
         if not store_path.is_file() or sha_bytes(store_path.read_bytes()) != ch:
             store_path.write_bytes(payload)
-        binding = _json_binding(payload, evidence_set == "temporal_core_raw_receipt") if p.suffix == ".json" else {
+        binding = _json_binding(payload, evidence_set in (
+            "temporal_core_raw_receipt", "temporal_core_quarantined_receipt")) if p.suffix == ".json" else {
             "json_parse_valid": None, "hash_version": None, "canonical_hash_valid": None,
             "legacy_whole_file_sha256": None, "contains_null_evidence": False}
         artifacts.append({"logical_id": rel, "original_path": rel,
@@ -103,11 +153,17 @@ def main():
                           **binding})
 
     expected_ids = {p.relative_to(io.ROOT).as_posix() for p, _ in sources}
-    raw_ids = {p.relative_to(io.ROOT).as_posix() for p in _run_json_paths()}
+    raw_ids = {p.relative_to(io.ROOT).as_posix() for p in _run_json_paths()
+               if "quarantine" not in p.relative_to(io.RUNS).parts}
+    quarantine_ids = {p.relative_to(io.ROOT).as_posix() for p in _run_json_paths()
+                      if "quarantine" in p.relative_to(io.RUNS).parts}
     indexed_raw = {a["logical_id"] for a in artifacts if a["set"] == "temporal_core_raw_receipt"}
+    indexed_quarantine = {a["logical_id"] for a in artifacts
+                          if a["set"] == "temporal_core_quarantined_receipt"}
     source_null_ids = {p.relative_to(io.ROOT).as_posix() for p, evidence_set in sources
                        if p.suffix == ".json" and _json_binding(
-                           p.read_bytes(), evidence_set == "temporal_core_raw_receipt"
+                           p.read_bytes(), evidence_set in (
+                               "temporal_core_raw_receipt", "temporal_core_quarantined_receipt")
                        )["contains_null_evidence"]}
     indexed_null_ids = {a["logical_id"] for a in artifacts if a["is_null"]}
     checks = {"exact_byte_recovery": all(
@@ -119,6 +175,7 @@ def main():
     checks["no_hidden_unindexed_proof"] = len(proof_paths) == sum(
         a["set"] == "temporal_core_proof" for a in artifacts)
     checks["no_hidden_unindexed_receipts"] = raw_ids == indexed_raw
+    checks["quarantined_receipts_indexed_but_excluded_from_claims"] = quarantine_ids == indexed_quarantine
     checks["no_duplicate_identity"] = len(expected_ids) == len(artifacts)
     checks["all_json_parse_valid"] = all(a["json_parse_valid"] is not False for a in artifacts)
     checks["canonical_hashes_valid"] = all(
@@ -127,7 +184,27 @@ def main():
         a["legacy_whole_file_sha256"] == a["content_hash"] for a in artifacts
         if a["json_parse_valid"] and a["hash_version"] is None)
     checks["nulls_indexed"] = source_null_ids == indexed_null_ids
-    checks["inherited_fabrics_untouched"] = INHERITED.is_file() and METHOD.is_file()
+    inherited_binding = _inherited_binding(INHERITED)
+    method_binding = _inherited_binding(METHOD)
+    inherited_doc, method_doc = _object(INHERITED), _object(METHOD)
+    binding_results = _object(io.PROOF / "MOP_TEMPORAL_CORE_BINDING_RESULTS.json")
+    method_integrated = ((method_doc or {}).get("extends") or {}).get("integrated") or {}
+    root_chain = {
+        "method_extends_integrated_applicable": bool(method_integrated),
+        "method_extends_integrated_verified": not method_integrated or (
+            method_integrated.get("count") == inherited_binding["count"]
+            and method_integrated.get("merkle_root") == inherited_binding["merkle_root"]),
+        "binding_results_method_root_applicable": binding_results is not None,
+        "binding_results_method_root_verified": binding_results is None or
+        binding_results.get("evidence_fabric_root") == method_binding["merkle_root"],
+    }
+    checks["inherited_fabrics_untouched"] = inherited_doc is not None and method_doc is not None
+    checks["inherited_fabric_embedded_hashes_valid"] = all(
+        b["embedded_sha256_valid"] is not False for b in (inherited_binding, method_binding))
+    checks["inherited_fabric_artifact_roots_valid"] = all(
+        b["artifact_manifest_valid"] is not False for b in (inherited_binding, method_binding))
+    checks["inherited_fabric_root_chain_valid"] = all(
+        v for k, v in root_chain.items() if k.endswith("_verified"))
     checks["all_pass"] = all(checks.values())
 
     base = merkle([a["content_hash"] for a in artifacts])
@@ -146,17 +223,25 @@ def main():
         and not _manifest_valid(omitted_null, expected_ids, base),
         "omitted_null_mutation_applied": bool(null_ids),
     }
-    mut["all_rejected"] = all(mut.values())
-    inh = json.loads(INHERITED.read_text()) if INHERITED.is_file() else {"union": {"count": 0}}
-    met = json.loads(METHOD.read_text()) if METHOD.is_file() else {"union": {"count": 0}}
-    io.seal("MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json", {
+    mut["mutation_application"] = {
+        "mutated_proof": any(a["content_hash"] != b["content_hash"]
+                             for a, b in zip(artifacts, changed)),
+        "missing_proof": len(missing) < len(artifacts),
+        "duplicate_identity": len(duplicate) > len(artifacts),
+        "omitted_null_evidence": bool(null_ids) and len(omitted_null) < len(artifacts),
+    }
+    mut["all_rejected"] = (all(mut[k] for k in (
+        "mutated_proof_rejected", "missing_proof_rejected", "duplicate_identity_rejected",
+        "omitted_null_evidence_rejected")) and all(mut["mutation_application"].values()))
+    io.seal(FABRIC_NAME, {
         "schema": "mop-evidence-fabric/v2-temporal-core", "pack": "temporal-core-v1",
-        "extends": {"integrated": inh["union"]["count"], "method": met["union"]["count"],
-                    "method_root": met["union"].get("merkle_root")},
+        "extends": {"integrated": inherited_binding, "method": method_binding,
+                    "root_chain": root_chain},
         "artifacts": artifacts,
         "union": {"count": len(artifacts), "unique_objects": len(uniq), "unique_bytes": sum(uniq.values()),
                   "duplicate_bytes_eliminated": dup, "merkle_root": base,
-                  "proof_count": len(proof_paths), "raw_receipt_count": len(raw_ids)},
+                  "proof_count": len(proof_paths), "raw_receipt_count": len(raw_ids),
+                  "quarantined_receipt_count": len(quarantine_ids)},
         "verification": checks, "mutations": mut,
         "content_store": "integrated/evidence_store, shared with the inherited fabric, additive only",
         "wall_seconds": round(time.time() - t0, 1)})

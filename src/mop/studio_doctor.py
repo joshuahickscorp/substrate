@@ -54,7 +54,7 @@ def _check_package_import() -> tuple[bool, str]:
     if proc.returncode:
         error = (proc.stderr or proc.stdout).strip().splitlines()
         tail = error[-1] if error else f"exit {proc.returncode}"
-        return False, f"isolated import failed: {tail}; run `uv pip install -e .`"
+        return False, f"isolated cwd import failed without PYTHONPATH: {tail}; run `uv pip install -e .`"
     payload = json.loads(proc.stdout.strip())
     return True, f"mop {payload['version']} from {payload['module']} (isolated cwd, no PYTHONPATH)"
 

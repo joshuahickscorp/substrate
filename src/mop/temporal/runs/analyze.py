@@ -79,6 +79,10 @@ def independent_bed_difference(left: dict, right: dict, label: str) -> dict:
         verdict = "null_futile"
     else:
         verdict = "null"
+    component_parameters = int(left.get("component_parameter_sum") or 0) + int(
+        right.get("component_parameter_sum") or 0)
+    converged = all((d.get("convergence") or {}).get("all_converged") for d in (left, right))
+    group_floor = lower_unit >= io.SESOI
     return {"contrast": label, "estimand": "independent_bed_difference_in_differences",
             "mean": round(mean_seed, 5), "lower_95_cb": round(lower_seed, 5),
             "group_mean": round(mean_unit, 5), "group_lower_95_cb": round(lower_unit, 5),
@@ -87,6 +91,15 @@ def independent_bed_difference(left: dict, right: dict, label: str) -> dict:
                                                          np.var(unit_right, ddof=1)) / 2)), 5),
             "n_units": len(unit_left) + len(unit_right), "seed_welch_df": round(seed_df, 3),
             "group_welch_df": round(unit_df, 3), "verdict": verdict,
+            "component_convergence": {
+                "left": (left.get("convergence") or {}).get("classification"),
+                "right": (right.get("convergence") or {}).get("classification")},
+            "convergence": {"all_converged": converged,
+                            "classification": "converged" if converged else "provisional_unconverged"},
+            "component_parameter_sum": component_parameters,
+            "cost_adjusted_effect_per_100k_parameters": (
+                round(mean_seed * 100_000 / component_parameters, 5) if component_parameters else None),
+            "component_floor_status": "passes" if converged and group_floor else "provisional_or_below_floor",
             "left_per_seed_effects": seed_left, "right_per_seed_effects": seed_right,
             "left_per_unit_effects": left.get("per_unit_effects", {}),
             "right_per_unit_effects": right.get("per_unit_effects", {})}
@@ -102,50 +115,128 @@ def between_bed_interactions(per_bed: dict, group: str) -> dict:
 
 
 def optimization_interaction(bed: str) -> dict:
-    """Capacity by optimization DID from the append only per seed correction receipt."""
-    p = io.RUNS / "e2_converge_corrections" / f"convergence_{bed}.json"
-    if not p.is_file():
+    """Capacity by optimization DID from same-family strict curves and an exact compute match."""
+    paths = {tier: io.RUNS / "e2_optimization_corrections" /
+             f"optimization_{bed}_{tier}.json" for tier in ("large", "small")}
+    if not all(p.is_file() for p in paths.values()):
         return {"estimand": "optimization_by_capacity", "verdict": "missing_receipt", "mean": None}
-    large = json.loads(p.read_text())
-    small = large.get("optimization_control") or {}
-    low, high = min(e2.CONVERGENCE_GRID), max(e2.EXTENDED_CONVERGENCE_GRID)
+    large, small = (json.loads(paths[tier].read_text()) for tier in ("large", "small"))
+    budgets = {"large_same_update": int(large["same_update_anchor"]),
+               "large_convergence": int(large["selected_checkpoint"]),
+               "small_same_compute": int(small["compute_match"]["small_steps"]),
+               "small_convergence": int(small["selected_checkpoint"])}
+    arms = {"large_convergence": (large, budgets["large_convergence"],
+                                   "large_model_at_strict_selected_convergence"),
+            "large_same_update": (large, budgets["large_same_update"],
+                                  "large_model_at_same_update_count"),
+            "small_convergence": (small, budgets["small_convergence"],
+                                   "small_model_at_strict_selected_convergence"),
+            "small_same_compute": (small, budgets["small_same_compute"],
+                                    "small_model_at_same_compute")}
 
-    def at(doc, key, budget):
-        table = doc.get(key) or {}
+    def at(document, key, budget):
+        table = document.get(key) or {}
         return table.get(str(budget), table.get(budget))
 
-    vectors = [at(large, "seed_scores", high), at(large, "seed_scores", low),
-               at(small, "seed_scores", high), at(small, "seed_scores", low)]
-    if any(v is None for v in vectors):
-        return {"estimand": "optimization_by_capacity", "verdict": "missing_receipt", "mean": None,
-                "budgets": [low, high]}
-    n = min(map(len, vectors))
-    effects = [vectors[0][i] - vectors[1][i] - vectors[2][i] + vectors[3][i] for i in range(n)]
-    out = power.decide(effects, e2.PREREG)
+    records, checks = {}, {}
+    expected_seeds = set(e2.CONVERGENCE_SEEDS)
+    for name, (document, budget, role) in arms.items():
+        rows = at(document, "arm_records", budget) or []
+        seed_ids = [int(row.get("seed", -1)) for row in rows]
+        role_row = (document.get("four_contrast_roles") or {}).get(role) or {}
+        records[name] = {int(row["seed"]): row for row in rows if "seed" in row}
+        checks[f"{name}_exact_seed_identity"] = set(seed_ids) == expected_seeds \
+            and len(seed_ids) == len(set(seed_ids)) == len(expected_seeds)
+        checks[f"{name}_role_identity"] = role_row.get("budget") == budget \
+            and role_row.get("records") == rows
+        checks[f"{name}_parameter_exposure_identity"] = bool(rows) and all(
+            int(row.get("updates", -1)) == budget
+            and int(row.get("parameter_update_exposure", -1))
+            == int(row.get("trainable_param_count", 0)) * budget for row in rows)
+    checks["exact_role_inventory"] = (
+        set(large.get("four_contrast_roles") or {}) == {
+            "large_model_at_same_update_count", "large_model_at_strict_selected_convergence"}
+        and set(small.get("four_contrast_roles") or {}) == {
+            "small_model_at_same_compute", "small_model_at_strict_selected_convergence"})
+    checks["paired_specs_differ_only_by_tier"] = (
+        large.get("bed") == small.get("bed") == bed
+        and large.get("spec", {}).get("family") == small.get("spec", {}).get("family") == "gru"
+        and large.get("spec", {}).get("tier") == "large" and small.get("spec", {}).get("tier") == "small"
+        and {k: v for k, v in large.get("spec", {}).items() if k != "tier"}
+        == {k: v for k, v in small.get("spec", {}).items() if k != "tier"})
+    compute_errors = []
+    for seed in expected_seeds:
+        large_row = records.get("large_same_update", {}).get(seed, {})
+        small_row = records.get("small_same_compute", {}).get(seed, {})
+        large_exposure = float(large_row.get("parameter_update_exposure", 0))
+        small_exposure = float(small_row.get("parameter_update_exposure", 0))
+        compute_errors.append(abs(large_exposure - small_exposure) / large_exposure
+                              if large_exposure else float("inf"))
+    checks["actual_compute_match_within_tolerance"] = bool(compute_errors) and max(compute_errors) <= 0.0001
+    checks["producer_design_checks_pass"] = bool(large.get("all_checks_pass")) and bool(
+        small.get("all_checks_pass"))
+    for seed in expected_seeds:
+        inventories = [set(records.get(name, {}).get(seed, {}).get("per_unit_accuracy") or {})
+                       for name in arms]
+        checks[f"seed_{seed}_complete_identical_unit_inventory"] = (
+            all(inventories) and all(units == inventories[0] for units in inventories[1:]))
+    receipts_valid = all(checks.values())
+    components = ["large_convergence", "large_same_update", "small_convergence", "small_same_compute"]
+    if not receipts_valid:
+        return {"contrast": "optimization by capacity", "estimand": "difference_in_differences",
+                "formula_signs": [1, -1, -1, 1], "components": components, "budgets": budgets,
+                "verdict": "invalid_receipt", "mean": None, "receipt_checks": checks,
+                "classification": "invalid_receipt"}
+    effects = [records[components[0]][seed]["score"] - records[components[1]][seed]["score"]
+               - records[components[2]][seed]["score"] + records[components[3]][seed]["score"]
+               for seed in e2.CONVERGENCE_SEEDS]
     per_unit = {}
-    tables = [at(large, "per_unit_seed_scores", high), at(large, "per_unit_seed_scores", low),
-              at(small, "per_unit_seed_scores", high), at(small, "per_unit_seed_scores", low)]
-    if all(tables):
-        for seed in map(str, e2.CONVERGENCE_SEEDS):
-            shared = set.intersection(*(set(t.get(seed, {})) for t in tables))
-            for unit in shared:
-                per_unit.setdefault(unit, []).append(tables[0][seed][unit] - tables[1][seed][unit]
-                                                     - tables[2][seed][unit] + tables[3][seed][unit])
+    for seed in e2.CONVERGENCE_SEEDS:
+        units = set(records[components[0]][seed]["per_unit_accuracy"])
+        for unit in units:
+            per_unit.setdefault(unit, []).append(
+                records[components[0]][seed]["per_unit_accuracy"][unit]
+                - records[components[1]][seed]["per_unit_accuracy"][unit]
+                - records[components[2]][seed]["per_unit_accuracy"][unit]
+                + records[components[3]][seed]["per_unit_accuracy"][unit])
     units = {unit: float(np.mean(values)) for unit, values in per_unit.items()}
     unit_values = list(units.values())
-    out.update({"contrast": "(large long minus common) minus (small long minus common)",
+    out = power.decide(effects, e2.PREREG)
+    out["upper_95_cb"] = round(-power.lcb([-x for x in effects]), 5)
+    raw_verdict = out["verdict"]
+    group_lcb = round(power.lcb(unit_values), 5) if len(unit_values) > 1 else None
+    group_ucb = round(-power.lcb([-x for x in unit_values]), 5) if len(unit_values) > 1 else None
+    both_converged = large.get("classification") == small.get("classification") == "converged"
+    scientific_verdict = ("provisional_unconverged" if not both_converged else
+                          "positive_seed_only_group_floor_not_met" if raw_verdict == "positive"
+                          and (group_lcb is None or group_lcb < io.SESOI) else raw_verdict)
+    exposure_by_arm = {name: sum(float(row["parameter_update_exposure"])
+                                 for row in records[name].values()) for name in components}
+    exposure_denominator = sum(exposure_by_arm.values())
+    raw_adjusted = (round(float(out["mean"]) * 1_000_000_000 / exposure_denominator, 5)
+                    if exposure_denominator else None)
+    out.update({"contrast": "(large convergence minus same update) minus (small convergence minus same compute)",
                 "estimand": "difference_in_differences", "formula_signs": [1, -1, -1, 1],
-                "components": [f"large@{high}", f"large@{low}", f"small@{high}", f"small@{low}"],
-                "budgets": [low, high], "per_seed_effects": [round(x, 5) for x in effects],
+                "components": components, "budgets": budgets, "compute_match": small["compute_match"],
+                "receipt_checks": checks, "receipts_valid": receipts_valid,
+                "per_seed_effects": [round(x, 5) for x in effects],
                 "per_unit_effects": {k: round(v, 5) for k, v in units.items()},
                 "group_mean": round(float(np.mean(unit_values)), 5) if unit_values else None,
-                "group_lower_95_cb": round(power.lcb(unit_values), 5) if len(unit_values) > 1 else None,
-                "group_upper_95_cb": round(-power.lcb([-x for x in unit_values]), 5)
-                if len(unit_values) > 1 else None,
+                "group_lower_95_cb": group_lcb, "group_upper_95_cb": group_ucb,
                 "group_heterogeneity": round(float(np.std(unit_values, ddof=1)), 5)
                 if len(unit_values) > 1 else None, "n_units": len(unit_values),
-                "classification": ("converged" if large.get("classification") in ("converged", "unconverged")
-                                   else "provisional_unmeasured")})
+                "raw_statistical_verdict": raw_verdict, "verdict": scientific_verdict,
+                "classification": "converged" if both_converged else "provisional_unconverged",
+                "component_convergence": {"large": large.get("classification"),
+                                          "small": small.get("classification")},
+                "parameter_update_exposure_by_arm": exposure_by_arm,
+                "parameter_update_exposure_denominator": exposure_denominator,
+                "raw_cost_adjusted_effect_per_billion_parameter_updates": raw_adjusted,
+                "cost_adjusted_effect_per_billion_parameter_updates": raw_adjusted if both_converged else None,
+                "cost_adjusted_status": "scientific" if both_converged else "provisional_unconverged",
+                "component_floor_status": ("passes" if both_converged and raw_verdict == "positive"
+                                           and group_lcb is not None and group_lcb >= io.SESOI
+                                           else "provisional_or_below_floor")})
     return out
 
 
@@ -209,6 +300,7 @@ def analyse_bed(bed: str) -> dict:
                                    else "provisional_unconverged_or_unmeasured"),
             }
             totals = [params.get(c, {}).get("total", 0) for c in cells]
+            effect["component_parameter_sum"] = sum(totals)
             effect["cost_adjusted_effect_per_100k_parameters"] = (
                 round(float(effect["mean"]) * 100_000 / max(1, sum(totals)), 5)
                 if effect.get("mean") is not None else None)
@@ -272,12 +364,32 @@ def per_factor_reports(per_bed: dict) -> dict:
 
     def gather(group: str) -> dict:
         return {b: {k: {kk: v.get(kk) for kk in (
-                    "mean", "lower_95_cb", "group_mean", "group_lower_95_cb", "group_upper_95_cb",
+                    "mean", "lower_95_cb", "upper_95_cb", "group_mean", "group_lower_95_cb", "group_upper_95_cb",
                     "group_heterogeneity", "per_seed_effects", "per_unit_effects", "components",
-                    "formula_signs", "estimand", "verdict",
+                    "formula_signs", "estimand", "verdict", "estimator_sufficient",
+                    "component_parameter_sum",
                     "cost_adjusted_effect_per_100k_parameters", "component_floor_status", "convergence")}
                     for k, v in a["effects"][group].items()}
                 for b, a in per_bed.items() if a.get("status") != "no_runs"}
+
+    def optimization_arms(bed: str) -> dict:
+        docs = {}
+        for tier in ("large", "small"):
+            p = io.RUNS / "e2_optimization_corrections" / f"optimization_{bed}_{tier}.json"
+            docs[tier] = json.loads(p.read_text()) if p.is_file() else {}
+        if not all(docs.values()):
+            return {"status": "missing_append_only_optimization_corrections"}
+        large, small = docs["large"], docs["small"]
+        return {
+            "large_model_at_same_update_count": large["four_contrast_roles"][
+                "large_model_at_same_update_count"],
+            "large_model_at_convergence": large["four_contrast_roles"][
+                "large_model_at_strict_selected_convergence"],
+            "small_model_at_same_compute": small["four_contrast_roles"]["small_model_at_same_compute"],
+            "small_model_at_convergence": small["four_contrast_roles"][
+                "small_model_at_strict_selected_convergence"],
+            "compute_match": small["compute_match"], "same_family": "gru",
+            "capacity_levels": ["small", "large"]}
 
     out["MOP_CORE_ARCHITECTURE_REPORT.json"] = {
         "schema": "mop-core-architecture-report/v1",
@@ -339,16 +451,7 @@ def per_factor_reports(per_bed: dict) -> dict:
         "grid": list(e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID),
         "per_bed": {b: a["convergence"] for b, a in per_bed.items() if a.get("status") != "no_runs"},
         "required_optimization_contrasts": {
-            b: {
-                "large_model_same_update_count": a["cell_means"].get(AN.name(tier="large")),
-                "small_model_same_update_count": a["cell_means"].get(AN.name()),
-                "large_model_at_convergence": a["convergence"]["configs"].get(
-                    AN.name(tier="large"), {}),
-                "small_model_at_convergence": a["convergence"]["configs"].get(AN.name(), {}),
-                "small_model_at_same_compute": a["convergence"]["configs"].get(AN.name(), {}).get("curve"),
-                "large_model_at_same_compute": a["convergence"]["configs"].get(
-                    AN.name(tier="large"), {}).get("curve"),
-            } for b, a in per_bed.items() if a.get("status") != "no_runs"},
+            b: optimization_arms(b) for b, a in per_bed.items() if a.get("status") != "no_runs"},
         "rule": ("an unconverged arm cannot determine a scientific classification, and the remedy is a "
                  "longer budget rather than a looser plateau rule"),
     }
@@ -404,58 +507,63 @@ def result_keys(per_bed: dict) -> list[str]:
     """Fold the measured effects into the preregistered result vocabulary. No new keys are invented here."""
     keys = []
     principal = {b: a for b, a in per_bed.items() if b in PRINCIPAL_BEDS and a.get("status") != "no_runs"}
-    if not principal:
+    if set(principal) != set(PRINCIPAL_BEDS):
         return keys
 
+    def sufficient(d: dict) -> bool:
+        return (d.get("mean") is not None and d.get("estimator_sufficient") is True
+                and (d.get("convergence") or {}).get("all_converged") is True
+                and all(d.get(field) is not None for field in (
+                    "lower_95_cb", "upper_95_cb", "group_lower_95_cb", "group_upper_95_cb")))
+
     def positive(d: dict) -> bool:
-        return (d.get("verdict") == "positive" and d.get("convergence", {}).get("all_converged")
-                and (d.get("group_lower_95_cb") or float("-inf")) >= io.SESOI)
+        return sufficient(d) and d.get("verdict") == "positive" \
+            and d["group_lower_95_cb"] >= io.SESOI
+
+    def equivalent(d: dict) -> bool:
+        return sufficient(d) and AN.equivalent(d)
 
     mh = [a["effects"]["recurrent_versus_matched_history"] for a in principal.values()]
     matched_full = [g.get("gru_vs_histmlp_kfull_window", {}) for g in mh]
     if all(positive(v) for v in matched_full):
         keys.append("recurrent_beats_matched_history")
-    if any(AN.equivalent(v) and v.get("convergence", {}).get("all_converged")
-           for v in matched_full if v.get("mean") is not None):
+    if all(equivalent(v) for v in matched_full):
         keys.append("matched_history_matches_recurrent")
-    capacity_ready = all(all(d.get("convergence", {}).get("all_converged")
-                             for d in a["effects"]["capacity"].values()) for a in principal.values())
-    if capacity_ready and all(a["findings"]["capacity_monotonic"] for a in principal.values()):
+    capacity_tables = [a["effects"]["capacity"] for a in principal.values()]
+    if all(a["findings"]["capacity_monotonic"] and positive(
+            a["effects"]["capacity"].get("gru_large_vs_small", {})) for a in principal.values()):
         keys.append("capacity_monotonic_and_large")
-    elif capacity_ready and not any(a["findings"]["capacity"] for a in principal.values()):
+    elif all(table and all(equivalent(d) for d in table.values()) for table in capacity_tables):
         keys.append("capacity_flat_or_saturating")
     horizon_gate = state_horizon_gate(per_bed)
-    horizon_ready = all(all(a["effects"]["horizon"].get(k, {}).get("convergence", {}).get("all_converged")
-                            for k in ("gru_h45_vs_full", "gru_h90_vs_full")) for a in principal.values())
+    horizon_effects = [[a["effects"]["horizon"].get(k, {}) for k in (
+        "gru_h45_vs_full", "gru_h90_vs_full")] for a in principal.values()]
+    horizon_ready = all(sufficient(d) for rows in horizon_effects for d in rows)
     if horizon_ready and horizon_gate["all_pass"] and all(
             a["findings"]["horizon_threshold"] is not None for a in principal.values()):
         keys.append("horizon_threshold_at_dependency_length")
-    elif horizon_ready and not any(a["findings"]["horizon"] for a in principal.values()) and all(
-            not v["all_pass"] for v in horizon_gate["per_bed"].values()):
+    elif horizon_ready and all(equivalent(d) for rows in horizon_effects for d in rows):
         keys.append("horizon_flat")
-    interaction_ready = all(all(d.get("convergence", {}).get("all_converged")
-                                for d in a["effects"]["capacity_by_horizon"].values())
-                            for a in principal.values())
-    if interaction_ready and all(a["findings"]["capacity_by_horizon_interaction"]
-                                 for a in principal.values()):
+    interaction_tables = [a["effects"]["capacity_by_horizon"] for a in principal.values()]
+    interaction_ready = all(table and all(sufficient(d) for d in table.values())
+                            for table in interaction_tables)
+    if interaction_ready and all(any(positive(d) for d in table.values()) for table in interaction_tables):
         keys.append("capacity_helps_only_at_long_horizon")
-    elif interaction_ready:
+    elif interaction_ready and all(all(equivalent(d) for d in table.values())
+                                   for table in interaction_tables):
         keys.append("capacity_and_horizon_independent")
-    fam = {}
-    for b, a in principal.items():
-        for r in A.RECURRENT:
-            for s in A.STATELESS:
-                v = a["effects"]["recurrence_versus_best_stateless"].get(f"{r}_vs_{s}", {})
-                if positive(v):
-                    fam.setdefault(r, set()).add(b)
-    if set(fam) >= {"gru", "lstm", "mgu"}:
+    family_pass = {r: all(positive(principal[b]["effects"]["recurrence_versus_best_stateless"].get(
+        f"{r}_vs_{s}", {})) for b in PRINCIPAL_BEDS for s in A.STATELESS) for r in A.RECURRENT}
+    family_ready = {r: all(sufficient(principal[b]["effects"]["recurrence_versus_best_stateless"].get(
+        f"{r}_vs_{s}", {})) for b in PRINCIPAL_BEDS for s in A.STATELESS) for r in A.RECURRENT}
+    if set(family_pass) == set(A.RECURRENT) and all(family_pass.values()):
         keys.append("all_recurrent_families_agree")
-    elif fam:
+    elif all(family_ready.values()) and any(family_pass.values()):
         keys.append("one_recurrent_family_dissents")
-    if all(a["convergence"].get("load_bearing_all_converged") for a in principal.values()):
+    optimization = {bed: optimization_interaction(bed) for bed in PRINCIPAL_BEDS}
+    optimization_ready = all(d.get("classification") == "converged" for d in optimization.values())
+    if optimization_ready and all(positive(v) for v in matched_full):
         keys.append("converged_everywhere_and_gap_remains")
-    else:
-        keys.append("unconverged_arms_explain_the_gap")
     third = per_bed.get("harth_stream")
     third_preflight = io.load("MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") if io.exists(
         "MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json") else {}
@@ -466,11 +574,11 @@ def result_keys(per_bed: dict) -> list[str]:
         keys.append("third_bed_agrees" if rec else "third_bed_dissents")
     else:
         keys.append("third_bed_invalid")
-    readout_ready = all(all(d.get("convergence", {}).get("all_converged")
-                            for d in a["effects"]["readout"].values()) for a in principal.values())
-    if readout_ready and any(a["findings"]["readout"] for a in principal.values()):
+    readout_tables = [a["effects"]["readout"] for a in principal.values()]
+    readout_ready = all(table and all(sufficient(d) for d in table.values()) for table in readout_tables)
+    if readout_ready and all(any(positive(d) for d in table.values()) for table in readout_tables):
         keys.append("readout_capacity_reproduces_the_effect")
-    elif readout_ready:
+    elif readout_ready and all(all(equivalent(d) for d in table.values()) for table in readout_tables):
         keys.append("readout_capacity_flat")
     return keys
 

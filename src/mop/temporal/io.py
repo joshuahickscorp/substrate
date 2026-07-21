@@ -18,7 +18,7 @@ PROGRAM = "mop-temporal-core-mechanism-v1"
 PROOF = ROOT / "proof" / "substrate" / PROGRAM
 RUNS = ROOT / "runs" / "substrate" / PROGRAM
 STOP = Path.home() / ".mop_temporal_core_mechanism_stop"
-DATA_ROOT = Path("/Users/scammermike/Downloads/mop-data")
+DATA_ROOT = Path(os.environ.get("MOP_TEMPORAL_DATA_ROOT", ROOT.parent / "mop-data"))
 SESOI = 0.05
 EQUIVALENCE_MARGIN = 0.02  # two configurations are equivalent when the bound sits inside this margin
 

@@ -49,9 +49,13 @@ def test_difference_in_differences_reconstruction_preserves_seed_and_unit_pairin
 
 
 def test_equivalence_and_terminal_classification_are_independently_bounded():
-    equivalent = {"mean": 0.0, "lower_95_cb": -0.01, "upper_95_cb": 0.01}
+    equivalent = {"mean": 0.0, "lower_95_cb": -0.01, "upper_95_cb": 0.01,
+                  "group_mean": 0.0, "group_lower_95_cb": -0.01, "group_upper_95_cb": 0.01}
     assert V._equivalent(equivalent, 0.02)
     equivalent["upper_95_cb"] = 0.03
+    assert not V._equivalent(equivalent, 0.02)
+    equivalent["upper_95_cb"] = 0.01
+    equivalent.pop("group_upper_95_cb")
     assert not V._equivalent(equivalent, 0.02)
     effect = {"verdict": "positive", "estimator_sufficient": True,
               "convergence": {"all_converged": True}}
