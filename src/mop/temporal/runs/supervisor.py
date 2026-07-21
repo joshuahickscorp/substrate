@@ -33,7 +33,7 @@ LOCKS = io.RUNS / "locks"
 
 def workers() -> int:
     r = subprocess.run(["pgrep", "-f", "mop.temporal.runs"], capture_output=True, text=True)
-    return max(0, len([x for x in r.stdout.split() if x]) - 1)
+    return max(0, len([x for x in r.stdout.split() if x]) - 1, sum(lock_active(p.stem.replace("_", ":", 1)) for p in LOCKS.glob("*.json")) if LOCKS.is_dir() else 0)
 
 
 def _lock_path(tag: str) -> Path:
