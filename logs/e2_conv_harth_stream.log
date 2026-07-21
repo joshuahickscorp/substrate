@@ -1,0 +1,2 @@
+  gru|small|linear|none|h1                 converged    movement 0.0
+  lstm|small|linear|none|h1                unconverged  movement 0.00472
