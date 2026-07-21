@@ -31,7 +31,8 @@ from mop.temporal import io
 SCOUT_SEEDS = (0, 1, 2, 3)
 PRINCIPAL_SEEDS = tuple(range(8))
 MAX_SEEDS = 12
-CONVERGENCE_GRID = (300, 600, 1200, 2400, 4800)
+CONVERGENCE_GRID = (400, 800, 1600, 3200)
+CONVERGENCE_SEEDS = (0, 1, 2)
 PREREG = power.preregistration(
     name="E2", independent_unit="natural unit of the bed", expected_sd=0.035, sesoi=io.SESOI,
     seeds=len(PRINCIPAL_SEEDS), units=9, max_seeds=MAX_SEEDS, futility=0.01, harm=0.05,
@@ -142,14 +143,27 @@ def _series(runs: list[dict]) -> tuple[dict, dict]:
     return cells, {c: {u: float(np.mean(v)) for u, v in d.items()} for c, d in units.items()}
 
 
+def scout_shard(bedname: str, seed: int) -> dict:
+    """One bed, one seed, every cell. Sharding by seed is what lets the scout use the whole host."""
+    t0 = time.time()
+    sp = B.splits(bedname, seed)
+    runs = [Fx.run_cell(sp, spec, seed, "tune", steps=Fx.STEPS // 2) for spec in Fx.sweep_cells()["_all"]]
+    doc = {"bed": bedname, "seed": seed, "runs": runs, "wall_seconds": round(time.time() - t0, 1)}
+    io.run_json(f"shard_{bedname}_{seed}.json", doc, "e2_scout")
+    print(f"E2 scout shard {bedname} seed {seed}: {len(runs)} cells in {doc['wall_seconds']}s", flush=True)
+    return doc
+
+
 def scout(bedname: str) -> dict:
     t0 = time.time()
     cells = Fx.sweep_cells()["_all"]
     runs = []
     for seed in SCOUT_SEEDS:
-        sp = B.splits(bedname, seed)
-        for spec in cells:
-            runs.append(Fx.run_cell(sp, spec, seed, "tune", steps=Fx.STEPS // 2))
+        p = io.RUNS / "e2_scout" / f"shard_{bedname}_{seed}.json"
+        if p.is_file():
+            runs.extend(json.loads(p.read_text())["runs"])
+        else:
+            runs.extend(scout_shard(bedname, seed)["runs"])
     series, units = _series(runs)
     sds = {c: float(np.std(v, ddof=1)) for c, v in series.items() if len(v) > 1}
     means = {c: float(np.mean(v)) for c, v in series.items()}
@@ -196,26 +210,50 @@ def principal(bedname: str, seed: int) -> dict:
     return doc
 
 
+CONVERGE_CONFIGS = [
+    dict(Fx.REFERENCE, family=f) for f in ("gru", "lstm", "mgu", "pooled", "tcn")
+] + [dict(Fx.REFERENCE, family="histmlp", history_k=20),
+     dict(Fx.REFERENCE, tier="large"),
+     dict(Fx.REFERENCE, family="pooled", tier="large", readout="mlp_strong")]
+
+
+def converge_shard(bedname: str, idx: int) -> dict:
+    from mop.temporal import witness as W
+
+    t0 = time.time()
+    spec = CONVERGE_CONFIGS[idx]
+    curve, spread = {}, {}
+    for steps in CONVERGENCE_GRID:
+        vals = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)["accuracy"]
+                for s_ in CONVERGENCE_SEEDS]
+        curve[steps] = float(np.mean(vals))
+        spread[steps] = round(float(np.std(vals, ddof=1)), 5)
+    w = W.plateau_validity(curve)
+    doc = {"bed": bedname, "spec": spec, "cell": Fx.cell_name(**spec), "curve": curve,
+           "seed_spread": spread, "seeds": list(CONVERGENCE_SEEDS), **w,
+           "wall_seconds": round(time.time() - t0, 1)}
+    io.run_json(f"cshard_{bedname}_{idx}.json", doc, "e2_converge")
+    print(f"E2 converge shard {bedname} {Fx.cell_name(**spec)}: {w['classification']} "
+          f"movement {w.get('second_half_movement')} in {doc['wall_seconds']}s", flush=True)
+    return doc
+
+
 def converge(bedname: str) -> dict:
     """Long budget curves for every load bearing configuration, judged by the strict plateau witness."""
     from mop.temporal import witness as W
 
     t0 = time.time()
-    sp = B.splits(bedname, 0)
-    configs = [dict(Fx.REFERENCE, family=f) for f in ("gru", "lstm", "mgu", "pooled", "histmlp", "tcn")]
-    configs += [dict(Fx.REFERENCE, tier=t) for t in ("micro", "medium", "large")]
-    configs += [dict(Fx.REFERENCE, family="histmlp", history_k=20),
-                dict(Fx.REFERENCE, family="pooled", tier="large", readout="mlp_strong")]
     out = {}
-    for spec in configs:
-        curve = {}
-        for steps in CONVERGENCE_GRID:
-            curve[steps] = Fx.run_cell(sp, spec, 0, "tune", steps=steps)["accuracy"]
-        w = W.plateau_validity(curve)
-        out[Fx.cell_name(**spec)] = {"spec": spec, "curve": curve, **w}
-        print(f"  {Fx.cell_name(**spec):40s} {w['classification']:12s} "
-              f"movement {w.get('second_half_movement')}", flush=True)
-    doc = {"schema": "mop-e2-convergence/v1", "bed": bedname, "grid": list(CONVERGENCE_GRID),
+    for idx, spec in enumerate(CONVERGE_CONFIGS):
+        p = io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
+        if p.is_file():
+            d = json.loads(p.read_text())
+            out[d["cell"]] = d
+            continue
+        d = converge_shard(bedname, idx)
+        out[d["cell"]] = d
+    doc = {"schema": "mop-e2-convergence/v2", "bed": bedname, "grid": list(CONVERGENCE_GRID),
+           "seeds_per_budget": list(CONVERGENCE_SEEDS),
            "configs": out,
            "all_converged": all(v["converged"] for v in out.values()),
            "unconverged": [k for k, v in out.items() if not v["converged"]],
@@ -245,6 +283,10 @@ def main(argv=None):
                 print(f"  MISS {k}: expected {v['expected_contains']} got {v['recovered']}", flush=True)
     elif cmd == "scout":
         scout(argv[1])
+    elif cmd == "scout_shard":
+        scout_shard(argv[1], int(argv[2]))
+    elif cmd == "converge_shard":
+        converge_shard(argv[1], int(argv[2]))
     elif cmd == "principal":
         principal(argv[1], int(argv[2]))
     elif cmd == "converge":

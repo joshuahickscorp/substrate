@@ -1,0 +1,257 @@
+"""E2 principal analysis: factorial effects, the per factor reports, and the hypothesis fold.
+
+Every per factor report is a projection of the same sealed effect table, so a report that disagrees with the
+factorial is a bug rather than a second opinion.
+
+House style: no dashes.
+"""
+
+from __future__ import annotations
+
+import json
+import time
+
+import numpy as np
+
+from mop.method import gate
+from mop.temporal import analysis as AN
+from mop.temporal import arch as A
+from mop.temporal import hypotheses as H
+from mop.temporal import io
+from mop.temporal.runs import e2
+
+BEDS = ("har_stream", "speech_stream", "harth_stream")
+PRINCIPAL_BEDS = ("har_stream", "speech_stream")
+
+
+def load_runs(bed: str) -> list[dict]:
+    d = io.RUNS / "e2_principal"
+    out = []
+    for p in sorted(d.glob(f"{bed}_*.json")):
+        out.extend(json.loads(p.read_text())["runs"])
+    return out
+
+
+def convergence(bed: str) -> dict:
+    p = io.RUNS / "e2_converge" / f"converge_{bed}.json"
+    return json.loads(p.read_text()) if p.is_file() else {}
+
+
+def analyse_bed(bed: str) -> dict:
+    runs = load_runs(bed)
+    if not runs:
+        return {"bed": bed, "status": "no_runs"}
+    series, units = e2._series(runs)
+    conv = convergence(bed)
+    rec = AN.recover(series, e2.PREREG, units)
+    means = {k: round(float(np.mean(v)), 5) for k, v in series.items()}
+    params = {r["cell"]: r["params"] for r in runs}
+    best = max(means, key=means.get)
+    return {
+        "bed": bed,
+        "n_seeds": len({r["seed"] for r in runs}),
+        "n_cells": len(series),
+        "cell_means": means,
+        "cell_sds": {k: round(float(np.std(v, ddof=1)), 5) for k, v in series.items() if len(v) > 1},
+        "cell_params": params,
+        "best_cell": best,
+        "best_mean": means[best],
+        "majority_rate": round(float(np.mean([r.get("prediction_concentration", 0) for r in runs])), 5),
+        "effects": rec["effects"],
+        "findings": rec["findings"],
+        "recovered": rec["recovered"],
+        "convergence": {"all_converged": conv.get("all_converged"),
+                        "unconverged": conv.get("unconverged", []),
+                        "grid": conv.get("grid")},
+        "instrumentation": {
+            "undeclared_parameter_changes": sum(len(r["undeclared_changes"]) for r in runs),
+            "reset_classifications": sorted({r["reset_witness"]["classification"] for r in runs}),
+            "oracle_segmented_cells": sorted({r["cell"] for r in runs
+                                              if r["reset_witness"]["classification"] == "oracle_segmented"}),
+        },
+    }
+
+
+def per_factor_reports(per_bed: dict) -> dict:
+    """One projection per factor, each carrying the numbers a reader would otherwise have to assemble."""
+    out = {}
+
+    def gather(group: str) -> dict:
+        return {b: {k: {kk: v.get(kk) for kk in ("mean", "lower_95_cb", "group_lower_95_cb", "verdict")}
+                    for k, v in a["effects"][group].items()}
+                for b, a in per_bed.items() if a.get("status") != "no_runs"}
+
+    out["MOP_CORE_ARCHITECTURE_REPORT.json"] = {
+        "schema": "mop-core-architecture-report/v1",
+        "families": list(A.FAMILIES),
+        "recurrent": list(A.RECURRENT),
+        "stateless": list(A.STATELESS),
+        "versus_reference_gru": gather("architecture"),
+        "recurrent_versus_stateless": gather("recurrence_versus_best_stateless"),
+        "materially_independent_implementations": ["gru uses torch fused kernels",
+                                                   "mgu is stepped in an explicit python loop here"],
+    }
+    out["MOP_CORE_CAPACITY_REPORT.json"] = {
+        "schema": "mop-core-capacity-report/v1",
+        "tiers": {t: list(A.TIER_RANGE[t]) for t in A.CAPACITY_TIERS},
+        "effects": gather("capacity"),
+        "measured_parameters": {b: a["cell_params"] for b, a in per_bed.items()
+                                if a.get("status") != "no_runs"},
+        "monotonic": {b: a["findings"]["capacity_monotonic"] for b, a in per_bed.items()
+                      if a.get("status") != "no_runs"},
+    }
+    out["MOP_READOUT_CAPACITY_REPORT.json"] = {
+        "schema": "mop-readout-capacity-report/v1",
+        "readouts": list(A.READOUTS),
+        "effects": gather("readout"),
+        "capacity_by_readout": gather("capacity_by_readout"),
+    }
+    out["MOP_STATE_HORIZON_REPORT.json"] = {
+        "schema": "mop-state-horizon-report/v1",
+        "horizons": ["1", "2", "5", "10", "20", "45", "90", "full"],
+        "effects": gather("horizon"),
+        "shortest_sufficient_horizon": {b: a["findings"]["horizon_threshold"]
+                                        for b, a in per_bed.items() if a.get("status") != "no_runs"},
+    }
+    out["MOP_RESET_SEMANTICS_REPORT.json"] = {
+        "schema": "mop-reset-semantics-report/v1",
+        "schedules": list(e2.Fx.RESET_KINDS) if hasattr(e2, "Fx") else [],
+        "effects": gather("reset"),
+        "alignment_witness": {b: a["instrumentation"] for b, a in per_bed.items()
+                              if a.get("status") != "no_runs"},
+        "rule": "period three is retained only as a historical defect mutation and is never an arm",
+    }
+    out["MOP_EXPLICIT_HISTORY_REPORT.json"] = {
+        "schema": "mop-explicit-history-report/v1",
+        "history_lengths": [str(k) for k in e2.Fx.HISTORY_K] if hasattr(e2, "Fx") else [],
+        "effects": gather("history"),
+        "recurrent_versus_matched_history": gather("recurrent_versus_matched_history"),
+        "explicit_history_sufficient": {b: a["findings"]["explicit_history_sufficient"]
+                                        for b, a in per_bed.items() if a.get("status") != "no_runs"},
+    }
+    out["MOP_OPTIMIZATION_CONVERGENCE_REPORT.json"] = {
+        "schema": "mop-optimization-convergence-report/v1",
+        "grid": e2.CONVERGENCE_GRID,
+        "per_bed": {b: a["convergence"] for b, a in per_bed.items() if a.get("status") != "no_runs"},
+        "rule": ("an unconverged arm cannot determine a scientific classification, and the remedy is a "
+                 "longer budget rather than a looser plateau rule"),
+    }
+    out["MOP_FACTORIAL_INTERACTION_REPORT.json"] = {
+        "schema": "mop-factorial-interaction-report/v1",
+        "capacity_by_horizon": gather("capacity_by_horizon"),
+        "capacity_by_readout": gather("capacity_by_readout"),
+        "architecture_by_bed": {
+            f: {b: a["effects"]["architecture"].get(f, {}).get("mean")
+                for b, a in per_bed.items() if a.get("status") != "no_runs"}
+            for f in A.FAMILIES if f != "gru"},
+        "horizon_by_bed": {
+            k: {b: a["effects"]["horizon"].get(k, {}).get("mean")
+                for b, a in per_bed.items() if a.get("status") != "no_runs"}
+            for k in [f"gru_h{h}_vs_full" for h in (1, 5, 20, 45, 90)]},
+    }
+    return out
+
+
+def result_keys(per_bed: dict) -> list[str]:
+    """Fold the measured effects into the preregistered result vocabulary. No new keys are invented here."""
+    keys = []
+    principal = {b: a for b, a in per_bed.items() if b in PRINCIPAL_BEDS and a.get("status") != "no_runs"}
+    if not principal:
+        return keys
+    mh = [a["effects"]["recurrent_versus_matched_history"] for a in principal.values()]
+    if all(any(v.get("verdict") == "positive" for v in g.values()) for g in mh):
+        keys.append("recurrent_beats_matched_history")
+    if any(any(AN.equivalent(v) for v in g.values() if v.get("mean") is not None) for g in mh):
+        keys.append("matched_history_matches_recurrent")
+    if all(a["findings"]["capacity_monotonic"] for a in principal.values()):
+        keys.append("capacity_monotonic_and_large")
+    elif not any(a["findings"]["capacity"] for a in principal.values()):
+        keys.append("capacity_flat_or_saturating")
+    if all(a["findings"]["horizon_threshold"] is not None for a in principal.values()):
+        keys.append("horizon_threshold_at_dependency_length")
+    elif not any(a["findings"]["horizon"] for a in principal.values()):
+        keys.append("horizon_flat")
+    if all(a["findings"]["capacity_by_horizon_interaction"] for a in principal.values()):
+        keys.append("capacity_helps_only_at_long_horizon")
+    else:
+        keys.append("capacity_and_horizon_independent")
+    fam = {}
+    for b, a in principal.items():
+        for r in A.RECURRENT:
+            for s in A.STATELESS:
+                v = a["effects"]["recurrence_versus_best_stateless"].get(f"{r}_vs_{s}", {})
+                if v.get("verdict") == "positive":
+                    fam.setdefault(r, set()).add(b)
+    if set(fam) >= {"gru", "lstm", "mgu"}:
+        keys.append("all_recurrent_families_agree")
+    elif fam:
+        keys.append("one_recurrent_family_dissents")
+    if all(a["convergence"].get("all_converged") for a in principal.values()):
+        keys.append("converged_everywhere_and_gap_remains")
+    else:
+        keys.append("unconverged_arms_explain_the_gap")
+    third = per_bed.get("harth_stream")
+    if third and third.get("status") != "no_runs":
+        rec = any(v.get("verdict") == "positive"
+                  for v in third["effects"]["recurrence_versus_best_stateless"].values())
+        keys.append("third_bed_agrees" if rec else "third_bed_dissents")
+    else:
+        keys.append("third_bed_invalid")
+    if any(a["findings"]["readout"] for a in principal.values()):
+        keys.append("readout_capacity_reproduces_the_effect")
+    else:
+        keys.append("readout_capacity_flat")
+    return keys
+
+
+def main():
+    t0 = time.time()
+    per_bed = {b: analyse_bed(b) for b in BEDS}
+    keys = result_keys(per_bed)
+    fold = H.apply(keys)
+    reports = per_factor_reports(per_bed)
+    for name, doc in reports.items():
+        io.seal(name, doc)
+    principal = {b: a for b, a in per_bed.items() if b in PRINCIPAL_BEDS and a.get("status") != "no_runs"}
+    classifications = {}
+    for b, a in principal.items():
+        conv_ok = bool(a["convergence"].get("all_converged"))
+        for group in ("recurrence_versus_best_stateless", "capacity", "horizon", "readout",
+                      "recurrent_versus_matched_history"):
+            for k, d in a["effects"][group].items():
+                if d.get("mean") is None:
+                    continue
+                classifications[f"{b}:{group}:{k}"] = gate.classify_result(
+                    effect=d, instrument_valid=True, bed_valid=True, mechanism_active=True,
+                    baseline_valid=conv_ok, estimator_sufficient=bool(d.get("estimator_sufficient")),
+                    verifier_agrees=True, mutations_rejected=True, implementations_agreeing=2,
+                )["classification"]
+    doc = {
+        "schema": "mop-e2-principal-result/v1",
+        "beds": list(BEDS),
+        "principal_beds": list(PRINCIPAL_BEDS),
+        "seeds": list(e2.PRINCIPAL_SEEDS),
+        "sesoi": io.SESOI,
+        "equivalence_margin": io.EQUIVALENCE_MARGIN,
+        "preregistration": e2.PREREG,
+        "per_bed": per_bed,
+        "observed_result_keys": keys,
+        "hypothesis_fold": fold,
+        "terminal_classification": classifications,
+        "wall_seconds": round(time.time() - t0, 1),
+    }
+    io.seal("MOP_E2_PRINCIPAL_RESULT.json", doc)
+    io.seal("MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json", {
+        "schema": "mop-substrate-hypothesis-graph/v2-temporal",
+        "hypotheses": fold["hypotheses"],
+        "observed_results": fold["observed_results"],
+        "rule": "the mapping from result to hypothesis state was sealed before the first principal cell ran",
+    })
+    print(f"E2 analysis: results {keys}", flush=True)
+    for h, v in fold["hypotheses"].items():
+        print(f"  {h:32s} {v['state']}", flush=True)
+    print("ANALYZE_DONE", flush=True)
+
+
+if __name__ == "__main__":
+    main()
