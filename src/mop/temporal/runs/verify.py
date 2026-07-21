@@ -309,15 +309,27 @@ def role_c() -> dict:
                     - r["arms"]["head_only"]["future_acquisition_B"]["accuracy"] for r in rows]
             noise = [r["arms"]["head_plus_state"]["future_acquisition_B"]["accuracy"]
                      - r["arms"]["head_plus_state_noise"]["future_acquisition_B"]["accuracy"] for r in rows]
+            gain_units, noise_units = {}, {}
+            for row in rows:
+                hybrid_units = row["arms"]["head_plus_state"]["future_acquisition_B"]["per_unit_accuracy"]
+                head_units = row["arms"]["head_only"]["future_acquisition_B"]["per_unit_accuracy"]
+                noisy_units = row["arms"]["head_plus_state_noise"]["future_acquisition_B"]["per_unit_accuracy"]
+                for unit in set(hybrid_units) & set(head_units) & set(noisy_units):
+                    gain_units.setdefault(unit, []).append(hybrid_units[unit] - head_units[unit])
+                    noise_units.setdefault(unit, []).append(hybrid_units[unit] - noisy_units[unit])
+            gain_group = lower_bound([mean(v) for v in gain_units.values()])
+            noise_group = lower_bound([mean(v) for v in noise_units.values()])
             checks[f"hybrid:{bedname}:hybrid_vs_head"] = (
                 len(rows) == 8 and abs(round(mean(gain), 5) - expected["hybrid_minus_head"]["mean"]) < 1e-4
                 and abs(round(lower_bound(gain), 5)
-                        - expected["hybrid_minus_head"]["lower_95_cb"]) < 1e-4)
+                        - expected["hybrid_minus_head"]["lower_95_cb"]) < 1e-4
+                and abs(gain_group - expected["hybrid_minus_head"]["group_lower_95_cb"]) < 1e-4)
             checks[f"hybrid:{bedname}:hybrid_vs_noise"] = (
                 len(rows) == 8 and abs(round(mean(noise), 5)
                                        - expected["hybrid_minus_head_noise"]["mean"]) < 1e-4
                 and abs(round(lower_bound(noise), 5)
-                        - expected["hybrid_minus_head_noise"]["lower_95_cb"]) < 1e-4)
+                        - expected["hybrid_minus_head_noise"]["lower_95_cb"]) < 1e-4
+                and abs(noise_group - expected["hybrid_minus_head_noise"]["group_lower_95_cb"]) < 1e-4)
     return {"role": "C scientific verifier", "checks": checks, "mismatches": mismatches,
             "n_checks": len(checks), "all_pass": all(checks.values()) and not mismatches,
             "independence": ("recomputes every effect with its own arithmetic and its own t table, imports no "
