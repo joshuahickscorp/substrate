@@ -162,14 +162,14 @@
     "active_method": 7999,
     "active_substrate": 2500,
     "active_tests": 1667,
-    "frozen_reproducibility": 27232,
+    "frozen_reproducibility": 27234,
     "historical_migration": 39,
     "generated": 0
   },
-  "total_python_loc": 41963,
+  "total_python_loc": 41965,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "b3f7421e6545527b3385f1368784ac2f0e1602a6",
+  "source_commit": "1ba82cb26740e86713318967f966ede6066d377f",
   "SESOI": 0.05,
   "sha256_version": "canonical_json_v2",
-  "sha256": "65542f22438645fd61908f5ef2b95215dff3fcb3b0ce26f9954528f4b19a666e"
+  "sha256": "669f81cba9282b175bb42e5a13864dbf0e344a5e3b88a9e3b639542f22726a69"
 }
