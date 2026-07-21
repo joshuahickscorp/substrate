@@ -344,6 +344,21 @@ def test_selection_excludes_oracle_controls_and_unconverged_candidates():
     assert coresel.select(principal)["selected"]["cell"] == safe
 
 
+def test_selection_uses_compute_before_shorter_horizon_when_parameters_tie():
+    full = "gru|small|linear|none|h1"
+    short = "gru|small|linear|horizon_45|h1"
+    cells = {full: 0.90, short: 0.90}
+    params = {c: {"total": 46000, "core": 45910} for c in cells}
+    principal = {
+        "principal_beds": ["a", "b"],
+        "per_bed": {b: {"cell_means": cells, "cell_params": params,
+                          "metric_panel": {"latency_wall_seconds_mean": {full: 1.0, short: 2.0}}}
+                    for b in ("a", "b")},
+        "hypothesis_fold": {"hypotheses": {"H1_recurrence": {"state": "supported"}}},
+    }
+    assert coresel.select(principal)["selected"]["cell"] == full
+
+
 def test_extended_convergence_adds_budget_without_redefining_the_original_grid():
     assert set(e2.CONVERGENCE_GRID).isdisjoint(e2.EXTENDED_CONVERGENCE_GRID)
     assert min(e2.EXTENDED_CONVERGENCE_GRID) > max(e2.CONVERGENCE_GRID)
