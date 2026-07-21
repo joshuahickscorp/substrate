@@ -302,8 +302,9 @@ def converge(bedname: str) -> dict:
     t0 = time.time()
     out = {}
     for idx, spec in enumerate(CONVERGE_CONFIGS):
-        extended = io.RUNS / "e2_converge_extended" / f"xshard_{bedname}_{idx}.json"
-        p = extended if extended.is_file() else io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
+        corrected = io.RUNS / "e2_converge_corrections" / f"convergence_{bedname}.json" if idx == 25 else io.RUNS / "absent"
+        p = corrected if corrected.is_file() else io.RUNS / "e2_converge_extended" / f"xshard_{bedname}_{idx}.json"
+        p = p if p.is_file() else io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
         if p.is_file():
             d = json.loads(p.read_text())
             out[d["cell"]] = d

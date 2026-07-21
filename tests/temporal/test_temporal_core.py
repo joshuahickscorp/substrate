@@ -186,6 +186,27 @@ def test_every_family_hits_every_capacity_tier():
             n = A.count(m)["core"]
             lo, hi = A.TIER_RANGE[tier]
             assert lo <= n <= hi, (fam, tier, n)
+    for channels in (6, 9, 18):
+        n = A.count(A.build(family="histmlp", ch=channels, classes=6, tier="large"))["core"]
+        assert A.TIER_RANGE["large"][0] <= n <= A.TIER_RANGE["large"][1]
+
+
+def test_principal_loader_replaces_only_the_exact_corrected_key(monkeypatch, tmp_path):
+    original = tmp_path / "e2_principal"
+    corrected = tmp_path / "e2_principal_corrections"
+    original.mkdir()
+    corrected.mkdir()
+    cell = "histmlp|large|linear|none|h1"
+    untouched = "gru|small|linear|none|h1"
+    (original / "har_stream_0.json").write_text(json.dumps({"runs": [
+        {"seed": 0, "cell": cell, "accuracy": 0.1},
+        {"seed": 0, "cell": untouched, "accuracy": 0.2}]}))
+    (corrected / "capacity_har_stream_0.json").write_text(json.dumps({"runs": [
+        {"seed": 0, "cell": cell, "accuracy": 0.9}]}))
+    monkeypatch.setattr(TIO, "RUNS", tmp_path)
+    rows = {(r["seed"], r["cell"]): r for r in analyze.load_runs("har_stream")}
+    assert len(rows) == 2 and rows[(0, cell)]["accuracy"] == 0.9
+    assert rows[(0, untouched)]["accuracy"] == 0.2
 
 
 def test_readout_parameter_count_is_identical_across_families():
