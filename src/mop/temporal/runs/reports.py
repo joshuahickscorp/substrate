@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import time
 
 from mop.method import gate
@@ -16,7 +17,10 @@ ENV = {"OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "PYTHONPATH": "src"}
 
 def _env():
     import os
-    return dict(os.environ, **ENV)
+    env = dict(os.environ, **ENV)
+    env["MOP_TEMPORAL_DATA_ROOT"] = str(io.DATA_ROOT)
+    env["MOP_DATA_ROOT"] = str(io.DATA_ROOT)
+    return env
 
 
 def tests_and_coverage() -> tuple[dict, dict]:
@@ -28,9 +32,12 @@ def tests_and_coverage() -> tuple[dict, dict]:
                         "--source=src/mop/temporal,src/mop/method", "-m", "pytest",
                         "tests/temporal", "tests/method", "-q"],
                        cwd=io.ROOT, env=_env(), capture_output=True, text=True)
-    subprocess.run([sys.executable, "-m", "coverage", "json", f"--data-file={data}",
-                    "-o", str(out / "coverage.json")], cwd=io.ROOT, env=_env(), capture_output=True)
-    cov = json.loads((out / "coverage.json").read_text()) if (out / "coverage.json").is_file() else {}
+    with tempfile.TemporaryDirectory() as td:
+        raw = Path(td) / "coverage.json"
+        subprocess.run([sys.executable, "-m", "coverage", "json", f"--data-file={data}",
+                        "-o", str(raw)], cwd=io.ROOT, env=_env(), capture_output=True)
+        cov = json.loads(raw.read_text()) if raw.is_file() else {}
+    io.run_json("coverage.json", cov, "coverage")
     files = cov.get("files", {})
 
     def totals(pred):
@@ -353,6 +360,53 @@ def verify_fabric_tree(root: Path) -> dict:
             "merkle_root": doc["union"]["merkle_root"]}
 
 
+def verify_core_checkpoints(root: Path) -> int:
+    import re
+    import torch
+    from fastforge import engine as E
+    from mop.temporal import arch as A, beds as B, factorial as Fx
+    proof = root / "proof" / "substrate" / io.PROGRAM
+    core = json.loads((proof / "MOP_OWNED_TEMPORAL_CORE_V1.json").read_text())
+    body, selected = core.get("core") or {}, core.get("selected")
+    declared = body.get("checkpoints") or {}
+    checkpoint_root = proof / "checkpoints"
+    paths = sorted(checkpoint_root.glob("*.pt"))
+    if selected is False:
+        reason = (core.get("selection") or {}).get("reason")
+        assert isinstance(reason, str) and reason and not declared and not paths
+        return 0
+    assert selected is True and isinstance(declared, dict) and declared
+    assert set(declared) == set(body.get("valid_domains") or [])
+    expected = {(root / row["path"]).resolve() for row in declared.values()}
+    assert expected == {path.resolve() for path in paths}
+    selected_spec = dict(core["selection"]["selected"]["spec"])
+    selected_cell = core["selection"]["selected"]["cell"]
+    principal = json.loads((proof / "MOP_E2_PRINCIPAL_RESULT.json").read_text())
+    source_commit, source_tree = core.get("source_commit"), core.get("source_tree_oid")
+    assert all(isinstance(value, str) and re.fullmatch(r"[0-9a-f]{40}", value)
+               for value in (source_commit, source_tree))
+    if str(selected_spec.get("history_k", "")).isdigit():
+        selected_spec["history_k"] = int(selected_spec["history_k"])
+    for bed, row in declared.items():
+        path = (root / row["path"]).resolve()
+        assert path.is_relative_to(checkpoint_root.resolve()) and io.sha_file(path) == row["sha256"]
+        payload = torch.load(path, map_location="cpu", weights_only=False)
+        assert payload["schema"] == "mop-owned-temporal-core-checkpoint/v1"
+        assert (payload["bed"] == bed and payload["seed"] == 0 and payload["spec"] == selected_spec
+                and payload.get("source_commit") == source_commit
+                and payload.get("source_tree_oid") == source_tree)
+        model = Fx.build_cell(B.splits(bed, 0), seed=0, **selected_spec)[0]
+        model.load_state_dict(payload["state_dict"], strict=True)
+        receipt = payload["training_receipt"]
+        expected_update = principal["per_bed"][bed]["convergence"]["configs"][selected_cell][
+            "selected_checkpoint"]
+        assert E.checkpoint_sha(model) == receipt["checkpoint_sha_after"] == row["checkpoint_sha"]
+        assert payload["params"] == row["params"] == A.count(model)
+        assert (payload["selected_checkpoint"] == row["selected_checkpoint"]
+                == receipt["updates"] == expected_update)
+    return len(paths)
+
+
 def clean_clone(science_snapshot_commit: str | None = None, *, require_fabric: bool = False,
                 terminal_evidence_commit: str | None = None) -> dict:
     """Verify either the committed science snapshot or a later terminal evidence commit.
@@ -402,16 +456,8 @@ print(len(docs))
         proof = run([sys.executable, "-c", proof_script])
         checkpoint_script = """
 from pathlib import Path
-import torch
-from fastforge import engine as E
-from mop.temporal import beds as B, factorial as Fx, io
-paths=sorted((Path('proof/substrate')/io.PROGRAM/'checkpoints').glob('*.pt'))
-assert paths
-for p in paths:
- d=torch.load(p,map_location='cpu',weights_only=False); sp=B.splits(d['bed'],d['seed'])
- m=Fx.build_cell(sp,seed=d['seed'],**d['spec'])[0]; m.load_state_dict(d['state_dict'])
- assert E.checkpoint_sha(m)==d['training_receipt']['checkpoint_sha_after']
-print(len(paths))
+from mop.temporal.runs.reports import verify_core_checkpoints
+print(verify_core_checkpoints(Path.cwd()))
 """
         checkpoint = run([sys.executable, "-c", checkpoint_script])
         supervisor_script = """
