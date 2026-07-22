@@ -183,7 +183,7 @@ def test_terminal_clean_clone_requires_independent_fabric_lookup(monkeypatch, tm
         elif "verify_fabric_tree" in joined:
             stdout = '{"artifacts": 4}\n'
             returncode = int(fail_lookup)
-        elif "root=Path('proof/substrate')" in joined or "paths=sorted" in joined:
+        elif "root=Path('proof/substrate')" in joined or "verify_core_checkpoints" in joined:
             stdout = "1\n"
         elif "from mop.temporal.runs.supervisor import status" in joined:
             stdout = '{"schema":"mop-temporal-supervisor-status/v1"}\n'
@@ -200,3 +200,77 @@ def test_terminal_clean_clone_requires_independent_fabric_lookup(monkeypatch, tm
     result = reports.clean_clone(snapshot, require_fabric=True, terminal_evidence_commit=terminal)
     assert not result["checks"]["terminal_evidence_fabric_lookup"]
     assert not result["all_pass"]
+
+
+def test_raw_coverage_auxiliary_is_canonical(monkeypatch, tmp_path):
+    runs = tmp_path / "runs"
+    monkeypatch.setattr(io, "ROOT", tmp_path)
+    monkeypatch.setattr(io, "RUNS", runs)
+
+    def fake_run(args, **kwargs):
+        if "json" in args and "-o" in args:
+            from pathlib import Path
+            Path(args[args.index("-o") + 1]).write_text(json.dumps({"files": {}}))
+        return reports.subprocess.CompletedProcess(args, 0, "", "")
+
+    monkeypatch.setattr(reports.subprocess, "run", fake_run)
+    reports.tests_and_coverage()
+    receipt = json.loads((runs / "coverage" / "coverage.json").read_text())
+    assert receipt["result_hash_version"] == "canonical_json_v2"
+    assert receipt["result_sha256"] == io.sha_obj(
+        {k: v for k, v in receipt.items() if k != "result_sha256"})
+
+
+def test_checkpoint_verifier_accepts_honest_null_and_rejects_stray_checkpoint(tmp_path):
+    proof = tmp_path / "proof" / "substrate" / io.PROGRAM
+    checkpoints = proof / "checkpoints"
+    checkpoints.mkdir(parents=True)
+    (proof / "MOP_OWNED_TEMPORAL_CORE_V1.json").write_text(json.dumps({
+        "selected": False, "selection": {"reason": "no replicated recurrent cell"}}))
+    assert reports.verify_core_checkpoints(tmp_path) == 0
+    (checkpoints / "foreign.pt").write_bytes(b"stray")
+    with pytest.raises(AssertionError):
+        reports.verify_core_checkpoints(tmp_path)
+
+
+def test_checkpoint_verifier_restores_exact_selected_inventory(monkeypatch, tmp_path):
+    import torch
+    from fastforge import engine as E
+    from mop.temporal import arch as A, beds as B, factorial as Fx
+    proof = tmp_path / "proof" / "substrate" / io.PROGRAM
+    checkpoints = proof / "checkpoints"
+    checkpoints.mkdir(parents=True)
+    path = checkpoints / "owned_temporal_core_v1_bed.pt"
+    model = torch.nn.Linear(2, 2)
+    checkpoint_sha = E.checkpoint_sha(model)
+    spec = {"family": "gru", "tier": "micro", "readout": "linear",
+            "reset": "none", "history_k": 1}
+    source_commit, source_tree = "a" * 40, "b" * 40
+    torch.save({"schema": "mop-owned-temporal-core-checkpoint/v1", "bed": "bed", "seed": 0,
+                "spec": spec, "state_dict": model.state_dict(), "selected_checkpoint": 12,
+                "params": A.count(model), "source_commit": source_commit,
+                "source_tree_oid": source_tree,
+                "training_receipt": {"updates": 12, "checkpoint_sha_after": checkpoint_sha}}, path)
+    rel = path.relative_to(tmp_path).as_posix()
+    core = {"selected": True, "source_commit": source_commit, "source_tree_oid": source_tree,
+            "selection": {"selected": {"cell": "cell", "spec": {**spec, "history_k": "1"}}},
+            "core": {"valid_domains": ["bed"], "checkpoints": {"bed": {
+                "path": rel, "sha256": io.sha_file(path), "checkpoint_sha": checkpoint_sha,
+                "params": A.count(model), "selected_checkpoint": 12}}}}
+    core_path = proof / "MOP_OWNED_TEMPORAL_CORE_V1.json"
+    core_path.write_text(json.dumps(core))
+    (proof / "MOP_E2_PRINCIPAL_RESULT.json").write_text(json.dumps({
+        "per_bed": {"bed": {"convergence": {"configs": {
+            "cell": {"selected_checkpoint": 12}}}}}}))
+    monkeypatch.setattr(B, "splits", lambda bed, seed: {})
+    monkeypatch.setattr(Fx, "build_cell", lambda *args, **kwargs: (torch.nn.Linear(2, 2), None, None))
+    assert reports.verify_core_checkpoints(tmp_path) == 1
+    core["core"]["checkpoints"]["bed"]["sha256"] = "0" * 64
+    core_path.write_text(json.dumps(core))
+    with pytest.raises(AssertionError):
+        reports.verify_core_checkpoints(tmp_path)
+    core["core"]["checkpoints"]["bed"]["sha256"] = io.sha_file(path)
+    core["source_tree_oid"] = "c" * 40
+    core_path.write_text(json.dumps(core))
+    with pytest.raises(AssertionError):
+        reports.verify_core_checkpoints(tmp_path)
