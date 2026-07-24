@@ -97,8 +97,12 @@ def launch(args: list[str], log: str, tag: str, module: str = "mop.temporal.runs
     try:
         with open(LOGS / log, "a") as f:
             env = dict(child_env, TEMPORAL_SHARD_LOCK=str(lock), TEMPORAL_SHARD_TAG=tag)
+            # start_new_session detaches each shard into its own process group, so
+            # restarting/reloading the supervisor never kills in-flight workers. On
+            # restart the supervisor re-adopts them via the lock scan (lock_active
+            # checks the pid is alive) and skips relaunching their tags.
             proc = subprocess.Popen([PY, "-m", module, *args], cwd=io.ROOT, env=env,
-                                    stdout=f, stderr=subprocess.STDOUT)
+                                    stdout=f, stderr=subprocess.STDOUT, start_new_session=True)
     except OSError as exc:
         lock.unlink(missing_ok=True)
         print(f"[supervisor] launch failed for {tag}: {exc}", flush=True)
