@@ -423,6 +423,32 @@ def _stall_threshold_seconds(tag: str) -> float:
         except (OSError, ValueError, json.JSONDecodeError):
             pass
     return STALL_DEFAULT_SECONDS
+REPEATED_FAILURE_THRESHOLD = 3
+REPEATED_FAILURE_WINDOW_SECONDS = 6 * 3600
+def repeatedly_failing_shards(threshold: int = REPEATED_FAILURE_THRESHOLD,
+                               window_seconds: float = REPEATED_FAILURE_WINDOW_SECONDS) -> list[dict]:
+    """A tag whose receipt has been quarantined (invalid or stale-partial) this
+    many times within the window, surfaced the same way stalled_workers() is.
+    Without this, a persistently-broken shard is relaunched identically
+    forever with no signal distinguishing it from ordinary bad luck — never
+    blocked or auto-retired, only made visible."""
+    d = io.RUNS / "orchestration"
+    if not d.is_dir():
+        return []
+    now = time.time()
+    counts: dict[tuple[str, str], list[float]] = {}
+    for p in d.glob("quarantine_*.json"):
+        try:
+            doc = json.loads(p.read_text())
+            stage, identity = doc["stage"], doc["identity"]
+        except (OSError, ValueError, KeyError, json.JSONDecodeError):
+            continue
+        age = now - p.stat().st_mtime
+        if age <= window_seconds:
+            counts.setdefault((stage, identity), []).append(age)
+    return [{"stage": stage, "identity": identity, "quarantine_count": len(ages),
+             "most_recent_seconds_ago": round(min(ages))}
+            for (stage, identity), ages in sorted(counts.items()) if len(ages) >= threshold]
 def stalled_workers() -> list[dict]:
     """Active shards running past their stall threshold. This is the check that
     would have surfaced the har_stream_18 extended shard hours before its 42h
@@ -457,6 +483,7 @@ def status() -> dict:
                 active.append(json.loads(p.read_text()))
     return {"schema": "mop-temporal-supervisor-status/v1", "stop_switch_active": io.STOP.exists(),
         "process_workers": workers(), "active_shards": active, "stalled_workers": stalled_workers(),
+        "repeatedly_failing_shards": repeatedly_failing_shards(),
         "completed": {key: len(names) - len(absent[key]) - len(bad[key]) for key, (_, names) in plan.items()},
         "missing": absent,
         "invalid": bad,
@@ -519,6 +546,7 @@ def reconcile_live_state(phase: str, snapshot=None) -> dict:
            "mode": "live_supervisor_reconciliation", "phase": phase, "stages": stages,
            "stage_dependencies": dependencies, "dependency_ready": ready, "items": items,
            "active_shards": snapshot["active_shards"], "stalled_workers": snapshot.get("stalled_workers", []),
+           "repeatedly_failing_shards": snapshot.get("repeatedly_failing_shards", []),
            "stop_switch_active": snapshot["stop_switch_active"],
            "all_terminal": False, "no_dependency_ready_work": not ready,
            "resume": "python3.12 -m mop.temporal.runs.supervisor resumes exact receipt identities",
