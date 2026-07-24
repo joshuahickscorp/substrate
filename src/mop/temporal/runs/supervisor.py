@@ -340,7 +340,8 @@ def invalid(sub: str, names: list[str]) -> list[str]:
             out.append(n)
     return out
 def partials(sub: str) -> list[str]:
-    d = io.RUNS / sub; return sorted(p.name for p in d.glob(".*.partial.*")) if d.is_dir() else []
+    d = io.RUNS / sub
+    return sorted(p.name for p in d.glob(".*.partial.*")) if d.is_dir() else []
 def _relative(path: Path) -> str:
     try:
         return path.relative_to(io.ROOT).as_posix()
