@@ -9,8 +9,8 @@ from mop.temporal import io
 from mop.temporal.runs import e2
 PY, LOGS = sys.executable, io.ROOT / "logs"
 CAP_OVERRIDE = int(os.environ["TEMPORAL_WORKERS"]) if os.environ.get("TEMPORAL_WORKERS") else None
-CAP_SMALL, CAP_LARGE, PARTIAL_STALE_SECONDS = 6, 4, 300
-ENV = dict(os.environ, OMP_NUM_THREADS="4", MKL_NUM_THREADS="4", PYTHONPATH="src")
+CAP_SMALL, CAP_LARGE, PARTIAL_STALE_SECONDS = 24, 16, 300
+ENV = dict(os.environ, OMP_NUM_THREADS="1", MKL_NUM_THREADS="1", PYTHONPATH="src")
 BEDS = ("har_stream", "speech_stream", "harth_stream")
 LOCKS = io.RUNS / "locks"
 HEX = set("0123456789abcdef")
