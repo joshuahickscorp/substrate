@@ -403,6 +403,47 @@ def receipt_plan() -> dict[str, tuple[str, list[str]]]:
                  ("speech_stream", "har_stream")) for s in seeds]),
         "third_bed_preflight": ("third_bed_preflight", [f"harth_preflight_{s}" for s in seeds]),
         "hybrid": ("hybrid", [f"{b}_{s}" for b in e2.B.PRINCIPAL for s in seeds])}
+STALL_DEFAULT_SECONDS = 3 * 3600
+STALL_EXTENDED_MULTIPLE = 4.0
+def _stall_threshold_seconds(tag: str) -> float:
+    """How long a tag may run before it counts as stalled. Detection only — this
+    never kills or reschedules anything, it only makes a stuck shard visible.
+    Extended shards are anchored to their own base convergence wall_seconds
+    (measured ratio across 64 completed pairs has topped out near 3.9x); every
+    other tag kind gets a flat, generous ceiling since it has no smaller sibling
+    to anchor against."""
+    kind, name = tag.split(":", 1)
+    if kind == "x":
+        base_path = io.RUNS / "e2_converge" / f"cshard_{name.removeprefix('xshard_')}.json"
+        try:
+            wall = json.loads(base_path.read_text()).get("wall_seconds")
+            if isinstance(wall, (int, float)) and wall > 0:
+                return max(STALL_DEFAULT_SECONDS, wall * STALL_EXTENDED_MULTIPLE)
+        except (OSError, ValueError, json.JSONDecodeError):
+            pass
+    return STALL_DEFAULT_SECONDS
+def stalled_workers() -> list[dict]:
+    """Active shards running past their stall threshold. This is the check that
+    would have surfaced the har_stream_18 extended shard hours before its 42h
+    runtime was noticed by hand: it only reports, an operator or monitor decides
+    whether to intervene."""
+    if not LOCKS.is_dir():
+        return []
+    now, out = time.time(), []
+    for p in sorted(LOCKS.glob("*.json")):
+        try:
+            d = json.loads(p.read_text())
+            pid, tag = int(d["pid"]), d["tag"]
+        except (OSError, ValueError, KeyError, json.JSONDecodeError):
+            continue
+        if not _pid_alive(pid):
+            continue
+        elapsed = now - p.stat().st_mtime
+        threshold = _stall_threshold_seconds(tag)
+        if elapsed > threshold:
+            out.append({"tag": tag, "pid": pid, "elapsed_seconds": round(elapsed),
+                        "threshold_seconds": round(threshold)})
+    return out
 def status() -> dict:
     plan = receipt_plan()
     absent = {key: missing(sub, names) for key, (sub, names) in plan.items()}
@@ -414,7 +455,7 @@ def status() -> dict:
             if lock_active(tag):
                 active.append(json.loads(p.read_text()))
     return {"schema": "mop-temporal-supervisor-status/v1", "stop_switch_active": io.STOP.exists(),
-        "process_workers": workers(), "active_shards": active,
+        "process_workers": workers(), "active_shards": active, "stalled_workers": stalled_workers(),
         "completed": {key: len(names) - len(absent[key]) - len(bad[key]) for key, (_, names) in plan.items()},
         "missing": absent,
         "invalid": bad,
@@ -476,7 +517,8 @@ def reconcile_live_state(phase: str, snapshot=None) -> dict:
     doc = {"schema": "mop-temporal-core-state/v2", "program_id": io.PROGRAM,
            "mode": "live_supervisor_reconciliation", "phase": phase, "stages": stages,
            "stage_dependencies": dependencies, "dependency_ready": ready, "items": items,
-           "active_shards": snapshot["active_shards"], "stop_switch_active": snapshot["stop_switch_active"],
+           "active_shards": snapshot["active_shards"], "stalled_workers": snapshot.get("stalled_workers", []),
+           "stop_switch_active": snapshot["stop_switch_active"],
            "all_terminal": False, "no_dependency_ready_work": not ready,
            "resume": "python3.12 -m mop.temporal.runs.supervisor resumes exact receipt identities",
            "activation": False}
