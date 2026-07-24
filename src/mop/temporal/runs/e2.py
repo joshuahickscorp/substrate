@@ -230,12 +230,54 @@ def _backfill_appended_convergence(bedname: str) -> None:
                 f"xshard_{bedname}_{idx}.json").is_file()]
     if extended:
         _parallel_backfill(bedname, "extend_converge_shard", extended)
+def _checkpoint_path(prefix: str, bedname: str, idx: int):
+    return io.RUNS / "e2_checkpoints" / f"{prefix}_{bedname}_{idx}.json"
+
+
+def _load_checkpoint(path, expected_cell: str) -> dict | None:
+    """Never trust a checkpoint whose cell identity or source commit doesn't
+    match exactly — a stale or foreign checkpoint is treated as absent, not
+    silently resumed into. Each cached (steps, seed) row is byte-identical to a
+    fresh run: run_cell reseeds torch/numpy and rebuilds the model from scratch
+    every call, so no state crosses grid points to make resuming unsafe."""
+    if not path.is_file():
+        return None
+    try:
+        doc = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    if doc.get("cell") != expected_cell or doc.get("source_commit") != io.launch_commit():
+        return None
+    return doc
+
+
+def _save_checkpoint(path, doc: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    io._atomic_text(path, json.dumps(doc, default=str))
+
+
+def _resume_grid_state(saved: dict | None):
+    if not saved:
+        return {}, {}, {}, {}, None, set(), 0.0
+    curve = {int(k): v for k, v in saved["curve"].items()}
+    spread = {int(k): v for k, v in saved["seed_spread"].items()}
+    seed_scores = {int(k): v for k, v in saved["seed_scores"].items()}
+    arm_records = {int(k): v for k, v in saved["arm_records"].items()}
+    return (curve, spread, seed_scores, arm_records, saved.get("parameter_count"),
+            set(curve), float(saved.get("elapsed_before", 0.0)))
+
+
 def converge_shard(bedname: str, idx: int) -> dict:
     from mop.temporal import witness as W
     t0 = time.time()
     spec = CONVERGE_CONFIGS[idx]
-    curve, spread, seed_scores, arm_records, parameter_count = {}, {}, {}, {}, None
+    cell = Fx.cell_name(**spec)
+    ckpt_path = _checkpoint_path("cshard", bedname, idx)
+    curve, spread, seed_scores, arm_records, parameter_count, done_steps, elapsed_before = (
+        _resume_grid_state(_load_checkpoint(ckpt_path, cell)))
     for steps in CONVERGENCE_GRID:
+        if steps in done_steps:
+            continue
         rows = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)
                 for s_ in CONVERGENCE_SEEDS]
         vals = [row["accuracy"] for row in rows]
@@ -246,14 +288,19 @@ def converge_shard(bedname: str, idx: int) -> dict:
         arm_records[steps] = [{"seed": seed, "updates": row["updates"], "score": row["accuracy"],
                                "checkpoint_sha": row["checkpoint_sha_after"]}
                               for seed, row in zip(CONVERGENCE_SEEDS, rows, strict=True)]
+        _save_checkpoint(ckpt_path, {"cell": cell, "source_commit": io.launch_commit(),
+            "curve": curve, "seed_spread": spread, "seed_scores": seed_scores,
+            "arm_records": arm_records, "parameter_count": parameter_count,
+            "elapsed_before": elapsed_before + (time.time() - t0)})
     w = W.plateau_validity(curve)
-    doc = {"bed": bedname, "spec": spec, "cell": Fx.cell_name(**spec), "curve": curve,
+    doc = {"bed": bedname, "spec": spec, "cell": cell, "curve": curve,
            "seed_spread": spread, "seed_scores": seed_scores, "arm_records": arm_records,
            "seeds": list(CONVERGENCE_SEEDS),
            "parameter_count": parameter_count, **w,
-           "wall_seconds": round(time.time() - t0, 1)}
+           "wall_seconds": round(elapsed_before + (time.time() - t0), 1)}
     io.run_json(f"cshard_{bedname}_{idx}.json", doc, "e2_converge")
-    print(f"E2 converge shard {bedname} {Fx.cell_name(**spec)}: {w['classification']} "
+    ckpt_path.unlink(missing_ok=True)
+    print(f"E2 converge shard {bedname} {cell}: {w['classification']} "
           f"movement {w.get('second_half_movement')} in {doc['wall_seconds']}s", flush=True)
     return doc
 def extend_converge_shard(bedname: str, idx: int) -> dict:
@@ -265,12 +312,21 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
     expected_cell = Fx.cell_name(**spec)
     if base.get("cell") != expected_cell or Fx.cell_name(**base.get("spec", {})) != expected_cell:
         raise RuntimeError(f"base convergence identity mismatch at {base_path}: expected {expected_cell}")
-    curve = {int(k): float(v) for k, v in base["curve"].items()}
-    spread = {int(k): float(v) for k, v in base["seed_spread"].items()}
-    seed_scores = {int(k): v for k, v in base["seed_scores"].items()}
-    arm_records = {int(k): v for k, v in base["arm_records"].items()}
-    parameter_count = base.get("parameter_count")
+    ckpt_path = _checkpoint_path("xshard", bedname, idx)
+    saved = _load_checkpoint(ckpt_path, expected_cell)
+    if saved:
+        curve, spread, seed_scores, arm_records, parameter_count, done_steps, elapsed_before = (
+            _resume_grid_state(saved))
+    else:
+        curve = {int(k): float(v) for k, v in base["curve"].items()}
+        spread = {int(k): float(v) for k, v in base["seed_spread"].items()}
+        seed_scores = {int(k): v for k, v in base["seed_scores"].items()}
+        arm_records = {int(k): v for k, v in base["arm_records"].items()}
+        parameter_count = base.get("parameter_count")
+        done_steps, elapsed_before = set(curve), 0.0
     for steps in EXTENDED_CONVERGENCE_GRID:
+        if steps in done_steps:
+            continue
         rows = [Fx.run_cell(B.splits(bedname, s_), spec, s_, "tune", steps=steps)
                 for s_ in CONVERGENCE_SEEDS]
         vals = [row["accuracy"] for row in rows]
@@ -281,6 +337,10 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
         arm_records[steps] = [{"seed": seed, "updates": row["updates"], "score": row["accuracy"],
                                "checkpoint_sha": row["checkpoint_sha_after"]}
                               for seed, row in zip(CONVERGENCE_SEEDS, rows, strict=True)]
+        _save_checkpoint(ckpt_path, {"cell": expected_cell, "source_commit": io.launch_commit(),
+            "curve": curve, "seed_spread": spread, "seed_scores": seed_scores,
+            "arm_records": arm_records, "parameter_count": parameter_count,
+            "elapsed_before": elapsed_before + (time.time() - t0)})
     w = W.plateau_validity(curve)
     doc = {
         "schema": "mop-e2-extended-convergence-shard/v1",
@@ -300,9 +360,10 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
         },
         "authority_commit": io.launch_commit(),
         **w,
-        "wall_seconds": round(time.time() - t0, 1),
+        "wall_seconds": round(elapsed_before + (time.time() - t0), 1),
     }
     io.run_json(f"xshard_{bedname}_{idx}.json", doc, "e2_converge_extended")
+    ckpt_path.unlink(missing_ok=True)
     print(f"E2 extended convergence {bedname} {doc['cell']}: {w['classification']} "
           f"movement {w.get('second_half_movement')} in {doc['wall_seconds']}s", flush=True)
     return doc
