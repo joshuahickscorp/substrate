@@ -22,6 +22,7 @@ from mop.temporal import arch as A
 from mop.temporal import beds as B
 from mop.temporal import factorial as Fx
 from mop.temporal import io
+from mop.temporal import receipt_contract as RC
 
 T95 = {2: 6.314, 3: 2.920, 4: 2.353, 5: 2.132, 6: 2.015, 7: 1.943, 8: 1.895, 9: 1.860, 10: 1.833}
 SESOI = 0.05
@@ -103,7 +104,7 @@ def _curve_receipt_checks(document: dict, *, bed: str, spec: dict,
             and _close(document.get("second_half_movement"), plateau["second_half_movement"]) \
             and _close(document.get("residual_slope"), plateau["residual_slope"]) \
             and document.get("converged") is plateau["all_pass"]
-    records = document.get("arm_records")
+    records = RC.arm_records(document)
     declared_scores = document.get("seed_scores")
     if isinstance(records, dict):
         record_checks = []
@@ -170,7 +171,7 @@ def _convergence_audit(bed: str, *, scientific: bool = True) -> dict:
     checks[f"correction:{corrected_cell}"] = all(correction_checks.values())
     checks["exact_correction_file_inventory"] = {p.name for p in (
         io.RUNS / "e2_converge_corrections").glob(f"*{bed}*.json")} == {correction_path.name}
-    sources[corrected_cell] = correction
+    sources[corrected_cell] = RC.adapt_for_aggregation(correction)
     aggregate_path = io.RUNS / "e2_converge" / f"converge_{bed}.json"
     aggregate = json.loads(aggregate_path.read_text()) if aggregate_path.is_file() else {}
     configs = aggregate.get("configs") or {}
@@ -1993,6 +1994,7 @@ def main():
     b, c = role_b(), role_c()
     doc = {
         "schema": "mop-temporal-core-independent-verification/v1",
+        "receipt_contract": RC.declaration(RC.VERIFICATION, "independent_role_checks"),
         "role_b": b,
         "role_c": c,
         "all_pass": bool(b.get("all_pass")) and bool(c.get("all_pass")),

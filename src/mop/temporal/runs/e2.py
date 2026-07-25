@@ -11,6 +11,7 @@ from mop.temporal import arch as A
 from mop.temporal import beds as B
 from mop.temporal import factorial as Fx
 from mop.temporal import io
+from mop.temporal import receipt_contract as RC
 SCOUT_SEEDS = (0, 1, 2, 3)
 PRINCIPAL_SEEDS = tuple(range(8))
 MAX_SEEDS = 12
@@ -172,7 +173,9 @@ def principal(bedname: str, seed: int) -> dict:
     checkpoints = {cell: int(configs[cell]["selected_checkpoint"]) for cell in expected}
     runs = [Fx.run_cell(sp, spec, seed, "test", steps=checkpoints[Fx.cell_name(**spec)])
             for spec in cells]
-    doc = {"schema": "mop-e2-principal-shard/v2", "bed": bedname, "seed": seed,
+    doc = {"schema": "mop-e2-principal-shard/v2",
+           "receipt_contract": RC.declaration(RC.PRINCIPAL, "factorial_runs"),
+           "bed": bedname, "seed": seed,
            "n_cells": len(runs), "runs": runs,
            "convergence_authority": {
                "path": convergence_path.relative_to(io.ROOT).as_posix(),
@@ -293,7 +296,8 @@ def converge_shard(bedname: str, idx: int) -> dict:
             "arm_records": arm_records, "parameter_count": parameter_count,
             "elapsed_before": elapsed_before + (time.time() - t0)})
     w = W.plateau_validity(curve)
-    doc = {"bed": bedname, "spec": spec, "cell": cell, "curve": curve,
+    doc = {"receipt_contract": RC.declaration(RC.BASE_CONVERGENCE, "raw_arm_grid"),
+           "bed": bedname, "spec": spec, "cell": cell, "curve": curve,
            "seed_spread": spread, "seed_scores": seed_scores, "arm_records": arm_records,
            "seeds": list(CONVERGENCE_SEEDS),
            "parameter_count": parameter_count, **w,
@@ -344,6 +348,7 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
     w = W.plateau_validity(curve)
     doc = {
         "schema": "mop-e2-extended-convergence-shard/v1",
+        "receipt_contract": RC.declaration(RC.EXTENDED_CONVERGENCE, "raw_arm_grid"),
         "bed": bedname,
         "spec": spec,
         "cell": expected_cell,
@@ -381,6 +386,8 @@ def converge(bedname: str) -> dict:
         p = p if p.is_file() else io.RUNS / "e2_converge" / f"cshard_{bedname}_{idx}.json"
         if p.is_file():
             d = json.loads(p.read_text())
+            if correction_name and p == corrected:
+                d = RC.adapt_for_aggregation(d)
             out[d["cell"]] = d
         else:
             d = converge_shard(bedname, idx)
