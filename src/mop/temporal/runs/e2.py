@@ -402,7 +402,7 @@ def converge(bedname: str) -> dict:
            "shard_index": shard_index,
            "configs": out,
            "all_converged": all(v["converged"] for v in out.values()),
-           "unconverged": [k for k, v in out.items() if not v["converged"]],
+           "unconverged": sorted(k for k, v in out.items() if not v["converged"]),
            "load_bearing_cells": list(LOAD_BEARING_CONVERGENCE_CELLS),
            "load_bearing_all_converged": all(v and v["converged"] for v in load.values()),
            "load_bearing_unconverged": [k for k, v in load.items() if not v or not v["converged"]],
