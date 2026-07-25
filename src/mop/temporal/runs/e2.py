@@ -212,6 +212,14 @@ CORRECTED_CONVERGENCE_CELLS = {
     Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", tier="large")):
         "convergence_{bed}.json",
 }
+CONVERGENCE_AGGREGATE_IDEMPOTENCE_FIELDS = (
+    "schema", "bed", "grid", "seeds_per_budget", "shard_index", "configs",
+    "all_converged", "unconverged", "load_bearing_cells",
+    "load_bearing_all_converged", "load_bearing_unconverged",
+)
+def _convergence_aggregate_current(existing: dict, candidate: dict) -> bool:
+    return all(existing.get(field) == candidate.get(field)
+               for field in CONVERGENCE_AGGREGATE_IDEMPOTENCE_FIELDS)
 LEGACY_CONVERGENCE_CONFIG_COUNT = 66
 BACKFILL_WORKERS = 16
 def _parallel_backfill(bedname: str, command: str, indices: list[int]) -> None:
@@ -411,9 +419,7 @@ def converge(bedname: str) -> dict:
     if aggregate_path.is_file():
         try:
             existing = json.loads(aggregate_path.read_text())
-            if (existing.get("schema") == doc["schema"]
-                    and existing.get("shard_index") == shard_index
-                    and existing.get("configs") == out):
+            if _convergence_aggregate_current(existing, doc):
                 return existing
         except (OSError, json.JSONDecodeError, TypeError):
             pass

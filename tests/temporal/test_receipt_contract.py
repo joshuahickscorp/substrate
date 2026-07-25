@@ -5,7 +5,7 @@ import pytest
 
 from mop.temporal import io
 from mop.temporal import receipt_contract as RC
-from mop.temporal.runs import supervisor
+from mop.temporal.runs import e2, supervisor
 
 
 CELL = "histmlp|large|linear|none|h1"
@@ -203,3 +203,23 @@ def test_two_strike_hold_requires_implementation_change(monkeypatch, tmp_path):
     assert supervisor.held(detail["stage"], detail["identity"])
     authority = {"source_commit": "5" * 40, "source_tree_oid": "6" * 40}
     assert not supervisor.held(detail["stage"], detail["identity"])
+
+
+def test_convergence_aggregate_reuse_binds_terminal_summaries():
+    candidate = {
+        "schema": "mop-e2-convergence/v4",
+        "bed": "har_stream",
+        "grid": GRID,
+        "seeds_per_budget": SEEDS,
+        "shard_index": [{"cell": "a"}],
+        "configs": {"a": {"converged": False}, "b": {"converged": False}},
+        "all_converged": False,
+        "unconverged": ["a", "b"],
+        "load_bearing_cells": ["a"],
+        "load_bearing_all_converged": False,
+        "load_bearing_unconverged": ["a"],
+    }
+    assert e2._convergence_aggregate_current(copy.deepcopy(candidate), candidate)
+    stale = copy.deepcopy(candidate)
+    stale["unconverged"] = ["b", "a"]
+    assert not e2._convergence_aggregate_current(stale, candidate)
