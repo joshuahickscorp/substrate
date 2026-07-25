@@ -6,6 +6,7 @@ import subprocess
 import sys
 import time
 from mop.temporal import io
+from mop.temporal import receipt_contract as RC
 from mop.temporal.runs import e2
 PY, LOGS = sys.executable, io.ROOT / "logs"
 CAP_OVERRIDE = int(os.environ["TEMPORAL_WORKERS"]) if os.environ.get("TEMPORAL_WORKERS") else None
@@ -178,7 +179,7 @@ def _curve_exact(doc: dict, grid) -> None:
     curve = doc.get("curve")
     if not isinstance(curve, dict) or {int(k) for k in curve} != set(grid): raise ValueError("curve grid mismatch")
     if doc.get("selected_checkpoint") not in set(grid) or not isinstance(doc.get("converged"), bool): raise ValueError("curve decision shape invalid")
-    scores, records = doc.get("seed_scores"), doc.get("arm_records")
+    scores, records = doc.get("seed_scores"), RC.arm_records(doc)
     if (not isinstance(scores, dict) or not isinstance(records, dict) or
             {int(k) for k in scores} != set(grid) or {int(k) for k in records} != set(grid)): raise ValueError("raw convergence grid missing")
     get = lambda mapping, budget: mapping.get(str(budget), mapping.get(budget))
@@ -232,7 +233,11 @@ def _stage_valid(sub: str, name: str, doc: dict) -> None:
                      "e2_converge", f"cshard_{bed}_{idx}")]
                 source, source_sub, source_name = next((r for r in candidates if r[0].is_file()), (None,) * 3)
                 raw = json.loads(source.read_text()) if source else None
-                if not isinstance(raw, dict) or not _provenance_valid(raw) or configs[cell] != raw: raise ValueError("convergence aggregate is stale or unbound")
+                if not isinstance(raw, dict) or not _provenance_valid(raw): raise ValueError("convergence aggregate is stale or unbound")
+                source_kind = RC.kind_for_stage(source_sub, source_name)
+                if source_kind:
+                    RC.validate(source_kind, raw, path=source)
+                if configs[cell] != RC.adapt_for_aggregation(raw): raise ValueError("convergence aggregate is stale or unbound")
                 _stage_valid(source_sub, source_name, raw)
                 selected.append({"cell": cell, "path": source.relative_to(io.ROOT).as_posix(),
                                  "sha256": io.sha_file(source)})
@@ -320,7 +325,7 @@ def _stage_valid(sub: str, name: str, doc: dict) -> None:
                 doc.get("seed") != seed or not isinstance(doc.get("selected_core_spec"), dict) or
                 not isinstance(arms, dict) or set(arms) != set(hybrid.ARMS) or any(not isinstance(arms[a], dict)
                 or not isinstance(arms[a].get("trace"), dict) for a in hybrid.ARMS)): raise ValueError("hybrid identity or arm mismatch")
-def invalid(sub: str, names: list[str]) -> list[str]:
+def invalid_details(sub: str, names: list[str]) -> list[dict]:
     d, out = io.RUNS / sub, []
     for n in names:
         p = d / f"{n}.json"
@@ -335,13 +340,113 @@ def invalid(sub: str, names: list[str]) -> list[str]:
                 "third_bed_preflight", "hybrid"}
             if not _provenance_valid(doc, allow_legacy):
                 raise ValueError("receipt provenance invalid")
+            contract_kind = RC.kind_for_stage(sub, n)
+            if contract_kind:
+                RC.validate(contract_kind, doc, path=p)
             _stage_valid(sub, n, doc)
-        except (OSError, ValueError, KeyError, TypeError, AttributeError):
-            out.append(n)
+        except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+            out.append({"stage": sub, "identity": n, "path": p, "error_class": type(exc).__name__,
+                        "error": str(exc) or type(exc).__name__})
     return out
+def invalid(sub: str, names: list[str]) -> list[str]:
+    return [row["identity"] for row in invalid_details(sub, names)]
 def partials(sub: str) -> list[str]:
     d = io.RUNS / sub
     return sorted(p.name for p in d.glob(".*.partial.*")) if d.is_dir() else []
+def implementation_authority() -> dict:
+    commit = io.commit()
+    result = subprocess.run(["git", "rev-parse", f"{commit}^{{tree}}"], cwd=io.ROOT,
+                            capture_output=True, text=True)
+    tree = result.stdout.strip() if result.returncode == 0 else io.PROCESS_SOURCE_TREE_OID
+    return {"source_commit": commit, "source_tree_oid": tree}
+def _hold_path(stage: str, identity: str) -> Path:
+    return io.RUNS / "failure_holds" / f"{stage}__{identity}.json"
+def _canonical_run_document(document: dict) -> bool:
+    return (document.get("program") == io.PROGRAM
+            and document.get("result_hash_version") == "canonical_json_v2"
+            and document.get("result_sha256") == io.sha_obj(
+                {k: v for k, v in document.items() if k != "result_sha256"}))
+def _diagnosed_once(document: dict) -> bool:
+    root = io.RUNS / "failure_diagnoses"
+    if not root.is_dir():
+        return False
+    for path in root.glob("*.json"):
+        try:
+            diagnosis = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        if (_canonical_run_document(diagnosis)
+                and diagnosis.get("error_fingerprint") == document.get("error_fingerprint")
+                and diagnosis.get("authorized_single_retry") is True):
+            return True
+    return False
+def failure_holds(stage: str | None = None, identities: list[str] | None = None) -> list[dict]:
+    root = io.RUNS / "failure_holds"
+    if not root.is_dir():
+        return []
+    authority, selected = implementation_authority(), set(identities or [])
+    out = []
+    for path in sorted(root.glob("*.json")):
+        try:
+            document = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        if (not _canonical_run_document(document)
+                or document.get("schema") != "mop-temporal-deterministic-failure-hold/v1"
+                or (stage is not None and document.get("stage") != stage)
+                or (selected and document.get("identity") not in selected)
+                or document.get("implementation_authority") != authority):
+            continue
+        if document.get("state") == "diagnosis_required" and _diagnosed_once(document):
+            continue
+        out.append({**document, "path": path.relative_to(io.ROOT).as_posix()})
+    return out
+def held(stage: str, identity: str) -> bool:
+    return bool(failure_holds(stage, [identity]))
+def diagnose_for_single_retry(stage: str, identity: str, error_fingerprint: str,
+                              diagnosis: str) -> Path:
+    return io.run_json(f"{stage}__{identity}__{time.time_ns()}.json", {
+        "schema": "mop-temporal-deterministic-failure-diagnosis/v1",
+        "stage": stage, "identity": identity, "error_fingerprint": error_fingerprint,
+        "diagnosis": diagnosis, "authorized_single_retry": True, "activation": False,
+    }, "failure_diagnoses")
+def record_deterministic_failure(detail: dict, receipt_sha256: str) -> dict:
+    authority = implementation_authority()
+    error_code = detail["error"].strip().lower().replace(" ", "_")[:160]
+    fingerprint = io.sha_obj({"stage": detail["stage"], "identity": detail["identity"],
+                              "error_class": detail["error_class"], "error_code": error_code,
+                              "implementation_authority": authority})
+    events = []
+    root = io.RUNS / "failure_events"
+    if root.is_dir():
+        for path in root.glob("*.json"):
+            try:
+                event = json.loads(path.read_text())
+            except (OSError, json.JSONDecodeError):
+                continue
+            if _canonical_run_document(event) and event.get("error_fingerprint") == fingerprint:
+                events.append(event)
+    attempt = len(events) + 1
+    event = {"schema": "mop-temporal-deterministic-failure-event/v1",
+             "stage": detail["stage"], "identity": detail["identity"],
+             "error_class": detail["error_class"], "error_code": error_code,
+             "error_fingerprint": fingerprint, "receipt_sha256": receipt_sha256,
+             "attempt_for_identical_implementation": attempt,
+             "implementation_authority": authority, "activation": False}
+    io.run_json(f"{detail['stage']}__{detail['identity']}__{time.time_ns()}.json",
+                event, "failure_events")
+    hold = {"schema": "mop-temporal-deterministic-failure-hold/v1",
+            "stage": detail["stage"], "identity": detail["identity"],
+            "state": "diagnosis_required" if attempt == 1 else "implementation_change_required",
+            "error_code": error_code, "error_fingerprint": fingerprint,
+            "observed_identical_failures_minimum": attempt,
+            "implementation_authority": authority,
+            "release_rule": ("one explicitly diagnosed retry is allowed after the first failure"
+                             if attempt == 1 else
+                             "retry prohibited until source_commit or source_tree_oid changes"),
+            "activation": False}
+    io.run_json(f"{detail['stage']}__{detail['identity']}.json", hold, "failure_holds")
+    return hold
 def _relative(path: Path) -> str:
     try:
         return path.relative_to(io.ROOT).as_posix()
@@ -382,10 +487,12 @@ def quarantine_stale_partials(sub: str, stale_after: int = PARTIAL_STALE_SECONDS
     return moved
 def recoverable_pending(sub: str, names: list[str]) -> list[str]:
     quarantine_stale_partials(sub)
-    for name in invalid(sub, names):
-        source = io.RUNS / sub / f"{name}.json"
-        _quarantine(source, sub, name, "invalid_receipts")
-    return missing(sub, names)
+    for detail in invalid_details(sub, names):
+        source = detail["path"]
+        digest = io.sha_file(source)
+        _quarantine(source, sub, detail["identity"], "invalid_receipts")
+        record_deterministic_failure(detail, digest)
+    return [name for name in missing(sub, names) if not held(sub, name)]
 def receipt_plan() -> dict[str, tuple[str, list[str]]]:
     seeds, configs = e2.PRINCIPAL_SEEDS, range(len(e2.CONVERGE_CONFIGS))
     return {
@@ -484,6 +591,7 @@ def status() -> dict:
     return {"schema": "mop-temporal-supervisor-status/v1", "stop_switch_active": io.STOP.exists(),
         "process_workers": workers(), "active_shards": active, "stalled_workers": stalled_workers(),
         "repeatedly_failing_shards": repeatedly_failing_shards(),
+        "deterministic_failure_holds": failure_holds(),
         "completed": {key: len(names) - len(absent[key]) - len(bad[key]) for key, (_, names) in plan.items()},
         "missing": absent,
         "invalid": bad,
@@ -547,6 +655,7 @@ def reconcile_live_state(phase: str, snapshot=None) -> dict:
            "stage_dependencies": dependencies, "dependency_ready": ready, "items": items,
            "active_shards": snapshot["active_shards"], "stalled_workers": snapshot.get("stalled_workers", []),
            "repeatedly_failing_shards": snapshot.get("repeatedly_failing_shards", []),
+           "deterministic_failure_holds": snapshot.get("deterministic_failure_holds", []),
            "stop_switch_active": snapshot["stop_switch_active"],
            "all_terminal": False, "no_dependency_ready_work": not ready,
            "resume": "python3.12 -m mop.temporal.runs.supervisor resumes exact receipt identities",
@@ -561,6 +670,9 @@ def _run_and_reconcile(mod: str, args=(), phase: str | None = None) -> bool:
 def run_recoverable_all(mod: str, sub: str, names: list[str]) -> bool:
     while not io.STOP.exists():
         pending = recoverable_pending(sub, names)
+        if failure_holds(sub, names):
+            reconcile_live_state(f"held:{sub}")
+            return False
         if not pending and not partials(sub):
             return True
         if pending and not _run_and_reconcile(mod, ["all"], f"after:{sub}"):
@@ -570,6 +682,9 @@ def run_recoverable_all(mod: str, sub: str, names: list[str]) -> bool:
 def run_recoverable_phase(mod: str, args: list[str], specs: list[tuple[str, list[str]]]) -> bool:
     while not io.STOP.exists():
         pending = sum((recoverable_pending(sub, names) for sub, names in specs), [])
+        if any(failure_holds(sub, names) for sub, names in specs):
+            reconcile_live_state("deterministic_failure_hold")
+            return False
         dirty = any(partials(sub) for sub, _ in specs)
         if not pending and not dirty: return True
         if pending and not _run_and_reconcile(mod, args): return False
@@ -679,6 +794,10 @@ def main(argv=None):
         pending_principal = recoverable_pending("e2_principal", principal_shards)
         pending_pre_c = recoverable_pending("e2_converge_corrections", pre_c_names)
         pending_pre_o = recoverable_pending("e2_optimization_corrections", pre_o_names)
+        if failure_holds():
+            reconcile_live_state("deterministic_failure_hold")
+            print("[supervisor] deterministic failure hold blocks retry", flush=True)
+            return
         base_partials = sum(len(partials(sub)) for sub in ("e2_scout", "e2_converge",
                             "e2_converge_extended", "e2_principal"))
         pre_partials = sum(len(partials(sub)) for sub, _ in pre_specs)

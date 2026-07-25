@@ -13,6 +13,7 @@ from mop.temporal import arch as A
 from mop.temporal import beds as B
 from mop.temporal import factorial as Fx
 from mop.temporal import io
+from mop.temporal import receipt_contract as RC
 from mop.temporal import witness as W
 from mop.temporal.runs import e2
 
@@ -37,7 +38,9 @@ def measure_curve(bedname: str, spec: dict, budgets: tuple[int, ...]) -> dict:
                               for seed, row in zip(e2.CONVERGENCE_SEEDS, rows, strict=True)}
         wall[steps] = [float(row.get("wall_seconds", 0)) for row in rows]
         params = rows[0]["params"]
-        records[steps] = [{"seed": seed, "updates": row["updates"],
+        cell = Fx.cell_name(**spec)
+        records[steps] = [{"bed": bedname, "cell": cell,
+                           "seed": seed, "updates": row["updates"],
                            "trainable_param_count": row["params"]["total"],
                            "parameter_update_exposure": row["params"]["total"] * row["updates"],
                            "score": row["accuracy"], "per_unit_accuracy": row["per_unit_accuracy"],
@@ -66,7 +69,20 @@ def principal_shard(bedname: str, seed: int) -> dict:
               "exact_selected_budget": all(r["steps"] == r["updates"] == checkpoints[r["cell"]]
                                            for r in runs),
               "no_undeclared_changes": all(not r["undeclared_changes"] for r in runs)}
-    doc = {"schema": "mop-e2-capacity-tier-correction-shard/v2", "bed": bedname, "seed": seed,
+    parent_path = io.RUNS / "e2_principal" / f"{bedname}_{seed}.json"
+    parent_receipts = [{"path": parent_path.relative_to(io.ROOT).as_posix(),
+                        "sha256": io.sha_file(parent_path), "cell": Fx.cell_name(**spec)}
+                       for spec in SPECS]
+    doc = {"schema": "mop-e2-capacity-tier-correction-shard/v2",
+           "receipt_contract": RC.declaration(RC.CORRECTION, "replacement_runs"),
+           "correction_projection": {
+               "schema": RC.PROJECTION_VERSION,
+               "mode": "run_replacement",
+               "cells": [Fx.cell_name(**spec) for spec in SPECS],
+               "parent_receipts": parent_receipts,
+               "runs": runs,
+           },
+           "bed": bedname, "seed": seed,
            "supersedes_for_analysis": [Fx.cell_name(**s) for s in SPECS], "runs": runs,
            "convergence_authority": {"path": convergence_path.relative_to(io.ROOT).as_posix(),
                                      "sha256": io.sha_file(convergence_path),
@@ -85,7 +101,27 @@ def convergence_shard(bedname: str) -> dict:
     curve = measured["curve"]
     witness = W.plateau_validity(curve)
     lo, hi = A.TIER_RANGE["large"]
-    doc = {"schema": "mop-e2-capacity-tier-correction-convergence/v2", "bed": bedname,
+    index = next(i for i, spec in enumerate(e2.CONVERGE_CONFIGS)
+                 if Fx.cell_name(**spec) == Fx.cell_name(**LINEAR))
+    parent_paths = [
+        io.RUNS / "e2_converge" / f"cshard_{bedname}_{index}.json",
+        io.RUNS / "e2_converge_extended" / f"xshard_{bedname}_{index}.json",
+    ]
+    parent_receipts = [{"path": path.relative_to(io.ROOT).as_posix(),
+                        "sha256": io.sha_file(path), "cell": Fx.cell_name(**LINEAR)}
+                       for path in parent_paths]
+    doc = {"schema": "mop-e2-capacity-tier-correction-convergence/v3",
+           "receipt_contract": RC.declaration(RC.CORRECTION, "replacement_arm_grid"),
+           "correction_projection": {
+               "schema": RC.PROJECTION_VERSION,
+               "mode": "replacement",
+               "cell": Fx.cell_name(**LINEAR),
+               "grid": list(e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID),
+               "seeds": list(e2.CONVERGENCE_SEEDS),
+               "parent_receipts": parent_receipts,
+               "arm_records": measured["arm_records"],
+           },
+           "bed": bedname,
            "spec": LINEAR, "cell": Fx.cell_name(**LINEAR), "curve": curve,
            "seed_spread": measured["seed_spread"],
            "seed_scores": measured["seed_scores"],
@@ -94,8 +130,7 @@ def convergence_shard(bedname: str) -> dict:
            "seeds": list(e2.CONVERGENCE_SEEDS),
            "parameter_count": measured["parameter_count"],
            "parameter_band_valid": lo <= measured["parameter_count"]["core"] <= hi,
-           "supersedes": [f"e2_converge/cshard_{bedname}_25.json",
-                          f"e2_converge_extended/xshard_{bedname}_25.json"],
+           "supersedes": [path.relative_to(io.RUNS).as_posix() for path in parent_paths],
            **witness, "wall_seconds": round(time.time() - t0, 1)}
     io.run_json(f"convergence_{bedname}.json", doc, "e2_converge_corrections")
     print(f"capacity convergence correction {bedname}: {doc['classification']}", flush=True)
@@ -129,7 +164,9 @@ def optimization_shard(bedname: str, tier: str) -> dict:
               "all_seed_arm_records_complete": all(len(measured["arm_records"][budget]) ==
                                                      len(e2.CONVERGENCE_SEEDS)
                                                      for budget in measured_budgets)}
-    doc = {"schema": "mop-e2-optimization-capacity-correction/v1", "bed": bedname,
+    doc = {"schema": "mop-e2-optimization-capacity-correction/v1",
+           "receipt_contract": RC.declaration(RC.CORRECTION, "measured_arm_grid"),
+           "bed": bedname,
            "tier": tier, "spec": spec, "cell": Fx.cell_name(**spec), "seeds": list(e2.CONVERGENCE_SEEDS),
            **measured, "regular_grid": list(budgets), "same_update_anchor": large_steps,
            "compute_match": {"large_steps": large_steps, "large_parameter_updates": large_compute,
@@ -210,6 +247,9 @@ def run_all(phase: str = "all") -> dict:
     while True:
         pending_c = supervisor.recoverable_pending("e2_converge_corrections", convergence)
         pending_o = supervisor.recoverable_pending("e2_optimization_corrections", optimization)
+        if (supervisor.failure_holds("e2_converge_corrections", convergence)
+                or supervisor.failure_holds("e2_optimization_corrections", optimization)):
+            raise RuntimeError("deterministic correction failure hold blocks retry")
         if phase == "postprincipal" and (pending_c or pending_o):
             raise RuntimeError("postprincipal corrections require terminal preprincipal corrections")
         pending_p = (supervisor.recoverable_pending("e2_principal_corrections", principal)
@@ -218,6 +258,9 @@ def run_all(phase: str = "all") -> dict:
             pending_p = []
         elif phase == "postprincipal":
             pending_c = pending_o = []
+        if phase != "preprincipal" and supervisor.failure_holds(
+                "e2_principal_corrections", principal):
+            raise RuntimeError("deterministic principal correction failure hold blocks retry")
         if not pending_p and not pending_c and not pending_o:
             if phase == "preprincipal":
                 refreshed = {bed: e2.converge(bed) for bed in BEDS}

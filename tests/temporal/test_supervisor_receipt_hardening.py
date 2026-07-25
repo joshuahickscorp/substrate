@@ -4,6 +4,7 @@ import subprocess
 
 from mop.temporal import io
 from mop.temporal import factorial as Fx
+from mop.temporal import receipt_contract as RC
 from mop.temporal.runs import corrections, e2, supervisor
 
 
@@ -96,13 +97,16 @@ def test_extended_convergence_dependency_is_exact_and_cannot_escape_data_root(mo
         return {"seed_scores": {str(k): [0.5] * len(e2.CONVERGENCE_SEEDS) for k in grid},
                 "arm_records": {str(k): [{"seed": seed, "updates": k, "score": 0.5,
                     "checkpoint_sha": "f" * 64} for seed in e2.CONVERGENCE_SEEDS] for k in grid}}
-    base = canonical({"bed": bed, "spec": spec, "cell": e2.Fx.cell_name(**spec),
+    base = canonical({"receipt_contract": RC.declaration(RC.BASE_CONVERGENCE, "raw_arm_grid"),
+                      "bed": bed, "spec": spec, "cell": e2.Fx.cell_name(**spec),
                       "curve": {str(k): 0.5 for k in e2.CONVERGENCE_GRID},
                       "seeds": list(e2.CONVERGENCE_SEEDS), "selected_checkpoint": e2.CONVERGENCE_GRID[0],
                       "converged": True, **raw(e2.CONVERGENCE_GRID)})
     write_receipt(runs, "e2_converge", f"cshard_{bed}_{idx}", base)
     base_path = runs / "e2_converge" / f"cshard_{bed}_{idx}.json"
-    extension = canonical({"bed": bed, "spec": spec, "cell": e2.Fx.cell_name(**spec),
+    extension = canonical({"receipt_contract": RC.declaration(
+        RC.EXTENDED_CONVERGENCE, "raw_arm_grid"),
+        "bed": bed, "spec": spec, "cell": e2.Fx.cell_name(**spec),
         "curve": {str(k): 0.5 for k in e2.CONVERGENCE_GRID + e2.EXTENDED_CONVERGENCE_GRID},
         "seeds": list(e2.CONVERGENCE_SEEDS), "selected_checkpoint": e2.CONVERGENCE_GRID[0],
         "converged": True, "extends": {"path": base_path.relative_to(tmp_path).as_posix(),
@@ -130,8 +134,9 @@ def test_principal_and_correction_budgets_bind_exact_selected_convergence(monkey
     write_receipt(runs_root, "e2_converge", f"converge_{bed}", convergence)
     path = runs_root / "e2_converge" / f"converge_{bed}.json"
 
-    def bound_doc(selected_cells, schema):
-        return canonical({"schema": schema, "bed": bed, "seed": seed,
+    def bound_doc(selected_cells, schema, contract):
+        return canonical({"schema": schema, "receipt_contract": contract,
+            "bed": bed, "seed": seed,
             "n_cells": len(selected_cells),
             "runs": [{"bed": bed, "seed": seed, "cell": cell,
                       "steps": budget, "updates": budget} for cell in selected_cells],
@@ -139,7 +144,8 @@ def test_principal_and_correction_budgets_bind_exact_selected_convergence(monkey
                 "sha256": io.sha_file(path),
                 "selected_checkpoints": {cell: budget for cell in selected_cells}}})
 
-    principal = bound_doc(cells, "mop-e2-principal-shard/v2")
+    principal = bound_doc(cells, "mop-e2-principal-shard/v2",
+                          RC.declaration(RC.PRINCIPAL, "factorial_runs"))
     write_receipt(runs_root, "e2_principal", f"{bed}_{seed}", principal)
     assert supervisor.invalid("e2_principal", [f"{bed}_{seed}"]) == []
     principal["runs"][0]["steps"] = budget + 1
@@ -149,7 +155,20 @@ def test_principal_and_correction_budgets_bind_exact_selected_convergence(monkey
     assert supervisor.invalid("e2_principal", [f"{bed}_{seed}"]) == [f"{bed}_{seed}"]
 
     correction_cells = [Fx.cell_name(**spec) for spec in corrections.SPECS]
-    correction = bound_doc(correction_cells, "mop-e2-capacity-tier-correction-shard/v2")
+    correction = bound_doc(correction_cells, "mop-e2-capacity-tier-correction-shard/v2",
+                           RC.declaration(RC.CORRECTION, "replacement_runs"))
+    parent = runs_root / "e2_principal" / f"{bed}_{seed}.json"
+    correction["correction_projection"] = {
+        "schema": RC.PROJECTION_VERSION,
+        "mode": "run_replacement",
+        "cells": correction_cells,
+        "parent_receipts": [{"path": parent.relative_to(tmp_path).as_posix(),
+                             "sha256": io.sha_file(parent), "cell": cell}
+                            for cell in correction_cells],
+        "runs": correction["runs"],
+    }
+    correction["result_sha256"] = io.sha_obj(
+        {k: v for k, v in correction.items() if k != "result_sha256"})
     name = f"capacity_{bed}_{seed}"
     write_receipt(runs_root, "e2_principal_corrections", name, correction)
     assert supervisor.invalid("e2_principal_corrections", [name]) == []
@@ -205,7 +224,8 @@ def test_invalid_receipt_recovery_preserves_original_bytes(monkeypatch, tmp_path
     source.parent.mkdir(parents=True)
     original = b'{"old_fixed_budget":1200}'
     source.write_bytes(original)
-    assert supervisor.recoverable_pending("e2_principal", ["har_stream_0"]) == ["har_stream_0"]
+    assert supervisor.recoverable_pending("e2_principal", ["har_stream_0"]) == []
+    assert supervisor.held("e2_principal", "har_stream_0")
     assert not source.exists()
     quarantined = list((runs / "quarantine" / "invalid_receipts").iterdir())
     assert len(quarantined) == 1 and quarantined[0].read_bytes() == original
