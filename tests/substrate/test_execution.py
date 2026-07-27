@@ -86,7 +86,7 @@ def test_the_rehearsal_breaks_things_and_survives():
     for required in (
         "injected_failure_preserves_completed_work",
         "stop_switch_halts",
-        "exclusive_writers",
+        "worker_claim_race_and_exclusive_writers",
         "checkpoint_resume",
         "stale_artifact_refusal",
         "terminal_closure",

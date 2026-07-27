@@ -17,7 +17,10 @@ import tempfile
 from functools import lru_cache
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+# An editable checkout resolves naturally from the source path. A regular wheel cannot contain the
+# multi-gigabyte immutable proof and receipt history, so an installed command binds to an explicit
+# checkout through this Substrate-native variable.
+ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).expanduser().resolve()
 PROGRAM = "substrate-v1"
 PROOF = ROOT / "evidence" / "substrate" / "v1"
 RUNS = ROOT / "runs" / "substrate" / "v1"
