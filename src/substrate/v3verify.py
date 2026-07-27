@@ -499,7 +499,7 @@ def _restore_refused(checkpoint: dict) -> bool:
     return False
 
 
-def clean_clone(ref: str = P.READY_TAG) -> dict:
+def clean_clone(ref: str = "main") -> dict:
     with tempfile.TemporaryDirectory(prefix="substrate-v3-clean-clone-") as temporary:
         clone = Path(temporary) / "repo"
         clone_result = subprocess.run(
