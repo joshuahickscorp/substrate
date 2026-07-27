@@ -1439,12 +1439,18 @@ def record_result(item_id: str, classification: dict, experiment_id: str, eviden
         raise ValueError(f"unknown item {item_id}")
     ledger = _ledger("result_ledger.json")
     results = ledger.get("results", {})
-    results[item_id] = {
+    candidate = {
         **classification,
         "experiment_id": experiment_id,
         "evidence": evidence,
         "source_commit": io.commit(),
     }
+    existing = results.get(item_id)
+    if existing and {key: value for key, value in existing.items() if key != "source_commit"} == {
+        key: value for key, value in candidate.items() if key != "source_commit"
+    }:
+        return existing
+    results[item_id] = candidate
     io.run_json("result_ledger.json", {"schema": "substrate-result-ledger/v1", "results": results})
     return results[item_id]
 
