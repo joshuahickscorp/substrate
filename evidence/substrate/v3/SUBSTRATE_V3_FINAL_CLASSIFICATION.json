@@ -1,0 +1,76 @@
+{
+  "schema": "substrate-v3-final-classification/v1",
+  "classification": "reflective_cognitive_organization",
+  "ordered_levels": [
+    "certified_cognitive_scaffold",
+    "persistent_developmental_cognition",
+    "epistemically_organized_reasoner",
+    "demonstrated_structural_understanding",
+    "reflective_cognitive_organization",
+    "functional_proto_nous_candidate",
+    "nous_ready_for_review"
+  ],
+  "gates": {
+    "epistemically_organized_reasoner": true,
+    "demonstrated_structural_understanding": false,
+    "reflective_cognitive_organization": true,
+    "functional_proto_nous_candidate": false,
+    "nous_ready_for_review": false
+  },
+  "hypotheses": {
+    "H_N1": true,
+    "H_N2": true,
+    "H_N3": true,
+    "H_N4": false,
+    "H_N5": true,
+    "H_N6": true,
+    "H_N7": false,
+    "H_N8": true,
+    "H_N9": true
+  },
+  "missing_conditions": [
+    "H_N4",
+    "H_N7",
+    "independent verification"
+  ],
+  "unqualified_nous_assigned": false,
+  "external_review_required_for_unqualified_nous": true,
+  "claim_boundary": {
+    "ordered_levels": [
+      "certified_cognitive_scaffold",
+      "persistent_developmental_cognition",
+      "epistemically_organized_reasoner",
+      "demonstrated_structural_understanding",
+      "reflective_cognitive_organization",
+      "functional_proto_nous_candidate",
+      "nous_ready_for_review"
+    ],
+    "maximum": "nous_ready_for_review",
+    "unqualified_nous_automatically_assignable": false,
+    "not_claimed": [
+      "consciousness",
+      "phenomenal experience",
+      "sentience",
+      "feeling",
+      "suffering",
+      "desire",
+      "personhood",
+      "life",
+      "moral status"
+    ],
+    "permitted_actions": [
+      "internal cognitive proposals",
+      "internal reasoning selection",
+      "deterministic sandboxed tools",
+      "local immutable task queries",
+      "hypothetical actions",
+      "controlled simulated outcomes"
+    ],
+    "activation": false
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "2c54932dca5ba999d2f2bf261ac25e193e9a77dd",
+  "source_digest": "869a6353cfc0d8b5622ad5f75083b9d66b04d623320a9ad3405489cf3448e594",
+  "sha256": "4339be988b31d55350ea245c535d9324e0ecd60ce31d98dd09570c84e37db337"
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "substrate-v3-review-package/v1",
+  "classification": "reflective_cognitive_organization",
+  "constitution": "evidence/substrate/v3/SUBSTRATE_V3_SCIENTIFIC_CONSTITUTION.json",
+  "hypotheses": "evidence/substrate/v3/SUBSTRATE_V3_HYPOTHESIS_GRAPH.json",
+  "generators": "evidence/substrate/v3/SUBSTRATE_V3_GENERATOR_AUTHORITY.json",
+  "splits": "configs/substrate/v3/split_manifest.json",
+  "dag": "evidence/substrate/v3/SUBSTRATE_V3_PRINCIPAL_DAG.json",
+  "raw_receipts": "runs/substrate/v3/principal/units",
+  "effects": "evidence/substrate/v3/SUBSTRATE_V3_INDEPENDENT_VERIFICATION.json",
+  "mutations": "evidence/substrate/v3/SUBSTRATE_V3_MUTATION_REPORT.json",
+  "clean_clone": "evidence/substrate/v3/SUBSTRATE_V3_CLEAN_CLONE.json",
+  "claim_boundary": "evidence/substrate/v3/SUBSTRATE_V3_CLAIM_BOUNDARY.json",
+  "activation": false
+}

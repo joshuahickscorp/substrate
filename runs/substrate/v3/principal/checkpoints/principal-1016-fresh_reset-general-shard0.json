@@ -1,0 +1,514 @@
+{
+  "schema": "substrate-v3-checkpoint/v1",
+  "owned_identity": "v3:1016:fresh_reset",
+  "semantic_state": {
+    "arm": "fresh_reset",
+    "entity_id": "v3:1016:fresh_reset",
+    "body": "general",
+    "tools": [
+      "deterministic_compare",
+      "sandbox_simulation"
+    ],
+    "ontology": {
+      "concepts": {},
+      "instance_features": {},
+      "cross_representation_maps": {}
+    },
+    "epistemology": {
+      "beliefs": {},
+      "defeater_receipts": [],
+      "inquiry_receipts": [],
+      "knowledge_admissions": []
+    },
+    "reasoning_receipts": [],
+    "structure": {
+      "edges": [
+        [
+          "role_0",
+          "role_1"
+        ],
+        [
+          "role_1",
+          "role_2"
+        ],
+        [
+          "role_2",
+          "role_3"
+        ]
+      ],
+      "mechanisms": {
+        "role_0>role_1": "dependency",
+        "role_1>role_2": "transformation",
+        "role_2>role_3": "delivery"
+      },
+      "representation_maps": {}
+    },
+    "self_model": {
+      "estimates": {
+        "accuracy": 0.920754995
+      },
+      "history": [
+        {
+          "kind": "accuracy",
+          "predicted": 0.5,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.65,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.755,
+          "actual": 0.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5285,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6699499999999999,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7689649999999999,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8382755,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.88679285,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        }
+      ]
+    },
+    "self_receipts": [
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.5,
+        "actual": 1.0,
+        "prediction_step": 1,
+        "outcome_step": 2
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.65,
+        "actual": 1.0,
+        "prediction_step": 2,
+        "outcome_step": 3
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.755,
+        "actual": 0.0,
+        "prediction_step": 3,
+        "outcome_step": 4
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.5285,
+        "actual": 1.0,
+        "prediction_step": 4,
+        "outcome_step": 5
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.6699499999999999,
+        "actual": 1.0,
+        "prediction_step": 5,
+        "outcome_step": 6
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.7689649999999999,
+        "actual": 1.0,
+        "prediction_step": 6,
+        "outcome_step": 7
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.8382755,
+        "actual": 1.0,
+        "prediction_step": 7,
+        "outcome_step": 8
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.88679285,
+        "actual": 1.0,
+        "prediction_step": 8,
+        "outcome_step": 9
+      }
+    ],
+    "ontology_receipts": [],
+    "world_receipts": [],
+    "semantic": {
+      "scientific_inquiry": {
+        "last_task": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507",
+        "last_outcome": true,
+        "verified": true
+      }
+    },
+    "procedures": {
+      "procedure:scientific_inquiry": {
+        "family": "scientific_inquiry",
+        "uses": 8,
+        "verified_sources": [
+          "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507"
+        ]
+      }
+    },
+    "allocation_counts": {
+      "('high', False, 'shifted')": {
+        "stop": [
+          0.0,
+          0.0
+        ],
+        "inquire": [
+          0.30000000000000004,
+          0.30000000000000004
+        ]
+      },
+      "('high', True, 'shifted')": {
+        "stop": [
+          0.0
+        ],
+        "inquire": [
+          0.30000000000000004
+        ]
+      },
+      "('low', True, 'shifted')": {
+        "stop": [
+          0.0,
+          0.0
+        ],
+        "inquire": [
+          0.30000000000000004,
+          0.30000000000000004
+        ]
+      },
+      "('low', True, 'stable')": {
+        "stop": [
+          1.0
+        ],
+        "inquire": [
+          -0.7
+        ]
+      },
+      "('low', False, 'shifted')": {
+        "stop": [
+          1.0
+        ],
+        "inquire": [
+          -0.7
+        ]
+      },
+      "('high', True, 'stable')": {
+        "stop": [
+          1.0
+        ],
+        "inquire": [
+          -0.7
+        ]
+      }
+    },
+    "history_specialization": {
+      "scientific_inquiry": 7
+    },
+    "cycles": [
+      {
+        "identity": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1500",
+        "step": 1,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "contextual inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "contextual inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.5,
+        "self_prediction_step": 1,
+        "outcome_step": 2,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "general",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1501",
+        "step": 2,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "contextual inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "contextual inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.65,
+        "self_prediction_step": 2,
+        "outcome_step": 3,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "general",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1502",
+        "step": 3,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "contextual inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "contextual inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.755,
+        "self_prediction_step": 3,
+        "outcome_step": 4,
+        "decision": "stop",
+        "outcome": {
+          "correct": false,
+          "target": "inquire",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "general",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1503",
+        "step": 4,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "contextual inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "contextual inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.5285,
+        "self_prediction_step": 4,
+        "outcome_step": 5,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "general",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1504",
+        "step": 5,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "contextual inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "contextual inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.6699499999999999,
+        "self_prediction_step": 5,
+        "outcome_step": 6,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "general",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1505",
+        "step": 6,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "contextual inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "contextual inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.7689649999999999,
+        "self_prediction_step": 6,
+        "outcome_step": 7,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "general",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1506",
+        "step": 7,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "contextual inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "contextual inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.8382755,
+        "self_prediction_step": 7,
+        "outcome_step": 8,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "general",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "principal:1016:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507",
+        "step": 8,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "contextual inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "contextual inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.88679285,
+        "self_prediction_step": 8,
+        "outcome_step": 9,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "general",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      }
+    ],
+    "step": 8,
+    "activation": false
+  },
+  "identity_hash": "ee2329ecae406f7a387946e8a17d8f20a6cdca757b27c3954952c5c7b05aee4d",
+  "activation": false,
+  "program": "substrate-v3"
+}

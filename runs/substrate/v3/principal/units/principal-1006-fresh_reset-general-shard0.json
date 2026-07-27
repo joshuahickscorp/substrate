@@ -1,0 +1,5828 @@
+{
+  "schema": "substrate-v3-principal-unit/v1",
+  "unit": {
+    "identity": "principal-1006-fresh_reset-general-shard0",
+    "hypothesis": "H_N1,H_N2,H_N3,H_N4,H_N5,H_N6,H_N7,H_N8,H_N9",
+    "arm": "fresh_reset",
+    "history_seed": 1006,
+    "split": "principal",
+    "workload_families": [
+      "ontology_garden",
+      "epistemic_laboratory",
+      "causal_micro_worlds",
+      "cross_representation_systems",
+      "reasoning_method_selection",
+      "scientific_inquiry",
+      "adversarial_ambiguity"
+    ],
+    "developmental_phases": [
+      "phase_0_cold_baseline",
+      "phase_1_ontology_acquisition",
+      "phase_2_semantic_procedural_development",
+      "phase_3_conflicting_evidence_defeaters",
+      "phase_4_ontology_repair",
+      "phase_5_cross_representation_transfer",
+      "phase_6_causal_intervention",
+      "phase_7_counterfactual",
+      "phase_8_reasoning_method_switching",
+      "phase_9_inquiry_under_cost",
+      "phase_10_interruption_checkpoint",
+      "phase_11_body_tool_change",
+      "phase_12_return_prior_domains",
+      "phase_13_misleading_analogy",
+      "phase_14_open_world_structures",
+      "phase_15_terminal_integrated_evaluation"
+    ],
+    "body": "general",
+    "shard": 0,
+    "dependencies": [],
+    "inputs": [
+      "configs/substrate/v3/frozen_configuration.json",
+      "configs/substrate/v3/split_manifest.json",
+      "evidence/substrate/v3/SUBSTRATE_V3_ADMISSION.json"
+    ],
+    "outputs": [
+      "runs/substrate/v3/principal/units/principal-1006-fresh_reset-general-shard0.json",
+      "runs/substrate/v3/principal/checkpoints/principal-1006-fresh_reset-general-shard0.json"
+    ],
+    "resource_class": "small_cpu",
+    "timeout": 300,
+    "retry_rule": "one exact retry after process failure; deterministic failure is terminal",
+    "checkpoint": "every phase and terminal semantic state",
+    "artifact_family": "principal:principal-1006-fresh_reset-general-shard0",
+    "claim_ceiling": "nous_ready_for_review"
+  },
+  "cycles": [
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_0_cold_baseline:0",
+      "step": 1,
+      "family": "reasoning_method_selection",
+      "phase": "phase_0_cold_baseline",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "planning",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "planning",
+      "world_model_prediction": [
+        "inspect",
+        "repair",
+        "verify"
+      ],
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": [
+        "inspect",
+        "repair",
+        "verify"
+      ],
+      "outcome": {
+        "correct": true,
+        "target": [
+          "inspect",
+          "repair",
+          "verify"
+        ],
+        "proposal": [
+          "inspect",
+          "repair",
+          "verify"
+        ],
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_0_cold_baseline:1",
+      "step": 2,
+      "family": "reasoning_method_selection",
+      "phase": "phase_0_cold_baseline",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "abduction",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "abduction",
+      "world_model_prediction": "x",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "x",
+      "outcome": {
+        "correct": true,
+        "target": "x",
+        "proposal": "x",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_0_cold_baseline:2",
+      "step": 3,
+      "family": "reasoning_method_selection",
+      "phase": "phase_0_cold_baseline",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "analogy",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "analogy",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_0_cold_baseline:3",
+      "step": 4,
+      "family": "reasoning_method_selection",
+      "phase": "phase_0_cold_baseline",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "deduction",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "deduction",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_0_cold_baseline:4",
+      "step": 5,
+      "family": "reasoning_method_selection",
+      "phase": "phase_0_cold_baseline",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "induction",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "induction",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_0_cold_baseline:5",
+      "step": 6,
+      "family": "reasoning_method_selection",
+      "phase": "phase_0_cold_baseline",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "diagnostic",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "diagnostic",
+      "world_model_prediction": "bearing",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "bearing",
+      "outcome": {
+        "correct": true,
+        "target": "bearing",
+        "proposal": "bearing",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_0_cold_baseline:6",
+      "step": 7,
+      "family": "reasoning_method_selection",
+      "phase": "phase_0_cold_baseline",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "diagnostic",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "diagnostic",
+      "world_model_prediction": "bearing",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "bearing",
+      "outcome": {
+        "correct": true,
+        "target": "bearing",
+        "proposal": "bearing",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_0_cold_baseline:7",
+      "step": 8,
+      "family": "reasoning_method_selection",
+      "phase": "phase_0_cold_baseline",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "planning",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "planning",
+      "world_model_prediction": [
+        "inspect",
+        "repair",
+        "verify"
+      ],
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": [
+        "inspect",
+        "repair",
+        "verify"
+      ],
+      "outcome": {
+        "correct": true,
+        "target": [
+          "inspect",
+          "repair",
+          "verify"
+        ],
+        "proposal": [
+          "inspect",
+          "repair",
+          "verify"
+        ],
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_1_ontology_acquisition:100",
+      "step": 1,
+      "family": "ontology_garden",
+      "phase": "phase_1_ontology_acquisition",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_1_ontology_acquisition:101",
+      "step": 2,
+      "family": "ontology_garden",
+      "phase": "phase_1_ontology_acquisition",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_1_ontology_acquisition:102",
+      "step": 3,
+      "family": "ontology_garden",
+      "phase": "phase_1_ontology_acquisition",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_1_ontology_acquisition:103",
+      "step": 4,
+      "family": "ontology_garden",
+      "phase": "phase_1_ontology_acquisition",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_1_ontology_acquisition:104",
+      "step": 5,
+      "family": "ontology_garden",
+      "phase": "phase_1_ontology_acquisition",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_1_ontology_acquisition:105",
+      "step": 6,
+      "family": "ontology_garden",
+      "phase": "phase_1_ontology_acquisition",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_1_ontology_acquisition:106",
+      "step": 7,
+      "family": "ontology_garden",
+      "phase": "phase_1_ontology_acquisition",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_1_ontology_acquisition:107",
+      "step": 8,
+      "family": "ontology_garden",
+      "phase": "phase_1_ontology_acquisition",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+      "step": 1,
+      "family": "epistemic_laboratory",
+      "phase": "phase_2_semantic_procedural_development",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+      "step": 2,
+      "family": "epistemic_laboratory",
+      "phase": "phase_2_semantic_procedural_development",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+      "step": 3,
+      "family": "epistemic_laboratory",
+      "phase": "phase_2_semantic_procedural_development",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+      "step": 4,
+      "family": "epistemic_laboratory",
+      "phase": "phase_2_semantic_procedural_development",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204",
+      "step": 5,
+      "family": "epistemic_laboratory",
+      "phase": "phase_2_semantic_procedural_development",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:205",
+      "step": 6,
+      "family": "epistemic_laboratory",
+      "phase": "phase_2_semantic_procedural_development",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:205"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:205"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:206",
+      "step": 7,
+      "family": "epistemic_laboratory",
+      "phase": "phase_2_semantic_procedural_development",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:205",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:206"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:205",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:206"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:207",
+      "step": 8,
+      "family": "epistemic_laboratory",
+      "phase": "phase_2_semantic_procedural_development",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:205",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:206",
+        "belief:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:207"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:204",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:205",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:206",
+        "defeater:principal:1006:epistemic_laboratory:phase_2_semantic_procedural_development:207"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+      "step": 1,
+      "family": "epistemic_laboratory",
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+      "step": 2,
+      "family": "epistemic_laboratory",
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+      "step": 3,
+      "family": "epistemic_laboratory",
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+      "step": 4,
+      "family": "epistemic_laboratory",
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304",
+      "step": 5,
+      "family": "epistemic_laboratory",
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:305",
+      "step": 6,
+      "family": "epistemic_laboratory",
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:305"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:305"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:306",
+      "step": 7,
+      "family": "epistemic_laboratory",
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:305",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:306"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:305",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:306"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:307",
+      "step": 8,
+      "family": "epistemic_laboratory",
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:305",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:306",
+        "belief:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:307"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:305",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:306",
+        "defeater:principal:1006:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:307"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_4_ontology_repair:400",
+      "step": 1,
+      "family": "ontology_garden",
+      "phase": "phase_4_ontology_repair",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_4_ontology_repair:401",
+      "step": 2,
+      "family": "ontology_garden",
+      "phase": "phase_4_ontology_repair",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_4_ontology_repair:402",
+      "step": 3,
+      "family": "ontology_garden",
+      "phase": "phase_4_ontology_repair",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_4_ontology_repair:403",
+      "step": 4,
+      "family": "ontology_garden",
+      "phase": "phase_4_ontology_repair",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_4_ontology_repair:404",
+      "step": 5,
+      "family": "ontology_garden",
+      "phase": "phase_4_ontology_repair",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_4_ontology_repair:405",
+      "step": 6,
+      "family": "ontology_garden",
+      "phase": "phase_4_ontology_repair",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_4_ontology_repair:406",
+      "step": 7,
+      "family": "ontology_garden",
+      "phase": "phase_4_ontology_repair",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_4_ontology_repair:407",
+      "step": 8,
+      "family": "ontology_garden",
+      "phase": "phase_4_ontology_repair",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_5_cross_representation_transfer:500",
+      "step": 1,
+      "family": "cross_representation_systems",
+      "phase": "phase_5_cross_representation_transfer",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "ka",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "ka",
+      "outcome": {
+        "correct": true,
+        "target": "ka",
+        "proposal": "ka",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "mi"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "mi",
+            "zu"
+          ],
+          [
+            "zu",
+            "ka"
+          ]
+        ],
+        "consequence": "ka",
+        "alternatives": [
+          "ka",
+          "te"
+        ],
+        "falsifier": "remove relation ['zu', 'ka']",
+        "representation": "graph"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_5_cross_representation_transfer:501",
+      "step": 2,
+      "family": "cross_representation_systems",
+      "phase": "phase_5_cross_representation_transfer",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "mi",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "mi",
+      "outcome": {
+        "correct": true,
+        "target": "mi",
+        "proposal": "mi",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "zu"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "zu",
+            "mi"
+          ]
+        ],
+        "consequence": "mi",
+        "alternatives": [
+          "te",
+          "ka"
+        ],
+        "falsifier": "remove relation ['zu', 'mi']",
+        "representation": "tool"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_5_cross_representation_transfer:502",
+      "step": 3,
+      "family": "cross_representation_systems",
+      "phase": "phase_5_cross_representation_transfer",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "mi",
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "mi",
+      "outcome": {
+        "correct": true,
+        "target": "mi",
+        "proposal": "mi",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "zu"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "zu",
+            "ka"
+          ],
+          [
+            "ka",
+            "te"
+          ],
+          [
+            "te",
+            "mi"
+          ]
+        ],
+        "consequence": "mi",
+        "alternatives": [
+          "te",
+          "mi"
+        ],
+        "falsifier": "remove relation ['te', 'mi']",
+        "representation": "statement"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_5_cross_representation_transfer:503",
+      "step": 4,
+      "family": "cross_representation_systems",
+      "phase": "phase_5_cross_representation_transfer",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "ka"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "ka",
+            "mi"
+          ],
+          [
+            "mi",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "zu",
+          "te"
+        ],
+        "falsifier": "remove relation ['mi', 'zu']",
+        "representation": "symbolic"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_5_cross_representation_transfer:504",
+      "step": 5,
+      "family": "cross_representation_systems",
+      "phase": "phase_5_cross_representation_transfer",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "ka",
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "ka",
+      "outcome": {
+        "correct": true,
+        "target": "ka",
+        "proposal": "ka",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "mi"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "mi",
+            "te"
+          ],
+          [
+            "te",
+            "ka"
+          ]
+        ],
+        "consequence": "ka",
+        "alternatives": [
+          "ka",
+          "zu"
+        ],
+        "falsifier": "remove relation ['te', 'ka']",
+        "representation": "symbolic"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_5_cross_representation_transfer:505",
+      "step": 6,
+      "family": "cross_representation_systems",
+      "phase": "phase_5_cross_representation_transfer",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "ka"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "ka",
+            "mi"
+          ],
+          [
+            "mi",
+            "te"
+          ],
+          [
+            "te",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "te",
+          "zu"
+        ],
+        "falsifier": "remove relation ['te', 'zu']",
+        "representation": "graph"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_5_cross_representation_transfer:506",
+      "step": 7,
+      "family": "cross_representation_systems",
+      "phase": "phase_5_cross_representation_transfer",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "te",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "te",
+      "outcome": {
+        "correct": true,
+        "target": "te",
+        "proposal": "te",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "zu"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "zu",
+            "ka"
+          ],
+          [
+            "ka",
+            "te"
+          ]
+        ],
+        "consequence": "te",
+        "alternatives": [
+          "te",
+          "mi"
+        ],
+        "falsifier": "remove relation ['ka', 'te']",
+        "representation": "tool"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_5_cross_representation_transfer:507",
+      "step": 8,
+      "family": "cross_representation_systems",
+      "phase": "phase_5_cross_representation_transfer",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "te",
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "te",
+      "outcome": {
+        "correct": true,
+        "target": "te",
+        "proposal": "te",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "zu"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "zu",
+            "mi"
+          ],
+          [
+            "mi",
+            "te"
+          ]
+        ],
+        "consequence": "te",
+        "alternatives": [
+          "te",
+          "ka"
+        ],
+        "falsifier": "remove relation ['mi', 'te']",
+        "representation": "symbolic"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_6_causal_intervention:600",
+      "step": 1,
+      "family": "causal_micro_worlds",
+      "phase": "phase_6_causal_intervention",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "causal",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "causal",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_6_causal_intervention:601",
+      "step": 2,
+      "family": "causal_micro_worlds",
+      "phase": "phase_6_causal_intervention",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "causal",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "causal",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_6_causal_intervention:602",
+      "step": 3,
+      "family": "causal_micro_worlds",
+      "phase": "phase_6_causal_intervention",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "causal",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "causal",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_6_causal_intervention:603",
+      "step": 4,
+      "family": "causal_micro_worlds",
+      "phase": "phase_6_causal_intervention",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "causal",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "causal",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_6_causal_intervention:604",
+      "step": 5,
+      "family": "causal_micro_worlds",
+      "phase": "phase_6_causal_intervention",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "causal",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "causal",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_6_causal_intervention:605",
+      "step": 6,
+      "family": "causal_micro_worlds",
+      "phase": "phase_6_causal_intervention",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "causal",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "causal",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_6_causal_intervention:606",
+      "step": 7,
+      "family": "causal_micro_worlds",
+      "phase": "phase_6_causal_intervention",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "causal",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "causal",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_6_causal_intervention:607",
+      "step": 8,
+      "family": "causal_micro_worlds",
+      "phase": "phase_6_causal_intervention",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "causal",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "causal",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_7_counterfactual:700",
+      "step": 1,
+      "family": "causal_micro_worlds",
+      "phase": "phase_7_counterfactual",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "counterfactual",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "counterfactual",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_7_counterfactual:701",
+      "step": 2,
+      "family": "causal_micro_worlds",
+      "phase": "phase_7_counterfactual",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "counterfactual",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "counterfactual",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_7_counterfactual:702",
+      "step": 3,
+      "family": "causal_micro_worlds",
+      "phase": "phase_7_counterfactual",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "counterfactual",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "counterfactual",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_7_counterfactual:703",
+      "step": 4,
+      "family": "causal_micro_worlds",
+      "phase": "phase_7_counterfactual",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "counterfactual",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "counterfactual",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_7_counterfactual:704",
+      "step": 5,
+      "family": "causal_micro_worlds",
+      "phase": "phase_7_counterfactual",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "counterfactual",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "counterfactual",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_7_counterfactual:705",
+      "step": 6,
+      "family": "causal_micro_worlds",
+      "phase": "phase_7_counterfactual",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "counterfactual",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "counterfactual",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_7_counterfactual:706",
+      "step": 7,
+      "family": "causal_micro_worlds",
+      "phase": "phase_7_counterfactual",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "counterfactual",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "counterfactual",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:causal_micro_worlds:phase_7_counterfactual:707",
+      "step": 8,
+      "family": "causal_micro_worlds",
+      "phase": "phase_7_counterfactual",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "counterfactual",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "counterfactual",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_8_reasoning_method_switching:800",
+      "step": 1,
+      "family": "reasoning_method_selection",
+      "phase": "phase_8_reasoning_method_switching",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "analogy",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "analogy",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_8_reasoning_method_switching:801",
+      "step": 2,
+      "family": "reasoning_method_selection",
+      "phase": "phase_8_reasoning_method_switching",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "deduction",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "deduction",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_8_reasoning_method_switching:802",
+      "step": 3,
+      "family": "reasoning_method_selection",
+      "phase": "phase_8_reasoning_method_switching",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "analogy",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "analogy",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_8_reasoning_method_switching:803",
+      "step": 4,
+      "family": "reasoning_method_selection",
+      "phase": "phase_8_reasoning_method_switching",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "diagnostic",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "diagnostic",
+      "world_model_prediction": "bearing",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "bearing",
+      "outcome": {
+        "correct": true,
+        "target": "bearing",
+        "proposal": "bearing",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_8_reasoning_method_switching:804",
+      "step": 5,
+      "family": "reasoning_method_selection",
+      "phase": "phase_8_reasoning_method_switching",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "deduction",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "deduction",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_8_reasoning_method_switching:805",
+      "step": 6,
+      "family": "reasoning_method_selection",
+      "phase": "phase_8_reasoning_method_switching",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "abduction",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "abduction",
+      "world_model_prediction": "x",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "x",
+      "outcome": {
+        "correct": true,
+        "target": "x",
+        "proposal": "x",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_8_reasoning_method_switching:806",
+      "step": 7,
+      "family": "reasoning_method_selection",
+      "phase": "phase_8_reasoning_method_switching",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "deduction",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "deduction",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:reasoning_method_selection:phase_8_reasoning_method_switching:807",
+      "step": 8,
+      "family": "reasoning_method_selection",
+      "phase": "phase_8_reasoning_method_switching",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "induction",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "induction",
+      "world_model_prediction": true,
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": true,
+      "outcome": {
+        "correct": true,
+        "target": true,
+        "proposal": true,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_9_inquiry_under_cost:900",
+      "step": 1,
+      "family": "scientific_inquiry",
+      "phase": "phase_9_inquiry_under_cost",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_9_inquiry_under_cost:901",
+      "step": 2,
+      "family": "scientific_inquiry",
+      "phase": "phase_9_inquiry_under_cost",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_9_inquiry_under_cost:902",
+      "step": 3,
+      "family": "scientific_inquiry",
+      "phase": "phase_9_inquiry_under_cost",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_9_inquiry_under_cost:903",
+      "step": 4,
+      "family": "scientific_inquiry",
+      "phase": "phase_9_inquiry_under_cost",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_9_inquiry_under_cost:904",
+      "step": 5,
+      "family": "scientific_inquiry",
+      "phase": "phase_9_inquiry_under_cost",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_9_inquiry_under_cost:905",
+      "step": 6,
+      "family": "scientific_inquiry",
+      "phase": "phase_9_inquiry_under_cost",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_9_inquiry_under_cost:906",
+      "step": 7,
+      "family": "scientific_inquiry",
+      "phase": "phase_9_inquiry_under_cost",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_9_inquiry_under_cost:907",
+      "step": 8,
+      "family": "scientific_inquiry",
+      "phase": "phase_9_inquiry_under_cost",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "stop",
+      "outcome": {
+        "correct": false,
+        "target": "inquire",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+      "step": 1,
+      "family": "epistemic_laboratory",
+      "phase": "phase_10_interruption_checkpoint",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+      "step": 2,
+      "family": "epistemic_laboratory",
+      "phase": "phase_10_interruption_checkpoint",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+      "step": 3,
+      "family": "epistemic_laboratory",
+      "phase": "phase_10_interruption_checkpoint",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+      "step": 4,
+      "family": "epistemic_laboratory",
+      "phase": "phase_10_interruption_checkpoint",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004",
+      "step": 5,
+      "family": "epistemic_laboratory",
+      "phase": "phase_10_interruption_checkpoint",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1005",
+      "step": 6,
+      "family": "epistemic_laboratory",
+      "phase": "phase_10_interruption_checkpoint",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1005"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1005"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1006",
+      "step": 7,
+      "family": "epistemic_laboratory",
+      "phase": "phase_10_interruption_checkpoint",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1005",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1006"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1005",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1006"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 0,
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": 0,
+      "outcome": {
+        "correct": true,
+        "target": 0,
+        "proposal": 0,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1007",
+      "step": 8,
+      "family": "epistemic_laboratory",
+      "phase": "phase_10_interruption_checkpoint",
+      "ontology_used": [],
+      "beliefs_used": [
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1005",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1006",
+        "belief:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1007"
+      ],
+      "defeaters_considered": [
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1004",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1005",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1006",
+        "defeater:principal:1006:epistemic_laboratory:phase_10_interruption_checkpoint:1007"
+      ],
+      "reasoning_mode": "source reliability defeater",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "source reliability defeater",
+      "world_model_prediction": 1,
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": 1,
+      "outcome": {
+        "correct": true,
+        "target": 1,
+        "proposal": 1,
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_11_body_tool_change:1100",
+      "step": 1,
+      "family": "cross_representation_systems",
+      "phase": "phase_11_body_tool_change",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "ka"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "ka",
+            "mi"
+          ],
+          [
+            "mi",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "zu",
+          "te"
+        ],
+        "falsifier": "remove relation ['mi', 'zu']",
+        "representation": "graph"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_11_body_tool_change:1101",
+      "step": 2,
+      "family": "cross_representation_systems",
+      "phase": "phase_11_body_tool_change",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "te"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "te",
+            "ka"
+          ],
+          [
+            "ka",
+            "mi"
+          ],
+          [
+            "mi",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "mi",
+          "zu"
+        ],
+        "falsifier": "remove relation ['mi', 'zu']",
+        "representation": "statement"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_11_body_tool_change:1102",
+      "step": 3,
+      "family": "cross_representation_systems",
+      "phase": "phase_11_body_tool_change",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "ka",
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "ka",
+      "outcome": {
+        "correct": true,
+        "target": "ka",
+        "proposal": "ka",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "zu"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "zu",
+            "te"
+          ],
+          [
+            "te",
+            "mi"
+          ],
+          [
+            "mi",
+            "ka"
+          ]
+        ],
+        "consequence": "ka",
+        "alternatives": [
+          "mi",
+          "ka"
+        ],
+        "falsifier": "remove relation ['mi', 'ka']",
+        "representation": "graph"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_11_body_tool_change:1103",
+      "step": 4,
+      "family": "cross_representation_systems",
+      "phase": "phase_11_body_tool_change",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "ka",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "ka",
+      "outcome": {
+        "correct": true,
+        "target": "ka",
+        "proposal": "ka",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "te"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "te",
+            "mi"
+          ],
+          [
+            "mi",
+            "ka"
+          ]
+        ],
+        "consequence": "ka",
+        "alternatives": [
+          "ka",
+          "zu"
+        ],
+        "falsifier": "remove relation ['mi', 'ka']",
+        "representation": "statement"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_11_body_tool_change:1104",
+      "step": 5,
+      "family": "cross_representation_systems",
+      "phase": "phase_11_body_tool_change",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "mi"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "mi",
+            "te"
+          ],
+          [
+            "te",
+            "ka"
+          ],
+          [
+            "ka",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "ka",
+          "zu"
+        ],
+        "falsifier": "remove relation ['ka', 'zu']",
+        "representation": "graph"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_11_body_tool_change:1105",
+      "step": 6,
+      "family": "cross_representation_systems",
+      "phase": "phase_11_body_tool_change",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "ka",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "ka",
+      "outcome": {
+        "correct": true,
+        "target": "ka",
+        "proposal": "ka",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "mi"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "mi",
+            "ka"
+          ]
+        ],
+        "consequence": "ka",
+        "alternatives": [
+          "zu",
+          "te"
+        ],
+        "falsifier": "remove relation ['mi', 'ka']",
+        "representation": "sequence"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_11_body_tool_change:1106",
+      "step": 7,
+      "family": "cross_representation_systems",
+      "phase": "phase_11_body_tool_change",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "te",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "te",
+      "outcome": {
+        "correct": true,
+        "target": "te",
+        "proposal": "te",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "ka"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "ka",
+            "mi"
+          ],
+          [
+            "mi",
+            "zu"
+          ],
+          [
+            "zu",
+            "te"
+          ]
+        ],
+        "consequence": "te",
+        "alternatives": [
+          "zu",
+          "te"
+        ],
+        "falsifier": "remove relation ['zu', 'te']",
+        "representation": "symbolic"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_11_body_tool_change:1107",
+      "step": 8,
+      "family": "cross_representation_systems",
+      "phase": "phase_11_body_tool_change",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "te",
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "te",
+      "outcome": {
+        "correct": true,
+        "target": "te",
+        "proposal": "te",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "zu"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "zu",
+            "ka"
+          ],
+          [
+            "ka",
+            "te"
+          ]
+        ],
+        "consequence": "te",
+        "alternatives": [
+          "te",
+          "mi"
+        ],
+        "falsifier": "remove relation ['ka', 'te']",
+        "representation": "tool"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_12_return_prior_domains:1200",
+      "step": 1,
+      "family": "ontology_garden",
+      "phase": "phase_12_return_prior_domains",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_12_return_prior_domains:1201",
+      "step": 2,
+      "family": "ontology_garden",
+      "phase": "phase_12_return_prior_domains",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_12_return_prior_domains:1202",
+      "step": 3,
+      "family": "ontology_garden",
+      "phase": "phase_12_return_prior_domains",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_12_return_prior_domains:1203",
+      "step": 4,
+      "family": "ontology_garden",
+      "phase": "phase_12_return_prior_domains",
+      "ontology_used": [
+        "entity_or_process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_12_return_prior_domains:1204",
+      "step": 5,
+      "family": "ontology_garden",
+      "phase": "phase_12_return_prior_domains",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_12_return_prior_domains:1205",
+      "step": 6,
+      "family": "ontology_garden",
+      "phase": "phase_12_return_prior_domains",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "entity",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "entity",
+      "outcome": {
+        "correct": true,
+        "target": "entity",
+        "proposal": "entity",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_12_return_prior_domains:1206",
+      "step": 7,
+      "family": "ontology_garden",
+      "phase": "phase_12_return_prior_domains",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:ontology_garden:phase_12_return_prior_domains:1207",
+      "step": 8,
+      "family": "ontology_garden",
+      "phase": "phase_12_return_prior_domains",
+      "ontology_used": [
+        "entity",
+        "entity_or_process",
+        "process"
+      ],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "ontology classification",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "ontology classification",
+      "world_model_prediction": "process",
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "process",
+      "outcome": {
+        "correct": true,
+        "target": "process",
+        "proposal": "process",
+        "revealed_after_commitment": true
+      },
+      "revision": "ontology-revision-000000",
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:adversarial_ambiguity:phase_13_misleading_analogy:1300",
+      "step": 1,
+      "family": "adversarial_ambiguity",
+      "phase": "phase_13_misleading_analogy",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "relational boundary",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "relational boundary",
+      "world_model_prediction": "transfer",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "transfer",
+      "outcome": {
+        "correct": true,
+        "target": "transfer",
+        "proposal": "transfer",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:adversarial_ambiguity:phase_13_misleading_analogy:1301",
+      "step": 2,
+      "family": "adversarial_ambiguity",
+      "phase": "phase_13_misleading_analogy",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "relational boundary",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "relational boundary",
+      "world_model_prediction": "transfer",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "transfer",
+      "outcome": {
+        "correct": true,
+        "target": "transfer",
+        "proposal": "transfer",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:adversarial_ambiguity:phase_13_misleading_analogy:1302",
+      "step": 3,
+      "family": "adversarial_ambiguity",
+      "phase": "phase_13_misleading_analogy",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "relational boundary",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "relational boundary",
+      "world_model_prediction": "reject",
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "reject",
+      "outcome": {
+        "correct": true,
+        "target": "reject",
+        "proposal": "reject",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:adversarial_ambiguity:phase_13_misleading_analogy:1303",
+      "step": 4,
+      "family": "adversarial_ambiguity",
+      "phase": "phase_13_misleading_analogy",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "relational boundary",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "relational boundary",
+      "world_model_prediction": "transfer",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "transfer",
+      "outcome": {
+        "correct": true,
+        "target": "transfer",
+        "proposal": "transfer",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:adversarial_ambiguity:phase_13_misleading_analogy:1304",
+      "step": 5,
+      "family": "adversarial_ambiguity",
+      "phase": "phase_13_misleading_analogy",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "relational boundary",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "relational boundary",
+      "world_model_prediction": "reject",
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "reject",
+      "outcome": {
+        "correct": true,
+        "target": "reject",
+        "proposal": "reject",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:adversarial_ambiguity:phase_13_misleading_analogy:1305",
+      "step": 6,
+      "family": "adversarial_ambiguity",
+      "phase": "phase_13_misleading_analogy",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "relational boundary",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "relational boundary",
+      "world_model_prediction": "reject",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "reject",
+      "outcome": {
+        "correct": true,
+        "target": "reject",
+        "proposal": "reject",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:adversarial_ambiguity:phase_13_misleading_analogy:1306",
+      "step": 7,
+      "family": "adversarial_ambiguity",
+      "phase": "phase_13_misleading_analogy",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "relational boundary",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "relational boundary",
+      "world_model_prediction": "reject",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "reject",
+      "outcome": {
+        "correct": true,
+        "target": "reject",
+        "proposal": "reject",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:adversarial_ambiguity:phase_13_misleading_analogy:1307",
+      "step": 8,
+      "family": "adversarial_ambiguity",
+      "phase": "phase_13_misleading_analogy",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "relational boundary",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "relational boundary",
+      "world_model_prediction": "reject",
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "reject",
+      "outcome": {
+        "correct": true,
+        "target": "reject",
+        "proposal": "reject",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_14_open_world_structures:1400",
+      "step": 1,
+      "family": "cross_representation_systems",
+      "phase": "phase_14_open_world_structures",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "ka"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "ka",
+            "mi"
+          ],
+          [
+            "mi",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "zu",
+          "te"
+        ],
+        "falsifier": "remove relation ['mi', 'zu']",
+        "representation": "statement"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_14_open_world_structures:1401",
+      "step": 2,
+      "family": "cross_representation_systems",
+      "phase": "phase_14_open_world_structures",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "te",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "te",
+      "outcome": {
+        "correct": true,
+        "target": "te",
+        "proposal": "te",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "zu"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "zu",
+            "ka"
+          ],
+          [
+            "ka",
+            "te"
+          ]
+        ],
+        "consequence": "te",
+        "alternatives": [
+          "te",
+          "mi"
+        ],
+        "falsifier": "remove relation ['ka', 'te']",
+        "representation": "graph"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_14_open_world_structures:1402",
+      "step": 3,
+      "family": "cross_representation_systems",
+      "phase": "phase_14_open_world_structures",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "ka",
+      "self_model_prediction": 0.755,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "ka",
+      "outcome": {
+        "correct": true,
+        "target": "ka",
+        "proposal": "ka",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "te"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "te",
+            "mi"
+          ],
+          [
+            "mi",
+            "ka"
+          ]
+        ],
+        "consequence": "ka",
+        "alternatives": [
+          "ka",
+          "zu"
+        ],
+        "falsifier": "remove relation ['mi', 'ka']",
+        "representation": "graph"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_14_open_world_structures:1403",
+      "step": 4,
+      "family": "cross_representation_systems",
+      "phase": "phase_14_open_world_structures",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "te",
+      "self_model_prediction": 0.8285,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "te",
+      "outcome": {
+        "correct": true,
+        "target": "te",
+        "proposal": "te",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "mi"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "mi",
+            "zu"
+          ],
+          [
+            "zu",
+            "ka"
+          ],
+          [
+            "ka",
+            "te"
+          ]
+        ],
+        "consequence": "te",
+        "alternatives": [
+          "ka",
+          "te"
+        ],
+        "falsifier": "remove relation ['ka', 'te']",
+        "representation": "symbolic"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_14_open_world_structures:1404",
+      "step": 5,
+      "family": "cross_representation_systems",
+      "phase": "phase_14_open_world_structures",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.87995,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "te"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "te",
+            "ka"
+          ],
+          [
+            "ka",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "zu",
+          "mi"
+        ],
+        "falsifier": "remove relation ['ka', 'zu']",
+        "representation": "tool"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_14_open_world_structures:1405",
+      "step": 6,
+      "family": "cross_representation_systems",
+      "phase": "phase_14_open_world_structures",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "ka",
+      "self_model_prediction": 0.915965,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "ka",
+      "outcome": {
+        "correct": true,
+        "target": "ka",
+        "proposal": "ka",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "zu"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "zu",
+            "mi"
+          ],
+          [
+            "mi",
+            "ka"
+          ]
+        ],
+        "consequence": "ka",
+        "alternatives": [
+          "ka",
+          "te"
+        ],
+        "falsifier": "remove relation ['mi', 'ka']",
+        "representation": "tool"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_14_open_world_structures:1406",
+      "step": 7,
+      "family": "cross_representation_systems",
+      "phase": "phase_14_open_world_structures",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.9411755,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "ka"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "ka",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "te",
+          "mi"
+        ],
+        "falsifier": "remove relation ['ka', 'zu']",
+        "representation": "statement"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:cross_representation_systems:phase_14_open_world_structures:1407",
+      "step": 8,
+      "family": "cross_representation_systems",
+      "phase": "phase_14_open_world_structures",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "structural transfer",
+      "inquiry_action": "none",
+      "evidence_gathered": "public observation",
+      "procedure_used": "structural transfer",
+      "world_model_prediction": "zu",
+      "self_model_prediction": 0.95882285,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "zu",
+      "outcome": {
+        "correct": true,
+        "target": "zu",
+        "proposal": "zu",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": {
+        "premises": [
+          "mi"
+        ],
+        "relation_or_mechanism": "directed dependency path",
+        "derivation": [
+          [
+            "mi",
+            "zu"
+          ]
+        ],
+        "consequence": "zu",
+        "alternatives": [
+          "ka",
+          "te"
+        ],
+        "falsifier": "remove relation ['mi', 'zu']",
+        "representation": "statement"
+      },
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1500",
+      "step": 1,
+      "family": "scientific_inquiry",
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.5,
+      "self_prediction_step": 1,
+      "outcome_step": 2,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1501",
+      "step": 2,
+      "family": "scientific_inquiry",
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.65,
+      "self_prediction_step": 2,
+      "outcome_step": 3,
+      "decision": "stop",
+      "outcome": {
+        "correct": false,
+        "target": "inquire",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1502",
+      "step": 3,
+      "family": "scientific_inquiry",
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "inquire",
+      "evidence_gathered": "contextual expected information value",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "inquire",
+      "self_model_prediction": 0.455,
+      "self_prediction_step": 3,
+      "outcome_step": 4,
+      "decision": "inquire",
+      "outcome": {
+        "correct": true,
+        "target": "inquire",
+        "proposal": "inquire",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 2.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1503",
+      "step": 4,
+      "family": "scientific_inquiry",
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.6185,
+      "self_prediction_step": 4,
+      "outcome_step": 5,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1504",
+      "step": 5,
+      "family": "scientific_inquiry",
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.73295,
+      "self_prediction_step": 5,
+      "outcome_step": 6,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1505",
+      "step": 6,
+      "family": "scientific_inquiry",
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.813065,
+      "self_prediction_step": 6,
+      "outcome_step": 7,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1506",
+      "step": 7,
+      "family": "scientific_inquiry",
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "inquire",
+      "evidence_gathered": "contextual expected information value",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "inquire",
+      "self_model_prediction": 0.8691455,
+      "self_prediction_step": 7,
+      "outcome_step": 8,
+      "decision": "inquire",
+      "outcome": {
+        "correct": true,
+        "target": "inquire",
+        "proposal": "inquire",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 2.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    },
+    {
+      "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507",
+      "step": 8,
+      "family": "scientific_inquiry",
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "ontology_used": [],
+      "beliefs_used": [],
+      "defeaters_considered": [],
+      "reasoning_mode": "contextual inquiry",
+      "inquiry_action": "stop",
+      "evidence_gathered": "public observation",
+      "procedure_used": "contextual inquiry",
+      "world_model_prediction": "stop",
+      "self_model_prediction": 0.90840185,
+      "self_prediction_step": 8,
+      "outcome_step": 9,
+      "decision": "stop",
+      "outcome": {
+        "correct": true,
+        "target": "stop",
+        "proposal": "stop",
+        "revealed_after_commitment": true
+      },
+      "revision": null,
+      "explanation": null,
+      "compute": 1.0,
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "activation": false
+    }
+  ],
+  "phases": [
+    {
+      "phase": "phase_0_cold_baseline",
+      "family": "reasoning_method_selection",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_1_ontology_acquisition",
+      "family": "ontology_garden",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_2_semantic_procedural_development",
+      "family": "epistemic_laboratory",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_3_conflicting_evidence_defeaters",
+      "family": "epistemic_laboratory",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_4_ontology_repair",
+      "family": "ontology_garden",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_5_cross_representation_transfer",
+      "family": "cross_representation_systems",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_6_causal_intervention",
+      "family": "causal_micro_worlds",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_7_counterfactual",
+      "family": "causal_micro_worlds",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_8_reasoning_method_switching",
+      "family": "reasoning_method_selection",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_9_inquiry_under_cost",
+      "family": "scientific_inquiry",
+      "episodes": 8,
+      "accuracy": 0.875,
+      "utility": 0.835,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_10_interruption_checkpoint",
+      "family": "epistemic_laboratory",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_11_body_tool_change",
+      "family": "cross_representation_systems",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_12_return_prior_domains",
+      "family": "ontology_garden",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_13_misleading_analogy",
+      "family": "adversarial_ambiguity",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_14_open_world_structures",
+      "family": "cross_representation_systems",
+      "episodes": 8,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 8.0
+    },
+    {
+      "phase": "phase_15_terminal_integrated_evaluation",
+      "family": "scientific_inquiry",
+      "episodes": 8,
+      "accuracy": 0.875,
+      "utility": 0.825,
+      "compute": 10.0
+    }
+  ],
+  "summary": {
+    "episodes": 128,
+    "accuracy": 0.984375,
+    "utility": 0.94375,
+    "compute": 130.0,
+    "ontology_revisions": 0,
+    "belief_revisions": 0,
+    "knowledge_admissions": 0,
+    "defeaters_processed": 0,
+    "reasoning_operations": 0,
+    "inquiry_actions": 2,
+    "semantic_records": 1,
+    "procedures": 1,
+    "checkpoint_exact": true,
+    "body_continuity": true,
+    "owned_identity": "v3:1006:fresh_reset",
+    "semantic_identity": "abf43ef4ebd40b877e66668ecfa80a658cbf135d7464ea11e454bf54ba230b5a",
+    "v2_preservation": null,
+    "divergence": null,
+    "runtime_seconds": 0.003365042037330568,
+    "peak_rss_mib": 32.265625,
+    "activation": false
+  },
+  "checkpoint": {
+    "schema": "substrate-v3-checkpoint/v1",
+    "owned_identity": "v3:1006:fresh_reset",
+    "semantic_state": {
+      "arm": "fresh_reset",
+      "entity_id": "v3:1006:fresh_reset",
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "ontology": {
+        "concepts": {},
+        "instance_features": {},
+        "cross_representation_maps": {}
+      },
+      "epistemology": {
+        "beliefs": {},
+        "defeater_receipts": [],
+        "inquiry_receipts": [],
+        "knowledge_admissions": []
+      },
+      "reasoning_receipts": [],
+      "structure": {
+        "edges": [
+          [
+            "role_0",
+            "role_1"
+          ],
+          [
+            "role_1",
+            "role_2"
+          ],
+          [
+            "role_2",
+            "role_3"
+          ]
+        ],
+        "mechanisms": {
+          "role_0>role_1": "dependency",
+          "role_1>role_2": "transformation",
+          "role_2>role_3": "delivery"
+        },
+        "representation_maps": {}
+      },
+      "self_model": {
+        "estimates": {
+          "accuracy": 0.935881295
+        },
+        "history": [
+          {
+            "kind": "accuracy",
+            "predicted": 0.5,
+            "actual": 1.0,
+            "context": "scientific_inquiry"
+          },
+          {
+            "kind": "accuracy",
+            "predicted": 0.65,
+            "actual": 0.0,
+            "context": "scientific_inquiry"
+          },
+          {
+            "kind": "accuracy",
+            "predicted": 0.455,
+            "actual": 1.0,
+            "context": "scientific_inquiry"
+          },
+          {
+            "kind": "accuracy",
+            "predicted": 0.6185,
+            "actual": 1.0,
+            "context": "scientific_inquiry"
+          },
+          {
+            "kind": "accuracy",
+            "predicted": 0.73295,
+            "actual": 1.0,
+            "context": "scientific_inquiry"
+          },
+          {
+            "kind": "accuracy",
+            "predicted": 0.813065,
+            "actual": 1.0,
+            "context": "scientific_inquiry"
+          },
+          {
+            "kind": "accuracy",
+            "predicted": 0.8691455,
+            "actual": 1.0,
+            "context": "scientific_inquiry"
+          },
+          {
+            "kind": "accuracy",
+            "predicted": 0.90840185,
+            "actual": 1.0,
+            "context": "scientific_inquiry"
+          }
+        ]
+      },
+      "self_receipts": [
+        {
+          "kind": "accuracy",
+          "family": "scientific_inquiry",
+          "predicted": 0.5,
+          "actual": 1.0,
+          "prediction_step": 1,
+          "outcome_step": 2
+        },
+        {
+          "kind": "accuracy",
+          "family": "scientific_inquiry",
+          "predicted": 0.65,
+          "actual": 0.0,
+          "prediction_step": 2,
+          "outcome_step": 3
+        },
+        {
+          "kind": "accuracy",
+          "family": "scientific_inquiry",
+          "predicted": 0.455,
+          "actual": 1.0,
+          "prediction_step": 3,
+          "outcome_step": 4
+        },
+        {
+          "kind": "accuracy",
+          "family": "scientific_inquiry",
+          "predicted": 0.6185,
+          "actual": 1.0,
+          "prediction_step": 4,
+          "outcome_step": 5
+        },
+        {
+          "kind": "accuracy",
+          "family": "scientific_inquiry",
+          "predicted": 0.73295,
+          "actual": 1.0,
+          "prediction_step": 5,
+          "outcome_step": 6
+        },
+        {
+          "kind": "accuracy",
+          "family": "scientific_inquiry",
+          "predicted": 0.813065,
+          "actual": 1.0,
+          "prediction_step": 6,
+          "outcome_step": 7
+        },
+        {
+          "kind": "accuracy",
+          "family": "scientific_inquiry",
+          "predicted": 0.8691455,
+          "actual": 1.0,
+          "prediction_step": 7,
+          "outcome_step": 8
+        },
+        {
+          "kind": "accuracy",
+          "family": "scientific_inquiry",
+          "predicted": 0.90840185,
+          "actual": 1.0,
+          "prediction_step": 8,
+          "outcome_step": 9
+        }
+      ],
+      "ontology_receipts": [],
+      "world_receipts": [],
+      "semantic": {
+        "scientific_inquiry": {
+          "last_task": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507",
+          "last_outcome": true,
+          "verified": true
+        }
+      },
+      "procedures": {
+        "procedure:scientific_inquiry": {
+          "family": "scientific_inquiry",
+          "uses": 8,
+          "verified_sources": [
+            "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507"
+          ]
+        }
+      },
+      "allocation_counts": {
+        "('high', False, 'stable')": {
+          "stop": [
+            1.0
+          ],
+          "inquire": [
+            -0.7
+          ]
+        },
+        "('low', True, 'shifted')": {
+          "stop": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "inquire": [
+            0.30000000000000004,
+            0.30000000000000004,
+            0.30000000000000004
+          ]
+        },
+        "('low', True, 'stable')": {
+          "stop": [
+            1.0
+          ],
+          "inquire": [
+            -0.7
+          ]
+        },
+        "('low', False, 'stable')": {
+          "stop": [
+            1.0
+          ],
+          "inquire": [
+            -0.7
+          ]
+        },
+        "('high', True, 'stable')": {
+          "stop": [
+            1.0
+          ],
+          "inquire": [
+            -0.7
+          ]
+        },
+        "('low', False, 'shifted')": {
+          "stop": [
+            1.0
+          ],
+          "inquire": [
+            -0.7
+          ]
+        }
+      },
+      "history_specialization": {
+        "scientific_inquiry": 7
+      },
+      "cycles": [
+        {
+          "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1500",
+          "step": 1,
+          "family": "scientific_inquiry",
+          "phase": "phase_15_terminal_integrated_evaluation",
+          "ontology_used": [],
+          "beliefs_used": [],
+          "defeaters_considered": [],
+          "reasoning_mode": "contextual inquiry",
+          "inquiry_action": "stop",
+          "evidence_gathered": "public observation",
+          "procedure_used": "contextual inquiry",
+          "world_model_prediction": "stop",
+          "self_model_prediction": 0.5,
+          "self_prediction_step": 1,
+          "outcome_step": 2,
+          "decision": "stop",
+          "outcome": {
+            "correct": true,
+            "target": "stop",
+            "proposal": "stop",
+            "revealed_after_commitment": true
+          },
+          "revision": null,
+          "explanation": null,
+          "compute": 1.0,
+          "body": "general",
+          "tools": [
+            "deterministic_compare",
+            "sandbox_simulation"
+          ],
+          "activation": false
+        },
+        {
+          "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1501",
+          "step": 2,
+          "family": "scientific_inquiry",
+          "phase": "phase_15_terminal_integrated_evaluation",
+          "ontology_used": [],
+          "beliefs_used": [],
+          "defeaters_considered": [],
+          "reasoning_mode": "contextual inquiry",
+          "inquiry_action": "stop",
+          "evidence_gathered": "public observation",
+          "procedure_used": "contextual inquiry",
+          "world_model_prediction": "stop",
+          "self_model_prediction": 0.65,
+          "self_prediction_step": 2,
+          "outcome_step": 3,
+          "decision": "stop",
+          "outcome": {
+            "correct": false,
+            "target": "inquire",
+            "proposal": "stop",
+            "revealed_after_commitment": true
+          },
+          "revision": null,
+          "explanation": null,
+          "compute": 1.0,
+          "body": "general",
+          "tools": [
+            "deterministic_compare",
+            "sandbox_simulation"
+          ],
+          "activation": false
+        },
+        {
+          "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1502",
+          "step": 3,
+          "family": "scientific_inquiry",
+          "phase": "phase_15_terminal_integrated_evaluation",
+          "ontology_used": [],
+          "beliefs_used": [],
+          "defeaters_considered": [],
+          "reasoning_mode": "contextual inquiry",
+          "inquiry_action": "inquire",
+          "evidence_gathered": "contextual expected information value",
+          "procedure_used": "contextual inquiry",
+          "world_model_prediction": "inquire",
+          "self_model_prediction": 0.455,
+          "self_prediction_step": 3,
+          "outcome_step": 4,
+          "decision": "inquire",
+          "outcome": {
+            "correct": true,
+            "target": "inquire",
+            "proposal": "inquire",
+            "revealed_after_commitment": true
+          },
+          "revision": null,
+          "explanation": null,
+          "compute": 2.0,
+          "body": "general",
+          "tools": [
+            "deterministic_compare",
+            "sandbox_simulation"
+          ],
+          "activation": false
+        },
+        {
+          "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1503",
+          "step": 4,
+          "family": "scientific_inquiry",
+          "phase": "phase_15_terminal_integrated_evaluation",
+          "ontology_used": [],
+          "beliefs_used": [],
+          "defeaters_considered": [],
+          "reasoning_mode": "contextual inquiry",
+          "inquiry_action": "stop",
+          "evidence_gathered": "public observation",
+          "procedure_used": "contextual inquiry",
+          "world_model_prediction": "stop",
+          "self_model_prediction": 0.6185,
+          "self_prediction_step": 4,
+          "outcome_step": 5,
+          "decision": "stop",
+          "outcome": {
+            "correct": true,
+            "target": "stop",
+            "proposal": "stop",
+            "revealed_after_commitment": true
+          },
+          "revision": null,
+          "explanation": null,
+          "compute": 1.0,
+          "body": "general",
+          "tools": [
+            "deterministic_compare",
+            "sandbox_simulation"
+          ],
+          "activation": false
+        },
+        {
+          "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1504",
+          "step": 5,
+          "family": "scientific_inquiry",
+          "phase": "phase_15_terminal_integrated_evaluation",
+          "ontology_used": [],
+          "beliefs_used": [],
+          "defeaters_considered": [],
+          "reasoning_mode": "contextual inquiry",
+          "inquiry_action": "stop",
+          "evidence_gathered": "public observation",
+          "procedure_used": "contextual inquiry",
+          "world_model_prediction": "stop",
+          "self_model_prediction": 0.73295,
+          "self_prediction_step": 5,
+          "outcome_step": 6,
+          "decision": "stop",
+          "outcome": {
+            "correct": true,
+            "target": "stop",
+            "proposal": "stop",
+            "revealed_after_commitment": true
+          },
+          "revision": null,
+          "explanation": null,
+          "compute": 1.0,
+          "body": "general",
+          "tools": [
+            "deterministic_compare",
+            "sandbox_simulation"
+          ],
+          "activation": false
+        },
+        {
+          "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1505",
+          "step": 6,
+          "family": "scientific_inquiry",
+          "phase": "phase_15_terminal_integrated_evaluation",
+          "ontology_used": [],
+          "beliefs_used": [],
+          "defeaters_considered": [],
+          "reasoning_mode": "contextual inquiry",
+          "inquiry_action": "stop",
+          "evidence_gathered": "public observation",
+          "procedure_used": "contextual inquiry",
+          "world_model_prediction": "stop",
+          "self_model_prediction": 0.813065,
+          "self_prediction_step": 6,
+          "outcome_step": 7,
+          "decision": "stop",
+          "outcome": {
+            "correct": true,
+            "target": "stop",
+            "proposal": "stop",
+            "revealed_after_commitment": true
+          },
+          "revision": null,
+          "explanation": null,
+          "compute": 1.0,
+          "body": "general",
+          "tools": [
+            "deterministic_compare",
+            "sandbox_simulation"
+          ],
+          "activation": false
+        },
+        {
+          "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1506",
+          "step": 7,
+          "family": "scientific_inquiry",
+          "phase": "phase_15_terminal_integrated_evaluation",
+          "ontology_used": [],
+          "beliefs_used": [],
+          "defeaters_considered": [],
+          "reasoning_mode": "contextual inquiry",
+          "inquiry_action": "inquire",
+          "evidence_gathered": "contextual expected information value",
+          "procedure_used": "contextual inquiry",
+          "world_model_prediction": "inquire",
+          "self_model_prediction": 0.8691455,
+          "self_prediction_step": 7,
+          "outcome_step": 8,
+          "decision": "inquire",
+          "outcome": {
+            "correct": true,
+            "target": "inquire",
+            "proposal": "inquire",
+            "revealed_after_commitment": true
+          },
+          "revision": null,
+          "explanation": null,
+          "compute": 2.0,
+          "body": "general",
+          "tools": [
+            "deterministic_compare",
+            "sandbox_simulation"
+          ],
+          "activation": false
+        },
+        {
+          "identity": "principal:1006:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507",
+          "step": 8,
+          "family": "scientific_inquiry",
+          "phase": "phase_15_terminal_integrated_evaluation",
+          "ontology_used": [],
+          "beliefs_used": [],
+          "defeaters_considered": [],
+          "reasoning_mode": "contextual inquiry",
+          "inquiry_action": "stop",
+          "evidence_gathered": "public observation",
+          "procedure_used": "contextual inquiry",
+          "world_model_prediction": "stop",
+          "self_model_prediction": 0.90840185,
+          "self_prediction_step": 8,
+          "outcome_step": 9,
+          "decision": "stop",
+          "outcome": {
+            "correct": true,
+            "target": "stop",
+            "proposal": "stop",
+            "revealed_after_commitment": true
+          },
+          "revision": null,
+          "explanation": null,
+          "compute": 1.0,
+          "body": "general",
+          "tools": [
+            "deterministic_compare",
+            "sandbox_simulation"
+          ],
+          "activation": false
+        }
+      ],
+      "step": 8,
+      "activation": false
+    },
+    "identity_hash": "abf43ef4ebd40b877e66668ecfa80a658cbf135d7464ea11e454bf54ba230b5a",
+    "activation": false
+  },
+  "activation": false,
+  "receipt_identity": "a3c49b2dfac6d104ed5092f00544ef8dea1b43c2a4f6cc7a9614d022e6647e60",
+  "program": "substrate-v3"
+}
