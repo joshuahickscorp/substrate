@@ -307,6 +307,6 @@
   "graph_nodes": 26,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
-  "sha256": "9d00d5d3db7d7effb7a68beb8ca94a171b5c02d2e5ff27f7b35cba8ca503913b"
+  "source_commit": "88170e7924a8c439d46b163c22a150f2c6fea7dc",
+  "sha256": "523a62c1497ce05db5adf3dd4f12dd07f41864d47033853abd94c8cc51ce1dc0"
 }

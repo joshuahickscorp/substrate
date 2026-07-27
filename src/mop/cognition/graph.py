@@ -232,12 +232,34 @@ def entry_open(node: Node) -> dict:
             "external_blocker": node.external_blocker}
 
 
+# A gate that only checks whether a file exists is not testing its own condition. Where the condition is
+# checkable from the sealed artifact, it is checked here by name.
+CONDITION_CHECKS = {
+    "perspective_expansion": ("SUBSTRATE_PERSPECTIVE_SYSTEM.json", "expansion_terminal"),
+    "world_model_bed": ("SUBSTRATE_WORLD_MODEL_BED.json", "admissible"),
+    "real_session_authority": ("SUBSTRATE_REAL_SESSION_AUTHORITY.json", "length_not_chosen_by_us"),
+    "clean_clone": ("SUBSTRATE_CLEAN_CLONE.json", "all_pass"),
+}
+
+
 def exit_passed(node: Node) -> dict:
     from mop.cognition import program as P
 
     missing = [a for a in node.produces if not P.evidence_state(a)["counts"]]
-    return {"passed": not missing and not entry_open(node)["missing_implementation"],
-            "missing_artifacts": missing}
+    condition = CONDITION_CHECKS.get(node.identity)
+    condition_met, condition_detail = True, ""
+    if condition and not missing:
+        name, key = condition
+        try:
+            doc = json.loads((io.PROOF / name).read_text())
+            condition_met = doc.get(key) is True
+            condition_detail = f"{name}:{key} is {doc.get(key)!r}"
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            condition_met, condition_detail = False, f"{name} unreadable: {exc.__class__.__name__}"
+    return {"passed": (not missing and condition_met
+                       and not entry_open(node)["missing_implementation"]),
+            "missing_artifacts": missing,
+            "condition_met": condition_met, "condition_detail": condition_detail}
 
 
 def validate() -> list[str]:
