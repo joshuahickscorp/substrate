@@ -181,9 +181,7 @@ class Substrate:
             trace.skip("attend", "ablated")
         else:
             attention = K.attend(self._attention_candidates(observation), budget=budget)
-            trace.record(
-                "attend", attended=attention["attended"], dropped_for_budget=attention["dropped_for_budget"]
-            )
+            trace.record("attend", attended=attention["attended"], dropped_for_budget=attention["dropped_for_budget"])
 
         # 3 select which perspectives run
         chosen: list = []
@@ -194,9 +192,7 @@ class Substrate:
                 # attention filters the pool before selection ranks it. Without this the attended
                 # regions were computed and discarded, and ablating attend changed nothing.
                 attended = set(attention["attended"])
-                pool = [
-                    p for p in self.catalog if not attended or set(p.spec.inputs) & attended
-                ] or self.catalog
+                pool = [p for p in self.catalog if not attended or set(p.spec.inputs) & attended] or self.catalog
                 chosen = PS.select(
                     self.selection,
                     pool,
@@ -320,11 +316,7 @@ class Substrate:
             outcome=outcome,
             error=None if outcome is None else (outcome != report["decision"]),
             perspectives_used=tuple(o.perspective for o in outputs),
-            verification=(
-                {"verified": True, "receipt": f"outcome:{self.step_index}"}
-                if outcome is not None and outcome == report["decision"]
-                else None
-            ),
+            verification=({"verified": True, "receipt": f"outcome:{self.step_index}"} if outcome is not None and outcome == report["decision"] else None),
             confidence=max((o.confidence for o in outputs), default=0.0),
             cost=round(spent, 6),
             later_usefulness=None,
@@ -339,9 +331,7 @@ class Substrate:
             # rather than every cycle after the seventh dying on a tie.
             held, pressure = True, ""
             try:
-                self.working.write(
-                    f"step{self.step_index}", report["decision"], priority=0.5 + self.step_index * 1e-6
-                )
+                self.working.write(f"step{self.step_index}", report["decision"], priority=0.5 + self.step_index * 1e-6)
             except M.Refused as exc:
                 held, pressure = False, str(exc)
             trace.record(
@@ -367,9 +357,7 @@ class Substrate:
                     self.beliefs.beliefs[belief_id].verification_status = "verified"
                 else:
                     # a refuted belief is retracted, which propagates to anything resting on it
-                    self.beliefs.retract(
-                        belief_id, reason=f"outcome contradicted it at step {self.step_index}"
-                    )
+                    self.beliefs.retract(belief_id, reason=f"outcome contradicted it at step {self.step_index}")
             for out in outputs:
                 prior = self.reliability.get(out.perspective, 0.5)
                 self.reliability[out.perspective] = prior + 0.2 * (float(out.value == outcome) - prior)
@@ -500,9 +488,7 @@ class Substrate:
             "episodes": sorted(self.episodes.store),
             "episode_classes": {k: v.klass for k, v in sorted(self.episodes.store.items())},
             "facts": sorted(self.semantic.store),
-            "beliefs": {
-                k: (v.retracted, round(v.confidence, 6)) for k, v in sorted(self.beliefs.beliefs.items())
-            },
+            "beliefs": {k: (v.retracted, round(v.confidence, 6)) for k, v in sorted(self.beliefs.beliefs.items())},
             "reliability": {k: round(v, 6) for k, v in sorted(self.reliability.items())},
         }
 
@@ -594,8 +580,7 @@ def declaration() -> dict:
         "reflective_access": entity.report(),
         "activation": False,
         "no_activation_path": (
-            "the decision region records what would be done and nothing executes it. "
-            "There is no code path in this module that sets activation true"
+            "the decision region records what would be done and nothing executes it. There is no code path in this module that sets activation true"
         ),
         "protected_surfaces_the_loop_cannot_remove": protected,
     }

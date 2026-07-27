@@ -281,12 +281,7 @@ def arbitrate(
         "schema": "substrate-arbitration/v1",
         "decision": None if deferred else dominant["value"],
         "deferred": deferred,
-        "reason": (
-            "the margin between the leading and the next hypothesis is inside the SESOI and no "
-            "verification was affordable"
-            if deferred
-            else ""
-        ),
+        "reason": ("the margin between the leading and the next hypothesis is inside the SESOI and no verification was affordable" if deferred else ""),
         "dominant_hypothesis": {
             "value": dominant["value"],
             "support": [m.perspective for m in dominant["members"]],
@@ -304,11 +299,7 @@ def arbitrate(
         ],
         "unresolved_contradictions": contradictions,
         "provisional_belief": dominant["value"] if deferred else None,
-        "required_evidence": (
-            [f"a verification that separates {dominant['value']!r} from {contradictions[0]['alternative']!r}"]
-            if deferred
-            else []
-        ),
+        "required_evidence": ([f"a verification that separates {dominant['value']!r} from {contradictions[0]['alternative']!r}"] if deferred else []),
         "confidence_interval": interval,
         "margin": round(margin, 6),
         "verification_requested": bool(contradictions) and margin < sesoi,
@@ -329,9 +320,7 @@ def arbitrate(
 # refuses elsewhere.
 
 
-def _spec(
-    name, family, inputs, objective, output_type, cost, failure_modes, verification, state="stateless"
-) -> PerspectiveSpec:
+def _spec(name, family, inputs, objective, output_type, cost, failure_modes, verification, state="stateless") -> PerspectiveSpec:
     return PerspectiveSpec(
         name=name,
         family=family,
@@ -482,10 +471,8 @@ CATALOG: list[Perspective] = [
 GATED_FAMILIES = {
     "mathematical_proof": "verification needs a proof checker, and none is present. A perspective that "
     "emitted proofs nothing could check would be unverifiable by construction",
-    "spatial_reasoning": "no spatial bed is under custody. The corpora are time series and scheduling "
-    "records, so a spatial perspective would have no referent",
-    "social_and_agent_modeling": "no multi agent bed exists here. Modelling other agents against a "
-    "single agent record would score imitation of the vocabulary",
+    "spatial_reasoning": "no spatial bed is under custody. The corpora are time series and scheduling records, so a spatial perspective would have no referent",
+    "social_and_agent_modeling": "no multi agent bed exists here. Modelling other agents against a single agent record would score imitation of the vocabulary",
 }
 
 
@@ -522,12 +509,7 @@ def _analogy(seen: dict) -> tuple[object, float]:
     for e in edges:
         if len(e) == 2:
             by_source.setdefault(e[0], set()).add(e[1])
-    pairs = [
-        (a, b)
-        for a in by_source
-        for b in by_source
-        if a < b and by_source[a] and by_source[a] == by_source[b]
-    ]
+    pairs = [(a, b) for a in by_source for b in by_source if a < b and by_source[a] and by_source[a] == by_source[b]]
     return {"analogous": sorted(pairs)}, 0.6 if pairs else 0.1
 
 
@@ -746,14 +728,8 @@ def declaration(catalog: list[Perspective] | None = None) -> dict:
         "required_declarations": list(REQUIRED_DECLARATIONS),
         "selection_ladder": list(STRATEGIES),
         "simple_strategies": list(SIMPLE_STRATEGIES),
-        "learned_selector_rule": (
-            "opens only above a measured residual lower bound over the strongest "
-            "simple rule; refused otherwise"
-        ),
-        "permitted_information_rule": (
-            "a perspective reads its declared regions through the workspace, "
-            "so an undeclared read is refused by the type system"
-        ),
+        "learned_selector_rule": ("opens only above a measured residual lower bound over the strongest simple rule; refused otherwise"),
+        "permitted_information_rule": ("a perspective reads its declared regions through the workspace, so an undeclared read is refused by the type system"),
         "catalog": [
             {
                 "name": p.spec.name,

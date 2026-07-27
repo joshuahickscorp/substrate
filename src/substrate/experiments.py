@@ -147,9 +147,7 @@ def sx1() -> gate.Preregistration:
                     }
                 },
             ),
-            C.DatasetContract(
-                name="bed", evidence={"bed_validity": {"classification": "valid_principal_bed"}}
-            ),
+            C.DatasetContract(name="bed", evidence={"bed_validity": {"classification": "valid_principal_bed"}}),
             C.IndependentUnitContract(
                 name="units",
                 evidence={"units": {"group_disjoint": True, "n_units": 8, "test_touched": False}},
@@ -165,9 +163,7 @@ def sx1() -> gate.Preregistration:
                     }
                 },
             ),
-            C.OracleContract(
-                name="oracle", evidence={"headroom": {"n_seeds": 8, "residual_lower_95_cb": 0.22}}
-            ),
+            C.OracleContract(name="oracle", evidence={"headroom": {"n_seeds": 8, "residual_lower_95_cb": 0.22}}),
             C.PowerContract(
                 name="power",
                 declared={"sesoi": 0.05, "seeds": 8, "futility": 0.01, "harm": -0.02},
@@ -187,14 +183,7 @@ def sx1_decision() -> dict:
         "experiment_id": "SX1",
         "title": prereg.title,
         # named explicitly so the hypothesis graph can attach the refusal without guessing from prose
-        "hypotheses": sorted(
-            {
-                h
-                for c in prereg.contracts
-                if c.kind == "ExperimentQuestion"
-                for h in c.declared.get("hypotheses", [])
-            }
-        ),
+        "hypotheses": sorted({h for c in prereg.contracts if c.kind == "ExperimentQuestion" for h in c.declared.get("hypotheses", [])}),
         "admission": report,
         "causal_graph_violations": graph_violations,
         "licensed": report["licensed"],
@@ -206,8 +195,7 @@ def sx1_decision() -> dict:
             "reaches the outcome, and the claim is therefore broader than the measured path"
         ),
         "not_a_scientific_null": (
-            "a methodological failure is not a scientific null. H_typed_workspace is "
-            "untested, not refuted, and stays open in the hypothesis graph"
+            "a methodological failure is not a scientific null. H_typed_workspace is untested, not refuted, and stays open in the hypothesis graph"
         ),
         "successor": "SX1b",
         "activation": False,
@@ -219,9 +207,7 @@ def sx1_decision() -> dict:
 SX1B_DESIGN = {
     "schema": "substrate-experiment-design/v1",
     "experiment_id": "SX1b",
-    "question": (
-        "does a write restriction fitted on training units still help on source groups it has never seen"
-    ),
+    "question": ("does a write restriction fitted on training units still help on source groups it has never seen"),
     "why_it_is_not_a_closed_form": (
         "the reliability of each writer is measured on training units rather "
         "than set by a generator, so the restriction can be fitted to a "
@@ -252,10 +238,7 @@ SX1B_DESIGN = {
         },
         "H_capacity_only": {"typed_fitted_beats_untyped": False, "typed_oracle_beats_untyped": False},
     },
-    "blocked_on": (
-        "principal compute. The temporal core factorial holds every worker slot, and this "
-        "design is queued behind it rather than run alongside it"
-    ),
+    "blocked_on": ("principal compute. The temporal core factorial holds every worker slot, and this design is queued behind it rather than run alongside it"),
     "activation": False,
 }
 
@@ -324,9 +307,7 @@ def per_unit_accuracy(bed: dict, split: str) -> dict:
     out: dict[str, dict] = {}
     for unit in sorted(set(U.tolist())):
         m = unit == U
-        out[unit] = {
-            name: float((_centroid_predict(models[name], feats[name][m]) == Y[m]).mean()) for name in models
-        }
+        out[unit] = {name: float((_centroid_predict(models[name], feats[name][m]) == Y[m]).mean()) for name in models}
     return out
 
 
@@ -449,9 +430,7 @@ def sx1b(evidence: dict) -> gate.Preregistration:
         title=SX1B_DESIGN["question"],
         mechanism_activity={
             "active": evidence["per_unit_reliability_gap"]["mean"] > 0.0,
-            "classification": "active"
-            if evidence["per_unit_reliability_gap"]["mean"] > 0.0
-            else "inactive_mechanism",
+            "classification": "active" if evidence["per_unit_reliability_gap"]["mean"] > 0.0 else "inactive_mechanism",
             "failed": [],
             "evidence": "the two writers disagree in reliability on the training units",
         },
@@ -506,9 +485,7 @@ def sx1b(evidence: dict) -> gate.Preregistration:
                     }
                 },
             ),
-            C.DatasetContract(
-                name="bed", evidence={"bed_validity": {"classification": "valid_principal_bed"}}
-            ),
+            C.DatasetContract(name="bed", evidence={"bed_validity": {"classification": "valid_principal_bed"}}),
             C.IndependentUnitContract(
                 name="units",
                 evidence={
@@ -522,9 +499,7 @@ def sx1b(evidence: dict) -> gate.Preregistration:
             C.BaselineContract(
                 name="base",
                 declared={"identity": "no restriction"},
-                evidence={
-                    "convergence": {"converged": True, "resource_matched": True, "identity": "no restriction"}
-                },
+                evidence={"convergence": {"converged": True, "resource_matched": True, "identity": "no restriction"}},
             ),
             C.OracleContract(name="oracle", evidence={"headroom": evidence["oracle_headroom"]}),
             C.PowerContract(
@@ -575,12 +550,10 @@ def _sx1b_diagnosis(evidence: dict) -> dict:
         ),
         "classification": "bed_cannot_answer_the_question_at_this_effect_size",
         "not_a_null": (
-            "H_typed_workspace is untested on this bed, not refuted. A bed that cannot see the "
-            "declared effect says nothing about whether the effect exists"
+            "H_typed_workspace is untested on this bed, not refuted. A bed that cannot see the declared effect says nothing about whether the effect exists"
         ),
         "successor_requirement": (
-            "a bed where the two writers' reliability ordering varies more between "
-            "source groups, so that the oracle ceiling itself clears the SESOI"
+            "a bed where the two writers' reliability ordering varies more between source groups, so that the oracle ceiling itself clears the SESOI"
         ),
     }
 
@@ -674,8 +647,7 @@ BED_SCREEN_RULE = {
         "the SESOI is not lowered to manufacture a candidate"
     ),
     "prior_measurement": (
-        "the harth_stream ceiling of 0.036124 was measured by SX1b before this rule was "
-        "written and is carried forward unchanged rather than remeasured"
+        "the harth_stream ceiling of 0.036124 was measured by SX1b before this rule was written and is carried forward unchanged rather than remeasured"
     ),
     "activation": False,
 }
@@ -701,9 +673,7 @@ def screen_bed(name: str) -> dict:
         "bed": name,
         "available": True,
         "n_train_units": n,
-        "mean_reliability": {
-            p: round(float(np.mean([r[p] for r in rows.values()])), 6) for p in ("static", "dynamic")
-        },
+        "mean_reliability": {p: round(float(np.mean([r[p] for r in rows.values()])), 6) for p in ("static", "dynamic")},
         "oracle_ceiling": round(mean, 6),
         "oracle_ceiling_lower_95_cb": round(mean - half, 6),
         "clears_sesoi": mean - half > BED_SCREEN_RULE["sesoi"],
@@ -727,10 +697,7 @@ def bed_screen() -> dict:
             "it was preregistered"
         ),
         "classification": "candidate_bed_found" if clearing else "no_bed_can_answer_at_this_effect_size",
-        "not_a_null": (
-            "a hypothesis nothing can currently measure is untested, not refuted. Nothing "
-            "downstream of H_typed_workspace closes"
-        ),
+        "not_a_null": ("a hypothesis nothing can currently measure is untested, not refuted. Nothing downstream of H_typed_workspace closes"),
         "activation": False,
     }
 
@@ -757,8 +724,7 @@ SX5_DESIGN = {
     ),
     "bed": "the sealed convergence and principal receipts of the temporal core program",
     "why_the_bed_is_not_designed_here": (
-        "both receipt families were produced by another program for "
-        "another question, months of compute before this one existed"
+        "both receipt families were produced by another program for another question, months of compute before this one existed"
     ),
     "prediction": "the tune split accuracy at the checkpoint convergence selected, per factorial cell",
     "outcome": "the principal test accuracy for the same cell, averaged over seeds",
@@ -779,8 +745,7 @@ SX5_DESIGN = {
         "H_prior_sufficient": {"updating_beats_best_baseline": False, "in_both_directions": True},
     },
     "declared_limitation": (
-        "the mean tune to test gap on both beds was seen during design. The claim is "
-        "restricted to whether the offset transfers, which the peek did not answer"
+        "the mean tune to test gap on both beds was seen during design. The claim is restricted to whether the offset transfers, which the peek did not answer"
     ),
     "activation": False,
 }
@@ -821,9 +786,7 @@ def sx5_evidence() -> dict:
     offsets = [p - a for p, a in fit.values()]
     families = sorted({_family(c) for c in fit})
     mean_test = statistics.fmean(a for _, a in fit.values())
-    per_family = {
-        f: statistics.fmean(p - a for c, (p, a) in fit.items() if _family(c) == f) for f in families
-    }
+    per_family = {f: statistics.fmean(p - a for c, (p, a) in fit.items() if _family(c) == f) for f in families}
     naive = statistics.fmean(abs(p - a) for p, a in fit.values())
     prior = statistics.fmean(abs(mean_test - a) for _, a in fit.values())
     ceiling = min(naive, prior)  # the oracle reaches zero error, so the ceiling is the best baseline
@@ -949,13 +912,9 @@ def sx5(evidence: dict) -> gate.Preregistration:
             ),
             C.ControlContract(
                 name="fixed_prior",
-                evidence={
-                    "semantic": {"update_absent": True, "same_functional_form": True, "all_pass": True}
-                },
+                evidence={"semantic": {"update_absent": True, "same_functional_form": True, "all_pass": True}},
             ),
-            C.DatasetContract(
-                name="bed", evidence={"bed_validity": {"classification": "valid_principal_bed"}}
-            ),
+            C.DatasetContract(name="bed", evidence={"bed_validity": {"classification": "valid_principal_bed"}}),
             C.IndependentUnitContract(
                 name="units",
                 evidence={
@@ -1035,10 +994,7 @@ def sx5_run() -> dict:
             "fitted_offset": round(offset, 6),
             "fixed_prior_value": round(prior, 6),
             "per_family": {f: {k: round(v, 6) for k, v in row.items()} for f, row in per_family.items()},
-            "mean_error": {
-                arm: round(statistics.fmean(row[arm] for row in per_family.values()), 6)
-                for arm in ("naive", "fixed_prior", "updating")
-            },
+            "mean_error": {arm: round(statistics.fmean(row[arm] for row in per_family.values()), 6) for arm in ("naive", "fixed_prior", "updating")},
             "effect_best_baseline_minus_updating": round(effect, 6),
             "lower_95_cb": round(effect - half, 6),
             "upper_95_cb": round(effect + half, 6),
@@ -1058,9 +1014,7 @@ def sx5_run() -> dict:
     out["result"] = gate.classify_result(
         effect={
             "verdict": verdict,
-            "estimate": round(
-                statistics.fmean(d["effect_best_baseline_minus_updating"] for d in directions.values()), 6
-            ),
+            "estimate": round(statistics.fmean(d["effect_best_baseline_minus_updating"] for d in directions.values()), 6),
             "lower_95_cb": worst["lower_95_cb"],
         },
         instrument_valid=True,
@@ -1101,9 +1055,7 @@ def sx5_classify() -> dict:
     result = gate.classify_result(
         effect={
             "verdict": principal["verdict"],
-            "estimate": round(
-                statistics.fmean(d["effect_best_baseline_minus_updating"] for d in directions.values()), 6
-            ),
+            "estimate": round(statistics.fmean(d["effect_best_baseline_minus_updating"] for d in directions.values()), 6),
             "lower_95_cb": worst["lower_95_cb"],
         },
         instrument_valid=True,

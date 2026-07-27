@@ -58,10 +58,7 @@ FROZEN = {
     "stop_rules": ("stop switch present", "deterministic failure hold", "no unit dependency ready"),
     "checkpoint_policy": "one receipt per unit, resumable from disk, identity digest verified on restore",
     "retries": MAX_ATTEMPTS,
-    "claim_ceiling": (
-        "engineering property or architectural prerequisite only. No consciousness, "
-        "sentience, feeling, suffering, desire, personhood or life"
-    ),
+    "claim_ceiling": ("engineering property or architectural prerequisite only. No consciousness, sentience, feeling, suffering, desire, personhood or life"),
     "activation": False,
 }
 
@@ -276,9 +273,7 @@ def manifest() -> dict:
     frozen["source_commit"] = io.commit()
     frozen["source_digest"] = source_digest()
     frozen["configuration_sha256"] = config.load()["sha256"]
-    frozen["source_tree"] = subprocess.run(
-        ["git", "rev-parse", "HEAD^{tree}"], cwd=io.ROOT, capture_output=True, text=True
-    ).stdout.strip()
+    frozen["source_tree"] = subprocess.run(["git", "rev-parse", "HEAD^{tree}"], cwd=io.ROOT, capture_output=True, text=True).stdout.strip()
     frozen["units"] = [u.identity for u in UNIT_LIST]
     frozen["unit_count"] = len(UNIT_LIST)
     frozen["completion"] = "all units terminal, which is a count of scientific work units, not wall time"
@@ -299,10 +294,7 @@ def live_edit_detected(sealed: dict, current: dict | None = None) -> dict:
         "current_digest": current["source_digest"],
         "sealed_commit": sealed.get("source_commit"),
         "current_commit": current["source_commit"],
-        "commit_may_advance": (
-            "the commit advances when this authority is committed, which is not a "
-            "live edit. The source digest is what is frozen"
-        ),
+        "commit_may_advance": ("the commit advances when this authority is committed, which is not a live edit. The source digest is what is frozen"),
     }
 
 
@@ -335,9 +327,7 @@ def ready() -> list[Unit]:
 
 
 def validate_receipt(document: dict) -> bool:
-    expected = io.sha_obj(
-        {key: value for key, value in document.items() if key not in {"wall_seconds", "receipt_sha256"}}
-    )
+    expected = io.sha_obj({key: value for key, value in document.items() if key not in {"wall_seconds", "receipt_sha256"}})
     return document.get("receipt_sha256") == expected
 
 
@@ -387,9 +377,7 @@ def run_unit(unit: Unit, *, dry: bool = False) -> dict:
         ok, code, out = True, 0, "dry"
     else:
         env = {**os.environ, "PYTHONPATH": str(io.ROOT / "src")}
-        r = subprocess.run(
-            [PY, "-m", unit.module, *unit.args], cwd=io.ROOT, env=env, capture_output=True, text=True
-        )
+        r = subprocess.run([PY, "-m", unit.module, *unit.args], cwd=io.ROOT, env=env, capture_output=True, text=True)
         code, out = r.returncode, (r.stdout or r.stderr)[-400:]
         from substrate import program as P
 
@@ -406,9 +394,7 @@ def run_unit(unit: Unit, *, dry: bool = False) -> dict:
         "source_commit": io.commit(),
         "activation": False,
     }
-    receipt["receipt_sha256"] = io.sha_obj(
-        {key: value for key, value in receipt.items() if key != "wall_seconds"}
-    )
+    receipt["receipt_sha256"] = io.sha_obj({key: value for key, value in receipt.items() if key != "wall_seconds"})
     io.run_json(f"{unit.identity}.json", receipt, _units_subdir())
     return receipt
 
@@ -459,13 +445,7 @@ def drive(max_units: int = 10**6, dry: bool = False) -> dict:
         "status": st,
         "stopped_by": "stop switch"
         if STOP.exists()
-        else (
-            "failure"
-            if ran and not ran[-1]["ok"]
-            else "no dependency ready unit"
-            if not st["ready"]
-            else "unit budget"
-        ),
+        else ("failure" if ran and not ran[-1]["ok"] else "no dependency ready unit" if not st["ready"] else "unit budget"),
         "activation": False,
     }
 
@@ -531,13 +511,7 @@ def _rehearse_body(shutil) -> dict:
 
     # 3 duplicate refusal: a completed unit is not offered again
     completed_before = {u.identity for u in UNIT_LIST if done(u.identity)}
-    checks["duplicate_refusal"] = {
-        "ok": all(
-            u.identity not in [r.identity for r in ready()]
-            for u in UNIT_LIST
-            if u.identity in completed_before
-        )
-    }
+    checks["duplicate_refusal"] = {"ok": all(u.identity not in [r.identity for r in ready()] for u in UNIT_LIST if u.identity in completed_before)}
 
     # 4 checkpoint and resume: wipe one receipt, confirm only that unit is offered again
     shutil.rmtree(UNITS, ignore_errors=True)
@@ -571,15 +545,10 @@ def _rehearse_body(shutil) -> dict:
         "source_commit": io.commit(),
         "activation": False,
     }
-    late_receipt["receipt_sha256"] = io.sha_obj(
-        {key: value for key, value in late_receipt.items() if key != "wall_seconds"}
-    )
+    late_receipt["receipt_sha256"] = io.sha_obj({key: value for key, value in late_receipt.items() if key != "wall_seconds"})
     io.run_json("injected_late_failure.json", late_receipt, _units_subdir())
     checks["second_injected_failure_preserves_dependencies"] = {
-        "ok": late_receipt["ok"] is False
-        and sum(done(u.identity) for u in UNIT_LIST) == before_late
-        and done("audit")
-        and done("declarations"),
+        "ok": late_receipt["ok"] is False and sum(done(u.identity) for u in UNIT_LIST) == before_late and done("audit") and done("declarations"),
     }
 
     # 6 stale artifact refusal: an artifact at an unreachable commit does not count
@@ -595,12 +564,8 @@ def _rehearse_body(shutil) -> dict:
     sealed = manifest()
     source_changed = {**sealed, "source_digest": "0" * 64}
     config_changed = {**sealed, "configuration_sha256": "0" * 64}
-    checks["source_drift_refusal"] = {
-        "ok": live_edit_detected(source_changed, sealed)["drifted_keys"] == ["source_digest"]
-    }
-    checks["configuration_drift_refusal"] = {
-        "ok": live_edit_detected(config_changed, sealed)["drifted_keys"] == ["configuration_sha256"]
-    }
+    checks["source_drift_refusal"] = {"ok": live_edit_detected(source_changed, sealed)["drifted_keys"] == ["source_digest"]}
+    checks["configuration_drift_refusal"] = {"ok": live_edit_detected(config_changed, sealed)["drifted_keys"] == ["configuration_sha256"]}
 
     left = {"b": [2, 3], "a": 1}
     right = {"a": 1, "b": [2, 3]}
@@ -690,10 +655,7 @@ def resource_plan() -> dict:
         "terminal_run_range_seconds": {"low": 7, "high": 19},
         "estimate_boundary": "engineering estimate; the scientific long run was not launched",
         "completion_criterion": "all units terminal",
-        "not_a_wall_clock": (
-            "a run that finishes early because the machine was fast has not done less "
-            "science, and a run still going has units left"
-        ),
+        "not_a_wall_clock": ("a run that finishes early because the machine was fast has not done less science, and a run still going has units left"),
         "stop_switch": str(STOP),
         "retries": MAX_ATTEMPTS,
         "external_dependencies": {
@@ -718,10 +680,7 @@ def claim_boundary() -> dict:
         ],
         "permitted_only_when": "supported by a classification from the method kernel",
         "forbidden": list(SF.FORBIDDEN_CLAIM_TERMS),
-        "requires_separate_authority": (
-            "consciousness and subjective experience. No result from this run "
-            "can license either, whatever it shows"
-        ),
+        "requires_separate_authority": ("consciousness and subjective experience. No result from this run can license either, whatever it shows"),
         "current_claims_supported": [],
         "current_evidence": ("one category has earned evidence and it is a null. No category has a positive"),
         "enforcement": "substrate.safety.assert_claim_safe raises rather than warning",
@@ -744,19 +703,11 @@ def authority(cert: dict, reh: dict) -> dict:
         },
         "rehearsal": {"all_pass": reh["all_pass"], "failed": reh["failed"]},
         "admission": "green" if green else "refused",
-        "refusal_reason": ""
-        if green
-        else "; ".join(
-            audit_doc["failed"] + [g["component"] for g in cert["gated_components"]] + reh["failed"]
-        ),
+        "refusal_reason": "" if green else "; ".join(audit_doc["failed"] + [g["component"] for g in cert["gated_components"]] + reh["failed"]),
         "no_live_edits_after_launch": (
-            "the frozen manifest carries the source commit and tree. A later "
-            "run whose tree differs is a live edit and is detectable"
+            "the frozen manifest carries the source commit and tree. A later run whose tree differs is a live edit and is detectable"
         ),
-        "defect_procedure": (
-            "pause, append only repair, regression test, transition receipt, safe "
-            "resume. Completed units are not redone"
-        ),
+        "defect_procedure": ("pause, append only repair, regression test, transition receipt, safe resume. Completed units are not redone"),
         "commands": {
             "launch": "substrate run",
             "status": "substrate status",

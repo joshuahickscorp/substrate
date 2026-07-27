@@ -42,9 +42,7 @@ class Refused(RuntimeError):
 
 def _histories(session: dict) -> tuple[list, list, list]:
     """Two disjoint slices of a real session, plus a held out slice neither instance sees."""
-    events = [
-        e for e in session["events"] if e["kind"] in ("shard_completed", "shard_quarantined", "failure_hold")
-    ]
+    events = [e for e in session["events"] if e["kind"] in ("shard_completed", "shard_quarantined", "failure_hold")]
     if len(events) < 60:
         raise Refused(f"only {len(events)} usable events, too few to split three ways")
     third = len(events) // 3
@@ -83,9 +81,7 @@ def _measure(entity: R.Substrate, held_out: list) -> dict:
         "world_models": len(entity.semantic.store),
         "self_models": len(entity.self_model.history),
         "perspective_reliability": {k: round(v, 6) for k, v in sorted(entity.reliability.items())},
-        "specialization": round(
-            statistics.pstdev(list(entity.reliability.values())) if len(entity.reliability) > 1 else 0.0, 6
-        ),
+        "specialization": round(statistics.pstdev(list(entity.reliability.values())) if len(entity.reliability) > 1 else 0.0, 6),
         "transfer": round(correct / max(len(held_out), 1), 6),
         "robustness": round(1.0 - len(entity.ws.refusals) / max(entity.step_index, 1), 6),
         "goal_progress": entity.step_index,
@@ -128,10 +124,7 @@ def run() -> dict:
         "dimensions": list(DIMENSIONS),
         "control_same_history": control,
         "control_shows_no_divergence": control_clean,
-        "control_rule": (
-            "two instances given the same history must not diverge, or the divergence below "
-            "is noise wearing a developmental costume"
-        ),
+        "control_rule": ("two instances given the same history must not diverge, or the divergence below is noise wearing a developmental costume"),
         "instance_a": measured_a,
         "instance_b": measured_b,
         "divergence": divergence,

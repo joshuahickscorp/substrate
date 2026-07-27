@@ -21,7 +21,7 @@ substrate = "substrate.cli:main"
 packages = ["src/substrate"]
 
 [tool.ruff]
-line-length = 110
+line-length = 160
 target-version = "py311"
 src = ["src", "tests"]
 

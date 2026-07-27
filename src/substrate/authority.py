@@ -118,9 +118,7 @@ def master_authority(st: dict) -> dict:
             "pull_request": 35,
         },
         "proof_roots": {k: str(v.relative_to(io.ROOT)) for k, v in D.ROOTS.items() if k},
-        "inherited_authorities": [
-            {"program": prog, **D._bind(ref), "role": why} for prog, ref, why in D.INHERITED_AUTHORITIES
-        ],
+        "inherited_authorities": [{"program": prog, **D._bind(ref), "role": why} for prog, ref, why in D.INHERITED_AUTHORITIES],
         "naming_authority": D.NAMING,
         "claim_boundary": D.CLAIM_BOUNDARY,
         "goal_authority": D.GOAL_AUTHORITY,
@@ -139,10 +137,7 @@ def master_authority(st: dict) -> dict:
             "externally_blocked": graph_doc["externally_blocked"],
             "buildable_prerequisites": [b["node"] for b in graph_doc["buildable_prerequisites"]],
         },
-        "resume_without_history": (
-            "every field a successor needs is in SUBSTRATE_FINAL_STATE.json and "
-            "this file. No conversation is required to continue"
-        ),
+        "resume_without_history": ("every field a successor needs is in SUBSTRATE_FINAL_STATE.json and this file. No conversation is required to continue"),
         "activation": False,
     }
 
@@ -155,21 +150,17 @@ def ancestry() -> dict:
                 "program": name,
                 "contribution": what,
                 "role": role,
-                "proof_root": str((io.ROOT / "proof" / "substrate" / name).relative_to(io.ROOT))
-                if (io.ROOT / "proof" / "substrate" / name).is_dir()
-                else None,
+                "proof_root": str((io.ROOT / "proof" / "substrate" / name).relative_to(io.ROOT)) if (io.ROOT / "proof" / "substrate" / name).is_dir() else None,
             }
             for name, what, role in ANCESTRY
         ],
         "rule": (
-            "historical evidence is preserved in place. This authority binds it and never rewrites "
-            "it, and a superseded claim keeps its original sealed bytes"
+            "historical evidence is preserved in place. This authority binds it and never rewrites it, and a superseded claim keeps its original sealed bytes"
         ),
         "temporal_core_verdict": {
             "terminal": True,
             "licensed": False,
-            "why": "role B found the load bearing baselines unconverged on all three beds, so the "
-            "selection was withdrawn and no successor opened",
+            "why": "role B found the load bearing baselines unconverged on all three beds, so the selection was withdrawn and no successor opened",
             "consequence": "the runtime integrates a declared control implementation and records the "
             "scientific limitation rather than pretending a core was selected",
         },
@@ -200,10 +191,7 @@ def final_scorecard(st: dict) -> dict:
         "reading_the_evidence_column": card["reading_the_evidence_column"],
         "implementation_target_band": [80, 95],
         "evidence_target_band": [50, 75],
-        "evidence_target_note": (
-            "section 43 sets fifty to seventy five percent before a subsystem is "
-            "treated as established. No subsystem is there"
-        ),
+        "evidence_target_note": ("section 43 sets fifty to seventy five percent before a subsystem is treated as established. No subsystem is there"),
         "sentience_has_no_score": True,
         "graph_terminal_nodes": len(graph_doc["terminal_nodes"]),
         "graph_nodes": graph_doc["node_count"],
@@ -229,8 +217,7 @@ def value_queue(st: dict) -> dict:
         "graph_ready_nodes": [r["identity"] for r in ready],
         "buildable_prerequisites": graph_doc["buildable_prerequisites"],
         "selection_rule": (
-            "expected decision information, scientific headroom, relevance to entity "
-            "construction, reuse value, engineering cost, compute cost, validity risk"
+            "expected decision information, scientific headroom, relevance to entity construction, reuse value, engineering cost, compute cost, validity risk"
         ),
         "do_not_run_everything": True,
         "activation": False,
@@ -244,18 +231,13 @@ def ledger_markdown(st: dict) -> str:
         "",
         f"Derived from the tree at `{io.commit()}`. Status is computed, never asserted.",
         "",
-        f"{len(rows)} requirements. "
-        + ", ".join(f"{k} {v}" for k, v in sorted(st["level_counts"].items()))
-        + ".",
+        f"{len(rows)} requirements. " + ", ".join(f"{k} {v}" for k, v in sorted(st["level_counts"].items())) + ".",
         "",
         "| id | category | status | classification | next action | rollback |",
         "|---|---|---|---|---|---|",
     ]
     for r in rows:
-        lines.append(
-            f"| {r['id']} | {r['category']} | {r['status']} | {r['classification'] or '-'} | "
-            f"{r['next_action']} | {r['rollback'][:70]} |"
-        )
+        lines.append(f"| {r['id']} | {r['category']} | {r['status']} | {r['classification'] or '-'} | {r['next_action']} | {r['rollback'][:70]} |")
     graph_doc = G.declaration()
     lines += [
         "",
@@ -277,9 +259,7 @@ def write_all() -> dict:
     # SUBSTRATE_FINAL_PROGRAM_GRAPH.json is owned by substrate.graph. One producer per artifact,
     # because two producers means the last one to run decides what the evidence says.
     written = {
-        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": io.seal(
-            "SUBSTRATE_FINAL_MASTER_AUTHORITY.json", master_authority(st)
-        ),
+        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": io.seal("SUBSTRATE_FINAL_MASTER_AUTHORITY.json", master_authority(st)),
         "SUBSTRATE_FINAL_ANCESTRY.json": io.seal("SUBSTRATE_FINAL_ANCESTRY.json", ancestry()),
         "SUBSTRATE_FINAL_STATE.json": io.seal("SUBSTRATE_FINAL_STATE.json", final_state(st)),
         "SUBSTRATE_FINAL_SCORECARD.json": io.seal("SUBSTRATE_FINAL_SCORECARD.json", final_scorecard(st)),

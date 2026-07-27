@@ -16,9 +16,7 @@ def main(argv: list[str] | None = None) -> None:
     command = argv.pop(0) if argv else "status"
 
     if command == "test":
-        raise SystemExit(
-            subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode
-        )
+        raise SystemExit(subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode)
 
     from substrate import audit, authority, deliverables, evidence, execution, verification
 

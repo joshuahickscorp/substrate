@@ -47,22 +47,13 @@ def score(candidate: dict) -> dict:
         raise ValueError(f"{candidate['id']}: unscored dimensions {missing}")
     # decision information is dominated by whether the result can move the decision and separate hypotheses
     decision_information = (
-        0.4 * s["expected_information_gain"]
-        + 0.35 * s["probability_of_changing_the_substrate_decision"]
-        + 0.25 * s["discriminates_competing_hypotheses"]
+        0.4 * s["expected_information_gain"] + 0.35 * s["probability_of_changing_the_substrate_decision"] + 0.25 * s["discriminates_competing_hypotheses"]
     )
     reuse = 0.5 * (s["reusability_of_implementation"] + s["reusability_of_data"])
-    cost = (
-        0.4 * s["compute_cost"]
-        + 0.2 * s["duration_cost"]
-        + 0.25 * s["instrumentation_risk"]
-        + 0.15 * s["baseline_uncertainty"]
-    )
+    cost = 0.4 * s["compute_cost"] + 0.2 * s["duration_cost"] + 0.25 * s["instrumentation_risk"] + 0.15 * s["baseline_uncertainty"]
     feasibility = 0.5 * (s["oracle_headroom"] + s["independent_unit_quality"])
     closed = s["risk_of_repeating_a_closed_premise"]
-    priority = round(
-        decision_information * (0.6 + 0.4 * feasibility) * (0.7 + 0.3 * reuse) / max(0.05, cost), 3
-    )
+    priority = round(decision_information * (0.6 + 0.4 * feasibility) * (0.7 + 0.3 * reuse) / max(0.05, cost), 3)
     refused = closed >= 0.5 or s["oracle_headroom"] <= 0.0
     return {
         "id": candidate["id"],
@@ -77,9 +68,7 @@ def score(candidate: dict) -> dict:
         "raw_priority": priority,
         "status": "refused_closed_premise" if refused else "eligible",
         "refusal_reason": (
-            "risk of repeating a closed premise is at or above one half"
-            if closed >= 0.5
-            else ("no oracle headroom" if s["oracle_headroom"] <= 0.0 else "")
+            "risk of repeating a closed premise is at or above one half" if closed >= 0.5 else ("no oracle headroom" if s["oracle_headroom"] <= 0.0 else "")
         ),
         "hypotheses_separated": candidate.get("hypotheses_separated", []),
         "justification": candidate.get("justification", {}),

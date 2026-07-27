@@ -45,16 +45,12 @@ def data_root() -> Path:
 
 
 def sha_obj(v) -> str:
-    return hashlib.sha256(
-        json.dumps(v, sort_keys=True, separators=(",", ":"), default=str).encode()
-    ).hexdigest()
+    return hashlib.sha256(json.dumps(v, sort_keys=True, separators=(",", ":"), default=str).encode()).hexdigest()
 
 
 @lru_cache(maxsize=1)
 def commit() -> str:
-    return subprocess.run(
-        ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True
-    ).stdout.strip()
+    return subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
 
 
 def _atomic_write(path: Path, payload: str) -> Path:

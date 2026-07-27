@@ -100,9 +100,7 @@ def validate(graph: dict, evidence: dict | None = None) -> list[str]:
 
     # 1 mechanism without intervention
     for i, n in nodes.items():
-        if n["type"] == "mechanism" and not any(
-            nodes.get(e["dst"], {}).get("type") == "intervention" for e in out[i]
-        ):
+        if n["type"] == "mechanism" and not any(nodes.get(e["dst"], {}).get("type") == "intervention" for e in out[i]):
             v.append(f"mechanism {i} has no intervention: nothing acts on the world")
 
     # 2 reported variable without implementation
@@ -131,11 +129,7 @@ def validate(graph: dict, evidence: dict | None = None) -> list[str]:
     # 5 future information entering a decision time mechanism
     for e in graph.get("edges", []):
         s, d = nodes.get(e.get("src"), {}), nodes.get(e.get("dst"), {})
-        if (
-            s.get("time") == "future"
-            and d.get("type") in ("mechanism", "intervention", "treatment")
-            and e.get("type") != "forbidden_information_path"
-        ):
+        if s.get("time") == "future" and d.get("type") in ("mechanism", "intervention", "treatment") and e.get("type") != "forbidden_information_path":
             v.append(f"future information {e['src']} reaches decision time node {e['dst']}")
     for e in graph.get("edges", []):
         if e.get("type") == "forbidden_information_path" and e.get("realized"):
@@ -147,9 +141,7 @@ def validate(graph: dict, evidence: dict | None = None) -> list[str]:
             "analytic",
             "structurally_guaranteed",
         ):
-            v.append(
-                f"edge {e['src']}->{e['dst']} is reported as measured but is {e['actually']} by construction"
-            )
+            v.append(f"edge {e['src']}->{e['dst']} is reported as measured but is {e['actually']} by construction")
 
     # 7 hidden confounder ignored without declaration
     for i, n in nodes.items():

@@ -154,8 +154,7 @@ def run() -> dict:
         "all_pass": len(passed) == len(TESTS),
         "verbal_definition_is_not_evidence": True,
         "limitation": (
-            "the referents are scheduling and receipt symbols from one program. Grounding "
-            "here means connected to recorded outcomes, not perceptually grounded"
+            "the referents are scheduling and receipt symbols from one program. Grounding here means connected to recorded outcomes, not perceptually grounded"
         ),
         "activation": False,
     }

@@ -53,13 +53,7 @@ def _orchestration_events() -> list[dict]:
         except (OSError, json.JSONDecodeError):
             continue
         schema = doc.get("schema", "")
-        kind = (
-            "shard_quarantined"
-            if "quarantine" in schema
-            else "orchestration_incident"
-            if "incident" in schema
-            else "stage_completed"
-        )
+        kind = "shard_quarantined" if "quarantine" in schema else "orchestration_incident" if "incident" in schema else "stage_completed"
         out.append(
             {
                 "kind": kind,

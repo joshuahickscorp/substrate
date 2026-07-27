@@ -243,11 +243,7 @@ def main(argv=None) -> None:
         raise ValueError(argv)
     a = io.seal("SUBSTRATE_DEVELOPMENTAL_SAFETY.json", safety_authority())
     b = io.seal("SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json", boundary_authority())
-    print(
-        json.dumps(
-            {"sealed": [a.relative_to(io.ROOT).as_posix(), b.relative_to(io.ROOT).as_posix()]}, indent=2
-        )
-    )
+    print(json.dumps({"sealed": [a.relative_to(io.ROOT).as_posix(), b.relative_to(io.ROOT).as_posix()]}, indent=2))
 
 
 if __name__ == "__main__":

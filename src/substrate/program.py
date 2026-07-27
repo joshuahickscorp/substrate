@@ -134,8 +134,7 @@ ITEMS: tuple[Item, ...] = (
         "A2",
         "21",
         "Master deliverable set exists and binds to real things",
-        "Maintain the declared master artifacts. Artifacts must bind to implementation, evidence or "
-        "terminal gates. Do not create empty placeholder documents.",
+        "Maintain the declared master artifacts. Artifacts must bind to implementation, evidence or terminal gates. Do not create empty placeholder documents.",
         kind="authority",
         impl=(f"{COG}/program.py",),
         tests=("tests/substrate/test_program.py::test_every_deliverable_binds_to_a_real_path",),
@@ -152,9 +151,7 @@ ITEMS: tuple[Item, ...] = (
         "verification and mutation testing, all before principal compute.",
         kind="authority",
         impl=(f"{COG}/admission.py", f"{COG}/method/gate.py"),
-        tests=(
-            "tests/substrate/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven",
-        ),
+        tests=("tests/substrate/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven",),
         evidence=("SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",),
         deps=("A2",),
         batch=1,
@@ -318,11 +315,9 @@ ITEMS: tuple[Item, ...] = (
         category="epistemology",
         impl=(f"{COG}/epistemology.py",),
         tests=(
-            "tests/substrate/test_epistemology.py::"
-            "test_hidden_dependency_failure_is_caught_by_retraction_propagating",
+            "tests/substrate/test_epistemology.py::test_hidden_dependency_failure_is_caught_by_retraction_propagating",
             "tests/substrate/test_epistemology.py::test_circular_justification_is_refused_not_followed",
-            "tests/substrate/test_epistemology.py::"
-            "test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim",
+            "tests/substrate/test_epistemology.py::test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim",
         ),
         evidence=("SUBSTRATE_EPISTEMOLOGY.json", "SUBSTRATE_BELIEF_REVISION.json"),
         deps=("O1",),
@@ -336,10 +331,7 @@ ITEMS: tuple[Item, ...] = (
         "different actions. Confidence alone cannot separate them, so it is not what chooses.",
         category="epistemology",
         impl=(f"{COG}/epistemology.py",),
-        tests=(
-            "tests/substrate/test_epistemology.py::"
-            "test_epistemic_value_and_not_confidence_chooses_the_action",
-        ),
+        tests=("tests/substrate/test_epistemology.py::test_epistemic_value_and_not_confidence_chooses_the_action",),
         evidence=("SUBSTRATE_EPISTEMOLOGY.json",),
         deps=("O2", "K1"),
         batch=1,
@@ -355,8 +347,7 @@ ITEMS: tuple[Item, ...] = (
         impl=(f"{COG}/runtime.py",),
         tests=(
             "tests/substrate/test_runtime.py::test_one_cycle_runs_every_declared_stage",
-            "tests/substrate/test_runtime.py::"
-            "test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran",
+            "tests/substrate/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran",
         ),
         evidence=("SUBSTRATE_RUNTIME.json",),
         deps=("C2", "C5"),
@@ -366,14 +357,12 @@ ITEMS: tuple[Item, ...] = (
         "N2",
         "19",
         "The loop has no path to acting on the world",
-        "The decision region records what would be done and nothing executes it. Activation stays false "
-        "and no code path in the runtime sets it true.",
+        "The decision region records what would be done and nothing executes it. Activation stays false and no code path in the runtime sets it true.",
         kind="boundary",
         impl=(f"{COG}/runtime.py",),
         tests=(
             "tests/substrate/test_runtime.py::test_the_loop_never_acts_on_the_world",
-            "tests/substrate/test_runtime.py::"
-            "test_a_tampered_checkpoint_is_refused_rather_than_silently_restored",
+            "tests/substrate/test_runtime.py::test_a_tampered_checkpoint_is_refused_rather_than_silently_restored",
         ),
         evidence=("SUBSTRATE_RUNTIME.json",),
         deps=("A4", "N1"),
@@ -404,9 +393,7 @@ ITEMS: tuple[Item, ...] = (
         "cannot become training material automatically.",
         category="episodic_memory",
         impl=(f"{COG}/memory.py",),
-        tests=(
-            "tests/substrate/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification",
-        ),
+        tests=("tests/substrate/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification",),
         evidence=("SUBSTRATE_MEMORY_SYSTEM.json",),
         deps=("C2",),
         batch=3,
@@ -415,8 +402,7 @@ ITEMS: tuple[Item, ...] = (
         "M3",
         "7.3",
         "Semantic memory",
-        "Concepts, facts, relations, rules, abstractions, exceptions, "
-        "confidence, provenance and supersession.",
+        "Concepts, facts, relations, rules, abstractions, exceptions, confidence, provenance and supersession.",
         category="semantic_memory",
         impl=(f"{COG}/memory.py",),
         tests=("tests/substrate/test_memory.py::test_semantic_supersession_preserves_provenance",),
@@ -512,8 +498,7 @@ ITEMS: tuple[Item, ...] = (
         "P1",
         "11.1",
         "Plasticity hierarchy",
-        "Ten adaptation levels, each declaring information used, "
-        "affected state, reversibility, cost, risk, verification and rollback.",
+        "Ten adaptation levels, each declaring information used, affected state, reversibility, cost, risk, verification and rollback.",
         category="plasticity",
         impl=(f"{COG}/plasticity.py",),
         tests=("tests/substrate/test_plasticity.py::test_every_level_declares_the_seven_required_fields",),
@@ -544,9 +529,7 @@ ITEMS: tuple[Item, ...] = (
         "testing and retention testing.",
         category="plasticity",
         impl=(f"{COG}/plasticity.py",),
-        tests=(
-            "tests/substrate/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback",
-        ),
+        tests=("tests/substrate/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback",),
         evidence=("SUBSTRATE_PLASTICITY_SYSTEM.json",),
         deps=("P1", "M5"),
         batch=4,
@@ -574,9 +557,7 @@ ITEMS: tuple[Item, ...] = (
         "when specialization is needed and when to reopen plasticity. Must generalize across tasks.",
         category="developmental_divergence",
         impl=(f"{COG}/plasticity.py",),
-        tests=(
-            "tests/substrate/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization",
-        ),
+        tests=("tests/substrate/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization",),
         evidence=("SUBSTRATE_DEVELOPMENTAL_HISTORY.json",),
         deps=("P4",),
         batch=4,
@@ -634,9 +615,7 @@ ITEMS: tuple[Item, ...] = (
         "state, not from replaying the complete transcript.",
         category="continuity",
         impl=(f"{COG}/batteries.py",),
-        tests=(
-            "tests/substrate/test_batteries.py::test_continuity_survives_context_removal_from_owned_state",
-        ),
+        tests=("tests/substrate/test_batteries.py::test_continuity_survives_context_removal_from_owned_state",),
         evidence=("SUBSTRATE_CONTINUITY_BATTERY.json",),
         deps=("M2", "S1"),
         batch=5,
@@ -645,13 +624,10 @@ ITEMS: tuple[Item, ...] = (
         "E2",
         "15.2",
         "Unity",
-        "Measure global availability, shared goals, cross perspective memory, "
-        "conflict resolution, consistent action and preservation of alternatives.",
+        "Measure global availability, shared goals, cross perspective memory, conflict resolution, consistent action and preservation of alternatives.",
         category="unity",
         impl=(f"{COG}/batteries.py",),
-        tests=(
-            "tests/substrate/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability",
-        ),
+        tests=("tests/substrate/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability",),
         evidence=("SUBSTRATE_UNITY_BATTERY.json",),
         deps=("C2", "C5"),
         batch=5,
@@ -674,8 +650,7 @@ ITEMS: tuple[Item, ...] = (
         "E4",
         "15.4",
         "Endogenous attention",
-        "Select what deserves thought using goals, uncertainty, risk, "
-        "expected value, novelty, contradiction and resource limits.",
+        "Select what deserves thought using goals, uncertainty, risk, expected value, novelty, contradiction and resource limits.",
         category="metacognition",
         impl=(f"{COG}/metacog.py",),
         tests=("tests/substrate/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget",),
@@ -702,8 +677,7 @@ ITEMS: tuple[Item, ...] = (
         "V1",
         "18",
         "Independent recomputation of every sealed Substrate number",
-        "Independently authored scientific recomputation. A second route, from the sealed bytes, that "
-        "does not import the module that produced them.",
+        "Independently authored scientific recomputation. A second route, from the sealed bytes, that does not import the module that produced them.",
         kind="authority",
         impl=(f"{COG}/verification.py",),
         tests=("tests/substrate/test_verification.py::test_recomputation_agrees_with_every_sealed_artifact",),
@@ -777,8 +751,7 @@ ITEMS: tuple[Item, ...] = (
         impl=(f"{COG}/graph.py",),
         tests=(
             "tests/substrate/test_final_program.py::test_no_future_wave_exists_only_as_prose",
-            "tests/substrate/test_final_program.py::"
-            "test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal",
+            "tests/substrate/test_final_program.py::test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal",
         ),
         evidence=("SUBSTRATE_FINAL_PROGRAM_GRAPH.json",),
         deps=("A6",),
@@ -788,14 +761,12 @@ ITEMS: tuple[Item, ...] = (
         "F2",
         "4",
         "A final authority that resumes without conversation history",
-        "One binding over every inherited program, with each requirement carrying its rollback, so a "
-        "successor continues from the tree alone.",
+        "One binding over every inherited program, with each requirement carrying its rollback, so a successor continues from the tree alone.",
         kind="authority",
         impl=(f"{COG}/authority.py",),
         tests=(
             "tests/substrate/test_final_program.py::test_every_requirement_carries_a_rollback",
-            "tests/substrate/test_final_program.py::"
-            "test_the_authority_binds_the_final_plan_and_the_inherited_programs",
+            "tests/substrate/test_final_program.py::test_the_authority_binds_the_final_plan_and_the_inherited_programs",
         ),
         evidence=(
             "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
@@ -827,8 +798,7 @@ ITEMS: tuple[Item, ...] = (
         "F4",
         "8",
         "A real session authority built from a session nobody wrote for this",
-        "The temporal campaign's own execution history: decisions, incidents, holds and outcomes, whose "
-        "length was set by the compute rather than by us.",
+        "The temporal campaign's own execution history: decisions, incidents, holds and outcomes, whose length was set by the compute rather than by us.",
         category="episodic_memory",
         impl=(f"{COG}/sessions.py",),
         tests=("tests/substrate/test_final_program.py::test_the_session_authority_is_real_and_certified",),
@@ -862,8 +832,7 @@ ITEMS: tuple[Item, ...] = (
         impl=(f"{COG}/bodies.py",),
         tests=(
             "tests/substrate/test_final_program.py::test_three_body_classes_conform_through_one_interface",
-            "tests/substrate/test_final_program.py::"
-            "test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted",
+            "tests/substrate/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted",
         ),
         evidence=(
             "SUBSTRATE_BODY_COMPACT.json",
@@ -878,13 +847,10 @@ ITEMS: tuple[Item, ...] = (
         "F7",
         "23",
         "Goal system where a goal cannot authorize itself",
-        "Nine declared fields, an external authority, and a decomposition that inherits its parent's "
-        "constraints and may narrow them but never widen them.",
+        "Nine declared fields, an external authority, and a decomposition that inherits its parent's constraints and may narrow them but never widen them.",
         category="goal_continuity",
         impl=(f"{COG}/goals.py",),
-        tests=(
-            "tests/substrate/test_final_program.py::test_a_goal_cannot_authorize_itself_or_widen_its_parent",
-        ),
+        tests=("tests/substrate/test_final_program.py::test_a_goal_cannot_authorize_itself_or_widen_its_parent",),
         evidence=("SUBSTRATE_GOAL_SYSTEM.json",),
         deps=("E5",),
         batch=4,
@@ -897,9 +863,7 @@ ITEMS: tuple[Item, ...] = (
         "have chosen, and a harm constraint that is refused rather than traded off.",
         category="valuation",
         impl=(f"{COG}/goals.py",),
-        tests=(
-            "tests/substrate/test_final_program.py::test_valuation_is_authorized_and_refuses_to_be_fitted",
-        ),
+        tests=("tests/substrate/test_final_program.py::test_valuation_is_authorized_and_refuses_to_be_fitted",),
         evidence=("SUBSTRATE_VALUATION_SYSTEM.json",),
         deps=("F7",),
         batch=4,
@@ -951,8 +915,7 @@ ITEMS: tuple[Item, ...] = (
         "F12",
         "47",
         "Clean clone reproduces the evidence away from this machine",
-        "A fresh checkout at the exact commit imports, runs the declared tests, and regenerates the sealed "
-        "artifacts to identical bytes.",
+        "A fresh checkout at the exact commit imports, runs the declared tests, and regenerates the sealed artifacts to identical bytes.",
         kind="authority",
         impl=(f"{COG}/cleanclone.py",),
         tests=("tests/substrate/test_worldbed.py::test_the_clean_clone_checks_are_declared",),
@@ -972,8 +935,7 @@ ITEMS: tuple[Item, ...] = (
         impl=(f"{COG}/audit.py",),
         tests=(
             "tests/substrate/test_certification.py::test_the_structural_audit_passes_every_check",
-            "tests/substrate/test_certification.py::"
-            "test_a_dynamically_named_artifact_is_refused_by_the_producer_scan",
+            "tests/substrate/test_certification.py::test_a_dynamically_named_artifact_is_refused_by_the_producer_scan",
         ),
         evidence=("SUBSTRATE_STRUCTURAL_AUDIT.json",),
         deps=("F1",),
@@ -1111,9 +1073,7 @@ ITEMS: tuple[Item, ...] = (
         kind="evidence",
         category="temporal_continuity",
         impl=(f"{COG}/deliverables.py",),
-        tests=(
-            "tests/substrate/test_verification.py::test_the_temporal_core_record_tracks_the_live_program",
-        ),
+        tests=("tests/substrate/test_verification.py::test_the_temporal_core_record_tracks_the_live_program",),
         evidence=("SUBSTRATE_TEMPORAL_CORE.json",),
         deps=("C1",),
         batch=6,
@@ -1186,9 +1146,7 @@ def _commit_reachable(sha: str) -> bool:
     if sha not in _REACHABLE:
         import subprocess
 
-        r = subprocess.run(
-            ["git", "merge-base", "--is-ancestor", sha, "HEAD"], cwd=io.ROOT, capture_output=True, text=True
-        )
+        r = subprocess.run(["git", "merge-base", "--is-ancestor", sha, "HEAD"], cwd=io.ROOT, capture_output=True, text=True)
         _REACHABLE[sha] = r.returncode == 0
     return _REACHABLE[sha]
 
@@ -1254,11 +1212,7 @@ def item_status(item: Item, tests: dict, results: dict, statuses: dict) -> dict:
     else:
         level = "terminal"
 
-    blocked = [
-        d
-        for d in item.deps
-        if statuses.get(d, {}).get("level") in (None, "not_started", "partial", "closed_by_dependency")
-    ]
+    blocked = [d for d in item.deps if statuses.get(d, {}).get("level") in (None, "not_started", "partial", "closed_by_dependency")]
     closed = [d for d in item.deps if statuses.get(d, {}).get("level") == "closed_by_dependency"]
     if closed:
         level = "closed_by_dependency"
@@ -1266,10 +1220,7 @@ def item_status(item: Item, tests: dict, results: dict, statuses: dict) -> dict:
     next_action = {
         "not_started": f"implement {', '.join(item.impl) or 'the declared surface'}",
         "partial": f"finish {', '.join(p for p in item.impl if p not in present)}",
-        "implemented": (
-            "run and record "
-            + (", ".join(t for t in item.tests if ran.get(t) is not True) or "declared tests")
-        ),
+        "implemented": ("run and record " + (", ".join(t for t in item.tests if ran.get(t) is not True) or "declared tests")),
         "tested": f"seal {', '.join(e for e in item.evidence if e not in sealed) or 'declared evidence'}",
         "measured": "classify the result through substrate.method.gate.classify_result and record it",
         "terminal": "none" if classifiable else "none, an authority is terminal once sealed and tested",
@@ -1401,9 +1352,7 @@ def scorecard(st: dict | None = None) -> dict:
             "null is earned knowledge and is not a positive"
         ),
         "categories_with_a_positive": [k for k, v in rows.items() if v.get("any_positive")],
-        "entry_baseline_2026_07_27": {
-            k: {"implementation_pct": i, "evidence_pct": e} for k, (i, e) in BASELINE_2026_07_27.items()
-        },
+        "entry_baseline_2026_07_27": {k: {"implementation_pct": i, "evidence_pct": e} for k, (i, e) in BASELINE_2026_07_27.items()},
         "categories": rows,
         "implementation_target_band": [80, 95],
         "evidence_policy": "earned only",
@@ -1420,23 +1369,14 @@ def next_batches(st: dict | None = None) -> dict:
     other, so a failure in one closes only its own descendants.
     """
     st = st or state()
-    ready = [
-        r
-        for r in st["items"].values()
-        if r["level"] in ("not_started", "partial", "implemented", "tested", "measured")
-        and not r["unmet_dependencies"]
-    ]
+    ready = [r for r in st["items"].values() if r["level"] in ("not_started", "partial", "implemented", "tested", "measured") and not r["unmet_dependencies"]]
     # earliest batch first, then least advanced first. A batch is terminal only when all of its items
     # are, so breadth inside a batch is worth more than depth on one item that is already nearly done.
     ready.sort(key=lambda r: (r["batch"], STATUS_LADDER.index(r["level"]), r["id"]))
     primary = ready[0] if ready else None
 
     def independent(a, b) -> bool:
-        return (
-            a["id"] not in b["dependencies"]
-            and b["id"] not in a["dependencies"]
-            and not set(a["dependencies"]) & set(b["dependencies"])
-        )
+        return a["id"] not in b["dependencies"] and b["id"] not in a["dependencies"] and not set(a["dependencies"]) & set(b["dependencies"])
 
     secondary = next((r for r in ready[1:] if primary and independent(primary, r)), None)
     return {
@@ -1457,8 +1397,7 @@ def next_batches(st: dict | None = None) -> dict:
             "batch": secondary["batch"],
         },
         "independence_rule": (
-            "the secondary shares no dependency with the primary and is not its "
-            "ancestor or descendant, so a failed branch closes only its own descendants"
+            "the secondary shares no dependency with the primary and is not its ancestor or descendant, so a failed branch closes only its own descendants"
         ),
     }
 
@@ -1469,9 +1408,7 @@ def next_batches(st: dict | None = None) -> dict:
 # ---------------------------------------------------------------- append only corrections
 
 
-def record_correction(
-    correction_id: str, defect: str, correction: str, regression_test: str, reproduced_by: str
-) -> dict:
+def record_correction(correction_id: str, defect: str, correction: str, regression_test: str, reproduced_by: str) -> dict:
     """Append only. A correction is never edited or removed, only superseded by a later one."""
     doc = {
         "schema": "substrate-correction/v1",
@@ -1579,8 +1516,7 @@ def main(argv=None) -> None:
         ledger = record_tests()
         n = sum(1 for v in ledger["passed"].values() if v)
         print(
-            f"substrate tests: {n}/{len(ledger['passed'])} declared nodes passing "
-            f"({' | '.join(ledger['pytest_tail'])})",
+            f"substrate tests: {n}/{len(ledger['passed'])} declared nodes passing ({' | '.join(ledger['pytest_tail'])})",
             flush=True,
         )
     else:

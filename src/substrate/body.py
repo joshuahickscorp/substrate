@@ -49,9 +49,7 @@ REQUIRED_FIELDS = {
     "tool_request": ("tool", "arguments", "cost"),
     "memory_request": ("store", "query", "permitted_regions"),
     "verification_request": ("claim", "method"),
-    "adaptation_proposal": tuple(
-        ("information_used", "affected_state", "reversibility", "cost", "risk", "verification", "rollback")
-    ),
+    "adaptation_proposal": tuple(("information_used", "affected_state", "reversibility", "cost", "risk", "verification", "rollback")),
     "resource_report": ("wall_seconds", "peak_memory", "budget_remaining"),
     "checkpoint": ("identity", "sha256"),
 }
@@ -123,8 +121,7 @@ def declaration(bodies: list[BodyContract] | None = None) -> dict:
         "attached_bodies": reports,
         "any_body_attached": bool(reports),
         "honest_state": (
-            "no model body is attached. The contract exists and is testable; the comparison "
-            "it would support has not been run and no result is claimed for it"
+            "no model body is attached. The contract exists and is testable; the comparison it would support has not been run and no result is claimed for it"
         ),
         "activation": False,
     }

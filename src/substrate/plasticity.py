@@ -282,9 +282,7 @@ def fast_adapt(adaptation: Adaptation) -> Adaptation:
     return admit(adaptation)
 
 
-def slow_adapt(
-    adaptation: Adaptation, *, repetitions: int, held_out: dict, retention: dict, min_repetitions: int = 3
-) -> dict:
+def slow_adapt(adaptation: Adaptation, *, repetitions: int, held_out: dict, retention: dict, min_repetitions: int = 3) -> dict:
     """Repeated evidence, a held out improvement, retention on what came before, and a rollback.
 
     All four. Any one of them alone is the shape of a change that looked good on the episode that
@@ -388,9 +386,7 @@ def learning_to_learn(results_by_task: dict, *, min_tasks: int = 2, sesoi: float
             "held_out_tasks": sorted(held_out),
             "helped_on": sorted(helped),
             "generalizes": len(helped) >= min_tasks,
-            "reason": ""
-            if len(helped) >= min_tasks
-            else f"helped on {len(helped)} held out tasks, {min_tasks} required",
+            "reason": "" if len(helped) >= min_tasks else f"helped on {len(helped)} held out tasks, {min_tasks} required",
         }
     return {
         "rules": rows,
@@ -440,9 +436,7 @@ def reorganize(change: str, *, measured: dict, cost: float, sesoi: float = SESOI
         "cost_charged": float(cost),
         "net_after_cost": round(net, 6),
         "sesoi": sesoi,
-        "reason": ""
-        if earned
-        else "does not beat the stronger of fixed and simple routing once cost is charged",
+        "reason": "" if earned else "does not beat the stronger of fixed and simple routing once cost is charged",
     }
 
 
@@ -474,10 +468,7 @@ def declaration() -> dict:
         "fast_mechanisms": list(FAST_MECHANISMS),
         "fast_rule": "fast adaptation may not write shared parameters",
         "slow_targets": list(SLOW_TARGETS),
-        "slow_rule": (
-            "repeated evidence, a held out improvement above the SESOI, retention on prior "
-            "domains and a checkpoint, all four"
-        ),
+        "slow_rule": ("repeated evidence, a held out improvement above the SESOI, retention on prior domains and a checkpoint, all four"),
         "policies": [
             {
                 "name": p.name,
@@ -498,13 +489,8 @@ def reorganization_declaration() -> dict:
         "schema": "substrate-reorganization/v1",
         "permitted": list(PERMITTED_REORGANIZATIONS),
         "forbidden": list(safety.FORBIDDEN_REORGANIZATIONS),
-        "evidence_rule": (
-            "reorganization is credited only when it beats the stronger of fixed and simple "
-            "routing after its own cost is charged"
-        ),
-        "permitted_is_not_sufficient": (
-            "appearing on the permitted list bounds a change, it does not earn it"
-        ),
+        "evidence_rule": ("reorganization is credited only when it beats the stronger of fixed and simple routing after its own cost is charged"),
+        "permitted_is_not_sufficient": ("appearing on the permitted list bounds a change, it does not earn it"),
         "activation": False,
     }
 
@@ -512,16 +498,10 @@ def reorganization_declaration() -> dict:
 def developmental_history() -> dict:
     return {
         "schema": "substrate-developmental-history/v1",
-        "generalization_rule": (
-            "an adaptation rule counts as generalizing only after it helps on held "
-            "out tasks it was not derived from"
-        ),
+        "generalization_rule": ("an adaptation rule counts as generalizing only after it helps on held out tasks it was not derived from"),
         "min_held_out_tasks": 2,
         "measured_rules": {},
-        "honest_state": (
-            "no adaptation rule has yet been evaluated across tasks, so no developmental "
-            "learning has been earned"
-        ),
+        "honest_state": ("no adaptation rule has yet been evaluated across tasks, so no developmental learning has been earned"),
         "activation": False,
     }
 

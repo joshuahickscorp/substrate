@@ -72,9 +72,7 @@ def admit(prereg: gate.Preregistration, stage: str = "principal") -> dict:
 def license_principal(prereg: gate.Preregistration) -> dict:
     """Return the admission report. The caller must not spend principal compute unless licensed is true."""
     report = admit(prereg, "principal")
-    io.run_json(
-        f"admission_{prereg.experiment_id}.json", {"schema": "substrate-admission/v1", **report}, "admissions"
-    )
+    io.run_json(f"admission_{prereg.experiment_id}.json", {"schema": "substrate-admission/v1", **report}, "admissions")
     return report
 
 
@@ -91,10 +89,7 @@ def requirements_authority() -> dict:
             "contract kind, so absence of measurement stays a violation one level up"
         ),
         "positive_standard": list(POSITIVE_STANDARD),
-        "defect_rule": (
-            "a reproduced defect overrides reviewer votes, becomes an append only correction "
-            "and becomes a permanent regression test"
-        ),
+        "defect_rule": ("a reproduced defect overrides reviewer votes, becomes an append only correction and becomes a permanent regression test"),
         "method_failure_rule": "a methodological failure is not a scientific null",
     }
     return doc
@@ -106,9 +101,7 @@ def main(argv=None) -> None:
         raise ValueError(argv)
     path = io.seal("SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json", requirements_authority())
     print(f"substrate experimental requirements sealed: {path.relative_to(io.ROOT)}", flush=True)
-    print(
-        json.dumps({"mandatory_kinds": len(MANDATORY_KINDS), "pre_principal_stages": len(gate.PRE_PRINCIPAL)})
-    )
+    print(json.dumps({"mandatory_kinds": len(MANDATORY_KINDS), "pre_principal_stages": len(gate.PRE_PRINCIPAL)}))
 
 
 if __name__ == "__main__":

@@ -160,8 +160,7 @@ def evaluate(policy_name: str, situations: list[Situation], budget: float = 1e9)
         "unnecessary_thought": round(unnecessary / n, 6),
         "missed_verification": round(missed / n, 6),
         "calibration": round(
-            1.0
-            - statistics.fmean(abs(s.confidence - float(s.correct_without_verification)) for s in situations),
+            1.0 - statistics.fmean(abs(s.confidence - float(s.correct_without_verification)) for s in situations),
             6,
         ),
         "transfer": None,  # only a second bed can fill this, and it is not invented here
@@ -276,15 +275,12 @@ def declaration() -> dict:
         ],
         "simple_first": [p.name for p in SIMPLE],
         "oracle_uses_information_unavailable_at_decision_time": True,
-        "learned_rule": (
-            "learned metacognition opens only above measured oracle headroom over the strongest simple policy"
-        ),
+        "learned_rule": ("learned metacognition opens only above measured oracle headroom over the strongest simple policy"),
         "measured_on_a_probe_stream": scores,
         "oracle_headroom": h,
         "learned_currently_licensed": h["residual"] > SESOI,
         "transfer_note": (
-            "transfer is null in every row above because it needs a second bed, and "
-            "inventing a number for it would be the defect this program exists to stop"
+            "transfer is null in every row above because it needs a second bed, and inventing a number for it would be the defect this program exists to stop"
         ),
         "attention": {
             "drivers": list(DRIVERS),

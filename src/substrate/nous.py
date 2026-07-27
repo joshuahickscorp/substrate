@@ -109,14 +109,9 @@ def grounded_closed_loop() -> dict:
     blind = _run([{**row, "outcome": None} for row in fixture])
     activity = {
         "self_model_history_without_outcomes": len(blind.self_model.history),
-        "beliefs_revised_without_outcomes": sum(
-            1 for b in blind.beliefs.beliefs.values() if b.retracted or b.verification_status == "verified"
-        ),
+        "beliefs_revised_without_outcomes": sum(1 for b in blind.beliefs.beliefs.values() if b.retracted or b.verification_status == "verified"),
     }
-    mechanism_active = (
-        activity["self_model_history_without_outcomes"] == 0
-        and activity["beliefs_revised_without_outcomes"] == 0
-    )
+    mechanism_active = activity["self_model_history_without_outcomes"] == 0 and activity["beliefs_revised_without_outcomes"] == 0
 
     # a verbal description with no consequence linked receipt must not pass
     verbal_only = {"claim": "the system understands the stream"}
@@ -134,13 +129,11 @@ def grounded_closed_loop() -> dict:
         },
         "oracle_headroom": {
             "applicable": False,
-            "reason": "this gate asks whether the links exist, not how well they "
-            "score. A ceiling would be a category error",
+            "reason": "this gate asks whether the links exist, not how well they score. A ceiling would be a category error",
         },
         "passes": not broken and mechanism_active,
         "reading": (
-            "a closed loop is a chain of receipts from observation to memory. A verbal "
-            "description with no consequence linked receipt is not a link in it"
+            "a closed loop is a chain of receipts from observation to memory. A verbal description with no consequence linked receipt is not a link in it"
         ),
     }
 
@@ -154,9 +147,7 @@ def endogenous_allocation() -> dict:
     lam = 0.02  # price of one unit of compute in accuracy points
 
     def cost_adjusted(entity, fx):
-        spent = sum(
-            (t["stages"].get("run_perspectives") or {}).get("compute_spent", 0.0) for t in entity.traces
-        )
+        spent = sum((t["stages"].get("run_perspectives") or {}).get("compute_spent", 0.0) for t in entity.traces)
         return _accuracy(entity, fx) - lam * spent, spent
 
     # the budget has to actually bind, or the endogenous arm and the unlimited arm are the same run under
@@ -164,9 +155,7 @@ def endogenous_allocation() -> dict:
     # the same allowance so the contrast is about how it is spent and not how much there is.
     bind = 2.0
     endogenous = _run(fixture, cycle_budget=bind)  # attention on, budget bites
-    fixed = _run(
-        fixture, cycle_budget=bind, ablate=frozenset({"attend"})
-    )  # no drivers, everything offered in order
+    fixed = _run(fixture, cycle_budget=bind, ablate=frozenset({"attend"}))  # no drivers, everything offered in order
     maximum = _run(fixture, cycle_budget=1e6)  # no resource limit at all
 
     rows = {}
@@ -287,16 +276,9 @@ def cross_domain_continuity() -> dict:
             "test": "the phases must not all score identically",
         },
         "oracle_headroom": {"applicable": True, "oracle": round(oracle, 6), "clears_sesoi": oracle > SESOI},
-        "passes": (
-            mechanism_active
-            and identity_unbroken
-            and oracle > SESOI
-            and transfer > SESOI
-            and interference <= SESOI
-        ),
+        "passes": (mechanism_active and identity_unbroken and oracle > SESOI and transfer > SESOI and interference <= SESOI),
         "reading": (
-            "continuity means A survives B and B benefits from A, on one entity whose "
-            "temporal core, memory, self model and reliability were never reset"
+            "continuity means A survives B and B benefits from A, on one entity whose temporal core, memory, self model and reliability were never reset"
         ),
     }
 
@@ -314,18 +296,18 @@ def world_self_control_value() -> dict:
     without_self = _run(fixture, ablate=frozenset({"self_update"}))
 
     changed_paths = {}
-    changed_paths["perspective_selection"] = [
-        t["stages"].get("select", {}).get("chosen") for t in with_self.traces
-    ] != [t["stages"].get("select", {}).get("chosen") for t in without_self.traces]
-    changed_paths["resource_allocation"] = [
-        t["stages"].get("run_perspectives", {}).get("compute_spent") for t in with_self.traces
-    ] != [t["stages"].get("run_perspectives", {}).get("compute_spent") for t in without_self.traces]
-    changed_paths["deferral"] = [
-        t["stages"].get("arbitrate", {}).get("deferred") for t in with_self.traces
-    ] != [t["stages"].get("arbitrate", {}).get("deferred") for t in without_self.traces]
-    changed_paths["verification"] = sum(
-        1 for b in with_self.beliefs.beliefs.values() if b.verification_status == "verified"
-    ) != sum(1 for b in without_self.beliefs.beliefs.values() if b.verification_status == "verified")
+    changed_paths["perspective_selection"] = [t["stages"].get("select", {}).get("chosen") for t in with_self.traces] != [
+        t["stages"].get("select", {}).get("chosen") for t in without_self.traces
+    ]
+    changed_paths["resource_allocation"] = [t["stages"].get("run_perspectives", {}).get("compute_spent") for t in with_self.traces] != [
+        t["stages"].get("run_perspectives", {}).get("compute_spent") for t in without_self.traces
+    ]
+    changed_paths["deferral"] = [t["stages"].get("arbitrate", {}).get("deferred") for t in with_self.traces] != [
+        t["stages"].get("arbitrate", {}).get("deferred") for t in without_self.traces
+    ]
+    changed_paths["verification"] = sum(1 for b in with_self.beliefs.beliefs.values() if b.verification_status == "verified") != sum(
+        1 for b in without_self.beliefs.beliefs.values() if b.verification_status == "verified"
+    )
     changed_paths["recovery"] = with_self.reliability != without_self.reliability
 
     world = WB.integrate()
@@ -418,8 +400,7 @@ def procedural_transfer() -> dict:
         "oracle_headroom": {"applicable": True, "oracle": round(oracle, 6), "clears_sesoi": oracle > SESOI},
         "passes": mechanism_active and oracle > SESOI and margin > SESOI,
         "reading": (
-            "a procedure transfers only if carrying it beats a fresh entity, a retrieval "
-            "only entity and one given unlimited compute on the same distinct task"
+            "a procedure transfers only if carrying it beats a fresh entity, a retrieval only entity and one given unlimited compute on the same distinct task"
         ),
     }
 
@@ -445,9 +426,7 @@ def unity_under_conflict() -> dict:
     checks = {}
     checks["contradiction_detected"] = bool(report["unresolved_contradictions"])
     checks["minority_preserved"] = report["minority_preserved"] > 0
-    checks["minority_keeps_its_provenance"] = bool(
-        report["alternative_hypotheses"] and report["alternative_hypotheses"][0]["provenance"]
-    )
+    checks["minority_keeps_its_provenance"] = bool(report["alternative_hypotheses"] and report["alternative_hypotheses"][0]["provenance"])
     checks["single_coherent_decision"] = (report["decision"] is not None) != report["deferred"]
 
     # globally available: the contradiction reaches a region every component can read
@@ -499,8 +478,7 @@ def unity_under_conflict() -> dict:
         },
         "oracle_headroom": {
             "applicable": False,
-            "reason": "unity is a structural property. There is no ceiling to beat, "
-            "only a set of ways to fail",
+            "reason": "unity is a structural property. There is no ceiling to beat, only a set of ways to fail",
         },
         "passes": not failed and mechanism_active,
         "reading": (
@@ -534,14 +512,11 @@ def classify(results: dict) -> dict:
             "certified_cognitive_scaffold": sorted(structural - passed),
             "persistent_developmental_cognition": sorted((structural | developmental) - passed),
             "reflective_cognitive_organization": sorted((structural | developmental | reflective) - passed),
-            "functional_or_proto_nous_candidate": (
-                "all six gates plus terminal long run evidence. Not available from a closure pass"
-            ),
+            "functional_or_proto_nous_candidate": ("all six gates plus terminal long run evidence. Not available from a closure pass"),
         },
         "never_claimed": list(FORBIDDEN),
         "claim_rule": (
-            "these are functional and architectural classifications. None of them is a claim "
-            "about experience, and no arrangement of them becomes one"
+            "these are functional and architectural classifications. None of them is a claim about experience, and no arrangement of them becomes one"
         ),
     }
 
@@ -606,8 +581,7 @@ def run() -> dict:
             "different next steps"
         ),
         "not_a_new_layer": (
-            "every gate runs the existing runtime over existing beds and the sealed "
-            "session. Nothing was added to the architecture to pass one"
+            "every gate runs the existing runtime over existing beds and the sealed session. Nothing was added to the architecture to pass one"
         ),
         "architecture_freeze": {
             "frozen": True,

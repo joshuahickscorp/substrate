@@ -174,9 +174,7 @@ def synthetic_world(seed: int = 0, n: int = 600) -> dict:
         weather = ("wet" if wet else "dry") if rng.random() > 0.05 else ("dry" if wet else "wet")
         road = "slick" if state["weather"] == "wet" else "grip"
         tyre = state["tyre"] if rng.random() > 0.05 else rng.choice(["summer", "winter"])
-        matched = (state["road"] == "grip" and state["tyre"] == "summer") or (
-            state["road"] == "slick" and state["tyre"] == "winter"
-        )
+        matched = (state["road"] == "grip" and state["tyre"] == "summer") or (state["road"] == "slick" and state["tyre"] == "winter")
         speed = "fast" if matched else "slow"
         arrive = "late" if state["speed"] == "slow" else "ontime"
         return {
@@ -226,18 +224,14 @@ def evaluate(model: WorldModel, bed: dict) -> dict:
     changing = [(s, n) for s, n in test if s != n]
     scores["transition"] = _rate(model.predict(s) == n for s, n in changing) if changing else 0.0
     # 6 missing observation: recover the next road with the current road hidden
-    scores["missing_observation"] = _rate(
-        model.infer_missing({k: v for k, v in s.items() if k != "road"}, "road") == n["road"] for s, n in test
-    )
+    scores["missing_observation"] = _rate(model.infer_missing({k: v for k, v in s.items() if k != "road"}, "road") == n["road"] for s, n in test)
     # 7 return to context is scored below, after the detour
 
     # 4 intervention: do(tyre=winter) must force the mismatch on a gripping road, whatever tyre persists
     forced = [model.intervene(s, {"tyre": "winter"}) for s, _ in test if s["road"] == "grip"]
     scores["intervention"] = _rate(f["tyre"] == "winter" and f["speed"] == "slow" for f in forced)
     # 5 counterfactual consistency: an empty change reproduces the factual prediction
-    scores["counterfactual_consistency"] = _rate(
-        model.counterfactual(s, {}) == model.predict(s) for s, _ in test
-    )
+    scores["counterfactual_consistency"] = _rate(model.counterfactual(s, {}) == model.predict(s) for s, _ in test)
 
     # 7 return to context: predict correctly after an unrelated detour and a restore
     detour = {
@@ -273,11 +267,7 @@ def evaluate(model: WorldModel, bed: dict) -> dict:
         "distinctions_are_recomputable_from_tests": True,
         "distinctions": grouped,
         "limited_instrument": limited,
-        "limited_instrument_reason": (
-            "predicts well and does not improve any decision, which section 8 calls a limited instrument"
-            if limited
-            else ""
-        ),
+        "limited_instrument_reason": ("predicts well and does not improve any decision, which section 8 calls a limited instrument" if limited else ""),
         "n_test_transitions": len(test),
     }
 
@@ -334,10 +324,7 @@ def declaration() -> dict:
             "does not. A model that treats them identically passes the predictive tests and "
             "fails the causal ones"
         ),
-        "limited_instrument_rule": (
-            "high predictive accuracy with no decision improvement is reported as "
-            "a limited instrument, never as a world model result"
-        ),
+        "limited_instrument_rule": ("high predictive accuracy with no decision improvement is reported as a limited instrument, never as a world model result"),
         "calibration_bed": {
             "kind": "synthetic world with a known generative truth",
             "parents": {k: list(v) for k, v in bed["parents"].items()},

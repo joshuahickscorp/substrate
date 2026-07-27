@@ -83,9 +83,7 @@ class Entry:
     step: int
 
 
-def _r(
-    name, shape, persistence, timescale, readers, writers, provenance, confidence, cost, reset, update_rule
-) -> RegionSpec:
+def _r(name, shape, persistence, timescale, readers, writers, provenance, confidence, cost, reset, update_rule) -> RegionSpec:
     return RegionSpec(
         name,
         shape,
@@ -347,9 +345,7 @@ class Workspace:
         if trigger not in PERSISTENCE:
             raise Refused(f"unknown reset trigger {trigger!r}")
         order = PERSISTENCE.index(trigger)
-        cleared = [
-            n for n, s in self.specs.items() if n in self.store and PERSISTENCE.index(s.reset) <= order
-        ]
+        cleared = [n for n, s in self.specs.items() if n in self.store and PERSISTENCE.index(s.reset) <= order]
         for name in cleared:
             del self.store[name]
         return cleared
@@ -411,10 +407,7 @@ def declaration() -> dict:
         ],
         "all_regions_fully_declared": not violations,
         "declaration_violations": violations,
-        "access_rule": (
-            "reading is broad and writing is narrow. Global availability is a read property "
-            "and does not widen who may write"
-        ),
+        "access_rule": ("reading is broad and writing is narrow. Global availability is a read property and does not widen who may write"),
         "control": {
             "class": "UntypedWorkspace",
             "removes": "reader and writer sets",
