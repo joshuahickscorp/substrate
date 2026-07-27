@@ -51,14 +51,16 @@ proof/                             sealed historical evidence
 archive/pre-substrate-event-horizon/ historical source, tests, and documents
 ```
 
-Historical MOP paths and schemas are read-only and reachable only through `substrate.compat.mop`. That
-module cannot execute a historical runtime and does not provide an import alias.
+Historical predecessor paths and schemas are read-only and reachable only through
+`SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json` and `substrate.historical`. The reader resolves neutral
+aliases, verifies the recorded SHA-256, cannot execute a historical runtime, and provides no import alias.
 
 ## Execution
 
-`substrate.execution.UNIT_LIST` is the one scientific DAG. Each unit names its dependencies, licensing
-evidence, and produced artifacts. An atomic exclusive claim prevents duplicate writers. A unit is complete
-only when its receipt is valid. Resume reads receipts from disk and does not repeat completed work.
+`substrate.execution.UNIT_LIST` is the terminal deterministic synthesis DAG. It regenerates and verifies
+already frozen evidence; it is not a new scientific campaign. Each unit names its dependencies, work
+classification, resources, and produced artifacts. A unit is complete only when its validated receipt is
+published. Resume reads receipts from disk and does not repeat completed work.
 
 The stop switch is `${SUBSTRATE_STATE_ROOT:-$HOME/.substrate}/stop`. Status, stop, and resume operate on
 the same state model.

@@ -15,21 +15,19 @@ import pytest
 
 from substrate import deliverables as D
 from substrate import evidence as io
+from substrate import historical
 from substrate import program as P
 
 
 def test_naming_authority_preserves_historical_programs():
     """Active identities are renamed while historical evidence remains readable."""
     assert D.NAMING["active_rename_complete"] is True
-    assert D.NAMING["compatibility_namespace"] == "substrate.compat.mop"
+    assert D.NAMING["compatibility_namespace"] is None
+    assert historical.verify_all()["all_pass"] is True
     assert set(D.NAMING["map"]) == {"MOP", "Mixture of Perspectives", "Mixture of Thinking"}
-    # the historical proof roots are still where their sealed receipts say they are
-    for root in (
-        "proof/method/mop-experimental-method-reformation-v1",
-        "proof/substrate/mop-fast-state-plasticity-forge-v1",
-        "proof/substrate/mop-temporal-core-mechanism-v1",
-    ):
-        assert (io.ROOT / root).is_dir(), f"historical authority root vanished: {root}"
+    assert historical.root("method_evidence").is_dir()
+    assert historical.root("fast_state_evidence").is_dir()
+    assert historical.root("temporal_evidence").is_dir()
 
 
 def test_every_deliverable_binds_to_a_real_path():
@@ -39,8 +37,11 @@ def test_every_deliverable_binds_to_a_real_path():
             assert item.impl, f"{item.id} declares evidence with no implementation that could produce it"
         for ref in item.evidence:
             root, _, name = ref.rpartition(":")
-            assert root in D.ROOTS, f"{item.id} names an unknown proof root {root!r}"
-            assert name.endswith((".json", ".md")), f"{item.id} names a malformed artifact {name!r}"
+            assert root in ("", "historical"), f"{item.id} names an unknown proof root {root!r}"
+            if root == "historical":
+                assert historical.artifact(name).is_file()
+            else:
+                assert name.endswith((".json", ".md")), f"{item.id} names a malformed artifact {name!r}"
     # nothing sealed into this program's proof root is undeclared
     declared = {e.rpartition(":")[2] for item in P.ITEMS for e in item.evidence}
     declared |= {

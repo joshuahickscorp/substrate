@@ -42,7 +42,7 @@
   "enforcement": "substrate.safety.assert_claim_safe, refusal raises rather than warns",
   "what_this_is_not": "cognitive integrity protects memory, evidence, goals, checkpoints and task continuity. It is not biological self preservation and implies nothing about experience",
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
   "activation": false,
-  "sha256": "7db56287efa179076143bcc51c694712250e284504b30ac4ae1f27542c0bbbdf"
+  "sha256": "831e2c9658df4b9149688740c168bc4a5a4d2cf55eb9f5e7b99d4415008db90a"
 }

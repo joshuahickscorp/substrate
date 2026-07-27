@@ -1,7 +1,8 @@
-# Deterministic long-run plan
+# Terminal deterministic synthesis plan
 
-This is the sole human-readable long-run plan. It preserves the frozen scientific meaning and stops at
-the launch boundary.
+This is the sole human-readable plan for the 19-unit terminal deterministic synthesis. It preserves the
+frozen scientific meaning and stops at the launch boundary. The synthesis performs zero new scientific
+trials; it verifies, recomputes, mutates, regenerates, and packages already admitted evidence.
 
 ## Admission boundary
 
@@ -10,7 +11,7 @@ Launch is permitted only when:
 - the repository and normalized configuration hashes match the sealed authority;
 - activation is false;
 - the structural audit, scientific certification, mutation suite, rehearsal, and clean-clone checks pass;
-- no scientific run, duplicate supervisor, stale lock, source drift, or configuration drift exists;
+- no prior synthesis receipt, duplicate supervisor, stale lock, source drift, or configuration drift exists;
 - the operator explicitly invokes `substrate run`.
 
 Verification and regeneration never invoke that command.
@@ -39,9 +40,9 @@ valid. Completion means every unit is terminal; it is not a duration target.
 
 ## Resource policy
 
-The compact run is CPU-only on the current machine unless a declared unit says otherwise. The executor
-defaults to one unit at a time because the current units are short and share one evidence family; measured
-profiling, not aspiration, controls any later concurrency increase.
+The synthesis is CPU-only on the current machine. Measurements select one persistent worker with one native
+thread. Two workers improved on that baseline by only 7.6 percent, below the declared 15 percent materiality
+threshold, while larger pools raised memory and variance.
 
 The generated authority `SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json` records unit count, projected CPU time,
 peak memory, disk growth, write amplification, checkpoint cost, restart loss, verification overhead,
@@ -56,5 +57,5 @@ substrate status
 substrate run
 ```
 
-The Event Horizon campaign must not run the last command. It prepares and certifies the boundary, then
-stops.
+The Execution Forge campaign must not run the last command. It prepares and certifies the boundary, then
+stops. That command launches terminal synthesis, not a new scientific experiment.

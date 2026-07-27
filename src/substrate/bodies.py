@@ -25,11 +25,12 @@ import sys
 from dataclasses import dataclass, field
 
 from substrate import body as CONTRACT
+from substrate import data
 from substrate import evidence as io
 from substrate import memory as M
 from substrate import temporal_link as TL
 
-BED_CACHE = io.data_root() / "harth" / "harth_stream.npz"
+BED_CACHE = data.cache_path("harth")
 
 ABLATIONS = (
     "body_alone",

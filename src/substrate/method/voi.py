@@ -83,7 +83,7 @@ def queue(candidates: list[dict], select: int = 2) -> dict:
     # a pair that separates the same hypotheses twice buys less than a pair that spans them
     covered = sorted({h for r in chosen for h in r["hypotheses_separated"]})
     return {
-        "schema": "mop-experiment-value-queue/v1",
+        "schema": "substrate-experiment-value-queue/v1",
         "dimensions": list(DIMENSIONS),
         "formula": (
             "priority = decision_information * (0.6 + 0.4 * feasibility) * (0.7 + 0.3 * reuse) / cost_index, "

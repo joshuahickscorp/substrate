@@ -1,12 +1,12 @@
 # Substrate final ledger
 
-Derived from the tree at `5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff`. Status is computed, never asserted.
+Derived from the tree at `d6a650c6f1d3ce50f4f161ae4680a46d1f111f78`. Status is computed, never asserted.
 
 66 requirements. implemented 66.
 
 | id | category | status | classification | next action | rollback |
 |---|---|---|---|---|---|
-| A1 | authority | implemented | - | run and record tests/substrate/test_program.py::test_naming_authority_preserves_historical_programs | revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json |
+| A1 | authority | implemented | - | run and record tests/substrate/test_program.py::test_naming_authority_preserves_historical_programs | revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRA |
 | A2 | authority | implemented | - | run and record tests/substrate/test_program.py::test_every_deliverable_binds_to_a_real_path | revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRA |
 | A3 | authority | implemented | - | run and record tests/substrate/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven | revert the commit that sealed SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json |
 | A4 | boundary | implemented | - | run and record tests/substrate/test_safety.py::test_protected_surfaces_cannot_be_removed_by_adaptation | revert the commit that sealed SUBSTRATE_DEVELOPMENTAL_SAFETY.json |

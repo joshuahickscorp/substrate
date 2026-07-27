@@ -19,16 +19,11 @@ import sys
 from dataclasses import dataclass
 
 from substrate import evidence as io
-from substrate.compat import mop as historical_mop
+from substrate import historical
 
 PLAN = io.ROOT / "docs" / "LONG_RUN_PLAN.md"
 
-# proof roots of the historical authorities Substrate inherits from, never rewritten by this program
-PROOF_ROOTS = {
-    "temporal": historical_mop.roots(io.ROOT)["temporal"],
-    "method": historical_mop.roots(io.ROOT)["method"],
-    "": io.PROOF,
-}
+PROOF_ROOTS = {"": io.PROOF}
 
 STATUS_LADDER = ("not_started", "partial", "implemented", "tested", "measured", "terminal")
 
@@ -114,7 +109,7 @@ def _i(*a, **k) -> Item:
 
 
 COG = "src/substrate"
-T_SYNTH = "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json"
+T_SYNTH = "historical:temporal_synthesis"
 
 ITEMS: tuple[Item, ...] = (
     # ---------------------------------------------------------------- authorities and boundaries
@@ -125,9 +120,13 @@ ITEMS: tuple[Item, ...] = (
         "Map historical terminology to the current architecture without invalidating prior evidence. "
         "Historical files, branches, commits, tags and proofs are not mass renamed.",
         kind="authority",
-        impl=(f"{COG}/program.py",),
+        impl=(f"{COG}/program.py", f"{COG}/historical.py", f"{COG}/data.py"),
         tests=("tests/substrate/test_program.py::test_naming_authority_preserves_historical_programs",),
-        evidence=("SUBSTRATE_MASTER_AUTHORITY.json",),
+        evidence=(
+            "SUBSTRATE_MASTER_AUTHORITY.json",
+            "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+            "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        ),
         batch=1,
     ),
     _i(
@@ -222,12 +221,12 @@ ITEMS: tuple[Item, ...] = (
         "the effect survives independent implementations and multiple beds.",
         kind="evidence",
         category="temporal_continuity",
-        impl=(f"{COG}/temporal_link.py", f"{COG}/compat/mop.py"),
+        impl=(f"{COG}/temporal_link.py", f"{COG}/historical.py"),
         tests=("tests/temporal/test_temporal_core.py",),
         evidence=(
             T_SYNTH,
-            "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
-            "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
+            "historical:temporal_selection",
+            "historical:temporal_verification",
         ),
         batch=1,
     ),
@@ -1103,7 +1102,7 @@ BY_ID = {item.id: item for item in ITEMS}
 def _ledger(name: str) -> dict:
     path = io.RUNS / name
     if not path.is_file():
-        path = historical_mop.run_predecessor(name)
+        path = historical.predecessor_receipt(name)
     try:
         return json.loads(path.read_text())
     except (OSError, json.JSONDecodeError):
@@ -1127,6 +1126,8 @@ def null_ledger() -> dict:
 
 def _artifact_path(ref: str):
     root, _, name = ref.rpartition(":")
+    if root == "historical":
+        return historical.artifact(name)
     return PROOF_ROOTS.get(root, io.PROOF) / name
 
 
@@ -1421,9 +1422,9 @@ def record_correction(correction_id: str, defect: str, correction: str, regressi
     }
     path = io.PROOF / "corrections" / f"{correction_id}.json"
     if not path.is_file():
-        historical = historical_mop.roots(io.ROOT)["predecessor"] / "corrections" / path.name
-        if historical.is_file():
-            path = historical
+        predecessor = historical.root("predecessor_evidence") / "corrections" / path.name
+        if predecessor.is_file():
+            path = predecessor
     if path.is_file():
         existing = json.loads(path.read_text())
         if {k: v for k, v in existing.items() if k not in ("sha256", "source_commit")} != doc:
@@ -1456,10 +1457,10 @@ def record_result(item_id: str, classification: dict, experiment_id: str, eviden
 
 
 def corrections() -> list[dict]:
-    historical = historical_mop.roots(io.ROOT)["predecessor"] / "corrections"
+    predecessor = historical.root("predecessor_evidence") / "corrections"
     active = io.PROOF / "corrections"
     documents: dict[str, dict] = {}
-    for root in (historical, active):
+    for root in (predecessor, active):
         for path in sorted(root.glob("*.json")) if root.is_dir() else ():
             document = json.loads(path.read_text())
             documents[document["correction_id"]] = document

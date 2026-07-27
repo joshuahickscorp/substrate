@@ -19,12 +19,12 @@ substrate rehearse
 substrate status
 ```
 
-The launch boundary is explicit: `substrate run` starts the deterministic scientific run and is not part
-of installation or verification.
+The launch boundary is explicit: `substrate run` starts the 19-unit terminal deterministic synthesis and
+is not part of installation or verification. The synthesis performs zero new scientific trials.
 
 - [Architecture](docs/ARCHITECTURE.md)
 - [Scientific status](docs/SCIENTIFIC_STATUS.md)
-- [Long-run plan](docs/LONG_RUN_PLAN.md)
+- [Terminal synthesis plan](docs/LONG_RUN_PLAN.md)
 - [Runbook](docs/RUNBOOK.md)
 - [Development rules](docs/DEVELOPMENT.md)
 - [Historical archive](archive/pre-substrate-event-horizon/)

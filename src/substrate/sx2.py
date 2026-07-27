@@ -26,10 +26,11 @@ import sys
 from collections import defaultdict
 
 from substrate import evidence as io
+from substrate import historical
 
 SESOI = 0.05
 K_VALUES = (1, 2, 4, 8, 16)
-TEMPORAL_RUNS = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
+TEMPORAL_RUNS = historical.root("temporal_receipts")
 BEDS = ("har_stream", "harth_stream")
 
 

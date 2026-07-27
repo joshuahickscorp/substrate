@@ -57,7 +57,7 @@ locks, then continues only dependency-ready incomplete units.
 5. Reproduce a source defect with a regression test.
 6. Apply an append-only repair and regenerate authorities.
 7. Rerun verify, test, rehearsal, mutation, and clean-clone gates.
-8. Resume. Completed scientific units remain complete.
+8. Resume. Completed synthesis units remain complete.
 
 ## Rollback
 

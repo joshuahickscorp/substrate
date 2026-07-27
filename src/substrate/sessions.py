@@ -22,10 +22,10 @@ import re
 import sys
 
 from substrate import evidence as io
-from substrate.compat import mop
+from substrate import historical
 
-TEMPORAL_RUNS = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
-LOG = mop.archived(io.ROOT, "logs/supervisor.detached.log")
+TEMPORAL_RUNS = historical.root("temporal_receipts")
+LOG = historical.archived("logs/supervisor.detached.log")
 
 # what a session event carries. Every field comes from the record, none is invented.
 EVENT_FIELDS = ("index", "kind", "stage", "identity", "detail", "source_path")

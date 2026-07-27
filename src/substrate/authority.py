@@ -117,7 +117,10 @@ def master_authority(st: dict) -> dict:
             "remote_branch": "agent/substrate-event-horizon",
             "pull_request": 35,
         },
-        "proof_roots": {k: str(v.relative_to(io.ROOT)) for k, v in D.ROOTS.items() if k},
+        "proof_roots": {
+            "active": "evidence/substrate/v1",
+            "historical_authority": "evidence/substrate/v1/SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+        },
         "inherited_authorities": [{"program": prog, **D._bind(ref), "role": why} for prog, ref, why in D.INHERITED_AUTHORITIES],
         "naming_authority": D.NAMING,
         "claim_boundary": D.CLAIM_BOUNDARY,

@@ -298,6 +298,7 @@
     "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
+    "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json": true,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
     "SUBSTRATE_EPISTEMOLOGY.json": true,
@@ -310,6 +311,7 @@
     "SUBSTRATE_FINAL_VALUE_QUEUE.json": true,
     "SUBSTRATE_GOAL_SYSTEM.json": true,
     "SUBSTRATE_GROUNDING.json": true,
+    "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json": true,
     "SUBSTRATE_HYPOTHESIS_GRAPH.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
     "SUBSTRATE_LONG_RUN_AUTHORITY.json": true,
@@ -352,7 +354,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
   "activation": false,
-  "sha256": "30390929f98ef5ebadcd98a851142c072ff7edded86fb923379dc952b52c3bb3"
+  "sha256": "bc61c4e9777e1077fdafa90ff1de4373739b56cd8b250a05c0810f460341b083"
 }

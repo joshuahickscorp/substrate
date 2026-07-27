@@ -74,7 +74,7 @@
   "owned_state_score": 1.0,
   "transcript_replay_score": 0.0,
   "unbounded_replay_score": 0.6,
-  "matched_budget_characters": 1317,
+  "matched_budget_characters": 1299,
   "transcript_characters": 2930,
   "margin": 1.0,
   "contested_surfaces": [
@@ -95,7 +95,7 @@
   "control_is_capable": true,
   "why_the_second_control": "the unbounded replay arm exists to prove the matched arm lost to the budget rather than to a probe it could never answer. A control that cannot win at any budget is not a control",
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
   "activation": false,
-  "sha256": "84e441b697cf955bb1077995cc58dd90c074d83e0b570aa0ac6ca7268bb3f3bb"
+  "sha256": "2f8a6b5b91cee61c6873de7dc16089ec3d2937f07d974c012426e41255de85f3"
 }

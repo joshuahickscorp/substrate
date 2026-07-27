@@ -35,6 +35,17 @@ def main(argv: list[str] | None = None) -> None:
     if command == "status":
         _print(execution.status())
         return
+    if command == "workers":
+        _print(execution.workers())
+        return
+    if command == "resources":
+        document = execution.resources()
+        _print(document)
+        raise SystemExit(0 if document["launch_permitted"] else 1)
+    if command == "doctor":
+        document = execution.doctor()
+        _print(document)
+        raise SystemExit(0 if document["all_pass"] else 1)
     if command == "stop":
         _print({"stopped": True, "stop_switch": str(evidence.stop()), "activation": False})
         return
@@ -52,10 +63,5 @@ def main(argv: list[str] | None = None) -> None:
         authority.main(["seal"])
         execution.main(["seal"])
         verification.main(["all"])
-        subprocess.run(
-            [sys.executable, "tools/event_horizon.py"],
-            cwd=evidence.ROOT,
-            check=True,
-        )
         return
     raise SystemExit(f"unknown command {command!r}")

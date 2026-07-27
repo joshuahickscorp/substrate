@@ -1,0 +1,42 @@
+{
+  "schema": "substrate-data-custody-authority/v1",
+  "canonical_root": "~/.substrate/data",
+  "predecessor_object": {
+    "authority_alias": "data_custody",
+    "sha256": "1c9d2654660883c5024b7fed96a11b26220d360d11e9f8b386a7fac9b4a0737e",
+    "relationship": "immutable predecessor object"
+  },
+  "datasets": {
+    "harth": {
+      "official_source": "UCI Machine Learning Repository, HARTH human activity recognition trondheim",
+      "license": "CC BY 4.0",
+      "archive_url": "https://archive.ics.uci.edu/static/public/779/harth.zip",
+      "raw_subdirectory": "harth/raw",
+      "cache": "harth/harth_stream.npz",
+      "bundled_cache": "evidence/substrate/v1/custody/harth_stream.npz",
+      "cache_sha256": "b266a15f3ec1e5236dad50ceabb3ef17588abf3677bfed8c9c8fe06faf7d0085",
+      "builder": "substrate.data.build_harth",
+      "admission": "already admitted by the predecessor custody and temporal-bed authorities"
+    },
+    "pamap2": {
+      "official_source": "UCI Machine Learning Repository, PAMAP2 Physical Activity Monitoring",
+      "license": "CC BY 4.0",
+      "archive_url": "https://archive.ics.uci.edu/static/public/231/pamap2+physical+activity+monitoring.zip",
+      "raw_subdirectory": "pamap2/raw",
+      "cache": "pamap2/pamap2_stream.npz",
+      "bundled_cache": "evidence/substrate/v1/custody/pamap2_stream.npz",
+      "cache_sha256": "dafe50599ec1af9fb67a7a909d9ab5fcbacdd9567ff803309a392450ef5224a3",
+      "builder": "substrate.data.build_pamap2",
+      "admission": "already admitted by the predecessor custody and temporal-bed authorities"
+    }
+  },
+  "migration": {
+    "old_canonical_root_present": false,
+    "reason": "The predecessor local data directory was removed by the operator. Substrate restores only already admitted public datasets into its own state root.",
+    "scientific_change": false
+  },
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "4774a0d20a5b144fce9930ecc9af5b3ae1f94a37184f3c026ce14d3c8183726c"
+}

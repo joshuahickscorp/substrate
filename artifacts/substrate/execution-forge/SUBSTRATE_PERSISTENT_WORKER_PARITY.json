@@ -1,0 +1,26 @@
+{
+  "schema": "substrate-persistent-worker-parity/v1",
+  "reference": {
+    "model": "subprocess",
+    "workers": 1,
+    "thread_budget_per_worker": 1,
+    "wall_seconds": 9.6616498749936,
+    "total_cpu_seconds": 11.039499,
+    "peak_rss_mib": 155.953125,
+    "success": true
+  },
+  "selected": {
+    "model": "persistent",
+    "workers": 1,
+    "thread_budget_per_worker": 1,
+    "wall_seconds": 7.163963707978837,
+    "total_cpu_seconds": 8.357719,
+    "peak_rss_mib": 269.09375,
+    "success": true
+  },
+  "normalized_artifact_count": 44,
+  "different_artifacts": [],
+  "byte_parity_excluding_schema_declared_volatile_fields": true,
+  "scientific_run_launched": false,
+  "activation": false
+}

@@ -264,7 +264,7 @@
   "survivors": [],
   "all_rejected": true,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
   "activation": false,
-  "sha256": "9f711c59699c2a4e0d52f5a291e49f0a82f0d10bfc484f3fff431fd99794b1a8"
+  "sha256": "bba8a3560e51f4f972715d8eef90a22956d699a9f9057169855083a36f4d7d23"
 }

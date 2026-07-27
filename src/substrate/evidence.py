@@ -1,7 +1,8 @@
 """The single Substrate evidence and run-state writer.
 
-Historical MOP evidence remains byte-identical under ``proof/``. New Substrate evidence is written only
-under ``evidence/substrate/v1`` and mutable execution receipts only under ``runs/substrate/v1``.
+Historical predecessor evidence remains byte-identical under ``proof/``. New Substrate evidence is
+written only under ``evidence/substrate/v1`` and mutable execution receipts only under
+``runs/substrate/v1``.
 
 House style: no dashes.
 """
@@ -31,17 +32,12 @@ ACTIVATION = False
 def data_root() -> Path:
     """Where the corpora live, which is deliberately outside every worktree.
 
-    Resolving this as ROOT.parent / mop-data works in the checkout it was written in and nowhere else. A
-    clean clone lands in a temporary directory whose parent holds no corpora, so every data backed module
-    silently loses its bed. The order below is explicit override, then the custody authority that already
-    declares the canonical root, then the historical layout.
+    A clean clone must resolve the same Substrate custody authority as the development checkout. Historical
+    environment names and predecessor directory guesses are intentionally not accepted.
     """
-    env = os.environ.get("SUBSTRATE_DATA_ROOT")
-    if env:
-        return Path(env)
-    from substrate.compat import mop
+    from substrate import data
 
-    return mop.data_root(ROOT)
+    return data.root()
 
 
 def sha_obj(v) -> str:
@@ -88,18 +84,18 @@ def seal_md(name: str, text: str, subdir: str = "") -> Path:
 def load(name: str, subdir: str = "") -> dict:
     path = PROOF / subdir / name
     if not path.is_file():
-        from substrate.compat import mop
+        from substrate import historical
 
-        path = mop.active_predecessor(name, subdir)
+        path = historical.predecessor_evidence(name, subdir)
     return json.loads(path.read_text())
 
 
 def exists(name: str, subdir: str = "") -> bool:
     if (PROOF / subdir / name).is_file():
         return True
-    from substrate.compat import mop
+    from substrate import historical
 
-    return mop.active_predecessor(name, subdir).is_file()
+    return historical.predecessor_evidence(name, subdir).is_file()
 
 
 def run_json(name: str, obj: dict, subdir: str = "") -> Path:

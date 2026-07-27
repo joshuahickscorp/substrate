@@ -1,0 +1,33 @@
+{
+  "schema": "substrate-long-run-depth-audit/v1",
+  "question": "Is the 19-unit executor the intended terminal scientific campaign or evidence regeneration?",
+  "finding": "It is a complete terminal verification and packaging campaign over the already admitted frozen program. It performs zero new scientific trials. Five units recompute measurements from sealed raw evidence; the others validate instruments, mutate guards, regenerate artifacts, synthesize reports, or seal an existing result.",
+  "run_classification": "terminal deterministic synthesis",
+  "scientific_campaign": {
+    "present_in_this_executor": false,
+    "work_units": 0,
+    "reason": "the admitted experiments and their frozen trials already exist in immutable predecessor receipts"
+  },
+  "verification_campaign": {
+    "present": true,
+    "work_units": 17
+  },
+  "terminal_packaging": {
+    "present": true,
+    "work_units": 2
+  },
+  "classification_counts": {
+    "instrument validation": 5,
+    "artifact regeneration": 1,
+    "simple seal of an existing result": 1,
+    "recomputation from sealed raw evidence": 8,
+    "report synthesis": 3,
+    "mutation": 1
+  },
+  "substantive_frozen_work_missing": false,
+  "materialization_decision": "No scientific units were invented. Every admitted experiment, control, seed, dataset, session, body, perspective, budget, SESOI, and claim ceiling needed by terminal verification is present.",
+  "result_behavior": "recomputes existing measurements and synthesizes existing evidence; executes no new measurements",
+  "ledger": "SUBSTRATE_LONG_RUN_WORK_LEDGER.json",
+  "scientific_run_launched": false,
+  "activation": false
+}
