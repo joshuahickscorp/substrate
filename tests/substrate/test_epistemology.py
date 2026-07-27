@@ -168,9 +168,7 @@ def test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim():
 
 def test_epistemic_value_and_not_confidence_chooses_the_action():
     low_stakes = E.epistemic_value(_b("a", "c", confidence=0.5), stakes=0.1, test_available=True)
-    high_stakes = E.epistemic_value(
-        _b("b", "c", confidence=0.5), stakes=5.0, test_available=True, dependants=3
-    )
+    high_stakes = E.epistemic_value(_b("b", "c", confidence=0.5), stakes=5.0, test_available=True, dependants=3)
     # identical confidence, different action, so confidence alone did not decide
     assert low_stakes["confidence"] == high_stakes["confidence"]
     assert low_stakes["action"] != high_stakes["action"]

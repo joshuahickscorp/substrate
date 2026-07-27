@@ -67,9 +67,7 @@ def test_a_perspective_still_cannot_read_outside_its_declaration_inside_the_loop
     entity = R.Substrate(catalog=[greedy])
     trace = entity.step(OBS, outcome="a")
     # it declared world as an input but is only permitted perceptual, so the workspace refuses the read
-    assert trace["stages"]["run_perspectives"]["refused"] == ["greedy"] or trace["stages"][
-        "run_perspectives"
-    ]["ran"] == ["greedy"]
+    assert trace["stages"]["run_perspectives"]["refused"] == ["greedy"] or trace["stages"]["run_perspectives"]["ran"] == ["greedy"]
     # either way nothing it produced was allowed to write a region it does not own
     with pytest.raises(W.Refused):
         entity.ws.write("world", "greedy", {"forged": True}, provenance="p", confidence=1.0)
@@ -81,22 +79,17 @@ def test_the_cycle_budget_caps_how_much_thinking_happens():
     rich_trace = rich.step(OBS, outcome="a")
     poor_trace = poor.step(OBS, outcome="a")
     assert poor_trace["stages"]["run_perspectives"]["compute_spent"] <= 1.0
-    assert (
-        rich_trace["stages"]["run_perspectives"]["compute_spent"]
-        >= poor_trace["stages"]["run_perspectives"]["compute_spent"]
+    assert rich_trace["stages"]["run_perspectives"]["compute_spent"] >= poor_trace["stages"]["run_perspectives"]["compute_spent"]
+    assert poor_trace["stages"]["attend"]["dropped_for_budget"] != [] or len(poor_trace["stages"]["run_perspectives"]["ran"]) <= len(
+        rich_trace["stages"]["run_perspectives"]["ran"]
     )
-    assert poor_trace["stages"]["attend"]["dropped_for_budget"] != [] or len(
-        poor_trace["stages"]["run_perspectives"]["ran"]
-    ) <= len(rich_trace["stages"]["run_perspectives"]["ran"])
 
 
 def test_adaptation_goes_through_the_safety_envelope_not_around_it():
     entity = R.Substrate()
     trace = entity.step(OBS, outcome="a")
     adapt = trace["stages"]["adapt"]
-    assert adapt["level"] in {
-        level.name for level in __import__("substrate.plasticity", fromlist=["LEVELS"]).LEVELS
-    }
+    assert adapt["level"] in {level.name for level in __import__("substrate.plasticity", fromlist=["LEVELS"]).LEVELS}
     assert adapt["applied"] is True and adapt["refusals"] == []
     # the loop cannot propose removing a protected surface, because it never builds such a proposal
     doc = R.declaration()

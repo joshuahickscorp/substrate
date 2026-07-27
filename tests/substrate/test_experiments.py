@@ -34,9 +34,7 @@ def test_relabelling_the_structural_edge_as_measured_does_not_rescue_it():
     cheated = {
         **X.SX1_GRAPH,
         "edges": [
-            {**e, "type": "measured_relation", "actually": "structurally_guaranteed"}
-            if e["src"] == "typed" and e["dst"] == "answer"
-            else e
+            {**e, "type": "measured_relation", "actually": "structurally_guaranteed"} if e["src"] == "typed" and e["dst"] == "answer" else e
             for e in X.SX1_GRAPH["edges"]
         ],
     }

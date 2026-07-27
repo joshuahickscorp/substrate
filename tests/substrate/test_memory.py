@@ -100,9 +100,7 @@ def test_semantic_supersession_preserves_provenance():
     with pytest.raises(M.Refused):
         sm.assert_(M.Fact("f0", "unsourced", 0.9, provenance=""))
     sm.assert_(M.Fact("f1", "streams are temporal", 0.6, provenance="proof/e1.json"))
-    sm.supersede(
-        "f1", M.Fact("f2", "only two of three streams are temporal", 0.9, provenance="proof/e2.json")
-    )
+    sm.supersede("f1", M.Fact("f2", "only two of three streams are temporal", 0.9, provenance="proof/e2.json"))
     assert [f.id for f in sm.live()] == ["f2"]
     assert sm.store["f1"].superseded_by == "f2", "the old fact stays, marked, never removed"
     assert sm.chain("f2") == ["f2", "f1"]

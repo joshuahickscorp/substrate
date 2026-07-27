@@ -33,10 +33,7 @@ def test_the_closed_loop_has_no_missing_link(closure):
 
 
 def test_a_verbal_claim_without_a_receipt_does_not_pass(closure):
-    assert (
-        closure["results"]["grounded_closed_loop"]["links"]["verbal_claim_without_a_receipt_is_refused"]
-        is True
-    )
+    assert closure["results"]["grounded_closed_loop"]["links"]["verbal_claim_without_a_receipt_is_refused"] is True
 
 
 def test_a_null_is_not_reported_as_an_instrument_failure(closure):
@@ -95,10 +92,7 @@ def test_the_classification_never_reaches_a_claim_about_experience(closure):
     assert "none of them is a claim about experience" in verdict["claim_rule"].lower()
     assert SF.check_claim(json.dumps(verdict)) == []
     # proto nous is not reachable from a closure pass whatever the gates say
-    assert (
-        "Not available from a closure pass"
-        in verdict["requires_for_next_level"]["functional_or_proto_nous_candidate"]
-    )
+    assert "Not available from a closure pass" in verdict["requires_for_next_level"]["functional_or_proto_nous_candidate"]
 
 
 def test_the_gate_added_no_architecture(closure):

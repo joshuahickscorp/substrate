@@ -67,9 +67,7 @@ def _contracts() -> list[C.Contract]:
         C.CausalModel(name="g", declared={"graph": GRAPH}),
         C.MeasurementModel(
             name="m",
-            declared={
-                "outcomes": {"accuracy": {"estimator": "mean over held out units", "unit": "held out unit"}}
-            },
+            declared={"outcomes": {"accuracy": {"estimator": "mean over held out units", "unit": "held out unit"}}},
         ),
         C.InstrumentContract(
             name="i",
@@ -87,9 +85,7 @@ def _contracts() -> list[C.Contract]:
             evidence={"semantic": {"typing_absent": True, "capacity_matched": True, "all_pass": True}},
         ),
         C.DatasetContract(name="bed", evidence={"bed_validity": {"classification": "valid_principal_bed"}}),
-        C.IndependentUnitContract(
-            name="units", evidence={"units": {"group_disjoint": True, "n_units": 8, "test_touched": False}}
-        ),
+        C.IndependentUnitContract(name="units", evidence={"units": {"group_disjoint": True, "n_units": 8, "test_touched": False}}),
         C.BaselineContract(
             name="base",
             declared={"identity": "untyped shared state"},
@@ -115,9 +111,7 @@ def _prereg(contracts=None, activity=None) -> gate.Preregistration:
         experiment_id="SX1",
         title="typed workspace against one untyped state",
         contracts=_contracts() if contracts is None else contracts,
-        mechanism_activity={"active": True, "classification": "active", "failed": []}
-        if activity is None
-        else activity,
+        mechanism_activity={"active": True, "classification": "active", "failed": []} if activity is None else activity,
     )
 
 

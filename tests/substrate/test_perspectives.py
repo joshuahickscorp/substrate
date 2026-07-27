@@ -26,10 +26,7 @@ def test_every_catalogued_perspective_is_fully_declared():
     assert len(families) == len(set(families))
     # the gap between declared and implemented families is stated, not hidden
     assert doc["families_without_an_implementation"]
-    assert (
-        len(doc["families_implemented"]) + len(doc["families_without_an_implementation"])
-        == doc["families_declared"]
-    )
+    assert len(doc["families_implemented"]) + len(doc["families_without_an_implementation"]) == doc["families_declared"]
 
 
 def test_a_perspective_cannot_read_what_it_did_not_declare():
@@ -80,9 +77,7 @@ def test_learned_selector_stays_closed_without_headroom():
         PS.select("learned", catalog, reliability={"direct": 0.9})
     with pytest.raises(W.Refused):
         PS.select("learned", catalog, headroom={"residual_lower_95_cb": 0.01})  # below the SESOI
-    opened = PS.select(
-        "learned", catalog, headroom={"residual_lower_95_cb": 0.09}, reliability={"critic": 0.99}
-    )
+    opened = PS.select("learned", catalog, headroom={"residual_lower_95_cb": 0.09}, reliability={"critic": 0.99})
     assert opened[0].spec.name == "critic"
     # and an oracle selector without oracle scores is refused rather than guessed
     with pytest.raises(W.Refused):

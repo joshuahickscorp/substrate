@@ -165,9 +165,6 @@ def test_the_learned_typer_stays_closed_without_headroom():
         O.type_of({"id": "a"}, "learned")
     with pytest.raises(O.Refused):
         O.type_of({"id": "a"}, "learned", headroom={"residual_lower_95_cb": 0.01})
-    assert (
-        O.type_of({"id": "a"}, "learned", headroom={"residual_lower_95_cb": 0.2}, retrieved={"a": "object"})
-        == "object"
-    )
+    assert O.type_of({"id": "a"}, "learned", headroom={"residual_lower_95_cb": 0.2}, retrieved={"a": "object"}) == "object"
     with pytest.raises(O.Refused):
         O.type_of({"id": "a"}, "oracle")
