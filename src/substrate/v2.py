@@ -553,4 +553,10 @@ def main(argv: list[str] | None = None) -> None:
         document = v2principal.run()
         print(json.dumps(document, indent=2))
         raise SystemExit(0 if document["status"]["remaining"] == 0 and not document["status"]["invalid"] else 1)
+    if command == "verify":
+        from substrate import v2verify
+
+        document = v2verify.verify()
+        print(json.dumps(document, indent=2))
+        raise SystemExit(0 if document["all_pass"] else 1)
     raise SystemExit(f"unknown v2 command {command!r}")

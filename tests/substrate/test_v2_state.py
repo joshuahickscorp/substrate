@@ -147,3 +147,27 @@ def test_unsupported_semantic_generalization_is_refused():
     )
     with pytest.raises(S.Refused, match="requires provenance"):
         record.validate()
+
+
+def test_allocator_refuses_future_outcome_features():
+    with pytest.raises(S.Refused, match="nonpreoutcome"):
+        S.validate_allocation_context(
+            {
+                "domain": "A",
+                "risk_bucket": "low",
+                "contradiction": False,
+                "procedure_match": "none",
+                "confidence": 0.5,
+                "remaining_budget": 1.0,
+                "outcome": True,
+            }
+        )
+
+
+def test_procedure_evaluation_refuses_source_episode_overlap():
+    entity = S.DevelopmentalEntity()
+    develop(entity, "A")
+    procedure = next(iter(entity.procedures.values()))
+    with pytest.raises(S.Refused, match="reused source"):
+        S.validate_procedure_evaluation(procedure, [procedure.source_episode_ids[0]])
+    S.validate_procedure_evaluation(procedure, ["held-out:1"])

@@ -69,6 +69,17 @@ META_ACTIONS = (
     "preserve_uncertainty",
 )
 
+ALLOCATION_CONTEXT_FIELDS = frozenset(
+    {
+        "domain",
+        "risk_bucket",
+        "contradiction",
+        "procedure_match",
+        "confidence",
+        "remaining_budget",
+    }
+)
+
 
 class Refused(RuntimeError):
     """A developmental state transition that fails closed."""
@@ -308,6 +319,7 @@ class ContextualAllocator:
 
     @staticmethod
     def context_key(context: dict) -> str:
+        validate_allocation_context(context)
         return "|".join(
             [
                 str(context.get("domain")),
@@ -357,6 +369,23 @@ class ContextualAllocator:
             )
         )
         self.version += 1
+
+
+def validate_allocation_context(context: dict) -> None:
+    unknown = set(context) - ALLOCATION_CONTEXT_FIELDS
+    if unknown:
+        raise Refused(f"allocator context contains nonpreoutcome or undeclared features {sorted(unknown)}")
+
+
+def validate_procedure_evaluation(
+    procedure: DevelopmentalProcedure,
+    evaluation_episode_ids: list[str],
+) -> None:
+    if not evaluation_episode_ids:
+        raise Refused("procedure evaluation requires held out independent episodes")
+    overlap = set(procedure.source_episode_ids) & set(evaluation_episode_ids)
+    if overlap:
+        raise Refused(f"procedure evaluation reused source episodes {sorted(overlap)}")
 
 
 ARM_FEATURES = {
