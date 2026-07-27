@@ -102,6 +102,10 @@ def test_no_sealed_substrate_artifact_is_undeclared():
     declared |= {"SUBSTRATE_STATE.json", "SUBSTRATE_LEDGER.md", "SUBSTRATE_HYPOTHESIS_GRAPH.json",
                  "SUBSTRATE_NULL_MAP.json", "SUBSTRATE_NEXT_FRONTIER.json",
                  "SUBSTRATE_FINAL_LEDGER.md"}
+    # SUBSTRATE_CLEAN_CLONE.json is produced by cloning the commit that would have to contain it, so it
+    # can never be present in that commit. The bootstrap exception is declared rather than silently
+    # tolerated, and the artifact is still required to be declared by an item.
+    bootstrap = {"SUBSTRATE_CLEAN_CLONE.json"}
     on_disk = {p.name for p in io.PROOF.glob("SUBSTRATE_*")}
     assert on_disk - declared == set(), "an undeclared artifact was sealed into the proof root"
-    assert declared - on_disk == set(), "a declared deliverable was never written"
+    assert declared - on_disk - bootstrap == set(), "a declared deliverable was never written"
