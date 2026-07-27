@@ -166,7 +166,7 @@
       "carrying_items": [
         {
           "id": "S1",
-          "level": "not_started"
+          "level": "measured"
         },
         {
           "id": "E3",
@@ -191,7 +191,7 @@
       "carrying_items": [
         {
           "id": "M5",
-          "level": "not_started"
+          "level": "measured"
         }
       ]
     },
@@ -247,7 +247,7 @@
   ],
   "open_count": 8,
   "program": "mop-substrate-master-v1",
-  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+  "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f",
   "activation": false,
-  "sha256": "39c4258bde7bab3f9750f764be559c239009aaab4089cbeb4aa3c3d8c940bd86"
+  "sha256": "f7e6ac9147340c46fb715966fd8ead0525f454a23fc61c9780ec8d7d61de1884"
 }

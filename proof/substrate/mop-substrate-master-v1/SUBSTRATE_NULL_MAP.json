@@ -92,7 +92,7 @@
     "H_learned_plasticity_policy"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+  "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f",
   "activation": false,
-  "sha256": "97c5265ac1aec5e401b985d8343c955eeb935d15cc33987d9ba367fe9cf7eba5"
+  "sha256": "29564cfc8fa04d6ea901f1201a899694c67fc673b737a165af97620169db470b"
 }

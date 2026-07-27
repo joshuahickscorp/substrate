@@ -1,0 +1,99 @@
+{
+  "schema": "substrate-world-model/v1",
+  "represents": [
+    "entities",
+    "objects",
+    "relations",
+    "events",
+    "causes",
+    "affordances",
+    "agents",
+    "goals",
+    "uncertainty",
+    "time",
+    "counterfactual_alternatives"
+  ],
+  "required_distinctions": [
+    "predictive_accuracy",
+    "decision_usefulness",
+    "causal_validity",
+    "simulation_reliability"
+  ],
+  "tests": [
+    "next_state",
+    "event",
+    "transition",
+    "intervention",
+    "counterfactual_consistency",
+    "missing_observation",
+    "return_to_context",
+    "long_horizon_consistency",
+    "decision_improvement"
+  ],
+  "test_to_distinction": {
+    "next_state": "predictive_accuracy",
+    "event": "predictive_accuracy",
+    "transition": "predictive_accuracy",
+    "missing_observation": "predictive_accuracy",
+    "intervention": "causal_validity",
+    "counterfactual_consistency": "causal_validity",
+    "return_to_context": "simulation_reliability",
+    "long_horizon_consistency": "simulation_reliability",
+    "decision_improvement": "decision_usefulness"
+  },
+  "operator_rule": "intervening on a variable cuts it from its parents for that step, observing it does not. A model that treats them identically passes the predictive tests and fails the causal ones",
+  "limited_instrument_rule": "high predictive accuracy with no decision improvement is reported as a limited instrument, never as a world model result",
+  "calibration_bed": {
+    "kind": "synthetic world with a known generative truth",
+    "parents": {
+      "season": [
+        "season"
+      ],
+      "weather": [
+        "season"
+      ],
+      "road": [
+        "weather"
+      ],
+      "tyre": [
+        "tyre"
+      ],
+      "speed": [
+        "road",
+        "tyre"
+      ],
+      "arrive": [
+        "speed"
+      ]
+    },
+    "train": 420,
+    "test": 180
+  },
+  "battery": {
+    "schema": "substrate-world-model-battery/v1",
+    "tests": {
+      "next_state": 0.8889,
+      "event": 1.0,
+      "transition": 0.8889,
+      "intervention": 1.0,
+      "counterfactual_consistency": 1.0,
+      "missing_observation": 1.0,
+      "return_to_context": 0.86,
+      "long_horizon_consistency": 1.0,
+      "decision_improvement": 0.4889
+    },
+    "distinctions": {
+      "predictive_accuracy": 0.9444,
+      "decision_usefulness": 0.4889,
+      "causal_validity": 1.0,
+      "simulation_reliability": 0.93
+    },
+    "limited_instrument": false,
+    "limited_instrument_reason": "",
+    "n_test_transitions": 180
+  },
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f",
+  "sha256": "cea7809e437aa36fa48b6a603a456e3d45b6663f8f2365a662ac839cdd0366ec"
+}
