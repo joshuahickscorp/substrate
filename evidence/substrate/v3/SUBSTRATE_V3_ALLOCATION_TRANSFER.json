@@ -24588,7 +24588,7 @@
   "margin": 0.09709960937499995,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
-  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "519ad87f024a985dfc859db81e4a79ddbd819db5aab72dcb3338df296d170699"
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "a66c67d1b3396839614015b05953f94af24a310ccc9dd6d8aae78f7d84080e6c"
 }

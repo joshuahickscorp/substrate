@@ -7,12 +7,12 @@
     "pre_tag_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
     "main": "4c81bf445c3889f579c28de9a4f079b81aae6743",
     "origin_main": "4c81bf445c3889f579c28de9a4f079b81aae6743",
-    "current_head": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
+    "current_head": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
     "branch": "agent/substrate-v3-nous-constitutional-ascent",
     "dirty": [],
     "worktrees": [
       "worktree /Users/scammermike/Downloads/substrate",
-      "HEAD bd693322ffe7a268ba117d8f7914daf81795b9cb",
+      "HEAD 787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
       "branch refs/heads/agent/substrate-v3-nous-constitutional-ascent"
     ],
     "open_pull_requests": [
@@ -58,12 +58,12 @@
   "principal_files": [],
   "v3_workers": [],
   "resources": {
-    "disk_available_gib": 108.98456573486328,
-    "memory_free_percent": 81,
+    "disk_available_gib": 108.9816780090332,
+    "memory_free_percent": 82,
     "swap_total_mib": 2048.0,
     "swap_used_mib": 1293.5,
     "swap_free_mib": 754.5,
-    "aggregate_cpu_percent": 460.2,
+    "aggregate_cpu_percent": 395.0,
     "machine": {
       "processor": "arm",
       "logical_cores": 28,
@@ -71,18 +71,8 @@
     }
   },
   "hawking": {
-    "processes": [
-      {
-        "pid": 16057,
-        "ppid": 1,
-        "cpu_percent": 98.4,
-        "memory_percent": 0.3,
-        "rss_mib": 279.234375,
-        "elapsed": "02:49",
-        "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python /Users/scammermike/Downloads/hawking/tools/condense/glm52_source_fetch.py safe-to-leave"
-      }
-    ],
-    "active_process_count": 1,
+    "processes": [],
+    "active_process_count": 0,
     "observation_only": true,
     "signals_sent": 0,
     "processes_modified": 0,
@@ -107,7 +97,7 @@
   "all_pass": true,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
-  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "95dfcca2f059858cad8db1f94356c1abc7a52953ed29b178161acb37b7748367"
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "b3976c8025c8dbfab833b119c7e29923e326846a1760379d157be5b3a52c789a"
 }

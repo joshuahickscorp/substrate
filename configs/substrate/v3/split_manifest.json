@@ -140,7 +140,7 @@
   "configuration_digest": "22ab16c213a52fd3f4d84ffb8d19ac8a15a029382be1b79311fc39ddeccf3858",
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
-  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "1eb878ca64ec1ff1b3a76d640d792df9a67f2f41e79a79ad7f0a60c16403bdf2"
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "f61bc24cb863b1791990cabce1f4ef8710e4d067571c44a903e90d0866ee1c3d"
 }

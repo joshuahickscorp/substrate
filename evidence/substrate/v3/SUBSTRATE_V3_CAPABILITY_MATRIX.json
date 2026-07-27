@@ -414,7 +414,7 @@
   "architecture_is_not_evidence": true,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
-  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "bbca7c5efda6da1e63893449aff19f15b75663fd2c639601253dc5b92d4819d8"
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "b6a6005b97fb1cef310d2d3784f706695eb727086fbdc71b2f39006a2f217554"
 }
