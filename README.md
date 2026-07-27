@@ -1,29 +1,30 @@
-# MOP
+# Substrate
 
-MOP is an experimental system for testing substrate and learning hypotheses under explicit controls,
-budgets, stop rules, and independent evidence checks.
+Substrate is a compact, evidence-bound developmental cognition scaffold. It composes typed workspace,
+perspective arbitration, memory, belief revision, world and self models, bounded plasticity, model-body
+adapters, a deterministic evidence fabric, and a resumable execution DAG without licensing action on the
+world.
 
-## Read first
+The scientific verdict is `certified_cognitive_scaffold`. `grounded_closed_loop`,
+`unity_under_conflict`, and `world_self_control_value` passed. `endogenous_allocation`,
+`cross_domain_continuity`, and `procedural_transfer` are measured mechanism nulls with live mechanisms and
+oracle headroom. They are not failures, positives, or missing instruments. Activation is `false`.
 
-- `ARCHITECTURE.md`: maintained code boundaries and scientific contract.
-- `STATUS.md`: machine authorities for current state and historical recovery.
-- `MOP_COLLAPSE_LEDGER.md`: compact generated reduction status.
-- `mop.experiments.REGISTRY`: executable experiment inventory.
+```bash
+uv venv --python 3.12 .venv
+uv pip install -e ".[dev]"
+substrate verify
+substrate test
+substrate rehearse
+substrate status
+```
 
-## Scientific contract
+The launch boundary is explicit: `substrate run` starts the deterministic scientific run and is not part
+of installation or verification.
 
-Every experiment declares its question, null, source and split identities, independent unit, treatments,
-controls, metric direction, SESOI, multiplicity policy, budget, stop rule, claim ceiling, and independent
-verifier. Null and negative results remain valid outputs. Producer and verifier mathematics stay
-structurally separate.
-
-## Operations
-
-Active run source, manifests, state, receipts, controls, seeds, thresholds, and worker policy are
-immutable. Work in isolated worktrees with separate outputs and record commits, seals, and rollback tags.
-Operational policy may change timing, never scientific identity or promotion requirements.
-
-## Development
-
-Use the project environment. Run focused tests while editing, then `python -m pytest`. Current state is
-machine-readable; do not copy counts or run status into prose.
+- [Architecture](docs/ARCHITECTURE.md)
+- [Scientific status](docs/SCIENTIFIC_STATUS.md)
+- [Long-run plan](docs/LONG_RUN_PLAN.md)
+- [Runbook](docs/RUNBOOK.md)
+- [Development rules](docs/DEVELOPMENT.md)
+- [Historical archive](archive/pre-substrate-event-horizon/)
