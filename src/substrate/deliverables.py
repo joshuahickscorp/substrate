@@ -187,8 +187,7 @@ HYPOTHESES = (
     dict(
         id="H_perspective_diversity",
         items=["C3", "C4"],
-        premise="a set of heterogeneous perspectives beats the single strongest perspective given the "
-        "same total compute",
+        premise="a set of heterogeneous perspectives beats the single strongest perspective given the same total compute",
         predecessor=None,
         state="unopened",
         required_bed="a bed where the best single perspective leaves measured residual headroom",
@@ -214,8 +213,7 @@ HYPOTHESES = (
     dict(
         id="H_arbitration_minority",
         items=["C5"],
-        premise="preserving a minority hypothesis through arbitration improves the terminal decision "
-        "over forcing consensus at the same budget",
+        premise="preserving a minority hypothesis through arbitration improves the terminal decision over forcing consensus at the same budget",
         predecessor="H_typed_workspace",
         state="unopened",
         required_bed="a bed containing items where the majority perspective is wrong",
@@ -268,8 +266,7 @@ HYPOTHESES = (
     dict(
         id="H_bounded_reorg",
         items=["R1"],
-        premise="bounded functional reorganization improves downstream utility beyond fixed and simple "
-        "routing after its cost is charged",
+        premise="bounded functional reorganization improves downstream utility beyond fixed and simple routing after its cost is charged",
         predecessor=None,
         state="unopened",
         required_bed="a multi domain bed where the useful routing differs by domain",
@@ -358,10 +355,7 @@ def hypothesis_graph(st: dict) -> dict:
         ],
         "inherited_graph": _bind("method:MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json"),
         "inherited_temporal_graph": _bind("temporal:MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json"),
-        "inheritance_rule": (
-            "the inherited graphs are sealed evidence. This program appends Substrate "
-            "native hypotheses and never edits an inherited node"
-        ),
+        "inheritance_rule": ("the inherited graphs are sealed evidence. This program appends Substrate native hypotheses and never edits an inherited node"),
         "hypotheses": rows,
         "open_count": sum(1 for r in rows if r["state"] not in ("closed", "null", "superseded")),
     }
@@ -418,8 +412,7 @@ def null_map(st: dict) -> dict:
         ),
         "methodological_refusals": refusals,
         "refusal_rule": (
-            "a methodological failure is not a scientific null. A refused experiment leaves "
-            "its hypothesis untested, not refuted, and closes nothing downstream"
+            "a methodological failure is not a scientific null. A refused experiment leaves its hypothesis untested, not refuted, and closes nothing downstream"
         ),
         "refused_count": len(refusals),
         "schema": "substrate-null-map/v1",
@@ -458,9 +451,7 @@ def master_authority(st: dict) -> dict:
             "cli": "substrate",
             "rule": "these are the only active infrastructure owners",
         },
-        "inherited_authorities": [
-            {"program": prog, **_bind(ref), "role": why} for prog, ref, why in INHERITED_AUTHORITIES
-        ],
+        "inherited_authorities": [{"program": prog, **_bind(ref), "role": why} for prog, ref, why in INHERITED_AUTHORITIES],
         "item_inventory": [
             {
                 "id": i.id,
@@ -491,17 +482,14 @@ def ledger_markdown(st: dict, frontier: dict) -> str:
         "implemented because its files exist, tested because a recorded test ledger says so, measured",
         "because its evidence is sealed, and terminal because a scientific classification exists for it.",
         "",
-        f"Items: {st['total_items']}. Levels: "
-        + ", ".join(f"{k} {v}" for k, v in sorted(st["level_counts"].items()))
-        + ".",
+        f"Items: {st['total_items']}. Levels: " + ", ".join(f"{k} {v}" for k, v in sorted(st["level_counts"].items())) + ".",
         "",
         "| id | section | title | level | dependencies | next action |",
         "|---|---|---|---|---|---|",
     ]
     for row in st["items"].values():
         lines.append(
-            f"| {row['id']} | {row['section']} | {row['title']} | {row['level']} | "
-            f"{', '.join(row['dependencies']) or 'none'} | {row['next_action']} |"
+            f"| {row['id']} | {row['section']} | {row['title']} | {row['level']} | {', '.join(row['dependencies']) or 'none'} | {row['next_action']} |"
         )
     primary = frontier.get("primary") or {}
     secondary = frontier.get("secondary") or {}
@@ -510,8 +498,7 @@ def ledger_markdown(st: dict, frontier: dict) -> str:
         "## Selected next batch",
         "",
         f"Primary: {primary.get('id', 'none')} {primary.get('title', '')}. {primary.get('next_action', '')}",
-        f"Secondary: {secondary.get('id', 'none')} {secondary.get('title', '')}. "
-        f"{secondary.get('next_action', '')}",
+        f"Secondary: {secondary.get('id', 'none')} {secondary.get('title', '')}. {secondary.get('next_action', '')}",
         "",
         "Activation remains false.",
     ]
@@ -580,10 +567,7 @@ def architecture(st: dict) -> dict:
         items = [
             i
             for i, r in st["items"].items()
-            if any(
-                path == d or d.startswith(path.rstrip("/") + "/") or path.startswith(d)
-                for d in r["implementation"]["declared"]
-            )
+            if any(path == d or d.startswith(path.rstrip("/") + "/") or path.startswith(d) for d in r["implementation"]["declared"])
         ]
         rows.append(
             {
@@ -621,10 +605,7 @@ def architecture(st: dict) -> dict:
             "configuration_authority": 1,
             "cli": 1,
         },
-        "no_parallel_framework": (
-            "Substrate stages reuse the temporal supervisor, the method "
-            "admission gate and the existing evidence fabric"
-        ),
+        "no_parallel_framework": ("Substrate stages reuse the temporal supervisor, the method admission gate and the existing evidence fabric"),
         "activation": False,
     }
 
@@ -639,8 +620,7 @@ def capability_map(st: dict) -> dict:
                 "capability": capability,
                 "items": list(items),
                 "levels": levels,
-                "implemented": bool(levels)
-                and all(v in ("implemented", "tested", "measured", "terminal") for v in levels.values()),
+                "implemented": bool(levels) and all(v in ("implemented", "tested", "measured", "terminal") for v in levels.values()),
                 "evidence_earned": sorted(earned),
                 "has_evidence": bool(earned),
             }
@@ -652,10 +632,7 @@ def capability_map(st: dict) -> dict:
         "implemented_count": sum(1 for r in rows if r["implemented"]),
         "with_evidence_count": sum(1 for r in rows if r["has_evidence"]),
         "total": len(rows),
-        "rule": (
-            "implemented means the declared surface exists and its tests pass. Evidence is "
-            "counted only from items carrying a scientific classification"
-        ),
+        "rule": ("implemented means the declared surface exists and its tests pass. Evidence is counted only from items carrying a scientific classification"),
         "activation": False,
     }
 
@@ -697,9 +674,7 @@ def _temporal_progress(counts: dict) -> dict:
         parts = r.stdout.strip().replace("-", ":").split(":")
         if len(parts) >= 2:
             try:
-                seconds = sum(
-                    float(p) * m for p, m in zip(reversed(parts), (1, 60, 3600, 86400), strict=False)
-                )
+                seconds = sum(float(p) * m for p, m in zip(reversed(parts), (1, 60, 3600, 86400), strict=False))
                 spent.append(seconds)
             except ValueError:
                 continue
@@ -868,8 +843,7 @@ def entity_report(st: dict, spec: dict, arch: dict, caps: dict, temporal: dict) 
     lines += [
         f"Primary: {primary.get('id', 'none')}, {primary.get('title', '')}. {primary.get('next_action', '')}",
         "",
-        f"Secondary: {secondary.get('id', 'none')}, {secondary.get('title', '')}. "
-        f"{secondary.get('next_action', '')}",
+        f"Secondary: {secondary.get('id', 'none')}, {secondary.get('title', '')}. {secondary.get('next_action', '')}",
         "",
         "Activation remains false.",
     ]
@@ -898,9 +872,7 @@ def write_all() -> dict:
         "SUBSTRATE_CAPABILITY_MAP.json": io.seal("SUBSTRATE_CAPABILITY_MAP.json", caps),
         "SUBSTRATE_CURRENT_ENTITY_SPEC.json": io.seal("SUBSTRATE_CURRENT_ENTITY_SPEC.json", spec),
         "SUBSTRATE_LEDGER.md": io.seal_md("SUBSTRATE_LEDGER.md", ledger_markdown(st, frontier)),
-        "SUBSTRATE_CURRENT_ENTITY_REPORT.md": io.seal_md(
-            "SUBSTRATE_CURRENT_ENTITY_REPORT.md", entity_report(st, spec, arch, caps, temporal)
-        ),
+        "SUBSTRATE_CURRENT_ENTITY_REPORT.md": io.seal_md("SUBSTRATE_CURRENT_ENTITY_REPORT.md", entity_report(st, spec, arch, caps, temporal)),
     }
     return {name: path.relative_to(io.ROOT).as_posix() for name, path in written.items()}
 
@@ -955,8 +927,7 @@ def main(argv=None) -> None:
     print(json.dumps(written, indent=2))
     st = P.state()
     print(
-        f"substrate deliverables: {len(written)} written, "
-        f"{st['total_items']} items, levels {st['level_counts']}",
+        f"substrate deliverables: {len(written)} written, {st['total_items']} items, levels {st['level_counts']}",
         flush=True,
     )
 

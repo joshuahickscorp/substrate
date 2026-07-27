@@ -195,10 +195,7 @@ class BaselineContract(Contract):
         if not c.get("resource_matched", True):
             v.append(f"baseline:{self.name}: resource budget not matched to the treatment")
         if self.declared.get("identity") and c.get("identity") != self.declared["identity"]:
-            v.append(
-                f"baseline:{self.name}: identity mismatch, declared {self.declared['identity']!r} "
-                f"but receipt says {c.get('identity')!r}"
-            )
+            v.append(f"baseline:{self.name}: identity mismatch, declared {self.declared['identity']!r} but receipt says {c.get('identity')!r}")
         return v
 
 
@@ -264,11 +261,7 @@ class PowerContract(Contract):
         p = self.evidence.get("power")
         if p is None:
             v.append(f"power:{self.name}: no power estimate")
-        elif (
-            p.get("mde") is not None
-            and self.declared.get("sesoi") is not None
-            and p["mde"] > self.declared["sesoi"]
-        ):
+        elif p.get("mde") is not None and self.declared.get("sesoi") is not None and p["mde"] > self.declared["sesoi"]:
             v.append(
                 f"power:{self.name}: minimum detectable effect {p['mde']} exceeds SESOI "
                 f"{self.declared['sesoi']}, the design cannot see the effect it declares interesting"

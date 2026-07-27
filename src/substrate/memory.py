@@ -183,10 +183,7 @@ class EpisodicMemory:
         e = self.store[episode_id]
         if e.origin == "generated" and not (e.verification or {}).get("verified"):
             self.refusals.append(episode_id)
-            raise Refused(
-                f"episode {episode_id} was generated and carries no verification receipt, so it cannot "
-                "become training material"
-            )
+            raise Refused(f"episode {episode_id} was generated and carries no verification receipt, so it cannot become training material")
         if e.klass == "quarantined":
             self.refusals.append(episode_id)
             raise Refused(f"episode {episode_id} is quarantined")
@@ -267,15 +264,12 @@ class ProceduralMemory:
         self.store[procedure.id] = procedure
         return procedure
 
-    def transfer_test(
-        self, procedure_id: str, evaluated_on: list[str], score: float, baseline: float
-    ) -> dict:
+    def transfer_test(self, procedure_id: str, evaluated_on: list[str], score: float, baseline: float) -> dict:
         p = self.store[procedure_id]
         overlap = set(evaluated_on) & set(p.source_episodes)
         if overlap:
             raise Refused(
-                f"procedure {procedure_id} was evaluated on {sorted(overlap)}, which produced it; a "
-                "transfer test must use episodes the procedure has not seen"
+                f"procedure {procedure_id} was evaluated on {sorted(overlap)}, which produced it; a transfer test must use episodes the procedure has not seen"
             )
         if not evaluated_on:
             raise Refused("a transfer test needs at least one held out episode")
@@ -341,18 +335,10 @@ def _oracle(episodes, state):
 POLICIES: tuple[ConsolidationPolicy, ...] = (
     ConsolidationPolicy("none", frozenset(), True, _none),
     ConsolidationPolicy("fixed_schedule", frozenset({"episode_index"}), True, _fixed),
-    ConsolidationPolicy(
-        "boundary_triggered", frozenset({"episode_index", "context_boundary"}), True, _boundary
-    ),
-    ConsolidationPolicy(
-        "performance_triggered", frozenset({"episode_index", "confidence"}), True, _performance
-    ),
-    ConsolidationPolicy(
-        "verification_triggered", frozenset({"episode_index", "verification"}), True, _verification
-    ),
-    ConsolidationPolicy(
-        "repetition_triggered", frozenset({"episode_index", "action_history"}), True, _repetition
-    ),
+    ConsolidationPolicy("boundary_triggered", frozenset({"episode_index", "context_boundary"}), True, _boundary),
+    ConsolidationPolicy("performance_triggered", frozenset({"episode_index", "confidence"}), True, _performance),
+    ConsolidationPolicy("verification_triggered", frozenset({"episode_index", "verification"}), True, _verification),
+    ConsolidationPolicy("repetition_triggered", frozenset({"episode_index", "action_history"}), True, _repetition),
     ConsolidationPolicy("oracle", frozenset({"later_usefulness"}), False, _oracle),
 )
 
@@ -397,9 +383,7 @@ def hygiene(records: dict, *, audit_required: set, requests: list[tuple[str, str
         "applied": applied,
         "refused": refused,
         "audit_preserved": all(r["record"] in audit_required for r in refused),
-        "nothing_audit_required_was_deleted": not any(
-            a["action"] == "delete" and a["record"] in audit_required for a in applied
-        ),
+        "nothing_audit_required_was_deleted": not any(a["action"] == "delete" and a["record"] in audit_required for a in applied),
     }
 
 
@@ -441,22 +425,13 @@ def declaration() -> dict:
         "episodic_memory": {
             "episode_fields": list(EPISODE_FIELDS),
             "classes": list(EPISODE_CLASSES),
-            "promotion_rule": (
-                "a generated episode needs a verification receipt before it can become training material"
-            ),
+            "promotion_rule": ("a generated episode needs a verification receipt before it can become training material"),
         },
         "semantic_memory": {
             "kinds": ["concept", "fact", "relation", "rule", "abstraction", "exception"],
-            "supersession_rule": (
-                "a superseded fact stays in the store marked with its "
-                "successor, so a belief keeps a traceable chain"
-            ),
+            "supersession_rule": ("a superseded fact stays in the store marked with its successor, so a belief keeps a traceable chain"),
         },
-        "procedural_memory": {
-            "transfer_rule": (
-                "a procedure is transferable only after evaluation on episodes it did not come from"
-            )
-        },
+        "procedural_memory": {"transfer_rule": ("a procedure is transferable only after evaluation on episodes it did not come from")},
         "consolidation": {
             "policies": [
                 {
@@ -486,9 +461,7 @@ def main(argv=None) -> None:
         json.dumps(
             {
                 "sealed": path.relative_to(io.ROOT).as_posix(),
-                "policies_distinct": doc["consolidation"]["comparison_on_a_probe_stream"][
-                    "distinct_selections"
-                ],
+                "policies_distinct": doc["consolidation"]["comparison_on_a_probe_stream"]["distinct_selections"],
                 "working_memory_interference": doc["working_memory"]["measured"]["interference"],
             },
             indent=2,

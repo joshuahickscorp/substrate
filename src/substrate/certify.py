@@ -42,17 +42,13 @@ NULL_CONTROL_INAPPLICABLE = {
     # made those two coincide would have to be one where arbitration reaches the fabricated conclusion,
     # which is a positive control wearing a null control's clothes. Even the empty catalog fails: the real
     # arbiter defers and names the missing evidence, the contrast arm does neither.
-    "arbitrate": "emits an arbitration report every cycle by design, and the no arbiter arm fabricates a "
-    "report of its own rather than staying silent",
+    "arbitrate": "emits an arbitration report every cycle by design, and the no arbiter arm fabricates a report of its own rather than staying silent",
 }
 
 
 def stage_null_fixture(stage: str) -> tuple[list[dict], dict]:
     """A stream, and runtime keyword arguments, under which the named stage has nothing to do."""
-    flat = [
-        {"observation": {"label": "a", "label_confidence": 0.5}, "outcome": None, "goal": None}
-        for _ in range(8)
-    ]
+    flat = [{"observation": {"label": "a", "label_confidence": 0.5}, "outcome": None, "goal": None} for _ in range(8)]
     if stage == "attend":
         # attend has two effects, not one: it drops candidates under budget pressure, and the regions it
         # attends filter the perspective pool. A fixture that only removes the budget pressure leaves the
@@ -116,10 +112,7 @@ def positive_fixture(n: int = 12) -> list[dict]:
 
 def null_fixture(n: int = 12) -> list[dict]:
     """A stream with one constant label, no goal and no outcome. Nothing here should depend on a stage."""
-    return [
-        {"observation": {"label": "a", "label_confidence": 0.5}, "outcome": None, "goal": None}
-        for _ in range(n)
-    ]
+    return [{"observation": {"label": "a", "label_confidence": 0.5}, "outcome": None, "goal": None} for _ in range(n)]
 
 
 def _run(fixture: list[dict], ablate: frozenset | None = None, **kw) -> dict:
@@ -157,11 +150,7 @@ def runtime_activity() -> dict:
             fixture, kw = stage_null_fixture(stage)
             base = _run(fixture, None, **kw)
             ablated = _run(fixture, frozenset({stage}), **kw)
-            quiet = (
-                base["state"] == ablated["state"]
-                and base["contents"] == ablated["contents"]
-                and base["decisions"] == ablated["decisions"]
-            )
+            quiet = base["state"] == ablated["state"] and base["contents"] == ablated["contents"] and base["decisions"] == ablated["decisions"]
             null_row = {
                 "applicable": True,
                 "quiet": quiet,
@@ -182,9 +171,7 @@ def runtime_activity() -> dict:
             ),
         }
     inactive = sorted(k for k, v in rows.items() if not v["active"])
-    null_sensitive = sorted(
-        k for k, v in rows.items() if v["null_control"]["applicable"] and v["null_control"]["quiet"] is False
-    )
+    null_sensitive = sorted(k for k, v in rows.items() if v["null_control"]["applicable"] and v["null_control"]["quiet"] is False)
     return {
         "schema": "substrate-runtime-activity/v1",
         "ablatable_stages": list(ABLATABLE),
@@ -211,9 +198,7 @@ def runtime_activity() -> dict:
 
 def session_canaries(limit: int = 60) -> dict:
     session = S.build()
-    events = [
-        e for e in session["events"] if e["kind"] in ("shard_completed", "shard_quarantined", "failure_hold")
-    ][:limit]
+    events = [e for e in session["events"] if e["kind"] in ("shard_completed", "shard_quarantined", "failure_hold")][:limit]
     if len(events) < 20:
         raise Refused(f"only {len(events)} usable session events")
 
@@ -233,9 +218,7 @@ def session_canaries(limit: int = 60) -> dict:
         "passes": revived.checkpoint()["identity"] == snapshot["identity"],
         "note": "the restored entity reproduces the checkpoint identity or the restore is refused",
     }
-    rows["goal_preservation"] = {
-        "passes": revived.ws.read("goal", "canary") == ["process the sealed session"]
-    }
+    rows["goal_preservation"] = {"passes": revived.ws.read("goal", "canary") == ["process the sealed session"]}
     rows["memory_reuse"] = {
         "episodes": len(revived.episodes.store),
         "passes": len(revived.episodes.store) == len(entity.episodes.store) > 0,
@@ -318,11 +301,7 @@ def body_canaries() -> dict:
     pairwise = {}
     for i, a in enumerate(names):
         for b in names[i + 1 :]:
-            differing = [
-                d
-                for d in BODY_DIMENSIONS
-                if json.dumps(profile[a][d], sort_keys=True) != json.dumps(profile[b][d], sort_keys=True)
-            ]
+            differing = [d for d in BODY_DIMENSIONS if json.dumps(profile[a][d], sort_keys=True) != json.dumps(profile[b][d], sort_keys=True)]
             pairwise[f"{a}_vs_{b}"] = differing
 
     # a microtask where the substrate changes body facing behaviour: arbitration over the body's views
@@ -382,11 +361,7 @@ def run() -> dict:
     body = body_canaries()
     from substrate import sx2 as X2
 
-    sx2 = (
-        json.loads((io.PROOF / "SUBSTRATE_SX2_DIVERSITY.json").read_text())
-        if (io.PROOF / "SUBSTRATE_SX2_DIVERSITY.json").is_file()
-        else X2.run()
-    )
+    sx2 = json.loads((io.PROOF / "SUBSTRATE_SX2_DIVERSITY.json").read_text()) if (io.PROOF / "SUBSTRATE_SX2_DIVERSITY.json").is_file() else X2.run()
     gated = []
     if activity["inactive"]:
         gated.append(
@@ -397,9 +372,7 @@ def run() -> dict:
             }
         )
     if canaries["failed"]:
-        gated.append(
-            {"component": "session_canaries", "detail": canaries["failed"], "reason": "canary did not pass"}
-        )
+        gated.append({"component": "session_canaries", "detail": canaries["failed"], "reason": "canary did not pass"})
     if not body["distinct_on_every_dimension"]:
         gated.append(
             {

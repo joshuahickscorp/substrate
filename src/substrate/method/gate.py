@@ -84,15 +84,8 @@ class Preregistration:
             viol = [v for c in by[s] for v in c.violations()]
             if s == "arm_distinctness" and not by[s]:
                 viol.append("arm_distinctness: no arm contracts declared, distinctness was never proven")
-            if (
-                s == "control_semantics"
-                and self.mechanism_activity is not None
-                and not self.mechanism_activity.get("active")
-            ):
-                viol.append(
-                    f"mechanism_activity: {self.mechanism_activity.get('classification')} "
-                    f"({self.mechanism_activity.get('failed')})"
-                )
+            if s == "control_semantics" and self.mechanism_activity is not None and not self.mechanism_activity.get("active"):
+                viol.append(f"mechanism_activity: {self.mechanism_activity.get('classification')} ({self.mechanism_activity.get('failed')})")
             report[s] = {
                 "contracts": [c.name for c in by[s]],
                 "violations": viol,

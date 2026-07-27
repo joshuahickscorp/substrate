@@ -245,14 +245,7 @@ def compare() -> dict:
             "body_plus_temporal_core": acc + (0.0 if core.is_control else 0.0),
             "body_plus_arbitration": float(
                 (
-                    np.array(
-                        [
-                            np.bincount(c.astype(int)).argmax()
-                            for c in np.stack(
-                                [_predict(b.models[v], _views(bed["Xte"])[v]) for v in b.views]
-                            ).T
-                        ]
-                    )
+                    np.array([np.bincount(c.astype(int)).argmax() for c in np.stack([_predict(b.models[v], _views(bed["Xte"])[v]) for v in b.views]).T])
                     == bed["Yte"]
                 ).mean()
             ),

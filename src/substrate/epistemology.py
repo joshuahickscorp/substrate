@@ -193,9 +193,7 @@ POLICIES: tuple[RevisionPolicy, ...] = (
     RevisionPolicy("highest_confidence_wins", frozenset({"confidence"}), True, _highest_confidence),
     RevisionPolicy("source_reliability", frozenset({"source_history"}), True, _source_reliability),
     RevisionPolicy("evidence_weighted", frozenset({"evidence_counts"}), True, _evidence_weighted),
-    RevisionPolicy(
-        "dependency_aware", frozenset({"evidence_counts", "dependency_graph"}), True, _dependency_aware
-    ),
+    RevisionPolicy("dependency_aware", frozenset({"evidence_counts", "dependency_graph"}), True, _dependency_aware),
     RevisionPolicy("oracle", frozenset({"ground_truth"}), False, _oracle),
 )
 
@@ -293,9 +291,7 @@ class Epistemology:
 
     def revise(self, incoming: Belief) -> dict:
         """Two claims about the same content. The policy chooses and the loser is kept, not deleted."""
-        existing = next(
-            (b for b in self.live() if b.content == incoming.content and b.id != incoming.id), None
-        )
+        existing = next((b for b in self.live() if b.content == incoming.content and b.id != incoming.id), None)
         if existing is None:
             self.assert_(incoming)  # noqa: UP005
             return {"outcome": "asserted", "kept": incoming.id, "alternative": None}
@@ -353,13 +349,7 @@ class Epistemology:
         return rows
 
     def unsupported_confidence(self, floor: float = 0.8) -> list[str]:
-        return sorted(
-            b.id
-            for b in self.live()
-            if b.confidence >= floor
-            and not b.supporting_evidence
-            and b.kind not in ("raw_observation", "verified_fact")
-        )
+        return sorted(b.id for b in self.live() if b.confidence >= floor and not b.supporting_evidence and b.kind not in ("raw_observation", "verified_fact"))
 
     def ignorance(self, questions: list[str]) -> dict:
         """What the store explicitly does not know, which is not the same as low confidence."""
@@ -494,15 +484,9 @@ def revision_declaration() -> dict:
             for p in POLICIES
         ],
         "default_policy": "dependency_aware",
-        "why": (
-            "a claim resting on something retracted loses whatever its confidence says, which is the "
-            "one thing a confidence table cannot express"
-        ),
+        "why": ("a claim resting on something retracted loses whatever its confidence says, which is the one thing a confidence table cannot express"),
         "alternative_rule": "the losing claim is superseded and kept, never deleted",
-        "unresolved_rule": (
-            "when neither claim dominates by the SESOI the conflict is marked unresolved "
-            "rather than settled by arrival order"
-        ),
+        "unresolved_rule": ("when neither claim dominates by the SESOI the conflict is marked unresolved rather than settled by arrival order"),
         "activation": False,
     }
 

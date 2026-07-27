@@ -154,8 +154,7 @@ NODES: tuple[Node, ...] = (
         args=("seal",),
         dependencies=("declarations",),
         entry_gate="the temporal core authority is terminal, licensed or not",
-        exit_gate="the runtime reads temporal state through a versioned interface and the five "
-        "information sources stay distinguishable",
+        exit_gate="the runtime reads temporal state through a versioned interface and the five information sources stay distinguishable",
         produces=("SUBSTRATE_TEMPORAL_CORE.json",),
         requires_impl=(f"{COG}/temporal_link.py",),
         resource_profile="light",
@@ -179,8 +178,7 @@ NODES: tuple[Node, ...] = (
         args=("integrate",),
         dependencies=("world_model_bed", "temporal_core_integration"),
         entry_gate="the bed exists and the runtime cycle is terminal",
-        exit_gate="a world model prediction changes which action the arbiter selects, measured inside "
-        "the cycle",
+        exit_gate="a world model prediction changes which action the arbiter selects, measured inside the cycle",
         produces=("SUBSTRATE_WORLD_MODEL_BATTERY.json",),
         resource_profile="moderate",
     ),
@@ -296,8 +294,7 @@ NODES: tuple[Node, ...] = (
         args=("seal",),
         dependencies=("world_model_in_loop", "body_comparison", "grounding", "goal_and_valuation"),
         entry_gate="a runtime with a world model, a body and grounded symbols",
-        exit_gate="thinking, continuity, unity, reflection, agency and integrity each reach a "
-        "classification or a stated measurement boundary",
+        exit_gate="thinking, continuity, unity, reflection, agency and integrity each reach a classification or a stated measurement boundary",
         produces=(
             "SUBSTRATE_THINKING_BATTERY.json",
             "SUBSTRATE_CONTINUITY_BATTERY.json",

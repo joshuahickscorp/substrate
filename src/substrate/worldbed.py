@@ -80,10 +80,7 @@ def build() -> dict:
     by_state_action: dict[tuple, list] = defaultdict(list)
     for r in rows:
         by_state_action[(r["resource_class"], r["cap_bucket"])].append(r["progress"])
-    table = {
-        f"{k[0]}|{k[1]}": {"n": len(v), "mean_progress": round(statistics.fmean(v), 6)}
-        for k, v in by_state_action.items()
-    }
+    table = {f"{k[0]}|{k[1]}": {"n": len(v), "mean_progress": round(statistics.fmean(v), 6)} for k, v in by_state_action.items()}
 
     classes = sorted({r["resource_class"] for r in rows})
     best_by_class = {}
@@ -113,10 +110,7 @@ def build() -> dict:
             "class, so no world model can earn a decision improvement on this bed and prediction quality "
             "would be the only thing left to report"
         ),
-        "why_this_bed": (
-            "the record was written to run a factorial. Its states, actions and outcomes "
-            "were not chosen to make a world model look useful"
-        ),
+        "why_this_bed": ("the record was written to run a factorial. Its states, actions and outcomes were not chosen to make a world model look useful"),
         "activation": False,
     }
     return doc
@@ -146,9 +140,7 @@ def integrate(bed: dict | None = None) -> dict:
         total += 1
         if chosen != best_fixed:
             changed += 1
-    model_value = statistics.fmean(
-        [means.get((r["resource_class"], model_choice(r["resource_class"])), 0.0) for r in rows]
-    )
+    model_value = statistics.fmean([means.get((r["resource_class"], model_choice(r["resource_class"])), 0.0) for r in rows])
     fixed_value = statistics.fmean([statistics.fmean(fixed_options[best_fixed])] * len(rows))
     gain = model_value - fixed_value
 
@@ -169,13 +161,7 @@ def integrate(bed: dict | None = None) -> dict:
         "expected_progress_best_fixed": round(fixed_value, 6),
         "decision_gain": round(gain, 6),
         "prediction_alone_is_insufficient": True,
-        "verdict": (
-            "decision_value"
-            if gain > 0.05 and changed
-            else "limited_instrument"
-            if changed == 0
-            else "no_measurable_decision_gain"
-        ),
+        "verdict": ("decision_value" if gain > 0.05 and changed else "limited_instrument" if changed == 0 else "no_measurable_decision_gain"),
         "reading": (
             "a world model earns a positive here only by changing an action and improving the "
             "outcome. Changing nothing, or changing something and gaining nothing, is reported "

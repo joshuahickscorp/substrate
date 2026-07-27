@@ -196,9 +196,7 @@ def recompute() -> dict:
     for category, row in card["categories"].items():
         if not row["items"]:
             continue
-        earned = [
-            i for i in row["items"] if (state["items"][i].get("result") or {}).get("scientific") is True
-        ]
+        earned = [i for i in row["items"] if (state["items"][i].get("result") or {}).get("scientific") is True]
         check(
             f"scorecard_evidence_{category}",
             row["evidence_pct"],
@@ -216,18 +214,12 @@ def recompute() -> dict:
             for name, row in _recompute_sx5(doc).items():
                 checks[name] = row
 
-    seals = {
-        name: _seal_intact(_sealed(name))
-        for name in sorted(p.name for p in io.PROOF.glob("SUBSTRATE_*.json"))
-    }
+    seals = {name: _seal_intact(_sealed(name)) for name in sorted(p.name for p in io.PROOF.glob("SUBSTRATE_*.json"))}
     disagreements = sorted(k for k, v in checks.items() if not v["agrees"])
     broken_seals = sorted(k for k, v in seals.items() if not v)
     return {
         "schema": "substrate-independent-verification/v1",
-        "role": (
-            "recomputation from sealed bytes by a second route, without importing the modules that "
-            "produced them"
-        ),
+        "role": ("recomputation from sealed bytes by a second route, without importing the modules that produced them"),
         "checks": checks,
         "seal_integrity": seals,
         "disagreements": disagreements,
@@ -249,8 +241,7 @@ MUTATIONS = (
     (
         "workspace_drops_provenance_requirement",
         "substrate.workspace",
-        "REGIONS = tuple(type(r)(**{**vars(r), 'provenance': False}) for r in REGIONS)\n"
-        "BY_NAME = {r.name: r for r in REGIONS}",
+        "REGIONS = tuple(type(r)(**{**vars(r), 'provenance': False}) for r in REGIONS)\nBY_NAME = {r.name: r for r in REGIONS}",
         "tests/substrate/test_workspace.py::test_provenance_and_confidence_are_mandatory_where_declared",
     ),
     (
@@ -310,8 +301,7 @@ MUTATIONS = (
     (
         "fast_adaptation_touches_shared_parameters",
         "substrate.plasticity",
-        "LEVELS = tuple(type(l)(**{**vars(l), 'touches_shared_parameters': False, 'speed': 'fast'}) "
-        "for l in LEVELS)\nBY_LEVEL = {l.name: l for l in LEVELS}",
+        "LEVELS = tuple(type(l)(**{**vars(l), 'touches_shared_parameters': False, 'speed': 'fast'}) for l in LEVELS)\nBY_LEVEL = {l.name: l for l in LEVELS}",
         "tests/substrate/test_plasticity.py::test_fast_adaptation_does_not_touch_shared_parameters",
     ),
     (
@@ -327,8 +317,7 @@ MUTATIONS = (
     (
         "reorganize_drops_the_forbidden_branch",
         "substrate.plasticity",
-        "reorganize = lambda change, *, measured, cost, sesoi=0.05: "
-        "{'change': change, 'permitted': True, 'applied': True, 'reason': ''}",
+        "reorganize = lambda change, *, measured, cost, sesoi=0.05: {'change': change, 'permitted': True, 'applied': True, 'reason': ''}",
         "tests/substrate/test_plasticity.py::test_forbidden_reorganizations_are_refused",
     ),
     (
@@ -352,8 +341,7 @@ MUTATIONS = (
     (
         "integrity_stops_failing_closed",
         "substrate.safety",
-        "integrity_report = lambda observations: {'schema': 'x', 'surfaces': {}, 'failed_surfaces': [], "
-        "'all_pass': True, 'fails_closed': False}",
+        "integrity_report = lambda observations: {'schema': 'x', 'surfaces': {}, 'failed_surfaces': [], 'all_pass': True, 'fails_closed': False}",
         "tests/substrate/test_safety.py::test_integrity_violation_is_detected_and_fails_closed",
     ),
     (
@@ -365,8 +353,7 @@ MUTATIONS = (
     (
         "reflective_reports_answer_without_provenance",
         "substrate.batteries",
-        "_rr = reflective_report\n"
-        "reflective_report = lambda e, b: {**_rr(e, b), 'answered': True, 'failed_closed': False}",
+        "_rr = reflective_report\nreflective_report = lambda e, b: {**_rr(e, b), 'answered': True, 'failed_closed': False}",
         "tests/substrate/test_batteries.py::test_reflective_report_fails_closed_without_provenance",
     ),
     (
@@ -410,8 +397,7 @@ MUTATIONS = (
         "the_sesoi_is_lowered_until_a_bed_qualifies",
         "substrate.experiments",
         "BED_SCREEN_RULE = {**BED_SCREEN_RULE, 'sesoi': 0.001}",
-        "tests/substrate/test_experiments.py::"
-        "test_no_bed_under_custody_can_test_the_typed_workspace_hypothesis",
+        "tests/substrate/test_experiments.py::test_no_bed_under_custody_can_test_the_typed_workspace_hypothesis",
     ),
     (
         "a_measurement_boundary_closes_its_descendants",
@@ -430,8 +416,7 @@ MUTATIONS = (
         "the_loop_skips_a_stage_silently",
         "substrate.runtime",
         "CycleTrace.skip = lambda self, stage, reason: self.stages.__setitem__(stage, {'ran': True})",
-        "tests/substrate/test_runtime.py::"
-        "test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran",
+        "tests/substrate/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran",
     ),
     (
         "the_loop_restores_a_tampered_checkpoint",
@@ -443,8 +428,7 @@ MUTATIONS = (
         "    except Refused:\n"
         "        return self\n"
         "Substrate.restore = restore",
-        "tests/substrate/test_runtime.py::"
-        "test_a_tampered_checkpoint_is_refused_rather_than_silently_restored",
+        "tests/substrate/test_runtime.py::test_a_tampered_checkpoint_is_refused_rather_than_silently_restored",
     ),
     (
         "sx5_reports_support_below_the_sesoi",
@@ -468,9 +452,7 @@ MUTATIONS = (
     (
         "the_ceiling_below_sesoi_is_blamed_on_the_unit_count",
         "substrate.experiments",
-        "_d = _sx1b_diagnosis\n"
-        "_sx1b_diagnosis = lambda ev: {**_d(ev), 'more_units_would_help': True, "
-        "'decisive_number': 'mde'}",
+        "_d = _sx1b_diagnosis\n_sx1b_diagnosis = lambda ev: {**_d(ev), 'more_units_would_help': True, 'decisive_number': 'mde'}",
         "tests/substrate/test_experiments.py::test_the_sx1b_diagnosis_names_the_number_that_actually_decides",
     ),
 )
@@ -523,8 +505,7 @@ def main(argv=None) -> None:
         doc = recompute()
         io.seal("SUBSTRATE_INDEPENDENT_VERIFICATION.json", doc)
         print(
-            f"substrate recomputation: {len(doc['checks'])} checks, "
-            f"{len(doc['disagreements'])} disagreements, {len(doc['broken_seals'])} broken seals",
+            f"substrate recomputation: {len(doc['checks'])} checks, {len(doc['disagreements'])} disagreements, {len(doc['broken_seals'])} broken seals",
             flush=True,
         )
     if command in ("mutate", "all"):

@@ -54,6 +54,6 @@ or determinism improvement. One crate is the maximum. Scientific policy and clas
 ## LOC accounting
 
 Report physical and executable production lines separately. Executable lines exclude blanks, comments,
-and docstrings. Generated artifacts, sealed evidence, archives, third-party code, and tests are separate
+docstrings, and delimiter-only structural lines. Generated artifacts, sealed evidence, archives, third-party code, and tests are separate
 categories. A lower candidate is valid only after all load-bearing contracts pass; a rejected candidate
 must name its failing invariant and the smallest restoration.

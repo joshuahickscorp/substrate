@@ -199,9 +199,7 @@ class Ontology:
         x, y = self.items[a], self.items[b]
         blocking = self.distinguishable(a, b)
         if blocking["any"]:
-            raise Refused(
-                f"{a} and {b} are separated by {blocking['separated_by']} and cannot be one referent"
-            )
+            raise Refused(f"{a} and {b} are separated by {blocking['separated_by']} and cannot be one referent")
         if not x.overlaps(y):
             raise Refused(f"{a} and {b} do not share any moment, so they are not one thing over time")
         identity = into or f"{a}+{b}"
@@ -242,9 +240,7 @@ class Ontology:
             self.items[origin].supersession = None
             restored.append(self.items[origin])
         item.supersession = "split"
-        self.revisions.append(
-            {"kind": "split", "identity": identity, "into": list(item.merged_from), "reason": reason}
-        )
+        self.revisions.append({"kind": "split", "identity": identity, "into": list(item.merged_from), "reason": reason})
         return restored
 
     def detect_mistaken_merge(self, identity: str) -> dict:
@@ -253,11 +249,7 @@ class Ontology:
         if item is None or not item.merged_from:
             return {"identity": identity, "mistaken": False, "reason": "not a merged item"}
         a, b = (self.items[i] for i in item.merged_from)
-        clashing = [
-            k
-            for k in set(a.attributes) & set(b.attributes)
-            if a.attributes[k] != b.attributes[k] and a.overlaps(b)
-        ]
+        clashing = [k for k in set(a.attributes) & set(b.attributes) if a.attributes[k] != b.attributes[k] and a.overlaps(b)]
         if clashing:
             self.contradictions.append({"identity": identity, "attributes": clashing})
         return {
@@ -276,10 +268,7 @@ class Ontology:
             "pair": [a, b],
             "shared_attributes": sorted(shared),
             "disagreements": sorted(disagree),
-            "mistaken_split": bool(shared)
-            and not disagree
-            and x.overlaps(y)
-            and not self.distinguishable(a, b)["any"],
+            "mistaken_split": bool(shared) and not disagree and x.overlaps(y) and not self.distinguishable(a, b)["any"],
             "reason": "no disagreement anywhere and overlapping in time",
         }
 
@@ -290,9 +279,7 @@ class Ontology:
             raise Refused(f"undeclared type {new_type!r}")
         if not evidence:
             raise Refused("a type revision without evidence is a relabelling")
-        self.revisions.append(
-            {"kind": "type", "identity": identity, "from": item.type, "to": new_type, "evidence": evidence}
-        )
+        self.revisions.append({"kind": "type", "identity": identity, "from": item.type, "to": new_type, "evidence": evidence})
         item.type = new_type
         if new_type != "unknown":
             item.unknown_reason = ""
@@ -411,10 +398,7 @@ def declaration() -> dict:
             "contradictions",
             "ontology revision",
         ],
-        "merge_rule": (
-            "a merge needs stated evidence, is refused across any declared distinction, and "
-            "stays reversible. The merged item keeps both origins"
-        ),
+        "merge_rule": ("a merge needs stated evidence, is refused across any declared distinction, and stays reversible. The merged item keeps both origins"),
         "unknown_rule": "unknown is a first class type and carries the reason it is unknown",
         "activation": False,
     }

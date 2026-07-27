@@ -147,13 +147,7 @@ def run(bed: str = "harth_stream", seed: int = 0) -> dict:
             rest = [c for c in cells if c not in diverse]
             pick = min(
                 rest,
-                key=lambda c: (
-                    statistics.fmean(
-                        abs(_mean_over_units(scores, c, units) - _mean_over_units(scores, d, units))
-                        for d in diverse
-                    )
-                    * -1
-                ),
+                key=lambda c: statistics.fmean(abs(_mean_over_units(scores, c, units) - _mean_over_units(scores, d, units)) for d in diverse) * -1,
             )
             diverse.append(pick)
         randomised = rng.sample(cells, k)
@@ -213,8 +207,7 @@ def run(bed: str = "harth_stream", seed: int = 0) -> dict:
             "does not clear the SESOI over a compute matched single cell, no selector built on "
             "this set can, and SX2 closes without training one"
             if not clearing
-            else "the upper bound clears the SESOI, so one bounded selector and arbitration canary is "
-            "licensed"
+            else "the upper bound clears the SESOI, so one bounded selector and arbitration canary is licensed"
         ),
         "activation": False,
     }

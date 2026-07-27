@@ -250,8 +250,7 @@ def declaration() -> dict:
         "states": list(GOAL_STATES),
         "authorization_rule": "a goal enters only with an authority that is not this module",
         "decomposition_rule": (
-            "a subgoal inherits its parent's constraints and may narrow them, never "
-            "widen them, and its priority cannot exceed its parent's"
+            "a subgoal inherits its parent's constraints and may narrow them, never widen them, and its priority cannot exceed its parent's"
         ),
         "may_not": "silently create unrestricted persistent goals",
         "unrestricted_goals_present": gs.unrestricted_goals(),

@@ -45,9 +45,7 @@ def _run(cmd: list[str], cwd: Path, env: dict | None = None) -> tuple[int, str]:
 
 def run(keep: bool = False) -> dict:
     commit = io.commit()
-    dirty = subprocess.run(
-        ["git", "status", "--porcelain", "--", "src", "tests"], cwd=io.ROOT, capture_output=True, text=True
-    ).stdout.strip()
+    dirty = subprocess.run(["git", "status", "--porcelain", "--", "src", "tests"], cwd=io.ROOT, capture_output=True, text=True).stdout.strip()
     if dirty:
         raise Refused(f"the working tree is not committed, so a clone cannot verify it: {dirty[:200]}")
 
@@ -58,27 +56,21 @@ def run(keep: bool = False) -> dict:
         code, out = _run(["git", "clone", "--quiet", "--no-hardlinks", str(io.ROOT), str(clone)], tmp)
         results["clone"] = {"ok": code == 0, "detail": out[-300:]}
         code, out = _run(["git", "checkout", "--quiet", commit], clone)
-        head = subprocess.run(
-            ["git", "rev-parse", "HEAD"], cwd=clone, capture_output=True, text=True
-        ).stdout.strip()
+        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=clone, capture_output=True, text=True).stdout.strip()
         results["exact_commit_checkout"] = {"ok": head == commit, "head": head, "expected": commit}
 
         env = {**__import__("os").environ, "PYTHONPATH": str(clone / "src"), "PYTHONDONTWRITEBYTECODE": "1"}
         code, out = _run([PY, "-c", "import substrate.program, substrate.runtime"], clone, env)
         results["package_import"] = {"ok": code == 0, "detail": out[-300:]}
 
-        code, out = _run(
-            [PY, "-m", "pytest", "-q", "--no-header", "-p", "no:cacheprovider", "tests/substrate"], clone, env
-        )
+        code, out = _run([PY, "-m", "pytest", "-q", "--no-header", "-p", "no:cacheprovider", "tests/substrate"], clone, env)
         results["declared_tests"] = {"ok": code == 0, "detail": out.strip().splitlines()[-1:]}
 
         code, out = _run(
             [
                 PY,
                 "-c",
-                "import json,sys;from substrate import graph;"
-                "d=graph.declaration();print(json.dumps({'valid':d['valid'],"
-                "'blocked':d['externally_blocked']}))",
+                "import json,sys;from substrate import graph;d=graph.declaration();print(json.dumps({'valid':d['valid'],'blocked':d['externally_blocked']}))",
             ],
             clone,
             env,
@@ -148,8 +140,7 @@ def run(keep: bool = False) -> dict:
             [
                 PY,
                 "-c",
-                "import json;from substrate import runtime;"
-                "print(json.dumps(runtime.declaration()['activation']))",
+                "import json;from substrate import runtime;print(json.dumps(runtime.declaration()['activation']))",
             ],
             clone,
             env,
@@ -167,10 +158,7 @@ def run(keep: bool = False) -> dict:
         "detail": results,
         "failed": sorted(k for k, v in checks.items() if not v),
         "all_pass": all(checks.values()),
-        "why_a_clone": (
-            "the working tree has caches, untracked state and whatever the last command "
-            "left behind. A clone at the exact commit has none of it"
-        ),
+        "why_a_clone": ("the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it"),
         "activation": False,
     }
 

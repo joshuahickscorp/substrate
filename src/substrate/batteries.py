@@ -165,21 +165,14 @@ def thinking_battery(claim: dict) -> dict:
             "schema": "substrate-thinking-battery/v1",
             "scored": False,
             "supported": False,
-            "reason": (
-                "the claim rests on latency or hidden activations, which section 14 excludes "
-                "as evidence of thinking"
-            ),
+            "reason": ("the claim rests on latency or hidden activations, which section 14 excludes as evidence of thinking"),
             "alternatives_declared": list(ALTERNATIVES),
             "alternatives_compared": [],
             "alternatives_missing": missing,
             "non_evidence_named": named_non_evidence,
         }
 
-    margins = {
-        k: round(float(v.get("substrate", 0.0)) - float(v.get("alternative", 0.0)), 6)
-        for k, v in beaten.items()
-        if k in ALTERNATIVES
-    }
+    margins = {k: round(float(v.get("substrate", 0.0)) - float(v.get("alternative", 0.0)), 6) for k, v in beaten.items() if k in ALTERNATIVES}
     cleared = {k: m for k, m in margins.items() if m > SESOI}
     return {
         "schema": "substrate-thinking-battery/v1",
@@ -382,9 +375,7 @@ def reflective_report(entity: Entity, belief_id: str) -> dict:
             "what_evidence_supports_it": chain,
             "confidence": fact.confidence,
             "failure": f"superseded by {superseded}" if superseded else "",
-            "what_would_change_it": (
-                f"a measurement on the same bed that contradicts {fact.statement!r} above the SESOI"
-            ),
+            "what_would_change_it": (f"a measurement on the same bed that contradicts {fact.statement!r} above the SESOI"),
         },
         "bound_to_receipts": bool(fact.provenance),
     }
@@ -423,9 +414,7 @@ def _demo_entity() -> tuple[Entity, dict]:
     )
     e.semantic.assert_(M.Fact("f2", "an unsourced hunch", 0.9, provenance="x"))
     e.semantic.store["f2"].provenance = ""  # planted, to prove the report fails closed
-    e.self_model.record(
-        SM.SelfFact("unfinished_tasks", ["speech_stream principal"], source="runs/.../e2_principal")
-    )
+    e.self_model.record(SM.SelfFact("unfinished_tasks", ["speech_stream principal"], source="runs/.../e2_principal"))
     # a long session. This is the regime section 15.1 is about: the transcript outgrows any budget that
     # owned state fits inside, so a matched replay has to drop its oldest lines and loses them.
     for i in range(60):
@@ -458,9 +447,7 @@ def declaration() -> dict:
     ]
     return {
         "schema": "substrate-entity-batteries/v1",
-        "thinking": thinking_battery(
-            {"routes": ["maintaining_state"], "beats": {"latency": {"substrate": 1, "alternative": 0}}}
-        ),
+        "thinking": thinking_battery({"routes": ["maintaining_state"], "beats": {"latency": {"substrate": 1, "alternative": 0}}}),
         "continuity": continuity_battery(entity, probes),
         "unity": unity_battery(entity, outputs),
         "reflective": reflective_battery(entity, ["f1", "f2", "f_absent"]),

@@ -151,9 +151,7 @@ class FixedPrior(SelfModel):
         self.estimates = dict(estimates)
 
 
-def compare_against_fixed_prior(
-    outcomes: dict[str, list[float]], prior: dict[str, float] | None = None
-) -> dict:
+def compare_against_fixed_prior(outcomes: dict[str, list[float]], prior: dict[str, float] | None = None) -> dict:
     """Does updating the self model beat not updating it, on the same outcome stream."""
     prior = prior or {k: 0.5 for k in outcomes}
     live, fixed = SelfModel(), FixedPrior(prior)
@@ -163,11 +161,7 @@ def compare_against_fixed_prior(
             live.observe(live.predict(kind), actual)
             fixed.observe(fixed.predict(kind), actual)
     a, b = live.calibration()["per_kind"], fixed.calibration()["per_kind"]
-    gains = {
-        k: round(b[k]["mean_absolute_error"] - a[k]["mean_absolute_error"], 6)
-        for k in outcomes
-        if a[k]["n"] and b[k]["n"]
-    }
+    gains = {k: round(b[k]["mean_absolute_error"] - a[k]["mean_absolute_error"], 6) for k in outcomes if a[k]["n"] and b[k]["n"]}
     return {
         "updating_model": a,
         "fixed_prior": b,
@@ -201,8 +195,7 @@ def usefulness_report(measures: dict) -> dict:
         "uses": rows,
         "earned_uses": earned,
         "any_use_earned": bool(earned),
-        "rule": "a self model is useful only when it improves decisions, calibration, recovery, "
-        "planning or adaptation, and only where that was measured",
+        "rule": "a self model is useful only when it improves decisions, calibration, recovery, planning or adaptation, and only where that was measured",
     }
 
 
@@ -214,8 +207,7 @@ def declaration(model: SelfModel | None = None) -> dict:
         "prediction_kinds": list(PREDICTION_KINDS),
         "usefulness_criteria": list(USEFULNESS),
         "not_a_narrative": (
-            "a self fact carries a source artifact or code path or it is refused. No self "
-            "report is generated from a description of the system"
+            "a self fact carries a source artifact or code path or it is refused. No self report is generated from a description of the system"
         ),
         "control": "a fixed prior of the same form, fitted once and never updated",
         "facts_recorded": sorted(model.facts),

@@ -105,9 +105,7 @@ class TemporalCore:
     def transition_signal(self) -> Reading:
         if len(self.state) < 2:
             return Reading(0.0, "temporal_core_state", 0.0)
-        return Reading(
-            round(abs(self.state[-1] - self.state[-2]), 6), "temporal_core_state", self.state_confidence()
-        )
+        return Reading(round(abs(self.state[-1] - self.state[-2]), 6), "temporal_core_state", self.state_confidence())
 
     def history_summary(self, k: int = 4) -> Reading:
         """Explicit history is a different source from core state, and is tagged as one."""
@@ -190,14 +188,10 @@ def merged_view(core: TemporalCore, *, observation, retrieved=None, predicted=No
         "explicit_history": core.history_summary(),
         "temporal_core_state": core.current_temporal_state(),
         "memory_retrieval": Reading(retrieved, "memory_retrieval", 0.0 if retrieved is None else 0.7),
-        "world_model_prediction": Reading(
-            predicted, "world_model_prediction", 0.0 if predicted is None else 0.6
-        ),
+        "world_model_prediction": Reading(predicted, "world_model_prediction", 0.0 if predicted is None else 0.6),
     }
     return {
-        "readings": {
-            k: {"value": r.value, "source": r.source, "confidence": r.confidence} for k, r in readings.items()
-        },
+        "readings": {k: {"value": r.value, "source": r.source, "confidence": r.confidence} for k, r in readings.items()},
         "sources_present": sorted(k for k, r in readings.items() if r.confidence > 0),
         "sources_declared": list(SOURCES),
         "collapsed": False,
