@@ -1,0 +1,32 @@
+{
+  "schema": "substrate-arbitration-system/v1",
+  "responsibilities": [
+    "compare outputs",
+    "preserve provenance",
+    "detect contradiction",
+    "evaluate confidence",
+    "weigh historical reliability",
+    "request verification",
+    "allocate compute",
+    "combine compatible results",
+    "preserve minority hypotheses",
+    "defer when evidence is insufficient",
+    "choose under a resource budget"
+  ],
+  "internal_structures": [
+    "dominant hypothesis",
+    "alternative hypothesis",
+    "unresolved contradiction",
+    "provisional belief",
+    "required evidence",
+    "confidence interval"
+  ],
+  "goal": "not to force consensus, but to make disagreement useful",
+  "deferral_rule": "when the margin between the leading and the next hypothesis is inside the SESOI and no verification is affordable, the arbiter defers and states what evidence would settle it",
+  "minority_rule": "an alternative is never discarded, so a correct minority stays recoverable",
+  "sesoi": 0.05,
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+  "sha256": "14596899742fd8618cf612a28aae6ca481a9023fa4af70e87fc3862d9142acf5"
+}

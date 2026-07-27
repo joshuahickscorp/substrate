@@ -411,6 +411,12 @@ def item_status(item: Item, tests: dict, results: dict, statuses: dict) -> dict:
     passed = bool(item.tests) and all(ran.get(t) is True for t in item.tests)
     result = results.get(item.id)
 
+    # correction C_AUTHORITY_TERMINALITY, 2026-07-27. An authority or a boundary is not an experiment.
+    # Demanding a scientific classification for one is a category error: it parks a finished declaration
+    # at measured forever and lets it outrank real unstarted work in the selection queue. Only items that
+    # make an empirical claim need a classification to become terminal.
+    classifiable = item.kind in ("implementation", "evidence")
+
     if not item.impl:
         level = "not_started"
     elif not present:
@@ -421,6 +427,8 @@ def item_status(item: Item, tests: dict, results: dict, statuses: dict) -> dict:
         level = "implemented"
     elif len(sealed) < len(item.evidence) or not item.evidence:
         level = "tested"
+    elif not classifiable:
+        level = "terminal"
     elif not result:
         level = "measured"
     else:
@@ -438,7 +446,7 @@ def item_status(item: Item, tests: dict, results: dict, statuses: dict) -> dict:
         "implemented": f"run and record {', '.join(t for t in item.tests if ran.get(t) is not True) or 'declared tests'}",
         "tested": f"seal {', '.join(e for e in item.evidence if e not in sealed) or 'declared evidence'}",
         "measured": "classify the result through mop.method.gate.classify_result and record it",
-        "terminal": "none",
+        "terminal": "none" if classifiable else "none, an authority is terminal once sealed and tested",
         "closed_by_dependency": f"closed by {', '.join(closed)}",
     }[level]
 
@@ -522,7 +530,9 @@ def next_batches(st: dict | None = None) -> dict:
     ready = [r for r in st["items"].values()
              if r["level"] in ("not_started", "partial", "implemented", "tested", "measured")
              and not r["unmet_dependencies"]]
-    ready.sort(key=lambda r: (r["batch"], STATUS_LADDER.index(r["level"]) * -1, r["id"]))
+    # earliest batch first, then least advanced first. A batch is terminal only when all of its items
+    # are, so breadth inside a batch is worth more than depth on one item that is already nearly done.
+    ready.sort(key=lambda r: (r["batch"], STATUS_LADDER.index(r["level"]), r["id"]))
     primary = ready[0] if ready else None
 
     def independent(a, b) -> bool:

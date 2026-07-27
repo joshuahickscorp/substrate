@@ -9,7 +9,7 @@
       "kind": "authority",
       "category": null,
       "batch": 1,
-      "level": "measured",
+      "level": "terminal",
       "dependencies": [],
       "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 2",
@@ -44,13 +44,13 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A2": {
       "id": "A2",
@@ -60,7 +60,7 @@
       "kind": "authority",
       "category": null,
       "batch": 1,
-      "level": "measured",
+      "level": "terminal",
       "dependencies": [
         "A1"
       ],
@@ -99,20 +99,20 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           },
           {
             "reference": "SUBSTRATE_STATE.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A3": {
       "id": "A3",
@@ -122,7 +122,7 @@
       "kind": "authority",
       "category": null,
       "batch": 1,
-      "level": "measured",
+      "level": "terminal",
       "dependencies": [
         "A2"
       ],
@@ -166,8 +166,8 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A4": {
       "id": "A4",
@@ -177,7 +177,7 @@
       "kind": "boundary",
       "category": null,
       "batch": 1,
-      "level": "measured",
+      "level": "terminal",
       "dependencies": [
         "A2"
       ],
@@ -219,8 +219,8 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A5": {
       "id": "A5",
@@ -230,7 +230,7 @@
       "kind": "boundary",
       "category": null,
       "batch": 1,
-      "level": "measured",
+      "level": "terminal",
       "dependencies": [
         "A2"
       ],
@@ -272,8 +272,8 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A6": {
       "id": "A6",
@@ -283,7 +283,7 @@
       "kind": "authority",
       "category": null,
       "batch": 1,
-      "level": "measured",
+      "level": "terminal",
       "dependencies": [
         "A2"
       ],
@@ -322,20 +322,20 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           },
           {
             "reference": "SUBSTRATE_NEXT_FRONTIER.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A7": {
       "id": "A7",
@@ -345,7 +345,7 @@
       "kind": "authority",
       "category": null,
       "batch": 1,
-      "level": "measured",
+      "level": "terminal",
       "dependencies": [
         "A2"
       ],
@@ -382,13 +382,13 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     "C1": {
       "id": "C1",
@@ -463,7 +463,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
     },
     "C2": {
@@ -474,7 +474,7 @@
       "kind": "implementation",
       "category": "unified_cognition",
       "batch": 2,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "A2"
       ],
@@ -484,35 +484,40 @@
         "declared": [
           "src/mop/cognition/workspace.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/workspace.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_workspace.py"
         ],
         "recorded": {
-          "tests/cognition/test_workspace.py": false
+          "tests/cognition/test_workspace.py": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_WORKSPACE.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_WORKSPACE.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_WORKSPACE.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "implement src/mop/cognition/workspace.py"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C3": {
       "id": "C3",
@@ -522,47 +527,50 @@
       "kind": "implementation",
       "category": "perspective_diversity",
       "batch": 2,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "C2"
       ],
-      "unmet_dependencies": [
-        "C2"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 6.3",
       "implementation": {
         "declared": [
           "src/mop/cognition/perspectives.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/perspectives.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_perspectives.py"
         ],
         "recorded": {
-          "tests/cognition/test_perspectives.py": false
+          "tests/cognition/test_perspectives.py": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "implement src/mop/cognition/perspectives.py"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C4": {
       "id": "C4",
@@ -572,47 +580,50 @@
       "kind": "implementation",
       "category": "perspective_diversity",
       "batch": 2,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "C3"
       ],
-      "unmet_dependencies": [
-        "C3"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 6.4",
       "implementation": {
         "declared": [
           "src/mop/cognition/perspectives.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/perspectives.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_perspectives.py::test_learned_selector_stays_closed_without_headroom"
         ],
         "recorded": {
-          "tests/cognition/test_perspectives.py::test_learned_selector_stays_closed_without_headroom": false
+          "tests/cognition/test_perspectives.py::test_learned_selector_stays_closed_without_headroom": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "implement src/mop/cognition/perspectives.py"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C5": {
       "id": "C5",
@@ -622,47 +633,50 @@
       "kind": "implementation",
       "category": "arbitration",
       "batch": 2,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "C3"
       ],
-      "unmet_dependencies": [
-        "C3"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 6.5",
       "implementation": {
         "declared": [
           "src/mop/cognition/perspectives.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/perspectives.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration"
         ],
         "recorded": {
-          "tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration": false
+          "tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_ARBITRATION_SYSTEM.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_ARBITRATION_SYSTEM.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_ARBITRATION_SYSTEM.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-      "next_action": "implement src/mop/cognition/perspectives.py"
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M1": {
       "id": "M1",
@@ -676,9 +690,7 @@
       "dependencies": [
         "C2"
       ],
-      "unmet_dependencies": [
-        "C2"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 7.1",
       "implementation": {
         "declared": [
@@ -711,7 +723,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/memory.py"
     },
     "M2": {
@@ -726,9 +738,7 @@
       "dependencies": [
         "C2"
       ],
-      "unmet_dependencies": [
-        "C2"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 7.2",
       "implementation": {
         "declared": [
@@ -761,7 +771,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/memory.py"
     },
     "M3": {
@@ -811,7 +821,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/memory.py"
     },
     "M4": {
@@ -861,7 +871,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/memory.py"
     },
     "M5": {
@@ -915,7 +925,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/memory.py"
     },
     "M6": {
@@ -965,7 +975,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/memory.py"
     },
     "W1": {
@@ -982,7 +992,6 @@
         "M2"
       ],
       "unmet_dependencies": [
-        "C2",
         "M2"
       ],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 8",
@@ -1017,7 +1026,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/world.py"
     },
     "S1": {
@@ -1034,7 +1043,6 @@
         "M2"
       ],
       "unmet_dependencies": [
-        "C2",
         "M2"
       ],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 9",
@@ -1069,7 +1077,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/selfmodel.py"
     },
     "K1": {
@@ -1086,7 +1094,6 @@
         "S1"
       ],
       "unmet_dependencies": [
-        "C5",
         "S1"
       ],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 10",
@@ -1121,7 +1128,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/metacog.py"
     },
     "P1": {
@@ -1137,9 +1144,7 @@
         "A4",
         "C2"
       ],
-      "unmet_dependencies": [
-        "C2"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 11.1",
       "implementation": {
         "declared": [
@@ -1172,7 +1177,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/plasticity.py"
     },
     "P2": {
@@ -1224,7 +1229,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/plasticity.py"
     },
     "P3": {
@@ -1276,7 +1281,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/plasticity.py"
     },
     "P4": {
@@ -1328,7 +1333,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/plasticity.py"
     },
     "P5": {
@@ -1378,7 +1383,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/plasticity.py"
     },
     "R1": {
@@ -1396,8 +1401,7 @@
         "A4"
       ],
       "unmet_dependencies": [
-        "P1",
-        "C4"
+        "P1"
       ],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 12",
       "implementation": {
@@ -1431,7 +1435,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/plasticity.py"
     },
     "B1": {
@@ -1446,9 +1450,7 @@
       "dependencies": [
         "C2"
       ],
-      "unmet_dependencies": [
-        "C2"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 13",
       "implementation": {
         "declared": [
@@ -1481,7 +1483,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/body.py"
     },
     "T1": {
@@ -1498,7 +1500,6 @@
         "K1"
       ],
       "unmet_dependencies": [
-        "C5",
         "K1"
       ],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
@@ -1533,7 +1534,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/batteries.py"
     },
     "E1": {
@@ -1585,7 +1586,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/batteries.py"
     },
     "E2": {
@@ -1601,10 +1602,7 @@
         "C2",
         "C5"
       ],
-      "unmet_dependencies": [
-        "C2",
-        "C5"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 15.2",
       "implementation": {
         "declared": [
@@ -1637,7 +1635,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/batteries.py"
     },
     "E3": {
@@ -1689,7 +1687,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/batteries.py"
     },
     "E4": {
@@ -1739,7 +1737,7 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "implement src/mop/cognition/metacog.py"
     },
     "E5": {
@@ -1790,12 +1788,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+            "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658"
           }
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E6": {
@@ -1848,18 +1846,19 @@
         ]
       },
       "result": null,
-      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
       "next_action": "seal SUBSTRATE_INDEPENDENT_VERIFICATION.json"
     }
   },
   "level_counts": {
-    "measured": 8,
+    "terminal": 7,
     "tested": 2,
-    "not_started": 25
+    "measured": 5,
+    "not_started": 21
   },
   "total_items": 35,
   "program": "mop-substrate-master-v1",
-  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
   "activation": false,
-  "sha256": "94a8a7631332daa5996b71ea99879b9a3601f09c0dd7fe93b782f69c9dc86156"
+  "sha256": "dbcbcf9fd846344447ca3a3af604df6506b2e0409704d7b048abe348611e9420"
 }

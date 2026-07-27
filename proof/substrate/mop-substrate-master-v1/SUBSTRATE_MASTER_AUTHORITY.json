@@ -581,7 +581,7 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json"
   ],
   "deliverables_present": {
-    "SUBSTRATE_ARBITRATION_SYSTEM.json": false,
+    "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": false,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": false,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
@@ -592,7 +592,7 @@
     "SUBSTRATE_METACOGNITION.json": false,
     "SUBSTRATE_MODEL_BODY_INTERFACE.json": false,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
-    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": false,
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": false,
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": false,
@@ -602,14 +602,14 @@
     "SUBSTRATE_STATE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": false,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": false,
-    "SUBSTRATE_WORKSPACE.json": false,
+    "SUBSTRATE_WORKSPACE.json": true,
     "SUBSTRATE_WORLD_MODEL.json": false,
     "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": true,
     "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": true,
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "deliverables_counting_as_evidence": {
-    "SUBSTRATE_ARBITRATION_SYSTEM.json": false,
+    "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": false,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": false,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
@@ -620,7 +620,7 @@
     "SUBSTRATE_METACOGNITION.json": false,
     "SUBSTRATE_MODEL_BODY_INTERFACE.json": false,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
-    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": false,
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": false,
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": false,
@@ -630,18 +630,19 @@
     "SUBSTRATE_STATE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": false,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": false,
-    "SUBSTRATE_WORKSPACE.json": false,
+    "SUBSTRATE_WORKSPACE.json": true,
     "SUBSTRATE_WORLD_MODEL.json": false,
     "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": true,
     "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": false,
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "measured": 8,
+    "terminal": 7,
     "tested": 2,
-    "not_started": 25
+    "measured": 5,
+    "not_started": 21
   },
   "activation": false,
-  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
-  "sha256": "21d08df14c50b69dc8c305116757fb157b66b624e33d36d56228a1da7c49e91c"
+  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+  "sha256": "b7667dff55b2c87831b2dfc84b04fc3df3f91a0a7cd390d4187f57a698e3e96f"
 }

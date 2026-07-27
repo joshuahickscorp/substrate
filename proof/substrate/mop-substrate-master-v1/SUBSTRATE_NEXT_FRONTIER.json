@@ -1,31 +1,32 @@
 {
   "schema": "substrate-next-frontier/v1",
   "dependency_ready": [
-    "A1",
-    "A2",
-    "A3",
-    "A4",
-    "A5",
-    "A6",
-    "A7",
     "C1",
-    "C2"
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "M1",
+    "M2",
+    "B1",
+    "P1",
+    "E2"
   ],
   "primary": {
-    "id": "A1",
-    "title": "Naming and historical continuity authority",
-    "next_action": "classify the result through mop.method.gate.classify_result and record it",
+    "id": "C1",
+    "title": "Temporal core identified and selected",
+    "next_action": "seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
     "batch": 1
   },
   "secondary": {
-    "id": "A3",
-    "title": "Experimental requirements bind every new Substrate experiment",
+    "id": "C2",
+    "title": "Typed cognitive workspace",
     "next_action": "classify the result through mop.method.gate.classify_result and record it",
-    "batch": 1
+    "batch": 2
   },
   "independence_rule": "the secondary shares no dependency with the primary and is not its ancestor or descendant, so a failed branch closes only its own descendants",
   "program": "mop-substrate-master-v1",
-  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
   "activation": false,
-  "sha256": "2e844a468cbfdf4b25b6aa4fd07ba47a4c822bca93178e956932cd790a81ccd5"
+  "sha256": "2095cd1314d3676b9723bfd40fee915b29b0dbc28e6c3dd89ce55a2ce900b118"
 }

@@ -1,25 +1,25 @@
 # Substrate ledger
 
-Generated from the tree at commit `0f1fdaac3f09d4cb9139b1b591e06769af000baa`. Status is derived, never asserted: an item is
+Generated from the tree at commit `4a6c95086ccf4844ea7e8211a1578f10fc5fc658`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 35. Levels: measured 8, not_started 25, tested 2.
+Items: 35. Levels: measured 5, not_started 21, terminal 7, tested 2.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
-| A1 | 2 | Naming and historical continuity authority | measured | none | classify the result through mop.method.gate.classify_result and record it |
-| A2 | 21 | Master deliverable set exists and binds to real things | measured | A1 | classify the result through mop.method.gate.classify_result and record it |
-| A3 | 18 | Experimental requirements bind every new Substrate experiment | measured | A2 | classify the result through mop.method.gate.classify_result and record it |
-| A4 | 19 | Developmental safety envelope | measured | A2 | classify the result through mop.method.gate.classify_result and record it |
-| A5 | 16 | Sentience research boundary | measured | A2 | classify the result through mop.method.gate.classify_result and record it |
-| A6 | 17 | Continuous six batch research program | measured | A2 | classify the result through mop.method.gate.classify_result and record it |
-| A7 | 20 | Scorecard separates implementation from evidence | measured | A2 | classify the result through mop.method.gate.classify_result and record it |
+| A1 | 2 | Naming and historical continuity authority | terminal | none | none, an authority is terminal once sealed and tested |
+| A2 | 21 | Master deliverable set exists and binds to real things | terminal | A1 | none, an authority is terminal once sealed and tested |
+| A3 | 18 | Experimental requirements bind every new Substrate experiment | terminal | A2 | none, an authority is terminal once sealed and tested |
+| A4 | 19 | Developmental safety envelope | terminal | A2 | none, an authority is terminal once sealed and tested |
+| A5 | 16 | Sentience research boundary | terminal | A2 | none, an authority is terminal once sealed and tested |
+| A6 | 17 | Continuous six batch research program | terminal | A2 | none, an authority is terminal once sealed and tested |
+| A7 | 20 | Scorecard separates implementation from evidence | terminal | A2 | none, an authority is terminal once sealed and tested |
 | C1 | 6.1 | Temporal core identified and selected | tested | none | seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json |
-| C2 | 6.2 | Typed cognitive workspace | not_started | A2 | implement src/mop/cognition/workspace.py |
-| C3 | 6.3 | Mixture of Perspectives, perspectives as processes | not_started | C2 | implement src/mop/cognition/perspectives.py |
-| C4 | 6.4 | Perspective selection ladder | not_started | C3 | implement src/mop/cognition/perspectives.py |
-| C5 | 6.5 | Perspective arbitration | not_started | C3 | implement src/mop/cognition/perspectives.py |
+| C2 | 6.2 | Typed cognitive workspace | measured | A2 | classify the result through mop.method.gate.classify_result and record it |
+| C3 | 6.3 | Mixture of Perspectives, perspectives as processes | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
+| C4 | 6.4 | Perspective selection ladder | measured | C3 | classify the result through mop.method.gate.classify_result and record it |
+| C5 | 6.5 | Perspective arbitration | measured | C3 | classify the result through mop.method.gate.classify_result and record it |
 | M1 | 7.1 | Working memory | not_started | C2 | implement src/mop/cognition/memory.py |
 | M2 | 7.2 | Episodic memory | not_started | C2 | implement src/mop/cognition/memory.py |
 | M3 | 7.3 | Semantic memory | not_started | M2 | implement src/mop/cognition/memory.py |
@@ -46,7 +46,7 @@ Items: 35. Levels: measured 8, not_started 25, tested 2.
 
 ## Selected next batch
 
-Primary: A1 Naming and historical continuity authority. classify the result through mop.method.gate.classify_result and record it
-Secondary: A3 Experimental requirements bind every new Substrate experiment. classify the result through mop.method.gate.classify_result and record it
+Primary: C1 Temporal core identified and selected. seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
+Secondary: C2 Typed cognitive workspace. classify the result through mop.method.gate.classify_result and record it
 
 Activation remains false.

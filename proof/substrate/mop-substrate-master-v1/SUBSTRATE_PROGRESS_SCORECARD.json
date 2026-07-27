@@ -139,7 +139,7 @@
       "items_with_earned_evidence": []
     },
     "perspective_diversity": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "C3",
@@ -148,7 +148,7 @@
       "items_with_earned_evidence": []
     },
     "arbitration": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "C5"
@@ -217,7 +217,7 @@
       "items_with_earned_evidence": []
     },
     "unified_cognition": {
-      "implementation_pct": 0,
+      "implementation_pct": 33,
       "evidence_pct": 0,
       "items": [
         "C2",
@@ -233,7 +233,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "mop-substrate-master-v1",
-  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
   "activation": false,
-  "sha256": "81ec848b0f0d2bafdc1a197d09886f054281b991f2202eb39cf19be38400e72f"
+  "sha256": "83423e83ba0d48731bd263cdce73d45536f5dafa4622ca901961a74ca9660f5f"
 }
