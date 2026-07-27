@@ -193,14 +193,30 @@
       "rejected": true,
       "survivor": false,
       "detail": ""
+    },
+    {
+      "mutation": "an_underpowered_design_reaches_the_test_split",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_sx1b_is_refused_on_power_and_never_touches_the_test_split",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_ceiling_below_sesoi_is_blamed_on_the_unit_count",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_the_sx1b_diagnosis_names_the_number_that_actually_decides",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
     }
   ],
-  "total": 24,
-  "rejected": 24,
+  "total": 26,
+  "rejected": 26,
   "survivors": [],
   "all_rejected": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "36c3ae45c45619d8e53e500b69d086bfee8556a7",
+  "source_commit": "64f5e98f4c1068333d9101b4395f1cae8a810e65",
   "activation": false,
-  "sha256": "f6e43e6ee008883827a6fd2f725ded6941cc533f8067dfe4e1ba569f4f239b9c"
+  "sha256": "6e64061c32f66ba500ef7747474fa85014adb43cc2ace96ce8b4e36cb1340c06"
 }

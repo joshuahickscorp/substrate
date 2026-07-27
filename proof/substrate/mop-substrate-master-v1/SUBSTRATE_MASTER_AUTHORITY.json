@@ -149,7 +149,7 @@
       "reference": "temporal:MOP_DATA_CUSTODY_AUTHORITY.json",
       "resolved": true,
       "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
-      "sha256": "400076264dde6d63b879c8167b959986a3f64876e14a4bdf7898f2811f2861be",
+      "sha256": "f0568d977bcbe0c35fd0c9ce2022a4d8e30215c210d9b9bdd9ce74ce01d9200f",
       "role": "corpus custody and the deletion guard"
     }
   ],
@@ -732,6 +732,6 @@
     "measured": 28
   },
   "activation": false,
-  "source_commit": "36c3ae45c45619d8e53e500b69d086bfee8556a7",
-  "sha256": "83ab78065e9eec3332b7f3aaa4f6c10094990600099379ca422d11e0ae9cd8a1"
+  "source_commit": "64f5e98f4c1068333d9101b4395f1cae8a810e65",
+  "sha256": "1990bf98d06a7c8389126fac2e3d34cdef216269103f4f0a0083f049e000ff50"
 }

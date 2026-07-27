@@ -52,9 +52,39 @@ def test_the_refused_hypothesis_stays_open():
     graph = D.hypothesis_graph(P.state())
     typed = next(h for h in graph["hypotheses"] if h["id"] == "H_typed_workspace")
     assert typed["state"] == "instrument_pending"
-    assert typed["refused_attempts"] == ["SX1"]
+    # two attempts refused for two different reasons, and the hypothesis is still untested by either
+    assert typed["refused_attempts"] == ["SX1", "SX1b"]
     assert typed["still_open"] is True
     assert typed["blocking_null"] is None, "a refusal closes nothing downstream"
+
+
+def test_sx1b_is_refused_on_power_and_never_touches_the_test_split():
+    """The successor is a real experiment on a real bed, and it is still refused before principal."""
+    out = X.sx1b_run()
+    assert out["licensed"] is False
+    assert out["admission"]["blocked_at"] == "power_and_units"
+    assert out["causal_graph_violations"] == [], "the graph is sound; the block is the design's power"
+    assert "principal" not in out, "a refused experiment never reaches the held out units"
+    assert out["preprincipal_evidence"]["test_split_touched"] is False
+    # the pre principal evidence is measured, not declared
+    ev = out["preprincipal_evidence"]
+    assert ev["units_disjoint"] is True and ev["arms_distinct"] is True
+    assert ev["fitted_writer"] in ("static", "dynamic")
+    assert 0.0 < ev["measured_reliability_on_train"][ev["fitted_writer"]] < 1.0
+
+
+def test_the_sx1b_diagnosis_names_the_number_that_actually_decides():
+    """The power block invites finding more units. On this bed that would not help, and it says so."""
+    out = X.sx1b_run()
+    d = out["diagnosis"]
+    assert d["blocking_contract"] == "power"
+    assert d["reported_mde"] > d["sesoi"]
+    # the ceiling is what decides, and it does not depend on the unit count
+    assert d["oracle_residual"] <= d["sesoi"]
+    assert d["decisive_number"] == "oracle_residual"
+    assert d["more_units_would_help"] is False
+    assert d["classification"] == "bed_cannot_answer_the_question_at_this_effect_size"
+    assert "untested on this bed, not refuted" in d["not_a_null"]
 
 
 def test_the_successor_design_is_not_a_closed_form():

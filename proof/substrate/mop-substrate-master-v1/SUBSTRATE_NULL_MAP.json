@@ -16,10 +16,24 @@
       "why": "on a synthetic bed the comparison has a closed form. Typing refuses writes from an undeclared component, so which arm wins follows from the two reliabilities the generator was given. The treatment to outcome edge is a structural guarantee, no measured relation reaches the outcome, and the claim is therefore broader than the measured path",
       "successor": "SX1b",
       "classification": "methodological_refusal"
+    },
+    {
+      "experiment_id": "SX1b",
+      "title": "does a write restriction fitted on training units still help on source groups it has never seen",
+      "hypotheses": [
+        "H_typed_workspace",
+        "H_reliability_instability",
+        "H_capacity_only"
+      ],
+      "blocked_at": "power_and_units",
+      "causal_graph_violations": [],
+      "why": "power:power: minimum detectable effect 0.133442 exceeds SESOI 0.05, the design cannot see the effect it declares interesting",
+      "successor": null,
+      "classification": "methodological_refusal"
     }
   ],
   "refusal_rule": "a methodological failure is not a scientific null. A refused experiment leaves its hypothesis untested, not refuted, and closes nothing downstream",
-  "refused_count": 1,
+  "refused_count": 2,
   "schema": "substrate-null-map/v1",
   "binding_rule": "a null is immutable. It may be superseded only by an appended authority that states the new evidence, never by rewriting or relabelling the original",
   "closure_rule": "a failed branch closes only its own descendants, never an independent branch",
@@ -101,7 +115,7 @@
       "reference": "temporal:MOP_DATA_CUSTODY_AUTHORITY.json",
       "resolved": true,
       "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
-      "sha256": "400076264dde6d63b879c8167b959986a3f64876e14a4bdf7898f2811f2861be",
+      "sha256": "f0568d977bcbe0c35fd0c9ce2022a4d8e30215c210d9b9bdd9ce74ce01d9200f",
       "role": "corpus custody and the deletion guard"
     }
   ],
@@ -113,7 +127,7 @@
     "H_learned_plasticity_policy"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "36c3ae45c45619d8e53e500b69d086bfee8556a7",
+  "source_commit": "64f5e98f4c1068333d9101b4395f1cae8a810e65",
   "activation": false,
-  "sha256": "72b03ddb48d586c2051716cb666979ac97350e54a3674ea0639e780c7a6aa8f5"
+  "sha256": "d5b1b479f37c0bcacb0446a6f69d3dd02684d82d940f5b5ae2ad5cfd9392c0b9"
 }

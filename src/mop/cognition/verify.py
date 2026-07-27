@@ -217,6 +217,17 @@ MUTATIONS = (
     ("a_refusal_is_filed_as_a_null", "mop.cognition.deliverables",
      "methodological_refusals = lambda: []",
      "tests/cognition/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"),
+    ("an_underpowered_design_reaches_the_test_split", "mop.cognition.experiments",
+     "_e = sx1b_evidence\n"
+     "sx1b_evidence = lambda: {**_e(), 'power': {'mde': 0.001, 'n_test_units': 7}}",
+     "tests/cognition/test_experiments.py::"
+     "test_sx1b_is_refused_on_power_and_never_touches_the_test_split"),
+    ("the_ceiling_below_sesoi_is_blamed_on_the_unit_count", "mop.cognition.experiments",
+     "_d = _sx1b_diagnosis\n"
+     "_sx1b_diagnosis = lambda ev: {**_d(ev), 'more_units_would_help': True, "
+     "'decisive_number': 'mde'}",
+     "tests/cognition/test_experiments.py::"
+     "test_the_sx1b_diagnosis_names_the_number_that_actually_decides"),
 )
 
 RUNNER = """
