@@ -1,11 +1,11 @@
 {
   "schema": "mop-temporal-core-clean-clone/v2",
   "cloned": true,
-  "phase": "science_snapshot",
+  "phase": "terminal_evidence",
   "commit": "e2ac2d0fb9ee41f0dea6754a070eeea61d4f87c7",
   "science_snapshot_commit": "e2ac2d0fb9ee41f0dea6754a070eeea61d4f87c7",
-  "terminal_evidence_commit": null,
-  "validated_commit": "e2ac2d0fb9ee41f0dea6754a070eeea61d4f87c7",
+  "terminal_evidence_commit": "57dc76629bc9af422f63a296179b6a4400f0746e",
+  "validated_commit": "57dc76629bc9af422f63a296179b6a4400f0746e",
   "checks": {
     "exact_commit_checkout": true,
     "package_import": true,
@@ -17,6 +17,8 @@
     "supervisor_status": true,
     "cli_inspection": true,
     "clean_worktree": true,
+    "terminal_evidence_fabric_lookup": true,
+    "terminal_evidence_descends_from_science_snapshot": true,
     "all_pass": true
   },
   "provenance_rule": "the science snapshot is immutable; terminal evidence and metadata must be committed descendants, and terminal status requires a clean-clone content-store lookup of the committed evidence fabric",
@@ -35,9 +37,9 @@
   "offline_installation_claimed": false,
   "all_pass": true,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "e2ac2d0fb9ee41f0dea6754a070eeea61d4f87c7",
-  "source_tree_oid": "7e6bda08e78e1779a194fe67bbc5430cf9c9db4c",
+  "source_commit": "57dc76629bc9af422f63a296179b6a4400f0746e",
+  "source_tree_oid": "8df0d3e262f65ac649466ff83c1e173c8f621166",
   "SESOI": 0.05,
   "sha256_version": "canonical_json_v2",
-  "sha256": "8ed4b1cdf095032343776083cb087025ca91578c920d4ec13f57388b6cf70ef7"
+  "sha256": "a7e6bffe8c59f380788175acfa989e3888adbe454ece1583b6d65fd1dc1de5a3"
 }
