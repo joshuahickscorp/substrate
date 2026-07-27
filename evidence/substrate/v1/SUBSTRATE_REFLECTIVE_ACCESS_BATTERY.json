@@ -70,7 +70,7 @@
   "every_answer_bound_to_a_receipt": true,
   "rule": "a report with no provenance fails closed rather than answering",
   "program": "substrate-v1",
-  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
   "activation": false,
-  "sha256": "7ba2bd13f7a02b47d7510ea37710ac297a428be6ae270bbc57d477e84d2a43a6"
+  "sha256": "bfaa2aefe253f9b9a1d797a0c59d5af8d3f48033c11f8c8687762a1fbdd7d229"
 }

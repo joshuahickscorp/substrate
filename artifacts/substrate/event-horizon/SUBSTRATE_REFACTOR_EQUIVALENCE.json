@@ -36,6 +36,7 @@
     "status": "passed",
     "all_pass": true,
     "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+    "latest_clean_clone_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
     "clone": {
       "independent_git_directory": true,
       "exact_commit_checkout": true,
@@ -62,6 +63,6 @@
     "activation": false
   },
   "activation": false,
-  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
-  "sha256": "a7c5c27a9f02920c5bf1abb4c3b8845fcdfa925e90862dda9ced4d2cfe309036"
+  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "sha256": "353ef06b013737e320a2ad170d754014f833eb1ad0285fb8ca24a9a2280eaef3"
 }

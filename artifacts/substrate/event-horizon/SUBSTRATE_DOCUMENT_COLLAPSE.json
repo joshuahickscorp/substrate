@@ -257,7 +257,7 @@
   "hard_word_ceiling": 30000,
   "preferred_word_ceiling": 20000,
   "passes": true,
-  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
   "activation": false,
-  "sha256": "89cc766024491dbf888b5b7ac0d3aef84f0d5833ae2870af4a98b2402223f2db"
+  "sha256": "021399d8d1195190e429301438cf4704db86feb7dc8f4e1b3fd00b224e2cca4a"
 }
