@@ -1,0 +1,13 @@
+{
+  "schema": "mop-temporal-core-next-frontier/v1",
+  "next": "no licensed successor remains",
+  "hypotheses_open": [],
+  "hypotheses_closed": [],
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "06af6953dbb776a4528886f081a8a8f0b57c2d0c",
+  "source_tree_oid": "c4b6896a70b7b33a0868fb057fad8ac399cb9caa",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "73d339f4953eb4868d6e253daa69233ec11a9fc93d8acd3fea337293eb3c1096"
+}
