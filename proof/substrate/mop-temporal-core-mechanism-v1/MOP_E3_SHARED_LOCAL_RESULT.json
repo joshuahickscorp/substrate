@@ -40,9 +40,9 @@
   "historical_execution": null,
   "rule": "a conditional experiment that does not open still produces this artifact",
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "01771460cf731e019047415494e26eab2e3b88c1",
-  "source_tree_oid": "138aa6816a8982dbdac4c3085183a1790ff3b1e8",
+  "source_commit": "2107115ec27dbe3733902a1f5b724bd9cf418497",
+  "source_tree_oid": "0d06c743e68d28de6fa8048a02d9f3d44c5c58a8",
   "SESOI": 0.05,
   "sha256_version": "canonical_json_v2",
-  "sha256": "d9c5177482722e075760518171dbd1966ac3359d43759cf4fef2437eb073295b"
+  "sha256": "5d3670f7136a1c0e3d36e538d7b0f7052401c5acd3c08a32f30cb10206a6e3d3"
 }
