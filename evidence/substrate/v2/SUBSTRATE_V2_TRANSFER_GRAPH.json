@@ -1,0 +1,37 @@
+{
+  "schema": "substrate-v2-transfer-graph/v1",
+  "positive": [
+    {
+      "id": "A_to_B_boundary_route",
+      "source": "A",
+      "target": "B",
+      "latent_procedure": "boundary_route",
+      "surface_difference": "sequence tokens versus permuted glyphs"
+    },
+    {
+      "id": "C_to_D_risk_route",
+      "source": "C",
+      "target": "D",
+      "latent_procedure": "risk_route",
+      "surface_difference": "evidence sources versus pure local tools"
+    }
+  ],
+  "negative": [
+    {
+      "id": "A_to_D_surface_trap",
+      "source": "A",
+      "target": "D",
+      "source_procedure": "boundary_route",
+      "target_procedure": "risk_route",
+      "surface_similarity": "both expose opaque ordered candidates",
+      "required_behavior": "reject the source procedure by task signature"
+    }
+  ],
+  "positive_pair_count": 2,
+  "negative_pair_count": 1,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
+  "sha256": "d12dc08bcc60044223778c834941f6f05891d5f0cf91960a6332399a19f5f940"
+}

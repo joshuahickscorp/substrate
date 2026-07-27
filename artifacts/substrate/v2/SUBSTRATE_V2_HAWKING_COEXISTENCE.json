@@ -1,0 +1,40 @@
+{
+  "schema": "substrate-v2-hawking-coexistence/v1",
+  "policy": "observe only; never signal, pause, modify, adopt or restart Hawking",
+  "snapshot": {
+    "controller_lease": {
+      "pid": 32370,
+      "acquired_at": "2026-07-23T17:00:55Z",
+      "lane": "glm52_functional_teacher_capture"
+    },
+    "controller_lease_path": "/Users/scammermike/Library/Application Support/Hawking/GLM52Gravity/control/functional/controller.lease.json",
+    "active_pack_processes": [],
+    "active_process_count": 0,
+    "declared_worker_count": 0,
+    "packed_object_count": 189,
+    "mps_in_use_by_observed_pack_process": false,
+    "observation_only": true,
+    "signals_sent": 0,
+    "processes_modified": 0
+  },
+  "resources": {
+    "disk_available_gib": 156.3072509765625,
+    "memory_free_percent": 83,
+    "swap_total_mib": 2048.0,
+    "swap_used_mib": 1317.5,
+    "swap_free_mib": 730.5,
+    "aggregate_cpu_percent": 594.9,
+    "machine": {
+      "chip": "arm",
+      "logical_cores": 28,
+      "memory_gib": 96
+    }
+  },
+  "cheap_canaries_permitted": true,
+  "principal_requires_rehearsed_interference_check": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "f0a4e4e16287e4f7cc5a2dc8598392661b111028d5f85d0547af66257274f5b4",
+  "sha256": "b60a317dfa2f9920d4841f4e3b01f02f6140246fd5a445f25c6e2c6b58af79ad"
+}

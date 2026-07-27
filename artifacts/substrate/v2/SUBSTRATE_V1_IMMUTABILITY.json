@@ -1,0 +1,3372 @@
+{
+  "schema": "substrate-v1-immutability/v1",
+  "terminal_tag": "substrate-v1-terminal",
+  "terminal_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "object_count": 465,
+  "objects": {
+    "evidence/substrate/v1/SUBSTRATE_AGENCY_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1b9a14824d722334886afc3fbdefe4e72f6d8dab",
+      "current_blob": "1b9a14824d722334886afc3fbdefe4e72f6d8dab",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_ARBITRATION_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6dca84da856bcb7c17ad2044ec09828049a97a93",
+      "current_blob": "6dca84da856bcb7c17ad2044ec09828049a97a93",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_ARCHITECTURE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "26c0b3cc57c3309736bbfa0a28d7342202af3edc",
+      "current_blob": "26c0b3cc57c3309736bbfa0a28d7342202af3edc",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_BELIEF_REVISION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4c6e0c6a31a908a9f369f70c2853401c482583cc",
+      "current_blob": "4c6e0c6a31a908a9f369f70c2853401c482583cc",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_BODY_COMPACT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bc02e459f1e0595e12d007685e3a305a168929af",
+      "current_blob": "bc02e459f1e0595e12d007685e3a305a168929af",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_BODY_GENERAL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0ddb5cdba65550abb3f3f72cd3f35fcf8916e286",
+      "current_blob": "0ddb5cdba65550abb3f3f72cd3f35fcf8916e286",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_BODY_TOOL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5ae93810c5a2f3e11293ac3bf2238c505c1401ce",
+      "current_blob": "5ae93810c5a2f3e11293ac3bf2238c505c1401ce",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_CAPABILITY_MAP.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6e3cc1e8d2d7a67c75824b6510bc6c290617292a",
+      "current_blob": "6e3cc1e8d2d7a67c75824b6510bc6c290617292a",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_CLEAN_CLONE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7179200972bf4e87bfaa14954770829e92ef78f9",
+      "current_blob": "7179200972bf4e87bfaa14954770829e92ef78f9",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "84164df6df3c5a2b0eb1e8783274f0c11abc3361",
+      "current_blob": "84164df6df3c5a2b0eb1e8783274f0c11abc3361",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_CONTINUITY_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6e0e3375c304ad714877e76602cdfca1a3260563",
+      "current_blob": "6e0e3375c304ad714877e76602cdfca1a3260563",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_CURRENT_ENTITY_REPORT.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e362832856feb0942f86d6e7019b09bbd5ad9b61",
+      "current_blob": "e362832856feb0942f86d6e7019b09bbd5ad9b61",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_CURRENT_ENTITY_SPEC.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1e2e31ea75d78a4680a337d96888d41f2e5c6ee4",
+      "current_blob": "1e2e31ea75d78a4680a337d96888d41f2e5c6ee4",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_DATA_CUSTODY_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dc204c016d6a8d1e563c00acae1e388cc5b6e0c6",
+      "current_blob": "dc204c016d6a8d1e563c00acae1e388cc5b6e0c6",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_DEVELOPMENTAL_HISTORY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "44e5c36f8eb5094a4a9ce5073050876e07828d7f",
+      "current_blob": "44e5c36f8eb5094a4a9ce5073050876e07828d7f",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_DEVELOPMENTAL_SAFETY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "716065862e098fcc6eea9f8e0f7c3233c3409c23",
+      "current_blob": "716065862e098fcc6eea9f8e0f7c3233c3409c23",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_EPISTEMOLOGY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8c53399bdc6b8b3613be594f8a9c453e298c2faa",
+      "current_blob": "8c53399bdc6b8b3613be594f8a9c453e298c2faa",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7e2ac4345b0301fb7aef9c6bdeddb5bf343d5626",
+      "current_blob": "7e2ac4345b0301fb7aef9c6bdeddb5bf343d5626",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_FINAL_ANCESTRY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3c056a2e0ad8275c218859265103345d924458db",
+      "current_blob": "3c056a2e0ad8275c218859265103345d924458db",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_FINAL_LEDGER.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "12d84f88321d9c208884469faf0598d68964ec0f",
+      "current_blob": "12d84f88321d9c208884469faf0598d68964ec0f",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_FINAL_MASTER_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3e43605dddd3db012b71f254480c121406d17737",
+      "current_blob": "3e43605dddd3db012b71f254480c121406d17737",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_FINAL_PROGRAM_GRAPH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "655998b01f0d280d3475e1838bffd3f9a197d7c4",
+      "current_blob": "655998b01f0d280d3475e1838bffd3f9a197d7c4",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_FINAL_SCORECARD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6e58e2599336e6e56d94d766c9a0f44192926b8b",
+      "current_blob": "6e58e2599336e6e56d94d766c9a0f44192926b8b",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_FINAL_STATE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "da8320be00e2591310be8b2556347fdb63693282",
+      "current_blob": "da8320be00e2591310be8b2556347fdb63693282",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_FINAL_VALUE_QUEUE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f399522e70d935bb81834cae62704e77f177c18b",
+      "current_blob": "f399522e70d935bb81834cae62704e77f177c18b",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_GOAL_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a93052663807e5294627c5abcf628910d77d01ba",
+      "current_blob": "a93052663807e5294627c5abcf628910d77d01ba",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_GROUNDING.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f589dd9c8a70a1160131ac792d28bdad2619d5ec",
+      "current_blob": "f589dd9c8a70a1160131ac792d28bdad2619d5ec",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "99ecea80168d69ef2c5827d3691b68bce65a048b",
+      "current_blob": "99ecea80168d69ef2c5827d3691b68bce65a048b",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_HYPOTHESIS_GRAPH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9488e60c3fe157350e3cca4b182ca7e082ffece7",
+      "current_blob": "9488e60c3fe157350e3cca4b182ca7e082ffece7",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_INDEPENDENT_VERIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0c7d3b73954b1e71f7384db5edaa3cf6f945fab5",
+      "current_blob": "0c7d3b73954b1e71f7384db5edaa3cf6f945fab5",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_LEDGER.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6a58f45cc77d9f278ec34676bf656ab3eec9c6b8",
+      "current_blob": "6a58f45cc77d9f278ec34676bf656ab3eec9c6b8",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_LONG_RUN_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a565b1cc0a503969dc2deba1c1757822f4756bc2",
+      "current_blob": "a565b1cc0a503969dc2deba1c1757822f4756bc2",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_LONG_RUN_CERTIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d213de963c2c216418ba6b7863106f479ce685d8",
+      "current_blob": "d213de963c2c216418ba6b7863106f479ce685d8",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cce1645c5a87ed84a5e8a6279f29ec582aea5dd5",
+      "current_blob": "cce1645c5a87ed84a5e8a6279f29ec582aea5dd5",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_LONG_RUN_DAG.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b40b91bd45a5f7a43b4134ae75f474a468916ccb",
+      "current_blob": "b40b91bd45a5f7a43b4134ae75f474a468916ccb",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_LONG_RUN_REHEARSAL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "be28d552c30b1ac10475127cecdb47cd8c7e6402",
+      "current_blob": "be28d552c30b1ac10475127cecdb47cd8c7e6402",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d410017bd8992bcf3a847bbac620abb30d83759c",
+      "current_blob": "d410017bd8992bcf3a847bbac620abb30d83759c",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_MASTER_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2c1823294b370b62690bf87cf2b2fe28a124844b",
+      "current_blob": "2c1823294b370b62690bf87cf2b2fe28a124844b",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_MEMORY_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "db9e930738bc26aa598b04958457da159338c96e",
+      "current_blob": "db9e930738bc26aa598b04958457da159338c96e",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_METACOGNITION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3cee94e7aa83dd2930422f05904335f99bf0a648",
+      "current_blob": "3cee94e7aa83dd2930422f05904335f99bf0a648",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_MODEL_BODY_INTERFACE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e752d131ca92b5d91da3784c2557b5f33807bd1b",
+      "current_blob": "e752d131ca92b5d91da3784c2557b5f33807bd1b",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_MUTATION_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "03a9b96368bbf2afff27f5778178c05c0df5fcaa",
+      "current_blob": "03a9b96368bbf2afff27f5778178c05c0df5fcaa",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_NEXT_FRONTIER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0de62edfda923c2f8a29c39ceee0e50ad01acd68",
+      "current_blob": "0de62edfda923c2f8a29c39ceee0e50ad01acd68",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_NOUS_CLOSURE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2b2b5bc624e57659c8857fe5259a5dbb2aa12871",
+      "current_blob": "2b2b5bc624e57659c8857fe5259a5dbb2aa12871",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_NULL_MAP.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "43132872436c2e4ac77bb96a1334389b56bbf265",
+      "current_blob": "43132872436c2e4ac77bb96a1334389b56bbf265",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_ONTOLOGY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0f9cba6ab94ac0ea4678372a98f02c7fe2258f0e",
+      "current_blob": "0f9cba6ab94ac0ea4678372a98f02c7fe2258f0e",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_PERSPECTIVE_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "482940c17b3596bb5b8f2f945ef139b92cd52c0f",
+      "current_blob": "482940c17b3596bb5b8f2f945ef139b92cd52c0f",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_PLASTICITY_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e3fa614d7a7f6d89c417464fc4d6bcfd288f5e27",
+      "current_blob": "e3fa614d7a7f6d89c417464fc4d6bcfd288f5e27",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_PROGRESS_SCORECARD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ba229fbc471dc9b5a0228b04f068721e763dfb00",
+      "current_blob": "ba229fbc471dc9b5a0228b04f068721e763dfb00",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_REAL_SESSION_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6f7fd6f5dbb2eb0738538df96eb69793d0d2a1e7",
+      "current_blob": "6f7fd6f5dbb2eb0738538df96eb69793d0d2a1e7",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1d19effb6de276135d9456d5694a0cd4c256a20b",
+      "current_blob": "1d19effb6de276135d9456d5694a0cd4c256a20b",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_REORGANIZATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "679139ed39681ab9d83af41085f66d62c2315d55",
+      "current_blob": "679139ed39681ab9d83af41085f66d62c2315d55",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_RUNTIME.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7f8ed68b811c55e6bcf960f2d2baa5e168897377",
+      "current_blob": "7f8ed68b811c55e6bcf960f2d2baa5e168897377",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_SELF_MODEL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "869c8d7044c6713fca6082726ded557640a24073",
+      "current_blob": "869c8d7044c6713fca6082726ded557640a24073",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5705c34fc4109640e1cd0e99275259f5c1072a33",
+      "current_blob": "5705c34fc4109640e1cd0e99275259f5c1072a33",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_STATE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0a268e9e242fcc1b0b889a8ee056ee37745d9388",
+      "current_blob": "0a268e9e242fcc1b0b889a8ee056ee37745d9388",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_STRUCTURAL_AUDIT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "21d9a8e0a283e8e0e777d307e44f3cdd880af57b",
+      "current_blob": "21d9a8e0a283e8e0e777d307e44f3cdd880af57b",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_SX2_DIVERSITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2a37f884467f173093afd0be8757a734f3b0639f",
+      "current_blob": "2a37f884467f173093afd0be8757a734f3b0639f",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_TEMPORAL_CORE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ebebf3dd20ccc570ee2d897b62dfb1a0d31690d7",
+      "current_blob": "ebebf3dd20ccc570ee2d897b62dfb1a0d31690d7",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_THINKING_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ab2a9755b8766ec78eb34ab2d66336d818c44c36",
+      "current_blob": "ab2a9755b8766ec78eb34ab2d66336d818c44c36",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_UNITY_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c7e979ad47eac926b9623bd1153900e2344b3f28",
+      "current_blob": "c7e979ad47eac926b9623bd1153900e2344b3f28",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_VALUATION_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "10ebaeee17bc23d64c6750dfb0499732de4300bf",
+      "current_blob": "10ebaeee17bc23d64c6750dfb0499732de4300bf",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_WORKSPACE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "822c88d3d9e15f0fda3e9657640bb0ddc2de2e9e",
+      "current_blob": "822c88d3d9e15f0fda3e9657640bb0ddc2de2e9e",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_WORLD_MODEL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7b56beaebbab62980cb5e9c663a693367f941990",
+      "current_blob": "7b56beaebbab62980cb5e9c663a693367f941990",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_WORLD_MODEL_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5f815accf0312d8e3b40d248570cef98f8f80a9c",
+      "current_blob": "5f815accf0312d8e3b40d248570cef98f8f80a9c",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/SUBSTRATE_WORLD_MODEL_BED.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1e598428d20d781e81f8fa11026183de7796bf72",
+      "current_blob": "1e598428d20d781e81f8fa11026183de7796bf72",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/custody/harth_stream.npz": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "eb8cc917cb9a708f6d98c10d046822ff76c78513",
+      "current_blob": "eb8cc917cb9a708f6d98c10d046822ff76c78513",
+      "byte_identical": true
+    },
+    "evidence/substrate/v1/custody/pamap2_stream.npz": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d8ef80d9d659b5fc7e47a24e3bc89260788a5c5f",
+      "current_blob": "d8ef80d9d659b5fc7e47a24e3bc89260788a5c5f",
+      "byte_identical": true
+    },
+    "proof/ARTIFACT_INDEX/pre_studio.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e15effdfca1315db5db2c3fb8ebce85de83544f1",
+      "current_blob": "e15effdfca1315db5db2c3fb8ebce85de83544f1",
+      "byte_identical": true
+    },
+    "proof/CACHE_QUARANTINE_AUDIT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c20203bfb51ebfd2bce5ce25cbfc03a69cf04bef",
+      "current_blob": "c20203bfb51ebfd2bce5ce25cbfc03a69cf04bef",
+      "byte_identical": true
+    },
+    "proof/CM7_POWER_RECALCULATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "37dde7b17ee72cf3f094bfdd0d3456ad6abac18c",
+      "current_blob": "37dde7b17ee72cf3f094bfdd0d3456ad6abac18c",
+      "byte_identical": true
+    },
+    "proof/CONTINUAL_MILLION_EVENT_PREFLIGHT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3198f8acc15c26c0912b6555b29b9c0f79923b0e",
+      "current_blob": "3198f8acc15c26c0912b6555b29b9c0f79923b0e",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_ABORTED_MPS_RECOVERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "651dbd3b93e19bda8c72d0b8189a7709a389346f",
+      "current_blob": "651dbd3b93e19bda8c72d0b8189a7709a389346f",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_ABORTED_SOURCE_DRIFT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0d64f173093b5ecc2770540fee79a041650acdfb",
+      "current_blob": "0d64f173093b5ecc2770540fee79a041650acdfb",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_CALIBRATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "aef7c9d4c69920079bfdc998d48c2d64aab7196e",
+      "current_blob": "aef7c9d4c69920079bfdc998d48c2d64aab7196e",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_CM8_PREFLIGHT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a6e6b2e547b8bbfe30263867b224dba1aaa1a8bf",
+      "current_blob": "a6e6b2e547b8bbfe30263867b224dba1aaa1a8bf",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_FORENSIC_CPU.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6d92eb670d9154d2a34c30c6c27521dcbe14c74a",
+      "current_blob": "6d92eb670d9154d2a34c30c6c27521dcbe14c74a",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_FORENSIC_MPS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1498304d5eb6dfdf3af97046dc331e22328ed4a5",
+      "current_blob": "1498304d5eb6dfdf3af97046dc331e22328ed4a5",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_PILOT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b4ef212883e34e30a21d0620de1fba0c42e0c14a",
+      "current_blob": "b4ef212883e34e30a21d0620de1fba0c42e0c14a",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/current_evidence_attestation.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3cdbcb17691305a9a3865824e1501cba94d247d2",
+      "current_blob": "3cdbcb17691305a9a3865824e1501cba94d247d2",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/environment_receipt.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "25cf9c0972caa3641f8403fbad8cd8d53eb8cc20",
+      "current_blob": "25cf9c0972caa3641f8403fbad8cd8d53eb8cc20",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/independent_verifier.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c9ef5b4f0a4d6e2ed47df8934e4e8a65d857311f",
+      "current_blob": "c9ef5b4f0a4d6e2ed47df8934e4e8a65d857311f",
+      "byte_identical": true
+    },
+    "proof/CUSTOM_SUBSTRATE_PILOT_CHAIN/raw_workbench_receipt.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9192f450f78fa59ab85cc60552148d465c2a8cd7",
+      "current_blob": "9192f450f78fa59ab85cc60552148d465c2a8cd7",
+      "byte_identical": true
+    },
+    "proof/E6_VITB_DENSE_PREFLIGHT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e2e451c62221b52f858a076cefca458c78bb8341",
+      "current_blob": "e2e451c62221b52f858a076cefca458c78bb8341",
+      "byte_identical": true
+    },
+    "proof/FACTORIZED_STIMULUS_IDENTITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b06b58ae11d467c8c9be80a77ae41c7f12c390c4",
+      "current_blob": "b06b58ae11d467c8c9be80a77ae41c7f12c390c4",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/DENSITY_INPUT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e43a4a78c78cab9d8e7e760f422ea37377858cfb",
+      "current_blob": "e43a4a78c78cab9d8e7e760f422ea37377858cfb",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/PREFLIGHT/f16_perfect_slate_null.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "69a777eada2bf78c54cee8075c174ddcc36a2bdc",
+      "current_blob": "69a777eada2bf78c54cee8075c174ddcc36a2bdc",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/PREFLIGHT/f8_plastic_substrate_rewrite.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "edef2fb8092e8f0e02b8f8232a35dcb442a856d0",
+      "current_blob": "edef2fb8092e8f0e02b8f8232a35dcb442a856d0",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f11_form_dream_replay.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7fd113acb3d4f4172fa148e5b4987e6d3dfeefb7",
+      "current_blob": "7fd113acb3d4f4172fa148e5b4987e6d3dfeefb7",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f13_form_energy_budget.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e40b1e2715af37eac7d7bc45758bbe79dbb69f62",
+      "current_blob": "e40b1e2715af37eac7d7bc45758bbe79dbb69f62",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f14_lifelong_form_expansion.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9336b2a99a324d4ee4cde07e1c35336d37c242bc",
+      "current_blob": "9336b2a99a324d4ee4cde07e1c35336d37c242bc",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f17_missing_form_recovery.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4b8f25a18dffcfd493aa6cbaeaf5ad582ec4058e",
+      "current_blob": "4b8f25a18dffcfd493aa6cbaeaf5ad582ec4058e",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f18_counterfactual_form_intervention.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "23d0a8cbf972ed23016d9c621d6117b475e95975",
+      "current_blob": "23d0a8cbf972ed23016d9c621d6117b475e95975",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f1_form_alignment_gate.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5d82ef58770f232fd8a202cb0508858edfdcd363",
+      "current_blob": "5d82ef58770f232fd8a202cb0508858edfdcd363",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f20_substrate_crisis_test.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c3c48a321d66d1a66ae60fedb55e7d9aa0d1f390",
+      "current_blob": "c3c48a321d66d1a66ae60fedb55e7d9aa0d1f390",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f2_heldout_form_transfer.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7e294ff69e8434da62147045f993a45617cdb96e",
+      "current_blob": "7e294ff69e8434da62147045f993a45617cdb96e",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f3_form_bottleneck_capacity.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "67d84ef0c44d915a16e9cf43e614cd74ff096b60",
+      "current_blob": "67d84ef0c44d915a16e9cf43e614cd74ff096b60",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f4_raw_payload_vs_form_tokens.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "eac8f3267c2e97530f07649ceffd61c6d7cb4474",
+      "current_blob": "eac8f3267c2e97530f07649ceffd61c6d7cb4474",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f5_cross_form_memory_binding.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c64bef37b32ca501a448a1ccb0f93ae63e9e5938",
+      "current_blob": "c64bef37b32ca501a448a1ccb0f93ae63e9e5938",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f6_sensorimotor_form_closure.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "44aca1a411851e7f72e488e4d66d8bb4dad482fc",
+      "current_blob": "44aca1a411851e7f72e488e4d66d8bb4dad482fc",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f7_developmental_form_growth.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dabadf8e863bcbf79c8ce4816386048a7dc4290a",
+      "current_blob": "dabadf8e863bcbf79c8ce4816386048a7dc4290a",
+      "byte_identical": true
+    },
+    "proof/FORM_SUBSTRATE/RECEIPTS/f9_cross_form_compositional_binding.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cac1dabb15bc8a8f0f49a83ea4ee8fb99b8cb47a",
+      "current_blob": "cac1dabb15bc8a8f0f49a83ea4ee8fb99b8cb47a",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_C3_COMMUNICATION_PILOT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "343e2555df84bf1917f0d3b5db8f69dc0b199c38",
+      "current_blob": "343e2555df84bf1917f0d3b5db8f69dc0b199c38",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_C3_CONSTRUCTION_PILOT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7aa7945af1fa01353c9225f4e67881e604b047e2",
+      "current_blob": "7aa7945af1fa01353c9225f4e67881e604b047e2",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_C3_D1_EXPANDED_CANARY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "42b46334e74f657a425db9a0994b583f61aeb936",
+      "current_blob": "42b46334e74f657a425db9a0994b583f61aeb936",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_C3_D1_FROZEN_PRODUCER_CHALLENGE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d2e92064ec9cc1c2843e25f759bfcac4024e4378",
+      "current_blob": "d2e92064ec9cc1c2843e25f759bfcac4024e4378",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_C3_D1_FROZEN_PRODUCER_CHALLENGE.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9d2bb90795ccfd8419c9feb9d6b546f3395b333a",
+      "current_blob": "9d2bb90795ccfd8419c9feb9d6b546f3395b333a",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_C3_D1_ROUTER_REDESIGN_SCREEN.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "59db8e1e13b5e23ce7d983609ecc9924ca340c4c",
+      "current_blob": "59db8e1e13b5e23ce7d983609ecc9924ca340c4c",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_C3_PILOT_BATCH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a1de2aebf09394ab0deab9f51eab06f59eea13e6",
+      "current_blob": "a1de2aebf09394ab0deab9f51eab06f59eea13e6",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_C3_SUCCESSOR_MECHANISMS_READINESS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e9321dce45b8abccf14a9d108ba7c73d49ee65f2",
+      "current_blob": "e9321dce45b8abccf14a9d108ba7c73d49ee65f2",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_COGNITIVE_CORPUS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dd06787cf8f5eb6d95e48a47ff9173face41af0e",
+      "current_blob": "dd06787cf8f5eb6d95e48a47ff9173face41af0e",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_COGNITIVE_CORPUS.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b38b0ce0458278f54c5c04a915bfbcd122d8fcba",
+      "current_blob": "b38b0ce0458278f54c5c04a915bfbcd122d8fcba",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_COMPETENCE_ATLAS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "50a94f90920d81fc2d9ea04ba8fe4e6db72d01df",
+      "current_blob": "50a94f90920d81fc2d9ea04ba8fe4e6db72d01df",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_COMPETENCE_ATLAS.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cfe9db0010ebc90f1e1c0ca046bbec89c2d163e3",
+      "current_blob": "cfe9db0010ebc90f1e1c0ca046bbec89c2d163e3",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_CONSOLIDATED_FINAL_MANIFEST.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e6047b4e97348cd429bc288e55bf4843be4b8502",
+      "current_blob": "e6047b4e97348cd429bc288e55bf4843be4b8502",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_CONSOLIDATED_FINAL_RESULT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a4fb0044d6c51e39f338afcce89669f5044f565b",
+      "current_blob": "a4fb0044d6c51e39f338afcce89669f5044f565b",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_CONTEXT_ROUTING.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "78d78efda5c736df71efe0b648133cd7f44f0033",
+      "current_blob": "78d78efda5c736df71efe0b648133cd7f44f0033",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_CONTEXT_ROUTING.shard_00.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2626cc6df1d57379c834a3aab99073fa7a9aa7ab",
+      "current_blob": "2626cc6df1d57379c834a3aab99073fa7a9aa7ab",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_CONTEXT_ROUTING.shard_01.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "02a592ba00245ce94060b4dc249d5f68d21d9a11",
+      "current_blob": "02a592ba00245ce94060b4dc249d5f68d21d9a11",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_CONTEXT_ROUTING.shard_02.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bfad29e9b151f9c4f626299beab740a2c7a2d0ca",
+      "current_blob": "bfad29e9b151f9c4f626299beab740a2c7a2d0ca",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_CONTEXT_ROUTING.shard_03.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e466ed857b64fb0fadf66d447eef373300bf9f81",
+      "current_blob": "e466ed857b64fb0fadf66d447eef373300bf9f81",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_CONTEXT_ROUTING.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7ff7745db50b34c172dda3c5c434ab2d6d53de87",
+      "current_blob": "7ff7745db50b34c172dda3c5c434ab2d6d53de87",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_EMPIRICAL_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "66eb20c27525f8261129ccc8ee2222141662d030",
+      "current_blob": "66eb20c27525f8261129ccc8ee2222141662d030",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_EVIDENCE_SYNTHESIS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3393636843fcb47c0435b5d39ce33bdf989c9070",
+      "current_blob": "3393636843fcb47c0435b5d39ce33bdf989c9070",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_EVIDENCE_SYNTHESIS.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "25dfba2a4871c6c3d57579a9c0a5f69373302ba3",
+      "current_blob": "25dfba2a4871c6c3d57579a9c0a5f69373302ba3",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_SUCCESSOR_CATEGORIZED_BATCH_WAVE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "78be973d7835f967590cb8d6458da71b7a400929",
+      "current_blob": "78be973d7835f967590cb8d6458da71b7a400929",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_SUCCESSOR_HORIZON.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "06a13ebd479cc3d8fef31ad74390311c59c13758",
+      "current_blob": "06a13ebd479cc3d8fef31ad74390311c59c13758",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_SUCCESSOR_HORIZON.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9750b194608c72c9803cc28e37aa5ba5377bade5",
+      "current_blob": "9750b194608c72c9803cc28e37aa5ba5377bade5",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_SUCCESSOR_HORIZON_V2.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9432e891c62bc0d756eaf3f7b3cd656908f65ea7",
+      "current_blob": "9432e891c62bc0d756eaf3f7b3cd656908f65ea7",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_SUCCESSOR_HORIZON_V2.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d551e77308c553be1bdfd9aa16e1362fbb1da69b",
+      "current_blob": "d551e77308c553be1bdfd9aa16e1362fbb1da69b",
+      "byte_identical": true
+    },
+    "proof/GENERATION1_SUCCESSOR_MECHANICS_EXTENDED.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7de6773cc331cb7e60d0d303cca79d6116225d9e",
+      "current_blob": "7de6773cc331cb7e60d0d303cca79d6116225d9e",
+      "byte_identical": true
+    },
+    "proof/LOCAL_EXECUTION_HOST_SNAPSHOT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "eb7879f399711f66615a0e67b2f775890dff3b95",
+      "current_blob": "eb7879f399711f66615a0e67b2f775890dff3b95",
+      "byte_identical": true
+    },
+    "proof/NULL_CARDS/null_card.schema.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bbf96702af5d5e537522429530307c989752ca8a",
+      "current_blob": "bbf96702af5d5e537522429530307c989752ca8a",
+      "byte_identical": true
+    },
+    "proof/P9_ACCOUNTING_MECHANICS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e43b0eff01f7ea361bdd07f5ee71d29e718f3fd4",
+      "current_blob": "e43b0eff01f7ea361bdd07f5ee71d29e718f3fd4",
+      "byte_identical": true
+    },
+    "proof/PRE_SUBSTRATE_PHENOMENA_ATLAS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "13b8379adc31ad6bdb1e90c6f2073bdb2acb26fc",
+      "current_blob": "13b8379adc31ad6bdb1e90c6f2073bdb2acb26fc",
+      "byte_identical": true
+    },
+    "proof/PROGRAMMATIC_FORM_CACHE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dbc2c7970a7049c9501fa8170810a9abea801c6e",
+      "current_blob": "dbc2c7970a7049c9501fa8170810a9abea801c6e",
+      "byte_identical": true
+    },
+    "proof/REAL_ENCODER_LOCAL_ATTEMPT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dd5d9c8f50224dd3feecba8b01c95a52f518128a",
+      "current_blob": "dd5d9c8f50224dd3feecba8b01c95a52f518128a",
+      "byte_identical": true
+    },
+    "proof/REAL_ENCODER_VITG_LOCAL8.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "093e69d1666f5c540036aaa967d389317e86e6a6",
+      "current_blob": "093e69d1666f5c540036aaa967d389317e86e6a6",
+      "byte_identical": true
+    },
+    "proof/REAL_ENCODER_VITH_LOCAL8.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6c81f04cbe512608f5ba2a8b6de95b870f51f9d5",
+      "current_blob": "6c81f04cbe512608f5ba2a8b6de95b870f51f9d5",
+      "byte_identical": true
+    },
+    "proof/SANPO_CUSTOM_SUBSTRATE_BRIDGE_PREFLIGHT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6856b991f2f5e2918f8a34141cf3d8dd8c96a969",
+      "current_blob": "6856b991f2f5e2918f8a34141cf3d8dd8c96a969",
+      "byte_identical": true
+    },
+    "proof/SANPO_DR1_CM1_ATTRIBUTE_MAP.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6adedf2c3d8f9a05b73f78a3311d241b039cb61e",
+      "current_blob": "6adedf2c3d8f9a05b73f78a3311d241b039cb61e",
+      "byte_identical": true
+    },
+    "proof/SANPO_REAL_SMOKE_ENGINEERING_LOG.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "91d2bd1782e980086e34cd944eb171a1d33302da",
+      "current_blob": "91d2bd1782e980086e34cd944eb171a1d33302da",
+      "byte_identical": true
+    },
+    "proof/SANPO_REAL_SMOKE_INTAKE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a8f96258ce4929f879a2ca9cfb1e18f8b375864f",
+      "current_blob": "a8f96258ce4929f879a2ca9cfb1e18f8b375864f",
+      "byte_identical": true
+    },
+    "proof/SANPO_REAL_SMOKE_INTAKE_DRY_RUN.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "680035a99c7914f4f1b511784552b76ba4ad307e",
+      "current_blob": "680035a99c7914f4f1b511784552b76ba4ad307e",
+      "byte_identical": true
+    },
+    "proof/SANPO_REAL_SMOKE_VERIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7d40a8ca53e66de4b67d5c3b831a7067478d6dab",
+      "current_blob": "7d40a8ca53e66de4b67d5c3b831a7067478d6dab",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_BED.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "69bf1a1f87927524f4839787b0c7c76963af4616",
+      "current_blob": "69bf1a1f87927524f4839787b0c7c76963af4616",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_BED.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6767a42b73fb6bba78b47bcc1f0414e5c8bf2c6b",
+      "current_blob": "6767a42b73fb6bba78b47bcc1f0414e5c8bf2c6b",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_BED.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "32fe35a5832057d543a56c0fbced82e0f4139b27",
+      "current_blob": "32fe35a5832057d543a56c0fbced82e0f4139b27",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_data_split.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f53f6f027114e8b4bffc0cecc25e3bf8b12bf929",
+      "current_blob": "f53f6f027114e8b4bffc0cecc25e3bf8b12bf929",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_data_split.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ea97550c4c88afbcd7581d3bec8dd8304d4659f5",
+      "current_blob": "ea97550c4c88afbcd7581d3bec8dd8304d4659f5",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_data_split.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d040410e94ad145dcc9763d961df5789d7125697",
+      "current_blob": "d040410e94ad145dcc9763d961df5789d7125697",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_featurizer_estimator.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ffb556ca2206d0c4017bbebc1cdeb73b99d5ff0b",
+      "current_blob": "ffb556ca2206d0c4017bbebc1cdeb73b99d5ff0b",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_featurizer_estimator.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a95818fe13a2274e19d62295b3a5a5e029820718",
+      "current_blob": "a95818fe13a2274e19d62295b3a5a5e029820718",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_featurizer_estimator.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8157a577e58b47aaadaecec8f291332fd08cec4a",
+      "current_blob": "8157a577e58b47aaadaecec8f291332fd08cec4a",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_gate_arch.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9534edaa28b1e8b05c41583b6060bfe9b7863c11",
+      "current_blob": "9534edaa28b1e8b05c41583b6060bfe9b7863c11",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_gate_arch.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b03bcdb15f6423d02e5d0d215b42a9b5aea51471",
+      "current_blob": "b03bcdb15f6423d02e5d0d215b42a9b5aea51471",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_gate_arch.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6091a641546dd0bfbf6c23ef2c4b0fc2577d1a76",
+      "current_blob": "6091a641546dd0bfbf6c23ef2c4b0fc2577d1a76",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_scoring_unit.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6e1f4d95cf4e1e6848ab4355965f7ba461afb38d",
+      "current_blob": "6e1f4d95cf4e1e6848ab4355965f7ba461afb38d",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_scoring_unit.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7b35584bffa1a8413c840dbe55d534a5ec09836a",
+      "current_blob": "7b35584bffa1a8413c840dbe55d534a5ec09836a",
+      "byte_identical": true
+    },
+    "proof/STARSS23_COUNTING_REPRO_scoring_unit.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "06bd9f69f8f46b0b440d7d90ab0e7cfd1bf50a4c",
+      "current_blob": "06bd9f69f8f46b0b440d7d90ab0e7cfd1bf50a4c",
+      "byte_identical": true
+    },
+    "proof/STARSS23_DOA_BED.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8752fea9c52b181bd3b069ebe1ca501c89ec6f59",
+      "current_blob": "8752fea9c52b181bd3b069ebe1ca501c89ec6f59",
+      "byte_identical": true
+    },
+    "proof/STARSS23_DOA_BED.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3b3b1472917c551aca8df98a8fcfb90427e99864",
+      "current_blob": "3b3b1472917c551aca8df98a8fcfb90427e99864",
+      "byte_identical": true
+    },
+    "proof/STARSS23_DOA_BED.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "08f296dde7431a125288b976b0f1692308f936fc",
+      "current_blob": "08f296dde7431a125288b976b0f1692308f936fc",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "18cefd4a766217d74a5fb2093faeabb1c87b5d24",
+      "current_blob": "18cefd4a766217d74a5fb2093faeabb1c87b5d24",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7abe0db65b05e2d722aff9a805539452c9638289",
+      "current_blob": "7abe0db65b05e2d722aff9a805539452c9638289",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9ce1be04349e44a47fc52aec685cfac391cbe135",
+      "current_blob": "9ce1be04349e44a47fc52aec685cfac391cbe135",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_VARIANTS.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "abd6edffc37ef3382ade185d2a14a89c8fbce4a1",
+      "current_blob": "abd6edffc37ef3382ade185d2a14a89c8fbce4a1",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_diversity_reg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e0d7670daf3d4ab575bd8cc9094db6b5f9ee864e",
+      "current_blob": "e0d7670daf3d4ab575bd8cc9094db6b5f9ee864e",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_interchannel_coherence.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2f7770ee665843e3a1cf3551422a9378080ddb92",
+      "current_blob": "2f7770ee665843e3a1cf3551422a9378080ddb92",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_interchannel_coherence.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1b4d575fbf78a6f4642142c831426e221f73f80b",
+      "current_blob": "1b4d575fbf78a6f4642142c831426e221f73f80b",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_interchannel_coherence.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e41ac752c92879f406d487e6fc1633a7ea5ca5f5",
+      "current_blob": "e41ac752c92879f406d487e6fc1633a7ea5ca5f5",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_learning_progress.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "743c9574c489398c5907eda6651736005a9bc089",
+      "current_blob": "743c9574c489398c5907eda6651736005a9bc089",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_learning_progress.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c3007928da05f6167525807cd7116af16e4cf405",
+      "current_blob": "c3007928da05f6167525807cd7116af16e4cf405",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_recurrence_spread.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bc55b1e86760b994de7e17fbed5988ef44746122",
+      "current_blob": "bc55b1e86760b994de7e17fbed5988ef44746122",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_refractory_nms.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d309396a5d6ff9e3742242f6284d836c3923cd18",
+      "current_blob": "d309396a5d6ff9e3742242f6284d836c3923cd18",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_spatial_doa.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "73f7e9188c20c663f426c8387c489686c31f2be8",
+      "current_blob": "73f7e9188c20c663f426c8387c489686c31f2be8",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_spatial_doa.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b28959c28042dab16244ab7d5798cad5878683ca",
+      "current_blob": "b28959c28042dab16244ab7d5798cad5878683ca",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_spatial_doa.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "112ba5fe0453dbd0dd8875c1ccf295e4fedf9e95",
+      "current_blob": "112ba5fe0453dbd0dd8875c1ccf295e4fedf9e95",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_superflux_spectral.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bdc27bcf7f45d3d687a8069ef704eefdcc5b5401",
+      "current_blob": "bdc27bcf7f45d3d687a8069ef704eefdcc5b5401",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_superflux_spectral.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9ac761a2396d9b8c53255bffd936e19e610e12e2",
+      "current_blob": "9ac761a2396d9b8c53255bffd936e19e610e12e2",
+      "byte_identical": true
+    },
+    "proof/STARSS23_ESCS_BED_superflux_spectral.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8dda89e04af956d2ffac9678a467d6b27be3403c",
+      "current_blob": "8dda89e04af956d2ffac9678a467d6b27be3403c",
+      "byte_identical": true
+    },
+    "proof/STARSS23_VOC_HEADROOM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6bd883add6d70b2703b8c31cb820583c7c2e3bd1",
+      "current_blob": "6bd883add6d70b2703b8c31cb820583c7c2e3bd1",
+      "byte_identical": true
+    },
+    "proof/STARSS23_VOC_HEADROOM.prereg.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3f9e3696a8be2d3672f9513254e942cc8d10588f",
+      "current_blob": "3f9e3696a8be2d3672f9513254e942cc8d10588f",
+      "byte_identical": true
+    },
+    "proof/STARSS23_VOC_HEADROOM.verification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "56b1a827edfe2fe8d5fff695bfcb55624f4fc023",
+      "current_blob": "56b1a827edfe2fe8d5fff695bfcb55624f4fc023",
+      "byte_identical": true
+    },
+    "proof/STUDIO_PROFILE_ON_CURRENT_HOST.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a9938f358887d124ccd4065cfac2a287dc477c12",
+      "current_blob": "a9938f358887d124ccd4065cfac2a287dc477c12",
+      "byte_identical": true
+    },
+    "proof/STUDIO_READINESS_CURRENT_HOST.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4cbc6385c67eeee789aa12af7cdac52888a8f5c2",
+      "current_blob": "4cbc6385c67eeee789aa12af7cdac52888a8f5c2",
+      "byte_identical": true
+    },
+    "proof/VJEPA21_VITB_FORWARD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e737ebb87414af4afe136700cd3b59d77611982e",
+      "current_blob": "e737ebb87414af4afe136700cd3b59d77611982e",
+      "byte_identical": true
+    },
+    "proof/VJEPA21_VITB_FORWARD_64F.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c7d1f0141b807fddc60c1824035bfb56a795fc54",
+      "current_blob": "c7d1f0141b807fddc60c1824035bfb56a795fc54",
+      "byte_identical": true
+    },
+    "proof/VJEPA21_VITB_LOAD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0b832b4569ecfa11a51ba620926c947080bdba8a",
+      "current_blob": "0b832b4569ecfa11a51ba620926c947080bdba8a",
+      "byte_identical": true
+    },
+    "proof/VJEPA21_VITB_LOCAL_PREFLIGHT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b8fa951b6bd7aa5b616bb44ac49a72e8d1878a5a",
+      "current_blob": "b8fa951b6bd7aa5b616bb44ac49a72e8d1878a5a",
+      "byte_identical": true
+    },
+    "proof/WIKIMEDIA_AV_INTAKE_DRY_RUN.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "acf2f0d01dec304d1a0b6466f88de462f07d48a6",
+      "current_blob": "acf2f0d01dec304d1a0b6466f88de462f07d48a6",
+      "byte_identical": true
+    },
+    "proof/atlas/_TEMPLATE.factor.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "36ebb450ea358b703a3f43e0bdb6c2e4afb15bc7",
+      "current_blob": "36ebb450ea358b703a3f43e0bdb6c2e4afb15bc7",
+      "byte_identical": true
+    },
+    "proof/atlas/atlas_summary.csv": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "aeba03da33c10dca35947f47b6948bb974533f96",
+      "current_blob": "aeba03da33c10dca35947f47b6948bb974533f96",
+      "byte_identical": true
+    },
+    "proof/atlas/vjepa2_vitl_fpc64_256/identity.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bd2804da2e25c824342124525decd5d777c0157c",
+      "current_blob": "bd2804da2e25c824342124525decd5d777c0157c",
+      "byte_identical": true
+    },
+    "proof/campaign_run/COMPLIANCE_LEDGER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dd3348dd3869260fa0fdf6ef9405fa9cd9dcb7eb",
+      "current_blob": "dd3348dd3869260fa0fdf6ef9405fa9cd9dcb7eb",
+      "byte_identical": true
+    },
+    "proof/campaign_run/GAUNTLET_RESULTS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0ea41dfa8a2f6fc70d37a2cebe9267b3ed489a4a",
+      "current_blob": "0ea41dfa8a2f6fc70d37a2cebe9267b3ed489a4a",
+      "byte_identical": true
+    },
+    "proof/campaign_run/HORIZON2_TRANSITION_RECEIPT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "097c6a0c4cdf6ca741e8454661306e2f39a9ac0c",
+      "current_blob": "097c6a0c4cdf6ca741e8454661306e2f39a9ac0c",
+      "byte_identical": true
+    },
+    "proof/campaign_run/LAUNCH_MANIFEST.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a83a6d91da44a5c2ba4aff3d04cc18e2ca44958a",
+      "current_blob": "a83a6d91da44a5c2ba4aff3d04cc18e2ca44958a",
+      "byte_identical": true
+    },
+    "proof/campaign_run/orchestrator_status.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e5f4ff8755fa12fa3bfab8e65afce2a2a3b77607",
+      "current_blob": "e5f4ff8755fa12fa3bfab8e65afce2a2a3b77607",
+      "byte_identical": true
+    },
+    "proof/campaign_run/status.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dc48f766fa0f436cb1597dee5a6956bbc74991b7",
+      "current_blob": "dc48f766fa0f436cb1597dee5a6956bbc74991b7",
+      "byte_identical": true
+    },
+    "proof/campaign_run/telegram_delivery.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d771c668fc048a1c6b3011ad4b91cb4d264bf444",
+      "current_blob": "d771c668fc048a1c6b3011ad4b91cb4d264bf444",
+      "byte_identical": true
+    },
+    "proof/campaign_run/telegram_sent.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0cf337e870c429143cabf9b68ecea131f848e274",
+      "current_blob": "0cf337e870c429143cabf9b68ecea131f848e274",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_ARM_DISTINCTNESS_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "76859c5c85b6db3b42134f042fba1b006a1e5750",
+      "current_blob": "76859c5c85b6db3b42134f042fba1b006a1e5750",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_ARM_DISTINCTNESS_MUTATIONS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6754024da06d08c57b4f8155cbd5297ce501245e",
+      "current_blob": "6754024da06d08c57b4f8155cbd5297ce501245e",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_BASELINE_CONVERGENCE_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "65c3ee9e4d680b2f43078baef221a750491fca10",
+      "current_blob": "65c3ee9e4d680b2f43078baef221a750491fca10",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_CAUSAL_EXPERIMENT_GRAPH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "600eaa552e31bac38f68cddad9c2429452fe2bbb",
+      "current_blob": "600eaa552e31bac38f68cddad9c2429452fe2bbb",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_CAUSAL_EXPERIMENT_GRAPH.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2ac515662862e428eddc205b5c882a80793a45eb",
+      "current_blob": "2ac515662862e428eddc205b5c882a80793a45eb",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_CONTROL_SEMANTIC_REGISTRY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f0df78baa59435d044c578ce88e77e8061b83fc0",
+      "current_blob": "f0df78baa59435d044c578ce88e77e8061b83fc0",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_CONTROL_SEMANTIC_VERIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5a5dd03adcdc98b291d5239fa0922bd8ec8e0d17",
+      "current_blob": "5a5dd03adcdc98b291d5239fa0922bd8ec8e0d17",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_DATA_BED_VALIDITY_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c15900eabc9e98108a0f5eee7e5b22e2295e70df",
+      "current_blob": "c15900eabc9e98108a0f5eee7e5b22e2295e70df",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_E1_ADMISSION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "800e63ae0d8410e5f3cc001883e12e0d7687a7ab",
+      "current_blob": "800e63ae0d8410e5f3cc001883e12e0d7687a7ab",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_E4_ADMISSION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c4c78d2632692b53e07c3ee8e6887474ef463003",
+      "current_blob": "c4c78d2632692b53e07c3ee8e6887474ef463003",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_CAUSAL_GRAPH_SCHEMA.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9170f9b1037619487df1fc78908ac1b3ab0ba018",
+      "current_blob": "9170f9b1037619487df1fc78908ac1b3ab0ba018",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "65e7e91b88adbf1d72cd55096b2dae724d158bd1",
+      "current_blob": "65e7e91b88adbf1d72cd55096b2dae724d158bd1",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "089f558a085336740f74946d6b4ba4332350b8fd",
+      "current_blob": "089f558a085336740f74946d6b4ba4332350b8fd",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALUE_QUEUE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f78e246965c329f00f898b62d262d2e060a0772f",
+      "current_blob": "f78e246965c329f00f898b62d262d2e060a0772f",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALUE_QUEUE.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6ce284d091f745f329b356a8ad0a58384c58ccb4",
+      "current_blob": "6ce284d091f745f329b356a8ad0a58384c58ccb4",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_FAST_STATE_REAUDIT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7126bdb786e32f54c157266efa87970143bcb972",
+      "current_blob": "7126bdb786e32f54c157266efa87970143bcb972",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_FAST_STATE_REAUDIT.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7695fec743b2db86bbcb3948f625711bb8cffd3d",
+      "current_blob": "7695fec743b2db86bbcb3948f625711bb8cffd3d",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8863639fa40bab1d4fc94afce14c75791c263afc",
+      "current_blob": "8863639fa40bab1d4fc94afce14c75791c263afc",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "51157096c8f8750bf0331fe36f870916342ba724",
+      "current_blob": "51157096c8f8750bf0331fe36f870916342ba724",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_MECHANISM_ACTIVITY_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "53bf89a8fda5ead8e49e5a34c2db2e1bbea6729f",
+      "current_blob": "53bf89a8fda5ead8e49e5a34c2db2e1bbea6729f",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_ACCEPTANCE_MUTATIONS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f0b9879ef58293102e95786ba38abcf92178979e",
+      "current_blob": "f0b9879ef58293102e95786ba38abcf92178979e",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_ACCEPTANCE_RESULT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9d242fda8d5c0583ed57237558bdeaf4b8d9b817",
+      "current_blob": "9d242fda8d5c0583ed57237558bdeaf4b8d9b817",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_CODE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0f12c6ae355703f49e9440d83350134a0f30f825",
+      "current_blob": "0f12c6ae355703f49e9440d83350134a0f30f825",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_COVERAGE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "55add5f104815c8618b1f47dac43202692f0cd27",
+      "current_blob": "55add5f104815c8618b1f47dac43202692f0cd27",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_EVIDENCE_FABRIC.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1df8a9d2c347d737a3bbb45361976648d00ceef9",
+      "current_blob": "1df8a9d2c347d737a3bbb45361976648d00ceef9",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_INDEPENDENT_AUDIT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f9292220beedf4acce1cbaccab8ed6b45cd0672a",
+      "current_blob": "f9292220beedf4acce1cbaccab8ed6b45cd0672a",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_INDEPENDENT_VERIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "aa62441b5f8fcaed8acd593e3362f24ce81cfd54",
+      "current_blob": "aa62441b5f8fcaed8acd593e3362f24ce81cfd54",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "da7d086406b627333b2cccb225cdbd8ffe4aa328",
+      "current_blob": "da7d086406b627333b2cccb225cdbd8ffe4aa328",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_LEDGER.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0bb8cfe3adb19a0e41011e83382ef243c940d17f",
+      "current_blob": "0bb8cfe3adb19a0e41011e83382ef243c940d17f",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_LEDGER_WORDING.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e81b06a8c57f398e9067b11b4192ee1b1e367af8",
+      "current_blob": "e81b06a8c57f398e9067b11b4192ee1b1e367af8",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SCORECARD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "23e13b651cfb9ae04b60f1d762276007ef8b7744",
+      "current_blob": "23e13b651cfb9ae04b60f1d762276007ef8b7744",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SCORECARD.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "df83f882c28c5fac1525387ec74da5196a06ca86",
+      "current_blob": "df83f882c28c5fac1525387ec74da5196a06ca86",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_START_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0da3866c5be89e605a89dc6d473df432504939f9",
+      "current_blob": "0da3866c5be89e605a89dc6d473df432504939f9",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_START_AUTHORITY.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "35ff450dd4012b5fe400d3532f9548c7c819f4cd",
+      "current_blob": "35ff450dd4012b5fe400d3532f9548c7c819f4cd",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_STATE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dde2ce589459ba23741d027631009b846a6f0566",
+      "current_blob": "dde2ce589459ba23741d027631009b846a6f0566",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SYNTHESIS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4fc5579719513c6734ac01fdce61e6959e02a0ad",
+      "current_blob": "4fc5579719513c6734ac01fdce61e6959e02a0ad",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_REFORMATION_SYNTHESIS.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "404e6a9544cccbd6ed4049b8fab9484693d572c6",
+      "current_blob": "404e6a9544cccbd6ed4049b8fab9484693d572c6",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_RESOURCE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a9164a6409e1738ee4de0bff16fd117f9849d57a",
+      "current_blob": "a9164a6409e1738ee4de0bff16fd117f9849d57a",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_TEST_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "59a6507ffab0f635e86f60508afc32ceb1366893",
+      "current_blob": "59a6507ffab0f635e86f60508afc32ceb1366893",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_POSITIVE_MUTATION_SUITE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c8dd3fa8b3220630c3257baf6d411cbef3d27bf9",
+      "current_blob": "c8dd3fa8b3220630c3257baf6d411cbef3d27bf9",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_POWER_AND_SEQUENTIAL_DESIGN.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1d32cae6fd8a141b1af5e185c9c39c1e578dea40",
+      "current_blob": "1d32cae6fd8a141b1af5e185c9c39c1e578dea40",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_PRINCIPAL_EXPERIMENT_1.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8783ca6c925b5dad9bd37ce2b786f904f2bbcf13",
+      "current_blob": "8783ca6c925b5dad9bd37ce2b786f904f2bbcf13",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_PRINCIPAL_EXPERIMENT_2.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "775f3f110712f3402cfe283bc03624c73396c595",
+      "current_blob": "775f3f110712f3402cfe283bc03624c73396c595",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_SCOUT_EXPERIMENT_RESULTS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "867899dfa85786505dacf8f703c6034d7af02d09",
+      "current_blob": "867899dfa85786505dacf8f703c6034d7af02d09",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_SELECTED_EXPERIMENTS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "185c9b389a649c5b45d2fa568e6a5c4679b22ee9",
+      "current_blob": "185c9b389a649c5b45d2fa568e6a5c4679b22ee9",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_SELECTED_EXPERIMENTS.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ed834310a03d16241722ddd9ec695c9f937e5821",
+      "current_blob": "ed834310a03d16241722ddd9ec695c9f937e5821",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cfbb3ba18a39b75a5caf184d9e149dcde5319f20",
+      "current_blob": "cfbb3ba18a39b75a5caf184d9e149dcde5319f20",
+      "byte_identical": true
+    },
+    "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e91078fae792979c64a6ff22a12e5c4326aee0a6",
+      "current_blob": "e91078fae792979c64a6ff22a12e5c4326aee0a6",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_ARCHITECTURE_G.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9e3b8419838565b6f9d433ece03a5ec459893476",
+      "current_blob": "9e3b8419838565b6f9d433ece03a5ec459893476",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_ARCHITECTURE_H.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "79e37eae02b452c440f42d1752eb352f08218919",
+      "current_blob": "79e37eae02b452c440f42d1752eb352f08218919",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_BASELINE_CONVERGENCE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "26c6341c3992674668eda0e0a56b6b888271e876",
+      "current_blob": "26c6341c3992674668eda0e0a56b6b888271e876",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_CROSS_DOMAIN_ARM_AUDIT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2cdacd00a79804d9af40da87c592fbda4cec1d3c",
+      "current_blob": "2cdacd00a79804d9af40da87c592fbda4cec1d3c",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_CROSS_DOMAIN_ARM_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "50f867567ef68159e98d2b2d083139b926658223",
+      "current_blob": "50f867567ef68159e98d2b2d083139b926658223",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_CROSS_DOMAIN_ARM_MUTATIONS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0644667570c5690aceb12044bc19353611bb7353",
+      "current_blob": "0644667570c5690aceb12044bc19353611bb7353",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_HAR.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5dac850127feb503f704aab7826318a1b0bccdae",
+      "current_blob": "5dac850127feb503f704aab7826318a1b0bccdae",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_HARTH_TRANSITION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0b61d06df90661c48fbf2d44ebb76597251b3619",
+      "current_blob": "0b61d06df90661c48fbf2d44ebb76597251b3619",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_HAR_STREAM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6d816052895c005701351c61f7fb3dac4bae1323",
+      "current_blob": "6d816052895c005701351c61f7fb3dac4bae1323",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_PAMAP2_TRANSITION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e6e5ea315aa79c6f879ce373042a631d3f2cf283",
+      "current_blob": "e6e5ea315aa79c6f879ce373042a631d3f2cf283",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "05ece32436ed5ca3d7f569e6b1c901d720e804cb",
+      "current_blob": "05ece32436ed5ca3d7f569e6b1c901d720e804cb",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_GATE_SPEECH_STREAM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a7c9bd61ecee8b68e15d2519bbce5e3ea571c73d",
+      "current_blob": "a7c9bd61ecee8b68e15d2519bbce5e3ea571c73d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_DOMAIN_VALIDITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "18c5df6408f9b127b2ef845bd932865559e488b9",
+      "current_blob": "18c5df6408f9b127b2ef845bd932865559e488b9",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_CORE_REPRESENTATION_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "77eca81b8aea8356ef0cd8698fe83e13aa064e15",
+      "current_blob": "77eca81b8aea8356ef0cd8698fe83e13aa064e15",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_CORE_REPRESENTATION_REPORT.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0764184b49962ecf9099ce596cbee06214b00e21",
+      "current_blob": "0764184b49962ecf9099ce596cbee06214b00e21",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_ARCHITECTURE_COMPARISON.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bb6ef6bc3a260c1cb743f551a000cb8693d52fce",
+      "current_blob": "bb6ef6bc3a260c1cb743f551a000cb8693d52fce",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BIDIRECTIONAL_SYNTHESIS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2abc3e69c3c4f1162ba600a607472ca9c57f8b44",
+      "current_blob": "2abc3e69c3c4f1162ba600a607472ca9c57f8b44",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "501369bdfcaa6ace4113901fc841a88bfc18ee2b",
+      "current_blob": "501369bdfcaa6ace4113901fc841a88bfc18ee2b",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_CLEAN_CLONE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f412813ffbd417990d752bb046db7978e368914f",
+      "current_blob": "f412813ffbd417990d752bb046db7978e368914f",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_CODE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a937b61cb8bf443865ba8c21cbc2c2dcddebb12b",
+      "current_blob": "a937b61cb8bf443865ba8c21cbc2c2dcddebb12b",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_EVIDENCE_FABRIC.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "680e77281274625b2889cb4c09965da63902a68a",
+      "current_blob": "680e77281274625b2889cb4c09965da63902a68a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_LEDGER.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9b2ddbd1aac422e1f8252c890363244f4728ae28",
+      "current_blob": "9b2ddbd1aac422e1f8252c890363244f4728ae28",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_START_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "edbdcf00a38d1aec34164e659276a9629e417f2a",
+      "current_blob": "edbdcf00a38d1aec34164e659276a9629e417f2a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_START_AUTHORITY.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0715370550037939f15814e9c3202363fa1a2a91",
+      "current_blob": "0715370550037939f15814e9c3202363fa1a2a91",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_STATE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3fb1aca539387a62cfda0ce3b0699eab37f40097",
+      "current_blob": "3fb1aca539387a62cfda0ce3b0699eab37f40097",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bcb190c4db7b586dd5adbb15e7d5e3150fb7e7ba",
+      "current_blob": "bcb190c4db7b586dd5adbb15e7d5e3150fb7e7ba",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4167824efb77e145d70aa52d6bb5505e6e174ba7",
+      "current_blob": "4167824efb77e145d70aa52d6bb5505e6e174ba7",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_INDEPENDENT_VERIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b94e74371fa2764cde9123cbe57614140927b988",
+      "current_blob": "b94e74371fa2764cde9123cbe57614140927b988",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_MEMORY_DEFECT_IMPACT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "23152c0440c0c2a9a55b6629432115df3e84b889",
+      "current_blob": "23152c0440c0c2a9a55b6629432115df3e84b889",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_MUTATION_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "638e70b0b8bbf42670813453cf24fd978cd35e9e",
+      "current_blob": "638e70b0b8bbf42670813453cf24fd978cd35e9e",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_NEXT_FRONTIER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "32df3cb5e55d59f045a2412e2519d968f276018c",
+      "current_blob": "32df3cb5e55d59f045a2412e2519d968f276018c",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_PROGRESS_SCORECARD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e3b649f65db2997d8b3aff70cbd379e8b835fdee",
+      "current_blob": "e3b649f65db2997d8b3aff70cbd379e8b835fdee",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_PROGRESS_SCORECARD.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ab88c3475206a0e976d31d5c47187aa906b701a5",
+      "current_blob": "ab88c3475206a0e976d31d5c47187aa906b701a5",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_RESOURCE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b811ac29094194def48279ecbd9bc1a82edd14f8",
+      "current_blob": "b811ac29094194def48279ecbd9bc1a82edd14f8",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_SECONDARY_MATRIX.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4620865b062d359c9ae2708268f407c4362f3cc8",
+      "current_blob": "4620865b062d359c9ae2708268f407c4362f3cc8",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_TEST_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "72d1e371a048b7582ba8143e749cf5f712d64852",
+      "current_blob": "72d1e371a048b7582ba8143e749cf5f712d64852",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FUNCTIONAL_REORGANIZATION_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2451e1d3e4b7d5d3d8349d37635409849aa79da8",
+      "current_blob": "2451e1d3e4b7d5d3d8349d37635409849aa79da8",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_HAR_TO_SPEECH_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e4abb86dcaa5f5489ff68d60a5d4f83648ed224d",
+      "current_blob": "e4abb86dcaa5f5489ff68d60a5d4f83648ed224d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_HAR_WITHIN_DOMAIN_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "065cd08590e5f73a7d20aa128a2a3907096a76e5",
+      "current_blob": "065cd08590e5f73a7d20aa128a2a3907096a76e5",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_SPEECH_TO_HAR_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "707c70b6517b35f4130507d54650838a5c0e6941",
+      "current_blob": "707c70b6517b35f4130507d54650838a5c0e6941",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_SPEECH_WITHIN_DOMAIN_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3e6342d9d19b3adbebcc280ef16d4e59a4ef010c",
+      "current_blob": "3e6342d9d19b3adbebcc280ef16d4e59a4ef010c",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_SUBSTRATE_INTERFERENCE_MAP.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "70f33f63cdf7f94e0a7372a21be6d23c92fc5e47",
+      "current_blob": "70f33f63cdf7f94e0a7372a21be6d23c92fc5e47",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_SUBSTRATE_INTERFERENCE_REPORT.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f51b064fb62b10e8043a57490b3a72f33da6935b",
+      "current_blob": "f51b064fb62b10e8043a57490b3a72f33da6935b",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_SUBSTRATE_PLASTICITY_ACTION_HEADROOM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d77b92619e8d3574ca17e371a7c7b040b6bd3e66",
+      "current_blob": "d77b92619e8d3574ca17e371a7c7b040b6bd3e66",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_SUBSTRATE_PLASTICITY_POLICY_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2bb9e20e4053d1d5dc63cc03ee7bb06e8af83898",
+      "current_blob": "2bb9e20e4053d1d5dc63cc03ee7bb06e8af83898",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_TASK_FREE_CONTEXT_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "fefddcfe9abe66bfaf6e5a17a9a810c601f0017f",
+      "current_blob": "fefddcfe9abe66bfaf6e5a17a9a810c601f0017f",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "993af9bfd9f03496a88520858a6980b70f9cbaba",
+      "current_blob": "993af9bfd9f03496a88520858a6980b70f9cbaba",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_AGENCY_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6643c1be90b343ad7be88e76e7fb6e5d415e4837",
+      "current_blob": "6643c1be90b343ad7be88e76e7fb6e5d415e4837",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ARBITRATION_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7e7854e624b29bd18b7ad89ca1737f8b57eb2f61",
+      "current_blob": "7e7854e624b29bd18b7ad89ca1737f8b57eb2f61",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ARCHITECTURE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "14a7e7653586b62c5d892d26b35f2ffd9968df97",
+      "current_blob": "14a7e7653586b62c5d892d26b35f2ffd9968df97",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_BELIEF_REVISION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d2913bd50b423a8f2750db70590a1588eb8f8223",
+      "current_blob": "d2913bd50b423a8f2750db70590a1588eb8f8223",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_BODY_COMPACT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5f82cacfaf46abc8b9e7194f1dba2f790985a21d",
+      "current_blob": "5f82cacfaf46abc8b9e7194f1dba2f790985a21d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_BODY_GENERAL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1c0b99b9f0e344fc9984d3a4a98cf11d0a0a3b73",
+      "current_blob": "1c0b99b9f0e344fc9984d3a4a98cf11d0a0a3b73",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_BODY_TOOL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6153320a59791badb4326a1392248319bf951523",
+      "current_blob": "6153320a59791badb4326a1392248319bf951523",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CAMPAIGN_PLAN.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f59123442e17954d0d7b2b2ff9a91c8efee2f39a",
+      "current_blob": "f59123442e17954d0d7b2b2ff9a91c8efee2f39a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CAPABILITY_MAP.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6f382e8f28b16685aad51517159e577e15dfbced",
+      "current_blob": "6f382e8f28b16685aad51517159e577e15dfbced",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CLEAN_CLONE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "415b47228487573cf8edf9f5f6752cc74065184d",
+      "current_blob": "415b47228487573cf8edf9f5f6752cc74065184d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b0972f5433338105749dd0b97ebe7d13e5a5e3c2",
+      "current_blob": "b0972f5433338105749dd0b97ebe7d13e5a5e3c2",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CONTINUITY_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "784cb2d38ff73abae920766841cbc908243c0bcb",
+      "current_blob": "784cb2d38ff73abae920766841cbc908243c0bcb",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_REPORT.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2eef10e5b73b0826338d81e135a84050172a5e3d",
+      "current_blob": "2eef10e5b73b0826338d81e135a84050172a5e3d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_SPEC.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9bd6b9d8ee57b80b28a5387f78bff25e2994e20b",
+      "current_blob": "9bd6b9d8ee57b80b28a5387f78bff25e2994e20b",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_DEVELOPMENTAL_HISTORY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bd6d03e2ee9771aaf791c5cf49d2de0bdc3d3726",
+      "current_blob": "bd6d03e2ee9771aaf791c5cf49d2de0bdc3d3726",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_DEVELOPMENTAL_SAFETY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "99177567e0ef9150b85a148ed66fc4d38bf4d600",
+      "current_blob": "99177567e0ef9150b85a148ed66fc4d38bf4d600",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_EPISTEMOLOGY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1c8419680d63c2357a79aa824b5df13111918141",
+      "current_blob": "1c8419680d63c2357a79aa824b5df13111918141",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "15241cb3d1d96c43d13ebe2f9dfee639cc167a28",
+      "current_blob": "15241cb3d1d96c43d13ebe2f9dfee639cc167a28",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_FINAL_ANCESTRY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "21517723b92896816e4e7278723d0c80653df852",
+      "current_blob": "21517723b92896816e4e7278723d0c80653df852",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_FINAL_LEDGER.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cb6a0b4b39c436845c95981b7655daed5d2c958c",
+      "current_blob": "cb6a0b4b39c436845c95981b7655daed5d2c958c",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_FINAL_MASTER_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cf81a534424350e5c63c2000cffff4900adcbbca",
+      "current_blob": "cf81a534424350e5c63c2000cffff4900adcbbca",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_FINAL_PROGRAM_GRAPH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2210a4a6a683c31045efcf319e0b3b37c0dd8503",
+      "current_blob": "2210a4a6a683c31045efcf319e0b3b37c0dd8503",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_FINAL_SCORECARD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "19ef4d94f4a07c9687e7c0d5e0d7ad3566cce3c2",
+      "current_blob": "19ef4d94f4a07c9687e7c0d5e0d7ad3566cce3c2",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_FINAL_STATE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "53e9f153b97e8089d496b9db9eaca5cf632ab896",
+      "current_blob": "53e9f153b97e8089d496b9db9eaca5cf632ab896",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_FINAL_VALUE_QUEUE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0ab7f1430b25f32685cf18807f9666934e9da85b",
+      "current_blob": "0ab7f1430b25f32685cf18807f9666934e9da85b",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_GOAL_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "977c1ab844faa6942c3aeb696577dd930a494652",
+      "current_blob": "977c1ab844faa6942c3aeb696577dd930a494652",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_GROUNDING.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a583da24a0e8f8b8beec6bf230a5f1f09f999075",
+      "current_blob": "a583da24a0e8f8b8beec6bf230a5f1f09f999075",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_HYPOTHESIS_GRAPH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "df72e0e10150fde118ecb437b54b8796234e09dc",
+      "current_blob": "df72e0e10150fde118ecb437b54b8796234e09dc",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_INDEPENDENT_VERIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8a883aadbee578c80b5d904d76af80ef88da2293",
+      "current_blob": "8a883aadbee578c80b5d904d76af80ef88da2293",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LEDGER.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "84d73454bd5f4ff3618fc1304033a30bd61f98c2",
+      "current_blob": "84d73454bd5f4ff3618fc1304033a30bd61f98c2",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LONG_RUN_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "765aa341ba8695d88fb98fc2a6839187bb666269",
+      "current_blob": "765aa341ba8695d88fb98fc2a6839187bb666269",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LONG_RUN_CERTIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "896909ccef2e7b8569d48755bad82905faea73a0",
+      "current_blob": "896909ccef2e7b8569d48755bad82905faea73a0",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "604fce4f98a5919f9d3a694afb861c3c92d003dc",
+      "current_blob": "604fce4f98a5919f9d3a694afb861c3c92d003dc",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LONG_RUN_DAG.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7781cffd274fa7a1aeefa1e4440143891451b2a5",
+      "current_blob": "7781cffd274fa7a1aeefa1e4440143891451b2a5",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LONG_RUN_REHEARSAL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1263118761e68053d4589d0f58626fd31aa7f184",
+      "current_blob": "1263118761e68053d4589d0f58626fd31aa7f184",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b3608ee46d64ff2f3635167a5b547d38c65427b6",
+      "current_blob": "b3608ee46d64ff2f3635167a5b547d38c65427b6",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MASTER_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ae0a84baeaab6b725579c23bc676db79c44778dd",
+      "current_blob": "ae0a84baeaab6b725579c23bc676db79c44778dd",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MEMORY_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "3ca15e9fcc336e56d5ae2e49e981c0ceed98bcd8",
+      "current_blob": "3ca15e9fcc336e56d5ae2e49e981c0ceed98bcd8",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_METACOGNITION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0c8a9959666e3b29283c2d7986e6a25c78d69952",
+      "current_blob": "0c8a9959666e3b29283c2d7986e6a25c78d69952",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MODEL_BODY_INTERFACE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "09ba8bf42964802487701d3b341d43d597d87cc4",
+      "current_blob": "09ba8bf42964802487701d3b341d43d597d87cc4",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MUTATION_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "362c2e02a5d8727c137d159cb3885065b2cae834",
+      "current_blob": "362c2e02a5d8727c137d159cb3885065b2cae834",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NEXT_FRONTIER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6e1844e18de60b229313acaa0f34a48e9cbf1951",
+      "current_blob": "6e1844e18de60b229313acaa0f34a48e9cbf1951",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NOUS_CLOSURE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "31c0e9d5f1bf3cae4d3da3f4f523b6dbceff31a8",
+      "current_blob": "31c0e9d5f1bf3cae4d3da3f4f523b6dbceff31a8",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NULL_MAP.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0aa4403a0dd7cbe4c93eb31b763d2691992e523a",
+      "current_blob": "0aa4403a0dd7cbe4c93eb31b763d2691992e523a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ONTOLOGY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2a4e8af88ef22b0d49bc4cfff57d2411ec40c275",
+      "current_blob": "2a4e8af88ef22b0d49bc4cfff57d2411ec40c275",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PERSPECTIVE_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4166df78a1b89eeeaa1156726e3b9dcd79ec4e22",
+      "current_blob": "4166df78a1b89eeeaa1156726e3b9dcd79ec4e22",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PLASTICITY_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "56500a266e2f4933e588639eeb823b98bcaa0e3e",
+      "current_blob": "56500a266e2f4933e588639eeb823b98bcaa0e3e",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PROGRESS_SCORECARD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dda44928703ae0a03cfbd8e517cf0cd0a76dfb59",
+      "current_blob": "dda44928703ae0a03cfbd8e517cf0cd0a76dfb59",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_REAL_SESSION_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7f7f7de2bb10ea31c9c3268a3dfe8a9871607cb1",
+      "current_blob": "7f7f7de2bb10ea31c9c3268a3dfe8a9871607cb1",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cde5aa96ce8c3553a51f0280cd7c87efcd85b7cf",
+      "current_blob": "cde5aa96ce8c3553a51f0280cd7c87efcd85b7cf",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_REORGANIZATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4b55e5eb11907993fc3ddb92b5c819dadcbd6373",
+      "current_blob": "4b55e5eb11907993fc3ddb92b5c819dadcbd6373",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_RUNTIME.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2e76d428d3c24342023915c12538b8f68944f46c",
+      "current_blob": "2e76d428d3c24342023915c12538b8f68944f46c",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_SELF_MODEL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "14c778e5cecd708db04b6b4dd3bdcb458f65ec52",
+      "current_blob": "14c778e5cecd708db04b6b4dd3bdcb458f65ec52",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a5f0cf7232dede5aed8c9a3d3609d3de7ed2fd1d",
+      "current_blob": "a5f0cf7232dede5aed8c9a3d3609d3de7ed2fd1d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_STATE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0420cef105d02c850cfcb2285bafa37d6541dbda",
+      "current_blob": "0420cef105d02c850cfcb2285bafa37d6541dbda",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_STRUCTURAL_AUDIT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ff551656932a00fae03dfad7783b868695633176",
+      "current_blob": "ff551656932a00fae03dfad7783b868695633176",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_SX2_DIVERSITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7fa38e458ae25149a561498bf01f94d81c0993a4",
+      "current_blob": "7fa38e458ae25149a561498bf01f94d81c0993a4",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_TEMPORAL_CORE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ad4cbb320be940d57b07096f68847c5ac83feb54",
+      "current_blob": "ad4cbb320be940d57b07096f68847c5ac83feb54",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_THINKING_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "02e79c41af268d670ac03f7b17c47023286824cf",
+      "current_blob": "02e79c41af268d670ac03f7b17c47023286824cf",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_UNITY_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1f9cdb019d05a19a3b142388ffce6f584e5ae53a",
+      "current_blob": "1f9cdb019d05a19a3b142388ffce6f584e5ae53a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_VALUATION_SYSTEM.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8f7248ca3ea7cf21551f8d2821ae4c4f245c6b11",
+      "current_blob": "8f7248ca3ea7cf21551f8d2821ae4c4f245c6b11",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_WORKSPACE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a3e748b26c73aa8f03be38f269cad90825f0b96e",
+      "current_blob": "a3e748b26c73aa8f03be38f269cad90825f0b96e",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_WORLD_MODEL.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9f40f2d68e4f86a3ae77ebe5bd46844d1ab91a52",
+      "current_blob": "9f40f2d68e4f86a3ae77ebe5bd46844d1ab91a52",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_WORLD_MODEL_BATTERY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1547624a4abe05b7471c2f8a0e36e613c869c83b",
+      "current_blob": "1547624a4abe05b7471c2f8a0e36e613c869c83b",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_WORLD_MODEL_BED.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e6a361d7ac380d8237d683aed26eb3a6bec54869",
+      "current_blob": "e6a361d7ac380d8237d683aed26eb3a6bec54869",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_ACTIVITY_PROBE_IGNORED_REGION_CONTENTS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9d70ad20f304203723a6114bedc4473908d78a8f",
+      "current_blob": "9d70ad20f304203723a6114bedc4473908d78a8f",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_ATTENTION_CANDIDATE_NOT_A_REGION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bd51640dfe7dbfa612164d6887c01bbf126211b9",
+      "current_blob": "bd51640dfe7dbfa612164d6887c01bbf126211b9",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_AUTHORITY_TERMINALITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "002e8a4c8278948915aff610ae2b8abb04c96b9a",
+      "current_blob": "002e8a4c8278948915aff610ae2b8abb04c96b9a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_BED_CONTAINED_ITS_OWN_ANSWER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c07b75ed8a13cd2db652ccf6e44d93e82f2123f1",
+      "current_blob": "c07b75ed8a13cd2db652ccf6e44d93e82f2123f1",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_DIRTY_SRC_HALTS_SUPERVISOR.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dbf14e378f72648e535f0d37e1fce9545069a6bd",
+      "current_blob": "dbf14e378f72648e535f0d37e1fce9545069a6bd",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_DISTINCTION_ROUNDING.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "fba962da4894b365c880b56196e4ca06efb2477c",
+      "current_blob": "fba962da4894b365c880b56196e4ca06efb2477c",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_EVIDENCE_PRESENCE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c9badf9d8c72dea4965f05f7f0df02f02a898def",
+      "current_blob": "c9badf9d8c72dea4965f05f7f0df02f02a898def",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_NULL_CONTROL_MUST_NEUTRALISE_EVERY_EFFECT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9d47ae1ac3ba1a16010eb23704bd73e4baadacbd",
+      "current_blob": "9d47ae1ac3ba1a16010eb23704bd73e4baadacbd",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-substrate-master-v1/corrections/C_REBASE_ORPHANS_EVIDENCE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "24ace4c45597e6589664714e9afca99d564b7411",
+      "current_blob": "24ace4c45597e6589664714e9afca99d564b7411",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_ACTIVE_CODE_ACCOUNTING.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f4a5f52f3d30b31d5315d6d79694e2f88493e834",
+      "current_blob": "f4a5f52f3d30b31d5315d6d79694e2f88493e834",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_CODE_LIFECYCLE_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f959b7b508587c50e11a4e947ba1dd5e11f307e7",
+      "current_blob": "f959b7b508587c50e11a4e947ba1dd5e11f307e7",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_CORE_ARCHITECTURE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e1749be82947c29c241b8aa1a1c8ebacc82edd17",
+      "current_blob": "e1749be82947c29c241b8aa1a1c8ebacc82edd17",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_CORE_CAPACITY_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "91faa6a97f651dbaaf407ef3d5ada54f303302c1",
+      "current_blob": "91faa6a97f651dbaaf407ef3d5ada54f303302c1",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "77b2dd25de7551b4a1d4e883ccfa60805ca5bc21",
+      "current_blob": "77b2dd25de7551b4a1d4e883ccfa60805ca5bc21",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_INVENTORY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "70cd9d8661e08ec03fd9e1364790eb25b7afd3bf",
+      "current_blob": "70cd9d8661e08ec03fd9e1364790eb25b7afd3bf",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_MUTATIONS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "574be7d8b61e3ff1ac459f689353693973999729",
+      "current_blob": "574be7d8b61e3ff1ac459f689353693973999729",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_RECOVERY.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c13753b9609007e77f8484245a13a9e630eaf878",
+      "current_blob": "c13753b9609007e77f8484245a13a9e630eaf878",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_E2_CALIBRATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4e8809e17cca892d7f9694bfe2790b4c4b9716fa",
+      "current_blob": "4e8809e17cca892d7f9694bfe2790b4c4b9716fa",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_E2_CAPACITY_TIER_CORRECTION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4c9f57dec0c2e402d3d433e272dfb86203550bd3",
+      "current_blob": "4c9f57dec0c2e402d3d433e272dfb86203550bd3",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_E2_FACTORIAL_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "758c97405c1f834b47226d4357335625f28859ec",
+      "current_blob": "758c97405c1f834b47226d4357335625f28859ec",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_E2_INDEPENDENT_REPLICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "86afaed49508ae27b18602f6da3dcd506cb4174f",
+      "current_blob": "86afaed49508ae27b18602f6da3dcd506cb4174f",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_E2_PRINCIPAL_RESULT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9917bf95a8804326c7c2e25a7c2f559b91b3137a",
+      "current_blob": "9917bf95a8804326c7c2e25a7c2f559b91b3137a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_E2_SCOUT_RESULT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9a3e738f3d04710c9175d821f26abc6ba3ff68f1",
+      "current_blob": "9a3e738f3d04710c9175d821f26abc6ba3ff68f1",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_E3_SHARED_LOCAL_RESULT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "15dc0648cf6ed44ed821d593adcdc1564ec6768d",
+      "current_blob": "15dc0648cf6ed44ed821d593adcdc1564ec6768d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_E5_SELF_SUPERVISED_RESULT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "40ffe52fd361ed631779420eb3de445fa0130ea9",
+      "current_blob": "40ffe52fd361ed631779420eb3de445fa0130ea9",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_EXPERIMENT_VALUE_QUEUE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "aab74e433f6cdb8080f5149e4800cce76ded244d",
+      "current_blob": "aab74e433f6cdb8080f5149e4800cce76ded244d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_EXPLICIT_HISTORY_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8b5c9ea376308bfcb1e5e6777b28acdfcf4e1995",
+      "current_blob": "8b5c9ea376308bfcb1e5e6777b28acdfcf4e1995",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_FACTORIAL_INTERACTION_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5b2c7f9fc3bcf2f555d1fbb5416e6fd80e1c22f0",
+      "current_blob": "5b2c7f9fc3bcf2f555d1fbb5416e6fd80e1c22f0",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_FROZEN_REPRODUCIBILITY_ACCOUNTING.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "58d81d47a4e6a3e7a22fd13250d1cd2b09fb6023",
+      "current_blob": "58d81d47a4e6a3e7a22fd13250d1cd2b09fb6023",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_HYBRID_ADAPTATION_RESULT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6ce28476b50134477d5ef38ffcfaa4895a67fb8d",
+      "current_blob": "6ce28476b50134477d5ef38ffcfaa4895a67fb8d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_OPTIMIZATION_CONVERGENCE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6b3f5cd3324bf3bebf35b03ddc92a716e0c26e15",
+      "current_blob": "6b3f5cd3324bf3bebf35b03ddc92a716e0c26e15",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_OWNED_TEMPORAL_CORE_V1.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1137689c8c8864672ebd458171a5630c48b979bc",
+      "current_blob": "1137689c8c8864672ebd458171a5630c48b979bc",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_OWNED_TEMPORAL_CORE_V1.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a1d3631a49884ca66584e1dc8f9ba119cc85addd",
+      "current_blob": "a1d3631a49884ca66584e1dc8f9ba119cc85addd",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_READOUT_CAPACITY_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "63e4db3dcb0d17666dab396a164db6677b10c6ec",
+      "current_blob": "63e4db3dcb0d17666dab396a164db6677b10c6ec",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_RESET_SEMANTICS_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "eaa6ae54efc3aadbc005e449079e2c7cfc3428ed",
+      "current_blob": "eaa6ae54efc3aadbc005e449079e2c7cfc3428ed",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_STATE_HORIZON_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9fbffdc5263615d3398979d8edb62e552b71b4ca",
+      "current_blob": "9fbffdc5263615d3398979d8edb62e552b71b4ca",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1084d0fde5e246ed6c5a85870c03172f5157034e",
+      "current_blob": "1084d0fde5e246ed6c5a85870c03172f5157034e",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ea344a5d04ded3ad0fc8dd8aa332dc7ca70d853b",
+      "current_blob": "ea344a5d04ded3ad0fc8dd8aa332dc7ca70d853b",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_BINDING_RESULTS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b60c696957a6847fa52199e84b0df7deebcc62b1",
+      "current_blob": "b60c696957a6847fa52199e84b0df7deebcc62b1",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_CAP_PRESERVING_REFILL_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8866cce081199a594b63a9b559a31a96d9f81bbd",
+      "current_blob": "8866cce081199a594b63a9b559a31a96d9f81bbd",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_CAP_PRESERVING_REFILL_AUTHORITY_V2.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c4176005b3bd8b4b6a83974c9ddbfeb186010379",
+      "current_blob": "c4176005b3bd8b4b6a83974c9ddbfeb186010379",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_CLEAN_CLONE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4f1550105067ae957f60bf7cce6c65f5e0d2e31a",
+      "current_blob": "4f1550105067ae957f60bf7cce6c65f5e0d2e31a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_COVERAGE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "46cff897ff12a5a2a78c455dc76f44a4aef7cb62",
+      "current_blob": "46cff897ff12a5a2a78c455dc76f44a4aef7cb62",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_DUPLICATE_WRITER_CONTAINMENT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cfe078f2649b7600faa96c131fef5b3b044ef2a4",
+      "current_blob": "cfe078f2649b7600faa96c131fef5b3b044ef2a4",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_EVIDENCE_FABRIC.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "57cfb8589142d755b8b18e3a9c8589d59069c1fd",
+      "current_blob": "57cfb8589142d755b8b18e3a9c8589d59069c1fd",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HAWKING_PAUSE_20260725T2241.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "967425654e99a1f7b3dc21109ad4eb4075446ea8",
+      "current_blob": "967425654e99a1f7b3dc21109ad4eb4075446ea8",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HAWKING_RESUME_20260726.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5f2783975b4e7e01aed72e36cf38005aab2c00aa",
+      "current_blob": "5f2783975b4e7e01aed72e36cf38005aab2c00aa",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ca7d8813a136c08925099963f9d8c9dfbff65f4c",
+      "current_blob": "ca7d8813a136c08925099963f9d8c9dfbff65f4c",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0a660c8fbae3111adafb1ebc3c8f64e1f1beb417",
+      "current_blob": "0a660c8fbae3111adafb1ebc3c8f64e1f1beb417",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "2bee7f05cabf5721da5746e91398509f25d080da",
+      "current_blob": "2bee7f05cabf5721da5746e91398509f25d080da",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION_AGGREGATE_ORDER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bda465ca3692994147413203acb1bb8c53043536",
+      "current_blob": "bda465ca3692994147413203acb1bb8c53043536",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION_ATOMIC_LOCK_PUBLICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d4fdad33eb6d528b48ca52f99683616982f03456",
+      "current_blob": "d4fdad33eb6d528b48ca52f99683616982f03456",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION_RECEIPT_CONTRACT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b2051c332dc9166a00aafa4879e124bc83a33aea",
+      "current_blob": "b2051c332dc9166a00aafa4879e124bc83a33aea",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION_STALL_CLASSIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "554554be390a2aef7e3969c62b3b942d0c5023c8",
+      "current_blob": "554554be390a2aef7e3969c62b3b942d0c5023c8",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION_STATE_PERSISTENCE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "389b54336cde50c56c1bfd6632fdd54c797b282c",
+      "current_blob": "389b54336cde50c56c1bfd6632fdd54c797b282c",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION_THIRD_BED_RECEIPTS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "32f5cd143323d21684fe2e4eee7eb07a45c0e651",
+      "current_blob": "32f5cd143323d21684fe2e4eee7eb07a45c0e651",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a7a2f672d4ccb63a11db083f8589e33cb07c6220",
+      "current_blob": "a7a2f672d4ccb63a11db083f8589e33cb07c6220",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_LEDGER.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "005d4ace0e3006225b6ac97578c23ea09a381395",
+      "current_blob": "005d4ace0e3006225b6ac97578c23ea09a381395",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_MUTATION_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "68cf5951d4b44261209f891eb7fc1a487eec81ad",
+      "current_blob": "68cf5951d4b44261209f891eb7fc1a487eec81ad",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_NEXT_FRONTIER.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "a2022fd4e7aba868752b7fcb98aa13cd43f664c5",
+      "current_blob": "a2022fd4e7aba868752b7fcb98aa13cd43f664c5",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_QUIESCENT_SNAPSHOT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6e2ab2c86267e7fdb7654bbb4336c22826f35dda",
+      "current_blob": "6e2ab2c86267e7fdb7654bbb4336c22826f35dda",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_RESOURCE_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9734bb96ee7f6d2f9ba2e80b3ebc3400e5126098",
+      "current_blob": "9734bb96ee7f6d2f9ba2e80b3ebc3400e5126098",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_RESUME_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "cd91ff16c2c1c54df8ce1171e576de8606e2bb28",
+      "current_blob": "cd91ff16c2c1c54df8ce1171e576de8606e2bb28",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_RESUME_VALIDATION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ab0ff161086216f339fd07df000d49f233a89fea",
+      "current_blob": "ab0ff161086216f339fd07df000d49f233a89fea",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_SCORECARD.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "aee7ca1634d6d8bf2f0a80201e95a7abbf6a157d",
+      "current_blob": "aee7ca1634d6d8bf2f0a80201e95a7abbf6a157d",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_SCORECARD.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "79f517542c660660a441dbce14fb819709416c95",
+      "current_blob": "79f517542c660660a441dbce14fb819709416c95",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e5b65534d07896bfb9aeefbc32d1f17f236464d6",
+      "current_blob": "e5b65534d07896bfb9aeefbc32d1f17f236464d6",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1bd30aa723646b8a5eb776a756de428ccce4194f",
+      "current_blob": "1bd30aa723646b8a5eb776a756de428ccce4194f",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_STATE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "29981ac6c7464c723a941b252c8119000b5617e5",
+      "current_blob": "29981ac6c7464c723a941b252c8119000b5617e5",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_SYNTHESIS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "ccc4c952266c5ad7ded8e04deaa8deaa751190a4",
+      "current_blob": "ccc4c952266c5ad7ded8e04deaa8deaa751190a4",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_SYNTHESIS.md": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "200fc13569192de4b219d628d3ca78c71102b75f",
+      "current_blob": "200fc13569192de4b219d628d3ca78c71102b75f",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_TEST_REPORT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e11d3bea8d6c4548f7d0d0d8aa7f76c2ade8e81a",
+      "current_blob": "e11d3bea8d6c4548f7d0d0d8aa7f76c2ade8e81a",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8b27a4ed1386d59f4e350b3c80eafff2aaa63248",
+      "current_blob": "8b27a4ed1386d59f4e350b3c80eafff2aaa63248",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION_MUTATIONS.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "d8e47e8fd7cfc4b67ebb3fa54bdb3f1b72d90b5e",
+      "current_blob": "d8e47e8fd7cfc4b67ebb3fa54bdb3f1b72d90b5e",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e972bb2bd6b01fd03af8cbcd120b9f7a20502629",
+      "current_blob": "e972bb2bd6b01fd03af8cbcd120b9f7a20502629",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_THIRD_TEMPORAL_BED_PREFLIGHT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "dd830750a940eeb0a5adc522fdfd61f1c54591ed",
+      "current_blob": "dd830750a940eeb0a5adc522fdfd61f1c54591ed",
+      "byte_identical": true
+    },
+    "proof/substrate/mop-temporal-core-mechanism-v1/MOP_THIRD_TEMPORAL_BED_RESULT.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9afeb8d0909d684cec8f01d971a4df3c43379374",
+      "current_blob": "9afeb8d0909d684cec8f01d971a4df3c43379374",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/experiments/SX1_decision.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "5eaa92b1be899dfaea44abb0e18852e88ed15681",
+      "current_blob": "5eaa92b1be899dfaea44abb0e18852e88ed15681",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/experiments/SX1b_decision.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "0ba59819fa952eeb957aa288138e1b147f54d76e",
+      "current_blob": "0ba59819fa952eeb957aa288138e1b147f54d76e",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/experiments/SX1b_design.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "8d57032b1be94eeba03e60ab5a334722f4a6a542",
+      "current_blob": "8d57032b1be94eeba03e60ab5a334722f4a6a542",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/experiments/SX5_decision.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "29e4ab6125993cf85887d1e3d0392573e924bb22",
+      "current_blob": "29e4ab6125993cf85887d1e3d0392573e924bb22",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/experiments/bed_screen.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7a2daa4d290cb6808b52e5d9fcc09f803ff1a647",
+      "current_blob": "7a2daa4d290cb6808b52e5d9fcc09f803ff1a647",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/result_ledger.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "657846843bb7ce9d1d3733fec3e864455569abdd",
+      "current_blob": "657846843bb7ce9d1d3733fec3e864455569abdd",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/launch.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "9026e83ed0c8592219a94ee4842a2084fea48999",
+      "current_blob": "9026e83ed0c8592219a94ee4842a2084fea48999",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/admitted_plasticity.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "75504a7316f97a0a544b939a90de4b5803c611db",
+      "current_blob": "75504a7316f97a0a544b939a90de4b5803c611db",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/audit.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "1d29b66c43024aa7b96523adf483835d593aaa2b",
+      "current_blob": "1d29b66c43024aa7b96523adf483835d593aaa2b",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/body_compact.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "da36e827a5a65cd16c35da6fd671dd06404bc25a",
+      "current_blob": "da36e827a5a65cd16c35da6fd671dd06404bc25a",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/body_comparison.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "7983b4b126b860242c0ea90811d798913f3f399b",
+      "current_blob": "7983b4b126b860242c0ea90811d798913f3f399b",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/body_general.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "56b0729a02c104abc8232ffb1613310cb6f8638a",
+      "current_blob": "56b0729a02c104abc8232ffb1613310cb6f8638a",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/body_tool.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "60696cff7c988e0149a8516143708bb98ce700b0",
+      "current_blob": "60696cff7c988e0149a8516143708bb98ce700b0",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/certification.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "6555f68f69228c97db7a7577d503e12d6c83b9d6",
+      "current_blob": "6555f68f69228c97db7a7577d503e12d6c83b9d6",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/declarations.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "68759aec5a1791b25894a2aee9b91cc97e750192",
+      "current_blob": "68759aec5a1791b25894a2aee9b91cc97e750192",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/developmental_divergence.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "627fc83533a7ccd6cc9a044a4ca648c8bf36ebc4",
+      "current_blob": "627fc83533a7ccd6cc9a044a4ca648c8bf36ebc4",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/diversity_arbitration.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "bdfae401209600e0e51377cab8e1f702890dba63",
+      "current_blob": "bdfae401209600e0e51377cab8e1f702890dba63",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/entity_batteries.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "46d1ee948095b783efc773a13094f67051517ca9",
+      "current_blob": "46d1ee948095b783efc773a13094f67051517ca9",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/memory.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "277b116ed9ab24a7e368682751e96f799df9f78f",
+      "current_blob": "277b116ed9ab24a7e368682751e96f799df9f78f",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/mutations.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "f31d72767cec645d4ac0e8c634ebc722a1d1c66f",
+      "current_blob": "f31d72767cec645d4ac0e8c634ebc722a1d1c66f",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/ontology_epistemology.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "db99bfb42ba6aeefecf07253422a6493c884e9ab",
+      "current_blob": "db99bfb42ba6aeefecf07253422a6493c884e9ab",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/recomputation.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "b728099ac00981385960d948d61908b40f22bb39",
+      "current_blob": "b728099ac00981385960d948d61908b40f22bb39",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/self_model.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "c37a46187f294a7adc26026c101c286ded616b72",
+      "current_blob": "c37a46187f294a7adc26026c101c286ded616b72",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/temporal_continuity.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "e293bc7bc0d51af51975d29b3a9b13fa49c7385a",
+      "current_blob": "e293bc7bc0d51af51975d29b3a9b13fa49c7385a",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/terminal_synthesis.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "4d6cbc8ab7fb5bcb54262ebf65fbce60218385b3",
+      "current_blob": "4d6cbc8ab7fb5bcb54262ebf65fbce60218385b3",
+      "byte_identical": true
+    },
+    "runs/substrate/v1/terminal_synthesis/units/world_model.json": {
+      "mode": "100644",
+      "kind": "blob",
+      "tag_blob": "085eac4abd286db32799d49e8ac79853820ea8dc",
+      "current_blob": "085eac4abd286db32799d49e8ac79853820ea8dc",
+      "byte_identical": true
+    }
+  },
+  "drift": [],
+  "byte_identical": true,
+  "terminal_receipts": {
+    "audit": {
+      "sha256": "07b0bb4c4b20e6be780838f873a721f3879dd2292b2f99c26f1e2eb42ac020f1",
+      "valid": true,
+      "ok": true
+    },
+    "declarations": {
+      "sha256": "7d89af116cfdb4618e86fb8ce8e8e92cc77cbf3220332e7c7fe2adbee505db93",
+      "valid": true,
+      "ok": true
+    },
+    "temporal_continuity": {
+      "sha256": "6a7f1773ca7e5f2a2c6583d6669a84b4e710b8cdc7d443efafa2c8f74e16f58f",
+      "valid": true,
+      "ok": true
+    },
+    "ontology_epistemology": {
+      "sha256": "1ba80df82643ef13a1e3dd75eecf1217c2539affe11b7abd6f4dbb69ba05a516",
+      "valid": true,
+      "ok": true
+    },
+    "memory": {
+      "sha256": "ebe53c96ce11d5c2143f2d433c3e52bc888d2641ab7afcb3bcc453d6826feff5",
+      "valid": true,
+      "ok": true
+    },
+    "diversity_arbitration": {
+      "sha256": "a591e4fcb919a0f9fef34dff3508bed34e9866c0fa701c082829f34edad8172e",
+      "valid": true,
+      "ok": true
+    },
+    "world_model": {
+      "sha256": "da807fd0a8b44bbc5a289bc4053df063ab1b494a09580c1d9511136e5763a100",
+      "valid": true,
+      "ok": true
+    },
+    "self_model": {
+      "sha256": "3b6e8bcbf5ba0459907baf8bfabc5ec062fb3b0c435d112116dcaa42e5f3f4b0",
+      "valid": true,
+      "ok": true
+    },
+    "body_compact": {
+      "sha256": "a68c89af78994b3cd46bee094471579cc8303d3d3745985f9b02871d8e25093f",
+      "valid": true,
+      "ok": true
+    },
+    "body_general": {
+      "sha256": "49b24614a5a6fcb2430299bbe25d3b217dbffa0a4f26974dbe4434ad6de7b42d",
+      "valid": true,
+      "ok": true
+    },
+    "body_tool": {
+      "sha256": "2cde135c609524dc09de5aa331ea2b8d18d7497db1a7d79337924fcb51cd74ab",
+      "valid": true,
+      "ok": true
+    },
+    "body_comparison": {
+      "sha256": "64b95c3e332aad0fd9e5c8d812041449179db20f94cca1fe44c43f427cc56c21",
+      "valid": true,
+      "ok": true
+    },
+    "admitted_plasticity": {
+      "sha256": "12352527db785d6e87ad2327d0dc823f90ace67bab90f37b5b9db132e237958f",
+      "valid": true,
+      "ok": true
+    },
+    "developmental_divergence": {
+      "sha256": "14f4e6a6976ff5fdfaaa3f3ea1c7de19ed80c7cf4cc97f9611f6edb4293fde75",
+      "valid": true,
+      "ok": true
+    },
+    "entity_batteries": {
+      "sha256": "75887f30fccee95b1cffb010907c533d30d3056c5031080e90b46ea8106fa772",
+      "valid": true,
+      "ok": true
+    },
+    "certification": {
+      "sha256": "e8d1dd5a3ad18761364972d1d257658d6a1f074938a6973e7ea5b3fd00f91f22",
+      "valid": true,
+      "ok": true
+    },
+    "recomputation": {
+      "sha256": "69e64a4f2b4fb177a6a982a6e1ff814166b52c34f8f3714484699c094b9c2fcb",
+      "valid": true,
+      "ok": true
+    },
+    "mutations": {
+      "sha256": "1d6c95a33382e2195c485b0661a031721ca2c69dffe1df65e32f929ae20437e7",
+      "valid": true,
+      "ok": true
+    },
+    "terminal_synthesis": {
+      "sha256": "d088fa4d71ebe9c9f180bf7d3a3f99394083bfac9719a3587f5635c9f49056e8",
+      "valid": true,
+      "ok": true
+    }
+  },
+  "receipt_count": 19,
+  "all_receipts_valid": true,
+  "historical_object_count": 13,
+  "historical_all_pass": true,
+  "verdict": "certified_cognitive_scaffold",
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "f0a4e4e16287e4f7cc5a2dc8598392661b111028d5f85d0547af66257274f5b4",
+  "sha256": "49027c0927e3b78559dc84de390f942d016e6c66f26aa6c216dfb851b559cd32"
+}

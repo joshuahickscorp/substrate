@@ -1,0 +1,58 @@
+{
+  "schema": "substrate-v2-scientific-constitution/v1",
+  "purpose": "determine whether verified experience organizes one continuing Substrate into a more capable transferable and self regulating cognitive entity",
+  "v1_dependency": {
+    "tag": "substrate-v1-terminal",
+    "commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+    "classification": "certified_cognitive_scaffold",
+    "nulls": [
+      "endogenous allocation",
+      "cross domain continuity",
+      "procedural transfer"
+    ]
+  },
+  "independent_unit": "one sealed developmental history generated from one seed",
+  "sesoi": 0.05,
+  "rules": {
+    "threshold_movement": "forbidden after principal launch",
+    "tie": "mechanism_null",
+    "favorable_below_sesoi": "mechanism_null",
+    "target_leakage": "instrumentation_failure",
+    "principal_outcome_for_promotion": "forbidden",
+    "activation": false
+  },
+  "failure_classes": [
+    "implementation_defect",
+    "instrumentation_failure",
+    "invalid_bed",
+    "no_oracle_headroom",
+    "mechanism_null",
+    "mechanism_positive",
+    "terminally_gated",
+    "unlicensed"
+  ],
+  "frozen_before_principal": [
+    "hypotheses",
+    "primary endpoints",
+    "independent unit",
+    "task generators",
+    "splits",
+    "seeds",
+    "controls",
+    "baselines",
+    "budgets",
+    "compute prices",
+    "SESOI",
+    "confidence procedure",
+    "multiple comparison policy",
+    "stop rules",
+    "futility rules",
+    "failure handling",
+    "claim criteria"
+  ],
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
+  "sha256": "f8fae0070cae4e7ad569f329ec1a1126cdefacee28ec141ae41527ff66024429"
+}
