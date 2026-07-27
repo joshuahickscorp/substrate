@@ -1,11 +1,11 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "a2771dffcd3748e37237766258ded9d57e093779",
+  "commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
     "package_import": true,
-    "declared_tests": true,
+    "declared_tests": false,
     "graph_valid": true,
     "artifacts_regenerate_identically": false,
     "independent_recomputation": true,
@@ -18,17 +18,17 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "a2771dffcd3748e37237766258ded9d57e093779",
-      "expected": "a2771dffcd3748e37237766258ded9d57e093779"
+      "head": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
+      "expected": "e64814da877f09c42653d1aa3bec09a8cab22fa1"
     },
     "package_import": {
       "ok": true,
       "detail": ""
     },
     "declared_tests": {
-      "ok": true,
+      "ok": false,
       "detail": [
-        ".........                                                                [100%]"
+        "FAILED tests/cognition/test_certification.py::test_the_structural_audit_passes_every_check"
       ]
     },
     "graph_valid": {
@@ -37,16 +37,19 @@
     },
     "artifacts_regenerate_identically": {
       "ok": false,
-      "drifted_from_committed": [
-        "SUBSTRATE_STRUCTURAL_AUDIT.json"
-      ],
+      "drifted_from_committed": [],
       "nondeterministic_across_two_runs": [],
       "compared": 61,
       "excluded_fields": [
         "sha256",
         "source_commit"
       ],
-      "detail": "  \"world\": \"sealed\",\n  \"selfmodel\": \"sealed\",\n  \"metacog\": \"sealed\",\n  \"plasticity\": \"sealed\",\n  \"batteries\": \"sealed\",\n  \"runtime\": \"sealed\",\n  \"temporal_link\": \"sealed\",\n  \"goals\": \"sealed\",\n  \"bodies\": \"sealed\",\n  \"graph\": \"sealed\",\n  \"sx2\": \"sealed\",\n  \"certify\": \"sealed\",\n  \"audit\": \"sealed\"\n}\n",
+      "bootstrap_artifacts_excluded": [
+        "SUBSTRATE_CLEAN_CLONE.json",
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ],
+      "why_bootstrap": "both report on the tree as it stands after the commit, so neither can be reproduced from the commit alone. Nondeterminism is still checked for them, because that would be a real defect",
+      "detail": "",
       "note": "content is compared with the commit stamp and its digest excluded, because a committed artifact was sealed at an earlier commit by construction. An artifact whose content depends on the machine shows up as drifted; one that differs between two runs in the same clone shows up as nondeterministic"
     },
     "independent_recomputation": {
@@ -59,12 +62,13 @@
     }
   },
   "failed": [
-    "artifacts_regenerate_identically"
+    "artifacts_regenerate_identically",
+    "declared_tests"
   ],
   "all_pass": false,
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "a2771dffcd3748e37237766258ded9d57e093779",
-  "sha256": "e05625d1389ca43db2b29436df3f7eea9c483f12d424831888915a3e63ffaca3"
+  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
+  "sha256": "e5f68b07b7b0cce2d054897971fb688a72a06e4b7575c10786ceeab175fdb805"
 }

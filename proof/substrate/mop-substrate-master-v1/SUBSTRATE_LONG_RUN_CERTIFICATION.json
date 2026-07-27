@@ -352,6 +352,6 @@
   "rule": "a failed component is gated out of the run rather than blocking the run",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "a2771dffcd3748e37237766258ded9d57e093779",
-  "sha256": "c6b3ae21295312da086b64c4105a640f4094f67b14af80a3bdb9f4c93e534b95"
+  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
+  "sha256": "0beeebc93142e093d4493ff9ff01f695ce0c01f55d6f1e73a03b676e25f0ec85"
 }

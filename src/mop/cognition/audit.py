@@ -62,12 +62,34 @@ def exclusive_producers() -> dict:
 
 
 def no_stale_outputs() -> dict:
-    stale = []
-    for path in sorted(io.PROOF.glob("SUBSTRATE_*.json")):
-        row = P.evidence_state(path.name)
-        if not row["counts"]:
-            stale.append({"artifact": path.name, "reason": row["reason"]})
-    return {"checked": len(list(io.PROOF.glob("SUBSTRATE_*.json"))), "stale": stale,
+    """Stale means unreadable or sealed at a commit this tree cannot reach.
+
+    It does not mean the artifact reports a failure. A report carrying all_pass false is a true report of
+    something that failed, and counting it as stale created a loop: a failing clean clone made the audit
+    fail, which made the sealing step fail, which kept the clean clone failing. The two are separated
+    here, and a failing report is surfaced under its own name rather than as staleness.
+    """
+    stale, reporting_failure = [], []
+    paths = sorted(io.PROOF.glob("SUBSTRATE_*.json"))
+    for path in paths:
+        try:
+            doc = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            stale.append({"artifact": path.name, "reason": f"unreadable: {exc.__class__.__name__}"})
+            continue
+        sha = doc.get("source_commit")
+        if not P._commit_reachable(sha):
+            stale.append({"artifact": path.name,
+                          "reason": "sealed at a commit this tree cannot reach"})
+            continue
+        failing = [k for k in P.TERMINAL_KEYS if k in doc and doc[k] is not True]
+        if failing:
+            reporting_failure.append({"artifact": path.name, "keys": failing})
+    return {"checked": len(paths), "stale": stale,
+            "artifacts_reporting_failure": reporting_failure,
+            "note": ("an artifact reporting a failure is not stale. Evidence still refuses to count it, "
+                     "which is mop.cognition.program.evidence_state, a different question from whether "
+                     "the tree carries an output it can no longer reproduce"),
             "ok": not stale}
 
 
