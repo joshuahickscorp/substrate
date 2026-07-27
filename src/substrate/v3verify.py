@@ -518,7 +518,8 @@ def clean_clone(ref: str = P.READY_TAG) -> dict:
             if clone_result.returncode == 0
             else None
         )
-        ruff_binary = shutil.which("ruff")
+        virtualenv_ruff = python.parent / "ruff"
+        ruff_binary = str(virtualenv_ruff) if virtualenv_ruff.is_file() else shutil.which("ruff")
         lint = (
             subprocess.run(
                 [ruff_binary, "check", "src", "tests"],
