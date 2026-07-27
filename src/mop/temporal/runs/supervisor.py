@@ -14,6 +14,7 @@ CAP_SMALL, CAP_LARGE, PARTIAL_STALE_SECONDS = 24, 16, 300
 ENV = dict(os.environ, OMP_NUM_THREADS="1", MKL_NUM_THREADS="1", PYTHONPATH="src")
 BEDS = ("har_stream", "speech_stream", "harth_stream")
 LOCKS = io.RUNS / "locks"
+LOCK_PUBLICATION_GRACE_SECONDS = 5.0
 HEX = set("0123456789abcdef")
 LEGACY_AUTHORITY = "b3f7421e6545527b3385f1368784ac2f0e1602a6"
 LEGACY_BINDING = "legacy_receipt_hash_normalization_20260721.json"
@@ -21,6 +22,18 @@ def workers() -> int:
     r = subprocess.run(["pgrep", "-f", "mop.temporal.runs"], capture_output=True, text=True)
     return max(0, len([x for x in r.stdout.split() if x]) - 1, sum(lock_active(p.stem.replace("_", ":", 1)) for p in LOCKS.glob("*.json")) if LOCKS.is_dir() else 0)
 def _lock_path(tag: str) -> Path: return LOCKS / f"{tag.replace(':', '_')}.json"
+def _publish_lock(lock: Path, document: dict) -> None:
+    """Replace an owned reservation without exposing a truncated JSON lock."""
+    temporary = lock.with_name(
+        f".{lock.name}.publish.{os.getpid()}.{time.time_ns()}")
+    try:
+        with open(temporary, "x") as stream:
+            json.dump(document, stream)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, lock)
+    finally:
+        temporary.unlink(missing_ok=True)
 def _pid_alive(pid: int) -> bool:
     try:
         os.kill(pid, 0)
@@ -36,7 +49,14 @@ def lock_active(tag: str) -> bool:
         if _pid_alive(int(d["pid"])):
             return True
     except (OSError, ValueError, KeyError, json.JSONDecodeError):
-        pass
+        # The O_EXCL reservation is visible before its small JSON payload has
+        # necessarily reached a concurrent reader.  Treat a fresh malformed
+        # lock as reserved instead of deleting it and admitting a second writer.
+        try:
+            if time.time() - p.stat().st_mtime < LOCK_PUBLICATION_GRACE_SECONDS:
+                return True
+        except OSError:
+            return False
     p.unlink(missing_ok=True)
     return False
 def _large_convergence_name(name: str) -> bool:
@@ -93,8 +113,15 @@ def launch(args: list[str], log: str, tag: str, module: str = "mop.temporal.runs
         fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     except FileExistsError:
         return False
-    os.write(fd, json.dumps({"pid": os.getpid(), "tag": tag, "state": "reserved", **binding}).encode())
-    os.close(fd)
+    try:
+        with os.fdopen(fd, "w") as stream:
+            json.dump({"pid": os.getpid(), "tag": tag, "state": "reserved", **binding}, stream)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except OSError as exc:
+        lock.unlink(missing_ok=True)
+        print(f"[supervisor] lock reservation failed for {tag}: {exc}", flush=True)
+        return False
     try:
         with open(LOGS / log, "a") as f:
             env = dict(child_env, TEMPORAL_SHARD_LOCK=str(lock), TEMPORAL_SHARD_TAG=tag)
@@ -108,8 +135,8 @@ def launch(args: list[str], log: str, tag: str, module: str = "mop.temporal.runs
         lock.unlink(missing_ok=True)
         print(f"[supervisor] launch failed for {tag}: {exc}", flush=True)
         return False
-    lock.write_text(json.dumps({"pid": proc.pid, "tag": tag, "args": args, "state": "active",
-                                **binding}))
+    _publish_lock(lock, {"pid": proc.pid, "tag": tag, "args": args, "state": "active",
+                         **binding})
     return True
 def run_sync(mod: str, args=()) -> bool:
     try:
