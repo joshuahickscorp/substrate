@@ -1,0 +1,30 @@
+{
+  "schema": "substrate-v2-final-classification/v1",
+  "classification": "persistent_developmental_cognition",
+  "strongest_supported": true,
+  "principal_evidence": true,
+  "mechanism_nulls": {
+    "endogenous_allocation": {
+      "classification": "no_oracle_headroom",
+      "oracle_residual": 0.04570312500000001,
+      "margin": 0.030468750000000006,
+      "sesoi": 0.05
+    }
+  },
+  "not_claimed": [
+    "consciousness",
+    "phenomenal experience",
+    "sentience",
+    "feeling",
+    "suffering",
+    "desire",
+    "personhood",
+    "life",
+    "moral status"
+  ],
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "fd49e92ff3aca9b9c39d6287c5c1c29bf4ab27a3",
+  "source_digest": "c23415cd264afcd2eb60a89e4663eb40e32c976a08e844c60e70a6c1817344f0",
+  "sha256": "2f9cfe2882a811dc0181f377a22933f7ac8eb5e80166f9dbde60ce1b5bda771a"
+}
