@@ -1,0 +1,205 @@
+{
+  "schema": "substrate-v2-domain-catalog/v1",
+  "domains": {
+    "A": {
+      "name": "delayed sequence and boundary memory",
+      "observation_schema": {
+        "tokens": "three opaque tokens",
+        "boundary": "boolean",
+        "context": "opaque context label",
+        "target": "absent"
+      },
+      "latent_state": "boundary conditioned successor index",
+      "goal": "propose the correct delayed successor token",
+      "available_cognitive_actions": [
+        "preserve uncertainty",
+        "retrieve episode",
+        "retrieve procedure",
+        "propose token"
+      ],
+      "sandboxed_tool_actions": [],
+      "outcome_timing": "after the proposal is committed",
+      "cost_model": {
+        "base": 1.0,
+        "retrieval": 0.08,
+        "verification": 0.2
+      },
+      "domain_boundary": "context label changes after a declared run",
+      "independent_unit": "one sealed developmental history seed",
+      "generator": "substrate.v2fabric.generate_task",
+      "oracle_policy": "execute boundary_route",
+      "simple_baselines": [
+        "first token",
+        "second token",
+        "last observed token"
+      ],
+      "random_baseline": "uniform over three tokens",
+      "maximum_compute_baseline": "evaluate every registered operation then verify",
+      "answer_leakage_test": "target and target digest absent from serialized observation",
+      "floor_test": "uniform choice exceeds zero and remains below ceiling",
+      "ceiling_test": "oracle executes the private operation exactly",
+      "transfer_relationships": [
+        "A_to_B_boundary_route"
+      ],
+      "negative_transfer_relationships": [
+        "A_to_D_surface_trap"
+      ],
+      "task_signature": "conditional ordered selection",
+      "required_operation": "boundary_route",
+      "surface_family": "opaque sequence tokens"
+    },
+    "B": {
+      "name": "symbolic rule induction",
+      "observation_schema": {
+        "glyphs": "three permuted opaque glyphs",
+        "exception": "boolean",
+        "rule_context": "opaque rule label",
+        "target": "absent"
+      },
+      "latent_state": "exception conditioned symbolic transformation",
+      "goal": "propose the transformed glyph after a delay",
+      "available_cognitive_actions": [
+        "test hypothesis",
+        "retrieve current rule",
+        "retrieve procedure",
+        "propose glyph"
+      ],
+      "sandboxed_tool_actions": [],
+      "outcome_timing": "after the proposal is committed",
+      "cost_model": {
+        "base": 1.0,
+        "retrieval": 0.08,
+        "verification": 0.2
+      },
+      "domain_boundary": "rule context changes at a declared boundary",
+      "independent_unit": "one sealed developmental history seed",
+      "generator": "substrate.v2fabric.generate_task",
+      "oracle_policy": "execute boundary_route over glyph positions",
+      "simple_baselines": [
+        "first glyph",
+        "second glyph",
+        "frequency rule"
+      ],
+      "random_baseline": "uniform over three glyphs",
+      "maximum_compute_baseline": "evaluate every registered operation then verify",
+      "answer_leakage_test": "target and target digest absent from serialized observation",
+      "floor_test": "uniform choice exceeds zero and remains below ceiling",
+      "ceiling_test": "oracle executes the private operation exactly",
+      "transfer_relationships": [
+        "A_to_B_boundary_route"
+      ],
+      "negative_transfer_relationships": [],
+      "task_signature": "conditional ordered selection",
+      "required_operation": "boundary_route",
+      "surface_family": "permuted symbolic glyphs"
+    },
+    "C": {
+      "name": "evidence routing under cost",
+      "observation_schema": {
+        "sources": "cheap and robust opaque sources",
+        "risk": "bounded preoutcome estimate",
+        "contradiction": "boolean",
+        "budget": "available internal cost",
+        "target": "absent"
+      },
+      "latent_state": "context dependent source sufficiency",
+      "goal": "choose the cheapest sufficient evidence source",
+      "available_cognitive_actions": [
+        "preserve minority",
+        "retrieve reliability",
+        "verify",
+        "choose source"
+      ],
+      "sandboxed_tool_actions": [
+        "pure compare"
+      ],
+      "outcome_timing": "source sufficiency is revealed after commitment",
+      "cost_model": {
+        "cheap_source": 0.05,
+        "robust_source": 0.16,
+        "verification": 0.2
+      },
+      "domain_boundary": "reliability regime label changes",
+      "independent_unit": "one sealed developmental history seed",
+      "generator": "substrate.v2fabric.generate_task",
+      "oracle_policy": "execute risk_route",
+      "simple_baselines": [
+        "always cheap",
+        "always robust",
+        "contradiction only"
+      ],
+      "random_baseline": "uniform over two sources",
+      "maximum_compute_baseline": "query both sources and compare",
+      "answer_leakage_test": "private sufficient source absent from observation",
+      "floor_test": "random source selection remains below oracle",
+      "ceiling_test": "oracle executes private reliability regime",
+      "transfer_relationships": [
+        "C_to_D_risk_route"
+      ],
+      "negative_transfer_relationships": [],
+      "task_signature": "cost sensitive conditional routing",
+      "required_operation": "risk_route",
+      "surface_family": "contradictory evidence sources"
+    },
+    "D": {
+      "name": "sandboxed tool selection",
+      "observation_schema": {
+        "tools": "cheap and robust deterministic local tools",
+        "failure_risk": "bounded preoutcome estimate",
+        "known_limitation": "boolean",
+        "budget": "available internal cost",
+        "target": "absent"
+      },
+      "latent_state": "tool capability and deterministic failure region",
+      "goal": "choose the cheapest sufficient pure local tool",
+      "available_cognitive_actions": [
+        "predict competence",
+        "retrieve procedure",
+        "invoke sandboxed tool",
+        "check result"
+      ],
+      "sandboxed_tool_actions": [
+        "lookup",
+        "transform",
+        "compare",
+        "simulate",
+        "check"
+      ],
+      "outcome_timing": "tool success is returned after invocation is proposed",
+      "cost_model": {
+        "cheap_tool": 0.05,
+        "robust_tool": 0.16,
+        "check": 0.2
+      },
+      "domain_boundary": "capability availability changes",
+      "independent_unit": "one sealed developmental history seed",
+      "generator": "substrate.v2fabric.generate_task",
+      "oracle_policy": "execute risk_route",
+      "simple_baselines": [
+        "always cheap",
+        "always robust",
+        "limitation only"
+      ],
+      "random_baseline": "uniform over two tools",
+      "maximum_compute_baseline": "invoke both pure tools and check",
+      "answer_leakage_test": "private sufficient tool absent from observation",
+      "floor_test": "random tool selection remains below oracle",
+      "ceiling_test": "oracle executes private failure region",
+      "transfer_relationships": [
+        "C_to_D_risk_route"
+      ],
+      "negative_transfer_relationships": [
+        "A_to_D_surface_trap"
+      ],
+      "task_signature": "cost sensitive conditional routing",
+      "required_operation": "risk_route",
+      "surface_family": "opaque selectable tokens resembling domain A"
+    }
+  },
+  "domain_count": 4,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
+  "sha256": "608d2605821f90867de0fe5016932132bd970d70941ab20ab22f1f406689d972"
+}

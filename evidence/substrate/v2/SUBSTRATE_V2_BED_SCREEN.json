@@ -1,0 +1,76 @@
+{
+  "schema": "substrate-v2-bed-screen/v1",
+  "domains": {
+    "A": {
+      "n_tasks": 512,
+      "oracle_accuracy": 1.0,
+      "simple_first_accuracy": 0.498046875,
+      "simple_second_accuracy": 0.501953125,
+      "random_expected_accuracy": 0.3333333333333333,
+      "best_nonoracle_accuracy": 0.501953125,
+      "oracle_headroom": 0.498046875,
+      "floor_clear": true,
+      "not_saturated": true,
+      "headroom_above_sesoi": true,
+      "answer_leakage_failures": [],
+      "valid": true
+    },
+    "B": {
+      "n_tasks": 512,
+      "oracle_accuracy": 1.0,
+      "simple_first_accuracy": 0.517578125,
+      "simple_second_accuracy": 0.482421875,
+      "random_expected_accuracy": 0.3333333333333333,
+      "best_nonoracle_accuracy": 0.517578125,
+      "oracle_headroom": 0.482421875,
+      "floor_clear": true,
+      "not_saturated": true,
+      "headroom_above_sesoi": true,
+      "answer_leakage_failures": [],
+      "valid": true
+    },
+    "C": {
+      "n_tasks": 512,
+      "oracle_accuracy": 1.0,
+      "simple_first_accuracy": 0.39453125,
+      "simple_second_accuracy": 0.60546875,
+      "random_expected_accuracy": 0.5,
+      "best_nonoracle_accuracy": 0.60546875,
+      "oracle_headroom": 0.39453125,
+      "floor_clear": true,
+      "not_saturated": true,
+      "headroom_above_sesoi": true,
+      "answer_leakage_failures": [],
+      "valid": true
+    },
+    "D": {
+      "n_tasks": 512,
+      "oracle_accuracy": 1.0,
+      "simple_first_accuracy": 0.427734375,
+      "simple_second_accuracy": 0.572265625,
+      "random_expected_accuracy": 0.5,
+      "best_nonoracle_accuracy": 0.572265625,
+      "oracle_headroom": 0.427734375,
+      "floor_clear": true,
+      "not_saturated": true,
+      "headroom_above_sesoi": true,
+      "answer_leakage_failures": [],
+      "valid": true
+    }
+  },
+  "task_identity_collisions": [],
+  "split_seed_overlap": {
+    "development:admission": [],
+    "development:principal": [],
+    "development:replication": [],
+    "admission:principal": [],
+    "admission:replication": [],
+    "principal:replication": []
+  },
+  "all_valid": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
+  "sha256": "edf2916bd5f4df1a5b6610619c22950bf7451ea66bd469af8e8af7a7fc2b3b8d"
+}

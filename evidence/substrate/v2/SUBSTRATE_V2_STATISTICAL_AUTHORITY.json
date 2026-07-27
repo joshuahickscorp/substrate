@@ -1,0 +1,27 @@
+{
+  "schema": "substrate-v2-statistical-authority/v1",
+  "independent_unit": "one sealed developmental history generated from one seed",
+  "analysis": [
+    "paired effect per seed",
+    "mean paired effect",
+    "median paired effect",
+    "95 percent bootstrap confidence interval over seeds",
+    "exact paired sign permutation test",
+    "standardized paired effect",
+    "raw unit ledger"
+  ],
+  "bootstrap_repetitions": 10000,
+  "bootstrap_seed": 72021,
+  "familywise_policy": "Holm correction over H_D1 H_D2 H_D3",
+  "missing_unit_policy": "never discard silently; retry exact checkpoint once then retain terminal failure",
+  "replacement_rule": "none after launch",
+  "valid_retry": "one exact resume for process failure",
+  "terminal_failure": "second process failure or deterministic integrity refusal",
+  "excluded_unit": "only preregistered invalid generator output before task exposure",
+  "sesoi": 0.05,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
+  "sha256": "37d7cfe776a559b5993291be0fb874ea3de50b0431bb5ed8120eece41f9a7e96"
+}

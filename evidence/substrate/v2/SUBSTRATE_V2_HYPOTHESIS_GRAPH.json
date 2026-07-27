@@ -1,0 +1,68 @@
+{
+  "schema": "substrate-v2-hypothesis-graph/v1",
+  "hypotheses": {
+    "H_D1": {
+      "claim": "cross domain continuity",
+      "primary": true,
+      "endpoint": "held out B utility minus strongest fresh or replay control",
+      "pass": "effect above SESOI, lower confidence bound above zero, retention within SESOI, exact identity"
+    },
+    "H_D2": {
+      "claim": "procedural transfer",
+      "primary": true,
+      "endpoint": "full transferred utility minus strongest nonprocedural control",
+      "pass": "two positive pairs above SESOI and clean negative pair"
+    },
+    "H_D3": {
+      "claim": "endogenous allocation",
+      "primary": true,
+      "endpoint": "cost adjusted utility minus strongest simple policy",
+      "pass": "oracle residual and effect above SESOI with held out transfer"
+    },
+    "H_D4": {
+      "claim": "useful developmental divergence",
+      "primary": false,
+      "endpoint": "matched future specialization advantage",
+      "pass": "advantage above SESOI, identical controls equivalent, wrong history clean"
+    },
+    "H_D5": {
+      "claim": "developmental self model utility",
+      "primary": false,
+      "endpoint": "held out utility minus no self model",
+      "pass": "at least one preregistered use above SESOI"
+    }
+  },
+  "dependencies": {
+    "persistent_developmental_cognition": [
+      "grounded_closed_loop",
+      "unity_under_conflict",
+      "H_D1",
+      "H_D2",
+      "identity_continuity",
+      "retention"
+    ],
+    "reflective_cognitive_organization": [
+      "persistent_developmental_cognition",
+      "H_D3",
+      "world_self_control_value",
+      "H_D5"
+    ],
+    "functional_or_proto_nous_candidate": [
+      "reflective_cognitive_organization",
+      "all_six_closure_gates",
+      "multiple_positive_transfer_pairs",
+      "H_D4",
+      "negative_transfer_clean",
+      "body_change_continuity",
+      "interruption_recovery",
+      "independent_verification",
+      "zero_mutation_survivors",
+      "terminal_campaign_complete"
+    ]
+  },
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
+  "sha256": "4220e8a07b6771320e69ecc3fb865e8daa98385d27dbdf8ec9e3105eddb9c309"
+}
