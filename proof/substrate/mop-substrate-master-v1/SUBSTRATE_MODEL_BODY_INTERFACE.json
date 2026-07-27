@@ -151,6 +151,6 @@
   "external_blocker": "no frontier model weights and no inference credential are present on this machine, so the larger general body is a higher capacity local model rather than a large language model. That instantiation is externally blocked, not unbuilt",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9daed7f6c76ae9ff2b47339dab9749b046e4ca3",
-  "sha256": "9789e355ae23b983c1344a7aae8b7e9a93c2334bbc80441105abcd6758054e32"
+  "source_commit": "a2771dffcd3748e37237766258ded9d57e093779",
+  "sha256": "3e8525d6ba9c77acf5ff5e5468a5e86747902919bfd3961a0f7e2db0e5199c33"
 }

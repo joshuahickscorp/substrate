@@ -77,6 +77,11 @@ def run(keep: bool = False) -> dict:
         # than the one being cloned, so including it reports every artifact as drifted on every run.
         # sha256 is a digest over the rest and moves with it. What is compared is the content.
         volatile = {"source_commit", "sha256"}
+        # Two artifacts report on the tree as it stands after the commit, so they cannot be reproduced
+        # from the commit alone and their drift is bootstrap rather than machine dependence. The clean
+        # clone receipt is produced by cloning the commit that would have to contain it, and the
+        # structural audit enumerates the artifacts on disk, which in a clone excludes both of these.
+        bootstrap = {"SUBSTRATE_CLEAN_CLONE.json", "SUBSTRATE_STRUCTURAL_AUDIT.json"}
 
         def content(path: Path) -> str:
             try:
@@ -92,13 +97,18 @@ def run(keep: bool = False) -> dict:
         code2, _ = _run([PY, "-m", "mop.cognition.deliverables", "seal-modules"], clone, env)
         twice = {p.name: content(p) for p in sorted(proof.glob("SUBSTRATE_*.json"))}
 
-        drifted = sorted(k for k in before if k in once and before[k] != once[k])
+        drifted = sorted(k for k in before
+                         if k in once and before[k] != once[k] and k not in bootstrap)
         nondeterministic = sorted(k for k in once if k in twice and once[k] != twice[k])
         results["artifacts_regenerate_identically"] = {
             "ok": code == 0 and code2 == 0 and not drifted and not nondeterministic,
             "drifted_from_committed": drifted,
             "nondeterministic_across_two_runs": nondeterministic,
             "compared": len(before), "excluded_fields": sorted(volatile),
+            "bootstrap_artifacts_excluded": sorted(bootstrap),
+            "why_bootstrap": ("both report on the tree as it stands after the commit, so neither can be "
+                              "reproduced from the commit alone. Nondeterminism is still checked for "
+                              "them, because that would be a real defect"),
             "detail": out[-300:] if drifted else "",
             "note": ("content is compared with the commit stamp and its digest excluded, because a "
                      "committed artifact was sealed at an earlier commit by construction. An artifact "
