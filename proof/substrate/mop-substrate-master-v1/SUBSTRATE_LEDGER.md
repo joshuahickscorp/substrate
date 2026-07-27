@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `8f18a48ff44266f0a4f7334f457e38b9c4868b51`. Status is derived, never asserted: an item is
+Generated from the tree at commit `86d50c71e482e1e936c7308e61ad89c6a43cb1da`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 64. Levels: measured 43, terminal 20, tested 1.
+Items: 67. Levels: measured 43, terminal 23, tested 1.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -68,6 +68,9 @@ Items: 64. Levels: measured 43, terminal 20, tested 1.
 | Y2 | 16 | SX2 diversity closed on a compute matched comparison | measured | C4, A3 | classify the result through mop.method.gate.classify_result and record it |
 | Y3 | 2 | Every runtime stage is active, with a null control where one is possible | measured | N1, Y1 | classify the result through mop.method.gate.classify_result and record it |
 | Y4 | 14 | Session and body canaries on the sealed authority | measured | F4, F6 | classify the result through mop.method.gate.classify_result and record it |
+| Z1 | 3 | One frozen long run DAG of certified or necessary units | terminal | Y1, Y3, Y4 | none, an authority is terminal once sealed and tested |
+| Z2 | 4 | A rehearsal that tries to break the machinery | terminal | Z1 | none, an authority is terminal once sealed and tested |
+| Z3 | 45 | The claim ceiling the run cannot exceed | terminal | A5, Z1 | none, an authority is terminal once sealed and tested |
 | L1 | 17 | A resumable campaign driver for a run measured in days | terminal | A6, V2 | none, an authority is terminal once sealed and tested |
 | L2 | 22 | The long run plan names what it cannot schedule | terminal | L1, A5 | none, an authority is terminal once sealed and tested |
 | X3 | 6.1 | Substrate Temporal Core v1 selection record | measured | C1 | classify the result through mop.method.gate.classify_result and record it |

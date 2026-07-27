@@ -313,7 +313,12 @@
     "SUBSTRATE_GROUNDING.json": true,
     "SUBSTRATE_HYPOTHESIS_GRAPH.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_AUTHORITY.json": true,
     "SUBSTRATE_LONG_RUN_CERTIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json": true,
+    "SUBSTRATE_LONG_RUN_DAG.json": true,
+    "SUBSTRATE_LONG_RUN_REHEARSAL.json": true,
+    "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": true,
@@ -347,7 +352,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
+  "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
   "activation": false,
-  "sha256": "aa738c171c750d8011ae5ebed9707b3b06d5939279d748529db0c8d19660e764"
+  "sha256": "73624eb8a70aeb97e5e9baec7cdb2d886f905b7c090411a4d02936a31a10577f"
 }

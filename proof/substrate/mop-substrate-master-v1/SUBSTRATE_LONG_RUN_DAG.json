@@ -1,0 +1,289 @@
+{
+  "schema": "substrate-long-run-dag/v1",
+  "units": [
+    {
+      "identity": "audit",
+      "module": "mop.cognition.audit",
+      "args": [
+        "run"
+      ],
+      "depends_on": [],
+      "certified": "gates every later unit",
+      "produces": [
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ]
+    },
+    {
+      "identity": "declarations",
+      "module": "mop.cognition.deliverables",
+      "args": [
+        "seal-modules"
+      ],
+      "depends_on": [
+        "audit"
+      ],
+      "certified": "necessary: every later unit reads a sealed declaration",
+      "produces": []
+    },
+    {
+      "identity": "temporal_continuity",
+      "module": "mop.cognition.temporal_link",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "runtime activity: the temporal region changes the decision path",
+      "produces": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ]
+    },
+    {
+      "identity": "ontology_epistemology",
+      "module": "mop.cognition.epistemology",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "tested batteries in sections 6.2 and 7.3",
+      "produces": [
+        "SUBSTRATE_EPISTEMOLOGY.json",
+        "SUBSTRATE_BELIEF_REVISION.json"
+      ]
+    },
+    {
+      "identity": "memory",
+      "module": "mop.cognition.memory",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "session canary: memory reuse and restoration",
+      "produces": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ]
+    },
+    {
+      "identity": "diversity_arbitration",
+      "module": "mop.cognition.sx2",
+      "args": [
+        "run"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "SX2 closed on a compute matched comparison; the unit records the closure",
+      "produces": [
+        "SUBSTRATE_SX2_DIVERSITY.json"
+      ]
+    },
+    {
+      "identity": "world_model",
+      "module": "mop.cognition.worldbed",
+      "args": [
+        "integrate"
+      ],
+      "depends_on": [
+        "memory"
+      ],
+      "certified": "state dependent bed, decision gain measured and negative",
+      "produces": [
+        "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+      ]
+    },
+    {
+      "identity": "self_model",
+      "module": "mop.cognition.selfmodel",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "memory"
+      ],
+      "certified": "session canary: calibration paired to outcomes",
+      "produces": [
+        "SUBSTRATE_SELF_MODEL.json"
+      ]
+    },
+    {
+      "identity": "body_compact",
+      "module": "mop.cognition.bodies",
+      "args": [
+        "compact"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "body canary: pairwise distinct",
+      "produces": [
+        "SUBSTRATE_BODY_COMPACT.json"
+      ]
+    },
+    {
+      "identity": "body_general",
+      "module": "mop.cognition.bodies",
+      "args": [
+        "general"
+      ],
+      "depends_on": [
+        "body_compact"
+      ],
+      "certified": "body canary: pairwise distinct",
+      "produces": [
+        "SUBSTRATE_BODY_GENERAL.json"
+      ]
+    },
+    {
+      "identity": "body_tool",
+      "module": "mop.cognition.bodies",
+      "args": [
+        "tool"
+      ],
+      "depends_on": [
+        "body_compact"
+      ],
+      "certified": "body canary: pairwise distinct",
+      "produces": [
+        "SUBSTRATE_BODY_TOOL.json"
+      ]
+    },
+    {
+      "identity": "body_comparison",
+      "module": "mop.cognition.bodies",
+      "args": [
+        "compare"
+      ],
+      "depends_on": [
+        "body_general",
+        "body_tool",
+        "temporal_continuity"
+      ],
+      "certified": "ablation ladder measured against all three bodies",
+      "produces": [
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ]
+    },
+    {
+      "identity": "admitted_plasticity",
+      "module": "mop.cognition.plasticity",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "runtime activity: adapt changes the reliability state",
+      "produces": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json",
+        "SUBSTRATE_REORGANIZATION.json"
+      ]
+    },
+    {
+      "identity": "developmental_divergence",
+      "module": "mop.cognition.divergence",
+      "args": [
+        "run"
+      ],
+      "depends_on": [
+        "memory",
+        "temporal_continuity"
+      ],
+      "certified": "control clean: identical histories produce no divergence",
+      "produces": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ]
+    },
+    {
+      "identity": "entity_batteries",
+      "module": "mop.cognition.batteries",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "world_model",
+        "self_model",
+        "body_comparison",
+        "admitted_plasticity"
+      ],
+      "certified": "runtime activity: every stage the batteries read is active",
+      "produces": [
+        "SUBSTRATE_THINKING_BATTERY.json",
+        "SUBSTRATE_CONTINUITY_BATTERY.json",
+        "SUBSTRATE_UNITY_BATTERY.json",
+        "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
+        "SUBSTRATE_AGENCY_BATTERY.json",
+        "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"
+      ]
+    },
+    {
+      "identity": "certification",
+      "module": "mop.cognition.certify",
+      "args": [
+        "run"
+      ],
+      "depends_on": [
+        "entity_batteries",
+        "developmental_divergence",
+        "diversity_arbitration"
+      ],
+      "certified": "necessary: reruns the cheap certification against the run's own outputs",
+      "produces": [
+        "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
+      ]
+    },
+    {
+      "identity": "recomputation",
+      "module": "mop.cognition.verify",
+      "args": [
+        "recompute"
+      ],
+      "depends_on": [
+        "certification"
+      ],
+      "certified": "necessary: a second route over the sealed bytes",
+      "produces": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+      ]
+    },
+    {
+      "identity": "mutations",
+      "module": "mop.cognition.verify",
+      "args": [
+        "mutate"
+      ],
+      "depends_on": [
+        "recomputation"
+      ],
+      "certified": "necessary: every guard is broken on purpose",
+      "produces": [
+        "SUBSTRATE_MUTATION_REPORT.json"
+      ]
+    },
+    {
+      "identity": "terminal_synthesis",
+      "module": "mop.cognition.authority",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "mutations"
+      ],
+      "certified": "necessary: the closing authority",
+      "produces": [
+        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+        "SUBSTRATE_FINAL_STATE.json"
+      ]
+    }
+  ],
+  "unit_count": 19,
+  "graph_nodes": 26,
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
+  "sha256": "edc9a3abc9778b5f114e59e8d607cf7f3158ff526c3638877984d425b11d29be"
+}

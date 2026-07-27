@@ -535,6 +535,31 @@ ITEMS: tuple[Item, ...] = (
               "tests/cognition/test_certification.py::test_the_three_bodies_are_pairwise_distinct"),
        evidence=("SUBSTRATE_LONG_RUN_CERTIFICATION.json",), deps=("F4", "F6"), batch=6),
 
+    _i("Z1", "3", "One frozen long run DAG of certified or necessary units",
+       "Source, data, sessions, splits, perspectives, bodies, seeds, budgets, controls, SESOI, stop "
+       "rules, checkpoints, retries and claim ceilings are frozen and hashed, so a live edit after "
+       "launch is detectable rather than merely discouraged. Completion is a count of scientific work "
+       "units, not wall time.",
+       kind="authority", impl=(f"{COG}/longrun.py",),
+       tests=("tests/cognition/test_longrun.py::test_every_unit_is_certified_or_necessary",
+              "tests/cognition/test_longrun.py::test_a_live_edit_after_the_freeze_is_detectable"),
+       evidence=("SUBSTRATE_LONG_RUN_AUTHORITY.json", "SUBSTRATE_LONG_RUN_DAG.json",
+                 "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json"), deps=("Y1", "Y3", "Y4"), batch=6),
+    _i("Z2", "4", "A rehearsal that tries to break the machinery",
+       "Deterministic receipts, exclusive writers, duplicate refusal, checkpoint and resume, injected "
+       "failure leaving completed work intact, stale artifact refusal, the stop switch, evidence "
+       "indexing and terminal closure.",
+       kind="authority", impl=(f"{COG}/longrun.py",),
+       tests=("tests/cognition/test_longrun.py::test_the_rehearsal_breaks_things_and_survives",),
+       evidence=("SUBSTRATE_LONG_RUN_REHEARSAL.json",), deps=("Z1",), batch=6),
+    _i("Z3", "45", "The claim ceiling the run cannot exceed",
+       "The permitted terms require a classification from the method kernel. Consciousness and "
+       "subjective experience require a separate authority that does not exist, so no result from this "
+       "run can license either whatever it shows.",
+       kind="boundary", impl=(f"{COG}/longrun.py",),
+       tests=("tests/cognition/test_longrun.py::test_the_claim_ceiling_forbids_what_it_must",),
+       evidence=("SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json",), deps=("A5", "Z1"), batch=6),
+
     _i("L1", "17", "A resumable campaign driver for a run measured in days",
        "The six batch loop, made autonomous. A stage is done because its receipt exists, a stage that "
        "fails the same way twice under the same source commit stops being retried, and the run ends "

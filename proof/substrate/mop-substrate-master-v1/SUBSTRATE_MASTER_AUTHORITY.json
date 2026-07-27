@@ -841,6 +841,42 @@
       ]
     },
     {
+      "id": "Z1",
+      "section": "3",
+      "title": "One frozen long run DAG of certified or necessary units",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "Y1",
+        "Y3",
+        "Y4"
+      ]
+    },
+    {
+      "id": "Z2",
+      "section": "4",
+      "title": "A rehearsal that tries to break the machinery",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "Z1"
+      ]
+    },
+    {
+      "id": "Z3",
+      "section": "45",
+      "title": "The claim ceiling the run cannot exceed",
+      "batch": 6,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "A5",
+        "Z1"
+      ]
+    },
+    {
       "id": "L1",
       "section": "17",
       "title": "A resumable campaign driver for a run measured in days",
@@ -916,7 +952,12 @@
     "SUBSTRATE_GOAL_SYSTEM.json",
     "SUBSTRATE_GROUNDING.json",
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+    "SUBSTRATE_LONG_RUN_AUTHORITY.json",
     "SUBSTRATE_LONG_RUN_CERTIFICATION.json",
+    "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json",
+    "SUBSTRATE_LONG_RUN_DAG.json",
+    "SUBSTRATE_LONG_RUN_REHEARSAL.json",
+    "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json",
     "SUBSTRATE_MASTER_AUTHORITY.json",
     "SUBSTRATE_MEMORY_SYSTEM.json",
     "SUBSTRATE_METACOGNITION.json",
@@ -977,7 +1018,12 @@
     "SUBSTRATE_GOAL_SYSTEM.json": true,
     "SUBSTRATE_GROUNDING.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_AUTHORITY.json": true,
     "SUBSTRATE_LONG_RUN_CERTIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json": true,
+    "SUBSTRATE_LONG_RUN_DAG.json": true,
+    "SUBSTRATE_LONG_RUN_REHEARSAL.json": true,
+    "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": true,
@@ -1038,7 +1084,12 @@
     "SUBSTRATE_GOAL_SYSTEM.json": true,
     "SUBSTRATE_GROUNDING.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_AUTHORITY.json": true,
     "SUBSTRATE_LONG_RUN_CERTIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json": true,
+    "SUBSTRATE_LONG_RUN_DAG.json": true,
+    "SUBSTRATE_LONG_RUN_REHEARSAL.json": true,
+    "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": true,
@@ -1072,11 +1123,11 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 20,
+    "terminal": 23,
     "tested": 1,
     "measured": 43
   },
   "activation": false,
-  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
-  "sha256": "9483d85f0873514866147117573c49fab5e6d160fbb483289927baa28e4a4d15"
+  "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
+  "sha256": "5dbdcc90b61d0db3ad2928d414b058d6890445d64a5d246fe9d943ae56f9092a"
 }

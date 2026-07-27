@@ -11,13 +11,13 @@
   ],
   "results": {
     "exclusive_producers": {
-      "artifacts": 59,
+      "artifacts": 64,
       "duplicated": {},
       "on_disk_without_a_producer": [],
       "ok": true
     },
     "no_stale_outputs": {
-      "checked": 55,
+      "checked": 61,
       "stale": [],
       "ok": true
     },
@@ -343,9 +343,9 @@
   },
   "failed": [],
   "all_pass": true,
-  "commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
+  "commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
-  "sha256": "8defb64ee54d3a47733e877c23caf992d0e45f6c9022447225285e3625ae98fe"
+  "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
+  "sha256": "b9ed22f5f8c24dd5598722cc98d4fa1987073bd039c1ead4fbd3a39b01f12607"
 }

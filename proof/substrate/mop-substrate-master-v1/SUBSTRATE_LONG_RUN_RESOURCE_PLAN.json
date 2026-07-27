@@ -1,0 +1,19 @@
+{
+  "schema": "substrate-long-run-resource-plan/v1",
+  "scheduler": "mop.cognition.longrun, one unit at a time, exclusive claim per unit",
+  "concurrency": 1,
+  "why_serial": "every unit here is seconds to minutes of local compute and several write the same proof root. Parallelism would buy nothing and would reintroduce the exclusive writer problem the audit exists to prevent",
+  "unit_count": 19,
+  "completion_criterion": "all units terminal",
+  "not_a_wall_clock": "a run that finishes early because the machine was fast has not done less science, and a run still going has units left",
+  "stop_switch": "/Users/scammermike/.mop_substrate_stop",
+  "retries": 2,
+  "external_dependencies": {
+    "corpora": "under custody outside every worktree",
+    "network": "none required"
+  },
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
+  "sha256": "265513d1bccbdb7ac88c0bb32e02939eb5db6541a331656684f65bab3dec2770"
+}
