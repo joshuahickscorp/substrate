@@ -1,13 +1,13 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "e4400b453c3da981e37916cfd2e8122793fb3374",
+  "commit": "a07ef8827ce1302ee6b018b3b6dadbb2e5149c5b",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
     "package_import": true,
     "declared_tests": true,
     "graph_valid": true,
-    "artifacts_regenerate_identically": true,
+    "artifacts_regenerate_identically": false,
     "independent_recomputation": true,
     "no_activation": true
   },
@@ -18,8 +18,8 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "e4400b453c3da981e37916cfd2e8122793fb3374",
-      "expected": "e4400b453c3da981e37916cfd2e8122793fb3374"
+      "head": "a07ef8827ce1302ee6b018b3b6dadbb2e5149c5b",
+      "expected": "a07ef8827ce1302ee6b018b3b6dadbb2e5149c5b"
     },
     "package_import": {
       "ok": true,
@@ -36,15 +36,17 @@
       "detail": "{\"valid\": true, \"blocked\": []}"
     },
     "artifacts_regenerate_identically": {
-      "ok": true,
-      "drifted_from_committed": [],
+      "ok": false,
+      "drifted_from_committed": [
+        "SUBSTRATE_RUNTIME.json"
+      ],
       "nondeterministic_across_two_runs": [],
       "compared": 53,
       "excluded_fields": [
         "sha256",
         "source_commit"
       ],
-      "detail": "",
+      "detail": "\": \"sealed\",\n  \"perspectives\": \"sealed\",\n  \"memory\": \"sealed\",\n  \"world\": \"sealed\",\n  \"selfmodel\": \"sealed\",\n  \"metacog\": \"sealed\",\n  \"plasticity\": \"sealed\",\n  \"batteries\": \"sealed\",\n  \"runtime\": \"sealed\",\n  \"temporal_link\": \"sealed\",\n  \"goals\": \"sealed\",\n  \"bodies\": \"sealed\",\n  \"graph\": \"sealed\"\n}\n",
       "note": "content is compared with the commit stamp and its digest excluded, because a committed artifact was sealed at an earlier commit by construction. An artifact whose content depends on the machine shows up as drifted; one that differs between two runs in the same clone shows up as nondeterministic"
     },
     "independent_recomputation": {
@@ -56,11 +58,13 @@
       "detail": "false"
     }
   },
-  "failed": [],
-  "all_pass": true,
+  "failed": [
+    "artifacts_regenerate_identically"
+  ],
+  "all_pass": false,
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "e4400b453c3da981e37916cfd2e8122793fb3374",
-  "sha256": "54ff6be2ff8bd9c58ba33c6a74ff8a25bcd1d3544b740ebcd1b129c15793bc90"
+  "source_commit": "a07ef8827ce1302ee6b018b3b6dadbb2e5149c5b",
+  "sha256": "ea3746483f99163483c5ad1b0b9d0d118e9950334ff774b44c9d2c3c9ccaf9a3"
 }
