@@ -244,7 +244,7 @@
       "title": "Typed cognitive workspace",
       "batch": 2,
       "kind": "implementation",
-      "category": "unity",
+      "category": "workspace",
       "dependencies": [
         "A2"
       ]
@@ -533,7 +533,7 @@
       "title": "Operationalized thinking",
       "batch": 5,
       "kind": "implementation",
-      "category": "unity",
+      "category": "thinking",
       "dependencies": [
         "C5",
         "K1"
@@ -545,7 +545,7 @@
       "title": "Continuity",
       "batch": 5,
       "kind": "implementation",
-      "category": "goal_continuity",
+      "category": "continuity",
       "dependencies": [
         "M2",
         "S1"
@@ -656,6 +656,144 @@
       ]
     },
     {
+      "id": "F1",
+      "section": "5",
+      "title": "One materialized program graph, no prose waves",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A6"
+      ]
+    },
+    {
+      "id": "F2",
+      "section": "4",
+      "title": "A final authority that resumes without conversation history",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "F1"
+      ]
+    },
+    {
+      "id": "F3",
+      "section": "9",
+      "title": "Temporal core integrated through a versioned interface, as a declared control",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "temporal_continuity",
+      "dependencies": [
+        "C1",
+        "N1"
+      ]
+    },
+    {
+      "id": "F4",
+      "section": "8",
+      "title": "A real session authority built from a session nobody wrote for this",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "episodic_memory",
+      "dependencies": [
+        "M2"
+      ]
+    },
+    {
+      "id": "F5",
+      "section": "12",
+      "title": "World model inside the decision loop on a state dependent bed",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "world_model",
+      "dependencies": [
+        "F4",
+        "W1"
+      ]
+    },
+    {
+      "id": "F6",
+      "section": "14",
+      "title": "Three model body classes conforming through one interface",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "model_body_integration",
+      "dependencies": [
+        "B1",
+        "F3"
+      ]
+    },
+    {
+      "id": "F7",
+      "section": "23",
+      "title": "Goal system where a goal cannot authorize itself",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "goal_continuity",
+      "dependencies": [
+        "E5"
+      ]
+    },
+    {
+      "id": "F8",
+      "section": "24",
+      "title": "Valuation that is externally authorized and refuses to be fitted",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "valuation",
+      "dependencies": [
+        "F7"
+      ]
+    },
+    {
+      "id": "F9",
+      "section": "20",
+      "title": "Grounding where a verbal definition is not evidence",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "grounding",
+      "dependencies": [
+        "F4",
+        "O1"
+      ]
+    },
+    {
+      "id": "F10",
+      "section": "21",
+      "title": "Intervention is distinguished from observation",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "causal_reasoning",
+      "dependencies": [
+        "W1"
+      ]
+    },
+    {
+      "id": "F11",
+      "section": "29",
+      "title": "Developmental divergence with a working control",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "developmental_divergence",
+      "dependencies": [
+        "F4",
+        "P5"
+      ]
+    },
+    {
+      "id": "F12",
+      "section": "47",
+      "title": "Clean clone reproduces the evidence away from this machine",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "V1",
+        "V2"
+      ]
+    },
+    {
       "id": "L1",
       "section": "17",
       "title": "A resumable campaign driver for a run measured in days",
@@ -696,7 +834,7 @@
       "title": "Cognitive integrity",
       "batch": 5,
       "kind": "implementation",
-      "category": "reflective_access",
+      "category": "cognitive_integrity",
       "dependencies": [
         "A4",
         "M2"
@@ -707,8 +845,12 @@
     "SUBSTRATE_ARBITRATION_SYSTEM.json",
     "SUBSTRATE_ARCHITECTURE.json",
     "SUBSTRATE_BELIEF_REVISION.json",
+    "SUBSTRATE_BODY_COMPACT.json",
+    "SUBSTRATE_BODY_GENERAL.json",
+    "SUBSTRATE_BODY_TOOL.json",
     "SUBSTRATE_CAMPAIGN_PLAN.json",
     "SUBSTRATE_CAPABILITY_MAP.json",
+    "SUBSTRATE_CLEAN_CLONE.json",
     "SUBSTRATE_CONTINUITY_BATTERY.json",
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md",
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json",
@@ -716,6 +858,14 @@
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
     "SUBSTRATE_EPISTEMOLOGY.json",
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+    "SUBSTRATE_FINAL_ANCESTRY.json",
+    "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+    "SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+    "SUBSTRATE_FINAL_SCORECARD.json",
+    "SUBSTRATE_FINAL_STATE.json",
+    "SUBSTRATE_FINAL_VALUE_QUEUE.json",
+    "SUBSTRATE_GOAL_SYSTEM.json",
+    "SUBSTRATE_GROUNDING.json",
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
     "SUBSTRATE_MASTER_AUTHORITY.json",
     "SUBSTRATE_MEMORY_SYSTEM.json",
@@ -728,6 +878,7 @@
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
     "SUBSTRATE_PLASTICITY_SYSTEM.json",
     "SUBSTRATE_PROGRESS_SCORECARD.json",
+    "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
     "SUBSTRATE_REORGANIZATION.json",
     "SUBSTRATE_RUNTIME.json",
@@ -737,8 +888,11 @@
     "SUBSTRATE_TEMPORAL_CORE.json",
     "SUBSTRATE_THINKING_BATTERY.json",
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",
+    "SUBSTRATE_VALUATION_SYSTEM.json",
     "SUBSTRATE_WORKSPACE.json",
     "SUBSTRATE_WORLD_MODEL.json",
+    "SUBSTRATE_WORLD_MODEL_BATTERY.json",
+    "SUBSTRATE_WORLD_MODEL_BED.json",
     "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
     "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json"
@@ -747,8 +901,12 @@
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
     "SUBSTRATE_BELIEF_REVISION.json": true,
+    "SUBSTRATE_BODY_COMPACT.json": true,
+    "SUBSTRATE_BODY_GENERAL.json": true,
+    "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
+    "SUBSTRATE_CLEAN_CLONE.json": false,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
@@ -756,6 +914,14 @@
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
     "SUBSTRATE_EPISTEMOLOGY.json": true,
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
+    "SUBSTRATE_FINAL_ANCESTRY.json": true,
+    "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_FINAL_PROGRAM_GRAPH.json": true,
+    "SUBSTRATE_FINAL_SCORECARD.json": true,
+    "SUBSTRATE_FINAL_STATE.json": true,
+    "SUBSTRATE_FINAL_VALUE_QUEUE.json": true,
+    "SUBSTRATE_GOAL_SYSTEM.json": true,
+    "SUBSTRATE_GROUNDING.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
@@ -768,6 +934,7 @@
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
+    "SUBSTRATE_REAL_SESSION_AUTHORITY.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
     "SUBSTRATE_REORGANIZATION.json": true,
     "SUBSTRATE_RUNTIME.json": true,
@@ -777,8 +944,11 @@
     "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
+    "SUBSTRATE_VALUATION_SYSTEM.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
     "SUBSTRATE_WORLD_MODEL.json": true,
+    "SUBSTRATE_WORLD_MODEL_BATTERY.json": true,
+    "SUBSTRATE_WORLD_MODEL_BED.json": true,
     "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": true,
     "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": true,
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
@@ -787,8 +957,12 @@
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
     "SUBSTRATE_BELIEF_REVISION.json": true,
+    "SUBSTRATE_BODY_COMPACT.json": true,
+    "SUBSTRATE_BODY_GENERAL.json": true,
+    "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
+    "SUBSTRATE_CLEAN_CLONE.json": false,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
@@ -796,6 +970,14 @@
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
     "SUBSTRATE_EPISTEMOLOGY.json": true,
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
+    "SUBSTRATE_FINAL_ANCESTRY.json": true,
+    "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_FINAL_PROGRAM_GRAPH.json": true,
+    "SUBSTRATE_FINAL_SCORECARD.json": true,
+    "SUBSTRATE_FINAL_STATE.json": true,
+    "SUBSTRATE_FINAL_VALUE_QUEUE.json": true,
+    "SUBSTRATE_GOAL_SYSTEM.json": true,
+    "SUBSTRATE_GROUNDING.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
@@ -808,6 +990,7 @@
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
+    "SUBSTRATE_REAL_SESSION_AUTHORITY.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
     "SUBSTRATE_REORGANIZATION.json": true,
     "SUBSTRATE_RUNTIME.json": true,
@@ -817,18 +1000,22 @@
     "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
+    "SUBSTRATE_VALUATION_SYSTEM.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
     "SUBSTRATE_WORLD_MODEL.json": true,
+    "SUBSTRATE_WORLD_MODEL_BATTERY.json": true,
+    "SUBSTRATE_WORLD_MODEL_BED.json": true,
     "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": false,
     "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": false,
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 16,
-    "tested": 1,
-    "measured": 31
+    "terminal": 17,
+    "implemented": 1,
+    "tested": 2,
+    "measured": 40
   },
   "activation": false,
-  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
-  "sha256": "0f3d75ef22c771d34851333904b3abc4820107c4ffd24ab8ccb47084e823d2a8"
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "sha256": "e2f240ab52ef8ab53ad581d68f8522c62ecc5e7b3b8d52821297e8e217bbcf41"
 }

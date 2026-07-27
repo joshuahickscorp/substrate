@@ -100,7 +100,8 @@ def test_no_sealed_substrate_artifact_is_undeclared():
     # only this program's own proof root. An artifact in an inherited root is that program's to write.
     declared = {e for item in P.ITEMS for e in item.evidence if ":" not in e}
     declared |= {"SUBSTRATE_STATE.json", "SUBSTRATE_LEDGER.md", "SUBSTRATE_HYPOTHESIS_GRAPH.json",
-                 "SUBSTRATE_NULL_MAP.json", "SUBSTRATE_NEXT_FRONTIER.json"}
+                 "SUBSTRATE_NULL_MAP.json", "SUBSTRATE_NEXT_FRONTIER.json",
+                 "SUBSTRATE_FINAL_LEDGER.md"}
     on_disk = {p.name for p in io.PROOF.glob("SUBSTRATE_*")}
     assert on_disk - declared == set(), "an undeclared artifact was sealed into the proof root"
     assert declared - on_disk == set(), "a declared deliverable was never written"

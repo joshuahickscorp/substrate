@@ -156,8 +156,18 @@ class Substrate:
             verification=None, confidence=max((o.confidence for o in outputs), default=0.0),
             cost=round(spent, 6), later_usefulness=None)
         self.episodes.add(episode)
-        self.working.write(f"step{self.step_index}", report["decision"], priority=0.5)
-        trace.record("remember", episode=episode.id, fields_empty=episode.missing_fields())
+        # working memory is bounded and refuses an arrival that does not outrank the weakest slot. That
+        # refusal is an expected condition of a bounded store, not an error, so the cycle records the
+        # pressure and continues. Priority rises with recency, so a newer step can displace an older one
+        # rather than every cycle after the seventh dying on a tie.
+        held, pressure = True, ""
+        try:
+            self.working.write(f"step{self.step_index}", report["decision"],
+                               priority=0.5 + self.step_index * 1e-6)
+        except M.Refused as exc:
+            held, pressure = False, str(exc)
+        trace.record("remember", episode=episode.id, fields_empty=episode.missing_fields(),
+                     working_memory_held=held, working_memory_pressure=pressure)
 
         # 8 self update, only where an outcome exists to compare against
         if outcome is None:

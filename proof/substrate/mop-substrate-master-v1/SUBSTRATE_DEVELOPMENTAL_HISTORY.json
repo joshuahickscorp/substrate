@@ -1,11 +1,89 @@
 {
   "schema": "substrate-developmental-history/v1",
-  "generalization_rule": "an adaptation rule counts as generalizing only after it helps on held out tasks it was not derived from",
-  "min_held_out_tasks": 2,
-  "measured_rules": {},
-  "honest_state": "no adaptation rule has yet been evaluated across tasks, so no developmental learning has been earned",
+  "source_session": "the temporal core mechanism campaign's own execution history",
+  "history_lengths": {
+    "a": 146,
+    "b": 146,
+    "held_out": 147
+  },
+  "dimensions": [
+    "memory",
+    "procedures",
+    "world_models",
+    "self_models",
+    "perspective_reliability",
+    "specialization",
+    "transfer",
+    "robustness",
+    "goal_progress"
+  ],
+  "control_same_history": {
+    "memory": 0.0,
+    "procedures": 0.0,
+    "world_models": 0.0,
+    "self_models": 0.0,
+    "perspective_reliability": 0.0,
+    "specialization": 0.0,
+    "transfer": 0.0,
+    "robustness": 0.0,
+    "goal_progress": 0.0
+  },
+  "control_shows_no_divergence": true,
+  "control_rule": "two instances given the same history must not diverge, or the divergence below is noise wearing a developmental costume",
+  "instance_a": {
+    "memory": 293,
+    "procedures": 0,
+    "world_models": 0,
+    "self_models": 293,
+    "perspective_reliability": {
+      "counterexample": 0.0,
+      "critic": 0.0,
+      "direct": 1.0,
+      "precedent": 0.0,
+      "temporal": 0.0,
+      "uncertainty": 0.0
+    },
+    "specialization": 0.372678,
+    "transfer": 1.0,
+    "robustness": 1.0,
+    "goal_progress": 293
+  },
+  "instance_b": {
+    "memory": 293,
+    "procedures": 0,
+    "world_models": 0,
+    "self_models": 293,
+    "perspective_reliability": {
+      "counterexample": 0.0,
+      "critic": 0.0,
+      "direct": 1.0,
+      "precedent": 0.0,
+      "temporal": 0.0,
+      "uncertainty": 0.0
+    },
+    "specialization": 0.372678,
+    "transfer": 1.0,
+    "robustness": 1.0,
+    "goal_progress": 293
+  },
+  "divergence": {
+    "memory": 0.0,
+    "procedures": 0.0,
+    "world_models": 0.0,
+    "self_models": 0.0,
+    "perspective_reliability": 0.0,
+    "specialization": 0.0,
+    "transfer": 0.0,
+    "robustness": 0.0,
+    "goal_progress": 0.0
+  },
+  "diverged_dimensions": [],
+  "useful_difference": false,
+  "transfer_gap": 0.0,
+  "verdict": "developmental_divergence_without_transfer_value",
+  "claim_boundary": "this measures developmental individuality as differences in owned state that persist. It says nothing about subjective identity and is not evidence of it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
-  "sha256": "2817e334e2ce99e44d3c106baeeec60831d98ebec9f0fac549ed96ec7c9e8fbb"
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "sha256": "0000662e026c1018d6ff56ad3ebde144f5d092614cf317e76252aa5a372af3b5"
 }

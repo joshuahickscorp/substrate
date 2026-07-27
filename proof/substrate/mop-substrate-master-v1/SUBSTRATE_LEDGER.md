@@ -1,15 +1,15 @@
 # Substrate ledger
 
-Generated from the tree at commit `f301a72120da308c2555d57fde4d6649082da3b2`. Status is derived, never asserted: an item is
+Generated from the tree at commit `66e2d09264e52bea3d9285b8f47c79e247f0a8b0`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 48. Levels: measured 31, terminal 16, tested 1.
+Items: 60. Levels: implemented 1, measured 40, terminal 17, tested 2.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
 | A1 | 2 | Naming and historical continuity authority | terminal | none | none, an authority is terminal once sealed and tested |
-| A2 | 21 | Master deliverable set exists and binds to real things | terminal | A1 | none, an authority is terminal once sealed and tested |
+| A2 | 21 | Master deliverable set exists and binds to real things | implemented | A1 | run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path |
 | A3 | 18 | Experimental requirements bind every new Substrate experiment | terminal | A2 | none, an authority is terminal once sealed and tested |
 | A4 | 19 | Developmental safety envelope | terminal | A2 | none, an authority is terminal once sealed and tested |
 | A5 | 16 | Sentience research boundary | terminal | A2 | none, an authority is terminal once sealed and tested |
@@ -52,6 +52,18 @@ Items: 48. Levels: measured 31, terminal 16, tested 1.
 | X1 | 21 | Architecture and capability map | terminal | A2 | none, an authority is terminal once sealed and tested |
 | X2 | 21 | Current entity specification and report | terminal | X1, A5 | none, an authority is terminal once sealed and tested |
 | Q1 | 18 | The first Substrate experiment reaches a decision with its reason recorded | terminal | A3, C2 | none, an authority is terminal once sealed and tested |
+| F1 | 5 | One materialized program graph, no prose waves | terminal | A6 | none, an authority is terminal once sealed and tested |
+| F2 | 4 | A final authority that resumes without conversation history | terminal | F1 | none, an authority is terminal once sealed and tested |
+| F3 | 9 | Temporal core integrated through a versioned interface, as a declared control | measured | C1, N1 | classify the result through mop.method.gate.classify_result and record it |
+| F4 | 8 | A real session authority built from a session nobody wrote for this | measured | M2 | classify the result through mop.method.gate.classify_result and record it |
+| F5 | 12 | World model inside the decision loop on a state dependent bed | measured | F4, W1 | classify the result through mop.method.gate.classify_result and record it |
+| F6 | 14 | Three model body classes conforming through one interface | measured | B1, F3 | classify the result through mop.method.gate.classify_result and record it |
+| F7 | 23 | Goal system where a goal cannot authorize itself | measured | E5 | classify the result through mop.method.gate.classify_result and record it |
+| F8 | 24 | Valuation that is externally authorized and refuses to be fitted | measured | F7 | classify the result through mop.method.gate.classify_result and record it |
+| F9 | 20 | Grounding where a verbal definition is not evidence | measured | F4, O1 | classify the result through mop.method.gate.classify_result and record it |
+| F10 | 21 | Intervention is distinguished from observation | measured | W1 | classify the result through mop.method.gate.classify_result and record it |
+| F11 | 29 | Developmental divergence with a working control | measured | F4, P5 | classify the result through mop.method.gate.classify_result and record it |
+| F12 | 47 | Clean clone reproduces the evidence away from this machine | tested | V1, V2 | seal SUBSTRATE_CLEAN_CLONE.json |
 | L1 | 17 | A resumable campaign driver for a run measured in days | terminal | A6, V2 | none, an authority is terminal once sealed and tested |
 | L2 | 22 | The long run plan names what it cannot schedule | terminal | L1, A5 | none, an authority is terminal once sealed and tested |
 | X3 | 6.1 | Substrate Temporal Core v1 selection record | measured | C1 | classify the result through mop.method.gate.classify_result and record it |
@@ -59,7 +71,7 @@ Items: 48. Levels: measured 31, terminal 16, tested 1.
 
 ## Selected next batch
 
-Primary: C1 Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
-Secondary: O1 Typed ontology with the nine distinctions it refuses to collapse. classify the result through mop.method.gate.classify_result and record it
+Primary: A2 Master deliverable set exists and binds to real things. run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path
+Secondary: C1 Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
 
 Activation remains false.

@@ -698,7 +698,7 @@ def write_all() -> dict:
 
 MODULES_THAT_SEAL = ("admission", "safety", "ontology", "epistemology", "workspace", "perspectives",
                      "memory", "world", "selfmodel", "metacog", "plasticity", "body", "batteries",
-                     "runtime")
+                     "runtime", "temporal_link", "goals", "graph")
 
 
 def seal_modules() -> dict:

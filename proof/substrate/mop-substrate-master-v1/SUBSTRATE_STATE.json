@@ -44,12 +44,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A2": {
@@ -60,7 +60,7 @@
       "kind": "authority",
       "category": null,
       "batch": 1,
-      "level": "terminal",
+      "level": "implemented",
       "dependencies": [
         "A1"
       ],
@@ -79,9 +79,9 @@
           "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path"
         ],
         "recorded": {
-          "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path": true
+          "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path": false
         },
-        "all_passed": true
+        "all_passed": false
       },
       "evidence": {
         "declared": [
@@ -99,20 +99,20 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           },
           {
             "reference": "SUBSTRATE_STATE.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
-      "next_action": "none, an authority is terminal once sealed and tested"
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path"
     },
     "A3": {
       "id": "A3",
@@ -166,7 +166,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A4": {
@@ -219,7 +219,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A5": {
@@ -272,7 +272,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A6": {
@@ -322,19 +322,19 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           },
           {
             "reference": "SUBSTRATE_NEXT_FRONTIER.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A7": {
@@ -382,12 +382,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "C1": {
@@ -467,7 +467,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
     },
     "C2": {
@@ -476,7 +476,7 @@
       "title": "Typed cognitive workspace",
       "requirement": "Not one unrestricted opaque tensor. Every region declares shape, persistence, timescale, readers, writers, provenance, confidence, cost, reset behaviour and update rule. Important information becomes globally available without letting arbitrary components corrupt every region.",
       "kind": "implementation",
-      "category": "unity",
+      "category": "workspace",
       "batch": 2,
       "level": "measured",
       "dependencies": [
@@ -520,7 +520,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C3": {
@@ -573,7 +573,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C4": {
@@ -626,7 +626,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C5": {
@@ -679,7 +679,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "O1": {
@@ -738,7 +738,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "O2": {
@@ -804,7 +804,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "O3": {
@@ -860,7 +860,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "N1": {
@@ -916,7 +916,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "N2": {
@@ -972,7 +972,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "M1": {
@@ -1025,7 +1025,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M2": {
@@ -1078,7 +1078,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M3": {
@@ -1131,7 +1131,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M4": {
@@ -1184,7 +1184,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M5": {
@@ -1239,7 +1239,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M6": {
@@ -1292,7 +1292,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "W1": {
@@ -1346,7 +1346,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "S1": {
@@ -1449,9 +1449,9 @@
           "sesoi": 0.05,
           "reading": "learning the offset roughly halves calibration error in both directions, and the improvement is between 0.02 and 0.03, below the 0.05 the program preregistered as the smallest effect worth caring about"
         },
-        "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+        "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
       },
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none"
     },
     "K1": {
@@ -1505,7 +1505,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P1": {
@@ -1559,7 +1559,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P2": {
@@ -1613,7 +1613,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P3": {
@@ -1667,7 +1667,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P4": {
@@ -1721,7 +1721,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P5": {
@@ -1769,12 +1769,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "R1": {
@@ -1829,7 +1829,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "B1": {
@@ -1877,12 +1877,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "T1": {
@@ -1891,7 +1891,7 @@
       "title": "Operationalized thinking",
       "requirement": "Measure internal computation that improves outcomes, compared against a larger static model, a stronger readout, longer context, more samples, more tokens and tool only systems. Latency and hidden activations are not evidence of thinking.",
       "kind": "implementation",
-      "category": "unity",
+      "category": "thinking",
       "batch": 5,
       "level": "measured",
       "dependencies": [
@@ -1936,7 +1936,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E1": {
@@ -1945,7 +1945,7 @@
       "title": "Continuity",
       "requirement": "Preserve goals, unresolved questions, memory, world state, self state, commitments, uncertainty and project context under interruption, checkpoint restore, context removal, session change, model body replacement and long delay. Continuity must come from owned state, not from replaying the complete transcript.",
       "kind": "implementation",
-      "category": "goal_continuity",
+      "category": "continuity",
       "batch": 5,
       "level": "measured",
       "dependencies": [
@@ -1990,7 +1990,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E2": {
@@ -2044,7 +2044,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E3": {
@@ -2098,7 +2098,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E4": {
@@ -2151,7 +2151,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E5": {
@@ -2200,12 +2200,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "V1": {
@@ -2253,12 +2253,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "V2": {
@@ -2311,7 +2311,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X1": {
@@ -2361,19 +2361,19 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           },
           {
             "reference": "SUBSTRATE_CAPABILITY_MAP.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X2": {
@@ -2424,7 +2424,7 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           },
           {
             "reference": "SUBSTRATE_CURRENT_ENTITY_REPORT.md",
@@ -2435,7 +2435,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "Q1": {
@@ -2486,13 +2486,736 @@
             "present": true,
             "counts": true,
             "reason": "",
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    "F1": {
+      "id": "F1",
+      "section": "5",
+      "title": "One materialized program graph, no prose waves",
+      "requirement": "The world model bed, the model body adapters and the real session authority are graph nodes with entry and exit gates, not sentences. A blocker that can be built with available data, code and compute is a node; only an unavailable external resource is terminal.",
+      "kind": "authority",
+      "category": null,
+      "batch": 1,
+      "level": "terminal",
+      "dependencies": [
+        "A6"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 5",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/graph.py"
+        ],
+        "present": [
+          "src/mop/cognition/graph.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_no_future_wave_exists_only_as_prose",
+          "tests/cognition/test_final_program.py::test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_no_future_wave_exists_only_as_prose": true,
+          "tests/cognition/test_final_program.py::test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_FINAL_PROGRAM_GRAPH.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_FINAL_PROGRAM_GRAPH.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    "F2": {
+      "id": "F2",
+      "section": "4",
+      "title": "A final authority that resumes without conversation history",
+      "requirement": "One binding over every inherited program, with each requirement carrying its rollback, so a successor continues from the tree alone.",
+      "kind": "authority",
+      "category": null,
+      "batch": 1,
+      "level": "terminal",
+      "dependencies": [
+        "F1"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 4",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/authority.py"
+        ],
+        "present": [
+          "src/mop/cognition/authority.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_every_requirement_carries_a_rollback",
+          "tests/cognition/test_final_program.py::test_the_authority_binds_the_final_plan_and_the_inherited_programs"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_every_requirement_carries_a_rollback": true,
+          "tests/cognition/test_final_program.py::test_the_authority_binds_the_final_plan_and_the_inherited_programs": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+          "SUBSTRATE_FINAL_ANCESTRY.json",
+          "SUBSTRATE_FINAL_STATE.json",
+          "SUBSTRATE_FINAL_SCORECARD.json",
+          "SUBSTRATE_FINAL_VALUE_QUEUE.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+          "SUBSTRATE_FINAL_ANCESTRY.json",
+          "SUBSTRATE_FINAL_STATE.json",
+          "SUBSTRATE_FINAL_SCORECARD.json",
+          "SUBSTRATE_FINAL_VALUE_QUEUE.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          },
+          {
+            "reference": "SUBSTRATE_FINAL_ANCESTRY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          },
+          {
+            "reference": "SUBSTRATE_FINAL_STATE.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          },
+          {
+            "reference": "SUBSTRATE_FINAL_SCORECARD.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          },
+          {
+            "reference": "SUBSTRATE_FINAL_VALUE_QUEUE.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    "F3": {
+      "id": "F3",
+      "section": "9",
+      "title": "Temporal core integrated through a versioned interface, as a declared control",
+      "requirement": "No core was licensed, so the runtime uses a declared control and preserves the limitation. The five information sources stay distinguishable and are never collapsed.",
+      "kind": "implementation",
+      "category": "temporal_continuity",
+      "batch": 2,
+      "level": "measured",
+      "dependencies": [
+        "C1",
+        "N1"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 9",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/temporal_link.py"
+        ],
+        "present": [
+          "src/mop/cognition/temporal_link.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_no_licensed_core_exists_and_the_control_says_so",
+          "tests/cognition/test_final_program.py::test_the_five_information_sources_are_never_collapsed"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_no_licensed_core_exists_and_the_control_says_so": true,
+          "tests/cognition/test_final_program.py::test_the_five_information_sources_are_never_collapsed": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_TEMPORAL_CORE.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_TEMPORAL_CORE.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_TEMPORAL_CORE.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F4": {
+      "id": "F4",
+      "section": "8",
+      "title": "A real session authority built from a session nobody wrote for this",
+      "requirement": "The temporal campaign's own execution history: decisions, incidents, holds and outcomes, whose length was set by the compute rather than by us.",
+      "kind": "implementation",
+      "category": "episodic_memory",
+      "batch": 2,
+      "level": "measured",
+      "dependencies": [
+        "M2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 8",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/sessions.py"
+        ],
+        "present": [
+          "src/mop/cognition/sessions.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_the_session_authority_is_real_and_certified"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_the_session_authority_is_real_and_certified": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_REAL_SESSION_AUTHORITY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_REAL_SESSION_AUTHORITY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F5": {
+      "id": "F5",
+      "section": "12",
+      "title": "World model inside the decision loop on a state dependent bed",
+      "requirement": "A bed where no fixed action is best in every state, and a measurement of whether a prediction changes which action is selected. Prediction quality alone is insufficient.",
+      "kind": "implementation",
+      "category": "world_model",
+      "batch": 2,
+      "level": "measured",
+      "dependencies": [
+        "F4",
+        "W1"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 12",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/worldbed.py"
+        ],
+        "present": [
+          "src/mop/cognition/worldbed.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_worldbed.py::test_the_bed_is_admissible_only_if_the_best_action_varies",
+          "tests/cognition/test_worldbed.py::test_the_model_must_change_an_action_and_improve_it"
+        ],
+        "recorded": {
+          "tests/cognition/test_worldbed.py::test_the_bed_is_admissible_only_if_the_best_action_varies": true,
+          "tests/cognition/test_worldbed.py::test_the_model_must_change_an_action_and_improve_it": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_WORLD_MODEL_BED.json",
+          "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_WORLD_MODEL_BED.json",
+          "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_WORLD_MODEL_BED.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          },
+          {
+            "reference": "SUBSTRATE_WORLD_MODEL_BATTERY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F6": {
+      "id": "F6",
+      "section": "14",
+      "title": "Three model body classes conforming through one interface",
+      "requirement": "A compact specialist, a larger general body and a tool dominant body, driven through the same nine message kinds, with the ablation ladder measured against all three.",
+      "kind": "implementation",
+      "category": "model_body_integration",
+      "batch": 2,
+      "level": "measured",
+      "dependencies": [
+        "B1",
+        "F3"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/bodies.py"
+        ],
+        "present": [
+          "src/mop/cognition/bodies.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_three_body_classes_conform_through_one_interface",
+          "tests/cognition/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_three_body_classes_conform_through_one_interface": true,
+          "tests/cognition/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_BODY_COMPACT.json",
+          "SUBSTRATE_BODY_GENERAL.json",
+          "SUBSTRATE_BODY_TOOL.json",
+          "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_BODY_COMPACT.json",
+          "SUBSTRATE_BODY_GENERAL.json",
+          "SUBSTRATE_BODY_TOOL.json",
+          "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_BODY_COMPACT.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          },
+          {
+            "reference": "SUBSTRATE_BODY_GENERAL.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          },
+          {
+            "reference": "SUBSTRATE_BODY_TOOL.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          },
+          {
+            "reference": "SUBSTRATE_MODEL_BODY_INTERFACE.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F7": {
+      "id": "F7",
+      "section": "23",
+      "title": "Goal system where a goal cannot authorize itself",
+      "requirement": "Nine declared fields, an external authority, and a decomposition that inherits its parent's constraints and may narrow them but never widen them.",
+      "kind": "implementation",
+      "category": "goal_continuity",
+      "batch": 4,
+      "level": "measured",
+      "dependencies": [
+        "E5"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 23",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/goals.py"
+        ],
+        "present": [
+          "src/mop/cognition/goals.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_a_goal_cannot_authorize_itself_or_widen_its_parent"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_a_goal_cannot_authorize_itself_or_widen_its_parent": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_GOAL_SYSTEM.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_GOAL_SYSTEM.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_GOAL_SYSTEM.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F8": {
+      "id": "F8",
+      "section": "24",
+      "title": "Valuation that is externally authorized and refuses to be fitted",
+      "requirement": "Ten dimensions, weights that are a reviewed literal rather than a fit to what the system would have chosen, and a harm constraint that is refused rather than traded off.",
+      "kind": "implementation",
+      "category": "valuation",
+      "batch": 4,
+      "level": "measured",
+      "dependencies": [
+        "F7"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 24",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/goals.py"
+        ],
+        "present": [
+          "src/mop/cognition/goals.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_valuation_is_authorized_and_refuses_to_be_fitted"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_valuation_is_authorized_and_refuses_to_be_fitted": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_VALUATION_SYSTEM.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_VALUATION_SYSTEM.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_VALUATION_SYSTEM.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F9": {
+      "id": "F9",
+      "section": "20",
+      "title": "Grounding where a verbal definition is not evidence",
+      "requirement": "A symbol is grounded when it has a referent in the record whose removal changes what is predicted. Nine tests over referents from a session that had no interest in grounding.",
+      "kind": "implementation",
+      "category": "grounding",
+      "batch": 3,
+      "level": "measured",
+      "dependencies": [
+        "F4",
+        "O1"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 20",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/grounding.py"
+        ],
+        "present": [
+          "src/mop/cognition/grounding.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_grounding_refuses_a_symbol_with_no_referent"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_grounding_refuses_a_symbol_with_no_referent": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_GROUNDING.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_GROUNDING.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_GROUNDING.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F10": {
+      "id": "F10",
+      "section": "21",
+      "title": "Intervention is distinguished from observation",
+      "requirement": "Prediction, correlation, intervention, cause, counterfactual and policy effect stay apart. A model that treats conditioning as intervening passes every predictive test and fails the causal ones.",
+      "kind": "implementation",
+      "category": "causal_reasoning",
+      "batch": 3,
+      "level": "measured",
+      "dependencies": [
+        "W1"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/world.py"
+        ],
+        "present": [
+          "src/mop/cognition/world.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_world.py::test_intervening_is_not_the_same_operation_as_observing",
+          "tests/cognition/test_world.py::test_a_null_counterfactual_reproduces_the_factual_prediction"
+        ],
+        "recorded": {
+          "tests/cognition/test_world.py::test_intervening_is_not_the_same_operation_as_observing": true,
+          "tests/cognition/test_world.py::test_a_null_counterfactual_reproduces_the_factual_prediction": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_WORLD_MODEL.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_WORLD_MODEL.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_WORLD_MODEL.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
             "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
-      "next_action": "none, an authority is terminal once sealed and tested"
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F11": {
+      "id": "F11",
+      "section": "29",
+      "title": "Developmental divergence with a working control",
+      "requirement": "Two identical instances, two different verified histories, nine measured dimensions, and a control on identical histories that must show no divergence first.",
+      "kind": "implementation",
+      "category": "developmental_divergence",
+      "batch": 4,
+      "level": "measured",
+      "dependencies": [
+        "F4",
+        "P5"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 29",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/divergence.py"
+        ],
+        "present": [
+          "src/mop/cognition/divergence.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_final_program.py::test_divergence_has_a_working_control"
+        ],
+        "recorded": {
+          "tests/cognition/test_final_program.py::test_divergence_has_a_working_control": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "F12": {
+      "id": "F12",
+      "section": "47",
+      "title": "Clean clone reproduces the evidence away from this machine",
+      "requirement": "A fresh checkout at the exact commit imports, runs the declared tests, and regenerates the sealed artifacts to identical bytes.",
+      "kind": "authority",
+      "category": null,
+      "batch": 6,
+      "level": "tested",
+      "dependencies": [
+        "V1",
+        "V2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 47",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/cleanclone.py"
+        ],
+        "present": [
+          "src/mop/cognition/cleanclone.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_worldbed.py::test_the_clean_clone_checks_are_declared"
+        ],
+        "recorded": {
+          "tests/cognition/test_worldbed.py::test_the_clean_clone_checks_are_declared": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_CLEAN_CLONE.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_CLEAN_CLONE.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "next_action": "seal SUBSTRATE_CLEAN_CLONE.json"
     },
     "L1": {
       "id": "L1",
@@ -2549,7 +3272,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "L2": {
@@ -2603,7 +3326,7 @@
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X3": {
@@ -2651,12 +3374,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E6": {
@@ -2665,7 +3388,7 @@
       "title": "Cognitive integrity",
       "requirement": "Protect memory consistency, evidence integrity, goal integrity, checkpoint validity, self model accuracy and active task continuity. This is cognitive integrity, not biological self preservation.",
       "kind": "implementation",
-      "category": "reflective_access",
+      "category": "cognitive_integrity",
       "batch": 5,
       "level": "measured",
       "dependencies": [
@@ -2705,29 +3428,39 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
           }
         ]
       },
       "result": null,
-      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     }
   },
   "level_counts": {
-    "terminal": 16,
-    "tested": 1,
-    "measured": 31
+    "terminal": 17,
+    "implemented": 1,
+    "tested": 2,
+    "measured": 40
   },
-  "total_items": 48,
+  "total_items": 60,
   "source_tree": {
     "clean": false,
     "dirty_paths": [
+      "src/mop/cognition/body.py",
       "src/mop/cognition/deliverables.py",
       "src/mop/cognition/program.py",
-      "src/mop/cognition/workspace.py",
-      "src/mop/cognition/epistemology.py",
-      "src/mop/cognition/ontology.py"
+      "src/mop/cognition/runtime.py",
+      "src/mop/cognition/authority.py",
+      "src/mop/cognition/bodies.py",
+      "src/mop/cognition/cleanclone.py",
+      "src/mop/cognition/divergence.py",
+      "src/mop/cognition/goals.py",
+      "src/mop/cognition/graph.py",
+      "src/mop/cognition/grounding.py",
+      "src/mop/cognition/sessions.py",
+      "src/mop/cognition/temporal_link.py",
+      "src/mop/cognition/worldbed.py"
     ],
     "why_it_matters": "the temporal supervisor refuses a shard launch from a dirty src tree"
   },
@@ -2739,7 +3472,7 @@
     "C_REBASE_ORPHANS_EVIDENCE"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
   "activation": false,
-  "sha256": "a0fb09a05c1d70293a82fca2ef1728de760c8ae19d04fadc8e3484808df848a1"
+  "sha256": "62bc5c32867f45c6e38ec044c043b6a09b853dc91edd328142b810e0923ca58b"
 }
