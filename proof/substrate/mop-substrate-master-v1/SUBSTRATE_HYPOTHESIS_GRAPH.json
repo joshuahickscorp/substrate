@@ -35,7 +35,7 @@
       ],
       "premise": "typed regions with declared readers and writers beat one unrestricted shared state of matched capacity on tasks that need cross perspective information",
       "predecessor": null,
-      "state": "unopened",
+      "state": "instrument_pending",
       "required_bed": "a bed where at least two perspectives hold information neither one has alone",
       "required_headroom": "residual headroom over the untyped shared state control",
       "strongest_baseline": "one opaque state of matched capacity and matched update budget",
@@ -44,6 +44,10 @@
         "H_arbitration_minority"
       ],
       "blocking_null": null,
+      "refused_attempts": [
+        "SX1"
+      ],
+      "still_open": true,
       "carrying_items": [
         {
           "id": "C2",
@@ -247,7 +251,7 @@
   ],
   "open_count": 8,
   "program": "mop-substrate-master-v1",
-  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
+  "source_commit": "36c3ae45c45619d8e53e500b69d086bfee8556a7",
   "activation": false,
-  "sha256": "6e07ded9baacbb898d3bd88eebf66cc30a86268d62d8b17bd8a0ebabc2da2307"
+  "sha256": "528ab89f81022e4f8268896e2703527abe47825f68851fdd2e7393fe9376fd6e"
 }

@@ -333,6 +333,13 @@ ITEMS: tuple[Item, ...] = (
        tests=("tests/cognition/test_verify.py::test_the_entity_report_makes_no_forbidden_claim",),
        evidence=("SUBSTRATE_CURRENT_ENTITY_SPEC.json", "SUBSTRATE_CURRENT_ENTITY_REPORT.md"),
        deps=("X1", "A5"), batch=6),
+    _i("Q1", "18", "The first Substrate experiment reaches a decision with its reason recorded",
+       "A methodological failure is not a scientific null. An experiment that cannot reach principal "
+       "compute is refused with its blocking violations named, and its hypothesis stays open.",
+       kind="authority", impl=(f"{COG}/experiments.py",),
+       tests=("tests/cognition/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction",
+              "tests/cognition/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"),
+       evidence=("SUBSTRATE_NULL_MAP.json",), deps=("A3", "C2"), batch=6),
     _i("X3", "6.1", "Substrate Temporal Core v1 selection record",
        "The selected temporal core becomes Substrate Temporal Core v1, and it remains one component.",
        kind="evidence", category="temporal_continuity", impl=(f"{COG}/deliverables.py",),
