@@ -1,0 +1,44 @@
+{
+  "schema": "substrate-v2-self-model/v1",
+  "selected_candidate": "domain_plus_procedure_conditional_estimate",
+  "prediction_kinds": [
+    "accuracy",
+    "failure_probability",
+    "cost",
+    "latency",
+    "procedure_success",
+    "tool_competence",
+    "memory_confidence",
+    "perspective_reliability",
+    "transfer_confidence",
+    "interference_risk",
+    "recovery_probability"
+  ],
+  "preoutcome_only": true,
+  "conditional_keys": [
+    "domain",
+    "task signature",
+    "procedure",
+    "body"
+  ],
+  "control_influences": [
+    "continue",
+    "stop",
+    "verify",
+    "retrieve_episodic_memory",
+    "retrieve_semantic_memory",
+    "retrieve_procedure",
+    "simulate",
+    "switch_perspective",
+    "invoke_sandboxed_tool",
+    "request_additional_internal_evidence",
+    "defer",
+    "revise",
+    "preserve_uncertainty"
+  ],
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "1573e9950526c42ef216e3deb93f70a28e819bcf7f820b27917bc8147c489739"
+}

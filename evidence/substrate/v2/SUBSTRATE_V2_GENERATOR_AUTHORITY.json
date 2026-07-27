@@ -1,0 +1,29 @@
+{
+  "schema": "substrate-v2-generator-authority/v1",
+  "callable": "substrate.v2fabric.generate_task",
+  "operations": [
+    "boundary_route",
+    "reverse_boundary_route",
+    "always_first",
+    "always_second",
+    "risk_route",
+    "reverse_risk_route"
+  ],
+  "target_timing": "private until Task.reveal is called after proposal commitment",
+  "identity_components": [
+    "split",
+    "seed",
+    "domain",
+    "phase",
+    "index"
+  ],
+  "deterministic": true,
+  "surface_labels_reveal_rule": false,
+  "answer_leakage_test": "target key value and digest absent from public serialization",
+  "configuration_digest": "facb3ccd7c4a5caf068d20573fffad78bb23b787f941da1cd9eda17612ec88ad",
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "6f6e5ff0789c2dda0d0c0c0427ea69a7ead73c52abd26d0c91a6a7a80cf87463"
+}

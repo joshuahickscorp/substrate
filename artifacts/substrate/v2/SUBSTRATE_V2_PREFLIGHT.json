@@ -1,0 +1,102 @@
+{
+  "schema": "substrate-v2-preflight/v1",
+  "repository": "/Users/scammermike/Downloads/substrate",
+  "remote": "git@github.com:joshuahickscorp/substrate.git",
+  "entry": {
+    "head": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+    "origin_main": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+    "terminal_tag_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+    "branch": "agent/substrate-v2-developmental-ascent",
+    "dirty": [
+      " M src/substrate/cli.py",
+      "?? artifacts/substrate/v2/",
+      "?? src/substrate/v2.py",
+      "?? src/substrate/v2io.py"
+    ],
+    "entry_observation": "the clean entry audit was completed before the v2 command implementation was added; the current diff is restricted to that command implementation",
+    "worktrees": [
+      "worktree /Users/scammermike/Downloads/substrate",
+      "HEAD 20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+      "branch refs/heads/agent/substrate-v2-developmental-ascent"
+    ],
+    "open_pull_requests": [
+      {
+        "baseRefName": "main",
+        "headRefName": "agent/generation1-general-run-closure",
+        "isDraft": true,
+        "number": 30,
+        "title": "Append gen1-general-run-closure + Mechanism Admission Battery + current-frontier authority (draft)",
+        "url": "https://github.com/joshuahickscorp/substrate/pull/30"
+      }
+    ],
+    "latest_main_ci": [
+      {
+        "conclusion": "success",
+        "databaseId": 30299574055,
+        "headSha": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+        "status": "completed",
+        "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30299574055"
+      }
+    ]
+  },
+  "resources": {
+    "disk_available_gib": 156.3072509765625,
+    "memory_free_percent": 83,
+    "swap_total_mib": 2048.0,
+    "swap_used_mib": 1317.5,
+    "swap_free_mib": 730.5,
+    "aggregate_cpu_percent": 594.9,
+    "machine": {
+      "chip": "arm",
+      "logical_cores": 28,
+      "memory_gib": 96
+    }
+  },
+  "hawking": {
+    "controller_lease": {
+      "pid": 32370,
+      "acquired_at": "2026-07-23T17:00:55Z",
+      "lane": "glm52_functional_teacher_capture"
+    },
+    "controller_lease_path": "/Users/scammermike/Library/Application Support/Hawking/GLM52Gravity/control/functional/controller.lease.json",
+    "active_pack_processes": [],
+    "active_process_count": 0,
+    "declared_worker_count": 0,
+    "packed_object_count": 189,
+    "mps_in_use_by_observed_pack_process": false,
+    "observation_only": true,
+    "signals_sent": 0,
+    "processes_modified": 0
+  },
+  "preexisting_v2_files": [
+    "artifacts/substrate/v2/SUBSTRATE_V1_IMMUTABILITY.json",
+    "artifacts/substrate/v2/SUBSTRATE_V2_HAWKING_COEXISTENCE.json",
+    "artifacts/substrate/v2/SUBSTRATE_V2_PREFLIGHT.json"
+  ],
+  "unexpected_v2_files": [],
+  "checks": {
+    "entry_head_matches_reported_terminal": true,
+    "entry_main_matches_origin": true,
+    "terminal_tag_resolves": true,
+    "entry_base_was_clean_terminal_main": true,
+    "only_preflight_command_implementation_added_since_entry": true,
+    "one_worktree": true,
+    "no_v2_run": true,
+    "v1_objects_byte_identical": true,
+    "v1_terminal_19_of_19": true,
+    "historical_evidence_intact": true,
+    "activation_false": true,
+    "main_ci_green": true,
+    "disk_safe": true,
+    "memory_safe": true,
+    "swap_safe": true,
+    "hawking_observation_only": true
+  },
+  "failed": [],
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "source_digest": "f0a4e4e16287e4f7cc5a2dc8598392661b111028d5f85d0547af66257274f5b4",
+  "sha256": "93cb1e5b4fa811d3680ece51e9820eb8277392b4811c10ca80cc86724deabc3d"
+}

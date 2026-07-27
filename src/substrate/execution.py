@@ -410,17 +410,41 @@ BY_UNIT = {u.identity: u for u in UNIT_LIST}
 # ---------------------------------------------------------------- freeze
 
 
+@lru_cache(maxsize=1)
 def source_digest() -> str:
-    """A hash of the code the run will execute, not of the commit that carries it.
+    """The immutable v1 terminal source digest.
 
-    Pinning the git commit would be circular: sealing the authority produces a commit, so the sealed
-    manifest could never match the commit that contains it. What must not change after launch is the
-    source, and this hashes exactly that.
+    V1 originally scanned every Python file under the package.  That made its already terminal receipt
+    identity change when a later version added a new module.  Once the terminal tag exists, v1 source is
+    the Python tree at that tag, not every future descendant of the package.  Reading the tagged blobs
+    reproduces the original algorithm exactly while keeping v1 verification independent of v2 additions.
     """
+    terminal_tag = "substrate-v1-terminal"
+    tagged = subprocess.run(
+        [
+            "git",
+            "ls-tree",
+            "-r",
+            "--name-only",
+            terminal_tag,
+            "--",
+            "src/substrate",
+            "tests/substrate",
+        ],
+        cwd=io.ROOT,
+        capture_output=True,
+        text=True,
+    )
     parts = []
-    for root in (io.ROOT / "src" / "substrate", io.ROOT / "tests" / "substrate"):
-        for f in sorted(root.rglob("*.py")):
-            parts.append(f"{f.relative_to(io.ROOT)}:{hashlib.sha256(f.read_bytes()).hexdigest()}")
+    if tagged.returncode == 0:
+        for relative in sorted(path for path in tagged.stdout.splitlines() if path.endswith(".py")):
+            payload = subprocess.check_output(["git", "show", f"{terminal_tag}:{relative}"], cwd=io.ROOT)
+            parts.append(f"{relative}:{hashlib.sha256(payload).hexdigest()}")
+    else:
+        # Source checkouts before the terminal tag retain the original development behavior.
+        for root in (io.ROOT / "src" / "substrate", io.ROOT / "tests" / "substrate"):
+            for file in sorted(root.rglob("*.py")):
+                parts.append(f"{file.relative_to(io.ROOT)}:{hashlib.sha256(file.read_bytes()).hexdigest()}")
     return hashlib.sha256("\n".join(parts).encode()).hexdigest()
 
 

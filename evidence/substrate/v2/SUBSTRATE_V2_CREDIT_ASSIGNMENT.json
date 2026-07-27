@@ -1,0 +1,241 @@
+{
+  "schema": "substrate-v2-credit-assignment/v1",
+  "components": [
+    "perspectives",
+    "procedures",
+    "semantic retrieval",
+    "episodic retrieval",
+    "metacognitive actions",
+    "tools",
+    "body selection",
+    "adaptations"
+  ],
+  "ledger": [
+    {
+      "decision_receipt": "admission:100:A:canary_development:0",
+      "components_used": [
+        "perspective:direct"
+      ],
+      "costs": 1.0,
+      "prediction": 0.5,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.92
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:1",
+      "components_used": [
+        "perspective:direct"
+      ],
+      "costs": 1.0,
+      "prediction": 0.625,
+      "outcome": false,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": -0.08
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:2",
+      "components_used": [
+        "perspective:direct"
+      ],
+      "costs": 1.0,
+      "prediction": 0.46875,
+      "outcome": false,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": -0.08
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:3",
+      "components_used": [
+        "perspective:direct"
+      ],
+      "costs": 1.0,
+      "prediction": 0.3515625,
+      "outcome": false,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": -0.08
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:4",
+      "components_used": [
+        "perspective:direct",
+        "semantic:A"
+      ],
+      "costs": 1.08,
+      "prediction": 0.263671875,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.43679999999999997,
+        "semantic:A": 0.43679999999999997
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:5",
+      "components_used": [
+        "perspective:direct",
+        "semantic:A"
+      ],
+      "costs": 1.08,
+      "prediction": 0.44775390625,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.43679999999999997,
+        "semantic:A": 0.43679999999999997
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:6",
+      "components_used": [
+        "perspective:direct",
+        "procedure:procedure:conditional ordered selection:boundary_route"
+      ],
+      "costs": 1.08,
+      "prediction": 0.5,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.43679999999999997,
+        "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:7",
+      "components_used": [
+        "perspective:direct",
+        "procedure:procedure:conditional ordered selection:boundary_route"
+      ],
+      "costs": 1.08,
+      "prediction": 0.625,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.43679999999999997,
+        "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:8",
+      "components_used": [
+        "perspective:direct",
+        "procedure:procedure:conditional ordered selection:boundary_route"
+      ],
+      "costs": 1.08,
+      "prediction": 0.71875,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.43679999999999997,
+        "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:9",
+      "components_used": [
+        "perspective:direct",
+        "procedure:procedure:conditional ordered selection:boundary_route"
+      ],
+      "costs": 1.08,
+      "prediction": 0.7890625,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.43679999999999997,
+        "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:10",
+      "components_used": [
+        "perspective:direct",
+        "procedure:procedure:conditional ordered selection:boundary_route"
+      ],
+      "costs": 1.08,
+      "prediction": 0.841796875,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.43679999999999997,
+        "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+      },
+      "confidence": 1.0
+    },
+    {
+      "decision_receipt": "admission:100:A:canary_development:11",
+      "components_used": [
+        "perspective:direct",
+        "procedure:procedure:conditional ordered selection:boundary_route"
+      ],
+      "costs": 1.08,
+      "prediction": 0.88134765625,
+      "outcome": true,
+      "counterfactual_controls": [
+        "uniform",
+        "no credit"
+      ],
+      "assigned_credit": {
+        "perspective:direct": 0.43679999999999997,
+        "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+      },
+      "confidence": 1.0
+    }
+  ],
+  "transparent_rule": "observed utility divided only among components named in the decision receipt",
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "57bb14573452cb320c391e46fc32942a19bfbf99102d660d01de2f82a32f8ef6"
+}

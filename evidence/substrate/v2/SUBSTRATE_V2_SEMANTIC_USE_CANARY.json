@@ -1,0 +1,42 @@
+{
+  "schema": "substrate-v2-semantic-use-canary/v1",
+  "known_positive": {
+    "id": "C2",
+    "statement": "semantic retrieval changes a known positive decision path",
+    "mechanism_activity": [
+      "perspective:direct",
+      "semantic:A"
+    ],
+    "positive_fixture": true,
+    "null_fixture": false,
+    "controls": [
+      "storage without use",
+      "wrong domain",
+      "shuffled records"
+    ],
+    "oracle": true,
+    "headroom": 1.0,
+    "margin": 1.0,
+    "SESOI": 0.05,
+    "classification": "mechanism_positive",
+    "passes": true,
+    "raw_independent_units": [
+      {
+        "task": "admission:100:A:known_positive:100"
+      }
+    ]
+  },
+  "controls": [
+    "storage without use",
+    "use without storage",
+    "wrong domain",
+    "shuffled records",
+    "episodic without semantic consolidation"
+  ],
+  "passes": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "ee086aaf756ee137774cae3fb0102d7555fed311db70f8f1e768611b36b65b91"
+}

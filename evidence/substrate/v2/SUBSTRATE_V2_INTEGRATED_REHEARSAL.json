@@ -1,0 +1,130 @@
+{
+  "schema": "substrate-v2-integrated-rehearsal/v1",
+  "seed": 7,
+  "split": "development",
+  "principal_seed_consumed": false,
+  "phases": [
+    {
+      "phase": "domain_A_acquisition",
+      "domain": "A",
+      "episodes": 12,
+      "identity": "d3aee0a2f7fb20ccdb2eb8b2ad906450fd3969a809060fea7022a62989194b04"
+    },
+    {
+      "phase": "domain_B_acquisition",
+      "domain": "B",
+      "episodes": 12,
+      "identity": "20891353e603c3dada4e54863c233172d041af0a342b452846af6ad7e9983309"
+    },
+    {
+      "phase": "return_to_A",
+      "domain": "A",
+      "episodes": 8,
+      "identity": "ee962973bb3c824505b6582d774e96d6ee826841e6adf9767dc763a30efc7421"
+    },
+    {
+      "phase": "held_out_B",
+      "domain": "B",
+      "episodes": 8,
+      "identity": "84102e0ae84e6d77cee2e812cd27055ac752f3e12d0803c048f6866ed2ea10be"
+    },
+    {
+      "phase": "domain_C_evidence_routing",
+      "domain": "C",
+      "episodes": 12,
+      "identity": "c171d972190167491214f0a3a1d906e03102626dccf46fcd0320f958158e96e8"
+    },
+    {
+      "phase": "domain_D_tool_selection",
+      "domain": "D",
+      "episodes": 8,
+      "identity": "e7da1f929109cc39af136cbf8248e09bb974dbe0f28186b886e01a457bcbf903"
+    }
+  ],
+  "one_continuing_entity": "rehearsal:7",
+  "exercise": {
+    "episodic_write": true,
+    "semantic_consolidation": true,
+    "procedure_induction": true,
+    "procedure_promotion": true,
+    "procedure_retrieval": true,
+    "procedure_execution": true,
+    "self_model_prediction": true,
+    "allocation": true,
+    "credit_assignment": true,
+    "domain_local_state": true,
+    "retention": true,
+    "transfer": true,
+    "rollback": true,
+    "stop": true,
+    "resume": true
+  },
+  "matched_controls": [
+    "episodic",
+    "fresh"
+  ],
+  "interruption": {
+    "checkpoint": "c0bebd9d058e5f82d8d36a28c3f19853f3d00a9ea0308c1a18d72d901c8519ec",
+    "exact_restore": true,
+    "checkpoint_cost_seconds": 0.002583499997854233
+  },
+  "body_replacement": {
+    "before": {
+      "entity_id": "rehearsal:7",
+      "goals": [
+        "preserve verified competence",
+        "solve delayed task"
+      ],
+      "uncertainty": [
+        "conflicting evidence in negative transfer trap"
+      ],
+      "procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "identity": "81873f998804ab4091e177b376cc323ed7ca14f3d7bf98d2f9e772e1f993d50b"
+    },
+    "after": {
+      "entity_id": "rehearsal:7",
+      "goals": [
+        "preserve verified competence",
+        "solve delayed task"
+      ],
+      "uncertainty": [
+        "conflicting evidence in negative transfer trap"
+      ],
+      "procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "identity": "e9ffc55bd106829b274f6f050335f28264b4685b5557b9c3a2f6c8fcbcf3ee76"
+    },
+    "continuing_entity": true,
+    "goals_preserved": true,
+    "uncertainty_preserved": true,
+    "procedures_preserved": true,
+    "body_change_visible_in_identity": true
+  },
+  "body_restore_exact": true,
+  "negative_transfer_wrong_procedure_selected": false,
+  "unfinished_goal_preserved": true,
+  "unresolved_hypothesis_preserved": true,
+  "publication": {
+    "published": true,
+    "cache_hit": false,
+    "path": "runs/substrate/v2/rehearsal/units/rehearsal-unit.json"
+  },
+  "duplicate_cache": {
+    "published": false,
+    "cache_hit": true,
+    "path": "runs/substrate/v2/rehearsal/units/rehearsal-unit.json"
+  },
+  "failure_matrix_pass": true,
+  "resource_safe": true,
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "48125e85674d0432df66bb8b6824eea59e04f2495d9c414f6069bd60a56d2e47"
+}

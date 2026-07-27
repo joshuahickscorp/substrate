@@ -15,6 +15,12 @@ def main(argv: list[str] | None = None) -> None:
     argv = list(sys.argv[1:] if argv is None else argv)
     command = argv.pop(0) if argv else "status"
 
+    if command == "v2":
+        from substrate import v2
+
+        v2.main(argv)
+        return
+
     if command == "test":
         raise SystemExit(subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode)
 

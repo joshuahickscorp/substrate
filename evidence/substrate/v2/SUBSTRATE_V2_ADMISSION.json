@@ -1,0 +1,25 @@
+{
+  "schema": "substrate-v2-admission/v1",
+  "stage": "principal admission terminal",
+  "v1_structural": true,
+  "checkpoint_and_integrity": true,
+  "cross_domain_continuity": true,
+  "procedural_transfer": true,
+  "beds_and_controls_valid": true,
+  "principal_splits_frozen": true,
+  "resource_rehearsal": true,
+  "principal_execution_licensed": true,
+  "rehearsal_licensed": true,
+  "allocation_status": "no_oracle_headroom",
+  "failed": [
+    "C15",
+    "C16"
+  ],
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "worker_count": 1,
+  "allocation_policy_for_principal": "always_verify",
+  "sha256": "811783a641bcefd4cfaecfec91dcf6d7953b9414481034d7e00dcdce896927a6"
+}

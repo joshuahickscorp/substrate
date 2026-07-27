@@ -1,0 +1,22 @@
+{
+  "schema": "substrate-v2-stop-and-futility/v1",
+  "stop": [
+    "operator stop switch",
+    "source or configuration drift",
+    "activation audit failure",
+    "resource floor breach",
+    "invalid checkpoint",
+    "no dependency ready"
+  ],
+  "futility": [
+    "do not launch if procedural transfer admission is an active valid bed null",
+    "after launch do not stop for observed effect size"
+  ],
+  "retry_limit": 1,
+  "thresholds_immutable_after_launch": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "549ffacf3e5ad6a57b116b43293ed521bb7f3c7baf0b64225078d78b2a929682"
+}

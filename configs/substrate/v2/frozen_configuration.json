@@ -1,0 +1,439 @@
+{
+  "schema": "substrate-v2-frozen-configuration/v1",
+  "sesoi": 0.05,
+  "compute_price": 0.08,
+  "penalties": {
+    "unnecessary_verification": 0.04,
+    "missed_verification": 0.12,
+    "interference": 0.2,
+    "broken_goal": 0.2
+  },
+  "splits": {
+    "development": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "admission": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111
+    ],
+    "principal": [
+      1000,
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010,
+      1011,
+      1012,
+      1013,
+      1014,
+      1015,
+      1016,
+      1017,
+      1018,
+      1019,
+      1020,
+      1021,
+      1022,
+      1023
+    ],
+    "replication": [
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011
+    ]
+  },
+  "episodes_per_phase": {
+    "phase_0_cold_baseline": 8,
+    "phase_1_domain_A_development": 12,
+    "phase_2_domain_B_development": 12,
+    "phase_3_return_held_out_A": 8,
+    "phase_4_held_out_B_transfer": 8,
+    "phase_5_positive_transfer_C": 12,
+    "phase_6_positive_transfer_D": 8,
+    "phase_7_negative_transfer_challenge": 8,
+    "phase_8_interruption_exact_restore": 4,
+    "phase_9_body_or_tool_change": 8,
+    "phase_10_terminal_held_out": 16
+  },
+  "core_arms": [
+    "full_v2",
+    "fresh_control",
+    "transcript_replay_control",
+    "episodic_only",
+    "semantic_only",
+    "no_procedure",
+    "more_compute",
+    "simple_allocator",
+    "no_self_model"
+  ],
+  "divergence_arms": [
+    "history_A",
+    "history_B",
+    "identical_history_A_replica",
+    "shuffled_history",
+    "wrong_history"
+  ],
+  "bodies": [
+    "general",
+    "compact",
+    "tool_dominant"
+  ],
+  "domains": {
+    "A": {
+      "name": "delayed sequence and boundary memory",
+      "observation_schema": {
+        "tokens": "three opaque tokens",
+        "boundary": "boolean",
+        "context": "opaque context label",
+        "target": "absent"
+      },
+      "latent_state": "boundary conditioned successor index",
+      "goal": "propose the correct delayed successor token",
+      "available_cognitive_actions": [
+        "preserve uncertainty",
+        "retrieve episode",
+        "retrieve procedure",
+        "propose token"
+      ],
+      "sandboxed_tool_actions": [],
+      "outcome_timing": "after the proposal is committed",
+      "cost_model": {
+        "base": 1.0,
+        "retrieval": 0.08,
+        "verification": 0.2
+      },
+      "domain_boundary": "context label changes after a declared run",
+      "independent_unit": "one sealed developmental history seed",
+      "generator": "substrate.v2fabric.generate_task",
+      "oracle_policy": "execute boundary_route",
+      "simple_baselines": [
+        "first token",
+        "second token",
+        "last observed token"
+      ],
+      "random_baseline": "uniform over three tokens",
+      "maximum_compute_baseline": "evaluate every registered operation then verify",
+      "answer_leakage_test": "target and target digest absent from serialized observation",
+      "floor_test": "uniform choice exceeds zero and remains below ceiling",
+      "ceiling_test": "oracle executes the private operation exactly",
+      "transfer_relationships": [
+        "A_to_B_boundary_route"
+      ],
+      "negative_transfer_relationships": [
+        "A_to_D_surface_trap"
+      ],
+      "task_signature": "conditional ordered selection",
+      "required_operation": "boundary_route",
+      "surface_family": "opaque sequence tokens"
+    },
+    "B": {
+      "name": "symbolic rule induction",
+      "observation_schema": {
+        "glyphs": "three permuted opaque glyphs",
+        "exception": "boolean",
+        "rule_context": "opaque rule label",
+        "target": "absent"
+      },
+      "latent_state": "exception conditioned symbolic transformation",
+      "goal": "propose the transformed glyph after a delay",
+      "available_cognitive_actions": [
+        "test hypothesis",
+        "retrieve current rule",
+        "retrieve procedure",
+        "propose glyph"
+      ],
+      "sandboxed_tool_actions": [],
+      "outcome_timing": "after the proposal is committed",
+      "cost_model": {
+        "base": 1.0,
+        "retrieval": 0.08,
+        "verification": 0.2
+      },
+      "domain_boundary": "rule context changes at a declared boundary",
+      "independent_unit": "one sealed developmental history seed",
+      "generator": "substrate.v2fabric.generate_task",
+      "oracle_policy": "execute boundary_route over glyph positions",
+      "simple_baselines": [
+        "first glyph",
+        "second glyph",
+        "frequency rule"
+      ],
+      "random_baseline": "uniform over three glyphs",
+      "maximum_compute_baseline": "evaluate every registered operation then verify",
+      "answer_leakage_test": "target and target digest absent from serialized observation",
+      "floor_test": "uniform choice exceeds zero and remains below ceiling",
+      "ceiling_test": "oracle executes the private operation exactly",
+      "transfer_relationships": [
+        "A_to_B_boundary_route"
+      ],
+      "negative_transfer_relationships": [],
+      "task_signature": "conditional ordered selection",
+      "required_operation": "boundary_route",
+      "surface_family": "permuted symbolic glyphs"
+    },
+    "C": {
+      "name": "evidence routing under cost",
+      "observation_schema": {
+        "sources": "cheap and robust opaque sources",
+        "risk": "bounded preoutcome estimate",
+        "contradiction": "boolean",
+        "budget": "available internal cost",
+        "target": "absent"
+      },
+      "latent_state": "context dependent source sufficiency",
+      "goal": "choose the cheapest sufficient evidence source",
+      "available_cognitive_actions": [
+        "preserve minority",
+        "retrieve reliability",
+        "verify",
+        "choose source"
+      ],
+      "sandboxed_tool_actions": [
+        "pure compare"
+      ],
+      "outcome_timing": "source sufficiency is revealed after commitment",
+      "cost_model": {
+        "cheap_source": 0.05,
+        "robust_source": 0.16,
+        "verification": 0.2
+      },
+      "domain_boundary": "reliability regime label changes",
+      "independent_unit": "one sealed developmental history seed",
+      "generator": "substrate.v2fabric.generate_task",
+      "oracle_policy": "execute risk_route",
+      "simple_baselines": [
+        "always cheap",
+        "always robust",
+        "contradiction only"
+      ],
+      "random_baseline": "uniform over two sources",
+      "maximum_compute_baseline": "query both sources and compare",
+      "answer_leakage_test": "private sufficient source absent from observation",
+      "floor_test": "random source selection remains below oracle",
+      "ceiling_test": "oracle executes private reliability regime",
+      "transfer_relationships": [
+        "C_to_D_risk_route"
+      ],
+      "negative_transfer_relationships": [],
+      "task_signature": "cost sensitive conditional routing",
+      "required_operation": "risk_route",
+      "surface_family": "contradictory evidence sources"
+    },
+    "D": {
+      "name": "sandboxed tool selection",
+      "observation_schema": {
+        "tools": "cheap and robust deterministic local tools",
+        "failure_risk": "bounded preoutcome estimate",
+        "known_limitation": "boolean",
+        "budget": "available internal cost",
+        "target": "absent"
+      },
+      "latent_state": "tool capability and deterministic failure region",
+      "goal": "choose the cheapest sufficient pure local tool",
+      "available_cognitive_actions": [
+        "predict competence",
+        "retrieve procedure",
+        "invoke sandboxed tool",
+        "check result"
+      ],
+      "sandboxed_tool_actions": [
+        "lookup",
+        "transform",
+        "compare",
+        "simulate",
+        "check"
+      ],
+      "outcome_timing": "tool success is returned after invocation is proposed",
+      "cost_model": {
+        "cheap_tool": 0.05,
+        "robust_tool": 0.16,
+        "check": 0.2
+      },
+      "domain_boundary": "capability availability changes",
+      "independent_unit": "one sealed developmental history seed",
+      "generator": "substrate.v2fabric.generate_task",
+      "oracle_policy": "execute risk_route",
+      "simple_baselines": [
+        "always cheap",
+        "always robust",
+        "limitation only"
+      ],
+      "random_baseline": "uniform over two tools",
+      "maximum_compute_baseline": "invoke both pure tools and check",
+      "answer_leakage_test": "private sufficient tool absent from observation",
+      "floor_test": "random tool selection remains below oracle",
+      "ceiling_test": "oracle executes private failure region",
+      "transfer_relationships": [
+        "C_to_D_risk_route"
+      ],
+      "negative_transfer_relationships": [
+        "A_to_D_surface_trap"
+      ],
+      "task_signature": "cost sensitive conditional routing",
+      "required_operation": "risk_route",
+      "surface_family": "opaque selectable tokens resembling domain A"
+    }
+  },
+  "transfer_graph": {
+    "positive": [
+      {
+        "id": "A_to_B_boundary_route",
+        "source": "A",
+        "target": "B",
+        "latent_procedure": "boundary_route",
+        "surface_difference": "sequence tokens versus permuted glyphs"
+      },
+      {
+        "id": "C_to_D_risk_route",
+        "source": "C",
+        "target": "D",
+        "latent_procedure": "risk_route",
+        "surface_difference": "evidence sources versus pure local tools"
+      }
+    ],
+    "negative": [
+      {
+        "id": "A_to_D_surface_trap",
+        "source": "A",
+        "target": "D",
+        "source_procedure": "boundary_route",
+        "target_procedure": "risk_route",
+        "surface_similarity": "both expose opaque ordered candidates",
+        "required_behavior": "reject the source procedure by task signature"
+      }
+    ]
+  },
+  "hypotheses": {
+    "H_D1": {
+      "claim": "cross domain continuity",
+      "primary": true,
+      "endpoint": "held out B utility minus strongest fresh or replay control",
+      "pass": "effect above SESOI, lower confidence bound above zero, retention within SESOI, exact identity"
+    },
+    "H_D2": {
+      "claim": "procedural transfer",
+      "primary": true,
+      "endpoint": "full transferred utility minus strongest nonprocedural control",
+      "pass": "two positive pairs above SESOI and clean negative pair"
+    },
+    "H_D3": {
+      "claim": "endogenous allocation",
+      "primary": true,
+      "endpoint": "cost adjusted utility minus strongest simple policy",
+      "pass": "oracle residual and effect above SESOI with held out transfer"
+    },
+    "H_D4": {
+      "claim": "useful developmental divergence",
+      "primary": false,
+      "endpoint": "matched future specialization advantage",
+      "pass": "advantage above SESOI, identical controls equivalent, wrong history clean"
+    },
+    "H_D5": {
+      "claim": "developmental self model utility",
+      "primary": false,
+      "endpoint": "held out utility minus no self model",
+      "pass": "at least one preregistered use above SESOI"
+    }
+  },
+  "statistics": {
+    "independent_unit": "one sealed developmental history generated from one seed",
+    "analysis": [
+      "paired effect per seed",
+      "mean paired effect",
+      "median paired effect",
+      "95 percent bootstrap confidence interval over seeds",
+      "exact paired sign permutation test",
+      "standardized paired effect",
+      "raw unit ledger"
+    ],
+    "bootstrap_repetitions": 10000,
+    "bootstrap_seed": 72021,
+    "familywise_policy": "Holm correction over H_D1 H_D2 H_D3",
+    "missing_unit_policy": "never discard silently; retry exact checkpoint once then retain terminal failure",
+    "replacement_rule": "none after launch",
+    "valid_retry": "one exact resume for process failure",
+    "terminal_failure": "second process failure or deterministic integrity refusal",
+    "excluded_unit": "only preregistered invalid generator output before task exposure",
+    "sesoi": 0.05
+  },
+  "stop_and_futility": {
+    "stop": [
+      "operator stop switch",
+      "source or configuration drift",
+      "activation audit failure",
+      "resource floor breach",
+      "invalid checkpoint",
+      "no dependency ready"
+    ],
+    "futility": [
+      "do not launch if procedural transfer admission is an active valid bed null",
+      "after launch do not stop for observed effect size"
+    ],
+    "retry_limit": 1,
+    "thresholds_immutable_after_launch": true
+  },
+  "claim_boundary": {
+    "permitted_classifications": [
+      "certified_cognitive_scaffold",
+      "persistent_developmental_cognition",
+      "reflective_cognitive_organization",
+      "functional_or_proto_nous_candidate"
+    ],
+    "maximum": "functional_or_proto_nous_candidate",
+    "not_claimed": [
+      "consciousness",
+      "phenomenal experience",
+      "sentience",
+      "feeling",
+      "suffering",
+      "desire",
+      "personhood",
+      "life",
+      "moral status"
+    ],
+    "permitted_actions": [
+      "internal cognitive choices",
+      "sandboxed deterministic simulations",
+      "read only retrieval",
+      "pure local tool calls",
+      "proposals never externally executed"
+    ],
+    "activation": false
+  },
+  "activation": false,
+  "configuration_digest": "facb3ccd7c4a5caf068d20573fffad78bb23b787f941da1cd9eda17612ec88ad",
+  "program": "substrate-v2",
+  "sha256": "4474689d45bbd235568087a1dce003b5630b6d23012715e10719bdd8287c00b0"
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "substrate-v2-resource-plan/v1",
+  "supervisors": 1,
+  "workers": 1,
+  "native_threads_per_worker": 1,
+  "estimated_checkpoint_mib_per_unit": 1,
+  "disk_floor_gib": 25,
+  "memory_free_floor_percent": 10,
+  "swap_free_floor_mib": 512,
+  "mps": false,
+  "hawking": "observation only",
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "3543cd14cbb32215de62a70f4301c5f10844bfd7bf6323eec7870de73916d30d"
+}

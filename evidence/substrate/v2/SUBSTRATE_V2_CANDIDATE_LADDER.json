@@ -1,0 +1,38 @@
+{
+  "schema": "substrate-v2-candidate-ladder/v1",
+  "consolidation": [
+    "verification_triggered",
+    "boundary_triggered",
+    "repetition_plus_verification",
+    "hybrid_boundary_plus_verification"
+  ],
+  "procedure": [
+    "exact_successful_motif",
+    "typed_task_signature_motif",
+    "utility_weighted_generalized_motif"
+  ],
+  "allocation": [
+    "best_fixed_policy",
+    "tabular_contextual_policy",
+    "regularized_linear_contextual_policy"
+  ],
+  "self_model": [
+    "global_estimate",
+    "domain_conditional_estimate",
+    "domain_plus_procedure_conditional_estimate"
+  ],
+  "selection_data": "development split only",
+  "freeze_before": "admission split",
+  "valid_repair_reasons": [
+    "demonstrated software defect",
+    "instrument violates declared semantics",
+    "invalid control",
+    "preregistered candidate not implemented"
+  ],
+  "valid_measured_null_is_terminal": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "e6983e87bf102bd0f7f9ce3499befece5104efaa34787c7a769e29e981f48514"
+}
