@@ -49,7 +49,7 @@
   "all_pass": true,
   "note": "global availability is scored as broad read plus narrow write. A battery that rewarded shared write access would reward the corruption typing prevents",
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
+  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
   "activation": false,
-  "sha256": "de21de1dcb524b17d2e25b9cd23d27fa289bd34bed0facde67adaa0f96efb047"
+  "sha256": "a5b56065c9a2fa948d71bd1487da7474f3f7ac65f0eb38c462880b8d89597c39"
 }

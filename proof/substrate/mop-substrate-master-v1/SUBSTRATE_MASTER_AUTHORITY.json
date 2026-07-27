@@ -842,6 +842,7 @@
     }
   ],
   "declared_deliverables": [
+    "SUBSTRATE_AGENCY_BATTERY.json",
     "SUBSTRATE_ARBITRATION_SYSTEM.json",
     "SUBSTRATE_ARCHITECTURE.json",
     "SUBSTRATE_BELIEF_REVISION.json",
@@ -851,6 +852,7 @@
     "SUBSTRATE_CAMPAIGN_PLAN.json",
     "SUBSTRATE_CAPABILITY_MAP.json",
     "SUBSTRATE_CLEAN_CLONE.json",
+    "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json",
     "SUBSTRATE_CONTINUITY_BATTERY.json",
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md",
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json",
@@ -887,7 +889,7 @@
     "SUBSTRATE_STATE.json",
     "SUBSTRATE_TEMPORAL_CORE.json",
     "SUBSTRATE_THINKING_BATTERY.json",
-    "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",
+    "SUBSTRATE_UNITY_BATTERY.json",
     "SUBSTRATE_VALUATION_SYSTEM.json",
     "SUBSTRATE_WORKSPACE.json",
     "SUBSTRATE_WORLD_MODEL.json",
@@ -898,6 +900,7 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json"
   ],
   "deliverables_present": {
+    "SUBSTRATE_AGENCY_BATTERY.json": true,
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
     "SUBSTRATE_BELIEF_REVISION.json": true,
@@ -907,6 +910,7 @@
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CLEAN_CLONE.json": true,
+    "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
@@ -943,7 +947,7 @@
     "SUBSTRATE_STATE.json": true,
     "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
-    "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
+    "SUBSTRATE_UNITY_BATTERY.json": true,
     "SUBSTRATE_VALUATION_SYSTEM.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
     "SUBSTRATE_WORLD_MODEL.json": true,
@@ -954,6 +958,7 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "deliverables_counting_as_evidence": {
+    "SUBSTRATE_AGENCY_BATTERY.json": true,
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
     "SUBSTRATE_BELIEF_REVISION.json": true,
@@ -962,7 +967,8 @@
     "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
-    "SUBSTRATE_CLEAN_CLONE.json": false,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
+    "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
@@ -999,7 +1005,7 @@
     "SUBSTRATE_STATE.json": true,
     "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
-    "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
+    "SUBSTRATE_UNITY_BATTERY.json": true,
     "SUBSTRATE_VALUATION_SYSTEM.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
     "SUBSTRATE_WORLD_MODEL.json": true,
@@ -1010,11 +1016,11 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 18,
-    "tested": 2,
+    "terminal": 19,
+    "tested": 1,
     "measured": 40
   },
   "activation": false,
-  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
-  "sha256": "13278f35dabbba47b8dac9b6c8433078f4be1ac50b7e96b80943805b12b6e06e"
+  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
+  "sha256": "082c1a49d290145126e12a0a9db425c7cf59b3953931821bf633142cc19bc03e"
 }

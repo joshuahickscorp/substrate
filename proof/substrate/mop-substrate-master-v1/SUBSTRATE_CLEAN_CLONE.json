@@ -1,13 +1,13 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
+  "commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
     "package_import": true,
     "declared_tests": true,
     "graph_valid": true,
-    "artifacts_regenerate_identically": false,
+    "artifacts_regenerate_identically": true,
     "independent_recomputation": true,
     "no_activation": true
   },
@@ -18,8 +18,8 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
-      "expected": "3bcb43cb25595e0e9c8c6fde16898579804227dc"
+      "head": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
+      "expected": "53617078f2da70f69f8fa106ced6a5c48716b7f1"
     },
     "package_import": {
       "ok": true,
@@ -28,7 +28,7 @@
     "declared_tests": {
       "ok": true,
       "detail": [
-        "............................................................             [100%]"
+        ".............................................................            [100%]"
       ]
     },
     "graph_valid": {
@@ -36,19 +36,15 @@
       "detail": "{\"valid\": true, \"blocked\": []}"
     },
     "artifacts_regenerate_identically": {
-      "ok": false,
-      "drifted_from_committed": [
-        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
-        "SUBSTRATE_MODEL_BODY_INTERFACE.json",
-        "SUBSTRATE_TEMPORAL_CORE.json"
-      ],
+      "ok": true,
+      "drifted_from_committed": [],
       "nondeterministic_across_two_runs": [],
       "compared": 51,
       "excluded_fields": [
         "sha256",
         "source_commit"
       ],
-      "detail": "ce\": \"sealed\",\n  \"perspectives\": \"sealed\",\n  \"memory\": \"sealed\",\n  \"world\": \"sealed\",\n  \"selfmodel\": \"sealed\",\n  \"metacog\": \"sealed\",\n  \"plasticity\": \"sealed\",\n  \"body\": \"sealed\",\n  \"batteries\": \"sealed\",\n  \"runtime\": \"sealed\",\n  \"temporal_link\": \"sealed\",\n  \"goals\": \"sealed\",\n  \"graph\": \"sealed\"\n}\n",
+      "detail": "",
       "note": "content is compared with the commit stamp and its digest excluded, because a committed artifact was sealed at an earlier commit by construction. An artifact whose content depends on the machine shows up as drifted; one that differs between two runs in the same clone shows up as nondeterministic"
     },
     "independent_recomputation": {
@@ -60,13 +56,11 @@
       "detail": "false"
     }
   },
-  "failed": [
-    "artifacts_regenerate_identically"
-  ],
-  "all_pass": false,
+  "failed": [],
+  "all_pass": true,
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
-  "sha256": "eced18c706a29646a59fd71f550ef52c76e963d16cc1c6120bb2bf20804cb4ec"
+  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
+  "sha256": "f09718a860f0b09b1e7b2d464b09a80346857db5a5bd43940c7b665827d377aa"
 }

@@ -390,13 +390,9 @@
         "consolidate"
       ],
       "entry_open": true,
-      "exit_passed": false,
+      "exit_passed": true,
       "missing_implementation": [],
-      "missing_artifacts": [
-        "SUBSTRATE_UNITY_BATTERY.json",
-        "SUBSTRATE_AGENCY_BATTERY.json",
-        "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"
-      ],
+      "missing_artifacts": [],
       "external_blocker": ""
     },
     {
@@ -596,11 +592,9 @@
         "consolidate"
       ],
       "entry_open": true,
-      "exit_passed": false,
+      "exit_passed": true,
       "missing_implementation": [],
-      "missing_artifacts": [
-        "SUBSTRATE_CLEAN_CLONE.json"
-      ],
+      "missing_artifacts": [],
       "external_blocker": ""
     },
     {
@@ -638,10 +632,12 @@
     "body_adapter_tool",
     "body_comparison",
     "classify",
+    "clean_clone",
     "consolidate",
     "declarations",
     "deliverables",
     "developmental_divergence",
+    "entity_batteries",
     "experiments",
     "goal_and_valuation",
     "grounding",
@@ -662,6 +658,6 @@
   "no_prose_waves": true,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
-  "sha256": "586058c1af08adbf0985c514a094bbded172d2f0c484e6eb978f0454b2c5e69d"
+  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
+  "sha256": "9e69e4d0eda1af7be1e99c2dd0764b7b4bb9dcacc05b5a684252af76bf602397"
 }

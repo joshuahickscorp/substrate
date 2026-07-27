@@ -286,6 +286,7 @@
     }
   },
   "seal_integrity": {
+    "SUBSTRATE_AGENCY_BATTERY.json": true,
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
     "SUBSTRATE_BELIEF_REVISION.json": true,
@@ -295,6 +296,7 @@
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CLEAN_CLONE.json": true,
+    "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
@@ -331,7 +333,7 @@
     "SUBSTRATE_STATE.json": true,
     "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
-    "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
+    "SUBSTRATE_UNITY_BATTERY.json": true,
     "SUBSTRATE_VALUATION_SYSTEM.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
     "SUBSTRATE_WORLD_MODEL.json": true,
@@ -342,7 +344,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
+  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
   "activation": false,
-  "sha256": "bcf3248e3fe92d206b9f9fe172870a492c53e6fe1278443bdb05d746612dbdd1"
+  "sha256": "05a96ee7185ea8ea8bc60ce54f476b1416fc0b913d66ba80d246768cdd549159"
 }
