@@ -7,8 +7,8 @@ Canonical root: `/Users/scammermike/Downloads/mop-data`. Nothing under a worktre
 | uci_har | principal_active | present | `/Users/scammermike/Downloads/mop-data/har/UCI HAR Dataset` |
 | speech_commands | principal_active | present | `/Users/scammermike/Downloads/mop-data/speech/speech_commands` |
 | speech_features_cache | derived_rebuildable | present | `/Users/scammermike/Downloads/mop-data/speech/speech_feats.npz` |
-| pamap2 | secondary_active | ABSENT | `/Users/scammermike/Downloads/mop-data/pamap2/PAMAP2_Dataset` |
-| harth | secondary_active | ABSENT | `/Users/scammermike/Downloads/mop-data/harth/harth` |
+| pamap2 | secondary_active | present | `/Users/scammermike/Downloads/mop-data/pamap2/PAMAP2_Dataset` |
+| harth | secondary_active | present | `/Users/scammermike/Downloads/mop-data/harth/harth` |
 | starss23 | historical_reproducibility | present | `/Users/scammermike/Downloads/mop-data/starss23` |
 
 ## What went wrong

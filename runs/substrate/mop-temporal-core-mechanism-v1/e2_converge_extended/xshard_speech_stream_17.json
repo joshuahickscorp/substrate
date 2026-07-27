@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "mgu",
+    "tier": "medium",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "mgu|medium|linear|none|h1",
+  "curve": {
+    "400": 0.7326266666666665,
+    "800": 0.7540933333333334,
+    "1600": 0.7116000000000001,
+    "3200": 0.74046,
+    "6400": 0.7472533333333334,
+    "12800": 0.75703
+  },
+  "seed_spread": {
+    "400": 0.05084,
+    "800": 0.05062,
+    "1600": 0.04951,
+    "3200": 0.05891,
+    "6400": 0.08109,
+    "12800": 0.05662
+  },
+  "seed_scores": {
+    "400": [
+      0.70175,
+      0.79131,
+      0.70482
+    ],
+    "800": [
+      0.75,
+      0.80664,
+      0.70564
+    ],
+    "1600": [
+      0.68947,
+      0.76831,
+      0.67702
+    ],
+    "3200": [
+      0.76228,
+      0.78535,
+      0.67375
+    ],
+    "6400": [
+      0.76667,
+      0.81687,
+      0.65822
+    ],
+    "12800": [
+      0.77281,
+      0.80409,
+      0.69419
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.70175,
+        "checkpoint_sha": "1b77028bf259eaf7d512c66f455d36495df155f5bbcc8b91d7af805713d9a636"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.79131,
+        "checkpoint_sha": "a97ba473dad9b306af7c9ce82228a95af3de567f770cdc4e4e0de7be5651faa6"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.70482,
+        "checkpoint_sha": "687194233a55b3fac8383f77c17bc85e4857f9a49a302106292f82ce5638b3b1"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.75,
+        "checkpoint_sha": "5ff86ae9f3927f5397d49a44c844e64ef47d858153b88630e141be865c602efa"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.80664,
+        "checkpoint_sha": "0ab72ea46f6a14e57205da4e649d219065bf21430a183078e4fa8d7088940d24"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.70564,
+        "checkpoint_sha": "9c63849d0b8e842034f96c7547b25f685575eeedd51caeaa41033dd7890a18d4"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.68947,
+        "checkpoint_sha": "99f756ee135dd7aa6ead297ff843d432e919a81bddd454b806329fd8213731aa"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.76831,
+        "checkpoint_sha": "dfb87e5c640bc8226b9754a02349d548cca0f623304aa179aaedcce4942139b7"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.67702,
+        "checkpoint_sha": "9ad16efc1a35c4af0fa7256ca69d70c2860cc6094f2890bd86e965f4d75a3dd5"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.76228,
+        "checkpoint_sha": "c93be1ae31973ec452aa26982cd2c1fc05240122679663557ee3d1ca67450f16"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.78535,
+        "checkpoint_sha": "393b6263b30277d4fcebe87666e98713cd92554fcd584d67f4cea9498de81a0c"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.67375,
+        "checkpoint_sha": "16ffc50891685a8c062eb2a2799ddf125096572c36ab1d2ad866a2a6f22ea6f7"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.76667,
+        "checkpoint_sha": "acaa47deb3cd9ac0d67409a3e5d7638e07a9720f323b5ce26db7ac6ae636fe65"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.81687,
+        "checkpoint_sha": "b1414dab5e966b28213273444400f2b34f2de9cea1c7e5b792deecb45b1227f7"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.65822,
+        "checkpoint_sha": "4b99ba69b4faaa6174fdec27b34503adce37b72acc9c1a9b811a1ab08bb66b25"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.77281,
+        "checkpoint_sha": "4d72893d0b22ad55ffc598706c243cfde22e8e6963c1652135ecb2155ecde67a"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.80409,
+        "checkpoint_sha": "7ae59bf730c8937c2c79ac2259a891604f48017fcb1f9d03c447882c9a92f85a"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.69419,
+        "checkpoint_sha": "0442e8633d9f27bade91356a9dbe90a917f23eeb645f7927520cd3e8938e9b9c"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 159949,
+    "readout": 650,
+    "total": 160599
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_17.json",
+    "sha256": "c5748e489199c51a85981fe1530131db0548b4c3798c33da2128e14267fb0e93",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.73263,
+    0.75409,
+    0.7116,
+    0.74046,
+    0.74725,
+    0.75703
+  ],
+  "best_budget": 12800,
+  "selected_checkpoint": 12800,
+  "second_half_movement": 0.01657,
+  "residual_slope": 0.008285,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0166 with slope 0.00828; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 30399.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "477517a18e5a84083be7b04994be1d4899080eb07ada3ad7e9add5d6e2328b1f"
+}

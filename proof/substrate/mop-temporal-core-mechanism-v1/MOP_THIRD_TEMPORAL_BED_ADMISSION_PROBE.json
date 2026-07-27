@@ -1,0 +1,464 @@
+{
+  "schema": "mop-harth-admission-probe/v1",
+  "bed": "harth_stream",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "context_boundary": {
+    "checks": {
+      "new_context_is_measurably_harder": true,
+      "adaptation_has_something_to_gain": true,
+      "adaptation_does_not_improve_the_old_context": true,
+      "boundary_crossed": true
+    },
+    "n_seeds": 8,
+    "distribution_shift_mean": 0.12924,
+    "distribution_shift_lower_95_cb": 0.05206,
+    "retention_cost_mean": -0.09996,
+    "retention_cost_lower_95_cb": -0.18881,
+    "acquisition_gain_mean": 0.13378,
+    "acquisition_gain_lower_95_cb": 0.06405,
+    "rows": [
+      {
+        "no_adapt_new": 0.96577,
+        "no_adapt_old": 0.9883,
+        "adapted_new": 0.98739,
+        "adapted_old": 0.98246
+      },
+      {
+        "no_adapt_new": 0.87713,
+        "no_adapt_old": 0.97838,
+        "adapted_new": 0.95841,
+        "adapted_old": 0.91171
+      },
+      {
+        "no_adapt_new": 0.78929,
+        "no_adapt_old": 0.8469,
+        "adapted_new": 0.97409,
+        "adapted_old": 0.89922
+      },
+      {
+        "no_adapt_new": 0.88994,
+        "no_adapt_old": 0.99486,
+        "adapted_new": 0.95446,
+        "adapted_old": 0.89041
+      },
+      {
+        "no_adapt_new": 0.93945,
+        "no_adapt_old": 0.96903,
+        "adapted_new": 0.98962,
+        "adapted_old": 0.59745
+      },
+      {
+        "no_adapt_new": 0.63548,
+        "no_adapt_old": 0.9944,
+        "adapted_new": 0.97661,
+        "adapted_old": 0.79664
+      },
+      {
+        "no_adapt_new": 0.74753,
+        "no_adapt_old": 0.98725,
+        "adapted_new": 0.93688,
+        "adapted_old": 0.90164
+      },
+      {
+        "no_adapt_new": 0.8459,
+        "no_adapt_old": 0.96527,
+        "adapted_new": 0.98325,
+        "adapted_old": 0.94516
+      }
+    ],
+    "classification": "context_boundary_crossed"
+  },
+  "future_adaptation": {
+    "verdict": "positive",
+    "n": 8,
+    "mean": 0.13378,
+    "lower_95_cb": 0.06405,
+    "sesoi": 0.05,
+    "observed_sd": 0.10408,
+    "achieved_mde": 0.06973,
+    "adequately_powered": false,
+    "estimator_sufficient": true,
+    "upper_95_cb": 0.20351,
+    "per_seed_effects": [
+      0.02162,
+      0.08128,
+      0.1848,
+      0.06452,
+      0.05017,
+      0.34113,
+      0.18935,
+      0.13735
+    ],
+    "per_unit_effects": {
+      "S015": 0.18797,
+      "S016": 0.0,
+      "S017": 0.11347,
+      "S021": 0.11821,
+      "S022": 0.34496,
+      "S023": 0.1074,
+      "S024": 0.03532,
+      "S025": 0.31174,
+      "S027": 0.03019,
+      "S028": 0.05882
+    },
+    "group_mean": 0.13081,
+    "group_lower_95_cb": 0.06266,
+    "group_upper_95_cb": 0.19896,
+    "group_heterogeneity": 0.11757,
+    "n_units": 10,
+    "bed_specific_effects": {
+      "harth_stream": {
+        "mean": 0.13378,
+        "per_seed_effects": [
+          0.02162,
+          0.08128,
+          0.1848,
+          0.06452,
+          0.05017,
+          0.34113,
+          0.18935,
+          0.13735
+        ]
+      }
+    },
+    "cost_adjusted_effect_per_million_parameter_updates": 0.00968221,
+    "cost_denominator": {
+      "parameter_update_exposure": 13817100,
+      "unit": "trainable parameters multiplied by optimizer updates",
+      "all_source_and_target_training_charged": true
+    },
+    "component_floor_status": {
+      "name": "A_context_retention_during_B_adaptation",
+      "per_seed": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "all_pass": false,
+      "margin": 0.05
+    }
+  },
+  "returning_context": {
+    "verdict": "null",
+    "n": 8,
+    "mean": 0.07732,
+    "lower_95_cb": 0.03266,
+    "sesoi": 0.05,
+    "observed_sd": 0.06666,
+    "achieved_mde": 0.04466,
+    "adequately_powered": true,
+    "estimator_sufficient": true,
+    "upper_95_cb": 0.12198,
+    "per_seed_effects": [
+      0.0,
+      0.06487,
+      0.05814,
+      0.09418,
+      0.21858,
+      0.10261,
+      0.06193,
+      0.01828
+    ],
+    "per_unit_effects": {
+      "S016": 0.09742,
+      "S019": 0.13789,
+      "S021": 0.08626,
+      "S022": 0.0,
+      "S023": 0.10915,
+      "S024": 0.03903,
+      "S025": 0.04049,
+      "S027": 0.0151,
+      "S028": 0.0
+    },
+    "group_mean": 0.05837,
+    "group_lower_95_cb": 0.02692,
+    "group_upper_95_cb": 0.08982,
+    "group_heterogeneity": 0.05073,
+    "n_units": 9,
+    "bed_specific_effects": {
+      "harth_stream": {
+        "mean": 0.07732,
+        "per_seed_effects": [
+          0.0,
+          0.06487,
+          0.05814,
+          0.09418,
+          0.21858,
+          0.10261,
+          0.06193,
+          0.01828
+        ]
+      }
+    },
+    "cost_adjusted_effect_per_million_parameter_updates": 1.3217094,
+    "cost_denominator": {
+      "parameter_update_exposure": 58500,
+      "unit": "trainable parameters multiplied by optimizer updates",
+      "all_source_and_target_training_charged": true
+    },
+    "component_floor_status": {
+      "name": "return_to_A_accuracy",
+      "per_seed": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "all_pass": false,
+      "margin": 0.05
+    }
+  },
+  "temporal_order_permutation": {
+    "verdict": "positive",
+    "n": 8,
+    "mean": 0.38279,
+    "lower_95_cb": 0.32532,
+    "sesoi": 0.05,
+    "observed_sd": 0.08578,
+    "achieved_mde": 0.05747,
+    "adequately_powered": false,
+    "estimator_sufficient": true,
+    "upper_95_cb": 0.44027,
+    "per_seed_effects": [
+      0.31189,
+      0.46667,
+      0.46512,
+      0.34931,
+      0.47176,
+      0.29291,
+      0.26958,
+      0.43511
+    ],
+    "per_unit_effects": {
+      "S016": 0.39926,
+      "S019": 0.36571,
+      "S021": 0.34824,
+      "S022": 0.55426,
+      "S023": 0.49295,
+      "S024": 0.53717,
+      "S025": 0.34413,
+      "S027": 0.13585,
+      "S028": 0.06667
+    },
+    "group_mean": 0.36047,
+    "group_lower_95_cb": 0.25648,
+    "group_upper_95_cb": 0.46446,
+    "group_heterogeneity": 0.16772,
+    "n_units": 9,
+    "bed_specific_effects": {
+      "harth_stream": {
+        "mean": 0.38279,
+        "per_seed_effects": [
+          0.31189,
+          0.46667,
+          0.46512,
+          0.34931,
+          0.47176,
+          0.29291,
+          0.26958,
+          0.43511
+        ]
+      }
+    },
+    "cost_adjusted_effect_per_million_parameter_updates": 0.00692602,
+    "cost_denominator": {
+      "parameter_update_exposure": 55268400,
+      "unit": "trainable parameters multiplied by optimizer updates",
+      "all_source_and_target_training_charged": true
+    },
+    "component_floor_status": {
+      "name": "pooled_reader_order_invariance_control",
+      "per_seed": [],
+      "all_pass": true,
+      "margin": 0.02
+    },
+    "intervention": "within_window_timestep_permutation",
+    "labels_unchanged": true,
+    "ordered_per_unit_accuracy": {
+      "S022": 0.97674,
+      "S028": 1.0,
+      "S023": 0.98239,
+      "S016": 0.9786,
+      "S024": 0.9684,
+      "S025": 0.70445,
+      "S021": 1.0,
+      "S019": 0.98081,
+      "S027": 1.0
+    },
+    "permuted_per_unit_accuracy": {
+      "S022": 0.42248,
+      "S028": 0.93333,
+      "S023": 0.48944,
+      "S016": 0.57934,
+      "S024": 0.43123,
+      "S025": 0.36032,
+      "S021": 0.65176,
+      "S019": 0.61511,
+      "S027": 0.86415
+    },
+    "seed_decision": {
+      "verdict": "positive",
+      "n": 8,
+      "mean": 0.38279,
+      "lower_95_cb": 0.32532,
+      "sesoi": 0.05,
+      "observed_sd": 0.08578,
+      "achieved_mde": 0.05747,
+      "adequately_powered": false,
+      "estimator_sufficient": true
+    },
+    "pooled_per_unit_effects": {
+      "S022": 0.0,
+      "S028": 0.0,
+      "S023": 0.0,
+      "S016": 0.0,
+      "S024": 0.0,
+      "S025": 0.0,
+      "S021": 0.0,
+      "S019": 0.0,
+      "S027": 0.0
+    },
+    "pooled_group_lower_95_cb": 0.0,
+    "pooled_group_upper_95_cb": -0.0,
+    "pooled_control_effect": {
+      "verdict": "null_futile",
+      "n": 8,
+      "mean": 0.0,
+      "lower_95_cb": 0.0,
+      "sesoi": 0.05,
+      "observed_sd": 0.0,
+      "achieved_mde": 0.0,
+      "adequately_powered": true,
+      "estimator_sufficient": true,
+      "upper_95_cb": -0.0,
+      "per_seed_effects": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "per_unit_effects": {
+        "S016": 0.0,
+        "S019": 0.0,
+        "S021": 0.0,
+        "S022": 0.0,
+        "S023": 0.0,
+        "S024": 0.0,
+        "S025": 0.0,
+        "S027": 0.0,
+        "S028": 0.0
+      },
+      "group_mean": 0.0,
+      "group_lower_95_cb": 0.0,
+      "group_upper_95_cb": -0.0,
+      "group_heterogeneity": 0.0,
+      "n_units": 9,
+      "bed_specific_effects": {
+        "harth_stream": {
+          "mean": 0.0,
+          "per_seed_effects": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "cost_adjusted_effect_per_million_parameter_updates": 0.0,
+      "cost_denominator": {
+        "parameter_update_exposure": 50379600,
+        "unit": "trainable parameters multiplied by optimizer updates",
+        "all_source_and_target_training_charged": true
+      },
+      "component_floor_status": {
+        "name": "order_invariance_equivalence",
+        "per_seed": [],
+        "all_pass": true,
+        "margin": 0.02
+      }
+    },
+    "resource_match": {
+      "same_examples": true,
+      "same_model_checkpoint": true,
+      "same_evaluation_code": true
+    }
+  },
+  "checks": {
+    "all_eight_shards_valid": true,
+    "context_boundary_crossed": true,
+    "future_adaptation_headroom": true,
+    "returning_context_recovery": false,
+    "natural_independent_units": true,
+    "temporal_order_required": true,
+    "pooled_reader_order_invariant": true
+  },
+  "all_pass": false,
+  "classification": "preflight_failed",
+  "shards": [
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_0.json",
+      "sha256": "76bf6ae29b6e570929a7b0987312caf8cd6321c88fe1eb9ca20610a6124a381f"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_1.json",
+      "sha256": "54a96438f300b8edb9403c7da774d8029112bd23a8b5e0415fea7a1e28aa989a"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_2.json",
+      "sha256": "a1c937ad00b4688d0ff5699e533834467511c80b81110b87425db96be4deba21"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_3.json",
+      "sha256": "4d69aa992dfa8b4952369dbdcd704a6d2524b7fdb7c276ce9a499f35016ce92c"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_4.json",
+      "sha256": "2b89da5546022f1412731248824329911c6f897caade2870894ea93da1fe8677"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_5.json",
+      "sha256": "134e6a170fd97da87c15d7aeb4584196742bac726c7d364c47def729d6994bd3"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_6.json",
+      "sha256": "8d77537c559775b9ffd2705728a35ade502aaf86a50c21076451264a28c1c8ca"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_7.json",
+      "sha256": "55b6c7b765b33bd0a7473214bc7b5d436b5b39771434c58237717b8b936131aa"
+    }
+  ],
+  "claim_ceiling": "secondary natural bed with a declared synthetic covariate-shift admission task",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "01771460cf731e019047415494e26eab2e3b88c1",
+  "source_tree_oid": "138aa6816a8982dbdac4c3085183a1790ff3b1e8",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "c738ceee35134a69a5d23a1f10965c73d6b139bd530c0c824443dbad5bb2c2bf"
+}

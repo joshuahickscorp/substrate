@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "mgu",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "horizon_20",
+    "history_k": 1
+  },
+  "cell": "mgu|small|linear|horizon_20|h1",
+  "curve": {
+    "400": 0.19310666666666668,
+    "800": 0.20844666666666667,
+    "1600": 0.18096,
+    "3200": 0.20138666666666669,
+    "6400": 0.21458333333333335,
+    "12800": 0.2030266666666667
+  },
+  "seed_spread": {
+    "400": 0.00169,
+    "800": 0.005,
+    "1600": 0.01881,
+    "3200": 0.01858,
+    "6400": 0.02527,
+    "12800": 0.01405
+  },
+  "seed_scores": {
+    "400": [
+      0.19211,
+      0.19506,
+      0.19215
+    ],
+    "800": [
+      0.21404,
+      0.20443,
+      0.20687
+    ],
+    "1600": [
+      0.18333,
+      0.19847,
+      0.16108
+    ],
+    "3200": [
+      0.22281,
+      0.19165,
+      0.1897
+    ],
+    "6400": [
+      0.18684,
+      0.22061,
+      0.2363
+    ],
+    "12800": [
+      0.18684,
+      0.2121,
+      0.21014
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.19211,
+        "checkpoint_sha": "5314a5b23b89913bae355077138dadac022f6dfc4dae14b0cd0f3af5bef6096e"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.19506,
+        "checkpoint_sha": "fbdebecda6846112b4be5eed2209fe50ab6bd11851aac5a793f0b658d6e89b8e"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.19215,
+        "checkpoint_sha": "18adfe6602c93f17da7ab0aa51e58259d3518d09bcdd6c615fd1ab822819cad4"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.21404,
+        "checkpoint_sha": "9182efa9c180075ec1c84506aa669e9f7f860cfbeb56d6c031212caf22f5312a"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.20443,
+        "checkpoint_sha": "a89dc923f012022e0ef3462725d1e5fbfe1ea5d5a5b6859028f5f357ef99cab1"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.20687,
+        "checkpoint_sha": "3c54d4588d7f314cb17c3f4feee187f2462686453fa6f737d07038eafcc3ece8"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.18333,
+        "checkpoint_sha": "d268049ea2df8b750c574f52b7b1585112d2bbeab3ea81dcf37c102ed48528c0"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.19847,
+        "checkpoint_sha": "1395b8c4fc87cda122366934b5e65a2d4113d5101e5738dbd67b2d96b48ea4f7"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.16108,
+        "checkpoint_sha": "9bbce8a3f9d9d3405740d9bcf5082cca828b11a93eaa0eee5dad2b40d583028d"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.22281,
+        "checkpoint_sha": "5effccca50d3fb9a8f43896e6f75de3728f160af312a853521c153f139ed176a"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.19165,
+        "checkpoint_sha": "3ad0c247da470c866320e8a5b11ceaee658cb920c2385d64160d73a3dc469980"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.1897,
+        "checkpoint_sha": "9b04283c79461a30fe801b68db01da8f36ee68d94d79fb5f5ae4f559fdcc5736"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.18684,
+        "checkpoint_sha": "dfd39c23a9b5c2af7883c48afae5e2acf279799120647314f61d5dea1d579f60"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.22061,
+        "checkpoint_sha": "5dfa007061c1561d5e7a684b3aeda89abe49ca12693235ba5f541d8a95ec4802"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.2363,
+        "checkpoint_sha": "d98f2b3e057c1ca9e993273a3f2fa684ddeea9973b605301b937420ad6a791d8"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.18684,
+        "checkpoint_sha": "c039463454a35e0bc1c70ffaecc2a76516df631ee21df8c0e145700a905c2c04"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.2121,
+        "checkpoint_sha": "4e1c318e4e31882633eba984c0ac26d1c4bcb8bd36b23995247adc6ee7b80456"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.21014,
+        "checkpoint_sha": "e186653e9edb2fa2102fcfba581b32d9799a730e2f801e65f50362e4dbc8629c"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 45466,
+    "readout": 650,
+    "total": 46116
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_46.json",
+    "sha256": "6a527ba8c89b436bc856900cc4b12a0d7c9c862a20b8211e1eec3507c405b46b",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.19311,
+    0.20845,
+    0.18096,
+    0.20139,
+    0.21458,
+    0.20303
+  ],
+  "best_budget": 6400,
+  "selected_checkpoint": 6400,
+  "second_half_movement": 0.0132,
+  "residual_slope": 0.00082,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0132 with slope 0.00082; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 1125.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "48a9ac115484946e1ffaa970db9cb78b5aa7d402163fa5f29cff5473d4abef3f"
+}

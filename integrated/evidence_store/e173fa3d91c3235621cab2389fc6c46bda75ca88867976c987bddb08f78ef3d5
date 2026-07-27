@@ -1,0 +1,57 @@
+{
+  "schema": "mop-temporal-core-resume-validation/v1",
+  "resume_authority": {
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_RESUME_AUTHORITY.json",
+    "sha256": "65f76e608ffcfef7104a080ded038fdb331452b934f84225ab7c97e0eb3c66ad"
+  },
+  "processes": [
+    "33542     1 33542       00:39 S    /Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python -m mop.temporal.runs.supervisor",
+    "33656 33542 33542       00:33 S    /Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python -m mop.temporal.runs.corrections preprincipal",
+    "33672 33656 33672       00:32 Rs   /Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python -m mop.temporal.runs.corrections convergence speech_stream",
+    "33678 33656 33678       00:32 Rs   /Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python -m mop.temporal.runs.corrections convergence harth_stream"
+  ],
+  "active_shards": [
+    {
+      "pid": 33678,
+      "tag": "fix:convergence_harth_stream",
+      "args": [
+        "convergence",
+        "harth_stream"
+      ],
+      "state": "active",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "pid": 33672,
+      "tag": "fix:convergence_speech_stream",
+      "args": [
+        "convergence",
+        "speech_stream"
+      ],
+      "state": "active",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    }
+  ],
+  "unique_tags": true,
+  "unique_pids": true,
+  "duplicate_tags": [],
+  "duplicate_pids": [],
+  "single_supervisor": true,
+  "single_launch_authority": "com.mop.temporal-core.supervisor",
+  "deterministic_failure_holds": [],
+  "missing_convergence_corrections": [
+    "convergence_speech_stream",
+    "convergence_harth_stream"
+  ],
+  "invalid_convergence_corrections": [],
+  "all_checks_pass": true,
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+  "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "81798cba10215f8cd45446b5494c603616abfba12def0fdfb61d3e5f474f545f"
+}

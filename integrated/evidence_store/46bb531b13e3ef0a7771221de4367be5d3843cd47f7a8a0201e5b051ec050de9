@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "block_shuffled",
+    "history_k": 1
+  },
+  "cell": "gru|small|linear|block_shuffled|h1",
+  "curve": {
+    "400": 0.28082333333333337,
+    "800": 0.29283333333333333,
+    "1600": 0.2868633333333333,
+    "3200": 0.28390333333333334,
+    "6400": 0.3121466666666667,
+    "12800": 0.30433333333333334
+  },
+  "seed_spread": {
+    "400": 0.22987,
+    "800": 0.27401,
+    "1600": 0.25391,
+    "3200": 0.24175,
+    "6400": 0.27775,
+    "12800": 0.24778
+  },
+  "seed_scores": {
+    "400": [
+      0.54561,
+      0.1644,
+      0.13246
+    ],
+    "800": [
+      0.60877,
+      0.1201,
+      0.14963
+    ],
+    "1600": [
+      0.57982,
+      0.13032,
+      0.15045
+    ],
+    "3200": [
+      0.56228,
+      0.16269,
+      0.12674
+    ],
+    "6400": [
+      0.63246,
+      0.13799,
+      0.16599
+    ],
+    "12800": [
+      0.59035,
+      0.15503,
+      0.16762
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.54561,
+        "checkpoint_sha": "14a548f7b332199691709d651854927503736ca8c20ac83448c04611d45c833d"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.1644,
+        "checkpoint_sha": "42cb6269463775fdbef369c51b41f8fbf95e6600098b5a46e30b6943f69118b0"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.13246,
+        "checkpoint_sha": "7fc14a2ef62cff7b34d73c067f8a3f05aa6e8e3a84b6c937f9c7da8396212ef4"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.60877,
+        "checkpoint_sha": "2b522c6de97bece43de98b4df51504d4f9d7fbdd2ac30c6a4ece3fd655b10c30"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.1201,
+        "checkpoint_sha": "897f215a31d19481435122a5897568d868228066fb64a29527242b4aa06ef1a0"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.14963,
+        "checkpoint_sha": "7840d452257073c2c32fe1d7a4296c0791172082649f626f39fe3daedc422397"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.57982,
+        "checkpoint_sha": "32244f977deef1a8ae2c07f743bc6e987f205885702d38d67f169ee61f75a018"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.13032,
+        "checkpoint_sha": "9eed8c52decadc992b38d0b0e57aa4a2586a95845de3bb088e63d01a3a1f0a6c"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.15045,
+        "checkpoint_sha": "802f628a555a031b433f647b0471cd53d8d8d1258513abe85081ca66a313c028"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.56228,
+        "checkpoint_sha": "3de2b360f2ce607678947e5cad8459d257dcf65a0b48b58c11b48d67e8dbe32c"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.16269,
+        "checkpoint_sha": "93cb95cd1c6eabc97e48167c69b8fd049365b606751739037e89282467891b01"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.12674,
+        "checkpoint_sha": "982e8a371000bd5d9c916ccaa1b923be2be586bc30ee23445ad5b4b0938e0040"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.63246,
+        "checkpoint_sha": "3c5f57adcba25a1f7530b5cfd43938a47e9e213346c74a810174fd0f54a4a051"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.13799,
+        "checkpoint_sha": "8cd9742f8fed3456f9f8b0e25617644c6d32169ff908e6840189470b5ae8eee4"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.16599,
+        "checkpoint_sha": "ae827a0d29f683a581ca309be6d68b1f8631ce6d284e740f223b7862f3e3b140"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.59035,
+        "checkpoint_sha": "0ea8bb27bebe88668a768e0b5e3e47f245275a45a5514a49cf8e9d4f2dd39286"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.15503,
+        "checkpoint_sha": "38fb1622e18d7d919102ba1f78407d3f121d5a7c117dd033f82afd8418ca7daf"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.16762,
+        "checkpoint_sha": "ef304613afa74b3421a4b934a7aa240d02c2da338898dafe1a60346b19883007"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 42139,
+    "readout": 650,
+    "total": 42789
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_54.json",
+    "sha256": "d0f279f315430781e96f289a3dd59fb2780a237659e134c4294be675dba54931",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.28082,
+    0.29283,
+    0.28686,
+    0.2839,
+    0.31215,
+    0.30433
+  ],
+  "best_budget": 6400,
+  "selected_checkpoint": 6400,
+  "second_half_movement": 0.02824,
+  "residual_slope": 0.010215,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0282 with slope 0.01022; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 1120.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "be28ee97f1c340af0c072aa10a629f836cb80dfda1a9c43ec1df3ecbaaab10c2"
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "mop-temporal-orchestration-incident/v1",
+  "classification": "principal_flat_stall_threshold_false_positive",
+  "trigger": {
+    "kind": "lock_age_threshold",
+    "threshold_seconds": 10800,
+    "flagged_workers": 24
+  },
+  "observation": {
+    "principal_receipts_complete": 0,
+    "active_unique_locks": 24,
+    "invalid_receipts": 0,
+    "partial_receipts": 0,
+    "deterministic_failure_holds": 0,
+    "cpu_interval_seconds": 10,
+    "sampled_cpu_time_growth_seconds": {
+      "p:har_stream_0": 6.15,
+      "p:speech_stream_0": 6.61,
+      "p:harth_stream_0": 6.17,
+      "p:harth_stream_7": 5.96
+    },
+    "sampled_process_state": "runnable training computation",
+    "sampled_stack_classification": "PyTorch training/evaluation computation",
+    "thermal_warning": false,
+    "performance_warning": false
+  },
+  "historical_context": {
+    "principal_receipt_cells_per_shard": 76,
+    "har_stream_historical_summed_cell_wall_hours_range": [
+      3.36,
+      3.43
+    ],
+    "current_wave_workers": 24,
+    "threshold_semantics": "report-only flat ceiling; not a termination authority"
+  },
+  "scientific_consequence": "none; identities remain distinct and no receipt has been partially published",
+  "decision": "preserve the healthy wave and continue observation through atomic publication",
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+  "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "124c28109a5b32f9789d57ae6c33203b0be01347bbdd336b6e9dd2856d792ff9"
+}

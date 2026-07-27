@@ -1,0 +1,333 @@
+{
+  "schema": "mop-harth-admission-probe-shard/v1",
+  "bed": "harth_stream",
+  "seed": 2,
+  "units": {
+    "A_train": [
+      "S020",
+      "S022",
+      "S028",
+      "S016",
+      "S027"
+    ],
+    "A_eval": [
+      "S025",
+      "S024"
+    ],
+    "B_train": [
+      "S017",
+      "S018",
+      "S023",
+      "S026",
+      "S029",
+      "S019"
+    ],
+    "B_eval": [
+      "S015",
+      "S021"
+    ]
+  },
+  "shift": {
+    "kind": "declared per channel affine covariate shift",
+    "gain": [
+      0.49744,
+      0.71062,
+      0.83513,
+      0.739,
+      1.35569,
+      0.76701
+    ],
+    "offset": [
+      0.47191,
+      0.66106,
+      0.22849,
+      -0.42055,
+      -0.40388,
+      1.52942
+    ]
+  },
+  "before_adaptation": {
+    "A": {
+      "accuracy": 0.8469,
+      "per_unit_accuracy": {
+        "S024": 0.9777,
+        "S025": 0.70445
+      }
+    },
+    "B": {
+      "accuracy": 0.78929,
+      "per_unit_accuracy": {
+        "S015": 0.79323,
+        "S021": 0.78594
+      }
+    }
+  },
+  "after_B_adaptation": {
+    "A": {
+      "accuracy": 0.89922,
+      "per_unit_accuracy": {
+        "S024": 0.86989,
+        "S025": 0.93117
+      }
+    },
+    "B": {
+      "accuracy": 0.97409,
+      "per_unit_accuracy": {
+        "S015": 0.9812,
+        "S021": 0.96805
+      }
+    }
+  },
+  "return_before_recovery": {
+    "accuracy": 0.89922,
+    "per_unit_accuracy": {
+      "S024": 0.86989,
+      "S025": 0.93117
+    }
+  },
+  "return_after_recovery": {
+    "accuracy": 0.95736,
+    "per_unit_accuracy": {
+      "S024": 0.94424,
+      "S025": 0.97166
+    }
+  },
+  "temporal_order_permutation": {
+    "intervention": "within_window_timestep_permutation",
+    "labels_unchanged": true,
+    "timestep_multiset_preserved_per_example": true,
+    "ordered_accuracy": 0.8469,
+    "permuted_accuracy": 0.38178,
+    "pooled_ordered_accuracy": 0.40891,
+    "pooled_permuted_accuracy": 0.40891,
+    "ordered_per_unit_accuracy": {
+      "S024": 0.9777,
+      "S025": 0.70445
+    },
+    "permuted_per_unit_accuracy": {
+      "S024": 0.40149,
+      "S025": 0.36032
+    },
+    "pooled_ordered_per_unit_accuracy": {
+      "S024": 0.4461,
+      "S025": 0.36842
+    },
+    "pooled_permuted_per_unit_accuracy": {
+      "S024": 0.4461,
+      "S025": 0.36842
+    },
+    "resource_match": {
+      "same_examples": true,
+      "same_model_checkpoint": true,
+      "same_evaluation_code": true
+    }
+  },
+  "receipts": {
+    "pretrain": {
+      "domain": null,
+      "steps": 1200,
+      "updates": 1200,
+      "batch": 64,
+      "lr": 0.003,
+      "trainable_groups": [
+        "core",
+        "readout"
+      ],
+      "trainable_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0",
+        "head.bias",
+        "head.weight"
+      ],
+      "frozen_params": [],
+      "changed_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0",
+        "head.bias",
+        "head.weight"
+      ],
+      "changed_param_count": 10,
+      "undeclared_changes": [],
+      "gate_kind": null,
+      "gate_blocked_updates": 0,
+      "gate_decisions": null,
+      "checkpoint_sha_before": "5cf8b7147f28627ab7c2eb76f042be745be73ca326c8c38ffb5754770ada69e2",
+      "checkpoint_sha_after": "27abe3b528b2eb917131e177df64173726bcb73c24c4174b942f6502e403e634",
+      "group_sha_after": {
+        "core": "32e9d7eed195fe93",
+        "readout": "4da0c60cf9c89965"
+      },
+      "trainable_param_count": 46057,
+      "wall_seconds": 29.38
+    },
+    "pooled_control_pretrain": {
+      "domain": null,
+      "steps": 1200,
+      "updates": 1200,
+      "batch": 64,
+      "lr": 0.003,
+      "trainable_groups": [
+        "core",
+        "readout"
+      ],
+      "trainable_params": [
+        "core.a.bias",
+        "core.a.weight",
+        "core.b.bias",
+        "core.b.weight",
+        "core.mix.bias",
+        "core.mix.weight",
+        "head.bias",
+        "head.weight"
+      ],
+      "frozen_params": [],
+      "changed_params": [
+        "core.a.bias",
+        "core.a.weight",
+        "core.b.bias",
+        "core.b.weight",
+        "core.mix.bias",
+        "core.mix.weight",
+        "head.bias",
+        "head.weight"
+      ],
+      "changed_param_count": 8,
+      "undeclared_changes": [],
+      "gate_kind": null,
+      "gate_blocked_updates": 0,
+      "gate_decisions": null,
+      "checkpoint_sha_before": "9132bd835afe530a858d6e3cf98f8fa3579d157f73d01124ac4c961f74574e6c",
+      "checkpoint_sha_after": "388136c7cbe35929a9d1df01e943b4ba958fd7074c947c81a9a312aaee744437",
+      "group_sha_after": {
+        "core": "d06c98a305a9e1dc",
+        "readout": "b6b32dfd799e6507"
+      },
+      "trainable_param_count": 41983,
+      "wall_seconds": 25.2
+    },
+    "adapt_B": {
+      "domain": null,
+      "steps": 300,
+      "updates": 300,
+      "batch": 64,
+      "lr": 0.003,
+      "trainable_groups": [
+        "core",
+        "readout"
+      ],
+      "trainable_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0",
+        "head.bias",
+        "head.weight"
+      ],
+      "frozen_params": [],
+      "changed_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0",
+        "head.bias",
+        "head.weight"
+      ],
+      "changed_param_count": 10,
+      "undeclared_changes": [],
+      "gate_kind": null,
+      "gate_blocked_updates": 0,
+      "gate_decisions": null,
+      "checkpoint_sha_before": "27abe3b528b2eb917131e177df64173726bcb73c24c4174b942f6502e403e634",
+      "checkpoint_sha_after": "0c5190c5e0c48e5e0117115531be15daa5223b56370df488ca80ed20f4fa83c6",
+      "group_sha_after": {
+        "core": "c54a9ebfbe50caf1",
+        "readout": "22bf832ec2c9f86c"
+      },
+      "trainable_param_count": 46057,
+      "wall_seconds": 7.54
+    },
+    "recover_A_readout": {
+      "domain": null,
+      "steps": 150,
+      "updates": 150,
+      "batch": 64,
+      "lr": 0.003,
+      "trainable_groups": [
+        "readout"
+      ],
+      "trainable_params": [
+        "head.bias",
+        "head.weight"
+      ],
+      "frozen_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0"
+      ],
+      "changed_params": [
+        "head.bias",
+        "head.weight"
+      ],
+      "changed_param_count": 2,
+      "undeclared_changes": [],
+      "gate_kind": null,
+      "gate_blocked_updates": 0,
+      "gate_decisions": null,
+      "checkpoint_sha_before": "0c5190c5e0c48e5e0117115531be15daa5223b56370df488ca80ed20f4fa83c6",
+      "checkpoint_sha_after": "376915d3aba59bd67cc47f8576fa249f526cd162511e8232c5a7603f2eeec297",
+      "group_sha_after": {
+        "core": "c54a9ebfbe50caf1",
+        "readout": "3142aaf44a52f3c5"
+      },
+      "trainable_param_count": 390,
+      "wall_seconds": 1.44
+    }
+  },
+  "checkpoints": {
+    "pretrained": "27abe3b528b2eb917131e177df64173726bcb73c24c4174b942f6502e403e634",
+    "adapted_B": "0c5190c5e0c48e5e0117115531be15daa5223b56370df488ca80ed20f4fa83c6",
+    "returned_A": "376915d3aba59bd67cc47f8576fa249f526cd162511e8232c5a7603f2eeec297"
+  },
+  "checks": {
+    "unit_disjoint": true,
+    "pretrain_budget": true,
+    "pooled_control_budget": true,
+    "adapt_budget": true,
+    "return_budget": true,
+    "fifteen_train_seven_untouched_evaluation_units": false,
+    "no_undeclared_changes": true
+  },
+  "all_checks_pass": false,
+  "test_split_untouched": true,
+  "wall_seconds": 64.8,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+  "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "06938a86b4a6e44a5de45252211367825e05fac6fb24a267c22f284ea9631a08"
+}

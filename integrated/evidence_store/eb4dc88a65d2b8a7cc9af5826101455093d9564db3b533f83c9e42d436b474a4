@@ -1,0 +1,492 @@
+{
+  "schema": "mop-e2-convergence/v2",
+  "bed": "speech_stream",
+  "grid": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "seeds_per_budget": [
+    0,
+    1,
+    2
+  ],
+  "configs": {
+    "gru|small|linear|none|h1": {
+      "bed": "speech_stream",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "cell": "gru|small|linear|none|h1",
+      "curve": {
+        "400": 0.7108033333333333,
+        "800": 0.7226333333333333,
+        "1600": 0.7356466666666667,
+        "3200": 0.7433633333333333
+      },
+      "seed_spread": {
+        "400": 0.07072,
+        "800": 0.03391,
+        "1600": 0.061,
+        "3200": 0.04501
+      },
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "budgets": [
+        400,
+        800,
+        1600,
+        3200
+      ],
+      "scores": [
+        0.7108,
+        0.72263,
+        0.73565,
+        0.74336
+      ],
+      "best_budget": 3200,
+      "selected_checkpoint": 3200,
+      "second_half_movement": 0.00772,
+      "residual_slope": 0.007717,
+      "threshold": 0.01,
+      "slope_threshold": 0.002,
+      "checks": {
+        "enough_budgets": true,
+        "largest_budget_is_not_the_best": true,
+        "second_half_movement_within_threshold": true,
+        "second_half_slope_within_threshold": false,
+        "not_overfitting": true,
+        "all_pass": false
+      },
+      "converged": false,
+      "reason": "second half moves 0.0077 with slope 0.00772; extend the budget grid past 3200",
+      "classification": "unconverged",
+      "wall_seconds": 934.3
+    },
+    "lstm|small|linear|none|h1": {
+      "bed": "speech_stream",
+      "spec": {
+        "family": "lstm",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "cell": "lstm|small|linear|none|h1",
+      "curve": {
+        "400": 0.6348433333333333,
+        "800": 0.6762233333333333,
+        "1600": 0.6841633333333333,
+        "3200": 0.7083499999999999
+      },
+      "seed_spread": {
+        "400": 0.08216,
+        "800": 0.0842,
+        "1600": 0.07712,
+        "3200": 0.05776
+      },
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "budgets": [
+        400,
+        800,
+        1600,
+        3200
+      ],
+      "scores": [
+        0.63484,
+        0.67622,
+        0.68416,
+        0.70835
+      ],
+      "best_budget": 3200,
+      "selected_checkpoint": 3200,
+      "second_half_movement": 0.02419,
+      "residual_slope": 0.024187,
+      "threshold": 0.01,
+      "slope_threshold": 0.002,
+      "checks": {
+        "enough_budgets": true,
+        "largest_budget_is_not_the_best": false,
+        "second_half_movement_within_threshold": false,
+        "second_half_slope_within_threshold": false,
+        "not_overfitting": true,
+        "all_pass": false
+      },
+      "converged": false,
+      "reason": "second half moves 0.0242 with slope 0.02419; extend the budget grid past 3200",
+      "classification": "unconverged",
+      "wall_seconds": 866.8
+    },
+    "mgu|small|linear|none|h1": {
+      "bed": "speech_stream",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "cell": "mgu|small|linear|none|h1",
+      "curve": {
+        "400": 0.7127266666666667,
+        "800": 0.7222133333333333,
+        "1600": 0.7300166666666668,
+        "3200": 0.7438166666666666
+      },
+      "seed_spread": {
+        "400": 0.05223,
+        "800": 0.05249,
+        "1600": 0.02734,
+        "3200": 0.05828
+      },
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "budgets": [
+        400,
+        800,
+        1600,
+        3200
+      ],
+      "scores": [
+        0.71273,
+        0.72221,
+        0.73002,
+        0.74382
+      ],
+      "best_budget": 3200,
+      "selected_checkpoint": 3200,
+      "second_half_movement": 0.0138,
+      "residual_slope": 0.0138,
+      "threshold": 0.01,
+      "slope_threshold": 0.002,
+      "checks": {
+        "enough_budgets": true,
+        "largest_budget_is_not_the_best": false,
+        "second_half_movement_within_threshold": false,
+        "second_half_slope_within_threshold": false,
+        "not_overfitting": true,
+        "all_pass": false
+      },
+      "converged": false,
+      "reason": "second half moves 0.0138 with slope 0.0138; extend the budget grid past 3200",
+      "classification": "unconverged",
+      "wall_seconds": 5053.2
+    },
+    "pooled|small|linear|none|h1": {
+      "bed": "speech_stream",
+      "spec": {
+        "family": "pooled",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "cell": "pooled|small|linear|none|h1",
+      "curve": {
+        "400": 0.24587,
+        "800": 0.2509966666666667,
+        "1600": 0.23927666666666667,
+        "3200": 0.24122666666666667
+      },
+      "seed_spread": {
+        "400": 0.01917,
+        "800": 0.01809,
+        "1600": 0.02075,
+        "3200": 0.01844
+      },
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "budgets": [
+        400,
+        800,
+        1600,
+        3200
+      ],
+      "scores": [
+        0.24587,
+        0.251,
+        0.23928,
+        0.24123
+      ],
+      "best_budget": 800,
+      "selected_checkpoint": 800,
+      "second_half_movement": 0.00195,
+      "residual_slope": 0.00195,
+      "threshold": 0.01,
+      "slope_threshold": 0.002,
+      "checks": {
+        "enough_budgets": true,
+        "largest_budget_is_not_the_best": true,
+        "second_half_movement_within_threshold": true,
+        "second_half_slope_within_threshold": true,
+        "not_overfitting": true,
+        "all_pass": true
+      },
+      "converged": true,
+      "reason": "",
+      "classification": "converged",
+      "wall_seconds": 659.3
+    },
+    "tcn|small|linear|none|h1": {
+      "bed": "speech_stream",
+      "spec": {
+        "family": "tcn",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "cell": "tcn|small|linear|none|h1",
+      "curve": {
+        "400": 0.5969733333333332,
+        "800": 0.6178633333333333,
+        "1600": 0.6105833333333334,
+        "3200": 0.6306466666666667
+      },
+      "seed_spread": {
+        "400": 0.00949,
+        "800": 0.0132,
+        "1600": 0.04458,
+        "3200": 0.01929
+      },
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "budgets": [
+        400,
+        800,
+        1600,
+        3200
+      ],
+      "scores": [
+        0.59697,
+        0.61786,
+        0.61058,
+        0.63065
+      ],
+      "best_budget": 3200,
+      "selected_checkpoint": 3200,
+      "second_half_movement": 0.02006,
+      "residual_slope": 0.020063,
+      "threshold": 0.01,
+      "slope_threshold": 0.002,
+      "checks": {
+        "enough_budgets": true,
+        "largest_budget_is_not_the_best": false,
+        "second_half_movement_within_threshold": false,
+        "second_half_slope_within_threshold": false,
+        "not_overfitting": true,
+        "all_pass": false
+      },
+      "converged": false,
+      "reason": "second half moves 0.0201 with slope 0.02006; extend the budget grid past 3200",
+      "classification": "unconverged",
+      "wall_seconds": 1542.4
+    },
+    "histmlp|small|linear|none|h20": {
+      "bed": "speech_stream",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 20
+      },
+      "cell": "histmlp|small|linear|none|h20",
+      "curve": {
+        "400": 0.41508666666666666,
+        "800": 0.4126266666666667,
+        "1600": 0.40734000000000004,
+        "3200": 0.39338
+      },
+      "seed_spread": {
+        "400": 0.03797,
+        "800": 0.02008,
+        "1600": 0.02199,
+        "3200": 0.01662
+      },
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "budgets": [
+        400,
+        800,
+        1600,
+        3200
+      ],
+      "scores": [
+        0.41509,
+        0.41263,
+        0.40734,
+        0.39338
+      ],
+      "best_budget": 400,
+      "selected_checkpoint": 400,
+      "second_half_movement": 0.01396,
+      "residual_slope": -0.01396,
+      "threshold": 0.01,
+      "slope_threshold": 0.002,
+      "checks": {
+        "enough_budgets": true,
+        "largest_budget_is_not_the_best": true,
+        "second_half_movement_within_threshold": false,
+        "second_half_slope_within_threshold": true,
+        "not_overfitting": true,
+        "all_pass": false
+      },
+      "converged": false,
+      "reason": "second half moves 0.014 with slope -0.01396; extend the budget grid past 3200",
+      "classification": "unconverged",
+      "wall_seconds": 18.2
+    },
+    "gru|large|linear|none|h1": {
+      "bed": "speech_stream",
+      "spec": {
+        "family": "gru",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "cell": "gru|large|linear|none|h1",
+      "curve": {
+        "400": 0.7390733333333334,
+        "800": 0.7372799999999998,
+        "1600": 0.7563033333333333,
+        "3200": 0.7351733333333333
+      },
+      "seed_spread": {
+        "400": 0.05554,
+        "800": 0.05704,
+        "1600": 0.0429,
+        "3200": 0.05053
+      },
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "budgets": [
+        400,
+        800,
+        1600,
+        3200
+      ],
+      "scores": [
+        0.73907,
+        0.73728,
+        0.7563,
+        0.73517
+      ],
+      "best_budget": 1600,
+      "selected_checkpoint": 1600,
+      "second_half_movement": 0.02113,
+      "residual_slope": -0.02113,
+      "threshold": 0.01,
+      "slope_threshold": 0.002,
+      "checks": {
+        "enough_budgets": true,
+        "largest_budget_is_not_the_best": true,
+        "second_half_movement_within_threshold": false,
+        "second_half_slope_within_threshold": true,
+        "not_overfitting": true,
+        "all_pass": false
+      },
+      "converged": false,
+      "reason": "second half moves 0.0211 with slope -0.02113; extend the budget grid past 3200",
+      "classification": "unconverged",
+      "wall_seconds": 4273.5
+    },
+    "pooled|large|mlp_strong|none|h1": {
+      "bed": "speech_stream",
+      "spec": {
+        "family": "pooled",
+        "tier": "large",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "cell": "pooled|large|mlp_strong|none|h1",
+      "curve": {
+        "400": 0.21446666666666667,
+        "800": 0.22775333333333334,
+        "1600": 0.21941666666666668,
+        "3200": 0.22301333333333337
+      },
+      "seed_spread": {
+        "400": 0.02911,
+        "800": 0.01676,
+        "1600": 0.01151,
+        "3200": 0.02726
+      },
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "budgets": [
+        400,
+        800,
+        1600,
+        3200
+      ],
+      "scores": [
+        0.21447,
+        0.22775,
+        0.21942,
+        0.22301
+      ],
+      "best_budget": 800,
+      "selected_checkpoint": 800,
+      "second_half_movement": 0.0036,
+      "residual_slope": 0.003597,
+      "threshold": 0.01,
+      "slope_threshold": 0.002,
+      "checks": {
+        "enough_budgets": true,
+        "largest_budget_is_not_the_best": true,
+        "second_half_movement_within_threshold": true,
+        "second_half_slope_within_threshold": false,
+        "not_overfitting": true,
+        "all_pass": false
+      },
+      "converged": false,
+      "reason": "second half moves 0.0036 with slope 0.0036; extend the budget grid past 3200",
+      "classification": "unconverged",
+      "wall_seconds": 3401.8
+    }
+  },
+  "all_converged": false,
+  "unconverged": [
+    "gru|small|linear|none|h1",
+    "lstm|small|linear|none|h1",
+    "mgu|small|linear|none|h1",
+    "tcn|small|linear|none|h1",
+    "histmlp|small|linear|none|h20",
+    "gru|large|linear|none|h1",
+    "pooled|large|mlp_strong|none|h1"
+  ],
+  "wall_seconds": 0.0
+}

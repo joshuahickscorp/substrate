@@ -1,0 +1,110 @@
+{
+  "schema": "mop-temporal-core-mutation-report/v1",
+  "structural": {
+    "reset_aligned_with_boundaries": {
+      "expected": "oracle_segmented",
+      "actual": "oracle_segmented",
+      "pass": true
+    },
+    "wrong_reset_rate": {
+      "expected": "rate mismatch is visible",
+      "fixed": 4,
+      "wrong": 38,
+      "pass": true
+    },
+    "future_history_inserted": {
+      "expected": "violation",
+      "actual": [
+        "leaky: sees future information"
+      ],
+      "pass": true
+    },
+    "history_removed_silently": {
+      "expected": "history profiles differ and the matched check says no",
+      "pass": true
+    },
+    "null_reference_changed": {
+      "expected": "a moved reference changes the verdict",
+      "against_zero": false,
+      "against_majority": true,
+      "pass": true
+    },
+    "baseline_undertrained": {
+      "expected": "unconverged",
+      "actual": "unconverged",
+      "pass": true
+    },
+    "verdict_changed": {
+      "expected": "a tie is a null and a wrong direction is a failure",
+      "tie": "null_futile",
+      "wrong": "wrong_direction_failure",
+      "pass": true
+    },
+    "effect_comparison_changed": {
+      "expected": "a contrast against a different cell gives a different number",
+      "pass": true
+    },
+    "unit_duplicated": {
+      "expected": "a duplicated unit does not change the group bound it should",
+      "pass": true,
+      "note": "group bounds are computed over unique unit identifiers, so a duplicate collapses"
+    },
+    "forged_completion": {
+      "expected": "a missing cell is reported as missing rather than skipped",
+      "actual": "missing_cell",
+      "pass": true
+    }
+  },
+  "behavioural": {
+    "core_output_ignored": {
+      "expected": "zeroing the core representation destroys the prediction",
+      "unique_predictions_with_core": 3,
+      "unique_predictions_without_core": 1,
+      "pass": true
+    },
+    "state_reset_silently": {
+      "expected": "resetting every observation removes most of the core effect",
+      "real_effect": 0.4849,
+      "mutated_effect": 0.32056,
+      "pass": false
+    },
+    "readout_capacity_inflated": {
+      "expected": "an order free control with a strong readout and a large core does not close the gap",
+      "real_effect": 0.4849,
+      "mutated_effect": 0.52095,
+      "pass": true
+    },
+    "history_inflated": {
+      "expected": "giving the stateless model the whole window is the honest comparison and it is reported",
+      "gap_at_k20": 0.01506,
+      "gap_at_full_window": 0.08298,
+      "pass": true,
+      "note": "this mutation reports rather than refuses, and the analysis uses the full window"
+    },
+    "parameter_count_inflated": {
+      "expected": "the measured parameter count is what is reported, not the tier label",
+      "measured": {
+        "micro": 10720,
+        "small": 45910,
+        "medium": 166464,
+        "large": 651878
+      },
+      "pass": true
+    },
+    "bed_substituted": {
+      "expected": "bed identity hashes differ",
+      "pass": true
+    }
+  },
+  "n_mutations": 16,
+  "all_rejected": false,
+  "survivors": [
+    "state_reset_silently"
+  ],
+  "rule": "a required mutation that is accepted invalidates the positive it attacks",
+  "wall_seconds": 706.8,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "0b75a5567d645f65f88911cb670d1820a1797a5d7d323dba6cb6a37e3f2efd7e"
+}

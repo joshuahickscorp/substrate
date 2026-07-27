@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "harth_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "misaligned_b",
+    "history_k": 1
+  },
+  "cell": "gru|small|linear|misaligned_b|h1",
+  "curve": {
+    "400": 0.9329966666666666,
+    "800": 0.9674966666666668,
+    "1600": 0.9729966666666666,
+    "3200": 0.9657433333333333,
+    "6400": 0.9627666666666667,
+    "12800": 0.9627466666666665
+  },
+  "seed_spread": {
+    "400": 0.07614,
+    "800": 0.02406,
+    "1600": 0.01891,
+    "3200": 0.03415,
+    "6400": 0.03572,
+    "12800": 0.03707
+  },
+  "seed_scores": {
+    "400": [
+      0.96456,
+      0.84615,
+      0.98828
+    ],
+    "800": [
+      0.98228,
+      0.93974,
+      0.98047
+    ],
+    "1600": [
+      0.98987,
+      0.95256,
+      0.97656
+    ],
+    "3200": [
+      0.99114,
+      0.92692,
+      0.97917
+    ],
+    "6400": [
+      0.98734,
+      0.92179,
+      0.97917
+    ],
+    "12800": [
+      0.98987,
+      0.92051,
+      0.97786
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.96456,
+        "checkpoint_sha": "937ff4030f166f30170dfaf2c728ca7133d2d237b3f0d4234ae2cf46fb09646c"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.84615,
+        "checkpoint_sha": "94d2b35d29462092efa0d186e09be06cfcbf98db5f24be342551979e26ed09e9"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.98828,
+        "checkpoint_sha": "a5a5d2379c3fcee4d27a98034a07878dc89db742a35aa659ddf7ace3d54cf73d"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.98228,
+        "checkpoint_sha": "ee4e754c69704ceaf336e95f4a4e5bcc1f12476b0b5e8c00c37f96dca92f36d7"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.93974,
+        "checkpoint_sha": "27cebf42e4728f7d858c414f0e3023b216515ad761ba305b6e6d4ef0f7cb5272"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.98047,
+        "checkpoint_sha": "d8d4b6bee674e3b9372b6016bee785b71c8b1d34eea5fa4c5445761cd8acbd45"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.98987,
+        "checkpoint_sha": "8f2a78f1ac5319b1bd6e75df674bc9636f1899f4ae051b6414b2df52aac46b68"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.95256,
+        "checkpoint_sha": "20e2edef95b8421a4e6ead4988ddbc4acc2daface9c9f0904cadfa816d6e31e5"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.97656,
+        "checkpoint_sha": "2a5a4e07d00586a75d4c1e2190b5c1d94b550c938765d045db3f2ea82ade8cdb"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.99114,
+        "checkpoint_sha": "5e231dd8646349cdf53fff5c20aabe46d375ed6952d4463625c1e8d44a14ebae"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.92692,
+        "checkpoint_sha": "80320f286f61357b683464ebd048ac56d3c02f7322800c127a1027ce320eb778"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.97917,
+        "checkpoint_sha": "50948318af06cd312de7ebfe3ddf5fa99602e07048d624f15a9ac64128e3ce19"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.98734,
+        "checkpoint_sha": "4295fee359a941a15d735cd42cafcd30dee4f4e1ac5ea4d7c0840e59be70aa0c"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.92179,
+        "checkpoint_sha": "74a7ce4a556d23bca52bf0b2a9592dd79698389123a3febf216daa3ff41d6a13"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.97917,
+        "checkpoint_sha": "3141c7220206bb49a484ec2421098cf6d0d826b4c9c76dc9ce68189b9062482b"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.98987,
+        "checkpoint_sha": "711aa24ba2f9cc81d0f5149974b0b2538cc983ddf198e8990354776d28477572"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.92051,
+        "checkpoint_sha": "050dde5e4b82c36dd01e3444f6f37008a3173727681f07386803f5f0aa62c4aa"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.97786,
+        "checkpoint_sha": "dff720aabf1ab5072a494735e0641876e5156da87a3af1ac4c62fa830a820e9a"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 45667,
+    "readout": 390,
+    "total": 46057
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_harth_stream_52.json",
+    "sha256": "3876f2ef490af5551b03b01f6f4a1cfbfc3ce203f85db02af634f41180d96c0e",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.933,
+    0.9675,
+    0.973,
+    0.96574,
+    0.96277,
+    0.96275
+  ],
+  "best_budget": 1600,
+  "selected_checkpoint": 1600,
+  "second_half_movement": 0.003,
+  "residual_slope": -0.001498,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 538.3,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "1ebaec0168c81971dd74ea7ec06def7a87a45b906c5c233355544b7810102263"
+}

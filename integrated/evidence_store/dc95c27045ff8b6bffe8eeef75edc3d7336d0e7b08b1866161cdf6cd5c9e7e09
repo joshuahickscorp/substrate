@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "har_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "small",
+    "readout": "mlp_strong",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "histmlp|small|mlp_strong|none|h1",
+  "curve": {
+    "400": 0.7622599999999999,
+    "800": 0.78737,
+    "1600": 0.7734366666666667,
+    "3200": 0.7526799999999999,
+    "6400": 0.7637,
+    "12800": 0.7492899999999999
+  },
+  "seed_spread": {
+    "400": 0.07885,
+    "800": 0.06098,
+    "1600": 0.04159,
+    "3200": 0.09312,
+    "6400": 0.08162,
+    "12800": 0.07612
+  },
+  "seed_scores": {
+    "400": [
+      0.72973,
+      0.70488,
+      0.85217
+    ],
+    "800": [
+      0.74595,
+      0.75877,
+      0.85739
+    ],
+    "1600": [
+      0.74324,
+      0.7562,
+      0.82087
+    ],
+    "3200": [
+      0.64595,
+      0.7947,
+      0.81739
+    ],
+    "6400": [
+      0.68198,
+      0.7639,
+      0.84522
+    ],
+    "12800": [
+      0.66577,
+      0.76732,
+      0.81478
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.72973,
+        "checkpoint_sha": "0c41ca7db0ceefa4bd4855b24e4eb72a6160cd0998307470fcb175f28ac36f98"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.70488,
+        "checkpoint_sha": "73aee16a5b93439c2154c1155fd552ea0446617b96be807efc6d924d34749620"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.85217,
+        "checkpoint_sha": "6655e01e33fb3f450eb160d267dfa021ad96dd8a7470b743d123716c3fdbd0c6"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.74595,
+        "checkpoint_sha": "06ad7c8286d0546a8daf413c7b4aac0173b72a5cafbd2ae381f9ee61e42185de"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.75877,
+        "checkpoint_sha": "05a2fbd87b64c41b7a8373581750d7eade929b504e9b36cc593a4b4a7d00a0ce"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.85739,
+        "checkpoint_sha": "100980882c4762d59cd4f0d5467d1a749213b4a09049556f9c13232c8b8a6584"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.74324,
+        "checkpoint_sha": "58e73331309747b939e091b42c05723f0dcc6f0d2fd9be4b75315cae6780103f"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.7562,
+        "checkpoint_sha": "0a7969e014809f0481918df8056409faf40f5fec69c4fa71549b681bd1499d3f"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.82087,
+        "checkpoint_sha": "e046db704cfe5bfc6fd55b6b9116ca71bcdf06613d0fd0cf6d872025a4d758bf"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.64595,
+        "checkpoint_sha": "a84a17eab31d04ba760c9dacc43d0e8cb3b49218f11d4744d908a2701301efdd"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.7947,
+        "checkpoint_sha": "c3bfaea6a6e4e48ab621fa91d78f3a998d85143c8d38de7e0111cffa704b0910"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.81739,
+        "checkpoint_sha": "a33d110b628cbb3015735963b3a6849650db8b6c7d3c673091b9d42fd463b511"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.68198,
+        "checkpoint_sha": "d91997b56dbf6ad43f90a1948bd709a68302a06f1b8272ec8540b1f458f81600"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.7639,
+        "checkpoint_sha": "70db6b950ff0333f4f8e6837008f7252a58f8eefb86ad0caf0cb019f0824ff08"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.84522,
+        "checkpoint_sha": "8bf47cae60cf69accc5f1e498c7ef16dd0f81fd5eba3fa751ac2126d5662ab1f"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.66577,
+        "checkpoint_sha": "f5a9d12debb34f847577335d7ad719a65a67b1cff1e3615407286e3501a98a80"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.76732,
+        "checkpoint_sha": "2978d41477c4da17ad5f679f14a49944e8c272af5472cbbb9c1fa79b2590e4a9"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.81478,
+        "checkpoint_sha": "f24b9b90de0c918f09ca9c1de842fa9b4d27acd43f86df095459200c322c4261"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 41578,
+    "readout": 83974,
+    "total": 125552
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_har_stream_35.json",
+    "sha256": "6a19568ebd150cf06370d3f741db32d7dbf2a000dec3063a4249f2bd02a49465",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "0fbe01b989ef45254c911f8be40d38cd84b2aec0",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.76226,
+    0.78737,
+    0.77344,
+    0.75268,
+    0.7637,
+    0.74929
+  ],
+  "best_budget": 800,
+  "selected_checkpoint": 800,
+  "second_half_movement": 0.01441,
+  "residual_slope": -0.001695,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": false,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0144 with slope -0.0017; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 81.7,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0fbe01b989ef45254c911f8be40d38cd84b2aec0",
+  "source_tree_oid": "2147d9abe411edeb814a8898ff94c5eb4c9407c3",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "b0fec87358350094f2ed5e2cfa957edb5f9e361dab34be0f3429972f549f02c6"
+}

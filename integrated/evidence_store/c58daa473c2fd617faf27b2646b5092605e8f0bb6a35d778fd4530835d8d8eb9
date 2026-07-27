@@ -1,0 +1,31 @@
+{
+  "schema": "mop-temporal-orchestration-incident/v1",
+  "classification": "supervisor_exit_on_dirty_source_tree_from_a_concurrent_program",
+  "trigger": "launch_environment refuses any shard launch while git reports src or fastforge dirty. The Substrate master program was writing new modules under src/mop/cognition in the same worktree, so codelife could not launch and the supervisor returned from its required startup stage",
+  "observation": {
+    "refused_stage": "mop.temporal.runs.codelife",
+    "dirty_paths_reported": [
+      "src/mop/cognition/memory.py",
+      "src/mop/cognition/world.py"
+    ],
+    "supervisor_exit": "clean return, so launchd KeepAlive SuccessfulExit false did not restart it",
+    "principal_workers_alive_during_incident": 8,
+    "shards_lost": 0,
+    "partial_receipts": [],
+    "invalid_receipts": []
+  },
+  "scientific_consequence": "none. The eight principal speech_stream shards run in their own process groups under start_new_session and were untouched. No stage had work to launch while the supervisor was down, so no shard was delayed and no receipt was written or lost",
+  "repair": "the Substrate files were committed, src returned clean, and the supervisor was restarted with launchctl kickstart without the kill flag. It re adopted all eight live workers through the lock scan and relaunched none of them, which is the behaviour the lock reservation was built for",
+  "running_wave_policy": "do not interrupt the active wave. A concurrent program editing src in this worktree must land its edits in commits before the supervisor next needs to launch anything",
+  "verification": {
+    "workers_after_restart": 8,
+    "duplicate_launches": 0,
+    "principal_receipts_before": 16,
+    "principal_receipts_after": 16
+  },
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+  "source_tree_oid": "f87f551da32a3b1e2a13b707a8d16d83cfcff402",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "7b3ecf55a574317807538141ffecd5219324526230345514c8481914d0e374c6"
+}

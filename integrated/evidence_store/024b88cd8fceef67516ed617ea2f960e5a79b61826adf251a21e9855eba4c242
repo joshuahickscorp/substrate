@@ -1,0 +1,172 @@
+{
+  "bed": "speech_stream",
+  "spec": {
+    "family": "lstm",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "lstm|small|linear|none|h1",
+  "curve": {
+    "400": 0.6348433333333333,
+    "800": 0.6762233333333333,
+    "1600": 0.6841633333333333,
+    "3200": 0.7083499999999999
+  },
+  "seed_spread": {
+    "400": 0.08216,
+    "800": 0.0842,
+    "1600": 0.07712,
+    "3200": 0.05776
+  },
+  "seed_scores": {
+    "400": [
+      0.54737,
+      0.71039,
+      0.64677
+    ],
+    "800": [
+      0.59737,
+      0.76491,
+      0.66639
+    ],
+    "1600": [
+      0.6307,
+      0.77257,
+      0.64922
+    ],
+    "3200": [
+      0.66316,
+      0.77342,
+      0.68847
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.54737,
+        "checkpoint_sha": "0205aad3a071eee1ddc354ee5c54d7854df8cfc62522d98325dcb60c68cafc82"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.71039,
+        "checkpoint_sha": "b462dd10080054417c9788d90663285ea932d3892888dca494230290574d547c"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.64677,
+        "checkpoint_sha": "e994dfdb363c9b24a7bc0ca40dffde5230c69418af5931575596424184e5e376"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.59737,
+        "checkpoint_sha": "ba9652ad8c3c31785a8f0d7b90ef1eb26a2d3dd24ddc898137bdd62b3ef582b7"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.76491,
+        "checkpoint_sha": "c7ca6310107e8ada631208ec6378d686f4a78b9607e16bb2b3dcab16a34cdf53"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.66639,
+        "checkpoint_sha": "20da22f10f1379d5b1ec771d7ead8afdf5eeca063483729827e2ca01eccd9af2"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.6307,
+        "checkpoint_sha": "0609259799bb07f764fc311fef54c25903ab93bb89b65c506d04ef2f83917487"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.77257,
+        "checkpoint_sha": "9b7bd05fb0462734937b1bc72fb863e789e1fdf97d6779e32d9e7be22258ebd1"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.64922,
+        "checkpoint_sha": "1b0f2860852a1106f86dbc760141218a391ad2df0be15bfe9c089a340ef0937d"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.66316,
+        "checkpoint_sha": "b72e720a4ad879c198883a88d522f0d0d236641a03076c3225a8f773526feb95"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.77342,
+        "checkpoint_sha": "ec402511cdb01f6eb5eac688d653b30ab3bf373e67f2a7f906c5f2548a584476"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.68847,
+        "checkpoint_sha": "6fd5f7b9bd6026a60c4d1d4f4b2d581fc361c833d8d47cbbc2c989afe28df920"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 41209,
+    "readout": 650,
+    "total": 41859
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.63484,
+    0.67622,
+    0.68416,
+    0.70835
+  ],
+  "best_budget": 3200,
+  "selected_checkpoint": 3200,
+  "second_half_movement": 0.02419,
+  "residual_slope": 0.024187,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": false,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0242 with slope 0.02419; extend the budget grid past 3200",
+  "classification": "unconverged",
+  "wall_seconds": 611.8,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "f7d7fcd38b5ae51ddc364c9e071266c61a393308",
+  "source_tree_oid": "7b94fb3a85035968c693426f29361ef98b4e3c01",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "b8d18a19b06863e03de73b873fdcf7fa221ac73348582661637974552ae9b0d1"
+}

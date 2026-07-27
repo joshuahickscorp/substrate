@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "harth_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "large",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "histmlp|large|linear|none|h1",
+  "curve": {
+    "400": 0.8367066666666666,
+    "800": 0.8562033333333333,
+    "1600": 0.8480333333333333,
+    "3200": 0.8482599999999999,
+    "6400": 0.8329733333333333,
+    "12800": 0.84445
+  },
+  "seed_spread": {
+    "400": 0.08588,
+    "800": 0.03649,
+    "1600": 0.03191,
+    "3200": 0.07171,
+    "6400": 0.04422,
+    "12800": 0.02009
+  },
+  "seed_scores": {
+    "400": [
+      0.74177,
+      0.90897,
+      0.85938
+    ],
+    "800": [
+      0.81899,
+      0.85769,
+      0.89193
+    ],
+    "1600": [
+      0.81519,
+      0.85,
+      0.87891
+    ],
+    "3200": [
+      0.76582,
+      0.89615,
+      0.88281
+    ],
+    "6400": [
+      0.78734,
+      0.87564,
+      0.83594
+    ],
+    "12800": [
+      0.82152,
+      0.85897,
+      0.85286
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.74177,
+        "checkpoint_sha": "9b33e61d38696dd33a074995269e8c28c0bd8a5a98fd910db82874268150dba7"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.90897,
+        "checkpoint_sha": "3acdf0f16df3197abd7ea5c8ffa9cd167f49676cee18f0438aa9e3fe1a08f790"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.85938,
+        "checkpoint_sha": "eecd01a62eb167ec2f150f14cd03790ca6a6e179acf1cef8f309db0d4e1bfc3e"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.81899,
+        "checkpoint_sha": "9778091eee6a1b3213272f385c0ca84fe3e5b3aeed6c00fd935a5adc82149f4f"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.85769,
+        "checkpoint_sha": "9c36af26f74818f63aaf1937e0e8ad1a48e26c9c2f60ab9f4e514c50acda47db"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.89193,
+        "checkpoint_sha": "d5d7be1c645879986542177665ee3402dc34e6e2fc3039718d10829e1e1bd1d6"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.81519,
+        "checkpoint_sha": "9ea2ed8372c688ad7afb3fc3be1968c48738e34d696cba10d72c3af6c40ee348"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.85,
+        "checkpoint_sha": "026e943e98e3331727a64feff0aaac8090df51d4760bad701ed7e1298be9a33b"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.87891,
+        "checkpoint_sha": "3cc7925be3eed828c14ef273ede0e5b389fd59a640aa05b24b6029f631906942"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.76582,
+        "checkpoint_sha": "e9737ccee321c318a3eeb4b1b29977b237c1575dc912a194b70e50c841fd70f3"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.89615,
+        "checkpoint_sha": "7399513deb38a3deb655111ac90a719e10e0f9d983e036e5328518578e9c40cc"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.88281,
+        "checkpoint_sha": "ee94960b320d5f93473cedc4bbd7dfd828a66b75e36a7f117b3fc559b1b10933"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.78734,
+        "checkpoint_sha": "c368c626402e8ef813691c7293beb299e7d30376b42a37bc322c668493658298"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.87564,
+        "checkpoint_sha": "f9d461b084aad11500ef5e6ec50047fb73bd20b2542624824a130088c888476f"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.83594,
+        "checkpoint_sha": "8c1ef15704de784e6b105e0a6df8b79732e959ad827564a12a1a2ffa8fa57622"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.82152,
+        "checkpoint_sha": "b5538bcfde301557274fbaa4fda420a88c377a00156d92dde467bd44ce203c2b"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.85897,
+        "checkpoint_sha": "c2cadc6a72a8d7627e24c731e239e9eabf59230bc78bb628eeb9441d3b821349"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.85286,
+        "checkpoint_sha": "2503a510d0e3c07fddd4e34d8f03353134bed02ff406001db29f63aee5e61ed9"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 600511,
+    "readout": 390,
+    "total": 600901
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_harth_stream_25.json",
+    "sha256": "4084dbd3c684d5b7065cf30473cce87e79811d67513166db96ed21aaa0fdd023",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "43b66eba6dcf44d821a62857f0fbaa0ed8b25d3d",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.83671,
+    0.8562,
+    0.84803,
+    0.84826,
+    0.83297,
+    0.84445
+  ],
+  "best_budget": 800,
+  "selected_checkpoint": 800,
+  "second_half_movement": 0.01529,
+  "residual_slope": -0.001905,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0153 with slope -0.0019; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 300.9,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "43b66eba6dcf44d821a62857f0fbaa0ed8b25d3d",
+  "source_tree_oid": "ec983509fee77f03b2cb3fed3f6ae53899daefaf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "95c86c773dcefefabd4547575246e0aa2efed3cfe74fa651142ca4a30c63e7ba"
+}

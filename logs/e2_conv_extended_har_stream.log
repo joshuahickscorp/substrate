@@ -1,0 +1,156 @@
+E2 extended convergence har_stream histmlp|large|linear|none|h1: unconverged movement 0.00795 in 154.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|micro|linear|horizon_5|h1: unconverged movement 0.1223 in 808.0s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|large|linear|none|h1: unconverged movement 0.01996 in 308.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|large|mlp_strong|none|h1: unconverged movement 0.01048 in 372.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|large|linear|horizon_5|h1: unconverged movement 0.01882 in 8454.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|large|linear|horizon_45|h1: unconverged movement 0.01189 in 8411.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream pooled|large|mlp_strong|none|h1: unconverged movement 0.02017 in 5333.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|large|linear|none|h1: unconverged movement 0.00495 in 11714.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream lstm|large|linear|none|h1: unconverged movement 0.01602 in 12403.7s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream pooled|large|linear|none|h1: unconverged movement 0.01534 in 4207.1s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream tcn|large|linear|none|h1: unconverged movement 0.01434 in 7708.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|large|linear|horizon_full|h1: unconverged movement 0.00495 in 9819.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream tcn|large|mlp_strong|none|h1: unconverged movement 0.00445 in 8155.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|large|mlp_strong|none|h1: unconverged movement 0.00443 in 84860.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|linear|none|hfull_window: unconverged movement 0.01766 in 35.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|linear|none|h20: converged movement 0.00992 in 38.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream lstm|micro|linear|none|h1: unconverged movement 0.03036 in 2113.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|horizon_45|h1: unconverged movement 0.01779 in 2442.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|micro|linear|none|h1: converged movement 0.00641 in 2455.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|micro|linear|none|h1: unconverged movement 0.02216 in 33.0s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|linear|none|h1: unconverged movement 0.02383 in 42.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|horizon_90|h1: unconverged movement 0.01779 in 2534.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|medium|linear|none|h1: unconverged movement 0.01833 in 101.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream pooled|small|linear|none|h1: unconverged movement 0.01815 in 3288.0s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream pooled|micro|linear|none|h1: unconverged movement 0.02097 in 1214.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream lstm|small|linear|none|h1: converged movement 0.00955 in 4247.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|none|h1: unconverged movement 0.00489 in 4856.7s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream tcn|small|linear|none|h1: unconverged movement 0.00855 in 5266.5s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream tcn|micro|linear|none|h1: unconverged movement 0.01031 in 2380.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|mlp1|none|h1: converged movement 0.00694 in 52.8s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|mlp_strong|none|h1: unconverged movement 0.01441 in 81.7s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream pooled|small|mlp1|none|h1: unconverged movement 0.01696 in 3258.0s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|horizon_2|h1: unconverged movement 0.01989 in 2047.5s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|horizon_1|h1: unconverged movement 0.02338 in 2312.0s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream pooled|small|mlp_strong|none|h1: unconverged movement 0.00619 in 3248.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|mlp1|none|h1: converged movement 0.00623 in 4985.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream pooled|medium|linear|none|h1: unconverged movement 0.03122 in 5953.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|mlp_strong|none|h1: converged movement 0.00263 in 4887.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|horizon_5|h1: unconverged movement 0.01989 in 1884.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|horizon_10|h1: unconverged movement 0.01989 in 1794.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|horizon_20|h1: unconverged movement 0.01779 in 1963.1s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream ff_gru|small|linear|none|h1: unconverged movement 0.0134 in 9055.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream tcn|medium|linear|none|h1: converged movement 0.00029 in 9435.7s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|medium|linear|none|h1: unconverged movement 0.00682 in 12181.1s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|horizon_1|h1: unconverged movement 0.01124 in 1771.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|horizon_2|h1: unconverged movement 0.02298 in 1854.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream lstm|medium|linear|none|h1: converged movement 0.00798 in 13730.1s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|horizon_full|h1: unconverged movement 0.00489 in 3985.7s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|horizon_5|h1: unconverged movement 0.02298 in 1872.5s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|horizon_10|h1: unconverged movement 0.02298 in 1897.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|micro|linear|none|h1: converged movement 0.00236 in 15482.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|horizon_20|h1: converged movement 0.00483 in 2088.6s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|horizon_45|h1: converged movement 0.00483 in 2147.7s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|horizon_90|h1: converged movement 0.00483 in 2268.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|every_observation|h1: unconverged movement 0.02338 in 1849.5s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|misaligned_a|h1: converged movement 0.00738 in 2195.7s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|misaligned_b|h1: converged movement 0.00641 in 2107.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|random_rate_matched|h1: converged movement 0.00169 in 2328.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|block_shuffled|h1: unconverged movement 0.01811 in 2395.0s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|true_boundary|h1: unconverged movement 0.01102 in 2571.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|micro|linear|horizon_5|h1: unconverged movement 0.01945 in 901.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|micro|linear|horizon_45|h1: unconverged movement 0.01419 in 1044.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|small|linear|wrong_boundary|h1: unconverged movement 0.01506 in 2333.1s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|micro|linear|horizon_full|h1: converged movement 0.00641 in 2113.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|linear|none|h2: unconverged movement 0.01604 in 37.4s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|linear|none|h5: unconverged movement 0.02795 in 34.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|linear|none|h10: unconverged movement 0.02096 in 36.1s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|medium|linear|horizon_5|h1: unconverged movement 0.01587 in 3268.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|medium|linear|horizon_45|h1: unconverged movement 0.0166 in 4505.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream histmlp|small|linear|none|hpooled_summary: unconverged movement 0.01815 in 2910.5s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream tcn|small|linear|none|h5: unconverged movement 0.00855 in 3920.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream tcn|small|linear|none|h20: unconverged movement 0.00855 in 3826.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream tcn|small|linear|none|hfull_window: unconverged movement 0.00855 in 3722.3s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream gru|medium|linear|horizon_full|h1: unconverged movement 0.00682 in 9829.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|none|h1: converged movement 0.00216 in 34789.0s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|medium|linear|none|h1: converged movement 0.00507 in 35173.9s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|small|linear|horizon_full|h1: converged movement 0.00216 in 28528.2s
+E2_EXTEND_CONVERGE_SHARD_DONE
+E2 extended convergence har_stream mgu|large|linear|none|h1: converged movement 0.00286 in 60620.8s
+E2_EXTEND_CONVERGE_SHARD_DONE

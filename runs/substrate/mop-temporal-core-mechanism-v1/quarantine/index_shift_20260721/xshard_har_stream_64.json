@@ -1,0 +1,82 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "har_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "micro",
+    "readout": "linear",
+    "reset": "horizon_5",
+    "history_k": 1
+  },
+  "cell": "gru|micro|linear|horizon_5|h1",
+  "curve": {
+    "400": 0.9287899999999999,
+    "800": 0.9184633333333334,
+    "1600": 0.9216466666666667,
+    "3200": 0.90392,
+    "6400": 0.8010699999999998,
+    "12800": 0.7816199999999999
+  },
+  "seed_spread": {
+    "400": 0.03563,
+    "800": 0.06255,
+    "1600": 0.01405,
+    "3200": 0.04319,
+    "6400": 0.02618,
+    "12800": 0.03587
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_har_stream_64.json",
+    "sha256": "89c4781d92bb3e735391d3f0d3356bba2d7cc1d20d3b49f6609c9590974a82fb",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "f0e780ba0da8d422b0f91620d354f1b463663d44",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.92879,
+    0.91846,
+    0.92165,
+    0.90392,
+    0.80107,
+    0.78162
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.1223,
+  "residual_slope": -0.06115,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": false,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.1223 with slope -0.06115; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 808.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "f0e780ba0da8d422b0f91620d354f1b463663d44",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "9ca3726bf696bef9ca3d20718f410a0d279d75d4beac2312e6a74379a881c1c8"
+}

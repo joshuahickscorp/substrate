@@ -1,0 +1,172 @@
+{
+  "bed": "speech_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 20
+  },
+  "cell": "histmlp|small|linear|none|h20",
+  "curve": {
+    "400": 0.41508666666666666,
+    "800": 0.4126266666666667,
+    "1600": 0.40734000000000004,
+    "3200": 0.39338
+  },
+  "seed_spread": {
+    "400": 0.03797,
+    "800": 0.02008,
+    "1600": 0.02199,
+    "3200": 0.01662
+  },
+  "seed_scores": {
+    "400": [
+      0.44825,
+      0.42334,
+      0.37367
+    ],
+    "800": [
+      0.40088,
+      0.40119,
+      0.43581
+    ],
+    "1600": [
+      0.38246,
+      0.42419,
+      0.41537
+    ],
+    "3200": [
+      0.38684,
+      0.41227,
+      0.38103
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.44825,
+        "checkpoint_sha": "6aab89d9e2479715c752d9cdf8d07c74b88a52b4c21202a21c96d0889c1bdcee"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.42334,
+        "checkpoint_sha": "e0fea7919156fd434fe6cf08007c0b4a01c80aba366663192eabe38db46114d2"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.37367,
+        "checkpoint_sha": "deb559c6931511a70b951aed5dbfd0c43bebc2689dffbfe9c39b6d1363cef101"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.40088,
+        "checkpoint_sha": "5f3e513aab988ac9ea99169f9b9bbd2db96e17eab1c774bb084be9c427371ceb"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.40119,
+        "checkpoint_sha": "ef0606ea31c786f2404fae4e447de8268466754b1a118bf944df064ca14c0b0c"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.43581,
+        "checkpoint_sha": "1b02c183eb7145b4a9e249927b0232cc4530fc8dd142ceea838f3e3e4d8b64e8"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.38246,
+        "checkpoint_sha": "e223268b5ef8e568bb3411e92dc95a5921512f5c28596f5eb6edcf2be67cc4b4"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.42419,
+        "checkpoint_sha": "37b064e6b7c76bc760548102120e29e98fc1a9ac6ace9b794d3066b731df7b16"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.41537,
+        "checkpoint_sha": "f2608c4df137bb9d5cd6486478049fe8b7d3a3446359a676d8b66f0d8e753489"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.38684,
+        "checkpoint_sha": "e5d0c7aec4d2d9226e0bfcbce085d0220ede44d47a09cdfb4f91bd8abb28c563"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.41227,
+        "checkpoint_sha": "c357688a9dea918a30e8ea728438ebf8907e8082b375afcf9c8040816a4db08a"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.38103,
+        "checkpoint_sha": "c65d6027f05424420889a8c53c4db1f86ff01fbbb4616b0e60cf25067d013a11"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 41584,
+    "readout": 650,
+    "total": 42234
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.41509,
+    0.41263,
+    0.40734,
+    0.39338
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.01396,
+  "residual_slope": -0.01396,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.014 with slope -0.01396; extend the budget grid past 3200",
+  "classification": "unconverged",
+  "wall_seconds": 12.7,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "f7d7fcd38b5ae51ddc364c9e071266c61a393308",
+  "source_tree_oid": "7b94fb3a85035968c693426f29361ef98b4e3c01",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "ca21cdece02cdc1a2e7f746da8fc37c71d29a49145790d9aa7df3bc741d05369"
+}

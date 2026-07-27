@@ -34,3 +34,40 @@ E2 converge shard harth_stream mgu|small|linear|none|h1: unconverged movement 0.
 E2_CONVERGE_SHARD_DONE
 E2 converge shard harth_stream gru|large|linear|none|h1: converged movement 0.00122 in 2344.1s
 E2_CONVERGE_SHARD_DONE
+E2 scout shard harth_stream seed 0: 76 cells in 2381.0s
+E2_SCOUT_SHARD_DONE
+E2 converge shard speech_stream pooled|large|mlp_strong|none|h1: unconverged movement 0.0036 in 3401.8s
+E2_CONVERGE_SHARD_DONE
+E2 scout shard harth_stream seed 1: 76 cells in 2376.1s
+E2_SCOUT_SHARD_DONE
+E2 scout shard harth_stream seed 2: 76 cells in 2377.8s
+E2_SCOUT_SHARD_DONE
+E2 scout shard harth_stream seed 3: 76 cells in 2338.1s
+E2_SCOUT_SHARD_DONE
+E2 converge shard speech_stream gru|large|linear|none|h1: unconverged movement 0.02113 in 4273.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|large|mlp_strong|none|h1: unconverged movement 0.00848 in 4841.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|none|h1: unconverged movement 0.0138 in 5053.2s
+E2_CONVERGE_SHARD_DONE
+E2 scout shard speech_stream seed 0: 76 cells in 4694.6s
+E2_SCOUT_SHARD_DONE
+E2 scout shard speech_stream seed 1: 76 cells in 4697.4s
+E2_SCOUT_SHARD_DONE
+E2 scout shard speech_stream seed 2: 76 cells in 4627.8s
+E2_SCOUT_SHARD_DONE
+E2 scout shard speech_stream seed 3: 76 cells in 4607.5s
+E2_SCOUT_SHARD_DONE
+E2 converge shard har_stream gru|large|linear|none|h1: converged movement 0.00476 in 5764.1s
+E2_CONVERGE_SHARD_DONE
+E2 scout shard har_stream seed 0: 76 cells in 6055.8s
+E2_SCOUT_SHARD_DONE
+E2 scout shard har_stream seed 1: 76 cells in 5994.6s
+E2_SCOUT_SHARD_DONE
+E2 scout shard har_stream seed 2: 76 cells in 5928.2s
+E2_SCOUT_SHARD_DONE
+E2 scout shard har_stream seed 3: 76 cells in 5987.7s
+E2_SCOUT_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|none|h1: unconverged movement 0.0047 in 6741.5s
+E2_CONVERGE_SHARD_DONE
+E2_STAGE1_SHARDS_DONE

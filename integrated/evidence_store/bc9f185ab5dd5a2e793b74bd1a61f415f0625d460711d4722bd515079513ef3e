@@ -1,0 +1,172 @@
+{
+  "bed": "har_stream",
+  "spec": {
+    "family": "tcn",
+    "tier": "large",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "tcn|large|linear|none|h1",
+  "curve": {
+    "400": 0.95295,
+    "800": 0.93655,
+    "1600": 0.92713,
+    "3200": 0.9396800000000001
+  },
+  "seed_spread": {
+    "400": 0.03865,
+    "800": 0.02779,
+    "1600": 0.03097,
+    "3200": 0.03621
+  },
+  "seed_scores": {
+    "400": [
+      0.91712,
+      0.94782,
+      0.99391
+    ],
+    "800": [
+      0.9045,
+      0.95124,
+      0.95391
+    ],
+    "1600": [
+      0.89279,
+      0.95295,
+      0.93565
+    ],
+    "3200": [
+      0.8991,
+      0.95124,
+      0.9687
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.91712,
+        "checkpoint_sha": "c1113cc7aefaf8d83a82ec5189d489f0f3a4acb1ff26eafcc4bd10f847cf4f63"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.94782,
+        "checkpoint_sha": "9b8a4da0e2f6a80675f73ce4824916b96ad02ccfb91b68f410c4dc31102d16e7"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.99391,
+        "checkpoint_sha": "5c8d78e3ce17a5adfae22998338d0f772af47c2c797bbfa78265f2744159d364"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.9045,
+        "checkpoint_sha": "6ed2a2f04c422a98bf2ee34a1924f1454f3d60f66fac2ab7f4fe902484ca6b43"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.95124,
+        "checkpoint_sha": "870de2e06364f1b139328e6a99ed3ef46242b1652701f54cef822f605d9381b1"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.95391,
+        "checkpoint_sha": "a0d2109b5b4ff838091799265caf5bda34f9270a5924e25c2fd9e7226aaeeffc"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.89279,
+        "checkpoint_sha": "c2558e1f50e7977e0753a434d8d847a11d54239132fdc49b4635206b6f2c034e"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.95295,
+        "checkpoint_sha": "a748f0a324570e567d68a6567961b7d112d2e41eb953bfa3987befa7a4a824ff"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.93565,
+        "checkpoint_sha": "92eb061c1c3d96eb81a97f9a53d45b87a969a8c2e4c4440537f500d35c5babb9"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.8991,
+        "checkpoint_sha": "034a4e7cace1def04af796c5d8da4f28a73cf7ae1918cb9d3b95351453b1fb8d"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.95124,
+        "checkpoint_sha": "45fff19d8a050bd5a360d7369003be6c7c601200f0abcbc716800534b6d6a768"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.9687,
+        "checkpoint_sha": "3a21fb186ae7ea4bf45e81fd111cc1572c094f2df02d209fa510cff6a7bdc47e"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 609514,
+    "readout": 390,
+    "total": 609904
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.95295,
+    0.93655,
+    0.92713,
+    0.93968
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.01255,
+  "residual_slope": 0.01255,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0126 with slope 0.01255; extend the budget grid past 3200",
+  "classification": "unconverged",
+  "wall_seconds": 5596.9,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e25cb6d827bcb7dcfde8b027d8d7c746ef9502b",
+  "source_tree_oid": "ec983509fee77f03b2cb3fed3f6ae53899daefaf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "d62b5cf30a55b77317573199746fce290ba7abd9a6663e4f9660a255cda99726"
+}

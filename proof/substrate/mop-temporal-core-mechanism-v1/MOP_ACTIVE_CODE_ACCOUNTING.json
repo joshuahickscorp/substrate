@@ -21,9 +21,13 @@
       "src/mop/science/budget.py": 370,
       "src/mop/science/gating.py": 39,
       "src/mop/science/statistics.py": 132,
-      "src/mop/seeding.py": 41
+      "src/mop/seeding.py": 41,
+      "src/mop/temporal/custody.py": 189,
+      "src/mop/temporal/io.py": 84,
+      "src/mop/temporal/receipt_contract.py": 375,
+      "src/mop/temporal/runs/thirdbed.py": 493
     },
-    "loc": 2526
+    "loc": 3667
   },
   "active_method": {
     "files": {
@@ -69,18 +73,16 @@
   },
   "active_substrate": {
     "files": {
-      "src/mop/temporal/__init__.py": 1,
-      "src/mop/temporal/analysis.py": 230,
-      "src/mop/temporal/arch.py": 263,
-      "src/mop/temporal/beds.py": 274,
-      "src/mop/temporal/custody.py": 243,
-      "src/mop/temporal/factorial.py": 195,
-      "src/mop/temporal/hypotheses.py": 164,
-      "src/mop/temporal/io.py": 99,
-      "src/mop/temporal/runs/__init__.py": 1,
-      "src/mop/temporal/runs/e2.py": 410,
-      "src/mop/temporal/runs/supervisor.py": 348,
-      "src/mop/temporal/witness.py": 272
+      "src/mop/temporal/__init__.py": 0,
+      "src/mop/temporal/analysis.py": 198,
+      "src/mop/temporal/arch.py": 179,
+      "src/mop/temporal/beds.py": 227,
+      "src/mop/temporal/factorial.py": 145,
+      "src/mop/temporal/hypotheses.py": 31,
+      "src/mop/temporal/runs/__init__.py": 0,
+      "src/mop/temporal/runs/e2.py": 540,
+      "src/mop/temporal/runs/supervisor.py": 981,
+      "src/mop/temporal/witness.py": 199
     },
     "loc": 2500
   },
@@ -90,27 +92,40 @@
       "tests/method/test_defect_regressions.py": 540,
       "tests/method/test_kernel.py": 553,
       "tests/temporal/__init__.py": 0,
-      "tests/temporal/test_temporal_core.py": 574
+      "tests/temporal/test_convergence_backfill.py": 24,
+      "tests/temporal/test_convergence_checkpoint_resume.py": 132,
+      "tests/temporal/test_durable_fabric.py": 276,
+      "tests/temporal/test_optimization_correction.py": 292,
+      "tests/temporal/test_receipt_contract.py": 225,
+      "tests/temporal/test_repeated_failure_detection.py": 83,
+      "tests/temporal/test_stall_detection.py": 97,
+      "tests/temporal/test_successor_schema_queue.py": 49,
+      "tests/temporal/test_supervisor_receipt_hardening.py": 245,
+      "tests/temporal/test_supervisor_restart_adoption.py": 130,
+      "tests/temporal/test_supervisor_terminal_sequence.py": 93,
+      "tests/temporal/test_temporal_core.py": 855,
+      "tests/temporal/test_terminal_evidence.py": 98,
+      "tests/temporal/test_terminal_state.py": 146,
+      "tests/temporal/test_third_bed_core_admission.py": 41,
+      "tests/temporal/test_verify_mutations.py": 188
     },
-    "loc": 1667
+    "loc": 4067
   },
-  "active_runtime_plus_substrate": 5026,
+  "active_runtime_plus_substrate": 6167,
   "active_runtime_target": 8000,
   "active_runtime_within_target": true,
   "new_e2_implementation": {
     "files": {
-      "src/mop/temporal/__init__.py": 1,
-      "src/mop/temporal/analysis.py": 230,
-      "src/mop/temporal/arch.py": 263,
-      "src/mop/temporal/beds.py": 274,
-      "src/mop/temporal/custody.py": 243,
-      "src/mop/temporal/factorial.py": 195,
-      "src/mop/temporal/hypotheses.py": 164,
-      "src/mop/temporal/io.py": 99,
-      "src/mop/temporal/runs/__init__.py": 1,
-      "src/mop/temporal/runs/e2.py": 410,
-      "src/mop/temporal/runs/supervisor.py": 348,
-      "src/mop/temporal/witness.py": 272
+      "src/mop/temporal/__init__.py": 0,
+      "src/mop/temporal/analysis.py": 198,
+      "src/mop/temporal/arch.py": 179,
+      "src/mop/temporal/beds.py": 227,
+      "src/mop/temporal/factorial.py": 145,
+      "src/mop/temporal/hypotheses.py": 31,
+      "src/mop/temporal/runs/__init__.py": 0,
+      "src/mop/temporal/runs/e2.py": 540,
+      "src/mop/temporal/runs/supervisor.py": 981,
+      "src/mop/temporal/witness.py": 199
     },
     "loc": 2500,
     "target": 2500,
@@ -135,8 +150,9 @@
   ],
   "honest_blocker": "",
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "1ba82cb26740e86713318967f966ede6066d377f",
+  "source_commit": "01771460cf731e019047415494e26eab2e3b88c1",
+  "source_tree_oid": "138aa6816a8982dbdac4c3085183a1790ff3b1e8",
   "SESOI": 0.05,
   "sha256_version": "canonical_json_v2",
-  "sha256": "731deac02a1ac6dcbb5486aac1e4be188f744221e6832882d1b5c6788a7e00e2"
+  "sha256": "f587875f7302683ecc9029481451507de8a2b5ed49ed1470bbd1e178e35cb66d"
 }

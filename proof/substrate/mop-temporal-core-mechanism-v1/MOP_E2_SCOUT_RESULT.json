@@ -1,0 +1,300 @@
+{
+  "schema": "mop-e2-scout-result/v1",
+  "beds": {
+    "har_stream": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "steps": 600,
+      "evaluated_on": "tuning units, the test split is untouched",
+      "n_cells": 76,
+      "best_cell": "gru|medium|linear|none|h1",
+      "high_variance_cells": [
+        "gru|micro|linear|horizon_5|h1",
+        "gru|small|linear|every_observation|h1",
+        "gru|small|linear|horizon_1|h1",
+        "gru|small|linear|random_rate_matched|h1",
+        "histmlp|large|linear|none|h1",
+        "histmlp|medium|linear|none|h1",
+        "histmlp|small|linear|none|h1",
+        "histmlp|small|mlp1|none|h1",
+        "histmlp|small|mlp_strong|none|h1",
+        "mgu|small|linear|horizon_1|h1",
+        "tcn|large|mlp_strong|none|h1"
+      ],
+      "clearly_dominated_cells": [
+        "histmlp|small|linear|none|hpooled_summary",
+        "pooled|large|linear|none|h1",
+        "pooled|large|mlp_strong|none|h1",
+        "pooled|medium|linear|none|h1",
+        "pooled|micro|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "pooled|small|mlp1|none|h1",
+        "pooled|small|mlp_strong|none|h1"
+      ],
+      "median_sd": 0.04832,
+      "not_scientific_evidence": true
+    },
+    "speech_stream": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "steps": 600,
+      "evaluated_on": "tuning units, the test split is untouched",
+      "n_cells": 76,
+      "best_cell": "gru|medium|linear|none|h1",
+      "high_variance_cells": [
+        "ff_gru|small|linear|none|h1",
+        "gru|micro|linear|horizon_full|h1",
+        "gru|micro|linear|none|h1",
+        "gru|small|linear|block_shuffled|h1",
+        "gru|small|linear|horizon_full|h1",
+        "gru|small|linear|none|h1",
+        "gru|small|linear|random_rate_matched|h1",
+        "lstm|large|linear|none|h1",
+        "lstm|medium|linear|none|h1",
+        "lstm|micro|linear|none|h1",
+        "lstm|small|linear|none|h1",
+        "mgu|medium|linear|none|h1"
+      ],
+      "clearly_dominated_cells": [
+        "gru|small|linear|block_shuffled|h1",
+        "gru|small|linear|misaligned_a|h1",
+        "gru|small|linear|random_rate_matched|h1",
+        "histmlp|large|linear|none|h1",
+        "histmlp|large|mlp_strong|none|h1",
+        "histmlp|medium|linear|none|h1",
+        "histmlp|micro|linear|none|h1",
+        "histmlp|small|linear|none|h1",
+        "histmlp|small|linear|none|h10",
+        "histmlp|small|linear|none|h2",
+        "histmlp|small|linear|none|h5",
+        "histmlp|small|linear|none|hpooled_summary",
+        "histmlp|small|mlp1|none|h1",
+        "histmlp|small|mlp_strong|none|h1",
+        "pooled|large|linear|none|h1",
+        "pooled|large|mlp_strong|none|h1",
+        "pooled|medium|linear|none|h1",
+        "pooled|micro|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "pooled|small|mlp1|none|h1",
+        "pooled|small|mlp_strong|none|h1"
+      ],
+      "median_sd": 0.02735,
+      "not_scientific_evidence": true
+    },
+    "harth_stream": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "steps": 600,
+      "evaluated_on": "tuning units, the test split is untouched",
+      "n_cells": 76,
+      "best_cell": "gru|small|linear|true_boundary|h1",
+      "high_variance_cells": [
+        "histmlp|small|linear|none|hfull_window",
+        "pooled|large|linear|none|h1",
+        "pooled|large|mlp_strong|none|h1",
+        "pooled|small|mlp1|none|h1",
+        "pooled|small|mlp_strong|none|h1"
+      ],
+      "clearly_dominated_cells": [
+        "pooled|large|linear|none|h1",
+        "pooled|medium|linear|none|h1"
+      ],
+      "median_sd": 0.02065,
+      "not_scientific_evidence": true
+    }
+  },
+  "shards": [
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_har_stream_0.json",
+      "bed": "har_stream",
+      "seed": 0,
+      "sha256": "9a3453780efea4c08996fda22864dcb5ad6bd44e8589e262b29a11fd2e0d3ce0",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_har_stream_1.json",
+      "bed": "har_stream",
+      "seed": 1,
+      "sha256": "758d11d9ba2a12da4e054fe234b0ab49fd1f7f249912a6af7e22b4b825e7fad6",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_har_stream_2.json",
+      "bed": "har_stream",
+      "seed": 2,
+      "sha256": "58853f4eeec5310638863047c9bc5f2db64d6761861c4e3f0e754bd833fc442a",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_har_stream_3.json",
+      "bed": "har_stream",
+      "seed": 3,
+      "sha256": "6deb43549aa153a7f7e63777db0111f9680b44f7bfabae7dae19d8f61533a977",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_speech_stream_0.json",
+      "bed": "speech_stream",
+      "seed": 0,
+      "sha256": "7066cd79ee9703ac80eee32d99658f402a3dcf1b97e197be758c724dd061db1e",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_speech_stream_1.json",
+      "bed": "speech_stream",
+      "seed": 1,
+      "sha256": "c9edba1dff21cece81af3c712a3e11c12569e4ed3359fb0dff5c249ca45ff14c",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_speech_stream_2.json",
+      "bed": "speech_stream",
+      "seed": 2,
+      "sha256": "620612f28dfea9ca6616c8f8c30d7f3d46c09dc0069971dfd4215c9f9ce60a99",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_speech_stream_3.json",
+      "bed": "speech_stream",
+      "seed": 3,
+      "sha256": "9d38c070d2c5d3c9ad027a4cda9ce2e587eb7e8159985aaa55d42d06d91320f7",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_harth_stream_0.json",
+      "bed": "harth_stream",
+      "seed": 0,
+      "sha256": "0af6f05768ae9eaefdfb95f0db1d3edab10d771a7a280da7f066bc09049f0495",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_harth_stream_1.json",
+      "bed": "harth_stream",
+      "seed": 1,
+      "sha256": "3460d3d81c26708497d55d798b1a4dd943e4768db91cb13565cf434ca9cdefe8",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_harth_stream_2.json",
+      "bed": "harth_stream",
+      "seed": 2,
+      "sha256": "af40943ce93e14021def3ab14ee8e9da4eec7906b2b8c9589029c741eb14f5d2",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_scout/shard_harth_stream_3.json",
+      "bed": "harth_stream",
+      "seed": 3,
+      "sha256": "c0399ac89d4b05c3cb9163e525aadd0679311d166be91b2e60f3f9ac16a74c7a",
+      "checks": {
+        "exists": true,
+        "bed_identity": true,
+        "seed_identity": true,
+        "factorial_identity": true,
+        "receipts_complete": true,
+        "all_pass": true
+      }
+    }
+  ],
+  "n_expected_shards": 12,
+  "n_completed_shards": 12,
+  "failures": [],
+  "all_pass": true,
+  "reduction_rule": "only clearly dominated, contrast redundant, instrument invalid, or resource infeasible cells may be removed; this scout removed no selected factorial cell",
+  "not_principal_scientific_evidence": true,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "0fe014cab428695167d68cc1d18a687af9d251db961dad625ca8a93bd74892b7"
+}

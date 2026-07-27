@@ -1,0 +1,196 @@
+{
+  "schema": "mop-reset-semantics-report/v1",
+  "schedules": [
+    "none",
+    "every_observation",
+    "misaligned_a",
+    "misaligned_b",
+    "random_rate_matched",
+    "block_shuffled",
+    "true_boundary",
+    "wrong_boundary"
+  ],
+  "effects": {
+    "har_stream": {
+      "every_observation": {
+        "mean": -0.19875,
+        "lower_95_cb": -0.20782,
+        "group_lower_95_cb": -0.23305,
+        "verdict": "harm"
+      },
+      "misaligned_a": {
+        "mean": -0.00388,
+        "lower_95_cb": -0.01,
+        "group_lower_95_cb": -0.01196,
+        "verdict": "wrong_direction_failure"
+      },
+      "misaligned_b": {
+        "mean": -0.00744,
+        "lower_95_cb": -0.01721,
+        "group_lower_95_cb": -0.01501,
+        "verdict": "wrong_direction_failure"
+      },
+      "random_rate_matched": {
+        "mean": -0.0305,
+        "lower_95_cb": -0.07439,
+        "group_lower_95_cb": -0.03762,
+        "verdict": "wrong_direction_failure"
+      },
+      "block_shuffled": {
+        "mean": -0.00394,
+        "lower_95_cb": -0.00963,
+        "group_lower_95_cb": -0.00847,
+        "verdict": "wrong_direction_failure"
+      },
+      "true_boundary": {
+        "mean": -0.00831,
+        "lower_95_cb": -0.01611,
+        "group_lower_95_cb": -0.01501,
+        "verdict": "wrong_direction_failure"
+      },
+      "wrong_boundary": {
+        "mean": -0.00181,
+        "lower_95_cb": -0.00621,
+        "group_lower_95_cb": -0.00555,
+        "verdict": "wrong_direction_failure"
+      }
+    },
+    "speech_stream": {
+      "every_observation": {
+        "mean": -0.639,
+        "lower_95_cb": -0.64858,
+        "group_lower_95_cb": -0.68594,
+        "verdict": "harm"
+      },
+      "misaligned_a": {
+        "mean": -0.60706,
+        "lower_95_cb": -0.6218,
+        "group_lower_95_cb": -0.65483,
+        "verdict": "harm"
+      },
+      "misaligned_b": {
+        "mean": -0.30681,
+        "lower_95_cb": -0.32606,
+        "group_lower_95_cb": -0.34803,
+        "verdict": "harm"
+      },
+      "random_rate_matched": {
+        "mean": -0.43675,
+        "lower_95_cb": -0.56276,
+        "group_lower_95_cb": -0.47264,
+        "verdict": "harm"
+      },
+      "block_shuffled": {
+        "mean": -0.25688,
+        "lower_95_cb": -0.42661,
+        "group_lower_95_cb": -0.28207,
+        "verdict": "harm"
+      },
+      "true_boundary": {
+        "mean": 0.01731,
+        "lower_95_cb": 0.00482,
+        "group_lower_95_cb": 0.00715,
+        "verdict": "null"
+      },
+      "wrong_boundary": {
+        "mean": -0.23675,
+        "lower_95_cb": -0.26682,
+        "group_lower_95_cb": -0.27974,
+        "verdict": "harm"
+      }
+    },
+    "harth_stream": {
+      "every_observation": {
+        "mean": -0.10812,
+        "lower_95_cb": -0.14996,
+        "group_lower_95_cb": -0.18562,
+        "verdict": "harm"
+      },
+      "misaligned_a": {
+        "mean": -0.02898,
+        "lower_95_cb": -0.04218,
+        "group_lower_95_cb": -0.04532,
+        "verdict": "wrong_direction_failure"
+      },
+      "misaligned_b": {
+        "mean": 0.00506,
+        "lower_95_cb": -0.01198,
+        "group_lower_95_cb": -0.01228,
+        "verdict": "null_futile"
+      },
+      "random_rate_matched": {
+        "mean": -0.03751,
+        "lower_95_cb": -0.0818,
+        "group_lower_95_cb": -0.06174,
+        "verdict": "wrong_direction_failure"
+      },
+      "block_shuffled": {
+        "mean": -0.01303,
+        "lower_95_cb": -0.03642,
+        "group_lower_95_cb": -0.03593,
+        "verdict": "wrong_direction_failure"
+      },
+      "true_boundary": {
+        "mean": 0.00535,
+        "lower_95_cb": -0.01569,
+        "group_lower_95_cb": -0.00389,
+        "verdict": "null_futile"
+      },
+      "wrong_boundary": {
+        "mean": -0.00347,
+        "lower_95_cb": -0.02607,
+        "group_lower_95_cb": -0.00804,
+        "verdict": "wrong_direction_failure"
+      }
+    }
+  },
+  "alignment_witness": {
+    "har_stream": {
+      "undeclared_parameter_changes": 0,
+      "reset_classifications": [
+        "misaligned",
+        "no_reset",
+        "oracle_segmented"
+      ],
+      "oracle_segmented_cells": [
+        "gru|small|linear|random_rate_matched|h1",
+        "gru|small|linear|true_boundary|h1"
+      ]
+    },
+    "speech_stream": {
+      "undeclared_parameter_changes": 0,
+      "reset_classifications": [
+        "misaligned",
+        "no_reset",
+        "oracle_segmented"
+      ],
+      "oracle_segmented_cells": [
+        "gru|small|linear|true_boundary|h1"
+      ]
+    },
+    "harth_stream": {
+      "undeclared_parameter_changes": 0,
+      "reset_classifications": [
+        "misaligned",
+        "no_reset",
+        "oracle_segmented"
+      ],
+      "oracle_segmented_cells": [
+        "gru|large|linear|horizon_5|h1",
+        "gru|medium|linear|horizon_5|h1",
+        "gru|micro|linear|horizon_5|h1",
+        "gru|small|linear|horizon_10|h1",
+        "gru|small|linear|horizon_5|h1",
+        "gru|small|linear|random_rate_matched|h1",
+        "gru|small|linear|true_boundary|h1",
+        "mgu|small|linear|horizon_10|h1",
+        "mgu|small|linear|horizon_5|h1"
+      ]
+    }
+  },
+  "rule": "period three is retained only as a historical defect mutation and is never an arm",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "7fc166c3d5674f58c6cee321a4a960b42f5accedad587d2f695ff37e8875750f"
+}

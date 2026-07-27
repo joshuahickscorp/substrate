@@ -1,1 +1,171 @@
   gru|small|linear|none|h1                 converged    movement 0.00317
+E2 converge shard har_stream histmlp|small|linear|none|hfull_window: converged movement 0.00672 in 7.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_90|h1: unconverged movement 0.01786 in 493.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_45|h1: unconverged movement 0.01786 in 496.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|large|linear|none|h1: unconverged movement 0.01038 in 51.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|large|linear|horizon_45|h1: unconverged movement 0.01773 in 2594.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|large|linear|horizon_5|h1: unconverged movement 0.00817 in 2601.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|large|linear|none|h1: unconverged movement 0.02172 in 4770.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|large|linear|none|h1: unconverged movement 0.01255 in 5582.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream lstm|large|linear|none|h1: unconverged movement 0.01725 in 6588.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|large|linear|none|h1: converged movement 0.00373 in 120.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|large|mlp_strong|none|h1: unconverged movement 0.01499 in 129.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|large|linear|horizon_45|h1: unconverged movement 0.01773 in 2629.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|large|linear|horizon_5|h1: unconverged movement 0.00817 in 2691.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|large|linear|none|h1: unconverged movement 0.02172 in 4774.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|large|mlp_strong|none|h1: unconverged movement 0.00848 in 4782.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|large|linear|none|h1: unconverged movement 0.01255 in 5596.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|large|mlp_strong|none|h1: unconverged movement 0.0033 in 5802.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|large|linear|horizon_full|h1: converged movement 0.00476 in 6043.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|large|linear|none|h1: converged movement 0.00476 in 6111.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|large|mlp_strong|none|h1: converged movement 0.00823 in 6149.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream lstm|large|linear|none|h1: unconverged movement 0.01725 in 6403.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|large|linear|none|h1: converged movement 0.00971 in 11373.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|linear|none|hfull_window: converged movement 0.00672 in 9.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|linear|none|h20: unconverged movement 0.01502 in 9.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|micro|linear|none|h1: unconverged movement 0.02097 in 8.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|linear|none|h1: converged movement 0.00021 in 10.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|medium|linear|none|h1: unconverged movement 0.02774 in 21.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|micro|linear|none|h1: converged movement 1e-05 in 257.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream lstm|micro|linear|none|h1: unconverged movement 0.00376 in 465.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_45|h1: unconverged movement 0.01786 in 467.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_90|h1: unconverged movement 0.01786 in 482.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|micro|linear|none|h1: unconverged movement 0.00744 in 525.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|micro|linear|none|h1: unconverged movement 0.01688 in 529.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|small|linear|none|h1: unconverged movement 0.02193 in 739.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|mlp1|none|h1: unconverged movement 0.02307 in 11.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|mlp_strong|none|h1: unconverged movement 0.02076 in 15.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream lstm|small|linear|none|h1: unconverged movement 0.02447 in 892.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|none|h1: converged movement 0.00309 in 913.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|small|linear|none|h1: converged movement 0.00093 in 1112.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|small|mlp1|none|h1: unconverged movement 0.01127 in 723.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|small|mlp_strong|none|h1: unconverged movement 0.0297 in 729.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_5|h1: converged movement 0.00142 in 384.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_1|h1: unconverged movement 0.01658 in 447.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_2|h1: converged movement 0.00142 in 409.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|mlp1|none|h1: unconverged movement 0.00253 in 894.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|mlp_strong|none|h1: unconverged movement 0.00667 in 879.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_10|h1: converged movement 0.00142 in 383.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_20|h1: unconverged movement 0.01786 in 415.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream pooled|medium|linear|none|h1: converged movement 0.00062 in 1753.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|horizon_2|h1: converged movement 0.00114 in 412.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|horizon_5|h1: converged movement 0.00114 in 415.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|horizon_1|h1: unconverged movement 0.01265 in 416.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|horizon_10|h1: converged movement 0.00114 in 419.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|medium|linear|none|h1: converged movement 0.0032 in 1906.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|horizon_20|h1: converged movement 0.00939 in 478.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|horizon_45|h1: converged movement 0.00939 in 503.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|horizon_90|h1: converged movement 0.00939 in 535.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|horizon_full|h1: converged movement 0.00309 in 849.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|every_observation|h1: unconverged movement 0.01658 in 448.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream lstm|medium|linear|none|h1: converged movement 0.00895 in 2247.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|misaligned_b|h1: unconverged movement 0.01386 in 453.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|misaligned_a|h1: converged movement 0.00089 in 475.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|random_rate_matched|h1: converged movement 0.00843 in 510.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|linear|none|h2: converged movement 0.00663 in 10.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|linear|none|h5: converged movement 0.00568 in 9.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|micro|linear|horizon_5|h1: converged movement 0.00677 in 217.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|block_shuffled|h1: converged movement 0.00118 in 530.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|linear|none|h10: unconverged movement 0.02034 in 9.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|true_boundary|h1: converged movement 0.0024 in 572.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|micro|linear|horizon_45|h1: unconverged movement 0.00507 in 243.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|small|linear|wrong_boundary|h1: converged movement 0.00451 in 517.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|micro|linear|none|h1: converged movement 0.0038 in 2621.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|medium|linear|none|h1: converged movement 0.00803 in 2279.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream ff_gru|small|linear|none|h1: unconverged movement 0.01586 in 2236.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|micro|linear|horizon_full|h1: unconverged movement 0.00744 in 503.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|medium|linear|horizon_5|h1: unconverged movement 0.01872 in 702.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream histmlp|small|linear|none|hpooled_summary: unconverged movement 0.02193 in 733.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|medium|linear|horizon_45|h1: unconverged movement 0.01686 in 932.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|small|linear|none|h5: converged movement 0.00093 in 1105.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|small|linear|none|h20: converged movement 0.00093 in 1106.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream tcn|small|linear|none|hfull_window: converged movement 0.00093 in 1107.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream gru|medium|linear|horizon_full|h1: converged movement 0.0032 in 1876.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|none|h1: unconverged movement 0.0047 in 6717.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|small|linear|horizon_full|h1: unconverged movement 0.0047 in 7230.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard har_stream mgu|medium|linear|none|h1: unconverged movement 0.00693 in 12047.5s
+E2_CONVERGE_SHARD_DONE

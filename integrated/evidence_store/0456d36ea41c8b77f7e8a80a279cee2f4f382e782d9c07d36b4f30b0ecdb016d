@@ -1,0 +1,211 @@
+{
+  "schema": "mop-temporal-duplicate-writer-containment/v1",
+  "observed_at": "2026-07-27T05:52:40+00:00",
+  "classification": "duplicate_launch_from_non_atomic_lock_publication_and_stale_completion_queue",
+  "cause": {
+    "primary": "a concurrent lock_active reader could observe truncated JSON during Path.write_text, unlink it, and admit the same tag again",
+    "transition_edge": "an already-lost legacy lock left a stale refill queue eligible after the original worker sealed completion",
+    "old_implementation": {
+      "source_commit": "179effcc651d7696591503fb21e6030c95d8ada1",
+      "source_tree_oid": "ad7b77960c0e56bdd367eb7cfecda3b13ca30c9c"
+    }
+  },
+  "detection": {
+    "refill_log": {
+      "path": "reports/telegram_notifier/refill.log",
+      "whole_file_sha256_at_detection": "ca9e58a144a3434de17622debd82002d2a98d2b34ea4751d333a51afa869018f",
+      "line_count_at_detection": 43
+    },
+    "worker_log": {
+      "path": "logs/capacity_corrections.log",
+      "whole_file_sha256_at_detection": "fbeacac8f7c8d32cff3cb7f4de6e0ea687fc28ce0b8329bef9fc5f2a0d340b6e",
+      "line_count_at_detection": 312
+    },
+    "duplicate_launch_counts": {
+      "capacity_har_stream_0": 2,
+      "capacity_har_stream_3": 2,
+      "capacity_har_stream_4": 2,
+      "capacity_harth_stream_7": 2
+    },
+    "writer_completion_counts": {
+      "capacity_har_stream_0": 2,
+      "capacity_har_stream_3": 2,
+      "capacity_har_stream_4": 2,
+      "capacity_harth_stream_7": 1
+    },
+    "affected_identities": [
+      "capacity_har_stream_0",
+      "capacity_har_stream_3",
+      "capacity_har_stream_4",
+      "capacity_harth_stream_7"
+    ],
+    "sequential_overwrite_identities": [
+      "capacity_har_stream_0",
+      "capacity_har_stream_3",
+      "capacity_har_stream_4"
+    ],
+    "terminated_before_write_identities": [
+      "capacity_harth_stream_7"
+    ]
+  },
+  "evidence_limit": {
+    "first_writer_receipt_bytes_recoverable_for_sequential_overwrites": false,
+    "reason": "pre-fix workers shared one atomic-replace destination, so the later sequential writer replaced the first receipt before detection",
+    "no_claim_of_original_byte_preservation_for": [
+      "capacity_har_stream_0",
+      "capacity_har_stream_3",
+      "capacity_har_stream_4"
+    ],
+    "preserved_original_receipt_for_terminated_duplicate": [
+      "capacity_harth_stream_7"
+    ]
+  },
+  "adopted_final_receipts": [
+    {
+      "identity": "capacity_har_stream_0",
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal_corrections/capacity_har_stream_0.json",
+      "sha256": "8cc3a8e5534dc988ed642a8f970cce768dd9af0c4bfb9d152c8c780bdb7d606b",
+      "source_commit": "179effcc651d7696591503fb21e6030c95d8ada1",
+      "source_tree_oid": "ad7b77960c0e56bdd367eb7cfecda3b13ca30c9c",
+      "contract": {
+        "version": "mop-temporal-receipt-contract/v1",
+        "kind": "correction",
+        "projection": "replacement_runs"
+      },
+      "parent_receipts": [
+        {
+          "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/har_stream_0.json",
+          "sha256": "365d87d9743e77218cb9edc4965b1d56b08a4e62b875f41d0b30954d06bdd466",
+          "cell": "histmlp|large|linear|none|h1"
+        },
+        {
+          "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/har_stream_0.json",
+          "sha256": "365d87d9743e77218cb9edc4965b1d56b08a4e62b875f41d0b30954d06bdd466",
+          "cell": "histmlp|large|mlp_strong|none|h1"
+        }
+      ],
+      "canonical_contract_and_stage_valid": true,
+      "observed_worker_completions": 2,
+      "receipt_overwrite_prevented": false
+    },
+    {
+      "identity": "capacity_har_stream_3",
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal_corrections/capacity_har_stream_3.json",
+      "sha256": "6767e6d9703375a4a82c7f6c1a09232fa3347a4de1807f5035eac9bb358b8895",
+      "source_commit": "179effcc651d7696591503fb21e6030c95d8ada1",
+      "source_tree_oid": "ad7b77960c0e56bdd367eb7cfecda3b13ca30c9c",
+      "contract": {
+        "version": "mop-temporal-receipt-contract/v1",
+        "kind": "correction",
+        "projection": "replacement_runs"
+      },
+      "parent_receipts": [
+        {
+          "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/har_stream_3.json",
+          "sha256": "c5d24552eaa8a4e4d7f8d3dc4d94f62022cbd25790404354b43594af1e4475cc",
+          "cell": "histmlp|large|linear|none|h1"
+        },
+        {
+          "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/har_stream_3.json",
+          "sha256": "c5d24552eaa8a4e4d7f8d3dc4d94f62022cbd25790404354b43594af1e4475cc",
+          "cell": "histmlp|large|mlp_strong|none|h1"
+        }
+      ],
+      "canonical_contract_and_stage_valid": true,
+      "observed_worker_completions": 2,
+      "receipt_overwrite_prevented": false
+    },
+    {
+      "identity": "capacity_har_stream_4",
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal_corrections/capacity_har_stream_4.json",
+      "sha256": "d40e2a73756755691cfab704a5902304531a6f9348a1eb124bbef44ddda9cd41",
+      "source_commit": "179effcc651d7696591503fb21e6030c95d8ada1",
+      "source_tree_oid": "ad7b77960c0e56bdd367eb7cfecda3b13ca30c9c",
+      "contract": {
+        "version": "mop-temporal-receipt-contract/v1",
+        "kind": "correction",
+        "projection": "replacement_runs"
+      },
+      "parent_receipts": [
+        {
+          "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/har_stream_4.json",
+          "sha256": "4c6f3b461de3e373b8ab446833ea1ff3d8da073b627288f38a56cd79c53e5852",
+          "cell": "histmlp|large|linear|none|h1"
+        },
+        {
+          "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/har_stream_4.json",
+          "sha256": "4c6f3b461de3e373b8ab446833ea1ff3d8da073b627288f38a56cd79c53e5852",
+          "cell": "histmlp|large|mlp_strong|none|h1"
+        }
+      ],
+      "canonical_contract_and_stage_valid": true,
+      "observed_worker_completions": 2,
+      "receipt_overwrite_prevented": false
+    },
+    {
+      "identity": "capacity_harth_stream_7",
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal_corrections/capacity_harth_stream_7.json",
+      "sha256": "2a7c133403cc6ffde1901eb7535a49bfbecf7f035a0a4673b6102a3184795b29",
+      "source_commit": "179effcc651d7696591503fb21e6030c95d8ada1",
+      "source_tree_oid": "ad7b77960c0e56bdd367eb7cfecda3b13ca30c9c",
+      "contract": {
+        "version": "mop-temporal-receipt-contract/v1",
+        "kind": "correction",
+        "projection": "replacement_runs"
+      },
+      "parent_receipts": [
+        {
+          "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/harth_stream_7.json",
+          "sha256": "a95c2fc8dacf0449c1e2a6206affbe53ea01def0719e7c23898194ac64cc5391",
+          "cell": "histmlp|large|linear|none|h1"
+        },
+        {
+          "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/harth_stream_7.json",
+          "sha256": "a95c2fc8dacf0449c1e2a6206affbe53ea01def0719e7c23898194ac64cc5391",
+          "cell": "histmlp|large|mlp_strong|none|h1"
+        }
+      ],
+      "canonical_contract_and_stage_valid": true,
+      "observed_worker_completions": 1,
+      "receipt_overwrite_prevented": true
+    }
+  ],
+  "containment": {
+    "refill_authority_stopped_during_each_repair": true,
+    "scientific_principal_workers_not_stopped_or_restarted": true,
+    "newer_harth_duplicate_terminated_before_receipt_write": true,
+    "affected_writer_processes_after_containment": [],
+    "atomic_lock_implementation": {
+      "source_commit": "e92be3cfcb8b4b945e5605d93902075cf13d2bef",
+      "source_tree_oid": "e0b1de756a6e1bd9164d9ec540817258dfe7e3db"
+    },
+    "final_implementation": {
+      "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "source_tree_oid": "88ab61be53af2941e3e2389fa85befabb452907f"
+    },
+    "atomic_active_lock_publication": true,
+    "fresh_partial_reservation_fails_closed": true,
+    "completion_rechecked_after_identity_reservation": true,
+    "supervisor_and_refill_reloaded_from_final_implementation": true
+  },
+  "checks": {
+    "complete_duplicate_inventory_at_detection": true,
+    "all_adopted_final_receipts_contract_and_stage_valid": true,
+    "all_parent_bindings_exact": true,
+    "transition_duplicate_terminated_before_write": true,
+    "no_affected_writer_still_active": true,
+    "no_partial_receipts": true,
+    "full_temporal_and_method_suite_passed": true,
+    "atomic_and_completion_guard_regressions_passed": true,
+    "authoritative_state_adopted_final_implementation": true,
+    "activation_remains_false": true
+  },
+  "all_checks_pass": true,
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "source_tree_oid": "88ab61be53af2941e3e2389fa85befabb452907f",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "3719ac5ae460e2318b0e2462118d7b226706b1269e0b3578be6e8691241d644e"
+}

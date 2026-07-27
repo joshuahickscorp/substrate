@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "harth_stream",
+  "spec": {
+    "family": "pooled",
+    "tier": "small",
+    "readout": "mlp1",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "pooled|small|mlp1|none|h1",
+  "curve": {
+    "400": 0.6619966666666667,
+    "800": 0.5681233333333333,
+    "1600": 0.65695,
+    "3200": 0.6638633333333334,
+    "6400": 0.65495,
+    "12800": 0.6458533333333334
+  },
+  "seed_spread": {
+    "400": 0.03687,
+    "800": 0.10338,
+    "1600": 0.0529,
+    "3200": 0.03104,
+    "6400": 0.01288,
+    "12800": 0.04978
+  },
+  "seed_scores": {
+    "400": [
+      0.62025,
+      0.67564,
+      0.6901
+    ],
+    "800": [
+      0.46962,
+      0.55897,
+      0.67578
+    ],
+    "1600": [
+      0.69241,
+      0.59615,
+      0.68229
+    ],
+    "3200": [
+      0.67848,
+      0.62821,
+      0.6849
+    ],
+    "6400": [
+      0.6443,
+      0.65128,
+      0.66927
+    ],
+    "12800": [
+      0.67722,
+      0.58846,
+      0.67188
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.62025,
+        "checkpoint_sha": "fede252ead2c2224d1cbc13b966db7484d45650e329063c5fd2b0b10ae00b031"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.67564,
+        "checkpoint_sha": "d2dfe8620316cd93e8685c55a2e3ec515baefed2b2825380e55738ab8ad6766f"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.6901,
+        "checkpoint_sha": "a40413da7cbcc1019896915085c11ea8bbe6260110471e5684b69377ae5c1b7e"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.46962,
+        "checkpoint_sha": "8217865fc608f563560a338b003b4180004fd13ac15dcf6b25bc85b947729392"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.55897,
+        "checkpoint_sha": "93508406d3020f6968336e82f2ac5812528de080cf8ae9fe37f29777a3bd5fba"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.67578,
+        "checkpoint_sha": "35a006776897ca4cab9f59f58185743b32486ef945c16d173476e2253f1cbb6d"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.69241,
+        "checkpoint_sha": "5f86918910425d865593f5965a81ed3f4a307c2a0e847394435809814b7dbe21"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.59615,
+        "checkpoint_sha": "0f075f9a2cc9902e24aeb422c9621a1462b8a2e62641f1307f01bcf4864063e6"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.68229,
+        "checkpoint_sha": "dade97908cfd2d7610394399011228e87595a95b7391286d949fa5712b8b8d2c"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.67848,
+        "checkpoint_sha": "6c8b430690cfa783d97e02c64d2a8fe9818f26fc99918715c5145afb30559b8b"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.62821,
+        "checkpoint_sha": "26bffb6c6091955fa439ead5442c62a16bf8087093e38fd0f19404d7d05ca589"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.6849,
+        "checkpoint_sha": "45faf6d0562525cc4116f1ac2fffdee840907e0e3e795eac5bd10551fc593e8f"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.6443,
+        "checkpoint_sha": "860c3718f7beedeefd8dd8d0ed573e98458605fadb48aeaa54b8ca97d9be9412"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.65128,
+        "checkpoint_sha": "c475f37c576a253fc2b2e84d6c967de5cefa115e10bdc158d1900bc54d849fca"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.66927,
+        "checkpoint_sha": "b5809e389631bd56aacd9757a8503d8038fc63cbb47927b151af35676a505206"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.67722,
+        "checkpoint_sha": "82f4579fb4ceeb0325006491662bc29369d5ed1d72546c618078d87c273909b4"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.58846,
+        "checkpoint_sha": "2aa51d62b726c72ba2674b4447c3a88c2aab8451dc0912c6da5236a64b211f0f"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.67188,
+        "checkpoint_sha": "95a53a3b76e423df48395cdb282b1acd7914ebd359465684b0eb70f47a8343a7"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 41593,
+    "readout": 4550,
+    "total": 46143
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_harth_stream_32.json",
+    "sha256": "1f57b80f16319b47f04ed1b14056e6f444c1edd37fbb0e189bb7ca004807790f",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.662,
+    0.56812,
+    0.65695,
+    0.66386,
+    0.65495,
+    0.64585
+  ],
+  "best_budget": 3200,
+  "selected_checkpoint": 3200,
+  "second_half_movement": 0.01801,
+  "residual_slope": -0.009005,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.018 with slope -0.009; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 865.8,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "3a38a5460b7bdebd0855bd3b47da1fefd48204d621a693edcfa39ac920119b59"
+}

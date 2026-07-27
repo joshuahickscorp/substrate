@@ -1,0 +1,172 @@
+{
+  "bed": "speech_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "micro",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "histmlp|micro|linear|none|h1",
+  "curve": {
+    "400": 0.12941666666666665,
+    "800": 0.10764,
+    "1600": 0.12643666666666667,
+    "3200": 0.11441666666666668
+  },
+  "seed_spread": {
+    "400": 0.01405,
+    "800": 0.0283,
+    "1600": 0.0161,
+    "3200": 0.02889
+  },
+  "seed_scores": {
+    "400": [
+      0.13596,
+      0.11329,
+      0.139
+    ],
+    "800": [
+      0.12368,
+      0.07496,
+      0.12428
+    ],
+    "1600": [
+      0.14474,
+      0.1201,
+      0.11447
+    ],
+    "3200": [
+      0.1193,
+      0.14055,
+      0.0834
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.13596,
+        "checkpoint_sha": "1e1680ec99197cc6af3a515b0dd3def518d1a75fcb9ec8b90076ee9111313349"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.11329,
+        "checkpoint_sha": "5f5ff26aa0faee9202bbd2c8e89a94626f6bae72dee76df56fb2bc5dd25502cf"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.139,
+        "checkpoint_sha": "05152cde9aa09a4e1392c1694172f419ecd22013a38fffa767b09e4eddd8c117"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.12368,
+        "checkpoint_sha": "18bca5f10599a27ac901841e9823eb5b4606c32136c0018b88a2f4999c6c8436"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.07496,
+        "checkpoint_sha": "89439dc8993bfdaadf06769c3f49e96e674e77450a5a470b5cc5f023d9484479"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.12428,
+        "checkpoint_sha": "e1fc4cb9fbadcca01c897a3dfa8c33044e9fccc52cbbfc2e9f150013c88a595c"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.14474,
+        "checkpoint_sha": "554c7f9ae695cdb45c0c1d306a1cb041160b1da9e69f5746cca14e54161eca98"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.1201,
+        "checkpoint_sha": "571107a1426e545e3bb55e75fd47db7e20d183fb80d131aaf95e6b035964db51"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.11447,
+        "checkpoint_sha": "e1f2b2c90bab58e58e35eba2eaedf63c4f7cac722b3064c2f2b825c7bd7bce6f"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.1193,
+        "checkpoint_sha": "b3bf23e822d63ccc8ecb8c60635454821ef6eab00cd086ef460465124bfff25b"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.14055,
+        "checkpoint_sha": "9a169afa52a125d6b3967fcc3f5caa3664d1a5bf12478255789493eb283d07f3"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.0834,
+        "checkpoint_sha": "7ec9e38ab26c7f1516923848acef2059dcba13581a610473dc7b1c9c573129b4"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 10669,
+    "readout": 650,
+    "total": 11319
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.12942,
+    0.10764,
+    0.12644,
+    0.11442
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.01202,
+  "residual_slope": -0.01202,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.012 with slope -0.01202; extend the budget grid past 3200",
+  "classification": "unconverged",
+  "wall_seconds": 10.4,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "f7d7fcd38b5ae51ddc364c9e071266c61a393308",
+  "source_tree_oid": "7b94fb3a85035968c693426f29361ef98b4e3c01",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "9c1d57338ea76416a42975226d1397dccee89887421d066567cc2a6963f2546f"
+}

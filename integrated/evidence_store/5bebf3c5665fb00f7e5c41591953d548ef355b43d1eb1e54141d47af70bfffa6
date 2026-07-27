@@ -1,0 +1,158 @@
+{
+  "schema": "mop-active-code-accounting/v1",
+  "active_runtime": {
+    "files": {
+      "fastforge/__init__.py": 1,
+      "fastforge/arch.py": 431,
+      "fastforge/data.py": 505,
+      "fastforge/engine.py": 391,
+      "scripts/acceptance.py": 116,
+      "src/mop/__init__.py": 1,
+      "src/mop/config.py": 62,
+      "src/mop/devices.py": 92,
+      "src/mop/evidence.py": 50,
+      "src/mop/harness/__init__.py": 5,
+      "src/mop/harness/cli.py": 66,
+      "src/mop/harness/runner.py": 48,
+      "src/mop/harness/validate.py": 78,
+      "src/mop/logging_utils.py": 65,
+      "src/mop/provenance.py": 32,
+      "src/mop/science/__init__.py": 1,
+      "src/mop/science/budget.py": 370,
+      "src/mop/science/gating.py": 39,
+      "src/mop/science/statistics.py": 132,
+      "src/mop/seeding.py": 41,
+      "src/mop/temporal/custody.py": 189,
+      "src/mop/temporal/io.py": 84,
+      "src/mop/temporal/receipt_contract.py": 375,
+      "src/mop/temporal/runs/thirdbed.py": 493
+    },
+    "loc": 3667
+  },
+  "active_method": {
+    "files": {
+      "src/mop/method/__init__.py": 45,
+      "src/mop/method/acceptance.py": 361,
+      "src/mop/method/arms.py": 186,
+      "src/mop/method/baseline.py": 150,
+      "src/mop/method/bed.py": 190,
+      "src/mop/method/calibration.py": 257,
+      "src/mop/method/contracts.py": 365,
+      "src/mop/method/controls.py": 213,
+      "src/mop/method/defects.py": 296,
+      "src/mop/method/gate.py": 201,
+      "src/mop/method/graph.py": 179,
+      "src/mop/method/hypothesis.py": 96,
+      "src/mop/method/io.py": 67,
+      "src/mop/method/mechanism.py": 75,
+      "src/mop/method/power.py": 121,
+      "src/mop/method/report.py": 194,
+      "src/mop/method/runs/__init__.py": 1,
+      "src/mop/method/runs/acceptance_run.py": 145,
+      "src/mop/method/runs/analyze1.py": 204,
+      "src/mop/method/runs/analyze4.py": 202,
+      "src/mop/method/runs/audit.py": 269,
+      "src/mop/method/runs/authorities.py": 248,
+      "src/mop/method/runs/authority.py": 201,
+      "src/mop/method/runs/exp1.py": 548,
+      "src/mop/method/runs/exp4.py": 557,
+      "src/mop/method/runs/fabric.py": 147,
+      "src/mop/method/runs/factorial.py": 138,
+      "src/mop/method/runs/ledger.py": 221,
+      "src/mop/method/runs/locus.py": 125,
+      "src/mop/method/runs/mutations.py": 180,
+      "src/mop/method/runs/reaudit.py": 455,
+      "src/mop/method/runs/reports.py": 260,
+      "src/mop/method/runs/select.py": 342,
+      "src/mop/method/runs/supervisor.py": 142,
+      "src/mop/method/runs/synthesis.py": 345,
+      "src/mop/method/runs/verify.py": 166,
+      "src/mop/method/voi.py": 107
+    },
+    "loc": 7999
+  },
+  "active_substrate": {
+    "files": {
+      "src/mop/temporal/__init__.py": 0,
+      "src/mop/temporal/analysis.py": 198,
+      "src/mop/temporal/arch.py": 179,
+      "src/mop/temporal/beds.py": 227,
+      "src/mop/temporal/factorial.py": 145,
+      "src/mop/temporal/hypotheses.py": 31,
+      "src/mop/temporal/runs/__init__.py": 0,
+      "src/mop/temporal/runs/e2.py": 540,
+      "src/mop/temporal/runs/supervisor.py": 981,
+      "src/mop/temporal/witness.py": 199
+    },
+    "loc": 2500
+  },
+  "active_tests": {
+    "files": {
+      "tests/method/__init__.py": 0,
+      "tests/method/test_defect_regressions.py": 540,
+      "tests/method/test_kernel.py": 553,
+      "tests/temporal/__init__.py": 0,
+      "tests/temporal/test_convergence_backfill.py": 24,
+      "tests/temporal/test_convergence_checkpoint_resume.py": 132,
+      "tests/temporal/test_durable_fabric.py": 276,
+      "tests/temporal/test_optimization_correction.py": 292,
+      "tests/temporal/test_receipt_contract.py": 225,
+      "tests/temporal/test_repeated_failure_detection.py": 83,
+      "tests/temporal/test_stall_detection.py": 97,
+      "tests/temporal/test_successor_schema_queue.py": 49,
+      "tests/temporal/test_supervisor_receipt_hardening.py": 245,
+      "tests/temporal/test_supervisor_restart_adoption.py": 130,
+      "tests/temporal/test_supervisor_terminal_sequence.py": 93,
+      "tests/temporal/test_temporal_core.py": 855,
+      "tests/temporal/test_terminal_evidence.py": 98,
+      "tests/temporal/test_terminal_state.py": 146,
+      "tests/temporal/test_third_bed_core_admission.py": 41,
+      "tests/temporal/test_verify_mutations.py": 188
+    },
+    "loc": 4067
+  },
+  "active_runtime_plus_substrate": 6167,
+  "active_runtime_target": 8000,
+  "active_runtime_within_target": true,
+  "new_e2_implementation": {
+    "files": {
+      "src/mop/temporal/__init__.py": 0,
+      "src/mop/temporal/analysis.py": 198,
+      "src/mop/temporal/arch.py": 179,
+      "src/mop/temporal/beds.py": 227,
+      "src/mop/temporal/factorial.py": 145,
+      "src/mop/temporal/hypotheses.py": 31,
+      "src/mop/temporal/runs/__init__.py": 0,
+      "src/mop/temporal/runs/e2.py": 540,
+      "src/mop/temporal/runs/supervisor.py": 981,
+      "src/mop/temporal/witness.py": 199
+    },
+    "loc": 2500,
+    "target": 2500,
+    "within_target": true
+  },
+  "normal_entrypoints": [
+    "python -m mop.temporal.runs.supervisor",
+    "python -m mop.temporal.runs.<stage>",
+    "python -m mop.method.runs.<stage>"
+  ],
+  "configuration_roots": [
+    "configs/"
+  ],
+  "registries": [
+    "registry/experiments.yaml"
+  ],
+  "experiment_engines": [
+    "fastforge.engine"
+  ],
+  "evidence_fabrics": [
+    "integrated/evidence_store"
+  ],
+  "honest_blocker": "",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "abecf62c06b95b5837d9f2ebe234077e9e6cdcfc6cc9b98905f3525fb6f7211d"
+}

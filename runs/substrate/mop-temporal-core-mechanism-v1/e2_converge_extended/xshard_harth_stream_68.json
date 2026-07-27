@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "harth_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 10
+  },
+  "cell": "histmlp|small|linear|none|h10",
+  "curve": {
+    "400": 0.9248,
+    "800": 0.9110366666666666,
+    "1600": 0.9110800000000001,
+    "3200": 0.90806,
+    "6400": 0.9081800000000001,
+    "12800": 0.9300700000000001
+  },
+  "seed_spread": {
+    "400": 0.05841,
+    "800": 0.05143,
+    "1600": 0.05103,
+    "3200": 0.05243,
+    "6400": 0.06448,
+    "12800": 0.02355
+  },
+  "seed_scores": {
+    "400": [
+      0.85823,
+      0.94872,
+      0.96745
+    ],
+    "800": [
+      0.8519,
+      0.9359,
+      0.94531
+    ],
+    "1600": [
+      0.85696,
+      0.91795,
+      0.95833
+    ],
+    "3200": [
+      0.8481,
+      0.93077,
+      0.94531
+    ],
+    "6400": [
+      0.83544,
+      0.93077,
+      0.95833
+    ],
+    "12800": [
+      0.90506,
+      0.93333,
+      0.95182
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.85823,
+        "checkpoint_sha": "a5af291603d353cc56e313059c766acb59813dfd06c3bade167981f2af773b72"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.94872,
+        "checkpoint_sha": "30a4f72d1c3671f8ad327e846951c37cead48a3be7b633ebd7d575d6b3fd5b1a"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.96745,
+        "checkpoint_sha": "fe6cebbfbf9e8d9f31bb65b0b314806d5ef1f0badc1d65b25146922821ed3ed9"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.8519,
+        "checkpoint_sha": "4d87950a93947a61087d94290ddc0dfe1e4a96df18704eff77dfd3469a3d77eb"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.9359,
+        "checkpoint_sha": "e2ed0a35eb7db2e6228f5fa8f14b64b5a59af4ef7ed4507ea2113065f148db26"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.94531,
+        "checkpoint_sha": "aaf8753d20fbc9bbe0c67b4e005dab7a7f4205a7dc1a4a42aedca771e50bfbad"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.85696,
+        "checkpoint_sha": "706cc053877a6e1c3b98ca25088dd6061846ef4734cd3d32bedcafac1a1eab4d"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.91795,
+        "checkpoint_sha": "5037a54aced20d3dc4f18846899b615871c47bb6b67ec0782caf3827256a5865"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.95833,
+        "checkpoint_sha": "bf227cfd2678e4a1a6d0dbfa02db7bff998247071cd252658df16869b9430392"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.8481,
+        "checkpoint_sha": "47e99960acc3c6200ca7c7c4401aa73e9792e7e23ac1ac663b6c3f854d5d1653"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.93077,
+        "checkpoint_sha": "56ea8c8e3596599bf47894087dde2c104ec02ac5ef9290e7503dc9ffa1f0da86"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.94531,
+        "checkpoint_sha": "c7ab0aa9abd35489d3e1a21e319fb110f19f0691d01b260596c1143c90a345fc"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.83544,
+        "checkpoint_sha": "98e9b5cbae847aee21736bae9ee81e8d68b0b6ceece76d3f688e7542a17906e7"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.93077,
+        "checkpoint_sha": "15f1a9d9d80d09cb1eb1360c1c4f47b74283ef6e79a3c1f863a4f4c51b370a71"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.95833,
+        "checkpoint_sha": "e309ec5f4e4b6955d99cc7cbf94741a74b9369f145a361ea284b95a6670ec468"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.90506,
+        "checkpoint_sha": "79a3e6da2076b8e8619ec11a8df36e0680079d76ff1812cfef4245376700b3e4"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.93333,
+        "checkpoint_sha": "f1119d3e8c8bbaa7b7c83000811723d8bbd1ac7cea807a4db35893b4cdbca70b"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.95182,
+        "checkpoint_sha": "79247bac4d1cafbbdcd5fc2934fde08e30b1d289a2f3fc2158b72657851297fe"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 40439,
+    "readout": 390,
+    "total": 40829
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_harth_stream_68.json",
+    "sha256": "b53bbb00e43d19d07bff1f2a59106f4bde6f024a2d76e89bc1f593b4bf51a9af",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.9248,
+    0.91104,
+    0.91108,
+    0.90806,
+    0.90818,
+    0.93007
+  ],
+  "best_budget": 12800,
+  "selected_checkpoint": 12800,
+  "second_half_movement": 0.02201,
+  "residual_slope": 0.011005,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.022 with slope 0.01101; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 21.9,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "7ee9eaa63b9676356d411a01b78e8232dc80fce76401f0effe5260b7207d79a3"
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "mop-temporal-method-extension/v1",
+  "witnesses": {
+    "boundary_crossing": {
+      "implementation": "mop.temporal.witness.boundary_crossing",
+      "proves": [
+        "context a exists",
+        "context b exists",
+        "a and b differ under the construct",
+        "the evaluated transition crosses a to b",
+        "baseline behaviour changes across the transition",
+        "the adaptation window contains the transition"
+      ],
+      "owns_defect": "D16"
+    },
+    "reset_alignment": {
+      "implementation": "mop.temporal.witness.reset_alignment",
+      "records": [
+        "reset indices",
+        "true segment boundaries",
+        "distance to nearest boundary",
+        "fraction exactly aligned",
+        "fraction within tolerance",
+        "expected random alignment"
+      ],
+      "owns_defect": "reset alignment",
+      "rule": "a destructive reset control fails admission when it accidentally functions as an oracle boundary reset. Multiple coprime intervals are used and period three is retained only as a historical defect mutation"
+    },
+    "plateau_validity": {
+      "implementation": "mop.temporal.witness.plateau_validity",
+      "requires": [
+        "short budget curve",
+        "medium budget curve",
+        "long budget curve",
+        "largest feasible validation budget",
+        "residual slope",
+        "plateau threshold",
+        "selected checkpoint"
+      ],
+      "owns_defect": "D17",
+      "tightening": "this is stricter than the reformation criterion, which accepted a curve still moving 0.016 on the argument that the movement sat inside the noise. Here that curve is unconverged and the remedy is a longer budget rather than a looser rule. The prior receipt stays sealed and untouched; this is an append only tightening"
+    },
+    "null_reference": {
+      "implementation": "mop.temporal.witness.null_reference",
+      "references": [
+        "zero",
+        "chance",
+        "majority_class",
+        "permutation_expectation",
+        "matched_noise",
+        "empirical_null",
+        "analytic_value"
+      ],
+      "owns_defect": "D18"
+    },
+    "causal_history": {
+      "implementation": "mop.temporal.witness.history_witness",
+      "kinds": [
+        "current_observation_only",
+        "last_k_observations",
+        "pooled_history",
+        "state_carried_from_previous_observations",
+        "segment_identity",
+        "position",
+        "timestamp",
+        "future_information"
+      ],
+      "forbidden": [
+        "future_information"
+      ],
+      "rule": "hidden differences in historical information are rejected"
+    }
+  },
+  "mutations_all_pass": true,
+  "n_mutations": 17,
+  "wall_seconds": 0.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "SESOI": 0.05,
+  "sha256": "741154ecc10dc477e420c7d9ca6eab1bec4f1e58e12be4a87599d5510e93a41f"
+}
