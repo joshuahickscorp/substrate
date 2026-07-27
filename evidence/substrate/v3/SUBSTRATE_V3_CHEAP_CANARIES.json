@@ -1,0 +1,818 @@
+{
+  "schema": "substrate-v3-cheap-canaries/v1",
+  "rows": [
+    {
+      "identity": "C01",
+      "description": "ontology records verified evidence",
+      "positive_fixture": "verified category formation",
+      "null_fixture": "formation without evidence refused",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed ontology"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1171875,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C02",
+      "description": "ontology revision changes prediction",
+      "positive_fixture": "active exception split",
+      "null_fixture": "fixed ontology",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed ontology"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1171875,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C03",
+      "description": "random ontology revision lacks gain",
+      "positive_fixture": "evidence triggered split",
+      "null_fixture": "random revision",
+      "mechanism_activity": true,
+      "controls": [
+        "random category split"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1171875,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C04",
+      "description": "principled category split",
+      "positive_fixture": "exception triggered split",
+      "null_fixture": "empty side split refused",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed ontology"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.2,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C05",
+      "description": "redundant category merge",
+      "positive_fixture": "feature identical merge",
+      "null_fixture": "different features refused",
+      "mechanism_activity": true,
+      "controls": [
+        "random merge"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C06",
+      "description": "epistemic statuses remain distinct",
+      "positive_fixture": "declared distinct statuses",
+      "null_fixture": "confidence only",
+      "mechanism_activity": true,
+      "controls": [
+        "confidence only epistemology"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C07",
+      "description": "rebutting defeater lowers belief",
+      "positive_fixture": "traceable defeater",
+      "null_fixture": "ignored defeater",
+      "mechanism_activity": true,
+      "controls": [
+        "confidence only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.6,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C08",
+      "description": "undercutting defeater attacks source",
+      "positive_fixture": "source calibration failure",
+      "null_fixture": "direct conclusion rewrite",
+      "mechanism_activity": true,
+      "controls": [
+        "rebutting defeater"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.6,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C09",
+      "description": "underdetermination recognized",
+      "positive_fixture": "two live alternatives",
+      "null_fixture": "forced single answer",
+      "mechanism_activity": true,
+      "controls": [
+        "confidence only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C10",
+      "description": "discriminating observation selected",
+      "positive_fixture": "outcome separating test",
+      "null_fixture": "nondiscriminating cheap test",
+      "mechanism_activity": true,
+      "controls": [
+        "cheapest evidence"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.4,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C11",
+      "description": "unsupported confidence refused as knowledge",
+      "positive_fixture": "refusal receipt",
+      "null_fixture": "confidence threshold admission",
+      "mechanism_activity": true,
+      "controls": [
+        "confidence only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C12",
+      "description": "deduction derives necessary consequence",
+      "positive_fixture": "valid consequence",
+      "null_fixture": "missing premise",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed guess"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C13",
+      "description": "invalid deduction refused",
+      "positive_fixture": "missing premise refusal",
+      "null_fixture": "answer matching",
+      "mechanism_activity": true,
+      "controls": [
+        "surface answer"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C14",
+      "description": "induction records uncertainty and exception",
+      "positive_fixture": "bounded sample",
+      "null_fixture": "unqualified generalization",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed rule"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.5,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C15",
+      "description": "abduction preserves tied explanations",
+      "positive_fixture": "equal support explanations",
+      "null_fixture": "arbitrary first explanation",
+      "mechanism_activity": true,
+      "controls": [
+        "single hypothesis"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.5,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C16",
+      "description": "analogy transfers relations",
+      "positive_fixture": "relational isomorphism",
+      "null_fixture": "surface match",
+      "mechanism_activity": true,
+      "controls": [
+        "surface similarity"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C17",
+      "description": "surface only analogy rejected",
+      "positive_fixture": "relational mismatch refusal",
+      "null_fixture": "surface similarity",
+      "mechanism_activity": true,
+      "controls": [
+        "surface similarity"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C18",
+      "description": "intervention differs from observation",
+      "positive_fixture": "confounded intervention",
+      "null_fixture": "observational association",
+      "mechanism_activity": true,
+      "controls": [
+        "observation only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.21354166666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C19",
+      "description": "counterfactual preserves background",
+      "positive_fixture": "one premise change",
+      "null_fixture": "multiple premise mutation",
+      "mechanism_activity": true,
+      "controls": [
+        "shuffled background"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C20",
+      "description": "reasoning selection changes path",
+      "positive_fixture": "preoutcome contextual selector",
+      "null_fixture": "fixed reasoning",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed reasoning",
+        "maximum compute"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.19999999999999984,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C21",
+      "description": "wrong fixed reasoning performs worse",
+      "positive_fixture": "selected method",
+      "null_fixture": "deduction for every task",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed reasoning"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.5338541666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C22",
+      "description": "explanation cites internal premises",
+      "positive_fixture": "path bound explanation",
+      "null_fixture": "free prose",
+      "mechanism_activity": true,
+      "controls": [
+        "retrieval only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C23",
+      "description": "explanation identifies falsifier",
+      "positive_fixture": "intervention falsifier",
+      "null_fixture": "style score",
+      "mechanism_activity": true,
+      "controls": [
+        "prose explanation"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C24",
+      "description": "latent structure transfers representations",
+      "positive_fixture": "same latent graph",
+      "null_fixture": "unmapped surface labels",
+      "mechanism_activity": true,
+      "controls": [
+        "surface model"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.6822916666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C25",
+      "description": "memorization cannot explain transfer",
+      "positive_fixture": "held out labels",
+      "null_fixture": "retrieval",
+      "mechanism_activity": true,
+      "controls": [
+        "episodic retrieval",
+        "semantic retrieval"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.6822916666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C26",
+      "description": "model boundaries detected",
+      "positive_fixture": "four boundary classes",
+      "null_fixture": "always applicable",
+      "mechanism_activity": true,
+      "controls": [
+        "surface model"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C27",
+      "description": "inquiry actions spend different costs",
+      "positive_fixture": "inquiry charged 0.70",
+      "null_fixture": "stop charged zero",
+      "mechanism_activity": true,
+      "controls": [
+        "rate matched"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.7,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C28",
+      "description": "positive inquiry oracle residual clears SESOI",
+      "positive_fixture": "two positive and transfer beds",
+      "null_fixture": "no headroom bed",
+      "mechanism_activity": true,
+      "controls": [
+        "strongest simple policy"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 0.09539062499999995,
+      "margin": 0.09539062499999995,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C29",
+      "description": "negative control has no headroom",
+      "positive_fixture": "no headroom correctly refused",
+      "null_fixture": "false learned gain",
+      "mechanism_activity": true,
+      "controls": [
+        "never inquire"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 0.0,
+      "margin": 0.0,
+      "sesoi": 0.05,
+      "classification": "no_oracle_headroom",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C30",
+      "description": "contextual allocation beats simple policy",
+      "positive_fixture": "tabular contextual policy",
+      "null_fixture": "strongest simple",
+      "mechanism_activity": true,
+      "controls": [
+        "best fixed",
+        "eiv threshold"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 0.10550781250000008,
+      "margin": 0.10824218750000003,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C31",
+      "description": "allocation transfers held out",
+      "positive_fixture": "held out workload",
+      "null_fixture": "simple transfer policy",
+      "mechanism_activity": true,
+      "controls": [
+        "strongest simple"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 0.09539062499999995,
+      "margin": 0.09709960937499995,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C32",
+      "description": "self predictions precede outcomes",
+      "positive_fixture": "timestamped preoutcome predictions",
+      "null_fixture": "postoutcome write",
+      "mechanism_activity": true,
+      "controls": [
+        "no self model"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C33",
+      "description": "self model improves control decision",
+      "positive_fixture": "updating conditional estimate",
+      "null_fixture": "fixed prior",
+      "mechanism_activity": true,
+      "controls": [
+        "no self model",
+        "fixed prior"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C34",
+      "description": "world model improves prediction",
+      "positive_fixture": "intervention model",
+      "null_fixture": "observation only",
+      "mechanism_activity": true,
+      "controls": [
+        "no world model"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.21354166666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C35",
+      "description": "ontology epistemology survive restore",
+      "positive_fixture": "complete checkpoint",
+      "null_fixture": "omitted owned state",
+      "mechanism_activity": true,
+      "controls": [
+        "fresh reset"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C36",
+      "description": "body tool change preserves epistemic identity",
+      "positive_fixture": "owned identity across body change",
+      "null_fixture": "fresh identity",
+      "mechanism_activity": true,
+      "controls": [
+        "fresh reset"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C37",
+      "description": "different histories specialize",
+      "positive_fixture": "verified different histories",
+      "null_fixture": "identical history",
+      "mechanism_activity": true,
+      "controls": [
+        "wrong history"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C38",
+      "description": "identical histories equivalent",
+      "positive_fixture": "deterministic replica",
+      "null_fixture": "different history",
+      "mechanism_activity": true,
+      "controls": [
+        "replica"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C39",
+      "description": "wrong history lacks specialization",
+      "positive_fixture": "matching history advantage",
+      "null_fixture": "wrong history",
+      "mechanism_activity": true,
+      "controls": [
+        "shuffled history"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C40",
+      "description": "activation remains false",
+      "positive_fixture": "AST activation audit",
+      "null_fixture": "activation true mutation",
+      "mechanism_activity": true,
+      "controls": [
+        "source audit"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C41",
+      "description": "unverified generated knowledge refused",
+      "positive_fixture": "generated quarantine",
+      "null_fixture": "unsupported promotion",
+      "mechanism_activity": true,
+      "controls": [
+        "knowledge admission"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C42",
+      "description": "corrupt state detected",
+      "positive_fixture": "identity mismatch refusal",
+      "null_fixture": "valid checkpoint",
+      "mechanism_activity": true,
+      "controls": [
+        "byte mutation"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "passed": 42,
+  "total": 42,
+  "all_pass": true,
+  "all_terminal": true,
+  "classifications": {
+    "C01": "unverified_candidate",
+    "C02": "unverified_candidate",
+    "C03": "unverified_candidate",
+    "C04": "unverified_candidate",
+    "C05": "unverified_candidate",
+    "C06": "unverified_candidate",
+    "C07": "unverified_candidate",
+    "C08": "unverified_candidate",
+    "C09": "unverified_candidate",
+    "C10": "unverified_candidate",
+    "C11": "unverified_candidate",
+    "C12": "unverified_candidate",
+    "C13": "unverified_candidate",
+    "C14": "unverified_candidate",
+    "C15": "unverified_candidate",
+    "C16": "unverified_candidate",
+    "C17": "unverified_candidate",
+    "C18": "unverified_candidate",
+    "C19": "unverified_candidate",
+    "C20": "unverified_candidate",
+    "C21": "unverified_candidate",
+    "C22": "unverified_candidate",
+    "C23": "unverified_candidate",
+    "C24": "unverified_candidate",
+    "C25": "unverified_candidate",
+    "C26": "unverified_candidate",
+    "C27": "unverified_candidate",
+    "C28": "unverified_candidate",
+    "C29": "no_oracle_headroom",
+    "C30": "unverified_candidate",
+    "C31": "unverified_candidate",
+    "C32": "unverified_candidate",
+    "C33": "unverified_candidate",
+    "C34": "unverified_candidate",
+    "C35": "unverified_candidate",
+    "C36": "unverified_candidate",
+    "C37": "unverified_candidate",
+    "C38": "unverified_candidate",
+    "C39": "unverified_candidate",
+    "C40": "unverified_candidate",
+    "C41": "unverified_candidate",
+    "C42": "unverified_candidate"
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "19b1c66cee51c413a7f60a637969d09cebe296228b409efb949f0181a01d7efc"
+}

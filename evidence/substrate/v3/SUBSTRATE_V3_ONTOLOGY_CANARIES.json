@@ -1,0 +1,129 @@
+{
+  "schema": "substrate-v3-ontology-canaries/v1",
+  "effect": {
+    "family": "ontology_garden",
+    "full_arm": "full_v3",
+    "control_arm": "fixed_ontology",
+    "independent_units": 16,
+    "raw_effects": [
+      0.08333333333333337,
+      0.08333333333333337,
+      0.08333333333333337,
+      0.16666666666666663,
+      0.25,
+      0.04166666666666663,
+      0.08333333333333337,
+      0.29166666666666663,
+      0.125,
+      0.125,
+      0.0,
+      0.125,
+      0.125,
+      0.125,
+      0.04166666666666663,
+      0.125
+    ],
+    "margin": 0.1171875,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.8828125,
+    "full_compute": 384.0,
+    "control_compute": 384.0
+  },
+  "canaries": [
+    {
+      "identity": "C01",
+      "description": "ontology records verified evidence",
+      "positive_fixture": "verified category formation",
+      "null_fixture": "formation without evidence refused",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed ontology"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1171875,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C02",
+      "description": "ontology revision changes prediction",
+      "positive_fixture": "active exception split",
+      "null_fixture": "fixed ontology",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed ontology"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1171875,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C03",
+      "description": "random ontology revision lacks gain",
+      "positive_fixture": "evidence triggered split",
+      "null_fixture": "random revision",
+      "mechanism_activity": true,
+      "controls": [
+        "random category split"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1171875,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C04",
+      "description": "principled category split",
+      "positive_fixture": "exception triggered split",
+      "null_fixture": "empty side split refused",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed ontology"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.2,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C05",
+      "description": "redundant category merge",
+      "positive_fixture": "feature identical merge",
+      "null_fixture": "different features refused",
+      "mechanism_activity": true,
+      "controls": [
+        "random merge"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "ac28105bbef824188cf3bdb8f0e085d427c12436b137e3aa7dcd70aaaede7c1d"
+}

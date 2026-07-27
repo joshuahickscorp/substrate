@@ -1,0 +1,26 @@
+{
+  "schema": "substrate-v3-defeater-system/v1",
+  "kinds": [
+    "rebutting",
+    "undercutting",
+    "scope",
+    "ontology",
+    "underdetermination"
+  ],
+  "receipts": [
+    {
+      "belief": "b1",
+      "defeater": "d1",
+      "kind": "undercutting",
+      "evidence": "source calibration failure",
+      "confidence_before": 0.9,
+      "confidence_after": 0.4,
+      "status_after": "inferred"
+    }
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "ef73462b04e54109c9dc9b1fe5442401f3fcb53ffa79a8ec3c780f84215d8ff7"
+}

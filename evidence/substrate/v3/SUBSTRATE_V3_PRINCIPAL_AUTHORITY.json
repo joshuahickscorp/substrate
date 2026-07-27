@@ -1,0 +1,27 @@
+{
+  "schema": "substrate-v3-principal-authority/v1",
+  "ready_tag": "substrate-v3-nous-ready",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "configuration_digest": "22ab16c213a52fd3f4d84ffb8d19ac8a15a029382be1b79311fc39ddeccf3858",
+  "admission_sha256": "89adde9f524d39ac9bebf43c47099392303eef3f5355a9e6554754b8e766b50d",
+  "primary_hypotheses": {
+    "H_N1": "active ontology revision improves held out prediction, explanation, or transfer over fixed ontology",
+    "H_N2": "defeaters and underdetermination improve calibrated belief revision and inquiry over confidence only",
+    "H_N3": "reasoning method selection improves utility over fixed reasoning and maximum compute",
+    "H_N4": "structural understanding improves explanation, intervention, counterfactuals, and cross representation transfer",
+    "H_N5": "inquiry driven allocation improves held out cost adjusted utility over the strongest simple policy",
+    "H_N6": "v2 developmental transfer and retention remain preserved",
+    "H_N7": "different verified epistemic histories produce useful predictable specialization",
+    "H_N8": "conditional self and world models improve held out control",
+    "H_N9": "one identity persists through ontology change, interruption, body change, and conflict"
+  },
+  "primary_unit": "one frozen developmental history",
+  "selected_workers": 4,
+  "worker_publication": "unit local staging only",
+  "supervisor_publication": "validate then atomically publish unit and checkpoint",
+  "live_source_edit": "forbidden",
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "sha256": "76564efe7fbc7922987160d9be0adb6e72f06c44c99c1061d2355ec4d8359806"
+}

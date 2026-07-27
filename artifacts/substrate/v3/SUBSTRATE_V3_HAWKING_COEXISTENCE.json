@@ -1,0 +1,33 @@
+{
+  "schema": "substrate-v3-hawking-coexistence/v1",
+  "policy": "observe only; never signal, pause, restart, modify, or adopt Hawking",
+  "snapshot": {
+    "processes": [],
+    "active_process_count": 0,
+    "observation_only": true,
+    "signals_sent": 0,
+    "processes_modified": 0,
+    "controllers_modified": 0,
+    "mps_adopted": false
+  },
+  "resources": {
+    "disk_available_gib": 108.9816780090332,
+    "memory_free_percent": 82,
+    "swap_total_mib": 2048.0,
+    "swap_used_mib": 1293.5,
+    "swap_free_mib": 754.5,
+    "aggregate_cpu_percent": 395.0,
+    "machine": {
+      "processor": "arm",
+      "logical_cores": 28,
+      "platform": "macOS-27.0-arm64-arm-64bit"
+    }
+  },
+  "safe_for_cheap_cpu_work": true,
+  "principal_requires_resource_rehearsal": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "cb2572c48aab91cd0718dacd3f99bbd2485f2194afc1e5fb0fdb6f997e0b715b"
+}

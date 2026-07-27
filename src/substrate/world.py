@@ -145,6 +145,130 @@ class WorldModel:
         return self._one(var, partial)
 
 
+# ---------------------------------------------------------------- Substrate v3 structural understanding
+
+
+class StructuralUnderstanding:
+    """One latent directed system usable through multiple nonidentifying surface encodings."""
+
+    def __init__(self, edges: set[tuple[str, str]], mechanisms: dict[tuple[str, str], str] | None = None):
+        self.edges = set(edges)
+        self.mechanisms = mechanisms or {edge: "direct transition" for edge in edges}
+        self.representation_maps: dict[str, dict[str, str]] = {}
+        self.receipts: list[dict] = []
+
+    def add_representation(self, name: str, surface_to_latent: dict[str, str]) -> None:
+        if len(set(surface_to_latent.values())) != len(surface_to_latent):
+            raise ValueError("a representation cannot collapse distinct latent nodes")
+        self.representation_maps[name] = dict(surface_to_latent)
+
+    def decode(self, representation: str, surface: str) -> str:
+        return self.representation_maps[representation][surface]
+
+    def encode(self, representation: str, latent: str) -> str:
+        inverse = {value: key for key, value in self.representation_maps[representation].items()}
+        return inverse[latent]
+
+    def closure(self, active: set[str], *, edges: set[tuple[str, str]] | None = None) -> set[str]:
+        relations = self.edges if edges is None else edges
+        reached = set(active)
+        changed = True
+        while changed:
+            changed = False
+            for source, target in relations:
+                if source in reached and target not in reached:
+                    reached.add(target)
+                    changed = True
+        return reached
+
+    def predict(self, representation: str, active_surface: set[str]) -> set[str]:
+        active = {self.decode(representation, value) for value in active_surface}
+        consequences = self.closure(active) - active
+        return {self.encode(representation, value) for value in consequences}
+
+    def explain(self, premise: str, consequence: str) -> dict:
+        frontier = [(premise, [premise])]
+        seen = {premise}
+        path: list[str] = []
+        while frontier:
+            current, candidate = frontier.pop(0)
+            if current == consequence:
+                path = candidate
+                break
+            for source, target in sorted(self.edges):
+                if source == current and target not in seen:
+                    seen.add(target)
+                    frontier.append((target, candidate + [target]))
+        relations = list(zip(path, path[1:], strict=False))
+        receipt = {
+            "premises": [premise],
+            "consequence": consequence,
+            "path": path,
+            "relations": [list(edge) for edge in relations],
+            "mechanisms": [self.mechanisms.get(edge, "direct transition") for edge in relations],
+            "alternatives": sorted(source for source, target in self.edges if target == consequence and source != premise),
+            "falsifier": f"intervene to hold {path[-2]} absent while {consequence} still occurs" if len(path) > 1 else "no derivation",
+            "derived": bool(path),
+        }
+        self.receipts.append(receipt)
+        return receipt
+
+    def intervene(self, active: set[str], intervention: dict[str, bool]) -> set[str]:
+        forced_false = {key for key, value in intervention.items() if not value}
+        forced_true = {key for key, value in intervention.items() if value}
+        pruned = {(source, target) for source, target in self.edges if source not in forced_false and target not in forced_false}
+        return self.closure((set(active) - forced_false) | forced_true, edges=pruned)
+
+    def counterfactual(self, active: set[str], change: dict[str, bool]) -> dict:
+        if len(change) != 1:
+            return {
+                "possible": False,
+                "reason": "counterfactual must change exactly one declared premise",
+                "background_preserved": False,
+            }
+        factual = self.closure(active)
+        changed = self.intervene(active, change)
+        return {
+            "possible": True,
+            "change": change,
+            "factual": sorted(factual),
+            "counterfactual": sorted(changed),
+            "background_preserved": all(key in changed for key in active if key not in change),
+        }
+
+    def compressed(self) -> set[tuple[str, str]]:
+        """Remove an edge only when another path preserves its consequence."""
+        reduced = set(self.edges)
+        for edge in sorted(self.edges):
+            candidate = reduced - {edge}
+            if edge[1] in self.closure({edge[0]}, edges=candidate):
+                reduced.remove(edge)
+        return reduced
+
+    def reconstruct(self, compressed: set[tuple[str, str]]) -> set[tuple[str, str]]:
+        reconstructed = set(compressed)
+        nodes = {node for edge in compressed for node in edge}
+        for source in nodes:
+            for target in self.closure({source}, edges=compressed) - {source}:
+                reconstructed.add((source, target))
+        return reconstructed
+
+    def boundary(self, representation: str, surface_nodes: set[str], *, contradictory: bool = False) -> str:
+        if representation not in self.representation_maps:
+            return "out_of_domain"
+        known = set(self.representation_maps[representation])
+        if not surface_nodes <= known:
+            return "insufficient_information"
+        if contradictory:
+            return "contradictory_model"
+        latent = {self.decode(representation, value) for value in surface_nodes}
+        if any(source == target for source, target in self.edges):
+            return "impossible_case"
+        if not latent:
+            return "known_exception"
+        return "known_applicable"
+
+
 # ---------------------------------------------------------------- the bed with a known truth
 
 

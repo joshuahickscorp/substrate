@@ -1,0 +1,147 @@
+{
+  "schema": "substrate-v3-epistemic-canaries/v1",
+  "effect": {
+    "family": "epistemic_laboratory",
+    "full_arm": "full_v3",
+    "control_arm": "confidence_only_epistemology",
+    "independent_units": 16,
+    "raw_effects": [
+      0.33333333333333337,
+      0.375,
+      0.41666666666666663,
+      0.45833333333333337,
+      0.41666666666666663,
+      0.5,
+      0.5416666666666667,
+      0.375,
+      0.5,
+      0.5833333333333333,
+      0.41666666666666663,
+      0.375,
+      0.33333333333333337,
+      0.41666666666666663,
+      0.45833333333333337,
+      0.6666666666666666
+    ],
+    "margin": 0.4479166666666667,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.5520833333333334,
+    "full_compute": 384.0,
+    "control_compute": 384.0
+  },
+  "canaries": [
+    {
+      "identity": "C06",
+      "description": "epistemic statuses remain distinct",
+      "positive_fixture": "declared distinct statuses",
+      "null_fixture": "confidence only",
+      "mechanism_activity": true,
+      "controls": [
+        "confidence only epistemology"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C07",
+      "description": "rebutting defeater lowers belief",
+      "positive_fixture": "traceable defeater",
+      "null_fixture": "ignored defeater",
+      "mechanism_activity": true,
+      "controls": [
+        "confidence only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.6,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C08",
+      "description": "undercutting defeater attacks source",
+      "positive_fixture": "source calibration failure",
+      "null_fixture": "direct conclusion rewrite",
+      "mechanism_activity": true,
+      "controls": [
+        "rebutting defeater"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.6,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C09",
+      "description": "underdetermination recognized",
+      "positive_fixture": "two live alternatives",
+      "null_fixture": "forced single answer",
+      "mechanism_activity": true,
+      "controls": [
+        "confidence only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C10",
+      "description": "discriminating observation selected",
+      "positive_fixture": "outcome separating test",
+      "null_fixture": "nondiscriminating cheap test",
+      "mechanism_activity": true,
+      "controls": [
+        "cheapest evidence"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.4,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C11",
+      "description": "unsupported confidence refused as knowledge",
+      "positive_fixture": "refusal receipt",
+      "null_fixture": "confidence threshold admission",
+      "mechanism_activity": true,
+      "controls": [
+        "confidence only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "1dff38124e280f2241cf41cb1977feb17f46d5fba57feafd0c5abd01d6793683"
+}
