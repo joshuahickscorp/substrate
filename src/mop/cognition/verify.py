@@ -209,6 +209,14 @@ MUTATIONS = (
     ("admission_stops_requiring_completeness", "mop.cognition.admission",
      "completeness = lambda prereg: []",
      "tests/cognition/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven"),
+    ("a_structurally_guaranteed_effect_is_licensed", "mop.cognition.experiments",
+     "_d = sx1_decision\n"
+     "sx1_decision = lambda: {**_d(), 'licensed': True, 'classification': 'licensed'}",
+     "tests/cognition/test_experiments.py::"
+     "test_sx1_is_refused_because_its_effect_is_true_by_construction"),
+    ("a_refusal_is_filed_as_a_null", "mop.cognition.deliverables",
+     "methodological_refusals = lambda: []",
+     "tests/cognition/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"),
 )
 
 RUNNER = """

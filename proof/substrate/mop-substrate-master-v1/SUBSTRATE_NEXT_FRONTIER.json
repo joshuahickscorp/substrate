@@ -45,7 +45,7 @@
   },
   "independence_rule": "the secondary shares no dependency with the primary and is not its ancestor or descendant, so a failed branch closes only its own descendants",
   "program": "mop-substrate-master-v1",
-  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
+  "source_commit": "36c3ae45c45619d8e53e500b69d086bfee8556a7",
   "activation": false,
-  "sha256": "087bd278a9e7e3cbb6af81a7e302f820fc4a5e4a6842a0cbc6948571bf32a70e"
+  "sha256": "74ca882b5656112160688ea90534c5501652d2c164f76857b68d5e5e61712586"
 }

@@ -194,9 +194,19 @@ HYPOTHESES = (
 
 def hypothesis_graph(st: dict) -> dict:
     items = st["items"]
+    refused_by_hypothesis: dict[str, list] = {}
+    for row in methodological_refusals():
+        # a refusal attaches to the hypotheses the refused experiment named, from its own declaration
+        for hypothesis in row.get("hypotheses") or []:
+            refused_by_hypothesis.setdefault(hypothesis, []).append(row["experiment_id"])
     rows = []
     for h in HYPOTHESES:
         row = dict(h)
+        refused = refused_by_hypothesis.get(h["id"], [])
+        if refused and row["state"] == "unopened":
+            row["state"] = "instrument_pending"
+            row["refused_attempts"] = refused
+            row["still_open"] = True
         row["carrying_items"] = [{"id": i, "level": items.get(i, {}).get("level")} for i in h["items"]]
         if h["blocking_null"]:
             row["state"] = "closed"
@@ -216,12 +226,36 @@ def hypothesis_graph(st: dict) -> dict:
     }
 
 
+def methodological_refusals() -> list[dict]:
+    """Experiments the gate refused. A refusal is not a null and is kept in its own list to prove it."""
+    root = io.RUNS / "experiments"
+    rows = []
+    for path in sorted(root.glob("*_decision.json")) if root.is_dir() else []:
+        try:
+            d = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        if d.get("licensed") is False:
+            rows.append({"experiment_id": d.get("experiment_id"), "title": d.get("title"),
+                         "hypotheses": d.get("hypotheses", []),
+                         "blocked_at": d.get("admission", {}).get("blocked_at"),
+                         "causal_graph_violations": d.get("causal_graph_violations", []),
+                         "why": d.get("why"), "successor": d.get("successor"),
+                         "classification": d.get("classification")})
+    return rows
+
+
 def null_map(st: dict) -> dict:
     inherited = [{"program": prog, **_bind(ref), "role": why}
                  for prog, ref, why in INHERITED_AUTHORITIES]
     native = P.null_ledger()
     unresolved = [row["reference"] for row in inherited if not row["resolved"]]
+    refusals = methodological_refusals()
     return {
+        "methodological_refusals": refusals,
+        "refusal_rule": ("a methodological failure is not a scientific null. A refused experiment leaves "
+                         "its hypothesis untested, not refuted, and closes nothing downstream"),
+        "refused_count": len(refusals),
         "schema": "substrate-null-map/v1",
         "binding_rule": ("a null is immutable. It may be superseded only by an appended authority that "
                          "states the new evidence, never by rewriting or relabelling the original"),

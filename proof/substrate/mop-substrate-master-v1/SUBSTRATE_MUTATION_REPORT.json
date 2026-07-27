@@ -177,14 +177,30 @@
       "rejected": true,
       "survivor": false,
       "detail": ""
+    },
+    {
+      "mutation": "a_structurally_guaranteed_effect_is_licensed",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "a_refusal_is_filed_as_a_null",
+      "module": "mop.cognition.deliverables",
+      "guard": "tests/cognition/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
     }
   ],
-  "total": 22,
-  "rejected": 22,
+  "total": 24,
+  "rejected": 24,
   "survivors": [],
   "all_rejected": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
+  "source_commit": "36c3ae45c45619d8e53e500b69d086bfee8556a7",
   "activation": false,
-  "sha256": "98ae2f89ffff1d85bb4f3547fda3502d6fbaf1e7d531d20f445c1d60675f1672"
+  "sha256": "f6e43e6ee008883827a6fd2f725ded6941cc533f8067dfe4e1ba569f4f239b9c"
 }
