@@ -622,8 +622,21 @@ def test_hybrid_head_uses_control_lr_and_batch_stream_and_noise_uses_learned_nor
 def test_code_lifecycle_keeps_resume_surface_active_and_sealed_drivers_frozen():
     assert codelife.classify("src/mop/temporal/runs/supervisor.py") == "active_substrate"
     assert codelife.classify("src/mop/temporal/runs/e2.py") == "active_substrate"
+    assert codelife.classify("src/mop/temporal/receipt_contract.py") == "active_runtime"
+    assert codelife.classify("src/mop/temporal/custody.py") == "active_runtime"
+    assert codelife.classify("src/mop/temporal/io.py") == "active_runtime"
     assert codelife.classify("src/mop/temporal/runs/analyze.py") == "frozen_reproducibility"
     assert codelife.classify("src/mop/temporal/runs/e3.py") == "frozen_reproducibility"
+    rows = codelife.scan()
+    active_e2 = {
+        path: loc for path, loc in rows["active_substrate"].items()
+        if path.startswith("src/mop/temporal")
+    }
+    assert sum(active_e2.values()) <= codelife.TARGETS["new_active_e2_implementation_loc"]
+    assert (
+        sum(rows["active_runtime"].values()) + sum(rows["active_substrate"].values())
+        <= codelife.TARGETS["active_runtime_loc"]
+    )
 
 
 def test_group_contrast_reports_both_confidence_bounds():
