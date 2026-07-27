@@ -1,84 +1,156 @@
 {
   "schema": "substrate-model-body-interface/v1",
-  "message_kinds": [
-    "inference",
-    "hidden_state",
-    "selected_activations",
-    "tool_request",
-    "memory_request",
-    "verification_request",
-    "adaptation_proposal",
-    "resource_report",
-    "checkpoint"
+  "bodies": [
+    {
+      "schema": "substrate-body-compact/v1",
+      "body": "compact_specialist",
+      "class": "compact",
+      "conformance": {
+        "body": "compact_specialist",
+        "mode": "adapter_layer",
+        "implements": [
+          "adaptation_proposal",
+          "checkpoint",
+          "hidden_state",
+          "inference",
+          "memory_request",
+          "resource_report",
+          "selected_activations",
+          "tool_request",
+          "verification_request"
+        ],
+        "missing": [],
+        "declaration_violations": [],
+        "conforms": true,
+        "partial": false
+      },
+      "message_gaps": {},
+      "all_messages_valid": true,
+      "n_parameters": 48,
+      "held_out_accuracy": 0.663916,
+      "views": [
+        "static"
+      ],
+      "tool_dominant": false,
+      "external_blocker": "",
+      "activation": false
+    },
+    {
+      "schema": "substrate-body-general/v1",
+      "body": "larger_general_model",
+      "class": "general",
+      "conformance": {
+        "body": "larger_general_model",
+        "mode": "adapter_layer",
+        "implements": [
+          "adaptation_proposal",
+          "checkpoint",
+          "hidden_state",
+          "inference",
+          "memory_request",
+          "resource_report",
+          "selected_activations",
+          "tool_request",
+          "verification_request"
+        ],
+        "missing": [],
+        "declaration_violations": [],
+        "conforms": true,
+        "partial": false
+      },
+      "message_gaps": {},
+      "all_messages_valid": true,
+      "n_parameters": 144,
+      "held_out_accuracy": 0.670668,
+      "views": [
+        "static",
+        "dynamic",
+        "spread"
+      ],
+      "tool_dominant": false,
+      "external_blocker": "no frontier model weights and no inference credential are present on this machine, so the larger general body is a higher capacity local model rather than a large language model. That instantiation is externally blocked, not unbuilt",
+      "activation": false
+    },
+    {
+      "schema": "substrate-body-tool/v1",
+      "body": "tool_dominant_system",
+      "class": "tool",
+      "conformance": {
+        "body": "tool_dominant_system",
+        "mode": "adapter_layer",
+        "implements": [
+          "adaptation_proposal",
+          "checkpoint",
+          "hidden_state",
+          "inference",
+          "memory_request",
+          "resource_report",
+          "selected_activations",
+          "tool_request",
+          "verification_request"
+        ],
+        "missing": [],
+        "declaration_violations": [],
+        "conforms": true,
+        "partial": false
+      },
+      "message_gaps": {},
+      "all_messages_valid": true,
+      "n_parameters": 96,
+      "held_out_accuracy": 0.651163,
+      "views": [
+        "static",
+        "dynamic"
+      ],
+      "tool_dominant": true,
+      "external_blocker": "",
+      "activation": false
+    }
   ],
-  "required_fields": {
-    "inference": [
-      "input",
-      "output",
-      "seed"
-    ],
-    "hidden_state": [
-      "layer",
-      "shape",
-      "provenance"
-    ],
-    "selected_activations": [
-      "selector",
-      "shape",
-      "provenance"
-    ],
-    "tool_request": [
-      "tool",
-      "arguments",
-      "cost"
-    ],
-    "memory_request": [
-      "store",
-      "query",
-      "permitted_regions"
-    ],
-    "verification_request": [
-      "claim",
-      "method"
-    ],
-    "adaptation_proposal": [
-      "information_used",
-      "affected_state",
-      "reversibility",
-      "cost",
-      "risk",
-      "verification",
-      "rollback"
-    ],
-    "resource_report": [
-      "wall_seconds",
-      "peak_memory",
-      "budget_remaining"
-    ],
-    "checkpoint": [
-      "identity",
-      "sha256"
-    ]
+  "ablations": [
+    "body_alone",
+    "body_plus_memory",
+    "body_plus_temporal_core",
+    "body_plus_arbitration",
+    "body_plus_bounded_adaptation",
+    "full_substrate"
+  ],
+  "ladder": {
+    "compact": {
+      "body_alone": 0.663916,
+      "body_plus_memory": 0.663916,
+      "body_plus_temporal_core": 0.663916,
+      "body_plus_arbitration": 0.663916,
+      "body_plus_bounded_adaptation": 0.663916,
+      "full_substrate": 0.663916
+    },
+    "general": {
+      "body_alone": 0.670668,
+      "body_plus_memory": 0.670668,
+      "body_plus_temporal_core": 0.670668,
+      "body_plus_arbitration": 0.670668,
+      "body_plus_bounded_adaptation": 0.670668,
+      "full_substrate": 0.670668
+    },
+    "tool": {
+      "body_alone": 0.651163,
+      "body_plus_memory": 0.651163,
+      "body_plus_temporal_core": 0.651163,
+      "body_plus_arbitration": 0.651163,
+      "body_plus_bounded_adaptation": 0.651163,
+      "full_substrate": 0.651163
+    }
   },
-  "integration_modes": [
-    "external_cognitive_shell",
-    "sidecar_temporal_core",
-    "adapter_layer",
-    "internal_recurrent_layer",
-    "multi_model_orchestrator",
-    "end_to_end_owned_model"
-  ],
-  "bodies_to_test": [
-    "compact_specialist",
-    "larger_general_model",
-    "tool_dominant_system"
-  ],
-  "why_three_bodies": "running the same Substrate against a compact specialist, a larger general model and a tool dominant system measures how much intelligence must live in weights rather than in state, memory, tools and organization",
-  "attached_bodies": [],
-  "any_body_attached": false,
-  "honest_state": "no model body is attached. The contract exists and is testable; the comparison it would support has not been run and no result is claimed for it",
+  "substrate_gain_over_body_alone": {
+    "compact": 0.0,
+    "general": 0.0,
+    "tool": 0.0
+  },
+  "any_substrate_gain": false,
+  "reading": "no rung of the ladder beats the body alone on this bed. The substrate components measured here add nothing to a classification task that has no temporal decision, no goal and no contradiction to arbitrate, which is what would have made them useful. That is a property of the bed as much as of the substrate, and both are recorded",
+  "external_blocker": "no frontier model weights and no inference credential are present on this machine, so the larger general body is a higher capacity local model rather than a large language model. That instantiation is externally blocked, not unbuilt",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
-  "sha256": "962a67eee0c19ccc281b2c349ec6852cb6347c05da64912eb45490fe44e4094a"
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "sha256": "2e7f0a77c62388893d89e9bf007e5a51c7b0370127762d3f53c91ef58302e535"
 }

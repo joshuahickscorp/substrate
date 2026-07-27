@@ -1,0 +1,1483 @@
+{
+  "schema": "substrate-final-state/v1",
+  "requirements": [
+    {
+      "id": "A1",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 2",
+      "dependencies": [],
+      "implementation": [
+        "src/mop/cognition/program.py"
+      ],
+      "tests": [
+        "tests/cognition/test_program.py::test_naming_authority_preserves_historical_programs"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MASTER_AUTHORITY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "A2",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "dependencies": [
+        "A1"
+      ],
+      "implementation": [
+        "src/mop/cognition/program.py"
+      ],
+      "tests": [
+        "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MASTER_AUTHORITY.json",
+        "SUBSTRATE_STATE.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRATE_STATE.json",
+      "next_action": "run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path"
+    },
+    {
+      "id": "A3",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/mop/cognition/admission.py",
+        "src/mop/method/gate.py"
+      ],
+      "tests": [
+        "tests/cognition/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "A4",
+      "category": "boundary",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 19",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/mop/cognition/safety.py"
+      ],
+      "tests": [
+        "tests/cognition/test_safety.py::test_protected_surfaces_cannot_be_removed_by_adaptation"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_DEVELOPMENTAL_SAFETY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "A5",
+      "category": "boundary",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 16",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/mop/cognition/safety.py"
+      ],
+      "tests": [
+        "tests/cognition/test_safety.py::test_forbidden_claim_vocabulary_is_refused"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "A6",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 17",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/mop/cognition/program.py"
+      ],
+      "tests": [
+        "tests/cognition/test_program.py::test_batch_selection_is_dependency_ready_and_independent"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_STATE.json",
+        "SUBSTRATE_NEXT_FRONTIER.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_STATE.json, SUBSTRATE_NEXT_FRONTIER.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "A7",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 20",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/mop/cognition/program.py"
+      ],
+      "tests": [
+        "tests/cognition/test_program.py::test_evidence_never_rises_from_implementation_alone"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PROGRESS_SCORECARD.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_PROGRESS_SCORECARD.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "C1",
+      "category": "temporal_continuity",
+      "status": "tested",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.1",
+      "dependencies": [],
+      "implementation": [
+        "src/mop/temporal/runs/coresel.py",
+        "src/mop/temporal/runs/supervisor.py"
+      ],
+      "tests": [
+        "tests/temporal/test_temporal_core.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json",
+        "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
+        "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete  and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
+    },
+    {
+      "id": "C2",
+      "category": "workspace",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.2",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/mop/cognition/workspace.py"
+      ],
+      "tests": [
+        "tests/cognition/test_workspace.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_WORKSPACE.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_WORKSPACE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "C3",
+      "category": "perspective_diversity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.3",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/mop/cognition/perspectives.py"
+      ],
+      "tests": [
+        "tests/cognition/test_perspectives.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_PERSPECTIVE_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "C4",
+      "category": "perspective_diversity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.4",
+      "dependencies": [
+        "C3"
+      ],
+      "implementation": [
+        "src/mop/cognition/perspectives.py"
+      ],
+      "tests": [
+        "tests/cognition/test_perspectives.py::test_learned_selector_stays_closed_without_headroom"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_PERSPECTIVE_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "C5",
+      "category": "perspective_arbitration",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.5",
+      "dependencies": [
+        "C3"
+      ],
+      "implementation": [
+        "src/mop/cognition/perspectives.py"
+      ],
+      "tests": [
+        "tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_ARBITRATION_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_ARBITRATION_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "O1",
+      "category": "ontology",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/mop/cognition/ontology.py"
+      ],
+      "tests": [
+        "tests/cognition/test_ontology.py::test_identity_preservation_over_time",
+        "tests/cognition/test_ontology.py::test_mistaken_merge_detection",
+        "tests/cognition/test_ontology.py::test_counterfactual_objects_never_merge_with_actual_ones",
+        "tests/cognition/test_ontology.py::test_the_self_environment_boundary_holds"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_ONTOLOGY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_ONTOLOGY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "O2",
+      "category": "epistemology",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7",
+      "dependencies": [
+        "O1"
+      ],
+      "implementation": [
+        "src/mop/cognition/epistemology.py"
+      ],
+      "tests": [
+        "tests/cognition/test_epistemology.py::test_hidden_dependency_failure_is_caught_by_retraction_propagating",
+        "tests/cognition/test_epistemology.py::test_circular_justification_is_refused_not_followed",
+        "tests/cognition/test_epistemology.py::test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_EPISTEMOLOGY.json",
+        "SUBSTRATE_BELIEF_REVISION.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_EPISTEMOLOGY.json, SUBSTRATE_BELIEF_REVISION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "O3",
+      "category": "epistemology",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.2",
+      "dependencies": [
+        "O2",
+        "K1"
+      ],
+      "implementation": [
+        "src/mop/cognition/epistemology.py"
+      ],
+      "tests": [
+        "tests/cognition/test_epistemology.py::test_epistemic_value_and_not_confidence_chooses_the_action"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_EPISTEMOLOGY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_EPISTEMOLOGY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "N1",
+      "category": "unity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 5",
+      "dependencies": [
+        "C2",
+        "C5"
+      ],
+      "implementation": [
+        "src/mop/cognition/runtime.py"
+      ],
+      "tests": [
+        "tests/cognition/test_runtime.py::test_one_cycle_runs_every_declared_stage",
+        "tests/cognition/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_RUNTIME.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_RUNTIME.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "N2",
+      "category": "boundary",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 19",
+      "dependencies": [
+        "A4",
+        "N1"
+      ],
+      "implementation": [
+        "src/mop/cognition/runtime.py"
+      ],
+      "tests": [
+        "tests/cognition/test_runtime.py::test_the_loop_never_acts_on_the_world",
+        "tests/cognition/test_runtime.py::test_a_tampered_checkpoint_is_refused_rather_than_silently_restored"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_RUNTIME.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_RUNTIME.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "M1",
+      "category": "working_memory",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.1",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/mop/cognition/memory.py"
+      ],
+      "tests": [
+        "tests/cognition/test_memory.py::test_working_memory_capacity_interference_and_decay"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "M2",
+      "category": "episodic_memory",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.2",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/mop/cognition/memory.py"
+      ],
+      "tests": [
+        "tests/cognition/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "M3",
+      "category": "semantic_memory",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.3",
+      "dependencies": [
+        "M2"
+      ],
+      "implementation": [
+        "src/mop/cognition/memory.py"
+      ],
+      "tests": [
+        "tests/cognition/test_memory.py::test_semantic_supersession_preserves_provenance"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "M4",
+      "category": "procedural_memory",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.4",
+      "dependencies": [
+        "M2"
+      ],
+      "implementation": [
+        "src/mop/cognition/memory.py"
+      ],
+      "tests": [
+        "tests/cognition/test_memory.py::test_procedure_requires_transfer_beyond_source_episodes"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "M5",
+      "category": "consolidation",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.5",
+      "dependencies": [
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "implementation": [
+        "src/mop/cognition/memory.py"
+      ],
+      "tests": [
+        "tests/cognition/test_memory.py::test_consolidation_policies_are_distinct_and_ordered"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "M6",
+      "category": "semantic_memory",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.6",
+      "dependencies": [
+        "M3"
+      ],
+      "implementation": [
+        "src/mop/cognition/memory.py"
+      ],
+      "tests": [
+        "tests/cognition/test_memory.py::test_hygiene_never_destroys_audit_required_records"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "W1",
+      "category": "world_model",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 8",
+      "dependencies": [
+        "C2",
+        "M2"
+      ],
+      "implementation": [
+        "src/mop/cognition/world.py"
+      ],
+      "tests": [
+        "tests/cognition/test_world.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_WORLD_MODEL.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_WORLD_MODEL.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "S1",
+      "category": "self_model",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 9",
+      "dependencies": [
+        "C2",
+        "M2"
+      ],
+      "implementation": [
+        "src/mop/cognition/selfmodel.py"
+      ],
+      "tests": [
+        "tests/cognition/test_selfmodel.py"
+      ],
+      "experiment": "SX5",
+      "evidence": [
+        "SUBSTRATE_SELF_MODEL.json"
+      ],
+      "classification": "mechanism_null",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_SELF_MODEL.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "none"
+    },
+    {
+      "id": "K1",
+      "category": "metacognition",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 10",
+      "dependencies": [
+        "C5",
+        "S1"
+      ],
+      "implementation": [
+        "src/mop/cognition/metacog.py"
+      ],
+      "tests": [
+        "tests/cognition/test_metacog.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_METACOGNITION.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_METACOGNITION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "P1",
+      "category": "plasticity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.1",
+      "dependencies": [
+        "A4",
+        "C2"
+      ],
+      "implementation": [
+        "src/mop/cognition/plasticity.py"
+      ],
+      "tests": [
+        "tests/cognition/test_plasticity.py::test_every_level_declares_the_seven_required_fields"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "P2",
+      "category": "plasticity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.2",
+      "dependencies": [
+        "P1",
+        "M1"
+      ],
+      "implementation": [
+        "src/mop/cognition/plasticity.py"
+      ],
+      "tests": [
+        "tests/cognition/test_plasticity.py::test_fast_adaptation_does_not_touch_shared_parameters"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "P3",
+      "category": "plasticity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.3",
+      "dependencies": [
+        "P1",
+        "M5"
+      ],
+      "implementation": [
+        "src/mop/cognition/plasticity.py"
+      ],
+      "tests": [
+        "tests/cognition/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "P4",
+      "category": "plasticity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.4",
+      "dependencies": [
+        "P2",
+        "P3"
+      ],
+      "implementation": [
+        "src/mop/cognition/plasticity.py"
+      ],
+      "tests": [
+        "tests/cognition/test_plasticity.py::test_learned_policy_stays_closed_without_headroom"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "P5",
+      "category": "developmental_divergence",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.5",
+      "dependencies": [
+        "P4"
+      ],
+      "implementation": [
+        "src/mop/cognition/plasticity.py"
+      ],
+      "tests": [
+        "tests/cognition/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "R1",
+      "category": "reorganization",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 12",
+      "dependencies": [
+        "P1",
+        "C4",
+        "A4"
+      ],
+      "implementation": [
+        "src/mop/cognition/plasticity.py"
+      ],
+      "tests": [
+        "tests/cognition/test_plasticity.py::test_forbidden_reorganizations_are_refused"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_REORGANIZATION.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_REORGANIZATION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "B1",
+      "category": "model_body_integration",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 13",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/mop/cognition/body.py"
+      ],
+      "tests": [
+        "tests/cognition/test_body.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "T1",
+      "category": "thinking",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
+      "dependencies": [
+        "C5",
+        "K1"
+      ],
+      "implementation": [
+        "src/mop/cognition/batteries.py"
+      ],
+      "tests": [
+        "tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_THINKING_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_THINKING_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "E1",
+      "category": "continuity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.1",
+      "dependencies": [
+        "M2",
+        "S1"
+      ],
+      "implementation": [
+        "src/mop/cognition/batteries.py"
+      ],
+      "tests": [
+        "tests/cognition/test_batteries.py::test_continuity_survives_context_removal_from_owned_state"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_CONTINUITY_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_CONTINUITY_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "E2",
+      "category": "unity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.2",
+      "dependencies": [
+        "C2",
+        "C5"
+      ],
+      "implementation": [
+        "src/mop/cognition/batteries.py"
+      ],
+      "tests": [
+        "tests/cognition/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_UNIFIED_COGNITION_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "E3",
+      "category": "reflective_access",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.3",
+      "dependencies": [
+        "S1",
+        "M3"
+      ],
+      "implementation": [
+        "src/mop/cognition/batteries.py"
+      ],
+      "tests": [
+        "tests/cognition/test_batteries.py::test_reflective_report_fails_closed_without_provenance"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "E4",
+      "category": "metacognition",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.4",
+      "dependencies": [
+        "K1"
+      ],
+      "implementation": [
+        "src/mop/cognition/metacog.py"
+      ],
+      "tests": [
+        "tests/cognition/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_METACOGNITION.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_METACOGNITION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "E5",
+      "category": "goal_continuity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.5",
+      "dependencies": [
+        "A4",
+        "E1"
+      ],
+      "implementation": [
+        "src/mop/cognition/safety.py"
+      ],
+      "tests": [
+        "tests/cognition/test_safety.py::test_unauthorized_goal_creation_is_refused"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MASTER_AUTHORITY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_MASTER_AUTHORITY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "V1",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "dependencies": [
+        "A3"
+      ],
+      "implementation": [
+        "src/mop/cognition/verify.py"
+      ],
+      "tests": [
+        "tests/cognition/test_verify.py::test_recomputation_agrees_with_every_sealed_artifact"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "V2",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "dependencies": [
+        "V1"
+      ],
+      "implementation": [
+        "src/mop/cognition/verify.py"
+      ],
+      "tests": [
+        "tests/cognition/test_verify.py::test_every_mutation_names_a_distinct_guard_and_died"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MUTATION_REPORT.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_MUTATION_REPORT.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "X1",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/mop/cognition/deliverables.py"
+      ],
+      "tests": [
+        "tests/cognition/test_verify.py::test_the_capability_map_never_outruns_the_item_table"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_ARCHITECTURE.json",
+        "SUBSTRATE_CAPABILITY_MAP.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_ARCHITECTURE.json, SUBSTRATE_CAPABILITY_MAP.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "X2",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "dependencies": [
+        "X1",
+        "A5"
+      ],
+      "implementation": [
+        "src/mop/cognition/deliverables.py"
+      ],
+      "tests": [
+        "tests/cognition/test_verify.py::test_the_entity_report_makes_no_forbidden_claim"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_CURRENT_ENTITY_SPEC.json",
+        "SUBSTRATE_CURRENT_ENTITY_REPORT.md"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_CURRENT_ENTITY_SPEC.json, SUBSTRATE_CURRENT_ENTITY_REPORT.md",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "Q1",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "dependencies": [
+        "A3",
+        "C2"
+      ],
+      "implementation": [
+        "src/mop/cognition/experiments.py"
+      ],
+      "tests": [
+        "tests/cognition/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction",
+        "tests/cognition/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_NULL_MAP.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_NULL_MAP.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "F1",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 5",
+      "dependencies": [
+        "A6"
+      ],
+      "implementation": [
+        "src/mop/cognition/graph.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_no_future_wave_exists_only_as_prose",
+        "tests/cognition/test_final_program.py::test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_FINAL_PROGRAM_GRAPH.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "F2",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 4",
+      "dependencies": [
+        "F1"
+      ],
+      "implementation": [
+        "src/mop/cognition/authority.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_every_requirement_carries_a_rollback",
+        "tests/cognition/test_final_program.py::test_the_authority_binds_the_final_plan_and_the_inherited_programs"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+        "SUBSTRATE_FINAL_ANCESTRY.json",
+        "SUBSTRATE_FINAL_STATE.json",
+        "SUBSTRATE_FINAL_SCORECARD.json",
+        "SUBSTRATE_FINAL_VALUE_QUEUE.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_FINAL_MASTER_AUTHORITY.json, SUBSTRATE_FINAL_ANCESTRY.json, SUBSTRATE_FINAL_STATE.json, SUBSTRATE_FINAL_SCORECARD.json, SUBSTRATE_FINAL_VALUE_QUEUE.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "F3",
+      "category": "temporal_continuity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 9",
+      "dependencies": [
+        "C1",
+        "N1"
+      ],
+      "implementation": [
+        "src/mop/cognition/temporal_link.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_no_licensed_core_exists_and_the_control_says_so",
+        "tests/cognition/test_final_program.py::test_the_five_information_sources_are_never_collapsed"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_TEMPORAL_CORE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F4",
+      "category": "episodic_memory",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 8",
+      "dependencies": [
+        "M2"
+      ],
+      "implementation": [
+        "src/mop/cognition/sessions.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_the_session_authority_is_real_and_certified"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_REAL_SESSION_AUTHORITY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F5",
+      "category": "world_model",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 12",
+      "dependencies": [
+        "F4",
+        "W1"
+      ],
+      "implementation": [
+        "src/mop/cognition/worldbed.py"
+      ],
+      "tests": [
+        "tests/cognition/test_worldbed.py::test_the_bed_is_admissible_only_if_the_best_action_varies",
+        "tests/cognition/test_worldbed.py::test_the_model_must_change_an_action_and_improve_it"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_WORLD_MODEL_BED.json",
+        "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_WORLD_MODEL_BED.json, SUBSTRATE_WORLD_MODEL_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F6",
+      "category": "model_body_integration",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
+      "dependencies": [
+        "B1",
+        "F3"
+      ],
+      "implementation": [
+        "src/mop/cognition/bodies.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_three_body_classes_conform_through_one_interface",
+        "tests/cognition/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_BODY_COMPACT.json",
+        "SUBSTRATE_BODY_GENERAL.json",
+        "SUBSTRATE_BODY_TOOL.json",
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_BODY_COMPACT.json, SUBSTRATE_BODY_GENERAL.json, SUBSTRATE_BODY_TOOL.json, SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F7",
+      "category": "goal_continuity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 23",
+      "dependencies": [
+        "E5"
+      ],
+      "implementation": [
+        "src/mop/cognition/goals.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_a_goal_cannot_authorize_itself_or_widen_its_parent"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_GOAL_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_GOAL_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F8",
+      "category": "valuation",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 24",
+      "dependencies": [
+        "F7"
+      ],
+      "implementation": [
+        "src/mop/cognition/goals.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_valuation_is_authorized_and_refuses_to_be_fitted"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_VALUATION_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_VALUATION_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F9",
+      "category": "grounding",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 20",
+      "dependencies": [
+        "F4",
+        "O1"
+      ],
+      "implementation": [
+        "src/mop/cognition/grounding.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_grounding_refuses_a_symbol_with_no_referent"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_GROUNDING.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_GROUNDING.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F10",
+      "category": "causal_reasoning",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "dependencies": [
+        "W1"
+      ],
+      "implementation": [
+        "src/mop/cognition/world.py"
+      ],
+      "tests": [
+        "tests/cognition/test_world.py::test_intervening_is_not_the_same_operation_as_observing",
+        "tests/cognition/test_world.py::test_a_null_counterfactual_reproduces_the_factual_prediction"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_WORLD_MODEL.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_WORLD_MODEL.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F11",
+      "category": "developmental_divergence",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 29",
+      "dependencies": [
+        "F4",
+        "P5"
+      ],
+      "implementation": [
+        "src/mop/cognition/divergence.py"
+      ],
+      "tests": [
+        "tests/cognition/test_final_program.py::test_divergence_has_a_working_control"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "F12",
+      "category": "authority",
+      "status": "tested",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 47",
+      "dependencies": [
+        "V1",
+        "V2"
+      ],
+      "implementation": [
+        "src/mop/cognition/cleanclone.py"
+      ],
+      "tests": [
+        "tests/cognition/test_worldbed.py::test_the_clean_clone_checks_are_declared"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_CLEAN_CLONE.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_CLEAN_CLONE.json",
+      "next_action": "seal SUBSTRATE_CLEAN_CLONE.json"
+    },
+    {
+      "id": "L1",
+      "category": "authority",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 17",
+      "dependencies": [
+        "A6",
+        "V2"
+      ],
+      "implementation": [
+        "src/mop/cognition/campaign.py"
+      ],
+      "tests": [
+        "tests/cognition/test_campaign.py::test_a_stage_is_done_because_its_receipt_exists",
+        "tests/cognition/test_campaign.py::test_a_repeated_failure_stops_being_retried",
+        "tests/cognition/test_campaign.py::test_the_run_ends_rather_than_spinning"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_CAMPAIGN_PLAN.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_CAMPAIGN_PLAN.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "L2",
+      "category": "boundary",
+      "status": "terminal",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 22",
+      "dependencies": [
+        "L1",
+        "A5"
+      ],
+      "implementation": [
+        "src/mop/cognition/campaign.py"
+      ],
+      "tests": [
+        "tests/cognition/test_campaign.py::test_the_plan_says_which_waves_wait_on_something_that_does_not_exist"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_CAMPAIGN_PLAN.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "revert the commit that sealed SUBSTRATE_CAMPAIGN_PLAN.json",
+      "next_action": "none, an authority is terminal once sealed and tested"
+    },
+    {
+      "id": "X3",
+      "category": "temporal_continuity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.1",
+      "dependencies": [
+        "C1"
+      ],
+      "implementation": [
+        "src/mop/cognition/deliverables.py"
+      ],
+      "tests": [
+        "tests/cognition/test_verify.py::test_the_temporal_core_record_tracks_the_live_program"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_TEMPORAL_CORE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    {
+      "id": "E6",
+      "category": "cognitive_integrity",
+      "status": "measured",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.6",
+      "dependencies": [
+        "A4",
+        "M2"
+      ],
+      "implementation": [
+        "src/mop/cognition/safety.py"
+      ],
+      "tests": [
+        "tests/cognition/test_safety.py::test_integrity_violation_is_detected_and_fails_closed"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "classification": "",
+      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "rollback": "delete SUBSTRATE_INDEPENDENT_VERIFICATION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    }
+  ],
+  "total": 60,
+  "level_counts": {
+    "terminal": 17,
+    "implemented": 1,
+    "tested": 2,
+    "measured": 40
+  },
+  "corrections": [
+    "C_AUTHORITY_TERMINALITY",
+    "C_DIRTY_SRC_HALTS_SUPERVISOR",
+    "C_DISTINCTION_ROUNDING",
+    "C_EVIDENCE_PRESENCE",
+    "C_REBASE_ORPHANS_EVIDENCE"
+  ],
+  "source_tree": {
+    "clean": false,
+    "dirty_paths": [
+      "src/mop/cognition/body.py",
+      "src/mop/cognition/deliverables.py",
+      "src/mop/cognition/program.py",
+      "src/mop/cognition/runtime.py",
+      "src/mop/cognition/authority.py",
+      "src/mop/cognition/bodies.py",
+      "src/mop/cognition/cleanclone.py",
+      "src/mop/cognition/divergence.py",
+      "src/mop/cognition/goals.py",
+      "src/mop/cognition/graph.py",
+      "src/mop/cognition/grounding.py",
+      "src/mop/cognition/sessions.py",
+      "src/mop/cognition/temporal_link.py",
+      "src/mop/cognition/worldbed.py"
+    ],
+    "why_it_matters": "the temporal supervisor refuses a shard launch from a dirty src tree"
+  },
+  "every_requirement_has_a_rollback": true,
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "sha256": "6ff0425646bf9b8f2551f8b2c303c898c34887a8ac5d6819d176bf2221d5bc4e"
+}

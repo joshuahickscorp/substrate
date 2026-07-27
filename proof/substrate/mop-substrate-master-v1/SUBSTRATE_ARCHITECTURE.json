@@ -75,6 +75,7 @@
       "role": "causal graph plus tabular dynamics, four distinctions",
       "present": true,
       "items": [
+        "F10",
         "W1"
       ],
       "levels": [
@@ -201,6 +202,6 @@
   "no_parallel_framework": "Substrate stages reuse the temporal supervisor, the method admission gate and the existing evidence fabric",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
-  "sha256": "fb8e380a3b49389b225a734138c5f72f3dd6f04b9dbc6afebed52ede23a2a129"
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "sha256": "1c08f18fe5dd7d6411c9689bd3ce099ad5d70fb34ecbfd563931705a3ec48b6f"
 }

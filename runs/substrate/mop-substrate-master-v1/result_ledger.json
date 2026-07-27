@@ -51,7 +51,7 @@
         "sesoi": 0.05,
         "reading": "learning the offset roughly halves calibration error in both directions, and the improvement is between 0.02 and 0.03, below the 0.05 the program preregistered as the smallest effect worth caring about"
       },
-      "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+      "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
     }
   }
 }

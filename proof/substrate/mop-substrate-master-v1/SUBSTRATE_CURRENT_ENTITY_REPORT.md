@@ -1,6 +1,6 @@
 # Substrate: what the entity currently is
 
-Generated from the tree at commit `f301a72120da308c2555d57fde4d6649082da3b2`. Every number below is derived from the
+Generated from the tree at commit `66e2d09264e52bea3d9285b8f47c79e247f0a8b0`. Every number below is derived from the
 repository, and any number that would require evidence nobody has measured is reported as zero
 rather than estimated.
 
@@ -8,10 +8,10 @@ rather than estimated.
 
 | category | implementation | evidence |
 |---|---:|---:|
-| temporal_continuity | 95% | 0% |
+| temporal_continuity | 97% | 0% |
 | ontology | 100% | 0% |
 | epistemology | 100% | 0% |
-| workspace | 0% | 0% |
+| workspace | 100% | 0% |
 | working_memory | 100% | 0% |
 | episodic_memory | 100% | 0% |
 | semantic_memory | 100% | 0% |
@@ -21,19 +21,19 @@ rather than estimated.
 | perspective_diversity | 100% | 0% |
 | perspective_arbitration | 100% | 0% |
 | metacognition | 100% | 0% |
-| grounding | 0% | 0% |
-| causal_reasoning | 0% | 0% |
+| grounding | 100% | 0% |
+| causal_reasoning | 100% | 0% |
 | goal_continuity | 100% | 0% |
-| valuation | 0% | 0% |
+| valuation | 100% | 0% |
 | plasticity | 100% | 0% |
 | consolidation | 100% | 0% |
 | reorganization | 100% | 0% |
 | developmental_divergence | 100% | 0% |
-| thinking | 0% | 0% |
-| continuity | 0% | 0% |
+| thinking | 100% | 0% |
+| continuity | 100% | 0% |
 | unity | 100% | 0% |
 | reflective_access | 100% | 0% |
-| cognitive_integrity | 0% | 0% |
+| cognitive_integrity | 100% | 0% |
 | model_body_integration | 100% | 0% |
 
 Implementation is high because the declared surfaces exist and their tests pass. Evidence is
@@ -64,8 +64,8 @@ the selection is terminal and independently verified
 
 ## The exact next frontier
 
-Primary: C1, Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
+Primary: A2, Master deliverable set exists and binds to real things. run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path
 
-Secondary: O1, Typed ontology with the nine distinctions it refuses to collapse. classify the result through mop.method.gate.classify_result and record it
+Secondary: C1, Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
 
 Activation remains false.

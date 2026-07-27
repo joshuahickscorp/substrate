@@ -8,15 +8,16 @@
     "capabilities_total": 20
   },
   "item_levels": {
-    "terminal": 16,
-    "tested": 1,
-    "measured": 31
+    "terminal": 17,
+    "implemented": 1,
+    "tested": 2,
+    "measured": 40
   },
   "implementation_by_category": {
-    "temporal_continuity": 95,
+    "temporal_continuity": 97,
     "ontology": 100,
     "epistemology": 100,
-    "workspace": 0,
+    "workspace": 100,
     "working_memory": 100,
     "episodic_memory": 100,
     "semantic_memory": 100,
@@ -26,19 +27,19 @@
     "perspective_diversity": 100,
     "perspective_arbitration": 100,
     "metacognition": 100,
-    "grounding": 0,
-    "causal_reasoning": 0,
+    "grounding": 100,
+    "causal_reasoning": 100,
     "goal_continuity": 100,
-    "valuation": 0,
+    "valuation": 100,
     "plasticity": 100,
     "consolidation": 100,
     "reorganization": 100,
     "developmental_divergence": 100,
-    "thinking": 0,
-    "continuity": 0,
+    "thinking": 100,
+    "continuity": 100,
     "unity": 100,
     "reflective_access": 100,
-    "cognitive_integrity": 0,
+    "cognitive_integrity": 100,
     "model_body_integration": 100
   },
   "evidence_by_category": {
@@ -112,6 +113,6 @@
   ],
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
-  "sha256": "ea75da8a6298683adfbb961f7787325a6f7682283262923f61238033d27ba404"
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "sha256": "1f292cc731de6bb8844d17f47dcce9b0385286538e73807a675aa0394b07685c"
 }

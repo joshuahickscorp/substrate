@@ -1,78 +1,5 @@
 {
-  "schema": "substrate-progress-scorecard/v1",
-  "rule": "implementation rises when declared files exist and declared tests pass. Evidence rises only when an item carries a scientific classification produced by the method kernel. Code existing never raises evidence",
-  "reading_the_evidence_column": "a category at 100 percent evidence has been measured, not vindicated. Read the classifications beside it: a mechanism null is earned knowledge and is not a positive",
-  "categories_with_a_positive": [],
-  "entry_baseline_2026_07_27": {
-    "experimental_validity_and_falsification": {
-      "implementation_pct": 95,
-      "evidence_pct": 95
-    },
-    "campaign_orchestration": {
-      "implementation_pct": 90,
-      "evidence_pct": 90
-    },
-    "failure_and_null_understanding": {
-      "implementation_pct": 90,
-      "evidence_pct": 90
-    },
-    "owned_temporal_substrate_implementation": {
-      "implementation_pct": 80,
-      "evidence_pct": 60
-    },
-    "minimal_temporal_core_identification": {
-      "implementation_pct": 50,
-      "evidence_pct": 40
-    },
-    "working_memory": {
-      "implementation_pct": 25,
-      "evidence_pct": 10
-    },
-    "episodic_and_semantic_memory": {
-      "implementation_pct": 20,
-      "evidence_pct": 5
-    },
-    "useful_plasticity": {
-      "implementation_pct": 20,
-      "evidence_pct": 10
-    },
-    "world_model": {
-      "implementation_pct": 15,
-      "evidence_pct": 5
-    },
-    "self_model": {
-      "implementation_pct": 5,
-      "evidence_pct": 0
-    },
-    "perspective_generation": {
-      "implementation_pct": 20,
-      "evidence_pct": 10
-    },
-    "perspective_arbitration": {
-      "implementation_pct": 15,
-      "evidence_pct": 5
-    },
-    "metacognition": {
-      "implementation_pct": 10,
-      "evidence_pct": 5
-    },
-    "functional_self_reorganization": {
-      "implementation_pct": 5,
-      "evidence_pct": 0
-    },
-    "unified_cross_domain_entity": {
-      "implementation_pct": 10,
-      "evidence_pct": 5
-    },
-    "developmental_artificial_cognition": {
-      "implementation_pct": 5,
-      "evidence_pct": 0
-    },
-    "overall_substrate_vision": {
-      "implementation_pct": 35,
-      "evidence_pct": 20
-    }
-  },
+  "schema": "substrate-final-scorecard/v1",
   "categories": {
     "temporal_continuity": {
       "implementation_pct": 97,
@@ -364,13 +291,22 @@
       "any_positive": false
     }
   },
+  "categories_with_a_positive": [],
+  "reading_the_evidence_column": "a category at 100 percent evidence has been measured, not vindicated. Read the classifications beside it: a mechanism null is earned knowledge and is not a positive",
   "implementation_target_band": [
     80,
     95
   ],
-  "evidence_policy": "earned only",
+  "evidence_target_band": [
+    50,
+    75
+  ],
+  "evidence_target_note": "section 43 sets fifty to seventy five percent before a subsystem is treated as established. No subsystem is there",
+  "sentience_has_no_score": true,
+  "graph_terminal_nodes": 24,
+  "graph_nodes": 26,
+  "activation": false,
   "program": "mop-substrate-master-v1",
   "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-  "activation": false,
-  "sha256": "dcb3fdf874c2ccd21ad67a72878c80a3d0cd6a18b80053c8b2acfef5ace2c950"
+  "sha256": "3e66b63367fb751c77612c3d491b2f35a28fb582d07663f88541ba7a58e865d0"
 }

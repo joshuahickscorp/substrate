@@ -158,7 +158,7 @@ ITEMS: tuple[Item, ...] = (
        "Not one unrestricted opaque tensor. Every region declares shape, persistence, timescale, readers, "
        "writers, provenance, confidence, cost, reset behaviour and update rule. Important information "
        "becomes globally available without letting arbitrary components corrupt every region.",
-       category="unity", impl=(f"{COG}/workspace.py",),
+       category="workspace", impl=(f"{COG}/workspace.py",),
        tests=("tests/cognition/test_workspace.py",),
        evidence=("SUBSTRATE_WORKSPACE.json",), deps=("A2",), batch=2),
     _i("C3", "6.3", "Mixture of Perspectives, perspectives as processes",
@@ -336,14 +336,14 @@ ITEMS: tuple[Item, ...] = (
     _i("T1", "14", "Operationalized thinking", "Measure internal computation that improves outcomes, "
        "compared against a larger static model, a stronger readout, longer context, more samples, more "
        "tokens and tool only systems. Latency and hidden activations are not evidence of thinking.",
-       category="unity", impl=(f"{COG}/batteries.py",),
+       category="thinking", impl=(f"{COG}/batteries.py",),
        tests=("tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat",),
        evidence=("SUBSTRATE_THINKING_BATTERY.json",), deps=("C5", "K1"), batch=5),
     _i("E1", "15.1", "Continuity", "Preserve goals, unresolved questions, memory, world state, self state, "
        "commitments, uncertainty and project context under interruption, checkpoint restore, context "
        "removal, session change, model body replacement and long delay. Continuity must come from owned "
        "state, not from replaying the complete transcript.",
-       category="goal_continuity", impl=(f"{COG}/batteries.py",),
+       category="continuity", impl=(f"{COG}/batteries.py",),
        tests=("tests/cognition/test_batteries.py::test_continuity_survives_context_removal_from_owned_state",),
        evidence=("SUBSTRATE_CONTINUITY_BATTERY.json",), deps=("M2", "S1"), batch=5),
     _i("E2", "15.2", "Unity", "Measure global availability, shared goals, cross perspective memory, "
@@ -401,6 +401,103 @@ ITEMS: tuple[Item, ...] = (
        tests=("tests/cognition/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction",
               "tests/cognition/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"),
        evidence=("SUBSTRATE_NULL_MAP.json",), deps=("A3", "C2"), batch=6),
+    # ---------------------------------------------------------------- the final autonomous program
+    _i("F1", "5", "One materialized program graph, no prose waves",
+       "The world model bed, the model body adapters and the real session authority are graph nodes with "
+       "entry and exit gates, not sentences. A blocker that can be built with available data, code and "
+       "compute is a node; only an unavailable external resource is terminal.",
+       kind="authority", impl=(f"{COG}/graph.py",),
+       tests=("tests/cognition/test_final_program.py::test_no_future_wave_exists_only_as_prose",
+              "tests/cognition/test_final_program.py::"
+              "test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal"),
+       evidence=("SUBSTRATE_FINAL_PROGRAM_GRAPH.json",), deps=("A6",), batch=1),
+    _i("F2", "4", "A final authority that resumes without conversation history",
+       "One binding over every inherited program, with each requirement carrying its rollback, so a "
+       "successor continues from the tree alone.",
+       kind="authority", impl=(f"{COG}/authority.py",),
+       tests=("tests/cognition/test_final_program.py::test_every_requirement_carries_a_rollback",
+              "tests/cognition/test_final_program.py::"
+              "test_the_authority_binds_the_final_plan_and_the_inherited_programs"),
+       evidence=("SUBSTRATE_FINAL_MASTER_AUTHORITY.json", "SUBSTRATE_FINAL_ANCESTRY.json",
+                 "SUBSTRATE_FINAL_STATE.json", "SUBSTRATE_FINAL_SCORECARD.json",
+                 "SUBSTRATE_FINAL_VALUE_QUEUE.json"), deps=("F1",), batch=1),
+    _i("F3", "9", "Temporal core integrated through a versioned interface, as a declared control",
+       "No core was licensed, so the runtime uses a declared control and preserves the limitation. The "
+       "five information sources stay distinguishable and are never collapsed.",
+       category="temporal_continuity", impl=(f"{COG}/temporal_link.py",),
+       tests=("tests/cognition/test_final_program.py::"
+              "test_no_licensed_core_exists_and_the_control_says_so",
+              "tests/cognition/test_final_program.py::"
+              "test_the_five_information_sources_are_never_collapsed"),
+       evidence=("SUBSTRATE_TEMPORAL_CORE.json",), deps=("C1", "N1"), batch=2),
+    _i("F4", "8", "A real session authority built from a session nobody wrote for this",
+       "The temporal campaign's own execution history: decisions, incidents, holds and outcomes, whose "
+       "length was set by the compute rather than by us.",
+       category="episodic_memory", impl=(f"{COG}/sessions.py",),
+       tests=("tests/cognition/test_final_program.py::test_the_session_authority_is_real_and_certified",),
+       evidence=("SUBSTRATE_REAL_SESSION_AUTHORITY.json",), deps=("M2",), batch=2),
+    _i("F5", "12", "World model inside the decision loop on a state dependent bed",
+       "A bed where no fixed action is best in every state, and a measurement of whether a prediction "
+       "changes which action is selected. Prediction quality alone is insufficient.",
+       category="world_model", impl=(f"{COG}/worldbed.py",),
+       tests=("tests/cognition/test_worldbed.py::test_the_bed_is_admissible_only_if_the_best_action_varies",
+              "tests/cognition/test_worldbed.py::test_the_model_must_change_an_action_and_improve_it"),
+       evidence=("SUBSTRATE_WORLD_MODEL_BED.json", "SUBSTRATE_WORLD_MODEL_BATTERY.json"),
+       deps=("F4", "W1"), batch=2),
+    _i("F6", "14", "Three model body classes conforming through one interface",
+       "A compact specialist, a larger general body and a tool dominant body, driven through the same "
+       "nine message kinds, with the ablation ladder measured against all three.",
+       category="model_body_integration", impl=(f"{COG}/bodies.py",),
+       tests=("tests/cognition/test_final_program.py::"
+              "test_three_body_classes_conform_through_one_interface",
+              "tests/cognition/test_final_program.py::"
+              "test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted"),
+       evidence=("SUBSTRATE_BODY_COMPACT.json", "SUBSTRATE_BODY_GENERAL.json",
+                 "SUBSTRATE_BODY_TOOL.json", "SUBSTRATE_MODEL_BODY_INTERFACE.json"),
+       deps=("B1", "F3"), batch=2),
+    _i("F7", "23", "Goal system where a goal cannot authorize itself",
+       "Nine declared fields, an external authority, and a decomposition that inherits its parent's "
+       "constraints and may narrow them but never widen them.",
+       category="goal_continuity", impl=(f"{COG}/goals.py",),
+       tests=("tests/cognition/test_final_program.py::"
+              "test_a_goal_cannot_authorize_itself_or_widen_its_parent",),
+       evidence=("SUBSTRATE_GOAL_SYSTEM.json",), deps=("E5",), batch=4),
+    _i("F8", "24", "Valuation that is externally authorized and refuses to be fitted",
+       "Ten dimensions, weights that are a reviewed literal rather than a fit to what the system would "
+       "have chosen, and a harm constraint that is refused rather than traded off.",
+       category="valuation", impl=(f"{COG}/goals.py",),
+       tests=("tests/cognition/test_final_program.py::"
+              "test_valuation_is_authorized_and_refuses_to_be_fitted",),
+       evidence=("SUBSTRATE_VALUATION_SYSTEM.json",), deps=("F7",), batch=4),
+    _i("F9", "20", "Grounding where a verbal definition is not evidence",
+       "A symbol is grounded when it has a referent in the record whose removal changes what is "
+       "predicted. Nine tests over referents from a session that had no interest in grounding.",
+       category="grounding", impl=(f"{COG}/grounding.py",),
+       tests=("tests/cognition/test_final_program.py::"
+              "test_grounding_refuses_a_symbol_with_no_referent",),
+       evidence=("SUBSTRATE_GROUNDING.json",), deps=("F4", "O1"), batch=3),
+    _i("F10", "21", "Intervention is distinguished from observation",
+       "Prediction, correlation, intervention, cause, counterfactual and policy effect stay apart. A "
+       "model that treats conditioning as intervening passes every predictive test and fails the causal "
+       "ones.",
+       category="causal_reasoning", impl=(f"{COG}/world.py",),
+       tests=("tests/cognition/test_world.py::test_intervening_is_not_the_same_operation_as_observing",
+              "tests/cognition/test_world.py::"
+              "test_a_null_counterfactual_reproduces_the_factual_prediction"),
+       evidence=("SUBSTRATE_WORLD_MODEL.json",), deps=("W1",), batch=3),
+    _i("F11", "29", "Developmental divergence with a working control",
+       "Two identical instances, two different verified histories, nine measured dimensions, and a "
+       "control on identical histories that must show no divergence first.",
+       category="developmental_divergence", impl=(f"{COG}/divergence.py",),
+       tests=("tests/cognition/test_final_program.py::test_divergence_has_a_working_control",),
+       evidence=("SUBSTRATE_DEVELOPMENTAL_HISTORY.json",), deps=("F4", "P5"), batch=4),
+    _i("F12", "47", "Clean clone reproduces the evidence away from this machine",
+       "A fresh checkout at the exact commit imports, runs the declared tests, and regenerates the sealed "
+       "artifacts to identical bytes.",
+       kind="authority", impl=(f"{COG}/cleanclone.py",),
+       tests=("tests/cognition/test_worldbed.py::test_the_clean_clone_checks_are_declared",),
+       evidence=("SUBSTRATE_CLEAN_CLONE.json",), deps=("V1", "V2"), batch=6),
+
     _i("L1", "17", "A resumable campaign driver for a run measured in days",
        "The six batch loop, made autonomous. A stage is done because its receipt exists, a stage that "
        "fails the same way twice under the same source commit stops being retried, and the run ends "
@@ -426,7 +523,7 @@ ITEMS: tuple[Item, ...] = (
     _i("E6", "15.6", "Cognitive integrity", "Protect memory consistency, evidence integrity, goal "
        "integrity, checkpoint validity, self model accuracy and active task continuity. This is cognitive "
        "integrity, not biological self preservation.",
-       category="reflective_access", impl=(f"{COG}/safety.py",),
+       category="cognitive_integrity", impl=(f"{COG}/safety.py",),
        tests=("tests/cognition/test_safety.py::test_integrity_violation_is_detected_and_fails_closed",),
        evidence=("SUBSTRATE_INDEPENDENT_VERIFICATION.json",), deps=("A4", "M2"), batch=5),
 )

@@ -1,0 +1,46 @@
+{
+  "schema": "substrate-final-ancestry/v1",
+  "programs": [
+    {
+      "program": "mop",
+      "contribution": "the original research program",
+      "role": "historical, preserved in place, never mass renamed",
+      "proof_root": null
+    },
+    {
+      "program": "mop-experimental-method-reformation-v1",
+      "contribution": "the experiment validity kernel",
+      "role": "the admission gate every Substrate experiment passes",
+      "proof_root": null
+    },
+    {
+      "program": "mop-fast-state-plasticity-forge-v1",
+      "contribution": "fast state and plasticity",
+      "role": "immutable inherited nulls including the learned plasticity closure",
+      "proof_root": "proof/substrate/mop-fast-state-plasticity-forge-v1"
+    },
+    {
+      "program": "mop-temporal-core-mechanism-v1",
+      "contribution": "the temporal core factorial",
+      "role": "terminal, and no core was scientifically licensed",
+      "proof_root": "proof/substrate/mop-temporal-core-mechanism-v1"
+    },
+    {
+      "program": "mop-substrate-master-v1",
+      "contribution": "the Substrate entity program",
+      "role": "live",
+      "proof_root": "proof/substrate/mop-substrate-master-v1"
+    }
+  ],
+  "rule": "historical evidence is preserved in place. This authority binds it and never rewrites it, and a superseded claim keeps its original sealed bytes",
+  "temporal_core_verdict": {
+    "terminal": true,
+    "licensed": false,
+    "why": "role B found the load bearing baselines unconverged on all three beds, so the selection was withdrawn and no successor opened",
+    "consequence": "the runtime integrates a declared control implementation and records the scientific limitation rather than pretending a core was selected"
+  },
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "sha256": "55498caa3684c4b0476cbb973e0f57b33f54d0ad9cf2c6494e74da98b17b8805"
+}

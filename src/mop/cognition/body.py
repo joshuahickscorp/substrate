@@ -66,11 +66,18 @@ class BodyContract:
         return [k for k in MESSAGE_KINDS if k not in self.implements]
 
 
+def _absent(value) -> bool:
+    """Membership testing against a tuple calls __eq__, which a numpy array answers elementwise and then
+    refuses to reduce to one truth value. A body returning a prediction array made the validator raise
+    instead of validating. Absent means None or the empty string, and nothing else."""
+    return value is None or (isinstance(value, str) and not value)
+
+
 def validate_message(kind: str, message: dict) -> list[str]:
     if kind not in MESSAGE_KINDS:
         raise Refused(f"unknown message kind {kind!r}")
     return [f"{kind}: {field} not supplied" for field in REQUIRED_FIELDS[kind]
-            if message.get(field) in (None, "")]
+            if _absent(message.get(field))]
 
 
 def conformance(contract: BodyContract) -> dict:

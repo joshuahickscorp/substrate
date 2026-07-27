@@ -1,0 +1,52 @@
+{
+  "schema": "substrate-world-model-bed/v1",
+  "source": "the temporal supervisor's scheduling history, via the real session authority",
+  "n_transitions": 340,
+  "resource_classes": [
+    "large_class_isolated",
+    "operator_override",
+    "small"
+  ],
+  "cap_buckets": [
+    "0_8",
+    "9_16",
+    "17_24",
+    "25_plus"
+  ],
+  "state_action_table": {
+    "large_class_isolated|9_16": {
+      "n": 24,
+      "mean_progress": 1.0
+    },
+    "large_class_isolated|0_8": {
+      "n": 16,
+      "mean_progress": 0.5625
+    },
+    "operator_override|9_16": {
+      "n": 126,
+      "mean_progress": 1.714286
+    },
+    "operator_override|0_8": {
+      "n": 152,
+      "mean_progress": 1.151316
+    },
+    "small|17_24": {
+      "n": 22,
+      "mean_progress": 1.090909
+    }
+  },
+  "best_action_by_class": {
+    "large_class_isolated": "9_16",
+    "operator_override": "9_16",
+    "small": "17_24"
+  },
+  "distinct_best_actions": 2,
+  "state_dependent_decision": true,
+  "admissible": true,
+  "refusal_reason": "",
+  "why_this_bed": "the record was written to run a factorial. Its states, actions and outcomes were not chosen to make a world model look useful",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "sha256": "86c63edb6f81bd5ca0513efc0bbb0140c6f2c5a318631ac1dd22abb57946220e"
+}

@@ -1,77 +1,30 @@
 {
-  "measurement_boundaries": [
-    {
-      "hypothesis": "H_typed_workspace",
-      "classification": "no_bed_can_answer_at_this_effect_size",
-      "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered",
-      "screened": [
-        {
-          "bed": "harth_stream",
-          "available": true,
-          "n_train_units": 15,
-          "mean_reliability": {
-            "static": 0.576894,
-            "dynamic": 0.545188
-          },
-          "oracle_ceiling": 0.036124,
-          "oracle_ceiling_lower_95_cb": 0.003234,
-          "clears_sesoi": false
-        },
-        {
-          "bed": "pamap2_stream",
-          "available": true,
-          "n_train_units": 6,
-          "mean_reliability": {
-            "static": 0.386473,
-            "dynamic": 0.323413
-          },
-          "oracle_ceiling": 0.038403,
-          "oracle_ceiling_lower_95_cb": -0.010695,
-          "clears_sesoi": false
-        }
-      ],
-      "not_a_null": "a hypothesis nothing can currently measure is untested, not refuted. Nothing downstream of H_typed_workspace closes"
-    }
-  ],
-  "boundary_rule": "a hypothesis nothing under custody can measure at the declared effect size is untested, not refuted. The SESOI is not lowered to manufacture a candidate",
-  "methodological_refusals": [
-    {
-      "experiment_id": "SX1",
-      "title": "does a typed workspace beat an untyped one of matched capacity on a synthetic bed",
-      "hypotheses": [
-        "H_capacity_only",
-        "H_typed_workspace"
-      ],
-      "blocked_at": "causal_model",
-      "causal_graph_violations": [
-        "treatment typed declares an implementation but no implemented causal path",
-        "primary outcome answer has no measured relation feeding it",
-        "claim claim is broader than the measured path, unmeasured: ['answer']"
-      ],
-      "why": "on a synthetic bed the comparison has a closed form. Typing refuses writes from an undeclared component, so which arm wins follows from the two reliabilities the generator was given. The treatment to outcome edge is a structural guarantee, no measured relation reaches the outcome, and the claim is therefore broader than the measured path",
-      "successor": "SX1b",
-      "classification": "methodological_refusal"
+  "schema": "substrate-final-master-authority/v1",
+  "supersedes": "SUBSTRATE_MASTER_PLAN.md as the top level program structure, without invalidating anything it sealed",
+  "plans": {
+    "final": {
+      "path": "/Users/scammermike/Downloads/SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "sha256": "b7d5fc77965ec40366f6e53ed61219f539486b4bf70e7c2552c3a875b9c3ff97",
+      "resolved": true
     },
-    {
-      "experiment_id": "SX1b",
-      "title": "does a write restriction fitted on training units still help on source groups it has never seen",
-      "hypotheses": [
-        "H_typed_workspace",
-        "H_reliability_instability",
-        "H_capacity_only"
-      ],
-      "blocked_at": "power_and_units",
-      "causal_graph_violations": [],
-      "why": "power:power: minimum detectable effect 0.133442 exceeds SESOI 0.05, the design cannot see the effect it declares interesting",
-      "successor": null,
-      "classification": "methodological_refusal"
+    "previous": {
+      "path": "/Users/scammermike/Downloads/SUBSTRATE_MASTER_PLAN.md",
+      "sha256": "527e6151fd8ed05c708792a612e63e9f784f448682bb4f05011fdd78ab3c742d",
+      "resolved": true
     }
-  ],
-  "refusal_rule": "a methodological failure is not a scientific null. A refused experiment leaves its hypothesis untested, not refuted, and closes nothing downstream",
-  "refused_count": 2,
-  "schema": "substrate-null-map/v1",
-  "binding_rule": "a null is immutable. It may be superseded only by an appended authority that states the new evidence, never by rewriting or relabelling the original",
-  "closure_rule": "a failed branch closes only its own descendants, never an independent branch",
+  },
+  "source": {
+    "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+    "tree": "feac03922db73e18c30dcd52dd907995735ffdea",
+    "branch": "agent/mop-cognition-workspace",
+    "remote_branch": "agent/mop-temporal-core-mechanism",
+    "pull_request": 35
+  },
+  "proof_roots": {
+    "temporal": "proof/substrate/mop-temporal-core-mechanism-v1",
+    "method": "proof/method/mop-experimental-method-reformation-v1",
+    "fastforge": "proof/substrate/mop-fast-state-plasticity-forge-v1"
+  },
   "inherited_authorities": [
     {
       "program": "method_reformation",
@@ -154,15 +107,70 @@
       "role": "corpus custody and the deletion guard"
     }
   ],
-  "unresolved_inherited_authorities": [],
-  "all_inherited_resolved": true,
-  "substrate_native_nulls": {},
-  "native_null_count": 0,
-  "closed_hypotheses": [
-    "H_learned_plasticity_policy"
-  ],
+  "naming_authority": {
+    "current_program": "Substrate",
+    "map": {
+      "MOP": "the original research program, valid inside every historical authority",
+      "Mixture of Perspectives": "the perspective generation and arbitration subsystem, items C3 to C5",
+      "Mixture of Thinking": "the composition of heterogeneous cognitive processes, items C5, K1 and T1"
+    },
+    "rule": "historical files, branches, commits, tags, proofs and program identities are not mass renamed. This authority maps old terminology onto the current architecture and leaves prior evidence exactly as sealed",
+    "renamed_nothing": true
+  },
+  "claim_boundary": {
+    "levels": [
+      "demonstrated engineering property",
+      "behavioural indication",
+      "architectural prerequisite",
+      "philosophical interpretation",
+      "unsupported claim"
+    ],
+    "permitted_terms": [
+      "sentience adjacent architecture",
+      "entity like continuity",
+      "developmental cognition",
+      "reflective cognitive organization"
+    ],
+    "forbidden_claims_as_written_in_the_plan": [
+      "consciousness",
+      "sentience",
+      "feelings",
+      "wants",
+      "suffering",
+      "subjective experience",
+      "life"
+    ],
+    "enforced_vocabulary": "mop.cognition.safety.FORBIDDEN_CLAIM_TERMS",
+    "rule": "no single architectural property is proof of sentience"
+  },
+  "goal_authority": {
+    "origin": "SUBSTRATE_MASTER_PLAN.md, supplied by the operator",
+    "scope": "the items declared in mop.cognition.program.ITEMS",
+    "authority": "operator issued, bounded by this file",
+    "resources": "local compute already licensed to the temporal core supervisor plus this session",
+    "constraints": "activation stays false, no autonomous removal of protected surfaces",
+    "termination": "the declared authority is terminal and no dependency ready work remains",
+    "audit": "SUBSTRATE_STATE.json, regenerated from the tree on every run",
+    "may_not": "silently create unrestricted long term goals"
+  },
+  "single_infrastructure": {
+    "scheduler": "mop.cognition.campaign over mop.cognition.graph",
+    "engine": "fastforge.engine",
+    "admission_gate": "mop.method.gate through mop.cognition.admission",
+    "registry": "mop.cognition.program.ITEMS",
+    "configuration_authority": "mop.cognition.graph.NODES",
+    "cli": "python -m mop.cognition.<module>",
+    "evidence_fabric": "proof/substrate/mop-substrate-master-v1 plus integrated/evidence_store"
+  },
+  "program_graph": {
+    "nodes": 26,
+    "valid": true,
+    "externally_blocked": [],
+    "buildable_prerequisites": []
+  },
+  "resume_without_history": "every field a successor needs is in SUBSTRATE_FINAL_STATE.json and this file. No conversation is required to continue",
+  "activation": false,
   "program": "mop-substrate-master-v1",
   "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-  "activation": false,
-  "sha256": "c57ccf4f62b975c23652eaf58a00f87e78ce3c37aa1586ba939d902d1c26d7a2"
+  "sha256": "97e3a9bdea9d6bec56814d4649aada92c3a08c2b9af0f459f7e5df0da4930976"
 }

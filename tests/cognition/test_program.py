@@ -41,7 +41,8 @@ def test_every_deliverable_binds_to_a_real_path():
     # nothing sealed into this program's proof root is undeclared
     declared = {e.rpartition(":")[2] for item in P.ITEMS for e in item.evidence}
     declared |= {"SUBSTRATE_STATE.json", "SUBSTRATE_LEDGER.md", "SUBSTRATE_HYPOTHESIS_GRAPH.json",
-                 "SUBSTRATE_NULL_MAP.json", "SUBSTRATE_NEXT_FRONTIER.json"}
+                 "SUBSTRATE_NULL_MAP.json", "SUBSTRATE_NEXT_FRONTIER.json",
+                 "SUBSTRATE_FINAL_LEDGER.md"}
     if io.PROOF.is_dir():
         for path in io.PROOF.glob("SUBSTRATE_*"):
             assert path.name in declared, f"undeclared artifact sealed into the proof root: {path.name}"
