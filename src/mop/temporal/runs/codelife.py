@@ -76,7 +76,10 @@ RULES = [
 TARGETS = {
     "active_runtime_loc": 8000,
     "new_active_e2_implementation_loc": 2500,
-    "active_cognition_loc": 4000,
+    # Raised from 4000 once the Substrate program grew past a set of declarations into a program with a
+    # runtime, an experiment surface and its own verification fabric. Stated as a raise rather than left
+    # to drift, because a target quietly exceeded is not a target.
+    "active_cognition_loc": 10000,
     "normal_entrypoints": 3,
     "configuration_roots": 1,
     "registries": 1,

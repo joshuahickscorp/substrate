@@ -262,6 +262,7 @@
       "evidence_pct": 0,
       "items": [
         "C2",
+        "N1",
         "T1",
         "E2"
       ],
@@ -276,7 +277,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
   "activation": false,
-  "sha256": "0ea3538354b7db3f2496c0519248353cd248faf0ea3168d8717410cbf71fc629"
+  "sha256": "3048496425101168228a3c462486b5d2b9cced1dff241f8b2626ea01cacc793e"
 }

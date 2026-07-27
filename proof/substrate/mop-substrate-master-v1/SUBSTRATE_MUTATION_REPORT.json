@@ -219,6 +219,22 @@
       "detail": ""
     },
     {
+      "mutation": "the_loop_skips_a_stage_silently",
+      "module": "mop.cognition.runtime",
+      "guard": "tests/cognition/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_loop_restores_a_tampered_checkpoint",
+      "module": "mop.cognition.runtime",
+      "guard": "tests/cognition/test_runtime.py::test_a_tampered_checkpoint_is_refused_rather_than_silently_restored",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
       "mutation": "sx5_reports_support_below_the_sesoi",
       "module": "mop.cognition.experiments",
       "guard": "tests/cognition/test_experiments.py::test_sx5_is_a_null_at_the_declared_effect_size",
@@ -243,12 +259,12 @@
       "detail": ""
     }
   ],
-  "total": 30,
-  "rejected": 30,
+  "total": 32,
+  "rejected": 32,
   "survivors": [],
   "all_rejected": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
   "activation": false,
-  "sha256": "093f53a9084ccc0989bae85ac9f6d3aecae04ccd8079b9de19321664cca20f89"
+  "sha256": "6a6d553a4db0a2d23b0e2fd2ce008b119d58500fbcda8722656f46a4af85c222"
 }

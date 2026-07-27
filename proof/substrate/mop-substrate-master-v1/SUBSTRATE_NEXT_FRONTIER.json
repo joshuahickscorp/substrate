@@ -6,6 +6,7 @@
     "C3",
     "C4",
     "C5",
+    "N1",
     "M1",
     "M2",
     "M3",
@@ -328,7 +329,7 @@
     "activation": false
   },
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
   "activation": false,
-  "sha256": "317efc0b65a2fa4a8ddae5c3f768f2b5c705744248513e113265d32db4e93f18"
+  "sha256": "b9a7c11adb81652294a2255469afe045d251de26b696818a39812319383af7fc"
 }

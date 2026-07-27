@@ -23,7 +23,7 @@
           "all_agree": true
         },
         "mutation_suite": {
-          "total": 30,
+          "total": 32,
           "survivors": []
         },
         "directions": {
@@ -51,7 +51,7 @@
         "sesoi": 0.05,
         "reading": "learning the offset roughly halves calibration error in both directions, and the improvement is between 0.02 and 0.03, below the 0.05 the program preregistered as the smallest effect worth caring about"
       },
-      "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b"
+      "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69"
     }
   }
 }

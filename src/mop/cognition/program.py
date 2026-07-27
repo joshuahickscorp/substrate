@@ -171,6 +171,24 @@ ITEMS: tuple[Item, ...] = (
        tests=("tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration",),
        evidence=("SUBSTRATE_ARBITRATION_SYSTEM.json",), deps=("C3",), batch=2),
 
+    _i("N1", "5", "The runtime loop that makes the modules one entity",
+       "A mature Substrate is the composition, not the parts. One cycle runs perceive, attend, select, "
+       "run perspectives, arbitrate, decide, remember, self update, consolidate, adapt and checkpoint, "
+       "and every stage leaves a receipt a reflective report can bind to.",
+       category="unified_cognition", impl=(f"{COG}/runtime.py",),
+       tests=("tests/cognition/test_runtime.py::test_one_cycle_runs_every_declared_stage",
+              "tests/cognition/test_runtime.py::"
+              "test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran"),
+       evidence=("SUBSTRATE_RUNTIME.json",), deps=("C2", "C5"), batch=2),
+    _i("N2", "19", "The loop has no path to acting on the world",
+       "The decision region records what would be done and nothing executes it. Activation stays false "
+       "and no code path in the runtime sets it true.",
+       kind="boundary", impl=(f"{COG}/runtime.py",),
+       tests=("tests/cognition/test_runtime.py::test_the_loop_never_acts_on_the_world",
+              "tests/cognition/test_runtime.py::"
+              "test_a_tampered_checkpoint_is_refused_rather_than_silently_restored"),
+       evidence=("SUBSTRATE_RUNTIME.json",), deps=("A4", "N1"), batch=2),
+
     # ---------------------------------------------------------------- memory
     _i("M1", "7.1", "Working memory", "Store current variables, temporary bindings, subgoals, partial "
        "derivations, active hypotheses, recent tool results, contradictions and intermediate plans. "
