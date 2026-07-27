@@ -122,7 +122,7 @@
     "percent": 87.5
   },
   "single_lockfile": "uv.lock",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "source_commit": "26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c",
   "activation": false,
-  "sha256": "6b6c1fa860fa2b4f9e2bfc148f19648770065ea1d9154556d8a4bfea359c61b7"
+  "sha256": "3e76d8fb88ffa500019870145d17d74ad779f59e74238469bfb0669d09252785"
 }

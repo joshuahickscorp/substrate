@@ -1,7 +1,7 @@
 # Substrate Event Horizon report
 
-Substrate is authoritative at `/Users/scammermike/Downloads/substrate` on `agent/substrate-event-horizon` (`5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff`). The configured remote is
-`git@github.com:joshuahickscorp/mop.git`. Scientific activation remains `false`; the scientific long run was not launched.
+Substrate is authoritative at `/Users/scammermike/Downloads/substrate` on `agent/substrate-event-horizon` (`26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c`). The configured remote is
+`git@github.com:joshuahickscorp/substrate.git`. Scientific activation remains `false`; the scientific long run was not launched.
 
 ## Outcome
 
