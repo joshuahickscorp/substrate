@@ -263,8 +263,14 @@
   "rejected": 32,
   "survivors": [],
   "all_rejected": true,
+  "execution": {
+    "model": "bounded persistent supervisor pool over isolated mutation subprocesses",
+    "workers": 12,
+    "isolation": "fresh interpreter and module graph per mutation",
+    "ordering": "declaration order retained"
+  },
   "program": "substrate-v1",
-  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
   "activation": false,
-  "sha256": "bba8a3560e51f4f972715d8eef90a22956d699a9f9057169855083a36f4d7d23"
+  "sha256": "c841413e4c7ecb6cc780922ea7ba0b60c2cfdb596a59bd750614fe2c12ffd22f"
 }

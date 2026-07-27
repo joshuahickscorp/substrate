@@ -1,0 +1,230 @@
+{
+  "schema": "substrate-verification-parallelism/v1",
+  "candidates": [
+    {
+      "model": "batched_in_process",
+      "runs": 10,
+      "all_pass_every_run": true,
+      "distribution": {
+        "minimum": 0.028096375055611134,
+        "median": 0.028953979024663568,
+        "p95": 0.03956012497656047,
+        "maximum": 0.03956012497656047,
+        "mean": 0.03010830420535058,
+        "population_stdev": 0.0032544748911001757
+      }
+    },
+    {
+      "model": "thread_supervised",
+      "runs": 10,
+      "all_pass_every_run": true,
+      "distribution": {
+        "minimum": 0.028941125026904047,
+        "median": 0.029866313037928194,
+        "p95": 0.03126141708344221,
+        "maximum": 0.03126141708344221,
+        "mean": 0.029881854308769107,
+        "population_stdev": 0.0006662919144994727
+      }
+    },
+    {
+      "model": "spawned_process",
+      "runs": 10,
+      "all_pass_every_run": true,
+      "distribution": {
+        "minimum": 0.06538129202090204,
+        "median": 0.06796737445984036,
+        "p95": 0.07072650000918657,
+        "maximum": 0.07072650000918657,
+        "mean": 0.06832807100145147,
+        "population_stdev": 0.0015212326584500306
+      }
+    }
+  ],
+  "selected_model": "batched_in_process",
+  "selection_reason": "the verifier is already one cache friendly batch over sealed bytes; thread and process transport add overhead without changing its independent route",
+  "raw_trials": [
+    {
+      "model": "batched_in_process",
+      "repetition": 1,
+      "wall_seconds": 0.03956012497656047,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 2,
+      "wall_seconds": 0.030555165954865515,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 3,
+      "wall_seconds": 0.028388750040903687,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 4,
+      "wall_seconds": 0.02837850002106279,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 5,
+      "wall_seconds": 0.028096375055611134,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 6,
+      "wall_seconds": 0.029477666947059333,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 7,
+      "wall_seconds": 0.02857204107567668,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 8,
+      "wall_seconds": 0.029335916973650455,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 9,
+      "wall_seconds": 0.02838304196484387,
+      "all_pass": true
+    },
+    {
+      "model": "batched_in_process",
+      "repetition": 10,
+      "wall_seconds": 0.03033545904327184,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 1,
+      "wall_seconds": 0.02962745795957744,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 2,
+      "wall_seconds": 0.028941125026904047,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 3,
+      "wall_seconds": 0.03126141708344221,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 4,
+      "wall_seconds": 0.030339624965563416,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 5,
+      "wall_seconds": 0.029015708016231656,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 6,
+      "wall_seconds": 0.029410499962978065,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 7,
+      "wall_seconds": 0.03041841695085168,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 8,
+      "wall_seconds": 0.030071667046286166,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 9,
+      "wall_seconds": 0.02966604207176715,
+      "all_pass": true
+    },
+    {
+      "model": "thread_supervised",
+      "repetition": 10,
+      "wall_seconds": 0.030066584004089236,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 1,
+      "wall_seconds": 0.06765891704708338,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 2,
+      "wall_seconds": 0.0692064999602735,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 3,
+      "wall_seconds": 0.06957758404314518,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 4,
+      "wall_seconds": 0.07014733401592821,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 5,
+      "wall_seconds": 0.06807908299379051,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 6,
+      "wall_seconds": 0.06771970901172608,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 7,
+      "wall_seconds": 0.07072650000918657,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 8,
+      "wall_seconds": 0.06785566592589021,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 9,
+      "wall_seconds": 0.06692812498658895,
+      "all_pass": true
+    },
+    {
+      "model": "spawned_process",
+      "repetition": 10,
+      "wall_seconds": 0.06538129202090204,
+      "all_pass": true
+    }
+  ],
+  "all_pass": true,
+  "activation": false
+}

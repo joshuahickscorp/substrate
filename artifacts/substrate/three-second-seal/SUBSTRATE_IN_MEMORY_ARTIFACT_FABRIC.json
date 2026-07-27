@@ -1,0 +1,27 @@
+{
+  "schema": "substrate-in-memory-artifact-fabric/v1",
+  "contract": {
+    "construction": "canonical artifact bytes are proposed in memory",
+    "validation": "required JSON seals and activation false are checked before publication",
+    "publication": "only the supervisor writes authoritative paths",
+    "cache": "byte identical proposals perform no authoritative write"
+  },
+  "cold_pass": {
+    "proposals": 48,
+    "proposed_bytes": 638553,
+    "authoritative_writes": 48,
+    "published_bytes": 638553,
+    "byte_identical_cache_hits": 0
+  },
+  "warm_pass": {
+    "proposals": 48,
+    "proposed_bytes": 638553,
+    "authoritative_writes": 0,
+    "published_bytes": 0,
+    "byte_identical_cache_hits": 48
+  },
+  "warm_authoritative_writes_eliminated": 0,
+  "logical_units": 19,
+  "all_pass": true,
+  "activation": false
+}
