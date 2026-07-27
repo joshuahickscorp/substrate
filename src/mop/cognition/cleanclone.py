@@ -70,17 +70,40 @@ def run(keep: bool = False) -> dict:
         results["graph_valid"] = {"ok": code == 0 and '"valid": true' in out.replace("'", '"').lower(),
                                   "detail": out.strip()[-200:]}
 
-        # the load bearing check: do the artifacts regenerate to the same bytes in a clone
-        before = {p.name: io.sha_obj(json.loads(p.read_text()))
-                  for p in sorted((clone / io.PROOF.relative_to(io.ROOT)).glob("SUBSTRATE_*.json"))}
+        # The load bearing check: are the artifacts a function of the tree or of the machine.
+        #
+        # Two fields must be excluded from the comparison or it measures the wrong thing. source_commit
+        # is stamped at seal time, and a committed artifact was necessarily sealed at an earlier commit
+        # than the one being cloned, so including it reports every artifact as drifted on every run.
+        # sha256 is a digest over the rest and moves with it. What is compared is the content.
+        volatile = {"source_commit", "sha256"}
+
+        def content(path: Path) -> str:
+            try:
+                doc = json.loads(path.read_text())
+            except (OSError, json.JSONDecodeError):
+                return "unreadable"
+            return io.sha_obj({k: v for k, v in doc.items() if k not in volatile})
+
+        proof = clone / io.PROOF.relative_to(io.ROOT)
+        before = {p.name: content(p) for p in sorted(proof.glob("SUBSTRATE_*.json"))}
         code, out = _run([PY, "-m", "mop.cognition.deliverables", "seal-modules"], clone, env)
-        after = {p.name: io.sha_obj(json.loads(p.read_text()))
-                 for p in sorted((clone / io.PROOF.relative_to(io.ROOT)).glob("SUBSTRATE_*.json"))}
-        drifted = sorted(k for k in before if k in after and before[k] != after[k])
+        once = {p.name: content(p) for p in sorted(proof.glob("SUBSTRATE_*.json"))}
+        code2, _ = _run([PY, "-m", "mop.cognition.deliverables", "seal-modules"], clone, env)
+        twice = {p.name: content(p) for p in sorted(proof.glob("SUBSTRATE_*.json"))}
+
+        drifted = sorted(k for k in before if k in once and before[k] != once[k])
+        nondeterministic = sorted(k for k in once if k in twice and once[k] != twice[k])
         results["artifacts_regenerate_identically"] = {
-            "ok": code == 0 and not drifted, "drifted": drifted,
-            "compared": len(before),
-            "note": "an artifact whose bytes depend on the machine rather than the tree shows up here"}
+            "ok": code == 0 and code2 == 0 and not drifted and not nondeterministic,
+            "drifted_from_committed": drifted,
+            "nondeterministic_across_two_runs": nondeterministic,
+            "compared": len(before), "excluded_fields": sorted(volatile),
+            "detail": out[-300:] if drifted else "",
+            "note": ("content is compared with the commit stamp and its digest excluded, because a "
+                     "committed artifact was sealed at an earlier commit by construction. An artifact "
+                     "whose content depends on the machine shows up as drifted; one that differs between "
+                     "two runs in the same clone shows up as nondeterministic")}
 
         code, out = _run([PY, "-m", "mop.cognition.verify", "recompute"], clone, env)
         results["independent_recomputation"] = {"ok": code == 0 and "0 disagreements" in out,

@@ -43,9 +43,13 @@ def test_every_deliverable_binds_to_a_real_path():
     declared |= {"SUBSTRATE_STATE.json", "SUBSTRATE_LEDGER.md", "SUBSTRATE_HYPOTHESIS_GRAPH.json",
                  "SUBSTRATE_NULL_MAP.json", "SUBSTRATE_NEXT_FRONTIER.json",
                  "SUBSTRATE_FINAL_LEDGER.md"}
+    # SUBSTRATE_CLEAN_CLONE.json is produced by cloning the commit that would have to contain it, so it
+    # can never be present in that commit. The bootstrap exception is declared rather than silently
+    # tolerated, and the artifact is still required to be declared by an item.
+    bootstrap = {"SUBSTRATE_CLEAN_CLONE.json"}
     if io.PROOF.is_dir():
         for path in io.PROOF.glob("SUBSTRATE_*"):
-            assert path.name in declared, f"undeclared artifact sealed into the proof root: {path.name}"
+            assert path.name in declared | bootstrap, f"undeclared artifact: {path.name}"
 
 
 def test_batch_selection_is_dependency_ready_and_independent():
