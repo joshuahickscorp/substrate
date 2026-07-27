@@ -1,0 +1,84 @@
+{
+  "schema": "substrate-model-body-interface/v1",
+  "message_kinds": [
+    "inference",
+    "hidden_state",
+    "selected_activations",
+    "tool_request",
+    "memory_request",
+    "verification_request",
+    "adaptation_proposal",
+    "resource_report",
+    "checkpoint"
+  ],
+  "required_fields": {
+    "inference": [
+      "input",
+      "output",
+      "seed"
+    ],
+    "hidden_state": [
+      "layer",
+      "shape",
+      "provenance"
+    ],
+    "selected_activations": [
+      "selector",
+      "shape",
+      "provenance"
+    ],
+    "tool_request": [
+      "tool",
+      "arguments",
+      "cost"
+    ],
+    "memory_request": [
+      "store",
+      "query",
+      "permitted_regions"
+    ],
+    "verification_request": [
+      "claim",
+      "method"
+    ],
+    "adaptation_proposal": [
+      "information_used",
+      "affected_state",
+      "reversibility",
+      "cost",
+      "risk",
+      "verification",
+      "rollback"
+    ],
+    "resource_report": [
+      "wall_seconds",
+      "peak_memory",
+      "budget_remaining"
+    ],
+    "checkpoint": [
+      "identity",
+      "sha256"
+    ]
+  },
+  "integration_modes": [
+    "external_cognitive_shell",
+    "sidecar_temporal_core",
+    "adapter_layer",
+    "internal_recurrent_layer",
+    "multi_model_orchestrator",
+    "end_to_end_owned_model"
+  ],
+  "bodies_to_test": [
+    "compact_specialist",
+    "larger_general_model",
+    "tool_dominant_system"
+  ],
+  "why_three_bodies": "running the same Substrate against a compact specialist, a larger general model and a tool dominant system measures how much intelligence must live in weights rather than in state, memory, tools and organization",
+  "attached_bodies": [],
+  "any_body_attached": false,
+  "honest_state": "no model body is attached. The contract exists and is testable; the comparison it would support has not been run and no result is claimed for it",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+  "sha256": "7b9809926af83075d6f87e88773b965f9120d4f65208447e1a957ebfca9274cb"
+}

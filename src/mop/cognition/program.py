@@ -476,7 +476,24 @@ def state() -> dict:
     for row in statuses.values():
         counts[row["level"]] = counts.get(row["level"], 0) + 1
     return {"schema": "substrate-state/v1", "items": statuses, "level_counts": counts,
-            "total_items": len(ITEMS)}
+            "total_items": len(ITEMS), "source_tree": source_tree_state(),
+            "corrections": [c["correction_id"] for c in corrections()]}
+
+
+def source_tree_state() -> dict:
+    """Correction C_DIRTY_SRC_HALTS_SUPERVISOR: a state file written from a dirty tree says so.
+
+    The temporal supervisor shares this worktree and refuses every shard launch while src or fastforge is
+    dirty. Recording the condition here does not prevent it, but it stops a state file from looking
+    identical whether or not the tree it describes could actually run.
+    """
+    import subprocess
+
+    r = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all", "--", "src", "fastforge"],
+                       cwd=io.ROOT, capture_output=True, text=True)
+    dirty = [line[3:] for line in r.stdout.splitlines() if line]
+    return {"clean": r.returncode == 0 and not dirty, "dirty_paths": dirty[:20],
+            "why_it_matters": "the temporal supervisor refuses a shard launch from a dirty src tree"}
 
 
 # ---------------------------------------------------------------- scorecard
