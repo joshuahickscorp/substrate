@@ -1,0 +1,57 @@
+name: Substrate
+
+on:
+  push:
+    branches: [main, agent/substrate-event-horizon]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  authoritative:
+    runs-on: macos-14
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Clean installation
+        run: python -m pip install ".[dev]"
+      - name: Active tests
+        run: substrate test
+      - name: Scientific verification
+        run: substrate verify
+      - name: Mutation suite
+        run: |
+          python - <<'PY'
+          from substrate.verification import mutation_report
+
+          report = mutation_report()
+          print(f"{report['rejected']}/{report['total']} mutations rejected")
+          if not report["all_rejected"]:
+              raise SystemExit(f"mutation survivors: {report['survivors']}")
+          PY
+      - name: Artifact drift from a clean clone
+        run: |
+          python - <<'PY'
+          from substrate.cleanclone import run
+
+          report = run()
+          print(report)
+          if not report["all_pass"]:
+              raise SystemExit(f"clean-clone failures: {report['failed']}")
+          PY
+      - name: Activation remains false
+        run: |
+          python - <<'PY'
+          from substrate.runtime import declaration
+
+          activation = declaration()["activation"]
+          print(f"activation={activation}")
+          if activation is not False:
+              raise SystemExit("activation must remain false")
+          PY
