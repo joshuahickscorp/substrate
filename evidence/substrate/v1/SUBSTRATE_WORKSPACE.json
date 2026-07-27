@@ -233,6 +233,6 @@
   "capacity_matched": true,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
-  "sha256": "8e021b2d7767ec8528a24bc85abb98dbcc391f63512188c3d36c0bd19754f96b"
+  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
+  "sha256": "12e91d3d6305ff6e85917e456fc7a771f11803867268386ae17f79894bb672e0"
 }

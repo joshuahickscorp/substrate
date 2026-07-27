@@ -9171,6 +9171,6 @@
     "failed": []
   },
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
-  "sha256": "12fd921da8e34bb84eea25f5bb83bee35267a0379f0415b7e4cd2f2e41e39b5f"
+  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
+  "sha256": "87c27294f743f3da26a1df8140cf778d0f4355f304daf8d55b559e21170c3173"
 }

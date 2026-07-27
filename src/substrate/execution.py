@@ -487,7 +487,12 @@ def ready() -> list[Unit]:
 
 
 def validate_receipt(document: dict) -> bool:
-    expected = io.sha_obj({key: value for key, value in document.items() if key not in {"wall_seconds", "receipt_sha256"}})
+    volatile = {"wall_seconds", "receipt_sha256"}
+    if document.get("schema") == "substrate-terminal-synthesis-unit/v2":
+        # The commit that carries a capsule necessarily differs from the commit at which that capsule
+        # was built.  Source bytes and configuration remain bound; the transport commit is informative.
+        volatile.add("source_commit")
+    expected = io.sha_obj({key: value for key, value in document.items() if key not in volatile})
     return document.get("receipt_sha256") == expected
 
 
@@ -1139,7 +1144,7 @@ def _logical_receipt(unit: Unit, *, wall_seconds: float = 0.0, identity: dict | 
         "thread_budget": SELECTED_NATIVE_THREADS,
         "activation": False,
     }
-    document["receipt_sha256"] = io.sha_obj({key: value for key, value in document.items() if key != "wall_seconds"})
+    document["receipt_sha256"] = io.sha_obj({key: value for key, value in document.items() if key not in {"wall_seconds", "source_commit"}})
     return document
 
 

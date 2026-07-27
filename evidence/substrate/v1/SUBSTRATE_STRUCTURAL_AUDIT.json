@@ -345,9 +345,9 @@
   },
   "failed": [],
   "all_pass": true,
-  "commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+  "commit": "20cd7713e50c02f79b0404e87e3224161a920932",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
-  "sha256": "0fd38ba8fa6510a9f97cba97b88ed27e5e75ac41f25bfb47ad062ad796c7ae4d"
+  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
+  "sha256": "873d4910bb8b11b1ce621d3ec3463c6a6a5752a96cdda171bee8861bcde02853"
 }
