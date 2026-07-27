@@ -515,6 +515,93 @@ def bed_screen() -> dict:
     }
 
 
+# ---------------------------------------------------------------- value of information
+#
+# The lesson of SX1, SX1b and the bed screen, stated once so the queue can act on it. A Substrate
+# hypothesis whose mechanism is a design choice needs a bed the program did not design. Where the bed is
+# synthetic, the oracle ceiling is whatever the generator was told to make it, and the experiment measures
+# the generator. Every candidate below is scored on that axis under instrumentation_risk.
+
+def _c(cid, title, question, separated, justification, **scores):
+    return {"id": cid, "title": title, "question": question, "hypotheses_separated": separated,
+            "justification": justification, "scores": scores}
+
+
+VOI_CANDIDATES = [
+    _c("SX1c", "typed workspace on a bed with a larger reliability spread",
+       "does a fitted write restriction transfer to unseen source groups",
+       ["H_typed_workspace", "H_capacity_only"],
+       {"oracle_headroom": "measured at 0.036 and 0.038 on the only two valid beds, both below the SESOI",
+        "closed_premise": "not closed, but no instrument currently reaches it"},
+       expected_information_gain=0.6, probability_of_changing_the_substrate_decision=0.5,
+       compute_cost=0.1, duration_cost=0.1, instrumentation_risk=0.8, baseline_uncertainty=0.2,
+       oracle_headroom=0.0, independent_unit_quality=0.7, reusability_of_implementation=0.9,
+       reusability_of_data=0.9, discriminates_competing_hypotheses=0.8,
+       risk_of_repeating_a_closed_premise=0.1),
+    _c("SX5", "self model calibration against the temporal program's own history",
+       "does updating a self model beat a fixed prior of the same form on real paired outcomes",
+       ["H_selfmodel_calibration", "H_owned_continuity"],
+       {"bed": "the temporal program's sealed shard receipts carry predicted and actual wall seconds, "
+               "failures and quarantines. The bed exists already and this program did not design it",
+        "oracle_headroom": "a fixed prior is measurably miscalibrated on any stream with drift, and the "
+                           "temporal run has drifted across three resource classes",
+        "cost": "reading sealed receipts, no principal compute"},
+       expected_information_gain=0.7, probability_of_changing_the_substrate_decision=0.6,
+       compute_cost=0.05, duration_cost=0.05, instrumentation_risk=0.2, baseline_uncertainty=0.2,
+       oracle_headroom=0.6, independent_unit_quality=0.7, reusability_of_implementation=0.8,
+       reusability_of_data=0.6, discriminates_competing_hypotheses=0.6,
+       risk_of_repeating_a_closed_premise=0.1),
+    _c("SX2", "perspective diversity against the best single perspective",
+       "does a heterogeneous perspective set beat the strongest single one at matched compute",
+       ["H_perspective_diversity", "H_learned_selector"],
+       {"oracle_headroom": "unmeasured. The perspectives are implemented but no bed has scored them",
+        "instrumentation_risk": "the six implemented perspectives read different regions, so a bed has "
+                                "to supply information for all of them or the comparison is unfair"},
+       expected_information_gain=0.6, probability_of_changing_the_substrate_decision=0.5,
+       compute_cost=0.2, duration_cost=0.2, instrumentation_risk=0.6, baseline_uncertainty=0.4,
+       oracle_headroom=0.3, independent_unit_quality=0.5, reusability_of_implementation=0.8,
+       reusability_of_data=0.4, discriminates_competing_hypotheses=0.7,
+       risk_of_repeating_a_closed_premise=0.1),
+    _c("SX4", "owned continuity against matched budget transcript replay",
+       "does owned state restore more than a transcript replay of the same size",
+       ["H_owned_continuity"],
+       {"instrumentation_risk": "high. On a synthetic session the transcript length is a design choice, "
+                                "so the margin is set by how much filler the generator adds. This is the "
+                                "SX1 objection in a different costume and needs a session nobody wrote "
+                                "for the purpose",
+        "oracle_headroom": "unbounded replay recovers three of five probes on the demo, so a real ceiling "
+                           "exists, but not one this program has measured on an undesigned session"},
+       expected_information_gain=0.6, probability_of_changing_the_substrate_decision=0.5,
+       compute_cost=0.1, duration_cost=0.1, instrumentation_risk=0.85, baseline_uncertainty=0.5,
+       oracle_headroom=0.3, independent_unit_quality=0.3, reusability_of_implementation=0.7,
+       reusability_of_data=0.3, discriminates_competing_hypotheses=0.5,
+       risk_of_repeating_a_closed_premise=0.2),
+    _c("SX7", "learned plasticity policy against the strongest simple rule",
+       "does a learned plasticity policy beat a simple triggered rule",
+       ["H_learned_plasticity_policy"],
+       {"closed_premise": "the fast state program measured no stable headroom and sealed the null. "
+                          "Rerunning it without new headroom repeats a closed premise"},
+       expected_information_gain=0.3, probability_of_changing_the_substrate_decision=0.2,
+       compute_cost=0.7, duration_cost=0.7, instrumentation_risk=0.4, baseline_uncertainty=0.3,
+       oracle_headroom=0.1, independent_unit_quality=0.5, reusability_of_implementation=0.5,
+       reusability_of_data=0.5, discriminates_competing_hypotheses=0.3,
+       risk_of_repeating_a_closed_premise=0.9),
+]
+
+
+def voi_queue() -> dict:
+    from mop.method import voi
+
+    q = voi.queue(VOI_CANDIDATES, select=2)
+    return {**q, "schema": "substrate-experiment-value-queue/v1",
+            "engine": "mop.method.voi, the queue the method reformation already sealed",
+            "program_lesson": ("a Substrate hypothesis whose mechanism is a design choice needs a bed the "
+                               "program did not design. On a synthetic bed the oracle ceiling is whatever "
+                               "the generator was told to make it, and the experiment measures the "
+                               "generator. That axis is scored as instrumentation_risk"),
+            "activation": False}
+
+
 def main(argv=None) -> None:
     argv = argv or sys.argv[1:]
     command = argv[0] if argv else "seal"
