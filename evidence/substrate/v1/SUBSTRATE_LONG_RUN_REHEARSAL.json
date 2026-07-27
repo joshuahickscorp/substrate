@@ -3,7 +3,7 @@
   "checks": {
     "deterministic_receipts": {
       "ok": true,
-      "receipt_sha256": "51a6f7a5bb221d37bea6d730b0ef0fe43cf0106b935fc71e7c7e6daa0f76f7e8"
+      "receipt_sha256": "d2bfccc941921cbb959147d7ebcb64dba94e193cdde82ddb15c91f502e5f074e"
     },
     "exclusive_writers": {
       "ok": true
@@ -76,6 +76,6 @@
   "note": "a rehearsal that only proves the happy path proves nothing worth knowing",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
-  "sha256": "91ec916565183ae0c4fee6b083dd281590019b1a055e226c64985bfb1db1a174"
+  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "sha256": "8c41e3947d72c26a2088f13d14736b31d4ef7cf503e73a4c698d95fff0d8ca43"
 }

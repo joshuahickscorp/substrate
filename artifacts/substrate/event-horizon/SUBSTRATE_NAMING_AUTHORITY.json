@@ -40308,7 +40308,7 @@
       "path": "src/substrate/program.py",
       "token": "mop",
       "classification": "historical_identity",
-      "positions": "22:30;22:48;28:28;29:26;225:57;1106:27;1424:33;1453:29",
+      "positions": "22:30;22:48;28:28;29:26;225:57;1106:27;1424:33;1459:29",
       "count": 8
     },
     {
@@ -40473,7 +40473,7 @@
   "all_active_old_names_eliminated": true,
   "compatibility_boundary": "src/substrate/compat/mop.py",
   "public_import_shim": false,
-  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
   "activation": false,
-  "sha256": "c611768477e239a69e027e282c8c417b179d351d045c1edd2754ea5265ce33f8"
+  "sha256": "80611b8597c7b6ba718e16de2fa930c2eaae594f0d38ebe6aed78018a17db8c6"
 }

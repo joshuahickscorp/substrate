@@ -3,6 +3,7 @@
   "status": "passed",
   "all_pass": true,
   "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "latest_clean_clone_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
   "clone": {
     "independent_git_directory": true,
     "exact_commit_checkout": true,
