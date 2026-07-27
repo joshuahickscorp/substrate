@@ -469,6 +469,56 @@ def capability_map(st: dict) -> dict:
 TEMPORAL_RUNS = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
 
 
+def _temporal_progress(counts: dict) -> dict:
+    """A remaining cost estimate for the live factorial, from the shards that already finished.
+
+    There was no instrument for this: the supervisor prints how many shards remain and nothing about how
+    long they take. The completed receipts carry the summed wall seconds of every cell, so the cost of a
+    finished shard is knowable, and the running processes report the CPU time they have already spent.
+    Both numbers are measured. The estimate built from them is derived and is labelled as an estimate.
+    """
+    import subprocess
+
+    done = []
+    for path in sorted((TEMPORAL_RUNS / "e2_principal").glob("*.json")):
+        try:
+            doc = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            continue
+        done.append(sum(float(r.get("wall_seconds") or 0) for r in doc.get("runs", [])))
+    if not done:
+        return {"measured": False, "reason": "no principal shard has finished yet"}
+
+    typical = sum(done) / len(done)
+    spent = []
+    for lock in sorted((TEMPORAL_RUNS / "locks").glob("p_*.json")):
+        try:
+            pid = json.loads(lock.read_text())["pid"]
+        except (OSError, ValueError, KeyError, json.JSONDecodeError):
+            continue
+        r = subprocess.run(["ps", "-p", str(pid), "-o", "time="], capture_output=True, text=True)
+        parts = r.stdout.strip().replace("-", ":").split(":")
+        if len(parts) >= 2:
+            try:
+                seconds = sum(float(p) * m for p, m in zip(reversed(parts), (1, 60, 3600, 86400)))
+                spent.append(seconds)
+            except ValueError:
+                continue
+    remaining = [max(typical - s, 0.0) for s in spent]
+    return {
+        "measured": True,
+        "finished_shards": len(done),
+        "typical_shard_cost_hours": round(typical / 3600, 2),
+        "running_shards": len(spent),
+        "cpu_hours_already_spent_each": [round(s / 3600, 2) for s in spent],
+        "estimated_cpu_hours_remaining_each": [round(s / 3600, 2) for s in remaining],
+        "estimated_wall_hours_remaining": (round(max(remaining) / 3600, 1) if remaining else 0.0),
+        "assumption": ("each running shard now gets close to a full core, which holds while the worker "
+                       "count is at or below the core count. It did not hold earlier in the run"),
+        "kind": "derived estimate, not a measurement",
+    }
+
+
 def temporal_core_record() -> dict:
     """Read the live temporal program off disk. Nothing here is asserted from memory."""
     def count(sub: str, pattern: str = "*.json") -> int:
@@ -489,6 +539,7 @@ def temporal_core_record() -> dict:
               "active_locks": count("locks")}
     terminal = P.evidence_state("temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json")["counts"]
     return {
+        "progress": _temporal_progress(counts),
         "schema": "substrate-temporal-core/v1",
         "program": "mop-temporal-core-mechanism-v1",
         "question": ("whether recurrence is necessary, whether explicit history is sufficient, the "
