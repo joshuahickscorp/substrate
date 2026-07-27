@@ -1,0 +1,182 @@
+{
+  "schema": "substrate-v2-continuity-canary/v1",
+  "exact_restore": {
+    "id": "C19",
+    "statement": "checkpoint restore reproduces all v2 state",
+    "mechanism_activity": 28,
+    "positive_fixture": true,
+    "null_fixture": [
+      {
+        "field": "procedural_memory",
+        "refused": true
+      },
+      {
+        "field": "semantic_memory",
+        "refused": true
+      },
+      {
+        "field": "credit_ledger",
+        "refused": true
+      },
+      {
+        "field": "allocator_state",
+        "refused": true
+      },
+      {
+        "field": "active_goals",
+        "refused": true
+      },
+      {
+        "field": "unresolved_hypotheses",
+        "refused": true
+      }
+    ],
+    "controls": [
+      "six partial corruption mutations"
+    ],
+    "oracle": true,
+    "headroom": 1.0,
+    "margin": 1.0,
+    "SESOI": 0.05,
+    "classification": "mechanism_positive",
+    "passes": true,
+    "raw_independent_units": [
+      {
+        "identity": "183f683fa7ef089015a6c982882c685488ebdb5fb3eeef35ddb72a930f3e683d",
+        "corruptions": [
+          {
+            "field": "procedural_memory",
+            "refused": true
+          },
+          {
+            "field": "semantic_memory",
+            "refused": true
+          },
+          {
+            "field": "credit_ledger",
+            "refused": true
+          },
+          {
+            "field": "allocator_state",
+            "refused": true
+          },
+          {
+            "field": "active_goals",
+            "refused": true
+          },
+          {
+            "field": "unresolved_hypotheses",
+            "refused": true
+          }
+        ]
+      }
+    ]
+  },
+  "body_change": {
+    "id": "C20",
+    "statement": "body replacement preserves goals uncertainty procedures and identity",
+    "mechanism_activity": {
+      "before": {
+        "entity_id": "checkpoint_fixture",
+        "goals": [
+          "preserve verified competence",
+          "solve delayed task"
+        ],
+        "uncertainty": [],
+        "procedures": [
+          "procedure:conditional ordered selection:boundary_route"
+        ],
+        "identity": "183f683fa7ef089015a6c982882c685488ebdb5fb3eeef35ddb72a930f3e683d"
+      },
+      "after": {
+        "entity_id": "checkpoint_fixture",
+        "goals": [
+          "preserve verified competence",
+          "solve delayed task"
+        ],
+        "uncertainty": [],
+        "procedures": [
+          "procedure:conditional ordered selection:boundary_route"
+        ],
+        "identity": "5ae7b2eae3a79d8f1d280ac60797330156cc16d0b56836982fa5fa542bbdeee2"
+      },
+      "continuing_entity": true,
+      "goals_preserved": true,
+      "uncertainty_preserved": true,
+      "procedures_preserved": true,
+      "body_change_visible_in_identity": true
+    },
+    "positive_fixture": {
+      "entity_id": "checkpoint_fixture",
+      "goals": [
+        "preserve verified competence",
+        "solve delayed task"
+      ],
+      "uncertainty": [],
+      "procedures": [
+        "procedure:conditional ordered selection:boundary_route"
+      ],
+      "identity": "5ae7b2eae3a79d8f1d280ac60797330156cc16d0b56836982fa5fa542bbdeee2"
+    },
+    "null_fixture": {
+      "entity_id": "checkpoint_fixture",
+      "goals": [
+        "preserve verified competence",
+        "solve delayed task"
+      ],
+      "uncertainty": [],
+      "procedures": [
+        "procedure:conditional ordered selection:boundary_route"
+      ],
+      "identity": "183f683fa7ef089015a6c982882c685488ebdb5fb3eeef35ddb72a930f3e683d"
+    },
+    "controls": [
+      "body state identity visibility"
+    ],
+    "oracle": true,
+    "headroom": 1.0,
+    "margin": 1.0,
+    "SESOI": 0.05,
+    "classification": "mechanism_positive",
+    "passes": true,
+    "raw_independent_units": [
+      {
+        "before": {
+          "entity_id": "checkpoint_fixture",
+          "goals": [
+            "preserve verified competence",
+            "solve delayed task"
+          ],
+          "uncertainty": [],
+          "procedures": [
+            "procedure:conditional ordered selection:boundary_route"
+          ],
+          "identity": "183f683fa7ef089015a6c982882c685488ebdb5fb3eeef35ddb72a930f3e683d"
+        },
+        "after": {
+          "entity_id": "checkpoint_fixture",
+          "goals": [
+            "preserve verified competence",
+            "solve delayed task"
+          ],
+          "uncertainty": [],
+          "procedures": [
+            "procedure:conditional ordered selection:boundary_route"
+          ],
+          "identity": "5ae7b2eae3a79d8f1d280ac60797330156cc16d0b56836982fa5fa542bbdeee2"
+        },
+        "continuing_entity": true,
+        "goals_preserved": true,
+        "uncertainty_preserved": true,
+        "procedures_preserved": true,
+        "body_change_visible_in_identity": true
+      }
+    ]
+  },
+  "passes": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "sha256": "f1ebedd4ab987460acc3946c02ade4f16ad35daf062755026d5361deef99f63c"
+}

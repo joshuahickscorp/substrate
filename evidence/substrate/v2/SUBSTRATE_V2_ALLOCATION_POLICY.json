@@ -1,0 +1,22 @@
+{
+  "schema": "substrate-v2-allocation-policy/v1",
+  "selected_candidate": "always_verify",
+  "policy_ladder_order": [
+    "never verify",
+    "always verify",
+    "confidence threshold",
+    "contradiction first",
+    "novelty retrieval",
+    "best fixed schedule",
+    "best fixed attention weights",
+    "maximum compute",
+    "oracle"
+  ],
+  "completed_outcomes_only": true,
+  "checkpointed_and_reversible": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "sha256": "e4f051ad26a96d8e50c47dd2f08b07d7113942369f377a8fba9eb5384cb828b6"
+}

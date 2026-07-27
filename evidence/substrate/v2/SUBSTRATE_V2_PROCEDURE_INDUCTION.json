@@ -1,0 +1,53 @@
+{
+  "schema": "substrate-v2-procedure-induction/v1",
+  "candidate": "typed_task_signature_motif",
+  "development_measurements": [
+    {
+      "seed": 0,
+      "typed_procedure_induced": true,
+      "verified_sources": true
+    },
+    {
+      "seed": 1,
+      "typed_procedure_induced": true,
+      "verified_sources": true
+    },
+    {
+      "seed": 2,
+      "typed_procedure_induced": true,
+      "verified_sources": true
+    },
+    {
+      "seed": 3,
+      "typed_procedure_induced": true,
+      "verified_sources": true
+    },
+    {
+      "seed": 4,
+      "typed_procedure_induced": true,
+      "verified_sources": true
+    },
+    {
+      "seed": 5,
+      "typed_procedure_induced": true,
+      "verified_sources": true
+    },
+    {
+      "seed": 6,
+      "typed_procedure_induced": true,
+      "verified_sources": true
+    },
+    {
+      "seed": 7,
+      "typed_procedure_induced": true,
+      "verified_sources": true
+    }
+  ],
+  "induction": "enumerate registered executable operations over verified success and failed contrast outcomes",
+  "held_out_validation": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "sha256": "ccaa34b956e7c3dbcf6646732dfb313f3bd1f9bedcf457eb262dde4738c6cc1c"
+}

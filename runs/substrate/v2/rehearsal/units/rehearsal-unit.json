@@ -1,0 +1,15 @@
+{
+  "schema": "substrate-v2-unit-receipt/v1",
+  "identity": "rehearsal-unit",
+  "payload": {
+    "phase_count": 6,
+    "episode_count": 61,
+    "checkpoint": "e9ffc55bd106829b274f6f050335f28264b4685b5557b9c3a2f6c8fcbcf3ee76",
+    "activation": false
+  },
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "configuration_digest": "facb3ccd7c4a5caf068d20573fffad78bb23b787f941da1cd9eda17612ec88ad",
+  "split_digest": "068226721fb997f955da7e241b41efb27aacf9dd419f326388689b358466b898",
+  "activation": false,
+  "receipt_sha256": "a421c79330ef3aeff40032fd699bb76af53cc37cf27f6450b3fc830afb5fe1e9"
+}

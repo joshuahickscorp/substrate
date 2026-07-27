@@ -1,0 +1,53 @@
+{
+  "schema": "substrate-v2-semantic-consolidation/v1",
+  "selected_candidate": "verification_triggered",
+  "permitted_kinds": [
+    "concept",
+    "fact",
+    "relation",
+    "rule",
+    "abstraction",
+    "exception",
+    "domain boundary",
+    "tool limitation",
+    "procedure applicability condition"
+  ],
+  "records": {
+    "semantic:A:conditional ordered selection": {
+      "id": "semantic:A:conditional ordered selection",
+      "kind": "rule",
+      "content": {
+        "operation": "boundary_route",
+        "task_signature": "conditional ordered selection"
+      },
+      "provenance": "verified_induction:436639ac8c341bdc02db5999d73b2e3e2a0eb04fe2d14036b75afe05133bc5b9",
+      "source_episodes": [
+        "admission:100:A:canary_development:0",
+        "admission:100:A:canary_development:1",
+        "admission:100:A:canary_development:2",
+        "admission:100:A:canary_development:3"
+      ],
+      "verification_receipts": [
+        "b3a7db348b13b0a879da1499381e67a32d6447702de5cf63647e091da96fe5d5",
+        "c470a34ee3d1217a0c1d32449c49098c636cdddaeb704c0a818b93768279eb16",
+        "e81292106f218f0613f23b8a907366f1914f58679aac8cb234e08f4706229e29",
+        "47ce82a15a042dda76a0f56672a712aadb547a270bb14039e0454ab988c39a22"
+      ],
+      "confidence": 1.0,
+      "domain_scope": [
+        "A"
+      ],
+      "creation_step": 8,
+      "supersession_chain": [],
+      "exceptions": [],
+      "status": "live"
+    }
+  },
+  "promotion_requires_verification": true,
+  "contradictions_and_superseded_records_preserved": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "sha256": "38628934ead8fe806d6ee6da9b76dacd12f4d8b39912b45b9d8bc93dd82355a9"
+}

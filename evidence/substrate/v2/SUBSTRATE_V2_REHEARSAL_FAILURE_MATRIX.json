@@ -1,0 +1,93 @@
+{
+  "schema": "substrate-v2-rehearsal-failure-matrix/v1",
+  "rows": [
+    {
+      "failure": "worker death",
+      "injected": true,
+      "refused": true,
+      "detail": "checkpoint survived and exact restore completed without a duplicate authoritative unit"
+    },
+    {
+      "failure": "supervisor death",
+      "injected": true,
+      "refused": true,
+      "detail": "unit local staging was not treated as authoritative publication"
+    },
+    {
+      "failure": "partial checkpoint",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: checkpoint identity does not cover the supplied state"
+    },
+    {
+      "failure": "tampered procedure",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: checkpoint identity does not cover the supplied state"
+    },
+    {
+      "failure": "missing semantic record",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: checkpoint identity does not cover the supplied state"
+    },
+    {
+      "failure": "stale artifact",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: unit receipt validation failed"
+    },
+    {
+      "failure": "duplicate unit",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: divergent duplicate publication for rehearsal/units/rehearsal-unit.json"
+    },
+    {
+      "failure": "wrong source digest",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: execution context refused: ['source_digest']"
+    },
+    {
+      "failure": "wrong configuration",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: execution context refused: ['configuration_digest']"
+    },
+    {
+      "failure": "wrong split",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: execution context refused: ['split']"
+    },
+    {
+      "failure": "wrong seed",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: execution context refused: ['seed']"
+    },
+    {
+      "failure": "partial publication",
+      "injected": true,
+      "refused": true,
+      "detail": "part file is outside the authoritative receipt namespace"
+    },
+    {
+      "failure": "activation true",
+      "injected": true,
+      "refused": true,
+      "detail": "Refused: execution context refused: ['activation']"
+    }
+  ],
+  "completed_work_survives": true,
+  "invalid_state_refused": true,
+  "unit_silently_repeated": false,
+  "principal_seed_consumed": false,
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "sha256": "e19146b1ec8239a2226b19d6e964a576eeb724fd436783bbf1f568ac16c260e9"
+}

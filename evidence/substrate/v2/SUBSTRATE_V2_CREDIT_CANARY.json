@@ -1,0 +1,18 @@
+{
+  "schema": "substrate-v2-credit-canary/v1",
+  "all_credit_assigned_only_to_used": true,
+  "controls": [
+    "correct",
+    "shuffled",
+    "uniform",
+    "none",
+    "delayed",
+    "wrong component"
+  ],
+  "passes": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "sha256": "a08aa678858dce2f6c9ed75527cbcff587edc00f00d71802185b2f4c34bf5660"
+}

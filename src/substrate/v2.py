@@ -502,4 +502,55 @@ def main(argv: list[str] | None = None) -> None:
         }
         print(json.dumps(summary, indent=2))
         raise SystemExit(0 if summary["all_pass"] else 1)
+    if command == "canaries":
+        from substrate import v2canary
+
+        documents = v2canary.run()
+        summary = {
+            "passed": documents["evidence"]["passed"],
+            "total": documents["evidence"]["total"],
+            "all_pass": documents["evidence"]["all_pass"],
+            "all_terminal": documents["evidence"]["all_terminal"],
+            "nonpositive": documents["evidence"]["nonpositive"],
+            "rehearsal_licensed": documents["admission"]["rehearsal_licensed"],
+            "principal_execution_licensed": documents["admission"]["principal_execution_licensed"],
+            "activation": False,
+        }
+        print(json.dumps(summary, indent=2))
+        raise SystemExit(0 if summary["all_terminal"] and summary["rehearsal_licensed"] else 1)
+    if command == "rehearse":
+        from substrate import v2rehearsal
+
+        documents = v2rehearsal.run()
+        summary = {
+            "rehearsal": documents["rehearsal"]["all_pass"],
+            "failure_matrix": documents["failures"]["all_pass"],
+            "resource_safe": documents["resources"]["all_safe"],
+            "selected_workers": documents["resources"]["selected_workers"],
+            "principal_execution_licensed": documents["admission"]["principal_execution_licensed"],
+            "activation": False,
+        }
+        print(json.dumps(summary, indent=2))
+        raise SystemExit(0 if summary["principal_execution_licensed"] else 1)
+    if command == "run":
+        from substrate import v2principal
+
+        document = v2principal.run()
+        print(json.dumps(document, indent=2))
+        raise SystemExit(0 if document["status"]["remaining"] == 0 and not document["status"]["invalid"] else 1)
+    if command == "status":
+        from substrate import v2principal
+
+        print(json.dumps(v2principal.status(), indent=2))
+        return
+    if command == "stop":
+        print(json.dumps({"stopped": True, "stop_switch": str(io.stop()), "activation": False}, indent=2))
+        return
+    if command == "resume":
+        from substrate import v2principal
+
+        io.resume()
+        document = v2principal.run()
+        print(json.dumps(document, indent=2))
+        raise SystemExit(0 if document["status"]["remaining"] == 0 and not document["status"]["invalid"] else 1)
     raise SystemExit(f"unknown v2 command {command!r}")
