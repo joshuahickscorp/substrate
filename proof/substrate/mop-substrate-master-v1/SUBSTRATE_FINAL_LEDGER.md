@@ -1,8 +1,8 @@
 # Substrate final ledger
 
-Derived from the tree at `88170e7924a8c439d46b163c22a150f2c6fea7dc`. Status is computed, never asserted.
+Derived from the tree at `696017c3e57e2d42f0cbb4cb8cf3eda06456d3da`. Status is computed, never asserted.
 
-60 requirements. measured 40, terminal 19, tested 1.
+60 requirements. measured 40, terminal 18, tested 2.
 
 | id | category | status | classification | next action | rollback |
 |---|---|---|---|---|---|
@@ -61,7 +61,7 @@ Derived from the tree at `88170e7924a8c439d46b163c22a150f2c6fea7dc`. Status is c
 | F9 | grounding | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_GROUNDING.json and rerun mop.cognition.deliverables w |
 | F10 | causal_reasoning | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_WORLD_MODEL.json and rerun mop.cognition.deliverables |
 | F11 | developmental_divergence | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun mop.cognition.de |
-| F12 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_CLEAN_CLONE.json |
+| F12 | authority | tested | - | seal SUBSTRATE_CLEAN_CLONE.json | revert the commit that sealed SUBSTRATE_CLEAN_CLONE.json |
 | L1 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_CAMPAIGN_PLAN.json |
 | L2 | boundary | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_CAMPAIGN_PLAN.json |
 | X3 | temporal_continuity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_TEMPORAL_CORE.json and rerun mop.cognition.deliverabl |
@@ -69,7 +69,7 @@ Derived from the tree at `88170e7924a8c439d46b163c22a150f2c6fea7dc`. Status is c
 
 ## Program graph
 
-26 nodes, 26 terminal, 0 buildable prerequisites, 0 externally blocked.
+26 nodes, 25 terminal, 0 buildable prerequisites, 0 externally blocked.
 
 No future wave exists as prose. Every one is a node with an entry and an exit gate.
 
