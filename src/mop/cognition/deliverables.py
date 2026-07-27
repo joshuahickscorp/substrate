@@ -699,7 +699,7 @@ def write_all() -> dict:
 # puts every declaration before the modules that measure against it.
 MODULES_THAT_SEAL = ("admission", "safety", "ontology", "epistemology", "workspace", "perspectives",
                      "memory", "world", "selfmodel", "metacog", "plasticity", "batteries",
-                     "runtime", "temporal_link", "goals", "bodies", "graph")
+                     "runtime", "temporal_link", "goals", "bodies", "graph", "sx2", "certify", "audit")
 
 
 def seal_modules() -> dict:

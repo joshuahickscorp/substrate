@@ -40,8 +40,10 @@
     "E5",
     "E6",
     "T1",
-    "F12",
-    "X3"
+    "X3",
+    "Y2",
+    "Y3",
+    "Y4"
   ],
   "primary": {
     "id": "C1",
@@ -341,7 +343,7 @@
     "activation": false
   },
   "program": "mop-substrate-master-v1",
-  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
+  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
   "activation": false,
-  "sha256": "c7a844006c13ac607a31392144d75bda3ebd91fab05a809882982b99fae9ac17"
+  "sha256": "f2824f71d46fb6b5be453276032538b9d9c6e1af1e02643e903115c0524991ce"
 }

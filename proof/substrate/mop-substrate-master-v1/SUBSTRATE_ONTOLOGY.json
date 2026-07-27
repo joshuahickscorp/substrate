@@ -111,6 +111,6 @@
   "unknown_rule": "unknown is a first class type and carries the reason it is unknown",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
-  "sha256": "e65bb158fdaf6c93670ac702bb21b3d668457392b94d71de9c5e43049e1bf3a0"
+  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
+  "sha256": "58cc64f861ddb4a38c088e65f3066c1239495fb0bc02a9cfc0febf02ce55d535"
 }

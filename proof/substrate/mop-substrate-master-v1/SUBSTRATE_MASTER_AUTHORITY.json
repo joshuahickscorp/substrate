@@ -794,6 +794,53 @@
       ]
     },
     {
+      "id": "Y1",
+      "section": "2",
+      "title": "Structural audit: exclusive producers, no stale outputs, no activation path",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "F1"
+      ]
+    },
+    {
+      "id": "Y2",
+      "section": "16",
+      "title": "SX2 diversity closed on a compute matched comparison",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "perspective_diversity",
+      "dependencies": [
+        "C4",
+        "A3"
+      ]
+    },
+    {
+      "id": "Y3",
+      "section": "2",
+      "title": "Every runtime stage is active, with a null control where one is possible",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "unity",
+      "dependencies": [
+        "N1",
+        "Y1"
+      ]
+    },
+    {
+      "id": "Y4",
+      "section": "14",
+      "title": "Session and body canaries on the sealed authority",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "model_body_integration",
+      "dependencies": [
+        "F4",
+        "F6"
+      ]
+    },
+    {
       "id": "L1",
       "section": "17",
       "title": "A resumable campaign driver for a run measured in days",
@@ -869,6 +916,7 @@
     "SUBSTRATE_GOAL_SYSTEM.json",
     "SUBSTRATE_GROUNDING.json",
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+    "SUBSTRATE_LONG_RUN_CERTIFICATION.json",
     "SUBSTRATE_MASTER_AUTHORITY.json",
     "SUBSTRATE_MEMORY_SYSTEM.json",
     "SUBSTRATE_METACOGNITION.json",
@@ -887,6 +935,8 @@
     "SUBSTRATE_SELF_MODEL.json",
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
     "SUBSTRATE_STATE.json",
+    "SUBSTRATE_STRUCTURAL_AUDIT.json",
+    "SUBSTRATE_SX2_DIVERSITY.json",
     "SUBSTRATE_TEMPORAL_CORE.json",
     "SUBSTRATE_THINKING_BATTERY.json",
     "SUBSTRATE_UNITY_BATTERY.json",
@@ -927,6 +977,7 @@
     "SUBSTRATE_GOAL_SYSTEM.json": true,
     "SUBSTRATE_GROUNDING.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_CERTIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": true,
@@ -945,6 +996,8 @@
     "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_STRUCTURAL_AUDIT.json": true,
+    "SUBSTRATE_SX2_DIVERSITY.json": true,
     "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
     "SUBSTRATE_UNITY_BATTERY.json": true,
@@ -967,7 +1020,7 @@
     "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
-    "SUBSTRATE_CLEAN_CLONE.json": false,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
     "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
@@ -985,6 +1038,7 @@
     "SUBSTRATE_GOAL_SYSTEM.json": true,
     "SUBSTRATE_GROUNDING.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_CERTIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": true,
@@ -1003,6 +1057,8 @@
     "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_STRUCTURAL_AUDIT.json": true,
+    "SUBSTRATE_SX2_DIVERSITY.json": true,
     "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
     "SUBSTRATE_UNITY_BATTERY.json": true,
@@ -1016,11 +1072,11 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 18,
-    "tested": 2,
-    "measured": 40
+    "terminal": 20,
+    "tested": 1,
+    "measured": 43
   },
   "activation": false,
-  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
-  "sha256": "2e57bdfe08cae14cc7e6c9eda722a34aa4ecf0432e5f2cfcf6237cd3f91bb246"
+  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
+  "sha256": "9483d85f0873514866147117573c49fab5e6d160fbb483289927baa28e4a4d15"
 }

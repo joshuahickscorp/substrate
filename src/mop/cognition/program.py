@@ -499,6 +499,42 @@ ITEMS: tuple[Item, ...] = (
        tests=("tests/cognition/test_worldbed.py::test_the_clean_clone_checks_are_declared",),
        evidence=("SUBSTRATE_CLEAN_CLONE.json",), deps=("V1", "V2"), batch=6),
 
+    # ---------------------------------------------------------------- long run certification
+    _i("Y1", "2", "Structural audit: exclusive producers, no stale outputs, no activation path",
+       "Seven checks over the tree. One exclusive producer per artifact, no stale outputs, no duplicate "
+       "stages, no missing causal paths, every node actionable, every runtime stage reachable and "
+       "receipt bearing, and no path that could set activation true.",
+       kind="authority", impl=(f"{COG}/audit.py",),
+       tests=("tests/cognition/test_certification.py::test_the_structural_audit_passes_every_check",
+              "tests/cognition/test_certification.py::"
+              "test_a_dynamically_named_artifact_is_refused_by_the_producer_scan"),
+       evidence=("SUBSTRATE_STRUCTURAL_AUDIT.json",), deps=("F1",), batch=6),
+    _i("Y2", "16", "SX2 diversity closed on a compute matched comparison",
+       "The 76 factorial cells as a perspective set. Oracle selection is an upper bound no selector can "
+       "exceed, so if it does not beat the strongest compute matched single cell by the SESOI, no "
+       "selector built on this set can, and SX2 closes without training one.",
+       kind="evidence", category="perspective_diversity", impl=(f"{COG}/sx2.py",),
+       tests=("tests/cognition/test_certification.py::test_sx2_closes_because_the_oracle_ceiling_is_low",
+              "tests/cognition/test_certification.py::test_every_sx2_comparison_is_compute_matched"),
+       evidence=("SUBSTRATE_SX2_DIVERSITY.json",), deps=("C4", "A3"), batch=6),
+    _i("Y3", "2", "Every runtime stage is active, with a null control where one is possible",
+       "A stage that can be switched off without changing the declared state or the decision path on a "
+       "fixture built to need it is wiring, not a stage. Three stages write owned state every cycle by "
+       "design and admit no null control, which is declared rather than faked.",
+       kind="evidence", category="unity", impl=(f"{COG}/certify.py",),
+       tests=("tests/cognition/test_certification.py::test_every_ablatable_runtime_stage_is_active",
+              "tests/cognition/test_certification.py::"
+              "test_a_stage_with_no_possible_null_control_says_so"),
+       evidence=("SUBSTRATE_LONG_RUN_CERTIFICATION.json",), deps=("N1", "Y1"), batch=6),
+    _i("Y4", "14", "Session and body canaries on the sealed authority",
+       "Restoration, goal preservation, memory reuse, calibration, reliability update, world model value "
+       "and receipt bound reflection over the sealed session. Three bodies proven to differ, with every "
+       "pair differing on at least one declared dimension.",
+       kind="evidence", category="model_body_integration", impl=(f"{COG}/certify.py",),
+       tests=("tests/cognition/test_certification.py::test_every_session_canary_passes",
+              "tests/cognition/test_certification.py::test_the_three_bodies_are_pairwise_distinct"),
+       evidence=("SUBSTRATE_LONG_RUN_CERTIFICATION.json",), deps=("F4", "F6"), batch=6),
+
     _i("L1", "17", "A resumable campaign driver for a run measured in days",
        "The six batch loop, made autonomous. A stage is done because its receipt exists, a stage that "
        "fails the same way twice under the same source commit stops being retried, and the run ends "

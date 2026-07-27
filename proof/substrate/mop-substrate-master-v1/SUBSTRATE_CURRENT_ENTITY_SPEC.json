@@ -8,9 +8,9 @@
     "capabilities_total": 20
   },
   "item_levels": {
-    "terminal": 18,
-    "tested": 2,
-    "measured": 40
+    "terminal": 20,
+    "tested": 1,
+    "measured": 43
   },
   "implementation_by_category": {
     "temporal_continuity": 97,
@@ -112,6 +112,6 @@
   ],
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
-  "sha256": "de6c306fa8d5338f4f1ce7e1236f2b9961c9db76abba89cc36fbffb5bc835840"
+  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
+  "sha256": "80b3665a38cdb5b63b1c96ab8626c210917d269b99d98d0d27d41b201c1d9f2b"
 }

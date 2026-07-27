@@ -37,7 +37,9 @@
         "keys": [
           "label",
           "label_confidence"
-        ]
+        ],
+        "temporal_state": 0.8,
+        "episodic_window": 0
       },
       "attend": {
         "ran": true,
@@ -52,25 +54,23 @@
         "ran": true,
         "strategy": "reliability_weighted",
         "chosen": [
-          "analogy",
-          "causal",
-          "counterexample"
+          "precedent",
+          "temporal"
         ]
       },
       "run_perspectives": {
         "ran": [
-          "analogy",
-          "causal",
-          "counterexample"
+          "precedent",
+          "temporal"
         ],
         "refused": [],
-        "compute_spent": 3.0
+        "compute_spent": 2.3
       },
       "arbitrate": {
         "ran": true,
         "deferred": false,
-        "minority_preserved": 1,
-        "contradictions": 1
+        "minority_preserved": 0,
+        "contradictions": 0
       },
       "decide": {
         "ran": true,
@@ -94,15 +94,15 @@
         "correct": false,
         "reliability": {
           "direct": 0.5,
-          "temporal": 0.5,
-          "precedent": 0.5,
+          "temporal": 0.4,
+          "precedent": 0.4,
           "critic": 0.5,
-          "counterexample": 0.4,
+          "counterexample": 0.5,
           "uncertainty": 0.5,
           "symbolic": 0.5,
           "relational": 0.5,
-          "causal": 0.4,
-          "analogy": 0.4,
+          "causal": 0.5,
+          "analogy": 0.5,
           "simulation": 0.5,
           "counterfactual": 0.5,
           "planner": 0.5,
@@ -115,17 +115,36 @@
         "ran": true,
         "policy": "verification_triggered",
         "selected": [],
+        "promoted": [],
         "uses_future_information": false
       },
       "adapt": {
         "ran": true,
         "level": "reliability_update",
         "applied": true,
-        "refusals": []
+        "refusals": [],
+        "reliability_after": {
+          "direct": 0.5,
+          "temporal": 0.401,
+          "precedent": 0.401,
+          "critic": 0.5,
+          "counterexample": 0.5,
+          "uncertainty": 0.5,
+          "symbolic": 0.5,
+          "relational": 0.5,
+          "causal": 0.5,
+          "analogy": 0.5,
+          "simulation": 0.5,
+          "counterfactual": 0.5,
+          "planner": 0.5,
+          "numerical": 0.5,
+          "toolcall": 0.5,
+          "introspect": 0.5
+        }
       },
       "checkpoint": {
         "ran": true,
-        "identity": "87e746f560d29898"
+        "identity": "ca16cc8ed63ebde1"
       }
     },
     "stages_ran": [
@@ -179,6 +198,6 @@
     "adaptation_constraints"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
-  "sha256": "870f830e52e81a2ab9a2eea6ffaea53a5176149a417f2ebb6a4d6a07e52cbe3e"
+  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
+  "sha256": "9fe5e4837d92924881a489aecab389e8694344539d29102df2f3fec084caf6b2"
 }
