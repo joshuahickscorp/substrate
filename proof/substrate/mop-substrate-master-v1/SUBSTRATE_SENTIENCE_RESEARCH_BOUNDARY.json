@@ -42,7 +42,7 @@
   "enforcement": "mop.cognition.safety.assert_claim_safe, refusal raises rather than warns",
   "what_this_is_not": "cognitive integrity protects memory, evidence, goals, checkpoints and task continuity. It is not biological self preservation and implies nothing about experience",
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
   "activation": false,
-  "sha256": "35259920dd9cb1b3009175f374d89a7b5b526b545e97be6f5b3fcf11af498937"
+  "sha256": "a1ee1cd7f14032def42494bc1c014b98b936a7dad28e2afe6db8714de0dfe5a0"
 }

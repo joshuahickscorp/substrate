@@ -277,7 +277,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "mop-substrate-master-v1",
-  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
   "activation": false,
-  "sha256": "3048496425101168228a3c462486b5d2b9cced1dff241f8b2626ea01cacc793e"
+  "sha256": "4c4078a567bc1a84efc4bd367b841f157fc51bc033df02f2f4672cbeb3508c38"
 }

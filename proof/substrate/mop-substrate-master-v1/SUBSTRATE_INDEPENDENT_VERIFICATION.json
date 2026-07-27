@@ -234,6 +234,7 @@
   "seal_integrity": {
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
@@ -268,7 +269,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
   "activation": false,
-  "sha256": "9b69c939cf901e57b22798ee9b9e3c21e7efdbb449edcca11a8f4e724c948ad9"
+  "sha256": "c382df41a9f5f1c1d8d8aedab46549546d77b67265caf241b702801df82b517c"
 }

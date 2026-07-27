@@ -358,6 +358,22 @@ ITEMS: tuple[Item, ...] = (
        tests=("tests/cognition/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction",
               "tests/cognition/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"),
        evidence=("SUBSTRATE_NULL_MAP.json",), deps=("A3", "C2"), batch=6),
+    _i("L1", "17", "A resumable campaign driver for a run measured in days",
+       "The six batch loop, made autonomous. A stage is done because its receipt exists, a stage that "
+       "fails the same way twice under the same source commit stops being retried, and the run ends "
+       "rather than spinning.",
+       kind="authority", impl=(f"{COG}/campaign.py",),
+       tests=("tests/cognition/test_campaign.py::test_a_stage_is_done_because_its_receipt_exists",
+              "tests/cognition/test_campaign.py::test_a_repeated_failure_stops_being_retried",
+              "tests/cognition/test_campaign.py::test_the_run_ends_rather_than_spinning"),
+       evidence=("SUBSTRATE_CAMPAIGN_PLAN.json",), deps=("A6", "V2"), batch=6),
+    _i("L2", "22", "The long run plan names what it cannot schedule",
+       "Six waves toward the final vision, with entry and exit conditions declared in advance, and the "
+       "three that wait on a component nobody has built named as blocked rather than scheduled.",
+       kind="boundary", impl=(f"{COG}/campaign.py",),
+       tests=("tests/cognition/test_campaign.py::"
+              "test_the_plan_says_which_waves_wait_on_something_that_does_not_exist",),
+       evidence=("SUBSTRATE_CAMPAIGN_PLAN.json",), deps=("L1", "A5"), batch=6),
     _i("X3", "6.1", "Substrate Temporal Core v1 selection record",
        "The selected temporal core becomes Substrate Temporal Core v1, and it remains one component.",
        kind="evidence", category="temporal_continuity", impl=(f"{COG}/deliverables.py",),
