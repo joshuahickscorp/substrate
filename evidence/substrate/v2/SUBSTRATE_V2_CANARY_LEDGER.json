@@ -88084,7 +88084,9 @@
           "src/substrate/v2io.py",
           "src/substrate/v2principal.py",
           "src/substrate/v2rehearsal.py",
-          "src/substrate/v2state.py"
+          "src/substrate/v2state.py",
+          "src/substrate/v2stats.py",
+          "src/substrate/v2verify.py"
         ],
         "activation_true_assignments": [],
         "external_action_imports": [],
@@ -88113,7 +88115,9 @@
             "src/substrate/v2io.py",
             "src/substrate/v2principal.py",
             "src/substrate/v2rehearsal.py",
-            "src/substrate/v2state.py"
+            "src/substrate/v2state.py",
+            "src/substrate/v2stats.py",
+            "src/substrate/v2verify.py"
           ],
           "activation_true_assignments": [],
           "external_action_imports": [],
@@ -88148,7 +88152,7 @@
   "classification_effect": "none",
   "activation": false,
   "program": "substrate-v2",
-  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
-  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
-  "sha256": "785058774224cc052c4564801b7ad1817399d86670e56145fe618018ca40f7e9"
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "be544a11a85ea5dec4af8d59f93ffc8fddfedd0c9942e21718260ddb8e2c2d05"
 }

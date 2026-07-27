@@ -81,7 +81,7 @@
   "manifest_commit_rule": "commit before final mechanism selection",
   "activation": false,
   "program": "substrate-v2",
-  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
-  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
-  "sha256": "f013dcb24f7f2d6afdb149b823d9c1b565686c0a1d698e1ed135209c721b1416"
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "9ee7129a7dfb846e391354ab167859e6930748794faa1562de1df8fe47c6204d"
 }
