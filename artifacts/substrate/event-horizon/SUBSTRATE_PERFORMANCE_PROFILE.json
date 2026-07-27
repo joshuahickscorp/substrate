@@ -99,7 +99,7 @@
     "profile_process_max_rss_bytes": 41123840
   },
   "interpretation": "process creation and predecessor commit lookup dominated; deterministic kernels are milliseconds and none can remove ten percent of projected terminal wall time",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
   "activation": false,
-  "sha256": "503d91732f05a457ac0a9d331d5b606a5640667e36bb04a0fc7b43ca9d4076b4"
+  "sha256": "58a47353be5b54af5a5aaabad7b79dcc7a47f8528a195eba827db2cfadeb2465"
 }

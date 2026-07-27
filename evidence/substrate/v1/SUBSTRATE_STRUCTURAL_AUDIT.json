@@ -17,7 +17,7 @@
       "ok": true
     },
     "no_stale_outputs": {
-      "checked": 60,
+      "checked": 61,
       "stale": [],
       "artifacts_reporting_failure": [],
       "note": "an artifact reporting a failure is not stale. Evidence still refuses to count it, which is substrate.program.evidence_state, a different question from whether the tree carries an output it can no longer reproduce",
@@ -345,9 +345,9 @@
   },
   "failed": [],
   "all_pass": true,
-  "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
-  "sha256": "820c444c93adc17769cdf5f4955e69358c12cb026e3b748a744981bd68388031"
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "sha256": "1149187330aa553f2e335f19c558479c80a72b3ddbda4d92ef8262349029ebcf"
 }

@@ -25,6 +25,6 @@
   "enforcement": "substrate.safety.assert_claim_safe raises rather than warning",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
-  "sha256": "3ef03afbd02cf8d7f1aa3eb04b062204a44c548b602bc3346bd20a63cf64ede3"
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "sha256": "8bb7545b87540c719c26291c59d6ffed44cb4331715d37a0ea9d1c6eff0b10ba"
 }

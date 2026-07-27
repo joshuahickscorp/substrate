@@ -344,7 +344,7 @@ def build_naming_authority() -> dict:
             "path": path,
             "token": token,
             "classification": classification,
-            "positions": positions,
+            "positions": ";".join(f"{line}:{column}" for line, column in positions),
             "count": len(positions),
         }
         for (path, token, classification), positions in sorted(grouped.items())

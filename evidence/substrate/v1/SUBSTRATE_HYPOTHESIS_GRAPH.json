@@ -263,7 +263,7 @@
   ],
   "open_count": 8,
   "program": "substrate-v1",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
   "activation": false,
-  "sha256": "adadbf37dbed49036e07c4fac5157c5741ce02a27029c222daefced586281231"
+  "sha256": "760b32f2a7f84dfd2c2a68ad056c5e6be51bbe0cc62493b4f8e462948886b4d5"
 }

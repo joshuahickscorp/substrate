@@ -32,11 +32,36 @@
     "checks": 17
   },
   "clean_clone": {
-    "all_pass": false,
-    "status": "pending",
+    "schema": "substrate-clean-environment-result/v1",
+    "status": "passed",
+    "all_pass": true,
+    "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+    "clone": {
+      "independent_git_directory": true,
+      "exact_commit_checkout": true,
+      "no_hardlinks": true
+    },
+    "environment": {
+      "python": "3.12.13",
+      "created_by": "uv sync --extra dev --python 3.12",
+      "installed_packages_including_project": 14,
+      "editable_project": "substrate==1.0.0"
+    },
+    "checks": {
+      "lint": "passed",
+      "format": "passed",
+      "tests": "231 passed",
+      "structural_and_independent_verification": "passed",
+      "rehearsal": "17 of 17 passed",
+      "status": "passed",
+      "stop": "stop switch became active",
+      "resume": "stop switch cleared; launch gate refused deliberate configuration/source drift",
+      "launch_receipt_absent": true
+    },
+    "scientific_long_run_launched": false,
     "activation": false
   },
   "activation": false,
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
-  "sha256": "a5b3f3ca96d45089ad5c8bb85c1907539ff2c42c67a03aaca8113d596d72b3d3"
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "sha256": "a7c5c27a9f02920c5bf1abb4c3b8845fcdfa925e90862dda9ced4d2cfe309036"
 }

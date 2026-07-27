@@ -58,7 +58,7 @@
   },
   "projected_rust_total_gain_percent_upper_bound": 3.0,
   "parity_authority_required": false,
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
   "activation": false,
-  "sha256": "440f3ad687937f40263a538f7b6685a072a00f11e9872403da438c8d37881b84"
+  "sha256": "b1e4adec0bd17b9bc491e3de398cdc43a98fa667d2f463907f28294f6425f447"
 }

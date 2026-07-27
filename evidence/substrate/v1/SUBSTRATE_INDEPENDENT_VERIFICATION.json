@@ -294,6 +294,7 @@
     "SUBSTRATE_BODY_GENERAL.json": true,
     "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
     "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
@@ -351,7 +352,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "substrate-v1",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
   "activation": false,
-  "sha256": "d1b2cb4d7c6b3309c9e5081bab39e51e0e4278459b06e60e18d6173eb53a6728"
+  "sha256": "ccb9c58a055ee00d0bae9c9c5deb60a95c9eacab51fe7d1ccfac9ffea0c7b722"
 }
