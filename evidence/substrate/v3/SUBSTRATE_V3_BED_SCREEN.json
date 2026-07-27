@@ -1,0 +1,95 @@
+{
+  "schema": "substrate-v3-bed-screen/v1",
+  "families": {
+    "ontology_garden": {
+      "tasks": 96,
+      "answer_leakage": false,
+      "oracle_accuracy": 1.0,
+      "simple_accuracy": 0.84375,
+      "random_accuracy": 0.90625,
+      "oracle_headroom": 0.09375,
+      "floor_clear": true,
+      "ceiling_reachable": true,
+      "valid": true,
+      "classification": "instrument_verified"
+    },
+    "epistemic_laboratory": {
+      "tasks": 96,
+      "answer_leakage": false,
+      "oracle_accuracy": 1.0,
+      "simple_accuracy": 0.4895833333333333,
+      "random_accuracy": 0.6458333333333334,
+      "oracle_headroom": 0.35416666666666663,
+      "floor_clear": true,
+      "ceiling_reachable": true,
+      "valid": true,
+      "classification": "instrument_verified"
+    },
+    "causal_micro_worlds": {
+      "tasks": 96,
+      "answer_leakage": false,
+      "oracle_accuracy": 1.0,
+      "simple_accuracy": 0.7708333333333334,
+      "random_accuracy": 0.84375,
+      "oracle_headroom": 0.15625,
+      "floor_clear": true,
+      "ceiling_reachable": true,
+      "valid": true,
+      "classification": "instrument_verified"
+    },
+    "cross_representation_systems": {
+      "tasks": 96,
+      "answer_leakage": false,
+      "oracle_accuracy": 1.0,
+      "simple_accuracy": 0.3333333333333333,
+      "random_accuracy": 0.6145833333333334,
+      "oracle_headroom": 0.38541666666666663,
+      "floor_clear": true,
+      "ceiling_reachable": true,
+      "valid": true,
+      "classification": "instrument_verified"
+    },
+    "reasoning_method_selection": {
+      "tasks": 96,
+      "answer_leakage": false,
+      "oracle_accuracy": 1.0,
+      "simple_accuracy": 0.5625,
+      "random_accuracy": 0.7291666666666666,
+      "oracle_headroom": 0.27083333333333337,
+      "floor_clear": true,
+      "ceiling_reachable": true,
+      "valid": true,
+      "classification": "instrument_verified"
+    },
+    "scientific_inquiry": {
+      "tasks": 96,
+      "answer_leakage": false,
+      "oracle_accuracy": 1.0,
+      "simple_accuracy": 0.5729166666666666,
+      "random_accuracy": 0.71875,
+      "oracle_headroom": 0.28125,
+      "floor_clear": true,
+      "ceiling_reachable": true,
+      "valid": true,
+      "classification": "instrument_verified"
+    },
+    "adversarial_ambiguity": {
+      "tasks": 96,
+      "answer_leakage": false,
+      "oracle_accuracy": 1.0,
+      "simple_accuracy": 0.0,
+      "random_accuracy": 0.4270833333333333,
+      "oracle_headroom": 0.5729166666666667,
+      "floor_clear": true,
+      "ceiling_reachable": true,
+      "valid": true,
+      "classification": "instrument_verified"
+    }
+  },
+  "all_valid": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "df8d04dd5f511b15665538a6a3e99b262fea0a7eb5835aa85a983b356ba3d4ef"
+}

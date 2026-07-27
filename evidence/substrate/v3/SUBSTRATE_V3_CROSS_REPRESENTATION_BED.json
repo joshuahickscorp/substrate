@@ -1,0 +1,45 @@
+{
+  "schema": "substrate-v3-cross-representation-bed/v1",
+  "symbolic": [
+    "mi",
+    "zu"
+  ],
+  "graph": [
+    "n1",
+    "n8"
+  ],
+  "effect": {
+    "family": "cross_representation_systems",
+    "full_arm": "full_v3",
+    "control_arm": "no_understanding_structure",
+    "independent_units": 16,
+    "raw_effects": [
+      0.7083333333333333,
+      0.5833333333333333,
+      0.7083333333333333,
+      0.5416666666666667,
+      0.75,
+      0.75,
+      0.5,
+      0.7083333333333333,
+      0.7083333333333333,
+      0.6666666666666666,
+      0.6666666666666666,
+      0.7916666666666666,
+      0.625,
+      0.7083333333333333,
+      0.75,
+      0.75
+    ],
+    "margin": 0.6822916666666666,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.3177083333333333,
+    "full_compute": 384.0,
+    "control_compute": 384.0
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "cf787af692b07cd40aeb2b1265e86c3d62a81167d22719d28925df3a03d0cdee"
+}

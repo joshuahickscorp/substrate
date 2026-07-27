@@ -1,0 +1,47 @@
+{
+  "schema": "substrate-v3-self-model-canaries/v1",
+  "canaries": [
+    {
+      "identity": "C32",
+      "description": "self predictions precede outcomes",
+      "positive_fixture": "timestamped preoutcome predictions",
+      "null_fixture": "postoutcome write",
+      "mechanism_activity": true,
+      "controls": [
+        "no self model"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C33",
+      "description": "self model improves control decision",
+      "positive_fixture": "updating conditional estimate",
+      "null_fixture": "fixed prior",
+      "mechanism_activity": true,
+      "controls": [
+        "no self model",
+        "fixed prior"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.1,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "ba13ebb719676e090573eb138e3f04286cecd96a836a1c2c34380e0bb8299477"
+}

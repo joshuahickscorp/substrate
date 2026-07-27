@@ -1,0 +1,248 @@
+{
+  "schema": "substrate-v3-reasoning-procedures/v1",
+  "traces": {
+    "deduction": {
+      "mode": "deduction",
+      "required_inputs": [
+        "facts",
+        "features",
+        "query",
+        "rules"
+      ],
+      "inference_rules": [
+        "forward consequence"
+      ],
+      "assumptions": [],
+      "intermediate_states": [
+        [
+          "a"
+        ],
+        "b",
+        "c"
+      ],
+      "conclusion": true,
+      "confidence": 1.0,
+      "failure_conditions": [
+        "contradictory premises"
+      ],
+      "verification_method": "held out target after commitment",
+      "cost": 1.0,
+      "selected_from_preoutcome_features": true
+    },
+    "invalid_deduction": {
+      "mode": "deduction",
+      "required_inputs": [
+        "facts",
+        "features",
+        "query",
+        "rules"
+      ],
+      "inference_rules": [
+        "forward consequence"
+      ],
+      "assumptions": [],
+      "intermediate_states": [
+        [
+          "a"
+        ]
+      ],
+      "conclusion": false,
+      "confidence": 1.0,
+      "failure_conditions": [
+        "contradictory premises"
+      ],
+      "verification_method": "held out target after commitment",
+      "cost": 1.0,
+      "selected_from_preoutcome_features": true
+    },
+    "induction": {
+      "mode": "induction",
+      "required_inputs": [
+        "features",
+        "samples"
+      ],
+      "inference_rules": [
+        "bounded frequency induction"
+      ],
+      "assumptions": [],
+      "intermediate_states": [
+        0.75,
+        0.21650635094610965,
+        1
+      ],
+      "conclusion": true,
+      "confidence": 0.5669872981077807,
+      "failure_conditions": [
+        "distribution shift"
+      ],
+      "verification_method": "held out target after commitment",
+      "cost": 1.0,
+      "selected_from_preoutcome_features": true
+    },
+    "abduction": {
+      "mode": "abduction",
+      "required_inputs": [
+        "explanations",
+        "features"
+      ],
+      "inference_rules": [
+        "support minus complexity"
+      ],
+      "assumptions": [
+        "candidate explanations are exhaustive"
+      ],
+      "intermediate_states": [
+        {
+          "identity": "a",
+          "support": 2,
+          "cost": 1
+        },
+        {
+          "identity": "b",
+          "support": 2,
+          "cost": 1
+        }
+      ],
+      "conclusion": [
+        "a",
+        "b"
+      ],
+      "confidence": 0.5,
+      "failure_conditions": [
+        "unobserved explanation"
+      ],
+      "verification_method": "held out target after commitment",
+      "cost": 1.0,
+      "selected_from_preoutcome_features": true
+    },
+    "analogy": {
+      "mode": "analogy",
+      "required_inputs": [
+        "candidate_relations",
+        "features",
+        "mapping",
+        "source_relations"
+      ],
+      "inference_rules": [
+        "relational isomorphism"
+      ],
+      "assumptions": [],
+      "intermediate_states": [
+        [
+          [
+            "x",
+            "y"
+          ],
+          [
+            "y",
+            "z"
+          ]
+        ],
+        1.0
+      ],
+      "conclusion": true,
+      "confidence": 1.0,
+      "failure_conditions": [
+        "surface only match"
+      ],
+      "verification_method": "held out target after commitment",
+      "cost": 1.0,
+      "selected_from_preoutcome_features": true
+    },
+    "wrong_analogy": {
+      "mode": "analogy",
+      "required_inputs": [
+        "candidate_relations",
+        "features",
+        "mapping",
+        "source_relations"
+      ],
+      "inference_rules": [
+        "relational isomorphism"
+      ],
+      "assumptions": [],
+      "intermediate_states": [
+        [
+          [
+            "x",
+            "y"
+          ],
+          [
+            "y",
+            "z"
+          ]
+        ],
+        0.0
+      ],
+      "conclusion": false,
+      "confidence": 0.0,
+      "failure_conditions": [
+        "surface only match"
+      ],
+      "verification_method": "held out target after commitment",
+      "cost": 1.0,
+      "selected_from_preoutcome_features": true
+    },
+    "causal": {
+      "mode": "causal",
+      "required_inputs": [
+        "features",
+        "intervention",
+        "observational"
+      ],
+      "inference_rules": [
+        "do intervention"
+      ],
+      "assumptions": [],
+      "intermediate_states": [
+        1,
+        0,
+        true
+      ],
+      "conclusion": 0,
+      "confidence": 1.0,
+      "failure_conditions": [
+        "uncontrolled confounder"
+      ],
+      "verification_method": "held out target after commitment",
+      "cost": 1.0,
+      "selected_from_preoutcome_features": true
+    },
+    "counterfactual": {
+      "mode": "counterfactual",
+      "required_inputs": [
+        "background",
+        "change",
+        "features",
+        "transition"
+      ],
+      "inference_rules": [
+        "minimal intervention"
+      ],
+      "assumptions": [
+        "background held fixed"
+      ],
+      "intermediate_states": [
+        {
+          "cause": 1,
+          "context": 1
+        },
+        {
+          "cause": 0
+        },
+        0
+      ],
+      "conclusion": 0,
+      "confidence": 1.0,
+      "failure_conditions": [],
+      "verification_method": "held out target after commitment",
+      "cost": 1.0,
+      "selected_from_preoutcome_features": true
+    }
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "1481a427488f0aa5e32ed6bb76f53b833ecab7e5aa80781716e6e1f039aa2b24"
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "substrate-v3-candidate-ladder/v1",
+  "ontology": [
+    "fixed typed ontology",
+    "evidence triggered split and merge",
+    "regularized utility based revision"
+  ],
+  "epistemology": [
+    "dependency graph with direct defeaters",
+    "source reliability",
+    "underdetermination and inquiry"
+  ],
+  "reasoning": [
+    "fixed reasoning",
+    "rule based contextual selector",
+    "regularized linear selector"
+  ],
+  "understanding": [
+    "semantic structure",
+    "semantic plus causal",
+    "semantic plus causal plus cross representation"
+  ],
+  "inquiry": [
+    "best fixed",
+    "tabular contextual value",
+    "regularized linear contextual"
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "22283323169348c1e09841e243a9be25c52ab589946ab600063c7cc227070de5"
+}

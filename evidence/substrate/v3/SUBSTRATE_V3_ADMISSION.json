@@ -1,0 +1,27 @@
+{
+  "schema": "substrate-v3-principal-admission/v1",
+  "mechanisms": {
+    "ontology": true,
+    "epistemology": true,
+    "reasoning_selection": true,
+    "structural_understanding": true,
+    "inquiry_headroom": true,
+    "allocation": true,
+    "integration": true
+  },
+  "all_canaries_pass": true,
+  "all_canaries_terminal": true,
+  "beds_valid": true,
+  "moderate_pilot_licensed": true,
+  "principal_execution_licensed": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "moderate_pilot_pass": true,
+  "failure_matrix_pass": true,
+  "resource_plan_safe": true,
+  "splits_frozen": true,
+  "statistics_frozen": true,
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "89adde9f524d39ac9bebf43c47099392303eef3f5355a9e6554754b8e766b50d"
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "substrate-v3-constitutional-retrospective/v1",
+  "v1_terminal": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+  "v2_ready": "553539bc5edc01737fa53b2c4ee4096eb32a2f23",
+  "v2_terminal": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "v2_classification": "persistent_developmental_cognition",
+  "v2_established": [
+    "body continuity",
+    "cognitive integrity",
+    "continuity",
+    "development",
+    "goal preservation",
+    "identity",
+    "memory",
+    "procedural learning",
+    "self model",
+    "semantic learning",
+    "tool competence",
+    "transfer",
+    "unity",
+    "world model"
+  ],
+  "v2_nulls": {
+    "allocation": "no_oracle_headroom"
+  },
+  "v2_did_not_establish": [
+    "allocation",
+    "analogy",
+    "causality",
+    "counterfactuals",
+    "diagnosis",
+    "epistemology",
+    "explanation",
+    "inquiry",
+    "knowledge",
+    "ontology",
+    "open world adaptation",
+    "planning",
+    "reasoning",
+    "reflection",
+    "uncertainty",
+    "understanding"
+  ],
+  "strongest_conclusion": "v2 established persistent developmental cognition with transfer and exact continuity; it did not establish the epistemic, structural, inquiry, allocation, and reflective criteria required by v3",
+  "capability_count": 31,
+  "gap_count": 16,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "eadcf705718576f382484b1710c0d9f054a7eba3fb625a8046d85c697cff162e"
+}

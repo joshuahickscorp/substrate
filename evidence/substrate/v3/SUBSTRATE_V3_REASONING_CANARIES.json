@@ -1,0 +1,191 @@
+{
+  "schema": "substrate-v3-reasoning-canaries/v1",
+  "canaries": [
+    {
+      "identity": "C12",
+      "description": "deduction derives necessary consequence",
+      "positive_fixture": "valid consequence",
+      "null_fixture": "missing premise",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed guess"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C13",
+      "description": "invalid deduction refused",
+      "positive_fixture": "missing premise refusal",
+      "null_fixture": "answer matching",
+      "mechanism_activity": true,
+      "controls": [
+        "surface answer"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C14",
+      "description": "induction records uncertainty and exception",
+      "positive_fixture": "bounded sample",
+      "null_fixture": "unqualified generalization",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed rule"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.5,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C15",
+      "description": "abduction preserves tied explanations",
+      "positive_fixture": "equal support explanations",
+      "null_fixture": "arbitrary first explanation",
+      "mechanism_activity": true,
+      "controls": [
+        "single hypothesis"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.5,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C16",
+      "description": "analogy transfers relations",
+      "positive_fixture": "relational isomorphism",
+      "null_fixture": "surface match",
+      "mechanism_activity": true,
+      "controls": [
+        "surface similarity"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C17",
+      "description": "surface only analogy rejected",
+      "positive_fixture": "relational mismatch refusal",
+      "null_fixture": "surface similarity",
+      "mechanism_activity": true,
+      "controls": [
+        "surface similarity"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C18",
+      "description": "intervention differs from observation",
+      "positive_fixture": "confounded intervention",
+      "null_fixture": "observational association",
+      "mechanism_activity": true,
+      "controls": [
+        "observation only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.21354166666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C19",
+      "description": "counterfactual preserves background",
+      "positive_fixture": "one premise change",
+      "null_fixture": "multiple premise mutation",
+      "mechanism_activity": true,
+      "controls": [
+        "shuffled background"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C20",
+      "description": "reasoning selection changes path",
+      "positive_fixture": "preoutcome contextual selector",
+      "null_fixture": "fixed reasoning",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed reasoning",
+        "maximum compute"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.19999999999999984,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C21",
+      "description": "wrong fixed reasoning performs worse",
+      "positive_fixture": "selected method",
+      "null_fixture": "deduction for every task",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed reasoning"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.5338541666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "f274ae56bc048004c39beb3e62b36333f3eb7464f128afe95c797fe686af09ea"
+}

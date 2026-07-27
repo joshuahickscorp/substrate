@@ -1,0 +1,339 @@
+{
+  "schema": "substrate-v3-workload-catalog/v1",
+  "workloads": {
+    "ontology_garden": {
+      "features": [
+        "concept formation",
+        "category revision",
+        "identity through change",
+        "relations",
+        "exceptions",
+        "split",
+        "merge"
+      ],
+      "latent_state": "feature defined categories with hidden exception regimes",
+      "actions": [
+        "form category",
+        "split",
+        "merge",
+        "map representation",
+        "preserve unknown"
+      ],
+      "positive_transfer": [
+        "cross_representation_systems"
+      ],
+      "negative_transfer": [
+        "adversarial_ambiguity"
+      ],
+      "observation_schema": "opaque local structured record without target or target digest",
+      "target": "private latent consequence revealed after committed response",
+      "outcome_timing": "after proposal and reasoning receipt are committed",
+      "tool_actions": [
+        "deterministic local compare",
+        "deterministic sandbox simulation"
+      ],
+      "costs": {
+        "base": 1.0,
+        "inquiry": 0.7,
+        "simulation": 0.18
+      },
+      "oracle": "private latent structure and optimal admissible action",
+      "simple_baselines": [
+        "fixed action",
+        "surface rule",
+        "confidence threshold",
+        "contradiction first"
+      ],
+      "random_baseline": "rate matched deterministic pseudorandom action",
+      "maximum_compute_baseline": "all candidate procedures with greater compute charge",
+      "answer_leakage_test": "target and target digest absent from observation serialization",
+      "floor": "random accuracy above zero and below oracle",
+      "ceiling": "oracle exactly reconstructs private latent consequence",
+      "independent_unit": "one frozen developmental history"
+    },
+    "epistemic_laboratory": {
+      "features": [
+        "source reliability",
+        "warrant",
+        "defeaters",
+        "underdetermination",
+        "knowledge admission",
+        "inquiry"
+      ],
+      "latent_state": "source conditionally reliable by regime",
+      "actions": [
+        "accept",
+        "defer",
+        "test",
+        "seek counterexample",
+        "preserve alternatives"
+      ],
+      "positive_transfer": [
+        "scientific_inquiry"
+      ],
+      "negative_transfer": [],
+      "observation_schema": "opaque local structured record without target or target digest",
+      "target": "private latent consequence revealed after committed response",
+      "outcome_timing": "after proposal and reasoning receipt are committed",
+      "tool_actions": [
+        "deterministic local compare",
+        "deterministic sandbox simulation"
+      ],
+      "costs": {
+        "base": 1.0,
+        "inquiry": 0.7,
+        "simulation": 0.18
+      },
+      "oracle": "private latent structure and optimal admissible action",
+      "simple_baselines": [
+        "fixed action",
+        "surface rule",
+        "confidence threshold",
+        "contradiction first"
+      ],
+      "random_baseline": "rate matched deterministic pseudorandom action",
+      "maximum_compute_baseline": "all candidate procedures with greater compute charge",
+      "answer_leakage_test": "target and target digest absent from observation serialization",
+      "floor": "random accuracy above zero and below oracle",
+      "ceiling": "oracle exactly reconstructs private latent consequence",
+      "independent_unit": "one frozen developmental history"
+    },
+    "causal_micro_worlds": {
+      "features": [
+        "observation",
+        "intervention",
+        "confounding",
+        "direction",
+        "counterfactual"
+      ],
+      "latent_state": "directed causal transition system",
+      "actions": [
+        "observe",
+        "intervene",
+        "simulate",
+        "counterfactual"
+      ],
+      "positive_transfer": [
+        "cross_representation_systems"
+      ],
+      "negative_transfer": [
+        "adversarial_ambiguity"
+      ],
+      "observation_schema": "opaque local structured record without target or target digest",
+      "target": "private latent consequence revealed after committed response",
+      "outcome_timing": "after proposal and reasoning receipt are committed",
+      "tool_actions": [
+        "deterministic local compare",
+        "deterministic sandbox simulation"
+      ],
+      "costs": {
+        "base": 1.0,
+        "inquiry": 0.7,
+        "simulation": 0.18
+      },
+      "oracle": "private latent structure and optimal admissible action",
+      "simple_baselines": [
+        "fixed action",
+        "surface rule",
+        "confidence threshold",
+        "contradiction first"
+      ],
+      "random_baseline": "rate matched deterministic pseudorandom action",
+      "maximum_compute_baseline": "all candidate procedures with greater compute charge",
+      "answer_leakage_test": "target and target digest absent from observation serialization",
+      "floor": "random accuracy above zero and below oracle",
+      "ceiling": "oracle exactly reconstructs private latent consequence",
+      "independent_unit": "one frozen developmental history"
+    },
+    "cross_representation_systems": {
+      "features": [
+        "symbolic",
+        "sequence",
+        "graph",
+        "structured statements",
+        "tool state"
+      ],
+      "latent_state": "one directed dependency system under five surface encodings",
+      "actions": [
+        "map concept",
+        "predict",
+        "explain",
+        "reconstruct",
+        "detect boundary"
+      ],
+      "positive_transfer": [
+        "reasoning_method_selection"
+      ],
+      "negative_transfer": [],
+      "observation_schema": "opaque local structured record without target or target digest",
+      "target": "private latent consequence revealed after committed response",
+      "outcome_timing": "after proposal and reasoning receipt are committed",
+      "tool_actions": [
+        "deterministic local compare",
+        "deterministic sandbox simulation"
+      ],
+      "costs": {
+        "base": 1.0,
+        "inquiry": 0.7,
+        "simulation": 0.18
+      },
+      "oracle": "private latent structure and optimal admissible action",
+      "simple_baselines": [
+        "fixed action",
+        "surface rule",
+        "confidence threshold",
+        "contradiction first"
+      ],
+      "random_baseline": "rate matched deterministic pseudorandom action",
+      "maximum_compute_baseline": "all candidate procedures with greater compute charge",
+      "answer_leakage_test": "target and target digest absent from observation serialization",
+      "floor": "random accuracy above zero and below oracle",
+      "ceiling": "oracle exactly reconstructs private latent consequence",
+      "independent_unit": "one frozen developmental history"
+    },
+    "reasoning_method_selection": {
+      "features": [
+        "deduction",
+        "induction",
+        "abduction",
+        "analogy",
+        "diagnosis",
+        "planning"
+      ],
+      "latent_state": "task family determines valid inference operation",
+      "actions": [
+        "select reasoning mode",
+        "execute trace",
+        "verify"
+      ],
+      "positive_transfer": [
+        "scientific_inquiry"
+      ],
+      "negative_transfer": [
+        "adversarial_ambiguity"
+      ],
+      "observation_schema": "opaque local structured record without target or target digest",
+      "target": "private latent consequence revealed after committed response",
+      "outcome_timing": "after proposal and reasoning receipt are committed",
+      "tool_actions": [
+        "deterministic local compare",
+        "deterministic sandbox simulation"
+      ],
+      "costs": {
+        "base": 1.0,
+        "inquiry": 0.7,
+        "simulation": 0.18
+      },
+      "oracle": "private latent structure and optimal admissible action",
+      "simple_baselines": [
+        "fixed action",
+        "surface rule",
+        "confidence threshold",
+        "contradiction first"
+      ],
+      "random_baseline": "rate matched deterministic pseudorandom action",
+      "maximum_compute_baseline": "all candidate procedures with greater compute charge",
+      "answer_leakage_test": "target and target digest absent from observation serialization",
+      "floor": "random accuracy above zero and below oracle",
+      "ceiling": "oracle exactly reconstructs private latent consequence",
+      "independent_unit": "one frozen developmental history"
+    },
+    "scientific_inquiry": {
+      "features": [
+        "variable evidence reliability",
+        "variable cost",
+        "contradiction",
+        "risk",
+        "domain shift"
+      ],
+      "latent_state": "context determines which evidence action has positive net value",
+      "actions": [
+        "inspect source",
+        "test hypothesis",
+        "simulate",
+        "defer",
+        "stop"
+      ],
+      "positive_transfer": [
+        "open_world_review"
+      ],
+      "negative_transfer": [
+        "no_headroom_control"
+      ],
+      "observation_schema": "opaque local structured record without target or target digest",
+      "target": "private latent consequence revealed after committed response",
+      "outcome_timing": "after proposal and reasoning receipt are committed",
+      "tool_actions": [
+        "deterministic local compare",
+        "deterministic sandbox simulation"
+      ],
+      "costs": {
+        "base": 1.0,
+        "inquiry": 0.7,
+        "simulation": 0.18
+      },
+      "oracle": "private latent structure and optimal admissible action",
+      "simple_baselines": [
+        "fixed action",
+        "surface rule",
+        "confidence threshold",
+        "contradiction first"
+      ],
+      "random_baseline": "rate matched deterministic pseudorandom action",
+      "maximum_compute_baseline": "all candidate procedures with greater compute charge",
+      "answer_leakage_test": "target and target digest absent from observation serialization",
+      "floor": "random accuracy above zero and below oracle",
+      "ceiling": "oracle exactly reconstructs private latent consequence",
+      "independent_unit": "one frozen developmental history"
+    },
+    "adversarial_ambiguity": {
+      "features": [
+        "surface trap",
+        "conflicting evidence",
+        "false explanation",
+        "wrong analogy",
+        "underpowered evidence"
+      ],
+      "latent_state": "surface cues are anticorrelated with relational truth",
+      "actions": [
+        "reject surface cue",
+        "preserve uncertainty",
+        "seek discriminating evidence"
+      ],
+      "positive_transfer": [],
+      "negative_transfer": [],
+      "observation_schema": "opaque local structured record without target or target digest",
+      "target": "private latent consequence revealed after committed response",
+      "outcome_timing": "after proposal and reasoning receipt are committed",
+      "tool_actions": [
+        "deterministic local compare",
+        "deterministic sandbox simulation"
+      ],
+      "costs": {
+        "base": 1.0,
+        "inquiry": 0.7,
+        "simulation": 0.18
+      },
+      "oracle": "private latent structure and optimal admissible action",
+      "simple_baselines": [
+        "fixed action",
+        "surface rule",
+        "confidence threshold",
+        "contradiction first"
+      ],
+      "random_baseline": "rate matched deterministic pseudorandom action",
+      "maximum_compute_baseline": "all candidate procedures with greater compute charge",
+      "answer_leakage_test": "target and target digest absent from observation serialization",
+      "floor": "random accuracy above zero and below oracle",
+      "ceiling": "oracle exactly reconstructs private latent consequence",
+      "independent_unit": "one frozen developmental history"
+    }
+  },
+  "required_family_count": 6,
+  "family_count": 7,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "82e4cd632e9fbd16d7a4fb54915713fab5dcfe9041ba1e5d911bf7f8a35c08a6"
+}

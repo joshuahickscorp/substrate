@@ -1,0 +1,431 @@
+{
+  "schema": "substrate-v3-ontology-revision/v1",
+  "formation": {
+    "identity": "ontology-revision-000000",
+    "operation": "form",
+    "triggering_evidence": [
+      "verified:1",
+      "verified:2"
+    ],
+    "old_ontology": {
+      "concepts": {},
+      "instance_features": {
+        "exception_entity": [
+          "changing",
+          "exception"
+        ],
+        "regular_process": [
+          "changing",
+          "regular"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "new_ontology": {
+      "concepts": {
+        "entity_or_process": {
+          "identity": "entity_or_process",
+          "members": [
+            "exception_entity",
+            "regular_process"
+          ],
+          "features": [
+            "changing"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": []
+        }
+      },
+      "instance_features": {
+        "exception_entity": [
+          "changing",
+          "exception"
+        ],
+        "regular_process": [
+          "changing",
+          "regular"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "predicted_benefit": 0.2,
+    "actual_held_out_benefit": 0.15,
+    "cost": 1.0,
+    "affected_beliefs": [],
+    "affected_procedures": [],
+    "exceptions": [],
+    "rollback_checkpoint": {
+      "concepts": {},
+      "instance_features": {
+        "exception_entity": [
+          "changing",
+          "exception"
+        ],
+        "regular_process": [
+          "changing",
+          "regular"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "admitted": true,
+    "rolled_back": false
+  },
+  "split": {
+    "identity": "ontology-revision-000001",
+    "operation": "split",
+    "triggering_evidence": [
+      "verified:exception"
+    ],
+    "old_ontology": {
+      "concepts": {
+        "entity_or_process": {
+          "identity": "entity_or_process",
+          "members": [
+            "exception_entity",
+            "regular_process"
+          ],
+          "features": [
+            "changing"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": []
+        }
+      },
+      "instance_features": {
+        "exception_entity": [
+          "changing",
+          "exception"
+        ],
+        "regular_process": [
+          "changing",
+          "regular"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "new_ontology": {
+      "concepts": {
+        "entity": {
+          "identity": "entity",
+          "members": [
+            "exception_entity"
+          ],
+          "features": [
+            "changing"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": [
+            "entity_or_process"
+          ]
+        },
+        "entity_or_process": {
+          "identity": "entity_or_process",
+          "members": [
+            "exception_entity",
+            "regular_process"
+          ],
+          "features": [
+            "changing"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "superseded",
+          "supersedes": []
+        },
+        "process": {
+          "identity": "process",
+          "members": [
+            "regular_process"
+          ],
+          "features": [
+            "changing",
+            "regular"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": [
+            "entity_or_process"
+          ]
+        }
+      },
+      "instance_features": {
+        "exception_entity": [
+          "changing",
+          "exception"
+        ],
+        "regular_process": [
+          "changing",
+          "regular"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "predicted_benefit": 0.25,
+    "actual_held_out_benefit": 0.2,
+    "cost": 1.0,
+    "affected_beliefs": [],
+    "affected_procedures": [],
+    "exceptions": [
+      "exception_entity"
+    ],
+    "rollback_checkpoint": {
+      "concepts": {
+        "entity_or_process": {
+          "identity": "entity_or_process",
+          "members": [
+            "exception_entity",
+            "regular_process"
+          ],
+          "features": [
+            "changing"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": []
+        }
+      },
+      "instance_features": {
+        "exception_entity": [
+          "changing",
+          "exception"
+        ],
+        "regular_process": [
+          "changing",
+          "regular"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "admitted": true,
+    "rolled_back": false
+  },
+  "merge": {
+    "identity": "ontology-revision-000000",
+    "operation": "merge",
+    "triggering_evidence": [
+      "equivalence"
+    ],
+    "old_ontology": {
+      "concepts": {
+        "left": {
+          "identity": "left",
+          "members": [
+            "a"
+          ],
+          "features": [
+            "shared"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": []
+        },
+        "right": {
+          "identity": "right",
+          "members": [
+            "b"
+          ],
+          "features": [
+            "shared"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": []
+        }
+      },
+      "instance_features": {
+        "a": [
+          "shared"
+        ],
+        "b": [
+          "shared"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "new_ontology": {
+      "concepts": {
+        "combined": {
+          "identity": "combined",
+          "members": [
+            "a",
+            "b"
+          ],
+          "features": [
+            "shared"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": [
+            "left",
+            "right"
+          ]
+        },
+        "left": {
+          "identity": "left",
+          "members": [
+            "a"
+          ],
+          "features": [
+            "shared"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "superseded",
+          "supersedes": []
+        },
+        "right": {
+          "identity": "right",
+          "members": [
+            "b"
+          ],
+          "features": [
+            "shared"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "superseded",
+          "supersedes": []
+        }
+      },
+      "instance_features": {
+        "a": [
+          "shared"
+        ],
+        "b": [
+          "shared"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "predicted_benefit": 0.1,
+    "actual_held_out_benefit": 0.1,
+    "cost": 1.0,
+    "affected_beliefs": [],
+    "affected_procedures": [],
+    "exceptions": [],
+    "rollback_checkpoint": {
+      "concepts": {
+        "left": {
+          "identity": "left",
+          "members": [
+            "a"
+          ],
+          "features": [
+            "shared"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": []
+        },
+        "right": {
+          "identity": "right",
+          "members": [
+            "b"
+          ],
+          "features": [
+            "shared"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": []
+        }
+      },
+      "instance_features": {
+        "a": [
+          "shared"
+        ],
+        "b": [
+          "shared"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "admitted": true,
+    "rolled_back": false
+  },
+  "rollback": {
+    "identity": "ontology-revision-000000",
+    "operation": "form",
+    "triggering_evidence": [
+      "verified"
+    ],
+    "old_ontology": {
+      "concepts": {},
+      "instance_features": {
+        "a": [
+          "shared"
+        ],
+        "b": [
+          "shared"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "new_ontology": {
+      "concepts": {
+        "candidate": {
+          "identity": "candidate",
+          "members": [
+            "a",
+            "b"
+          ],
+          "features": [
+            "shared"
+          ],
+          "relations": [],
+          "exceptions": [],
+          "status": "active",
+          "supersedes": []
+        }
+      },
+      "instance_features": {
+        "a": [
+          "shared"
+        ],
+        "b": [
+          "shared"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "predicted_benefit": 0.1,
+    "actual_held_out_benefit": 0.0,
+    "cost": 1.0,
+    "affected_beliefs": [],
+    "affected_procedures": [],
+    "exceptions": [],
+    "rollback_checkpoint": {
+      "concepts": {},
+      "instance_features": {
+        "a": [
+          "shared"
+        ],
+        "b": [
+          "shared"
+        ]
+      },
+      "cross_representation_maps": {}
+    },
+    "admitted": false,
+    "rolled_back": true
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "dc97f633342373b1d17b3e9d3457032851199e66264eb7db628ce93f12d72994"
+}
