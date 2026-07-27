@@ -1038,7 +1038,8 @@ def sx5_classify() -> dict:
     """
     from substrate import program as P
 
-    decision = json.loads((io.RUNS / "experiments" / "SX5_decision.json").read_text())
+    decision_path = io.RUNS / "experiments" / "SX5_decision.json"
+    decision = json.loads(decision_path.read_text()) if decision_path.is_file() else sx5_run()
     if not decision.get("licensed"):
         raise RuntimeError("SX5 was never licensed, so there is nothing to classify")
     ver = json.loads((io.PROOF / "SUBSTRATE_INDEPENDENT_VERIFICATION.json").read_text())
