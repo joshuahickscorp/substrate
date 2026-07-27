@@ -70,7 +70,7 @@
   "every_answer_bound_to_a_receipt": true,
   "rule": "a report with no provenance fails closed rather than answering",
   "program": "mop-substrate-master-v1",
-  "source_commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
   "activation": false,
-  "sha256": "a5e6bf08bf69290fc6a51037ef03c28da8ef236bfb8f36c0f44621e0a9a6f233"
+  "sha256": "79a9df6d3ff2194287fb06f0282b2b0b85a1888bd7d2b6b825aadda9bf556fb1"
 }

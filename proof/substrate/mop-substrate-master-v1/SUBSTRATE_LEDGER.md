@@ -1,6 +1,6 @@
 # Substrate ledger
 
-Generated from the tree at commit `5fdb3b3cabd3128882821a67619231ca4e4d255f`. Status is derived, never asserted: an item is
+Generated from the tree at commit `566bb2e689c722a78258a0129eeca79a8bf96de1`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 

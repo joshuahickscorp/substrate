@@ -90,6 +90,6 @@
   },
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
-  "sha256": "7720cb2d4c21c6fff54feeb7b36ae909a98383cb98787818fdfa726384da6286"
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "sha256": "d377032c6ab49f768662b8d142ec0ff6680318cc701c295ac761a864551f15a1"
 }
