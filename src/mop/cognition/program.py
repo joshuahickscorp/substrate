@@ -31,13 +31,24 @@ PROOF_ROOTS = {
 
 STATUS_LADDER = ("not_started", "partial", "implemented", "tested", "measured", "terminal")
 
-# section 20 of the master plan, the eighteen scorecard categories
+# section 43 of the final autonomous program, the twenty seven scorecard categories. This supersedes the
+# eighteen of the earlier master plan; the four renamed ones are listed so the change is traceable rather
+# than silent.
 CATEGORIES = (
-    "temporal_continuity", "working_memory", "episodic_memory", "semantic_memory",
-    "procedural_memory", "world_model", "self_model", "metacognition", "perspective_diversity",
-    "arbitration", "plasticity", "consolidation", "transfer", "reorganization",
-    "developmental_learning", "goal_continuity", "reflective_access", "unified_cognition",
+    "temporal_continuity", "ontology", "epistemology", "workspace", "working_memory",
+    "episodic_memory", "semantic_memory", "procedural_memory", "world_model", "self_model",
+    "perspective_diversity", "perspective_arbitration", "metacognition", "grounding",
+    "causal_reasoning", "goal_continuity", "valuation", "plasticity", "consolidation",
+    "reorganization", "developmental_divergence", "thinking", "continuity", "unity",
+    "reflective_access", "cognitive_integrity", "model_body_integration",
 )
+
+SUPERSEDED_CATEGORIES = {
+    "arbitration": "perspective_arbitration",
+    "transfer": "model_body_integration",
+    "developmental_learning": "developmental_divergence",
+    "unified_cognition": "unity",
+}
 
 # section 4 of the master plan, frozen as the entry baseline so later movement is attributable
 BASELINE_2026_07_27 = {
@@ -147,7 +158,7 @@ ITEMS: tuple[Item, ...] = (
        "Not one unrestricted opaque tensor. Every region declares shape, persistence, timescale, readers, "
        "writers, provenance, confidence, cost, reset behaviour and update rule. Important information "
        "becomes globally available without letting arbitrary components corrupt every region.",
-       category="unified_cognition", impl=(f"{COG}/workspace.py",),
+       category="unity", impl=(f"{COG}/workspace.py",),
        tests=("tests/cognition/test_workspace.py",),
        evidence=("SUBSTRATE_WORKSPACE.json",), deps=("A2",), batch=2),
     _i("C3", "6.3", "Mixture of Perspectives, perspectives as processes",
@@ -167,15 +178,47 @@ ITEMS: tuple[Item, ...] = (
        "Compare outputs, preserve provenance, detect contradiction, evaluate confidence, weigh historical "
        "reliability, request verification, allocate compute, combine compatible results, preserve minority "
        "hypotheses, defer when evidence is insufficient and choose under a resource budget.",
-       category="arbitration", impl=(f"{COG}/perspectives.py",),
+       category="perspective_arbitration", impl=(f"{COG}/perspectives.py",),
        tests=("tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration",),
        evidence=("SUBSTRATE_ARBITRATION_SYSTEM.json",), deps=("C3",), batch=2),
+
+    _i("O1", "6", "Typed ontology with the nine distinctions it refuses to collapse",
+       "Twenty seven types plus unknown, nine declared item fields, and nine distinctions the typing must "
+       "not let collapse. Merging is evidenced and reversible; unknown is a first class type that carries "
+       "the reason it is unknown.",
+       category="ontology", impl=(f"{COG}/ontology.py",),
+       tests=("tests/cognition/test_ontology.py::test_identity_preservation_over_time",
+              "tests/cognition/test_ontology.py::test_mistaken_merge_detection",
+              "tests/cognition/test_ontology.py::"
+              "test_counterfactual_objects_never_merge_with_actual_ones",
+              "tests/cognition/test_ontology.py::test_the_self_environment_boundary_holds"),
+       evidence=("SUBSTRATE_ONTOLOGY.json",), deps=("C2",), batch=1),
+    _i("O2", "7", "Epistemology where justification is a graph, not a confidence table",
+       "Twelve epistemic kinds, twelve declared belief fields, and dependency aware revision. Retraction "
+       "propagates to every dependant, circular justification is refused, and a claim resting on a "
+       "retraction loses whatever its confidence says.",
+       category="epistemology", impl=(f"{COG}/epistemology.py",),
+       tests=("tests/cognition/test_epistemology.py::"
+              "test_hidden_dependency_failure_is_caught_by_retraction_propagating",
+              "tests/cognition/test_epistemology.py::"
+              "test_circular_justification_is_refused_not_followed",
+              "tests/cognition/test_epistemology.py::"
+              "test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim"),
+       evidence=("SUBSTRATE_EPISTEMOLOGY.json", "SUBSTRATE_BELIEF_REVISION.json"), deps=("O1",),
+       batch=1),
+    _i("O3", "7.2", "Metacognitive control runs on epistemic value, not confidence",
+       "A claim at one confidence with nothing at stake and one with everything resting on it get "
+       "different actions. Confidence alone cannot separate them, so it is not what chooses.",
+       category="epistemology", impl=(f"{COG}/epistemology.py",),
+       tests=("tests/cognition/test_epistemology.py::"
+              "test_epistemic_value_and_not_confidence_chooses_the_action",),
+       evidence=("SUBSTRATE_EPISTEMOLOGY.json",), deps=("O2", "K1"), batch=1),
 
     _i("N1", "5", "The runtime loop that makes the modules one entity",
        "A mature Substrate is the composition, not the parts. One cycle runs perceive, attend, select, "
        "run perspectives, arbitrate, decide, remember, self update, consolidate, adapt and checkpoint, "
        "and every stage leaves a receipt a reflective report can bind to.",
-       category="unified_cognition", impl=(f"{COG}/runtime.py",),
+       category="unity", impl=(f"{COG}/runtime.py",),
        tests=("tests/cognition/test_runtime.py::test_one_cycle_runs_every_declared_stage",
               "tests/cognition/test_runtime.py::"
               "test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran"),
@@ -272,7 +315,7 @@ ITEMS: tuple[Item, ...] = (
     _i("P5", "11.5", "Learning to learn", "Learn which adaptations generalize, which memories matter, "
        "which perspectives are trustworthy, which errors recur, which representations should stay stable, "
        "when specialization is needed and when to reopen plasticity. Must generalize across tasks.",
-       category="developmental_learning", impl=(f"{COG}/plasticity.py",),
+       category="developmental_divergence", impl=(f"{COG}/plasticity.py",),
        tests=("tests/cognition/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization",),
        evidence=("SUBSTRATE_DEVELOPMENTAL_HISTORY.json",), deps=("P4",), batch=4),
     _i("R1", "12", "Bounded functional reorganization", "Permit the nine declared changes, forbid the "
@@ -285,7 +328,7 @@ ITEMS: tuple[Item, ...] = (
     _i("B1", "13", "Model body interface", "Attach to specialist or general model bodies through explicit "
        "contracts covering inference, hidden state, selected activations, tool request, memory request, "
        "verification request, adaptation proposal, resource report and checkpoint.",
-       category="transfer", impl=(f"{COG}/body.py",),
+       category="model_body_integration", impl=(f"{COG}/body.py",),
        tests=("tests/cognition/test_body.py",),
        evidence=("SUBSTRATE_MODEL_BODY_INTERFACE.json",), deps=("C2",), batch=4),
 
@@ -293,7 +336,7 @@ ITEMS: tuple[Item, ...] = (
     _i("T1", "14", "Operationalized thinking", "Measure internal computation that improves outcomes, "
        "compared against a larger static model, a stronger readout, longer context, more samples, more "
        "tokens and tool only systems. Latency and hidden activations are not evidence of thinking.",
-       category="unified_cognition", impl=(f"{COG}/batteries.py",),
+       category="unity", impl=(f"{COG}/batteries.py",),
        tests=("tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat",),
        evidence=("SUBSTRATE_THINKING_BATTERY.json",), deps=("C5", "K1"), batch=5),
     _i("E1", "15.1", "Continuity", "Preserve goals, unresolved questions, memory, world state, self state, "
@@ -305,7 +348,7 @@ ITEMS: tuple[Item, ...] = (
        evidence=("SUBSTRATE_CONTINUITY_BATTERY.json",), deps=("M2", "S1"), batch=5),
     _i("E2", "15.2", "Unity", "Measure global availability, shared goals, cross perspective memory, "
        "conflict resolution, consistent action and preservation of alternatives.",
-       category="unified_cognition", impl=(f"{COG}/batteries.py",),
+       category="unity", impl=(f"{COG}/batteries.py",),
        tests=("tests/cognition/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability",),
        evidence=("SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",), deps=("C2", "C5"), batch=5),
     _i("E3", "15.3", "Reflective access", "Report accurately what is known, what is not known, where a "

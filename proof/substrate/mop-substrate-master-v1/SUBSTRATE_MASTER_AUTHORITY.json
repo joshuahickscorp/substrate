@@ -244,7 +244,7 @@
       "title": "Typed cognitive workspace",
       "batch": 2,
       "kind": "implementation",
-      "category": "unified_cognition",
+      "category": "unity",
       "dependencies": [
         "A2"
       ]
@@ -277,9 +277,43 @@
       "title": "Perspective arbitration",
       "batch": 2,
       "kind": "implementation",
-      "category": "arbitration",
+      "category": "perspective_arbitration",
       "dependencies": [
         "C3"
+      ]
+    },
+    {
+      "id": "O1",
+      "section": "6",
+      "title": "Typed ontology with the nine distinctions it refuses to collapse",
+      "batch": 1,
+      "kind": "implementation",
+      "category": "ontology",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "O2",
+      "section": "7",
+      "title": "Epistemology where justification is a graph, not a confidence table",
+      "batch": 1,
+      "kind": "implementation",
+      "category": "epistemology",
+      "dependencies": [
+        "O1"
+      ]
+    },
+    {
+      "id": "O3",
+      "section": "7.2",
+      "title": "Metacognitive control runs on epistemic value, not confidence",
+      "batch": 1,
+      "kind": "implementation",
+      "category": "epistemology",
+      "dependencies": [
+        "O2",
+        "K1"
       ]
     },
     {
@@ -288,7 +322,7 @@
       "title": "The runtime loop that makes the modules one entity",
       "batch": 2,
       "kind": "implementation",
-      "category": "unified_cognition",
+      "category": "unity",
       "dependencies": [
         "C2",
         "C5"
@@ -464,7 +498,7 @@
       "title": "Learning to learn",
       "batch": 4,
       "kind": "implementation",
-      "category": "developmental_learning",
+      "category": "developmental_divergence",
       "dependencies": [
         "P4"
       ]
@@ -488,7 +522,7 @@
       "title": "Model body interface",
       "batch": 4,
       "kind": "implementation",
-      "category": "transfer",
+      "category": "model_body_integration",
       "dependencies": [
         "C2"
       ]
@@ -499,7 +533,7 @@
       "title": "Operationalized thinking",
       "batch": 5,
       "kind": "implementation",
-      "category": "unified_cognition",
+      "category": "unity",
       "dependencies": [
         "C5",
         "K1"
@@ -523,7 +557,7 @@
       "title": "Unity",
       "batch": 5,
       "kind": "implementation",
-      "category": "unified_cognition",
+      "category": "unity",
       "dependencies": [
         "C2",
         "C5"
@@ -672,6 +706,7 @@
   "declared_deliverables": [
     "SUBSTRATE_ARBITRATION_SYSTEM.json",
     "SUBSTRATE_ARCHITECTURE.json",
+    "SUBSTRATE_BELIEF_REVISION.json",
     "SUBSTRATE_CAMPAIGN_PLAN.json",
     "SUBSTRATE_CAPABILITY_MAP.json",
     "SUBSTRATE_CONTINUITY_BATTERY.json",
@@ -679,6 +714,7 @@
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json",
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+    "SUBSTRATE_EPISTEMOLOGY.json",
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
     "SUBSTRATE_MASTER_AUTHORITY.json",
@@ -688,6 +724,7 @@
     "SUBSTRATE_MUTATION_REPORT.json",
     "SUBSTRATE_NEXT_FRONTIER.json",
     "SUBSTRATE_NULL_MAP.json",
+    "SUBSTRATE_ONTOLOGY.json",
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
     "SUBSTRATE_PLASTICITY_SYSTEM.json",
     "SUBSTRATE_PROGRESS_SCORECARD.json",
@@ -709,6 +746,7 @@
   "deliverables_present": {
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_BELIEF_REVISION.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
@@ -716,6 +754,7 @@
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
+    "SUBSTRATE_EPISTEMOLOGY.json": true,
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
@@ -725,6 +764,7 @@
     "SUBSTRATE_MUTATION_REPORT.json": true,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
     "SUBSTRATE_NULL_MAP.json": true,
+    "SUBSTRATE_ONTOLOGY.json": true,
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
@@ -746,6 +786,7 @@
   "deliverables_counting_as_evidence": {
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_BELIEF_REVISION.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
@@ -753,6 +794,7 @@
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
+    "SUBSTRATE_EPISTEMOLOGY.json": true,
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
@@ -762,6 +804,7 @@
     "SUBSTRATE_MUTATION_REPORT.json": true,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
     "SUBSTRATE_NULL_MAP.json": true,
+    "SUBSTRATE_ONTOLOGY.json": true,
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
@@ -783,9 +826,9 @@
   "level_counts": {
     "terminal": 16,
     "tested": 1,
-    "measured": 28
+    "measured": 31
   },
   "activation": false,
-  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
-  "sha256": "e062cfc8fc9ad9278d33fec34493d642640ed368754b27a08cc6e2091c1f3d89"
+  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+  "sha256": "0f3d75ef22c771d34851333904b3abc4820107c4ffd24ab8ccb47084e823d2a8"
 }
