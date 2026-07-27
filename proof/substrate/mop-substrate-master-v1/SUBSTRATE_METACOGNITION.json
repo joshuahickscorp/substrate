@@ -1,0 +1,200 @@
+{
+  "schema": "substrate-metacognition/v1",
+  "governs": [
+    "continue",
+    "stop",
+    "verify",
+    "retrieve",
+    "simulate",
+    "switch_perspective",
+    "invoke_tool",
+    "request_external_evidence",
+    "defer",
+    "revise",
+    "preserve_uncertainty"
+  ],
+  "measures": [
+    "decision_quality",
+    "correction",
+    "compute",
+    "latency",
+    "unnecessary_thought",
+    "missed_verification",
+    "calibration",
+    "transfer"
+  ],
+  "policies": [
+    {
+      "name": "never_verify",
+      "information_used": [],
+      "learned": false,
+      "implemented": true
+    },
+    {
+      "name": "always_verify",
+      "information_used": [
+        "budget"
+      ],
+      "learned": false,
+      "implemented": true
+    },
+    {
+      "name": "confidence_threshold",
+      "information_used": [
+        "budget",
+        "confidence"
+      ],
+      "learned": false,
+      "implemented": true
+    },
+    {
+      "name": "contradiction_first",
+      "information_used": [
+        "budget",
+        "confidence",
+        "contradiction"
+      ],
+      "learned": false,
+      "implemented": true
+    },
+    {
+      "name": "novelty_retrieval",
+      "information_used": [
+        "budget",
+        "confidence",
+        "novelty"
+      ],
+      "learned": false,
+      "implemented": true
+    },
+    {
+      "name": "oracle",
+      "information_used": [
+        "outcome"
+      ],
+      "learned": false,
+      "implemented": true
+    },
+    {
+      "name": "learned",
+      "information_used": [
+        "full_history"
+      ],
+      "learned": true,
+      "implemented": false
+    }
+  ],
+  "simple_first": [
+    "never_verify",
+    "always_verify",
+    "confidence_threshold",
+    "contradiction_first",
+    "novelty_retrieval"
+  ],
+  "oracle_uses_information_unavailable_at_decision_time": true,
+  "learned_rule": "learned metacognition opens only above measured oracle headroom over the strongest simple policy",
+  "measured_on_a_probe_stream": {
+    "never_verify": {
+      "policy": "never_verify",
+      "decision_quality": 0.666667,
+      "correction": 0.0,
+      "compute": 0.0,
+      "latency": 0.0,
+      "unnecessary_thought": 0.0,
+      "missed_verification": 0.333333,
+      "calibration": 0.8,
+      "transfer": null,
+      "budget_left": null
+    },
+    "always_verify": {
+      "policy": "always_verify",
+      "decision_quality": 0.833333,
+      "correction": 0.166667,
+      "compute": 60.0,
+      "latency": 1.0,
+      "unnecessary_thought": 0.666667,
+      "missed_verification": 0.0,
+      "calibration": 0.8,
+      "transfer": null,
+      "budget_left": null
+    },
+    "confidence_threshold": {
+      "policy": "confidence_threshold",
+      "decision_quality": 0.833333,
+      "correction": 0.166667,
+      "compute": 20.0,
+      "latency": 0.333333,
+      "unnecessary_thought": 0.0,
+      "missed_verification": 0.0,
+      "calibration": 0.8,
+      "transfer": null,
+      "budget_left": null
+    },
+    "contradiction_first": {
+      "policy": "contradiction_first",
+      "decision_quality": 0.7,
+      "correction": 0.033333,
+      "compute": 12.0,
+      "latency": 0.2,
+      "unnecessary_thought": 0.133333,
+      "missed_verification": 0.266667,
+      "calibration": 0.8,
+      "transfer": null,
+      "budget_left": null
+    },
+    "novelty_retrieval": {
+      "policy": "novelty_retrieval",
+      "decision_quality": 0.833333,
+      "correction": 0.166667,
+      "compute": 30.0,
+      "latency": 0.5,
+      "unnecessary_thought": 0.166667,
+      "missed_verification": 0.0,
+      "calibration": 0.8,
+      "transfer": null,
+      "budget_left": null
+    },
+    "oracle": {
+      "policy": "oracle",
+      "decision_quality": 0.833333,
+      "correction": 0.166667,
+      "compute": 10.0,
+      "latency": 0.166667,
+      "unnecessary_thought": 0.0,
+      "missed_verification": 0.166667,
+      "calibration": 0.8,
+      "transfer": null,
+      "budget_left": null
+    }
+  },
+  "oracle_headroom": {
+    "oracle": 0.833333,
+    "per_simple_policy": {
+      "never_verify": 0.666667,
+      "always_verify": 0.833333,
+      "confidence_threshold": 0.833333,
+      "contradiction_first": 0.7,
+      "novelty_retrieval": 0.833333
+    },
+    "best_simple": 0.833333,
+    "residual": 0.0,
+    "n_situations": 60
+  },
+  "learned_currently_licensed": false,
+  "transfer_note": "transfer is null in every row above because it needs a second bed, and inventing a number for it would be the defect this program exists to stop",
+  "attention": {
+    "drivers": [
+      "goal_relevance",
+      "uncertainty",
+      "risk",
+      "expected_value",
+      "novelty",
+      "contradiction"
+    ],
+    "rule": "ranking is by declared drivers and stops at the resource limit"
+  },
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
+  "sha256": "5feb4dfa08f51ff90d2ade25f92e8e20923b395e173e86ef27d961da72693dc8"
+}
