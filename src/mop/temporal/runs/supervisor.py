@@ -18,6 +18,8 @@ LOCK_PUBLICATION_GRACE_SECONDS = 5.0
 HEX = set("0123456789abcdef")
 LEGACY_AUTHORITY = "b3f7421e6545527b3385f1368784ac2f0e1602a6"
 LEGACY_BINDING = "legacy_receipt_hash_normalization_20260721.json"
+SUCCESSOR_REFRESH = ("mop.temporal.runs.mutations", "mop.temporal.runs.successors",
+                     "mop.temporal.runs.verify")
 def workers() -> int:
     r = subprocess.run(["pgrep", "-f", "mop.temporal.runs"], capture_output=True, text=True)
     return max(0, len([x for x in r.stdout.split() if x]) - 1, sum(lock_active(p.stem.replace("_", ":", 1)) for p in LOCKS.glob("*.json")) if LOCKS.is_dir() else 0)
@@ -803,11 +805,11 @@ def prepare_verified_core() -> bool | None:
     return _load_field("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json", "all_pass")
 def run_verified_successor_gates() -> bool:
     decision = prepare_verified_core()
-    if decision is True: return run_sync("mop.temporal.runs.successors")
+    if decision is True: return run_sync("mop.temporal.runs.successors") and run_sync("mop.temporal.runs.verify") and _load_field("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json", "all_pass")
     verification = io.load("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") if io.exists("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else {}
     terminal = bool((verification.get("role_b") or {}).get("checks")) and bool((verification.get("role_c") or {}).get("n_checks"))
     if decision is False and terminal:
-        print("[supervisor] no verified core exists; sealing fail-closed successor gates", flush=True); return run_sync("mop.temporal.runs.successors")
+        print("[supervisor] no verified core exists; sealing fail-closed successor gates", flush=True); return run_sync("mop.temporal.runs.successors") and run_sync("mop.temporal.runs.verify")
     return False
 def main(argv=None):
     argv = argv or sys.argv[1:]
@@ -953,8 +955,7 @@ def main(argv=None):
     if "E3_shared_versus_local" in (queue.get("licensed_top_two") or []):
         if not run_e3():
             return
-        for mod in ("mop.temporal.runs.mutations", "mop.temporal.runs.verify",
-                    "mop.temporal.runs.successors"):
+        for mod in SUCCESSOR_REFRESH:
             if not _run_and_reconcile(mod):
                 return
     if "hybrid_adaptation" in (queue.get("licensed_top_two") or []):
@@ -963,8 +964,7 @@ def main(argv=None):
             return
         if not _run_and_reconcile("mop.temporal.runs.hybrid", ["aggregate"]):
             return
-        for mod in ("mop.temporal.runs.mutations", "mop.temporal.runs.verify",
-                    "mop.temporal.runs.successors"):
+        for mod in SUCCESSOR_REFRESH:
             if not _run_and_reconcile(mod):
                 return
     for mod in ("mop.temporal.runs.reports", "mop.temporal.runs.synthesis",

@@ -18,7 +18,7 @@ from mop.temporal import hypotheses as H
 from mop.temporal import io as TIO
 from mop.temporal import witness as W
 from mop.temporal.runs import (analyze, bedvalid, codelife, coresel, e2, e3, hybrid, mutations,
-                               successors, supervisor, thirdbed)
+                               reports, successors, supervisor, thirdbed)
 
 torch = pytest.importorskip("torch")
 
@@ -687,6 +687,41 @@ def test_failed_third_bed_replication_does_not_consume_a_successor_slot(monkeypa
     monkeypatch.setattr(successors.io, "exists", lambda name: name in artifacts)
     monkeypatch.setattr(successors.io, "load", lambda name: artifacts[name])
     assert not successors.gates()["third_bed_replication"]["opens"]
+
+
+def test_closed_successor_preserves_prior_execution_only_as_history(monkeypatch):
+    prior = {"experiment_terminal": True, "result": {"classification": "old"},
+             "mutation_checks": {"old_check": True}, "sha256": "old-seal"}
+    artifacts = {"MOP_E3_SHARED_LOCAL_RESULT.json": prior}
+    sealed = {}
+    gates = {
+        name: {"candidate_id": candidate, "opens": False, "ranking": {"complete": False}}
+        for name, candidate in (
+            ("E3_shared_versus_local", "E3"), ("E5_self_supervised", "E5"),
+            ("hybrid_adaptation", "E6"), ("third_bed_replication", "E7"),
+            ("minimal_core_cross_domain_transfer", "E8"))
+    }
+    monkeypatch.setattr(successors, "gates", lambda: gates)
+    monkeypatch.setattr(successors.io, "exists", lambda name: name in artifacts)
+    monkeypatch.setattr(successors.io, "load", lambda name: artifacts[name])
+    monkeypatch.setattr(successors.io, "seal", lambda name, doc: sealed.update({name: doc}))
+    successors.main()
+    row = sealed["MOP_E3_SHARED_LOCAL_RESULT.json"]
+    assert row["status"] == "gate_closed" and row["experiment_terminal"] is False
+    assert row["result"] is None and row["mutation_checks"] == {}
+    assert row["historical_execution"] == prior
+    artifacts.update(sealed)
+    sealed.clear()
+    successors.main()
+    assert sealed["MOP_E3_SHARED_LOCAL_RESULT.json"]["historical_execution"] == prior
+
+
+def test_report_subprocesses_do_not_inherit_a_shard_launch_binding(monkeypatch):
+    monkeypatch.setenv("MOP_LAUNCH_SOURCE_COMMIT", "a" * 40)
+    monkeypatch.setenv("MOP_LAUNCH_SOURCE_TREE_OID", "b" * 40)
+    env = reports._env()
+    assert "MOP_LAUNCH_SOURCE_COMMIT" not in env
+    assert "MOP_LAUNCH_SOURCE_TREE_OID" not in env
 
 
 def test_capacity_is_not_a_forgetting_proxy_without_retention_or_interference_measurement():
