@@ -23,6 +23,6 @@
   "reading": "a world model earns a positive here only by changing an action and improving the outcome. Changing nothing, or changing something and gaining nothing, is reported as a limited instrument",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
-  "sha256": "70273189fd88668f3916198d5f392000f4c75012ce5f360352805c4b7d4df2f1"
+  "source_commit": "c9daed7f6c76ae9ff2b47339dab9749b046e4ca3",
+  "sha256": "83c222aecd9596104d2089ace6a726e1c7108a238fd12abd59e331c566c90874"
 }

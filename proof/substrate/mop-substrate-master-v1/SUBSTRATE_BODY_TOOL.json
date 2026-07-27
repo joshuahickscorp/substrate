@@ -33,6 +33,6 @@
   "external_blocker": "",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
-  "sha256": "0bfc8eaea3ddfc04b3fbdf643dad6050627fd22e87ac7b64993f2e17ee6aa86b"
+  "source_commit": "c9daed7f6c76ae9ff2b47339dab9749b046e4ca3",
+  "sha256": "e7f2246fc11b5979f1bdcc79478cf1f169b8f8f3ececf378ce1302fc7019e6b3"
 }

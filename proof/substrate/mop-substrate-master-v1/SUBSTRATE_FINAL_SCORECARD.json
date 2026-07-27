@@ -116,7 +116,8 @@
       "evidence_pct": 0,
       "items": [
         "C3",
-        "C4"
+        "C4",
+        "Y2"
       ],
       "items_with_earned_evidence": [],
       "classifications": {},
@@ -253,7 +254,8 @@
       "evidence_pct": 0,
       "items": [
         "N1",
-        "E2"
+        "E2",
+        "Y3"
       ],
       "items_with_earned_evidence": [],
       "classifications": {},
@@ -284,7 +286,8 @@
       "evidence_pct": 0,
       "items": [
         "B1",
-        "F6"
+        "F6",
+        "Y4"
       ],
       "items_with_earned_evidence": [],
       "classifications": {},
@@ -303,10 +306,10 @@
   ],
   "evidence_target_note": "section 43 sets fifty to seventy five percent before a subsystem is treated as established. No subsystem is there",
   "sentience_has_no_score": true,
-  "graph_terminal_nodes": 25,
+  "graph_terminal_nodes": 26,
   "graph_nodes": 26,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
-  "sha256": "56b72eb11fcf46aa7484796eb456729a7fe89161f0ae185c4ed7614e90e7fe21"
+  "source_commit": "c9daed7f6c76ae9ff2b47339dab9749b046e4ca3",
+  "sha256": "2381f3c6880e74cbdb0b5c66396b6d5182dbc3e5f688f396af96697945f0f2ba"
 }
