@@ -63662,6 +63662,6 @@
   "unique_identities": true,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
-  "sha256": "f2ad8d510d13fa0d389cb9b86eaf916d54ae3e161df50204fa38284ac9dfb97a"
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
+  "sha256": "c27d31f8a685fa32d7b4d38a998034fbe11466abf10da04e4dd684b334e0a954"
 }

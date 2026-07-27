@@ -4,8 +4,8 @@
     "1": {
       "workers": 1,
       "jobs": 64,
-      "wall_seconds": 0.016069708042778075,
-      "peak_rss_mib": 27.328125,
+      "wall_seconds": 0.015834375051781535,
+      "peak_rss_mib": 26.375,
       "swap_before_mib": 1293.5,
       "swap_after_mib": 1293.5,
       "swap_growth_mib": 0.0,
@@ -15,8 +15,8 @@
     "2": {
       "workers": 2,
       "jobs": 64,
-      "wall_seconds": 0.016155124991200864,
-      "peak_rss_mib": 27.375,
+      "wall_seconds": 0.016545708058401942,
+      "peak_rss_mib": 26.40625,
       "swap_before_mib": 1293.5,
       "swap_after_mib": 1293.5,
       "swap_growth_mib": 0.0,
@@ -26,8 +26,8 @@
     "4": {
       "workers": 4,
       "jobs": 64,
-      "wall_seconds": 0.016290083061903715,
-      "peak_rss_mib": 27.4375,
+      "wall_seconds": 0.016139167011715472,
+      "peak_rss_mib": 26.484375,
       "swap_before_mib": 1293.5,
       "swap_after_mib": 1293.5,
       "swap_growth_mib": 0.0,
@@ -37,8 +37,8 @@
     "8": {
       "workers": 8,
       "jobs": 64,
-      "wall_seconds": 0.0167721250327304,
-      "peak_rss_mib": 27.578125,
+      "wall_seconds": 0.01653545896988362,
+      "peak_rss_mib": 26.625,
       "swap_before_mib": 1293.5,
       "swap_after_mib": 1293.5,
       "swap_growth_mib": 0.0,
@@ -48,8 +48,8 @@
     "12": {
       "workers": 12,
       "jobs": 64,
-      "wall_seconds": 0.015875083045102656,
-      "peak_rss_mib": 27.703125,
+      "wall_seconds": 0.01618362497538328,
+      "peak_rss_mib": 26.75,
       "swap_before_mib": 1293.5,
       "swap_after_mib": 1293.5,
       "swap_growth_mib": 0.0,
@@ -59,8 +59,8 @@
     "16": {
       "workers": 16,
       "jobs": 64,
-      "wall_seconds": 0.01643170800525695,
-      "peak_rss_mib": 27.859375,
+      "wall_seconds": 0.016643790993839502,
+      "peak_rss_mib": 26.90625,
       "swap_before_mib": 1293.5,
       "swap_after_mib": 1293.5,
       "swap_growth_mib": 0.0,
@@ -77,7 +77,7 @@
   "all_safe": true,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
   "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "b5adda8f2dcfb1e344a27614876ab5e41d9051d877c0f715a7acbe13f6455e11"
+  "sha256": "eb9a5ae6063fc2329693e56ba63db05e3f4f06832268eea4c935e77d8c2ab9d2"
 }

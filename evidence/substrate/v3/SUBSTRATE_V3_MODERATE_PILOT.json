@@ -6833,7 +6833,7 @@
   "focused_arms": 6,
   "variance": 0.005073688799069251,
   "failure_rate": 0.0,
-  "peak_rss_mib": 27.03125,
+  "peak_rss_mib": 26.0625,
   "checks": {
     "independent_histories_12_to_24": true,
     "workload_families_at_least_4": true,
@@ -6847,7 +6847,7 @@
   "all_pass": true,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
   "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "9c911f5f381dc2d995e9ef54b03bc8791660479ceb9563fb6e0b37f1475db14e"
+  "sha256": "e4b443ef93fb8286e64366bd9c9d4db75d0d9a5e4b33a5e4cd892bb88be3b3c9"
 }

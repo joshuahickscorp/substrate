@@ -46,7 +46,7 @@
   "gap_count": 16,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
   "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "3223b7b886c7698624f80ba47e611f725a46d8712496694c911e6c98b5292466"
+  "sha256": "16343b0d6270ef920809c3ff7116243f7a414267259d8f1b0a0dee5bdcf8d7fb"
 }
