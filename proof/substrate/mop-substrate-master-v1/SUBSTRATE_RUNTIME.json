@@ -52,30 +52,30 @@
         "ran": true,
         "strategy": "reliability_weighted",
         "chosen": [
-          "counterexample",
-          "critic",
-          "direct"
+          "analogy",
+          "causal",
+          "counterexample"
         ]
       },
       "run_perspectives": {
         "ran": [
-          "counterexample",
-          "critic",
-          "direct"
+          "analogy",
+          "causal",
+          "counterexample"
         ],
         "refused": [],
-        "compute_spent": 2.8
+        "compute_spent": 3.0
       },
       "arbitrate": {
         "ran": true,
-        "deferred": true,
+        "deferred": false,
         "minority_preserved": 1,
         "contradictions": 1
       },
       "decide": {
         "ran": true,
         "decision": null,
-        "deferred": true,
+        "deferred": false,
         "activation": false
       },
       "remember": {
@@ -93,12 +93,22 @@
         "ran": true,
         "correct": false,
         "reliability": {
-          "direct": 0.6,
+          "direct": 0.5,
           "temporal": 0.5,
           "precedent": 0.5,
-          "critic": 0.4,
+          "critic": 0.5,
           "counterexample": 0.4,
-          "uncertainty": 0.5
+          "uncertainty": 0.5,
+          "symbolic": 0.5,
+          "relational": 0.5,
+          "causal": 0.4,
+          "analogy": 0.4,
+          "simulation": 0.5,
+          "counterfactual": 0.5,
+          "planner": 0.5,
+          "numerical": 0.5,
+          "toolcall": 0.5,
+          "introspect": 0.5
         }
       },
       "consolidate": {
@@ -115,7 +125,7 @@
       },
       "checkpoint": {
         "ran": true,
-        "identity": "e11d1cfe6da16cb2"
+        "identity": "87e746f560d29898"
       }
     },
     "stages_ran": [
@@ -169,6 +179,6 @@
     "adaptation_constraints"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
-  "sha256": "46f53039951318b7b3a59697424d516e4c2d6feb96f72435d93f44526dd71b29"
+  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
+  "sha256": "870f830e52e81a2ab9a2eea6ffaea53a5176149a417f2ebb6a4d6a07e52cbe3e"
 }

@@ -303,10 +303,10 @@
   ],
   "evidence_target_note": "section 43 sets fifty to seventy five percent before a subsystem is treated as established. No subsystem is there",
   "sentience_has_no_score": true,
-  "graph_terminal_nodes": 26,
+  "graph_terminal_nodes": 25,
   "graph_nodes": 26,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "88170e7924a8c439d46b163c22a150f2c6fea7dc",
-  "sha256": "523a62c1497ce05db5adf3dd4f12dd07f41864d47033853abd94c8cc51ce1dc0"
+  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
+  "sha256": "56b72eb11fcf46aa7484796eb456729a7fe89161f0ae185c4ed7614e90e7fe21"
 }

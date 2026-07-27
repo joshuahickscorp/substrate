@@ -592,9 +592,11 @@
         "consolidate"
       ],
       "entry_open": true,
-      "exit_passed": true,
+      "exit_passed": false,
       "missing_implementation": [],
-      "missing_artifacts": [],
+      "missing_artifacts": [
+        "SUBSTRATE_CLEAN_CLONE.json"
+      ],
       "external_blocker": ""
     },
     {
@@ -632,7 +634,6 @@
     "body_adapter_tool",
     "body_comparison",
     "classify",
-    "clean_clone",
     "consolidate",
     "declarations",
     "deliverables",
@@ -658,6 +659,6 @@
   "no_prose_waves": true,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "88170e7924a8c439d46b163c22a150f2c6fea7dc",
-  "sha256": "edb641731c608149d3fa0c20bbd37f222f5a64d98096d8b92f5eff8cb10b0b30"
+  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
+  "sha256": "aeb827be1604265071f6552c915d36280cfbf6a44741650d6d636aa3a6824cdc"
 }
