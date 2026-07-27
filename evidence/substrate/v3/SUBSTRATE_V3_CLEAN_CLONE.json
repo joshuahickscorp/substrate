@@ -1,0 +1,19 @@
+{
+  "schema": "substrate-v3-clean-clone/v1",
+  "ref": "main",
+  "clone_returncode": 0,
+  "tests_returncode": 0,
+  "tests_stdout": "........................................................................ [ 23%]\n........................................................................ [ 47%]\n........................................................................ [ 71%]\n........................................................................ [ 95%]\n.............                                                            [100%]\n",
+  "lint_returncode": 0,
+  "lint_stdout": "All checks passed!\n",
+  "regeneration_first_returncode": 0,
+  "regeneration_second_returncode": 0,
+  "normalized_byte_identical": true,
+  "regeneration_sha256": "ba4f5b0b8e6014fef385593c344b3251966d98fef5b8c78ac0d537c2181c64a6",
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "2c54932dca5ba999d2f2bf261ac25e193e9a77dd",
+  "source_digest": "869a6353cfc0d8b5622ad5f75083b9d66b04d623320a9ad3405489cf3448e594",
+  "sha256": "8944d409ae6fe4f5b43693e005d83505acc993240b9a8ab6badbc25487148279"
+}
