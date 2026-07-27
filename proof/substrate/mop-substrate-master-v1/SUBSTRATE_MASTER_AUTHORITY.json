@@ -149,7 +149,7 @@
       "reference": "temporal:MOP_DATA_CUSTODY_AUTHORITY.json",
       "resolved": true,
       "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
-      "sha256": "f0568d977bcbe0c35fd0c9ce2022a4d8e30215c210d9b9bdd9ce74ce01d9200f",
+      "sha256": "1c9d2654660883c5024b7fed96a11b26220d360d11e9f8b386a7fac9b4a0737e",
       "role": "corpus custody and the deletion guard"
     }
   ],
@@ -722,7 +722,7 @@
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
     "SUBSTRATE_WORLD_MODEL.json": true,
-    "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": true,
+    "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": false,
     "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": false,
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
@@ -732,6 +732,6 @@
     "measured": 27
   },
   "activation": false,
-  "source_commit": "d1d69b7727c5222a39d447f4dbd2c17aa1a02762",
-  "sha256": "b021e4d3535f15aa31f86b6dbec80aa6aaa5c93ef84c2f73cb9c7060d9968fd0"
+  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "sha256": "a02a8ac1e519c9a6f5bb823205e480f76b50b5525ba0bc54a6b6b6b4e51c8ecc"
 }

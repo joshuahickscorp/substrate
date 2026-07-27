@@ -1,6 +1,6 @@
 # Substrate: what the entity currently is
 
-Generated from the tree at commit `d1d69b7727c5222a39d447f4dbd2c17aa1a02762`. Every number below is derived from the
+Generated from the tree at commit `3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b`. Every number below is derived from the
 repository, and any number that would require evidence nobody has measured is reported as zero
 rather than estimated.
 
@@ -55,7 +55,7 @@ the selection is terminal and independently verified
 
 ## The exact next frontier
 
-Primary: C1, Temporal core identified and selected. seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
+Primary: C1, Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
 
 Secondary: C2, Typed cognitive workspace. classify the result through mop.method.gate.classify_result and record it
 

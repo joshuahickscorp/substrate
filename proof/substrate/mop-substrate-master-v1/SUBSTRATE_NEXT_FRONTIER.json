@@ -33,7 +33,7 @@
   "primary": {
     "id": "C1",
     "title": "Temporal core identified and selected",
-    "next_action": "seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
+    "next_action": "seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
     "batch": 1
   },
   "secondary": {
@@ -328,7 +328,7 @@
     "activation": false
   },
   "program": "mop-substrate-master-v1",
-  "source_commit": "d1d69b7727c5222a39d447f4dbd2c17aa1a02762",
+  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
   "activation": false,
-  "sha256": "e5c16cd3c1fbf382380f5d5b66255da6164247ed560eacc902646a94faa97941"
+  "sha256": "317efc0b65a2fa4a8ddae5c3f768f2b5c705744248513e113265d32db4e93f18"
 }
