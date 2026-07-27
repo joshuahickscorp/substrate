@@ -69,6 +69,39 @@ def duplicated_unit_mutation() -> dict:
         "detector": "Role C unit identity inventory rejects duplicates before any averaging"}
 
 
+def training_update_mutation() -> dict:
+    """Reject a run whose updates differ from its sealed, cell-specific convergence budget."""
+    receipts = {}
+    n_runs = 0
+    for path in sorted((io.RUNS / "e2_principal").glob("*.json")):
+        document = json.loads(path.read_text())
+        selected = ((document.get("convergence_authority") or {}).get(
+            "selected_checkpoints") or {})
+        runs = document.get("runs") or []
+        cells = [run.get("cell") for run in runs]
+        valid = (
+            bool(runs)
+            and len(cells) == len(set(cells))
+            and set(cells) == set(selected)
+            and all(
+                run.get("steps") == run.get("updates") == selected.get(run.get("cell"))
+                for run in runs
+            )
+        )
+        receipts[path.name] = valid
+        n_runs += len(runs)
+    return {
+        "expected": (
+            "every principal run binds actual updates to its cell-specific sealed "
+            "convergence checkpoint"
+        ),
+        "n_receipts": len(receipts),
+        "n_runs": n_runs,
+        "receipt_checks": receipts,
+        "pass": bool(receipts) and all(receipts.values()),
+    }
+
+
 def structural() -> dict:
     """Mutations the instrument refuses without training anything."""
     res = {}
@@ -127,14 +160,7 @@ def structural() -> dict:
         "expected": "a substituted baseline has a different sealed factorial identity",
         "pass": Fx.cell_name(**dict(Fx.REFERENCE, family="histmlp", history_k="full_window")) != ref_cell}
 
-    principal_receipts = []
-    for p in sorted((io.RUNS / "e2_principal").glob("*.json")):
-        principal_receipts.extend(json.loads(p.read_text()).get("runs", []))
-    res["training_updates_inflated"] = {
-        "expected": "every principal receipt binds actual updates to its sealed training budget",
-        "n_receipts": len(principal_receipts),
-        "pass": bool(principal_receipts) and all(
-            r.get("updates") == r.get("steps") == Fx.STEPS for r in principal_receipts)}
+    res["training_updates_inflated"] = training_update_mutation()
 
     units_complete = []
     for bed in ("har_stream", "speech_stream"):

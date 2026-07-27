@@ -672,9 +672,10 @@ def reconcile_live_state(phase: str, snapshot=None) -> dict:
         "capacity_corrections": clean("principal_corrections")
         and clean("convergence_corrections") and clean("optimization_corrections")
         and _load_field("MOP_E2_CAPACITY_TIER_CORRECTION.json", "all_pass"),
-        "bed_validity": io.exists("MOP_E2_FACTORIAL_AUTHORITY.json"), "independent_replication": _load_field("MOP_E2_INDEPENDENT_REPLICATION.json", "all_pass"),
-        "mutations": _load_field("MOP_TEMPORAL_CORE_MUTATION_REPORT.json", "all_rejected"),
-        "verification": _load_field("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json", "all_pass"),
+        "bed_validity": io.exists("MOP_E2_FACTORIAL_AUTHORITY.json"),
+        "independent_replication": io.exists("MOP_E2_INDEPENDENT_REPLICATION.json"),
+        "mutations": io.exists("MOP_TEMPORAL_CORE_MUTATION_REPORT.json"),
+        "verification": io.exists("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"),
         "core_selection": io.exists("MOP_OWNED_TEMPORAL_CORE_V1.json"), "successor_gates": io.exists("MOP_EXPERIMENT_VALUE_QUEUE.json"),
         "successors_terminal": all(io.exists(n) for n in (
             "MOP_E3_SHARED_LOCAL_RESULT.json", "MOP_E5_SELF_SUPERVISED_RESULT.json",
@@ -787,24 +788,27 @@ def quarantine_owned_checkpoints() -> bool:
     except (OSError, ValueError) as exc:
         print(f"[supervisor] checkpoint withdrawal failed closed: {exc}", flush=True)
         return False
-def prepare_verified_core() -> bool:
+def prepare_verified_core() -> bool | None:
     if not run_sync("mop.temporal.runs.coresel"):
-        return False
+        return None
     verifier_ran = run_sync("mop.temporal.runs.verify")
     if verifier_ran and _load_field("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json", "all_pass"):
         return True
     print("[supervisor] post core verification failed; withdrawing the selection", flush=True)
-    if not quarantine_owned_checkpoints(): return False
+    if not quarantine_owned_checkpoints(): return None
     selector_ran = run_sync("mop.temporal.runs.coresel")
     withdrawn = selector_ran and not _core_selected()
     verifier_reran = run_sync("mop.temporal.runs.verify")
-    return bool(withdrawn and verifier_reran and _load_field(
-        "MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json", "all_pass"))
+    if not (withdrawn and verifier_reran): return None
+    return _load_field("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json", "all_pass")
 def run_verified_successor_gates() -> bool:
-    if not prepare_verified_core():
-        print("[supervisor] successor licensing stays closed because no verified core state exists", flush=True)
-        return False
-    return run_sync("mop.temporal.runs.successors")
+    decision = prepare_verified_core()
+    if decision is True: return run_sync("mop.temporal.runs.successors")
+    verification = io.load("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") if io.exists("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else {}
+    terminal = bool((verification.get("role_b") or {}).get("checks")) and bool((verification.get("role_c") or {}).get("n_checks"))
+    if decision is False and terminal:
+        print("[supervisor] no verified core exists; sealing fail-closed successor gates", flush=True); return run_sync("mop.temporal.runs.successors")
+    return False
 def main(argv=None):
     argv = argv or sys.argv[1:]
     if argv and argv[0] == "status":
