@@ -345,7 +345,8 @@ def test_third_bed_cached_authorities_build_group_disjoint_splits(monkeypatch, t
 def test_harth_admission_probe_builds_disjoint_return_contexts(monkeypatch):
     units = np.repeat(np.arange(22), 6)
     fake = {"x": torch.randn(132, 12, 2), "y": torch.arange(132) % 3, "u": units,
-            "channels": 2, "classes": 3}
+            "xte": torch.randn(42, 12, 2), "yte": torch.arange(42) % 3,
+            "ute": np.repeat(np.arange(7) + 30, 6), "channels": 2, "classes": 3}
     monkeypatch.setattr(thirdbed.B, "load", lambda name: fake)
     ctx = thirdbed.contexts(0)
     sets = [set(v) for v in ctx["units"].values()]
@@ -353,6 +354,97 @@ def test_harth_admission_probe_builds_disjoint_return_contexts(monkeypatch):
     assert len(set(ctx["units"]["A_train"]) | set(ctx["units"]["B_train"])) == 15
     assert len(set(ctx["units"]["A_eval"]) | set(ctx["units"]["B_eval"])) == 7
     assert not torch.allclose(ctx["B_train"][0], fake["x"][np.isin(units, ctx["units"]["B_train"])])
+
+
+def test_third_bed_cardinality_migration_preserves_source_bytes(monkeypatch, tmp_path):
+    monkeypatch.setattr(thirdbed.io, "ROOT", tmp_path)
+    monkeypatch.setattr(thirdbed.io, "RUNS", tmp_path / "runs")
+    train_units = [f"train_{i}" for i in range(15)]
+    test_units = [f"test_{i}" for i in range(7)]
+    fake = {
+        "x": torch.randn(30, 12, 2), "y": torch.arange(30) % 3,
+        "u": np.repeat(train_units, 2),
+        "xte": torch.randn(14, 12, 2), "yte": torch.arange(14) % 3,
+        "ute": np.repeat(test_units, 2),
+        "channels": 2, "classes": 3, "unit": "subject", "segments_per_stream": 3,
+    }
+    monkeypatch.setattr(thirdbed.B, "load", lambda name: fake)
+    monkeypatch.setattr(thirdbed.B, "identity", lambda name: {
+        "bed": name, "n_units_train": 15, "n_units_test": 7, "data_hash": "bed-hash",
+    })
+    checks = {
+        "unit_disjoint": True, "pretrain_budget": True, "pooled_control_budget": True,
+        "adapt_budget": True, "return_budget": True,
+        thirdbed.STALE_CARDINALITY_CHECK: False, "no_undeclared_changes": True,
+    }
+    receipt = thirdbed.io.run_json("harth_preflight_0.json", {
+        "schema": "mop-harth-admission-probe-shard/v1", "bed": "harth_stream", "seed": 0,
+        "units": {
+            "A_train": train_units[:5], "A_eval": train_units[5:7],
+            "B_train": train_units[7:13], "B_eval": train_units[13:],
+        },
+        "checks": checks, "all_checks_pass": False, "test_split_untouched": True,
+    }, "third_bed_preflight")
+    source_bytes = receipt.read_bytes()
+    migration = thirdbed.migrate_shard(receipt)
+    effective = thirdbed.effective_shard(receipt)
+    assert receipt.read_bytes() == source_bytes
+    assert migration.is_file()
+    assert effective["all_checks_pass"]
+    assert effective["checks"]["sealed_train_pool_partition_exact"]
+    assert effective["checks"]["sealed_external_test_units_untouched"]
+    changed = json.loads(receipt.read_text())
+    changed["seed"] = 99
+    receipt.write_text(json.dumps(changed))
+    with pytest.raises(ValueError, match="seal drift"):
+        thirdbed.effective_shard(receipt)
+
+
+def test_third_bed_aggregate_materializes_unit_effect_iterables(monkeypatch, tmp_path):
+    units = {"unit_a": 0.8, "unit_b": 0.7}
+    shifted = {"unit_a": 0.6, "unit_b": 0.5}
+    row = {
+        "all_checks_pass": True,
+        "before_adaptation": {
+            "A": {"accuracy": 0.7, "per_unit_accuracy": units},
+            "B": {"accuracy": 0.5, "per_unit_accuracy": shifted},
+        },
+        "after_B_adaptation": {
+            "A": {"accuracy": 0.7, "per_unit_accuracy": units},
+            "B": {"accuracy": 0.7, "per_unit_accuracy": units},
+        },
+        "return_before_recovery": {"accuracy": 0.6, "per_unit_accuracy": shifted},
+        "return_after_recovery": {"accuracy": 0.7, "per_unit_accuracy": units},
+        "temporal_order_permutation": {
+            "ordered_accuracy": 0.8, "permuted_accuracy": 0.6,
+            "pooled_ordered_accuracy": 0.7, "pooled_permuted_accuracy": 0.7,
+            "ordered_per_unit_accuracy": units, "permuted_per_unit_accuracy": shifted,
+            "pooled_ordered_per_unit_accuracy": units,
+            "pooled_permuted_per_unit_accuracy": units,
+        },
+        "receipts": {
+            name: {"trainable_param_count": 1, "updates": 1}
+            for name in ("pretrain", "pooled_control_pretrain", "adapt_B", "recover_A_readout")
+        },
+    }
+    monkeypatch.setattr(thirdbed.io, "RUNS", tmp_path)
+    monkeypatch.setattr(thirdbed, "effective_shard", lambda path: row)
+    monkeypatch.setattr(thirdbed.io, "sha_file", lambda path: "a" * 64)
+    monkeypatch.setattr(thirdbed.io, "seal", lambda *args, **kwargs: tmp_path / args[0])
+    monkeypatch.setattr(thirdbed.power, "decide", lambda *args, **kwargs: {"verdict": "positive"})
+
+    def lcb(values):
+        assert isinstance(values, list)
+        return 0.1
+
+    monkeypatch.setattr(thirdbed.power, "lcb", lcb)
+    monkeypatch.setattr(thirdbed.bed, "context_boundary_over_seeds",
+                        lambda rows: {"checks": {"boundary_crossed": True}})
+    monkeypatch.setattr(thirdbed.e3, "_effect_summary", lambda *args, **kwargs: {
+        "verdict": "positive", "group_lower_95_cb": 0.1,
+    })
+    result = thirdbed.aggregate()
+    assert result["checks"]["all_eight_shards_valid"]
 
 
 def test_stream_and_window_builders_preserve_unit_and_endpoint_identity():
@@ -672,6 +764,7 @@ def test_code_lifecycle_keeps_resume_surface_active_and_sealed_drivers_frozen():
     assert codelife.classify("src/mop/temporal/receipt_contract.py") == "active_runtime"
     assert codelife.classify("src/mop/temporal/custody.py") == "active_runtime"
     assert codelife.classify("src/mop/temporal/io.py") == "active_runtime"
+    assert codelife.classify("src/mop/temporal/runs/thirdbed.py") == "active_runtime"
     assert codelife.classify("src/mop/temporal/runs/analyze.py") == "frozen_reproducibility"
     assert codelife.classify("src/mop/temporal/runs/e3.py") == "frozen_reproducibility"
     rows = codelife.scan()
