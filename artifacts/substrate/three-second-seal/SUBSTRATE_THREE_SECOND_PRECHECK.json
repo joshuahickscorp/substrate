@@ -1,0 +1,68 @@
+{
+  "schema": "substrate-three-second-precheck/v1",
+  "repository": "/Users/scammermike/Downloads/substrate",
+  "remote": "git@github.com:joshuahickscorp/substrate.git",
+  "baseline": {
+    "branch": "main",
+    "head": "facd39e954b34be9549c509b7c797d6297d5da56",
+    "tree": "d6239d2ddf9bf09da26d188455825cbc282554b7",
+    "origin_main": "facd39e954b34be9549c509b7c797d6297d5da56",
+    "worktree_clean": true,
+    "tag": "substrate-v1-pre-three-second-seal",
+    "tag_pushed": true,
+    "tag_commit": "facd39e954b34be9549c509b7c797d6297d5da56"
+  },
+  "github": {
+    "default_branch": "main",
+    "latest_main_ci": {
+      "run_id": 30296186450,
+      "head": "facd39e954b34be9549c509b7c797d6297d5da56",
+      "conclusion": "success",
+      "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30296186450"
+    }
+  },
+  "terminal_boundary": {
+    "logical_units_completed": 0,
+    "logical_units_total": 19,
+    "scientific_units_completed": 0,
+    "launch_receipts": 0,
+    "live_workers": 0,
+    "live_claims": 0,
+    "stop_switch": false,
+    "terminal": false,
+    "activation": false
+  },
+  "historical_evidence": {
+    "objects": 13,
+    "failed": [],
+    "all_pass": true
+  },
+  "hawking": {
+    "coexistence_state": "active_heavy_lane_with_safe_headroom",
+    "active_process": {
+      "pid_at_precheck": 98324,
+      "program": "glm52_activation_aware_pack.py",
+      "workers": 4,
+      "rss_mib_at_precheck": 5872.703125,
+      "cpu_percent_at_precheck": 2.7
+    },
+    "launchd_labels_observed": 8,
+    "release_required_for_profile": false
+  },
+  "resources": {
+    "machine": "Mac Studio, Apple M3 Ultra",
+    "logical_cores": 28,
+    "memory_gib": 96,
+    "memory_free_percent": 87,
+    "swap_used_mib": 1345.06,
+    "swap_free_mib": 1726.94,
+    "disk_available_gib": 180,
+    "resource_gate": "green"
+  },
+  "scientific_verdict": "certified_cognitive_scaffold",
+  "run_classification": "terminal deterministic synthesis",
+  "new_scientific_work_units": 0,
+  "scientific_run_launched": false,
+  "activation": false,
+  "all_pass": true
+}

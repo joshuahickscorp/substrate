@@ -9,9 +9,9 @@
     }
   },
   "source": {
-    "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
-    "tree": "ffbc76cece925b6ff201f09806b326033538c9ba",
-    "branch": "agent/substrate-event-horizon",
+    "commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+    "tree": "d6239d2ddf9bf09da26d188455825cbc282554b7",
+    "branch": "agent/substrate-three-second-seal",
     "remote_branch": "agent/substrate-event-horizon",
     "pull_request": 35
   },
@@ -167,6 +167,6 @@
   "resume_without_history": "every field a successor needs is in SUBSTRATE_FINAL_STATE.json and this file. No conversation is required to continue",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
-  "sha256": "aad8dc153c4cf6569ec5f5ef81d57fa9f521c84b81211df815ad1c76fdaf5a73"
+  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+  "sha256": "1eef789ebe74463d56afa388ae2232f36ac9bbe9372da86700fe077fd8a20a96"
 }

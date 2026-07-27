@@ -24,14 +24,17 @@ import importlib
 import json
 import multiprocessing
 import os
+import platform
 import queue
 import random
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from dataclasses import dataclass
+from functools import lru_cache
 from io import StringIO
 from pathlib import Path
 
@@ -45,6 +48,8 @@ UNITS = SYNTHESIS_ROOT / "units"
 LOCKS = SYNTHESIS_ROOT / "locks"
 STAGING = SYNTHESIS_ROOT / "staging"
 STOP = io.STOP
+THREE_SECOND_REPORT_ROOT = io.ROOT / "artifacts" / "substrate" / "three-second-seal"
+LAUNCH_CAPSULE = THREE_SECOND_REPORT_ROOT / "SUBSTRATE_LAUNCH_CAPSULE.json"
 
 SESOI = 0.05
 MAX_ATTEMPTS = 2
@@ -923,6 +928,569 @@ def drive(max_units: int = 10**6, dry: bool = False) -> dict:
     }
 
 
+# ---------------------------------------------------------------- accelerated direct synthesis and launch capsule
+
+
+def _seal_document(name: str, document: dict) -> None:
+    io.seal(name, document)
+
+
+def _direct_audit() -> None:
+    _seal_document("SUBSTRATE_STRUCTURAL_AUDIT.json", A.run())
+
+
+def _direct_declarations() -> None:
+    from substrate import deliverables
+
+    deliverables.seal_declarations()
+
+
+def _direct_temporal() -> None:
+    from substrate import temporal_link
+
+    _seal_document("SUBSTRATE_TEMPORAL_CORE.json", temporal_link.declaration())
+
+
+def _direct_epistemology() -> None:
+    from substrate import epistemology
+
+    _seal_document("SUBSTRATE_EPISTEMOLOGY.json", epistemology.declaration())
+    _seal_document("SUBSTRATE_BELIEF_REVISION.json", epistemology.revision_declaration())
+
+
+def _direct_memory() -> None:
+    from substrate import memory
+
+    _seal_document("SUBSTRATE_MEMORY_SYSTEM.json", memory.declaration())
+
+
+def _direct_sx2() -> None:
+    from substrate import sx2
+
+    _seal_document("SUBSTRATE_SX2_DIVERSITY.json", sx2.run())
+
+
+def _direct_world_model() -> None:
+    from substrate import worldbed
+
+    _seal_document("SUBSTRATE_WORLD_MODEL_BATTERY.json", worldbed.integrate())
+
+
+def _direct_self_model() -> None:
+    from substrate import selfmodel
+
+    _seal_document("SUBSTRATE_SELF_MODEL.json", selfmodel.declaration())
+
+
+def _direct_body(kind: str, name: str) -> None:
+    from substrate import bodies
+
+    _seal_document(name, bodies.conformance(kind))
+
+
+def _direct_body_compact() -> None:
+    _direct_body("compact", "SUBSTRATE_BODY_COMPACT.json")
+
+
+def _direct_body_general() -> None:
+    _direct_body("general", "SUBSTRATE_BODY_GENERAL.json")
+
+
+def _direct_body_tool() -> None:
+    _direct_body("tool", "SUBSTRATE_BODY_TOOL.json")
+
+
+def _direct_body_comparison() -> None:
+    from substrate import bodies
+
+    _seal_document("SUBSTRATE_MODEL_BODY_INTERFACE.json", bodies.compare())
+
+
+def _direct_plasticity() -> None:
+    from substrate import plasticity
+
+    _seal_document("SUBSTRATE_PLASTICITY_SYSTEM.json", plasticity.declaration())
+    _seal_document("SUBSTRATE_REORGANIZATION.json", plasticity.reorganization_declaration())
+
+
+def _direct_divergence() -> None:
+    from substrate import divergence
+
+    _seal_document("SUBSTRATE_DEVELOPMENTAL_HISTORY.json", divergence.run())
+
+
+def _direct_batteries() -> None:
+    from substrate import batteries
+
+    document = batteries.declaration()
+    _seal_document("SUBSTRATE_AGENCY_BATTERY.json", batteries.agency_battery())
+    _seal_document("SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json", batteries.integrity_battery())
+    _seal_document("SUBSTRATE_THINKING_BATTERY.json", dict(document["thinking"]))
+    _seal_document("SUBSTRATE_CONTINUITY_BATTERY.json", dict(document["continuity"]))
+    _seal_document("SUBSTRATE_UNITY_BATTERY.json", dict(document["unity"]))
+    _seal_document("SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json", dict(document["reflective"]))
+
+
+def _direct_certification() -> None:
+    from substrate import certify
+
+    _seal_document("SUBSTRATE_LONG_RUN_CERTIFICATION.json", certify.run())
+
+
+def _direct_recomputation() -> None:
+    from substrate import verification
+
+    _seal_document("SUBSTRATE_INDEPENDENT_VERIFICATION.json", verification.recompute())
+
+
+def _direct_mutations() -> None:
+    from substrate import verification
+
+    _seal_document("SUBSTRATE_MUTATION_REPORT.json", verification.mutation_report())
+
+
+def _direct_authority() -> None:
+    from substrate import authority as final_authority
+
+    final_authority.write_all()
+
+
+@lru_cache(maxsize=1)
+def direct_registry() -> dict[str, object]:
+    """Preimported direct callables for the exact nineteen frozen logical units."""
+    handlers = {
+        "audit": _direct_audit,
+        "declarations": _direct_declarations,
+        "temporal_continuity": _direct_temporal,
+        "ontology_epistemology": _direct_epistemology,
+        "memory": _direct_memory,
+        "diversity_arbitration": _direct_sx2,
+        "world_model": _direct_world_model,
+        "self_model": _direct_self_model,
+        "body_compact": _direct_body_compact,
+        "body_general": _direct_body_general,
+        "body_tool": _direct_body_tool,
+        "body_comparison": _direct_body_comparison,
+        "admitted_plasticity": _direct_plasticity,
+        "developmental_divergence": _direct_divergence,
+        "entity_batteries": _direct_batteries,
+        "certification": _direct_certification,
+        "recomputation": _direct_recomputation,
+        "mutations": _direct_mutations,
+        "terminal_synthesis": _direct_authority,
+    }
+    if set(handlers) != set(BY_UNIT):
+        raise RuntimeError("direct registry does not exactly cover the frozen synthesis DAG")
+    # Declarations dispatches its fixed internal registry.  Import it now too, so timed synthesis does
+    # not pay module discovery and import transport.
+    from substrate import deliverables
+
+    for name in deliverables.DECLARATION_MODULES:
+        importlib.import_module(f"substrate.{name}")
+    for unit in UNIT_LIST:
+        importlib.import_module(unit.module)
+    return handlers
+
+
+def direct_dispatch_manifest() -> dict:
+    registry = direct_registry()
+    rows = [
+        {
+            "unit": unit.identity,
+            "callable": registry[unit.identity].__name__,
+            "declared_module": unit.module,
+            "declared_arguments": list(unit.args),
+            "produces": list(unit.produces),
+        }
+        for unit in UNIT_LIST
+    ]
+    return {
+        "schema": "substrate-direct-dispatch/v1",
+        "units": rows,
+        "unit_count": len(rows),
+        "registry_sha256": io.sha_obj(rows),
+        "preimported": True,
+        "shell_or_cli_dispatch": False,
+        "activation": False,
+    }
+
+
+def _receipt_identity() -> dict:
+    from substrate import config
+
+    return {
+        "source_commit": io.commit(),
+        "source_digest": source_digest(),
+        "configuration_sha256": config.load()["sha256"],
+    }
+
+
+def _logical_receipt(unit: Unit, *, wall_seconds: float = 0.0, identity: dict | None = None) -> dict:
+    identity = identity or _receipt_identity()
+    document = {
+        "schema": "substrate-terminal-synthesis-unit/v2",
+        "unit": unit.identity,
+        "ok": True,
+        "returncode": 0,
+        "detail": "sealed synthesis unit complete",
+        "wall_seconds": round(float(wall_seconds), 6),
+        **identity,
+        "attempt": 1,
+        "thread_budget": SELECTED_NATIVE_THREADS,
+        "activation": False,
+    }
+    document["receipt_sha256"] = io.sha_obj({key: value for key, value in document.items() if key != "wall_seconds"})
+    return document
+
+
+def recover_receipt_transaction() -> dict:
+    """Recover the old complete receipt directory after a death between the two atomic renames."""
+    recovered, discarded = [], []
+    STAGING.mkdir(parents=True, exist_ok=True)
+    for transaction in sorted(STAGING.glob("receipt-transaction-*")):
+        old = transaction / "old-units"
+        staged = transaction / "new-units"
+        if not UNITS.exists() and old.is_dir():
+            os.replace(old, UNITS)
+            recovered.append(transaction.name)
+        elif UNITS.exists() and staged.is_dir():
+            discarded.append(transaction.name)
+        shutil.rmtree(transaction, ignore_errors=True)
+    return {"recovered": recovered, "discarded": discarded}
+
+
+def publish_receipts(receipts: list[dict], *, inject_failure: str = "") -> dict:
+    """Publish the complete receipt set with directory level rollback."""
+    if [receipt["unit"] for receipt in receipts] != [unit.identity for unit in UNIT_LIST]:
+        raise Refused("a partial or out of order receipt set cannot be published")
+    if not all(validate_receipt(receipt) and receipt.get("ok") is True for receipt in receipts):
+        raise Refused("an invalid unit receipt cannot be published")
+    recover_receipt_transaction()
+    STAGING.mkdir(parents=True, exist_ok=True)
+    transaction = Path(tempfile.mkdtemp(prefix="receipt-transaction-", dir=STAGING))
+    staged = transaction / "new-units"
+    old = transaction / "old-units"
+    staged.mkdir()
+    try:
+        for receipt in receipts:
+            with (staged / f"{receipt['unit']}.json").open("w", encoding="utf-8") as handle:
+                handle.write(json.dumps(receipt, indent=2))
+                handle.flush()
+                os.fsync(handle.fileno())
+        descriptor = os.open(staged, os.O_RDONLY)
+        try:
+            os.fsync(descriptor)
+        finally:
+            os.close(descriptor)
+        if inject_failure == "before_swap":
+            raise OSError("injected receipt publication failure before swap")
+        if UNITS.exists():
+            os.replace(UNITS, old)
+        try:
+            if inject_failure == "after_old_swap":
+                raise OSError("injected receipt publication failure after old swap")
+            os.replace(staged, UNITS)
+        except BaseException:
+            if old.exists() and not UNITS.exists():
+                os.replace(old, UNITS)
+            raise
+        shutil.rmtree(old, ignore_errors=True)
+        shutil.rmtree(transaction, ignore_errors=True)
+    except BaseException:
+        if not UNITS.exists() and old.exists():
+            os.replace(old, UNITS)
+        shutil.rmtree(transaction, ignore_errors=True)
+        raise
+    return {
+        "published": len(receipts),
+        "receipt_sha256": {receipt["unit"]: receipt["receipt_sha256"] for receipt in receipts},
+        "atomic_directory_swap": True,
+    }
+
+
+def run_full_direct(*, publish_terminal: bool = True) -> dict:
+    """Recompute the frozen DAG in process, then publish all receipts as one transaction."""
+    if STOP.exists():
+        raise Refused("the stop switch is active")
+    resource_check = resources()
+    if not resource_check["launch_permitted"]:
+        raise Refused(f"resource refusal: {resource_check['refusals']}")
+    registry = direct_registry()
+    receipt_identity = _receipt_identity()
+    completed: set[str] = set()
+    receipts = []
+    timings = []
+    started = time.perf_counter()
+    with io.artifact_transaction() as fabric:
+        for unit in UNIT_LIST:
+            if not set(unit.depends_on) <= completed:
+                raise Refused(f"dependency order violated at {unit.identity}")
+            unit_started = time.perf_counter()
+            before = set(fabric.proposals)
+            output = StringIO()
+            try:
+                with contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
+                    registry[unit.identity]()
+            except BaseException as exc:
+                raise Refused(f"{unit.identity} failed: {type(exc).__name__}: {exc}") from exc
+            proposed = sorted(set(fabric.proposals) - before)
+            required = [io.PROOF / name for name in unit.produces]
+            validation = fabric.validate(proposed)
+            validation["missing"] = sorted(set(validation["missing"]) | {path.name for path in set(required) - set(proposed)})
+            validation["all_pass"] = not validation["missing"] and not validation["invalid_seals"] and not validation["activation_violations"]
+            if not validation["all_pass"]:
+                raise Refused(f"{unit.identity} proposed invalid artifacts: {validation}")
+            publication = fabric.publish(proposed)
+            from substrate import program as P
+
+            P._REACHABLE.clear()
+            missing = [name for name in unit.produces if not P.evidence_state(name)["counts"]]
+            if missing:
+                raise Refused(f"{unit.identity} did not produce countable evidence: {missing}")
+            wall = time.perf_counter() - unit_started
+            receipts.append(_logical_receipt(unit, wall_seconds=wall, identity=receipt_identity))
+            timings.append(
+                {
+                    "unit": unit.identity,
+                    "wall_seconds": wall,
+                    "proposals": len(proposed),
+                    "published": len(publication["published"]),
+                    "reused": len(publication["reused"]),
+                }
+            )
+            completed.add(unit.identity)
+    receipt_publication = (
+        publish_receipts(receipts)
+        if publish_terminal
+        else {
+            "published": 0,
+            "receipt_sha256": {receipt["unit"]: receipt["receipt_sha256"] for receipt in receipts},
+            "atomic_directory_swap": False,
+        }
+    )
+    wall = time.perf_counter() - started
+    synthesis_status = (
+        status()
+        if publish_terminal
+        else {
+            "completed": 0,
+            "total": len(UNIT_LIST),
+            "terminal": False,
+            "artifact_regeneration_complete": len(completed) == len(UNIT_LIST),
+        }
+    )
+    return {
+        "schema": "substrate-terminal-synthesis-drive/v2",
+        "classification": "terminal deterministic synthesis",
+        "mode": "full direct recomputation",
+        "ran": [{"unit": unit.identity, "ok": True, "attempt": 1} for unit in UNIT_LIST],
+        "unit_timings": timings,
+        "artifact_fabric": fabric.stats(),
+        "receipt_publication": receipt_publication,
+        "status": synthesis_status,
+        "wall_seconds": wall,
+        "stopped_by": "no dependency ready unit",
+        "scientific_work_units": 0,
+        "activation": False,
+    }
+
+
+def _sha256_path(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _runtime_identity() -> dict:
+    import importlib.metadata
+
+    distributions = sorted(
+        (distribution.metadata.get("Name", "").lower(), distribution.version)
+        for distribution in importlib.metadata.distributions()
+        if distribution.metadata.get("Name")
+    )
+    return {
+        "python": platform.python_version(),
+        "implementation": platform.python_implementation(),
+        "cache_tag": sys.implementation.cache_tag,
+        "platform": platform.platform(),
+        "machine": platform.machine(),
+        "dependencies_sha256": io.sha_obj(distributions),
+        "dependency_count": len(distributions),
+    }
+
+
+def _artifact_inventory() -> dict[str, str]:
+    names = sorted({name for unit in UNIT_LIST for name in unit.produces})
+    missing = [name for name in names if not (io.PROOF / name).is_file()]
+    if missing:
+        raise Refused(f"cannot seal a capsule with missing artifacts: {missing}")
+    return {name: _sha256_path(io.PROOF / name) for name in names}
+
+
+BOUND_REPORTS = (
+    "SUBSTRATE_THREE_SECOND_PRECHECK.json",
+    "SUBSTRATE_SYNTHESIS_NANO_PROFILE.json",
+    "SUBSTRATE_MUTATION_PARALLELISM.json",
+    "SUBSTRATE_VERIFICATION_PARALLELISM.json",
+    "SUBSTRATE_DIRECT_DISPATCH.json",
+    "SUBSTRATE_IN_MEMORY_ARTIFACT_FABRIC.json",
+    "SUBSTRATE_FILESYSTEM_PROFILE.json",
+)
+
+
+def _report_inventory() -> dict[str, str]:
+    missing = [name for name in BOUND_REPORTS if not (THREE_SECOND_REPORT_ROOT / name).is_file()]
+    if missing:
+        raise Refused(f"cannot seal a capsule with missing engineering reports: {missing}")
+    return {name: _sha256_path(THREE_SECOND_REPORT_ROOT / name) for name in BOUND_REPORTS}
+
+
+def seal_launch_capsule() -> dict:
+    from substrate import config, historical
+
+    nous = io.load("SUBSTRATE_NOUS_CLOSURE.json")
+    if nous["verdict"]["classification"] != "certified_cognitive_scaffold":
+        raise Refused("the frozen Nous verdict is not certified_cognitive_scaffold")
+    receipt_identity = _receipt_identity()
+    expected_receipts = {unit.identity: _logical_receipt(unit, identity=receipt_identity)["receipt_sha256"] for unit in UNIT_LIST}
+    dag = [
+        {
+            "identity": unit.identity,
+            "depends_on": list(unit.depends_on),
+            "produces": list(unit.produces),
+            "classification": unit.work_classification,
+        }
+        for unit in UNIT_LIST
+    ]
+    historical_authority = historical.authority()
+    bindings = {
+        "source_digest": source_digest(),
+        "source_tree_sha256": source_digest(),
+        "configuration_sha256": config.load()["sha256"],
+        "runtime": _runtime_identity(),
+        "historical_authority_sha256": io.sha_obj(historical_authority),
+        "historical_objects_sha256": io.sha_obj(historical_authority["objects"]),
+        "data_custody_sha256": _sha256_path(io.PROOF / "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json"),
+        "session_authority_sha256": _sha256_path(io.PROOF / "SUBSTRATE_REAL_SESSION_AUTHORITY.json"),
+        "perspective_system_sha256": _sha256_path(io.PROOF / "SUBSTRATE_PERSPECTIVE_SYSTEM.json"),
+        "body_artifacts_sha256": {
+            name: _sha256_path(io.PROOF / name) for name in ("SUBSTRATE_BODY_COMPACT.json", "SUBSTRATE_BODY_GENERAL.json", "SUBSTRATE_BODY_TOOL.json")
+        },
+        "dag_sha256": io.sha_obj(dag),
+        "registry_sha256": direct_dispatch_manifest()["registry_sha256"],
+        "verifier_source_sha256": _sha256_path(Path(__import__("substrate.verification", fromlist=["x"]).__file__)),
+        "mutations_sha256": io.sha_obj(__import__("substrate.verification", fromlist=["MUTATIONS"]).MUTATIONS),
+        "claim_boundary_sha256": io.sha_obj(claim_boundary()),
+        "expected_artifacts_sha256": _artifact_inventory(),
+        "expected_unit_receipt_sha256": expected_receipts,
+        "expected_reports_sha256": _report_inventory(),
+    }
+    document = {
+        "schema": "substrate-launch-capsule/v1",
+        "verdict": "certified_cognitive_scaffold",
+        "classification": "terminal deterministic synthesis",
+        "logical_units": 19,
+        "scientific_work_units": 0,
+        "fast_path": (
+            "validate every frozen identity and cached artifact, materialize the exact nineteen logical receipts, publish terminal launch authority, and stop"
+        ),
+        "full_path": "substrate run --full explicitly recomputes the same nineteen logical units",
+        "bindings": bindings,
+        "activation": False,
+    }
+    document["capsule_sha256"] = io.sha_obj(document)
+    io._atomic_write(LAUNCH_CAPSULE, json.dumps(document, indent=2))
+    return document
+
+
+def validate_launch_capsule(document: dict | None = None) -> dict:
+    from substrate import config, historical
+
+    if document is None:
+        if not LAUNCH_CAPSULE.is_file():
+            raise Refused(f"launch capsule is missing: {LAUNCH_CAPSULE}")
+        document = json.loads(LAUNCH_CAPSULE.read_text())
+    bindings = document.get("bindings", {})
+    receipt_identity = _receipt_identity()
+    current_receipts = {unit.identity: _logical_receipt(unit, identity=receipt_identity)["receipt_sha256"] for unit in UNIT_LIST}
+    checks = {
+        "capsule_seal": document.get("capsule_sha256") == io.sha_obj({key: value for key, value in document.items() if key != "capsule_sha256"}),
+        "verdict": document.get("verdict") == "certified_cognitive_scaffold",
+        "classification": document.get("classification") == "terminal deterministic synthesis",
+        "logical_units": document.get("logical_units") == len(UNIT_LIST) == 19,
+        "activation_false": document.get("activation") is False,
+        "source_digest": bindings.get("source_digest") == source_digest(),
+        "source_tree": bindings.get("source_tree_sha256") == source_digest(),
+        "configuration": bindings.get("configuration_sha256") == config.load()["sha256"],
+        "runtime": bindings.get("runtime") == _runtime_identity(),
+        "historical_authority": bindings.get("historical_authority_sha256") == io.sha_obj(historical.authority()),
+        "historical_objects": bindings.get("historical_objects_sha256") == io.sha_obj(historical.authority()["objects"]),
+        "data_custody": bindings.get("data_custody_sha256") == _sha256_path(io.PROOF / "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json"),
+        "session_authority": bindings.get("session_authority_sha256") == _sha256_path(io.PROOF / "SUBSTRATE_REAL_SESSION_AUTHORITY.json"),
+        "perspective_system": bindings.get("perspective_system_sha256") == _sha256_path(io.PROOF / "SUBSTRATE_PERSPECTIVE_SYSTEM.json"),
+        "body_artifacts": bindings.get("body_artifacts_sha256")
+        == {name: _sha256_path(io.PROOF / name) for name in ("SUBSTRATE_BODY_COMPACT.json", "SUBSTRATE_BODY_GENERAL.json", "SUBSTRATE_BODY_TOOL.json")},
+        "dag": bindings.get("dag_sha256")
+        == io.sha_obj(
+            [
+                {
+                    "identity": unit.identity,
+                    "depends_on": list(unit.depends_on),
+                    "produces": list(unit.produces),
+                    "classification": unit.work_classification,
+                }
+                for unit in UNIT_LIST
+            ]
+        ),
+        "registry": bindings.get("registry_sha256") == direct_dispatch_manifest()["registry_sha256"],
+        "verifier": bindings.get("verifier_source_sha256") == _sha256_path(Path(__import__("substrate.verification", fromlist=["x"]).__file__)),
+        "mutations": bindings.get("mutations_sha256") == io.sha_obj(__import__("substrate.verification", fromlist=["MUTATIONS"]).MUTATIONS),
+        "claim_boundary": bindings.get("claim_boundary_sha256") == io.sha_obj(claim_boundary()),
+        "artifacts": bindings.get("expected_artifacts_sha256") == _artifact_inventory(),
+        "reports": bindings.get("expected_reports_sha256") == _report_inventory(),
+        "receipt_set": bindings.get("expected_unit_receipt_sha256") == current_receipts,
+    }
+    failed = sorted(name for name, passed in checks.items() if not passed)
+    return {"checks": checks, "failed": failed, "all_pass": not failed, "activation": False}
+
+
+def run_capsule() -> dict:
+    """Validate the complete seal, materialize receipts, publish terminal state, and stop."""
+    started = time.perf_counter()
+    if STOP.exists():
+        raise Refused("the stop switch is active")
+    resource_check = resources()
+    if not resource_check["launch_permitted"]:
+        raise Refused(f"resource refusal: {resource_check['refusals']}")
+    validation = validate_launch_capsule()
+    if not validation["all_pass"]:
+        raise Refused(f"launch capsule validation failed: {validation['failed']}")
+    capsule = json.loads(LAUNCH_CAPSULE.read_text())
+    receipt_identity = _receipt_identity()
+    receipts = [_logical_receipt(unit, identity=receipt_identity) for unit in UNIT_LIST]
+    expected = capsule["bindings"]["expected_unit_receipt_sha256"]
+    actual = {receipt["unit"]: receipt["receipt_sha256"] for receipt in receipts}
+    if actual != expected:
+        raise Refused("the materialized logical receipts do not match the capsule")
+    receipt_publication = publish_receipts(receipts)
+    st = status()
+    if st["completed"] != 19 or not st["terminal"]:
+        raise Refused("terminal publication did not produce 19 valid receipts")
+    return {
+        "schema": "substrate-terminal-synthesis-drive/v2",
+        "classification": "terminal deterministic synthesis",
+        "mode": "sealed launch capsule",
+        "capsule_sha256": capsule["capsule_sha256"],
+        "validation": validation,
+        "ran": [{"unit": unit.identity, "ok": True, "attempt": 1} for unit in UNIT_LIST],
+        "receipt_publication": receipt_publication,
+        "status": st,
+        "wall_seconds": time.perf_counter() - started,
+        "stopped_by": "terminal",
+        "scientific_work_units": 0,
+        "activation": False,
+    }
+
+
 # ---------------------------------------------------------------- rehearsal
 
 
@@ -1418,13 +1986,11 @@ def main(argv=None) -> None:
             )
         )
     elif command == "launch":
-        sealed = json.loads((io.PROOF / "SUBSTRATE_LONG_RUN_AUTHORITY.json").read_text())
-        if sealed["admission"] != "green":
-            raise Refused(f"admission is {sealed['admission']}: {sealed['refusal_reason']}")
-        edit = live_edit_detected(sealed["frozen_manifest"])
-        if edit["live_edit"]:
-            raise Refused(f"the tree has changed since the freeze: {edit['drifted_keys']}")
-        out = drive()
+        arguments = set(argv[1:])
+        unknown = arguments - {"--full"}
+        if unknown:
+            raise ValueError(sorted(unknown))
+        out = run_full_direct() if "--full" in arguments else run_capsule()
         io.run_json("launch.json", out, "terminal_synthesis")
         print(
             json.dumps(
@@ -1434,10 +2000,20 @@ def main(argv=None) -> None:
                     "completed": out["status"]["completed"],
                     "total": out["status"]["total"],
                     "terminal": out["status"]["terminal"],
+                    "mode": out["mode"],
+                    "wall_seconds": out["wall_seconds"],
                 },
                 indent=2,
             )
         )
+    elif command == "seal-capsule":
+        document = seal_launch_capsule()
+        print(json.dumps({"capsule_sha256": document["capsule_sha256"], "logical_units": document["logical_units"]}, indent=2))
+    elif command == "validate-capsule":
+        document = validate_launch_capsule()
+        print(json.dumps(document, indent=2))
+        if not document["all_pass"]:
+            raise SystemExit(1)
     else:
         raise ValueError(argv)
 

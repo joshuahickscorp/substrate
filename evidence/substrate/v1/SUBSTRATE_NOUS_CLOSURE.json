@@ -268,6 +268,6 @@
   },
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
-  "sha256": "2d55e3c8b606a26652579832a2e6fc0e45c25553da52b5c39c159ae99284c448"
+  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+  "sha256": "767a1db7cf6086c21ccb8337e91f80457a05034e74e758bde809b61a8a8d04be"
 }

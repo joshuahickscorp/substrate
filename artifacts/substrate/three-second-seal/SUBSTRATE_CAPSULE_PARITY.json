@@ -1,0 +1,14 @@
+{
+  "schema": "substrate-capsule-parity/v1",
+  "fast_runs": 21,
+  "full_runs": 21,
+  "artifact_parity": true,
+  "receipt_parity": true,
+  "fast_full_receipts_equal": true,
+  "verdict": "certified_cognitive_scaffold",
+  "classification": "terminal deterministic synthesis",
+  "logical_units": 19,
+  "scientific_work_units": 0,
+  "activation": false,
+  "all_pass": true
+}
