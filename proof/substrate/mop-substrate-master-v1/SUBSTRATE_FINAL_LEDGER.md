@@ -1,8 +1,8 @@
 # Substrate final ledger
 
-Derived from the tree at `3bcb43cb25595e0e9c8c6fde16898579804227dc`. Status is computed, never asserted.
+Derived from the tree at `53617078f2da70f69f8fa106ced6a5c48716b7f1`. Status is computed, never asserted.
 
-60 requirements. measured 40, terminal 18, tested 2.
+60 requirements. measured 40, terminal 19, tested 1.
 
 | id | category | status | classification | next action | rollback |
 |---|---|---|---|---|---|
@@ -41,10 +41,10 @@ Derived from the tree at `3bcb43cb25595e0e9c8c6fde16898579804227dc`. Status is c
 | B1 | model_body_integration | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun mop.cognition.del |
 | T1 | thinking | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_THINKING_BATTERY.json and rerun mop.cognition.deliver |
 | E1 | continuity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_CONTINUITY_BATTERY.json and rerun mop.cognition.deliv |
-| E2 | unity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_UNIFIED_COGNITION_BATTERY.json and rerun mop.cognitio |
+| E2 | unity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_UNITY_BATTERY.json and rerun mop.cognition.deliverabl |
 | E3 | reflective_access | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json and rerun mop.cognitio |
 | E4 | metacognition | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_METACOGNITION.json and rerun mop.cognition.deliverabl |
-| E5 | goal_continuity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_MASTER_AUTHORITY.json and rerun mop.cognition.deliver |
+| E5 | goal_continuity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRATE_AGENCY_BATTERY.json  |
 | V1 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_INDEPENDENT_VERIFICATION.json |
 | V2 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_MUTATION_REPORT.json |
 | X1 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_ARCHITECTURE.json, SUBSTRATE_C |
@@ -61,15 +61,15 @@ Derived from the tree at `3bcb43cb25595e0e9c8c6fde16898579804227dc`. Status is c
 | F9 | grounding | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_GROUNDING.json and rerun mop.cognition.deliverables w |
 | F10 | causal_reasoning | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_WORLD_MODEL.json and rerun mop.cognition.deliverables |
 | F11 | developmental_divergence | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun mop.cognition.de |
-| F12 | authority | tested | - | seal SUBSTRATE_CLEAN_CLONE.json | revert the commit that sealed SUBSTRATE_CLEAN_CLONE.json |
+| F12 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_CLEAN_CLONE.json |
 | L1 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_CAMPAIGN_PLAN.json |
 | L2 | boundary | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_CAMPAIGN_PLAN.json |
 | X3 | temporal_continuity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_TEMPORAL_CORE.json and rerun mop.cognition.deliverabl |
-| E6 | cognitive_integrity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_INDEPENDENT_VERIFICATION.json and rerun mop.cognition |
+| E6 | cognitive_integrity | measured | - | classify the result through mop.method.gate.classify_result and record it | delete SUBSTRATE_INDEPENDENT_VERIFICATION.json, SUBSTRATE_COGNITIVE_IN |
 
 ## Program graph
 
-26 nodes, 24 terminal, 0 buildable prerequisites, 0 externally blocked.
+26 nodes, 26 terminal, 0 buildable prerequisites, 0 externally blocked.
 
 No future wave exists as prose. Every one is a node with an entry and an exit gate.
 

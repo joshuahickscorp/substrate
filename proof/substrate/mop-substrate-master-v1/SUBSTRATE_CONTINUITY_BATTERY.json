@@ -95,7 +95,7 @@
   "control_is_capable": true,
   "why_the_second_control": "the unbounded replay arm exists to prove the matched arm lost to the budget rather than to a probe it could never answer. A control that cannot win at any budget is not a control",
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
+  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
   "activation": false,
-  "sha256": "06786c25425afb37657744409ff99cd04ab6108606754072a64bcc967c03f922"
+  "sha256": "12ecfc49f8b26fa9e4b6c38d5aba3c26cc89a7b4c1e1fd0d50cb50a1aeb186ab"
 }

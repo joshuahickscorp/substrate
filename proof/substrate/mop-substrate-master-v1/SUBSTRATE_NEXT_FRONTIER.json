@@ -40,7 +40,6 @@
     "E5",
     "E6",
     "T1",
-    "F12",
     "X3"
   ],
   "primary": {
@@ -341,7 +340,7 @@
     "activation": false
   },
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
+  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
   "activation": false,
-  "sha256": "b13e2fc0bf33b48ac30cb68d11ca623bf8d5bd87ba72ad4ad290552c1ec70552"
+  "sha256": "f48245f757d4485523645323ca8da364d36a5cdd035aa04880f52cd4955fd844"
 }

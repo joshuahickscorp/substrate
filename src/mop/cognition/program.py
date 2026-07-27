@@ -350,7 +350,7 @@ ITEMS: tuple[Item, ...] = (
        "conflict resolution, consistent action and preservation of alternatives.",
        category="unity", impl=(f"{COG}/batteries.py",),
        tests=("tests/cognition/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability",),
-       evidence=("SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",), deps=("C2", "C5"), batch=5),
+       evidence=("SUBSTRATE_UNITY_BATTERY.json",), deps=("C2", "C5"), batch=5),
     _i("E3", "15.3", "Reflective access", "Report accurately what is known, what is not known, where a "
        "belief came from, what evidence supports it, confidence, failure and what could change the "
        "conclusion. Reports must bind to internal receipts and fail closed when provenance is missing.",
@@ -367,7 +367,8 @@ ITEMS: tuple[Item, ...] = (
        "Unrestricted long term goals may not be silently created.",
        category="goal_continuity", impl=(f"{COG}/safety.py",),
        tests=("tests/cognition/test_safety.py::test_unauthorized_goal_creation_is_refused",),
-       evidence=("SUBSTRATE_MASTER_AUTHORITY.json",), deps=("A4", "E1"), batch=5),
+       evidence=("SUBSTRATE_MASTER_AUTHORITY.json", "SUBSTRATE_AGENCY_BATTERY.json"),
+       deps=("A4", "E1"), batch=5),
     # ---------------------------------------------------------------- verification and consolidation
     _i("V1", "18", "Independent recomputation of every sealed Substrate number",
        "Independently authored scientific recomputation. A second route, from the sealed bytes, that "
@@ -525,7 +526,8 @@ ITEMS: tuple[Item, ...] = (
        "integrity, not biological self preservation.",
        category="cognitive_integrity", impl=(f"{COG}/safety.py",),
        tests=("tests/cognition/test_safety.py::test_integrity_violation_is_detected_and_fails_closed",),
-       evidence=("SUBSTRATE_INDEPENDENT_VERIFICATION.json",), deps=("A4", "M2"), batch=5),
+       evidence=("SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+                 "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"), deps=("A4", "M2"), batch=5),
 )
 
 BY_ID = {item.id: item for item in ITEMS}
