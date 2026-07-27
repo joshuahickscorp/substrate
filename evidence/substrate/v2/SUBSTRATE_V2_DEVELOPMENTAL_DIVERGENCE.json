@@ -1,0 +1,210 @@
+{
+  "schema": "substrate-v2-developmental-divergence/v1",
+  "histories": [
+    {
+      "seed": 100,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.125,
+      "B_specialization_advantage": 0.125,
+      "mean_specialization_advantage": 0.125,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 101,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.25,
+      "B_specialization_advantage": 0.125,
+      "mean_specialization_advantage": 0.1875,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 102,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.25,
+      "B_specialization_advantage": 0.25,
+      "mean_specialization_advantage": 0.25,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 103,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.25,
+      "B_specialization_advantage": 0.25,
+      "mean_specialization_advantage": 0.25,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 104,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.375,
+      "B_specialization_advantage": 0.375,
+      "mean_specialization_advantage": 0.375,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 105,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.25,
+      "B_specialization_advantage": 0.375,
+      "mean_specialization_advantage": 0.3125,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 106,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.25,
+      "B_specialization_advantage": 0.25,
+      "mean_specialization_advantage": 0.25,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 107,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.125,
+      "B_specialization_advantage": 0.25,
+      "mean_specialization_advantage": 0.1875,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 108,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.125,
+      "B_specialization_advantage": 0.375,
+      "mean_specialization_advantage": 0.25,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 109,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.125,
+      "B_specialization_advantage": 0.375,
+      "mean_specialization_advantage": 0.25,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 110,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.625,
+      "B_specialization_advantage": 0.375,
+      "mean_specialization_advantage": 0.5,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    },
+    {
+      "seed": 111,
+      "identical_state": true,
+      "different_state": true,
+      "A_specialization_advantage": 0.125,
+      "B_specialization_advantage": 0.25,
+      "mean_specialization_advantage": 0.1875,
+      "responsible_A_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ],
+      "responsible_B_procedures": [
+        "procedure:conditional ordered selection:boundary_route",
+        "procedure:cost sensitive conditional routing:risk_route"
+      ]
+    }
+  ],
+  "distinctions": [
+    "state difference",
+    "behavioral difference",
+    "useful specialization",
+    "random drift",
+    "corruption"
+  ],
+  "mean_specialization_advantage": 0.2604166666666667,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "7151e6167607bfe040f43bdf8530a56da00625eb8a8025e7c91085c82a0cfe5f"
+}

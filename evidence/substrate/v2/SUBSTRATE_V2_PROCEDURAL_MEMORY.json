@@ -1,0 +1,110 @@
+{
+  "schema": "substrate-v2-procedural-memory/v1",
+  "selected_candidate": "typed_task_signature_motif",
+  "runtime_ownership": [
+    "attend applicability",
+    "select composition",
+    "execute operation",
+    "arbitrate as one input",
+    "decide proposal",
+    "remember consequence",
+    "self update prediction",
+    "consolidate induction",
+    "adapt utility",
+    "checkpoint full store"
+  ],
+  "procedure_use_receipts": [
+    {
+      "task": "admission:100:A:canary_development:6",
+      "procedure": "procedure:conditional ordered selection:boundary_route",
+      "selected": true,
+      "executed": true,
+      "proposal": "select_position_1",
+      "correct": true,
+      "compute": 1.08,
+      "step": 14,
+      "activation": false
+    },
+    {
+      "task": "admission:100:A:canary_development:7",
+      "procedure": "procedure:conditional ordered selection:boundary_route",
+      "selected": true,
+      "executed": true,
+      "proposal": "select_position_1",
+      "correct": true,
+      "compute": 1.08,
+      "step": 16,
+      "activation": false
+    },
+    {
+      "task": "admission:100:A:canary_development:8",
+      "procedure": "procedure:conditional ordered selection:boundary_route",
+      "selected": true,
+      "executed": true,
+      "proposal": "select_position_0",
+      "correct": true,
+      "compute": 1.08,
+      "step": 18,
+      "activation": false
+    },
+    {
+      "task": "admission:100:A:canary_development:9",
+      "procedure": "procedure:conditional ordered selection:boundary_route",
+      "selected": true,
+      "executed": true,
+      "proposal": "select_position_0",
+      "correct": true,
+      "compute": 1.08,
+      "step": 20,
+      "activation": false
+    },
+    {
+      "task": "admission:100:A:canary_development:10",
+      "procedure": "procedure:conditional ordered selection:boundary_route",
+      "selected": true,
+      "executed": true,
+      "proposal": "select_position_0",
+      "correct": true,
+      "compute": 1.08,
+      "step": 22,
+      "activation": false
+    },
+    {
+      "task": "admission:100:A:canary_development:11",
+      "procedure": "procedure:conditional ordered selection:boundary_route",
+      "selected": true,
+      "executed": true,
+      "proposal": "select_position_1",
+      "correct": true,
+      "compute": 1.08,
+      "step": 24,
+      "activation": false
+    },
+    {
+      "task": "admission:100:B:known_positive:100",
+      "procedure": "procedure:conditional ordered selection:boundary_route",
+      "selected": true,
+      "executed": true,
+      "proposal": "select_position_1",
+      "correct": true,
+      "compute": 1.08,
+      "step": 26,
+      "activation": false
+    }
+  ],
+  "ablation_controls": [
+    "no procedural memory",
+    "storage without retrieval",
+    "retrieval without execution",
+    "execution without utility updates",
+    "random matched procedure",
+    "wrong history procedure",
+    "episodic retrieval only",
+    "semantic retrieval only"
+  ],
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "48879eeb827465f6aa9c8fbae845fd9edc245ebb4c17ffc04ebf2ec84a3a5e98"
+}

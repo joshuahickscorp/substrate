@@ -1,0 +1,157 @@
+{
+  "schema": "substrate-v2-selection-receipt/v1",
+  "data_split": "development",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "principal_or_admission_seed_observed": false,
+  "candidate_ladder": {
+    "consolidation": [
+      "verification_triggered",
+      "boundary_triggered",
+      "repetition_plus_verification",
+      "hybrid_boundary_plus_verification"
+    ],
+    "procedure": [
+      "exact_successful_motif",
+      "typed_task_signature_motif",
+      "utility_weighted_generalized_motif"
+    ],
+    "allocation": [
+      "best_fixed_policy",
+      "tabular_contextual_policy",
+      "regularized_linear_contextual_policy"
+    ],
+    "self_model": [
+      "global_estimate",
+      "domain_conditional_estimate",
+      "domain_plus_procedure_conditional_estimate"
+    ],
+    "selection_data": "development split only",
+    "freeze_before": "admission split",
+    "valid_repair_reasons": [
+      "demonstrated software defect",
+      "instrument violates declared semantics",
+      "invalid control",
+      "preregistered candidate not implemented"
+    ],
+    "valid_measured_null_is_terminal": true
+  },
+  "measurements": {
+    "procedural": [
+      {
+        "seed": 0,
+        "typed_procedure_induced": true,
+        "verified_sources": true
+      },
+      {
+        "seed": 1,
+        "typed_procedure_induced": true,
+        "verified_sources": true
+      },
+      {
+        "seed": 2,
+        "typed_procedure_induced": true,
+        "verified_sources": true
+      },
+      {
+        "seed": 3,
+        "typed_procedure_induced": true,
+        "verified_sources": true
+      },
+      {
+        "seed": 4,
+        "typed_procedure_induced": true,
+        "verified_sources": true
+      },
+      {
+        "seed": 5,
+        "typed_procedure_induced": true,
+        "verified_sources": true
+      },
+      {
+        "seed": 6,
+        "typed_procedure_induced": true,
+        "verified_sources": true
+      },
+      {
+        "seed": 7,
+        "typed_procedure_induced": true,
+        "verified_sources": true
+      }
+    ],
+    "semantic": [
+      {
+        "seed": 0,
+        "verified_semantic_record": true,
+        "record_count": 1
+      },
+      {
+        "seed": 1,
+        "verified_semantic_record": true,
+        "record_count": 1
+      },
+      {
+        "seed": 2,
+        "verified_semantic_record": true,
+        "record_count": 1
+      },
+      {
+        "seed": 3,
+        "verified_semantic_record": true,
+        "record_count": 1
+      },
+      {
+        "seed": 4,
+        "verified_semantic_record": true,
+        "record_count": 1
+      },
+      {
+        "seed": 5,
+        "verified_semantic_record": true,
+        "record_count": 1
+      },
+      {
+        "seed": 6,
+        "verified_semantic_record": true,
+        "record_count": 1
+      },
+      {
+        "seed": 7,
+        "verified_semantic_record": true,
+        "record_count": 1
+      }
+    ],
+    "allocation_utility": {
+      "never_verify": 0.335,
+      "always_verify": 0.90375,
+      "confidence_threshold": 0.335,
+      "best_fixed_policy": 0.335,
+      "maximum_compute": 0.90375,
+      "tabular_contextual_policy": 0.9525,
+      "oracle": 0.9525
+    },
+    "allocation_oracle_residual": 0.04874999999999996,
+    "allocation_strongest_simple": "always_verify"
+  },
+  "selected": {
+    "consolidation": "verification_triggered",
+    "procedure": "typed_task_signature_motif",
+    "allocation": "always_verify",
+    "self_model": "domain_plus_procedure_conditional_estimate"
+  },
+  "selection_frozen_before_admission": true,
+  "valid_measured_null_terminal": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "31a16c337352799590b22a81ff31f19c2c584a6a1bf53e606a49114148d011f2"
+}

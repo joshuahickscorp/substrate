@@ -1,0 +1,15 @@
+{
+  "schema": "substrate-v2-worker-authority/v1",
+  "supervisors": 1,
+  "selected_workers": 1,
+  "native_threads_per_worker": 1,
+  "worker_writes": "unit local staging only",
+  "supervisor_writes": "validated authoritative receipts only",
+  "mps": false,
+  "hawking_policy": "observe only and reduce worker count on resource floor breach",
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "4788e532f1d7ddbfcd68f7848bcdd9502511af30cfbd0fc61fb2b8e8c7059fc4"
+}

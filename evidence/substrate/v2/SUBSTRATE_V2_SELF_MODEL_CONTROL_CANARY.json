@@ -1,0 +1,242 @@
+{
+  "schema": "substrate-v2-self-model-control-canary/v1",
+  "known_positive": {
+    "id": "C12",
+    "statement": "self model information changes a useful control decision",
+    "mechanism_activity": {
+      "training": [
+        {
+          "task": "admission:100:A:self_model_training:1001",
+          "prediction": 0.5,
+          "actual": 0.0,
+          "made_at": 2002,
+          "outcome_at": 2003
+        },
+        {
+          "task": "admission:100:A:self_model_training:1002",
+          "prediction": 0.375,
+          "actual": 0.0,
+          "made_at": 2004,
+          "outcome_at": 2005
+        },
+        {
+          "task": "admission:100:A:self_model_training:1007",
+          "prediction": 0.28125,
+          "actual": 0.0,
+          "made_at": 2014,
+          "outcome_at": 2015
+        },
+        {
+          "task": "admission:100:A:self_model_training:1008",
+          "prediction": 0.2109375,
+          "actual": 0.0,
+          "made_at": 2016,
+          "outcome_at": 2017
+        },
+        {
+          "task": "admission:100:A:self_model_training:1011",
+          "prediction": 0.158203125,
+          "actual": 0.0,
+          "made_at": 2022,
+          "outcome_at": 2023
+        },
+        {
+          "task": "admission:100:A:self_model_training:1015",
+          "prediction": 0.11865234375,
+          "actual": 0.0,
+          "made_at": 2030,
+          "outcome_at": 2031
+        },
+        {
+          "task": "admission:100:A:self_model_training:1016",
+          "prediction": 0.0889892578125,
+          "actual": 0.0,
+          "made_at": 2032,
+          "outcome_at": 2033
+        },
+        {
+          "task": "admission:100:A:self_model_training:1019",
+          "prediction": 0.066741943359375,
+          "actual": 0.0,
+          "made_at": 2038,
+          "outcome_at": 2039
+        }
+      ],
+      "held_out_task": "admission:100:A:known_positive:100",
+      "predicted_accuracy": 0.05005645751953125,
+      "with_self_model_action": "verify",
+      "without_self_model_action": "continue",
+      "with_self_model_utility": 0.92,
+      "without_self_model_utility": 0.0,
+      "margin": 0.92,
+      "prediction_precedes_outcome": true
+    },
+    "positive_fixture": 0.92,
+    "null_fixture": 0.0,
+    "controls": [
+      "fixed prior",
+      "global updating",
+      "no self model"
+    ],
+    "oracle": 1.0,
+    "headroom": 0.92,
+    "margin": 0.92,
+    "SESOI": 0.05,
+    "classification": "mechanism_positive",
+    "passes": true,
+    "raw_independent_units": [
+      {
+        "training": [
+          {
+            "task": "admission:100:A:self_model_training:1001",
+            "prediction": 0.5,
+            "actual": 0.0,
+            "made_at": 2002,
+            "outcome_at": 2003
+          },
+          {
+            "task": "admission:100:A:self_model_training:1002",
+            "prediction": 0.375,
+            "actual": 0.0,
+            "made_at": 2004,
+            "outcome_at": 2005
+          },
+          {
+            "task": "admission:100:A:self_model_training:1007",
+            "prediction": 0.28125,
+            "actual": 0.0,
+            "made_at": 2014,
+            "outcome_at": 2015
+          },
+          {
+            "task": "admission:100:A:self_model_training:1008",
+            "prediction": 0.2109375,
+            "actual": 0.0,
+            "made_at": 2016,
+            "outcome_at": 2017
+          },
+          {
+            "task": "admission:100:A:self_model_training:1011",
+            "prediction": 0.158203125,
+            "actual": 0.0,
+            "made_at": 2022,
+            "outcome_at": 2023
+          },
+          {
+            "task": "admission:100:A:self_model_training:1015",
+            "prediction": 0.11865234375,
+            "actual": 0.0,
+            "made_at": 2030,
+            "outcome_at": 2031
+          },
+          {
+            "task": "admission:100:A:self_model_training:1016",
+            "prediction": 0.0889892578125,
+            "actual": 0.0,
+            "made_at": 2032,
+            "outcome_at": 2033
+          },
+          {
+            "task": "admission:100:A:self_model_training:1019",
+            "prediction": 0.066741943359375,
+            "actual": 0.0,
+            "made_at": 2038,
+            "outcome_at": 2039
+          }
+        ],
+        "held_out_task": "admission:100:A:known_positive:100",
+        "predicted_accuracy": 0.05005645751953125,
+        "with_self_model_action": "verify",
+        "without_self_model_action": "continue",
+        "with_self_model_utility": 0.92,
+        "without_self_model_utility": 0.0,
+        "margin": 0.92,
+        "prediction_precedes_outcome": true
+      }
+    ]
+  },
+  "prediction_order": {
+    "id": "C11",
+    "statement": "self model predictions are made before outcomes",
+    "mechanism_activity": 12,
+    "positive_fixture": true,
+    "null_fixture": "postoutcome prediction mutation",
+    "controls": [
+      "timestamp ordering"
+    ],
+    "oracle": true,
+    "headroom": 1.0,
+    "margin": 1.0,
+    "SESOI": 0.05,
+    "classification": "mechanism_positive",
+    "passes": true,
+    "raw_independent_units": [
+      {
+        "prediction": "prediction:1",
+        "made": 1,
+        "outcome": 2
+      },
+      {
+        "prediction": "prediction:2",
+        "made": 3,
+        "outcome": 4
+      },
+      {
+        "prediction": "prediction:3",
+        "made": 5,
+        "outcome": 6
+      },
+      {
+        "prediction": "prediction:4",
+        "made": 7,
+        "outcome": 8
+      },
+      {
+        "prediction": "prediction:5",
+        "made": 9,
+        "outcome": 10
+      },
+      {
+        "prediction": "prediction:6",
+        "made": 11,
+        "outcome": 12
+      },
+      {
+        "prediction": "prediction:7",
+        "made": 13,
+        "outcome": 14
+      },
+      {
+        "prediction": "prediction:8",
+        "made": 15,
+        "outcome": 16
+      },
+      {
+        "prediction": "prediction:9",
+        "made": 17,
+        "outcome": 18
+      },
+      {
+        "prediction": "prediction:10",
+        "made": 19,
+        "outcome": 20
+      },
+      {
+        "prediction": "prediction:11",
+        "made": 21,
+        "outcome": 22
+      },
+      {
+        "prediction": "prediction:12",
+        "made": 23,
+        "outcome": 24
+      }
+    ]
+  },
+  "passes": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "99df65b43d2be6dd570992b00503f0b5fb6f73f6004663e0940cc6f6443a645f"
+}
