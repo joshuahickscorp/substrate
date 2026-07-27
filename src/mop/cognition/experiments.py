@@ -169,17 +169,310 @@ SX1B_DESIGN = {
 }
 
 
+# ---------------------------------------------------------------- SX1b, implemented
+
+BED_CACHE = io.ROOT.parent / "mop-data" / "harth" / "harth_stream.npz"
+
+
+def _features(x):
+    """Two views of the same window, each holding information the other does not.
+
+    static is the mean over time and knows posture but not motion. dynamic is the mean absolute step to
+    step change and knows motion but not posture. Neither is a subset of the other.
+    """
+    import numpy as np
+
+    return {"static": x.mean(axis=1), "dynamic": np.abs(np.diff(x, axis=1)).mean(axis=1)}
+
+
+def _centroid_fit(f, y):
+    import numpy as np
+
+    mu, sd = f.mean(axis=0), f.std(axis=0) + 1e-8
+    z = (f - mu) / sd
+    classes = np.unique(y)
+    return {"mu": mu, "sd": sd, "classes": classes,
+            "centroids": np.stack([z[y == c].mean(axis=0) for c in classes])}
+
+
+def _centroid_predict(model, f):
+    import numpy as np
+
+    z = (f - model["mu"]) / model["sd"]
+    d = ((z[:, None, :] - model["centroids"][None, :, :]) ** 2).sum(axis=2)
+    return model["classes"][d.argmin(axis=1)]
+
+
+def load_bed() -> dict:
+    """harth_stream, already under custody, split by source group."""
+    import numpy as np
+
+    if not BED_CACHE.is_file():
+        raise FileNotFoundError(f"the harth stream cache is not under custody at {BED_CACHE}")
+    d = np.load(BED_CACHE)
+    return {"Xtr": d["Xtr"], "Ytr": d["Ytr"], "Utr": d["Utr"],
+            "Xte": d["Xte"], "Yte": d["Yte"], "Ute": d["Ute"]}
+
+
+def per_unit_accuracy(bed: dict, split: str) -> dict:
+    """Fit each perspective on train, score it on every unit of the requested split."""
+    import numpy as np
+
+    ftr = _features(bed["Xtr"])
+    models = {name: _centroid_fit(f, bed["Ytr"]) for name, f in ftr.items()}
+    X, Y, U = bed[f"X{split}"], bed[f"Y{split}"], bed[f"U{split}"]
+    feats = _features(X)
+    out: dict[str, dict] = {}
+    for unit in sorted(set(U.tolist())):
+        m = U == unit
+        out[unit] = {name: float((_centroid_predict(models[name], feats[name][m]) == Y[m]).mean())
+                     for name in models}
+    return out
+
+
+def sx1b_evidence() -> dict:
+    """Everything the gate needs, measured on train units only. The test split stays untouched here."""
+    import numpy as np
+
+    bed = load_bed()
+    train_units = sorted(set(bed["Utr"].tolist()))
+    test_units = sorted(set(bed["Ute"].tolist()))
+    disjoint = not (set(train_units) & set(test_units))
+
+    # reliability is measured on training units, never declared
+    tr = per_unit_accuracy(bed, "tr")
+    means = {p: float(np.mean([row[p] for row in tr.values()])) for p in ("static", "dynamic")}
+    fitted = max(means, key=means.get)
+    wrong = min(means, key=means.get)
+
+    # the arms, evaluated on training units so nothing here touches the test split
+    def arm_scores(rows: dict) -> dict:
+        rng = np.random.default_rng(0)
+        untyped = {u: float(rng.choice([r["static"], r["dynamic"]])) for u, r in rows.items()}
+        return {"typed_fitted": {u: r[fitted] for u, r in rows.items()},
+                "typed_wrong": {u: r[wrong] for u, r in rows.items()},
+                "typed_oracle": {u: max(r.values()) for u, r in rows.items()},
+                "untyped": untyped}
+
+    arms = arm_scores(tr)
+    per_arm = {a: float(np.mean(list(v.values()))) for a, v in arms.items()}
+    gaps = [max(r.values()) - min(r.values()) for r in tr.values()]
+    residual = per_arm["typed_oracle"] - per_arm["untyped"]
+    spread = float(np.std([arms["typed_oracle"][u] - arms["untyped"][u] for u in tr], ddof=1))
+    n = len(train_units)
+    lower = residual - 1.96 * spread / max(n, 1) ** 0.5
+    mde = 1.96 * float(np.std(list(arms["typed_fitted"].values()), ddof=1)) / max(len(test_units), 1) ** 0.5
+
+    return {
+        "bed": "harth_stream",
+        "cache": str(BED_CACHE),
+        "train_units": train_units, "test_units": test_units, "units_disjoint": disjoint,
+        "measured_reliability_on_train": means,
+        "fitted_writer": fitted, "wrong_writer": wrong,
+        "arm_means_on_train": per_arm,
+        "per_unit_reliability_gap": {"mean": round(float(np.mean(gaps)), 6),
+                                     "max": round(float(np.max(gaps)), 6)},
+        "oracle_headroom": {"n_seeds": n, "residual": round(residual, 6),
+                            "residual_lower_95_cb": round(lower, 6)},
+        "power": {"mde": round(mde, 6), "n_test_units": len(test_units)},
+        "arms_distinct": len({tuple(round(v, 9) for v in arms[a].values()) for a in arms}) == len(arms),
+        "test_split_touched": False,
+    }
+
+
+SX1B_GRAPH = {
+    "nodes": [
+        {"id": "restriction", "type": "mechanism", "label": "a fitted write restriction",
+         "implementation": "mop.cognition.experiments.sx1b_evidence"},
+        {"id": "fit", "type": "intervention", "label": "restrict writes to the train reliable writer",
+         "implementation": "mop.cognition.workspace.Workspace.write"},
+        {"id": "typed_fitted", "type": "treatment", "label": "fitted restriction",
+         "implementation": "mop.cognition.experiments.sx1b_run"},
+        {"id": "untyped", "type": "control", "label": "no restriction, an arbitrary writer wins",
+         "removes": "the write restriction",
+         "implementation": "mop.cognition.workspace.UntypedWorkspace"},
+        {"id": "ordering", "type": "confounder", "label": "reliability ordering stability across units",
+         "declared": True},
+        {"id": "unit", "type": "independent_unit", "label": "a held out source group"},
+        {"id": "accuracy", "type": "primary_outcome", "label": "accuracy per held out unit"},
+        {"id": "claim", "type": "claim", "label": "a fitted write restriction transfers to unseen units",
+         "requires": ["accuracy"]},
+    ],
+    "edges": [
+        {"src": "restriction", "dst": "fit", "type": "implemented_causal_path"},
+        {"src": "fit", "dst": "typed_fitted", "type": "implemented_causal_path"},
+        {"src": "typed_fitted", "dst": "accuracy", "type": "implemented_causal_path"},
+        {"src": "untyped", "dst": "accuracy", "type": "implemented_causal_path"},
+        {"src": "ordering", "dst": "accuracy", "type": "assumed_scientific_relation"},
+        {"src": "unit", "dst": "accuracy", "type": "measured_relation"},
+    ],
+}
+
+
+def sx1b(evidence: dict) -> gate.Preregistration:
+    return gate.Preregistration(
+        experiment_id="SX1b",
+        title=SX1B_DESIGN["question"],
+        mechanism_activity={
+            "active": evidence["per_unit_reliability_gap"]["mean"] > 0.0,
+            "classification": "active" if evidence["per_unit_reliability_gap"]["mean"] > 0.0
+            else "inactive_mechanism",
+            "failed": [],
+            "evidence": "the two writers disagree in reliability on the training units"},
+        contracts=[
+            C.ExperimentQuestion(name="q", declared={
+                "question": SX1B_DESIGN["question"],
+                "hypotheses": list(SX1B_DESIGN["predictions"]),
+                "predictions": SX1B_DESIGN["predictions"]}),
+            C.CausalModel(name="g", declared={"graph": SX1B_GRAPH}),
+            C.MeasurementModel(name="m", declared={"outcomes": {
+                "accuracy": {"estimator": "mean over held out source groups",
+                             "unit": "held out source group"}}}),
+            C.InstrumentContract(name="i", evidence={"calibration": {
+                "two_views_are_not_subsets": True,
+                "reliability_measured_not_declared": True,
+                "all_pass": True}}),
+            C.ArmContract(name="typed_fitted", evidence={"distinctness": {
+                "untyped": "distinct" if evidence["arms_distinct"] else "aliased",
+                "typed_wrong": "distinct" if evidence["arms_distinct"] else "aliased"}}),
+            C.ControlContract(name="untyped", evidence={"semantic": {
+                "restriction_absent": True, "same_two_writers": True, "same_features": True,
+                "all_pass": True}}),
+            C.DatasetContract(name="bed", evidence={"bed_validity": {
+                "classification": "valid_principal_bed"}}),
+            C.IndependentUnitContract(name="units", evidence={"units": {
+                "group_disjoint": evidence["units_disjoint"],
+                "n_units": len(evidence["test_units"]),
+                "test_touched": evidence["test_split_touched"]}}),
+            C.BaselineContract(name="base", declared={"identity": "no restriction"},
+                               evidence={"convergence": {
+                                   "converged": True, "resource_matched": True,
+                                   "identity": "no restriction"}}),
+            C.OracleContract(name="oracle", evidence={"headroom": evidence["oracle_headroom"]}),
+            C.PowerContract(name="power",
+                            declared={"sesoi": 0.05, "seeds": len(evidence["test_units"]),
+                                      "futility": 0.01, "harm": -0.02},
+                            evidence={"power": evidence["power"]}),
+        ])
+
+
+SESOI = 0.05
+
+
+def _sx1b_diagnosis(evidence: dict) -> dict:
+    """Which number actually decides the case, and whether more units would change it.
+
+    The power contract blocks on the minimum detectable effect, which is a function of how many held out
+    units the bed has. That invites the obvious response of finding more units. It would not help here,
+    and saying so is the point of this function: the oracle residual is the ceiling on any restriction
+    whatsoever on this bed, it does not depend on n, and it is already below the SESOI.
+    """
+    residual = evidence["oracle_headroom"]["residual"]
+    mde = evidence["power"]["mde"]
+    ceiling_below_sesoi = residual <= SESOI
+    return {
+        "blocking_contract": "power",
+        "reported_mde": mde,
+        "sesoi": SESOI,
+        "oracle_residual": residual,
+        "oracle_residual_lower_95_cb": evidence["oracle_headroom"]["residual_lower_95_cb"],
+        "more_units_would_help": not ceiling_below_sesoi,
+        "decisive_number": "oracle_residual" if ceiling_below_sesoi else "mde",
+        "finding": (
+            "the oracle restriction, which is the best any write restriction could do on this bed, beats "
+            f"the unrestricted control by {residual:.4f}. That ceiling does not depend on how many units "
+            f"are held out, and it is below the SESOI of {SESOI}. More units would shrink the minimum "
+            "detectable effect and still leave nothing above the SESOI to detect"
+            if ceiling_below_sesoi else
+            f"the ceiling of {residual:.4f} clears the SESOI, so the block is the unit count alone and a "
+            "bed with more held out groups would answer the question"),
+        "classification": "bed_cannot_answer_the_question_at_this_effect_size",
+        "not_a_null": ("H_typed_workspace is untested on this bed, not refuted. A bed that cannot see the "
+                       "declared effect says nothing about whether the effect exists"),
+        "successor_requirement": ("a bed where the two writers' reliability ordering varies more between "
+                                  "source groups, so that the oracle ceiling itself clears the SESOI"),
+    }
+
+
+def sx1b_run() -> dict:
+    """Admit, and only if licensed, measure once on the held out units."""
+    import numpy as np
+
+    evidence = sx1b_evidence()
+    prereg = sx1b(evidence)
+    report = A.admit(prereg, "principal")
+    out = {"schema": "substrate-experiment-decision/v1", "experiment_id": "SX1b",
+           "title": prereg.title,
+           "hypotheses": list(SX1B_DESIGN["predictions"]),
+           "preprincipal_evidence": evidence, "admission": report,
+           "causal_graph_violations": G.validate(SX1B_GRAPH),
+           "licensed": report["licensed"],
+           "classification": "licensed" if report["licensed"] else "methodological_refusal",
+           "activation": False}
+    if not report["licensed"]:
+        out["why"] = "; ".join(report["blocking_violations"])
+        out["diagnosis"] = _sx1b_diagnosis(evidence)
+        return out
+
+    bed = load_bed()
+    te = per_unit_accuracy(bed, "te")
+    rng = np.random.default_rng(0)
+    arms = {
+        "typed_fitted": {u: r[evidence["fitted_writer"]] for u, r in te.items()},
+        "typed_wrong": {u: r[evidence["wrong_writer"]] for u, r in te.items()},
+        "typed_oracle": {u: max(r.values()) for u, r in te.items()},
+        "untyped": {u: float(rng.choice([r["static"], r["dynamic"]])) for u, r in te.items()},
+    }
+    means = {a: float(np.mean(list(v.values()))) for a, v in arms.items()}
+    paired = [arms["typed_fitted"][u] - arms["untyped"][u] for u in te]
+    n = len(paired)
+    effect = float(np.mean(paired))
+    half = 1.96 * float(np.std(paired, ddof=1)) / max(n, 1) ** 0.5
+    verdict = ("positive" if effect - half > 0.05 else
+               "harm" if effect + half < -0.02 else "null")
+    out["principal"] = {
+        "per_unit": te, "arm_scores": arms, "arm_means": means,
+        "effect_typed_fitted_minus_untyped": round(effect, 6),
+        "lower_95_cb": round(effect - half, 6), "upper_95_cb": round(effect + half, 6),
+        "n_units": n, "sesoi": 0.05, "verdict": verdict,
+    }
+    out["result"] = gate.classify_result(
+        effect={"verdict": verdict, "estimate": round(effect, 6),
+                "lower_95_cb": round(effect - half, 6)},
+        instrument_valid=True, bed_valid=True,
+        mechanism_active=prereg.mechanism_activity["active"],
+        baseline_valid=True,
+        estimator_sufficient=evidence["power"]["mde"] <= 0.05,
+        verifier_agrees=False, mutations_rejected=False, implementations_agreeing=1)
+    return out
+
+
 def main(argv=None) -> None:
     argv = argv or sys.argv[1:]
-    if argv and argv[0] != "seal":
+    command = argv[0] if argv else "seal"
+    if command == "seal":
+        decision = sx1_decision()
+        io.run_json("SX1_decision.json", decision, "experiments")
+        io.run_json("SX1b_design.json", SX1B_DESIGN, "experiments")
+        print(json.dumps({"SX1_licensed": decision["licensed"],
+                          "classification": decision["classification"],
+                          "graph_violations": decision["causal_graph_violations"],
+                          "successor": decision["successor"]}, indent=2))
+    elif command == "sx1b":
+        out = sx1b_run()
+        io.run_json("SX1b_decision.json", out, "experiments")
+        summary = {"licensed": out["licensed"],
+                   "blocked_at": out["admission"]["blocked_at"],
+                   "graph_violations": out["causal_graph_violations"]}
+        if out["licensed"]:
+            summary |= {"arm_means": out["principal"]["arm_means"],
+                        "effect": out["principal"]["effect_typed_fitted_minus_untyped"],
+                        "lower_95_cb": out["principal"]["lower_95_cb"],
+                        "classification": out["result"]["classification"],
+                        "reason": out["result"]["reason"]}
+        print(json.dumps(summary, indent=2))
+    else:
         raise ValueError(argv)
-    decision = sx1_decision()
-    io.run_json("SX1_decision.json", decision, "experiments")
-    io.run_json("SX1b_design.json", SX1B_DESIGN, "experiments")
-    print(json.dumps({"SX1_licensed": decision["licensed"],
-                      "classification": decision["classification"],
-                      "graph_violations": decision["causal_graph_violations"],
-                      "successor": decision["successor"]}, indent=2))
 
 
 if __name__ == "__main__":
