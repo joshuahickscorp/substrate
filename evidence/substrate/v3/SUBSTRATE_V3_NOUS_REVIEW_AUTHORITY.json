@@ -1,0 +1,18 @@
+{
+  "schema": "substrate-v3-nous-review-authority/v1",
+  "classification": "reflective_cognitive_organization",
+  "review_candidate": false,
+  "unqualified_nous": false,
+  "raw_receipt_root": "runs/substrate/v3/principal/units",
+  "required_external_actions": [
+    "recompute primary effects",
+    "inspect failed cases and controls",
+    "challenge ontology and explanation semantics",
+    "review philosophical sufficiency"
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "2c54932dca5ba999d2f2bf261ac25e193e9a77dd",
+  "source_digest": "869a6353cfc0d8b5622ad5f75083b9d66b04d623320a9ad3405489cf3448e594",
+  "sha256": "68cef6d1d002dd3a0d19bdfa503f2a573a871c25c5eec99eb39316c40d04d0ea"
+}
