@@ -1,0 +1,46 @@
+{
+  "schema": "substrate-v3-scientific-constitution/v1",
+  "purpose": "test development of coherent revisable world, self, warrant, reasoning, understanding, inquiry, and reflective control",
+  "v1_dependency": {
+    "tag": "substrate-v1-terminal",
+    "commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed"
+  },
+  "v2_dependency": {
+    "ready_tag": "substrate-v2-developmental-ready",
+    "ready_commit": "553539bc5edc01737fa53b2c4ee4096eb32a2f23",
+    "terminal_tag": "substrate-v2-terminal",
+    "terminal_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+    "classification": "persistent_developmental_cognition"
+  },
+  "definitions": {
+    "memory": "information remains accessible",
+    "knowledge": "traceable usable belief surviving relevant defeaters",
+    "reasoning": "declared inference operations produce conclusions",
+    "understanding": "organization supports explanation prediction intervention counterfactual compression reconstruction transfer",
+    "inquiry": "identify missing evidence that resolves uncertainty",
+    "reflection": "self competence and limitation knowledge regulates cognition",
+    "Nous": "one continuing cognitive organization integrates these capacities through development"
+  },
+  "failure_classes": [
+    "implemented",
+    "causally_active",
+    "instrument_verified",
+    "invalid_bed",
+    "instrumentation_failure",
+    "no_oracle_headroom",
+    "mechanism_null",
+    "unverified_candidate",
+    "mechanism_positive",
+    "terminally_gated",
+    "unlicensed"
+  ],
+  "sesoi": 0.05,
+  "tie": "mechanism_null",
+  "favorable_below_sesoi": "mechanism_null",
+  "principal_changes_after_outcome": "forbidden",
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "926000bec42a49b52e7700de2ee9404bb41592ec9803b32482690e0bdf274f36"
+}

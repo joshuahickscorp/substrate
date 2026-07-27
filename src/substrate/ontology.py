@@ -327,6 +327,218 @@ class Ontology:
         }
 
 
+# ---------------------------------------------------------------- Substrate v3 active ontology
+
+V3_TYPES = (
+    "entity", "property", "relation", "event", "process", "state", "role", "boundary",
+    "cause", "effect", "rule", "exception", "abstraction", "category", "instance", "part",
+    "whole", "identity", "change", "possibility", "impossibility", "unknown",
+)
+V3_REVISION_OPERATIONS = ("form", "split", "merge", "supersede", "map")
+
+
+@dataclass
+class Concept:
+    """A developmental category whose history and exceptions remain inspectable."""
+
+    identity: str
+    members: set[str] = field(default_factory=set)
+    features: set[str] = field(default_factory=set)
+    relations: set[tuple[str, str]] = field(default_factory=set)
+    exceptions: set[str] = field(default_factory=set)
+    status: str = "active"
+    supersedes: tuple[str, ...] = ()
+
+    def snapshot(self) -> dict:
+        return {
+            "identity": self.identity,
+            "members": sorted(self.members),
+            "features": sorted(self.features),
+            "relations": sorted([list(row) for row in self.relations]),
+            "exceptions": sorted(self.exceptions),
+            "status": self.status,
+            "supersedes": list(self.supersedes),
+        }
+
+
+@dataclass
+class OntologyRevision:
+    identity: str
+    operation: str
+    triggering_evidence: tuple[str, ...]
+    old_ontology: dict
+    new_ontology: dict
+    predicted_benefit: float
+    actual_held_out_benefit: float | None
+    cost: float
+    affected_beliefs: tuple[str, ...]
+    affected_procedures: tuple[str, ...]
+    exceptions: tuple[str, ...]
+    rollback_checkpoint: dict
+    admitted: bool = False
+    rolled_back: bool = False
+
+    def receipt(self) -> dict:
+        return {
+            "identity": self.identity,
+            "operation": self.operation,
+            "triggering_evidence": list(self.triggering_evidence),
+            "old_ontology": self.old_ontology,
+            "new_ontology": self.new_ontology,
+            "predicted_benefit": self.predicted_benefit,
+            "actual_held_out_benefit": self.actual_held_out_benefit,
+            "cost": self.cost,
+            "affected_beliefs": list(self.affected_beliefs),
+            "affected_procedures": list(self.affected_procedures),
+            "exceptions": list(self.exceptions),
+            "rollback_checkpoint": self.rollback_checkpoint,
+            "admitted": self.admitted,
+            "rolled_back": self.rolled_back,
+        }
+
+
+class ActiveOntology:
+    """Evidence-triggered concept formation with held-out admission and exact rollback."""
+
+    def __init__(self) -> None:
+        self.concepts: dict[str, Concept] = {}
+        self.instance_features: dict[str, set[str]] = {}
+        self.cross_representation_maps: dict[str, str] = {}
+        self.revisions: list[OntologyRevision] = []
+
+    def snapshot(self) -> dict:
+        return {
+            "concepts": {key: self.concepts[key].snapshot() for key in sorted(self.concepts)},
+            "instance_features": {key: sorted(value) for key, value in sorted(self.instance_features.items())},
+            "cross_representation_maps": dict(sorted(self.cross_representation_maps.items())),
+        }
+
+    def restore(self, state: dict) -> None:
+        self.concepts = {
+            key: Concept(
+                identity=value["identity"],
+                members=set(value["members"]),
+                features=set(value["features"]),
+                relations={tuple(row) for row in value["relations"]},
+                exceptions=set(value["exceptions"]),
+                status=value["status"],
+                supersedes=tuple(value["supersedes"]),
+            )
+            for key, value in state["concepts"].items()
+        }
+        self.instance_features = {key: set(value) for key, value in state["instance_features"].items()}
+        self.cross_representation_maps = dict(state["cross_representation_maps"])
+
+    def observe(self, instance: str, features: set[str], *, category: str | None = None) -> None:
+        self.instance_features[instance] = set(features)
+        if category is not None:
+            if category not in self.concepts:
+                self.concepts[category] = Concept(category)
+            self.concepts[category].members.add(instance)
+
+    def form_category(self, identity: str, members: set[str], *, evidence: tuple[str, ...], predicted_benefit: float) -> OntologyRevision:
+        if not evidence or not members:
+            raise Refused("category formation needs verified evidence and at least one instance")
+        shared = set.intersection(*(self.instance_features[member] for member in members))
+        if not shared:
+            raise Refused("category formation needs a shared abstraction, not only a label")
+        before = self.snapshot()
+        self.concepts[identity] = Concept(identity, set(members), shared)
+        return self._record("form", evidence, before, predicted_benefit)
+
+    def split_category(
+        self,
+        identity: str,
+        left: str,
+        right: str,
+        *,
+        discriminator: str,
+        evidence: tuple[str, ...],
+        predicted_benefit: float,
+    ) -> OntologyRevision:
+        original = self.concepts[identity]
+        left_members = {member for member in original.members if discriminator in self.instance_features[member]}
+        right_members = original.members - left_members
+        if not evidence or not left_members or not right_members:
+            raise Refused("a split needs verified exceptions and two nonempty categories")
+        before = self.snapshot()
+        original.status = "superseded"
+        self.concepts[left] = Concept(left, left_members, original.features | {discriminator}, supersedes=(identity,))
+        self.concepts[right] = Concept(right, right_members, original.features - {discriminator}, supersedes=(identity,))
+        return self._record("split", evidence, before, predicted_benefit, exceptions=tuple(sorted(right_members)))
+
+    def merge_categories(
+        self,
+        left: str,
+        right: str,
+        merged: str,
+        *,
+        evidence: tuple[str, ...],
+        predicted_benefit: float,
+    ) -> OntologyRevision:
+        a, b = self.concepts[left], self.concepts[right]
+        if not evidence or a.exceptions or b.exceptions:
+            raise Refused("a merge needs verified equivalence and cannot erase recorded exceptions")
+        if a.features != b.features:
+            raise Refused("categories with different predictive features are not redundant")
+        before = self.snapshot()
+        a.status = b.status = "superseded"
+        self.concepts[merged] = Concept(
+            merged,
+            a.members | b.members,
+            set(a.features),
+            a.relations | b.relations,
+            supersedes=(left, right),
+        )
+        return self._record("merge", evidence, before, predicted_benefit)
+
+    def map_representation(self, surface: str, concept: str, *, evidence: tuple[str, ...], predicted_benefit: float) -> OntologyRevision:
+        if concept not in self.concepts or not evidence:
+            raise Refused("cross representation mapping needs an existing concept and verified evidence")
+        before = self.snapshot()
+        self.cross_representation_maps[surface] = concept
+        return self._record("map", evidence, before, predicted_benefit)
+
+    def insufficient_categories(self, features: set[str]) -> bool:
+        return not any(concept.status == "active" and concept.features <= features for concept in self.concepts.values())
+
+    def complete_revision(self, revision: OntologyRevision, *, held_out_benefit: float, sesoi: float = 0.05) -> OntologyRevision:
+        revision.actual_held_out_benefit = float(held_out_benefit)
+        revision.admitted = held_out_benefit >= sesoi
+        if not revision.admitted:
+            self.restore(revision.rollback_checkpoint)
+            revision.rolled_back = True
+        return revision
+
+    def _record(
+        self,
+        operation: str,
+        evidence: tuple[str, ...],
+        before: dict,
+        predicted_benefit: float,
+        *,
+        exceptions: tuple[str, ...] = (),
+    ) -> OntologyRevision:
+        if operation not in V3_REVISION_OPERATIONS:
+            raise Refused(f"unknown ontology revision {operation!r}")
+        revision = OntologyRevision(
+            identity=f"ontology-revision-{len(self.revisions):06d}",
+            operation=operation,
+            triggering_evidence=tuple(evidence),
+            old_ontology=before,
+            new_ontology=self.snapshot(),
+            predicted_benefit=float(predicted_benefit),
+            actual_held_out_benefit=None,
+            cost=1.0,
+            affected_beliefs=(),
+            affected_procedures=(),
+            exceptions=exceptions,
+            rollback_checkpoint=before,
+        )
+        self.revisions.append(revision)
+        return revision
+
+
 # ---------------------------------------------------------------- 6.1 typing ladder
 
 

@@ -1,0 +1,101 @@
+{
+  "schema": "substrate-v3-allocation-canaries/v1",
+  "canaries": [
+    {
+      "identity": "C27",
+      "description": "inquiry actions spend different costs",
+      "positive_fixture": "inquiry charged 0.70",
+      "null_fixture": "stop charged zero",
+      "mechanism_activity": true,
+      "controls": [
+        "rate matched"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.7,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C28",
+      "description": "positive inquiry oracle residual clears SESOI",
+      "positive_fixture": "two positive and transfer beds",
+      "null_fixture": "no headroom bed",
+      "mechanism_activity": true,
+      "controls": [
+        "strongest simple policy"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 0.09539062499999995,
+      "margin": 0.09539062499999995,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C29",
+      "description": "negative control has no headroom",
+      "positive_fixture": "no headroom correctly refused",
+      "null_fixture": "false learned gain",
+      "mechanism_activity": true,
+      "controls": [
+        "never inquire"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 0.0,
+      "margin": 0.0,
+      "sesoi": 0.05,
+      "classification": "no_oracle_headroom",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C30",
+      "description": "contextual allocation beats simple policy",
+      "positive_fixture": "tabular contextual policy",
+      "null_fixture": "strongest simple",
+      "mechanism_activity": true,
+      "controls": [
+        "best fixed",
+        "eiv threshold"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 0.10550781250000008,
+      "margin": 0.10824218750000003,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C31",
+      "description": "allocation transfers held out",
+      "positive_fixture": "held out workload",
+      "null_fixture": "simple transfer policy",
+      "mechanism_activity": true,
+      "controls": [
+        "strongest simple"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 0.09539062499999995,
+      "margin": 0.09709960937499995,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "9e2ea320636f3c102d7d936d45c67666dfd1a2a707ed84f3f3465abccd38590d"
+}

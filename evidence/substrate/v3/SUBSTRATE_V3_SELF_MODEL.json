@@ -1,0 +1,917 @@
+{
+  "schema": "substrate-v3-self-model/v1",
+  "conditions": [
+    "domain",
+    "task structure",
+    "reasoning mode",
+    "procedure",
+    "ontology",
+    "body",
+    "tool",
+    "memory",
+    "resource"
+  ],
+  "prediction_receipts": [
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.5,
+      "actual": 1.0,
+      "prediction_step": 1,
+      "outcome_step": 2
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.65,
+      "actual": 1.0,
+      "prediction_step": 2,
+      "outcome_step": 3
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.755,
+      "actual": 1.0,
+      "prediction_step": 3,
+      "outcome_step": 4
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.8285,
+      "actual": 1.0,
+      "prediction_step": 4,
+      "outcome_step": 5
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.87995,
+      "actual": 1.0,
+      "prediction_step": 5,
+      "outcome_step": 6
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.915965,
+      "actual": 1.0,
+      "prediction_step": 6,
+      "outcome_step": 7
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.9411755,
+      "actual": 1.0,
+      "prediction_step": 7,
+      "outcome_step": 8
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.95882285,
+      "actual": 1.0,
+      "prediction_step": 8,
+      "outcome_step": 9
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.971175995,
+      "actual": 1.0,
+      "prediction_step": 9,
+      "outcome_step": 10
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.9798231964999999,
+      "actual": 1.0,
+      "prediction_step": 10,
+      "outcome_step": 11
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.98587623755,
+      "actual": 1.0,
+      "prediction_step": 11,
+      "outcome_step": 12
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.990113366285,
+      "actual": 1.0,
+      "prediction_step": 12,
+      "outcome_step": 13
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.9930793563995,
+      "actual": 1.0,
+      "prediction_step": 13,
+      "outcome_step": 14
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.99515554947965,
+      "actual": 1.0,
+      "prediction_step": 14,
+      "outcome_step": 15
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.996608884635755,
+      "actual": 1.0,
+      "prediction_step": 15,
+      "outcome_step": 16
+    },
+    {
+      "kind": "accuracy",
+      "family": "ontology_garden",
+      "predicted": 0.9976262192450285,
+      "actual": 1.0,
+      "prediction_step": 16,
+      "outcome_step": 17
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9983383534715199,
+      "actual": 1.0,
+      "prediction_step": 17,
+      "outcome_step": 18
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.998836847430064,
+      "actual": 1.0,
+      "prediction_step": 18,
+      "outcome_step": 19
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9991857932010447,
+      "actual": 1.0,
+      "prediction_step": 19,
+      "outcome_step": 20
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9994300552407314,
+      "actual": 1.0,
+      "prediction_step": 20,
+      "outcome_step": 21
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9996010386685119,
+      "actual": 1.0,
+      "prediction_step": 21,
+      "outcome_step": 22
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9997207270679583,
+      "actual": 1.0,
+      "prediction_step": 22,
+      "outcome_step": 23
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9998045089475709,
+      "actual": 1.0,
+      "prediction_step": 23,
+      "outcome_step": 24
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9998631562632996,
+      "actual": 1.0,
+      "prediction_step": 24,
+      "outcome_step": 25
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9999042093843097,
+      "actual": 1.0,
+      "prediction_step": 25,
+      "outcome_step": 26
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9999329465690168,
+      "actual": 1.0,
+      "prediction_step": 26,
+      "outcome_step": 27
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9999530625983117,
+      "actual": 1.0,
+      "prediction_step": 27,
+      "outcome_step": 28
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9999671438188182,
+      "actual": 1.0,
+      "prediction_step": 28,
+      "outcome_step": 29
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9999770006731727,
+      "actual": 1.0,
+      "prediction_step": 29,
+      "outcome_step": 30
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9999839004712209,
+      "actual": 1.0,
+      "prediction_step": 30,
+      "outcome_step": 31
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9999887303298546,
+      "actual": 1.0,
+      "prediction_step": 31,
+      "outcome_step": 32
+    },
+    {
+      "kind": "accuracy",
+      "family": "epistemic_laboratory",
+      "predicted": 0.9999921112308983,
+      "actual": 1.0,
+      "prediction_step": 32,
+      "outcome_step": 33
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999944778616288,
+      "actual": 1.0,
+      "prediction_step": 33,
+      "outcome_step": 34
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999961345031402,
+      "actual": 1.0,
+      "prediction_step": 34,
+      "outcome_step": 35
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999972941521982,
+      "actual": 1.0,
+      "prediction_step": 35,
+      "outcome_step": 36
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999981059065387,
+      "actual": 1.0,
+      "prediction_step": 36,
+      "outcome_step": 37
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999986741345771,
+      "actual": 1.0,
+      "prediction_step": 37,
+      "outcome_step": 38
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.999999071894204,
+      "actual": 1.0,
+      "prediction_step": 38,
+      "outcome_step": 39
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999993503259428,
+      "actual": 1.0,
+      "prediction_step": 39,
+      "outcome_step": 40
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999995452281599,
+      "actual": 1.0,
+      "prediction_step": 40,
+      "outcome_step": 41
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.999999681659712,
+      "actual": 1.0,
+      "prediction_step": 41,
+      "outcome_step": 42
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999997771617983,
+      "actual": 1.0,
+      "prediction_step": 42,
+      "outcome_step": 43
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999998440132588,
+      "actual": 1.0,
+      "prediction_step": 43,
+      "outcome_step": 44
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999998908092812,
+      "actual": 1.0,
+      "prediction_step": 44,
+      "outcome_step": 45
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999999235664968,
+      "actual": 1.0,
+      "prediction_step": 45,
+      "outcome_step": 46
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999999464965478,
+      "actual": 1.0,
+      "prediction_step": 46,
+      "outcome_step": 47
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999999625475835,
+      "actual": 1.0,
+      "prediction_step": 47,
+      "outcome_step": 48
+    },
+    {
+      "kind": "accuracy",
+      "family": "causal_micro_worlds",
+      "predicted": 0.9999999737833084,
+      "actual": 1.0,
+      "prediction_step": 48,
+      "outcome_step": 49
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999816483158,
+      "actual": 1.0,
+      "prediction_step": 49,
+      "outcome_step": 50
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999871538211,
+      "actual": 1.0,
+      "prediction_step": 50,
+      "outcome_step": 51
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999910076748,
+      "actual": 1.0,
+      "prediction_step": 51,
+      "outcome_step": 52
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999937053723,
+      "actual": 1.0,
+      "prediction_step": 52,
+      "outcome_step": 53
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999955937606,
+      "actual": 1.0,
+      "prediction_step": 53,
+      "outcome_step": 54
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999969156325,
+      "actual": 1.0,
+      "prediction_step": 54,
+      "outcome_step": 55
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999978409427,
+      "actual": 1.0,
+      "prediction_step": 55,
+      "outcome_step": 56
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.99999999848866,
+      "actual": 1.0,
+      "prediction_step": 56,
+      "outcome_step": 57
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999989420619,
+      "actual": 1.0,
+      "prediction_step": 57,
+      "outcome_step": 58
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999992594434,
+      "actual": 1.0,
+      "prediction_step": 58,
+      "outcome_step": 59
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999994816103,
+      "actual": 1.0,
+      "prediction_step": 59,
+      "outcome_step": 60
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999996371273,
+      "actual": 1.0,
+      "prediction_step": 60,
+      "outcome_step": 61
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999997459891,
+      "actual": 1.0,
+      "prediction_step": 61,
+      "outcome_step": 62
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999998221923,
+      "actual": 1.0,
+      "prediction_step": 62,
+      "outcome_step": 63
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999998755347,
+      "actual": 1.0,
+      "prediction_step": 63,
+      "outcome_step": 64
+    },
+    {
+      "kind": "accuracy",
+      "family": "cross_representation_systems",
+      "predicted": 0.9999999999128742,
+      "actual": 1.0,
+      "prediction_step": 64,
+      "outcome_step": 65
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.999999999939012,
+      "actual": 1.0,
+      "prediction_step": 65,
+      "outcome_step": 66
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999573084,
+      "actual": 1.0,
+      "prediction_step": 66,
+      "outcome_step": 67
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999701159,
+      "actual": 1.0,
+      "prediction_step": 67,
+      "outcome_step": 68
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999790812,
+      "actual": 1.0,
+      "prediction_step": 68,
+      "outcome_step": 69
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999853568,
+      "actual": 1.0,
+      "prediction_step": 69,
+      "outcome_step": 70
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999897498,
+      "actual": 1.0,
+      "prediction_step": 70,
+      "outcome_step": 71
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999928249,
+      "actual": 1.0,
+      "prediction_step": 71,
+      "outcome_step": 72
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999949774,
+      "actual": 1.0,
+      "prediction_step": 72,
+      "outcome_step": 73
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999964841,
+      "actual": 1.0,
+      "prediction_step": 73,
+      "outcome_step": 74
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999975389,
+      "actual": 1.0,
+      "prediction_step": 74,
+      "outcome_step": 75
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999982772,
+      "actual": 1.0,
+      "prediction_step": 75,
+      "outcome_step": 76
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.999999999998794,
+      "actual": 1.0,
+      "prediction_step": 76,
+      "outcome_step": 77
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999991558,
+      "actual": 1.0,
+      "prediction_step": 77,
+      "outcome_step": 78
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.999999999999409,
+      "actual": 1.0,
+      "prediction_step": 78,
+      "outcome_step": 79
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999995863,
+      "actual": 1.0,
+      "prediction_step": 79,
+      "outcome_step": 80
+    },
+    {
+      "kind": "accuracy",
+      "family": "reasoning_method_selection",
+      "predicted": 0.9999999999997105,
+      "actual": 1.0,
+      "prediction_step": 80,
+      "outcome_step": 81
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9999999999997973,
+      "actual": 1.0,
+      "prediction_step": 81,
+      "outcome_step": 82
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9999999999998581,
+      "actual": 1.0,
+      "prediction_step": 82,
+      "outcome_step": 83
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9999999999999006,
+      "actual": 0.0,
+      "prediction_step": 83,
+      "outcome_step": 84
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.6999999999999305,
+      "actual": 1.0,
+      "prediction_step": 84,
+      "outcome_step": 85
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.7899999999999513,
+      "actual": 1.0,
+      "prediction_step": 85,
+      "outcome_step": 86
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.8529999999999659,
+      "actual": 1.0,
+      "prediction_step": 86,
+      "outcome_step": 87
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.8970999999999761,
+      "actual": 1.0,
+      "prediction_step": 87,
+      "outcome_step": 88
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9279699999999833,
+      "actual": 1.0,
+      "prediction_step": 88,
+      "outcome_step": 89
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9495789999999883,
+      "actual": 1.0,
+      "prediction_step": 89,
+      "outcome_step": 90
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9647052999999918,
+      "actual": 1.0,
+      "prediction_step": 90,
+      "outcome_step": 91
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9752937099999942,
+      "actual": 1.0,
+      "prediction_step": 91,
+      "outcome_step": 92
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9827055969999959,
+      "actual": 1.0,
+      "prediction_step": 92,
+      "outcome_step": 93
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9878939178999971,
+      "actual": 1.0,
+      "prediction_step": 93,
+      "outcome_step": 94
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.991525742529998,
+      "actual": 1.0,
+      "prediction_step": 94,
+      "outcome_step": 95
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.9940680197709986,
+      "actual": 1.0,
+      "prediction_step": 95,
+      "outcome_step": 96
+    },
+    {
+      "kind": "accuracy",
+      "family": "scientific_inquiry",
+      "predicted": 0.995847613839699,
+      "actual": 1.0,
+      "prediction_step": 96,
+      "outcome_step": 97
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9970933296877893,
+      "actual": 1.0,
+      "prediction_step": 97,
+      "outcome_step": 98
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9979653307814526,
+      "actual": 1.0,
+      "prediction_step": 98,
+      "outcome_step": 99
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9985757315470167,
+      "actual": 1.0,
+      "prediction_step": 99,
+      "outcome_step": 100
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9990030120829118,
+      "actual": 1.0,
+      "prediction_step": 100,
+      "outcome_step": 101
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9993021084580382,
+      "actual": 1.0,
+      "prediction_step": 101,
+      "outcome_step": 102
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9995114759206267,
+      "actual": 1.0,
+      "prediction_step": 102,
+      "outcome_step": 103
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9996580331444387,
+      "actual": 1.0,
+      "prediction_step": 103,
+      "outcome_step": 104
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.999760623201107,
+      "actual": 1.0,
+      "prediction_step": 104,
+      "outcome_step": 105
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9998324362407749,
+      "actual": 1.0,
+      "prediction_step": 105,
+      "outcome_step": 106
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9998827053685424,
+      "actual": 1.0,
+      "prediction_step": 106,
+      "outcome_step": 107
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9999178937579797,
+      "actual": 1.0,
+      "prediction_step": 107,
+      "outcome_step": 108
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9999425256305858,
+      "actual": 1.0,
+      "prediction_step": 108,
+      "outcome_step": 109
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9999597679414101,
+      "actual": 1.0,
+      "prediction_step": 109,
+      "outcome_step": 110
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.999971837558987,
+      "actual": 1.0,
+      "prediction_step": 110,
+      "outcome_step": 111
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9999802862912909,
+      "actual": 1.0,
+      "prediction_step": 111,
+      "outcome_step": 112
+    },
+    {
+      "kind": "accuracy",
+      "family": "adversarial_ambiguity",
+      "predicted": 0.9999862004039036,
+      "actual": 1.0,
+      "prediction_step": 112,
+      "outcome_step": 113
+    }
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "b77a20f7ccfeb7e7930722948eb731730830e233f047ec6ae8af956545f6097a"
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "substrate-v3-failure-matrix/v1",
+  "injections": {
+    "worker_death": true,
+    "supervisor_death": true,
+    "partial_checkpoint": true,
+    "corrupt_ontology": true,
+    "corrupt_belief_graph": true,
+    "missing_reasoning_receipt": true,
+    "wrong_split": true,
+    "wrong_seed": true,
+    "stale_artifact": true,
+    "duplicate_unit": true,
+    "partial_publication": true
+  },
+  "detected": 11,
+  "total": 11,
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "4ffa6136cb6220022e773243c573ea6573a81f7d9122e6d9572a6a63fa99332f"
+}

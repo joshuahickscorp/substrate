@@ -1,0 +1,37 @@
+{
+  "schema": "substrate-v3-checkpoint-schema/v1",
+  "fields": [
+    "schema",
+    "owned_identity",
+    "semantic_state",
+    "identity_hash",
+    "activation"
+  ],
+  "semantic_fields": [
+    "arm",
+    "entity_id",
+    "body",
+    "tools",
+    "ontology",
+    "epistemology",
+    "reasoning_receipts",
+    "structure",
+    "self_model",
+    "self_receipts",
+    "ontology_receipts",
+    "world_receipts",
+    "semantic",
+    "procedures",
+    "allocation_counts",
+    "history_specialization",
+    "cycles",
+    "step",
+    "activation"
+  ],
+  "identity_exact": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "364a19f0097f493fdeaa82b14c97b14019b251c4c0e137be8d18ddf4d1e954b3"
+}

@@ -1,0 +1,106 @@
+{
+  "schema": "substrate-v3-evidence-gap-map/v1",
+  "gaps": {
+    "allocation": {
+      "status": "principally_null",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "allocation focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "ontology": {
+      "status": "implemented_only",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "ontology focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "epistemology": {
+      "status": "implemented_only",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "epistemology focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "knowledge": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "knowledge focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "reasoning": {
+      "status": "implemented_only",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "reasoning focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "understanding": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "understanding focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "explanation": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "explanation focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "causality": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "causality focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "counterfactuals": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "counterfactuals focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "analogy": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "analogy focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "planning": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "planning focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "diagnosis": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "diagnosis focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "inquiry": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "inquiry focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "uncertainty": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "uncertainty focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "reflection": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "reflection focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    },
+    "open world adaptation": {
+      "status": "absent",
+      "missing_evidence": "v3 principal and independent verification",
+      "proposed_v3_test": "open world adaptation focused canary, integrated pilot, principal ablation, replication",
+      "classification_dependency": true
+    }
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "bc4bc1197675ab86a307f3064dfbf2a260ed155c1c0a6997cb4c80b44b9db3f6"
+}

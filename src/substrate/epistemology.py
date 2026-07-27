@@ -361,6 +361,248 @@ class Epistemology:
         }
 
 
+# ---------------------------------------------------------------- Substrate v3 active epistemology
+
+V3_STATUSES = (
+    "observed", "reported", "remembered", "inferred", "deduced", "induced", "abduced",
+    "analogized", "predicted", "assumed", "simulated", "verified", "corroborated",
+    "refuted", "superseded", "underdetermined", "unknown", "currently_unanswerable",
+)
+DEFEATER_KINDS = ("rebutting", "undercutting", "scope", "ontology", "underdetermination")
+
+
+@dataclass
+class Defeater:
+    identity: str
+    kind: str
+    evidence: str
+    target: str
+    effect: float
+
+    def __post_init__(self) -> None:
+        if self.kind not in DEFEATER_KINDS:
+            raise Refused(f"unknown defeater kind {self.kind!r}")
+        if not self.evidence:
+            raise Refused("a defeater needs traceable evidence")
+
+
+@dataclass
+class EpistemicBelief:
+    identity: str
+    content: object
+    type: str
+    source: str
+    method: str
+    provenance: tuple[str, ...]
+    supporting_evidence: tuple[str, ...] = ()
+    contradicting_evidence: tuple[str, ...] = ()
+    confidence: float = 0.5
+    verification_state: str = "unverified"
+    domain_scope: tuple[str, ...] = ()
+    time_scope: tuple[int | None, int | None] = (None, None)
+    dependencies: tuple[str, ...] = ()
+    defeaters: list[Defeater] = field(default_factory=list)
+    unresolved_alternatives: tuple[str, ...] = ()
+    required_evidence: tuple[str, ...] = ()
+    held_out_utility: float | None = None
+
+    def __post_init__(self) -> None:
+        if self.type not in V3_STATUSES:
+            raise Refused(f"unknown epistemic status {self.type!r}")
+        if not self.source or not self.method or not self.provenance:
+            raise Refused("beliefs require source, inference method, and provenance")
+        if not 0.0 <= self.confidence <= 1.0:
+            raise Refused("belief confidence must be in the unit interval")
+
+
+class EpistemicLedger:
+    """Warranted belief, defeater propagation, underdetermination, and inquiry receipts."""
+
+    def __init__(self) -> None:
+        self.beliefs: dict[str, EpistemicBelief] = {}
+        self.defeater_receipts: list[dict] = []
+        self.inquiry_receipts: list[dict] = []
+        self.knowledge_admissions: list[dict] = []
+
+    def add(self, belief: EpistemicBelief) -> EpistemicBelief:
+        missing = [dependency for dependency in belief.dependencies if dependency not in self.beliefs]
+        if missing:
+            raise Refused(f"belief dependencies are absent: {missing}")
+        self.beliefs[belief.identity] = belief
+        return belief
+
+    def defeat(self, belief_id: str, defeater: Defeater) -> EpistemicBelief:
+        belief = self.beliefs[belief_id]
+        if defeater.target != belief_id:
+            raise Refused("defeater target does not match the belief being revised")
+        belief.defeaters.append(defeater)
+        before = belief.confidence
+        if defeater.kind == "rebutting":
+            belief.contradicting_evidence += (defeater.evidence,)
+            belief.confidence = max(0.0, belief.confidence - defeater.effect)
+        elif defeater.kind == "undercutting":
+            belief.confidence = min(belief.confidence, max(0.0, 1.0 - defeater.effect))
+        elif defeater.kind == "scope":
+            belief.domain_scope = belief.domain_scope[:1]
+        elif defeater.kind == "ontology":
+            belief.verification_state = "unresolved"
+            belief.type = "underdetermined"
+        else:
+            belief.type = "underdetermined"
+            belief.verification_state = "unresolved"
+        if belief.confidence <= 0.1:
+            belief.type = "refuted"
+            belief.verification_state = "refuted"
+        self.defeater_receipts.append(
+            {
+                "belief": belief_id,
+                "defeater": defeater.identity,
+                "kind": defeater.kind,
+                "evidence": defeater.evidence,
+                "confidence_before": before,
+                "confidence_after": belief.confidence,
+                "status_after": belief.type,
+            }
+        )
+        return belief
+
+    def admit_knowledge(self, belief_id: str, *, independently_verified: bool, sesoi: float = 0.05) -> dict:
+        belief = self.beliefs[belief_id]
+        surviving = [row for row in belief.defeaters if row.kind in {"rebutting", "undercutting", "ontology"}]
+        reasons = []
+        if belief.method in {"", "assumed", "simulated"}:
+            reasons.append("method does not warrant knowledge")
+        if surviving:
+            reasons.append("relevant defeater survives")
+        if not belief.domain_scope:
+            reasons.append("scope absent")
+        if belief.held_out_utility is None or belief.held_out_utility < sesoi:
+            reasons.append("held out causal value below SESOI")
+        if not independently_verified:
+            reasons.append("independent verification absent")
+        admitted = not reasons
+        if admitted:
+            belief.type = "verified"
+            belief.verification_state = "verified"
+        receipt = {
+            "belief": belief_id,
+            "admitted": admitted,
+            "reasons": reasons,
+            "confidence": belief.confidence,
+            "held_out_utility": belief.held_out_utility,
+            "independently_verified": independently_verified,
+        }
+        self.knowledge_admissions.append(receipt)
+        return receipt
+
+    def inquiry(self, belief_id: str, observations: list[dict], *, cost_weight: float = 1.0) -> dict:
+        belief = self.beliefs[belief_id]
+        alternatives = (belief.content,) + tuple(belief.unresolved_alternatives)
+        scored = []
+        for observation in observations:
+            distinguishes = len(set(observation["outcomes"].values()))
+            information = distinguishes / max(len(alternatives), 1)
+            utility = information - cost_weight * float(observation["cost"])
+            scored.append(
+                {
+                    "identity": observation["identity"],
+                    "information_value": information,
+                    "cost": float(observation["cost"]),
+                    "expected_utility": utility,
+                }
+            )
+        answerable = bool(scored) and max(row["information_value"] for row in scored) > 0
+        selected = max(scored, key=lambda row: row["expected_utility"]) if answerable else None
+        receipt = {
+            "belief": belief_id,
+            "remaining_hypotheses": list(alternatives),
+            "observations": scored,
+            "selected": selected,
+            "currently_answerable": answerable,
+            "status": "underdetermined" if len(alternatives) > 1 else belief.type,
+        }
+        self.inquiry_receipts.append(receipt)
+        return receipt
+
+    def explain(self, belief_id: str) -> dict:
+        belief = self.beliefs[belief_id]
+        return {
+            "what": belief.content,
+            "why": list(belief.supporting_evidence or belief.provenance),
+            "method": belief.method,
+            "defeaters": [row.identity for row in belief.defeaters],
+            "unknown": list(belief.unresolved_alternatives),
+            "required_evidence": list(belief.required_evidence),
+            "receipt": belief.identity,
+        }
+
+    def snapshot(self) -> dict:
+        return {
+            "beliefs": {
+                identity: {
+                    "identity": belief.identity,
+                    "content": belief.content,
+                    "type": belief.type,
+                    "source": belief.source,
+                    "method": belief.method,
+                    "provenance": list(belief.provenance),
+                    "supporting_evidence": list(belief.supporting_evidence),
+                    "contradicting_evidence": list(belief.contradicting_evidence),
+                    "confidence": belief.confidence,
+                    "verification_state": belief.verification_state,
+                    "domain_scope": list(belief.domain_scope),
+                    "time_scope": list(belief.time_scope),
+                    "dependencies": list(belief.dependencies),
+                    "defeaters": [
+                        {
+                            "identity": row.identity,
+                            "kind": row.kind,
+                            "evidence": row.evidence,
+                            "target": row.target,
+                            "effect": row.effect,
+                        }
+                        for row in belief.defeaters
+                    ],
+                    "unresolved_alternatives": list(belief.unresolved_alternatives),
+                    "required_evidence": list(belief.required_evidence),
+                    "held_out_utility": belief.held_out_utility,
+                }
+                for identity, belief in sorted(self.beliefs.items())
+            },
+            "defeater_receipts": list(self.defeater_receipts),
+            "inquiry_receipts": list(self.inquiry_receipts),
+            "knowledge_admissions": list(self.knowledge_admissions),
+        }
+
+    @classmethod
+    def restore(cls, state: dict) -> EpistemicLedger:
+        ledger = cls()
+        for identity, row in state["beliefs"].items():
+            ledger.beliefs[identity] = EpistemicBelief(
+                identity=row["identity"],
+                content=row["content"],
+                type=row["type"],
+                source=row["source"],
+                method=row["method"],
+                provenance=tuple(row["provenance"]),
+                supporting_evidence=tuple(row["supporting_evidence"]),
+                contradicting_evidence=tuple(row["contradicting_evidence"]),
+                confidence=float(row["confidence"]),
+                verification_state=row["verification_state"],
+                domain_scope=tuple(row["domain_scope"]),
+                time_scope=tuple(row["time_scope"]),
+                dependencies=tuple(row["dependencies"]),
+                defeaters=[Defeater(**defeater) for defeater in row["defeaters"]],
+                unresolved_alternatives=tuple(row["unresolved_alternatives"]),
+                required_evidence=tuple(row["required_evidence"]),
+                held_out_utility=row["held_out_utility"],
+            )
+        ledger.defeater_receipts = list(state["defeater_receipts"])
+        ledger.inquiry_receipts = list(state["inquiry_receipts"])
+        ledger.knowledge_admissions = list(state["knowledge_admissions"])
+        return ledger
+
+
 # ---------------------------------------------------------------- 7.2 epistemic value
 
 

@@ -1,0 +1,69 @@
+{
+  "schema": "substrate-v3-hypothesis-graph/v1",
+  "hypotheses": {
+    "H_N1": "active ontology revision improves held out prediction, explanation, or transfer over fixed ontology",
+    "H_N2": "defeaters and underdetermination improve calibrated belief revision and inquiry over confidence only",
+    "H_N3": "reasoning method selection improves utility over fixed reasoning and maximum compute",
+    "H_N4": "structural understanding improves explanation, intervention, counterfactuals, and cross representation transfer",
+    "H_N5": "inquiry driven allocation improves held out cost adjusted utility over the strongest simple policy",
+    "H_N6": "v2 developmental transfer and retention remain preserved",
+    "H_N7": "different verified epistemic histories produce useful predictable specialization",
+    "H_N8": "conditional self and world models improve held out control",
+    "H_N9": "one identity persists through ontology change, interruption, body change, and conflict"
+  },
+  "classification_dependencies": {
+    "persistent_developmental_cognition": [
+      "v2 terminal authority"
+    ],
+    "epistemically_organized_reasoner": [
+      "active ontology",
+      "epistemic distinctions",
+      "defeaters",
+      "underdetermination",
+      "multiple reasoning modes",
+      "reasoning selection"
+    ],
+    "demonstrated_structural_understanding": [
+      "epistemically organized reasoner",
+      "cross representation transfer",
+      "explanation",
+      "causal intervention",
+      "counterfactual prediction",
+      "model boundary detection"
+    ],
+    "reflective_cognitive_organization": [
+      "persistent developmental cognition",
+      "epistemically organized reasoner",
+      "self model utility",
+      "world model utility",
+      "endogenous allocation",
+      "held out inquiry transfer"
+    ],
+    "functional_proto_nous_candidate": [
+      "reflective cognitive organization",
+      "demonstrated structural understanding",
+      "active ontology revision",
+      "active inquiry",
+      "useful epistemic divergence",
+      "developmental preservation",
+      "body continuity",
+      "interruption recovery",
+      "cognitive integrity",
+      "principal completion",
+      "independent verification"
+    ],
+    "nous_ready_for_review": [
+      "functional proto Nous candidate",
+      "independent workload replication",
+      "independent history replication",
+      "generator held out evaluation",
+      "zero claim mutations",
+      "complete raw review package"
+    ]
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "a0f4104afc26e6be2f2b43f6df2c3be414f2ecc595bc80df3ec53b7c33a74f59"
+}

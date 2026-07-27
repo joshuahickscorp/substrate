@@ -1,0 +1,26 @@
+{
+  "schema": "substrate-v3-counterfactual-battery/v1",
+  "counterfactual": {
+    "possible": true,
+    "change": {
+      "middle": false
+    },
+    "factual": [
+      "middle",
+      "outcome",
+      "source"
+    ],
+    "counterfactual": [
+      "source"
+    ],
+    "background_preserved": true
+  },
+  "intervention": [
+    "source"
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "253caed9a7e98047156d2f7d716334c1b3602c8cfa12d85de6f4fa1f948967bb"
+}

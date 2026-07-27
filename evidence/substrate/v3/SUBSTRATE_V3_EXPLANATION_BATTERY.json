@@ -1,0 +1,44 @@
+{
+  "schema": "substrate-v3-explanation-battery/v1",
+  "explanation": {
+    "premises": [
+      "source"
+    ],
+    "consequence": "outcome",
+    "path": [
+      "source",
+      "middle",
+      "outcome"
+    ],
+    "relations": [
+      [
+        "source",
+        "middle"
+      ],
+      [
+        "middle",
+        "outcome"
+      ]
+    ],
+    "mechanisms": [
+      "transmission",
+      "conversion"
+    ],
+    "alternatives": [
+      "middle"
+    ],
+    "falsifier": "intervene to hold middle absent while outcome still occurs",
+    "derived": true
+  },
+  "scores": {
+    "premise_fidelity": 1.0,
+    "causal_relevance": 1.0,
+    "falsifier": 1.0
+  },
+  "prose_style_scored": false,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "ee15f4841709c0010dfbf61f7221806ff9a92745077b99a7205bcba38c2dd603"
+}

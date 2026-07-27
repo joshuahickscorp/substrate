@@ -1,0 +1,191 @@
+{
+  "schema": "substrate-v3-integration-canaries/v1",
+  "canaries": [
+    {
+      "identity": "C35",
+      "description": "ontology epistemology survive restore",
+      "positive_fixture": "complete checkpoint",
+      "null_fixture": "omitted owned state",
+      "mechanism_activity": true,
+      "controls": [
+        "fresh reset"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C36",
+      "description": "body tool change preserves epistemic identity",
+      "positive_fixture": "owned identity across body change",
+      "null_fixture": "fresh identity",
+      "mechanism_activity": true,
+      "controls": [
+        "fresh reset"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C37",
+      "description": "different histories specialize",
+      "positive_fixture": "verified different histories",
+      "null_fixture": "identical history",
+      "mechanism_activity": true,
+      "controls": [
+        "wrong history"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C38",
+      "description": "identical histories equivalent",
+      "positive_fixture": "deterministic replica",
+      "null_fixture": "different history",
+      "mechanism_activity": true,
+      "controls": [
+        "replica"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C39",
+      "description": "wrong history lacks specialization",
+      "positive_fixture": "matching history advantage",
+      "null_fixture": "wrong history",
+      "mechanism_activity": true,
+      "controls": [
+        "shuffled history"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C40",
+      "description": "activation remains false",
+      "positive_fixture": "AST activation audit",
+      "null_fixture": "activation true mutation",
+      "mechanism_activity": true,
+      "controls": [
+        "source audit"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C41",
+      "description": "unverified generated knowledge refused",
+      "positive_fixture": "generated quarantine",
+      "null_fixture": "unsupported promotion",
+      "mechanism_activity": true,
+      "controls": [
+        "knowledge admission"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C42",
+      "description": "corrupt state detected",
+      "positive_fixture": "identity mismatch refusal",
+      "null_fixture": "valid checkpoint",
+      "mechanism_activity": true,
+      "controls": [
+        "byte mutation"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "body_change": {
+    "before": {
+      "body": "general",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation"
+      ],
+      "entity_id": "integration-canary"
+    },
+    "after": {
+      "body": "tool_dominant",
+      "tools": [
+        "deterministic_compare",
+        "sandbox_simulation",
+        "graph_inspector"
+      ],
+      "entity_id": "integration-canary"
+    },
+    "owned_identity_preserved": true
+  },
+  "activation_audit": {
+    "files": [
+      "src/substrate/v3.py",
+      "src/substrate/v3campaign.py",
+      "src/substrate/v3canary.py",
+      "src/substrate/v3config.py",
+      "src/substrate/v3fabric.py",
+      "src/substrate/v3io.py",
+      "src/substrate/v3pilot.py",
+      "src/substrate/v3principal.py",
+      "src/substrate/v3state.py",
+      "src/substrate/v3verify.py"
+    ],
+    "activation_true_assignments": [],
+    "external_action_imports": [],
+    "passes": true
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "b9c3524d0b0d97f0f9508d2dd27401148088ae988b6947bdcb6024700e17c4d8"
+}

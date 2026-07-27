@@ -1,0 +1,37 @@
+{
+  "schema": "substrate-v3-knowledge-admission/v1",
+  "positive": {
+    "belief": "verified",
+    "admitted": true,
+    "reasons": [],
+    "confidence": 0.9,
+    "held_out_utility": 0.2,
+    "independently_verified": true
+  },
+  "unsupported": {
+    "belief": "unsupported",
+    "admitted": false,
+    "reasons": [
+      "method does not warrant knowledge",
+      "independent verification absent"
+    ],
+    "confidence": 0.99,
+    "held_out_utility": 0.4,
+    "independently_verified": false
+  },
+  "defeated": {
+    "belief": "b1",
+    "admitted": false,
+    "reasons": [
+      "relevant defeater survives"
+    ],
+    "confidence": 0.4,
+    "held_out_utility": 0.2,
+    "independently_verified": true
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "c944a497884a408f95123fd1fd8ede668ab072d5bed4333b8dfedb1e019e5808"
+}
