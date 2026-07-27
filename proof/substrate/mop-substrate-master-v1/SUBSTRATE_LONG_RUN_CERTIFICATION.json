@@ -53,12 +53,12 @@
         "note": ""
       },
       "arbitrate": {
-        "positive_state_changed": false,
-        "positive_decision_path_changed": true,
+        "positive_state_changed": true,
+        "positive_decision_path_changed": false,
         "null_control": {
-          "applicable": true,
-          "quiet": true,
-          "fixture": "a stream on which arbitrate has nothing to do"
+          "applicable": false,
+          "reason": "emits an arbitration report every cycle by design, and the no arbiter arm fabricates a report of its own rather than staying silent",
+          "quiet": null
         },
         "active": true,
         "classification": "active",
@@ -78,7 +78,7 @@
       },
       "remember": {
         "positive_state_changed": true,
-        "positive_decision_path_changed": true,
+        "positive_decision_path_changed": false,
         "null_control": {
           "applicable": false,
           "reason": "writes an episode every cycle by design",
@@ -90,7 +90,7 @@
       },
       "self_update": {
         "positive_state_changed": true,
-        "positive_decision_path_changed": false,
+        "positive_decision_path_changed": true,
         "null_control": {
           "applicable": true,
           "quiet": true,
@@ -154,7 +154,8 @@
     "null_control_inapplicable": {
       "decide": "writes the decision region every cycle by design",
       "remember": "writes an episode every cycle by design",
-      "checkpoint": "writes the self region and the identity digest every cycle by design"
+      "checkpoint": "writes the self region and the identity digest every cycle by design",
+      "arbitrate": "emits an arbitration report every cycle by design, and the no arbiter arm fabricates a report of its own rather than staying silent"
     },
     "all_active": true,
     "control_clean": true,
@@ -194,7 +195,7 @@
       "calibration": {
         "n": 30,
         "passes": true,
-        "mean_absolute_error": 0.110785
+        "mean_absolute_error": 0.055554
       },
       "world_model_value": {
         "verdict": "no_measurable_decision_gain",
@@ -321,20 +322,20 @@
     "microtasks": {
       "compact": {
         "body_alone_accuracy": 0.663916,
-        "decisions_substrate_changed": 30,
-        "decisions_substrate_agreed": 65,
+        "decisions_substrate_changed": 19,
+        "decisions_substrate_agreed": 75,
         "substrate_changes_body_facing_behaviour": true
       },
       "general": {
         "body_alone_accuracy": 0.670668,
-        "decisions_substrate_changed": 30,
-        "decisions_substrate_agreed": 65,
+        "decisions_substrate_changed": 11,
+        "decisions_substrate_agreed": 84,
         "substrate_changes_body_facing_behaviour": true
       },
       "tool": {
         "body_alone_accuracy": 0.651163,
-        "decisions_substrate_changed": 27,
-        "decisions_substrate_agreed": 68,
+        "decisions_substrate_changed": 15,
+        "decisions_substrate_agreed": 80,
         "substrate_changes_body_facing_behaviour": true
       }
     },
@@ -352,6 +353,6 @@
   "rule": "a failed component is gated out of the run rather than blocking the run",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
-  "sha256": "2d9efca78c80ad76395e62b7bfcaf9391a813c452a8c2e9e83da0531170ab4bb"
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "14b2f466d3c2fd347d4c1a60c9e341f35e3a11f06cef6f7c0169f6800d5d75e3"
 }

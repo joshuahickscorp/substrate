@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_NULL_CONTROL_MUST_NEUTRALISE_EVERY_EFFECT",
+  "defect": "the null control for attend removed the budget pressure only, leaving the pool filtering effect running, so it was a weaker positive control being read as a null. The null control for arbitrate was impossible in principle and was being manufactured: the contrast arm fabricates its own report rather than staying silent, so no stream makes the two coincide",
+  "correction": "attend's control neutralises both effects, and arbitrate is declared null control inapplicable with its reason alongside decide, remember and checkpoint rather than failing a control built to fail",
+  "regression_test": "tests/cognition/test_certification.py::test_a_stage_with_no_possible_null_control_says_so",
+  "reproduced_by": "reproduced by the closure gate certification run",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "activation": false,
+  "sha256": "b1ac78785858c81212f170ba0cb26bbb0750f26d8e3be6d059b158aaef5c01ce"
+}

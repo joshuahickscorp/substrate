@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `566bb2e689c722a78258a0129eeca79a8bf96de1`. Status is derived, never asserted: an item is
+Generated from the tree at commit `e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 67. Levels: measured 43, terminal 23, tested 1.
+Items: 68. Levels: measured 43, terminal 24, tested 1.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -68,6 +68,7 @@ Items: 67. Levels: measured 43, terminal 23, tested 1.
 | Y2 | 16 | SX2 diversity closed on a compute matched comparison | measured | C4, A3 | classify the result through mop.method.gate.classify_result and record it |
 | Y3 | 2 | Every runtime stage is active, with a null control where one is possible | measured | N1, Y1 | classify the result through mop.method.gate.classify_result and record it |
 | Y4 | 14 | Session and body canaries on the sealed authority | measured | F4, F6 | classify the result through mop.method.gate.classify_result and record it |
+| Y5 | 3 | The closure gate: do the parts compose into one organization | terminal | Y3, Y4 | none |
 | Z1 | 3 | One frozen long run DAG of certified or necessary units | terminal | Y1, Y3, Y4 | none, an authority is terminal once sealed and tested |
 | Z2 | 4 | A rehearsal that tries to break the machinery | terminal | Z1 | none, an authority is terminal once sealed and tested |
 | Z3 | 45 | The claim ceiling the run cannot exceed | terminal | A5, Z1 | none, an authority is terminal once sealed and tested |

@@ -1,6 +1,6 @@
 # Substrate: what the entity currently is
 
-Generated from the tree at commit `566bb2e689c722a78258a0129eeca79a8bf96de1`. Every number below is derived from the
+Generated from the tree at commit `e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e`. Every number below is derived from the
 repository, and any number that would require evidence nobody has measured is reported as zero
 rather than estimated.
 
@@ -31,7 +31,7 @@ rather than estimated.
 | developmental_divergence | 100% | 0% |
 | thinking | 100% | 0% |
 | continuity | 100% | 0% |
-| unity | 100% | 0% |
+| unity | 100% | 25% |
 | reflective_access | 100% | 0% |
 | cognitive_integrity | 100% | 0% |
 | model_body_integration | 100% | 0% |

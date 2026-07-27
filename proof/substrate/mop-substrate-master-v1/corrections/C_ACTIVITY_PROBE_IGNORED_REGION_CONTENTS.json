@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_ACTIVITY_PROBE_IGNORED_REGION_CONTENTS",
+  "defect": "the ablation probe compared the identity hash, which lists region names and not region contents, so a stage whose entire product is what it writes into a region read as inactive. Arbitration was called wiring while it was preserving a minority and naming missing evidence on every cycle",
+  "correction": "the probe compares the broadcast contents as well as the state hash",
+  "regression_test": "tests/cognition/test_certification.py::test_ablation_observes_what_a_stage_writes_not_only_where_it_writes",
+  "reproduced_by": "reproduced by the closure gate certification run",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "activation": false,
+  "sha256": "92fc560f231c4a3fb2575e3c3670051ffcf43afddd44ab799ffeb76d700aa099"
+}
