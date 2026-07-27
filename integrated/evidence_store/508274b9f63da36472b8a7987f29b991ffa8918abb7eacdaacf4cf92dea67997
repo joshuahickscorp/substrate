@@ -1,0 +1,15 @@
+{
+  "schema": "mop-temporal-core-test-report/v1",
+  "returncode": 0,
+  "passed": true,
+  "tail": [
+    "........................................................................ [ 48%]",
+    "........................................................................ [ 97%]",
+    "....                                                                     [100%]"
+  ],
+  "wall_seconds": 2.7,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "1feead99c57639e754b3749f149bfd6006152ef18876e941c29d041f7459946e"
+}

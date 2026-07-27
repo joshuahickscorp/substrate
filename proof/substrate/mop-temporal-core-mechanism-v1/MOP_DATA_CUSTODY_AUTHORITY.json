@@ -50,7 +50,7 @@
         "all_pass": true
       },
       "live_hashes": {
-        ".DS_Store": "07af2ddb83b4dfc4b9263eb6e093f4c93aa839850c6ec8a713657d02ceb01d7d",
+        ".DS_Store": "7b9d1e7577d39cd61450fe720a53087c891633c58a363bb250e7d3ad1859b143",
         "LICENSE": "fd3a263fe19ed8faa9068b43abaebafc02c77897b0c6fc09abc04bb592e5f16e",
         "README.md": "b415da1f2d880bcce33b2958fcba9bba46013c1bc5592fa4aaa85759d9308b6f",
         "off/41474817_nohash_0.wav": "505bb36bddf02abee988f4c0686cfd2aef4b05902b6fc5b1280a539d5af64695",
@@ -65,34 +65,58 @@
       "logical_identity": "speech_features_cache",
       "checks": {
         "present": true,
-        "no_missing_files": false,
-        "hashes_match": false,
+        "no_missing_files": true,
+        "hashes_match": true,
         "not_empty": true,
-        "all_pass": false
+        "all_pass": true
       },
       "live_hashes": {
-        "speech_feats.npz": "missing"
+        "speech_feats.npz": "2e883bd6818389a95ae8d0de286080713bac795ca3d878490b946105351e02d5"
       },
-      "status": "damaged",
-      "recovery": "rebuild from speech_commands"
+      "status": "intact",
+      "recovery": ""
     },
     "pamap2": {
       "logical_identity": "pamap2",
       "checks": {
-        "present": false,
-        "all_pass": false
+        "present": true,
+        "no_missing_files": true,
+        "hashes_match": true,
+        "not_empty": true,
+        "all_pass": true
       },
-      "status": "absent",
-      "recovery": "python3.12 -m mop.temporal.runs.custody_run recover pamap2"
+      "live_hashes": {
+        "DataCollectionProtocol.pdf": "8160247da55b1b89880474015d63c0f4a2caa9e79184bf8951b9adb961c163ea",
+        "DescriptionOfActivities.pdf": "ad3f4375b70f6e6e4b3217db9f616ff1fde0a25655c3a520fd0cd3dc1e19f9c5",
+        "Optional/subject101.dat": "a8b71371406001ae563acad1d7d946ceacd0afeb51b97bfb9a9cbad95c78e52c",
+        "Protocol/subject102.dat": "468f3c6ba3e6e961f383783665265afbcddbbd33a3a84bba0386b7d0d4e3c632",
+        "Protocol/subject103.dat": "5be64631d085e3efc700728395516da3512ff9de17dab30d253508441a98d3f0",
+        "readme.pdf": "99a0339f1d754089fc2f7f2c24f5a47888a51dc0646a8b210af60358c00da30d",
+        "subjectInformation.pdf": "f26ee309f1496c615855f91a184f9a7a2a688a852e53e363a6d1a6f4db070031"
+      },
+      "status": "intact",
+      "recovery": ""
     },
     "harth": {
       "logical_identity": "harth",
       "checks": {
-        "present": false,
-        "all_pass": false
+        "present": true,
+        "no_missing_files": true,
+        "hashes_match": true,
+        "not_empty": true,
+        "all_pass": true
       },
-      "status": "absent",
-      "recovery": "python3.12 -m mop.temporal.runs.custody_run recover harth"
+      "live_hashes": {
+        "S006.csv": "2067e59303bc35c62e8bc405a0720812c01985f96bfaca58eaa273362d3e556a",
+        "S008.csv": "a33ac9e8b17c3f0c2b9c2f6f0214a0154ade35381521c3795d806e9078ae8f22",
+        "S009.csv": "968f541af70717a7f56feb218143d9aa6478aa495e52b15fd2d266e996287231",
+        "S019.csv": "bf204f96474c645a8ebe60541146d6a6f74aa1cc1e93a0bb666faee111f1560c",
+        "S020.csv": "fed2cd7f1f56eb238d93b773a50e8e6749acf1ca6b759809ba89ce06e0d1ebee",
+        "S028.csv": "067cb39466eb6618aedf97cfb0aa39b1ee270af43700cb26872751ed124283ef",
+        "S029.csv": "afa39704f41067d95eeb7e1f396d6d25dde068aa56a62d9f5e2479f6b8421a16"
+      },
+      "status": "intact",
+      "recovery": ""
     },
     "starss23": {
       "logical_identity": "starss23",
@@ -119,20 +143,20 @@
   "intact": [
     "uci_har",
     "speech_commands",
+    "speech_features_cache",
+    "pamap2",
+    "harth",
     "starss23"
   ],
-  "absent": [
-    "pamap2",
-    "harth"
-  ],
-  "damaged": [
-    "speech_features_cache"
-  ],
+  "absent": [],
+  "damaged": [],
   "guard_mutations_all_pass": true,
   "inventory_declared": true,
-  "wall_seconds": 2.0,
+  "wall_seconds": 1.9,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "source_commit": "01771460cf731e019047415494e26eab2e3b88c1",
+  "source_tree_oid": "138aa6816a8982dbdac4c3085183a1790ff3b1e8",
   "SESOI": 0.05,
-  "sha256": "6ae898f036acd6cf95f58d1453feccf787f07275a52fdee4f128a09730935e41"
+  "sha256_version": "canonical_json_v2",
+  "sha256": "ac8eadf980557032b48d05ebd32084227368d134061d053da74c1b404413121e"
 }

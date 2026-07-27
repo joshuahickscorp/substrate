@@ -1,0 +1,172 @@
+{
+  "bed": "harth_stream",
+  "spec": {
+    "family": "mgu",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "horizon_5",
+    "history_k": 1
+  },
+  "cell": "mgu|small|linear|horizon_5|h1",
+  "curve": {
+    "400": 0.93464,
+    "800": 0.9517066666666666,
+    "1600": 0.95901,
+    "3200": 0.9593766666666667
+  },
+  "seed_spread": {
+    "400": 0.02126,
+    "800": 0.02274,
+    "1600": 0.00841,
+    "3200": 0.00375
+  },
+  "seed_scores": {
+    "400": [
+      0.91392,
+      0.95641,
+      0.93359
+    ],
+    "800": [
+      0.96203,
+      0.92564,
+      0.96745
+    ],
+    "1600": [
+      0.94937,
+      0.96282,
+      0.96484
+    ],
+    "3200": [
+      0.96076,
+      0.95513,
+      0.96224
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.91392,
+        "checkpoint_sha": "38d9a7b6ac7ec9d61cd02e40b9dbad4bcf3da9b7075cc8ca77b2ffac7b832ca8"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.95641,
+        "checkpoint_sha": "6f8fdeec9942d8fe9d7fc70e464126c2b07347c8c5f91bb559a95bf7df84bfc7"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.93359,
+        "checkpoint_sha": "52567760da437cea0dc3582e3f66d06808ce507ba13f709a1f0778f90295406d"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.96203,
+        "checkpoint_sha": "8f14991232d6dfdf8148f59158e7323f9b81da6676e9636e28d782134fcd874a"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.92564,
+        "checkpoint_sha": "0c7ba47bdaefaf26c6bc1af4beec3263a251eceaf99c75d1b1139b9d1e20ed94"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.96745,
+        "checkpoint_sha": "edae39c8a5015d015c45b7487ed956333f5da98a5d711acea6c81e5d79067060"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.94937,
+        "checkpoint_sha": "955fad379a446b5bfe3035c0864c1cdf554275780930c55a82d0595995fc3ec6"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.96282,
+        "checkpoint_sha": "6c4a8dfd8c23b39b94cebb9d242241ae2c5730e946dff8196c2ee983b15ac777"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.96484,
+        "checkpoint_sha": "0709c720c1dad83394108b119fd2b13452dd1406ac08459759336fdb1275b036"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.96076,
+        "checkpoint_sha": "217399494ed8c1178172a1542b9400950533a0c7e9cd65a34e9a207aa431f7a3"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.95513,
+        "checkpoint_sha": "0308fd7e033ac31916fdb058cf5683de9f9418440b54facf58fca5e46d066b90"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.96224,
+        "checkpoint_sha": "4bbb29b0a8f24360cd9e0a987c85eb12aaa90afdc17030965dbfe08fc4d5fde9"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 42270,
+    "readout": 390,
+    "total": 42660
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.93464,
+    0.95171,
+    0.95901,
+    0.95938
+  ],
+  "best_budget": 3200,
+  "selected_checkpoint": 3200,
+  "second_half_movement": 0.00037,
+  "residual_slope": 0.000367,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 180.8,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0fbe01b989ef45254c911f8be40d38cd84b2aec0",
+  "source_tree_oid": "2147d9abe411edeb814a8898ff94c5eb4c9407c3",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "4c442d29f67acfa95ebdf8cb5ae5cbd8ab70204143825cff2999b802a66f9d42"
+}

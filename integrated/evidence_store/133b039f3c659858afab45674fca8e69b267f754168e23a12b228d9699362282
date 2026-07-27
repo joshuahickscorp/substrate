@@ -1,0 +1,148 @@
+{
+  "schema": "mop-e2-factorial-authority/v1",
+  "principal_beds": {
+    "har_stream": {
+      "identity": {
+        "bed": "har_stream",
+        "task_identity": "stream classification: name the sequence that ends the stream",
+        "unit_kind": "subject",
+        "sequence_length": 192,
+        "segment_length": 64,
+        "segments_per_stream": 3,
+        "channels": 9,
+        "classes": 6,
+        "n_train": 6000,
+        "n_test": 2000,
+        "n_units_train": 21,
+        "n_units_test": 9,
+        "data_hash": "bbc9e4d691b5b3717b3a400b7330a3c5e5af3cac0ee69239210ae5fb90e5b234"
+      },
+      "unit_counts": {
+        "train": 17,
+        "tune": 4,
+        "test": 9
+      },
+      "static_reader_gap": 0.47827,
+      "recurrent_reference_score": 0.92563,
+      "order_free_control_score": 0.44736,
+      "majority_rate": 0.1795,
+      "chance_rate": 0.16667,
+      "null_reference": {
+        "kind": "majority_class",
+        "observed": 0.44736,
+        "reference": 0.1795,
+        "delta": 0.26786,
+        "band": 0.1,
+        "valid": true,
+        "behaves_as_a_null": false,
+        "detail": {},
+        "classification": "null_reference_violated"
+      },
+      "convergence": {
+        "all_converged": false,
+        "unconverged": [
+          "lstm|small|linear|none|h1",
+          "mgu|small|linear|none|h1",
+          "pooled|small|linear|none|h1",
+          "histmlp|small|linear|none|h20",
+          "pooled|large|mlp_strong|none|h1"
+        ]
+      },
+      "checks": {
+        "group_disjoint": true,
+        "enough_units": true,
+        "test_untouched": true,
+        "classes_balanced_enough": true,
+        "static_reader_gap_measured": true,
+        "temporal_order_required": true,
+        "baseline_convergence_measured": true,
+        "baselines_converged": false,
+        "all_pass": false
+      },
+      "classification": "valid_secondary_bed"
+    },
+    "speech_stream": {
+      "identity": {
+        "bed": "speech_stream",
+        "task_identity": "stream classification: name the sequence that ends the stream",
+        "unit_kind": "speaker",
+        "sequence_length": 147,
+        "segment_length": 49,
+        "segments_per_stream": 3,
+        "channels": 40,
+        "classes": 10,
+        "n_train": 6000,
+        "n_test": 2000,
+        "n_units_train": 144,
+        "n_units_test": 63,
+        "data_hash": "ef731004fb6de1a6e5a6795ed683bda9e60d0aa4fe0e74f64918897949568323"
+      },
+      "unit_counts": {
+        "train": 116,
+        "tune": 28,
+        "test": 63
+      },
+      "static_reader_gap": 0.50382,
+      "recurrent_reference_score": 0.75013,
+      "order_free_control_score": 0.24631,
+      "majority_rate": 0.1165,
+      "chance_rate": 0.1,
+      "null_reference": {
+        "kind": "majority_class",
+        "observed": 0.24631,
+        "reference": 0.1165,
+        "delta": 0.12981,
+        "band": 0.1,
+        "valid": true,
+        "behaves_as_a_null": false,
+        "detail": {},
+        "classification": "null_reference_violated"
+      },
+      "convergence": {
+        "all_converged": false,
+        "unconverged": [
+          "gru|small|linear|none|h1",
+          "lstm|small|linear|none|h1",
+          "mgu|small|linear|none|h1",
+          "tcn|small|linear|none|h1",
+          "histmlp|small|linear|none|h20",
+          "gru|large|linear|none|h1",
+          "pooled|large|mlp_strong|none|h1"
+        ]
+      },
+      "checks": {
+        "group_disjoint": true,
+        "enough_units": true,
+        "test_untouched": true,
+        "classes_balanced_enough": true,
+        "static_reader_gap_measured": true,
+        "temporal_order_required": true,
+        "baseline_convergence_measured": true,
+        "baselines_converged": false,
+        "all_pass": false
+      },
+      "classification": "valid_secondary_bed"
+    }
+  },
+  "third_bed_candidates": {
+    "harth_stream": {
+      "classification": "valid_secondary_bed"
+    },
+    "pamap2_stream": {
+      "classification": "preflight_incomplete"
+    }
+  },
+  "forbidden_beds": {
+    "beds": [
+      "har",
+      "speech"
+    ],
+    "why": "the reaudit classified the legacy har and speech principal beds invalid_no_temporal_headroom. They are not used here and their exclusion is recorded rather than assumed"
+  },
+  "reuse_rule": "a historical receipt is reused only when dataset hash, task identity, split identity, instrument identity, control identity, units, temporal order requirement, static reader gap, baseline convergence and oracle headroom all match. Otherwise admission reruns",
+  "all_principal_beds_valid": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "f88673b5fa643f3df1601f3381edac2dcd7ebec450ca68305b6c0628e192ab7f"
+}

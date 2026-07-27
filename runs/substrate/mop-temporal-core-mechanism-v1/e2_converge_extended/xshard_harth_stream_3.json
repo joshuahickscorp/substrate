@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "harth_stream",
+  "spec": {
+    "family": "pooled",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "pooled|small|linear|none|h1",
+  "curve": {
+    "400": 0.65781,
+    "800": 0.6280566666666667,
+    "1600": 0.6679499999999999,
+    "3200": 0.6672733333333333,
+    "6400": 0.6693133333333333,
+    "12800": 0.6536266666666667
+  },
+  "seed_spread": {
+    "400": 0.04744,
+    "800": 0.06449,
+    "1600": 0.04865,
+    "3200": 0.00746,
+    "6400": 0.01161,
+    "12800": 0.01029
+  },
+  "seed_scores": {
+    "400": [
+      0.6038,
+      0.67692,
+      0.69271
+    ],
+    "800": [
+      0.55949,
+      0.63718,
+      0.6875
+    ],
+    "1600": [
+      0.71139,
+      0.61538,
+      0.67708
+    ],
+    "3200": [
+      0.65949,
+      0.67436,
+      0.66797
+    ],
+    "6400": [
+      0.66962,
+      0.68077,
+      0.65755
+    ],
+    "12800": [
+      0.64177,
+      0.66026,
+      0.65885
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.6038,
+        "checkpoint_sha": "d2db1cefe2be9edcb92f930dc85cec9ff1865535875e4b001c0b765e864ba545"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.67692,
+        "checkpoint_sha": "554d81afd92fd0d97b78513846727c0eec159105bd0e65efa4e490feff29ae93"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.69271,
+        "checkpoint_sha": "01f8c1102e37d5b2e4c874ffc5d74c0524a6fb0dc3a51af59cec48d7452a86e1"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.55949,
+        "checkpoint_sha": "3fa0252cfecf7f369c51a4ce8ec2dac8f1d71095f38cf778d4e8cfd8e8dd7f88"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.63718,
+        "checkpoint_sha": "4f9e44c71e6d5e217aeaafeb7534f0be67d65124a4e5dc517ac1914fd6bdec06"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.6875,
+        "checkpoint_sha": "ed05c22bb4ab963549b8ddde2da11772dce754d475c9ee30162b86a5354077a3"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.71139,
+        "checkpoint_sha": "6dcfdd9d726f6e3e7059673fb9c19f5647112fd91a3911d7a168dccca3c29267"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.61538,
+        "checkpoint_sha": "79247388d98ec29b52de0a3f390b715b47f2ff214e313950c5d879bd27982922"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.67708,
+        "checkpoint_sha": "23a054adcd462e785761d265de86ae007fcae4ba65457f57fc7a167f8d53ed84"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.65949,
+        "checkpoint_sha": "2831c7a430d0768715c417ca77c8c812db819be58b0e1bbfdd0185dd2f272fe7"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.67436,
+        "checkpoint_sha": "bb0d1b93353595819fdf1dc671ae2a4194d00ba90a3dabbdc4ebb873f39fffd4"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.66797,
+        "checkpoint_sha": "9507f755a82512aa484bd2e6a0011db38438e2dcb3df0f77d926da8f57fd3828"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.66962,
+        "checkpoint_sha": "6a1d4647dc2282446c1e2f325fd4059e76f207ede7364856ecb71c87e71690ea"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.68077,
+        "checkpoint_sha": "f28f3dfee81cb4b5ae13e84446dc9facb7d0a1ea47885dc13f546a94e38c703c"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.65755,
+        "checkpoint_sha": "d7afddf114476aa13fc8a0c21bd909146f779c06f3688cbe149dde053ed932e8"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.64177,
+        "checkpoint_sha": "e1647f72d2226b7b6d08e72e024e5c948cffe02e6889cc78b89cf07aebf12cfb"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.66026,
+        "checkpoint_sha": "d42af189dcfed1fc83c7029f9b316f684548a13d3f14e8dea42f4edb4afe1ef9"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.65885,
+        "checkpoint_sha": "23f4339f7ebec6d552ea1d3e57ce61617369f86d8b7ed7aad615e249fb2fd2e7"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 41593,
+    "readout": 390,
+    "total": 41983
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_harth_stream_3.json",
+    "sha256": "26ff55f6f3fd254d75fb970c8e3b7aab71b05b42e4b8c1b0bcdc283e627faaef",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.65781,
+    0.62806,
+    0.66795,
+    0.66727,
+    0.66931,
+    0.65363
+  ],
+  "best_budget": 6400,
+  "selected_checkpoint": 6400,
+  "second_half_movement": 0.01569,
+  "residual_slope": -0.006823,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0157 with slope -0.00682; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 874.3,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "ce4ad5a0c77d2cd01f5aaccd205ba86750873536174f5040926769cd64efb80c"
+}

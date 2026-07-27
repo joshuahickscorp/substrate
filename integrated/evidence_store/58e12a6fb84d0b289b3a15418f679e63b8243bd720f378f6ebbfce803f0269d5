@@ -1,0 +1,135 @@
+{
+  "schema": "mop-substrate-hypothesis-graph/v2-temporal",
+  "hypotheses": {
+    "H1_recurrence": {
+      "premise": "a recurrent state transition provides value a stateless model cannot recover, even with matched parameter count and explicit causal history",
+      "state": "mixed",
+      "evidence": {
+        "supports": [
+          "recurrent_beats_matched_history",
+          "all_recurrent_families_agree"
+        ],
+        "weakens": [
+          "unconverged_arms_explain_the_gap"
+        ],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H2_explicit_history": {
+      "premise": "the core effect is access to historical observations, and a stateless model given a matched history reproduces it",
+      "state": "weakened",
+      "evidence": {
+        "supports": [],
+        "weakens": [
+          "recurrent_beats_matched_history"
+        ],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H3_capacity": {
+      "premise": "the core effect is mainly increased representation capacity",
+      "state": "closed",
+      "evidence": {
+        "supports": [],
+        "weakens": [
+          "capacity_flat_or_saturating",
+          "unconverged_arms_explain_the_gap",
+          "readout_capacity_flat"
+        ],
+        "closes": [
+          "capacity_flat_or_saturating"
+        ],
+        "unresolved": [
+          "recurrent_beats_matched_history"
+        ]
+      }
+    },
+    "H4_state_horizon": {
+      "premise": "persistent state helps only because it carries information over a minimum useful temporal horizon",
+      "state": "supported",
+      "evidence": {
+        "supports": [
+          "horizon_threshold_at_dependency_length"
+        ],
+        "weakens": [],
+        "closes": [],
+        "unresolved": [
+          "recurrent_beats_matched_history"
+        ]
+      }
+    },
+    "H5_optimization": {
+      "premise": "recurrent models appear superior because they optimize more easily under the current training authority",
+      "state": "supported",
+      "evidence": {
+        "supports": [
+          "unconverged_arms_explain_the_gap"
+        ],
+        "weakens": [],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H6_core_horizon_interaction": {
+      "premise": "larger cores help only when state persists sufficiently long",
+      "state": "closed",
+      "evidence": {
+        "supports": [],
+        "weakens": [
+          "capacity_and_horizon_independent"
+        ],
+        "closes": [
+          "capacity_and_horizon_independent"
+        ],
+        "unresolved": [
+          "horizon_threshold_at_dependency_length"
+        ]
+      }
+    },
+    "H7_architecture_family": {
+      "premise": "the effect is specific to one recurrent implementation rather than to persistent temporal computation generally",
+      "state": "closed",
+      "evidence": {
+        "supports": [],
+        "weakens": [
+          "all_recurrent_families_agree"
+        ],
+        "closes": [
+          "all_recurrent_families_agree"
+        ],
+        "unresolved": []
+      }
+    },
+    "H8_bed_specificity": {
+      "premise": "the effect is real on the two valid controlled beds and does not transfer to a third natural stream",
+      "state": "closed",
+      "evidence": {
+        "supports": [],
+        "weakens": [
+          "third_bed_agrees"
+        ],
+        "closes": [
+          "third_bed_agrees"
+        ],
+        "unresolved": []
+      }
+    }
+  },
+  "observed_results": [
+    "all_recurrent_families_agree",
+    "capacity_and_horizon_independent",
+    "capacity_flat_or_saturating",
+    "horizon_threshold_at_dependency_length",
+    "readout_capacity_flat",
+    "recurrent_beats_matched_history",
+    "third_bed_agrees",
+    "unconverged_arms_explain_the_gap"
+  ],
+  "rule": "the mapping from result to hypothesis state was sealed before the first principal cell ran",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "5c845c74a43f4821f93deb6e1b217656fd2d58903cec04c9f60b0ed281353aca"
+}

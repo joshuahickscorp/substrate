@@ -1,0 +1,36 @@
+# Owned Temporal Core v1
+
+Selected: `gru|small|linear|horizon_90|h1`.
+
+| field | value |
+|---|---|
+| architecture | gru |
+| capacity tier | small |
+| owned parameters | 46300 |
+| owned state | one recurrent hidden state vector, carried across timesteps within the horizon |
+| readout | linear |
+| horizon | 90 |
+| reset semantics | horizon_90 |
+| valid domains | har_stream, speech_stream, harth_stream |
+
+## The equivalence region
+
+Selection took the smallest recurrent configuration whose worst bed score sits within
+0.02 of the best cell on its worst bed.
+
+| cell | worst bed mean | gap to best | parameters | horizon |
+|---|---|---|---|---|
+| gru|small|linear|horizon_90|h1 | 0.77494 | 0.00369 | 46300 | 90 |
+| gru|small|linear|horizon_full|h1 | 0.76131 | 0.01732 | 46300 | 192 |
+| gru|small|linear|true_boundary|h1 | 0.77863 | 0.0 | 46300 | 192 |
+| gru|small|linear|none|h1 | 0.76131 | 0.01732 | 46300 | 192 |
+| gru|small|mlp1|none|h1 | 0.76319 | 0.01544 | 50460 | 192 |
+| mgu|medium|linear|none|h1 | 0.773 | 0.00563 | 154542 | 192 |
+| gru|medium|linear|horizon_full|h1 | 0.77475 | 0.00388 | 166854 | 192 |
+| gru|medium|linear|none|h1 | 0.77475 | 0.00388 | 166854 | 192 |
+| gru|large|linear|none|h1 | 0.76438 | 0.01425 | 652268 | 192 |
+| gru|large|linear|horizon_full|h1 | 0.76438 | 0.01425 | 652268 | 192 |
+
+## Evidence ceiling
+
+this is a substrate component with evidence on the beds named here. It does not establish a complete substrate architecture, continual plasticity, cross domain transfer, functional reorganization or activation

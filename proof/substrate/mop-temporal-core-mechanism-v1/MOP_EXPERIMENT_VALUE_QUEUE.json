@@ -1,0 +1,251 @@
+{
+  "schema": "mop-experiment-value-queue/v2-temporal",
+  "candidate_set": [
+    "E3",
+    "E5",
+    "E6",
+    "E7",
+    "E8"
+  ],
+  "gates": {
+    "E3_shared_versus_local": {
+      "candidate_id": "E3",
+      "condition": "an E2 core positive exists and either capacity increases forgetting or bed heterogeneity indicates domain specific representation",
+      "core_positive": false,
+      "capacity_increases_forgetting": false,
+      "capacity_forgetting_measurement": {
+        "measured": false,
+        "increases_forgetting": false,
+        "estimand": null,
+        "mean": null,
+        "lower_95_cb": null,
+        "n_independent_units": 0,
+        "source": "MOP_E2_PRINCIPAL_RESULT.json#/capacity_retention_or_interference",
+        "why_unmeasured": "E2 did not measure retention or interference as a function of capacity"
+      },
+      "bed_heterogeneity": false,
+      "bed_heterogeneity_magnitude": 0.0,
+      "opens": false,
+      "ranking": {
+        "value_of_information": 0.0,
+        "estimated_parameter_update_cost": 0,
+        "priority_score": null,
+        "evidence": [
+          {
+            "artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+            "field": "/core/owned_parameters",
+            "value": null
+          }
+        ],
+        "complete": false
+      }
+    },
+    "E5_self_supervised": {
+      "candidate_id": "E5",
+      "condition": "a robust E2 core positive remains, capacity, explicit history and optimization do not explain all value, and self supervision has measurable residual oracle headroom",
+      "core_positive": false,
+      "residual_oracle_headroom_measured": false,
+      "opens": false,
+      "why_not": "no residual oracle headroom for self supervision has been measured, and the failed Architecture F premise may not be repeated on a guess",
+      "ranking": {
+        "value_of_information": 0.0,
+        "estimated_parameter_update_cost": 0,
+        "priority_score": null,
+        "evidence": [
+          {
+            "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+            "field": "/residual_oracle_headroom",
+            "value": null
+          }
+        ],
+        "complete": false
+      }
+    },
+    "hybrid_adaptation": {
+      "candidate_id": "E6",
+      "condition": "a minimal temporal core is selected",
+      "core_selected": false,
+      "opens": false,
+      "constraint": "the E4 state only rule is not reused unchanged. A hybrid must introduce a new causal premise, and head plus state is only interesting if the state arm carries zero hidden core updates",
+      "ranking": {
+        "value_of_information": 0.06778,
+        "estimated_parameter_update_cost": 0,
+        "priority_score": null,
+        "evidence": [
+          {
+            "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+            "field": "/per_bed/har_stream/effects/recurrent_versus_matched_history/gru_vs_histmlp_kfull_window/group_lower_95_cb",
+            "value": 0.06778
+          },
+          {
+            "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+            "field": "/per_bed/speech_stream/effects/recurrent_versus_matched_history/gru_vs_histmlp_kfull_window/group_lower_95_cb",
+            "value": 0.3048
+          },
+          {
+            "artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+            "field": "/core/owned_parameters",
+            "value": null
+          }
+        ],
+        "complete": false
+      }
+    },
+    "third_bed_replication": {
+      "candidate_id": "E7",
+      "condition": "a third valid secondary bed exists and independently reproduces the core effect",
+      "bed_admitted": false,
+      "terminal_result": "invalid_secondary_bed",
+      "opens": false,
+      "why_not": "the terminal third bed result did not independently reproduce the core effect",
+      "ranking": {
+        "value_of_information": -0.02702,
+        "estimated_parameter_update_cost": 0,
+        "priority_score": null,
+        "evidence": [
+          {
+            "artifact": "MOP_THIRD_TEMPORAL_BED_RESULT.json",
+            "field": "/effects/torch_gru_vs_full_history/group_lower_95_cb",
+            "value": 0.01531
+          },
+          {
+            "artifact": "MOP_THIRD_TEMPORAL_BED_RESULT.json",
+            "field": "/effects/explicit_mgu_vs_full_history/group_lower_95_cb",
+            "value": -0.02702
+          },
+          {
+            "artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+            "field": "/core/owned_parameters",
+            "value": null
+          }
+        ],
+        "complete": false
+      }
+    },
+    "minimal_core_cross_domain_transfer": {
+      "candidate_id": "E8",
+      "condition": "a sealed minimal core cross domain transfer admission premise",
+      "core_selected": false,
+      "opens": false,
+      "why_not": "the authority declares E8 as a candidate but supplies no admission predicate or measured cross domain transfer estimand; inventing either would create a new premise",
+      "no_invented_premise": true,
+      "ranking": {
+        "value_of_information": 0.0,
+        "estimated_parameter_update_cost": 0,
+        "priority_score": null,
+        "evidence": [
+          {
+            "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+            "field": "/minimal_core_cross_domain_transfer_estimand",
+            "value": null
+          }
+        ],
+        "complete": false
+      }
+    }
+  },
+  "opened": [],
+  "licensed_top_two": [],
+  "ranked_opened": [],
+  "ranking_incomplete": [
+    "E3_shared_versus_local",
+    "E5_self_supervised",
+    "hybrid_adaptation",
+    "third_bed_replication",
+    "minimal_core_cross_domain_transfer"
+  ],
+  "numerical_ranking": {
+    "E3_shared_versus_local": {
+      "value_of_information": 0.0,
+      "estimated_parameter_update_cost": 0,
+      "priority_score": null,
+      "evidence": [
+        {
+          "artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+          "field": "/core/owned_parameters",
+          "value": null
+        }
+      ],
+      "complete": false
+    },
+    "E5_self_supervised": {
+      "value_of_information": 0.0,
+      "estimated_parameter_update_cost": 0,
+      "priority_score": null,
+      "evidence": [
+        {
+          "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+          "field": "/residual_oracle_headroom",
+          "value": null
+        }
+      ],
+      "complete": false
+    },
+    "hybrid_adaptation": {
+      "value_of_information": 0.06778,
+      "estimated_parameter_update_cost": 0,
+      "priority_score": null,
+      "evidence": [
+        {
+          "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+          "field": "/per_bed/har_stream/effects/recurrent_versus_matched_history/gru_vs_histmlp_kfull_window/group_lower_95_cb",
+          "value": 0.06778
+        },
+        {
+          "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+          "field": "/per_bed/speech_stream/effects/recurrent_versus_matched_history/gru_vs_histmlp_kfull_window/group_lower_95_cb",
+          "value": 0.3048
+        },
+        {
+          "artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+          "field": "/core/owned_parameters",
+          "value": null
+        }
+      ],
+      "complete": false
+    },
+    "third_bed_replication": {
+      "value_of_information": -0.02702,
+      "estimated_parameter_update_cost": 0,
+      "priority_score": null,
+      "evidence": [
+        {
+          "artifact": "MOP_THIRD_TEMPORAL_BED_RESULT.json",
+          "field": "/effects/torch_gru_vs_full_history/group_lower_95_cb",
+          "value": 0.01531
+        },
+        {
+          "artifact": "MOP_THIRD_TEMPORAL_BED_RESULT.json",
+          "field": "/effects/explicit_mgu_vs_full_history/group_lower_95_cb",
+          "value": -0.02702
+        },
+        {
+          "artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+          "field": "/core/owned_parameters",
+          "value": null
+        }
+      ],
+      "complete": false
+    },
+    "minimal_core_cross_domain_transfer": {
+      "value_of_information": 0.0,
+      "estimated_parameter_update_cost": 0,
+      "priority_score": null,
+      "evidence": [
+        {
+          "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+          "field": "/minimal_core_cross_domain_transfer_estimand",
+          "value": null
+        }
+      ],
+      "complete": false
+    }
+  },
+  "rule": "execute the top two licensed successors, not every branch that is listed",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "01771460cf731e019047415494e26eab2e3b88c1",
+  "source_tree_oid": "138aa6816a8982dbdac4c3085183a1790ff3b1e8",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "ee277fab6ea974e6520bbd99642009ba32b3f8fb133a277266f749a3ac9cddfe"
+}

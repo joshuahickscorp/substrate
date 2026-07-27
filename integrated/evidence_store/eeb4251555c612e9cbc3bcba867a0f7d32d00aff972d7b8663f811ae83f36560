@@ -1,0 +1,193 @@
+{
+  "schema": "mop-data-custody-inventory/v1",
+  "canonical_root": "/Users/scammermike/Downloads/mop-data",
+  "retention_classes": [
+    "principal_active",
+    "secondary_active",
+    "historical_reproducibility",
+    "publicly_recoverable_inactive",
+    "derived_rebuildable",
+    "temporary"
+  ],
+  "unique_kinds": [
+    "raw_data",
+    "non_rebuildable_cache",
+    "split_authority",
+    "principal_checkpoint",
+    "unindexed_evidence"
+  ],
+  "corpora": [
+    {
+      "logical_identity": "uci_har",
+      "official_source": "UCI Machine Learning Repository, Human Activity Recognition Using Smartphones",
+      "license": "CC BY 4.0",
+      "citation": "Anguita et al 2013, A Public Domain Dataset for Human Activity Recognition Using Smartphones",
+      "archive_url_authority": "https://archive.ics.uci.edu/static/public/240/human+activity+recognition+using+smartphones.zip",
+      "archive_hash": "",
+      "extracted_hashes": {
+        ".DS_Store": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3",
+        "README.txt": "eaee53f45825f349681a1a1b92a997a0082648f9b5bf93ddb3290caeede4b3a8",
+        "activity_labels.txt": "f6e6b292704438261f0283b2a82659ab0661447dc16520938bdf379ed1bf8de0",
+        "test/X_test.txt": "99035209add50d17650e847d8a4658d784a5707466ebb7c2deb97c28e5250a78",
+        "test/subject_test.txt": "63b8c577f4a85431c06bd87f6384608c90a9f72f05c7956dd21255dc63515c07",
+        "train/subject_train.txt": "66e1e2fbe9b396fa5155f531dc3348c803f503be663e2318772d49947db9153a",
+        "train/y_train.txt": "415b3357e2e2d5e70a45c781947c6bdd80e0410a579d862eedcd6bbce3c694ef"
+      },
+      "canonical_path": "/Users/scammermike/Downloads/mop-data/har/UCI HAR Dataset",
+      "derived_caches": [],
+      "experiments_using_it": [
+        "E1",
+        "E2",
+        "har_stream"
+      ],
+      "redownload_command": "curl -L -o /tmp/har.zip https://archive.ics.uci.edu/static/public/240/human+activity+recognition+using+smartphones.zip && unzip -o /tmp/har.zip -d /Users/scammermike/Downloads/mop-data/har",
+      "rebuild_command": "not derived",
+      "retention_class": "principal_active",
+      "kind": "raw_data",
+      "present": true,
+      "violations": []
+    },
+    {
+      "logical_identity": "speech_commands",
+      "official_source": "Google Speech Commands v0.02",
+      "license": "CC BY 4.0",
+      "citation": "Warden 2018, Speech Commands: A Dataset for Limited Vocabulary Speech Recognition",
+      "archive_url_authority": "http://download.tensorflow.org/data/speech_commands_v0.02.tar.gz",
+      "archive_hash": "",
+      "extracted_hashes": {
+        ".DS_Store": "07af2ddb83b4dfc4b9263eb6e093f4c93aa839850c6ec8a713657d02ceb01d7d",
+        "LICENSE": "fd3a263fe19ed8faa9068b43abaebafc02c77897b0c6fc09abc04bb592e5f16e",
+        "README.md": "b415da1f2d880bcce33b2958fcba9bba46013c1bc5592fa4aaa85759d9308b6f",
+        "off/41474817_nohash_0.wav": "505bb36bddf02abee988f4c0686cfd2aef4b05902b6fc5b1280a539d5af64695",
+        "off/41777abb_nohash_0.wav": "acad8657b8a0723e791430e32e388174f9e826b38f5e2cb9f6528ba25c1d95dd",
+        "zero/ffd2ba2f_nohash_4.wav": "ad922194e8cb5a0e57c04ae1caeeed8f2fee61106e02e04e0e68453cee7bda74",
+        "zero/fffcabd1_nohash_0.wav": "dfa22e5d3f173d56dbeadf6fac1aed07cac0d49a737752b6d223660bdabf5225"
+      },
+      "canonical_path": "/Users/scammermike/Downloads/mop-data/speech/speech_commands",
+      "derived_caches": [
+        "speech_features_cache"
+      ],
+      "experiments_using_it": [
+        "E1",
+        "E2",
+        "speech_stream"
+      ],
+      "redownload_command": "curl -L -o /tmp/sc.tar.gz http://download.tensorflow.org/data/speech_commands_v0.02.tar.gz && mkdir -p /Users/scammermike/Downloads/mop-data/speech/speech_commands && tar xzf /tmp/sc.tar.gz -C /Users/scammermike/Downloads/mop-data/speech/speech_commands",
+      "rebuild_command": "not derived",
+      "retention_class": "principal_active",
+      "kind": "raw_data",
+      "present": true,
+      "violations": []
+    },
+    {
+      "logical_identity": "speech_features_cache",
+      "official_source": "derived from speech_commands by fastforge.data.load_speech",
+      "license": "inherits speech_commands",
+      "citation": "derived artifact",
+      "archive_url_authority": "derived",
+      "archive_hash": "",
+      "extracted_hashes": {
+        "speech_feats.npz": "2e883bd6818389a95ae8d0de286080713bac795ca3d878490b946105351e02d5"
+      },
+      "canonical_path": "/Users/scammermike/Downloads/mop-data/speech/speech_feats.npz",
+      "derived_caches": [],
+      "experiments_using_it": [
+        "E1",
+        "E2"
+      ],
+      "redownload_command": "rebuild from speech_commands",
+      "rebuild_command": "PYTHONPATH=src python3.12 -c 'from fastforge import data; data.load_speech()'",
+      "retention_class": "derived_rebuildable",
+      "kind": "non_rebuildable_cache",
+      "present": true,
+      "violations": []
+    },
+    {
+      "logical_identity": "pamap2",
+      "official_source": "UCI Machine Learning Repository, PAMAP2 Physical Activity Monitoring",
+      "license": "CC BY 4.0",
+      "citation": "Reiss and Stricker 2012, Introducing a New Benchmarked Dataset for Activity Monitoring",
+      "archive_url_authority": "https://archive.ics.uci.edu/static/public/231/pamap2+physical+activity+monitoring.zip",
+      "archive_hash": "",
+      "extracted_hashes": {},
+      "canonical_path": "/Users/scammermike/Downloads/mop-data/pamap2/PAMAP2_Dataset",
+      "derived_caches": [],
+      "experiments_using_it": [
+        "third bed preflight",
+        "E2 third bed"
+      ],
+      "redownload_command": "python3.12 -m mop.temporal.runs.custody_run recover pamap2",
+      "rebuild_command": "not derived",
+      "retention_class": "secondary_active",
+      "kind": "raw_data",
+      "present": false,
+      "violations": []
+    },
+    {
+      "logical_identity": "harth",
+      "official_source": "UCI Machine Learning Repository, HARTH human activity recognition trondheim",
+      "license": "CC BY 4.0",
+      "citation": "Logacjov et al 2021, HARTH: A Human Activity Recognition Dataset for Machine Learning",
+      "archive_url_authority": "https://archive.ics.uci.edu/static/public/779/harth.zip",
+      "archive_hash": "",
+      "extracted_hashes": {},
+      "canonical_path": "/Users/scammermike/Downloads/mop-data/harth/harth",
+      "derived_caches": [],
+      "experiments_using_it": [
+        "third bed preflight",
+        "E2 third bed"
+      ],
+      "redownload_command": "python3.12 -m mop.temporal.runs.custody_run recover harth",
+      "rebuild_command": "not derived",
+      "retention_class": "secondary_active",
+      "kind": "raw_data",
+      "present": false,
+      "violations": []
+    },
+    {
+      "logical_identity": "starss23",
+      "official_source": "STARSS23 sound event localization and detection",
+      "license": "see corpus licence file",
+      "citation": "Politis et al 2023, STARSS23",
+      "archive_url_authority": "https://zenodo.org/records/7880637",
+      "archive_hash": "",
+      "extracted_hashes": {
+        "aria2.log": "67d0fbc57e898ffb44318e7a2bbf2dec96a0c0e2149d767c2a61cc60927cc0b1",
+        "feature_cache/903b28b961377c27916d094f78825895ce00e6fd3020a5e79a7a2b8d4d09b2a7/features/fold3_room12_mix005.f8": "c66aef29eb29a3a2950100439bf00beb1002c05697238fdd73da954a061fe905",
+        "feature_cache/903b28b961377c27916d094f78825895ce00e6fd3020a5e79a7a2b8d4d09b2a7/features/fold3_room12_mix006.f8": "bc83ae0cf85a2121e1d4f625fc0c9ea0f5f451f35617731ca1d66ade1bfee5f4",
+        "foa_subset/foa_dev/dev-train-tau/fold3_room4_mix005.wav": "9b89ebacee4007f809d0377e7e08c188627eff0b9684381f61165b32648f9fc1",
+        "foa_subset/foa_dev/dev-train-tau/fold3_room6_mix001.wav": "0817234df2476146a550790c842a923b4f7452be648fbb6aa63eaaced9cafea3",
+        "probe/foa_dev/dev-train-tau/fold3_room4_mix005.wav": "9b89ebacee4007f809d0377e7e08c188627eff0b9684381f61165b32648f9fc1",
+        "subset_manifest.txt": "c863356b76aebad624f4b203748a60e78a787df53260c3be2ec5c4db83180b6d"
+      },
+      "canonical_path": "/Users/scammermike/Downloads/mop-data/starss23",
+      "derived_caches": [],
+      "experiments_using_it": [
+        "inherited STARSS23 beds, all terminal"
+      ],
+      "redownload_command": "manual download from the zenodo record",
+      "rebuild_command": "not derived",
+      "retention_class": "historical_reproducibility",
+      "kind": "raw_data",
+      "present": true,
+      "violations": []
+    }
+  ],
+  "n": 6,
+  "present": [
+    "uci_har",
+    "speech_commands",
+    "speech_features_cache",
+    "starss23"
+  ],
+  "absent": [
+    "pamap2",
+    "harth"
+  ],
+  "violations": [],
+  "all_declared": true,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "SESOI": 0.05,
+  "sha256": "c43f842616633c1b393e9abd4a684f359d1f1292ab4f69aa29737441ba70a0e2"
+}

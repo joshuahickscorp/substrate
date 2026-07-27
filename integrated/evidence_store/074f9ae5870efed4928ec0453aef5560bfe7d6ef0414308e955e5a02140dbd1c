@@ -1,0 +1,18 @@
+{
+  "schema": "mop-temporal-receipt-migration/v1",
+  "source_path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_optimization_corrections/optimization_har_stream_small.json",
+  "source_sha256": "2cfb868632fe27738c3742077d1a01d7d2b7b35c49f6b53a6d632c2f9947ba0e",
+  "kind": "correction",
+  "normalized_contract": {
+    "version": "mop-temporal-receipt-contract/v1",
+    "kind": "correction",
+    "projection": "legacy_measured_arm_grid"
+  },
+  "normalization": "append only metadata sidecar; source receipt bytes unchanged",
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "b558d89aaaa838fb910ddf6689fa85a8fa8060a5",
+  "source_tree_oid": "be4c52abf8e156173ef2d3301a381e665b96b985",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "3b58f93ea37d13eea1f64b39b82b3a68ae7083b84f3583fe6fd44139e4fa15ba"
+}

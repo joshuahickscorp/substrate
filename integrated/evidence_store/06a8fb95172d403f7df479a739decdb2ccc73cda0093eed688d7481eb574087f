@@ -1,0 +1,261 @@
+{
+  "schema": "mop-e2-capacity-tier-correction/v1",
+  "affected_cells": [
+    "histmlp|large|linear|none|h1",
+    "histmlp|large|mlp_strong|none|h1"
+  ],
+  "original_invalid_receipts": {
+    "har_stream": 0,
+    "speech_stream": 0,
+    "harth_stream": 0
+  },
+  "principal_shards": [
+    {
+      "bed": "har_stream",
+      "seed": 0
+    },
+    {
+      "bed": "har_stream",
+      "seed": 1
+    },
+    {
+      "bed": "har_stream",
+      "seed": 2
+    },
+    {
+      "bed": "har_stream",
+      "seed": 3
+    },
+    {
+      "bed": "har_stream",
+      "seed": 4
+    },
+    {
+      "bed": "har_stream",
+      "seed": 5
+    },
+    {
+      "bed": "har_stream",
+      "seed": 6
+    },
+    {
+      "bed": "har_stream",
+      "seed": 7
+    },
+    {
+      "bed": "speech_stream",
+      "seed": 0
+    },
+    {
+      "bed": "speech_stream",
+      "seed": 1
+    },
+    {
+      "bed": "speech_stream",
+      "seed": 2
+    },
+    {
+      "bed": "speech_stream",
+      "seed": 3
+    },
+    {
+      "bed": "speech_stream",
+      "seed": 4
+    },
+    {
+      "bed": "speech_stream",
+      "seed": 5
+    },
+    {
+      "bed": "speech_stream",
+      "seed": 6
+    },
+    {
+      "bed": "speech_stream",
+      "seed": 7
+    },
+    {
+      "bed": "harth_stream",
+      "seed": 0
+    },
+    {
+      "bed": "harth_stream",
+      "seed": 1
+    },
+    {
+      "bed": "harth_stream",
+      "seed": 2
+    },
+    {
+      "bed": "harth_stream",
+      "seed": 3
+    },
+    {
+      "bed": "harth_stream",
+      "seed": 4
+    },
+    {
+      "bed": "harth_stream",
+      "seed": 5
+    },
+    {
+      "bed": "harth_stream",
+      "seed": 6
+    },
+    {
+      "bed": "harth_stream",
+      "seed": 7
+    }
+  ],
+  "convergence": {
+    "har_stream": {
+      "classification": "unconverged",
+      "parameter_count": {
+        "core": 625882,
+        "readout": 390,
+        "total": 626272
+      }
+    },
+    "speech_stream": {
+      "classification": "unconverged",
+      "parameter_count": {
+        "core": 644974,
+        "readout": 650,
+        "total": 645624
+      }
+    },
+    "harth_stream": {
+      "classification": "unconverged",
+      "parameter_count": {
+        "core": 600511,
+        "readout": 390,
+        "total": 600901
+      }
+    }
+  },
+  "optimization": {
+    "har_stream:small": {
+      "classification": "unconverged",
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 260907200,
+        "small_steps": 5635,
+        "small_parameter_updates": 260900500,
+        "relative_parameter_update_error": 2.568e-05
+      },
+      "parameter_count": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      }
+    },
+    "har_stream:large": {
+      "classification": "converged",
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 260907200,
+        "small_steps": 5635,
+        "small_parameter_updates": 260900500,
+        "relative_parameter_update_error": 2.568e-05
+      },
+      "parameter_count": {
+        "core": 651878,
+        "readout": 390,
+        "total": 652268
+      }
+    },
+    "speech_stream:small": {
+      "classification": "converged",
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 265016400,
+        "small_steps": 6194,
+        "small_parameter_updates": 265035066,
+        "relative_parameter_update_error": 7.043e-05
+      },
+      "parameter_count": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      }
+    },
+    "speech_stream:large": {
+      "classification": "unconverged",
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 265016400,
+        "small_steps": 6194,
+        "small_parameter_updates": 265035066,
+        "relative_parameter_update_error": 7.043e-05
+      },
+      "parameter_count": {
+        "core": 661891,
+        "readout": 650,
+        "total": 662541
+      }
+    },
+    "harth_stream:small": {
+      "classification": "converged",
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 260519600,
+        "small_steps": 5656,
+        "small_parameter_updates": 260498392,
+        "relative_parameter_update_error": 8.141e-05
+      },
+      "parameter_count": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      }
+    },
+    "harth_stream:large": {
+      "classification": "converged",
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 260519600,
+        "small_steps": 5656,
+        "small_parameter_updates": 260498392,
+        "relative_parameter_update_error": 8.141e-05
+      },
+      "parameter_count": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      }
+    }
+  },
+  "refreshed_convergence_aggregates": {
+    "har_stream": {
+      "all_converged": false,
+      "load_bearing_all_converged": false
+    },
+    "speech_stream": {
+      "all_converged": false,
+      "load_bearing_all_converged": false
+    },
+    "harth_stream": {
+      "all_converged": false,
+      "load_bearing_all_converged": false
+    }
+  },
+  "checks": {
+    "all_24_principal_corrections": true,
+    "all_correction_receipts_valid": true,
+    "all_three_convergence_corrections": true,
+    "all_corrected_parameter_bands_valid": true,
+    "all_six_optimization_corrections": true,
+    "all_optimization_receipts_valid": true,
+    "optimization_same_compute_measured": true,
+    "original_receipts_preserved": true,
+    "convergence_aggregates_refreshed_with_corrections": true
+  },
+  "all_pass": true,
+  "rule": "analysis replaces only the same bed, seed and cell; original receipts remain immutable",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "d865e36e3c5523862d5a14f6aac4981438fd02ced15094887856f939abc0401f"
+}

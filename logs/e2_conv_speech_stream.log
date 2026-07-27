@@ -1,2 +1,172 @@
   gru|small|linear|none|h1                 converged    movement 0.00952
   lstm|small|linear|none|h1                converged    movement 0.00163
+E2 converge shard speech_stream histmlp|small|linear|none|hfull_window: unconverged movement 0.01163 in 13.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_45|h1: converged movement 0.00752 in 388.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_90|h1: unconverged movement 0.01568 in 510.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|large|linear|none|h1: unconverged movement 0.00646 in 64.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|large|linear|horizon_45|h1: unconverged movement 0.00385 in 1795.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|large|linear|horizon_5|h1: unconverged movement 0.00951 in 1868.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream pooled|large|linear|none|h1: converged movement 0.00327 in 3219.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream lstm|large|linear|none|h1: unconverged movement 0.02208 in 4518.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|large|linear|none|h1: unconverged movement 0.01914 in 5582.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|large|linear|none|h1: unconverged movement 0.01716 in 99.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream pooled|large|mlp_strong|none|h1: unconverged movement 0.0036 in 3266.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream pooled|large|linear|none|h1: converged movement 0.00327 in 3250.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|large|linear|none|h1: unconverged movement 0.02113 in 4345.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream lstm|large|linear|none|h1: unconverged movement 0.02208 in 4439.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|large|mlp_strong|none|h1: converged movement 6e-05 in 113.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|large|linear|horizon_5|h1: unconverged movement 0.00951 in 1946.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|large|linear|horizon_45|h1: unconverged movement 0.00385 in 1809.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|large|linear|horizon_full|h1: unconverged movement 0.02113 in 3943.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|large|mlp_strong|none|h1: unconverged movement 0.02222 in 3744.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|large|linear|none|h1: unconverged movement 0.01914 in 5551.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|large|mlp_strong|none|h1: unconverged movement 0.00466 in 5350.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|large|linear|none|h1: unconverged movement 0.01322 in 12998.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|linear|none|h20: unconverged movement 0.01396 in 12.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|linear|none|hfull_window: unconverged movement 0.01163 in 14.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|none|h1: unconverged movement 0.00772 in 645.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream pooled|small|linear|none|h1: converged movement 0.00195 in 529.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream lstm|small|linear|none|h1: unconverged movement 0.02419 in 611.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_45|h1: converged movement 0.00752 in 357.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_90|h1: unconverged movement 0.01568 in 483.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream lstm|micro|linear|none|h1: unconverged movement 0.0121 in 350.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|micro|linear|none|h1: unconverged movement 0.01202 in 10.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|micro|linear|none|h1: converged movement 0.00312 in 379.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream pooled|micro|linear|none|h1: converged movement 0.00828 in 175.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|linear|none|h1: converged movement 0.00265 in 14.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|medium|linear|none|h1: unconverged movement 0.03228 in 21.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|small|linear|none|h1: unconverged movement 0.02006 in 1240.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|micro|linear|none|h1: unconverged movement 0.02356 in 932.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|micro|linear|none|h1: unconverged movement 0.01577 in 587.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|mlp1|none|h1: unconverged movement 0.01961 in 17.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|mlp_strong|none|h1: unconverged movement 0.01061 in 22.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|mlp1|none|h1: unconverged movement 0.01071 in 655.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|mlp_strong|none|h1: unconverged movement 0.01173 in 678.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream pooled|small|mlp1|none|h1: converged movement 0.00106 in 531.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|medium|linear|none|h1: unconverged movement 0.01441 in 1365.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_2|h1: converged movement 0.00081 in 331.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_1|h1: converged movement 0.00081 in 351.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream pooled|medium|linear|none|h1: converged movement 0.0091 in 1081.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_5|h1: unconverged movement 0.00548 in 311.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream pooled|small|mlp_strong|none|h1: unconverged movement 0.00678 in 536.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_10|h1: converged movement 0.00671 in 310.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_20|h1: converged movement 0.00671 in 320.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream lstm|medium|linear|none|h1: converged movement 0.00589 in 1615.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|horizon_2|h1: converged movement 0.00835 in 338.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|horizon_5|h1: unconverged movement 0.01687 in 344.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|horizon_1|h1: converged movement 0.00835 in 351.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|horizon_10|h1: unconverged movement 0.02043 in 362.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|horizon_20|h1: unconverged movement 0.02043 in 384.0s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|horizon_45|h1: converged movement 0.00144 in 429.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|horizon_full|h1: unconverged movement 0.00772 in 633.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream ff_gru|small|linear|none|h1: unconverged movement 0.00359 in 1619.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|misaligned_a|h1: unconverged movement 0.01173 in 327.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|every_observation|h1: converged movement 0.00081 in 348.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|misaligned_b|h1: converged movement 0.00905 in 361.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|random_rate_matched|h1: unconverged movement 0.02848 in 361.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|micro|linear|horizon_5|h1: unconverged movement 0.00243 in 172.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|micro|linear|horizon_45|h1: converged movement 0.00447 in 198.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|block_shuffled|h1: converged movement 0.00296 in 390.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|linear|none|h2: unconverged movement 0.01083 in 13.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|linear|none|h5: converged movement 0.001 in 14.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|linear|none|h10: unconverged movement 0.0132 in 13.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|true_boundary|h1: converged movement 0.00158 in 437.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|horizon_90|h1: unconverged movement 0.00983 in 855.2s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|small|linear|wrong_boundary|h1: unconverged movement 0.02464 in 415.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|micro|linear|horizon_full|h1: converged movement 0.00312 in 386.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|medium|linear|horizon_5|h1: converged movement 0.00142 in 574.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream histmlp|small|linear|none|hpooled_summary: converged movement 0.00195 in 537.7s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|medium|linear|none|h1: unconverged movement 0.03658 in 2599.5s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|medium|linear|horizon_45|h1: converged movement 0.00592 in 766.6s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream gru|medium|linear|horizon_full|h1: unconverged movement 0.01441 in 1350.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|none|h1: unconverged movement 0.0138 in 4240.1s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|small|linear|none|h20: unconverged movement 0.02006 in 1243.9s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|small|linear|none|h5: unconverged movement 0.02006 in 1244.4s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream tcn|small|linear|none|hfull_window: unconverged movement 0.02006 in 1244.3s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|small|linear|horizon_full|h1: unconverged movement 0.0138 in 5006.8s
+E2_CONVERGE_SHARD_DONE
+E2 converge shard speech_stream mgu|medium|linear|none|h1: unconverged movement 0.02886 in 14216.9s
+E2_CONVERGE_SHARD_DONE

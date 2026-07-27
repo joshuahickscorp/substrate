@@ -1,0 +1,97 @@
+{
+  "schema": "mop-substrate-hypothesis-graph/v2-temporal",
+  "hypotheses": {
+    "H1_recurrence": {
+      "premise": "a recurrent state transition provides value a stateless model cannot recover, even with matched parameter count and explicit causal history",
+      "state": "open",
+      "evidence": {
+        "supports": [],
+        "weakens": [],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H2_explicit_history": {
+      "premise": "the core effect is access to historical observations, and a stateless model given a matched history reproduces it",
+      "state": "open",
+      "evidence": {
+        "supports": [],
+        "weakens": [],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H3_capacity": {
+      "premise": "the core effect is mainly increased representation capacity",
+      "state": "open",
+      "evidence": {
+        "supports": [],
+        "weakens": [],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H4_state_horizon": {
+      "premise": "persistent state helps only because it carries information over a minimum useful temporal horizon",
+      "state": "open",
+      "evidence": {
+        "supports": [],
+        "weakens": [],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H5_optimization": {
+      "premise": "recurrent models appear superior because they optimize more easily under the current training authority",
+      "state": "open",
+      "evidence": {
+        "supports": [],
+        "weakens": [],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H6_core_horizon_interaction": {
+      "premise": "larger cores help only when state persists sufficiently long",
+      "state": "open",
+      "evidence": {
+        "supports": [],
+        "weakens": [],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H7_architecture_family": {
+      "premise": "the effect is specific to one recurrent implementation rather than to persistent temporal computation generally",
+      "state": "open",
+      "evidence": {
+        "supports": [],
+        "weakens": [],
+        "closes": [],
+        "unresolved": []
+      }
+    },
+    "H8_bed_specificity": {
+      "premise": "the effect is real on the two valid controlled beds and does not transfer to a third natural stream",
+      "state": "unresolved",
+      "evidence": {
+        "supports": [],
+        "weakens": [],
+        "closes": [],
+        "unresolved": [
+          "third_bed_invalid"
+        ]
+      }
+    }
+  },
+  "observed_results": [
+    "third_bed_invalid"
+  ],
+  "rule": "the mapping from result to hypothesis state was sealed before the first principal cell ran",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "67e524ec7ad91338c49f3f997ad316f9f4b07bdafb4fc9c70542f686538010d9"
+}

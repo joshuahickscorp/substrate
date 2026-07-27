@@ -1,0 +1,172 @@
+{
+  "bed": "harth_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "horizon_45",
+    "history_k": 1
+  },
+  "cell": "gru|small|linear|horizon_45|h1",
+  "curve": {
+    "400": 0.97901,
+    "800": 0.98547,
+    "1600": 0.98761,
+    "3200": 0.9871766666666666
+  },
+  "seed_spread": {
+    "400": 0.01041,
+    "800": 0.01074,
+    "1600": 0.00604,
+    "3200": 0.00557
+  },
+  "seed_scores": {
+    "400": [
+      0.98861,
+      0.96795,
+      0.98047
+    ],
+    "800": [
+      0.99114,
+      0.97308,
+      0.99219
+    ],
+    "1600": [
+      0.98987,
+      0.98077,
+      0.99219
+    ],
+    "3200": [
+      0.98987,
+      0.98077,
+      0.99089
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.98861,
+        "checkpoint_sha": "49df4670a66348f3db580a26890663647a5465e509839ccd1f4d8d49762f90c0"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.96795,
+        "checkpoint_sha": "6b5efc21d7662b6ad3beb69f4710d8147caba37b4c7ee762e0e3d30dcddfc741"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.98047,
+        "checkpoint_sha": "1b9e3bed778f8c723c4be71be66696dfb2ebb11b9387e17c073a836ea831c43d"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.99114,
+        "checkpoint_sha": "2798adef05fc5caa40e2474391dc3fb604a57cdd3412db6992ab354db51af8b9"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.97308,
+        "checkpoint_sha": "596ea6b4e4ff487e07cb7bbff309bceefa0e1c0389db50459fe13de1dfa49b5c"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.99219,
+        "checkpoint_sha": "1637f5e49aa7eb7a58a6cdc8907de38e8acc2fba8a64b7f2ead182a603b48568"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.98987,
+        "checkpoint_sha": "64161de78f85960c13093ed7783c9b1e5930eb19a493a9f9f633cfb2a43b3b59"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.98077,
+        "checkpoint_sha": "f931acc5ec3a6064a389e67f987664d4f2bf0e06f18161b699cf93e71c5c024b"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.99219,
+        "checkpoint_sha": "a45ca5ef5e854e59e12c67d192079b3f8773728245906ec17b125e8a68a2b820"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.98987,
+        "checkpoint_sha": "f2a9b7d86a0f4139443c2ea8adf337547c0bafac7378845cc6c81de66ea7d093"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.98077,
+        "checkpoint_sha": "df80b25d571446d325e5995134399da690280a829a6c99ef5547cffe5ea3568f"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.99089,
+        "checkpoint_sha": "820d77f22887579e18151305cf56dff84cc03deede1ce9480993a2ac1be078a7"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 45667,
+    "readout": 390,
+    "total": 46057
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.97901,
+    0.98547,
+    0.98761,
+    0.98718
+  ],
+  "best_budget": 1600,
+  "selected_checkpoint": 1600,
+  "second_half_movement": 0.00043,
+  "residual_slope": -0.000433,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 237.8,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0fbe01b989ef45254c911f8be40d38cd84b2aec0",
+  "source_tree_oid": "2147d9abe411edeb814a8898ff94c5eb4c9407c3",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "c407f6212cee9e7dd0eff5a15d8c1bbdfaa3ec4624e115f968270ededebd32a7"
+}

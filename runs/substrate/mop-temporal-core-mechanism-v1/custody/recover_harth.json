@@ -1,0 +1,24 @@
+{
+  "schema": "mop-legacy-auxiliary-normalization/v1",
+  "classification": "canonical_wrapper_for_preserved_legacy_auxiliary",
+  "legacy_original_path": "runs/substrate/mop-temporal-core-mechanism-v1/custody/recover_harth.json",
+  "legacy_whole_file_sha256": "3d7f7fc322520d4e0a95fd72aa198d8450d3af66dcbf4ccd189f1de7cd1b06c2",
+  "preservation_path": "runs/substrate/mop-temporal-core-mechanism-v1/quarantine/legacy_auxiliary/custody/recover_harth_3d7f7fc322520d4e0a95fd72aa198d8450d3af66dcbf4ccd189f1de7cd1b06c2.json",
+  "preserved_exact_bytes": true,
+  "legacy_payload": {
+    "corpus": "harth",
+    "ok": true,
+    "url": "https://archive.ics.uci.edu/static/public/779/harth.zip",
+    "archive_bytes": 310795012,
+    "archive_sha256": "2ab54d6b11467ddbe998dfb60355f9f1ae181b0af7a89e7c78bb7af2cf16b64a",
+    "extracted_files": 22,
+    "extracted_bytes": 854967585,
+    "canonical_path": "/Users/scammermike/Downloads/mop-data/harth",
+    "wall_seconds": 25.0
+  },
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "01771460cf731e019047415494e26eab2e3b88c1",
+  "source_tree_oid": "138aa6816a8982dbdac4c3085183a1790ff3b1e8",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "d5da92bf174ec891a264954745e4dd0b31fb98ad4b7e7f3b50e854aca97553d1"
+}

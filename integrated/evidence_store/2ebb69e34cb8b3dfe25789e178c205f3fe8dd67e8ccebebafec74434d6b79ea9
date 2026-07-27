@@ -1,0 +1,31 @@
+{
+  "schema": "mop-temporal-core-state/v1",
+  "program_id": "mop-temporal-core-mechanism-v1",
+  "branch": "agent/mop-temporal-core-mechanism",
+  "stop_switch": "/Users/scammermike/.mop_temporal_core_mechanism_stop",
+  "stages": {
+    "start_authority": true,
+    "binding_results": true,
+    "data_custody": true,
+    "code_lifecycle": true,
+    "method_extension": true,
+    "e2_calibration": true,
+    "bed_validity": true,
+    "third_bed_preflight": true,
+    "e2_principal": true,
+    "core_selection": true,
+    "successor_gates": true,
+    "mutations": false,
+    "verification": false,
+    "reports": true,
+    "evidence_fabric": false
+  },
+  "stages_green": 12,
+  "n_stages": 15,
+  "resume": "python3.12 -m mop.temporal.runs.supervisor resumes from shard files on disk",
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "902d0492efc40e5c4ddddaaf6df21207706b9bace1e5ed2dcb13f9776e95c7bc"
+}

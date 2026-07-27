@@ -1,0 +1,105 @@
+{
+  "schema": "mop-temporal-core-synthesis/v1",
+  "terminal_questions": {
+    "1 was the E1 temporal core effect reproduced": {
+      "har_stream": true,
+      "speech_stream": true,
+      "harth_stream": true
+    },
+    "2 was the magnitude comparable": {
+      "har_stream": 0.46519,
+      "speech_stream": 0.639,
+      "harth_stream": 0.15491
+    },
+    "3 did larger capacity increase the effect": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "4 did it saturate": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "6 what was the smallest useful core": 46300,
+    "7 did a strong readout reproduce the effect": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "8 did explicit history reproduce the effect": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": true
+    },
+    "9 was recurrence independently necessary": "mixed",
+    "11 what was the shortest useful horizon": {
+      "har_stream": 20,
+      "speech_stream": 90,
+      "harth_stream": 20
+    },
+    "16 were all load bearing baselines converged": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "17 did optimization explain any apparent architecture effect": "supported",
+    "19 did both valid beds agree": true,
+    "20 was a third valid bed found": [
+      "harth_stream"
+    ],
+    "22 which hypotheses survived": [
+      "H1_recurrence",
+      "H4_state_horizon",
+      "H5_optimization"
+    ],
+    "23 which hypotheses closed": [
+      "H3_capacity",
+      "H6_core_horizon_interaction",
+      "H7_architecture_family",
+      "H8_bed_specificity"
+    ],
+    "24 was Owned Temporal Core v1 selected": true,
+    "25 which architecture does it use": "gru",
+    "26 how many parameters does it have": 46300,
+    "27 what state does it own": "one recurrent hidden state vector, carried across timesteps within the horizon",
+    "28 what horizon does it retain": 90,
+    "31 did E3 open": true,
+    "32 did E5 open": false,
+    "33 did hybrid adaptation open": true,
+    "34 did data custody pass": true,
+    "35 can worktree deletion remove a unique corpus": false,
+    "36 what code remains active": 7038,
+    "37 what code remains frozen for reproducibility": 22817,
+    "38 did independent replication pass": "closed",
+    "39 did every required mutation fail": false,
+    "40 what scientific evidence ceiling was reached": "this is a substrate component with evidence on the beds named here. It does not establish a complete substrate architecture, continual plasticity, cross domain transfer, functional reorganization or activation",
+    "41 is a useful owned substrate component now evidenced": true,
+    "42 is a complete substrate architecture selected": false,
+    "43 is plasticity evidenced": false,
+    "44 is cross domain moldability evidenced": false,
+    "45 is activation licensed": false,
+    "46 what exact experiment has the highest information value next": "third_bed_replication",
+    "verification": {
+      "role_b": false,
+      "role_c": true
+    },
+    "coverage": {
+      "method_kernel": true,
+      "active_critical_path": false
+    }
+  },
+  "activation": false,
+  "forbidden_claims": [
+    "a complete substrate architecture is selected",
+    "plasticity is evidenced",
+    "cross domain moldability is evidenced",
+    "activation is licensed",
+    "the E4 state only adaptation rule is competitive"
+  ],
+  "wall_seconds": 0.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "0a7b027507105770bad9573bf3c8d698d6e1a9655f59958d1c981775f83081c6"
+}

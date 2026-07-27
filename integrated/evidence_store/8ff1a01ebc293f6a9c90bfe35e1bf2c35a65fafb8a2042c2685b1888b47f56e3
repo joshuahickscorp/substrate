@@ -1,0 +1,62 @@
+{
+  "bed": "harth_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "large",
+    "readout": "linear",
+    "reset": "horizon_45",
+    "history_k": 1
+  },
+  "cell": "gru|large|linear|horizon_45|h1",
+  "curve": {
+    "400": 0.98974,
+    "800": 0.9718100000000001,
+    "1600": 0.97609,
+    "3200": 0.9777933333333334
+  },
+  "seed_spread": {
+    "400": 0.00444,
+    "800": 0.02573,
+    "1600": 0.0228,
+    "3200": 0.02309
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.98974,
+    0.97181,
+    0.97609,
+    0.97779
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.0017,
+  "residual_slope": 0.001703,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 1528.8,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "bfca5afdb7fbfbe1b2f8201d85c97a9fe7349097",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "9b6ec692ddf39afba58528362b7da02f055f2f4aff6f27c29ab9da7bdd184145"
+}

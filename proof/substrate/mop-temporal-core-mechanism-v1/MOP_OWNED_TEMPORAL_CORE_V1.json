@@ -1,0 +1,31 @@
+{
+  "schema": "mop-owned-temporal-core-v1/v1",
+  "selected": false,
+  "selection": {
+    "selected": null,
+    "reason": "load bearing evidence gates are not all green",
+    "evidence_gates": {
+      "independent_replication": false,
+      "independent_verification": false,
+      "mutations": true,
+      "all_principal_beds_valid": false,
+      "exact_principal_bed_checks": false
+    }
+  },
+  "evidence_gates": {
+    "independent_replication": false,
+    "independent_verification": false,
+    "mutations": true,
+    "all_principal_beds_valid": false,
+    "exact_principal_bed_checks": false
+  },
+  "evidence_ceiling": "this is a substrate component with evidence on the beds named here. It does not establish a complete substrate architecture, continual plasticity, cross domain transfer, functional reorganization or activation",
+  "activation": false,
+  "wall_seconds": 0.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "93a3c973d4e7ac3b57b11e6e2f4bc6466b913935e0d7edf812656c15b4f46fd8"
+}
