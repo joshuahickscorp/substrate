@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `4a6c95086ccf4844ea7e8211a1578f10fc5fc658`. Status is derived, never asserted: an item is
+Generated from the tree at commit `8796fbdd24486c788d373c9cd36c172cb04cea4f`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 35. Levels: measured 5, not_started 21, terminal 7, tested 2.
+Items: 35. Levels: measured 13, not_started 13, terminal 7, tested 2.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -20,14 +20,14 @@ Items: 35. Levels: measured 5, not_started 21, terminal 7, tested 2.
 | C3 | 6.3 | Mixture of Perspectives, perspectives as processes | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
 | C4 | 6.4 | Perspective selection ladder | measured | C3 | classify the result through mop.method.gate.classify_result and record it |
 | C5 | 6.5 | Perspective arbitration | measured | C3 | classify the result through mop.method.gate.classify_result and record it |
-| M1 | 7.1 | Working memory | not_started | C2 | implement src/mop/cognition/memory.py |
-| M2 | 7.2 | Episodic memory | not_started | C2 | implement src/mop/cognition/memory.py |
-| M3 | 7.3 | Semantic memory | not_started | M2 | implement src/mop/cognition/memory.py |
-| M4 | 7.4 | Procedural memory | not_started | M2 | implement src/mop/cognition/memory.py |
-| M5 | 7.5 | Consolidation | not_started | M2, M3, M4 | implement src/mop/cognition/memory.py |
-| M6 | 7.6 | Forgetting and hygiene | not_started | M3 | implement src/mop/cognition/memory.py |
-| W1 | 8 | World model | not_started | C2, M2 | implement src/mop/cognition/world.py |
-| S1 | 9 | Self model | not_started | C2, M2 | implement src/mop/cognition/selfmodel.py |
+| M1 | 7.1 | Working memory | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
+| M2 | 7.2 | Episodic memory | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
+| M3 | 7.3 | Semantic memory | measured | M2 | classify the result through mop.method.gate.classify_result and record it |
+| M4 | 7.4 | Procedural memory | measured | M2 | classify the result through mop.method.gate.classify_result and record it |
+| M5 | 7.5 | Consolidation | measured | M2, M3, M4 | classify the result through mop.method.gate.classify_result and record it |
+| M6 | 7.6 | Forgetting and hygiene | measured | M3 | classify the result through mop.method.gate.classify_result and record it |
+| W1 | 8 | World model | measured | C2, M2 | classify the result through mop.method.gate.classify_result and record it |
+| S1 | 9 | Self model | measured | C2, M2 | classify the result through mop.method.gate.classify_result and record it |
 | K1 | 10 | Metacognition | not_started | C5, S1 | implement src/mop/cognition/metacog.py |
 | P1 | 11.1 | Plasticity hierarchy | not_started | A4, C2 | implement src/mop/cognition/plasticity.py |
 | P2 | 11.2 | Fast adaptation | not_started | P1, M1 | implement src/mop/cognition/plasticity.py |

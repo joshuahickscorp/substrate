@@ -588,7 +588,7 @@
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": false,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
-    "SUBSTRATE_MEMORY_SYSTEM.json": false,
+    "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": false,
     "SUBSTRATE_MODEL_BODY_INTERFACE.json": false,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
@@ -597,13 +597,13 @@
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": false,
     "SUBSTRATE_REORGANIZATION.json": false,
-    "SUBSTRATE_SELF_MODEL.json": false,
+    "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": false,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": false,
     "SUBSTRATE_WORKSPACE.json": true,
-    "SUBSTRATE_WORLD_MODEL.json": false,
+    "SUBSTRATE_WORLD_MODEL.json": true,
     "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": true,
     "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": true,
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
@@ -616,7 +616,7 @@
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": false,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
-    "SUBSTRATE_MEMORY_SYSTEM.json": false,
+    "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": false,
     "SUBSTRATE_MODEL_BODY_INTERFACE.json": false,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
@@ -625,13 +625,13 @@
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": false,
     "SUBSTRATE_REORGANIZATION.json": false,
-    "SUBSTRATE_SELF_MODEL.json": false,
+    "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": false,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": false,
     "SUBSTRATE_WORKSPACE.json": true,
-    "SUBSTRATE_WORLD_MODEL.json": false,
+    "SUBSTRATE_WORLD_MODEL.json": true,
     "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": true,
     "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": false,
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
@@ -639,10 +639,10 @@
   "level_counts": {
     "terminal": 7,
     "tested": 2,
-    "measured": 5,
-    "not_started": 21
+    "measured": 13,
+    "not_started": 13
   },
   "activation": false,
-  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
-  "sha256": "b7667dff55b2c87831b2dfc84b04fc3df3f91a0a7cd390d4187f57a698e3e96f"
+  "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f",
+  "sha256": "3b8d799fc863f0c780cacc2348fd6d9d261265c09b7f51ae10b85ce733e0583d"
 }

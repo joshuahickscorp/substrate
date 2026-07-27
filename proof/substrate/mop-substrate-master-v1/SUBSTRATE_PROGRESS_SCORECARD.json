@@ -81,7 +81,7 @@
       "items_with_earned_evidence": []
     },
     "working_memory": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "M1"
@@ -89,7 +89,7 @@
       "items_with_earned_evidence": []
     },
     "episodic_memory": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "M2"
@@ -97,7 +97,7 @@
       "items_with_earned_evidence": []
     },
     "semantic_memory": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "M3",
@@ -106,7 +106,7 @@
       "items_with_earned_evidence": []
     },
     "procedural_memory": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "M4"
@@ -114,7 +114,7 @@
       "items_with_earned_evidence": []
     },
     "world_model": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "W1"
@@ -122,7 +122,7 @@
       "items_with_earned_evidence": []
     },
     "self_model": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "S1"
@@ -167,7 +167,7 @@
       "items_with_earned_evidence": []
     },
     "consolidation": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "M5"
@@ -233,7 +233,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "mop-substrate-master-v1",
-  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+  "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f",
   "activation": false,
-  "sha256": "83423e83ba0d48731bd263cdce73d45536f5dafa4622ca901961a74ca9660f5f"
+  "sha256": "ec37b5ba1717ccf03e309fd239f502b1ea9ece78045ffad463476dd223ccc223"
 }
