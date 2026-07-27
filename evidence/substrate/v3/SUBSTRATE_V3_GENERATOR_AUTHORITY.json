@@ -1,0 +1,12 @@
+{
+  "schema": "substrate-v3-generator-authority/v1",
+  "callable": "substrate.v3fabric.generate_task",
+  "target_private_until_commit": true,
+  "deterministic": true,
+  "configuration_digest": "22ab16c213a52fd3f4d84ffb8d19ac8a15a029382be1b79311fc39ddeccf3858",
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "ddd0473ef9505baa7b0fb091853d9d708568fe05bfe977208f68cf4da52dcabb"
+}

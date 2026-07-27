@@ -1,0 +1,22 @@
+{
+  "schema": "substrate-v3-inquiry-workloads/v1",
+  "workloads": {
+    "positive_a": {
+      "oracle_residual": 0.10550781250000008
+    },
+    "positive_b": {
+      "oracle_residual": 0.2534765625
+    },
+    "no_headroom": {
+      "oracle_residual": 0.0
+    },
+    "transfer": {
+      "oracle_residual": 0.09539062499999995
+    }
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "ef7dfa098a94ba7e5b84d905f01370e42c19c5c16546d70012ba1d3d70208bb3"
+}

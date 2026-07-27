@@ -1,0 +1,38 @@
+{
+  "schema": "substrate-v3-claim-boundary/v1",
+  "ordered_levels": [
+    "certified_cognitive_scaffold",
+    "persistent_developmental_cognition",
+    "epistemically_organized_reasoner",
+    "demonstrated_structural_understanding",
+    "reflective_cognitive_organization",
+    "functional_proto_nous_candidate",
+    "nous_ready_for_review"
+  ],
+  "maximum": "nous_ready_for_review",
+  "unqualified_nous_automatically_assignable": false,
+  "not_claimed": [
+    "consciousness",
+    "phenomenal experience",
+    "sentience",
+    "feeling",
+    "suffering",
+    "desire",
+    "personhood",
+    "life",
+    "moral status"
+  ],
+  "permitted_actions": [
+    "internal cognitive proposals",
+    "internal reasoning selection",
+    "deterministic sandboxed tools",
+    "local immutable task queries",
+    "hypothetical actions",
+    "controlled simulated outcomes"
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "b4fa40e57b34bf9bbcb46751ba096d024f8d80107da050a56f38b74423a57874"
+}

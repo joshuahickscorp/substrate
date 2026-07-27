@@ -1,0 +1,83 @@
+{
+  "schema": "substrate-v3-resource-pilot/v1",
+  "benchmarks": {
+    "1": {
+      "workers": 1,
+      "jobs": 64,
+      "wall_seconds": 0.016069708042778075,
+      "peak_rss_mib": 27.328125,
+      "swap_before_mib": 1293.5,
+      "swap_after_mib": 1293.5,
+      "swap_growth_mib": 0.0,
+      "deterministic": true,
+      "safe": true
+    },
+    "2": {
+      "workers": 2,
+      "jobs": 64,
+      "wall_seconds": 0.016155124991200864,
+      "peak_rss_mib": 27.375,
+      "swap_before_mib": 1293.5,
+      "swap_after_mib": 1293.5,
+      "swap_growth_mib": 0.0,
+      "deterministic": true,
+      "safe": true
+    },
+    "4": {
+      "workers": 4,
+      "jobs": 64,
+      "wall_seconds": 0.016290083061903715,
+      "peak_rss_mib": 27.4375,
+      "swap_before_mib": 1293.5,
+      "swap_after_mib": 1293.5,
+      "swap_growth_mib": 0.0,
+      "deterministic": true,
+      "safe": true
+    },
+    "8": {
+      "workers": 8,
+      "jobs": 64,
+      "wall_seconds": 0.0167721250327304,
+      "peak_rss_mib": 27.578125,
+      "swap_before_mib": 1293.5,
+      "swap_after_mib": 1293.5,
+      "swap_growth_mib": 0.0,
+      "deterministic": true,
+      "safe": true
+    },
+    "12": {
+      "workers": 12,
+      "jobs": 64,
+      "wall_seconds": 0.015875083045102656,
+      "peak_rss_mib": 27.703125,
+      "swap_before_mib": 1293.5,
+      "swap_after_mib": 1293.5,
+      "swap_growth_mib": 0.0,
+      "deterministic": true,
+      "safe": false
+    },
+    "16": {
+      "workers": 16,
+      "jobs": 64,
+      "wall_seconds": 0.01643170800525695,
+      "peak_rss_mib": 27.859375,
+      "swap_before_mib": 1293.5,
+      "swap_after_mib": 1293.5,
+      "swap_growth_mib": 0.0,
+      "deterministic": true,
+      "safe": false
+    }
+  },
+  "selected_workers": 1,
+  "native_thread_budget_per_worker": 1,
+  "oversubscription_prevention": true,
+  "mps_used": false,
+  "hawking_policy": "observation only",
+  "all_counts_tested": true,
+  "all_safe": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "b5adda8f2dcfb1e344a27614876ab5e41d9051d877c0f715a7acbe13f6455e11"
+}

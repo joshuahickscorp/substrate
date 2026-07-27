@@ -1,0 +1,12 @@
+{
+  "schema": "substrate-v3-worker-authority/v1",
+  "selected_workers": 1,
+  "native_thread_budget_per_worker": 1,
+  "workers_write_unit_local_staging_only": true,
+  "supervisor_owns_publication": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "ae68b09076b8fbff878d33d3bd4418a282303ac5601eb5d2e09d40bdf3aa6a33"
+}

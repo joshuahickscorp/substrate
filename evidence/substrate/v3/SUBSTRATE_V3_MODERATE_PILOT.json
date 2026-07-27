@@ -1,0 +1,6853 @@
+{
+  "schema": "substrate-v3-moderate-pilot/v1",
+  "rows": [
+    {
+      "seed": 500,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.96,
+      "compute": 64.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 500,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.92875,
+      "compute": 64.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.7933333333333333
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 500,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.881875,
+      "compute": 64.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.5433333333333333
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 500,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.881875,
+      "compute": 64.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 500,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.765625,
+      "utility": 0.725625,
+      "compute": 64.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.08499999999999999
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 500,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.8624999999999999,
+      "compute": 70.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.18
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 501,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.94375,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 501,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.896875,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.71
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 501,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.859375,
+      "utility": 0.81875,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.29333333333333333
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 501,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.896875,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.585
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 501,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.75,
+      "utility": 0.709375,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.08499999999999999
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 501,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.9099999999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.5599999999999999
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 502,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.958125,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 502,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.958125,
+      "compute": 67.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 502,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.91125,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.71
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 502,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.864375,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.21
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 502,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.765625,
+      "utility": 0.72375,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.08499999999999999
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 502,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.896875,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.45499999999999996
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 503,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.9412499999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 503,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.9412499999999999,
+      "compute": 69.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 503,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.890625,
+      "utility": 0.8474999999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.45999999999999996
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 503,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.8787499999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 503,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.765625,
+      "utility": 0.7225,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.21
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 503,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.91125,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.57
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 504,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.95875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 504,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.95875,
+      "compute": 66.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 504,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.911875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.71
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 504,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.911875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.585
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 504,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.84375,
+      "utility": 0.8025,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.71
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 504,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.95875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 505,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.959375,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.955
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 505,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.959375,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.955
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 505,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.896875,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.6266666666666666
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.955
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 505,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.88125,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.955
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 505,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.796875,
+      "utility": 0.75625,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.955
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 505,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.926875,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.695
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 506,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.944375,
+      "compute": 64.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.835
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 506,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.92875,
+      "compute": 64.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.8766666666666666
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.835
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 506,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.890625,
+      "utility": 0.850625,
+      "compute": 64.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.45999999999999996
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.835
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 506,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.881875,
+      "compute": 64.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.835
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 506,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.78125,
+      "utility": 0.74125,
+      "compute": 64.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.835
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 506,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.8781249999999999,
+      "compute": 70.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.305
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 507,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.943125,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 507,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.9275,
+      "compute": 66.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.8766666666666666
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 507,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.865,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.5433333333333333
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 507,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.880625,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 507,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.78125,
+      "utility": 0.74,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 507,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.910625,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.565
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 508,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.9425,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.82
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 508,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.926875,
+      "compute": 67.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.8766666666666666
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.82
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 508,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.875,
+      "utility": 0.833125,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.37666666666666665
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.82
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 508,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.864375,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.82
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 508,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.765625,
+      "utility": 0.72375,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.21
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.82
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 508,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.895,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.44
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 509,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.943125,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 509,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.89625,
+      "compute": 66.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.71
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 509,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.875,
+      "utility": 0.83375,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.37666666666666665
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 509,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.865,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 509,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.828125,
+      "utility": 0.786875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.71
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 509,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.9093749999999999,
+      "compute": 70.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.555
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 510,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.943125,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 510,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.911875,
+      "compute": 66.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.7933333333333333
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 510,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.890625,
+      "utility": 0.849375,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.45999999999999996
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 510,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.865,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 510,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.796875,
+      "utility": 0.755625,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 510,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.941875,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.815
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 511,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.958125,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 511,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.958125,
+      "compute": 67.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 511,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.864375,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.45999999999999996
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 511,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.88,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 511,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.78125,
+      "utility": 0.739375,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.21
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 511,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.941875,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.815
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 512,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.94375,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 512,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.94375,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 512,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.890625,
+      "utility": 0.85,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.45999999999999996
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 512,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.88125,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 512,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.8125,
+      "utility": 0.771875,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.585
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 512,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.91125,
+      "compute": 67.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.57
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 513,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.9412499999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 513,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.9412499999999999,
+      "compute": 69.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 513,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.8787499999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.6266666666666666
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 513,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.9099999999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.71
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 513,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.75,
+      "utility": 0.706875,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.08499999999999999
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 513,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.865,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.2
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 514,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.94375,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 514,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.896875,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.71
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 514,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.859375,
+      "utility": 0.81875,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.29333333333333333
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 514,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.865625,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 514,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.765625,
+      "utility": 0.725,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.21
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 514,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.91125,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.57
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 515,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.958125,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 515,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.9425,
+      "compute": 67.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.8766666666666666
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 515,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.895625,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.6266666666666666
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 515,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.864375,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.21
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 515,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.796875,
+      "utility": 0.755,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.945
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 515,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.943125,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 516,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.95875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 516,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.95875,
+      "compute": 66.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 516,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.865,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.45999999999999996
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 516,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.89625,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 516,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.828125,
+      "utility": 0.786875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.585
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 516,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.91125,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.57
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 517,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.941875,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.8150000000000001
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 517,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.941875,
+      "compute": 68.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.8150000000000001
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 517,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.890625,
+      "utility": 0.848125,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.45999999999999996
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.8150000000000001
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 517,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.895,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.585
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.8150000000000001
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 517,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.78125,
+      "utility": 0.73875,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.8150000000000001
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 517,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.895625,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.445
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 518,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 1.0,
+      "utility": 0.95875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 518,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.9275,
+      "compute": 66.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.7933333333333333
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 518,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.890625,
+      "utility": 0.849375,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.37666666666666665
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 518,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.911875,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.585
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 518,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.765625,
+      "utility": 0.724375,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.08499999999999999
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.95
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 518,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.89625,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.44999999999999996
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 519,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.9412499999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 519,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.9099999999999999,
+      "compute": 69.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.7933333333333333
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 519,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.8631249999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.5433333333333333
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 519,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.8787499999999999,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 519,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.75,
+      "utility": 0.706875,
+      "compute": 69.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.08499999999999999
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.81
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 519,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.9249999999999999,
+      "compute": 70.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.68
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 520,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.94375,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 520,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.9125,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.7933333333333333
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 520,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.859375,
+      "utility": 0.81875,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.29333333333333333
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 520,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.921875,
+      "utility": 0.88125,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 520,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.765625,
+      "utility": 0.725,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.21
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 520,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.9425,
+      "compute": 67.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.82
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 521,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.943125,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 521,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.943125,
+      "compute": 66.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 521,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.859375,
+      "utility": 0.818125,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.29333333333333333
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 521,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.865,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 521,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.796875,
+      "utility": 0.755625,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.45999999999999996
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 521,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.9093749999999999,
+      "compute": 70.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.555
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 522,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.94375,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 522,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.928125,
+      "compute": 65.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.8766666666666666
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 522,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.890625,
+      "utility": 0.85,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.45999999999999996
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 522,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.9375,
+      "utility": 0.896875,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.585
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 522,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.8125,
+      "utility": 0.771875,
+      "compute": 65.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.585
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.83
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 522,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.8624999999999999,
+      "compute": 70.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.18
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 523,
+      "arm": "full_v3",
+      "episodes": 64,
+      "accuracy": 0.984375,
+      "utility": 0.943125,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 523,
+      "arm": "fixed_ontology",
+      "episodes": 64,
+      "accuracy": 0.96875,
+      "utility": 0.9275,
+      "compute": 66.0,
+      "ontology_revisions": 0,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.8766666666666666
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 523,
+      "arm": "confidence_only_epistemology",
+      "episodes": 64,
+      "accuracy": 0.875,
+      "utility": 0.83375,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 0,
+      "defeaters": 0,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.37666666666666665
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 523,
+      "arm": "fixed_reasoning",
+      "episodes": 64,
+      "accuracy": 0.90625,
+      "utility": 0.865,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 0,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.33499999999999996
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 523,
+      "arm": "no_understanding_structure",
+      "episodes": 64,
+      "accuracy": 0.765625,
+      "utility": 0.724375,
+      "compute": 66.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.21
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.825
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": -0.04
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    },
+    {
+      "seed": 523,
+      "arm": "simple_inquiry",
+      "episodes": 64,
+      "accuracy": 0.953125,
+      "utility": 0.910625,
+      "compute": 68.0,
+      "ontology_revisions": 1,
+      "beliefs": 12,
+      "defeaters": 12,
+      "reasoning_operations": 8,
+      "semantic_records": 7,
+      "procedures": 7,
+      "per_family": {
+        "ontology_garden": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "epistemic_laboratory": {
+          "episodes": 12,
+          "utility": 0.96
+        },
+        "causal_micro_worlds": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "cross_representation_systems": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "reasoning_method_selection": {
+          "episodes": 8,
+          "utility": 0.96
+        },
+        "scientific_inquiry": {
+          "episodes": 8,
+          "utility": 0.565
+        },
+        "adversarial_ambiguity": {
+          "episodes": 8,
+          "utility": 0.96
+        }
+      },
+      "checkpoint_exact": true,
+      "body": "compact",
+      "activation": false
+    }
+  ],
+  "by_arm": {
+    "full_v3": {
+      "histories": 24,
+      "episodes": 1536,
+      "accuracy": 0.9895833333333334,
+      "utility": 0.948203125,
+      "compute": 1589.0,
+      "checkpoint_exact": true
+    },
+    "fixed_ontology": {
+      "histories": 24,
+      "episodes": 1536,
+      "accuracy": 0.9733072916666666,
+      "utility": 0.9319270833333334,
+      "compute": 1589.0,
+      "checkpoint_exact": true
+    },
+    "confidence_only_epistemology": {
+      "histories": 24,
+      "episodes": 1536,
+      "accuracy": 0.8977864583333334,
+      "utility": 0.85640625,
+      "compute": 1589.0,
+      "checkpoint_exact": true
+    },
+    "fixed_reasoning": {
+      "histories": 24,
+      "episodes": 1536,
+      "accuracy": 0.9231770833333334,
+      "utility": 0.881796875,
+      "compute": 1589.0,
+      "checkpoint_exact": true
+    },
+    "no_understanding_structure": {
+      "histories": 24,
+      "episodes": 1536,
+      "accuracy": 0.7838541666666666,
+      "utility": 0.7424739583333334,
+      "compute": 1589.0,
+      "checkpoint_exact": true
+    },
+    "simple_inquiry": {
+      "histories": 24,
+      "episodes": 1536,
+      "accuracy": 0.9518229166666666,
+      "utility": 0.9094531250000001,
+      "compute": 1627.0,
+      "checkpoint_exact": true
+    }
+  },
+  "control_margins": {
+    "fixed_ontology": 0.08680555555555547,
+    "confidence_only_epistemology": 0.4895833333333333,
+    "fixed_reasoning": 0.53125,
+    "no_understanding_structure": 0.6458333333333333,
+    "simple_inquiry": 0.31000000000000005
+  },
+  "independent_histories": 24,
+  "workload_families": 7,
+  "episodes": 9216,
+  "focused_arms": 6,
+  "variance": 0.005073688799069251,
+  "failure_rate": 0.0,
+  "peak_rss_mib": 27.03125,
+  "checks": {
+    "independent_histories_12_to_24": true,
+    "workload_families_at_least_4": true,
+    "episodes_5000_to_20000": true,
+    "focused_arms_4_to_8": true,
+    "all_checkpoints_exact": true,
+    "full_beats_each_focused_ablation": true,
+    "activation_false": true
+  },
+  "failed": [],
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "9c911f5f381dc2d995e9ef54b03bc8791660479ceb9563fb6e0b37f1475db14e"
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "substrate-v3-understanding-schema/v1",
+  "functions": [
+    "prediction",
+    "explanation",
+    "intervention",
+    "counterfactuals",
+    "compression",
+    "reconstruction",
+    "cross representation transfer",
+    "model boundary detection",
+    "novel valid case generation",
+    "impossibility detection"
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "1aaf3326c0566b5159a55e9f0dfe968edab264eb8baea85852cf02b7d1bef88d"
+}

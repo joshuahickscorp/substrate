@@ -1,0 +1,39 @@
+{
+  "schema": "substrate-v3-ontology-schema/v1",
+  "types": [
+    "entity",
+    "property",
+    "relation",
+    "event",
+    "process",
+    "state",
+    "role",
+    "boundary",
+    "cause",
+    "effect",
+    "rule",
+    "exception",
+    "abstraction",
+    "category",
+    "instance",
+    "part",
+    "whole",
+    "identity",
+    "change",
+    "possibility",
+    "impossibility",
+    "unknown"
+  ],
+  "operations": [
+    "form",
+    "split",
+    "merge",
+    "supersede",
+    "map"
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "2367108fdba0708412589a2f70efa98ecb3bcdae35f342d79a3aa5646c8d8e7a"
+}

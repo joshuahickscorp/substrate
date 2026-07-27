@@ -1,0 +1,19 @@
+{
+  "schema": "substrate-v3-selection-receipt/v1",
+  "selected": {
+    "ontology": "evidence triggered split and merge",
+    "epistemology": "dependency graph with underdetermination and inquiry",
+    "reasoning": "rule based contextual selector",
+    "understanding": "semantic plus causal plus cross representation",
+    "inquiry": "tabular contextual value policy"
+  },
+  "selection_split": "construction",
+  "admission_split_observed_after_selection": true,
+  "repair_after_admission": "software, control, or instrumentation defects only",
+  "valid_null_is_terminal": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "5e62ee941721dd3cd61fc4546ecc1a631a0c0050b70b92a8ad25e013ffe46f5e"
+}

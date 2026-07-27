@@ -1,0 +1,134 @@
+{
+  "schema": "substrate-v3-preflight/v1",
+  "repository": "/Users/scammermike/Downloads/substrate",
+  "remote": "git@github.com:joshuahickscorp/substrate.git",
+  "entry": {
+    "pre_tag": "substrate-v3-pre-constitutional-ascent",
+    "pre_tag_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+    "main": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+    "origin_main": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+    "current_head": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+    "branch": "agent/substrate-v3-nous-constitutional-ascent",
+    "dirty": [
+      " M src/substrate/cli.py",
+      " M src/substrate/epistemology.py",
+      " M src/substrate/metacog.py",
+      " M src/substrate/ontology.py",
+      " M src/substrate/world.py",
+      "?? artifacts/substrate/v3/",
+      "?? configs/substrate/v3/",
+      "?? evidence/substrate/v3/",
+      "?? src/substrate/v3.py",
+      "?? src/substrate/v3campaign.py",
+      "?? src/substrate/v3canary.py",
+      "?? src/substrate/v3config.py",
+      "?? src/substrate/v3fabric.py",
+      "?? src/substrate/v3io.py",
+      "?? src/substrate/v3pilot.py",
+      "?? src/substrate/v3principal.py",
+      "?? src/substrate/v3state.py",
+      "?? src/substrate/v3verify.py",
+      "?? tests/substrate/test_v3_campaign.py",
+      "?? tests/substrate/test_v3_mechanisms.py"
+    ],
+    "worktrees": [
+      "worktree /Users/scammermike/Downloads/substrate",
+      "HEAD 4c81bf445c3889f579c28de9a4f079b81aae6743",
+      "branch refs/heads/agent/substrate-v3-nous-constitutional-ascent"
+    ],
+    "open_pull_requests": [
+      {
+        "baseRefName": "main",
+        "headRefName": "agent/generation1-general-run-closure",
+        "isDraft": true,
+        "number": 30,
+        "title": "Append gen1-general-run-closure + Mechanism Admission Battery + current-frontier authority (draft)",
+        "url": "https://github.com/joshuahickscorp/substrate/pull/30"
+      }
+    ],
+    "latest_main_ci": [
+      {
+        "conclusion": "success",
+        "databaseId": 30307093967,
+        "event": "push",
+        "headSha": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+        "status": "completed",
+        "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30307093967",
+        "workflowName": "Substrate"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 30304146347,
+        "event": "push",
+        "headSha": "553539bc5edc01737fa53b2c4ee4096eb32a2f23",
+        "status": "completed",
+        "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30304146347",
+        "workflowName": "Substrate"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 30299574055,
+        "event": "push",
+        "headSha": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
+        "status": "completed",
+        "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30299574055",
+        "workflowName": "Substrate"
+      }
+    ]
+  },
+  "principal_files": [],
+  "v3_workers": [],
+  "resources": {
+    "disk_available_gib": 108.51909255981445,
+    "memory_free_percent": 82,
+    "swap_total_mib": 2048.0,
+    "swap_used_mib": 1293.5,
+    "swap_free_mib": 754.5,
+    "aggregate_cpu_percent": 401.7,
+    "machine": {
+      "processor": "arm",
+      "logical_cores": 28,
+      "platform": "macOS-27.0-arm64-arm-64bit"
+    }
+  },
+  "hawking": {
+    "processes": [
+      {
+        "pid": 16057,
+        "ppid": 1,
+        "cpu_percent": 97.7,
+        "memory_percent": 0.3,
+        "rss_mib": 276.0,
+        "elapsed": "01:37",
+        "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python /Users/scammermike/Downloads/hawking/tools/condense/glm52_source_fetch.py safe-to-leave"
+      }
+    ],
+    "active_process_count": 1,
+    "observation_only": true,
+    "signals_sent": 0,
+    "processes_modified": 0,
+    "controllers_modified": 0,
+    "mps_adopted": false
+  },
+  "checks": {
+    "pre_tag_matches_entry_main": true,
+    "main_matches_origin_main": true,
+    "implementation_branch_active": true,
+    "one_worktree": true,
+    "no_v3_principal_receipts": true,
+    "no_v3_worker": true,
+    "v1_v2_immutable": true,
+    "activation_false": true,
+    "disk_safe_for_development": true,
+    "memory_safe_for_development": true,
+    "swap_observed": true,
+    "hawking_observation_only": true
+  },
+  "failed": [],
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "3a07e804cbf880d45fd762800f11f595be84fc0fbfc956d8efac815813ebab1a"
+}

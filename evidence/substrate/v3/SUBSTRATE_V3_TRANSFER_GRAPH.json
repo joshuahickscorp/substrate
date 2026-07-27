@@ -1,0 +1,42 @@
+{
+  "schema": "substrate-v3-transfer-graph/v1",
+  "positive": {
+    "ontology_garden": [
+      "cross_representation_systems"
+    ],
+    "epistemic_laboratory": [
+      "scientific_inquiry"
+    ],
+    "causal_micro_worlds": [
+      "cross_representation_systems"
+    ],
+    "cross_representation_systems": [
+      "reasoning_method_selection"
+    ],
+    "reasoning_method_selection": [
+      "scientific_inquiry"
+    ],
+    "scientific_inquiry": [
+      "open_world_review"
+    ]
+  },
+  "negative": {
+    "ontology_garden": [
+      "adversarial_ambiguity"
+    ],
+    "causal_micro_worlds": [
+      "adversarial_ambiguity"
+    ],
+    "reasoning_method_selection": [
+      "adversarial_ambiguity"
+    ],
+    "scientific_inquiry": [
+      "no_headroom_control"
+    ]
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "1e4bca3e2d91fc0fc1121f4072b386ac0104df2ed48fcf854cf0cf9cbf9bd816"
+}

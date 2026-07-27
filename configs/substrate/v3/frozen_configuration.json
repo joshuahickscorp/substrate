@@ -1,0 +1,443 @@
+{
+  "sesoi": 0.05,
+  "preferred_inquiry_headroom": 0.08,
+  "prices": {
+    "compute": 0.04,
+    "latency": 0.01,
+    "unnecessary_inquiry": 0.04,
+    "missed_inquiry": 0.14,
+    "catastrophic_error": 0.5,
+    "broken_goal": 0.3,
+    "interference": 0.25
+  },
+  "splits": {
+    "construction": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "cheap_admission": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115
+    ],
+    "moderate_pilot": [
+      500,
+      501,
+      502,
+      503,
+      504,
+      505,
+      506,
+      507,
+      508,
+      509,
+      510,
+      511,
+      512,
+      513,
+      514,
+      515,
+      516,
+      517,
+      518,
+      519,
+      520,
+      521,
+      522,
+      523
+    ],
+    "principal": [
+      1000,
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010,
+      1011,
+      1012,
+      1013,
+      1014,
+      1015,
+      1016,
+      1017,
+      1018,
+      1019,
+      1020,
+      1021,
+      1022,
+      1023,
+      1024,
+      1025,
+      1026,
+      1027,
+      1028,
+      1029,
+      1030,
+      1031,
+      1032,
+      1033,
+      1034,
+      1035,
+      1036,
+      1037,
+      1038,
+      1039,
+      1040,
+      1041,
+      1042,
+      1043,
+      1044,
+      1045,
+      1046,
+      1047
+    ],
+    "replication": [
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011
+    ],
+    "open_world_review": [
+      3000,
+      3001,
+      3002,
+      3003,
+      3004,
+      3005,
+      3006,
+      3007,
+      3008,
+      3009,
+      3010,
+      3011
+    ]
+  },
+  "workloads": {
+    "ontology_garden": {
+      "features": [
+        "concept formation",
+        "category revision",
+        "identity through change",
+        "relations",
+        "exceptions",
+        "split",
+        "merge"
+      ],
+      "latent_state": "feature defined categories with hidden exception regimes",
+      "actions": [
+        "form category",
+        "split",
+        "merge",
+        "map representation",
+        "preserve unknown"
+      ],
+      "positive_transfer": [
+        "cross_representation_systems"
+      ],
+      "negative_transfer": [
+        "adversarial_ambiguity"
+      ]
+    },
+    "epistemic_laboratory": {
+      "features": [
+        "source reliability",
+        "warrant",
+        "defeaters",
+        "underdetermination",
+        "knowledge admission",
+        "inquiry"
+      ],
+      "latent_state": "source conditionally reliable by regime",
+      "actions": [
+        "accept",
+        "defer",
+        "test",
+        "seek counterexample",
+        "preserve alternatives"
+      ],
+      "positive_transfer": [
+        "scientific_inquiry"
+      ],
+      "negative_transfer": []
+    },
+    "causal_micro_worlds": {
+      "features": [
+        "observation",
+        "intervention",
+        "confounding",
+        "direction",
+        "counterfactual"
+      ],
+      "latent_state": "directed causal transition system",
+      "actions": [
+        "observe",
+        "intervene",
+        "simulate",
+        "counterfactual"
+      ],
+      "positive_transfer": [
+        "cross_representation_systems"
+      ],
+      "negative_transfer": [
+        "adversarial_ambiguity"
+      ]
+    },
+    "cross_representation_systems": {
+      "features": [
+        "symbolic",
+        "sequence",
+        "graph",
+        "structured statements",
+        "tool state"
+      ],
+      "latent_state": "one directed dependency system under five surface encodings",
+      "actions": [
+        "map concept",
+        "predict",
+        "explain",
+        "reconstruct",
+        "detect boundary"
+      ],
+      "positive_transfer": [
+        "reasoning_method_selection"
+      ],
+      "negative_transfer": []
+    },
+    "reasoning_method_selection": {
+      "features": [
+        "deduction",
+        "induction",
+        "abduction",
+        "analogy",
+        "diagnosis",
+        "planning"
+      ],
+      "latent_state": "task family determines valid inference operation",
+      "actions": [
+        "select reasoning mode",
+        "execute trace",
+        "verify"
+      ],
+      "positive_transfer": [
+        "scientific_inquiry"
+      ],
+      "negative_transfer": [
+        "adversarial_ambiguity"
+      ]
+    },
+    "scientific_inquiry": {
+      "features": [
+        "variable evidence reliability",
+        "variable cost",
+        "contradiction",
+        "risk",
+        "domain shift"
+      ],
+      "latent_state": "context determines which evidence action has positive net value",
+      "actions": [
+        "inspect source",
+        "test hypothesis",
+        "simulate",
+        "defer",
+        "stop"
+      ],
+      "positive_transfer": [
+        "open_world_review"
+      ],
+      "negative_transfer": [
+        "no_headroom_control"
+      ]
+    },
+    "adversarial_ambiguity": {
+      "features": [
+        "surface trap",
+        "conflicting evidence",
+        "false explanation",
+        "wrong analogy",
+        "underpowered evidence"
+      ],
+      "latent_state": "surface cues are anticorrelated with relational truth",
+      "actions": [
+        "reject surface cue",
+        "preserve uncertainty",
+        "seek discriminating evidence"
+      ],
+      "positive_transfer": [],
+      "negative_transfer": []
+    }
+  },
+  "reasoning_modes": [
+    "deduction",
+    "induction",
+    "abduction",
+    "analogy",
+    "causal",
+    "counterfactual",
+    "temporal",
+    "planning",
+    "diagnostic",
+    "dialectical",
+    "symbolic",
+    "meta"
+  ],
+  "arms": [
+    "full_v3",
+    "v2_developmental_control",
+    "fixed_ontology",
+    "confidence_only_epistemology",
+    "fixed_reasoning",
+    "no_understanding_structure",
+    "simple_inquiry",
+    "no_self_model",
+    "no_world_model",
+    "more_compute",
+    "fresh_reset",
+    "transcript_replay"
+  ],
+  "phases": [
+    "phase_0_cold_baseline",
+    "phase_1_ontology_acquisition",
+    "phase_2_semantic_procedural_development",
+    "phase_3_conflicting_evidence_defeaters",
+    "phase_4_ontology_repair",
+    "phase_5_cross_representation_transfer",
+    "phase_6_causal_intervention",
+    "phase_7_counterfactual",
+    "phase_8_reasoning_method_switching",
+    "phase_9_inquiry_under_cost",
+    "phase_10_interruption_checkpoint",
+    "phase_11_body_tool_change",
+    "phase_12_return_prior_domains",
+    "phase_13_misleading_analogy",
+    "phase_14_open_world_structures",
+    "phase_15_terminal_integrated_evaluation"
+  ],
+  "hypotheses": {
+    "H_N1": "active ontology revision improves held out prediction, explanation, or transfer over fixed ontology",
+    "H_N2": "defeaters and underdetermination improve calibrated belief revision and inquiry over confidence only",
+    "H_N3": "reasoning method selection improves utility over fixed reasoning and maximum compute",
+    "H_N4": "structural understanding improves explanation, intervention, counterfactuals, and cross representation transfer",
+    "H_N5": "inquiry driven allocation improves held out cost adjusted utility over the strongest simple policy",
+    "H_N6": "v2 developmental transfer and retention remain preserved",
+    "H_N7": "different verified epistemic histories produce useful predictable specialization",
+    "H_N8": "conditional self and world models improve held out control",
+    "H_N9": "one identity persists through ontology change, interruption, body change, and conflict"
+  },
+  "claim_boundary": {
+    "ordered_levels": [
+      "certified_cognitive_scaffold",
+      "persistent_developmental_cognition",
+      "epistemically_organized_reasoner",
+      "demonstrated_structural_understanding",
+      "reflective_cognitive_organization",
+      "functional_proto_nous_candidate",
+      "nous_ready_for_review"
+    ],
+    "maximum": "nous_ready_for_review",
+    "unqualified_nous_automatically_assignable": false,
+    "not_claimed": [
+      "consciousness",
+      "phenomenal experience",
+      "sentience",
+      "feeling",
+      "suffering",
+      "desire",
+      "personhood",
+      "life",
+      "moral status"
+    ],
+    "permitted_actions": [
+      "internal cognitive proposals",
+      "internal reasoning selection",
+      "deterministic sandboxed tools",
+      "local immutable task queries",
+      "hypothetical actions",
+      "controlled simulated outcomes"
+    ],
+    "activation": false
+  },
+  "candidate_ladder": {
+    "ontology": [
+      "fixed typed ontology",
+      "evidence triggered split and merge",
+      "regularized utility based revision"
+    ],
+    "epistemology": [
+      "dependency graph with direct defeaters",
+      "source reliability",
+      "underdetermination and inquiry"
+    ],
+    "reasoning": [
+      "fixed reasoning",
+      "rule based contextual selector",
+      "regularized linear selector"
+    ],
+    "understanding": [
+      "semantic structure",
+      "semantic plus causal",
+      "semantic plus causal plus cross representation"
+    ],
+    "inquiry": [
+      "best fixed",
+      "tabular contextual value",
+      "regularized linear contextual"
+    ]
+  },
+  "statistics": {
+    "independent_unit": "one frozen developmental history",
+    "primary_summary": [
+      "mean paired effect",
+      "median paired effect",
+      "95 percent bootstrap confidence interval"
+    ],
+    "exact_test": "paired exact sign test",
+    "multiple_comparisons": "Holm correction over H_N1 through H_N9",
+    "alpha": 0.05,
+    "sesoi": 0.05,
+    "target_power": 0.9,
+    "retry_rule": "one exact retry after process failure; deterministic failure is terminal",
+    "missing_data": "retain and report failed units; no silent deletion"
+  },
+  "activation": false,
+  "configuration_digest": "22ab16c213a52fd3f4d84ffb8d19ac8a15a029382be1b79311fc39ddeccf3858",
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "5033217b2c9ea85fb84538212256ca8b6ae165f459a9fd876735b9ce56d185f5"
+}

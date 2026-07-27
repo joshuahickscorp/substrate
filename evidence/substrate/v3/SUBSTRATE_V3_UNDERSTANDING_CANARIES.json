@@ -1,0 +1,101 @@
+{
+  "schema": "substrate-v3-understanding-canaries/v1",
+  "canaries": [
+    {
+      "identity": "C22",
+      "description": "explanation cites internal premises",
+      "positive_fixture": "path bound explanation",
+      "null_fixture": "free prose",
+      "mechanism_activity": true,
+      "controls": [
+        "retrieval only"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C23",
+      "description": "explanation identifies falsifier",
+      "positive_fixture": "intervention falsifier",
+      "null_fixture": "style score",
+      "mechanism_activity": true,
+      "controls": [
+        "prose explanation"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C24",
+      "description": "latent structure transfers representations",
+      "positive_fixture": "same latent graph",
+      "null_fixture": "unmapped surface labels",
+      "mechanism_activity": true,
+      "controls": [
+        "surface model"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.6822916666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C25",
+      "description": "memorization cannot explain transfer",
+      "positive_fixture": "held out labels",
+      "null_fixture": "retrieval",
+      "mechanism_activity": true,
+      "controls": [
+        "episodic retrieval",
+        "semantic retrieval"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 0.6822916666666666,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C26",
+      "description": "model boundaries detected",
+      "positive_fixture": "four boundary classes",
+      "null_fixture": "always applicable",
+      "mechanism_activity": true,
+      "controls": [
+        "surface model"
+      ],
+      "oracle": "private known truth after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "82fc9b6d5e1e0ca398b2188da44652c82ebc3fc1a33456f4ade8d5c147671cb6"
+}

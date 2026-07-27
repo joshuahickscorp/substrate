@@ -1,0 +1,22 @@
+{
+  "schema": "substrate-v3-reasoning-catalog/v1",
+  "modes": [
+    "deduction",
+    "induction",
+    "abduction",
+    "analogy",
+    "causal",
+    "counterfactual",
+    "temporal",
+    "planning",
+    "diagnostic",
+    "dialectical",
+    "symbolic",
+    "meta"
+  ],
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "743b0bbe541b357a653465f3fedd2753efee0cbdfee9936b811b8c4fbe152879"
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "substrate-v3-classification-authority/v1",
+  "ordered_levels": [
+    "certified_cognitive_scaffold",
+    "persistent_developmental_cognition",
+    "epistemically_organized_reasoner",
+    "demonstrated_structural_understanding",
+    "reflective_cognitive_organization",
+    "functional_proto_nous_candidate",
+    "nous_ready_for_review"
+  ],
+  "dependencies": {
+    "persistent_developmental_cognition": [
+      "v2 terminal authority"
+    ],
+    "epistemically_organized_reasoner": [
+      "active ontology",
+      "epistemic distinctions",
+      "defeaters",
+      "underdetermination",
+      "multiple reasoning modes",
+      "reasoning selection"
+    ],
+    "demonstrated_structural_understanding": [
+      "epistemically organized reasoner",
+      "cross representation transfer",
+      "explanation",
+      "causal intervention",
+      "counterfactual prediction",
+      "model boundary detection"
+    ],
+    "reflective_cognitive_organization": [
+      "persistent developmental cognition",
+      "epistemically organized reasoner",
+      "self model utility",
+      "world model utility",
+      "endogenous allocation",
+      "held out inquiry transfer"
+    ],
+    "functional_proto_nous_candidate": [
+      "reflective cognitive organization",
+      "demonstrated structural understanding",
+      "active ontology revision",
+      "active inquiry",
+      "useful epistemic divergence",
+      "developmental preservation",
+      "body continuity",
+      "interruption recovery",
+      "cognitive integrity",
+      "principal completion",
+      "independent verification"
+    ],
+    "nous_ready_for_review": [
+      "functional proto Nous candidate",
+      "independent workload replication",
+      "independent history replication",
+      "generator held out evaluation",
+      "zero claim mutations",
+      "complete raw review package"
+    ]
+  },
+  "maximum": "nous_ready_for_review",
+  "unqualified_nous_requires_external_review": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "a0fedfb274ae04d352d71ea2b4441786d32d59557da1c2c95ee74c31d5ab734b"
+}

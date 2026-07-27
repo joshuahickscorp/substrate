@@ -1,0 +1,55 @@
+{
+  "schema": "substrate-v3-world-model-canaries/v1",
+  "effect": {
+    "family": "causal_micro_worlds",
+    "full_arm": "full_v3",
+    "control_arm": "no_world_model",
+    "independent_units": 16,
+    "raw_effects": [
+      0.16666666666666663,
+      0.20833333333333337,
+      0.16666666666666663,
+      0.25,
+      0.33333333333333337,
+      0.125,
+      0.16666666666666663,
+      0.29166666666666663,
+      0.29166666666666663,
+      0.08333333333333337,
+      0.20833333333333337,
+      0.375,
+      0.125,
+      0.16666666666666663,
+      0.25,
+      0.20833333333333337
+    ],
+    "margin": 0.21354166666666666,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.7864583333333334,
+    "full_compute": 384.0,
+    "control_compute": 384.0
+  },
+  "canary": {
+    "identity": "C34",
+    "description": "world model improves prediction",
+    "positive_fixture": "intervention model",
+    "null_fixture": "observation only",
+    "mechanism_activity": true,
+    "controls": [
+      "no world model"
+    ],
+    "oracle": "private known truth after commitment",
+    "headroom": 1.0,
+    "margin": 0.21354166666666666,
+    "sesoi": 0.05,
+    "classification": "unverified_candidate",
+    "independent_units": 16,
+    "passes": true,
+    "activation": false
+  },
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "34e334dfb16a1675431a5c2a393ceb20e518e9f71c09c4023ff39a1d085b6f70"
+}

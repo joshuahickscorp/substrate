@@ -16,6 +16,7 @@ House style: no dashes.
 from __future__ import annotations
 
 import json
+import math
 import statistics
 import sys
 from dataclasses import dataclass, field
@@ -57,6 +58,209 @@ DRIVERS = ("goal_relevance", "uncertainty", "risk", "expected_value", "novelty",
 
 class Refused(RuntimeError):
     """A metacognitive policy that is not licensed to open."""
+
+
+V3_REASONING_MODES = (
+    "deduction", "induction", "abduction", "analogy", "causal", "counterfactual",
+    "temporal", "planning", "diagnostic", "dialectical", "symbolic", "meta",
+)
+
+
+@dataclass
+class ReasoningTrace:
+    mode: str
+    required_inputs: tuple[str, ...]
+    inference_rules: tuple[str, ...]
+    assumptions: tuple[str, ...]
+    intermediate_states: tuple[object, ...]
+    conclusion: object
+    confidence: float
+    failure_conditions: tuple[str, ...]
+    verification_method: str
+    cost: float
+    selected_from_preoutcome_features: bool = True
+
+    def receipt(self) -> dict:
+        return {
+            "mode": self.mode,
+            "required_inputs": list(self.required_inputs),
+            "inference_rules": list(self.inference_rules),
+            "assumptions": list(self.assumptions),
+            "intermediate_states": list(self.intermediate_states),
+            "conclusion": self.conclusion,
+            "confidence": self.confidence,
+            "failure_conditions": list(self.failure_conditions),
+            "verification_method": self.verification_method,
+            "cost": self.cost,
+            "selected_from_preoutcome_features": self.selected_from_preoutcome_features,
+        }
+
+
+class ReasoningPortfolio:
+    """Executable reasoning procedures over one shared, receipt-bound task state."""
+
+    FEATURE_TO_MODE = {
+        "necessary_consequence": "deduction",
+        "sample_generalization": "induction",
+        "hidden_cause": "abduction",
+        "relational_transfer": "analogy",
+        "intervention": "causal",
+        "changed_premise": "counterfactual",
+        "ordered_events": "temporal",
+        "resource_goal": "planning",
+        "observed_failure": "diagnostic",
+        "competing_positions": "dialectical",
+        "equation": "symbolic",
+    }
+
+    def __init__(self) -> None:
+        self.traces: list[ReasoningTrace] = []
+
+    def select(self, features: set[str]) -> str:
+        matches = [mode for feature, mode in self.FEATURE_TO_MODE.items() if feature in features]
+        return matches[0] if len(matches) == 1 else "meta"
+
+    def run(self, mode: str, task: dict) -> ReasoningTrace:
+        if mode not in V3_REASONING_MODES:
+            raise Refused(f"unknown reasoning mode {mode!r}")
+        handler = getattr(self, f"_{mode}")
+        conclusion, states, confidence, assumptions, failures, rule = handler(task)
+        trace = ReasoningTrace(
+            mode=mode,
+            required_inputs=tuple(sorted(task)),
+            inference_rules=(rule,),
+            assumptions=tuple(assumptions),
+            intermediate_states=tuple(states),
+            conclusion=conclusion,
+            confidence=confidence,
+            failure_conditions=tuple(failures),
+            verification_method=str(task.get("verification", "held out target after commitment")),
+            cost=float(task.get("cost", 1.0)),
+        )
+        self.traces.append(trace)
+        return trace
+
+    def select_and_run(self, task: dict) -> ReasoningTrace:
+        return self.run(self.select(set(task["features"])), task)
+
+    @staticmethod
+    def _deduction(task: dict):
+        facts = set(task.get("facts", ()))
+        states: list[object] = [sorted(facts)]
+        changed = True
+        while changed:
+            changed = False
+            for premises, consequence in task.get("rules", ()):
+                if set(premises) <= facts and consequence not in facts:
+                    facts.add(consequence)
+                    states.append(consequence)
+                    changed = True
+        query = task["query"]
+        contradictions = query in facts and f"not:{query}" in facts
+        conclusion = "contradictory" if contradictions else query in facts
+        return conclusion, states, 0.0 if contradictions else 1.0, (), ("contradictory premises",), "forward consequence"
+
+    @staticmethod
+    def _induction(task: dict):
+        samples = list(task["samples"])
+        positives = sum(bool(row) for row in samples)
+        rate = positives / max(len(samples), 1)
+        uncertainty = math.sqrt(max(rate * (1 - rate), 0.0) / max(len(samples), 1))
+        return (
+            rate >= 0.5,
+            [rate, uncertainty, len(samples) - positives],
+            max(0.0, 1.0 - 2 * uncertainty),
+            (),
+            ("distribution shift",),
+            "bounded frequency induction",
+        )
+
+    @staticmethod
+    def _abduction(task: dict):
+        ranked = sorted(task["explanations"], key=lambda row: (-row["support"], row["cost"], row["identity"]))
+        best = ranked[0]
+        tied = [row["identity"] for row in ranked if row["support"] == best["support"] and row["cost"] == best["cost"]]
+        conclusion = tied if len(tied) > 1 else best["identity"]
+        return conclusion, ranked, 1.0 / len(tied), ("candidate explanations are exhaustive",), ("unobserved explanation",), "support minus complexity"
+
+    @staticmethod
+    def _analogy(task: dict):
+        source = set(map(tuple, task["source_relations"]))
+        candidate = set(map(tuple, task["candidate_relations"]))
+        mapping = task["mapping"]
+        translated = {(mapping.get(a, a), mapping.get(b, b)) for a, b in source}
+        score = len(translated & candidate) / max(len(translated), 1)
+        return score == 1.0, [sorted(translated), score], score, (), ("surface only match",), "relational isomorphism"
+
+    @staticmethod
+    def _causal(task: dict):
+        observational = task["observational"]
+        intervention = task["intervention"]
+        return intervention, [observational, intervention, observational != intervention], 1.0, (), ("uncontrolled confounder",), "do intervention"
+
+    @staticmethod
+    def _counterfactual(task: dict):
+        background = dict(task["background"])
+        change = dict(task["change"])
+        if len(change) != 1:
+            return "impossible", [background, change], 0.0, (), ("multiple undeclared premise changes",), "minimal intervention"
+        result = task["transition"]({**background, **change})
+        return result, [background, change, result], 1.0, ("background held fixed",), (), "minimal intervention"
+
+    @staticmethod
+    def _temporal(task: dict):
+        edges = [tuple(row) for row in task["precedes"]]
+        nodes = set(sum(([a, b] for a, b in edges), []))
+        ordered = []
+        while nodes:
+            ready = sorted(node for node in nodes if not any(b == node and a in nodes for a, b in edges))
+            if not ready:
+                return "cycle", [edges], 0.0, (), ("temporal cycle",), "topological order"
+            ordered.extend(ready)
+            nodes -= set(ready)
+        return ordered, [edges, ordered], 1.0, (), (), "topological order"
+
+    @staticmethod
+    def _planning(task: dict):
+        dependencies = {key: set(value) for key, value in task["dependencies"].items()}
+        plan = []
+        while dependencies:
+            ready = sorted(key for key, value in dependencies.items() if not value)
+            if not ready:
+                return "infeasible", [plan], 0.0, (), ("dependency cycle",), "dependency planning"
+            for step in ready:
+                plan.append(step)
+                dependencies.pop(step)
+                for remaining in dependencies.values():
+                    remaining.discard(step)
+        within = sum(task["costs"][step] for step in plan) <= task["budget"]
+        return plan if within else "resource_exceeded", [plan, within], float(within), (), ("resource constraint",), "dependency planning"
+
+    @staticmethod
+    def _diagnostic(task: dict):
+        observed = set(task["observed"])
+        scores = {key: len(set(symptoms) & observed) for key, symptoms in task["causes"].items()}
+        best = max(scores.values())
+        tied = sorted(key for key, value in scores.items() if value == best)
+        return tied[0] if len(tied) == 1 else tied, [scores], 1.0 / len(tied), (), ("indistinguishable causes",), "symptom coverage"
+
+    @staticmethod
+    def _dialectical(task: dict):
+        left, right = set(task["left"]), set(task["right"])
+        shared, disagreement = sorted(left & right), sorted(left ^ right)
+        return {"shared": shared, "disagreement": disagreement}, [shared, disagreement], 1.0, (), ("underdetermined disagreement",), "premise comparison"
+
+    @staticmethod
+    def _symbolic(task: dict):
+        coefficient, total = task["coefficient"], task["total"]
+        if coefficient == 0:
+            return "underdetermined", [coefficient, total], 0.0, (), ("zero coefficient",), "linear isolation"
+        value = total / coefficient
+        return value, [value], 1.0, (), (), "linear isolation"
+
+    def _meta(self, task: dict):
+        candidates = [mode for feature, mode in self.FEATURE_TO_MODE.items() if feature in set(task["features"])]
+        return candidates, [candidates], 1.0 / max(len(candidates), 1), (), ("ambiguous method",), "method discrimination"
 
 
 @dataclass

@@ -1,0 +1,22 @@
+{
+  "schema": "substrate-v3-stop-and-futility/v1",
+  "stop": [
+    "activation becomes true",
+    "identity mismatch",
+    "answer leakage",
+    "principal source drift",
+    "resource safety violation",
+    "operator stop switch"
+  ],
+  "futility": [
+    "valid mechanism null below SESOI",
+    "no oracle headroom",
+    "confidence interval excludes SESOI in the unfavorable direction"
+  ],
+  "retry": "one exact retry after process failure; deterministic failure is terminal",
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
+  "sha256": "3964be02d14c0db66a621defcfe443d2e5ff073c96f1b00e16ed60ab7e4021c6"
+}
