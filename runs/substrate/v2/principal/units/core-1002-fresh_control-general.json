@@ -1,0 +1,1750 @@
+{
+  "schema": "substrate-v2-unit-receipt/v1",
+  "identity": "core-1002-fresh_control-general",
+  "payload": {
+    "kind": "core",
+    "arm": "fresh_control",
+    "seed": 1002,
+    "split": "principal",
+    "body": "general",
+    "phase_rows": [
+      {
+        "phase": "phase_0_cold_baseline",
+        "episodes": 8,
+        "accuracy": 0.625,
+        "utility": 0.545,
+        "compute": 8.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "810be03681e35202718ab0b782245d4f69b93e6c4ba880c2452a6563be08608b",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_1_domain_A_development",
+        "episodes": 12,
+        "accuracy": 0.5,
+        "utility": 0.42,
+        "compute": 12.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "2e862c77b1f21c062d581a95a42bf01e2fbd3ad2efbc70a5770f5030cb25a093",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_2_domain_B_development",
+        "episodes": 12,
+        "accuracy": 0.3333333333333333,
+        "utility": 0.25333333333333335,
+        "compute": 12.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "690d4fd11c7d54cd95bba514b8090e888380dc90d103da5bd2f3a7903bf63eb3",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_3_return_held_out_A",
+        "episodes": 8,
+        "accuracy": 0.25,
+        "utility": 0.17,
+        "compute": 8.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "4b9eab7b5cb6cc92b4e002499a542bfb86dda36e2da2389438447d2e709f9937",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_4_held_out_B_transfer",
+        "episodes": 8,
+        "accuracy": 0.5,
+        "utility": 0.42000000000000004,
+        "compute": 8.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "45fc9307bc4f4043be6ab31d4d17c95537bf1ae2f6f8032bca40c200a6b919bc",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_5_positive_transfer_C",
+        "episodes": 12,
+        "accuracy": 0.3333333333333333,
+        "utility": 0.25333333333333335,
+        "compute": 12.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "645473caf0120c40a4290e499fdf9db3f32e491933157492f1a525d88a9c35e0",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_6_positive_transfer_D",
+        "episodes": 8,
+        "accuracy": 0.375,
+        "utility": 0.29500000000000004,
+        "compute": 8.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "f0e7d399553737a3264a498d9e5fda2936ad1968afdfe3bbc207fbdc23a73e62",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_7_negative_transfer_challenge",
+        "episodes": 8,
+        "accuracy": 0.375,
+        "utility": 0.29500000000000004,
+        "compute": 8.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "8743683f8ac6f4117758e685ff43c78faad89d589da4f12b636311049c6de203",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_8_interruption_exact_restore",
+        "episodes": 4,
+        "accuracy": 0.5,
+        "utility": 0.42000000000000004,
+        "compute": 4.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "769601f58842bfaf42e0e56f4c64fae071f34bbb0d0bac665b8b1ee02554f988",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_9_body_or_tool_change",
+        "episodes": 8,
+        "accuracy": 0.125,
+        "utility": 0.045000000000000005,
+        "compute": 8.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "f1aa0cb027f20689bf788373284616a5d2de71bfd730ecb11aac051f745c3731",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_10_terminal_held_out",
+        "episodes": 16,
+        "accuracy": 0.5,
+        "utility": 0.42000000000000004,
+        "compute": 16.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "4deb376b056dc5799220dde5f4f833db5ecfc9fee110be64c8b3ff547ae8e67c",
+        "exact_restore": true
+      }
+    ],
+    "episode_ledger": [
+      {
+        "identity": "principal:1002:A:phase_0_cold_baseline:0",
+        "phase": "phase_0_cold_baseline",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_0_cold_baseline:1",
+        "phase": "phase_0_cold_baseline",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_0_cold_baseline:2",
+        "phase": "phase_0_cold_baseline",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_0_cold_baseline:3",
+        "phase": "phase_0_cold_baseline",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_0_cold_baseline:4",
+        "phase": "phase_0_cold_baseline",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_0_cold_baseline:5",
+        "phase": "phase_0_cold_baseline",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_0_cold_baseline:6",
+        "phase": "phase_0_cold_baseline",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_0_cold_baseline:7",
+        "phase": "phase_0_cold_baseline",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10000",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10001",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10002",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10003",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10004",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10005",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10006",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10007",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10008",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10009",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10010",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_1_domain_A_development:10011",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20000",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20001",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20002",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20003",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20004",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20005",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20006",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20007",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20008",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20009",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20010",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_2_domain_B_development:20011",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_3_return_held_out_A:30000",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_3_return_held_out_A:30001",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_3_return_held_out_A:30002",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_3_return_held_out_A:30003",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_3_return_held_out_A:30004",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_3_return_held_out_A:30005",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_3_return_held_out_A:30006",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_3_return_held_out_A:30007",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_4_held_out_B_transfer:40000",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_4_held_out_B_transfer:40001",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_4_held_out_B_transfer:40002",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_4_held_out_B_transfer:40003",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_4_held_out_B_transfer:40004",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_4_held_out_B_transfer:40005",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_4_held_out_B_transfer:40006",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_4_held_out_B_transfer:40007",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50000",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50001",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50002",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50003",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50004",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50005",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50006",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50007",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50008",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50009",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50010",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_5_positive_transfer_C:50011",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_6_positive_transfer_D:60000",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_6_positive_transfer_D:60001",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_6_positive_transfer_D:60002",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_6_positive_transfer_D:60003",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_6_positive_transfer_D:60004",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_6_positive_transfer_D:60005",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_6_positive_transfer_D:60006",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_6_positive_transfer_D:60007",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_7_negative_transfer_challenge:70000",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_7_negative_transfer_challenge:70001",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_7_negative_transfer_challenge:70002",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_7_negative_transfer_challenge:70003",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_7_negative_transfer_challenge:70004",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_7_negative_transfer_challenge:70005",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_7_negative_transfer_challenge:70006",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_7_negative_transfer_challenge:70007",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_8_interruption_exact_restore:80000",
+        "phase": "phase_8_interruption_exact_restore",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_8_interruption_exact_restore:80001",
+        "phase": "phase_8_interruption_exact_restore",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_8_interruption_exact_restore:80002",
+        "phase": "phase_8_interruption_exact_restore",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_8_interruption_exact_restore:80003",
+        "phase": "phase_8_interruption_exact_restore",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_9_body_or_tool_change:90000",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_9_body_or_tool_change:90001",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_9_body_or_tool_change:90002",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_9_body_or_tool_change:90003",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_9_body_or_tool_change:90004",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_9_body_or_tool_change:90005",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_9_body_or_tool_change:90006",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_9_body_or_tool_change:90007",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_10_terminal_held_out:100000",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_10_terminal_held_out:100001",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_10_terminal_held_out:100002",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_10_terminal_held_out:100003",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_10_terminal_held_out:100004",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_10_terminal_held_out:100005",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_10_terminal_held_out:100006",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_10_terminal_held_out:100007",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_10_terminal_held_out:100008",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_10_terminal_held_out:100009",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "B",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_10_terminal_held_out:100010",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_10_terminal_held_out:100011",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:A:phase_10_terminal_held_out:100012",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:B:phase_10_terminal_held_out:100013",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:C:phase_10_terminal_held_out:100014",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1002:D:phase_10_terminal_held_out:100015",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      }
+    ],
+    "episode_count": 104,
+    "expected_episode_count": 104,
+    "A_acquired_accuracy": 0.5,
+    "A_return_accuracy": 0.25,
+    "retention_loss": 0.25,
+    "B_transfer_early_utility": -0.08,
+    "B_held_out_utility": 0.42000000000000004,
+    "C_to_D_transfer_utility": 0.29500000000000004,
+    "negative_wrong_procedure_selected": false,
+    "identity_exact_every_phase": true,
+    "body_report": {
+      "before": {
+        "entity_id": "principal:1002:fresh_control:reset:9",
+        "goals": [
+          "preserve verified competence",
+          "solve delayed task"
+        ],
+        "uncertainty": [],
+        "procedures": [],
+        "identity": "6f63b1899e67ac662f805906c81ffb0d450e7f9256c386ecc5fee9355b6a3575"
+      },
+      "after": {
+        "entity_id": "principal:1002:fresh_control:reset:9",
+        "goals": [
+          "preserve verified competence",
+          "solve delayed task"
+        ],
+        "uncertainty": [],
+        "procedures": [],
+        "identity": "5de4648a0bd6cb1d13ab40fab271482f8c05a416ce1399c47379da274207769d"
+      },
+      "continuing_entity": true,
+      "goals_preserved": true,
+      "uncertainty_preserved": true,
+      "procedures_preserved": true,
+      "body_change_visible_in_identity": true
+    },
+    "body_continuity": true,
+    "interruption_recovery": true,
+    "procedures_induced": 0,
+    "procedures_transferred": 0,
+    "procedure_uses": 0,
+    "semantic_records": 0,
+    "allocation_probe": null,
+    "self_model_probe": null,
+    "fresh_reset_count": 10,
+    "final_identity": "4deb376b056dc5799220dde5f4f833db5ecfc9fee110be64c8b3ff547ae8e67c",
+    "runtime_seconds": 0.01215724996291101,
+    "activation": false
+  },
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "configuration_digest": "facb3ccd7c4a5caf068d20573fffad78bb23b787f941da1cd9eda17612ec88ad",
+  "split_digest": "068226721fb997f955da7e241b41efb27aacf9dd419f326388689b358466b898",
+  "activation": false,
+  "receipt_sha256": "d1a3244a8ffececeebea436eab03d957d50a495dcacb889e3c427e7b8948f421"
+}

@@ -1,0 +1,99 @@
+{
+  "schema": "substrate-v2-mutation-report/v1",
+  "rows": [
+    {
+      "mutation": "outcome leaked into observation",
+      "rejected": true,
+      "detail": "Refused: answer leakage detected"
+    },
+    {
+      "mutation": "principal seed reused in development",
+      "rejected": true,
+      "detail": "Refused: seed overlap detected"
+    },
+    {
+      "mutation": "procedure promoted without verification",
+      "rejected": true,
+      "detail": "Refused: generated unverified episodes cannot become semantic or procedural authority"
+    },
+    {
+      "mutation": "procedure evaluated on source episodes",
+      "rejected": true,
+      "detail": "Refused: procedure evaluation reused source episodes ['principal:1000:A:phase_0_cold_baseline:0']"
+    },
+    {
+      "mutation": "future outcome used by allocator",
+      "rejected": true,
+      "detail": "Refused: allocator context contains nonpreoutcome or undeclared features ['outcome']"
+    },
+    {
+      "mutation": "self model prediction recorded after outcome",
+      "rejected": true,
+      "detail": "Refused: self model outcomes must follow exactly one preoutcome prediction"
+    },
+    {
+      "mutation": "semantic fact lacks provenance",
+      "rejected": true,
+      "detail": "Refused: semantic authority requires provenance, source episodes, and verification receipts"
+    },
+    {
+      "mutation": "negative transfer record ignored",
+      "rejected": true,
+      "detail": "Refused: mutation removed required negative transfer ledger"
+    },
+    {
+      "mutation": "checkpoint omits procedural state",
+      "rejected": true,
+      "detail": "Refused: checkpoint identity does not cover the supplied state"
+    },
+    {
+      "mutation": "checkpoint omits allocator state",
+      "rejected": true,
+      "detail": "Refused: checkpoint identity does not cover the supplied state"
+    },
+    {
+      "mutation": "credit assigned to unused component",
+      "rejected": true,
+      "detail": "Refused: credit assigned to unused component"
+    },
+    {
+      "mutation": "wrong domain procedure always selected",
+      "rejected": true,
+      "detail": "Refused: mutated selector would violate signature boundary"
+    },
+    {
+      "mutation": "fresh control receives developed state",
+      "rejected": true,
+      "detail": "Refused: fresh reset count mutation detected"
+    },
+    {
+      "mutation": "transcript replay receives consolidated state",
+      "rejected": true,
+      "detail": "Refused: consolidated replay mutation detected"
+    },
+    {
+      "mutation": "compute matching violated",
+      "rejected": true,
+      "detail": "Refused: receipt digest detects compute mutation"
+    },
+    {
+      "mutation": "identity hash omits changed state",
+      "rejected": true,
+      "detail": "Refused: checkpoint identity does not cover the supplied state"
+    },
+    {
+      "mutation": "activation changed to true",
+      "rejected": true,
+      "detail": "Refused: execution context refused: ['activation']"
+    }
+  ],
+  "mutation_count": 17,
+  "rejected": 17,
+  "survivors": [],
+  "zero_survivors": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "fd49e92ff3aca9b9c39d6287c5c1c29bf4ab27a3",
+  "source_digest": "c23415cd264afcd2eb60a89e4663eb40e32c976a08e844c60e70a6c1817344f0",
+  "sha256": "74098578b704652fa4ee15001d05267905096b2b97fd740967895f33b607ee5a"
+}

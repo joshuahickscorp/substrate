@@ -1,0 +1,3269 @@
+{
+  "schema": "substrate-v2-entity-checkpoint/v1",
+  "state": {
+    "arm": "full_v2",
+    "features": {
+      "semantic": true,
+      "procedure_store": true,
+      "procedure_retrieve": true,
+      "procedure_execute": true,
+      "procedure_utility": true,
+      "self_model": true,
+      "allocator": "always_verify",
+      "credit": true
+    },
+    "entity_id": "divergence:1019",
+    "step": 56,
+    "episodic_memory": {
+      "principal:1019:A:divergence_history_A:0": {
+        "identity": "principal:1019:A:divergence_history_A:0",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok101f01",
+            "tokf9e68b",
+            "tokc55a78"
+          ],
+          "boundary": true,
+          "context": "seq2",
+          "distractor": 11
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:0",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "bf4e6b642c62bac88cc9d51193f80818436bf65531a9bcfe0118cb19c0e60985"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "bf4e6b642c62bac88cc9d51193f80818436bf65531a9bcfe0118cb19c0e60985",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.5,
+        "step": 2,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:1": {
+        "identity": "principal:1019:A:divergence_history_A:1",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok59cc07",
+            "tokfecfec",
+            "tokff84be"
+          ],
+          "boundary": false,
+          "context": "seq1",
+          "distractor": 611
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:1",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "d9b032aa1a183fd307eed37e8a4cfd0aac202341f47f748a66b7e8a80ce785ae"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "d9b032aa1a183fd307eed37e8a4cfd0aac202341f47f748a66b7e8a80ce785ae",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.625,
+        "step": 4,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:10": {
+        "identity": "principal:1019:A:divergence_history_A:10",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok781fe0",
+            "tok035810",
+            "toke27ccc"
+          ],
+          "boundary": true,
+          "context": "seq3",
+          "distractor": 102
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:10",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "cf5f46a63354e593b161dde742189270be5f216dcb5120ad6d9e0334fd0c5333"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "cf5f46a63354e593b161dde742189270be5f216dcb5120ad6d9e0334fd0c5333",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.841796875,
+        "step": 22,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:11": {
+        "identity": "principal:1019:A:divergence_history_A:11",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok941ec1",
+            "tok7cd2ab",
+            "tok013264"
+          ],
+          "boundary": false,
+          "context": "seq4",
+          "distractor": 478
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:11",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "6de8cccafb921328e9db5ce526d2d6542299fc43272d1427670f6ef0419167fa"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "6de8cccafb921328e9db5ce526d2d6542299fc43272d1427670f6ef0419167fa",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.88134765625,
+        "step": 24,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:2": {
+        "identity": "principal:1019:A:divergence_history_A:2",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok0da6cd",
+            "tokf4751c",
+            "tok039840"
+          ],
+          "boundary": true,
+          "context": "seq4",
+          "distractor": 788
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:2",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "e7284eea96cc89f6c83ee329cd1b40111721646100f420cbbc0bf5ae2dcca694"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "e7284eea96cc89f6c83ee329cd1b40111721646100f420cbbc0bf5ae2dcca694",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.46875,
+        "step": 6,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:3": {
+        "identity": "principal:1019:A:divergence_history_A:3",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok238c52",
+            "tok4aa969",
+            "tok1c0652"
+          ],
+          "boundary": true,
+          "context": "seq6",
+          "distractor": 759
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:3",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "435d7e9e2eed1c097b7d31adcaac3e7426b4cc01682d0f7f7b450c6871374411"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "435d7e9e2eed1c097b7d31adcaac3e7426b4cc01682d0f7f7b450c6871374411",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.6015625,
+        "step": 8,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:4": {
+        "identity": "principal:1019:A:divergence_history_A:4",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok48cdbd",
+            "tokdbe17e",
+            "tok423d9e"
+          ],
+          "boundary": false,
+          "context": "seq0",
+          "distractor": 434
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:4",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "f70b9804819a5ec5ec1d1a891cc36a37ad52a2daf4d14af9f845626456c5a2c4"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "f70b9804819a5ec5ec1d1a891cc36a37ad52a2daf4d14af9f845626456c5a2c4",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "semantic:A"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.701171875,
+        "step": 10,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:5": {
+        "identity": "principal:1019:A:divergence_history_A:5",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok36028b",
+            "tokb44887",
+            "tokaf1616"
+          ],
+          "boundary": true,
+          "context": "seq3",
+          "distractor": 152
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:5",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "1331933552b0d02ffec44212d80e7dc1bb451c4fcbc744889c306f4d29f20af9"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "1331933552b0d02ffec44212d80e7dc1bb451c4fcbc744889c306f4d29f20af9",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "semantic:A"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.77587890625,
+        "step": 12,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:6": {
+        "identity": "principal:1019:A:divergence_history_A:6",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok67d927",
+            "tokf4c6d8",
+            "tok2b87cf"
+          ],
+          "boundary": true,
+          "context": "seq6",
+          "distractor": 810
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:6",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "727421ac618ed8cc310a089906588534068a606c7efcb381e69bf6d0065cec8d"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "727421ac618ed8cc310a089906588534068a606c7efcb381e69bf6d0065cec8d",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.5,
+        "step": 14,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:7": {
+        "identity": "principal:1019:A:divergence_history_A:7",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tokb13833",
+            "tokd35ce5",
+            "tok320bf7"
+          ],
+          "boundary": false,
+          "context": "seq3",
+          "distractor": 579
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:7",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "31d732109611c15919740ed98cf58592b7bfe4bae5a80f243fe4ca02e8eb5f59"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "31d732109611c15919740ed98cf58592b7bfe4bae5a80f243fe4ca02e8eb5f59",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.625,
+        "step": 16,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:8": {
+        "identity": "principal:1019:A:divergence_history_A:8",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tokd065b2",
+            "tok9b7487",
+            "tokf7f7dd"
+          ],
+          "boundary": false,
+          "context": "seq2",
+          "distractor": 296
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:8",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "82572d034e391743f211b5ce55efb10fb957035af788a218adbb96afe83330f6"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "82572d034e391743f211b5ce55efb10fb957035af788a218adbb96afe83330f6",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.71875,
+        "step": 18,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:A:divergence_history_A:9": {
+        "identity": "principal:1019:A:divergence_history_A:9",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok5721e7",
+            "tok0859c3",
+            "tokaab1de"
+          ],
+          "boundary": false,
+          "context": "seq3",
+          "distractor": 706
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:A:divergence_history_A:9",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "0fa1dfae7afc06423e7055d65b2a646674b1ee70fe0042bbcab3034ec0b43145"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "0fa1dfae7afc06423e7055d65b2a646674b1ee70fe0042bbcab3034ec0b43145",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.7890625,
+        "step": 20,
+        "phase": "divergence_history_A",
+        "verified": true
+      },
+      "principal:1019:B:divergence_eval_B:30000": {
+        "identity": "principal:1019:B:divergence_eval_B:30000",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyph09614a",
+            "glyph8f28db",
+            "glyph93b11a"
+          ],
+          "exception": false,
+          "rule_context": "rule1",
+          "distractor": "circle"
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:B:divergence_eval_B:30000",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "26787c01ba4b3f605231af7f74d821ea1d68dde9b3dc20bffe2baf1d5bcbeafc"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "26787c01ba4b3f605231af7f74d821ea1d68dde9b3dc20bffe2baf1d5bcbeafc",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.9110107421875,
+        "step": 26,
+        "phase": "divergence_eval_B",
+        "verified": true
+      },
+      "principal:1019:B:divergence_eval_B:30001": {
+        "identity": "principal:1019:B:divergence_eval_B:30001",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyph998fdf",
+            "glyph067f91",
+            "glyph82a47a"
+          ],
+          "exception": true,
+          "rule_context": "rule3",
+          "distractor": "square"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:B:divergence_eval_B:30001",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "d6cae72d713ab2bd97fd8d2cbfb3a59e81eede759adbdac6e14d184f96908548"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "d6cae72d713ab2bd97fd8d2cbfb3a59e81eede759adbdac6e14d184f96908548",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.933258056640625,
+        "step": 28,
+        "phase": "divergence_eval_B",
+        "verified": true
+      },
+      "principal:1019:B:divergence_eval_B:30002": {
+        "identity": "principal:1019:B:divergence_eval_B:30002",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glypha3290b",
+            "glyph7520dc",
+            "glyphdb3bf6"
+          ],
+          "exception": true,
+          "rule_context": "rule0",
+          "distractor": "circle"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:B:divergence_eval_B:30002",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "6cb659ec315e499e71ec66414996409c048e6b03ee278d3711b86d654cc76c13"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "6cb659ec315e499e71ec66414996409c048e6b03ee278d3711b86d654cc76c13",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.9499435424804688,
+        "step": 30,
+        "phase": "divergence_eval_B",
+        "verified": true
+      },
+      "principal:1019:B:divergence_eval_B:30003": {
+        "identity": "principal:1019:B:divergence_eval_B:30003",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyph16ee19",
+            "glyphd09293",
+            "glyph95fa75"
+          ],
+          "exception": true,
+          "rule_context": "rule2",
+          "distractor": "circle"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:B:divergence_eval_B:30003",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "a26edb4bfba055372daf19f7c73248393e0d65ea958b21683d8b59ae941cf934"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "a26edb4bfba055372daf19f7c73248393e0d65ea958b21683d8b59ae941cf934",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.9624576568603516,
+        "step": 32,
+        "phase": "divergence_eval_B",
+        "verified": true
+      },
+      "principal:1019:B:divergence_eval_B:30004": {
+        "identity": "principal:1019:B:divergence_eval_B:30004",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyph57f2c4",
+            "glyph55c295",
+            "glyph771f87"
+          ],
+          "exception": false,
+          "rule_context": "rule4",
+          "distractor": "square"
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:B:divergence_eval_B:30004",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "507af12157fc5c8d5967647e3b916dddf62169af607821eed60d1c482fdd082a"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "507af12157fc5c8d5967647e3b916dddf62169af607821eed60d1c482fdd082a",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.9718432426452637,
+        "step": 34,
+        "phase": "divergence_eval_B",
+        "verified": true
+      },
+      "principal:1019:B:divergence_eval_B:30005": {
+        "identity": "principal:1019:B:divergence_eval_B:30005",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glypha71c41",
+            "glyph529f6c",
+            "glyphd725a4"
+          ],
+          "exception": true,
+          "rule_context": "rule5",
+          "distractor": "square"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:B:divergence_eval_B:30005",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "bc191655de4c354be42f75b643a7740259d731ff4abad9eea4fadc03d834884d"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "bc191655de4c354be42f75b643a7740259d731ff4abad9eea4fadc03d834884d",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.9788824319839478,
+        "step": 36,
+        "phase": "divergence_eval_B",
+        "verified": true
+      },
+      "principal:1019:B:divergence_eval_B:30006": {
+        "identity": "principal:1019:B:divergence_eval_B:30006",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyphf1cee8",
+            "glyphedc872",
+            "glyph6138fe"
+          ],
+          "exception": true,
+          "rule_context": "rule3",
+          "distractor": "circle"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:B:divergence_eval_B:30006",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "e0d251bbf2848cf8333a0d5e7d54ce7ce26dd9d2813edc5d0eee5360154707be"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "e0d251bbf2848cf8333a0d5e7d54ce7ce26dd9d2813edc5d0eee5360154707be",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.9841618239879608,
+        "step": 38,
+        "phase": "divergence_eval_B",
+        "verified": true
+      },
+      "principal:1019:B:divergence_eval_B:30007": {
+        "identity": "principal:1019:B:divergence_eval_B:30007",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyph214fe4",
+            "glyphaf8681",
+            "glyphc07bc8"
+          ],
+          "exception": false,
+          "rule_context": "rule4",
+          "distractor": "circle"
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:B:divergence_eval_B:30007",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "43e0645cd490aef70b430d0124727a479d723fbc0e45fed96c05b3a120734392"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "43e0645cd490aef70b430d0124727a479d723fbc0e45fed96c05b3a120734392",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.9881213679909706,
+        "step": 40,
+        "phase": "divergence_eval_B",
+        "verified": true
+      },
+      "principal:1019:D:divergence_eval_D:30000": {
+        "identity": "principal:1019:D:divergence_eval_D:30000",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "toola3ca0c",
+            "tool7b323c"
+          ],
+          "failure_risk": 0.012031,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "transform"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:D:divergence_eval_D:30000",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "3b063d07879553056029fff44d89d383cff84c778f14a906084e695edc48a986"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "3b063d07879553056029fff44d89d383cff84c778f14a906084e695edc48a986",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.5,
+        "step": 42,
+        "phase": "divergence_eval_D",
+        "verified": true
+      },
+      "principal:1019:D:divergence_eval_D:30001": {
+        "identity": "principal:1019:D:divergence_eval_D:30001",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "tool74a05b",
+            "toola9d6a4"
+          ],
+          "failure_risk": 0.990476,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "compare"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:D:divergence_eval_D:30001",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "a3010a01f216bb3ef108977b6fe34a11aee3735d346b1de14fa63ef2e6ebb878"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "a3010a01f216bb3ef108977b6fe34a11aee3735d346b1de14fa63ef2e6ebb878",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.625,
+        "step": 44,
+        "phase": "divergence_eval_D",
+        "verified": true
+      },
+      "principal:1019:D:divergence_eval_D:30002": {
+        "identity": "principal:1019:D:divergence_eval_D:30002",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "tool0d8e8d",
+            "toold1af9f"
+          ],
+          "failure_risk": 0.063802,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "compare"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:D:divergence_eval_D:30002",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "ed86ba2f25725ba17849061ca33eb7b40287e755eeeccba40c249f5d7309d76b"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "ed86ba2f25725ba17849061ca33eb7b40287e755eeeccba40c249f5d7309d76b",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.46875,
+        "step": 46,
+        "phase": "divergence_eval_D",
+        "verified": true
+      },
+      "principal:1019:D:divergence_eval_D:30003": {
+        "identity": "principal:1019:D:divergence_eval_D:30003",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "toolc5ef16",
+            "tool6ab794"
+          ],
+          "failure_risk": 0.770139,
+          "known_limitation": true,
+          "budget": 1.0,
+          "distractor": "lookup"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1019:D:divergence_eval_D:30003",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "dbabb32584fb270c926b3020a813ba4ebd3596f36bf73ef8fff9c66853751f60"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "dbabb32584fb270c926b3020a813ba4ebd3596f36bf73ef8fff9c66853751f60",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.6015625,
+        "step": 48,
+        "phase": "divergence_eval_D",
+        "verified": true
+      },
+      "principal:1019:D:divergence_eval_D:30004": {
+        "identity": "principal:1019:D:divergence_eval_D:30004",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "tool4ad2b3",
+            "toolcd77f6"
+          ],
+          "failure_risk": 0.852128,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "lookup"
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:D:divergence_eval_D:30004",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "860bb112550ca9933e6d0a04407b3886e52062e2cd81cc8f344f01a211ba4e4d"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "860bb112550ca9933e6d0a04407b3886e52062e2cd81cc8f344f01a211ba4e4d",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "semantic:D"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.451171875,
+        "step": 50,
+        "phase": "divergence_eval_D",
+        "verified": true
+      },
+      "principal:1019:D:divergence_eval_D:30005": {
+        "identity": "principal:1019:D:divergence_eval_D:30005",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "toolb8ecfd",
+            "tool3967be"
+          ],
+          "failure_risk": 0.783134,
+          "known_limitation": true,
+          "budget": 1.0,
+          "distractor": "lookup"
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:D:divergence_eval_D:30005",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "11a43325ee9ffcb92dc17c499babcbf5f544ecd28b4908feda0cfec25849fed1"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "11a43325ee9ffcb92dc17c499babcbf5f544ecd28b4908feda0cfec25849fed1",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "semantic:D"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.58837890625,
+        "step": 52,
+        "phase": "divergence_eval_D",
+        "verified": true
+      },
+      "principal:1019:D:divergence_eval_D:30006": {
+        "identity": "principal:1019:D:divergence_eval_D:30006",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "toolc941f8",
+            "tool77c2b0"
+          ],
+          "failure_risk": 0.745308,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "lookup"
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:D:divergence_eval_D:30006",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "3dc1464b5fbaabc7f5b061ee3ee1352520b6e811a69b6f3e36070faf8c766aa7"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "3dc1464b5fbaabc7f5b061ee3ee1352520b6e811a69b6f3e36070faf8c766aa7",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.5,
+        "step": 54,
+        "phase": "divergence_eval_D",
+        "verified": true
+      },
+      "principal:1019:D:divergence_eval_D:30007": {
+        "identity": "principal:1019:D:divergence_eval_D:30007",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "tool49b3d9",
+            "toold8a35a"
+          ],
+          "failure_risk": 0.780132,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "lookup"
+        },
+        "proposal": "select_position_1",
+        "outcome": {
+          "task": "principal:1019:D:divergence_eval_D:30007",
+          "proposal": "select_position_1",
+          "target": "select_position_1",
+          "correct": true,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "20ff8085564b83dbd7510a129ed744f3aac8872a78f88d2a421fef3bb6591754"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "20ff8085564b83dbd7510a129ed744f3aac8872a78f88d2a421fef3bb6591754",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "compute": 1.08,
+        "predicted_accuracy": 0.625,
+        "step": 56,
+        "phase": "divergence_eval_D",
+        "verified": true
+      }
+    },
+    "semantic_memory": {
+      "semantic:A:conditional ordered selection": {
+        "id": "semantic:A:conditional ordered selection",
+        "kind": "rule",
+        "content": {
+          "operation": "boundary_route",
+          "task_signature": "conditional ordered selection"
+        },
+        "provenance": "verified_induction:cb561e5d583087d6d50cb86fd68b29f93e8bdbf3c65d5cd35a0c1296dfdf4a3b",
+        "source_episodes": [
+          "principal:1019:A:divergence_history_A:0",
+          "principal:1019:A:divergence_history_A:1",
+          "principal:1019:A:divergence_history_A:2",
+          "principal:1019:A:divergence_history_A:3"
+        ],
+        "verification_receipts": [
+          "bf4e6b642c62bac88cc9d51193f80818436bf65531a9bcfe0118cb19c0e60985",
+          "d9b032aa1a183fd307eed37e8a4cfd0aac202341f47f748a66b7e8a80ce785ae",
+          "e7284eea96cc89f6c83ee329cd1b40111721646100f420cbbc0bf5ae2dcca694",
+          "435d7e9e2eed1c097b7d31adcaac3e7426b4cc01682d0f7f7b450c6871374411"
+        ],
+        "confidence": 1.0,
+        "domain_scope": [
+          "A"
+        ],
+        "creation_step": 8,
+        "supersession_chain": [],
+        "exceptions": [],
+        "status": "live"
+      },
+      "semantic:B:conditional ordered selection": {
+        "id": "semantic:B:conditional ordered selection",
+        "kind": "rule",
+        "content": {
+          "operation": "boundary_route",
+          "task_signature": "conditional ordered selection"
+        },
+        "provenance": "verified_induction:e702fc5bc1dba514c7d40f0180c1591a9dfe515ce83870f7ff01e430b4e49c22",
+        "source_episodes": [
+          "principal:1019:B:divergence_eval_B:30000",
+          "principal:1019:B:divergence_eval_B:30001",
+          "principal:1019:B:divergence_eval_B:30002",
+          "principal:1019:B:divergence_eval_B:30003"
+        ],
+        "verification_receipts": [
+          "26787c01ba4b3f605231af7f74d821ea1d68dde9b3dc20bffe2baf1d5bcbeafc",
+          "d6cae72d713ab2bd97fd8d2cbfb3a59e81eede759adbdac6e14d184f96908548",
+          "6cb659ec315e499e71ec66414996409c048e6b03ee278d3711b86d654cc76c13",
+          "a26edb4bfba055372daf19f7c73248393e0d65ea958b21683d8b59ae941cf934"
+        ],
+        "confidence": 1.0,
+        "domain_scope": [
+          "B"
+        ],
+        "creation_step": 32,
+        "supersession_chain": [],
+        "exceptions": [],
+        "status": "live"
+      },
+      "semantic:D:cost sensitive conditional routing": {
+        "id": "semantic:D:cost sensitive conditional routing",
+        "kind": "rule",
+        "content": {
+          "operation": "risk_route",
+          "task_signature": "cost sensitive conditional routing"
+        },
+        "provenance": "verified_induction:c8458a3dab0004d139020f80654accff8bf6669193e33b12437229cf83409cae",
+        "source_episodes": [
+          "principal:1019:D:divergence_eval_D:30000",
+          "principal:1019:D:divergence_eval_D:30001",
+          "principal:1019:D:divergence_eval_D:30002",
+          "principal:1019:D:divergence_eval_D:30003"
+        ],
+        "verification_receipts": [
+          "3b063d07879553056029fff44d89d383cff84c778f14a906084e695edc48a986",
+          "a3010a01f216bb3ef108977b6fe34a11aee3735d346b1de14fa63ef2e6ebb878",
+          "ed86ba2f25725ba17849061ca33eb7b40287e755eeeccba40c249f5d7309d76b",
+          "dbabb32584fb270c926b3020a813ba4ebd3596f36bf73ef8fff9c66853751f60"
+        ],
+        "confidence": 1.0,
+        "domain_scope": [
+          "D"
+        ],
+        "creation_step": 48,
+        "supersession_chain": [],
+        "exceptions": [],
+        "status": "live"
+      }
+    },
+    "procedural_memory": {
+      "procedure:conditional ordered selection:boundary_route": {
+        "id": "procedure:conditional ordered selection:boundary_route",
+        "kind": "strategy",
+        "task_signature": "conditional ordered selection",
+        "domain_signatures": [
+          "A"
+        ],
+        "preconditions": [
+          "task signature equals conditional ordered selection",
+          "required alternatives are available"
+        ],
+        "steps": [
+          "retrieve applicable procedure",
+          "execute boundary_route",
+          "commit proposal",
+          "observe delayed outcome"
+        ],
+        "expected_postcondition": "proposal matches the delayed target",
+        "expected_cost": 0.08,
+        "expected_information_gain": 0.5,
+        "source_episode_ids": [
+          "principal:1019:A:divergence_history_A:0",
+          "principal:1019:A:divergence_history_A:1",
+          "principal:1019:A:divergence_history_A:2",
+          "principal:1019:A:divergence_history_A:3",
+          "principal:1019:A:divergence_history_A:4",
+          "principal:1019:A:divergence_history_A:5"
+        ],
+        "source_domains": [
+          "A"
+        ],
+        "supporting_receipts": [
+          "bf4e6b642c62bac88cc9d51193f80818436bf65531a9bcfe0118cb19c0e60985",
+          "d9b032aa1a183fd307eed37e8a4cfd0aac202341f47f748a66b7e8a80ce785ae",
+          "e7284eea96cc89f6c83ee329cd1b40111721646100f420cbbc0bf5ae2dcca694",
+          "435d7e9e2eed1c097b7d31adcaac3e7426b4cc01682d0f7f7b450c6871374411",
+          "f70b9804819a5ec5ec1d1a891cc36a37ad52a2daf4d14af9f845626456c5a2c4",
+          "1331933552b0d02ffec44212d80e7dc1bb451c4fcbc744889c306f4d29f20af9"
+        ],
+        "contradicting_receipts": [
+          "d9b032aa1a183fd307eed37e8a4cfd0aac202341f47f748a66b7e8a80ce785ae"
+        ],
+        "required_perspectives": [
+          "direct"
+        ],
+        "required_memory": [
+          "procedural"
+        ],
+        "required_body_capabilities": [
+          "selection"
+        ],
+        "required_tools": [],
+        "success_count": 14,
+        "failure_count": 0,
+        "confidence": 1.0,
+        "verification_status": "verified on held out source episodes",
+        "transfer_ledger": [
+          {
+            "task": "principal:1019:A:divergence_history_A:6",
+            "target_domain": "A",
+            "correct": true,
+            "cross_domain": false,
+            "step": 14
+          },
+          {
+            "task": "principal:1019:A:divergence_history_A:7",
+            "target_domain": "A",
+            "correct": true,
+            "cross_domain": false,
+            "step": 16
+          },
+          {
+            "task": "principal:1019:A:divergence_history_A:8",
+            "target_domain": "A",
+            "correct": true,
+            "cross_domain": false,
+            "step": 18
+          },
+          {
+            "task": "principal:1019:A:divergence_history_A:9",
+            "target_domain": "A",
+            "correct": true,
+            "cross_domain": false,
+            "step": 20
+          },
+          {
+            "task": "principal:1019:A:divergence_history_A:10",
+            "target_domain": "A",
+            "correct": true,
+            "cross_domain": false,
+            "step": 22
+          },
+          {
+            "task": "principal:1019:A:divergence_history_A:11",
+            "target_domain": "A",
+            "correct": true,
+            "cross_domain": false,
+            "step": 24
+          },
+          {
+            "task": "principal:1019:B:divergence_eval_B:30000",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "principal:1019:B:divergence_eval_B:30001",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "principal:1019:B:divergence_eval_B:30002",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "principal:1019:B:divergence_eval_B:30003",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "principal:1019:B:divergence_eval_B:30004",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "principal:1019:B:divergence_eval_B:30005",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "principal:1019:B:divergence_eval_B:30006",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "principal:1019:B:divergence_eval_B:30007",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ],
+        "negative_transfer_ledger": [
+          {
+            "task": "principal:1019:D:divergence_eval_D:30000",
+            "target_domain": "D",
+            "selected": false,
+            "reason": "task signature mismatch",
+            "preoutcome": true,
+            "step": 42
+          },
+          {
+            "task": "principal:1019:D:divergence_eval_D:30001",
+            "target_domain": "D",
+            "selected": false,
+            "reason": "task signature mismatch",
+            "preoutcome": true,
+            "step": 44
+          },
+          {
+            "task": "principal:1019:D:divergence_eval_D:30002",
+            "target_domain": "D",
+            "selected": false,
+            "reason": "task signature mismatch",
+            "preoutcome": true,
+            "step": 46
+          },
+          {
+            "task": "principal:1019:D:divergence_eval_D:30003",
+            "target_domain": "D",
+            "selected": false,
+            "reason": "task signature mismatch",
+            "preoutcome": true,
+            "step": 48
+          },
+          {
+            "task": "principal:1019:D:divergence_eval_D:30004",
+            "target_domain": "D",
+            "selected": false,
+            "reason": "task signature mismatch",
+            "preoutcome": true,
+            "step": 50
+          },
+          {
+            "task": "principal:1019:D:divergence_eval_D:30005",
+            "target_domain": "D",
+            "selected": false,
+            "reason": "task signature mismatch",
+            "preoutcome": true,
+            "step": 52
+          },
+          {
+            "task": "principal:1019:D:divergence_eval_D:30006",
+            "target_domain": "D",
+            "selected": false,
+            "reason": "task signature mismatch",
+            "preoutcome": true,
+            "step": 54
+          },
+          {
+            "task": "principal:1019:D:divergence_eval_D:30007",
+            "target_domain": "D",
+            "selected": false,
+            "reason": "task signature mismatch",
+            "preoutcome": true,
+            "step": 56
+          }
+        ],
+        "created_at_step": 12,
+        "last_used_step": 40,
+        "use_count": 14,
+        "supersedes": null,
+        "superseded_by": null,
+        "rollback_checkpoint": "d88ee021b6aa62d1e9736f49b94b937233c5c6cef5d5b6ad6812c57e8af9b112",
+        "status": "transferable",
+        "operation": "boundary_route",
+        "applicability_signature": "conditional ordered selection"
+      },
+      "procedure:cost sensitive conditional routing:risk_route": {
+        "id": "procedure:cost sensitive conditional routing:risk_route",
+        "kind": "strategy",
+        "task_signature": "cost sensitive conditional routing",
+        "domain_signatures": [
+          "D"
+        ],
+        "preconditions": [
+          "task signature equals cost sensitive conditional routing",
+          "required alternatives are available"
+        ],
+        "steps": [
+          "retrieve applicable procedure",
+          "execute risk_route",
+          "commit proposal",
+          "observe delayed outcome"
+        ],
+        "expected_postcondition": "proposal matches the delayed target",
+        "expected_cost": 0.08,
+        "expected_information_gain": 0.5,
+        "source_episode_ids": [
+          "principal:1019:D:divergence_eval_D:30000",
+          "principal:1019:D:divergence_eval_D:30001",
+          "principal:1019:D:divergence_eval_D:30002",
+          "principal:1019:D:divergence_eval_D:30003",
+          "principal:1019:D:divergence_eval_D:30004",
+          "principal:1019:D:divergence_eval_D:30005"
+        ],
+        "source_domains": [
+          "D"
+        ],
+        "supporting_receipts": [
+          "3b063d07879553056029fff44d89d383cff84c778f14a906084e695edc48a986",
+          "a3010a01f216bb3ef108977b6fe34a11aee3735d346b1de14fa63ef2e6ebb878",
+          "ed86ba2f25725ba17849061ca33eb7b40287e755eeeccba40c249f5d7309d76b",
+          "dbabb32584fb270c926b3020a813ba4ebd3596f36bf73ef8fff9c66853751f60",
+          "860bb112550ca9933e6d0a04407b3886e52062e2cd81cc8f344f01a211ba4e4d",
+          "11a43325ee9ffcb92dc17c499babcbf5f544ecd28b4908feda0cfec25849fed1"
+        ],
+        "contradicting_receipts": [
+          "a3010a01f216bb3ef108977b6fe34a11aee3735d346b1de14fa63ef2e6ebb878",
+          "dbabb32584fb270c926b3020a813ba4ebd3596f36bf73ef8fff9c66853751f60"
+        ],
+        "required_perspectives": [
+          "direct"
+        ],
+        "required_memory": [
+          "procedural"
+        ],
+        "required_body_capabilities": [
+          "selection"
+        ],
+        "required_tools": [],
+        "success_count": 2,
+        "failure_count": 0,
+        "confidence": 1.0,
+        "verification_status": "verified on held out source episodes",
+        "transfer_ledger": [
+          {
+            "task": "principal:1019:D:divergence_eval_D:30006",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": false,
+            "step": 54
+          },
+          {
+            "task": "principal:1019:D:divergence_eval_D:30007",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": false,
+            "step": 56
+          }
+        ],
+        "negative_transfer_ledger": [],
+        "created_at_step": 52,
+        "last_used_step": 56,
+        "use_count": 2,
+        "supersedes": null,
+        "superseded_by": null,
+        "rollback_checkpoint": "1555eca76589cf4b3d085d6ad94335aa5f9332e3d215607ed2c690f7f022112b",
+        "status": "verified_local",
+        "operation": "risk_route",
+        "applicability_signature": "cost sensitive conditional routing"
+      }
+    },
+    "working_memory": {
+      "task": "principal:1019:D:divergence_eval_D:30007",
+      "proposal": "select_position_1",
+      "procedure": "procedure:cost sensitive conditional routing:risk_route",
+      "prediction": "prediction:28"
+    },
+    "belief_graph": {
+      "belief:2": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "bf4e6b642c62bac88cc9d51193f80818436bf65531a9bcfe0118cb19c0e60985"
+      },
+      "belief:4": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "d9b032aa1a183fd307eed37e8a4cfd0aac202341f47f748a66b7e8a80ce785ae"
+      },
+      "belief:6": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "e7284eea96cc89f6c83ee329cd1b40111721646100f420cbbc0bf5ae2dcca694"
+      },
+      "belief:8": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "435d7e9e2eed1c097b7d31adcaac3e7426b4cc01682d0f7f7b450c6871374411"
+      },
+      "belief:10": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "f70b9804819a5ec5ec1d1a891cc36a37ad52a2daf4d14af9f845626456c5a2c4"
+      },
+      "belief:12": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "1331933552b0d02ffec44212d80e7dc1bb451c4fcbc744889c306f4d29f20af9"
+      },
+      "belief:14": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "727421ac618ed8cc310a089906588534068a606c7efcb381e69bf6d0065cec8d"
+      },
+      "belief:16": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "31d732109611c15919740ed98cf58592b7bfe4bae5a80f243fe4ca02e8eb5f59"
+      },
+      "belief:18": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "82572d034e391743f211b5ce55efb10fb957035af788a218adbb96afe83330f6"
+      },
+      "belief:20": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "0fa1dfae7afc06423e7055d65b2a646674b1ee70fe0042bbcab3034ec0b43145"
+      },
+      "belief:22": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "cf5f46a63354e593b161dde742189270be5f216dcb5120ad6d9e0334fd0c5333"
+      },
+      "belief:24": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "6de8cccafb921328e9db5ce526d2d6542299fc43272d1427670f6ef0419167fa"
+      },
+      "belief:26": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "26787c01ba4b3f605231af7f74d821ea1d68dde9b3dc20bffe2baf1d5bcbeafc"
+      },
+      "belief:28": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "d6cae72d713ab2bd97fd8d2cbfb3a59e81eede759adbdac6e14d184f96908548"
+      },
+      "belief:30": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "6cb659ec315e499e71ec66414996409c048e6b03ee278d3711b86d654cc76c13"
+      },
+      "belief:32": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "a26edb4bfba055372daf19f7c73248393e0d65ea958b21683d8b59ae941cf934"
+      },
+      "belief:34": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "507af12157fc5c8d5967647e3b916dddf62169af607821eed60d1c482fdd082a"
+      },
+      "belief:36": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "bc191655de4c354be42f75b643a7740259d731ff4abad9eea4fadc03d834884d"
+      },
+      "belief:38": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "e0d251bbf2848cf8333a0d5e7d54ce7ce26dd9d2813edc5d0eee5360154707be"
+      },
+      "belief:40": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "43e0645cd490aef70b430d0124727a479d723fbc0e45fed96c05b3a120734392"
+      },
+      "belief:42": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "3b063d07879553056029fff44d89d383cff84c778f14a906084e695edc48a986"
+      },
+      "belief:44": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "a3010a01f216bb3ef108977b6fe34a11aee3735d346b1de14fa63ef2e6ebb878"
+      },
+      "belief:46": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "ed86ba2f25725ba17849061ca33eb7b40287e755eeeccba40c249f5d7309d76b"
+      },
+      "belief:48": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "dbabb32584fb270c926b3020a813ba4ebd3596f36bf73ef8fff9c66853751f60"
+      },
+      "belief:50": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "860bb112550ca9933e6d0a04407b3886e52062e2cd81cc8f344f01a211ba4e4d"
+      },
+      "belief:52": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "11a43325ee9ffcb92dc17c499babcbf5f544ecd28b4908feda0cfec25849fed1"
+      },
+      "belief:54": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "3dc1464b5fbaabc7f5b061ee3ee1352520b6e811a69b6f3e36070faf8c766aa7"
+      },
+      "belief:56": {
+        "proposal": "select_position_1",
+        "verified": true,
+        "correct": true,
+        "receipt": "20ff8085564b83dbd7510a129ed744f3aac8872a78f88d2a421fef3bb6591754"
+      }
+    },
+    "self_model_facts": {},
+    "self_model_predictions": [
+      {
+        "identity": "prediction:1",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.5,
+        "made_at_step": 1,
+        "outcome_step": 2,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:2",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.625,
+        "made_at_step": 3,
+        "outcome_step": 4,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:3",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.46875,
+        "made_at_step": 5,
+        "outcome_step": 6,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:4",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.6015625,
+        "made_at_step": 7,
+        "outcome_step": 8,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:5",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.701171875,
+        "made_at_step": 9,
+        "outcome_step": 10,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:6",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.77587890625,
+        "made_at_step": 11,
+        "outcome_step": 12,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:7",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.5,
+        "made_at_step": 13,
+        "outcome_step": 14,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:8",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.625,
+        "made_at_step": 15,
+        "outcome_step": 16,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:9",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.71875,
+        "made_at_step": 17,
+        "outcome_step": 18,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:10",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.7890625,
+        "made_at_step": 19,
+        "outcome_step": 20,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:11",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.841796875,
+        "made_at_step": 21,
+        "outcome_step": 22,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:12",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.88134765625,
+        "made_at_step": 23,
+        "outcome_step": 24,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:13",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.9110107421875,
+        "made_at_step": 25,
+        "outcome_step": 26,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:14",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.933258056640625,
+        "made_at_step": 27,
+        "outcome_step": 28,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:15",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.9499435424804688,
+        "made_at_step": 29,
+        "outcome_step": 30,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:16",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.9624576568603516,
+        "made_at_step": 31,
+        "outcome_step": 32,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:17",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.9718432426452637,
+        "made_at_step": 33,
+        "outcome_step": 34,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:18",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.9788824319839478,
+        "made_at_step": 35,
+        "outcome_step": 36,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:19",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.9841618239879608,
+        "made_at_step": 37,
+        "outcome_step": 38,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:20",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+        "predicted": 0.9881213679909706,
+        "made_at_step": 39,
+        "outcome_step": 40,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:21",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.5,
+        "made_at_step": 41,
+        "outcome_step": 42,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:22",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.625,
+        "made_at_step": 43,
+        "outcome_step": 44,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:23",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.46875,
+        "made_at_step": 45,
+        "outcome_step": 46,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:24",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.6015625,
+        "made_at_step": 47,
+        "outcome_step": 48,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:25",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.451171875,
+        "made_at_step": 49,
+        "outcome_step": 50,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:26",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.58837890625,
+        "made_at_step": 51,
+        "outcome_step": 52,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:27",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|procedure:cost sensitive conditional routing:risk_route|general",
+        "predicted": 0.5,
+        "made_at_step": 53,
+        "outcome_step": 54,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:28",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|procedure:cost sensitive conditional routing:risk_route|general",
+        "predicted": 0.625,
+        "made_at_step": 55,
+        "outcome_step": 56,
+        "actual": 1.0
+      }
+    ],
+    "conditional_competence_estimates": {
+      "accuracy|conditional ordered selection|none|general": 0.8319091796875,
+      "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general": 0.991091025993228,
+      "accuracy|cost sensitive conditional routing|none|general": 0.6912841796875,
+      "accuracy|cost sensitive conditional routing|procedure:cost sensitive conditional routing:risk_route|general": 0.71875
+    },
+    "conditional_competence_counts": {
+      "accuracy|conditional ordered selection|none|general": 6,
+      "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general": 14,
+      "accuracy|cost sensitive conditional routing|none|general": 6,
+      "accuracy|cost sensitive conditional routing|procedure:cost sensitive conditional routing:risk_route|general": 2
+    },
+    "self_model_mode": "domain_plus_procedure_conditional_estimate",
+    "perspective_reliability": {
+      "direct": 0.5,
+      "memory": 0.5,
+      "procedure": 0.5
+    },
+    "procedure_utility": {
+      "procedure:conditional ordered selection:boundary_route": 0.7881323033882657,
+      "procedure:cost sensitive conditional routing:risk_route": 0.5709839999999999
+    },
+    "allocator_state": {
+      "policy": "always_verify",
+      "values": {
+        "A|low|False|none": {
+          "continue": 0.0,
+          "verify": 0.7378666666666667
+        },
+        "A|low|False|procedure:conditional ordered selection:boundary_route": {
+          "continue": 0.0,
+          "verify": 0.8735999999999999
+        },
+        "B|low|False|procedure:conditional ordered selection:boundary_route": {
+          "continue": 0.0,
+          "verify": 0.8735999999999999
+        },
+        "D|low|False|none": {
+          "continue": 0.0,
+          "verify": 0.92
+        },
+        "D|high|False|none": {
+          "continue": 0.0,
+          "verify": 0.39679999999999993
+        },
+        "D|high|True|none": {
+          "continue": 0.0,
+          "verify": 0.39679999999999993
+        },
+        "D|high|False|procedure:cost sensitive conditional routing:risk_route": {
+          "continue": 0.0,
+          "verify": 0.8735999999999999
+        }
+      },
+      "counts": {
+        "A|low|False|none": {
+          "continue": 0,
+          "verify": 6
+        },
+        "A|low|False|procedure:conditional ordered selection:boundary_route": {
+          "continue": 0,
+          "verify": 6
+        },
+        "B|low|False|procedure:conditional ordered selection:boundary_route": {
+          "continue": 0,
+          "verify": 8
+        },
+        "D|low|False|none": {
+          "continue": 0,
+          "verify": 2
+        },
+        "D|high|False|none": {
+          "continue": 0,
+          "verify": 2
+        },
+        "D|high|True|none": {
+          "continue": 0,
+          "verify": 2
+        },
+        "D|high|False|procedure:cost sensitive conditional routing:risk_route": {
+          "continue": 0,
+          "verify": 2
+        }
+      },
+      "history": [
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "update": 0.92,
+          "policy_version": 1,
+          "outcome_step": 2
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": -0.08,
+          "update": -0.5,
+          "policy_version": 2,
+          "outcome_step": 4
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.46875,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "update": 0.16666666666666663,
+          "policy_version": 3,
+          "outcome_step": 6
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.6015625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "update": 0.08333333333333337,
+          "policy_version": 4,
+          "outcome_step": 8
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.701171875,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.04071999999999998,
+          "policy_version": 5,
+          "outcome_step": 10
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.77587890625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.027146666666666652,
+          "policy_version": 6,
+          "outcome_step": 12
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.8735999999999999,
+          "policy_version": 7,
+          "outcome_step": 14
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 8,
+          "outcome_step": 16
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.71875,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 9,
+          "outcome_step": 18
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.7890625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 10,
+          "outcome_step": 20
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.841796875,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 11,
+          "outcome_step": 22
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.88134765625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 12,
+          "outcome_step": 24
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.9110107421875,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.8735999999999999,
+          "policy_version": 13,
+          "outcome_step": 26
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.933258056640625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 14,
+          "outcome_step": 28
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.9499435424804688,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 15,
+          "outcome_step": 30
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.9624576568603516,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 16,
+          "outcome_step": 32
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.9718432426452637,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 17,
+          "outcome_step": 34
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.9788824319839478,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 18,
+          "outcome_step": 36
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.9841618239879608,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 19,
+          "outcome_step": 38
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "procedure:conditional ordered selection:boundary_route",
+            "confidence": 0.9881213679909706,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 20,
+          "outcome_step": 40
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "update": 0.92,
+          "policy_version": 21,
+          "outcome_step": 42
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": -0.08,
+          "update": -0.08,
+          "policy_version": 22,
+          "outcome_step": 44
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.46875,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "update": 0.0,
+          "policy_version": 23,
+          "outcome_step": 46
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "procedure_match": "none",
+            "confidence": 0.6015625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": -0.08,
+          "update": -0.08,
+          "policy_version": 24,
+          "outcome_step": 48
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.451171875,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.47679999999999995,
+          "policy_version": 25,
+          "outcome_step": 50
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "procedure_match": "none",
+            "confidence": 0.58837890625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.47679999999999995,
+          "policy_version": 26,
+          "outcome_step": 52
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "procedure:cost sensitive conditional routing:risk_route",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.8735999999999999,
+          "policy_version": 27,
+          "outcome_step": 54
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "procedure:cost sensitive conditional routing:risk_route",
+            "confidence": 0.625,
+            "remaining_budget": 1.0
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.8735999999999999,
+          "update": 0.0,
+          "policy_version": 28,
+          "outcome_step": 56
+        }
+      ],
+      "version": 29
+    },
+    "credit_ledger": [
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:0",
+        "components_used": [
+          "perspective:direct"
+        ],
+        "costs": 1.0,
+        "prediction": 0.5,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.92
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:1",
+        "components_used": [
+          "perspective:direct"
+        ],
+        "costs": 1.0,
+        "prediction": 0.625,
+        "outcome": false,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": -0.08
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:2",
+        "components_used": [
+          "perspective:direct"
+        ],
+        "costs": 1.0,
+        "prediction": 0.46875,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.92
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:3",
+        "components_used": [
+          "perspective:direct"
+        ],
+        "costs": 1.0,
+        "prediction": 0.6015625,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.92
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:4",
+        "components_used": [
+          "perspective:direct",
+          "semantic:A"
+        ],
+        "costs": 1.08,
+        "prediction": 0.701171875,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "semantic:A": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:5",
+        "components_used": [
+          "perspective:direct",
+          "semantic:A"
+        ],
+        "costs": 1.08,
+        "prediction": 0.77587890625,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "semantic:A": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:6",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.5,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:7",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.625,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:8",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.71875,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:9",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.7890625,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:10",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.841796875,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:A:divergence_history_A:11",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.88134765625,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:B:divergence_eval_B:30000",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.9110107421875,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:B:divergence_eval_B:30001",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.933258056640625,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:B:divergence_eval_B:30002",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.9499435424804688,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:B:divergence_eval_B:30003",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.9624576568603516,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:B:divergence_eval_B:30004",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.9718432426452637,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:B:divergence_eval_B:30005",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.9788824319839478,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:B:divergence_eval_B:30006",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.9841618239879608,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:B:divergence_eval_B:30007",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.9881213679909706,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:conditional ordered selection:boundary_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:D:divergence_eval_D:30000",
+        "components_used": [
+          "perspective:direct"
+        ],
+        "costs": 1.0,
+        "prediction": 0.5,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.92
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:D:divergence_eval_D:30001",
+        "components_used": [
+          "perspective:direct"
+        ],
+        "costs": 1.0,
+        "prediction": 0.625,
+        "outcome": false,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": -0.08
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:D:divergence_eval_D:30002",
+        "components_used": [
+          "perspective:direct"
+        ],
+        "costs": 1.0,
+        "prediction": 0.46875,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.92
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:D:divergence_eval_D:30003",
+        "components_used": [
+          "perspective:direct"
+        ],
+        "costs": 1.0,
+        "prediction": 0.6015625,
+        "outcome": false,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": -0.08
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:D:divergence_eval_D:30004",
+        "components_used": [
+          "perspective:direct",
+          "semantic:D"
+        ],
+        "costs": 1.08,
+        "prediction": 0.451171875,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "semantic:D": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:D:divergence_eval_D:30005",
+        "components_used": [
+          "perspective:direct",
+          "semantic:D"
+        ],
+        "costs": 1.08,
+        "prediction": 0.58837890625,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "semantic:D": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:D:divergence_eval_D:30006",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.5,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:cost sensitive conditional routing:risk_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      },
+      {
+        "decision_receipt": "principal:1019:D:divergence_eval_D:30007",
+        "components_used": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "costs": 1.08,
+        "prediction": 0.625,
+        "outcome": true,
+        "counterfactual_controls": [
+          "uniform",
+          "no credit"
+        ],
+        "assigned_credit": {
+          "perspective:direct": 0.43679999999999997,
+          "procedure:procedure:cost sensitive conditional routing:risk_route": 0.43679999999999997
+        },
+        "confidence": 1.0
+      }
+    ],
+    "domain_local_state": {
+      "A": {
+        "episodes": 12,
+        "correct": 11
+      },
+      "B": {
+        "episodes": 8,
+        "correct": 8
+      },
+      "D": {
+        "episodes": 8,
+        "correct": 6
+      }
+    },
+    "active_goals": [
+      "preserve verified competence",
+      "solve delayed task"
+    ],
+    "unfinished_tasks": [],
+    "unresolved_hypotheses": [],
+    "body_state": {
+      "name": "general",
+      "generation": 0,
+      "capabilities": [
+        "memory",
+        "selection",
+        "pure tools"
+      ]
+    },
+    "tool_competence_estimates": {
+      "cheap": 0.5,
+      "robust": 0.5
+    },
+    "adaptation_history": [],
+    "procedure_use_receipts": [
+      {
+        "task": "principal:1019:A:divergence_history_A:6",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_0",
+        "correct": true,
+        "compute": 1.08,
+        "step": 14,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:A:divergence_history_A:7",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 16,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:A:divergence_history_A:8",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 18,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:A:divergence_history_A:9",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 20,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:A:divergence_history_A:10",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_0",
+        "correct": true,
+        "compute": 1.08,
+        "step": 22,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:A:divergence_history_A:11",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 24,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:B:divergence_eval_B:30000",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 26,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:B:divergence_eval_B:30001",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_0",
+        "correct": true,
+        "compute": 1.08,
+        "step": 28,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:B:divergence_eval_B:30002",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_0",
+        "correct": true,
+        "compute": 1.08,
+        "step": 30,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:B:divergence_eval_B:30003",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_0",
+        "correct": true,
+        "compute": 1.08,
+        "step": 32,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:B:divergence_eval_B:30004",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 34,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:B:divergence_eval_B:30005",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_0",
+        "correct": true,
+        "compute": 1.08,
+        "step": 36,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:B:divergence_eval_B:30006",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_0",
+        "correct": true,
+        "compute": 1.08,
+        "step": 38,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:B:divergence_eval_B:30007",
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 40,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:D:divergence_eval_D:30006",
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 54,
+        "activation": false
+      },
+      {
+        "task": "principal:1019:D:divergence_eval_D:30007",
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "selected": true,
+        "executed": true,
+        "proposal": "select_position_1",
+        "correct": true,
+        "compute": 1.08,
+        "step": 56,
+        "activation": false
+      }
+    ],
+    "uncertainty": [],
+    "activation": false
+  },
+  "identity": "6a352902e820c2c72c264207a8490b0a78f0f8facb9bbd8002d530afef6d3ffd",
+  "activation": false,
+  "program": "substrate-v2"
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "substrate-v2-principal-run/v1",
+  "prelaunch": {
+    "admission": true,
+    "context": {
+      "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+      "configuration_digest": "facb3ccd7c4a5caf068d20573fffad78bb23b787f941da1cd9eda17612ec88ad",
+      "split_digest": "068226721fb997f955da7e241b41efb27aacf9dd419f326388689b358466b898",
+      "activation": false
+    },
+    "ready": {
+      "tag_commit": "553539bc5edc01737fa53b2c4ee4096eb32a2f23",
+      "tag_tree": "8009adfd1b164376604ac118dedffbe85a2dda54",
+      "current_tree": "8009adfd1b164376604ac118dedffbe85a2dda54",
+      "tree_identical": true,
+      "remote_tag_exists": true
+    },
+    "resources": {
+      "disk_available_gib": 99.62909317016602,
+      "memory_free_percent": 80,
+      "swap_total_mib": 2048.0,
+      "swap_used_mib": 1309.5,
+      "swap_free_mib": 738.5,
+      "aggregate_cpu_percent": 1280.1,
+      "machine": {
+        "chip": "arm",
+        "logical_cores": 28,
+        "memory_gib": 96
+      }
+    },
+    "hawking": {
+      "controller_lease": {
+        "pid": 32370,
+        "acquired_at": "2026-07-23T17:00:55Z",
+        "lane": "glm52_functional_teacher_capture"
+      },
+      "controller_lease_path": "/Users/scammermike/Library/Application Support/Hawking/GLM52Gravity/control/functional/controller.lease.json",
+      "active_pack_processes": [],
+      "active_process_count": 0,
+      "declared_worker_count": 0,
+      "packed_object_count": 270,
+      "mps_in_use_by_observed_pack_process": false,
+      "observation_only": true,
+      "signals_sent": 0,
+      "processes_modified": 0
+    },
+    "stale_locks": [],
+    "safe": true,
+    "activation": false
+  },
+  "published_this_invocation": 360,
+  "runtime_seconds": 16.43372554203961,
+  "peak_rss_raw": 61128704,
+  "workers": 1,
+  "status": {
+    "phase": "verification",
+    "complete": 360,
+    "total": 360,
+    "remaining": 0,
+    "invalid": [],
+    "stop_requested": false,
+    "activation": false
+  },
+  "activation": false,
+  "program": "substrate-v2"
+}

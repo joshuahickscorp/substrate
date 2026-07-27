@@ -1,0 +1,4182 @@
+{
+  "schema": "substrate-v2-unit-receipt/v1",
+  "identity": "body-2001-full_v2-compact",
+  "payload": {
+    "kind": "body",
+    "arm": "full_v2",
+    "seed": 2001,
+    "split": "replication",
+    "body": "compact",
+    "phase_rows": [
+      {
+        "phase": "phase_0_cold_baseline",
+        "episodes": 8,
+        "accuracy": 0.5,
+        "utility": 0.42000000000000004,
+        "compute": 8.0,
+        "procedure_uses": 0,
+        "semantic_uses": 0,
+        "checkpoint_identity": "dc84e8c0bce58038e50ccbce629d3ca9b93355d01442779c6dc7759ea66870b1",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_1_domain_A_development",
+        "episodes": 12,
+        "accuracy": 0.9166666666666666,
+        "utility": 0.8313333333333333,
+        "compute": 12.8,
+        "procedure_uses": 8,
+        "semantic_uses": 2,
+        "checkpoint_identity": "0b7614b9f621e5d3f491489370ba467396f74a372638cc8282e7debcafa4560e",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_2_domain_B_development",
+        "episodes": 12,
+        "accuracy": 1.0,
+        "utility": 0.9136000000000001,
+        "compute": 12.96,
+        "procedure_uses": 12,
+        "semantic_uses": 0,
+        "checkpoint_identity": "09653f1447600b1ca42c7b1e916977e6faf0abab5371664ff78b72305f10aab1",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_3_return_held_out_A",
+        "episodes": 8,
+        "accuracy": 1.0,
+        "utility": 0.9136,
+        "compute": 8.64,
+        "procedure_uses": 8,
+        "semantic_uses": 0,
+        "checkpoint_identity": "c4dd818cd9fbad5f7545f7ebf7c673fb758dc875c852976926a357ba6defc69f",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_4_held_out_B_transfer",
+        "episodes": 8,
+        "accuracy": 1.0,
+        "utility": 0.9136,
+        "compute": 8.64,
+        "procedure_uses": 8,
+        "semantic_uses": 0,
+        "checkpoint_identity": "f668f939adac2999e828a1f3076022fa07cd4b5cef56e156fe2304b2de80a164",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_5_positive_transfer_C",
+        "episodes": 12,
+        "accuracy": 1.0,
+        "utility": 0.9146666666666666,
+        "compute": 12.8,
+        "procedure_uses": 8,
+        "semantic_uses": 2,
+        "checkpoint_identity": "609a14ac3edeed44af7012137742e89060d1cd07a81b6f0cbe4a584a2516673c",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_6_positive_transfer_D",
+        "episodes": 8,
+        "accuracy": 1.0,
+        "utility": 0.9136,
+        "compute": 8.64,
+        "procedure_uses": 8,
+        "semantic_uses": 0,
+        "checkpoint_identity": "1783f1135f02d423aa6e37a81cf75cc20c6e4c9fa29603326ecdf625d23a091a",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_7_negative_transfer_challenge",
+        "episodes": 8,
+        "accuracy": 1.0,
+        "utility": 0.9136,
+        "compute": 8.64,
+        "procedure_uses": 8,
+        "semantic_uses": 0,
+        "checkpoint_identity": "8195cdd4060c7c5b17a624d2fc241b82a84600876c33b210746498d43464798c",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_8_interruption_exact_restore",
+        "episodes": 4,
+        "accuracy": 1.0,
+        "utility": 0.9136,
+        "compute": 4.32,
+        "procedure_uses": 4,
+        "semantic_uses": 0,
+        "checkpoint_identity": "e41ba2e77f770b89b7b89e84e5c45a8588fc8393957ca6903683dbf0e24268af",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_9_body_or_tool_change",
+        "episodes": 8,
+        "accuracy": 1.0,
+        "utility": 0.9136,
+        "compute": 8.64,
+        "procedure_uses": 8,
+        "semantic_uses": 0,
+        "checkpoint_identity": "09d5333310abb94061aa3d3dcc040963eb949a8512f07f8edf380864fefb2017",
+        "exact_restore": true
+      },
+      {
+        "phase": "phase_10_terminal_held_out",
+        "episodes": 16,
+        "accuracy": 1.0,
+        "utility": 0.9136,
+        "compute": 17.28,
+        "procedure_uses": 16,
+        "semantic_uses": 0,
+        "checkpoint_identity": "445cb6bf52eb0f685a6eed78fb832cfaa841fe974b2442576aaf783b3de70b45",
+        "exact_restore": true
+      }
+    ],
+    "episode_ledger": [
+      {
+        "identity": "replication:2001:A:phase_0_cold_baseline:0",
+        "phase": "phase_0_cold_baseline",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_0_cold_baseline:1",
+        "phase": "phase_0_cold_baseline",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_0_cold_baseline:2",
+        "phase": "phase_0_cold_baseline",
+        "domain": "C",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_0_cold_baseline:3",
+        "phase": "phase_0_cold_baseline",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_0_cold_baseline:4",
+        "phase": "phase_0_cold_baseline",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_0_cold_baseline:5",
+        "phase": "phase_0_cold_baseline",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_0_cold_baseline:6",
+        "phase": "phase_0_cold_baseline",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_0_cold_baseline:7",
+        "phase": "phase_0_cold_baseline",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10000",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10001",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10002",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": null,
+        "semantic": "A",
+        "components": [
+          "perspective:direct",
+          "semantic:A"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10003",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": null,
+        "semantic": "A",
+        "components": [
+          "perspective:direct",
+          "semantic:A"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10004",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10005",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10006",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10007",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10008",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10009",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10010",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_1_domain_A_development:10011",
+        "phase": "phase_1_domain_A_development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20000",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20001",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20002",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20003",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20004",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20005",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20006",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20007",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20008",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20009",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20010",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_2_domain_B_development:20011",
+        "phase": "phase_2_domain_B_development",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_3_return_held_out_A:30000",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_3_return_held_out_A:30001",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_3_return_held_out_A:30002",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_3_return_held_out_A:30003",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_3_return_held_out_A:30004",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_3_return_held_out_A:30005",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_3_return_held_out_A:30006",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_3_return_held_out_A:30007",
+        "phase": "phase_3_return_held_out_A",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_4_held_out_B_transfer:40000",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_4_held_out_B_transfer:40001",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_4_held_out_B_transfer:40002",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_4_held_out_B_transfer:40003",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_4_held_out_B_transfer:40004",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_4_held_out_B_transfer:40005",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_4_held_out_B_transfer:40006",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_4_held_out_B_transfer:40007",
+        "phase": "phase_4_held_out_B_transfer",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50000",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50001",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50002",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": null,
+        "semantic": "C",
+        "components": [
+          "perspective:direct",
+          "semantic:C"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50003",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": null,
+        "semantic": "C",
+        "components": [
+          "perspective:direct",
+          "semantic:C"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50004",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50005",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50006",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50007",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50008",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50009",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50010",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_5_positive_transfer_C:50011",
+        "phase": "phase_5_positive_transfer_C",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_6_positive_transfer_D:60000",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_6_positive_transfer_D:60001",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_6_positive_transfer_D:60002",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_6_positive_transfer_D:60003",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_6_positive_transfer_D:60004",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_6_positive_transfer_D:60005",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_6_positive_transfer_D:60006",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_6_positive_transfer_D:60007",
+        "phase": "phase_6_positive_transfer_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_7_negative_transfer_challenge:70000",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_7_negative_transfer_challenge:70001",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_7_negative_transfer_challenge:70002",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_7_negative_transfer_challenge:70003",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_7_negative_transfer_challenge:70004",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_7_negative_transfer_challenge:70005",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_7_negative_transfer_challenge:70006",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_7_negative_transfer_challenge:70007",
+        "phase": "phase_7_negative_transfer_challenge",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_8_interruption_exact_restore:80000",
+        "phase": "phase_8_interruption_exact_restore",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_8_interruption_exact_restore:80001",
+        "phase": "phase_8_interruption_exact_restore",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_8_interruption_exact_restore:80002",
+        "phase": "phase_8_interruption_exact_restore",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_8_interruption_exact_restore:80003",
+        "phase": "phase_8_interruption_exact_restore",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_9_body_or_tool_change:90000",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_9_body_or_tool_change:90001",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_9_body_or_tool_change:90002",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_9_body_or_tool_change:90003",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_9_body_or_tool_change:90004",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_9_body_or_tool_change:90005",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_9_body_or_tool_change:90006",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_9_body_or_tool_change:90007",
+        "phase": "phase_9_body_or_tool_change",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_10_terminal_held_out:100000",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_10_terminal_held_out:100001",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_10_terminal_held_out:100002",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_10_terminal_held_out:100003",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_10_terminal_held_out:100004",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_10_terminal_held_out:100005",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_10_terminal_held_out:100006",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_10_terminal_held_out:100007",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_10_terminal_held_out:100008",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_10_terminal_held_out:100009",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_10_terminal_held_out:100010",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_10_terminal_held_out:100011",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:A:phase_10_terminal_held_out:100012",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:B:phase_10_terminal_held_out:100013",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:C:phase_10_terminal_held_out:100014",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "C",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "replication:2001:D:phase_10_terminal_held_out:100015",
+        "phase": "phase_10_terminal_held_out",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      }
+    ],
+    "episode_count": 104,
+    "expected_episode_count": 104,
+    "A_acquired_accuracy": 1.0,
+    "A_return_accuracy": 1.0,
+    "retention_loss": 0.0,
+    "B_transfer_early_utility": 0.9136,
+    "B_held_out_utility": 0.9136,
+    "C_to_D_transfer_utility": 0.9136,
+    "negative_wrong_procedure_selected": false,
+    "identity_exact_every_phase": true,
+    "body_report": {
+      "before": {
+        "entity_id": "principal:2001:full_v2",
+        "goals": [
+          "preserve verified competence",
+          "solve delayed task"
+        ],
+        "uncertainty": [],
+        "procedures": [
+          "procedure:conditional ordered selection:boundary_route",
+          "procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "identity": "e41ba2e77f770b89b7b89e84e5c45a8588fc8393957ca6903683dbf0e24268af"
+      },
+      "after": {
+        "entity_id": "principal:2001:full_v2",
+        "goals": [
+          "preserve verified competence",
+          "solve delayed task"
+        ],
+        "uncertainty": [],
+        "procedures": [
+          "procedure:conditional ordered selection:boundary_route",
+          "procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "identity": "df6bcc71a24d2335110f6d59c66e4d269689341bc4946abf28401db3517e31b3"
+      },
+      "continuing_entity": true,
+      "goals_preserved": true,
+      "uncertainty_preserved": true,
+      "procedures_preserved": true,
+      "body_change_visible_in_identity": true
+    },
+    "body_continuity": true,
+    "interruption_recovery": true,
+    "procedures_induced": 2,
+    "procedures_transferred": 2,
+    "procedure_uses": 88,
+    "semantic_records": 4,
+    "allocation_probe": {
+      "strongest_simple_policy": "always_verify",
+      "strongest_simple_utility": 0.9028125,
+      "learned_utility": 0.93,
+      "oracle_utility": 0.954375,
+      "oracle_residual": 0.051562499999999956,
+      "learned_margin": 0.02718750000000003,
+      "simple_compute": 128,
+      "learned_compute": 70,
+      "oracle_compute": 73,
+      "learned_rows": [
+        {
+          "identity": "allocation:replication:2001:128",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 129
+        },
+        {
+          "identity": "allocation:replication:2001:129",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 130
+        },
+        {
+          "identity": "allocation:replication:2001:130",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 131
+        },
+        {
+          "identity": "allocation:replication:2001:131",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 132
+        },
+        {
+          "identity": "allocation:replication:2001:132",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 133
+        },
+        {
+          "identity": "allocation:replication:2001:133",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 134
+        },
+        {
+          "identity": "allocation:replication:2001:134",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 135
+        },
+        {
+          "identity": "allocation:replication:2001:135",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 136
+        },
+        {
+          "identity": "allocation:replication:2001:136",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 137
+        },
+        {
+          "identity": "allocation:replication:2001:137",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 138
+        },
+        {
+          "identity": "allocation:replication:2001:138",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 0.0,
+          "actual_utility": -0.12,
+          "correct": false,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 139
+        },
+        {
+          "identity": "allocation:replication:2001:139",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 140
+        },
+        {
+          "identity": "allocation:replication:2001:140",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 141
+        },
+        {
+          "identity": "allocation:replication:2001:141",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 142
+        },
+        {
+          "identity": "allocation:replication:2001:142",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 143
+        },
+        {
+          "identity": "allocation:replication:2001:143",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 144
+        },
+        {
+          "identity": "allocation:replication:2001:144",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 145
+        },
+        {
+          "identity": "allocation:replication:2001:145",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 146
+        },
+        {
+          "identity": "allocation:replication:2001:146",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 147
+        },
+        {
+          "identity": "allocation:replication:2001:147",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 148
+        },
+        {
+          "identity": "allocation:replication:2001:148",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 149
+        },
+        {
+          "identity": "allocation:replication:2001:149",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 150
+        },
+        {
+          "identity": "allocation:replication:2001:150",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 151
+        },
+        {
+          "identity": "allocation:replication:2001:151",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 152
+        },
+        {
+          "identity": "allocation:replication:2001:152",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 153
+        },
+        {
+          "identity": "allocation:replication:2001:153",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 154
+        },
+        {
+          "identity": "allocation:replication:2001:154",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 155
+        },
+        {
+          "identity": "allocation:replication:2001:155",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 156
+        },
+        {
+          "identity": "allocation:replication:2001:156",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 157
+        },
+        {
+          "identity": "allocation:replication:2001:157",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 158
+        },
+        {
+          "identity": "allocation:replication:2001:158",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 159
+        },
+        {
+          "identity": "allocation:replication:2001:159",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 160
+        },
+        {
+          "identity": "allocation:replication:2001:160",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 161
+        },
+        {
+          "identity": "allocation:replication:2001:161",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 162
+        },
+        {
+          "identity": "allocation:replication:2001:162",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 163
+        },
+        {
+          "identity": "allocation:replication:2001:163",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 164
+        },
+        {
+          "identity": "allocation:replication:2001:164",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 165
+        },
+        {
+          "identity": "allocation:replication:2001:165",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 166
+        },
+        {
+          "identity": "allocation:replication:2001:166",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 167
+        },
+        {
+          "identity": "allocation:replication:2001:167",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 168
+        },
+        {
+          "identity": "allocation:replication:2001:168",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 169
+        },
+        {
+          "identity": "allocation:replication:2001:169",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 170
+        },
+        {
+          "identity": "allocation:replication:2001:170",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 171
+        },
+        {
+          "identity": "allocation:replication:2001:171",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 172
+        },
+        {
+          "identity": "allocation:replication:2001:172",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 173
+        },
+        {
+          "identity": "allocation:replication:2001:173",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 174
+        },
+        {
+          "identity": "allocation:replication:2001:174",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 175
+        },
+        {
+          "identity": "allocation:replication:2001:175",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 176
+        },
+        {
+          "identity": "allocation:replication:2001:176",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 177
+        },
+        {
+          "identity": "allocation:replication:2001:177",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 178
+        },
+        {
+          "identity": "allocation:replication:2001:178",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 179
+        },
+        {
+          "identity": "allocation:replication:2001:179",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 180
+        },
+        {
+          "identity": "allocation:replication:2001:180",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 181
+        },
+        {
+          "identity": "allocation:replication:2001:181",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 182
+        },
+        {
+          "identity": "allocation:replication:2001:182",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 183
+        },
+        {
+          "identity": "allocation:replication:2001:183",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 184
+        },
+        {
+          "identity": "allocation:replication:2001:184",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 185
+        },
+        {
+          "identity": "allocation:replication:2001:185",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 186
+        },
+        {
+          "identity": "allocation:replication:2001:186",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 0.0,
+          "actual_utility": -0.12,
+          "correct": false,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 187
+        },
+        {
+          "identity": "allocation:replication:2001:187",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 188
+        },
+        {
+          "identity": "allocation:replication:2001:188",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 189
+        },
+        {
+          "identity": "allocation:replication:2001:189",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 190
+        },
+        {
+          "identity": "allocation:replication:2001:190",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 191
+        },
+        {
+          "identity": "allocation:replication:2001:191",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 192
+        },
+        {
+          "identity": "allocation:replication:2001:192",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 193
+        },
+        {
+          "identity": "allocation:replication:2001:193",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 194
+        },
+        {
+          "identity": "allocation:replication:2001:194",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 195
+        },
+        {
+          "identity": "allocation:replication:2001:195",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 196
+        },
+        {
+          "identity": "allocation:replication:2001:196",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 197
+        },
+        {
+          "identity": "allocation:replication:2001:197",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 198
+        },
+        {
+          "identity": "allocation:replication:2001:198",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 199
+        },
+        {
+          "identity": "allocation:replication:2001:199",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 200
+        },
+        {
+          "identity": "allocation:replication:2001:200",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 201
+        },
+        {
+          "identity": "allocation:replication:2001:201",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 202
+        },
+        {
+          "identity": "allocation:replication:2001:202",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 203
+        },
+        {
+          "identity": "allocation:replication:2001:203",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 204
+        },
+        {
+          "identity": "allocation:replication:2001:204",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 205
+        },
+        {
+          "identity": "allocation:replication:2001:205",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 206
+        },
+        {
+          "identity": "allocation:replication:2001:206",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 207
+        },
+        {
+          "identity": "allocation:replication:2001:207",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 208
+        },
+        {
+          "identity": "allocation:replication:2001:208",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 209
+        },
+        {
+          "identity": "allocation:replication:2001:209",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 210
+        },
+        {
+          "identity": "allocation:replication:2001:210",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 211
+        },
+        {
+          "identity": "allocation:replication:2001:211",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 212
+        },
+        {
+          "identity": "allocation:replication:2001:212",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 213
+        },
+        {
+          "identity": "allocation:replication:2001:213",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 214
+        },
+        {
+          "identity": "allocation:replication:2001:214",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 215
+        },
+        {
+          "identity": "allocation:replication:2001:215",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 216
+        },
+        {
+          "identity": "allocation:replication:2001:216",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 217
+        },
+        {
+          "identity": "allocation:replication:2001:217",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 218
+        },
+        {
+          "identity": "allocation:replication:2001:218",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 219
+        },
+        {
+          "identity": "allocation:replication:2001:219",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 220
+        },
+        {
+          "identity": "allocation:replication:2001:220",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 221
+        },
+        {
+          "identity": "allocation:replication:2001:221",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 222
+        },
+        {
+          "identity": "allocation:replication:2001:222",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 223
+        },
+        {
+          "identity": "allocation:replication:2001:223",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 224
+        },
+        {
+          "identity": "allocation:replication:2001:224",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 225
+        },
+        {
+          "identity": "allocation:replication:2001:225",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 226
+        },
+        {
+          "identity": "allocation:replication:2001:226",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 227
+        },
+        {
+          "identity": "allocation:replication:2001:227",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 228
+        },
+        {
+          "identity": "allocation:replication:2001:228",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 229
+        },
+        {
+          "identity": "allocation:replication:2001:229",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 230
+        },
+        {
+          "identity": "allocation:replication:2001:230",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 231
+        },
+        {
+          "identity": "allocation:replication:2001:231",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 232
+        },
+        {
+          "identity": "allocation:replication:2001:232",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 233
+        },
+        {
+          "identity": "allocation:replication:2001:233",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 234
+        },
+        {
+          "identity": "allocation:replication:2001:234",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 235
+        },
+        {
+          "identity": "allocation:replication:2001:235",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 236
+        },
+        {
+          "identity": "allocation:replication:2001:236",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 237
+        },
+        {
+          "identity": "allocation:replication:2001:237",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 238
+        },
+        {
+          "identity": "allocation:replication:2001:238",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 0.0,
+          "actual_utility": -0.12,
+          "correct": false,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 239
+        },
+        {
+          "identity": "allocation:replication:2001:239",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 240
+        },
+        {
+          "identity": "allocation:replication:2001:240",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 241
+        },
+        {
+          "identity": "allocation:replication:2001:241",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 242
+        },
+        {
+          "identity": "allocation:replication:2001:242",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 243
+        },
+        {
+          "identity": "allocation:replication:2001:243",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 244
+        },
+        {
+          "identity": "allocation:replication:2001:244",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 245
+        },
+        {
+          "identity": "allocation:replication:2001:245",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 246
+        },
+        {
+          "identity": "allocation:replication:2001:246",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 247
+        },
+        {
+          "identity": "allocation:replication:2001:247",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 248
+        },
+        {
+          "identity": "allocation:replication:2001:248",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 249
+        },
+        {
+          "identity": "allocation:replication:2001:249",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 250
+        },
+        {
+          "identity": "allocation:replication:2001:250",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 251
+        },
+        {
+          "identity": "allocation:replication:2001:251",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 252
+        },
+        {
+          "identity": "allocation:replication:2001:252",
+          "context": {
+            "domain": "A",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 253
+        },
+        {
+          "identity": "allocation:replication:2001:253",
+          "context": {
+            "domain": "B",
+            "risk_bucket": "high",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 254
+        },
+        {
+          "identity": "allocation:replication:2001:254",
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "continue",
+          "predicted_utility": 1.0,
+          "actual_utility": 1.0,
+          "correct": true,
+          "compute": 0,
+          "outcome_revealed_after_action": true,
+          "step": 255
+        },
+        {
+          "identity": "allocation:replication:2001:255",
+          "context": {
+            "domain": "D",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "confidence": 0.5,
+            "remaining_budget": 1.0,
+            "procedure_match": "none"
+          },
+          "action": "verify",
+          "predicted_utility": 0.92,
+          "actual_utility": 0.92,
+          "correct": true,
+          "compute": 1,
+          "outcome_revealed_after_action": true,
+          "step": 256
+        }
+      ]
+    },
+    "self_model_probe": {
+      "training_failures": [
+        "replication:2001:A:principal_self_model_training:20002",
+        "replication:2001:A:principal_self_model_training:20003",
+        "replication:2001:A:principal_self_model_training:20004",
+        "replication:2001:A:principal_self_model_training:20011",
+        "replication:2001:A:principal_self_model_training:20012",
+        "replication:2001:A:principal_self_model_training:20014",
+        "replication:2001:A:principal_self_model_training:20015",
+        "replication:2001:A:principal_self_model_training:20021"
+      ],
+      "held_out_task": "replication:2001:A:principal_self_model_held_out:20023",
+      "prediction": 0.05005645751953125,
+      "action": "verify",
+      "with_self_model_utility": 0.92,
+      "without_self_model_utility": 0.0,
+      "margin": 0.92,
+      "prediction_precedes_outcome": true
+    },
+    "fresh_reset_count": 0,
+    "final_identity": "445cb6bf52eb0f685a6eed78fb832cfaa841fe974b2442576aaf783b3de70b45",
+    "runtime_seconds": 0.0843142910161987,
+    "activation": false
+  },
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "configuration_digest": "facb3ccd7c4a5caf068d20573fffad78bb23b787f941da1cd9eda17612ec88ad",
+  "split_digest": "068226721fb997f955da7e241b41efb27aacf9dd419f326388689b358466b898",
+  "activation": false,
+  "receipt_sha256": "8d9df0f6c2c78180522f2f47ac7874fe065b0844297f96301b1794507c4e2e7b"
+}

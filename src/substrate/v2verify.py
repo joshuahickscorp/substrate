@@ -84,6 +84,7 @@ REQUIRED = (
 )
 
 PREPRINCIPAL_REQUIRED = REQUIRED[:46]
+TRANSITION = "SUBSTRATE_V2_IMPLEMENTATION_TRANSITION.json"
 
 
 class Refused(RuntimeError):
@@ -119,8 +120,21 @@ def structural() -> dict:
             activation.append(name)
     configuration = X.frozen_configuration()
     manifest = json.loads(P.MANIFEST.read_text()) if P.MANIFEST.is_file() else {}
+    transition_path = io.EVIDENCE / TRANSITION
+    transition = io.load(TRANSITION) if transition_path.is_file() else None
+    transition_valid = bool(
+        transition
+        and transition["old_principal_source_digest"] == manifest.get("source_digest")
+        and transition["new_verifier_source_digest"] == io.source_digest()
+        and transition["scope"] == ["src/substrate/v2verify.py", "tests/substrate/test_v2_verification.py"]
+        and transition["affected_principal_units"] == []
+        and transition["scientific_configuration_changed"] is False
+        and transition["thresholds_splits_seeds_changed"] is False
+        and transition["activation"] is False
+    )
     manifest_checks = {
-        "source_digest": manifest.get("source_digest") == io.source_digest(),
+        "principal_source_digest": manifest.get("source_digest") == io.source_digest() or transition_valid,
+        "verifier_transition": transition_valid if manifest.get("source_digest") != io.source_digest() else True,
         "configuration_digest": manifest.get("configuration_digest") == configuration["configuration_digest"],
         "split_digest": manifest.get("split_digest") == io.sha_obj(configuration["splits"]),
         "unit_count": manifest.get("principal_work_units") == len(P.work_units()),
@@ -154,13 +168,32 @@ def structural() -> dict:
     }
 
 
+def principal_context() -> dict:
+    """The frozen context carried by principal receipts, independent of later verifier repairs."""
+    manifest = json.loads(P.MANIFEST.read_text())
+    return {
+        "source_digest": manifest["source_digest"],
+        "configuration_digest": manifest["configuration_digest"],
+        "split_digest": manifest["split_digest"],
+        "activation": False,
+    }
+
+
+def checkpoint_receipt_identity(kind: str, payload: dict) -> str:
+    key = "state_identity" if kind == "divergence" else "final_identity"
+    identity = payload.get(key)
+    if not identity:
+        raise Refused(f"{kind} receipt lacks {key}")
+    return identity
+
+
 def raw() -> dict:
     units = P.work_units()
     receipts = {}
     checkpoints = {}
     missing = []
     invalid = []
-    context = X.context()
+    context = principal_context()
     for unit in units:
         receipt_path = P.UNITS / f"{unit.identity}.json"
         checkpoint_path = P.CHECKPOINTS / f"{unit.identity}.json"
@@ -174,10 +207,9 @@ def raw() -> dict:
             if not X.validate_receipt(receipt):
                 raise Refused("receipt digest mismatch")
             restored = S.DevelopmentalEntity.restore(checkpoint)
-            if restored.identity_hash() != receipt["payload"]["final_identity"] and unit.kind != "divergence":
-                raise Refused("checkpoint and receipt final identities differ")
-            if unit.kind == "divergence" and restored.identity_hash() != receipt["payload"]["state_identity"]:
-                raise Refused("divergence checkpoint and receipt identities differ")
+            expected_identity = checkpoint_receipt_identity(unit.kind, receipt["payload"])
+            if restored.identity_hash() != expected_identity:
+                raise Refused("checkpoint and receipt identities differ")
         except (json.JSONDecodeError, S.Refused, X.Refused, Refused, KeyError) as exc:
             invalid.append({"unit": unit.identity, "detail": f"{type(exc).__name__}: {exc}"})
             continue
@@ -715,6 +747,29 @@ def verify() -> dict:
         "all_pass": structure["all_pass"] and (not principal_complete or bool(raw_report and raw_report["all_pass"])),
         "activation": False,
     }
+
+
+def seal_transition(old_principal_source_digest: str) -> dict:
+    document = {
+        "schema": "substrate-v2-implementation-transition/v1",
+        "trigger": "independent verifier accessed final_identity before branching on divergence unit kind",
+        "classification": "implementation_defect",
+        "detected_after_principal_completion": True,
+        "principal_units_complete_before_transition": P.status()["complete"],
+        "old_principal_source_digest": old_principal_source_digest,
+        "new_verifier_source_digest": io.source_digest(),
+        "scope": ["src/substrate/v2verify.py", "tests/substrate/test_v2_verification.py"],
+        "affected_principal_units": [],
+        "invalidated_principal_units": [],
+        "scientific_configuration_changed": False,
+        "thresholds_splits_seeds_changed": False,
+        "principal_receipts_reused_by_original_content_identity": True,
+        "resume_rule": "no resume required because all 360 units were terminal before the verifier repair",
+        "regression_test": "test_divergence_identity_lookup_does_not_access_core_key",
+        "activation": False,
+    }
+    io.seal(TRANSITION, document)
+    return document
 
 
 def clean_clone(ref: str) -> dict:

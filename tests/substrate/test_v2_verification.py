@@ -50,3 +50,8 @@ def test_allocation_below_sesoi_blocks_reflective_but_not_persistent_classificat
     assert report["levels"]["persistent_developmental_cognition"]
     assert not report["levels"]["reflective_cognitive_organization"]
     assert not report["levels"]["functional_or_proto_nous_candidate"]
+
+
+def test_divergence_identity_lookup_does_not_access_core_key():
+    assert V.checkpoint_receipt_identity("divergence", {"state_identity": "divergence"}) == "divergence"
+    assert V.checkpoint_receipt_identity("core", {"final_identity": "core"}) == "core"
