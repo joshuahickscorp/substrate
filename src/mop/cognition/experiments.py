@@ -447,6 +447,74 @@ def sx1b_run() -> dict:
     return out
 
 
+# ---------------------------------------------------------------- the bed screen
+
+# Declared before the screen was run. Searching beds until one clears the SESOI would be the same defect
+# as searching arms until one clears it, so the rule, the candidate list and the outcome if nothing clears
+# are all fixed here rather than decided afterwards.
+BED_SCREEN_RULE = {
+    "schema": "substrate-bed-screen-rule/v1",
+    "question": "is there any bed under custody where a write restriction could clear the SESOI at all",
+    "screen": ("on training source groups only, measure the oracle ceiling, meaning the mean per unit "
+               "best of the two writers minus the unrestricted control. A bed is a candidate only if the "
+               "lower 95 percent bound of that ceiling exceeds the SESOI"),
+    "candidates": ["harth_stream", "pamap2_stream"],
+    "excluded": {"har_stream": "classified an invalid principal bed by the fast state reaudit",
+                 "speech_stream": "classified an invalid principal bed by the fast state reaudit"},
+    "sesoi": 0.05,
+    "outcome_if_none_clears": ("the finding is that no bed under custody can test H_typed_workspace at "
+                               "the declared effect size. That is a mapped boundary and not a null, and "
+                               "the SESOI is not lowered to manufacture a candidate"),
+    "prior_measurement": ("the harth_stream ceiling of 0.036124 was measured by SX1b before this rule was "
+                          "written and is carried forward unchanged rather than remeasured"),
+    "activation": False,
+}
+
+BED_CACHES = {"harth_stream": "harth/harth_stream.npz", "pamap2_stream": "pamap2/pamap2_stream.npz"}
+
+
+def screen_bed(name: str) -> dict:
+    import numpy as np
+
+    cache = io.ROOT.parent / "mop-data" / BED_CACHES[name]
+    if not cache.is_file():
+        return {"bed": name, "available": False, "reason": f"no cache under custody at {cache}"}
+    d = np.load(cache)
+    bed = {k: d[k] for k in ("Xtr", "Ytr", "Utr", "Xte", "Yte", "Ute")}
+    rows = per_unit_accuracy(bed, "tr")
+    rng = np.random.default_rng(0)
+    ceiling = [max(r.values()) - float(rng.choice([r["static"], r["dynamic"]])) for r in rows.values()]
+    n = len(ceiling)
+    mean = float(np.mean(ceiling))
+    half = 1.96 * float(np.std(ceiling, ddof=1)) / max(n, 1) ** 0.5
+    return {"bed": name, "available": True, "n_train_units": n,
+            "mean_reliability": {p: round(float(np.mean([r[p] for r in rows.values()])), 6)
+                                 for p in ("static", "dynamic")},
+            "oracle_ceiling": round(mean, 6),
+            "oracle_ceiling_lower_95_cb": round(mean - half, 6),
+            "clears_sesoi": mean - half > BED_SCREEN_RULE["sesoi"]}
+
+
+def bed_screen() -> dict:
+    rows = [screen_bed(name) for name in BED_SCREEN_RULE["candidates"]]
+    clearing = [r["bed"] for r in rows if r.get("clears_sesoi")]
+    return {
+        "schema": "substrate-bed-screen/v1",
+        "rule": BED_SCREEN_RULE,
+        "screened": rows,
+        "beds_clearing_the_sesoi": clearing,
+        "any_candidate": bool(clearing),
+        "finding": ("SX1c may proceed on " + ", ".join(clearing) if clearing else
+                    "no bed under custody can test H_typed_workspace at the declared SESOI of "
+                    f"{BED_SCREEN_RULE['sesoi']}. The hypothesis stays untested and the SESOI stays where "
+                    "it was preregistered"),
+        "classification": "candidate_bed_found" if clearing else "no_bed_can_answer_at_this_effect_size",
+        "not_a_null": ("a hypothesis nothing can currently measure is untested, not refuted. Nothing "
+                       "downstream of H_typed_workspace closes"),
+        "activation": False,
+    }
+
+
 def main(argv=None) -> None:
     argv = argv or sys.argv[1:]
     command = argv[0] if argv else "seal"
@@ -458,6 +526,15 @@ def main(argv=None) -> None:
                           "classification": decision["classification"],
                           "graph_violations": decision["causal_graph_violations"],
                           "successor": decision["successor"]}, indent=2))
+    elif command == "screen":
+        out = bed_screen()
+        io.run_json("bed_screen.json", out, "experiments")
+        print(json.dumps({"screened": [{k: r.get(k) for k in
+                                        ("bed", "available", "oracle_ceiling",
+                                         "oracle_ceiling_lower_95_cb", "clears_sesoi")}
+                                       for r in out["screened"]],
+                          "classification": out["classification"],
+                          "finding": out["finding"]}, indent=2))
     elif command == "sx1b":
         out = sx1b_run()
         io.run_json("SX1b_decision.json", out, "experiments")

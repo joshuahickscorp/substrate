@@ -49,6 +49,17 @@
         "SX1b"
       ],
       "still_open": true,
+      "measurement_boundary": {
+        "screen": "no_bed_can_answer_at_this_effect_size",
+        "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered",
+        "beds_screened": [
+          "harth_stream",
+          "pamap2_stream"
+        ],
+        "best_ceiling_lower_95_cb": 0.003234,
+        "sesoi": 0.05,
+        "closes_descendants": false
+      },
       "carrying_items": [
         {
           "id": "C2",
@@ -252,7 +263,7 @@
   ],
   "open_count": 8,
   "program": "mop-substrate-master-v1",
-  "source_commit": "64f5e98f4c1068333d9101b4395f1cae8a810e65",
+  "source_commit": "19c2c5442ee22df2ebeab10b5b0cca91aaaa9063",
   "activation": false,
-  "sha256": "171a04b0cf05443ff31c492c9842a107c3b457eefacf13a814d408415afeb9bd"
+  "sha256": "2649657087f5d4ed50a2d8b5a864760b4a63e87f03aa44595e65b50fd08eda7a"
 }

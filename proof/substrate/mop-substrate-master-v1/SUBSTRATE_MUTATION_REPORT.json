@@ -203,6 +203,22 @@
       "detail": ""
     },
     {
+      "mutation": "the_sesoi_is_lowered_until_a_bed_qualifies",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_no_bed_under_custody_can_test_the_typed_workspace_hypothesis",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "a_measurement_boundary_closes_its_descendants",
+      "module": "mop.cognition.deliverables",
+      "guard": "tests/cognition/test_experiments.py::test_a_measurement_boundary_closes_nothing_downstream",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
       "mutation": "the_ceiling_below_sesoi_is_blamed_on_the_unit_count",
       "module": "mop.cognition.experiments",
       "guard": "tests/cognition/test_experiments.py::test_the_sx1b_diagnosis_names_the_number_that_actually_decides",
@@ -211,12 +227,12 @@
       "detail": ""
     }
   ],
-  "total": 26,
-  "rejected": 26,
+  "total": 28,
+  "rejected": 28,
   "survivors": [],
   "all_rejected": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "64f5e98f4c1068333d9101b4395f1cae8a810e65",
+  "source_commit": "19c2c5442ee22df2ebeab10b5b0cca91aaaa9063",
   "activation": false,
-  "sha256": "6e64061c32f66ba500ef7747474fa85014adb43cc2ace96ce8b4e36cb1340c06"
+  "sha256": "cf5c9d6bbc8f2d43df24a50fd72f4de86afa7c212dd715e517cfffe4dec6b715"
 }

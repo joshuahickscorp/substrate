@@ -222,6 +222,20 @@ MUTATIONS = (
      "sx1b_evidence = lambda: {**_e(), 'power': {'mde': 0.001, 'n_test_units': 7}}",
      "tests/cognition/test_experiments.py::"
      "test_sx1b_is_refused_on_power_and_never_touches_the_test_split"),
+    ("the_sesoi_is_lowered_until_a_bed_qualifies", "mop.cognition.experiments",
+     "BED_SCREEN_RULE = {**BED_SCREEN_RULE, 'sesoi': 0.001}",
+     "tests/cognition/test_experiments.py::"
+     "test_no_bed_under_custody_can_test_the_typed_workspace_hypothesis"),
+    ("a_measurement_boundary_closes_its_descendants", "mop.cognition.deliverables",
+     "_hg = hypothesis_graph\n"
+     "def hypothesis_graph(st):\n"
+     "    g = _hg(st)\n"
+     "    for h in g['hypotheses']:\n"
+     "        if h['id'] == 'H_arbitration_minority':\n"
+     "            h['state'] = 'closed'\n"
+     "            h['blocking_null'] = 'upstream measurement boundary'\n"
+     "    return g",
+     "tests/cognition/test_experiments.py::test_a_measurement_boundary_closes_nothing_downstream"),
     ("the_ceiling_below_sesoi_is_blamed_on_the_unit_count", "mop.cognition.experiments",
      "_d = _sx1b_diagnosis\n"
      "_sx1b_diagnosis = lambda ev: {**_d(ev), 'more_units_would_help': True, "
