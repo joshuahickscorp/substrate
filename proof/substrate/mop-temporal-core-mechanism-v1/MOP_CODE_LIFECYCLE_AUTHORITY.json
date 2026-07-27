@@ -4,7 +4,6 @@
     "active_runtime",
     "active_method",
     "active_substrate",
-    "active_cognition",
     "active_tests",
     "frozen_reproducibility",
     "historical_migration",
@@ -52,19 +51,11 @@
       "class": "active_method"
     },
     {
-      "prefix": "src/mop/cognition",
-      "class": "active_cognition"
-    },
-    {
       "prefix": "tests/temporal",
       "class": "active_tests"
     },
     {
       "prefix": "tests/method",
-      "class": "active_tests"
-    },
-    {
-      "prefix": "tests/cognition",
       "class": "active_tests"
     },
     {
@@ -175,7 +166,6 @@
   "targets": {
     "active_runtime_loc": 8000,
     "new_active_e2_implementation_loc": 2500,
-    "active_cognition_loc": 4000,
     "normal_entrypoints": 3,
     "configuration_roots": 1,
     "registries": 1,
