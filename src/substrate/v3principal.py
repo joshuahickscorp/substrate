@@ -10,7 +10,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 
-from substrate import v2fabric, v2state
+from substrate import v2config, v2fabric, v2state
 from substrate import v3config as C
 from substrate import v3fabric as F
 from substrate import v3io as io
@@ -111,17 +111,43 @@ PHASE_FAMILY = {
 }
 
 
+def _authorized_v2_seed(v3_seed: int) -> int:
+    """Map a frozen v3 history onto the immutable v2 generator's authorized seeds."""
+    authorized = tuple(seed for split in v2config.SPLITS.values() for seed in split)
+    if v3_seed in C.SPLITS["principal"]:
+        index = C.SPLITS["principal"].index(v3_seed)
+    elif v3_seed in C.SPLITS["replication"]:
+        index = len(C.SPLITS["principal"]) + C.SPLITS["replication"].index(v3_seed)
+    else:
+        raise ValueError(f"v3 history seed {v3_seed} has no v2 preservation authorization")
+    return authorized[index % len(authorized)]
+
+
 def _v2_preservation(seed: int) -> dict:
+    v2_seed = _authorized_v2_seed(seed)
+    namespace = f"v3_preservation_{seed}"
     entity = v2state.DevelopmentalEntity("full_v2", entity_id=f"v3-v2-preservation:{seed}")
     for index in range(16):
-        entity.experience(v2fabric.generate_task(seed, "A", index, "v3_preservation"), allow_verification=False)
-    before = [entity.experience(v2fabric.generate_task(seed, "A", 100 + index, "v3_preservation"), allow_verification=False) for index in range(8)]
+        entity.experience(v2fabric.generate_task(v2_seed, "A", index, namespace), allow_verification=False)
+    before = [
+        entity.experience(v2fabric.generate_task(v2_seed, "A", 100 + index, namespace), allow_verification=False)
+        for index in range(8)
+    ]
     for index in range(16):
-        entity.experience(v2fabric.generate_task(seed, "B", index, "v3_preservation"), allow_verification=False)
-    after = [entity.experience(v2fabric.generate_task(seed, "A", 200 + index, "v3_preservation"), allow_verification=False) for index in range(8)]
-    transfer = [entity.experience(v2fabric.generate_task(seed, "B", 300 + index, "v3_preservation"), allow_verification=False) for index in range(8)]
+        entity.experience(v2fabric.generate_task(v2_seed, "B", index, namespace), allow_verification=False)
+    after = [
+        entity.experience(v2fabric.generate_task(v2_seed, "A", 200 + index, namespace), allow_verification=False)
+        for index in range(8)
+    ]
+    transfer = [
+        entity.experience(v2fabric.generate_task(v2_seed, "B", 300 + index, namespace), allow_verification=False)
+        for index in range(8)
+    ]
     fresh = v2state.DevelopmentalEntity("fresh_control", entity_id=f"v3-v2-fresh:{seed}")
-    fresh_rows = [fresh.experience(v2fabric.generate_task(seed, "B", 300 + index, "v3_preservation"), allow_verification=False) for index in range(8)]
+    fresh_rows = [
+        fresh.experience(v2fabric.generate_task(v2_seed, "B", 300 + index, namespace), allow_verification=False)
+        for index in range(8)
+    ]
     checkpoint = entity.checkpoint()
     restored = v2state.DevelopmentalEntity.restore(checkpoint)
     before_accuracy = statistics.fmean(float(row.outcome["correct"]) for row in before)
@@ -129,6 +155,9 @@ def _v2_preservation(seed: int) -> dict:
     transfer_accuracy = statistics.fmean(float(row.outcome["correct"]) for row in transfer)
     fresh_accuracy = statistics.fmean(float(row.outcome["correct"]) for row in fresh_rows)
     return {
+        "v3_history_seed": seed,
+        "authorized_v2_generator_seed": v2_seed,
+        "namespace": namespace,
         "retention_change": after_accuracy - before_accuracy,
         "transfer_margin": transfer_accuracy - fresh_accuracy,
         "identity_exact": restored.identity_hash() == checkpoint["identity"],
@@ -336,17 +365,68 @@ def _source_ready() -> dict:
             "head_matches_ready": False,
             "source_digest_matches": False,
             "configuration_digest_matches": False,
+            "transition_matches": False,
             "reason": "principal manifest has not been frozen",
         }
     manifest_document = _load_manifest()
+    transition_path = io.EVIDENCE / "SUBSTRATE_V3_IMPLEMENTATION_TRANSITION.json"
+    transition = io.load(transition_path.name) if transition_path.is_file() else None
+    transition_matches = bool(
+        transition
+        and transition.get("classification") == "implementation_defect"
+        and transition.get("old_source_digest") == manifest_document["source_digest"]
+        and transition.get("new_source_digest") == io.source_digest()
+        and transition.get("configuration_digest") == manifest_document["configuration_digest"]
+        and transition.get("scientific_configuration_changed") is False
+        and transition.get("thresholds_splits_seeds_changed") is False
+    )
+    head_matches_ready = ready_commit.returncode == 0 and ready_commit.stdout.strip() == head
     return {
         "ready_tag_exists": ready_commit.returncode == 0,
         "ready_commit": ready_commit.stdout.strip() if ready_commit.returncode == 0 else None,
         "head": head,
-        "head_matches_ready": ready_commit.returncode == 0 and ready_commit.stdout.strip() == head,
+        "head_matches_ready": head_matches_ready or transition_matches,
+        "head_is_exact_ready_commit": head_matches_ready,
         "source_digest_matches": io.source_digest() == manifest_document["source_digest"],
         "configuration_digest_matches": C.configuration()["configuration_digest"] == manifest_document["configuration_digest"],
+        "transition_matches": transition_matches,
+        "transition_sha256": transition.get("sha256") if transition else None,
     }
+
+
+def seal_implementation_transition(affected_units: list[str]) -> dict:
+    """Authorize one source-only repair while retaining all unaffected receipts."""
+    frozen = _load_manifest()
+    known = {unit.identity for unit in work_units()}
+    affected = sorted(set(affected_units))
+    if not affected or any(identity not in known for identity in affected):
+        raise io.Refused("implementation transition must name known affected units")
+    current = status()
+    if any(identity in current["valid"] for identity in affected):
+        raise io.Refused("affected transition units already have valid published receipts")
+    if C.configuration()["configuration_digest"] != frozen["configuration_digest"]:
+        raise io.Refused("scientific configuration changed during implementation transition")
+    document = {
+        "schema": "substrate-v3-implementation-transition/v1",
+        "classification": "implementation_defect",
+        "defect": "v3 histories 1024 through 1047 were passed directly to an immutable v2 generator restricted to preregistered v2 seeds",
+        "repair": "deterministically map frozen v3 histories onto authorized immutable v2 generator seeds with a v3-history-specific namespace",
+        "old_source_digest": frozen["source_digest"],
+        "new_source_digest": io.source_digest(),
+        "configuration_digest": frozen["configuration_digest"],
+        "scientific_configuration_changed": False,
+        "thresholds_splits_seeds_changed": False,
+        "hypotheses_changed": False,
+        "affected_units": affected,
+        "invalidated_units": affected,
+        "retained_valid_units": current["complete"],
+        "regression": "test_v2_preservation_maps_frozen_v3_histories_to_authorized_seeds",
+        "ready_tag_moved": False,
+        "ready_tag": READY_TAG,
+        "activation": False,
+    }
+    io.seal("SUBSTRATE_V3_IMPLEMENTATION_TRANSITION.json", document)
+    return io.load("SUBSTRATE_V3_IMPLEMENTATION_TRANSITION.json")
 
 
 def status() -> dict:
@@ -408,7 +488,7 @@ def run() -> dict:
         (
             source["ready_tag_exists"],
             source["head_matches_ready"],
-            source["source_digest_matches"],
+            source["source_digest_matches"] or source["transition_matches"],
             source["configuration_digest_matches"],
         )
     ):

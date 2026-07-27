@@ -31,6 +31,22 @@ def test_one_unit_is_deterministic_and_valid():
     assert first == second
 
 
+def test_v2_preservation_maps_frozen_v3_histories_to_authorized_seeds():
+    mapped = [P._authorized_v2_seed(seed) for seed in C.SPLITS["principal"]]
+    assert len(mapped) == len(set(mapped))
+    unit = next(
+        unit
+        for unit in P.work_units()
+        if unit.history_seed == 1047 and unit.arm == "full_v3" and unit.shard == 0
+    )
+    receipt = P.execute_unit(unit)
+    assert P.validate_receipt(receipt, unit)
+    assert receipt["summary"]["v2_preservation"]["v3_history_seed"] == 1047
+    assert receipt["summary"]["v2_preservation"]["authorized_v2_generator_seed"] in {
+        seed for split in P.v2config.SPLITS.values() for seed in split
+    }
+
+
 def test_arm_features_are_focused_ablations():
     full = S.ARM_FEATURES["full_v3"]
     assert "ontology" in full
