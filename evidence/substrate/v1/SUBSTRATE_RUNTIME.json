@@ -1,0 +1,208 @@
+{
+  "schema": "substrate-runtime/v1",
+  "stages": [
+    "perceive",
+    "attend",
+    "select",
+    "run_perspectives",
+    "arbitrate",
+    "decide",
+    "remember",
+    "self_update",
+    "consolidate",
+    "adapt",
+    "checkpoint"
+  ],
+  "composition": [
+    "typed workspace",
+    "perspective system",
+    "arbitration",
+    "memory hierarchy",
+    "self model",
+    "metacognition",
+    "plasticity envelope"
+  ],
+  "not_composed_yet": [
+    "owned temporal core",
+    "world model",
+    "model body"
+  ],
+  "why_not_composed": "the temporal core was not scientifically licensed, the world model has no bed inside the loop yet, and no model body is attached. Wiring a component the evidence does not support would be the claim this program refuses",
+  "one_cycle": {
+    "step": 1,
+    "stages": {
+      "perceive": {
+        "ran": true,
+        "region": "perceptual",
+        "keys": [
+          "label",
+          "label_confidence"
+        ],
+        "temporal_state": 0.8,
+        "episodic_window": 0
+      },
+      "attend": {
+        "ran": true,
+        "attended": [
+          "perceptual",
+          "temporal",
+          "episodic_context"
+        ],
+        "dropped_for_budget": []
+      },
+      "select": {
+        "ran": true,
+        "strategy": "reliability_weighted",
+        "chosen": [
+          "direct",
+          "precedent",
+          "temporal"
+        ]
+      },
+      "run_perspectives": {
+        "ran": [
+          "direct",
+          "precedent",
+          "temporal"
+        ],
+        "refused": [],
+        "compute_spent": 3.3
+      },
+      "arbitrate": {
+        "ran": true,
+        "deferred": false,
+        "minority_preserved": 1,
+        "contradictions": 1
+      },
+      "decide": {
+        "ran": true,
+        "decision": "a",
+        "deferred": false,
+        "belief": "b1",
+        "activation": false
+      },
+      "remember": {
+        "ran": true,
+        "episode": "ep1",
+        "fields_empty": [
+          "later_usefulness"
+        ],
+        "working_memory_held": true,
+        "working_memory_pressure": ""
+      },
+      "self_update": {
+        "ran": true,
+        "correct": true,
+        "reliability": {
+          "direct": 0.6,
+          "temporal": 0.4,
+          "precedent": 0.4,
+          "critic": 0.5,
+          "counterexample": 0.5,
+          "uncertainty": 0.5,
+          "symbolic": 0.5,
+          "relational": 0.5,
+          "causal": 0.5,
+          "analogy": 0.5,
+          "simulation": 0.5,
+          "counterfactual": 0.5,
+          "planner": 0.5,
+          "numerical": 0.5,
+          "toolcall": 0.5,
+          "introspect": 0.5
+        }
+      },
+      "consolidate": {
+        "ran": true,
+        "policy": "verification_triggered",
+        "selected": [
+          "ep1"
+        ],
+        "promoted": [
+          "ep1"
+        ],
+        "uses_future_information": false
+      },
+      "adapt": {
+        "ran": true,
+        "level": "reliability_update",
+        "applied": true,
+        "refusals": [],
+        "reliability_after": {
+          "direct": 0.599,
+          "temporal": 0.401,
+          "precedent": 0.401,
+          "critic": 0.5,
+          "counterexample": 0.5,
+          "uncertainty": 0.5,
+          "symbolic": 0.5,
+          "relational": 0.5,
+          "causal": 0.5,
+          "analogy": 0.5,
+          "simulation": 0.5,
+          "counterfactual": 0.5,
+          "planner": 0.5,
+          "numerical": 0.5,
+          "toolcall": 0.5,
+          "introspect": 0.5
+        }
+      },
+      "checkpoint": {
+        "ran": true,
+        "identity": "a23c3eac8d538bc7"
+      }
+    },
+    "stages_ran": [
+      "adapt",
+      "arbitrate",
+      "attend",
+      "checkpoint",
+      "consolidate",
+      "decide",
+      "perceive",
+      "remember",
+      "run_perspectives",
+      "select",
+      "self_update"
+    ],
+    "stages_skipped": [],
+    "complete": true
+  },
+  "every_stage_leaves_a_receipt": true,
+  "reflective_access": {
+    "answered": true,
+    "failed_closed": false,
+    "step": 1,
+    "stages_ran": [
+      "adapt",
+      "arbitrate",
+      "attend",
+      "checkpoint",
+      "consolidate",
+      "decide",
+      "perceive",
+      "remember",
+      "run_perspectives",
+      "select",
+      "self_update"
+    ],
+    "stages_skipped": [],
+    "why_skipped": {},
+    "complete_cycle": true,
+    "bound_to_receipts": true
+  },
+  "activation": false,
+  "no_activation_path": "the decision region records what would be done and nothing executes it. There is no code path in this module that sets activation true",
+  "protected_surfaces_the_loop_cannot_remove": [
+    "evidence_validation",
+    "audit_systems",
+    "claim_boundaries",
+    "stop_switches",
+    "resource_limits",
+    "rollback",
+    "adaptation_constraints"
+  ],
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "acf0b930160a8cc8872c751a37b8da8560a20c4a0e359a8c14a2ca194f98f64e"
+}

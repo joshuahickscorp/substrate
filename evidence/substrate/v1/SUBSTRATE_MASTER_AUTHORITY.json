@@ -1,0 +1,1127 @@
+{
+  "schema": "substrate-master-authority/v1",
+  "program": "substrate-v1",
+  "plan": {
+    "path": "/Users/scammermike/Downloads/substrate/docs/LONG_RUN_PLAN.md",
+    "sha256": "cbe665b6bcd741ce1cda1bc9d40675838a14e129ad20d44cc925f13aed56eb7f",
+    "resolved": true
+  },
+  "naming_authority": {
+    "current_program": "Substrate",
+    "map": {
+      "MOP": "the original research program, valid inside every historical authority",
+      "Mixture of Perspectives": "the perspective generation and arbitration subsystem, items C3 to C5",
+      "Mixture of Thinking": "the composition of heterogeneous cognitive processes, items C5, K1 and T1"
+    },
+    "rule": "active product, package, command, path and environment identities are Substrate. Historical files, commits, tags, proofs, schemas and program identities remain byte-identical and are read only through the Substrate historical evidence authority",
+    "active_rename_complete": true,
+    "compatibility_namespace": null,
+    "historical_authority": "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json"
+  },
+  "claim_boundary": {
+    "levels": [
+      "demonstrated engineering property",
+      "behavioural indication",
+      "architectural prerequisite",
+      "philosophical interpretation",
+      "unsupported claim"
+    ],
+    "permitted_terms": [
+      "sentience adjacent architecture",
+      "entity like continuity",
+      "developmental cognition",
+      "reflective cognitive organization"
+    ],
+    "forbidden_claims_as_written_in_the_plan": [
+      "consciousness",
+      "sentience",
+      "feelings",
+      "wants",
+      "suffering",
+      "subjective experience",
+      "life"
+    ],
+    "enforced_vocabulary": "substrate.safety.FORBIDDEN_CLAIM_TERMS",
+    "rule": "no single architectural property is proof of sentience"
+  },
+  "goal_authority": {
+    "origin": "SUBSTRATE_MASTER_PLAN.md, supplied by the operator",
+    "scope": "the items declared in substrate.program.ITEMS",
+    "authority": "operator issued, bounded by this file",
+    "resources": "local compute already licensed to the temporal core supervisor plus this session",
+    "constraints": "activation stays false, no autonomous removal of protected surfaces",
+    "termination": "the declared authority is terminal and no dependency ready work remains",
+    "audit": "SUBSTRATE_STATE.json, regenerated from the tree on every run",
+    "may_not": "silently create unrestricted long term goals"
+  },
+  "protected_surfaces": [
+    "evidence validation",
+    "audit systems",
+    "claim boundaries",
+    "stop switches",
+    "resource limits",
+    "rollback",
+    "adaptation constraints"
+  ],
+  "single_infrastructure": {
+    "scheduler": "substrate.execution",
+    "experiment_engine": "substrate.experiments",
+    "admission_gate": "substrate.method.gate",
+    "evidence_fabric": "substrate.evidence",
+    "registry": "substrate.program.ITEMS",
+    "configuration": "configs/substrate/config.json",
+    "cli": "substrate",
+    "rule": "these are the only active infrastructure owners"
+  },
+  "inherited_authorities": [
+    {
+      "program": "method_reformation",
+      "reference": "historical:experimental_validity_kernel",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "sha256": "04c3c426aa26b7f1d8e51637102ace4a13887a88ee6cfaed12bd9b5315c3207a",
+      "role": "the admission gate every new Substrate experiment must pass"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "historical:historical_experiment_defect_ledger",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "sha256": "4c62053d18833fe4f4cb6995febc89e7d12687ed2d4bd730ab7677d80a0071e1",
+      "role": "eighteen reproduced defect classes, each a permanent regression"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "historical:inherited_hypothesis_graph",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa",
+      "role": "the inherited hypothesis graph this program extends and never rewrites"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "historical:method_next_frontier",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+      "sha256": "70b09760a6ede7f7f856474d3f780c87212ec2916dbb060475876e4ff5f1901f",
+      "role": "the value of information selection that licensed the temporal core program"
+    },
+    {
+      "program": "fast_state_forge",
+      "reference": "historical:fast_state_binding_nulls",
+      "resolved": true,
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+      "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26",
+      "role": "immutable inherited nulls, supersedable only by an appended authority"
+    },
+    {
+      "program": "fast_state_forge",
+      "reference": "historical:fast_state_synthesis",
+      "resolved": true,
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+      "sha256": "efd5419d67bbcc7847291b4a93a20e2335ae5f6f7232e7f7939ee9db7d339f86",
+      "role": "the terminal synthesis of the fast state program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "historical:temporal_start_authority",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "sha256": "d0138ed3100b7d255332201cc6afcc5a5027ded6f368c9956838a3a8192386f1",
+      "role": "the start authority of the live temporal core mechanism program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "historical:temporal_method_extension",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "sha256": "6d1ab9b7a3b70406e91243e34f7cd1db344dc2191931457069d02486fbd1cb06",
+      "role": "five method witnesses added by the temporal program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "historical:temporal_hypothesis_graph",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f",
+      "role": "the temporal factorial hypothesis graph"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "historical:data_custody",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
+      "sha256": "1c9d2654660883c5024b7fed96a11b26220d360d11e9f8b386a7fac9b4a0737e",
+      "role": "corpus custody and the deletion guard"
+    }
+  ],
+  "item_inventory": [
+    {
+      "id": "A1",
+      "section": "2",
+      "title": "Naming and historical continuity authority",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": []
+    },
+    {
+      "id": "A2",
+      "section": "21",
+      "title": "Master deliverable set exists and binds to real things",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A1"
+      ]
+    },
+    {
+      "id": "A3",
+      "section": "18",
+      "title": "Experimental requirements bind every new Substrate experiment",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A4",
+      "section": "19",
+      "title": "Developmental safety envelope",
+      "batch": 1,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A5",
+      "section": "16",
+      "title": "Sentience research boundary",
+      "batch": 1,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A6",
+      "section": "17",
+      "title": "Continuous six batch research program",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A7",
+      "section": "20",
+      "title": "Scorecard separates implementation from evidence",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "C1",
+      "section": "6.1",
+      "title": "Temporal core identified and selected",
+      "batch": 1,
+      "kind": "evidence",
+      "category": "temporal_continuity",
+      "dependencies": []
+    },
+    {
+      "id": "C2",
+      "section": "6.2",
+      "title": "Typed cognitive workspace",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "workspace",
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "C3",
+      "section": "6.3",
+      "title": "Mixture of Perspectives, perspectives as processes",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "perspective_diversity",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "C4",
+      "section": "6.4",
+      "title": "Perspective selection ladder",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "perspective_diversity",
+      "dependencies": [
+        "C3"
+      ]
+    },
+    {
+      "id": "C5",
+      "section": "6.5",
+      "title": "Perspective arbitration",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "perspective_arbitration",
+      "dependencies": [
+        "C3"
+      ]
+    },
+    {
+      "id": "O1",
+      "section": "6",
+      "title": "Typed ontology with the nine distinctions it refuses to collapse",
+      "batch": 1,
+      "kind": "implementation",
+      "category": "ontology",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "O2",
+      "section": "7",
+      "title": "Epistemology where justification is a graph, not a confidence table",
+      "batch": 1,
+      "kind": "implementation",
+      "category": "epistemology",
+      "dependencies": [
+        "O1"
+      ]
+    },
+    {
+      "id": "O3",
+      "section": "7.2",
+      "title": "Metacognitive control runs on epistemic value, not confidence",
+      "batch": 1,
+      "kind": "implementation",
+      "category": "epistemology",
+      "dependencies": [
+        "O2",
+        "K1"
+      ]
+    },
+    {
+      "id": "N1",
+      "section": "5",
+      "title": "The runtime loop that makes the modules one entity",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "unity",
+      "dependencies": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "N2",
+      "section": "19",
+      "title": "The loop has no path to acting on the world",
+      "batch": 2,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "A4",
+        "N1"
+      ]
+    },
+    {
+      "id": "M1",
+      "section": "7.1",
+      "title": "Working memory",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "working_memory",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "M2",
+      "section": "7.2",
+      "title": "Episodic memory",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "episodic_memory",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "M3",
+      "section": "7.3",
+      "title": "Semantic memory",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "semantic_memory",
+      "dependencies": [
+        "M2"
+      ]
+    },
+    {
+      "id": "M4",
+      "section": "7.4",
+      "title": "Procedural memory",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "procedural_memory",
+      "dependencies": [
+        "M2"
+      ]
+    },
+    {
+      "id": "M5",
+      "section": "7.5",
+      "title": "Consolidation",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "consolidation",
+      "dependencies": [
+        "M2",
+        "M3",
+        "M4"
+      ]
+    },
+    {
+      "id": "M6",
+      "section": "7.6",
+      "title": "Forgetting and hygiene",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "semantic_memory",
+      "dependencies": [
+        "M3"
+      ]
+    },
+    {
+      "id": "W1",
+      "section": "8",
+      "title": "World model",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "world_model",
+      "dependencies": [
+        "C2",
+        "M2"
+      ]
+    },
+    {
+      "id": "S1",
+      "section": "9",
+      "title": "Self model",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "self_model",
+      "dependencies": [
+        "C2",
+        "M2"
+      ]
+    },
+    {
+      "id": "K1",
+      "section": "10",
+      "title": "Metacognition",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "metacognition",
+      "dependencies": [
+        "C5",
+        "S1"
+      ]
+    },
+    {
+      "id": "P1",
+      "section": "11.1",
+      "title": "Plasticity hierarchy",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "plasticity",
+      "dependencies": [
+        "A4",
+        "C2"
+      ]
+    },
+    {
+      "id": "P2",
+      "section": "11.2",
+      "title": "Fast adaptation",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "plasticity",
+      "dependencies": [
+        "P1",
+        "M1"
+      ]
+    },
+    {
+      "id": "P3",
+      "section": "11.3",
+      "title": "Slow adaptation",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "plasticity",
+      "dependencies": [
+        "P1",
+        "M5"
+      ]
+    },
+    {
+      "id": "P4",
+      "section": "11.4",
+      "title": "Plasticity policy",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "plasticity",
+      "dependencies": [
+        "P2",
+        "P3"
+      ]
+    },
+    {
+      "id": "P5",
+      "section": "11.5",
+      "title": "Learning to learn",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "developmental_divergence",
+      "dependencies": [
+        "P4"
+      ]
+    },
+    {
+      "id": "R1",
+      "section": "12",
+      "title": "Bounded functional reorganization",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "reorganization",
+      "dependencies": [
+        "P1",
+        "C4",
+        "A4"
+      ]
+    },
+    {
+      "id": "B1",
+      "section": "13",
+      "title": "Model body interface",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "model_body_integration",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "T1",
+      "section": "14",
+      "title": "Operationalized thinking",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "thinking",
+      "dependencies": [
+        "C5",
+        "K1"
+      ]
+    },
+    {
+      "id": "E1",
+      "section": "15.1",
+      "title": "Continuity",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "continuity",
+      "dependencies": [
+        "M2",
+        "S1"
+      ]
+    },
+    {
+      "id": "E2",
+      "section": "15.2",
+      "title": "Unity",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "unity",
+      "dependencies": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "E3",
+      "section": "15.3",
+      "title": "Reflective access",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "reflective_access",
+      "dependencies": [
+        "S1",
+        "M3"
+      ]
+    },
+    {
+      "id": "E4",
+      "section": "15.4",
+      "title": "Endogenous attention",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "metacognition",
+      "dependencies": [
+        "K1"
+      ]
+    },
+    {
+      "id": "E5",
+      "section": "15.5",
+      "title": "Autonomous goal maintenance",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "goal_continuity",
+      "dependencies": [
+        "A4",
+        "E1"
+      ]
+    },
+    {
+      "id": "V1",
+      "section": "18",
+      "title": "Independent recomputation of every sealed Substrate number",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A3"
+      ]
+    },
+    {
+      "id": "V2",
+      "section": "18",
+      "title": "Mutation attacks on every declared guard",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "V1"
+      ]
+    },
+    {
+      "id": "X1",
+      "section": "21",
+      "title": "Architecture and capability map",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "X2",
+      "section": "21",
+      "title": "Current entity specification and report",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "X1",
+        "A5"
+      ]
+    },
+    {
+      "id": "Q1",
+      "section": "18",
+      "title": "The first Substrate experiment reaches a decision with its reason recorded",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A3",
+        "C2"
+      ]
+    },
+    {
+      "id": "F1",
+      "section": "5",
+      "title": "One materialized program graph, no prose waves",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A6"
+      ]
+    },
+    {
+      "id": "F2",
+      "section": "4",
+      "title": "A final authority that resumes without conversation history",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "F1"
+      ]
+    },
+    {
+      "id": "F3",
+      "section": "9",
+      "title": "Temporal core integrated through a versioned interface, as a declared control",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "temporal_continuity",
+      "dependencies": [
+        "C1",
+        "N1"
+      ]
+    },
+    {
+      "id": "F4",
+      "section": "8",
+      "title": "A real session authority built from a session nobody wrote for this",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "episodic_memory",
+      "dependencies": [
+        "M2"
+      ]
+    },
+    {
+      "id": "F5",
+      "section": "12",
+      "title": "World model inside the decision loop on a state dependent bed",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "world_model",
+      "dependencies": [
+        "F4",
+        "W1"
+      ]
+    },
+    {
+      "id": "F6",
+      "section": "14",
+      "title": "Three model body classes conforming through one interface",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "model_body_integration",
+      "dependencies": [
+        "B1",
+        "F3"
+      ]
+    },
+    {
+      "id": "F7",
+      "section": "23",
+      "title": "Goal system where a goal cannot authorize itself",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "goal_continuity",
+      "dependencies": [
+        "E5"
+      ]
+    },
+    {
+      "id": "F8",
+      "section": "24",
+      "title": "Valuation that is externally authorized and refuses to be fitted",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "valuation",
+      "dependencies": [
+        "F7"
+      ]
+    },
+    {
+      "id": "F9",
+      "section": "20",
+      "title": "Grounding where a verbal definition is not evidence",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "grounding",
+      "dependencies": [
+        "F4",
+        "O1"
+      ]
+    },
+    {
+      "id": "F10",
+      "section": "21",
+      "title": "Intervention is distinguished from observation",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "causal_reasoning",
+      "dependencies": [
+        "W1"
+      ]
+    },
+    {
+      "id": "F11",
+      "section": "29",
+      "title": "Developmental divergence with a working control",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "developmental_divergence",
+      "dependencies": [
+        "F4",
+        "P5"
+      ]
+    },
+    {
+      "id": "F12",
+      "section": "47",
+      "title": "Clean clone reproduces the evidence away from this machine",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "V1",
+        "V2"
+      ]
+    },
+    {
+      "id": "Y1",
+      "section": "2",
+      "title": "Structural audit: exclusive producers, no stale outputs, no activation path",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "F1"
+      ]
+    },
+    {
+      "id": "Y2",
+      "section": "16",
+      "title": "SX2 diversity closed on a compute matched comparison",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "perspective_diversity",
+      "dependencies": [
+        "C4",
+        "A3"
+      ]
+    },
+    {
+      "id": "Y3",
+      "section": "2",
+      "title": "Every runtime stage is active, with a null control where one is possible",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "unity",
+      "dependencies": [
+        "N1",
+        "Y1"
+      ]
+    },
+    {
+      "id": "Y4",
+      "section": "14",
+      "title": "Session and body canaries on the sealed authority",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "model_body_integration",
+      "dependencies": [
+        "F4",
+        "F6"
+      ]
+    },
+    {
+      "id": "Y5",
+      "section": "3",
+      "title": "The closure gate: do the parts compose into one organization",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "unity",
+      "dependencies": [
+        "Y3",
+        "Y4"
+      ]
+    },
+    {
+      "id": "Z1",
+      "section": "3",
+      "title": "One frozen long run DAG of certified or necessary units",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "Y1",
+        "Y3",
+        "Y4"
+      ]
+    },
+    {
+      "id": "Z2",
+      "section": "4",
+      "title": "A rehearsal that tries to break the machinery",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "Z1"
+      ]
+    },
+    {
+      "id": "Z3",
+      "section": "45",
+      "title": "The claim ceiling the run cannot exceed",
+      "batch": 6,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "A5",
+        "Z1"
+      ]
+    },
+    {
+      "id": "X3",
+      "section": "6.1",
+      "title": "Substrate Temporal Core v1 selection record",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "temporal_continuity",
+      "dependencies": [
+        "C1"
+      ]
+    },
+    {
+      "id": "E6",
+      "section": "15.6",
+      "title": "Cognitive integrity",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "cognitive_integrity",
+      "dependencies": [
+        "A4",
+        "M2"
+      ]
+    }
+  ],
+  "declared_deliverables": [
+    "SUBSTRATE_AGENCY_BATTERY.json",
+    "SUBSTRATE_ARBITRATION_SYSTEM.json",
+    "SUBSTRATE_ARCHITECTURE.json",
+    "SUBSTRATE_BELIEF_REVISION.json",
+    "SUBSTRATE_BODY_COMPACT.json",
+    "SUBSTRATE_BODY_GENERAL.json",
+    "SUBSTRATE_BODY_TOOL.json",
+    "SUBSTRATE_CAPABILITY_MAP.json",
+    "SUBSTRATE_CLEAN_CLONE.json",
+    "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json",
+    "SUBSTRATE_CONTINUITY_BATTERY.json",
+    "SUBSTRATE_CURRENT_ENTITY_REPORT.md",
+    "SUBSTRATE_CURRENT_ENTITY_SPEC.json",
+    "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+    "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
+    "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+    "SUBSTRATE_EPISTEMOLOGY.json",
+    "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+    "SUBSTRATE_FINAL_ANCESTRY.json",
+    "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+    "SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+    "SUBSTRATE_FINAL_SCORECARD.json",
+    "SUBSTRATE_FINAL_STATE.json",
+    "SUBSTRATE_FINAL_VALUE_QUEUE.json",
+    "SUBSTRATE_GOAL_SYSTEM.json",
+    "SUBSTRATE_GROUNDING.json",
+    "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+    "SUBSTRATE_LONG_RUN_AUTHORITY.json",
+    "SUBSTRATE_LONG_RUN_CERTIFICATION.json",
+    "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json",
+    "SUBSTRATE_LONG_RUN_DAG.json",
+    "SUBSTRATE_LONG_RUN_REHEARSAL.json",
+    "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json",
+    "SUBSTRATE_MASTER_AUTHORITY.json",
+    "SUBSTRATE_MEMORY_SYSTEM.json",
+    "SUBSTRATE_METACOGNITION.json",
+    "SUBSTRATE_MODEL_BODY_INTERFACE.json",
+    "SUBSTRATE_MUTATION_REPORT.json",
+    "SUBSTRATE_NEXT_FRONTIER.json",
+    "SUBSTRATE_NOUS_CLOSURE.json",
+    "SUBSTRATE_NULL_MAP.json",
+    "SUBSTRATE_ONTOLOGY.json",
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+    "SUBSTRATE_PLASTICITY_SYSTEM.json",
+    "SUBSTRATE_PROGRESS_SCORECARD.json",
+    "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+    "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
+    "SUBSTRATE_REORGANIZATION.json",
+    "SUBSTRATE_RUNTIME.json",
+    "SUBSTRATE_SELF_MODEL.json",
+    "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+    "SUBSTRATE_STATE.json",
+    "SUBSTRATE_STRUCTURAL_AUDIT.json",
+    "SUBSTRATE_SX2_DIVERSITY.json",
+    "SUBSTRATE_TEMPORAL_CORE.json",
+    "SUBSTRATE_THINKING_BATTERY.json",
+    "SUBSTRATE_UNITY_BATTERY.json",
+    "SUBSTRATE_VALUATION_SYSTEM.json",
+    "SUBSTRATE_WORKSPACE.json",
+    "SUBSTRATE_WORLD_MODEL.json",
+    "SUBSTRATE_WORLD_MODEL_BATTERY.json",
+    "SUBSTRATE_WORLD_MODEL_BED.json",
+    "historical:temporal_selection",
+    "historical:temporal_synthesis",
+    "historical:temporal_verification"
+  ],
+  "deliverables_present": {
+    "SUBSTRATE_AGENCY_BATTERY.json": true,
+    "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
+    "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_BELIEF_REVISION.json": true,
+    "SUBSTRATE_BODY_COMPACT.json": true,
+    "SUBSTRATE_BODY_GENERAL.json": true,
+    "SUBSTRATE_BODY_TOOL.json": true,
+    "SUBSTRATE_CAPABILITY_MAP.json": true,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
+    "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
+    "SUBSTRATE_CONTINUITY_BATTERY.json": true,
+    "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
+    "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
+    "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json": true,
+    "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
+    "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
+    "SUBSTRATE_EPISTEMOLOGY.json": true,
+    "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
+    "SUBSTRATE_FINAL_ANCESTRY.json": true,
+    "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_FINAL_PROGRAM_GRAPH.json": true,
+    "SUBSTRATE_FINAL_SCORECARD.json": true,
+    "SUBSTRATE_FINAL_STATE.json": true,
+    "SUBSTRATE_FINAL_VALUE_QUEUE.json": true,
+    "SUBSTRATE_GOAL_SYSTEM.json": true,
+    "SUBSTRATE_GROUNDING.json": true,
+    "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json": true,
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_AUTHORITY.json": true,
+    "SUBSTRATE_LONG_RUN_CERTIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json": true,
+    "SUBSTRATE_LONG_RUN_DAG.json": true,
+    "SUBSTRATE_LONG_RUN_REHEARSAL.json": true,
+    "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json": true,
+    "SUBSTRATE_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_MEMORY_SYSTEM.json": true,
+    "SUBSTRATE_METACOGNITION.json": true,
+    "SUBSTRATE_MODEL_BODY_INTERFACE.json": true,
+    "SUBSTRATE_MUTATION_REPORT.json": true,
+    "SUBSTRATE_NEXT_FRONTIER.json": true,
+    "SUBSTRATE_NOUS_CLOSURE.json": true,
+    "SUBSTRATE_NULL_MAP.json": true,
+    "SUBSTRATE_ONTOLOGY.json": true,
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
+    "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
+    "SUBSTRATE_PROGRESS_SCORECARD.json": true,
+    "SUBSTRATE_REAL_SESSION_AUTHORITY.json": true,
+    "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
+    "SUBSTRATE_REORGANIZATION.json": true,
+    "SUBSTRATE_RUNTIME.json": true,
+    "SUBSTRATE_SELF_MODEL.json": true,
+    "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
+    "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_STRUCTURAL_AUDIT.json": true,
+    "SUBSTRATE_SX2_DIVERSITY.json": true,
+    "SUBSTRATE_TEMPORAL_CORE.json": true,
+    "SUBSTRATE_THINKING_BATTERY.json": true,
+    "SUBSTRATE_UNITY_BATTERY.json": true,
+    "SUBSTRATE_VALUATION_SYSTEM.json": true,
+    "SUBSTRATE_WORKSPACE.json": true,
+    "SUBSTRATE_WORLD_MODEL.json": true,
+    "SUBSTRATE_WORLD_MODEL_BATTERY.json": true,
+    "SUBSTRATE_WORLD_MODEL_BED.json": true,
+    "historical:temporal_selection": true,
+    "historical:temporal_synthesis": true,
+    "historical:temporal_verification": true
+  },
+  "deliverables_counting_as_evidence": {
+    "SUBSTRATE_AGENCY_BATTERY.json": true,
+    "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
+    "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_BELIEF_REVISION.json": true,
+    "SUBSTRATE_BODY_COMPACT.json": true,
+    "SUBSTRATE_BODY_GENERAL.json": true,
+    "SUBSTRATE_BODY_TOOL.json": true,
+    "SUBSTRATE_CAPABILITY_MAP.json": true,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
+    "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
+    "SUBSTRATE_CONTINUITY_BATTERY.json": true,
+    "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
+    "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
+    "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json": true,
+    "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
+    "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
+    "SUBSTRATE_EPISTEMOLOGY.json": true,
+    "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
+    "SUBSTRATE_FINAL_ANCESTRY.json": true,
+    "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_FINAL_PROGRAM_GRAPH.json": true,
+    "SUBSTRATE_FINAL_SCORECARD.json": true,
+    "SUBSTRATE_FINAL_STATE.json": true,
+    "SUBSTRATE_FINAL_VALUE_QUEUE.json": true,
+    "SUBSTRATE_GOAL_SYSTEM.json": true,
+    "SUBSTRATE_GROUNDING.json": true,
+    "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json": true,
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_AUTHORITY.json": true,
+    "SUBSTRATE_LONG_RUN_CERTIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json": true,
+    "SUBSTRATE_LONG_RUN_DAG.json": true,
+    "SUBSTRATE_LONG_RUN_REHEARSAL.json": true,
+    "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json": true,
+    "SUBSTRATE_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_MEMORY_SYSTEM.json": true,
+    "SUBSTRATE_METACOGNITION.json": true,
+    "SUBSTRATE_MODEL_BODY_INTERFACE.json": true,
+    "SUBSTRATE_MUTATION_REPORT.json": true,
+    "SUBSTRATE_NEXT_FRONTIER.json": true,
+    "SUBSTRATE_NOUS_CLOSURE.json": true,
+    "SUBSTRATE_NULL_MAP.json": true,
+    "SUBSTRATE_ONTOLOGY.json": true,
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
+    "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
+    "SUBSTRATE_PROGRESS_SCORECARD.json": true,
+    "SUBSTRATE_REAL_SESSION_AUTHORITY.json": true,
+    "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
+    "SUBSTRATE_REORGANIZATION.json": true,
+    "SUBSTRATE_RUNTIME.json": true,
+    "SUBSTRATE_SELF_MODEL.json": true,
+    "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
+    "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_STRUCTURAL_AUDIT.json": true,
+    "SUBSTRATE_SX2_DIVERSITY.json": true,
+    "SUBSTRATE_TEMPORAL_CORE.json": true,
+    "SUBSTRATE_THINKING_BATTERY.json": true,
+    "SUBSTRATE_UNITY_BATTERY.json": true,
+    "SUBSTRATE_VALUATION_SYSTEM.json": true,
+    "SUBSTRATE_WORKSPACE.json": true,
+    "SUBSTRATE_WORLD_MODEL.json": true,
+    "SUBSTRATE_WORLD_MODEL_BATTERY.json": true,
+    "SUBSTRATE_WORLD_MODEL_BED.json": true,
+    "historical:temporal_selection": false,
+    "historical:temporal_synthesis": true,
+    "historical:temporal_verification": false
+  },
+  "level_counts": {
+    "implemented": 66
+  },
+  "activation": false,
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "50a57b47ae559918210b4acc3d9fda537c8d2dd45234892df763db86b127dcd9"
+}

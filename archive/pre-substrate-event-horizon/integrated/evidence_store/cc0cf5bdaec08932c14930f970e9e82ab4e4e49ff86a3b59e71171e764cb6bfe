@@ -1,0 +1,298 @@
+{
+  "schema": "mop-fast-state-architecture-comparison/v1",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "causal_evidence_used": {
+    "shared_core_causes_forgetting": true,
+    "projection_or_norm_enables_acquisition": true,
+    "forgetting_groups": [
+      "G.memory_state",
+      "G.shared_fast_core",
+      "H.memory_state",
+      "H.shared_fast_delta"
+    ],
+    "transferable_groups": [],
+    "component_gaps": {
+      "second_acquisition": {
+        "best_substrate_arm": "G0_always_trainable",
+        "gap_to_baseline": 0.0756
+      },
+      "first_retention": {
+        "best_substrate_arm": "G5_projection_and_head",
+        "gap_to_baseline": 0.3441
+      },
+      "return_recovery": {
+        "best_substrate_arm": "G6_oracle_schedule",
+        "gap_to_baseline": 0.0145
+      },
+      "future_adaptation": {
+        "best_substrate_arm": "G0_always_trainable",
+        "gap_to_baseline": 0.0323
+      }
+    },
+    "return_recovery_is_the_failing_component": false,
+    "weakest_component_for_the_substrate": "return_recovery",
+    "gate_block_rates": {
+      "H_cosine_gate": 0.8066,
+      "H_probe_gate": 0.9771,
+      "H_drift_gate": 1.0
+    },
+    "cosine_gate_blocked_most_updates": true,
+    "probe_gate_blocked_most_updates": true,
+    "drift_tracks_forgetting": true,
+    "absolute_drift_threshold_was_never_satisfied": true
+  },
+  "selected_rounds": {
+    "G": [
+      "G-R1",
+      "G-R2"
+    ],
+    "H": [
+      "H-R2",
+      "H-R1"
+    ]
+  },
+  "candidate_ranking_by_evidence_strength": {
+    "G": [
+      {
+        "round": "G-R1",
+        "evidence_strength": 0.4411,
+        "evidence_key": "projection_or_norm_enables_acquisition"
+      },
+      {
+        "round": "G-R2",
+        "evidence_strength": 0.2943,
+        "evidence_key": "shared_core_causes_forgetting"
+      },
+      {
+        "round": "G-R3",
+        "evidence_strength": -1.0,
+        "evidence_key": "return_recovery_is_the_failing_component"
+      }
+    ],
+    "H": [
+      {
+        "round": "H-R2",
+        "evidence_strength": 0.9771,
+        "evidence_key": "probe_gate_blocked_most_updates"
+      },
+      {
+        "round": "H-R1",
+        "evidence_strength": 0.8066,
+        "evidence_key": "cosine_gate_blocked_most_updates"
+      },
+      {
+        "round": "H-R3",
+        "evidence_strength": 0.0,
+        "evidence_key": "drift_tracks_forgetting"
+      }
+    ]
+  },
+  "rejected_rounds": {
+    "G": [
+      "G-R3"
+    ],
+    "H": [
+      "H-R3"
+    ]
+  },
+  "round_definitions": {
+    "G-R1": {
+      "name": "G_R1_domain_input_norm",
+      "responds_to": "second domain acquisition is limited by input statistics reaching the shared core, not by the shared dynamics themselves",
+      "policy": {
+        "arch": "G_R1_domain_input_norm",
+        "carry": true,
+        "shared_p2": false,
+        "shared_p3": true
+      }
+    },
+    "G-R2": {
+      "name": "G_R2_bounded_core_delta",
+      "responds_to": "the shared core causes old domain forgetting when it is fully trainable",
+      "policy": {
+        "arch": "G_R2_bounded_core_delta",
+        "carry": true,
+        "shared_p2": true,
+        "shared_p3": true
+      }
+    },
+    "G-R3": {
+      "name": "G_R3_split_core",
+      "responds_to": "return recovery is the failing component, so only a declared subset of the core is reopened on return",
+      "policy": {
+        "arch": "G_R3_split_core",
+        "carry": true,
+        "shared_p2": false,
+        "shared_p3": true,
+        "phase1_extra": [
+          "fast_core_ih"
+        ]
+      }
+    },
+    "H-R1": {
+      "name": "H_R1_conflict_gate_loosened",
+      "responds_to": "the conflict gate at threshold zero blocked most updates and starved second domain acquisition, so the round loosens it rather than tightening it",
+      "policy": {
+        "arch": "H",
+        "carry": true,
+        "shared_p2": true,
+        "shared_p3": true,
+        "gate": "cosine",
+        "thresh": -0.3
+      }
+    },
+    "H-R2": {
+      "name": "H_R2_probe_gate_loosened",
+      "responds_to": "the probe loss gate blocked almost every update, so the round widens the tolerance it allows before freezing",
+      "policy": {
+        "arch": "H",
+        "carry": true,
+        "shared_p2": true,
+        "shared_p3": true,
+        "gate": "probe",
+        "thresh": 0.3
+      }
+    },
+    "H-R3": {
+      "name": "H_R3_anchor_restoration",
+      "responds_to": "measured drift away from the anchor tracked the loss of the old domain, so the response is partial restoration toward the anchor rather than freezing. The threshold is a ratio to the anchor norm, because the absolute drift scales with parameter count",
+      "policy": {
+        "arch": "H",
+        "carry": true,
+        "shared_p2": true,
+        "shared_p3": true,
+        "gate": "anchor_restore",
+        "thresh": 0.15
+      }
+    }
+  },
+  "comparison": {
+    "har->speech": {
+      "strongest_matched_baseline": "fresh_independent",
+      "G_R1_domain_input_norm": {
+        "utility": 0.7323,
+        "vs_strongest_baseline": {
+          "mean": -0.0714,
+          "lower_95_cb": -0.0984,
+          "n": 8
+        },
+        "vs_base_architecture": {
+          "mean": -0.0808,
+          "lower_95_cb": -0.1059,
+          "n": 8
+        }
+      },
+      "G_R2_bounded_core_delta": {
+        "utility": 0.78,
+        "vs_strongest_baseline": {
+          "mean": -0.0237,
+          "lower_95_cb": -0.0302,
+          "n": 8
+        },
+        "vs_base_architecture": {
+          "mean": -0.0331,
+          "lower_95_cb": -0.0434,
+          "n": 8
+        }
+      },
+      "H_R1_conflict_gate_loosened": {
+        "utility": 0.7765,
+        "vs_strongest_baseline": {
+          "mean": -0.0272,
+          "lower_95_cb": -0.0383,
+          "n": 8
+        },
+        "vs_base_architecture": {
+          "mean": 0.0015,
+          "lower_95_cb": -0.003,
+          "n": 8
+        }
+      },
+      "H_R2_probe_gate_loosened": {
+        "utility": 0.7454,
+        "vs_strongest_baseline": {
+          "mean": -0.0583,
+          "lower_95_cb": -0.0792,
+          "n": 8
+        },
+        "vs_base_architecture": {
+          "mean": -0.0296,
+          "lower_95_cb": -0.0435,
+          "n": 8
+        }
+      }
+    },
+    "speech->har": {
+      "strongest_matched_baseline": "fresh_independent",
+      "G_R1_domain_input_norm": {
+        "utility": 0.8316,
+        "vs_strongest_baseline": {
+          "mean": -0.0036,
+          "lower_95_cb": -0.0089,
+          "n": 8
+        },
+        "vs_base_architecture": {
+          "mean": -0.0056,
+          "lower_95_cb": -0.0121,
+          "n": 8
+        }
+      },
+      "G_R2_bounded_core_delta": {
+        "utility": 0.8131,
+        "vs_strongest_baseline": {
+          "mean": -0.0221,
+          "lower_95_cb": -0.0329,
+          "n": 8
+        },
+        "vs_base_architecture": {
+          "mean": -0.0241,
+          "lower_95_cb": -0.0303,
+          "n": 8
+        }
+      },
+      "H_R1_conflict_gate_loosened": {
+        "utility": 0.8055,
+        "vs_strongest_baseline": {
+          "mean": -0.0298,
+          "lower_95_cb": -0.0372,
+          "n": 8
+        },
+        "vs_base_architecture": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        }
+      },
+      "H_R2_probe_gate_loosened": {
+        "utility": 0.8012,
+        "vs_strongest_baseline": {
+          "mean": -0.0341,
+          "lower_95_cb": -0.0442,
+          "n": 8
+        },
+        "vs_base_architecture": {
+          "mean": -0.0043,
+          "lower_95_cb": -0.0104,
+          "n": 8
+        }
+      }
+    }
+  },
+  "rounds_passing_a_direction": [],
+  "rounds_passing_both_directions": [],
+  "verdict": "improvement_round_null",
+  "wall_seconds": 0.1,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
+  "SESOI": 0.05,
+  "sha256": "7d6299823a379286eb02eca2437eea1be0954791a4ba394c7f2e3a91d488d46e"
+}

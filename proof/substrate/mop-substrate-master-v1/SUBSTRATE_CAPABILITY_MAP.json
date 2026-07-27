@@ -1,0 +1,288 @@
+{
+  "schema": "substrate-capability-map/v1",
+  "source": "SUBSTRATE_MASTER_PLAN.md section 5",
+  "capabilities": [
+    {
+      "capability": "inhabit a specialist or general model body",
+      "items": [
+        "B1"
+      ],
+      "levels": {
+        "B1": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "maintain persistent temporal state",
+      "items": [
+        "C1",
+        "C2"
+      ],
+      "levels": {
+        "C1": "tested",
+        "C2": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "preserve active goals and unresolved problems",
+      "items": [
+        "E1",
+        "E5"
+      ],
+      "levels": {
+        "E1": "measured",
+        "E5": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "remember verified experience",
+      "items": [
+        "M2"
+      ],
+      "levels": {
+        "M2": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "separate working, episodic, semantic and procedural memory",
+      "items": [
+        "M1",
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "levels": {
+        "M1": "measured",
+        "M2": "measured",
+        "M3": "measured",
+        "M4": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "build and update a world model",
+      "items": [
+        "W1"
+      ],
+      "levels": {
+        "W1": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "maintain a measurable self model",
+      "items": [
+        "S1"
+      ],
+      "levels": {
+        "S1": "terminal"
+      },
+      "implemented": true,
+      "evidence_earned": [
+        "S1"
+      ],
+      "has_evidence": true
+    },
+    {
+      "capability": "invoke multiple cognitive perspectives",
+      "items": [
+        "C3",
+        "C4"
+      ],
+      "levels": {
+        "C3": "measured",
+        "C4": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "arbitrate agreement and disagreement",
+      "items": [
+        "C5"
+      ],
+      "levels": {
+        "C5": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "allocate additional thought and tools",
+      "items": [
+        "K1",
+        "E4"
+      ],
+      "levels": {
+        "K1": "measured",
+        "E4": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "adapt through state, memory, adapters and bounded parameter updates",
+      "items": [
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "levels": {
+        "P1": "measured",
+        "P2": "measured",
+        "P3": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "consolidate repeated experience",
+      "items": [
+        "M5"
+      ],
+      "levels": {
+        "M5": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "recover after interruption",
+      "items": [
+        "E1"
+      ],
+      "levels": {
+        "E1": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "transfer procedures across tasks",
+      "items": [
+        "M4",
+        "P5"
+      ],
+      "levels": {
+        "M4": "measured",
+        "P5": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "develop specialization",
+      "items": [
+        "P5",
+        "R1"
+      ],
+      "levels": {
+        "P5": "measured",
+        "R1": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "reorganize within bounded declared structures",
+      "items": [
+        "R1"
+      ],
+      "levels": {
+        "R1": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "preserve evidence and cognitive integrity",
+      "items": [
+        "A4",
+        "E6",
+        "V1",
+        "V2"
+      ],
+      "levels": {
+        "A4": "terminal",
+        "E6": "measured",
+        "V1": "terminal",
+        "V2": "terminal"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "explain beliefs through traceable evidence paths",
+      "items": [
+        "E3"
+      ],
+      "levels": {
+        "E3": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "differ from an identical initial copy through developmental history",
+      "items": [
+        "P5"
+      ],
+      "levels": {
+        "P5": "measured"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    },
+    {
+      "capability": "remain scientifically auditable",
+      "items": [
+        "A3",
+        "V1",
+        "V2"
+      ],
+      "levels": {
+        "A3": "terminal",
+        "V1": "terminal",
+        "V2": "terminal"
+      },
+      "implemented": true,
+      "evidence_earned": [],
+      "has_evidence": false
+    }
+  ],
+  "implemented_count": 20,
+  "with_evidence_count": 1,
+  "total": 20,
+  "rule": "implemented means the declared surface exists and its tests pass. Evidence is counted only from items carrying a scientific classification",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "55d138bdf2d716aed14d2533cd1998eb0b7611b6",
+  "sha256": "13eeadcaf778e8078e01fbc444b38997f4e642a5d620ac477ed3563131906da3"
+}

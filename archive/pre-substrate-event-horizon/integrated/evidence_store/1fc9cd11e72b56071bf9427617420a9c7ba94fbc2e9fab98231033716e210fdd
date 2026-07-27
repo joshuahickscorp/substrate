@@ -1,0 +1,121 @@
+{
+  "schema": "mop-temporal-implementation-transition/v1",
+  "old_implementation": {
+    "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+    "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf"
+  },
+  "intermediate_implementations": [
+    {
+      "source_commit": "b558d89aaaa838fb910ddf6689fa85a8fa8060a5",
+      "source_tree_oid": "be4c52abf8e156173ef2d3301a381e665b96b985",
+      "role": "receipt contract and deterministic retry hold; canary producer"
+    }
+  ],
+  "new_implementation": {
+    "source_commit": "28a697b344f0f8f89704b41f43a4ff59f2b324ff",
+    "source_tree_oid": "12281f91377e96c4913514ad9ec0ba48b99f66fb"
+  },
+  "quiescent_state": {
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_QUIESCENT_SNAPSHOT.json",
+    "sha256": "1b8dadb73c1688a7bf3915f9a7ea0523d3bc98ef58be32406669ce1bbc61516a"
+  },
+  "scientific_manifest": [
+    {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "old_blob": "e5b65534d07896bfb9aeefbc32d1f17f236464d6",
+      "new_blob": "e5b65534d07896bfb9aeefbc32d1f17f236464d6"
+    },
+    {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "old_blob": "8b27a4ed1386d59f4e350b3c80eafff2aaa63248",
+      "new_blob": "8b27a4ed1386d59f4e350b3c80eafff2aaa63248"
+    },
+    {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "old_blob": "ca7d8813a136c08925099963f9d8c9dfbff65f4c",
+      "new_blob": "ca7d8813a136c08925099963f9d8c9dfbff65f4c"
+    },
+    {
+      "path": "src/mop/temporal/factorial.py",
+      "old_blob": "014303669e4766ef0eb5b58ca8d81f0aa94c6af4",
+      "new_blob": "014303669e4766ef0eb5b58ca8d81f0aa94c6af4"
+    },
+    {
+      "path": "src/mop/temporal/beds.py",
+      "old_blob": "b735340d3f8751f28ba9c3f9d6a630559b4316fe",
+      "new_blob": "b735340d3f8751f28ba9c3f9d6a630559b4316fe"
+    },
+    {
+      "path": "src/mop/temporal/analysis.py",
+      "old_blob": "64bf698e9c65832463864355cdfc4f968f2f830c",
+      "new_blob": "64bf698e9c65832463864355cdfc4f968f2f830c"
+    }
+  ],
+  "scientific_manifest_unchanged": true,
+  "repaired_code_paths": [
+    {
+      "path": "src/mop/temporal/receipt_contract.py",
+      "old_blob": null,
+      "new_blob": "5a84aa978be6d09b7c75392e330a5ff70fc20ea8"
+    },
+    {
+      "path": "src/mop/temporal/runs/e2.py",
+      "old_blob": "561d0405331b3988439ca9e6aa185a30d9850fc7",
+      "new_blob": "b8e576f2865934d496a14a92f213b45b56482de7"
+    },
+    {
+      "path": "src/mop/temporal/runs/corrections.py",
+      "old_blob": "fd4efd8e786995d8a87fe07d6612816e79b9187c",
+      "new_blob": "5ec86bdc958102e2bb1e434640e97fa66987390a"
+    },
+    {
+      "path": "src/mop/temporal/runs/supervisor.py",
+      "old_blob": "bee01f526754f323347ab88cc69bd637a70eefeb",
+      "new_blob": "1e8a4d81cbf252767aa1576b20095c4bab8dbb32"
+    },
+    {
+      "path": "src/mop/temporal/runs/verify.py",
+      "old_blob": "b50999663b9ad26d6dedfd97b79c408743af97f6",
+      "new_blob": "f4d93482941048cab56267ad7a67085ca756edf7"
+    },
+    {
+      "path": "tests/temporal/test_receipt_contract.py",
+      "old_blob": null,
+      "new_blob": "4bbd77a48d34a90e6aa1ef208c31f5e631a64044"
+    },
+    {
+      "path": "tests/temporal/test_supervisor_receipt_hardening.py",
+      "old_blob": "a0dd5dda26264dfbf18ec4d13d359f1ed548b463",
+      "new_blob": "c13a96d7ea9a2d14e2eaab23feae62fa2b0a7635"
+    }
+  ],
+  "receipt_migrations": {
+    "schema": "mop-temporal-receipt-migration/v1",
+    "count": 462,
+    "index_sha256": "aa827ca4ffd5e756dea80da6d472e7f47e11d46e975321e88fc74187e3cb4afb"
+  },
+  "canary": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge_corrections/convergence_har_stream.json",
+    "sha256": "8efde08680c7e2a1055309151dbde902ce85e8fd24791522a1bf6bfa487b95bf",
+    "source_commit": "b558d89aaaa838fb910ddf6689fa85a8fa8060a5",
+    "contract_valid": true,
+    "supervisor_valid": true,
+    "aggregate_adapter_equivalent": true
+  },
+  "test_evidence": {
+    "focused_after_followup": "33 passed",
+    "reduced_full_suite": "passed"
+  },
+  "release": {
+    "old_failure_holds_inactive_under_new_implementation": true,
+    "canary_required_before_queue_resume": true,
+    "canary_validation_pending_independent_aggregate_recheck": true
+  },
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "28a697b344f0f8f89704b41f43a4ff59f2b324ff",
+  "source_tree_oid": "12281f91377e96c4913514ad9ec0ba48b99f66fb",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "f0e576a43a46b316e462ecb2180ac57fa4bc39c780ff79499b332e7c2369017b"
+}

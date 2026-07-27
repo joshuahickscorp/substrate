@@ -1,0 +1,29 @@
+{
+  "schema": "mop-campaign2-launch-receipt/v1",
+  "program_id": "mop-generation2-realdata-canary",
+  "source_commit": "16dc1c6b03122606b5fc87b05cb313e76650d0db",
+  "run_root": "/Users/scammermike/Downloads/mop/campaign2",
+  "legacy_isolation": "new program ID, run root, reports, stop switch; legacy General Run remains DEAD with ~/.mop_autonomy_stop preserved; no reuse of legacy program ID / run root / process identity / relaunch chain",
+  "supervisor": "in-process foreground canary runner (no detached supervisor; deterministic seeded beds, cached)",
+  "campaign_stop_switch": "~/.mop_campaign2_stop (absent=active)",
+  "dataset_authorities": {
+    "MNIST": "public-domain, torchvision mirror, campaign2/data",
+    "FashionMNIST": "MIT license, torchvision mirror",
+    "STARSS23": "local, available for source breadth"
+  },
+  "split_authority": "group-disjoint by distribution regime (N1/U1) or task (P1R); untouched test partitions",
+  "active_lanes": [
+    "G1-N1 (terminal: canary_positive)",
+    "G1-U1 (running)",
+    "G1-P1R (running)"
+  ],
+  "runtime_authority": "repaired Phase 3 scheduler/profiles + calibrated Phase 4B admission battery (MOP_REPAIRED_RUNTIME_BINDING_AUTHORITY, MOP_PHASE4B_BATTERY_CALIBRATION)",
+  "resource_profiles": "measured Phase 3 profiles; canary compute is bounded (small CNN training on CPU, minutes per lane)",
+  "planned_work": "3 real-data canaries (N1 done positive; U1, P1R running); positive lanes proceed to bounded independent confirmation",
+  "first_milestone": "N1 canary terminal: canary_positive (first real-data mechanism value in the program)",
+  "notification_status": "in-run stdout milestones; no external notifier bound for this bounded canary set",
+  "resume_command": "PYTHONPATH= .venv/bin/python campaign2/lanes/run canaries (beds cache deterministically; rerun re-reads cache)",
+  "status_command": "ls campaign2/reports/MOP_G1_*_CANARY_RESULT.json",
+  "activation_authority": false,
+  "launch_sha256": "6c711bcb0d0d909ce22010cf2563d2f2906b482a67aa41adcce9fbc7474b76b2"
+}

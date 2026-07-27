@@ -1,0 +1,25 @@
+{
+  "schema": "substrate-archive-authority/v1",
+  "root": "archive/pre-substrate-event-horizon",
+  "manifest": "archive/pre-substrate-event-horizon/ARCHIVE_MANIFEST.json",
+  "entry_count": 2888,
+  "files_on_disk_including_manifest": 2889,
+  "bytes": 127985292,
+  "markdown_count": 39,
+  "deleted_exact_duplicates": [
+    "archive/pre-substrate-event-horizon/tests/temporal/__init__.py",
+    "archive/pre-substrate-event-horizon/tests/unit/__init__.py",
+    "archive/pre-substrate-event-horizon/tests/integration/__init__.py",
+    "archive/pre-substrate-event-horizon/tests/method/__init__.py",
+    "archive/pre-substrate-event-horizon/fastforge/runs/__init__.py",
+    "archive/pre-substrate-event-horizon/src/mop/temporal/__init__.py",
+    "archive/pre-substrate-event-horizon/src/mop/beds/__init__.py",
+    "archive/pre-substrate-event-horizon/src/mop/temporal/runs/__init__.py",
+    "archive/pre-substrate-event-horizon/frontier/reports/MOP_FRONTIER_PARALLEL_BENCHMARK.json"
+  ],
+  "active_navigation_links_only_to_archive_root": true,
+  "manifest_complete": true,
+  "source_commit": "26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c",
+  "activation": false,
+  "sha256": "685a95b90c42be8d6bfbc215e5bdead2a5ea593adf6ca1c7780598a6ea4f3aa6"
+}

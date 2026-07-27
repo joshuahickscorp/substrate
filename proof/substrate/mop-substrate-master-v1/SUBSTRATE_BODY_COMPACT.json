@@ -1,0 +1,37 @@
+{
+  "schema": "substrate-body-compact/v1",
+  "body": "compact_specialist",
+  "class": "compact",
+  "conformance": {
+    "body": "compact_specialist",
+    "mode": "adapter_layer",
+    "implements": [
+      "adaptation_proposal",
+      "checkpoint",
+      "hidden_state",
+      "inference",
+      "memory_request",
+      "resource_report",
+      "selected_activations",
+      "tool_request",
+      "verification_request"
+    ],
+    "missing": [],
+    "declaration_violations": [],
+    "conforms": true,
+    "partial": false
+  },
+  "message_gaps": {},
+  "all_messages_valid": true,
+  "n_parameters": 48,
+  "held_out_accuracy": 0.663916,
+  "views": [
+    "static"
+  ],
+  "tool_dominant": false,
+  "external_blocker": "",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "sha256": "e7ccc75b9aa5f1010d1f3e6f08c9cd62ba95c8f80cb4c35b09d26ee12d6e3084"
+}

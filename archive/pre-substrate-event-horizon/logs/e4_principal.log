@@ -1,0 +1,65 @@
+E4 principal speech_stream seed 1: no_adapt=0.32759/0.6356 state_only=0.45225/0.48957 state_noise=0.32759/0.64117 head_only=0.52785/0.47149 adapter_only=0.50796/0.48679 core_only=0.70955/0.62587 full=0.67507/0.57719
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 7: no_adapt=0.56935/0.77267 state_only=0.62616/0.73062 state_noise=0.55746/0.77004 head_only=0.60766/0.74639 adapter_only=0.64069/0.76741 core_only=0.67503/0.77267 full=0.68032/0.79238
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 5: no_adapt=0.2449/0.69876 state_only=0.31293/0.3879 state_noise=0.25442/0.70289 head_only=0.29252/0.38102 adapter_only=0.35782/0.35076 core_only=0.58231/0.59422 full=0.61361/0.58047
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 0: no_adapt=0.48968/0.65782 state_only=0.49519/0.62069 state_noise=0.48006/0.64324 head_only=0.52132/0.66578 adapter_only=0.55021/0.60477 core_only=0.64374/0.63926 full=0.60248/0.64854
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 6: no_adapt=0.21363/0.72564 state_only=0.37353/0.37821 state_noise=0.21101/0.71923 head_only=0.44299/0.48718 adapter_only=0.39187/0.50128 core_only=0.60157/0.61795 full=0.59371/0.59615
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 2: no_adapt=0.59067/0.71102 state_only=0.63731/0.6586 state_noise=0.58549/0.71102 head_only=0.72021/0.63172 adapter_only=0.71632/0.64247 core_only=0.75259/0.69355 full=0.78109/0.70565
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 3: no_adapt=0.5536/0.74699 state_only=0.65536/0.60375 state_noise=0.50068/0.74163 head_only=0.64993/0.67202 adapter_only=0.68385/0.6506 core_only=0.74084/0.77242 full=0.76934/0.76707
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 4: no_adapt=0.20946/0.65625 state_only=0.36892/0.36589 state_noise=0.21081/0.65365 head_only=0.48243/0.39323 adapter_only=0.43108/0.38932 core_only=0.70541/0.56641 full=0.7/0.55339
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 12: no_adapt=0.37348/0.68997 state_only=0.50474/0.56728 state_noise=0.38024/0.69657 head_only=0.52503/0.53958 adapter_only=0.48309/0.52375 core_only=0.61028/0.57388 full=0.62923/0.58971
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 10: no_adapt=0.63143/0.67721 state_only=0.62429/0.69302 state_noise=0.63714/0.67457 head_only=0.64714/0.68248 adapter_only=0.63429/0.65744 core_only=0.67857/0.69697 full=0.68857/0.70619
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 11: no_adapt=0.34525/0.67325 state_only=0.47043/0.47694 state_noise=0.33287/0.66798 head_only=0.64924/0.46509 adapter_only=0.65612/0.45982 core_only=0.81843/0.61397 full=0.81568/0.62319
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 14: no_adapt=0.34817/0.73219 state_only=0.5301/0.58971 state_noise=0.35864/0.73219 head_only=0.53665/0.59499 adapter_only=0.52487/0.63456 core_only=0.64921/0.6438 full=0.67539/0.65831
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 13: no_adapt=0.33514/0.59546 state_only=0.38263/0.41389 state_noise=0.32564/0.55407 head_only=0.49525/0.50734 adapter_only=0.46676/0.40854 core_only=0.69199/0.51669 full=0.66214/0.50868
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 15: no_adapt=0.63201/0.72927 state_only=0.63201/0.75389 state_noise=0.62927/0.73446 head_only=0.67305/0.70078 adapter_only=0.71956/0.73316 core_only=0.77291/0.73964 full=0.75376/0.76425
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 9: no_adapt=0.36497/0.56168 state_only=0.44118/0.54987 state_noise=0.37299/0.57612 head_only=0.48797/0.49869 adapter_only=0.49064/0.53806 core_only=0.62834/0.56955 full=0.61631/0.57612
+E4_PRINCIPAL_DONE
+E4 principal speech_stream seed 8: no_adapt=0.33466/0.72391 state_only=0.47487/0.55086 state_noise=0.32672/0.72127 head_only=0.50397/0.54822 adapter_only=0.48016/0.5852 core_only=0.63757/0.56671 full=0.64153/0.57332
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 2: no_adapt=0.41696/0.80702 state_only=0.72491/0.7807 state_noise=0.42561/0.81404 head_only=0.93772/0.75088 adapter_only=0.91695/0.74386 core_only=0.97232/0.82982 full=0.97059/0.83158
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 1: no_adapt=0.55516/0.84354 state_only=0.57829/0.88435 state_noise=0.55338/0.84184 head_only=0.72954/0.88265 adapter_only=0.75445/0.89456 core_only=0.86121/0.89796 full=0.90214/0.86224
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 0: no_adapt=0.50174/0.72727 state_only=0.54355/0.75325 state_noise=0.50174/0.73098 head_only=0.78746/0.81633 adapter_only=0.80139/0.81633 core_only=0.94077/0.8757 full=0.9338/0.88868
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 4: no_adapt=0.60069/0.87544 state_only=0.78313/0.8452 state_noise=0.60585/0.879 head_only=0.87952/0.70996 adapter_only=0.89673/0.71352 core_only=0.95869/0.84342 full=0.96041/0.82028
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 3: no_adapt=0.60453/0.98686 state_only=0.69686/0.74877 state_noise=0.60801/0.98686 head_only=0.75436/0.75369 adapter_only=0.75958/0.75369 core_only=0.86237/0.73235 full=0.85192/0.75698
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 5: no_adapt=0.96271/0.67742 state_only=0.99492/0.69032 state_noise=0.95932/0.67581 head_only=0.99661/0.67742 adapter_only=0.98644/0.68226 core_only=1.0/0.69032 full=0.99322/0.70161
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 7: no_adapt=0.55052/0.83065 state_only=0.80139/0.57581 state_noise=0.5331/0.82903 head_only=0.87979/0.59839 adapter_only=0.91289/0.56774 core_only=0.95122/0.62742 full=0.95993/0.64032
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 6: no_adapt=0.2412/0.95349 state_only=0.58275/0.77741 state_noise=0.23944/0.95349 head_only=0.78697/0.83056 adapter_only=0.72887/0.74086 core_only=0.86972/0.86545 full=0.89613/0.82558
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 8: no_adapt=0.54992/0.83333 state_only=0.69205/0.75094 state_noise=0.54822/0.83333 head_only=0.78173/0.60487 adapter_only=0.81387/0.51873 core_only=0.94755/0.79588 full=0.96277/0.83333
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 10: no_adapt=0.65709/0.89845 state_only=0.72797/0.91566 state_noise=0.64943/0.89329 head_only=0.659/0.90361 adapter_only=0.73563/0.9105 core_only=0.8295/0.88812 full=0.8295/0.93115
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 9: no_adapt=0.47405/0.89931 state_only=0.66955/0.71528 state_noise=0.47751/0.92188 head_only=0.8045/0.76389 adapter_only=0.7526/0.65799 core_only=0.92388/0.76215 full=0.92907/0.80382
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 15: no_adapt=0.34407/0.8876 state_only=0.32034/0.38347 state_noise=0.34407/0.8876 head_only=0.73559/0.67769 adapter_only=0.72373/0.69917 core_only=0.8661/0.71405 full=0.87627/0.68264
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 11: no_adapt=0.56137/0.93197 state_only=0.72744/0.92007 state_noise=0.55415/0.93197 head_only=0.9278/0.88605 adapter_only=0.94043/0.89966 core_only=0.94404/0.86735 full=0.94404/0.83673
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 12: no_adapt=0.62912/0.84864 state_only=0.70884/0.82483 state_noise=0.60139/0.84864 head_only=0.84922/0.83503 adapter_only=0.79203/0.83333 core_only=0.92201/0.87925 full=0.92201/0.88946
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 13: no_adapt=0.4692/0.74954 state_only=0.55254/0.58501 state_noise=0.47101/0.75868 head_only=0.78804/0.68373 adapter_only=0.80072/0.65996 core_only=0.86775/0.65082 full=0.88587/0.61426
+E4_PRINCIPAL_DONE
+E4 principal har_stream seed 14: no_adapt=0.5814/0.95619 state_only=0.69589/0.92952 state_noise=0.58676/0.9581 head_only=0.79428/0.85524 adapter_only=0.76744/0.8419 core_only=0.88193/0.89905 full=0.84436/0.88571
+E4_PRINCIPAL_DONE
+E4_PRINCIPAL_ALL_DONE

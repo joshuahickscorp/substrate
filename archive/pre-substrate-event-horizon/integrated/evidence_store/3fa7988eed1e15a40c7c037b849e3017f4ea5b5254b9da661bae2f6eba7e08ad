@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "harth_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "micro",
+    "readout": "linear",
+    "reset": "horizon_5",
+    "history_k": 1
+  },
+  "cell": "gru|micro|linear|horizon_5|h1",
+  "curve": {
+    "400": 0.9217833333333334,
+    "800": 0.9615233333333334,
+    "1600": 0.9593933333333333,
+    "3200": 0.9606733333333333,
+    "6400": 0.9623766666666667,
+    "12800": 0.9657566666666666
+  },
+  "seed_spread": {
+    "400": 0.00605,
+    "800": 0.00696,
+    "1600": 0.00321,
+    "3200": 0.00682,
+    "6400": 0.00839,
+    "12800": 0.00479
+  },
+  "seed_scores": {
+    "400": [
+      0.91519,
+      0.92308,
+      0.92708
+    ],
+    "800": [
+      0.9557,
+      0.96923,
+      0.95964
+    ],
+    "1600": [
+      0.9557,
+      0.96154,
+      0.96094
+    ],
+    "3200": [
+      0.95443,
+      0.96795,
+      0.95964
+    ],
+    "6400": [
+      0.9557,
+      0.97179,
+      0.95964
+    ],
+    "12800": [
+      0.96582,
+      0.97051,
+      0.96094
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.91519,
+        "checkpoint_sha": "f3a88f0a2fbf8df62a1a9c94043dabcea1152abab2c955c24ca11bb5c26e2e2a"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.92308,
+        "checkpoint_sha": "aef7f8f4a75f96ad6e6980696d387676919e52b2c9df0743bbbc7025896bf969"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.92708,
+        "checkpoint_sha": "44eaed0f331af52fc5cb214cb92a021bf6708d2b04c423ceecc3aa0a5f0e0e05"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.9557,
+        "checkpoint_sha": "85273dd141ad6990b40486b45c87c96697f31531c23fd0a2b0b59005296deca3"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.96923,
+        "checkpoint_sha": "4ada4587752ac2f4283b14374a3303dcb26fbf7f5d4d6de826994f5c6bfbfb8d"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.95964,
+        "checkpoint_sha": "ed8ab69df410311034b14f14077a60964b37afade6343b6896afcc880920932a"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.9557,
+        "checkpoint_sha": "2ede3415dda08d157b54efd18e0d3ab8ae6dab849c9fb9acbbbaa21e63a38741"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.96154,
+        "checkpoint_sha": "e339d6df64b078f92b99da6a7833a003ffbd4f82cddb977e3d3eeb94275ce1f2"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.96094,
+        "checkpoint_sha": "f9e823df30f4f0f97a937e1a8cc5e643bc46cba4656672adb198aa87c5d65d08"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.95443,
+        "checkpoint_sha": "184cf80b8cf36aea6bf12c02e0030ccdf753a3979cf57541572297b17c19460a"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.96795,
+        "checkpoint_sha": "83bf2128b7acf2d5a34748ae8b23e3f1ebb0e3770ad4da7a9c6910328e8ed350"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.95964,
+        "checkpoint_sha": "7e0a2a94b2c4c4e37ad6429ab7a4378539c328fbc4d531662d3a44e0f83af6e3"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.9557,
+        "checkpoint_sha": "65f113776913befe4cba8cb1bd4f85254a021a093415d9cac1b1efddc63f4051"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.97179,
+        "checkpoint_sha": "06585dbc5b33e5fcdb8be6632d87122b3aa9862bb5a40a4cd8d91c775765fbb7"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.95964,
+        "checkpoint_sha": "cbb1e42051258033f18ce908628fd9982566c69f13dc79c83d5fe42cd45f0318"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.96582,
+        "checkpoint_sha": "b44006497a692095033b761b4e191abaab03ca7bf8d11f119158019a22506b8c"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.97051,
+        "checkpoint_sha": "452debdc4e45507660e68b45e18248d466a8ab1ea69751577187581a7638a130"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.96094,
+        "checkpoint_sha": "13fdaefca5f0800b6fcce4bcb2f82b3e63cbca4c7bbdb36cc8fbc9922d1174ea"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 10612,
+    "readout": 390,
+    "total": 11002
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_harth_stream_57.json",
+    "sha256": "048381cbbf46667224196d765e924a7f574c7810e9d214d60adee842db4105d1",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.92178,
+    0.96152,
+    0.95939,
+    0.96067,
+    0.96238,
+    0.96576
+  ],
+  "best_budget": 12800,
+  "selected_checkpoint": 12800,
+  "second_half_movement": 0.00508,
+  "residual_slope": 0.002542,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0051 with slope 0.00254; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 300.7,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "905d75f873621b2b691546eba7745c0164ef8236fba5a3b40b07e88bc2e7aa26"
+}

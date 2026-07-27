@@ -1,0 +1,39 @@
+{
+  "schema": "substrate-experiment-design/v1",
+  "experiment_id": "SX1b",
+  "question": "does a write restriction fitted on training units still help on source groups it has never seen",
+  "why_it_is_not_a_closed_form": "the reliability of each writer is measured on training units rather than set by a generator, so the restriction can be fitted to a reliability ordering that does not hold on held out groups. The answer depends on how stable that ordering is across units, which no closed form supplies",
+  "arms": {
+    "typed_fitted": "writers restricted to the perspective that was more reliable on training units",
+    "typed_oracle": "writers restricted using the held out ordering, an upper bound",
+    "untyped": "the matched capacity control, no restriction",
+    "typed_wrong": "restricted to the less reliable training writer, the harm direction"
+  },
+  "bed_requirements": [
+    "a real corpus already under data custody",
+    "source groups that make train and test disjoint",
+    "at least two perspectives whose reliabilities differ by group",
+    "a measured, not declared, reliability ordering"
+  ],
+  "candidate_beds": [
+    "harth_stream",
+    "pamap2_stream"
+  ],
+  "primary_outcome": "accuracy per held out source group",
+  "sesoi": 0.05,
+  "predictions": {
+    "H_typed_workspace": {
+      "typed_fitted_beats_untyped": true
+    },
+    "H_reliability_instability": {
+      "typed_fitted_beats_untyped": false,
+      "typed_oracle_beats_untyped": true
+    },
+    "H_capacity_only": {
+      "typed_fitted_beats_untyped": false,
+      "typed_oracle_beats_untyped": false
+    }
+  },
+  "blocked_on": "principal compute. The temporal core factorial holds every worker slot, and this design is queued behind it rather than run alongside it",
+  "activation": false
+}

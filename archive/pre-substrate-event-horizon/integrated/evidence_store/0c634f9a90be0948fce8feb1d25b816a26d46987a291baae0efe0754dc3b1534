@@ -1,0 +1,96 @@
+{
+  "schema": "mop-selected-experiments/v1",
+  "selected": [
+    "E1",
+    "E4"
+  ],
+  "detail": [
+    {
+      "id": "E1",
+      "title": "fast core versus readout, factorial, on the two sealed valid temporal beds",
+      "question": "does the within domain capability come from the recurrent core, from the readout, or from their interaction, on a bed that actually requires temporal order",
+      "scores": {
+        "expected_information_gain": 0.95,
+        "probability_of_changing_the_substrate_decision": 0.8,
+        "compute_cost": 0.35,
+        "duration_cost": 0.3,
+        "instrumentation_risk": 0.2,
+        "baseline_uncertainty": 0.2,
+        "oracle_headroom": 0.7,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.9,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.95,
+        "risk_of_repeating_a_closed_premise": 0.05
+      },
+      "decision_information": 0.897,
+      "cost_index": 0.28,
+      "feasibility": 0.8,
+      "reuse": 0.95,
+      "priority": 2.905,
+      "raw_priority": 2.905,
+      "status": "eligible",
+      "refusal_reason": "",
+      "hypotheses_separated": [
+        "H_fast_state",
+        "H_readout_capacity",
+        "H_bed_insufficiency"
+      ],
+      "justification": {
+        "expected_information_gain": "the prior program named this exact question unresolved and never separated the two factors",
+        "risk_of_repeating_a_closed_premise": "the closed premise is cross modality transfer; this is within domain on a different bed",
+        "oracle_headroom": "the stream beds are sealed temporal_headroom_present, so an order free reader provably cannot solve them",
+        "compute_cost": "four cells plus controls on beds the forge already ran at this size"
+      }
+    },
+    {
+      "id": "E4",
+      "title": "adaptation locus: state only, head only, adapter only, core, full",
+      "question": "can useful fast adaptation occur in owned state without changing shared slow parameters",
+      "scores": {
+        "expected_information_gain": 0.8,
+        "probability_of_changing_the_substrate_decision": 0.6,
+        "compute_cost": 0.2,
+        "duration_cost": 0.2,
+        "instrumentation_risk": 0.3,
+        "baseline_uncertainty": 0.25,
+        "oracle_headroom": 0.6,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.9,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.8,
+        "risk_of_repeating_a_closed_premise": 0.15
+      },
+      "decision_information": 0.73,
+      "cost_index": 0.233,
+      "feasibility": 0.75,
+      "reuse": 0.95,
+      "priority": 2.783,
+      "raw_priority": 2.783,
+      "status": "eligible",
+      "refusal_reason": "",
+      "hypotheses_separated": [
+        "H_fast_state",
+        "H_interference",
+        "H_domain_specific_representation"
+      ],
+      "justification": {
+        "compute_cost": "adaptation is a short phase on top of one shared pretrained checkpoint per seed, the cheapest of the five",
+        "oracle_headroom": "the update partition oracle is positive with a positive lower bound, 0.0052 and 0.0129 by direction, though below SESOI",
+        "discriminates_competing_hypotheses": "the five loci map one to one onto three competing explanations of the nulls"
+      }
+    }
+  ],
+  "pair_covers_hypotheses": [
+    "H_bed_insufficiency",
+    "H_domain_specific_representation",
+    "H_fast_state",
+    "H_interference",
+    "H_readout_capacity"
+  ],
+  "pair_rationale": "E1 splits the core from the readout on a bed that requires order, which is the only way to tell the fast state hypothesis from the readout capacity hypothesis. E4 splits the locus of adaptation, which is the only way to tell interference from domain specific representation while holding the core fixed. Neither can produce the same verdict under both explanations.",
+  "predictions_required_before_execution": true,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "4181372d04257e811221c3855b5a1e0d8146eb92",
+  "sha256": "5de9b0bae94113cbb420194a8d6112f872c000a3851522ef633a4813031cbe51"
+}

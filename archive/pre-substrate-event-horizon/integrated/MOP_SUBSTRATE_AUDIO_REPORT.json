@@ -1,0 +1,30 @@
+{
+  "schema": "mop-substrate-audio-preflight/v2-melbank",
+  "domain": "SpeechCommands_v0.02",
+  "substitution_reason": "STARSS23 cached features invalid: 8 clips, aggregated per-clip latents, no recording/room/site-disjoint units, no temporal sequence",
+  "rights": "Speech Commands v0.02, public (CC BY 4.0), Google",
+  "source_commit": "a686ddec0056596db8c79726b79d04090190643d",
+  "units": "speaker-disjoint (speaker hash in filename)",
+  "n_clips": 3200,
+  "frames": 98,
+  "bins": 40,
+  "classes": 10,
+  "n_speakers": 228,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "gru_correct": 0.7837,
+  "gru_shuffled": 0.6252,
+  "bag_order_free": 0.6113,
+  "temporal_headroom_gru_vs_bag": 0.1724,
+  "temporal_headroom_lcb": 0.1552,
+  "order_matters_gru_vs_shuffled": 0.1585,
+  "verdict": "temporal_headroom_present",
+  "wall_seconds": 2996.9,
+  "bounded_repair": "v1 used 20 linear-pooled FFT bins, 300 steps, 64 hidden -> 0.50 accuracy on 10 keywords (standard MFCC+GRU reaches ~0.93). Insufficient estimator capacity, not a domain property. v2 uses a 40-band mel filterbank, 10ms hop, 800 steps, 128 hidden.",
+  "sha256": "041008ac1ba031f286b0362aac00337b3eb8a1e989b1f73a5f44040b1e62564f"
+}

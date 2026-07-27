@@ -1,0 +1,83 @@
+{
+  "schema": "mop-p1r-thirdsource-replication/v1",
+  "lane": "G1-P1R",
+  "source_commit": "d7f752bcd422a8747cf8ed30edb36cc545bab36c",
+  "classification": "same_team_cross_architecture_positive",
+  "battery_classification": "admitted",
+  "clauses_passed": "11/11",
+  "clauses": {
+    "A_what_sufficiency": {
+      "decodability_mean": 0.796,
+      "pass": true
+    },
+    "B_oracle_headroom": {
+      "raw_headroom_fraction": 0.478,
+      "pass": true
+    },
+    "residual_learnable_headroom": {
+      "value": 0.369,
+      "best_simple_control_norm": 0.631,
+      "pass": true
+    },
+    "C_when_decodability": {
+      "decodability_mean": 0.796,
+      "pass": true
+    },
+    "D_incremental_value": {
+      "best_arch": "kernel_ridge",
+      "mean_incr_over_simple": 0.203,
+      "lower_95_cb": 0.061,
+      "pass": true
+    },
+    "E_group_generalization": {
+      "rule": "random_effects_lower_95_cb",
+      "mean_family_effect": 0.203,
+      "between_family_sd": 0.173,
+      "lower_95_cb": 0.061,
+      "min_detectable_effect": 0.142,
+      "favorable_family_fraction": 0.8,
+      "pass": true
+    },
+    "F_architecture_independence": {
+      "capable_estimators": [
+        "knn",
+        "kernel_ridge",
+        "rff_ridge"
+      ],
+      "n_passing": 3,
+      "per_arch": {
+        "knn": 0.063,
+        "kernel_ridge": 0.061,
+        "rff_ridge": 0.056
+      },
+      "linear_baseline_incr": 0.216,
+      "pass": true
+    },
+    "G_noisy_tv": {
+      "excess_alloc_mean": -0.082,
+      "pass": true
+    },
+    "H_shuffled_target": {
+      "shuffled_norm_mean": 0.037,
+      "mechanism_norm_mean": 0.834,
+      "pass": true
+    },
+    "I_wrong_time": {
+      "wrongtime_norm_mean": -1.117,
+      "pass": true
+    },
+    "J_rate_matched_random": {
+      "mechanism_minus_random": 0.916,
+      "pass": true
+    }
+  },
+  "independent_verification": {
+    "independent_mean_effect": 0.841,
+    "producer_mean_effect": 0.916,
+    "agree": true
+  },
+  "dataset": "KMNIST (third source)",
+  "evidence_class": "third-source P1R replication",
+  "wall_seconds": 7.3,
+  "result_sha256": "d5436ceb3d08e4d38635f5daf10bacf8839f41c76738188801c57db737762b9e"
+}

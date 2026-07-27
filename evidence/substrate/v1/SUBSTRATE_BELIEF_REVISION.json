@@ -1,0 +1,66 @@
+{
+  "schema": "substrate-belief-revision/v1",
+  "moves": [
+    "add evidence",
+    "reduce confidence",
+    "increase confidence",
+    "preserve alternatives",
+    "retract",
+    "supersede",
+    "mark unresolved conflict",
+    "request further evidence"
+  ],
+  "policies": [
+    {
+      "name": "latest_claim_wins",
+      "information_used": [
+        "arrival_order"
+      ],
+      "available_at_decision_time": true
+    },
+    {
+      "name": "highest_confidence_wins",
+      "information_used": [
+        "confidence"
+      ],
+      "available_at_decision_time": true
+    },
+    {
+      "name": "source_reliability",
+      "information_used": [
+        "source_history"
+      ],
+      "available_at_decision_time": true
+    },
+    {
+      "name": "evidence_weighted",
+      "information_used": [
+        "evidence_counts"
+      ],
+      "available_at_decision_time": true
+    },
+    {
+      "name": "dependency_aware",
+      "information_used": [
+        "dependency_graph",
+        "evidence_counts"
+      ],
+      "available_at_decision_time": true
+    },
+    {
+      "name": "oracle",
+      "information_used": [
+        "ground_truth"
+      ],
+      "available_at_decision_time": false
+    }
+  ],
+  "default_policy": "dependency_aware",
+  "why": "a claim resting on something retracted loses whatever its confidence says, which is the one thing a confidence table cannot express",
+  "alternative_rule": "the losing claim is superseded and kept, never deleted",
+  "unresolved_rule": "when neither claim dominates by the SESOI the conflict is marked unresolved rather than settled by arrival order",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "1761df50f449e903c37ba85395e247dcb556a31a0e56fcb4dd12705267d9e219"
+}

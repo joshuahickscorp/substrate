@@ -1,0 +1,30 @@
+{
+  "schema": "substrate-thinking-battery/v1",
+  "scored": false,
+  "supported": false,
+  "reason": "the claim rests on latency or hidden activations, which section 14 excludes as evidence of thinking",
+  "alternatives_declared": [
+    "larger_static_model",
+    "stronger_readout",
+    "longer_context",
+    "more_samples",
+    "more_tokens",
+    "tool_only_system"
+  ],
+  "alternatives_compared": [],
+  "alternatives_missing": [
+    "larger_static_model",
+    "stronger_readout",
+    "longer_context",
+    "more_samples",
+    "more_tokens",
+    "tool_only_system"
+  ],
+  "non_evidence_named": [
+    "latency"
+  ],
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "activation": false,
+  "sha256": "3dc5c690d4603f2bbde87ee1f88969a9e6c5aa0b0deca0fc4f30522594bb3254"
+}

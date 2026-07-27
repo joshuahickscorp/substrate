@@ -1,0 +1,50 @@
+{
+  "schema": "mop-temporal-cap-preserving-refill-authority/v1",
+  "observed_at": "2026-07-27T05:28:58+00:00",
+  "implementation": {
+    "path": "reports/telegram_notifier/temporal_core_refill.py",
+    "sha256": "4e69865383577d3f05952974b5f5bef81721bf1ff0eccbfaddeee931ebdd2eef",
+    "launchd_plist": "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.refill.plist",
+    "launchd_plist_sha256": "c80b0b604a7080d17dacdc9be613aa3905809497b41a0042b2f849135ea8f41c"
+  },
+  "scope": "principal-to-capacity-correction overlap only",
+  "invariants": {
+    "large_worker_cap": 16,
+    "all_principal_identities_accounted_before_launch": true,
+    "accounting_equation": "completed principal receipts + live principal locks = 24",
+    "exact_parent_receipt_required": true,
+    "atomic_fix_identity_lock_required": true,
+    "missing_or_crashed_principal_blocks_refill": true,
+    "refill_exits_after_principal_wave_terminal": true,
+    "activation_unchanged": true
+  },
+  "current_gate": {
+    "completed_principal": 8,
+    "live_principal": 16,
+    "accounted_principal": 24,
+    "ready_parent_bound_corrections": [
+      "capacity_harth_stream_0",
+      "capacity_harth_stream_1",
+      "capacity_harth_stream_2",
+      "capacity_harth_stream_3",
+      "capacity_harth_stream_4",
+      "capacity_harth_stream_5",
+      "capacity_harth_stream_6",
+      "capacity_harth_stream_7"
+    ],
+    "active_principal_or_correction_locks": 16,
+    "free_large_slots": 0,
+    "launched_by_rearm": 0
+  },
+  "service": {
+    "running": true,
+    "error_log_bytes": 0
+  },
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "179effcc651d7696591503fb21e6030c95d8ada1",
+  "source_tree_oid": "ad7b77960c0e56bdd367eb7cfecda3b13ca30c9c",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "edcaecc7ef7125bbc6f35651ca76b8be7c44726b0d476c7659aa710f493d6205"
+}

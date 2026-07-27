@@ -1,0 +1,7 @@
+{
+  "schema": "mop-substrate-architecture-d/v1",
+  "name": "Hierarchical Plasticity Lattice",
+  "params": 45834.0,
+  "result": "structural_null (does not beat LSTM; hierarchical routing decorative)",
+  "sha256": "330cd4a51f88d50b2288e9712fef917a5c1262034157f3fb8fcec308345c705a"
+}

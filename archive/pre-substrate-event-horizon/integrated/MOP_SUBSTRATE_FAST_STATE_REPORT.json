@@ -1,0 +1,6 @@
+{
+  "schema": "fast-state/v1",
+  "contribution": 0.0627,
+  "verdict": "only timescale carrying measurable value (removing it costs 0.063 utility)",
+  "sha256": "e609f8bfeb07361db6ba8b0f51b795ec7c9d28d4ba0e9665f14d864391cc06db"
+}

@@ -1,0 +1,140 @@
+{
+  "schema": "substrate-experiment-decision/v1",
+  "experiment_id": "SX1",
+  "title": "does a typed workspace beat an untyped one of matched capacity on a synthetic bed",
+  "hypotheses": [
+    "H_capacity_only",
+    "H_typed_workspace"
+  ],
+  "admission": {
+    "experiment_id": "SX1",
+    "title": "does a typed workspace beat an untyped one of matched capacity on a synthetic bed",
+    "requested_stage": "principal",
+    "stages": {
+      "scientific_premise": {
+        "contracts": [
+          "q"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "causal_model": {
+        "contracts": [
+          "g"
+        ],
+        "violations": [
+          "causal:g: treatment typed declares an implementation but no implemented causal path",
+          "causal:g: primary outcome answer has no measured relation feeding it",
+          "causal:g: claim claim is broader than the measured path, unmeasured: ['answer']"
+        ],
+        "passed": false,
+        "reached": true
+      },
+      "measurement_model": {
+        "contracts": [
+          "m"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "instrument_calibration": {
+        "contracts": [
+          "i"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "arm_distinctness": {
+        "contracts": [
+          "typed"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "control_semantics": {
+        "contracts": [
+          "untyped"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "bed_validity": {
+        "contracts": [
+          "bed",
+          "units"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "baseline_convergence": {
+        "contracts": [
+          "base"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "oracle_headroom": {
+        "contracts": [
+          "oracle"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "power_and_units": {
+        "contracts": [
+          "power"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "scout": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "independent_reproduction": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "principal": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      }
+    },
+    "blocked_at": "causal_model",
+    "blocking_violations": [
+      "causal:g: treatment typed declares an implementation but no implemented causal path",
+      "causal:g: primary outcome answer has no measured relation feeding it",
+      "causal:g: claim claim is broader than the measured path, unmeasured: ['answer']"
+    ],
+    "licensed": false,
+    "principal_execution_licensed": false,
+    "completeness_violations": [],
+    "substrate_admission": "refused"
+  },
+  "causal_graph_violations": [
+    "treatment typed declares an implementation but no implemented causal path",
+    "primary outcome answer has no measured relation feeding it",
+    "claim claim is broader than the measured path, unmeasured: ['answer']"
+  ],
+  "licensed": false,
+  "classification": "methodological_refusal",
+  "why": "on a synthetic bed the comparison has a closed form. Typing refuses writes from an undeclared component, so which arm wins follows from the two reliabilities the generator was given. The treatment to outcome edge is a structural guarantee, no measured relation reaches the outcome, and the claim is therefore broader than the measured path",
+  "not_a_scientific_null": "a methodological failure is not a scientific null. H_typed_workspace is untested, not refuted, and stays open in the hypothesis graph",
+  "successor": "SX1b",
+  "activation": false
+}

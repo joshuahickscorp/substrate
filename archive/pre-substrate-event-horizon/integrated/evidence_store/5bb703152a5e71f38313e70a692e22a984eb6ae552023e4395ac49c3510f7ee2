@@ -1,0 +1,298 @@
+{
+  "schema": "mop-experiment-value-queue/v1",
+  "dimensions": [
+    "expected_information_gain",
+    "probability_of_changing_the_substrate_decision",
+    "compute_cost",
+    "duration_cost",
+    "instrumentation_risk",
+    "baseline_uncertainty",
+    "oracle_headroom",
+    "independent_unit_quality",
+    "reusability_of_implementation",
+    "reusability_of_data",
+    "discriminates_competing_hypotheses",
+    "risk_of_repeating_a_closed_premise"
+  ],
+  "formula": "priority = decision_information * (0.6 + 0.4 * feasibility) * (0.7 + 0.3 * reuse) / cost_index, refused when the closed premise risk is at or above one half or the oracle headroom is zero",
+  "candidates": [
+    {
+      "id": "E1",
+      "title": "fast core versus readout, factorial, on the two sealed valid temporal beds",
+      "question": "does the within domain capability come from the recurrent core, from the readout, or from their interaction, on a bed that actually requires temporal order",
+      "scores": {
+        "expected_information_gain": 0.95,
+        "probability_of_changing_the_substrate_decision": 0.8,
+        "compute_cost": 0.35,
+        "duration_cost": 0.3,
+        "instrumentation_risk": 0.2,
+        "baseline_uncertainty": 0.2,
+        "oracle_headroom": 0.7,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.9,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.95,
+        "risk_of_repeating_a_closed_premise": 0.05
+      },
+      "decision_information": 0.897,
+      "cost_index": 0.28,
+      "feasibility": 0.8,
+      "reuse": 0.95,
+      "priority": 2.905,
+      "raw_priority": 2.905,
+      "status": "eligible",
+      "refusal_reason": "",
+      "hypotheses_separated": [
+        "H_fast_state",
+        "H_readout_capacity",
+        "H_bed_insufficiency"
+      ],
+      "justification": {
+        "expected_information_gain": "the prior program named this exact question unresolved and never separated the two factors",
+        "risk_of_repeating_a_closed_premise": "the closed premise is cross modality transfer; this is within domain on a different bed",
+        "oracle_headroom": "the stream beds are sealed temporal_headroom_present, so an order free reader provably cannot solve them",
+        "compute_cost": "four cells plus controls on beds the forge already ran at this size"
+      }
+    },
+    {
+      "id": "E4",
+      "title": "adaptation locus: state only, head only, adapter only, core, full",
+      "question": "can useful fast adaptation occur in owned state without changing shared slow parameters",
+      "scores": {
+        "expected_information_gain": 0.8,
+        "probability_of_changing_the_substrate_decision": 0.6,
+        "compute_cost": 0.2,
+        "duration_cost": 0.2,
+        "instrumentation_risk": 0.3,
+        "baseline_uncertainty": 0.25,
+        "oracle_headroom": 0.6,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.9,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.8,
+        "risk_of_repeating_a_closed_premise": 0.15
+      },
+      "decision_information": 0.73,
+      "cost_index": 0.233,
+      "feasibility": 0.75,
+      "reuse": 0.95,
+      "priority": 2.783,
+      "raw_priority": 2.783,
+      "status": "eligible",
+      "refusal_reason": "",
+      "hypotheses_separated": [
+        "H_fast_state",
+        "H_interference",
+        "H_domain_specific_representation"
+      ],
+      "justification": {
+        "compute_cost": "adaptation is a short phase on top of one shared pretrained checkpoint per seed, the cheapest of the five",
+        "oracle_headroom": "the update partition oracle is positive with a positive lower bound, 0.0052 and 0.0129 by direction, though below SESOI",
+        "discriminates_competing_hypotheses": "the five loci map one to one onto three competing explanations of the nulls"
+      }
+    },
+    {
+      "id": "E2",
+      "title": "shared core capacity scaling against matched separate models",
+      "question": "does more shared core capacity move the acquisition retention frontier or scale both",
+      "scores": {
+        "expected_information_gain": 0.6,
+        "probability_of_changing_the_substrate_decision": 0.45,
+        "compute_cost": 0.8,
+        "duration_cost": 0.75,
+        "instrumentation_risk": 0.25,
+        "baseline_uncertainty": 0.3,
+        "oracle_headroom": 0.4,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.8,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.6,
+        "risk_of_repeating_a_closed_premise": 0.3
+      },
+      "decision_information": 0.547,
+      "cost_index": 0.578,
+      "feasibility": 0.65,
+      "reuse": 0.9,
+      "priority": 0.791,
+      "raw_priority": 0.791,
+      "status": "eligible",
+      "refusal_reason": "",
+      "hypotheses_separated": [
+        "H_shared_core_capacity",
+        "H_interference"
+      ],
+      "justification": {
+        "compute_cost": "three capacities times two beds times two contexts times eight seeds, the largest of the five",
+        "oracle_headroom": "unmeasured on the frontier framing; the matched capacity baseline was never beaten at any size tried"
+      }
+    },
+    {
+      "id": "E3",
+      "title": "domain local versus shared representation by causal parameter group intervention",
+      "question": "which representation components carry transferable temporal structure",
+      "scores": {
+        "expected_information_gain": 0.5,
+        "probability_of_changing_the_substrate_decision": 0.25,
+        "compute_cost": 0.5,
+        "duration_cost": 0.45,
+        "instrumentation_risk": 0.35,
+        "baseline_uncertainty": 0.3,
+        "oracle_headroom": 0.2,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.85,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.5,
+        "risk_of_repeating_a_closed_premise": 0.55
+      },
+      "decision_information": 0.412,
+      "cost_index": 0.423,
+      "feasibility": 0.55,
+      "reuse": 0.925,
+      "priority": 0.0,
+      "raw_priority": 0.783,
+      "status": "refused_closed_premise",
+      "refusal_reason": "risk of repeating a closed premise is at or above one half",
+      "hypotheses_separated": [
+        "H_domain_specific_representation",
+        "H_interference"
+      ],
+      "justification": {
+        "risk_of_repeating_a_closed_premise": "this is the cross modality transfer premise again, now null on five programs including two strongly temporal beds",
+        "oracle_headroom": "the transfer oracle is already measured near zero"
+      }
+    },
+    {
+      "id": "E5",
+      "title": "self supervised temporal state pretraining",
+      "question": "does self supervised temporal training improve adaptation after controlling for compute and readout",
+      "scores": {
+        "expected_information_gain": 0.55,
+        "probability_of_changing_the_substrate_decision": 0.35,
+        "compute_cost": 0.9,
+        "duration_cost": 0.85,
+        "instrumentation_risk": 0.6,
+        "baseline_uncertainty": 0.4,
+        "oracle_headroom": 0.0,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.4,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.4,
+        "risk_of_repeating_a_closed_premise": 0.2
+      },
+      "decision_information": 0.443,
+      "cost_index": 0.74,
+      "feasibility": 0.45,
+      "reuse": 0.7,
+      "priority": 0.0,
+      "raw_priority": 0.424,
+      "status": "refused_closed_premise",
+      "refusal_reason": "no oracle headroom",
+      "hypotheses_separated": [
+        "H_fast_state"
+      ],
+      "justification": {
+        "oracle_headroom": "zero because it is unmeasured. The candidate declares itself open only when residual headroom exists, and no such measurement exists, so the queue refuses it rather than guessing"
+      }
+    }
+  ],
+  "selected": [
+    "E1",
+    "E4"
+  ],
+  "selected_detail": [
+    {
+      "id": "E1",
+      "title": "fast core versus readout, factorial, on the two sealed valid temporal beds",
+      "question": "does the within domain capability come from the recurrent core, from the readout, or from their interaction, on a bed that actually requires temporal order",
+      "scores": {
+        "expected_information_gain": 0.95,
+        "probability_of_changing_the_substrate_decision": 0.8,
+        "compute_cost": 0.35,
+        "duration_cost": 0.3,
+        "instrumentation_risk": 0.2,
+        "baseline_uncertainty": 0.2,
+        "oracle_headroom": 0.7,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.9,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.95,
+        "risk_of_repeating_a_closed_premise": 0.05
+      },
+      "decision_information": 0.897,
+      "cost_index": 0.28,
+      "feasibility": 0.8,
+      "reuse": 0.95,
+      "priority": 2.905,
+      "raw_priority": 2.905,
+      "status": "eligible",
+      "refusal_reason": "",
+      "hypotheses_separated": [
+        "H_fast_state",
+        "H_readout_capacity",
+        "H_bed_insufficiency"
+      ],
+      "justification": {
+        "expected_information_gain": "the prior program named this exact question unresolved and never separated the two factors",
+        "risk_of_repeating_a_closed_premise": "the closed premise is cross modality transfer; this is within domain on a different bed",
+        "oracle_headroom": "the stream beds are sealed temporal_headroom_present, so an order free reader provably cannot solve them",
+        "compute_cost": "four cells plus controls on beds the forge already ran at this size"
+      }
+    },
+    {
+      "id": "E4",
+      "title": "adaptation locus: state only, head only, adapter only, core, full",
+      "question": "can useful fast adaptation occur in owned state without changing shared slow parameters",
+      "scores": {
+        "expected_information_gain": 0.8,
+        "probability_of_changing_the_substrate_decision": 0.6,
+        "compute_cost": 0.2,
+        "duration_cost": 0.2,
+        "instrumentation_risk": 0.3,
+        "baseline_uncertainty": 0.25,
+        "oracle_headroom": 0.6,
+        "independent_unit_quality": 0.9,
+        "reusability_of_implementation": 0.9,
+        "reusability_of_data": 1.0,
+        "discriminates_competing_hypotheses": 0.8,
+        "risk_of_repeating_a_closed_premise": 0.15
+      },
+      "decision_information": 0.73,
+      "cost_index": 0.233,
+      "feasibility": 0.75,
+      "reuse": 0.95,
+      "priority": 2.783,
+      "raw_priority": 2.783,
+      "status": "eligible",
+      "refusal_reason": "",
+      "hypotheses_separated": [
+        "H_fast_state",
+        "H_interference",
+        "H_domain_specific_representation"
+      ],
+      "justification": {
+        "compute_cost": "adaptation is a short phase on top of one shared pretrained checkpoint per seed, the cheapest of the five",
+        "oracle_headroom": "the update partition oracle is positive with a positive lower bound, 0.0052 and 0.0129 by direction, though below SESOI",
+        "discriminates_competing_hypotheses": "the five loci map one to one onto three competing explanations of the nulls"
+      }
+    }
+  ],
+  "refused": [
+    "E3",
+    "E5"
+  ],
+  "hypotheses_covered_by_selection": [
+    "H_bed_insufficiency",
+    "H_domain_specific_representation",
+    "H_fast_state",
+    "H_interference",
+    "H_readout_capacity"
+  ],
+  "caveat": "the arithmetic is a prioritization aid and is not itself scientific evidence",
+  "derived_from_reaudit": {
+    "unmeasured_cell": "within domain fast state on the two sealed valid temporal beds",
+    "why_it_raises_E1": "E1 measures that cell and separates the two factors in the same design"
+  },
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "33c03e1a2f3c6dcd0628a539e2b89d3558fe0a14fd824e97a28a7d76ca5ce182"
+}

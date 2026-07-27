@@ -1,0 +1,127 @@
+{
+  "schema": "mop-third-temporal-domain-preflight/v2",
+  "priority_order_followed": [
+    "HARTH continuous free living data",
+    "continuous PAMAP2 transition task redesigned from raw streams",
+    "speaker disjoint continuous audio",
+    "another lawful session disjoint temporal dataset"
+  ],
+  "attempts": [
+    {
+      "domain": "PAMAP2 continuous transition prediction",
+      "rights": "PAMAP2 Physical Activity Monitoring, public research dataset",
+      "design": "given a raw IMU window, name the activity two seconds after the window ends. Windows that straddle a transition are kept rather than dropped.",
+      "differs_from_the_invalid_bed": [
+        "continuous transitions retained",
+        "label lies in the future so sequence state is required",
+        "returning contexts available",
+        "future subject adaptation available"
+      ],
+      "windows_train": 6070,
+      "windows_test": 3509,
+      "units_train": 5,
+      "units_test": 3,
+      "transition_fraction": 0.0022,
+      "gate": {
+        "gru": 0.7855,
+        "gru_shuffled": 0.7924,
+        "bag_order_free": 0.7888,
+        "temporal_headroom_gru_vs_bag": -0.0033,
+        "temporal_headroom_lcb": -0.0356,
+        "order_matters_gru_vs_shuffled": -0.0069,
+        "verdict": "invalid_no_temporal_headroom",
+        "steps": 800,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "verdict": "invalid_no_temporal_headroom",
+      "note": "refuted on event count before it was refuted on the gate: the scripted protocol separates every activity with a rest label, so the whole dataset contains 22 direct activity to activity transitions across 9 subjects. At that prevalence the future label is almost always the current activity and the task collapses back into the window classification bed that was already invalid."
+    },
+    {
+      "domain": "HARTH free living transition prediction",
+      "rights": "HARTH Human Activity Recognition Trondheim, public research dataset, downloaded for this program",
+      "design": "given a three second window of back and thigh accelerometry, name the activity two seconds after the window ends. Transition and non transition windows are sampled at equal rate.",
+      "differs_from_the_invalid_bed": [
+        "free living rather than scripted, so activity changes are frequent and unannounced",
+        "label lies in the future",
+        "22 subject units",
+        "transition balanced sampling"
+      ],
+      "windows_train": 7115,
+      "windows_test": 4511,
+      "units_train": 14,
+      "units_test": 8,
+      "transition_fraction": 0.5,
+      "gate": {
+        "gru": 0.6919,
+        "gru_shuffled": 0.707,
+        "bag_order_free": 0.7015,
+        "temporal_headroom_gru_vs_bag": -0.0096,
+        "temporal_headroom_lcb": -0.0258,
+        "order_matters_gru_vs_shuffled": -0.0151,
+        "verdict": "invalid_no_temporal_headroom",
+        "steps": 800,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "verdict": "invalid_no_temporal_headroom",
+      "note": "one bounded repair was applied: at natural prevalence only 5 percent of windows straddle a change, so the first gate correctly rejected the bed. Balancing transition and non transition windows changes the sampling only, not the labels, the signal or the units. Both gate results are reported."
+    },
+    {
+      "domain": "Speaker disjoint continuous audio, streaming keyword identity",
+      "rights": "Speech Commands v0.02, public (CC BY 4.0), Google",
+      "design": "three keyword clips from one speaker are concatenated into a stream and the label is the keyword that ends the stream.",
+      "differs_from_the_invalid_bed": [
+        "a different modality from the two accelerometry attempts",
+        "the label depends on position in the stream, not on which keywords are present",
+        "144 training speakers and 63 test speakers, speaker disjoint",
+        "returning contexts, because keywords recur across streams"
+      ],
+      "windows_train": 6000,
+      "windows_test": 2000,
+      "units_train": 144,
+      "units_test": 63,
+      "transition_fraction": 0.0,
+      "gate": {
+        "gru": 0.7238,
+        "gru_shuffled": 0.2381,
+        "bag_order_free": 0.3139,
+        "temporal_headroom_gru_vs_bag": 0.4099,
+        "temporal_headroom_lcb": 0.3771,
+        "order_matters_gru_vs_shuffled": 0.4857,
+        "verdict": "temporal_headroom_present",
+        "steps": 800,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "verdict": "temporal_headroom_present",
+      "note": "attempted because both accelerometry style attempts failed the order gate in the same way: the set of values in a window carried the answer and their order did not. This attempt is designed so that an order free reader sees an identical frame set whichever keyword came last."
+    }
+  ],
+  "valid_third_domains": [
+    "Speaker disjoint continuous audio, streaming keyword identity"
+  ],
+  "verdict": "third_domain_valid",
+  "status": "secondary. A third domain can support or fail to support the premise, it cannot carry a principal verdict on its own, and the principal matrix stays HAR and Speech Commands.",
+  "not_repeated": "PAMAP2 window classification, which was already invalid",
+  "wall_seconds": 0.4,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
+  "SESOI": 0.05,
+  "sha256": "2f1ca505673d4a623913b7f1f3f7d081fdf86bbcbf508ad370020d4dee4262ef"
+}

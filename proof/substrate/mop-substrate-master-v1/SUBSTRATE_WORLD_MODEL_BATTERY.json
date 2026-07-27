@@ -1,0 +1,28 @@
+{
+  "schema": "substrate-world-model-battery/v1",
+  "bed": {
+    "admissible": true,
+    "n_transitions": 340,
+    "state_dependent_decision": true
+  },
+  "inside_the_loop": true,
+  "best_fixed_action": "9_16",
+  "model_action_by_class": {
+    "large_class_isolated": "9_16",
+    "operator_override": "9_16",
+    "small": "17_24"
+  },
+  "decisions_changed_by_the_model": 22,
+  "decisions_total": 340,
+  "changed_fraction": 0.064706,
+  "expected_progress_with_model": 1.589916,
+  "expected_progress_best_fixed": 1.6,
+  "decision_gain": -0.010084,
+  "prediction_alone_is_insufficient": true,
+  "verdict": "no_measurable_decision_gain",
+  "reading": "a world model earns a positive here only by changing an action and improving the outcome. Changing nothing, or changing something and gaining nothing, is reported as a limited instrument",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "sha256": "1a5e135c6a45cea24c34cb3f850b73cf7c7e6d36d9932281c48dac4b02ece89b"
+}

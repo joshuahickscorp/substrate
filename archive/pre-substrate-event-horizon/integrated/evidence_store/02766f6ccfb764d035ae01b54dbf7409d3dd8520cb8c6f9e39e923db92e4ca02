@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "large",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "histmlp|large|linear|none|h1",
+  "curve": {
+    "400": 0.12792666666666666,
+    "800": 0.12839333333333333,
+    "1600": 0.12683999999999998,
+    "3200": 0.10968,
+    "6400": 0.1290066666666667,
+    "12800": 0.12471666666666666
+  },
+  "seed_spread": {
+    "400": 0.00678,
+    "800": 0.01722,
+    "1600": 0.01534,
+    "3200": 0.02249,
+    "6400": 0.01626,
+    "12800": 0.01875
+  },
+  "seed_scores": {
+    "400": [
+      0.1307,
+      0.13288,
+      0.1202
+    ],
+    "800": [
+      0.14825,
+      0.11755,
+      0.11938
+    ],
+    "1600": [
+      0.14298,
+      0.11244,
+      0.1251
+    ],
+    "3200": [
+      0.09386,
+      0.13543,
+      0.09975
+    ],
+    "6400": [
+      0.14035,
+      0.13629,
+      0.11038
+    ],
+    "12800": [
+      0.12544,
+      0.10562,
+      0.14309
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.1307,
+        "checkpoint_sha": "cf6100b5a5b12f9981a9f88fca960869fefd76e0cb8993172e0e746fad65a25f"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.13288,
+        "checkpoint_sha": "f6b0794ae887cbf68b1bbf703c48fb7764e3977827ca2f3158164b3bf1f2a2d6"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.1202,
+        "checkpoint_sha": "42295bdb25a914880da487f76e38a5f49cdb4a0c6b725348facfb661501960ac"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.14825,
+        "checkpoint_sha": "27278e1432027178466eda68313e4212ea0ee570258e3a2a26929e4158e0e5cf"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.11755,
+        "checkpoint_sha": "1645591f69a3f6e1aeea987326311d94689605d7465b9c159cbc66df08f10af9"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.11938,
+        "checkpoint_sha": "b679046c674b49cabd982d42b25f7e6cbf8a4faa5b4d209aebe8e3bae6afc64e"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.14298,
+        "checkpoint_sha": "d583fb2c2a2c265ea9980ed0263b6ff69f27aeddb2f52d38a51c7b1595351803"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.11244,
+        "checkpoint_sha": "21ad5ac68b14dd6fc7e9ae376db67162754c5c66bdd8a7dc06962fc7450c88d1"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.1251,
+        "checkpoint_sha": "f473620d74fbe07c2730fe120d5869faec1eb0c51b61570d380397b3046d2c27"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.09386,
+        "checkpoint_sha": "d9d852d0deeac6ae7032e53a668e7aed9d1c209cb1d4f41c6acbd5f1714330f8"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.13543,
+        "checkpoint_sha": "581b738effd95f5b81c46d6e43dccdb898c22c19ab5e7cc766aea703a4f06ea1"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.09975,
+        "checkpoint_sha": "38fa65b28774a65bcbf02930980b72cb10b5a0af9ff60b2c073e5f6214f2fa9d"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.14035,
+        "checkpoint_sha": "ffbd8ded24df4e12e8b46234b12b916e28e278ca120fee1814a38c5de980ace6"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.13629,
+        "checkpoint_sha": "32c545ff854e8c4e4bbf5228f0ea95265a6061e3bd72c1091bc039c2ed9094da"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.11038,
+        "checkpoint_sha": "7415e80370b2fe0e0a074c53504e225151b4e7f0cdfb05631594021f5d4f8d2f"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.12544,
+        "checkpoint_sha": "342c3254e791f2c1bb3aa5ae52a05b735314d35e5650aee9dee9566bac122dff"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.10562,
+        "checkpoint_sha": "e43fe160bde04d9e57a857141bba122df496778ff81554afe7a1b6e6bb1d22c0"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.14309,
+        "checkpoint_sha": "68fa0becd05d3b42fb9f9cfbbb0b9a31a956d2620fb6b906077faf7e5fe2e0d1"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 644974,
+    "readout": 650,
+    "total": 645624
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_25.json",
+    "sha256": "7fb9a85391223a71becd480c96c0e0bea276ba5194c49d96dd4e5cff72785f08",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "5e25cb6d827bcb7dcfde8b027d8d7c746ef9502b",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.12793,
+    0.12839,
+    0.12684,
+    0.10968,
+    0.12901,
+    0.12472
+  ],
+  "best_budget": 6400,
+  "selected_checkpoint": 6400,
+  "second_half_movement": 0.01933,
+  "residual_slope": 0.007518,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0193 with slope 0.00752; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 311.2,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e25cb6d827bcb7dcfde8b027d8d7c746ef9502b",
+  "source_tree_oid": "ec983509fee77f03b2cb3fed3f6ae53899daefaf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "854fbd9ae5640d08b89dff5f0ac6cbb76072ff288bd4dde756b55aa7089c4ea1"
+}

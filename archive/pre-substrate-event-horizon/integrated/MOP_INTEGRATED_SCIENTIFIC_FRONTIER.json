@@ -1,0 +1,18 @@
+{
+  "schema": "mop-integrated-scientific-frontier/v1",
+  "source_commit": "64d2801",
+  "robust_mechanics": "established",
+  "campaign_orchestration": "improved and verified",
+  "owned_substrate_implementation": "exists",
+  "substrate_incremental_scientific_value": "not established",
+  "A_T": "null on HAR",
+  "C": "null on HAR",
+  "D": "structural null",
+  "bounded_memory_compression": "verified null versus GDumb (8-seed lower-CB)",
+  "PAMAP2_window_task": "invalid_no_temporal_headroom",
+  "cross_domain_substrate": "not established",
+  "functional_reorganization": "not established",
+  "activation": false,
+  "note": "codebase merge did not alter any evidence class",
+  "sha256": "f57a3e764a1b81444fbcfb2db05df8796f122a764e8946e3af89a13eed8d6bdc"
+}

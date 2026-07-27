@@ -1,0 +1,499 @@
+{
+  "schema": "mop-fast-state-secondary-matrix/v1",
+  "pairing_rationale": "two strongly temporal beds, still cross modality. The principal beds are marginal under an order free control, so a null there could be read as the beds not needing temporal dynamics. Here they do.",
+  "status": "secondary by declaration. It cannot overturn the principal verdict. A positive here would say the premise holds when the beds are strongly temporal, which is a scope condition on the principal null, not a replacement for it.",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "arms": [
+    "fresh_independent",
+    "separate_per_domain",
+    "lstm_gdumb",
+    "matched_capacity_multi_domain",
+    "projection_only_transfer",
+    "G0_always_trainable",
+    "G1_frozen_after_first",
+    "G2_reopened_at_return",
+    "G4_adapters_only",
+    "H_always_update",
+    "H_never_update",
+    "H_cosine_gate"
+  ],
+  "third_domain_convergence": {
+    "gru": {
+      "best": {
+        "learning_rate": 0.003,
+        "steps": 1400,
+        "updates": 1400,
+        "accuracy_mean": 0.7823,
+        "seed_sd": 0.0166,
+        "params": 34154,
+        "memory_cap": 0
+      },
+      "grid": {
+        "0.001|150": 0.3418,
+        "0.001|350": 0.5738,
+        "0.001|550": 0.6518,
+        "0.001|900": 0.7247,
+        "0.001|1400": 0.7358,
+        "0.003|150": 0.5768,
+        "0.003|350": 0.7323,
+        "0.003|550": 0.7467,
+        "0.003|900": 0.7765,
+        "0.003|1400": 0.7823
+      }
+    },
+    "lstm": {
+      "best": {
+        "learning_rate": 0.003,
+        "steps": 1400,
+        "updates": 1400,
+        "accuracy_mean": 0.7472,
+        "seed_sd": 0.0042,
+        "params": 42474,
+        "memory_cap": 0
+      },
+      "grid": {
+        "0.001|150": 0.2983,
+        "0.001|350": 0.4882,
+        "0.001|550": 0.5878,
+        "0.001|900": 0.6678,
+        "0.001|1400": 0.7057,
+        "0.003|150": 0.3632,
+        "0.003|350": 0.5953,
+        "0.003|550": 0.669,
+        "0.003|900": 0.7263,
+        "0.003|1400": 0.7472
+      }
+    },
+    "bag": {
+      "best": {
+        "learning_rate": 0.001,
+        "steps": 900,
+        "updates": 900,
+        "accuracy_mean": 0.2647,
+        "seed_sd": 0.0041,
+        "params": 20586,
+        "memory_cap": 0
+      },
+      "grid": {
+        "0.001|150": 0.1833,
+        "0.001|350": 0.2107,
+        "0.001|550": 0.2462,
+        "0.001|900": 0.2647,
+        "0.001|1400": 0.2518,
+        "0.003|150": 0.2148,
+        "0.003|350": 0.2415,
+        "0.003|550": 0.2593,
+        "0.003|900": 0.2607,
+        "0.003|1400": 0.2545
+      }
+    }
+  },
+  "per_direction": {
+    "har_stream->speech_stream": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "strongest_matched_baseline": "fresh_independent",
+      "utility": {
+        "fresh_independent": 0.8196,
+        "separate_per_domain": 0.7521,
+        "lstm_gdumb": 0.7924,
+        "matched_capacity_multi_domain": 0.7624,
+        "projection_only_transfer": 0.8141,
+        "G0_always_trainable": 0.8229,
+        "G1_frozen_after_first": 0.7953,
+        "G2_reopened_at_return": 0.7918,
+        "G4_adapters_only": 0.4849,
+        "H_always_update": 0.7877,
+        "H_never_update": 0.7409,
+        "H_cosine_gate": 0.7444
+      },
+      "means": {
+        "fresh_independent": {
+          "first_acquisition": 0.8919,
+          "second_acquisition": 0.7363,
+          "first_retention": 0.1994,
+          "return_recovery": 0.8839,
+          "future_adaptation": 0.9761,
+          "negative_transfer": 0.6924
+        },
+        "separate_per_domain": {
+          "first_acquisition": 0.8911,
+          "second_acquisition": 0.6821,
+          "first_retention": 0.8911,
+          "return_recovery": 0.8789,
+          "future_adaptation": 0.9527,
+          "negative_transfer": 0.0
+        },
+        "lstm_gdumb": {
+          "first_acquisition": 0.8847,
+          "second_acquisition": 0.6797,
+          "first_retention": 0.6051,
+          "return_recovery": 0.8806,
+          "future_adaptation": 0.9668,
+          "negative_transfer": 0.2796
+        },
+        "matched_capacity_multi_domain": {
+          "first_acquisition": 0.8873,
+          "second_acquisition": 0.693,
+          "first_retention": 0.637,
+          "return_recovery": 0.8758,
+          "future_adaptation": 0.9633,
+          "negative_transfer": 0.2503
+        },
+        "projection_only_transfer": {
+          "first_acquisition": 0.8919,
+          "second_acquisition": 0.7201,
+          "first_retention": 0.155,
+          "return_recovery": 0.8885,
+          "future_adaptation": 0.9715,
+          "negative_transfer": 0.7369
+        },
+        "G0_always_trainable": {
+          "first_acquisition": 0.8919,
+          "second_acquisition": 0.7452,
+          "first_retention": 0.8011,
+          "return_recovery": 0.8843,
+          "future_adaptation": 0.9768,
+          "negative_transfer": 0.0907
+        },
+        "G1_frozen_after_first": {
+          "first_acquisition": 0.8919,
+          "second_acquisition": 0.6569,
+          "first_retention": 0.8919,
+          "return_recovery": 0.8944,
+          "future_adaptation": 0.9722,
+          "negative_transfer": 0.0
+        },
+        "G2_reopened_at_return": {
+          "first_acquisition": 0.8919,
+          "second_acquisition": 0.6569,
+          "first_retention": 0.8919,
+          "return_recovery": 0.891,
+          "future_adaptation": 0.9653,
+          "negative_transfer": 0.0
+        },
+        "G4_adapters_only": {
+          "first_acquisition": 0.8853,
+          "second_acquisition": 0.2378,
+          "first_retention": 0.8853,
+          "return_recovery": 0.8789,
+          "future_adaptation": 0.4757,
+          "negative_transfer": 0.0
+        },
+        "H_always_update": {
+          "first_acquisition": 0.8884,
+          "second_acquisition": 0.7138,
+          "first_retention": 0.7075,
+          "return_recovery": 0.8856,
+          "future_adaptation": 0.9741,
+          "negative_transfer": 0.1809
+        },
+        "H_never_update": {
+          "first_acquisition": 0.8884,
+          "second_acquisition": 0.5861,
+          "first_retention": 0.8884,
+          "return_recovery": 0.8899,
+          "future_adaptation": 0.957,
+          "negative_transfer": 0.0
+        },
+        "H_cosine_gate": {
+          "first_acquisition": 0.8884,
+          "second_acquisition": 0.5883,
+          "first_retention": 0.2677,
+          "return_recovery": 0.8935,
+          "future_adaptation": 0.9617,
+          "negative_transfer": 0.6206
+        }
+      },
+      "effects": {
+        "fresh_independent": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "separate_per_domain": {
+          "mean": -0.0674,
+          "lower_95_cb": -0.0761,
+          "n": 8
+        },
+        "lstm_gdumb": {
+          "mean": -0.0272,
+          "lower_95_cb": -0.0358,
+          "n": 8
+        },
+        "matched_capacity_multi_domain": {
+          "mean": -0.0572,
+          "lower_95_cb": -0.0658,
+          "n": 8
+        },
+        "projection_only_transfer": {
+          "mean": -0.0054,
+          "lower_95_cb": -0.0159,
+          "n": 8
+        },
+        "G0_always_trainable": {
+          "mean": 0.0033,
+          "lower_95_cb": -0.0042,
+          "n": 8
+        },
+        "G1_frozen_after_first": {
+          "mean": -0.0243,
+          "lower_95_cb": -0.0314,
+          "n": 8
+        },
+        "G2_reopened_at_return": {
+          "mean": -0.0277,
+          "lower_95_cb": -0.0342,
+          "n": 8
+        },
+        "G4_adapters_only": {
+          "mean": -0.3346,
+          "lower_95_cb": -0.3452,
+          "n": 8
+        },
+        "H_always_update": {
+          "mean": -0.0318,
+          "lower_95_cb": -0.0368,
+          "n": 8
+        },
+        "H_never_update": {
+          "mean": -0.0787,
+          "lower_95_cb": -0.0848,
+          "n": 8
+        },
+        "H_cosine_gate": {
+          "mean": -0.0752,
+          "lower_95_cb": -0.0822,
+          "n": 8
+        }
+      },
+      "component_floors": {
+        "second_acquisition": 0.7163,
+        "first_retention": 0.8711,
+        "return_recovery": 0.8639,
+        "future_adaptation": 0.9561
+      },
+      "arms_passing_all_conditions": [],
+      "verdict": "secondary_null"
+    },
+    "speech_stream->har_stream": {
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "strongest_matched_baseline": "fresh_independent",
+      "utility": {
+        "fresh_independent": 0.8106,
+        "separate_per_domain": 0.76,
+        "lstm_gdumb": 0.7931,
+        "matched_capacity_multi_domain": 0.7653,
+        "projection_only_transfer": 0.8096,
+        "G0_always_trainable": 0.81,
+        "G1_frozen_after_first": 0.8152,
+        "G2_reopened_at_return": 0.8196,
+        "G4_adapters_only": 0.7176,
+        "H_always_update": 0.7828,
+        "H_never_update": 0.7872,
+        "H_cosine_gate": 0.7782
+      },
+      "means": {
+        "fresh_independent": {
+          "first_acquisition": 0.7199,
+          "second_acquisition": 0.8927,
+          "first_retention": 0.0977,
+          "return_recovery": 0.6956,
+          "future_adaptation": 0.9811,
+          "negative_transfer": 0.6222
+        },
+        "separate_per_domain": {
+          "first_acquisition": 0.6822,
+          "second_acquisition": 0.8872,
+          "first_retention": 0.6822,
+          "return_recovery": 0.6936,
+          "future_adaptation": 0.9566,
+          "negative_transfer": 0.0
+        },
+        "lstm_gdumb": {
+          "first_acquisition": 0.6907,
+          "second_acquisition": 0.8818,
+          "first_retention": 0.3624,
+          "return_recovery": 0.6898,
+          "future_adaptation": 0.9578,
+          "negative_transfer": 0.3283
+        },
+        "matched_capacity_multi_domain": {
+          "first_acquisition": 0.6817,
+          "second_acquisition": 0.8881,
+          "first_retention": 0.4237,
+          "return_recovery": 0.6884,
+          "future_adaptation": 0.9644,
+          "negative_transfer": 0.258
+        },
+        "projection_only_transfer": {
+          "first_acquisition": 0.7199,
+          "second_acquisition": 0.8927,
+          "first_retention": 0.0992,
+          "return_recovery": 0.6966,
+          "future_adaptation": 0.9771,
+          "negative_transfer": 0.6207
+        },
+        "G0_always_trainable": {
+          "first_acquisition": 0.7199,
+          "second_acquisition": 0.8915,
+          "first_retention": 0.5242,
+          "return_recovery": 0.6995,
+          "future_adaptation": 0.9767,
+          "negative_transfer": 0.1957
+        },
+        "G1_frozen_after_first": {
+          "first_acquisition": 0.7199,
+          "second_acquisition": 0.8858,
+          "first_retention": 0.7199,
+          "return_recovery": 0.7211,
+          "future_adaptation": 0.9765,
+          "negative_transfer": 0.0
+        },
+        "G2_reopened_at_return": {
+          "first_acquisition": 0.7199,
+          "second_acquisition": 0.8858,
+          "first_retention": 0.7199,
+          "return_recovery": 0.7276,
+          "future_adaptation": 0.9831,
+          "negative_transfer": 0.0
+        },
+        "G4_adapters_only": {
+          "first_acquisition": 0.6486,
+          "second_acquisition": 0.7643,
+          "first_retention": 0.6486,
+          "return_recovery": 0.6531,
+          "future_adaptation": 0.873,
+          "negative_transfer": 0.0
+        },
+        "H_always_update": {
+          "first_acquisition": 0.6967,
+          "second_acquisition": 0.8886,
+          "first_retention": 0.4484,
+          "return_recovery": 0.6918,
+          "future_adaptation": 0.9783,
+          "negative_transfer": 0.2483
+        },
+        "H_never_update": {
+          "first_acquisition": 0.6967,
+          "second_acquisition": 0.8825,
+          "first_retention": 0.6967,
+          "return_recovery": 0.7141,
+          "future_adaptation": 0.9752,
+          "negative_transfer": 0.0
+        },
+        "H_cosine_gate": {
+          "first_acquisition": 0.6967,
+          "second_acquisition": 0.8723,
+          "first_retention": 0.1459,
+          "return_recovery": 0.7021,
+          "future_adaptation": 0.9706,
+          "negative_transfer": 0.5508
+        }
+      },
+      "effects": {
+        "fresh_independent": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "separate_per_domain": {
+          "mean": -0.0506,
+          "lower_95_cb": -0.0571,
+          "n": 8
+        },
+        "lstm_gdumb": {
+          "mean": -0.0174,
+          "lower_95_cb": -0.0244,
+          "n": 8
+        },
+        "matched_capacity_multi_domain": {
+          "mean": -0.0453,
+          "lower_95_cb": -0.055,
+          "n": 8
+        },
+        "projection_only_transfer": {
+          "mean": -0.001,
+          "lower_95_cb": -0.0062,
+          "n": 8
+        },
+        "G0_always_trainable": {
+          "mean": -0.0006,
+          "lower_95_cb": -0.0083,
+          "n": 8
+        },
+        "G1_frozen_after_first": {
+          "mean": 0.0047,
+          "lower_95_cb": -0.0024,
+          "n": 8
+        },
+        "G2_reopened_at_return": {
+          "mean": 0.009,
+          "lower_95_cb": 0.0034,
+          "n": 8
+        },
+        "G4_adapters_only": {
+          "mean": -0.093,
+          "lower_95_cb": -0.1054,
+          "n": 8
+        },
+        "H_always_update": {
+          "mean": -0.0278,
+          "lower_95_cb": -0.0395,
+          "n": 8
+        },
+        "H_never_update": {
+          "mean": -0.0234,
+          "lower_95_cb": -0.0307,
+          "n": 8
+        },
+        "H_cosine_gate": {
+          "mean": -0.0323,
+          "lower_95_cb": -0.0414,
+          "n": 8
+        }
+      },
+      "component_floors": {
+        "second_acquisition": 0.8727,
+        "first_retention": 0.6622,
+        "return_recovery": 0.6756,
+        "future_adaptation": 0.9611
+      },
+      "arms_passing_all_conditions": [],
+      "verdict": "secondary_null"
+    }
+  },
+  "arms_passing_in_both_directions": [],
+  "verdict": "secondary_null",
+  "wall_seconds": 0.0,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "SESOI": 0.05,
+  "sha256": "87599dd57fd4806ad0586d2e4a3aac68f8a45327cb858e8bb1cae4afdcc953d3"
+}

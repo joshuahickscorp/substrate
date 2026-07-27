@@ -1,0 +1,421 @@
+{
+  "schema": "mop-substrate-plasticity-action-headroom/v1",
+  "actions": [
+    "adapter_plus_head",
+    "all_active_groups",
+    "fast_core_plus_adapter",
+    "fast_core_plus_head",
+    "head_only",
+    "no_update",
+    "projection_plus_head"
+  ],
+  "action_utilities": {
+    "G.adapter_plus_head": {
+      "har->speech": {
+        "tune_utility": 0.4001,
+        "per_seed": [
+          0.4278,
+          0.3583,
+          0.3854,
+          0.4127,
+          0.4406,
+          0.4008,
+          0.3853,
+          0.3895
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.7156,
+        "per_seed": [
+          0.7487,
+          0.6984,
+          0.7052,
+          0.7506,
+          0.6854,
+          0.7079,
+          0.751,
+          0.6779
+        ]
+      }
+    },
+    "G.all_active_groups": {
+      "har->speech": {
+        "tune_utility": 0.6375,
+        "per_seed": [
+          0.6352,
+          0.6465,
+          0.6049,
+          0.6785,
+          0.665,
+          0.62,
+          0.6121,
+          0.6382
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.8631,
+        "per_seed": [
+          0.8698,
+          0.8478,
+          0.8359,
+          0.904,
+          0.8339,
+          0.8658,
+          0.8742,
+          0.8737
+        ]
+      }
+    },
+    "G.fast_core_plus_adapter": {
+      "har->speech": {
+        "tune_utility": 0.513,
+        "per_seed": [
+          0.5273,
+          0.4526,
+          0.4928,
+          0.5661,
+          0.5188,
+          0.4822,
+          0.5159,
+          0.5483
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.824,
+        "per_seed": [
+          0.8206,
+          0.8117,
+          0.7875,
+          0.8492,
+          0.8021,
+          0.8199,
+          0.865,
+          0.8359
+        ]
+      }
+    },
+    "G.fast_core_plus_head": {
+      "har->speech": {
+        "tune_utility": 0.5114,
+        "per_seed": [
+          0.5461,
+          0.4597,
+          0.4696,
+          0.564,
+          0.5156,
+          0.4835,
+          0.5105,
+          0.5417
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.8241,
+        "per_seed": [
+          0.8436,
+          0.8007,
+          0.7939,
+          0.8657,
+          0.8052,
+          0.8115,
+          0.8515,
+          0.8205
+        ]
+      }
+    },
+    "G.head_only": {
+      "har->speech": {
+        "tune_utility": 0.3975,
+        "per_seed": [
+          0.419,
+          0.3622,
+          0.3935,
+          0.4129,
+          0.4334,
+          0.4003,
+          0.3732,
+          0.3853
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.6966,
+        "per_seed": [
+          0.7407,
+          0.692,
+          0.6951,
+          0.7164,
+          0.6744,
+          0.6934,
+          0.7337,
+          0.6272
+        ]
+      }
+    },
+    "G.no_update": {
+      "har->speech": {
+        "tune_utility": 0.3587,
+        "per_seed": [
+          0.3952,
+          0.3325,
+          0.3149,
+          0.3721,
+          0.4055,
+          0.3358,
+          0.3495,
+          0.3639
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.3514,
+        "per_seed": [
+          0.4219,
+          0.338,
+          0.3607,
+          0.3404,
+          0.2909,
+          0.3206,
+          0.3501,
+          0.3884
+        ]
+      }
+    },
+    "G.projection_plus_head": {
+      "har->speech": {
+        "tune_utility": 0.556,
+        "per_seed": [
+          0.5966,
+          0.5329,
+          0.5438,
+          0.5853,
+          0.5832,
+          0.539,
+          0.5269,
+          0.5405
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.8606,
+        "per_seed": [
+          0.8781,
+          0.8393,
+          0.8275,
+          0.8954,
+          0.8506,
+          0.8565,
+          0.8617,
+          0.8754
+        ]
+      }
+    },
+    "H.adapter_plus_head": {
+      "har->speech": {
+        "tune_utility": 0.3604,
+        "per_seed": [
+          0.3945,
+          0.3414,
+          0.3133,
+          0.3545,
+          0.4042,
+          0.3694,
+          0.3497,
+          0.3561
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.6249,
+        "per_seed": [
+          0.6262,
+          0.6057,
+          0.6578,
+          0.6518,
+          0.6463,
+          0.6042,
+          0.6468,
+          0.5603
+        ]
+      }
+    },
+    "H.all_active_groups": {
+      "har->speech": {
+        "tune_utility": 0.5516,
+        "per_seed": [
+          0.6467,
+          0.5882,
+          0.466,
+          0.525,
+          0.5002,
+          0.5739,
+          0.5443,
+          0.5681
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.8138,
+        "per_seed": [
+          0.8398,
+          0.83,
+          0.8239,
+          0.8452,
+          0.7431,
+          0.7778,
+          0.8782,
+          0.7723
+        ]
+      }
+    },
+    "H.fast_core_plus_adapter": {
+      "har->speech": {
+        "tune_utility": 0.449,
+        "per_seed": [
+          0.4637,
+          0.4575,
+          0.4243,
+          0.4736,
+          0.4429,
+          0.4627,
+          0.4566,
+          0.4102
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.6911,
+        "per_seed": [
+          0.7299,
+          0.6977,
+          0.6607,
+          0.7233,
+          0.6569,
+          0.7078,
+          0.677,
+          0.6757
+        ]
+      }
+    },
+    "H.fast_core_plus_head": {
+      "har->speech": {
+        "tune_utility": 0.453,
+        "per_seed": [
+          0.4708,
+          0.4329,
+          0.4067,
+          0.4926,
+          0.4501,
+          0.4657,
+          0.4734,
+          0.432
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.6642,
+        "per_seed": [
+          0.6556,
+          0.6753,
+          0.6496,
+          0.7031,
+          0.6589,
+          0.6276,
+          0.7033,
+          0.6401
+        ]
+      }
+    },
+    "H.head_only": {
+      "har->speech": {
+        "tune_utility": 0.3593,
+        "per_seed": [
+          0.3936,
+          0.3397,
+          0.3141,
+          0.3549,
+          0.3943,
+          0.3718,
+          0.3499,
+          0.3558
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.5882,
+        "per_seed": [
+          0.5996,
+          0.5477,
+          0.5732,
+          0.6402,
+          0.5801,
+          0.5895,
+          0.6165,
+          0.5585
+        ]
+      }
+    },
+    "H.no_update": {
+      "har->speech": {
+        "tune_utility": 0.3519,
+        "per_seed": [
+          0.38,
+          0.3413,
+          0.2974,
+          0.3456,
+          0.3664,
+          0.3641,
+          0.362,
+          0.3584
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.3741,
+        "per_seed": [
+          0.3866,
+          0.3753,
+          0.3416,
+          0.3136,
+          0.3413,
+          0.3868,
+          0.3723,
+          0.4751
+        ]
+      }
+    },
+    "H.projection_plus_head": {
+      "har->speech": {
+        "tune_utility": 0.5065,
+        "per_seed": [
+          0.5526,
+          0.522,
+          0.475,
+          0.4988,
+          0.5174,
+          0.5284,
+          0.4736,
+          0.4844
+        ]
+      },
+      "speech->har": {
+        "tune_utility": 0.7909,
+        "per_seed": [
+          0.7667,
+          0.8086,
+          0.8022,
+          0.8477,
+          0.6512,
+          0.7957,
+          0.8783,
+          0.7768
+        ]
+      }
+    }
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "note": "the oracle over these actions is resolved by the policy runner, which also carries the random and shuffled controls",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "SESOI": 0.05,
+  "sha256": "ee15007f2222bd43d66f1385956b5826e2d023adb73acfecd6b1cd3000dce3db"
+}

@@ -1,0 +1,156 @@
+{
+  "schema": "substrate-execution-forge-precheck/v1",
+  "observed_at": "2026-07-27T18:04:26Z",
+  "repository": {
+    "path": "/Users/scammermike/Downloads/substrate",
+    "head": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+    "tree": "ffbc76cece925b6ff201f09806b326033538c9ba",
+    "branch": "agent/substrate-event-horizon",
+    "upstream_branch": "origin/agent/substrate-event-horizon",
+    "ahead_of_upstream": 0,
+    "behind_upstream": 0,
+    "commits_not_in_origin_main": 400,
+    "dirty_paths": [],
+    "untracked_paths": [],
+    "local_branch_count": 1,
+    "worktrees": [
+      {
+        "path": "/Users/scammermike/Downloads/substrate",
+        "head": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+        "branch": "agent/substrate-event-horizon"
+      }
+    ],
+    "stale_worktree_records": [],
+    "symlinks": [
+      {
+        "path": ".venv/bin/python",
+        "target": "/Users/scammermike/.local/share/uv/python/cpython-3.12-macos-aarch64-none/bin/python3.12"
+      },
+      {
+        "path": ".venv/bin/python3",
+        "target": "python"
+      },
+      {
+        "path": ".venv/bin/python3.12",
+        "target": "python"
+      }
+    ],
+    "virtual_environments": [
+      {
+        "path": "/Users/scammermike/Downloads/substrate/.venv",
+        "python": "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "project_import": "/Users/scammermike/Downloads/substrate/src/substrate/__init__.py",
+        "editable_project": "substrate"
+      }
+    ]
+  },
+  "git_remotes": {
+    "origin": {
+      "fetch": "git@github.com:joshuahickscorp/substrate.git",
+      "push": "git@github.com:joshuahickscorp/substrate.git",
+      "default_branch": "main"
+    },
+    "upstream": null
+  },
+  "github": {
+    "repository": "joshuahickscorp/substrate",
+    "url": "https://github.com/joshuahickscorp/substrate",
+    "default_branch": "main",
+    "default_branch_head": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
+    "description": "",
+    "topics": [],
+    "old_repository_lookup_resolves_to": "joshuahickscorp/substrate",
+    "separate_old_repository_exists": false,
+    "pull_request": {
+      "number": 35,
+      "state": "open",
+      "draft": true,
+      "mergeable": true,
+      "base": "main",
+      "base_sha": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
+      "head": "agent/mop-temporal-core-mechanism",
+      "head_sha": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "continuity_bridge_matches_authoritative_head": true,
+      "checks": []
+    },
+    "actions_workflows": [],
+    "actions_runs": [],
+    "remote_mop_branch_count": 7,
+    "tag_count": 287,
+    "mop_named_tag_count": 285
+  },
+  "machine": {
+    "model": "Mac Studio",
+    "identifier": "Mac15,14",
+    "chip": "Apple M3 Ultra",
+    "logical_cpu_cores": 28,
+    "performance_cores": 20,
+    "efficiency_cores": 8,
+    "unified_memory_bytes": 103079215104,
+    "unified_memory_gib": 96,
+    "macos_version": "27.0",
+    "disk_available_gib": 123,
+    "memory_free_percent": 89,
+    "swap_total_mib": 5120.0,
+    "swap_used_mib": 3642.81
+  },
+  "execution_state": {
+    "scientific_launch_receipt": null,
+    "completed_terminal_units": 0,
+    "terminal_unit_receipts": [],
+    "live_workers": [],
+    "live_supervisors": [],
+    "pid_files": [],
+    "locks": [],
+    "stop_switch": false,
+    "staging_directories": [],
+    "temporary_staging_directories": [],
+    "activation": false
+  },
+  "mop_operational_state": {
+    "environment_variables": [],
+    "running_workers_or_supervisors": [],
+    "installed_launchd_files": [
+      "/Users/scammermike/Library/LaunchAgents/com.mop.generation1.telegram.plist",
+      "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.finalizer.plist",
+      "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.guard.plist",
+      "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.handoff.plist",
+      "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.refill.plist",
+      "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.supervisor.plist",
+      "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.telegram.plist"
+    ],
+    "loaded_launchd_labels": [
+      "com.mop.generation1.telegram",
+      "com.mop.temporal-core.finalizer",
+      "com.mop.temporal-core.handoff",
+      "com.mop.temporal-core.refill",
+      "com.mop.temporal-core.telegram"
+    ],
+    "finding": "active MOP launchd surfaces remain and must be unloaded and removed or migrated before certification"
+  },
+  "invariants_recomputed": {
+    "scientific_verdict": "certified_cognitive_scaffold",
+    "passed_gates": [
+      "grounded_closed_loop",
+      "unity_under_conflict",
+      "world_self_control_value"
+    ],
+    "mechanism_nulls": [
+      "endogenous_allocation",
+      "cross_domain_continuity",
+      "procedural_transfer"
+    ],
+    "activation": false,
+    "scientific_run_launched": false,
+    "completed_scientific_units": 0
+  },
+  "precheck_pass": false,
+  "blocking_findings": [
+    "seven MOP-named LaunchAgent files remain installed and five labels remain loaded",
+    "the repository description and topics are empty",
+    "no GitHub Actions workflow exists",
+    "remote main does not contain the authoritative branch",
+    "PR 35 remains draft and unmerged",
+    "seven remote MOP-named branches and 285 MOP-named tags remain"
+  ]
+}

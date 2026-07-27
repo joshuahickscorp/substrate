@@ -1,0 +1,28 @@
+{
+  "schema": "mop-gen2-orchestration-result/v1",
+  "observed_wall_seconds": 3866,
+  "parallel_modeled_wall_seconds": 1226,
+  "modeled_speedup": 3.15,
+  "observed_average_concurrency": 1.24,
+  "corrected_average_concurrency": 3.81,
+  "measured_four_capsule_aggregate_throughput_x": 3.5,
+  "measured_slowdown_by_concurrency": {
+    "1": 1.0,
+    "2": 1.026,
+    "3": 1.119,
+    "4": 1.223
+  },
+  "explicit_statement": "The global DAG scheduler is an engineering improvement. It does not increase any mechanism's scientific evidence class.",
+  "promoted_infrastructure": [
+    "resource-token DAG scheduler",
+    "task-class resource profiles",
+    "receipt cache",
+    "resumable verification",
+    "retry escalation",
+    "notifications"
+  ],
+  "not_promoted": [
+    "any failed scientific mechanism (D1,U1,N1,R1,V1,K1,M1,E1,C0,A1,S1)"
+  ],
+  "sha256": "dea93758538e82d50c39add67d59d3f68f21f34de7dd2d071ed2ff08e984ee3a"
+}

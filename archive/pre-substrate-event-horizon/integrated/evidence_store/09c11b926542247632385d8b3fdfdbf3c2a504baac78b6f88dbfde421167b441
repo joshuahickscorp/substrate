@@ -1,0 +1,371 @@
+{
+  "schema": "mop-fast-state-forge-state/v1",
+  "requirements": {
+    "R01": {
+      "id": "R01",
+      "title": "Freeze the inherited interpretation",
+      "artifacts": [
+        "MOP_FAST_STATE_FORGE_START_AUTHORITY.json",
+        "MOP_FAST_STATE_FORGE_START_AUTHORITY.md"
+      ],
+      "dependencies": [],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R02": {
+      "id": "R02",
+      "title": "Bind the inherited nulls",
+      "artifacts": [
+        "MOP_FAST_STATE_BINDING_NULLS.json"
+      ],
+      "dependencies": [
+        "R01"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R03": {
+      "id": "R03",
+      "title": "Repair cross domain arm aliasing",
+      "artifacts": [
+        "MOP_CROSS_DOMAIN_ARM_AUTHORITY.json",
+        "MOP_CROSS_DOMAIN_ARM_AUDIT.json",
+        "MOP_CROSS_DOMAIN_ARM_MUTATIONS.json"
+      ],
+      "dependencies": [
+        "R01"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R04": {
+      "id": "R04",
+      "title": "Implement and seal Architecture G",
+      "artifacts": [
+        "MOP_ARCHITECTURE_G.json"
+      ],
+      "dependencies": [
+        "R03"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R05": {
+      "id": "R05",
+      "title": "Implement and seal Architecture H",
+      "artifacts": [
+        "MOP_ARCHITECTURE_H.json"
+      ],
+      "dependencies": [
+        "R03"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R06": {
+      "id": "R06",
+      "title": "Baseline convergence curves",
+      "artifacts": [
+        "MOP_BASELINE_CONVERGENCE_REPORT.json"
+      ],
+      "dependencies": [],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R07": {
+      "id": "R07",
+      "title": "Resource profile",
+      "artifacts": [
+        "MOP_FAST_STATE_RESOURCE_REPORT.json"
+      ],
+      "dependencies": [],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R08": {
+      "id": "R08",
+      "title": "Within domain battery, HAR",
+      "artifacts": [
+        "MOP_HAR_WITHIN_DOMAIN_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R09": {
+      "id": "R09",
+      "title": "Within domain battery, Speech",
+      "artifacts": [
+        "MOP_SPEECH_WITHIN_DOMAIN_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R10": {
+      "id": "R10",
+      "title": "Cross domain direction 1, HAR to Speech",
+      "artifacts": [
+        "MOP_HAR_TO_SPEECH_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R11": {
+      "id": "R11",
+      "title": "Cross domain direction 2, Speech to HAR",
+      "artifacts": [
+        "MOP_SPEECH_TO_HAR_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05",
+        "R06"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R12": {
+      "id": "R12",
+      "title": "Bidirectional synthesis",
+      "artifacts": [
+        "MOP_FAST_STATE_BIDIRECTIONAL_SYNTHESIS.json"
+      ],
+      "dependencies": [
+        "R10",
+        "R11"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R13": {
+      "id": "R13",
+      "title": "Interference map",
+      "artifacts": [
+        "MOP_SUBSTRATE_INTERFERENCE_MAP.json",
+        "MOP_SUBSTRATE_INTERFERENCE_REPORT.md"
+      ],
+      "dependencies": [
+        "R04",
+        "R05"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R14": {
+      "id": "R14",
+      "title": "Plasticity action headroom gate",
+      "artifacts": [
+        "MOP_SUBSTRATE_PLASTICITY_ACTION_HEADROOM.json",
+        "MOP_SUBSTRATE_PLASTICITY_POLICY_REPORT.json"
+      ],
+      "dependencies": [
+        "R13",
+        "R12"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R15": {
+      "id": "R15",
+      "title": "Architecture improvement rounds",
+      "artifacts": [
+        "MOP_FAST_STATE_ARCHITECTURE_COMPARISON.json"
+      ],
+      "dependencies": [
+        "R12",
+        "R13"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R16": {
+      "id": "R16",
+      "title": "Functional reorganization",
+      "artifacts": [
+        "MOP_FUNCTIONAL_REORGANIZATION_REPORT.json"
+      ],
+      "dependencies": [
+        "R13"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R17": {
+      "id": "R17",
+      "title": "Task free context inference",
+      "artifacts": [
+        "MOP_TASK_FREE_CONTEXT_REPORT.json"
+      ],
+      "dependencies": [
+        "R13"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R18": {
+      "id": "R18",
+      "title": "Fast core representation analysis",
+      "artifacts": [
+        "MOP_FAST_CORE_REPRESENTATION_REPORT.json",
+        "MOP_FAST_CORE_REPRESENTATION_REPORT.md"
+      ],
+      "dependencies": [
+        "R12"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R19": {
+      "id": "R19",
+      "title": "Third temporal domain preflight",
+      "artifacts": [
+        "MOP_THIRD_TEMPORAL_DOMAIN_PREFLIGHT.json"
+      ],
+      "dependencies": [
+        "R06"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R20": {
+      "id": "R20",
+      "title": "Code accounting",
+      "artifacts": [
+        "MOP_FAST_STATE_CODE_REPORT.json"
+      ],
+      "dependencies": [],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R21": {
+      "id": "R21",
+      "title": "Test report",
+      "artifacts": [
+        "MOP_FAST_STATE_TEST_REPORT.json"
+      ],
+      "dependencies": [
+        "R04",
+        "R05"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R22": {
+      "id": "R22",
+      "title": "Independent verification",
+      "artifacts": [
+        "MOP_FAST_STATE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "dependencies": [
+        "R12",
+        "R13",
+        "R14"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R23": {
+      "id": "R23",
+      "title": "Mutation suites",
+      "artifacts": [
+        "MOP_FAST_STATE_MUTATION_REPORT.json"
+      ],
+      "dependencies": [
+        "R12",
+        "R13",
+        "R14"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R24": {
+      "id": "R24",
+      "title": "Clean clone validation",
+      "artifacts": [
+        "MOP_FAST_STATE_CLEAN_CLONE.json"
+      ],
+      "dependencies": [
+        "R22",
+        "R23"
+      ],
+      "status": "ready",
+      "next_exact_action": "run fastforge.runs.cleanclone"
+    },
+    "R25": {
+      "id": "R25",
+      "title": "Evidence fabric indexing",
+      "artifacts": [
+        "MOP_FAST_STATE_EVIDENCE_FABRIC.json"
+      ],
+      "dependencies": [
+        "R24"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    },
+    "R26": {
+      "id": "R26",
+      "title": "Synthesis and next frontier",
+      "artifacts": [
+        "MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+        "MOP_FAST_STATE_FORGE_SYNTHESIS.md",
+        "MOP_FAST_STATE_NEXT_FRONTIER.json"
+      ],
+      "dependencies": [
+        "R25"
+      ],
+      "status": "terminal",
+      "next_exact_action": "none"
+    }
+  },
+  "terminal": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14",
+    "R15",
+    "R16",
+    "R17",
+    "R18",
+    "R19",
+    "R20",
+    "R21",
+    "R22",
+    "R23",
+    "R25",
+    "R26"
+  ],
+  "ready": [
+    "R24"
+  ],
+  "blocked": [],
+  "resume_rule": "the program resumes from this ledger without replanning: take every ready requirement and execute its next exact action",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "01c041a37f0aadd5a167144a38620a50d6fe3310",
+  "SESOI": 0.05,
+  "sha256": "aab6cea1ac88ddabae7799f2d7f556f2d37af6a503a287c1b76b71bb48ca3727"
+}

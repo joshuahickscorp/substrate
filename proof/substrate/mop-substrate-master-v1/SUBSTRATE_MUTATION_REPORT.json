@@ -1,0 +1,294 @@
+{
+  "schema": "substrate-mutation-report/v1",
+  "rule": "every mutation must be rejected by the guard named beside it. A survivor is a guard that does not work and is reported as a survivor, never folded into a pass rate",
+  "mutations": [
+    {
+      "mutation": "workspace_ignores_writer_sets",
+      "module": "mop.cognition.workspace",
+      "guard": "tests/cognition/test_workspace.py::test_a_write_outside_the_declared_writers_is_refused",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "workspace_drops_provenance_requirement",
+      "module": "mop.cognition.workspace",
+      "guard": "tests/cognition/test_workspace.py::test_provenance_and_confidence_are_mandatory_where_declared",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "untyped_control_becomes_typed",
+      "module": "mop.cognition.workspace",
+      "guard": "tests/cognition/test_workspace.py::test_the_untyped_control_removes_typing_and_nothing_else",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "learned_selector_opens_freely",
+      "module": "mop.cognition.perspectives",
+      "guard": "tests/cognition/test_perspectives.py::test_learned_selector_stays_closed_without_headroom",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "arbitration_discards_the_minority",
+      "module": "mop.cognition.perspectives",
+      "guard": "tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "generated_episodes_promote_on_a_flag",
+      "module": "mop.cognition.memory",
+      "guard": "tests/cognition/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "procedures_transfer_on_their_own_episodes",
+      "module": "mop.cognition.memory",
+      "guard": "tests/cognition/test_memory.py::test_procedure_requires_transfer_beyond_source_episodes",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "hygiene_deletes_audit_records",
+      "module": "mop.cognition.memory",
+      "guard": "tests/cognition/test_memory.py::test_hygiene_never_destroys_audit_required_records",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "intervening_becomes_conditioning",
+      "module": "mop.cognition.world",
+      "guard": "tests/cognition/test_world.py::test_intervening_is_not_the_same_operation_as_observing",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "self_facts_need_no_source",
+      "module": "mop.cognition.selfmodel",
+      "guard": "tests/cognition/test_selfmodel.py::test_a_self_fact_without_a_source_is_refused",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "fast_adaptation_touches_shared_parameters",
+      "module": "mop.cognition.plasticity",
+      "guard": "tests/cognition/test_plasticity.py::test_fast_adaptation_does_not_touch_shared_parameters",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "slow_adaptation_skips_its_evidence_bar",
+      "module": "mop.cognition.plasticity",
+      "guard": "tests/cognition/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "reorganize_drops_the_forbidden_branch",
+      "module": "mop.cognition.plasticity",
+      "guard": "tests/cognition/test_plasticity.py::test_forbidden_reorganizations_are_refused",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "forbidden_reorganization_list_is_emptied",
+      "module": "mop.cognition.safety",
+      "guard": "tests/cognition/test_plasticity.py::test_forbidden_reorganizations_are_refused",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "protected_surfaces_become_removable",
+      "module": "mop.cognition.safety",
+      "guard": "tests/cognition/test_safety.py::test_protected_surfaces_cannot_be_removed_by_adaptation",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "forbidden_claims_pass",
+      "module": "mop.cognition.safety",
+      "guard": "tests/cognition/test_safety.py::test_forbidden_claim_vocabulary_is_refused",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "integrity_stops_failing_closed",
+      "module": "mop.cognition.safety",
+      "guard": "tests/cognition/test_safety.py::test_integrity_violation_is_detected_and_fails_closed",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "latency_counts_as_thinking",
+      "module": "mop.cognition.batteries",
+      "guard": "tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "reflective_reports_answer_without_provenance",
+      "module": "mop.cognition.batteries",
+      "guard": "tests/cognition/test_batteries.py::test_reflective_report_fails_closed_without_provenance",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "evidence_counts_on_presence_alone",
+      "module": "mop.cognition.program",
+      "guard": "tests/cognition/test_program.py::test_evidence_that_is_stale_or_failing_does_not_count",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "implementation_raises_evidence",
+      "module": "mop.cognition.program",
+      "guard": "tests/cognition/test_program.py::test_evidence_never_rises_from_implementation_alone",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "admission_stops_requiring_completeness",
+      "module": "mop.cognition.admission",
+      "guard": "tests/cognition/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "a_structurally_guaranteed_effect_is_licensed",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "a_refusal_is_filed_as_a_null",
+      "module": "mop.cognition.deliverables",
+      "guard": "tests/cognition/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "an_underpowered_design_reaches_the_test_split",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_sx1b_is_refused_on_power_and_never_touches_the_test_split",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_sesoi_is_lowered_until_a_bed_qualifies",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_no_bed_under_custody_can_test_the_typed_workspace_hypothesis",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "a_measurement_boundary_closes_its_descendants",
+      "module": "mop.cognition.deliverables",
+      "guard": "tests/cognition/test_experiments.py::test_a_measurement_boundary_closes_nothing_downstream",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_campaign_counts_a_failed_stage_as_done",
+      "module": "mop.cognition.campaign",
+      "guard": "tests/cognition/test_campaign.py::test_a_stage_is_done_because_its_receipt_exists",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_campaign_retries_a_broken_stage_forever",
+      "module": "mop.cognition.campaign",
+      "guard": "tests/cognition/test_campaign.py::test_a_repeated_failure_stops_being_retried",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_plan_hides_a_blocked_wave",
+      "module": "mop.cognition.campaign",
+      "guard": "tests/cognition/test_campaign.py::test_the_plan_says_which_waves_wait_on_something_that_does_not_exist",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_loop_skips_a_stage_silently",
+      "module": "mop.cognition.runtime",
+      "guard": "tests/cognition/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_loop_restores_a_tampered_checkpoint",
+      "module": "mop.cognition.runtime",
+      "guard": "tests/cognition/test_runtime.py::test_a_tampered_checkpoint_is_refused_rather_than_silently_restored",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "sx5_reports_support_below_the_sesoi",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_sx5_is_a_null_at_the_declared_effect_size",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "sx5_drops_the_second_direction",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_sx5_requires_both_directions",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_ceiling_below_sesoi_is_blamed_on_the_unit_count",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_the_sx1b_diagnosis_names_the_number_that_actually_decides",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    }
+  ],
+  "total": 35,
+  "rejected": 35,
+  "survivors": [],
+  "all_rejected": true,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "6c97246db07bca8a909aa6049890d70cd730ef85",
+  "activation": false,
+  "sha256": "3e25b930ce22f1597e1d0cdd1db41d0d61d58267d65baf0fd2133bf48cc552ee"
+}

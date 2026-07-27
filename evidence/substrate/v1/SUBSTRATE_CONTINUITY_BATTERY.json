@@ -1,0 +1,101 @@
+{
+  "schema": "substrate-continuity-battery/v1",
+  "surfaces": {
+    "goals": {
+      "probed": true,
+      "owned": true,
+      "replay": false,
+      "replay_full": true
+    },
+    "unresolved_questions": {
+      "probed": false,
+      "owned": false,
+      "replay": false,
+      "replay_full": false,
+      "reason": "no probe declared for this surface"
+    },
+    "memory": {
+      "probed": true,
+      "owned": true,
+      "replay": false,
+      "replay_full": false
+    },
+    "world_state": {
+      "probed": true,
+      "owned": true,
+      "replay": false,
+      "replay_full": true
+    },
+    "self_state": {
+      "probed": true,
+      "owned": true,
+      "replay": false,
+      "replay_full": false
+    },
+    "commitments": {
+      "probed": false,
+      "owned": false,
+      "replay": false,
+      "replay_full": false,
+      "reason": "no probe declared for this surface"
+    },
+    "uncertainty": {
+      "probed": true,
+      "owned": true,
+      "replay": false,
+      "replay_full": true
+    },
+    "project_context": {
+      "probed": false,
+      "owned": false,
+      "replay": false,
+      "replay_full": false,
+      "reason": "no probe declared for this surface"
+    }
+  },
+  "stressors_applied": [
+    "context_removal",
+    "checkpoint_restore"
+  ],
+  "stressors_declared": [
+    "interruption",
+    "checkpoint_restore",
+    "context_removal",
+    "session_change",
+    "model_body_replacement",
+    "long_delay"
+  ],
+  "stressors_not_applied": [
+    "interruption",
+    "session_change",
+    "model_body_replacement",
+    "long_delay"
+  ],
+  "owned_state_score": 1.0,
+  "transcript_replay_score": 0.0,
+  "unbounded_replay_score": 0.6,
+  "matched_budget_characters": 1299,
+  "transcript_characters": 2930,
+  "margin": 1.0,
+  "contested_surfaces": [
+    "goals",
+    "uncertainty",
+    "world_state"
+  ],
+  "surfaces_no_replay_can_reach": [
+    "memory",
+    "self_state"
+  ],
+  "owned_on_contested": 1.0,
+  "replay_on_contested": 0.0,
+  "contested_margin": 1.0,
+  "supported": true,
+  "support_rests_on": "the contested margin only. The surfaces no replay can reach are reported and excluded, because scoring them would credit owned state for a comparison that was never a contest",
+  "control": "transcript replay truncated to the same budget as the owned state",
+  "control_is_capable": true,
+  "why_the_second_control": "the unbounded replay arm exists to prove the matched arm lost to the budget rather than to a probe it could never answer. A control that cannot win at any budget is not a control",
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "activation": false,
+  "sha256": "2f8a6b5b91cee61c6873de7dc16089ec3d2937f07d974c012426e41255de85f3"
+}

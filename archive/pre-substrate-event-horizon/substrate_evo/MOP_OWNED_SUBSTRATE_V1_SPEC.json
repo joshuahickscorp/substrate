@@ -1,0 +1,15 @@
+{
+  "schema": "owned-substrate-v1-spec/v1",
+  "status": "implemented + tested on a valid temporal bed; NO candidate (Substrate Event Horizon)",
+  "owned": [
+    "temporal projection",
+    "fast GRU state",
+    "medium EMA context",
+    "slow workspace",
+    "GDumb memory",
+    "heads"
+  ],
+  "evidence_ceiling": "no owned architecture beats converged temporal baselines even where order provably matters; continual headroom is memory-capacity-bound",
+  "activation": false,
+  "sha256": "610fb53c1b8d6cb2bd9c0e9c6ecf6414b2b5d378f80e57eedd9189680829ec58"
+}

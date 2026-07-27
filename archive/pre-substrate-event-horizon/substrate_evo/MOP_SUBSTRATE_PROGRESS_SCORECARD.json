@@ -1,0 +1,88 @@
+{
+  "schema": "mop-substrate-progress-scorecard/v1",
+  "recomputed_from_evidence": true,
+  "layers": {
+    "1_scientific_evidence_falsification": {
+      "impl": 95,
+      "ev": 92,
+      "impl_target": 95,
+      "ev_target": 95,
+      "criteria": "batteries, adversarial verification, mutation, receipts across G2/G3/Genesis; near target (external-review surface exists)",
+      "next": "seal remaining principal artifacts + independent verification of this program"
+    },
+    "2_campaign_orchestration": {
+      "impl": 93,
+      "ev": 90,
+      "impl_target": 95,
+      "ev_target": 90,
+      "criteria": "DAG scheduler benchmarked 3.15x, receipt-cached verification, resumable; evidence target met",
+      "next": "reuse scheduler; benchmark temporal task concurrency"
+    },
+    "3_null_failure_understanding": {
+      "impl": 95,
+      "ev": 90,
+      "impl_target": 95,
+      "ev_target": 90,
+      "criteria": "19-mechanism ledger + null-derived constraints + causal classifications; target met",
+      "next": "add temporal-architecture failure classifications as they arise"
+    },
+    "4_useful_plasticity_rule": {
+      "impl": 45,
+      "ev": 5,
+      "impl_target": 70,
+      "ev_target": 50,
+      "criteria": "policies implemented; NO useful learned rule (C1 null, plasticity gate no_headroom)",
+      "next": "substrate-specific plasticity headroom gate on a valid temporal domain",
+      "note_update": "no headroom on a valid temporal bed either; simple_policy_sufficient stands"
+    },
+    "5_owned_trainable_substrate": {
+      "impl": 85,
+      "ev": 60,
+      "impl_target": 90,
+      "ev_target": 80,
+      "criteria": "both Genesis architectures implemented, 4 timescales, checkpointable, verified; but null on 2 domains",
+      "next": "temporal architectures A-T/C/D + valid temporal-domain evidence",
+      "note_update": "temporal architectures A-T/C/D implemented + verified on a VALID temporal bed; still null vs converged baselines -> evidence raised (implementation solid) but below the 80 target; closed via event horizon"
+    },
+    "6_multi_timescale_moldability": {
+      "impl": 70,
+      "ev": 25,
+      "impl_target": 85,
+      "ev_target": 70,
+      "criteria": "4 timescales implemented but fast state degenerate on iid images; not shown valuable",
+      "next": "temporal-domain ablations of fast/medium/slow state value",
+      "note_update": "tested on a valid temporal bed; fast/medium state did not add value beyond LSTM gating; below 70 target; event horizon"
+    },
+    "7_functional_self_reorganization": {
+      "impl": 60,
+      "ev": 10,
+      "impl_target": 70,
+      "ev_target": 50,
+      "criteria": "ArchB tried, structural_null (decorative)",
+      "next": "Architecture D hierarchical plasticity lattice with bounded reorganization vs simple routing",
+      "note_update": "Architecture D structural_null (does not beat LSTM; hierarchical routing decorative); below 50 target; event horizon"
+    },
+    "8_unified_cross_domain_entity": {
+      "impl": 50,
+      "ev": 10,
+      "impl_target": 80,
+      "ev_target": 50,
+      "criteria": "cross_domain_moldability_null (Genesis)",
+      "next": "one checkpointed core across >=2 temporal domains if any architecture becomes non-null"
+    }
+  },
+  "at_or_near_target": [
+    "1_scientific_evidence_falsification",
+    "2_campaign_orchestration",
+    "3_null_failure_understanding"
+  ],
+  "far_below_target_require_scientific_positive": [
+    "4_useful_plasticity_rule",
+    "5_owned_trainable_substrate",
+    "6_multi_timescale_moldability",
+    "7_functional_self_reorganization",
+    "8_unified_cross_domain_entity"
+  ],
+  "note": "layers 4-8 require the substrate to actually beat strong matched baselines on valid temporal domains; the entire program base rate (nothing has beaten strong matched baselines across G2/G3/Genesis) makes a Substrate Event Horizon the likely honest terminal for 4-8, contingent on the temporal-order headroom gate and full exhaustion proof",
+  "sha256": "928a6114351cbb0104dd1520eab5276d3204997c6c4ce49ec7eb3ad76390fbec"
+}

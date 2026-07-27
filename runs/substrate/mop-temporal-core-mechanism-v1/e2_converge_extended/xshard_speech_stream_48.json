@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "mgu",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "horizon_90",
+    "history_k": 1
+  },
+  "cell": "mgu|small|linear|horizon_90|h1",
+  "curve": {
+    "400": 0.7008899999999999,
+    "800": 0.73816,
+    "1600": 0.7371833333333333,
+    "3200": 0.74701,
+    "6400": 0.7599066666666667,
+    "12800": 0.7614166666666667
+  },
+  "seed_spread": {
+    "400": 0.06309,
+    "800": 0.02572,
+    "1600": 0.02341,
+    "3200": 0.01919,
+    "6400": 0.06088,
+    "12800": 0.06156
+  },
+  "seed_scores": {
+    "400": [
+      0.65877,
+      0.77342,
+      0.67048
+    ],
+    "800": [
+      0.7193,
+      0.76746,
+      0.72772
+    ],
+    "1600": [
+      0.72632,
+      0.76405,
+      0.72118
+    ],
+    "3200": [
+      0.73596,
+      0.76917,
+      0.7359
+    ],
+    "6400": [
+      0.74123,
+      0.82794,
+      0.71055
+    ],
+    "12800": [
+      0.74737,
+      0.82879,
+      0.70809
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.65877,
+        "checkpoint_sha": "02e661ad6a1f8bd353411b5d02fc997d12b39889a5b38c073ce8b71eaab329ad"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.77342,
+        "checkpoint_sha": "7dc972f06c50e8831fe150fe65cc14d16b25cc6e45b3a2a56f17ff04580fe2d9"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.67048,
+        "checkpoint_sha": "4fe0dc2edf5c93caa04d5ede16194594dbeaea3fbb286298b76a864a53e0709a"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.7193,
+        "checkpoint_sha": "46d1184ef61706b636355c9a2595a5f03999867e98889344339ff63c4e629fa2"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.76746,
+        "checkpoint_sha": "c0e445b9ff58ca753616e844fa87698560da064508f678c10b9c18e000b4709c"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.72772,
+        "checkpoint_sha": "c718e981dd185280faa58468632a29eeee7af19e0398a2f7d8db6be98e75cb33"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.72632,
+        "checkpoint_sha": "8be5289650c3f16bc9b86619cce69124729e6dc79a5345cb6462e8e7e1bf61b2"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.76405,
+        "checkpoint_sha": "9657ad0e23b15f34a19e150b114a978d87126d5380070c934ce06547b0a34069"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.72118,
+        "checkpoint_sha": "10e277c118407be8e153bd4464f84cb12843f9eeda3ea48eebcff7cb4b4e11f9"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.73596,
+        "checkpoint_sha": "50692807ce5b45c4f2873592966133ea7b69acd722280879d41596ef40573731"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.76917,
+        "checkpoint_sha": "1be4d337eaae3ff91f5d39db8ee16478f2448216cf316325c9f9fbbafc385823"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.7359,
+        "checkpoint_sha": "fa9d714e186a58ca88c10374c5b45a0b43033aa011fa3cf7d3808e3421adb446"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.74123,
+        "checkpoint_sha": "ed6ea64092ab2b055cb3e7ddae7463fb927e77ddad347a6979fe66ddbe9c73cf"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.82794,
+        "checkpoint_sha": "7fa0f50de05670d46180e3ee96d92656d67c2a3f1e1f56f9899af6fcdc33f3bf"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.71055,
+        "checkpoint_sha": "2b1d082dc5f4525f0df3e9578fd3ac84e6f821b8679d062de9bfcab6b810fcef"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.74737,
+        "checkpoint_sha": "b0f38bc2d59820e666463b346222729d3f686a8eebc4f8bf3601ca395e42cf81"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.82879,
+        "checkpoint_sha": "c0a7fe59088753748f3813dc48336de2ca81b6d8e8df82d11b50a8a3a525986a"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.70809,
+        "checkpoint_sha": "e5ea1e13303c7cf551be1c9f97bfe14570ce41170caeccfd6cf83a497fe89428"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 45466,
+    "readout": 650,
+    "total": 46116
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_48.json",
+    "sha256": "73f487bace4421d493ba87e51c95f3d45b21041c46bc3c5e78470d53c5937b58",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.70089,
+    0.73816,
+    0.73718,
+    0.74701,
+    0.75991,
+    0.76142
+  ],
+  "best_budget": 12800,
+  "selected_checkpoint": 12800,
+  "second_half_movement": 0.01441,
+  "residual_slope": 0.007203,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0144 with slope 0.0072; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 2322.5,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "86ed66e4f72117ad1e0ce452cde963e81f6539e171894d9792d9fc5486ca2c2f"
+}

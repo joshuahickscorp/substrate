@@ -1,0 +1,2 @@
+E4 scout speech_stream: oracle {'mean': 0.2714, 'lower_95_cb': 0.12948, 'n_seeds': 5}, state_only residual {'mean': 0.08761, 'lower_95_cb': 0.02892, 'n_seeds': 5}, mde 0.07361
+E4_SCOUT_DONE

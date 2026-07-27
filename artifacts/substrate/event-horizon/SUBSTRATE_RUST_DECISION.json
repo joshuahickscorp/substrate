@@ -1,0 +1,64 @@
+{
+  "schema": "substrate-rust-decision/v1",
+  "decision": "no Rust conversion justified",
+  "admitted": false,
+  "crate_created": false,
+  "threshold": {
+    "isolated_speedup": "at least 1.5x",
+    "total_wall_reduction": "at least 10% or necessary reliability/memory gain"
+  },
+  "ranked_candidates": [
+    {
+      "path": "canonical hashing, 100 objects x 100",
+      "measured_seconds": 0.007942,
+      "decision": "retain Python",
+      "reason": "too little total cost for the binding and parity surface to repay itself"
+    },
+    {
+      "path": "canonical serialization, 100 objects x 100",
+      "measured_seconds": 0.006788,
+      "decision": "retain Python",
+      "reason": "too little total cost for the binding and parity surface to repay itself"
+    },
+    {
+      "path": "artifact indexing and structural audit",
+      "measured_seconds": 0.016321,
+      "decision": "retain Python",
+      "reason": "too little total cost for the binding and parity surface to repay itself"
+    },
+    {
+      "path": "checkpoint and restore x100",
+      "measured_seconds": 0.008952,
+      "decision": "retain Python",
+      "reason": "too little total cost for the binding and parity surface to repay itself"
+    },
+    {
+      "path": "DAG readiness x1000",
+      "measured_seconds": 0.185176,
+      "decision": "retain Python",
+      "reason": "too little total cost for the binding and parity surface to repay itself"
+    },
+    {
+      "path": "receipt validation x10000",
+      "measured_seconds": 0.023414,
+      "decision": "retain Python",
+      "reason": "too little total cost for the binding and parity surface to repay itself"
+    },
+    {
+      "path": "replay session scan",
+      "measured_seconds": 0.053043,
+      "decision": "retain Python",
+      "reason": "too little total cost for the binding and parity surface to repay itself"
+    }
+  ],
+  "dominant_cost": "isolated Python mutation workers and process startup, not a narrow kernel",
+  "python_optimization": {
+    "change": "cache immutable commit identity once per process",
+    "end_to_end_rehearsal_reduction_percent": 68.0
+  },
+  "projected_rust_total_gain_percent_upper_bound": 3.0,
+  "parity_authority_required": false,
+  "source_commit": "26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c",
+  "activation": false,
+  "sha256": "8828e9cee44b6659c81c0dce0874dba8eabb0f50a7a2b68cb4753c534464a352"
+}

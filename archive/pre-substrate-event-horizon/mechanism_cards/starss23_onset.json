@@ -1,0 +1,14 @@
+{
+ "card_id": "starss23_onset",
+ "disposition": "kill",
+ "evidence_level": "M0",
+ "failure_domain": "energy carries no onset-localizing information at this budget",
+ "forbidden_claim": "no activation, promotion, or confirmation from these sealed runs",
+ "form_family": "native_audio",
+ "hypothesis": "a trained value_of_computation beats matched controls on temporal_boundary",
+ "independent_units": "clips within a small number of rooms (not independent environments)",
+ "mechanism_family": "value_of_computation",
+ "phenomenon": "temporal_boundary",
+ "source_artifact": "STARSS23_ESCS_BED.json",
+ "strongest_control": "rate_matched_random at matched budget"
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "mop-method-reformation-state/v1",
+  "program_id": "mop-experimental-method-reformation-v1",
+  "branch": "agent/mop-experimental-method-reformation",
+  "stop_switch": "/Users/scammermike/.mop_experimental_method_stop",
+  "stages": {
+    "start_authority": true,
+    "defect_ledger": true,
+    "validity_kernel": true,
+    "method_acceptance": true,
+    "fast_state_reaudit": true,
+    "experiment_value_queue": true,
+    "hypothesis_graph": true,
+    "E1_admission": true,
+    "E4_admission": true,
+    "E1_principal": true,
+    "E4_principal": true,
+    "positive_mutations": true,
+    "independent_verification": true,
+    "independent_audit": true,
+    "reports": true,
+    "synthesis": true,
+    "evidence_fabric": true
+  },
+  "defect_classes": 18,
+  "defect_classes_discovered_here": [
+    "D16",
+    "D17",
+    "D18"
+  ],
+  "activation": false,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "5dcac205b25021ffd1f3309a8cca8a40d6a97ee69c9a98a29b36b0d17f7b76cf"
+}

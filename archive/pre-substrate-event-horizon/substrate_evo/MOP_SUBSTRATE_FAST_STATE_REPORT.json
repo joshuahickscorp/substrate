@@ -1,0 +1,5 @@
+{
+  "schema": "fast-state/v1",
+  "finding": "order matters (gru>bag +0.085, shuffled hurts) so fast state carries real info, BUT the substrate's fast+medium state does not beat LSTM gating on continual moldability",
+  "sha256": "831ffa8c44305ea7f62cd6db702543f1d987695019993652965a2636d23987f8"
+}

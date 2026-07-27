@@ -1,0 +1,76 @@
+{
+  "schema": "mop-generation2-frontier-synthesis/v1",
+  "source_commit": "b59a5fa5ee34c2a78a4455b43a8bebcb34465044",
+  "program_id": "mop-generation2-scientific-frontier-v1",
+  "branch": "agent/mop-scientific-frontier",
+  "governing_graph_status": "reconcile DONE -> admissions DONE (7 lanes) -> canaries (none licensed among the 7) -> Lane P external replication replication_null -> clusters unlicensed -> construction unlicensed -> integration unlicensed -> terminal synthesis SEALED",
+  "headline": "Of seven unopened mechanisms, none passed real-data admission; the one surviving mechanism (P1R) was tested against established replay methods on a stronger external source (EMNIST) with result: replication_null. No cluster, construction, or integration is licensed. Activation stays false.",
+  "evidence_classes_distinguished": [
+    "mechanics_robustness",
+    "controlled_bed_plausibility",
+    "real_benchmark_canary",
+    "same_team_cross_architecture_confirmation",
+    "external_method_replication",
+    "independent_scientific_confirmation",
+    "cluster_interaction",
+    "construction",
+    "integration",
+    "activation"
+  ],
+  "admission_results": {
+    "V": "architecture_dependent",
+    "K": "pruned_mechanism",
+    "M": "pruned_mechanism",
+    "E": "pruned_mechanism",
+    "C": "pruned_mechanism",
+    "A": "pruned_mechanism",
+    "S": "pruned_mechanism"
+  },
+  "lane_P_result": {
+    "classification": "replication_null",
+    "final_avg_accuracy_mean": {
+      "none": 0.068,
+      "reservoir": 0.5816,
+      "gdumb": 0.5941,
+      "loss_based": 0.1582,
+      "recency": 0.1359,
+      "p1r": 0.1042
+    },
+    "best_established": "gdumb",
+    "p1r_final_avg": 0.1042,
+    "p1r_final_avg_sd": 0.1164,
+    "primary_comparison_per_task_effect": {
+      "mean": -0.5241,
+      "between_task_sd": 0.071,
+      "lower_95_cb": -0.5701,
+      "min_detectable_effect": 0.046,
+      "favorable_fraction": 0.0,
+      "n": 8,
+      "pass": false
+    },
+    "repair_applied": "faithful P1R = validated learned replay-value predictor (rff_ridge over [prob,entropy,feat-norm]) with validated toxic-value gate, replacing the unfaithful hard-coded raw-loss+prototype filter; instrumentation hardened (torch-seeded, 5 seeds, true Vitter reservoir)"
+  },
+  "lane_P_adversarial_audit": {
+    "consensus_verdict": "unfaithful_operationalization",
+    "auditors": 4,
+    "note": "v1 replication_harm was an unfaithful operationalization (used the raw-loss control as the mechanism, dropped the toxic-value gate); one bounded bed-validity repair applied, Lane P re-run faithfully"
+  },
+  "confirmed_architecture": "G1-P1R (plasticity / replay-value prediction) only, as same-team cross-architecture evidence on MNIST-family and CIFAR-100 and KMNIST",
+  "clusters": {
+    "action_simulation": "unlicensed (A1,S1 not admitted)",
+    "verification_repair_messaging": "unlicensed (V1,K1,M1 not admitted)",
+    "event_trace": "unlicensed (E1,C0 not admitted)"
+  },
+  "construction": "unlicensed (no external P1R replication, no confirmed cluster, fewer than two confirmed components)",
+  "integration": "unlicensed (fewer than three confirmation-level functional domains)",
+  "activation": false,
+  "house_rules_honored": [
+    "a tie is a null",
+    "wrong-direction is a failure",
+    "positives adversarially verified",
+    "no git attribution",
+    "at most one bounded repair per lane",
+    "no mechanism-favouring synthetic bed for unavailable real evidence"
+  ],
+  "synthesis_sha256": "fb4db0513f0da2e598f07fbd0208c0594b5776bcb65dea879d01d7e98d14237d"
+}

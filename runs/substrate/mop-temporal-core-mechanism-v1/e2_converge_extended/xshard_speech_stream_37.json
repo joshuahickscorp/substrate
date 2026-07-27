@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "horizon_2",
+    "history_k": 1
+  },
+  "cell": "gru|small|linear|horizon_2|h1",
+  "curve": {
+    "400": 0.14638666666666664,
+    "800": 0.11950000000000001,
+    "1600": 0.12956,
+    "3200": 0.12875333333333333,
+    "6400": 0.14124,
+    "12800": 0.14238333333333333
+  },
+  "seed_spread": {
+    "400": 0.02136,
+    "800": 0.01228,
+    "1600": 0.02184,
+    "3200": 0.0075,
+    "6400": 0.0172,
+    "12800": 0.01449
+  },
+  "seed_scores": {
+    "400": [
+      0.16404,
+      0.15247,
+      0.12265
+    ],
+    "800": [
+      0.13333,
+      0.10988,
+      0.11529
+    ],
+    "1600": [
+      0.11404,
+      0.1201,
+      0.15454
+    ],
+    "3200": [
+      0.12368,
+      0.12521,
+      0.13737
+    ],
+    "6400": [
+      0.14737,
+      0.12181,
+      0.15454
+    ],
+    "12800": [
+      0.14737,
+      0.12606,
+      0.15372
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.16404,
+        "checkpoint_sha": "62b1950ab4a7423c7f9da905f8c2233cbe327a9bcef319487f057a05208324fe"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.15247,
+        "checkpoint_sha": "15ebf0f39eebea7566c5f271c20e45631ffec88233030058efbafcf1eb02231c"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.12265,
+        "checkpoint_sha": "e470792d6b28b1aeb8c724d512f5c990056787a75fda3f2da57c219ebf767cfd"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.13333,
+        "checkpoint_sha": "3af6642d7e35331c988493c86dd7857e9bd6be615af2095751dae2cbbefdd86b"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.10988,
+        "checkpoint_sha": "a2b08462b81f73c88dbf7471dbdb10b916730c2c5e7cc3c71b184bbd46da0b87"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.11529,
+        "checkpoint_sha": "fb083ce46d6e153e56f630b266be2c45a9f31b1334f209a7bf5be4b8d38db6c0"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.11404,
+        "checkpoint_sha": "51d60d520b1ac11422bc7d7536af9eee7745a9f83172d9c1a57e87306c9ceeb8"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.1201,
+        "checkpoint_sha": "8bd28cc6a013876f9ec955c05bca5a815b46a48763175a37f3851e09b8c2ae49"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.15454,
+        "checkpoint_sha": "7f4cee875077ab908f832b4c63f198f955b4b69f7da1d18e562716f66d3cbd45"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.12368,
+        "checkpoint_sha": "b2a75c9a4f62f7ade8de0f18e511bf046f7f585a728518083b4567639d0eaeb2"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.12521,
+        "checkpoint_sha": "97d7aee8657d1b55f336b0e269bf51d09748810772aa529a21ffe9aeb8577e47"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.13737,
+        "checkpoint_sha": "84889846663f42f8c8a1c8b4ea7da646f1687401428b5e2e679b9fc5942d7bc1"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.14737,
+        "checkpoint_sha": "c26020539531be11f542841ca221d18176360f4a3964eb28a12f6169f6b255c4"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.12181,
+        "checkpoint_sha": "0858345d365d99e3b1850c4669858b4cf32ff586703f36e3764c9bb054d82f28"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.15454,
+        "checkpoint_sha": "4791650a3a4a1ef036c878af261f0545cb2756b0b7e8605152379ba02db96fca"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.14737,
+        "checkpoint_sha": "a4dcdd4fb9bac773150a0fb3223097ad5052b213d714d3c7e1a5e7185144d0c7"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.12606,
+        "checkpoint_sha": "bcf1e57346ba46b12d8a962b0750056544b5950f50a4114b752813cca7fdb8b4"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.15372,
+        "checkpoint_sha": "5c8e160fec928981040f517f1e3274b510d42692c2bb721c42d4f38d701d7cbd"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 42139,
+    "readout": 650,
+    "total": 42789
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_37.json",
+    "sha256": "aaebe0da88b3beaa745e2bc69d18095223fbc055308528f9d23671f38c6dfad8",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.14639,
+    0.1195,
+    0.12956,
+    0.12875,
+    0.14124,
+    0.14238
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.01363,
+  "residual_slope": 0.006815,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0136 with slope 0.00682; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 1218.5,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "a01ce93866c41d07ca5b260fbfecaa8f26caa62c9134d292d130e7302fecc7de"
+}

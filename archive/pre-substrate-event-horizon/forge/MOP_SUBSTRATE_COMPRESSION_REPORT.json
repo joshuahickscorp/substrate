@@ -1,0 +1,7 @@
+{
+  "schema": "compression/v1",
+  "verdict": "compression_null (no stable lower-CB advantage over GDumb)",
+  "finding": "bounded compression (prototype k-means class-means, coreset k-center, dual recent+prototype) does NOT robustly beat GDumb at 8-seed lower-95-CB; the 5-seed frontier advantage was seed noise (prototype cap375 mean +0.037 but lcb -0.0000). The memory bottleneck is capacity; GDumb is already the best bounded policy.",
+  "the_new_lever_closed": "memory representation/compression (distinct from R1/P1R learned retrieval, also closed)",
+  "sha256": "8409aa2bd7ef11ca748c3e4818cb17ad15e9a81676ded36f0d45ff4eb7350f00"
+}

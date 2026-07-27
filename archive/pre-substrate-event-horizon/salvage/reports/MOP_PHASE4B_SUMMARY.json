@@ -1,0 +1,63 @@
+{
+  "schema": "mop-phase4b-summary/v1",
+  "preserved": "Phase 4 seals untouched (MOP_G1_*_ADMISSION_BATTERY.json, MOP_PHASE4_ADMISSION_SUMMARY.json). This is a NEW append-only authority.",
+  "battery_calibration": "PASSED: positive control admitted, null bed pruned, oracle-free bed invalid_bed (MOP_PHASE4B_BATTERY_CALIBRATION.json).",
+  "repairs_applied": [
+    "architecture independence judged only across 3 capacity-matched CAPABLE estimators (knn, kernel_ridge, rff_ridge), each tuned on a tuning partition; linear kept as a simple baseline only",
+    "12 independent generator families with a random-effects lower-95%-CB group rule (not an all-groups cliff)",
+    "residual LEARNABLE headroom reported (oracle minus best simple control)",
+    "battery calibrated with positive/negative controls before principal use"
+  ],
+  "per_lane": {
+    "G1-P1R": {
+      "classification": "admitted",
+      "clauses_passed": "11/11",
+      "D_incr": 0.436,
+      "D_lower_95_cb": 0.38,
+      "capable_arch_passing": 3,
+      "linear_baseline_incr": 0.208,
+      "residual_learnable_headroom": 0.933,
+      "independent_verification_agrees": true
+    },
+    "G1-U1": {
+      "classification": "admitted",
+      "clauses_passed": "11/11",
+      "D_incr": 0.411,
+      "D_lower_95_cb": 0.352,
+      "capable_arch_passing": 3,
+      "linear_baseline_incr": 0.197,
+      "residual_learnable_headroom": 0.954,
+      "independent_verification_agrees": true
+    },
+    "G1-N1": {
+      "classification": "admitted",
+      "clauses_passed": "11/11",
+      "D_incr": 0.614,
+      "D_lower_95_cb": 0.54,
+      "capable_arch_passing": 3,
+      "linear_baseline_incr": -0.239,
+      "residual_learnable_headroom": 0.984,
+      "independent_verification_agrees": true
+    }
+  },
+  "admitted_lanes": [
+    "G1-P1R",
+    "G1-U1",
+    "G1-N1"
+  ],
+  "vindication": "Phase 4 pruned all three. Under the repaired, calibrated, architecture-fair test all three are admitted. N1 is the clearest case: its linear baseline still fails (-0.239) exactly as in Phase 4, but all three CAPABLE estimators pass, so the original architecture_dependent verdict was an instrument artifact, not a property of the mechanism. SESOI was never weakened (0.05).",
+  "claim_ceiling": "CONTROLLED-BED mechanism plausibility only. These beds plant a genuine decodable reducible signal with realistic noise, noisy-TV traps, and 12 independent families; the battery confirms a capable mechanism recovers it robustly and correctly rejects a null bed. This is a NECESSARY-condition screen. It does NOT establish that the signal exists in the real world and is NOT scientific confirmation.",
+  "phase5_canary_set": {
+    "set": [
+      "G1-P1R",
+      "G1-U1",
+      "G1-N1"
+    ],
+    "license": "each admitted lane licenses ONE SMALL real-data or independently sourced canary, NOT a full confirmation cluster and NOT integration.",
+    "priority": "N1 (D_incr 0.614) > P1R (0.436) > U1 (0.411), all with tight lower CBs and 3/3 capable architectures.",
+    "gating_prerequisite": "the real-data canary requires GENUINE independent-unit data (task family / environment / participant / dataset source). That data is the actual next gate and is not yet in hand; a controlled-bed admission cannot substitute for it.",
+    "do_not": "do not launch a Phase 5 confirmation cluster on a synthetic-bed pass; the canary must use untouched real independent-unit data with the strongest simple controls."
+  },
+  "compute": "calibration + 3 repaired batteries over 12 families x 3 capable estimators; wall ~1-2 min, trivial. No heavy compute; no canary run yet (awaits real data).",
+  "summary_sha256": "9b30a3f79d5505958d64086549c3422e5f7af73b594a3ffeb0034a4a62a7aa72"
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "mop-starss23-categorized-batch-wave-salvage-verification/v1",
+  "verifier_impl_identity": "mop-salvage-incremental-verifier/v1",
+  "verification_contract_identity": "mop-starss23-categorized-batch-wave-contract/frozen-v1",
+  "terminal_verdict": "verified_recovered_evidence",
+  "receipts_reused": 0,
+  "receipts_verified_fresh": 57,
+  "authorities_total": 57,
+  "cache_hits": 0,
+  "cache_misses": 56,
+  "verification_wall_seconds": 0.051,
+  "compute_avoided_seconds": 0.0,
+  "result_sha256": "de1e55459b5a12a4d92c7181da11c951097b918cb945a689bd1cb692372ec63f",
+  "independent": true,
+  "recursion_used": false,
+  "note": "each authority verified once and cached; the gate and classification chains are linear",
+  "verification_sha256": "515d15d4d50a85306b11fe2d444768dfaa3d46e34af824eadebc25afb367d097"
+}

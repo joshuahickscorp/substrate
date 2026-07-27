@@ -1,0 +1,11 @@
+{
+  "schema": "mop-generation2-next-frontier/v1",
+  "open_scientific_questions": [
+    "Does P1R beat the best established replay method (GDumb) under matched memory and compute on a stronger source, using a FAITHFUL per-item replay-value selection rather than an ad-hoc heuristic (Lane P result: replication_null)",
+    "Is V1 verification value decodable by a capable estimator family beyond the single one that worked (architecture_dependent -> capable-family study)",
+    "Can K1/M1 be re-scoped so the mechanism fires only on genuinely reducible contradictions/messages (both failed noisy-TV, not the incremental-value clause)",
+    "External independent replication of P1R by a second team or from external published code (never yet achieved)"
+  ],
+  "exact_next_if_any": "If Lane P yields a faithful positive, prepare the Action-Simulation and Verification-Repair-Messaging clusters are still unlicensed (no two components confirmed); the only near-term licensed successor would be a P1R external independent replication.",
+  "artifact_sha256": "9f29ec9cb5dbb6d351b32bbc11747dfd14b66ba9550eec7379b59881d5f9811b"
+}

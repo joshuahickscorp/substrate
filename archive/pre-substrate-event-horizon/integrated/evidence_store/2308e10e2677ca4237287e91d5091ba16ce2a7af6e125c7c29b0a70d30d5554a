@@ -1,0 +1,100 @@
+{
+  "schema": "mop-task-free-context/v1",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "why_within_domain": "across domains the channel count identifies the domain, so cross domain context inference is not a question. Within a domain every context shares an input shape, so the question is real.",
+  "routing_rules": [
+    "true_label",
+    "simple_observation_classifier",
+    "task_free_prototype",
+    "task_free_confidence",
+    "random",
+    "wrong_context",
+    "shuffled_context",
+    "oracle_per_sample"
+  ],
+  "results": {
+    "har": {
+      "true_label": {
+        "routing_accuracy": 1.0,
+        "downstream_accuracy": 0.9403
+      },
+      "simple_observation_classifier": {
+        "routing_accuracy": 0.8837,
+        "downstream_accuracy": 0.84
+      },
+      "task_free_prototype": {
+        "routing_accuracy": 0.8353,
+        "downstream_accuracy": 0.806
+      },
+      "task_free_confidence": {
+        "routing_accuracy": 0.3293,
+        "downstream_accuracy": 0.3167
+      },
+      "random": {
+        "routing_accuracy": 0.3275,
+        "downstream_accuracy": 0.3068
+      },
+      "wrong_context": {
+        "routing_accuracy": 0.0,
+        "downstream_accuracy": 0.0
+      },
+      "shuffled_context": {
+        "routing_accuracy": 0.3323,
+        "downstream_accuracy": 0.3108
+      },
+      "oracle_per_sample": {
+        "routing_accuracy": 0.9575,
+        "downstream_accuracy": 0.9403
+      }
+    },
+    "speech": {
+      "true_label": {
+        "routing_accuracy": 1.0,
+        "downstream_accuracy": 0.7893
+      },
+      "simple_observation_classifier": {
+        "routing_accuracy": 0.5613,
+        "downstream_accuracy": 0.4443
+      },
+      "task_free_prototype": {
+        "routing_accuracy": 0.3438,
+        "downstream_accuracy": 0.2733
+      },
+      "task_free_confidence": {
+        "routing_accuracy": 0.2161,
+        "downstream_accuracy": 0.2056
+      },
+      "random": {
+        "routing_accuracy": 0.1981,
+        "downstream_accuracy": 0.1631
+      },
+      "wrong_context": {
+        "routing_accuracy": 0.0,
+        "downstream_accuracy": 0.0035
+      },
+      "shuffled_context": {
+        "routing_accuracy": 0.2012,
+        "downstream_accuracy": 0.1643
+      },
+      "oracle_per_sample": {
+        "routing_accuracy": 0.8539,
+        "downstream_accuracy": 0.7916
+      }
+    }
+  },
+  "beats_simple_classifier": false,
+  "shuffled_context_rejected": true,
+  "verdict": "task_free_context_null",
+  "note": "domain inference is not allowed to be the only adaptive component: the routing comparison holds the trained modules fixed and varies only the choice rule",
+  "wall_seconds": 650.2,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "4a46a22df6bb4b90ef6fc69fc4cd7123d929e6df",
+  "SESOI": 0.05,
+  "sha256": "836fc18e36685e6516910f2e8bd15e98ca595988232a425943432d85021a1242"
+}

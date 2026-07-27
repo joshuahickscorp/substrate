@@ -1,0 +1,858 @@
+{
+  "schema": "substrate-long-run-work-ledger/v1",
+  "run_name": "terminal deterministic synthesis",
+  "units": [
+    {
+      "input_authorities": [
+        "SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+        "sealed Substrate evidence index"
+      ],
+      "raw_independent_units_consumed": {
+        "declared_artifact_families": 55
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "structural negative assertions"
+      ],
+      "baselines": [],
+      "statistical_decisions": [
+        "none; deterministic structural predicates"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "audit",
+      "module": "substrate.audit",
+      "arguments": [
+        "run"
+      ],
+      "depends_on": [],
+      "classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 64,
+      "expected_wall_seconds_measured_median": 0.080087,
+      "outputs": [
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        "source-level declaration producers"
+      ],
+      "raw_independent_units_consumed": {
+        "immutable_predecessor_objects_hash_checked": 13,
+        "admitted_dataset_caches": 2
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [],
+      "baselines": [],
+      "statistical_decisions": [
+        "none; content-addressed sealing"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "declarations",
+      "module": "substrate.deliverables",
+      "arguments": [
+        "seal-declarations"
+      ],
+      "depends_on": [
+        "audit"
+      ],
+      "classification": "artifact regeneration",
+      "campaign_phase": "terminal packaging",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 128,
+      "expected_wall_seconds_measured_median": 0.425411,
+      "outputs": [
+        "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+        "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+        "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+        "SUBSTRATE_ONTOLOGY.json",
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+        "SUBSTRATE_WORKSPACE.json",
+        "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+        "SUBSTRATE_ARBITRATION_SYSTEM.json",
+        "SUBSTRATE_WORLD_MODEL.json",
+        "SUBSTRATE_METACOGNITION.json",
+        "SUBSTRATE_RUNTIME.json",
+        "SUBSTRATE_GOAL_SYSTEM.json",
+        "SUBSTRATE_VALUATION_SYSTEM.json",
+        "SUBSTRATE_GROUNDING.json",
+        "SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+        "SUBSTRATE_NOUS_CLOSURE.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "historical:temporal_selection",
+        "historical:temporal_verification"
+      ],
+      "raw_independent_units_consumed": {
+        "immutable_historical_objects": 2
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [],
+      "baselines": [],
+      "statistical_decisions": [
+        "none; existing temporal selection is re-expressed under a Substrate authority"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "temporal_continuity",
+      "module": "substrate.temporal_link",
+      "arguments": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "classification": "simple seal of an existing result",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 64,
+      "expected_wall_seconds_measured_median": 0.015538,
+      "outputs": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_ONTOLOGY.json",
+        "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json"
+      ],
+      "raw_independent_units_consumed": {
+        "deterministic_instrument_fixtures": 2
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "belief revision with absent or contradicted evidence"
+      ],
+      "baselines": [],
+      "statistical_decisions": [
+        "none; validation predicates"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "ontology_epistemology",
+      "module": "substrate.epistemology",
+      "arguments": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 64,
+      "expected_wall_seconds_measured_median": 0.015272,
+      "outputs": [
+        "SUBSTRATE_EPISTEMOLOGY.json",
+        "SUBSTRATE_BELIEF_REVISION.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+        "SUBSTRATE_WORKSPACE.json"
+      ],
+      "raw_independent_units_consumed": {
+        "deterministic_probe_streams": 1
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "oracle consolidation is identified as unavailable at decision time"
+      ],
+      "baselines": [
+        "recency",
+        "confidence",
+        "diversity"
+      ],
+      "statistical_decisions": [
+        "none; deterministic policy comparison"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "memory",
+      "module": "substrate.memory",
+      "arguments": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 64,
+      "expected_wall_seconds_measured_median": 0.014714,
+      "outputs": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "historical temporal principal receipts",
+        "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json"
+      ],
+      "raw_independent_units_consumed": {
+        "sealed_factorial_cells": 76,
+        "held_out_source_units": 7
+      },
+      "new_trials_performed": 0,
+      "seeds": [
+        0
+      ],
+      "factorial_cells": 76,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 532,
+      "controls": [
+        "oracle selection as upper bound",
+        "compute-matched single cell"
+      ],
+      "baselines": [
+        "best unmatched single",
+        "strongest compute-matched single"
+      ],
+      "statistical_decisions": [
+        "SESOI 0.05 applied at k=1,2,4,8,16,32"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "diversity_arbitration",
+      "module": "substrate.sx2",
+      "arguments": [
+        "run"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 128,
+      "expected_wall_seconds_measured_median": 0.096986,
+      "outputs": [
+        "SUBSTRATE_SX2_DIVERSITY.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+        "SUBSTRATE_WORLD_MODEL.json"
+      ],
+      "raw_independent_units_consumed": {
+        "real_session_events": 789
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 789,
+      "perspective_evaluations": 0,
+      "controls": [
+        "state-independent prediction path"
+      ],
+      "baselines": [
+        "decision without world-model state"
+      ],
+      "statistical_decisions": [
+        "predeclared decision-gain threshold; existing negative result recomputed"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "world_model",
+      "module": "substrate.worldbed",
+      "arguments": [
+        "integrate"
+      ],
+      "depends_on": [
+        "memory"
+      ],
+      "classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 128,
+      "expected_wall_seconds_measured_median": 0.148857,
+      "outputs": [
+        "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+        "SUBSTRATE_METACOGNITION.json"
+      ],
+      "raw_independent_units_consumed": {
+        "calibration_canary_streams": 1
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "prediction without observed outcome"
+      ],
+      "baselines": [],
+      "statistical_decisions": [
+        "none; deterministic calibration canary"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "self_model",
+      "module": "substrate.selfmodel",
+      "arguments": [
+        "seal"
+      ],
+      "depends_on": [
+        "memory"
+      ],
+      "classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 64,
+      "expected_wall_seconds_measured_median": 0.014556,
+      "outputs": [
+        "SUBSTRATE_SELF_MODEL.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        "HARTH stream cache"
+      ],
+      "raw_independent_units_consumed": {
+        "training_streams": 4000,
+        "test_streams": 1333,
+        "train_source_subjects": 15,
+        "test_source_subjects": 7
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 1,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "group-disjoint held-out subjects"
+      ],
+      "baselines": [
+        "compact nearest-centroid body"
+      ],
+      "statistical_decisions": [
+        "none; deterministic recomputation of an admitted comparison"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "body_compact",
+      "module": "substrate.bodies",
+      "arguments": [
+        "compact"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 256,
+      "expected_wall_seconds_measured_median": 0.046683,
+      "outputs": [
+        "SUBSTRATE_BODY_COMPACT.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        "HARTH stream cache"
+      ],
+      "raw_independent_units_consumed": {
+        "training_streams": 4000,
+        "test_streams": 1333,
+        "train_source_subjects": 15,
+        "test_source_subjects": 7
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 1,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "group-disjoint held-out subjects"
+      ],
+      "baselines": [
+        "larger local general body"
+      ],
+      "statistical_decisions": [
+        "none; deterministic recomputation of an admitted comparison"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "body_general",
+      "module": "substrate.bodies",
+      "arguments": [
+        "general"
+      ],
+      "depends_on": [
+        "body_compact"
+      ],
+      "classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 384,
+      "expected_wall_seconds_measured_median": 0.044448,
+      "outputs": [
+        "SUBSTRATE_BODY_GENERAL.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        "HARTH stream cache"
+      ],
+      "raw_independent_units_consumed": {
+        "training_streams": 4000,
+        "test_streams": 1333,
+        "train_source_subjects": 15,
+        "test_source_subjects": 7
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 1,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "group-disjoint held-out subjects"
+      ],
+      "baselines": [
+        "tool-dominant body"
+      ],
+      "statistical_decisions": [
+        "none; deterministic recomputation of an admitted comparison"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "body_tool",
+      "module": "substrate.bodies",
+      "arguments": [
+        "tool"
+      ],
+      "depends_on": [
+        "body_compact"
+      ],
+      "classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 320,
+      "expected_wall_seconds_measured_median": 0.042231,
+      "outputs": [
+        "SUBSTRATE_BODY_TOOL.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_BODY_COMPACT.json",
+        "SUBSTRATE_BODY_GENERAL.json",
+        "SUBSTRATE_BODY_TOOL.json",
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "raw_independent_units_consumed": {
+        "body_by_ablation_cells": 18
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 3,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "body alone"
+      ],
+      "baselines": [
+        "body plus memory",
+        "plus temporal core",
+        "plus arbitration",
+        "plus bounded adaptation"
+      ],
+      "statistical_decisions": [
+        "full Substrate compared across the frozen six-step ablation ladder"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "body_comparison",
+      "module": "substrate.bodies",
+      "arguments": [
+        "compare"
+      ],
+      "depends_on": [
+        "body_general",
+        "body_tool",
+        "temporal_continuity"
+      ],
+      "classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 512,
+      "expected_wall_seconds_measured_median": 0.197499,
+      "outputs": [
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "historical:fast_state_binding_nulls",
+        "historical:fast_state_synthesis"
+      ],
+      "raw_independent_units_consumed": {
+        "immutable_historical_objects": 2
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "unchanged reliability envelope"
+      ],
+      "baselines": [],
+      "statistical_decisions": [
+        "none; admitted bounded adaptation instrument is validated"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "admitted_plasticity",
+      "module": "substrate.plasticity",
+      "arguments": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 64,
+      "expected_wall_seconds_measured_median": 0.016541,
+      "outputs": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json",
+        "SUBSTRATE_REORGANIZATION.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+        "SUBSTRATE_MEMORY_SYSTEM.json",
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "raw_independent_units_consumed": {
+        "real_session_events": 789
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 789,
+      "perspective_evaluations": 0,
+      "controls": [
+        "identical histories must produce zero divergence"
+      ],
+      "baselines": [
+        "matched transcript history"
+      ],
+      "statistical_decisions": [
+        "existing developmental-divergence result is deterministically recomputed"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "developmental_divergence",
+      "module": "substrate.divergence",
+      "arguments": [
+        "run"
+      ],
+      "depends_on": [
+        "memory",
+        "temporal_continuity"
+      ],
+      "classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 128,
+      "expected_wall_seconds_measured_median": 0.310471,
+      "outputs": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_WORLD_MODEL_BATTERY.json",
+        "SUBSTRATE_SELF_MODEL.json",
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json",
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "raw_independent_units_consumed": {
+        "battery_families": 6
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 3,
+      "session_events": 0,
+      "perspective_evaluations": 6,
+      "controls": [
+        "matched transcript replay",
+        "null control",
+        "ablation controls"
+      ],
+      "baselines": [
+        "larger static model",
+        "stronger readout",
+        "longer context",
+        "more samples",
+        "more tokens",
+        "tool-only system"
+      ],
+      "statistical_decisions": [
+        "SESOI 0.05 and claim ceilings reapplied to existing results"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "entity_batteries",
+      "module": "substrate.batteries",
+      "arguments": [
+        "seal"
+      ],
+      "depends_on": [
+        "world_model",
+        "self_model",
+        "body_comparison",
+        "admitted_plasticity"
+      ],
+      "classification": "report synthesis",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 128,
+      "expected_wall_seconds_measured_median": 0.021587,
+      "outputs": [
+        "SUBSTRATE_THINKING_BATTERY.json",
+        "SUBSTRATE_CONTINUITY_BATTERY.json",
+        "SUBSTRATE_UNITY_BATTERY.json",
+        "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
+        "SUBSTRATE_AGENCY_BATTERY.json",
+        "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "all six entity batteries",
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
+        "SUBSTRATE_SX2_DIVERSITY.json"
+      ],
+      "raw_independent_units_consumed": {
+        "session_canary_events": 60,
+        "runtime_stages_ablatable": 10,
+        "body_instances": 3
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 3,
+      "session_events": 60,
+      "perspective_evaluations": 0,
+      "controls": [
+        "per-stage null fixtures",
+        "body distinctness",
+        "session canaries"
+      ],
+      "baselines": [
+        "stage ablation"
+      ],
+      "statistical_decisions": [
+        "certification gates are reapplied; no new scientific claim is made"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "certification",
+      "module": "substrate.certify",
+      "arguments": [
+        "run"
+      ],
+      "depends_on": [
+        "entity_batteries",
+        "developmental_divergence",
+        "diversity_arbitration"
+      ],
+      "classification": "report synthesis",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 192,
+      "expected_wall_seconds_measured_median": 0.339263,
+      "outputs": [
+        "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "all sealed Substrate JSON artifacts",
+        "historical temporal receipts"
+      ],
+      "raw_independent_units_consumed": {
+        "independent_checks": 45
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "second implementation route over sealed bytes"
+      ],
+      "baselines": [],
+      "statistical_decisions": [
+        "45 reported values or classifications independently rederived"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "recomputation",
+      "module": "substrate.verification",
+      "arguments": [
+        "recompute"
+      ],
+      "depends_on": [
+        "certification"
+      ],
+      "classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 128,
+      "expected_wall_seconds_measured_median": 0.046714,
+      "outputs": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "active source tree",
+        "active tests",
+        "sealed evidence"
+      ],
+      "raw_independent_units_consumed": {
+        "mutation_operators": 32
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [
+        "unmodified source test baseline"
+      ],
+      "baselines": [
+        "all active tests passing before mutation"
+      ],
+      "statistical_decisions": [
+        "all 32 injected defects must be rejected; any survivor fails the campaign"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "mutations",
+      "module": "substrate.verification",
+      "arguments": [
+        "mutate"
+      ],
+      "depends_on": [
+        "recomputation"
+      ],
+      "classification": "mutation",
+      "campaign_phase": "verification campaign",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 512,
+      "expected_wall_seconds_measured_median": 4.940042,
+      "outputs": [
+        "SUBSTRATE_MUTATION_REPORT.json"
+      ],
+      "scientific_measurement": false
+    },
+    {
+      "input_authorities": [
+        "SUBSTRATE_LONG_RUN_CERTIFICATION.json",
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+        "SUBSTRATE_MUTATION_REPORT.json"
+      ],
+      "raw_independent_units_consumed": {
+        "terminal_authorities": 3
+      },
+      "new_trials_performed": 0,
+      "seeds": [],
+      "factorial_cells": 0,
+      "body_instances": 0,
+      "session_events": 0,
+      "perspective_evaluations": 0,
+      "controls": [],
+      "baselines": [],
+      "statistical_decisions": [
+        "none; deterministic report synthesis and final state sealing"
+      ],
+      "whether_result_could_change": "No under identical source, configuration, and input hashes. Drift or tamper causes refusal rather than a silently different result.",
+      "unit": "terminal_synthesis",
+      "module": "substrate.authority",
+      "arguments": [
+        "seal"
+      ],
+      "depends_on": [
+        "mutations"
+      ],
+      "classification": "report synthesis",
+      "campaign_phase": "terminal packaging",
+      "expected_cpu_work": "one CPU-bound or I/O-bound deterministic invocation; 1 native thread",
+      "expected_memory_mib": 192,
+      "expected_wall_seconds_measured_median": 0.164209,
+      "outputs": [
+        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+        "SUBSTRATE_FINAL_STATE.json"
+      ],
+      "scientific_measurement": false
+    }
+  ],
+  "unit_count": 19,
+  "new_scientific_work_unit_count": 0,
+  "new_trial_count": 0,
+  "scientific_run_launched": false,
+  "activation": false
+}

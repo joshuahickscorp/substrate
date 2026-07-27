@@ -1,0 +1,207 @@
+{
+  "schema": "substrate-architecture/v1",
+  "shape": [
+    "model body or bodies",
+    "owned temporal core",
+    "typed workspace",
+    "memory hierarchy",
+    "world model",
+    "self model",
+    "perspective system",
+    "arbitration",
+    "metacognition",
+    "plasticity",
+    "verification fabric"
+  ],
+  "components": [
+    {
+      "component": "temporal_core",
+      "path": "src/mop/temporal",
+      "role": "the cognitive heartbeat, selected by the live E2 factorial",
+      "present": true,
+      "items": [
+        "C1"
+      ],
+      "levels": [
+        "tested"
+      ]
+    },
+    {
+      "component": "typed_workspace",
+      "path": "src/mop/cognition/workspace.py",
+      "role": "broad reads, narrow writes, ten typed regions",
+      "present": true,
+      "items": [
+        "C2"
+      ],
+      "levels": [
+        "measured"
+      ]
+    },
+    {
+      "component": "perspective_system",
+      "path": "src/mop/cognition/perspectives.py",
+      "role": "processes, a selection ladder, arbitration",
+      "present": true,
+      "items": [
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "levels": [
+        "measured"
+      ]
+    },
+    {
+      "component": "memory_hierarchy",
+      "path": "src/mop/cognition/memory.py",
+      "role": "working, episodic, semantic, procedural, consolidation, hygiene",
+      "present": true,
+      "items": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5",
+        "M6"
+      ],
+      "levels": [
+        "measured"
+      ]
+    },
+    {
+      "component": "world_model",
+      "path": "src/mop/cognition/world.py",
+      "role": "causal graph plus tabular dynamics, four distinctions",
+      "present": true,
+      "items": [
+        "F10",
+        "W1"
+      ],
+      "levels": [
+        "measured"
+      ]
+    },
+    {
+      "component": "self_model",
+      "path": "src/mop/cognition/selfmodel.py",
+      "role": "measured facts, predictions paired to outcomes",
+      "present": true,
+      "items": [
+        "S1"
+      ],
+      "levels": [
+        "terminal"
+      ]
+    },
+    {
+      "component": "metacognition",
+      "path": "src/mop/cognition/metacog.py",
+      "role": "eleven governed actions, eight measures, attention",
+      "present": true,
+      "items": [
+        "E4",
+        "K1"
+      ],
+      "levels": [
+        "measured"
+      ]
+    },
+    {
+      "component": "plasticity",
+      "path": "src/mop/cognition/plasticity.py",
+      "role": "ten levels, fast and slow bars, bounded reorganization",
+      "present": true,
+      "items": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "R1"
+      ],
+      "levels": [
+        "measured"
+      ]
+    },
+    {
+      "component": "model_body_interface",
+      "path": "src/mop/cognition/body.py",
+      "role": "nine message kinds, six integration modes",
+      "present": true,
+      "items": [
+        "B1"
+      ],
+      "levels": [
+        "measured"
+      ]
+    },
+    {
+      "component": "batteries",
+      "path": "src/mop/cognition/batteries.py",
+      "role": "thinking, continuity, unity, reflective access",
+      "present": true,
+      "items": [
+        "E1",
+        "E2",
+        "E3",
+        "T1"
+      ],
+      "levels": [
+        "measured"
+      ]
+    },
+    {
+      "component": "verification_fabric",
+      "path": "src/mop/cognition/verify.py",
+      "role": "recomputation from sealed bytes, mutation attacks",
+      "present": true,
+      "items": [
+        "V1",
+        "V2"
+      ],
+      "levels": [
+        "terminal"
+      ]
+    },
+    {
+      "component": "admission_gate",
+      "path": "src/mop/method",
+      "role": "the inherited experiment validity kernel, extended",
+      "present": true,
+      "items": [
+        "A3"
+      ],
+      "levels": [
+        "terminal"
+      ]
+    },
+    {
+      "component": "scheduler",
+      "path": "src/mop/temporal/runs/supervisor.py",
+      "role": "the one scheduler, shared with the temporal program",
+      "present": true,
+      "items": [
+        "C1"
+      ],
+      "levels": [
+        "tested"
+      ]
+    }
+  ],
+  "components_present": 13,
+  "components_declared": 13,
+  "one_of_each": {
+    "scheduler": 1,
+    "experiment_engine": 1,
+    "evidence_fabric": 1,
+    "registry": 1,
+    "configuration_authority": 1,
+    "cli": 1
+  },
+  "no_parallel_framework": "Substrate stages reuse the temporal supervisor, the method admission gate and the existing evidence fabric",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "55d138bdf2d716aed14d2533cd1998eb0b7611b6",
+  "sha256": "f7fa1c4027d75ac373291d97e6dc9e017ea81d519eb028833dcb88a46d1e2312"
+}

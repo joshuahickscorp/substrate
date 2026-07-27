@@ -1,0 +1,5 @@
+{
+  "schema": "slow-state/v1",
+  "finding": "slow workspace params trained but did not confer retention advantage; LSTM retains better (0.286 vs A-T 0.240)",
+  "sha256": "101b5c808684d499484cf973833cf1934e3c74a72e2c75462524c0b65d04aa41"
+}

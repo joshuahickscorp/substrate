@@ -1,0 +1,28 @@
+{
+  "schema": "mop-frontier-admission-result/v1",
+  "lane": "A",
+  "mechanism": "G1-A1 read affordance from latent",
+  "question": "reading action-relevance from the latent improves action selection beyond reactive/greedy/value/predictor",
+  "source_commit": "dedd5358dde795995ed1aa6775dcca5c42d78532",
+  "dataset": "gymnasium classic-control (parameter-perturbed variants)",
+  "independent_units": "10 distinct dynamical systems (5 informative after excluding degenerate)",
+  "harness": "real-rollout offline-fit",
+  "classification": "pruned_mechanism",
+  "incremental_over_best_simple": {
+    "mean": -0.4223,
+    "between_unit_sd": 0.5635,
+    "lower_95_cb": -0.8842,
+    "min_detectable_effect": 0.4619,
+    "favorable_fraction": 0.0,
+    "n": 5,
+    "pass": false
+  },
+  "beats_random_return": 109.273,
+  "beats_extra_control": -1.28,
+  "controls": "reactive_bc, greedy_reward, value_estimator, random, wrong_context, onestep_planner",
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "licenses_canary": false,
+  "wall_seconds": 7.4,
+  "result_sha256": "c9e4288b7253f3b84a9e8cea025b0d6be0729e3272a5f1bdb853c2fb0a6e044d"
+}

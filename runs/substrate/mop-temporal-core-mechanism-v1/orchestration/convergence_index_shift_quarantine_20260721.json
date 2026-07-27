@@ -1,0 +1,23 @@
+{
+  "schema": "mop-temporal-orchestration-incident/v1",
+  "classification": "convergence_index_shift_detected_before_terminal_aggregation",
+  "trigger": "history convergence cells were inserted before the sealed capacity-by-horizon group",
+  "observation": {
+    "preserved_index_range": "0 through 56",
+    "temporarily_shifted_index_range": "57 through 65",
+    "mixed_receipt": "e2_converge_extended/xshard_har_stream_64.json",
+    "mixed_base_cell": "gru|large|linear|horizon_45|h1",
+    "mixed_extended_cell": "gru|micro|linear|horizon_5|h1",
+    "active_affected_pids_terminated": [51813, 40893, 51820, 83062]
+  },
+  "repair": {
+    "config_order": "capacity_by_horizon remains before newly appended history and capacity_by_readout groups",
+    "quarantine_path": "runs/substrate/mop-temporal-core-mechanism-v1/quarantine/index_shift_20260721/xshard_har_stream_64.json",
+    "original_base_receipts_retained": true,
+    "affected_missing_shards_will_be_relaunched": true,
+    "resume_validation_strengthened": "index cell and spec identity plus extended base identity"
+  },
+  "scientific_consequence": "none: the mixed receipt is excluded from aggregation and evidence claims",
+  "program": "mop-temporal-core-mechanism-v1",
+  "authority_commit": "f0e780ba0da8d422b0f91620d354f1b463663d44"
+}

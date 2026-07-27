@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "small",
+    "readout": "mlp_strong",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "gru|small|mlp_strong|none|h1",
+  "curve": {
+    "400": 0.7041533333333332,
+    "800": 0.74498,
+    "1600": 0.7457633333333332,
+    "3200": 0.7574966666666668,
+    "6400": 0.7706799999999999,
+    "12800": 0.7756466666666667
+  },
+  "seed_spread": {
+    "400": 0.04237,
+    "800": 0.03144,
+    "1600": 0.02976,
+    "3200": 0.04924,
+    "6400": 0.0404,
+    "12800": 0.03004
+  },
+  "seed_scores": {
+    "400": [
+      0.68246,
+      0.75298,
+      0.67702
+    ],
+    "800": [
+      0.72368,
+      0.78109,
+      0.73017
+    ],
+    "1600": [
+      0.73509,
+      0.77939,
+      0.72281
+    ],
+    "3200": [
+      0.72719,
+      0.81431,
+      0.73099
+    ],
+    "6400": [
+      0.7693,
+      0.81175,
+      0.73099
+    ],
+    "12800": [
+      0.77544,
+      0.80579,
+      0.74571
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.68246,
+        "checkpoint_sha": "b4481fc984d5f1ca39736c2133cdaea06447d5c422c3f4c85e32abe3a21552f2"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.75298,
+        "checkpoint_sha": "7dee87f23c97f8136b6a17690ed90e00ef854558be7e2b547d6118f86f9576f1"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.67702,
+        "checkpoint_sha": "09bd5b1f608f8037c51ff6f37de1ef3d2802b425456043e17357771e9dade185"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.72368,
+        "checkpoint_sha": "05cdc3bcc3a92087d94bfff903894d38e216598c09dc40174245fa8ed4cd7936"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.78109,
+        "checkpoint_sha": "b5df3cac12e55b9c8a3edb541587eebbe4260a5a975278b14b5bce01b13a8eff"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.73017,
+        "checkpoint_sha": "a9e3134056b0b1cf2fbce8470da0df6496097b144b1d49931fe55fffd3e924a3"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.73509,
+        "checkpoint_sha": "7a58f4ea6735314ffb37c16626da52c04d497c59f174bd1efe3b7d91554bad2d"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.77939,
+        "checkpoint_sha": "4bfaccf1f77be4158859d14e93cd3bb43690845b2ebbd0a9d4b89975dc122608"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.72281,
+        "checkpoint_sha": "b5e5c59ccf2c940853ce3bfd55de88aaaebb161a893390b89e8f74b02e3861f9"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.72719,
+        "checkpoint_sha": "dc6a890de8248e7471795f525868043eb7e1a1678effab9c34bf5e48b06011a3"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.81431,
+        "checkpoint_sha": "8b25c1be13b7b0067854b9b9c8ca1b1ddcc2b1e83794ddf4ec53a6767f669b52"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.73099,
+        "checkpoint_sha": "d4f15e6cadd54409899c59fad52580d5b04e04c35d3a95bffb84001021f890bc"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.7693,
+        "checkpoint_sha": "0497dfeb6f793a2b8ce83fb6f78f7b23097e378774e990fac7cda529a218739b"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.81175,
+        "checkpoint_sha": "b94c8e1c4640f9499b9b34739c799fc17002a22369bfb096019e189ddec6585c"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.73099,
+        "checkpoint_sha": "e3b1640625c71fb592744939b23dcb01538305349ae1d1ad0ec3a442da237389"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.77544,
+        "checkpoint_sha": "7448b1d8c61c256d4b4a232ed1804a317e8a5b493f4bf4c3cc40bf1a385fa1ff"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.80579,
+        "checkpoint_sha": "f45b0d966c547db5457cc47552cb4ad49ab3d3992519f4bbf423106414d80106"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.74571,
+        "checkpoint_sha": "95e0f3095ac77ce2b9be83f7aa18e405254b7303343281a33e52bb96aca8d8f1"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 42139,
+    "readout": 85002,
+    "total": 127141
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_31.json",
+    "sha256": "8e3c56799176e6ffb14397966fe6a84ac5a0d6d2b85af2365065e76c83b15144",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.70415,
+    0.74498,
+    0.74576,
+    0.7575,
+    0.77068,
+    0.77565
+  ],
+  "best_budget": 12800,
+  "selected_checkpoint": 12800,
+  "second_half_movement": 0.01815,
+  "residual_slope": 0.009075,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0181 with slope 0.00907; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 2182.1,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "be4eae76e133012d25d8df7b3ef7d1331315fab7d6f7a94fc9aceb5badda1a81"
+}

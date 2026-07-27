@@ -1,0 +1,100 @@
+{
+  "schema": "mop-fast-state-clean-clone/v1",
+  "commit": "601c46634ded1080b394f8d00074c225d8abf604",
+  "clone_path": "/var/folders/yc/1c930rns2rz1_trh4xcd9_m00000gq/T/mop-fast-state-clone-y0qfg3ah/clone",
+  "steps": {
+    "clone": {
+      "cmd": "git clone --no-local --quiet /Users/scammermike/Downloads/mop-fast-state-plasticity-forge /var/folders/yc/1c930rns2rz1_trh4xcd9_m00000gq/T/mop-fast-state-clone-y0qfg3ah/clone",
+      "exit_code": 0,
+      "tail": []
+    },
+    "checkout": {
+      "cmd": "git checkout --quiet 601c46634ded1080b394f8d00074c225d8abf604",
+      "exit_code": 0,
+      "tail": []
+    },
+    "import_package": {
+      "cmd": "/Users/scammermike/Downloads/mop/.venv/bin/python -c import mop, fastforge; print(fastforge.__doc__)",
+      "exit_code": 0,
+      "tail": [
+        "Fast state plasticity forge."
+      ]
+    },
+    "cli": {
+      "cmd": "/Users/scammermike/Downloads/mop/.venv/bin/python -c from mop.harness.cli import main; print(main.__module__)",
+      "exit_code": 0,
+      "tail": [
+        "mop.harness.cli"
+      ]
+    },
+    "acceptance": {
+      "cmd": "/Users/scammermike/Downloads/mop/.venv/bin/python scripts/acceptance.py",
+      "exit_code": 0,
+      "tail": [
+        "[PASS] Studio profiles",
+        "",
+        "==== ACCEPTANCE: 11/11 checks passed ===="
+      ]
+    },
+    "substrate_tests": {
+      "cmd": "/Users/scammermike/Downloads/mop/.venv/bin/python -m pytest tests/unit/test_fast_state_forge.py -q",
+      "exit_code": 0,
+      "tail": [
+        ".............................                                            [100%]"
+      ]
+    },
+    "integrated_tests": {
+      "cmd": "/Users/scammermike/Downloads/mop/.venv/bin/python -m pytest tests/unit -q",
+      "exit_code": 0,
+      "tail": [
+        "........................................................................ [ 42%]",
+        ".............................................ssssss..................... [ 84%]",
+        "..........................                                               [100%]"
+      ]
+    },
+    "evidence_index": {
+      "cmd": "/Users/scammermike/Downloads/mop/.venv/bin/python -c import json,hashlib,pathlib;f=json.load(open('proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_EVIDENCE_FABRIC.json'));bad=[a['logical_id'] for a in f['artifacts'] if hashlib.sha256(pathlib.Path(a['original_path']).read_bytes()).hexdigest()!=a['content_hash']];print('bad',len(bad));assert not bad",
+      "exit_code": 0,
+      "tail": [
+        "bad 0"
+      ]
+    },
+    "checkpoint_recovery": {
+      "cmd": "/Users/scammermike/Downloads/mop/.venv/bin/python -c import json,pathlib;f=json.load(open('proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_EVIDENCE_FABRIC.json'));miss=[a['logical_id'] for a in f['artifacts'] if not pathlib.Path(a['canonical_path']).is_file()];print('missing',len(miss));assert not miss",
+      "exit_code": 0,
+      "tail": [
+        "missing 0"
+      ]
+    },
+    "worktree_clean": {
+      "cmd": "git status --porcelain",
+      "exit_code": 0,
+      "tail": []
+    }
+  },
+  "passed": {
+    "clone": true,
+    "checkout": true,
+    "import_package": true,
+    "cli": true,
+    "acceptance": true,
+    "substrate_tests": true,
+    "integrated_tests": true,
+    "evidence_index": true,
+    "checkpoint_recovery": true,
+    "worktree_clean": true
+  },
+  "all_pass": true,
+  "environmental_skips": {
+    "har_dataset_present": true,
+    "speech_cache_present": true,
+    "harth_present": true,
+    "note": "domain data lives outside the repository by design, so a clean clone can validate code, tests and evidence but cannot rerun training without those paths. Tests that need data skip themselves rather than pass silently."
+  },
+  "self_reference_note": "this record validates the commit named above and is written afterwards, so it necessarily lands in a later commit. The validated commit is the one to check out; this artifact is the receipt for it, not part of it.",
+  "wall_seconds": 206.7,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "601c46634ded1080b394f8d00074c225d8abf604",
+  "SESOI": 0.05,
+  "sha256": "208ea382dfde0a2019a339e012eff0140f7d84bcfa90d05f7b5ae057e12883a7"
+}

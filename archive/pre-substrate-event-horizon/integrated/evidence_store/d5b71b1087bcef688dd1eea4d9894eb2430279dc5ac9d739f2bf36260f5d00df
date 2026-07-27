@@ -1,0 +1,115 @@
+{
+  "schema": "mop-third-temporal-bed-preflight/v1",
+  "requirement": "continuous state, a temporal transition, returning contexts or future adaptation, and natural independent units. Window classification alone is invalid",
+  "candidates": {
+    "harth_stream": {
+      "identity": {
+        "bed": "harth_stream",
+        "task_identity": "stream classification: name the sequence that ends the stream",
+        "unit_kind": "subject",
+        "sequence_length": 75,
+        "segment_length": 25,
+        "segments_per_stream": 3,
+        "channels": 6,
+        "classes": 6,
+        "n_train": 4000,
+        "n_test": 1333,
+        "n_units_train": 15,
+        "n_units_test": 7,
+        "data_hash": "8ced9818e77f00fceb6ffa7bb2e5f94c172e5f55ad54ce7799d5577ed44e1fc6"
+      },
+      "unit_counts": {
+        "train": 12,
+        "tune": 3,
+        "test": 7
+      },
+      "static_reader_gap": 0.33152,
+      "recurrent_reference_score": 0.98182,
+      "order_free_control_score": 0.6503,
+      "majority_rate": 0.63991,
+      "chance_rate": 0.16667,
+      "null_reference": {
+        "kind": "majority_class",
+        "observed": 0.6503,
+        "reference": 0.63991,
+        "delta": 0.01039,
+        "band": 0.1,
+        "valid": true,
+        "behaves_as_a_null": true,
+        "detail": {},
+        "classification": "null_as_expected"
+      },
+      "convergence": {
+        "all_converged": false,
+        "unconverged": [
+          "mgu|small|linear|none|h1",
+          "pooled|large|mlp_strong|none|h1"
+        ]
+      },
+      "checks": {
+        "group_disjoint": true,
+        "enough_units": true,
+        "test_untouched": true,
+        "classes_balanced_enough": true,
+        "static_reader_gap_measured": true,
+        "temporal_order_required": true,
+        "baseline_convergence_measured": true,
+        "baselines_converged": false,
+        "all_pass": false
+      },
+      "classification": "valid_secondary_bed"
+    },
+    "pamap2_stream": {
+      "identity": {
+        "bed": "pamap2_stream",
+        "task_identity": "stream classification: name the sequence that ends the stream",
+        "unit_kind": "subject",
+        "sequence_length": 96,
+        "segment_length": 32,
+        "segments_per_stream": 3,
+        "channels": 18,
+        "classes": 6,
+        "n_train": 4000,
+        "n_test": 1333,
+        "n_units_train": 6,
+        "n_units_test": 2,
+        "data_hash": "ffc95740ff1af4313df3f87f0779ac36e0362f9954fb7c77dea52e723e5cb014"
+      },
+      "unit_counts": {
+        "train": 5,
+        "tune": 1,
+        "test": 2
+      },
+      "static_reader_gap": null,
+      "recurrent_reference_score": null,
+      "order_free_control_score": null,
+      "majority_rate": 0.1868,
+      "chance_rate": 0.16667,
+      "null_reference": null,
+      "convergence": {
+        "all_converged": null,
+        "unconverged": []
+      },
+      "checks": {
+        "group_disjoint": true,
+        "enough_units": true,
+        "test_untouched": true,
+        "classes_balanced_enough": true,
+        "static_reader_gap_measured": false,
+        "temporal_order_required": null,
+        "baseline_convergence_measured": false,
+        "baselines_converged": null,
+        "all_pass": false
+      },
+      "classification": "preflight_incomplete"
+    }
+  },
+  "selected": [
+    "harth_stream"
+  ],
+  "construction": "three same activity windows from one subject concatenated and labelled by the last, which is the construction that made the two principal beds temporal",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "e94744b51102239253371d4bae475e1a21c169277c86a329869f4c897eccd690"
+}

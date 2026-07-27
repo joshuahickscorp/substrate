@@ -1,0 +1,17 @@
+{
+  "schema": "mop-successor-gate/E3_shared_versus_local",
+  "gate": {
+    "condition": "an E2 core positive exists and either capacity increases forgetting or bed heterogeneity indicates domain specific representation",
+    "core_positive": true,
+    "capacity_increases_forgetting": true,
+    "bed_heterogeneity": true,
+    "opens": true
+  },
+  "opened": true,
+  "status": "executed",
+  "rule": "a conditional experiment that does not open still produces this artifact",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "a0a7fc35248d10b08888cab559a840c0c03e431c498adeae4856704f42f2b340"
+}

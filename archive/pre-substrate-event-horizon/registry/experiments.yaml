@@ -1,0 +1,76 @@
+# Historical experiment registry. Executable predecessors recover from the code index;
+# maintained records preserve the completed CM7 null and its blocked CM8 descendant.
+
+version: 1
+
+experiments:
+  - id: mop_cm7_min_objective_probe
+    name: minimum_objective_encoder_probe
+    kind: experiment
+    series: CM
+    question: "at tiny capacity, matched data, matched 256px, is the SSL objective a live lever (invariance beats mask, both beat random-init)"
+    mechanism: "a 1-5M token-preserving video encoder trained on immutable 256px programmatic referents under predictive, invariance, reconstruction, and random-target objectives with identical initialization, architecture, batches, updates, and estimated core FLOPs; an inherited frozen teacher is an optional citable cache control rather than a dependency"
+    null_hypothesis: "at matched tiny capacity, matched data, matched 256px, both custom objectives tie random-init same-arch AND tie each other; objective is not a lever at this scale and the +0.31 was scale/data/architecture/resolution. A tie is a strong negative closing the custom-encoder line"
+    falsifier: "every learned objective ties both the exact frozen initialization and the compute-matched random-target arm, or objective rankings fail the five-seed margin"
+    metrics: [nuisance_invariance_per_objective, held_out_combo_per_objective]
+    controls: [exact-frozen-random-init-same-arch, compute-matched-random-target, optional-citable-frozen-teacher, d3-calibration, matched-capacity-data-resolution-updates-flops]
+    source: {kind: deterministic-programmatic-video, immutable_referents: true}
+    split: {rule: referent-and-heldout-combination-disjoint}
+    unit: {experimental: seed, correlated_subsamples: clips-and-views}
+    treatments: [predictive, invariance, reconstruction, random-target]
+    sesoi: {rule: preregistered-five-seed-margin, provisional: false}
+    multiplicity: {rule: declared-objective-family, all_comparisons_reported: true}
+    budget: {rule: matched-capacity-data-resolution-updates-estimated-flops}
+    stop: {rule: complete-required-arm-matrix, tie: null}
+    claim_ceiling: {activation_allowed: false, scientific_promotion: false, independent_confirmation: false}
+    provider: mop.experiments.custom_substrate._run_cm7
+    verifier: mop.experiments.custom_substrate._verify_cm7
+    program: [execute_provider, verify, project]
+    gates: [linear_probe, compute, difficulty_calibration, seed_consistency]
+    resource_tier: cpu-now
+    exp_tier: cpu-now
+    runtime_class: minutes
+    difficulty: high
+    sci_value: high
+    meaningless_risk: low
+    relation: "completed five-seed local objective tournament; the sealed result supports the null, independent verification records not-promoted, and no custom-encoder descendant is licensed"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: historical
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}
+  - id: mop_cm8_custom_jepa_pilot
+    name: custom_jepa_factoring_pilot
+    kind: experiment
+    series: CM
+    question: "does a small custom JEPA with a bound-factor mask policy beat the best frozen atlas substrate on held-out factoring"
+    mechanism: "the CM7 predictive encoder plus an optional exact-referent teacher-distillation arm and bound-factor masking, compared with a citable frozen teacher and random-init at matched compute; the local preflight refuses scientific execution until CM1, CM2, DR1, and teacher-row gates are present"
+    null_hypothesis: "the custom-JEPA pilot ties both a random-init same-arch ViT and the best frozen atlas substrate on held-out combinations at matched compute: the custom objective bought nothing"
+    falsifier: "ties random-init AND best frozen substrate"
+    metrics: [held_out_factoring_off_ceiling]
+    controls: [baseline-best-frozen-atlas-substrate, random-init-same-arch, matched-compute]
+    source: {kind: gated-upstream-evidence, exact-referents-required: true}
+    split: {rule: heldout-factor-combinations}
+    unit: {experimental: seed, correlated_subsamples: clips-and-views}
+    treatments: [predictive, optional-same-referent-distillation]
+    sesoi: {rule: blocked-until-preflight-admission, provisional: true}
+    multiplicity: {rule: all-required-baselines, all_comparisons_reported: true}
+    budget: {rule: matched-compute-after-preflight}
+    stop: {rule: refuse-until-all-upstream-gates, tie: null}
+    claim_ceiling: {activation_allowed: false, scientific_promotion: false, independent_confirmation: false}
+    provider: mop.experiments.custom_substrate._run_cm8
+    verifier: mop.experiments.custom_substrate._verify_cm8
+    program: [execute_provider, verify, project]
+    gates: [linear_probe]
+    resource_tier: environment-needed
+    exp_tier: env-later
+    runtime_class: hours
+    difficulty: high
+    sci_value: high
+    meaningless_risk: medium
+    relation: "closed without execution: the sealed CM7 prerequisite is not promotable, and the last preflight also records insufficient teacher rows plus absent CM1, CM2, and DR1 natural-data gates"
+    capacity_rungs: []
+    paradigm_slugs: []
+    taxonomy_slot: 3
+    status: historical
+    proof: {atlas_factor: identity, null_card: "none", evidence_level: R0}

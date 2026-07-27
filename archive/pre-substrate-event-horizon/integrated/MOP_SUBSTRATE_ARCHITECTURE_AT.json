@@ -1,0 +1,28 @@
+{
+  "schema": "architecture-at/v1",
+  "rounds": {
+    "A-T1_state_attribution": {
+      "verdict": "null",
+      "effect_lcb": -0.0199
+    },
+    "A-T2_interference_localized": {
+      "verdict": "null",
+      "effect_lcb": -0.0317
+    },
+    "A-T3_cross_domain_core": {
+      "verdict": "null",
+      "see": "MOP_SUBSTRATE_CROSS_DOMAIN_REPORT.json"
+    }
+  },
+  "timescale_contributions": {
+    "fast": 0.0627,
+    "medium": 0.0033,
+    "slow": -0.0278
+  },
+  "decorative_timescales": [
+    "medium",
+    "slow"
+  ],
+  "note": "AT1_no_slow is the strongest arm (util 0.437, effect +0.047, lcb +0.019) but sits below SESOI 0.05; recorded as a near-miss null and deliberately not chased with extra seeds",
+  "sha256": "4ce9a4c39f00d66aacca53361676fe35c94a5dd038b8601f3574f82237e633c0"
+}

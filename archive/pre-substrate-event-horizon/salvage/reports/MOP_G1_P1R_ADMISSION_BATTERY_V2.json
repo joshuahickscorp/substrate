@@ -1,0 +1,83 @@
+{
+  "schema": "mop-admission-battery-report/v2",
+  "lane": "G1-P1R",
+  "prereg_sha256": "9b9f4de4afd503d153579d493f4a21971529ec96225cd3278e749c574ff7d053",
+  "classification": "admitted",
+  "first_failing_clause": null,
+  "clauses_passed": "11/11",
+  "clauses": {
+    "A_what_sufficiency": {
+      "decodability_mean": 0.573,
+      "pass": true
+    },
+    "B_oracle_headroom": {
+      "raw_headroom_fraction": 0.492,
+      "pass": true
+    },
+    "residual_learnable_headroom": {
+      "value": 0.933,
+      "best_simple_control_norm": 0.067,
+      "pass": true
+    },
+    "C_when_decodability": {
+      "decodability_mean": 0.573,
+      "pass": true
+    },
+    "D_incremental_value": {
+      "best_arch": "kernel_ridge",
+      "mean_incr_over_simple": 0.436,
+      "lower_95_cb": 0.38,
+      "pass": true
+    },
+    "E_group_generalization": {
+      "rule": "random_effects_lower_95_cb",
+      "mean_family_effect": 0.436,
+      "between_family_sd": 0.113,
+      "lower_95_cb": 0.38,
+      "min_detectable_effect": 0.056,
+      "favorable_family_fraction": 1.0,
+      "pass": true
+    },
+    "F_architecture_independence": {
+      "capable_estimators": [
+        "knn",
+        "kernel_ridge",
+        "rff_ridge"
+      ],
+      "n_passing": 3,
+      "per_arch": {
+        "knn": 0.316,
+        "kernel_ridge": 0.38,
+        "rff_ridge": 0.361
+      },
+      "linear_baseline_incr": 0.208,
+      "pass": true
+    },
+    "G_noisy_tv": {
+      "excess_alloc_mean": -0.15,
+      "pass": true
+    },
+    "H_shuffled_target": {
+      "shuffled_norm_mean": 0.221,
+      "mechanism_norm_mean": 0.503,
+      "pass": true
+    },
+    "I_wrong_time": {
+      "wrongtime_norm_mean": -1.037,
+      "pass": true
+    },
+    "J_rate_matched_random": {
+      "mechanism_minus_random": 0.532,
+      "pass": true
+    }
+  },
+  "best_arch": "kernel_ridge",
+  "residual_learnable_headroom": 0.933,
+  "independent_verification": {
+    "independent_mean_effect": 0.525,
+    "producer_mean_effect": 0.436,
+    "agree": true
+  },
+  "claim_ceiling": "controlled-bed mechanism plausibility only; admission licenses a SMALL real-data or independently sourced canary, not scientific confirmation",
+  "report_sha256": "b9dcfc8c51afc934746df03e5cbd019ea724ca7754f1378323904259f83dbae7"
+}

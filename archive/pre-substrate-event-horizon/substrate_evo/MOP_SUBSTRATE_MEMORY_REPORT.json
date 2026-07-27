@@ -1,0 +1,6 @@
+{
+  "schema": "memory/v1",
+  "active": "GDumb over windows",
+  "key_finding": "unbounded memory reaches 0.764 vs GDumb 0.480: the continual bottleneck is MEMORY CAPACITY, and a better bounded-memory mechanism is closed (R1/P1R)",
+  "sha256": "d4bf22325df2088a1472e09fca4922fc3fe52915b777f7b13dc719aae2078111"
+}

@@ -1,0 +1,202 @@
+{
+  "schema": "substrate-experiment-decision/v1",
+  "experiment_id": "SX1b",
+  "title": "does a write restriction fitted on training units still help on source groups it has never seen",
+  "hypotheses": [
+    "H_typed_workspace",
+    "H_reliability_instability",
+    "H_capacity_only"
+  ],
+  "preprincipal_evidence": {
+    "bed": "harth_stream",
+    "cache": "/Users/scammermike/Downloads/mop-data/harth/harth_stream.npz",
+    "train_units": [
+      "S015",
+      "S016",
+      "S017",
+      "S018",
+      "S019",
+      "S020",
+      "S021",
+      "S022",
+      "S023",
+      "S024",
+      "S025",
+      "S026",
+      "S027",
+      "S028",
+      "S029"
+    ],
+    "test_units": [
+      "S006",
+      "S008",
+      "S009",
+      "S010",
+      "S012",
+      "S013",
+      "S014"
+    ],
+    "units_disjoint": true,
+    "measured_reliability_on_train": {
+      "static": 0.5768937312429642,
+      "dynamic": 0.5451879461087273
+    },
+    "fitted_writer": "static",
+    "wrong_writer": "dynamic",
+    "arm_means_on_train": {
+      "typed_fitted": 0.5768937312429642,
+      "typed_wrong": 0.5451879461087273,
+      "typed_oracle": 0.5989231716946296,
+      "untyped": 0.5627989060432735
+    },
+    "per_unit_reliability_gap": {
+      "mean": 0.075765,
+      "max": 0.236842
+    },
+    "oracle_headroom": {
+      "n_seeds": 15,
+      "residual": 0.036124,
+      "residual_lower_95_cb": 0.003234
+    },
+    "power": {
+      "mde": 0.133442,
+      "n_test_units": 7
+    },
+    "arms_distinct": true,
+    "test_split_touched": false
+  },
+  "admission": {
+    "experiment_id": "SX1b",
+    "title": "does a write restriction fitted on training units still help on source groups it has never seen",
+    "requested_stage": "principal",
+    "stages": {
+      "scientific_premise": {
+        "contracts": [
+          "q"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "causal_model": {
+        "contracts": [
+          "g"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "measurement_model": {
+        "contracts": [
+          "m"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "instrument_calibration": {
+        "contracts": [
+          "i"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "arm_distinctness": {
+        "contracts": [
+          "typed_fitted"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "control_semantics": {
+        "contracts": [
+          "untyped"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "bed_validity": {
+        "contracts": [
+          "bed",
+          "units"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "baseline_convergence": {
+        "contracts": [
+          "base"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "oracle_headroom": {
+        "contracts": [
+          "oracle"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "power_and_units": {
+        "contracts": [
+          "power"
+        ],
+        "violations": [
+          "power:power: minimum detectable effect 0.133442 exceeds SESOI 0.05, the design cannot see the effect it declares interesting"
+        ],
+        "passed": false,
+        "reached": true
+      },
+      "scout": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "independent_reproduction": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      },
+      "principal": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": false
+      }
+    },
+    "blocked_at": "power_and_units",
+    "blocking_violations": [
+      "power:power: minimum detectable effect 0.133442 exceeds SESOI 0.05, the design cannot see the effect it declares interesting"
+    ],
+    "licensed": false,
+    "principal_execution_licensed": false,
+    "completeness_violations": [],
+    "substrate_admission": "refused"
+  },
+  "causal_graph_violations": [],
+  "licensed": false,
+  "classification": "methodological_refusal",
+  "activation": false,
+  "why": "power:power: minimum detectable effect 0.133442 exceeds SESOI 0.05, the design cannot see the effect it declares interesting",
+  "diagnosis": {
+    "blocking_contract": "power",
+    "reported_mde": 0.133442,
+    "sesoi": 0.05,
+    "oracle_residual": 0.036124,
+    "oracle_residual_lower_95_cb": 0.003234,
+    "more_units_would_help": false,
+    "decisive_number": "oracle_residual",
+    "finding": "the oracle restriction, which is the best any write restriction could do on this bed, beats the unrestricted control by 0.0361. That ceiling does not depend on how many units are held out, and it is below the SESOI of 0.05. More units would shrink the minimum detectable effect and still leave nothing above the SESOI to detect",
+    "classification": "bed_cannot_answer_the_question_at_this_effect_size",
+    "not_a_null": "H_typed_workspace is untested on this bed, not refuted. A bed that cannot see the declared effect says nothing about whether the effect exists",
+    "successor_requirement": "a bed where the two writers' reliability ordering varies more between source groups, so that the oracle ceiling itself clears the SESOI"
+  }
+}

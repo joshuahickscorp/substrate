@@ -1,0 +1,116 @@
+{
+  "schema": "mop-mechanism-activity-authority/v1",
+  "required_measurements": [
+    "intervention_count",
+    "intervention_timing",
+    "affected_samples",
+    "affected_parameter_groups",
+    "affected_state",
+    "affected_memory",
+    "counterfactual_difference",
+    "downstream_path",
+    "cost"
+  ],
+  "conditions": [
+    "enabled",
+    "disabled",
+    "forced_active",
+    "randomized",
+    "shuffled"
+  ],
+  "rule": "a mechanism with no measurable causal effect is inactive instrumentation, not a null",
+  "per_experiment": {
+    "E1:har_stream": {
+      "classification": "active",
+      "active": true,
+      "checks": {
+        "intervened_at_all": true,
+        "disabled_does_not_intervene": true,
+        "touched_samples": true,
+        "touched_parameters_or_state": true,
+        "counterfactual_difference": true,
+        "reaches_outcome": true,
+        "costs_something": true,
+        "forcing_increases_intervention": true,
+        "signal_beats_permuted_signal": true,
+        "all_pass": true
+      },
+      "failed": [],
+      "accuracies": {
+        "fast": 0.79259,
+        "pooled": 0.39918,
+        "reset5": 0.71193
+      }
+    },
+    "E1:speech_stream": {
+      "classification": "active",
+      "active": true,
+      "checks": {
+        "intervened_at_all": true,
+        "disabled_does_not_intervene": true,
+        "touched_samples": true,
+        "touched_parameters_or_state": true,
+        "counterfactual_difference": true,
+        "reaches_outcome": true,
+        "costs_something": true,
+        "forcing_increases_intervention": true,
+        "signal_beats_permuted_signal": true,
+        "all_pass": true
+      },
+      "failed": [],
+      "accuracies": {
+        "fast": 0.26215,
+        "pooled": 0.12326,
+        "reset5": 0.12066
+      }
+    },
+    "E4:speech_stream": {
+      "classification": "active",
+      "active": true,
+      "checks": {
+        "intervened_at_all": true,
+        "disabled_does_not_intervene": true,
+        "touched_samples": true,
+        "touched_parameters_or_state": true,
+        "counterfactual_difference": true,
+        "reaches_outcome": true,
+        "costs_something": true,
+        "forcing_increases_intervention": true,
+        "signal_beats_permuted_signal": true,
+        "all_pass": true
+      },
+      "failed": [],
+      "accuracies": {
+        "before": 0.48968,
+        "state_only": 0.49519,
+        "state_noise": 0.48006
+      }
+    },
+    "E4:har_stream": {
+      "classification": "active",
+      "active": true,
+      "checks": {
+        "intervened_at_all": true,
+        "disabled_does_not_intervene": true,
+        "touched_samples": true,
+        "touched_parameters_or_state": true,
+        "counterfactual_difference": true,
+        "reaches_outcome": true,
+        "costs_something": true,
+        "forcing_increases_intervention": true,
+        "signal_beats_permuted_signal": true,
+        "all_pass": true
+      },
+      "failed": [],
+      "accuracies": {
+        "before": 0.50174,
+        "state_only": 0.54355,
+        "state_noise": 0.50174
+      }
+    }
+  },
+  "all_active": true,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "fb16167100eb7bc7654dcbb6d1bcc0b9217d5d32172c3467625c50ff3c6fceea"
+}

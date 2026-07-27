@@ -1,0 +1,71 @@
+{
+  "schema": "substrate-clean-clone/v1",
+  "commit": "55d138bdf2d716aed14d2533cd1998eb0b7611b6",
+  "checks": {
+    "clone": true,
+    "exact_commit_checkout": true,
+    "package_import": true,
+    "declared_tests": true,
+    "graph_valid": true,
+    "artifacts_regenerate_identically": true,
+    "independent_recomputation": true,
+    "no_activation": true
+  },
+  "detail": {
+    "clone": {
+      "ok": true,
+      "detail": ""
+    },
+    "exact_commit_checkout": {
+      "ok": true,
+      "head": "55d138bdf2d716aed14d2533cd1998eb0b7611b6",
+      "expected": "55d138bdf2d716aed14d2533cd1998eb0b7611b6"
+    },
+    "package_import": {
+      "ok": true,
+      "detail": ""
+    },
+    "declared_tests": {
+      "ok": true,
+      "detail": [
+        "....................                                                     [100%]"
+      ]
+    },
+    "graph_valid": {
+      "ok": true,
+      "detail": "{\"valid\": true, \"blocked\": []}"
+    },
+    "artifacts_regenerate_identically": {
+      "ok": true,
+      "drifted_from_committed": [],
+      "nondeterministic_across_two_runs": [],
+      "compared": 62,
+      "excluded_fields": [
+        "sha256",
+        "source_commit"
+      ],
+      "bootstrap_artifacts_excluded": [
+        "SUBSTRATE_CLEAN_CLONE.json",
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ],
+      "why_bootstrap": "both report on the tree as it stands after the commit, so neither can be reproduced from the commit alone. Nondeterminism is still checked for them, because that would be a real defect",
+      "detail": "",
+      "note": "content is compared with the commit stamp and its digest excluded, because a committed artifact was sealed at an earlier commit by construction. An artifact whose content depends on the machine shows up as drifted; one that differs between two runs in the same clone shows up as nondeterministic"
+    },
+    "independent_recomputation": {
+      "ok": true,
+      "detail": "substrate recomputation: 45 checks, 0 disagreements, 0 broken seals"
+    },
+    "no_activation": {
+      "ok": true,
+      "detail": "false"
+    }
+  },
+  "failed": [],
+  "all_pass": true,
+  "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "55d138bdf2d716aed14d2533cd1998eb0b7611b6",
+  "sha256": "fc2ad664840b060851da6c15d82aa00d034ce0d934a00294cda7204a5d472efa"
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "mop-integrated-forge-state/v1",
+  "authority": "agent/mop-integrated-substrate-forge from 64d2801",
+  "completed_carried_forward": {
+    "memory_compression_frontier": "terminal compression_null (do not rerun)",
+    "PAMAP2": "terminal invalid_no_temporal_headroom (do not rerun)",
+    "HAR_temporal_order_gate": "pass (order matters)",
+    "architecture_E_v1_prototype_coreset_dual": "null"
+  },
+  "remaining": {
+    "audio_domain": "STARSS23 cached invalid; substituting Speech Commands (speaker-disjoint, stdlib wave)",
+    "A_T_rounds": "A-T1/A-T2/A-T3 pending",
+    "architecture_E": "needs materially new premise with headroom or terminal",
+    "architecture_F": "implement + evaluate",
+    "cross_domain_sequence": "pending valid audio bed",
+    "plasticity_headroom": "pending",
+    "independent_verification": "pending per result"
+  },
+  "sha256": "7a031f0b9fef6bac60e7876abba51cf511cc74e56395c4bb267e002cf27e4f23"
+}

@@ -1,0 +1,38 @@
+{
+  "schema": "mop-gen3-c3-precompute/v1",
+  "stream": "C3",
+  "source_commit": "4fe2a877e53a7e897469263a3759053cec543d27",
+  "environments": [
+    "CartPole-v1",
+    "CartPole-v1",
+    "CartPole-v1",
+    "CartPole-v1",
+    "Acrobot-v1",
+    "Acrobot-v1",
+    "Acrobot-v1",
+    "MountainCar-v0",
+    "MountainCar-v0",
+    "MountainCar-v0"
+  ],
+  "informative_units": 2,
+  "gate5_oracle_error_aware_vs_reactive": {
+    "mean": -0.5434,
+    "lower_95_cb": -1.3804,
+    "n": 2
+  },
+  "gate5_pass": false,
+  "gate6_residual_vs_best_planner": {
+    "mean": -0.5434,
+    "lower_95_cb": -1.3804,
+    "n": 2
+  },
+  "gate6_pass": false,
+  "beats_shuffled_error_control": 1.62,
+  "all_gates_pass": false,
+  "SESOI": 0.05,
+  "enough_informative_units": false,
+  "verdict": "terminate_no_headroom",
+  "interpretation": "an oracle error-aware allocator does not beat reactive and the fixed-depth planner by SESOI; even a perfect error oracle cannot make learned-model simulation help, so C3 terminates before the principal canary",
+  "wall_seconds": 7.2,
+  "sha256": "dbf065a02fbb86fe3b4dbf6b9b8471fd1b3218a626ea15315d03519d48bc4801"
+}

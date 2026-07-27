@@ -1,0 +1,63 @@
+{
+  "schema": "mop-optimization-convergence-report/v1",
+  "grid": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "per_bed": {
+    "har_stream": {
+      "all_converged": false,
+      "unconverged": [
+        "lstm|small|linear|none|h1",
+        "mgu|small|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "histmlp|small|linear|none|h20",
+        "pooled|large|mlp_strong|none|h1"
+      ],
+      "grid": [
+        400,
+        800,
+        1600,
+        3200
+      ]
+    },
+    "speech_stream": {
+      "all_converged": false,
+      "unconverged": [
+        "gru|small|linear|none|h1",
+        "lstm|small|linear|none|h1",
+        "mgu|small|linear|none|h1",
+        "tcn|small|linear|none|h1",
+        "histmlp|small|linear|none|h20",
+        "gru|large|linear|none|h1",
+        "pooled|large|mlp_strong|none|h1"
+      ],
+      "grid": [
+        400,
+        800,
+        1600,
+        3200
+      ]
+    },
+    "harth_stream": {
+      "all_converged": false,
+      "unconverged": [
+        "mgu|small|linear|none|h1",
+        "pooled|large|mlp_strong|none|h1"
+      ],
+      "grid": [
+        400,
+        800,
+        1600,
+        3200
+      ]
+    }
+  },
+  "rule": "an unconverged arm cannot determine a scientific classification, and the remedy is a longer budget rather than a looser plateau rule",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "54532c727f0ae17f661106e118c1b3f416df03809c6317ac8d3f1f4e2dc31844"
+}

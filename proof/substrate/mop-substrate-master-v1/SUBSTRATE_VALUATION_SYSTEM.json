@@ -1,0 +1,43 @@
+{
+  "schema": "substrate-valuation-system/v1",
+  "dimensions": [
+    "task_utility",
+    "epistemic_value",
+    "risk",
+    "cost",
+    "time",
+    "resource_use",
+    "harm_constraints",
+    "goal_priority",
+    "uncertainty",
+    "reversibility"
+  ],
+  "distinctions": [
+    "what_is_predicted",
+    "what_is_desired",
+    "what_is_permitted",
+    "what_is_costly",
+    "what_is_uncertain"
+  ],
+  "weights": {
+    "task_utility": 1.0,
+    "epistemic_value": 0.8,
+    "risk": -1.2,
+    "cost": -0.4,
+    "time": -0.2,
+    "resource_use": -0.3,
+    "harm_constraints": -5.0,
+    "goal_priority": 0.6,
+    "uncertainty": -0.1,
+    "reversibility": 0.5
+  },
+  "weights_authority": "operator declared in mop.cognition.goals.AUTHORIZED_WEIGHTS, auditable in place",
+  "externally_authorized": true,
+  "fitting_from_preference": "refused, and the function that would do it raises",
+  "harm_rule": "a violated harm constraint is not traded off against utility, it is refused",
+  "auditable": "the weights are a literal in the source and change only by a reviewed commit",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "f8ccc8db0fa51c1001d7fa84cc9b19c15b851452eea3c22d834c532632e6b1c9"
+}

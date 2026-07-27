@@ -1,0 +1,9 @@
+{
+  "schema": "memory/v1",
+  "full_gap": 0.3642,
+  "no_memory": 0.3695,
+  "full_memory": 0.7336,
+  "best_bounded_policy": "GDumb (no compression strategy beats it robustly)",
+  "compression_verdict": "compression_null (no stable lower-CB advantage over GDumb)",
+  "sha256": "c20a3206634f3983dd60679133c096c1ed944ddb01a615d100d6b1370337cc9c"
+}

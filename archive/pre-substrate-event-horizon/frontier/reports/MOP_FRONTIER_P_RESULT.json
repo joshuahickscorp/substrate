@@ -1,0 +1,72 @@
+{
+  "schema": "mop-frontier-lane-p-result/v2-faithful",
+  "lane": "P",
+  "mechanism": "G1-P1R plasticity/replay-value selection",
+  "question": "P1R (learned replay-value predictor with toxic gate) improves joint retention+plasticity beyond established replay under matched memory and compute on a stronger external source",
+  "source_commit": "b59a5fa5ee34c2a78a4455b43a8bebcb34465044",
+  "dataset": "EMNIST-balanced class-incremental (9 tasks, 45 classes)",
+  "external_source": "NIST Special Database 19 / EMNIST-balanced, distinct from split-MNIST, CIFAR-100, KMNIST",
+  "repair_applied": "faithful P1R = validated learned replay-value predictor (rff_ridge over [prob,entropy,feat-norm]) with validated toxic-value gate, replacing the unfaithful hard-coded raw-loss+prototype filter; instrumentation hardened (torch-seeded, 5 seeds, true Vitter reservoir)",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "matched_memory": 600,
+  "matched_compute_steps_per_task": 130,
+  "independent_units": "past tasks (retention), seed-averaged",
+  "established_methods": {
+    "reservoir": "Vitter reservoir sampling",
+    "gdumb": "Prabhu 2020 greedy balancing",
+    "loss_based": "hard-example replay",
+    "recency": "recency buffer"
+  },
+  "final_avg_accuracy_mean": {
+    "none": 0.068,
+    "reservoir": 0.5816,
+    "gdumb": 0.5941,
+    "loss_based": 0.1582,
+    "recency": 0.1359,
+    "p1r": 0.1042
+  },
+  "final_avg_accuracy_sd": {
+    "none": 0.0237,
+    "reservoir": 0.0596,
+    "gdumb": 0.0424,
+    "loss_based": 0.1082,
+    "recency": 0.0012,
+    "p1r": 0.1164
+  },
+  "plasticity_diag_mean": {
+    "none": 0.8357,
+    "reservoir": 0.9048,
+    "gdumb": 0.9041,
+    "loss_based": 0.8613,
+    "recency": 0.9085,
+    "p1r": 0.7881
+  },
+  "best_established": "gdumb",
+  "best_established_final_avg": 0.5941,
+  "p1r_final_avg": 0.1042,
+  "p1r_final_avg_sd": 0.1164,
+  "primary_comparison_per_task_effect": {
+    "mean": -0.5241,
+    "between_task_sd": 0.071,
+    "lower_95_cb": -0.5701,
+    "min_detectable_effect": 0.046,
+    "favorable_fraction": 0.0,
+    "n": 8,
+    "pass": false
+  },
+  "classification": "replication_null",
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "licenses_next": false,
+  "wall_seconds": 3017.8,
+  "classification_v1_by_running_process": "replication_null",
+  "classification_semantics": "harm is defined relative to the no-replay baseline; losing to the best established method while still beating no-replay is a null, not harm",
+  "interpretation": "Faithful P1R (learned replay-value predictor + toxic gate) final avg accuracy 0.104 substantially underperforms the best established method gdumb (0.594) and reservoir, and only marginally exceeds no-replay (0.068). P1R's per-item replay-value ranking does not yield a replay method that beats established replay under matched memory and compute on this stronger external source. Terminal class: replication_null.",
+  "result_sha256": "82ccf718d8a6934858bd7a92a2f76380222d6e01618aaa2498260144d93f5a88"
+}

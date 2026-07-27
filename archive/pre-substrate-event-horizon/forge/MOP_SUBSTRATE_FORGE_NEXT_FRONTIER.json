@@ -1,0 +1,11 @@
+{
+  "schema": "forge-next-frontier/v1",
+  "resumable": [
+    "Architecture F",
+    "A-T rounds",
+    "valid audio domain (needs audio libs)",
+    "cross-domain (needs 2nd valid temporal domain)"
+  ],
+  "activation": false,
+  "sha256": "6efc6df824ea571c8555e6e96f6c195ef37780a9dfc2724efc258cae44582c2c"
+}

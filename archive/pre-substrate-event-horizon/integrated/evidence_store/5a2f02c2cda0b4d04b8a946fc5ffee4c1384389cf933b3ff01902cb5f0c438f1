@@ -1,0 +1,370 @@
+{
+  "schema": "mop-method-coverage-report/v1",
+  "gate": {
+    "statement": 98.9,
+    "branch": 94.4,
+    "target_statement": 92.0,
+    "target_branch": 82.0,
+    "statement_met": true,
+    "branch_met": true,
+    "scope": [
+      "src/mop/method/__init__.py",
+      "src/mop/method/acceptance.py",
+      "src/mop/method/arms.py",
+      "src/mop/method/baseline.py",
+      "src/mop/method/bed.py",
+      "src/mop/method/calibration.py",
+      "src/mop/method/contracts.py",
+      "src/mop/method/controls.py",
+      "src/mop/method/defects.py",
+      "src/mop/method/gate.py",
+      "src/mop/method/graph.py",
+      "src/mop/method/hypothesis.py",
+      "src/mop/method/io.py",
+      "src/mop/method/mechanism.py",
+      "src/mop/method/power.py",
+      "src/mop/method/report.py",
+      "src/mop/method/voi.py"
+    ],
+    "excluded_from_scope": [
+      "src/mop/method/runs/__init__.py",
+      "src/mop/method/runs/acceptance_run.py",
+      "src/mop/method/runs/analyze1.py",
+      "src/mop/method/runs/analyze4.py",
+      "src/mop/method/runs/audit.py",
+      "src/mop/method/runs/authorities.py",
+      "src/mop/method/runs/authority.py",
+      "src/mop/method/runs/exp1.py",
+      "src/mop/method/runs/exp4.py",
+      "src/mop/method/runs/fabric.py",
+      "src/mop/method/runs/factorial.py",
+      "src/mop/method/runs/ledger.py",
+      "src/mop/method/runs/locus.py",
+      "src/mop/method/runs/mutations.py",
+      "src/mop/method/runs/reaudit.py",
+      "src/mop/method/runs/reports.py",
+      "src/mop/method/runs/select.py",
+      "src/mop/method/runs/supervisor.py",
+      "src/mop/method/runs/synthesis.py",
+      "src/mop/method/runs/verify.py"
+    ],
+    "scope_narrowing_declared": true,
+    "met": true,
+    "honest_blocker": ""
+  },
+  "kernel_scope": {
+    "files": [
+      "src/mop/method/__init__.py",
+      "src/mop/method/acceptance.py",
+      "src/mop/method/arms.py",
+      "src/mop/method/baseline.py",
+      "src/mop/method/bed.py",
+      "src/mop/method/calibration.py",
+      "src/mop/method/contracts.py",
+      "src/mop/method/controls.py",
+      "src/mop/method/defects.py",
+      "src/mop/method/gate.py",
+      "src/mop/method/graph.py",
+      "src/mop/method/hypothesis.py",
+      "src/mop/method/io.py",
+      "src/mop/method/mechanism.py",
+      "src/mop/method/power.py",
+      "src/mop/method/report.py",
+      "src/mop/method/voi.py"
+    ],
+    "statement": 98.9,
+    "branch": 94.4,
+    "num_statements": 1133,
+    "num_branches": 390
+  },
+  "program_stage_scope": {
+    "files": [
+      "src/mop/method/runs/__init__.py",
+      "src/mop/method/runs/acceptance_run.py",
+      "src/mop/method/runs/analyze1.py",
+      "src/mop/method/runs/analyze4.py",
+      "src/mop/method/runs/audit.py",
+      "src/mop/method/runs/authorities.py",
+      "src/mop/method/runs/authority.py",
+      "src/mop/method/runs/exp1.py",
+      "src/mop/method/runs/exp4.py",
+      "src/mop/method/runs/fabric.py",
+      "src/mop/method/runs/factorial.py",
+      "src/mop/method/runs/ledger.py",
+      "src/mop/method/runs/locus.py",
+      "src/mop/method/runs/mutations.py",
+      "src/mop/method/runs/reaudit.py",
+      "src/mop/method/runs/reports.py",
+      "src/mop/method/runs/select.py",
+      "src/mop/method/runs/supervisor.py",
+      "src/mop/method/runs/synthesis.py",
+      "src/mop/method/runs/verify.py"
+    ],
+    "statement": 0.0,
+    "branch": 0.0,
+    "num_statements": 1827,
+    "num_branches": 496
+  },
+  "whole_package_statement": 37.9,
+  "whole_package_branch": 41.5,
+  "per_file": {
+    "src/mop/method/__init__.py": {
+      "statements": 2,
+      "covered": 2,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/acceptance.py": {
+      "statements": 135,
+      "covered": 135,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/arms.py": {
+      "statements": 79,
+      "covered": 78,
+      "percent": 98.7,
+      "missing_lines": 1
+    },
+    "src/mop/method/baseline.py": {
+      "statements": 36,
+      "covered": 35,
+      "percent": 97.2,
+      "missing_lines": 1
+    },
+    "src/mop/method/bed.py": {
+      "statements": 53,
+      "covered": 53,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/calibration.py": {
+      "statements": 91,
+      "covered": 91,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/contracts.py": {
+      "statements": 232,
+      "covered": 227,
+      "percent": 97.8,
+      "missing_lines": 5
+    },
+    "src/mop/method/controls.py": {
+      "statements": 77,
+      "covered": 77,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/defects.py": {
+      "statements": 19,
+      "covered": 19,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/gate.py": {
+      "statements": 63,
+      "covered": 63,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/graph.py": {
+      "statements": 81,
+      "covered": 80,
+      "percent": 98.8,
+      "missing_lines": 1
+    },
+    "src/mop/method/hypothesis.py": {
+      "statements": 42,
+      "covered": 40,
+      "percent": 95.2,
+      "missing_lines": 2
+    },
+    "src/mop/method/io.py": {
+      "statements": 40,
+      "covered": 40,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/mechanism.py": {
+      "statements": 23,
+      "covered": 23,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/power.py": {
+      "statements": 47,
+      "covered": 47,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/report.py": {
+      "statements": 89,
+      "covered": 87,
+      "percent": 97.8,
+      "missing_lines": 2
+    },
+    "src/mop/method/runs/__init__.py": {
+      "statements": 0,
+      "covered": 0,
+      "percent": 100.0,
+      "missing_lines": 0
+    },
+    "src/mop/method/runs/acceptance_run.py": {
+      "statements": 28,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 28
+    },
+    "src/mop/method/runs/analyze1.py": {
+      "statements": 109,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 109
+    },
+    "src/mop/method/runs/analyze4.py": {
+      "statements": 97,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 97
+    },
+    "src/mop/method/runs/audit.py": {
+      "statements": 99,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 99
+    },
+    "src/mop/method/runs/authorities.py": {
+      "statements": 102,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 102
+    },
+    "src/mop/method/runs/authority.py": {
+      "statements": 36,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 36
+    },
+    "src/mop/method/runs/exp1.py": {
+      "statements": 218,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 218
+    },
+    "src/mop/method/runs/exp4.py": {
+      "statements": 249,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 249
+    },
+    "src/mop/method/runs/fabric.py": {
+      "statements": 81,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 81
+    },
+    "src/mop/method/runs/factorial.py": {
+      "statements": 76,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 76
+    },
+    "src/mop/method/runs/ledger.py": {
+      "statements": 51,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 51
+    },
+    "src/mop/method/runs/locus.py": {
+      "statements": 58,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 58
+    },
+    "src/mop/method/runs/mutations.py": {
+      "statements": 86,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 86
+    },
+    "src/mop/method/runs/reaudit.py": {
+      "statements": 142,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 142
+    },
+    "src/mop/method/runs/reports.py": {
+      "statements": 98,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 98
+    },
+    "src/mop/method/runs/select.py": {
+      "statements": 26,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 26
+    },
+    "src/mop/method/runs/supervisor.py": {
+      "statements": 83,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 83
+    },
+    "src/mop/method/runs/synthesis.py": {
+      "statements": 89,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 89
+    },
+    "src/mop/method/runs/verify.py": {
+      "statements": 99,
+      "covered": 0,
+      "percent": 0.0,
+      "missing_lines": 99
+    },
+    "src/mop/method/voi.py": {
+      "statements": 24,
+      "covered": 24,
+      "percent": 100.0,
+      "missing_lines": 0
+    }
+  },
+  "branch_totals": {
+    "covered_lines": 1121,
+    "num_statements": 2960,
+    "percent_covered": 38.715548621944876,
+    "percent_covered_display": "39",
+    "missing_lines": 1839,
+    "excluded_lines": 0,
+    "percent_statements_covered": 37.87162162162162,
+    "percent_statements_covered_display": "38",
+    "num_branches": 886,
+    "num_partial_branches": 20,
+    "covered_branches": 368,
+    "missing_branches": 518,
+    "percent_branches_covered": 41.534988713318285,
+    "percent_branches_covered_display": "42"
+  },
+  "statement_totals": {
+    "covered_lines": 1121,
+    "num_statements": 2960,
+    "percent_covered": 37.87162162162162,
+    "percent_covered_display": "38",
+    "missing_lines": 1839,
+    "excluded_lines": 0,
+    "percent_statements_covered": 37.87162162162162,
+    "percent_statements_covered_display": "38"
+  },
+  "scope_rule": "the target applies to the kernel, src/mop/method excluding runs. The program stages under src/mop/method/runs are drivers verified by executing the program, and their measured numbers are reported here rather than hidden. Dataset loaders in fastforge are inherited code behind sealed immutable evidence and are outside this program's scope; they are named, not dropped.",
+  "branch_run_returncode": 0,
+  "report_text": [
+    "src/mop/method/voi.py                      24      0   100%",
+    "-----------------------------------------------------------",
+    "TOTAL                                    2960   1839    38%"
+  ],
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "1a007cf33a67feab903d004964024fa3d8b31794de3118a42179312cde21ea2e"
+}

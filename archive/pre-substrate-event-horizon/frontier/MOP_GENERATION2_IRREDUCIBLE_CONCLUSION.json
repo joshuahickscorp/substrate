@@ -1,0 +1,16 @@
+{
+  "schema": "mop-gen2-irreducible-conclusion/v1",
+  "conclusion": "MOP has established robust experimental mechanics, strong falsification infrastructure, and efficient campaign orchestration, but no tested Generation 2 mechanism currently demonstrates externally replicated incremental scientific value beyond strong established alternatives.",
+  "adversarial_audit": {
+    "auditors": 4,
+    "all_supported": true,
+    "contradictory_artifact": "none",
+    "verdict": "supported_as_written",
+    "minor_nuances_noted": [
+      "the 3.15x orchestration figure is MODELED (observed avg concurrency 1.24, corrected 3.81); disclosed and engineering-only, does not affect the scientific conclusion",
+      "the 'strong established alternatives' descriptor is fully earned for the load-bearing lanes (P vs GDumb/reservoir, V vs uncertainty family, E vs change-point); for A1/S1 the controls are linear and for M1 the centralized control was deferred, but those mechanisms lost anyway, so the negative claim is if anything strengthened"
+    ]
+  },
+  "sealed": "supported_as_written; contradictory-artifact search found none",
+  "sha256": "704849992e09677d38120492956dd4a90a83cc74d78d6b324099b9b737ec385c"
+}

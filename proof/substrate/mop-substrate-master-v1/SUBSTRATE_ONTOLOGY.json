@@ -1,0 +1,116 @@
+{
+  "schema": "substrate-ontology/v1",
+  "types": [
+    "entity",
+    "object",
+    "agent",
+    "system",
+    "component",
+    "property",
+    "relation",
+    "event",
+    "process",
+    "state",
+    "action",
+    "observation",
+    "context",
+    "place",
+    "time",
+    "duration",
+    "cause",
+    "effect",
+    "goal",
+    "constraint",
+    "resource",
+    "evidence",
+    "belief",
+    "hypothesis",
+    "counterfactual",
+    "self",
+    "other",
+    "unknown"
+  ],
+  "item_fields": [
+    "identity",
+    "type",
+    "attributes",
+    "relations",
+    "temporal_extent",
+    "source",
+    "confidence",
+    "persistence",
+    "supersession"
+  ],
+  "modalities": [
+    "actual",
+    "possible",
+    "counterfactual"
+  ],
+  "sources": [
+    "observed",
+    "inferred",
+    "testimony",
+    "assumed",
+    "retrieved"
+  ],
+  "distinctions": [
+    "agent_versus_tool",
+    "correlation_versus_cause",
+    "evidence_versus_belief",
+    "goal_versus_prediction",
+    "object_versus_event",
+    "observation_versus_inferred",
+    "possible_versus_actual",
+    "self_versus_environment",
+    "state_versus_process"
+  ],
+  "distinction_probe": {
+    "pair": [
+      "obs1",
+      "belief1"
+    ],
+    "separated_by": [
+      "evidence_versus_belief",
+      "observation_versus_inferred"
+    ],
+    "any": true,
+    "detail": {
+      "object_versus_event": false,
+      "state_versus_process": false,
+      "observation_versus_inferred": true,
+      "correlation_versus_cause": false,
+      "possible_versus_actual": false,
+      "self_versus_environment": false,
+      "agent_versus_tool": false,
+      "goal_versus_prediction": false,
+      "evidence_versus_belief": true
+    }
+  },
+  "typing_ladder": [
+    "fixed",
+    "rule_based",
+    "prototype",
+    "retrieval_assisted",
+    "learned",
+    "oracle"
+  ],
+  "learned_typing_rule": "opens only above measured residual headroom over the strongest simple rule",
+  "supported": [
+    "identity over time",
+    "object persistence",
+    "event boundaries",
+    "compositional relations",
+    "nested systems",
+    "multiple descriptions of one referent",
+    "unknown types",
+    "uncertainty",
+    "contradictions",
+    "ontology revision"
+  ],
+  "merge_rule": "a merge needs stated evidence, is refused across any declared distinction, and stays reversible. The merged item keeps both origins",
+  "unknown_rule": "unknown is a first class type and carries the reason it is unknown",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "efdc2bd851f8578d2a2dfe9e822303ef5696c45b8e4a406ebab759737df87a50"
+}

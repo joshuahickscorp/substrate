@@ -1,0 +1,29 @@
+# Progress scorecard
+
+{
+  "implementation": {
+    "evidence_and_falsification": 67,
+    "orchestration": 0,
+    "failure_understanding": 25,
+    "owned_substrate": 50,
+    "multi_timescale_and_partitioned_plasticity": 0,
+    "functional_reorganization": 0,
+    "cross_domain_entity": 0
+  },
+  "evidence": {
+    "evidence_and_falsification": 29,
+    "orchestration": 29,
+    "failure_understanding": 29,
+    "useful_plasticity": 5,
+    "owned_substrate": 10,
+    "partitioned_moldability": 15,
+    "functional_reorganization": 5,
+    "cross_domain_entity": 10,
+    "_verdicts": {
+      "cross_domain": null,
+      "plasticity": null,
+      "reorganization": null,
+      "third_domain_gate": null
+    }
+  }
+}

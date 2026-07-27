@@ -1,0 +1,35 @@
+{
+  "schema": "mop-substrate-forge-boundary/v1",
+  "source_commit": "e9554ed3827a2343e0d7c100647782bdc2ae09f6",
+  "type": "boundary_checkpoint (NOT a global Substrate Event Horizon; work floor incomplete per section 28)",
+  "execution_context_constraint": "executed in a bounded interactive session, not a persistent 24-hour daemon; substantive new work done across turns and checkpointed; continuous 24h daemon operation requires the user to keep driving the session",
+  "completed_and_verified": {
+    "forge_authority": "sealed",
+    "prior_event_horizon_scope": "sealed (HAR-only)",
+    "memory_compression_frontier": "terminal (compression_null, 8-seed lower-CB verified)",
+    "pamap2_second_domain": "terminal (invalid_no_temporal_headroom)",
+    "architecture_E_dual_memory": "terminal (null)",
+    "HAR_temporal_order_gate": "reproduced (order matters)",
+    "independent_verification": "consistent, receipts intact"
+  },
+  "genuinely_new_evidence": [
+    "memory REPRESENTATION/COMPRESSION does not beat GDumb (a lever distinct from the closed R1/P1R learned-retrieval question) - extends the null map",
+    "re-confirmation of the C1 stable-seed lesson: a 5-seed compression advantage (+0.027/+0.058) vanished at 8 seeds (lcb -0.000/-0.047)"
+  ],
+  "remaining_work_floor_resumable": [
+    "Architecture F (Predictive Consolidation) principal evaluation",
+    "A-T improvement rounds A-T1/A-T2/A-T3",
+    "an audio/speech domain (blocked: torchaudio/librosa absent; needs a lawful numpy-loadable audio feature source)",
+    "full memory-frontier budgets {0.5%,1%,2%,5%,10%,25%}",
+    "cross-domain persistence sequence (needs a second VALID temporal domain; PAMAP2 invalid, so blocked pending a valid non-HAR temporal source)",
+    "expanded property/mutation test suite"
+  ],
+  "why_no_global_event_horizon": "per section 28, a global event horizon requires all three domains terminal (audio not attempted, blocked by absent libs), A-T/E/F terminal (F not evaluated), all improvement rounds, cross-domain persistence, and three-role audit agreement - not satisfied",
+  "resume_commands": {
+    "resume": "read MOP_SUBSTRATE_FORGE_STATE.json and continue each item from next_exact_action; branch agent/mop-substrate-forge worktree /Users/scammermike/Downloads/mop-substrate-forge",
+    "status": "cat runs/substrate/mop-substrate-forge-v1/status.json",
+    "verify": "python forge/verify (independent recomputation)"
+  },
+  "activation": false,
+  "sha256": "5284dcdba422528b5c515b946fa3a9f9a5b0cf2ba3a7b52a19a05723d6ed3a22"
+}

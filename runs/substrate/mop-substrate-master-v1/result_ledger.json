@@ -1,0 +1,124 @@
+{
+  "schema": "substrate-result-ledger/v1",
+  "results": {
+    "S1": {
+      "classification": "mechanism_null",
+      "reason": "",
+      "scientific": true,
+      "effect": {
+        "verdict": "null",
+        "estimate": 0.025966,
+        "lower_95_cb": 0.000752
+      },
+      "experiment_id": "SX5",
+      "evidence": {
+        "experiment": "SX5",
+        "independent_recomputation": {
+          "checks": [
+            "sx5_effect_har_stream_to_harth_stream",
+            "sx5_effect_harth_stream_to_har_stream",
+            "sx5_support_har_stream_to_harth_stream",
+            "sx5_support_harth_stream_to_har_stream"
+          ],
+          "all_agree": true
+        },
+        "mutation_suite": {
+          "total": 35,
+          "survivors": []
+        },
+        "directions": {
+          "har_stream_to_harth_stream": {
+            "effect": 0.032393,
+            "lower_95_cb": 0.00269,
+            "supports": false,
+            "mean_error": {
+              "naive": 0.063592,
+              "fixed_prior": 0.093239,
+              "updating": 0.031198
+            }
+          },
+          "harth_stream_to_har_stream": {
+            "effect": 0.019539,
+            "lower_95_cb": 0.000752,
+            "supports": false,
+            "mean_error": {
+              "naive": 0.050992,
+              "fixed_prior": 0.107733,
+              "updating": 0.015976
+            }
+          }
+        },
+        "sesoi": 0.05,
+        "reading": "learning the offset roughly halves calibration error in both directions, and the improvement is between 0.02 and 0.03, below the 0.05 the program preregistered as the smallest effect worth caring about"
+      },
+      "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e"
+    },
+    "Y5": {
+      "classification": "mechanism_null",
+      "reason": "",
+      "scientific": true,
+      "effect": {
+        "verdict": "null",
+        "estimate": 0.138333,
+        "upper_95_cb": null,
+        "sesoi": 0.05,
+        "margins": {
+          "endogenous_allocation": -0.138333,
+          "cross_domain_continuity": 0.0,
+          "procedural_transfer": 0.0
+        },
+        "gates_passed": [
+          "grounded_closed_loop",
+          "unity_under_conflict",
+          "world_self_control_value"
+        ],
+        "gates_failed": [
+          "cross_domain_continuity",
+          "endogenous_allocation",
+          "procedural_transfer"
+        ]
+      },
+      "experiment_id": "NOUS_CLOSURE",
+      "evidence": {
+        "artifact": "SUBSTRATE_NOUS_CLOSURE.json",
+        "classification": "certified_cognitive_scaffold",
+        "terminally_gated": [],
+        "mechanism_nulls": [
+          {
+            "gate": "endogenous_allocation",
+            "oracle": -0.051,
+            "headroom": 0.214,
+            "classification": "mechanism_null_on_this_bed"
+          },
+          {
+            "gate": "cross_domain_continuity",
+            "oracle": 0.5,
+            "headroom": 0.5,
+            "classification": "mechanism_null_on_this_bed"
+          },
+          {
+            "gate": "procedural_transfer",
+            "oracle": 0.4375,
+            "headroom": 0.4375,
+            "classification": "mechanism_null_on_this_bed"
+          }
+        ],
+        "requires_for_next_level": {
+          "certified_cognitive_scaffold": [],
+          "persistent_developmental_cognition": [
+            "cross_domain_continuity",
+            "procedural_transfer"
+          ],
+          "reflective_cognitive_organization": [
+            "cross_domain_continuity",
+            "endogenous_allocation",
+            "procedural_transfer"
+          ],
+          "functional_or_proto_nous_candidate": "all six gates plus terminal long run evidence. Not available from a closure pass"
+        },
+        "reading": "three canaries pass structurally. The three that are scored have an active mechanism and oracle headroom above the SESOI and still measure a margin of zero, so the ceiling on this scaffold is a null about the entity and not a broken instrument"
+      },
+      "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e"
+    }
+  }
+}

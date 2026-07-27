@@ -1,0 +1,93 @@
+{
+  "schema": "mop-canary-result-realdata/v1",
+  "lane": "G1-N1",
+  "prereg_sha256": "7b1aba45d428bc93249900b2b5f4504ea86a6efd5f807f11db891bd7b61972a9",
+  "classification": "canary_positive",
+  "battery_classification": "admitted",
+  "clauses_passed": "11/11",
+  "clauses": {
+    "A_what_sufficiency": {
+      "decodability_mean": 0.353,
+      "pass": true
+    },
+    "B_oracle_headroom": {
+      "raw_headroom_fraction": 0.802,
+      "pass": true
+    },
+    "residual_learnable_headroom": {
+      "value": 0.679,
+      "best_simple_control_norm": 0.321,
+      "pass": true
+    },
+    "C_when_decodability": {
+      "decodability_mean": 0.353,
+      "pass": true
+    },
+    "D_incremental_value": {
+      "best_arch": "kernel_ridge",
+      "mean_incr_over_simple": 0.406,
+      "lower_95_cb": 0.241,
+      "pass": true
+    },
+    "E_group_generalization": {
+      "rule": "random_effects_lower_95_cb",
+      "mean_family_effect": 0.406,
+      "between_family_sd": 0.221,
+      "lower_95_cb": 0.241,
+      "min_detectable_effect": 0.165,
+      "favorable_family_fraction": 1.0,
+      "pass": true
+    },
+    "F_architecture_independence": {
+      "capable_estimators": [
+        "knn",
+        "kernel_ridge",
+        "rff_ridge"
+      ],
+      "n_passing": 2,
+      "per_arch": {
+        "knn": -0.21,
+        "kernel_ridge": 0.241,
+        "rff_ridge": 0.056
+      },
+      "linear_baseline_incr": 0.253,
+      "pass": true
+    },
+    "G_noisy_tv": {
+      "excess_alloc_mean": 0.016,
+      "pass": true
+    },
+    "H_shuffled_target": {
+      "shuffled_norm_mean": 0.085,
+      "mechanism_norm_mean": 0.727,
+      "pass": true
+    },
+    "I_wrong_time": {
+      "wrongtime_norm_mean": -0.253,
+      "pass": true
+    },
+    "J_rate_matched_random": {
+      "mechanism_minus_random": 0.725,
+      "pass": true
+    }
+  },
+  "residual_learnable_headroom": 0.679,
+  "independent_verification": {
+    "independent_mean_effect": 0.727,
+    "producer_mean_effect": 0.725,
+    "agree": true
+  },
+  "regimes": [
+    "clean",
+    "noise",
+    "blur",
+    "rotate",
+    "elastic",
+    "fashion_ood"
+  ],
+  "evidence_class": "real-data canary (not authored synthetic; not yet independent confirmation)",
+  "claim_ceiling": "real-data CANARY evidence; a positive licenses ONE larger independent-confirmation experiment (more sources/tasks/implementations), NOT activation and NOT scientific confirmation by itself",
+  "activation_allowed": false,
+  "scientific_promotion": false,
+  "result_sha256": "35ef23ad8f0a43757fbfbe8347d508c6d42880141fc2dc81e791abf839409d1a"
+}

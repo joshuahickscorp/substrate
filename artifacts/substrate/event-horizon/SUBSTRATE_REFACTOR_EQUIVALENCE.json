@@ -1,0 +1,68 @@
+{
+  "schema": "substrate-refactor-equivalence/v1",
+  "sealed_predecessor_evidence": {
+    "closure_commit": "7158451d80cfcacc0763894dad3ee5ee1ca834ec",
+    "files_checked": 2225,
+    "mismatches": [],
+    "byte_identical": true
+  },
+  "normalized_scientific_content": {
+    "verdict": "certified_cognitive_scaffold",
+    "passed": [
+      "grounded_closed_loop",
+      "unity_under_conflict",
+      "world_self_control_value"
+    ],
+    "mechanism_nulls": [
+      "endogenous_allocation",
+      "cross_domain_continuity",
+      "procedural_transfer"
+    ],
+    "classifications_changed": false
+  },
+  "structural_audit": true,
+  "independent_verification": true,
+  "mutation_report": {
+    "total": 32,
+    "rejected": 32,
+    "survivors": []
+  },
+  "rehearsal": {
+    "all_pass": true,
+    "checks": 17
+  },
+  "clean_clone": {
+    "schema": "substrate-clean-environment-result/v1",
+    "status": "passed",
+    "all_pass": true,
+    "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+    "latest_clean_clone_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+    "clone": {
+      "independent_git_directory": true,
+      "exact_commit_checkout": true,
+      "no_hardlinks": true
+    },
+    "environment": {
+      "python": "3.12.13",
+      "created_by": "uv sync --extra dev --python 3.12",
+      "installed_packages_including_project": 14,
+      "editable_project": "substrate==1.0.0"
+    },
+    "checks": {
+      "lint": "passed",
+      "format": "passed",
+      "tests": "231 passed",
+      "structural_and_independent_verification": "passed",
+      "rehearsal": "17 of 17 passed",
+      "status": "passed",
+      "stop": "stop switch became active",
+      "resume": "stop switch cleared; launch gate refused deliberate configuration/source drift",
+      "launch_receipt_absent": true
+    },
+    "scientific_long_run_launched": false,
+    "activation": false
+  },
+  "activation": false,
+  "source_commit": "26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c",
+  "sha256": "78ac1c39ffeaefd3fb631f651f61a01567593cc4388056ee09ef852f2c743305"
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "substrate-unified-cognition-battery/v1",
+  "measures": {
+    "global_availability": {
+      "regions_readable_by_any_component": 3,
+      "regions_writable_by_any_component": 0,
+      "passes": true
+    },
+    "shared_goals": {
+      "goal_region_populated": true,
+      "passes": true
+    },
+    "cross_perspective_memory": {
+      "episodes_visible": 1,
+      "passes": true
+    },
+    "conflict_resolution": {
+      "contradictions_named": 1,
+      "deferred": false,
+      "passes": true
+    },
+    "consistent_action": {
+      "decision": "left",
+      "deferred": false,
+      "passes": true
+    },
+    "preservation_of_alternatives": {
+      "minority_preserved": 1,
+      "passes": true
+    }
+  },
+  "measures_declared": [
+    "global_availability",
+    "shared_goals",
+    "cross_perspective_memory",
+    "conflict_resolution",
+    "consistent_action",
+    "preservation_of_alternatives"
+  ],
+  "passed": [
+    "conflict_resolution",
+    "consistent_action",
+    "cross_perspective_memory",
+    "global_availability",
+    "preservation_of_alternatives",
+    "shared_goals"
+  ],
+  "failed": [],
+  "all_pass": true,
+  "note": "global availability is scored as broad read plus narrow write. A battery that rewarded shared write access would reward the corruption typing prevents",
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "activation": false,
+  "sha256": "32880baa9440ed6d759f1f44c1368279e81fb241f9deee884dc2b932a8f34765"
+}

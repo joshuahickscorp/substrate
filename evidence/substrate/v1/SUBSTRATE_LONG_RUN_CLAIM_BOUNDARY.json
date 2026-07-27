@@ -1,0 +1,30 @@
+{
+  "schema": "substrate-long-run-claim-boundary/v1",
+  "permitted_terms": [
+    "persistent developmental cognition",
+    "entity like continuity",
+    "reflective cognitive organization",
+    "sentience adjacent architecture"
+  ],
+  "permitted_only_when": "supported by a classification from the method kernel",
+  "forbidden": [
+    "conscious",
+    "consciousness",
+    "sentient",
+    "sentience",
+    "feelings",
+    "feeling",
+    "wants",
+    "suffering",
+    "subjective experience",
+    "alive"
+  ],
+  "requires_separate_authority": "consciousness and subjective experience. No result from this run can license either, whatever it shows",
+  "current_claims_supported": [],
+  "current_evidence": "one category has earned evidence and it is a null. No category has a positive",
+  "enforcement": "substrate.safety.assert_claim_safe raises rather than warning",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "28d603260062ed1eb9fa0ea430b903352786699e49d08fe730c3ed233485833f"
+}

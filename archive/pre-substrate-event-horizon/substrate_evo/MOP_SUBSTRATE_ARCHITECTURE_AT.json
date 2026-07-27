@@ -1,0 +1,7 @@
+{
+  "schema": "mop-substrate-architecture-at/v1",
+  "name": "Temporal Shared Latent Workspace",
+  "params": 45510,
+  "result": "substrate_candidate_null (util 0.383; fails retention floor vs LSTM)",
+  "sha256": "579015e587edc23126b28a37253ea2ffa6068fae131ce481a5393c58f812a29d"
+}

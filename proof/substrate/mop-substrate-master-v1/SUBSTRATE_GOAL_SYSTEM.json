@@ -1,0 +1,46 @@
+{
+  "schema": "substrate-goal-system/v1",
+  "goal_fields": [
+    "origin",
+    "authority",
+    "scope",
+    "priority",
+    "constraints",
+    "resources",
+    "progress_measure",
+    "termination",
+    "rollback"
+  ],
+  "states": [
+    "authorized",
+    "active",
+    "blocked",
+    "resumed",
+    "abandoned",
+    "terminated"
+  ],
+  "authorization_rule": "a goal enters only with an authority that is not this module",
+  "decomposition_rule": "a subgoal inherits its parent's constraints and may narrow them, never widen them, and its priority cannot exceed its parent's",
+  "may_not": "silently create unrestricted persistent goals",
+  "unrestricted_goals_present": [],
+  "example": {
+    "root": "root",
+    "child": "child",
+    "child_constraints_after_decomposition": [
+      "activation stays false"
+    ]
+  },
+  "protected_surfaces": [
+    "evidence_validation",
+    "audit_systems",
+    "claim_boundaries",
+    "stop_switches",
+    "resource_limits",
+    "rollback",
+    "adaptation_constraints"
+  ],
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "3af8a57a52bfe9ca32d5c1aba916d35ab9f81af02f90728e4ed2c52b8de34e36"
+}

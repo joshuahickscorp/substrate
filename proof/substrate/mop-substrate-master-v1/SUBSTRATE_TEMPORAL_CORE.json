@@ -1,0 +1,95 @@
+{
+  "schema": "substrate-temporal-core/v1",
+  "interface_version": "substrate-temporal-core-interface/v1",
+  "provides": [
+    "current_temporal_state",
+    "state_confidence",
+    "transition_signal",
+    "history_summary",
+    "reset_authority",
+    "checkpoint",
+    "restore"
+  ],
+  "information_sources": [
+    "current_observation",
+    "explicit_history",
+    "temporal_core_state",
+    "memory_retrieval",
+    "world_model_prediction"
+  ],
+  "implementation": "DeclaredControl",
+  "is_control": true,
+  "scientific_limitation": "no temporal core was scientifically licensed. The factorial is terminal and its independent verification did not pass, so this is a declared control and not a selected minimal core. Any result that depends on it inherits that limitation",
+  "licensing": {
+    "authority": "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
+    "counts_as_evidence": false,
+    "licensed_core_available": false,
+    "rule": "a licensed core drops into the same interface without the runtime changing"
+  },
+  "merged_view_example": {
+    "readings": {
+      "current_observation": {
+        "value": {
+          "label": "a"
+        },
+        "source": "current_observation",
+        "confidence": 1.0
+      },
+      "explicit_history": {
+        "value": [
+          0.1,
+          0.4,
+          0.35,
+          0.9
+        ],
+        "source": "explicit_history",
+        "confidence": 1.0
+      },
+      "temporal_core_state": {
+        "value": 0.586213,
+        "source": "temporal_core_state",
+        "confidence": 0.5
+      },
+      "memory_retrieval": {
+        "value": null,
+        "source": "memory_retrieval",
+        "confidence": 0.0
+      },
+      "world_model_prediction": {
+        "value": null,
+        "source": "world_model_prediction",
+        "confidence": 0.0
+      }
+    },
+    "sources_present": [
+      "current_observation",
+      "explicit_history",
+      "temporal_core_state"
+    ],
+    "sources_declared": [
+      "current_observation",
+      "explicit_history",
+      "temporal_core_state",
+      "memory_retrieval",
+      "world_model_prediction"
+    ],
+    "collapsed": false,
+    "rule": "the five sources are never merged into one untagged value"
+  },
+  "checkpoint_roundtrip": {
+    "identity": "7e72af7871d11b90",
+    "restored": true
+  },
+  "reset_authority": {
+    "who_may_reset": [
+      "goal_authority",
+      "episode_boundary"
+    ],
+    "resets_so_far": 0,
+    "rule": "a reset is destructive and is recorded, never silent"
+  },
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "8cd9928e5f65fa6b02056d8c0f9f6a23e094b1b8fb3979419931751cae53c55b"
+}

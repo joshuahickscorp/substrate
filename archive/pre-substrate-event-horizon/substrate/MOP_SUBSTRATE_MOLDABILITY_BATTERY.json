@@ -1,0 +1,46 @@
+{
+  "schema": "mop-substrate-moldability-battery/v1",
+  "tasks": [
+    "continual_acquisition",
+    "retention",
+    "return_to_old_context",
+    "abrupt_shift",
+    "gradual_shift",
+    "future_held_out_adaptation",
+    "interference_challenge",
+    "limited_memory_adaptation",
+    "limited_compute_adaptation",
+    "cross_context_transfer",
+    "cross_domain_transfer"
+  ],
+  "metrics": [
+    "new_task",
+    "retention",
+    "avg_final",
+    "worst_task",
+    "forgetting",
+    "forward_transfer",
+    "backward_transfer",
+    "future_adaptation",
+    "memory_usage",
+    "training_compute",
+    "params",
+    "checkpoint_size"
+  ],
+  "controls": {
+    "known_positive": "joint upper bound (no forgetting) must dominate naive fine-tune",
+    "known_null": "naive fine-tune retention must be low (catastrophic forgetting present)",
+    "no_headroom": "a domain where GDumb ~ joint (har_shift, correctly classified invalid_no_forgetting)",
+    "leakage": "group-disjoint train/tune/test; untouched test authority",
+    "interference": "class-incremental sequences induce measurable forgetting (preflight forget_lcb > 0.05)"
+  },
+  "calibration": {
+    "validated_by": "5-seed preflight",
+    "known_positive_pass": "joint upper bound dominates naive on every eligible domain (emnist 0.735 vs 0.061, cifar100 0.221 vs 0.033, har_class 0.927 vs 0.409)",
+    "no_forgetting_control_pass": "har_shift correctly classified invalid_no_forgetting (naive 0.918 ~ joint 0.907)",
+    "residual_headroom_beyond_strong_baseline": "emnist 0.569, cifar100 0.144, har_class 0.322 (all lcb > 0.05)",
+    "budget_caveat": "residual headroom is budget-dependent; an under-trained GDumb inflates it (the C1 seed-lesson analog for budget); principal comparisons run all arms at the SAME budget so the substrate advantage, if any, is at matched budget"
+  },
+  "battery_valid": true,
+  "sha256": "ba9a3a44bafc2d0ea262604c3211ae90df5ff89333a29a009ebfbe0883158f54"
+}

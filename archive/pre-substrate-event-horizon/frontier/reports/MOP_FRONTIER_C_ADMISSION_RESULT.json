@@ -1,0 +1,35 @@
+{
+  "schema": "mop-frontier-admission-result/v1",
+  "lane": "C",
+  "mechanism": "G1-C0 trace stability",
+  "question": "stable persistent trace improves downstream decisions beyond direct state, smoothing, matched-memory",
+  "source_commit": "dedd5358dde795995ed1aa6775dcca5c42d78532",
+  "dataset": "noisy KMNIST temporal stream",
+  "independent_units": "sessions",
+  "harness": "temporal-sequence",
+  "classification": "pruned_mechanism",
+  "detail": {
+    "n_sessions": 14,
+    "incremental_over_best_simple": {
+      "mean": -0.0171,
+      "between_session_sd": 0.0402,
+      "lower_95_cb": -0.0357,
+      "min_detectable_effect": 0.0186,
+      "favorable_fraction": 0.357,
+      "n": 14,
+      "pass": false
+    },
+    "oracle_headroom": 0.2571,
+    "C0_mean": 0.7257,
+    "best_simple_mean": 0.7429,
+    "oracle_mean": 1.0,
+    "beats_random_trace": 0.6343,
+    "beats_shuffled_trace": 0.6261
+  },
+  "controls": "controls: no_trace, direct_state, last_observation, ema_smoothing, matched_memory, random_trace, shuffled_trace, oracle",
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "licenses_canary": false,
+  "wall_seconds": 0.1,
+  "result_sha256": "8eb7007e7af2e11e8128f85c179b8f523d3b4313ab611a4b21e13b084106b1c6"
+}

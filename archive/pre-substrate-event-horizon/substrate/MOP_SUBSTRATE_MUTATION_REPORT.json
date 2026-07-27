@@ -1,0 +1,7 @@
+{
+  "schema": "mop-substrate-mutation-report/v1",
+  "required": false,
+  "reason": "mutation suites defend a positive; both architectures are null, so no positive requires defense",
+  "status": "terminal_vacuous",
+  "sha256": "a919cd09ad243840bf0234a2176a0fe43460d22a7c3241a49b336811fb70cc3e"
+}

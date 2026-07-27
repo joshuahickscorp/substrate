@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_AUTHORITY_TERMINALITY",
+  "defect": "the item status ladder required a scientific classification before any item could become terminal. An authority or a boundary is not an experiment and can never carry one, so every declaration parked at measured permanently and, because the selection queue ranked more advanced items first, those parked declarations outranked genuinely unstarted work",
+  "correction": "only items of kind implementation or evidence require a classification. An authority or boundary is terminal once its files exist, its declared tests pass and its evidence is sealed. The selection queue now orders by earliest batch then least advanced item, because a batch is terminal only when all of its items are",
+  "regression_test": "tests/cognition/test_program.py::test_an_authority_is_terminal_once_sealed_and_tested",
+  "reproduced_by": "observed in SUBSTRATE_NEXT_FRONTIER.json at commit 4a6c950, which nominated the already sealed A1 as the primary next batch while twenty one items had not been started",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+  "activation": false,
+  "sha256": "b7f58ac9fc924d933a8c2354dc8a7d3e159119d82822f678e25d0b69a46414fa"
+}

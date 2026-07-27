@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "har_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "medium",
+    "readout": "linear",
+    "reset": "horizon_full",
+    "history_k": 1
+  },
+  "cell": "gru|medium|linear|horizon_full|h1",
+  "curve": {
+    "400": 0.9491033333333333,
+    "800": 0.9459833333333333,
+    "1600": 0.9434266666666667,
+    "3200": 0.9402266666666667,
+    "6400": 0.9450200000000001,
+    "12800": 0.94705
+  },
+  "seed_spread": {
+    "400": 0.03286,
+    "800": 0.04119,
+    "1600": 0.02811,
+    "3200": 0.02044,
+    "6400": 0.03101,
+    "12800": 0.03085
+  },
+  "seed_scores": {
+    "400": [
+      0.92793,
+      0.93242,
+      0.98696
+    ],
+    "800": [
+      0.91081,
+      0.93584,
+      0.9913
+    ],
+    "1600": [
+      0.91712,
+      0.94012,
+      0.97304
+    ],
+    "3200": [
+      0.91802,
+      0.9444,
+      0.95826
+    ],
+    "6400": [
+      0.91081,
+      0.95295,
+      0.9713
+    ],
+    "12800": [
+      0.91261,
+      0.95637,
+      0.97217
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.92793,
+        "checkpoint_sha": "376241250afcdb881588f550525e9a7adf39dedcceb9b400135f9933ba48d803"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.93242,
+        "checkpoint_sha": "7e030cb4036abfcd843a2586c0010f05a7a26c84117d93de30c8fa8695a204aa"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.98696,
+        "checkpoint_sha": "b3b624735d762cb31f36a19d191997efa7200839a37d725b2ffe30bd36700c44"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.91081,
+        "checkpoint_sha": "49d1691470249d7dc58040fe130fc3d43843204f2f818e899cfda5ece15b7242"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.93584,
+        "checkpoint_sha": "d0d9a0fef13a7686dfe5ca805e76fbab6d4e2f8cea1e579bf38e5edc36b35200"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.9913,
+        "checkpoint_sha": "128a327e1a2765cd4ed2479f6555ac8dc5807b1788783254a348e3f7ed5f95a6"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.91712,
+        "checkpoint_sha": "e6b46d5dd482787d8869e98897b5df2aae06c43071223575dbb43cb519435b87"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.94012,
+        "checkpoint_sha": "6e9789386d5659e79228a701df3fd988e52d8e8ba5b35c33022ac675d7795004"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.97304,
+        "checkpoint_sha": "98a940bb004f0ad6bd11ae032d0ecf8e125ed5fdaf0c0ec03f1f7fd6deb627f7"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.91802,
+        "checkpoint_sha": "d19c860d15a630d24f2603ea8615704bd47a7e7f900998e842fcfea9895974eb"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.9444,
+        "checkpoint_sha": "99784709bcbb58ada467ee775396ba6eeae6aa063058b8c8ea9731fef84695c8"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.95826,
+        "checkpoint_sha": "e004303c79664650cd2603055f06b68e1ab6f0b5e4e9bf406147cabd10c60f1e"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.91081,
+        "checkpoint_sha": "9fc4ec93a7fc404a56989ab5f1b35c38d7e6fe411771368dd562c284649111de"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.95295,
+        "checkpoint_sha": "ffb6c4313679b8f013a4d9ed62b93b285a60e868251f17a8d6e6a166f8a317cd"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.9713,
+        "checkpoint_sha": "c29db0dfd1c0741e1f9b2613e5a858f0526fd0f8ca91fac6a9bdd3c626f38b25"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.91261,
+        "checkpoint_sha": "2b44afa7119ef56d6352d2d7ac571576788cf7ae5e282b8bf723b67b9b6fb2d8"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.95637,
+        "checkpoint_sha": "43e442a752b91341fdf708c4902d563ed2c57d1fd7471dde3780a45e9a062b3d"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.97217,
+        "checkpoint_sha": "0efc2a0087db597b6d3943bdf8f1313e51ab64a4049cf6af15c3c1c11d4d7aa0"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 166464,
+    "readout": 390,
+    "total": 166854
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_har_stream_62.json",
+    "sha256": "3385da185c299e68debd0e0ff4e66cccce1f90bc5e73226fcfdb96272bac5313",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.9491,
+    0.94598,
+    0.94343,
+    0.94023,
+    0.94502,
+    0.94705
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.00682,
+  "residual_slope": 0.003412,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0068 with slope 0.00341; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 9829.9,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "6c097792d08d2211a67a853a855684c0085a8d7cc35e5f8a1129b64888cbcc18"
+}

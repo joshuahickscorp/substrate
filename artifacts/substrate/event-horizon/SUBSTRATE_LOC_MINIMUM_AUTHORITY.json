@@ -1,0 +1,22 @@
+{
+  "schema": "substrate-loc-minimum-authority/v1",
+  "selected": {
+    "name": "Reference",
+    "files": 44,
+    "physical_loc": 16502,
+    "executable_loc": 11946,
+    "method": "nonblank physical lines; executable excludes comment-only, docstring, and delimiter-only structural lines"
+  },
+  "lower_candidates_actually_tested": true,
+  "why_selected": "smallest constructed candidate preserving every required invariant",
+  "irreducibility": [
+    "every remaining module is imported by an active contract, owns a required artifact, or reads immutable predecessor evidence",
+    "Core crossed 9k only by deleting five distinct required responsibilities and failed before test execution",
+    "Seed removed scientific verification and classification owners and failed 13 collections"
+  ],
+  "under_hard_floor": true,
+  "preferred_9k_reached": false,
+  "source_commit": "26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c",
+  "activation": false,
+  "sha256": "932a2969d048a1b7bbb4b675b3b230339491d7db60c6116c24a8c42ed8dfc9db"
+}

@@ -1,0 +1,11 @@
+{
+  "corpus": "pamap2",
+  "ok": true,
+  "url": "https://archive.ics.uci.edu/static/public/231/pamap2+physical+activity+monitoring.zip",
+  "archive_bytes": 688226940,
+  "archive_sha256": "76b3580bd5a804121f507717cb498c66a312ef5c774f4a78ac470e6558add352",
+  "extracted_files": 21,
+  "extracted_bytes": 2420972979,
+  "canonical_path": "/Users/scammermike/Downloads/mop-data/pamap2",
+  "wall_seconds": 36.1
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "mop-domain-order-gate/v1",
+  "domain": "har_stream",
+  "steps": 800,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_train": 6000,
+  "n_test": 2000,
+  "channels": 9,
+  "classes": 6,
+  "unit": "subject",
+  "n_units_train": 21,
+  "n_units_test": 9,
+  "gru": 0.9025,
+  "gru_shuffled": 0.745,
+  "bag_order_free": 0.4417,
+  "temporal_headroom_gru_vs_bag": 0.4608,
+  "temporal_headroom_lcb": 0.4578,
+  "order_matters_gru_vs_shuffled": 0.1575,
+  "verdict": "temporal_headroom_present",
+  "wall_seconds": 339.8,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "036a5e2de1e3884cd0194c2a6e72b1578848cb34",
+  "SESOI": 0.05,
+  "sha256": "99bbe299b6991ddd8d01f47b35876d8085024650e096d1bb634dabc83bd2a124"
+}

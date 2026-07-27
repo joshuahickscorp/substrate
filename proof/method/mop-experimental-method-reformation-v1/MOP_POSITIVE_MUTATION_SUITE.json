@@ -1,0 +1,112 @@
+{
+  "schema": "mop-positive-mutation-suite/v1",
+  "rule": "a mutation is rejected when the result moves the way the alternative explanation says it must not",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "E1": {
+    "har_stream": {
+      "destroying_temporal_order_destroys_the_core_effect": {
+        "prediction": "if the core effect is about order, shuffling the time axis must remove most of it",
+        "real_effect": 0.4192,
+        "mutated_effect": 0.14376,
+        "rejected": true
+      },
+      "tripling_the_control_capacity_does_not_remove_the_core_effect": {
+        "prediction": "if the core effect is capacity, a three times wider order free control must close it",
+        "real_effect": 0.4192,
+        "mutated_effect": 0.42359,
+        "control_hidden_width": 294,
+        "rejected": true
+      },
+      "shuffling_labels_destroys_the_core_effect": {
+        "prediction": "with permuted labels neither arm may exceed the majority class rate by more than the band",
+        "real_effect": 0.4192,
+        "mutated_effect": 0.04746,
+        "majority_class_rate": 0.21235,
+        "fast_under_permuted_labels": 0.23457,
+        "pooled_under_permuted_labels": 0.18711,
+        "band": 0.05,
+        "rejected": true
+      },
+      "all_rejected": true
+    },
+    "speech_stream": {
+      "destroying_temporal_order_destroys_the_core_effect": {
+        "prediction": "if the core effect is about order, shuffling the time axis must remove most of it",
+        "real_effect": 0.47598,
+        "mutated_effect": -0.07957,
+        "rejected": true
+      },
+      "tripling_the_control_capacity_does_not_remove_the_core_effect": {
+        "prediction": "if the core effect is capacity, a three times wider order free control must close it",
+        "real_effect": 0.47598,
+        "mutated_effect": 0.4728,
+        "control_hidden_width": 294,
+        "rejected": true
+      },
+      "shuffling_labels_destroys_the_core_effect": {
+        "prediction": "with permuted labels neither arm may exceed the majority class rate by more than the band",
+        "real_effect": 0.47598,
+        "mutated_effect": 0.02459,
+        "majority_class_rate": 0.12674,
+        "fast_under_permuted_labels": 0.11314,
+        "pooled_under_permuted_labels": 0.08854,
+        "band": 0.05,
+        "rejected": true
+      },
+      "all_rejected": true
+    }
+  },
+  "E4": {
+    "speech_stream": {
+      "removing_the_covariate_shift_removes_the_state_only_gain": {
+        "prediction": "the state adaptation exists to absorb a shift, so with no shift there is nothing to absorb",
+        "real_effect": 0.05893,
+        "mutated_effect": 0.01161,
+        "rejected": true
+      },
+      "adapting_to_the_new_context_does_not_help_the_old_one": {
+        "prediction": "a state aimed at the new context must not improve the unshifted context",
+        "real_effect": 0.05893,
+        "mutated_effect": -0.07853,
+        "rejected": true
+      },
+      "state_adaptation_changes_no_parameter": {
+        "prediction": "the treatment claims zero parameter updates, so the largest parameter delta must be zero",
+        "real_effect": 0.0,
+        "mutated_effect": 0.0,
+        "rejected": true
+      },
+      "all_rejected": true
+    },
+    "har_stream": {
+      "removing_the_covariate_shift_removes_the_state_only_gain": {
+        "prediction": "the state adaptation exists to absorb a shift, so with no shift there is nothing to absorb",
+        "real_effect": 0.1243,
+        "mutated_effect": 0.00227,
+        "rejected": true
+      },
+      "adapting_to_the_new_context_does_not_help_the_old_one": {
+        "prediction": "a state aimed at the new context must not improve the unshifted context",
+        "real_effect": 0.1243,
+        "mutated_effect": 0.01349,
+        "rejected": true
+      },
+      "state_adaptation_changes_no_parameter": {
+        "prediction": "the treatment claims zero parameter updates, so the largest parameter delta must be zero",
+        "real_effect": 0.0,
+        "mutated_effect": 0.0,
+        "rejected": true
+      },
+      "all_rejected": true
+    }
+  },
+  "all_rejected": true,
+  "wall_seconds": 961.4,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "ceb92a9f7984e6882deda729630cd3d56bc287b5328907253840f8d376b4e50d"
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "mop-successor-gate/hybrid_adaptation",
+  "gate": {
+    "condition": "a minimal temporal core is selected",
+    "core_selected": true,
+    "opens": true,
+    "constraint": "the E4 state only rule is not reused unchanged. A hybrid must introduce a new causal premise, and head plus state is only interesting if the state arm carries zero hidden core updates"
+  },
+  "opened": false,
+  "status": "licensed_not_executed",
+  "rule": "a conditional experiment that does not open still produces this artifact",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "806f122221fb79de5b5df9807b9aa3b901a418d527037f62887ea96f09dd76ed"
+}

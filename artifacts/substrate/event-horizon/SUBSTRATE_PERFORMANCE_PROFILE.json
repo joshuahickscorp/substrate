@@ -1,0 +1,105 @@
+{
+  "schema": "substrate-performance-profile/v1",
+  "machine": {
+    "model": "Mac Studio",
+    "chip": "Apple M3 Ultra",
+    "logical_cores": 28,
+    "memory_gib": 96
+  },
+  "environment": {
+    "python": "3.12.13",
+    "measurement": "/usr/bin/time -lp and cProfile"
+  },
+  "rehearsal": {
+    "baseline_commit": "7158451d80cfcacc0763894dad3ee5ee1ca834ec",
+    "baseline_seconds": [
+      0.5,
+      0.5,
+      0.49,
+      0.49,
+      0.5
+    ],
+    "baseline_median_seconds": 0.5,
+    "baseline_checks": 10,
+    "baseline_peak_rss_bytes_range": [
+      26968064,
+      30556160
+    ],
+    "optimized_seconds": [
+      0.16,
+      0.16,
+      0.16,
+      0.16,
+      0.15
+    ],
+    "optimized_median_seconds": 0.16,
+    "optimized_checks": 17,
+    "optimized_peak_rss_bytes_range": [
+      27508736,
+      28082176
+    ],
+    "wall_time_reduction_percent": 68.0,
+    "checks_per_second_improvement": 5.31
+  },
+  "profile": {
+    "before": {
+      "total_seconds": 0.541,
+      "subprocess_calls": 32,
+      "commit_calls": 28,
+      "subprocess_cumulative_seconds": 0.423
+    },
+    "after": {
+      "total_seconds": 0.171,
+      "subprocess_calls": 5,
+      "commit_processes": 1,
+      "subprocess_cumulative_seconds": 0.07
+    },
+    "hot_path_removed": "repeat git rev-parse for every receipt; one process-local immutable commit cache"
+  },
+  "kernels": [
+    {
+      "name": "canonical hashing, 100 objects x 100",
+      "median_seconds": 0.007942
+    },
+    {
+      "name": "canonical serialization, 100 objects x 100",
+      "median_seconds": 0.006788
+    },
+    {
+      "name": "artifact indexing and structural audit",
+      "median_seconds": 0.016321
+    },
+    {
+      "name": "checkpoint and restore x100",
+      "median_seconds": 0.008952
+    },
+    {
+      "name": "DAG readiness x1000",
+      "median_seconds": 0.185176
+    },
+    {
+      "name": "receipt validation x10000",
+      "median_seconds": 0.023414
+    },
+    {
+      "name": "replay session scan",
+      "median_seconds": 0.053043
+    },
+    {
+      "name": "Python process startup x10",
+      "median_seconds": 0.159755
+    },
+    {
+      "name": "mutation verification x32",
+      "median_seconds": 4.750806
+    }
+  ],
+  "allocation": {
+    "rehearsal_tracemalloc_peak_bytes": 1273490,
+    "profile_process_max_rss_bytes": 41123840
+  },
+  "interpretation": "process creation and predecessor commit lookup dominated; deterministic kernels are milliseconds and none can remove ten percent of projected terminal wall time",
+  "source_commit": "26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c",
+  "activation": false,
+  "sha256": "32fbcba91ca35301d6be3c5c12ea7a458c77d19e1a46d660c3a1270ac12d7d07"
+}

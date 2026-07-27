@@ -1,0 +1,186 @@
+{
+  "schema": "mop-substrate-genesis-state/v1",
+  "program_id": "mop-owned-substrate-genesis-v0",
+  "branch": "agent/mop-substrate-genesis-v2",
+  "base_commit": "06860b2",
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "activation": false,
+  "authority_window_hours": {
+    "min": 12,
+    "max": 24
+  },
+  "seed_floor": 5,
+  "host_cores": 28,
+  "checklist": {
+    "AUTH": {
+      "id": "AUTH",
+      "section": "1-4",
+      "status": "complete",
+      "dependencies": [],
+      "next_exact_action": "authority+null-constraints+manifest+ledger sealed"
+    },
+    "PREFLIGHT": {
+      "id": "PREFLIGHT",
+      "section": "16-18",
+      "status": "verified",
+      "dependencies": [
+        "AUTH"
+      ],
+      "next_exact_action": "multi-seed domain preflight: forgetting + oracle headroom beyond GDumb on EMNIST/CIFAR100/HAR; classify each",
+      "result": "emnist/cifar100/har_class eligible_principal; har_shift invalid_no_forgetting; non-image=har_class"
+    },
+    "ARCH_A": {
+      "id": "ARCH_A",
+      "section": "12",
+      "status": "active",
+      "dependencies": [
+        "AUTH"
+      ],
+      "next_exact_action": "implement Shared Latent Workspace on shared contract"
+    },
+    "ARCH_B": {
+      "id": "ARCH_B",
+      "section": "13",
+      "status": "active",
+      "dependencies": [
+        "AUTH"
+      ],
+      "next_exact_action": "implement Sparse Modular Plastic Substrate on shared contract"
+    },
+    "ENGINE": {
+      "id": "ENGINE",
+      "section": "9,29",
+      "status": "active",
+      "dependencies": [
+        "AUTH"
+      ],
+      "next_exact_action": "shared continual train/eval engine, memory, policies, consolidation, routing"
+    },
+    "BASELINES": {
+      "id": "BASELINES",
+      "section": "19",
+      "status": "complete",
+      "dependencies": [
+        "ENGINE"
+      ],
+      "next_exact_action": "fresh/naive/joint/frozen+linear/MLP/GRU/GDumb/reservoir/EWC matched",
+      "result": "complete (GDumb/EWC/GRU matched)"
+    },
+    "BATTERY": {
+      "id": "BATTERY",
+      "section": "25",
+      "status": "complete",
+      "dependencies": [
+        "ENGINE"
+      ],
+      "next_exact_action": "moldability battery + calibration (known pos/null/no-headroom/leakage/interference)",
+      "result": "calibrated"
+    },
+    "DOMAIN1": {
+      "id": "DOMAIN1",
+      "section": "4,29",
+      "status": "complete",
+      "dependencies": [
+        "ARCH_A",
+        "ARCH_B",
+        "ENGINE",
+        "BASELINES",
+        "BATTERY",
+        "PREFLIGHT"
+      ],
+      "next_exact_action": "first principal domain: A,B,baselines,>=5 seeds,ablations,verify",
+      "dataset": "emnist (image)",
+      "result": "substrate_candidate_null (emnist)"
+    },
+    "DOMAIN2": {
+      "id": "DOMAIN2",
+      "section": "5",
+      "status": "complete",
+      "dependencies": [
+        "DOMAIN1"
+      ],
+      "next_exact_action": "second principal domain (>=1 non-image) surviving arms + controls",
+      "dataset": "har_class (non-image)",
+      "result": "substrate_candidate_null (har_class)"
+    },
+    "TRANSFER": {
+      "id": "TRANSFER",
+      "section": "28",
+      "status": "complete",
+      "dependencies": [
+        "DOMAIN1",
+        "DOMAIN2"
+      ],
+      "next_exact_action": "cross-context + cross-domain transfer",
+      "result": "cross_domain_moldability_null (no substrate positive to transfer)"
+    },
+    "PLAST_GATE": {
+      "id": "PLAST_GATE",
+      "section": "21",
+      "status": "complete",
+      "dependencies": [
+        "DOMAIN1"
+      ],
+      "next_exact_action": "substrate-specific plasticity headroom gate (>=5 seeds)",
+      "result": "no_stable_headroom / simple_policy_sufficient"
+    },
+    "SELECTION": {
+      "id": "SELECTION",
+      "section": "34",
+      "status": "complete",
+      "dependencies": [
+        "DOMAIN1",
+        "DOMAIN2"
+      ],
+      "next_exact_action": "terminal architecture selection",
+      "result": "no_substrate_candidate_selected (A>B but both null)"
+    },
+    "VERIFY": {
+      "id": "VERIFY",
+      "section": "37",
+      "status": "complete",
+      "dependencies": [
+        "DOMAIN1"
+      ],
+      "next_exact_action": "independent verification of principal results",
+      "result": "terminal (both nulls independently consistent, receipts intact)"
+    },
+    "MUTATION": {
+      "id": "MUTATION",
+      "section": "38",
+      "status": "complete",
+      "dependencies": [
+        "SELECTION"
+      ],
+      "next_exact_action": "mutation suites for any positive",
+      "result": "terminal_vacuous (no positive)"
+    },
+    "SYNTHESIS": {
+      "id": "SYNTHESIS",
+      "section": "45,46",
+      "status": "verified",
+      "dependencies": [
+        "SELECTION",
+        "VERIFY",
+        "MUTATION",
+        "TRANSFER",
+        "PLAST_GATE"
+      ],
+      "next_exact_action": "terminal synthesis + all deliverables + next frontier",
+      "result": "SEALED"
+    }
+  },
+  "waves": {
+    "1_authority": "done",
+    "2_implementation": "done",
+    "3_battery": "done",
+    "4_domain1": "done",
+    "5_domain2": "done",
+    "6_transfer": "done",
+    "7_plasticity": "done",
+    "8_verification": "done"
+  },
+  "terminal_synthesis": "SEALED",
+  "sha256": "1979ea85f03d959abbca88d586f67db39f11277d53cc5ffbf0f31cf5d6e40a37"
+}

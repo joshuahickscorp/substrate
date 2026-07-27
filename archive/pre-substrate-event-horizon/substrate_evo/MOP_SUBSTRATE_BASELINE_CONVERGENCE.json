@@ -1,0 +1,8 @@
+{
+  "schema": "baseline-convergence/v1",
+  "single_task_gru": 0.898,
+  "strongest_continual": "LSTM+GDumb 0.480",
+  "converged": true,
+  "note": "GRU converged to 0.898 single-task; baselines are not undertrained",
+  "sha256": "27ec729c1f2bdd31ee535120c832484dd58fc13d8aa353afea3c8f2addc1f9bb"
+}

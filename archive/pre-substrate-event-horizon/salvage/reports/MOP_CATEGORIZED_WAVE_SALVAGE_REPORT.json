@@ -1,0 +1,82 @@
+{
+  "schema": "mop-starss23-categorized-batch-wave-salvage-report/v1",
+  "title": "Recovered categorized-wave terminal evidence (salvaged from preserved receipts)",
+  "provenance": {
+    "recovered_from": "operator-stopped General Run categorized wave (57 of 59 capsules complete)",
+    "recovery_method": "independent incremental verification of the preserved sealed receipts; no scientific capsule was recomputed and the stopped run was not restarted",
+    "parent_campaign_status": "operator-authorized PARTIAL stop; historical; not terminal-complete",
+    "distinct_from_parent": true
+  },
+  "terminal_verdict": "verified_recovered_evidence",
+  "receipts_reused": 57,
+  "invalid_receipts": 0,
+  "verification_cache_entries": 56,
+  "mutation_suite": "16/16 rejected (14 mandated + 2 base); a tie is a null",
+  "verification_wall_seconds": 0.051,
+  "old_verifier_cost": "never completed: recursive full-ancestry re-hash exceeded a 90-minute wall boundary and retried from scratch indefinitely (unbounded)",
+  "new_verifier_cost_seconds": 0.051,
+  "compute_avoided_seconds": 40311,
+  "compute_avoided_hours": 11.2,
+  "final_wave_routing": {
+    "action_simulation": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-A1",
+        "G1-S1"
+      ],
+      "pruned_lane_ids": [],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    },
+    "communication_repair": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-V1",
+        "G1-M1",
+        "G1-K1"
+      ],
+      "pruned_lane_ids": [],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    },
+    "construction": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-G1"
+      ],
+      "pruned_lane_ids": [],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    },
+    "dispatch_redesign": {
+      "continue": false,
+      "eligible_lane_ids": [],
+      "pruned_lane_ids": [
+        "G1-D1"
+      ],
+      "reason": "null_safe_pruning_after_route_or_mechanics_warning"
+    },
+    "formation_trace": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-C0",
+        "G1-E1"
+      ],
+      "pruned_lane_ids": [],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    },
+    "memory_plasticity": {
+      "continue": true,
+      "eligible_lane_ids": [
+        "G1-R1"
+      ],
+      "pruned_lane_ids": [
+        "G1-P1"
+      ],
+      "reason": "all_retained_lanes_completed_mechanics_ok"
+    }
+  },
+  "claim_boundary": "recovered categorized-wave mechanics evidence only; no activation, no promotion, no independent scientific confirmation, no Stage 3; Full Generations did not run",
+  "full_generations_ran": false,
+  "activation_allowed": false,
+  "scientific_promotion": false,
+  "independent_scientific_confirmation": false,
+  "report_sha256": "a91e02a69839d77f1e9a3c1b9e96816da8d6210894b2ba230a09ce6429e86e90"
+}

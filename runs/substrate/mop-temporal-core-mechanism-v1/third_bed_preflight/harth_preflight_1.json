@@ -1,0 +1,333 @@
+{
+  "schema": "mop-harth-admission-probe-shard/v1",
+  "bed": "harth_stream",
+  "seed": 1,
+  "units": {
+    "A_train": [
+      "S015",
+      "S027",
+      "S019",
+      "S021",
+      "S028"
+    ],
+    "A_eval": [
+      "S016",
+      "S023"
+    ],
+    "B_train": [
+      "S022",
+      "S026",
+      "S029",
+      "S025",
+      "S020",
+      "S018"
+    ],
+    "B_eval": [
+      "S024",
+      "S017"
+    ]
+  },
+  "shift": {
+    "kind": "declared per channel affine covariate shift",
+    "gain": [
+      1.38937,
+      0.72562,
+      0.8049,
+      1.29631,
+      1.00767,
+      0.60294
+    ],
+    "offset": [
+      -0.22266,
+      -0.71521,
+      0.24473,
+      -0.32394,
+      0.0887,
+      -0.71051
+    ]
+  },
+  "before_adaptation": {
+    "A": {
+      "accuracy": 0.97838,
+      "per_unit_accuracy": {
+        "S016": 0.97417,
+        "S023": 0.98239
+      }
+    },
+    "B": {
+      "accuracy": 0.87713,
+      "per_unit_accuracy": {
+        "S017": 0.83077,
+        "S024": 0.92193
+      }
+    }
+  },
+  "after_B_adaptation": {
+    "A": {
+      "accuracy": 0.91171,
+      "per_unit_accuracy": {
+        "S016": 0.95572,
+        "S023": 0.86972
+      }
+    },
+    "B": {
+      "accuracy": 0.95841,
+      "per_unit_accuracy": {
+        "S017": 0.98462,
+        "S024": 0.93309
+      }
+    }
+  },
+  "return_before_recovery": {
+    "accuracy": 0.91171,
+    "per_unit_accuracy": {
+      "S016": 0.95572,
+      "S023": 0.86972
+    }
+  },
+  "return_after_recovery": {
+    "accuracy": 0.97658,
+    "per_unit_accuracy": {
+      "S016": 0.97417,
+      "S023": 0.97887
+    }
+  },
+  "temporal_order_permutation": {
+    "intervention": "within_window_timestep_permutation",
+    "labels_unchanged": true,
+    "timestep_multiset_preserved_per_example": true,
+    "ordered_accuracy": 0.97838,
+    "permuted_accuracy": 0.51171,
+    "pooled_ordered_accuracy": 0.54054,
+    "pooled_permuted_accuracy": 0.54054,
+    "ordered_per_unit_accuracy": {
+      "S016": 0.97417,
+      "S023": 0.98239
+    },
+    "permuted_per_unit_accuracy": {
+      "S016": 0.53506,
+      "S023": 0.48944
+    },
+    "pooled_ordered_per_unit_accuracy": {
+      "S016": 0.67528,
+      "S023": 0.41197
+    },
+    "pooled_permuted_per_unit_accuracy": {
+      "S016": 0.67528,
+      "S023": 0.41197
+    },
+    "resource_match": {
+      "same_examples": true,
+      "same_model_checkpoint": true,
+      "same_evaluation_code": true
+    }
+  },
+  "receipts": {
+    "pretrain": {
+      "domain": null,
+      "steps": 1200,
+      "updates": 1200,
+      "batch": 64,
+      "lr": 0.003,
+      "trainable_groups": [
+        "core",
+        "readout"
+      ],
+      "trainable_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0",
+        "head.bias",
+        "head.weight"
+      ],
+      "frozen_params": [],
+      "changed_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0",
+        "head.bias",
+        "head.weight"
+      ],
+      "changed_param_count": 10,
+      "undeclared_changes": [],
+      "gate_kind": null,
+      "gate_blocked_updates": 0,
+      "gate_decisions": null,
+      "checkpoint_sha_before": "f43e092e63d6de5a928c3712600d83fdc0cff153ab2714975e324717dfdc2ddb",
+      "checkpoint_sha_after": "d978475c80ad97f9d861abf8b0b35280b0eec6cfead553f5a8e2dbe9dbe049d6",
+      "group_sha_after": {
+        "core": "e6170bcac610b0ba",
+        "readout": "792ca817cb8cdc79"
+      },
+      "trainable_param_count": 46057,
+      "wall_seconds": 28.76
+    },
+    "pooled_control_pretrain": {
+      "domain": null,
+      "steps": 1200,
+      "updates": 1200,
+      "batch": 64,
+      "lr": 0.003,
+      "trainable_groups": [
+        "core",
+        "readout"
+      ],
+      "trainable_params": [
+        "core.a.bias",
+        "core.a.weight",
+        "core.b.bias",
+        "core.b.weight",
+        "core.mix.bias",
+        "core.mix.weight",
+        "head.bias",
+        "head.weight"
+      ],
+      "frozen_params": [],
+      "changed_params": [
+        "core.a.bias",
+        "core.a.weight",
+        "core.b.bias",
+        "core.b.weight",
+        "core.mix.bias",
+        "core.mix.weight",
+        "head.bias",
+        "head.weight"
+      ],
+      "changed_param_count": 8,
+      "undeclared_changes": [],
+      "gate_kind": null,
+      "gate_blocked_updates": 0,
+      "gate_decisions": null,
+      "checkpoint_sha_before": "4d290f1b1e136daa54531b5faea981eb306ff343d30d49b6a9af69cdf47f60fd",
+      "checkpoint_sha_after": "587391781d04b72524b3e0464a7aa93aa1422f268072af93b59f0ea497df61d8",
+      "group_sha_after": {
+        "core": "e08c26eccdc74307",
+        "readout": "c87fbc59a7fcd0a7"
+      },
+      "trainable_param_count": 41983,
+      "wall_seconds": 25.16
+    },
+    "adapt_B": {
+      "domain": null,
+      "steps": 300,
+      "updates": 300,
+      "batch": 64,
+      "lr": 0.003,
+      "trainable_groups": [
+        "core",
+        "readout"
+      ],
+      "trainable_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0",
+        "head.bias",
+        "head.weight"
+      ],
+      "frozen_params": [],
+      "changed_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0",
+        "head.bias",
+        "head.weight"
+      ],
+      "changed_param_count": 10,
+      "undeclared_changes": [],
+      "gate_kind": null,
+      "gate_blocked_updates": 0,
+      "gate_decisions": null,
+      "checkpoint_sha_before": "d978475c80ad97f9d861abf8b0b35280b0eec6cfead553f5a8e2dbe9dbe049d6",
+      "checkpoint_sha_after": "6add4453ba969469dc775b02431e09cd85f0d4ef657273f9b7c5acfc3a428da1",
+      "group_sha_after": {
+        "core": "44b326c9d9110585",
+        "readout": "d773fe99f8a6fa99"
+      },
+      "trainable_param_count": 46057,
+      "wall_seconds": 7.31
+    },
+    "recover_A_readout": {
+      "domain": null,
+      "steps": 150,
+      "updates": 150,
+      "batch": 64,
+      "lr": 0.003,
+      "trainable_groups": [
+        "readout"
+      ],
+      "trainable_params": [
+        "head.bias",
+        "head.weight"
+      ],
+      "frozen_params": [
+        "core.out.bias",
+        "core.out.weight",
+        "core.proj.bias",
+        "core.proj.weight",
+        "core.rnn.bias_hh_l0",
+        "core.rnn.bias_ih_l0",
+        "core.rnn.weight_hh_l0",
+        "core.rnn.weight_ih_l0"
+      ],
+      "changed_params": [
+        "head.bias",
+        "head.weight"
+      ],
+      "changed_param_count": 2,
+      "undeclared_changes": [],
+      "gate_kind": null,
+      "gate_blocked_updates": 0,
+      "gate_decisions": null,
+      "checkpoint_sha_before": "6add4453ba969469dc775b02431e09cd85f0d4ef657273f9b7c5acfc3a428da1",
+      "checkpoint_sha_after": "1b52fdaddc82ce499cf2854f04f781ca58abf6ea91c2938b88cb123a6b21a7d5",
+      "group_sha_after": {
+        "core": "44b326c9d9110585",
+        "readout": "557e04c04047a9df"
+      },
+      "trainable_param_count": 390,
+      "wall_seconds": 1.33
+    }
+  },
+  "checkpoints": {
+    "pretrained": "d978475c80ad97f9d861abf8b0b35280b0eec6cfead553f5a8e2dbe9dbe049d6",
+    "adapted_B": "6add4453ba969469dc775b02431e09cd85f0d4ef657273f9b7c5acfc3a428da1",
+    "returned_A": "1b52fdaddc82ce499cf2854f04f781ca58abf6ea91c2938b88cb123a6b21a7d5"
+  },
+  "checks": {
+    "unit_disjoint": true,
+    "pretrain_budget": true,
+    "pooled_control_budget": true,
+    "adapt_budget": true,
+    "return_budget": true,
+    "fifteen_train_seven_untouched_evaluation_units": false,
+    "no_undeclared_changes": true
+  },
+  "all_checks_pass": false,
+  "test_split_untouched": true,
+  "wall_seconds": 64.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+  "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "4df365db1a9064221d7129bbadcc4260942f47a33348fad6d4a7f12fb143fe7e"
+}

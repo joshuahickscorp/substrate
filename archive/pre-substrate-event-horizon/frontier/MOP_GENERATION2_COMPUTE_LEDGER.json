@@ -1,0 +1,42 @@
+{
+  "schema": "mop-gen2-compute-ledger/v1",
+  "environment": {
+    "host_cores": 28,
+    "memory_gb": 96,
+    "torch": "2.13",
+    "gymnasium": "1.3.0",
+    "absent": [
+      "torchaudio",
+      "scipy",
+      "sklearn",
+      "librosa"
+    ]
+  },
+  "per_lane_wall_seconds": {
+    "admission_V": 292.9,
+    "admission_K": 324.1,
+    "admission_M": 74.5,
+    "admission_E": 36.2,
+    "admission_C": 0.1,
+    "admission_A": 7.4,
+    "admission_S": 7.4,
+    "lane_P_faithful": 3017.8,
+    "lane_P_v1_superseded": 1025.5,
+    "adversarial_audit_workflow": 2748.3
+  },
+  "observed_wall_seconds_excl_rework": 3865.5,
+  "observed_wall_seconds_incl_rework": 7639.3,
+  "modeled_parallel_wall_seconds": 1226.3,
+  "datasets_acquired": [
+    "EMNIST-balanced (download)"
+  ],
+  "datasets_reused": [
+    "MNIST",
+    "KMNIST",
+    "FashionMNIST",
+    "CIFAR-10",
+    "CIFAR-100"
+  ],
+  "note": "principal compute dominated by Lane P (EMNIST class-incremental, 5 seeds x 6 methods).",
+  "sha256": "0da837868c4509bd6d220cd62bd39e5511b5759a8d517f737924c12c6ed5a7b0"
+}

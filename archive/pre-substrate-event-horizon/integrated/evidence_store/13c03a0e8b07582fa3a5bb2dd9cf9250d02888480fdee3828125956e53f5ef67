@@ -1,0 +1,21 @@
+{
+  "schema": "mop-temporal-orchestration-incident/v1",
+  "classification": "process_visibility_race_exceeded_large_class_cap_by_one",
+  "trigger": "a newly launched subprocess was not yet visible to pgrep when the next scheduling decision was made",
+  "observation": {
+    "configured_large_class_cap": 16,
+    "maximum_observed_live_locks": 17,
+    "maximum_observed_training_processes": 17,
+    "aggregate_cpu_percent": 1920.6,
+    "resident_memory_mib": 33066.3,
+    "swap_used_mib": 579.56,
+    "partial_receipts": [],
+    "invalid_receipts": []
+  },
+  "scientific_consequence": "none: shard identities remained distinct and atomic writers reported no invalid or partial result",
+  "repair": "worker accounting now takes the maximum of visible process count and live shard lock count before allocating capacity",
+  "running_wave_policy": "do not interrupt the already active wave; the hardened accounting applies on the next process import",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "dbc8c1f87aa23ce4e6ccafa29efd43f95ab1d79b",
+  "result_sha256": "b2d20899adc15759c945a572d0eeacb180a756d5fe9917dafd96616317ceb77c"
+}

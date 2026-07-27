@@ -1,0 +1,8 @@
+{
+  "schema": "independent-verification/v1",
+  "temporal_domain_null": "consistent (A-T/C util below LSTM, floors fail)",
+  "D_structural_null": "consistent",
+  "oracle_headroom_memory": 0.2839,
+  "all_consistent": true,
+  "sha256": "fec466fffe5cbebd6a9df93b378241d146a8dca9fd2bde6cda01ac8634d6d231"
+}

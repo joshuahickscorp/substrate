@@ -1,0 +1,4608 @@
+{
+  "schema": "mop-core-capacity-report/v1",
+  "tiers": {
+    "micro": [
+      10000,
+      25000
+    ],
+    "small": [
+      40000,
+      80000
+    ],
+    "medium": [
+      150000,
+      300000
+    ],
+    "large": [
+      600000,
+      1200000
+    ]
+  },
+  "effects": {
+    "har_stream": {
+      "gru_micro_vs_small": {
+        "mean": -0.00862,
+        "lower_95_cb": -0.01714,
+        "upper_95_cb": -0.00011,
+        "group_mean": -0.009,
+        "group_lower_95_cb": -0.01876,
+        "group_upper_95_cb": 0.00075,
+        "group_heterogeneity": 0.01574,
+        "per_seed_effects": [
+          -0.017,
+          -0.02,
+          0.007,
+          -0.012,
+          0.014,
+          -0.015,
+          -0.0065,
+          -0.0195
+        ],
+        "per_unit_effects": {
+          "10": -0.03571,
+          "12": 0.00429,
+          "13": -0.00477,
+          "18": -0.00341,
+          "2": 0.00889,
+          "20": -0.005,
+          "24": 0.0,
+          "4": -0.01146,
+          "9": -0.03387
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 57410,
+        "cost_adjusted_effect_per_100k_parameters": -0.01501,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|micro|linear|none|h1": "converged",
+            "gru|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "gru_medium_vs_small": {
+        "mean": -0.002,
+        "lower_95_cb": -0.00795,
+        "upper_95_cb": 0.00395,
+        "group_mean": -0.00235,
+        "group_lower_95_cb": -0.01736,
+        "group_upper_95_cb": 0.01267,
+        "group_heterogeneity": 0.02422,
+        "per_seed_effects": [
+          -0.0115,
+          -0.014,
+          0.005,
+          -0.0085,
+          0.01,
+          -0.005,
+          0.003,
+          0.005
+        ],
+        "per_unit_effects": {
+          "10": -0.03036,
+          "12": 0.03493,
+          "13": -0.01112,
+          "18": -0.02159,
+          "2": -0.02056,
+          "20": -0.00389,
+          "24": 0.02901,
+          "4": 0.02031,
+          "9": -0.01786
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 213154,
+        "cost_adjusted_effect_per_100k_parameters": -0.00094,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|medium|linear|none|h1": "unconverged",
+            "gru|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "gru_large_vs_small": {
+        "mean": -0.00881,
+        "lower_95_cb": -0.0265,
+        "upper_95_cb": 0.00887,
+        "group_mean": -0.00932,
+        "group_lower_95_cb": -0.02357,
+        "group_upper_95_cb": 0.00493,
+        "group_heterogeneity": 0.02299,
+        "per_seed_effects": [
+          0.0025,
+          -0.0285,
+          0.01,
+          -0.0065,
+          0.0065,
+          -0.0665,
+          0.006,
+          0.006
+        ],
+        "per_unit_effects": {
+          "10": -0.00952,
+          "12": 0.01042,
+          "13": -0.02436,
+          "18": -0.02443,
+          "2": -0.01889,
+          "20": -0.02611,
+          "24": 0.02584,
+          "4": 0.02135,
+          "9": -0.03818
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 698568,
+        "cost_adjusted_effect_per_100k_parameters": -0.00126,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|large|linear|none|h1": "unconverged",
+            "gru|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "lstm_micro_vs_small": {
+        "mean": -0.00375,
+        "lower_95_cb": -0.0113,
+        "upper_95_cb": 0.0038,
+        "group_mean": -0.00393,
+        "group_lower_95_cb": -0.01435,
+        "group_upper_95_cb": 0.00649,
+        "group_heterogeneity": 0.01681,
+        "per_seed_effects": [
+          0.002,
+          -0.0065,
+          0.0055,
+          -0.006,
+          0.0035,
+          -0.015,
+          0.01,
+          -0.0235
+        ],
+        "per_unit_effects": {
+          "10": -0.0131,
+          "12": -0.01042,
+          "13": 0.01536,
+          "18": 0.01364,
+          "2": 0.02167,
+          "20": -0.00222,
+          "24": -0.01741,
+          "4": -0.02135,
+          "9": -0.02155
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 56664,
+        "cost_adjusted_effect_per_100k_parameters": -0.00662,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|micro|linear|none|h1": "unconverged",
+            "lstm|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "lstm_medium_vs_small": {
+        "mean": 0.00413,
+        "lower_95_cb": -0.00268,
+        "upper_95_cb": 0.01093,
+        "group_mean": 0.00416,
+        "group_lower_95_cb": -0.00069,
+        "group_upper_95_cb": 0.009,
+        "group_heterogeneity": 0.00782,
+        "per_seed_effects": [
+          0.001,
+          0.0,
+          0.006,
+          -0.0025,
+          0.026,
+          0.009,
+          0.001,
+          -0.0075
+        ],
+        "per_unit_effects": {
+          "10": 0.00179,
+          "12": -0.00184,
+          "13": 0.00212,
+          "18": -0.0,
+          "2": -0.00056,
+          "20": 0.00056,
+          "24": 0.0,
+          "4": 0.01562,
+          "9": 0.0197
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 207234,
+        "cost_adjusted_effect_per_100k_parameters": 0.00199,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|medium|linear|none|h1": "converged",
+            "lstm|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "lstm_large_vs_small": {
+        "mean": -0.00294,
+        "lower_95_cb": -0.01334,
+        "upper_95_cb": 0.00746,
+        "group_mean": -0.00284,
+        "group_lower_95_cb": -0.01364,
+        "group_upper_95_cb": 0.00796,
+        "group_heterogeneity": 0.01742,
+        "per_seed_effects": [
+          -0.0135,
+          0.0085,
+          0.0175,
+          -0.006,
+          0.0155,
+          -0.003,
+          -0.0195,
+          -0.023
+        ],
+        "per_unit_effects": {
+          "10": -0.00536,
+          "12": -0.02022,
+          "13": 0.0143,
+          "18": 0.02386,
+          "2": 0.00889,
+          "20": -0.00111,
+          "24": -0.02954,
+          "4": -0.01823,
+          "9": 0.00185
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 677888,
+        "cost_adjusted_effect_per_100k_parameters": -0.00043,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|large|linear|none|h1": "unconverged",
+            "lstm|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "mgu_micro_vs_small": {
+        "mean": -0.00019,
+        "lower_95_cb": -0.00773,
+        "upper_95_cb": 0.00735,
+        "group_mean": -0.0008,
+        "group_lower_95_cb": -0.00975,
+        "group_upper_95_cb": 0.00815,
+        "group_heterogeneity": 0.01444,
+        "per_seed_effects": [
+          -0.0005,
+          0.0065,
+          -0.014,
+          -0.0085,
+          -0.009,
+          -0.0035,
+          0.0065,
+          0.021
+        ],
+        "per_unit_effects": {
+          "10": -0.01845,
+          "12": 0.00245,
+          "13": 0.00953,
+          "18": -0.00568,
+          "2": -0.01056,
+          "20": -0.00389,
+          "24": 0.02426,
+          "4": 0.01302,
+          "9": -0.01786
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 53644,
+        "cost_adjusted_effect_per_100k_parameters": -0.00035,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|micro|linear|none|h1": "converged",
+            "mgu|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "mgu_medium_vs_small": {
+        "mean": 0.00981,
+        "lower_95_cb": 0.00361,
+        "upper_95_cb": 0.01602,
+        "group_mean": 0.00983,
+        "group_lower_95_cb": 0.00035,
+        "group_upper_95_cb": 0.01932,
+        "group_heterogeneity": 0.0153,
+        "per_seed_effects": [
+          0.021,
+          0.023,
+          0.011,
+          -0.003,
+          0.008,
+          -0.001,
+          0.007,
+          0.0125
+        ],
+        "per_unit_effects": {
+          "10": 0.03869,
+          "12": -0.01532,
+          "13": 0.01112,
+          "18": 0.00852,
+          "2": 0.00944,
+          "20": 0.01,
+          "24": -0.00738,
+          "4": 0.01927,
+          "9": 0.01416
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 197484,
+        "cost_adjusted_effect_per_100k_parameters": 0.00497,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|medium|linear|none|h1": "converged",
+            "mgu|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "mgu_large_vs_small": {
+        "mean": 0.00787,
+        "lower_95_cb": 0.0015,
+        "upper_95_cb": 0.01425,
+        "group_mean": 0.00747,
+        "group_lower_95_cb": -0.00258,
+        "group_upper_95_cb": 0.01753,
+        "group_heterogeneity": 0.01622,
+        "per_seed_effects": [
+          -0.0105,
+          0.0125,
+          0.0155,
+          -0.0035,
+          0.012,
+          0.011,
+          0.015,
+          0.011
+        ],
+        "per_unit_effects": {
+          "10": 0.01667,
+          "12": -0.00368,
+          "13": -0.0053,
+          "18": -0.0125,
+          "2": 0.00611,
+          "20": 0.0,
+          "24": 0.02268,
+          "4": 0.03958,
+          "9": 0.00369
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 643660,
+        "cost_adjusted_effect_per_100k_parameters": 0.00122,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|large|linear|none|h1": "converged",
+            "mgu|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "pooled_micro_vs_small": {
+        "mean": 0.00756,
+        "lower_95_cb": -0.00261,
+        "upper_95_cb": 0.01773,
+        "group_mean": 0.00747,
+        "group_lower_95_cb": -6e-05,
+        "group_upper_95_cb": 0.015,
+        "group_heterogeneity": 0.01215,
+        "per_seed_effects": [
+          0.0195,
+          0.0025,
+          -0.0035,
+          -0.0195,
+          0.0145,
+          0.0005,
+          0.0235,
+          0.023
+        ],
+        "per_unit_effects": {
+          "10": 0.02917,
+          "12": 0.00306,
+          "13": 0.00742,
+          "18": -0.01307,
+          "2": 0.00556,
+          "20": 0.01833,
+          "24": 0.01213,
+          "4": 0.00833,
+          "9": -0.00369
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 53108,
+        "cost_adjusted_effect_per_100k_parameters": 0.01424,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|micro|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "pooled_medium_vs_small": {
+        "mean": -0.00256,
+        "lower_95_cb": -0.01155,
+        "upper_95_cb": 0.00643,
+        "group_mean": -0.00251,
+        "group_lower_95_cb": -0.00757,
+        "group_upper_95_cb": 0.00255,
+        "group_heterogeneity": 0.00816,
+        "per_seed_effects": [
+          0.0025,
+          -0.0215,
+          0.0,
+          -0.006,
+          -0.0225,
+          0.003,
+          0.0105,
+          0.0135
+        ],
+        "per_unit_effects": {
+          "10": 0.00774,
+          "12": -0.00858,
+          "13": -0.01695,
+          "18": -0.00114,
+          "2": 0.00444,
+          "20": 0.00056,
+          "24": -0.00949,
+          "4": 0.00573,
+          "9": -0.00493
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 192916,
+        "cost_adjusted_effect_per_100k_parameters": -0.00133,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|medium|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "pooled_large_vs_small": {
+        "mean": 0.00388,
+        "lower_95_cb": -0.00323,
+        "upper_95_cb": 0.01098,
+        "group_mean": 0.00449,
+        "group_lower_95_cb": -0.00547,
+        "group_upper_95_cb": 0.01445,
+        "group_heterogeneity": 0.01607,
+        "per_seed_effects": [
+          0.0005,
+          0.0145,
+          0.004,
+          -0.0125,
+          0.002,
+          0.007,
+          -0.0055,
+          0.021
+        ],
+        "per_unit_effects": {
+          "10": 0.02619,
+          "12": 0.03125,
+          "13": -0.01165,
+          "18": -0.01591,
+          "2": 0.00611,
+          "20": 0.005,
+          "24": 0.00264,
+          "4": -0.00937,
+          "9": 0.00616
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 692672,
+        "cost_adjusted_effect_per_100k_parameters": 0.00056,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|large|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_micro_vs_small": {
+        "mean": 0.00656,
+        "lower_95_cb": -0.00557,
+        "upper_95_cb": 0.0187,
+        "group_mean": 0.00609,
+        "group_lower_95_cb": -0.01149,
+        "group_upper_95_cb": 0.02368,
+        "group_heterogeneity": 0.02837,
+        "per_seed_effects": [
+          -0.0015,
+          -0.0115,
+          -0.009,
+          0.035,
+          0.023,
+          -0.014,
+          0.013,
+          0.0175
+        ],
+        "per_unit_effects": {
+          "10": -0.01429,
+          "12": 0.01042,
+          "13": 0.02172,
+          "18": -0.0108,
+          "2": -0.04056,
+          "20": -0.015,
+          "24": 0.02532,
+          "4": 0.05156,
+          "9": 0.02648
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 52560,
+        "cost_adjusted_effect_per_100k_parameters": 0.01248,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|micro|linear|none|h1": "unconverged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_medium_vs_small": {
+        "mean": 0.01031,
+        "lower_95_cb": 0.0043,
+        "upper_95_cb": 0.01632,
+        "group_mean": 0.00985,
+        "group_lower_95_cb": -0.01347,
+        "group_upper_95_cb": 0.03317,
+        "group_heterogeneity": 0.03762,
+        "per_seed_effects": [
+          0.0145,
+          0.007,
+          -0.0005,
+          0.021,
+          0.016,
+          -0.0005,
+          0.021,
+          0.004
+        ],
+        "per_unit_effects": {
+          "10": -0.0244,
+          "12": 0.04167,
+          "13": -0.00583,
+          "18": -0.04318,
+          "2": 0.00778,
+          "20": -0.02556,
+          "24": 0.06382,
+          "4": 0.05156,
+          "9": 0.02278
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 203150,
+        "cost_adjusted_effect_per_100k_parameters": 0.00508,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|medium|linear|none|h1": "unconverged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_large_vs_small": {
+        "mean": 0.00813,
+        "lower_95_cb": -0.0018,
+        "upper_95_cb": 0.01805,
+        "group_mean": 0.00794,
+        "group_lower_95_cb": 0.00081,
+        "group_upper_95_cb": 0.01507,
+        "group_heterogeneity": 0.0115,
+        "per_seed_effects": [
+          0.0015,
+          0.021,
+          -0.007,
+          0.024,
+          0.015,
+          -0.0095,
+          0.0255,
+          -0.0055
+        ],
+        "per_unit_effects": {
+          "10": 0.02679,
+          "12": 0.00245,
+          "13": 0.00953,
+          "18": -0.00398,
+          "2": 0.01778,
+          "20": 0.01222,
+          "24": 0.01266,
+          "4": 0.00573,
+          "9": -0.0117
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 668240,
+        "cost_adjusted_effect_per_100k_parameters": 0.00122,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|large|linear|none|h1": "unconverged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "tcn_micro_vs_small": {
+        "mean": -0.01056,
+        "lower_95_cb": -0.0208,
+        "upper_95_cb": -0.00032,
+        "group_mean": -0.01137,
+        "group_lower_95_cb": -0.038,
+        "group_upper_95_cb": 0.01526,
+        "group_heterogeneity": 0.04295,
+        "per_seed_effects": [
+          0.007,
+          -0.002,
+          -0.024,
+          -0.004,
+          -0.009,
+          -0.011,
+          -0.041,
+          -0.0005
+        ],
+        "per_unit_effects": {
+          "10": -0.03929,
+          "12": 0.03554,
+          "13": -0.02278,
+          "18": -0.04034,
+          "2": -0.03833,
+          "20": -0.05889,
+          "24": 0.04694,
+          "4": 0.05052,
+          "9": -0.03571
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 56058,
+        "cost_adjusted_effect_per_100k_parameters": -0.01884,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|micro|linear|none|h1": "unconverged",
+            "tcn|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "tcn_medium_vs_small": {
+        "mean": 0.00556,
+        "lower_95_cb": -0.00583,
+        "upper_95_cb": 0.01696,
+        "group_mean": 0.00554,
+        "group_lower_95_cb": -0.001,
+        "group_upper_95_cb": 0.01207,
+        "group_heterogeneity": 0.01054,
+        "per_seed_effects": [
+          0.0295,
+          0.0155,
+          0.016,
+          0.001,
+          -0.029,
+          0.0075,
+          0.002,
+          0.002
+        ],
+        "per_unit_effects": {
+          "10": 0.01607,
+          "12": 0.01409,
+          "13": 0.00583,
+          "18": -0.00284,
+          "2": -0.01389,
+          "20": 0.00611,
+          "24": 0.00475,
+          "4": 0.02031,
+          "9": -0.00062
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 202334,
+        "cost_adjusted_effect_per_100k_parameters": 0.00275,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|medium|linear|none|h1": "converged",
+            "tcn|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "tcn_large_vs_small": {
+        "mean": 0.00675,
+        "lower_95_cb": -0.00304,
+        "upper_95_cb": 0.01654,
+        "group_mean": 0.00637,
+        "group_lower_95_cb": -0.00812,
+        "group_upper_95_cb": 0.02086,
+        "group_heterogeneity": 0.02337,
+        "per_seed_effects": [
+          0.0185,
+          0.015,
+          0.0155,
+          0.0035,
+          -0.014,
+          0.0105,
+          0.0215,
+          -0.0165
+        ],
+        "per_unit_effects": {
+          "10": 0.00952,
+          "12": 0.03248,
+          "13": -0.00265,
+          "18": -0.01534,
+          "2": -0.01389,
+          "20": -0.00333,
+          "24": 0.04589,
+          "4": 0.025,
+          "9": -0.02032
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 654558,
+        "cost_adjusted_effect_per_100k_parameters": 0.00103,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|large|linear|none|h1": "unconverged",
+            "tcn|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      }
+    },
+    "speech_stream": {
+      "gru_micro_vs_small": {
+        "mean": -0.02769,
+        "lower_95_cb": -0.05398,
+        "upper_95_cb": -0.0014,
+        "group_mean": -0.02666,
+        "group_lower_95_cb": -0.03853,
+        "group_upper_95_cb": -0.01479,
+        "group_heterogeneity": 0.05449,
+        "per_seed_effects": [
+          -0.013,
+          -0.0365,
+          -0.0325,
+          -0.0545,
+          0.0,
+          -0.103,
+          -0.0085,
+          0.0265
+        ],
+        "per_unit_effects": {
+          "00176480": -0.01515,
+          "004ae714": -0.06818,
+          "00970ce1": -0.09375,
+          "00f0204f": -0.06081,
+          "012187a4": -0.0,
+          "012c8314": -0.01471,
+          "0165e0e8": 0.00481,
+          "019fa366": 0.02778,
+          "01bb6a2a": -0.04779,
+          "02746d24": -0.0303,
+          "02fcd241": -0.03906,
+          "030ec18b": -0.04583,
+          "035de8fe": 0.06845,
+          "0474c92a": -0.00781,
+          "05cf43ef": -0.12838,
+          "060cd039": 0.01786,
+          "069ab0d5": 0.0,
+          "0819edb0": -0.13333,
+          "09ddc105": 0.03017,
+          "0a196374": -0.04297,
+          "0a2b400e": -0.06481,
+          "0a9f9af7": -0.02143,
+          "0b77ee66": -0.05093,
+          "0b7ee1a0": -0.1,
+          "0bac8a71": 0.11429,
+          "0bde966a": -0.04018,
+          "0c2ca723": 0.0163,
+          "0c40e715": 0.0375,
+          "0c5027de": -0.02885,
+          "0cb74144": 0.02174,
+          "0d2bcf9d": -0.12037,
+          "0ea0e2f4": -0.01786,
+          "0f46028a": -0.07188,
+          "0f7205ef": -0.07986,
+          "0f7dc557": -0.03409,
+          "0ff728b5": -0.05242,
+          "10467b06": -0.03571,
+          "105e72bb": -0.12143,
+          "10c6d873": 0.04435,
+          "10f2bb12": -0.00893,
+          "113b3fbc": -0.01471,
+          "118261a9": -0.04167,
+          "11b1df78": 0.09274,
+          "12623a81": -0.03205,
+          "12c206ea": -0.01923,
+          "13199b79": -0.07012,
+          "1338a799": 0.01316,
+          "13a93b33": -0.04062,
+          "13d7b8c9": -0.0625,
+          "14587ff0": 0.1413,
+          "1474273a": -0.025,
+          "15574821": -0.06481,
+          "1589451d": 0.02016,
+          "15c371c7": -0.07143,
+          "1626bc5a": -0.00391,
+          "171edea9": -0.08437,
+          "173ce2be": -0.02813,
+          "1746d7b6": -0.02917,
+          "179a61b7": -0.01613,
+          "17cc40ee": 0.04573,
+          "1816b768": -0.08437,
+          "18a8f03f": -0.07849,
+          "18c54a68": -0.03226
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 54213,
+        "cost_adjusted_effect_per_100k_parameters": -0.05108,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|micro|linear|none|h1": "unconverged",
+            "gru|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "gru_medium_vs_small": {
+        "mean": 0.00262,
+        "lower_95_cb": -0.01149,
+        "upper_95_cb": 0.01674,
+        "group_mean": 0.00155,
+        "group_lower_95_cb": -0.00897,
+        "group_upper_95_cb": 0.01208,
+        "group_heterogeneity": 0.04833,
+        "per_seed_effects": [
+          0.006,
+          0.008,
+          0.001,
+          -0.001,
+          -0.006,
+          -0.0265,
+          0.0475,
+          -0.008
+        ],
+        "per_unit_effects": {
+          "00176480": 0.02273,
+          "004ae714": 0.02841,
+          "00970ce1": -0.04911,
+          "00f0204f": 0.01689,
+          "012187a4": -0.00446,
+          "012c8314": 0.01103,
+          "0165e0e8": -0.04327,
+          "019fa366": -0.01042,
+          "01bb6a2a": 0.02206,
+          "02746d24": -0.00379,
+          "02fcd241": 0.0,
+          "030ec18b": -0.06667,
+          "035de8fe": 0.05655,
+          "0474c92a": 0.00781,
+          "05cf43ef": -0.01689,
+          "060cd039": -0.0119,
+          "069ab0d5": 0.00962,
+          "0819edb0": -0.06667,
+          "09ddc105": 0.05172,
+          "0a196374": 0.01953,
+          "0a2b400e": -0.00926,
+          "0a9f9af7": -0.00357,
+          "0b77ee66": 0.05556,
+          "0b7ee1a0": -0.025,
+          "0bac8a71": -0.05714,
+          "0bde966a": 0.02232,
+          "0c2ca723": -0.0,
+          "0c40e715": -0.03333,
+          "0c5027de": 0.00962,
+          "0cb74144": 0.03261,
+          "0d2bcf9d": 0.06019,
+          "0ea0e2f4": 0.03929,
+          "0f46028a": 0.0375,
+          "0f7205ef": -0.00694,
+          "0f7dc557": -0.0303,
+          "0ff728b5": 0.01613,
+          "10467b06": -0.00446,
+          "105e72bb": 0.01429,
+          "10c6d873": 0.01613,
+          "10f2bb12": -0.06696,
+          "113b3fbc": -0.02206,
+          "118261a9": 0.03646,
+          "11b1df78": -0.01613,
+          "12623a81": 0.00321,
+          "12c206ea": 0.00481,
+          "13199b79": -0.05488,
+          "1338a799": 0.01645,
+          "13a93b33": -0.06875,
+          "13d7b8c9": 0.01667,
+          "14587ff0": -0.15217,
+          "1474273a": -0.025,
+          "15574821": 0.01389,
+          "1589451d": 0.02016,
+          "15c371c7": -0.12946,
+          "1626bc5a": 0.14453,
+          "171edea9": 0.05625,
+          "173ce2be": 0.00625,
+          "1746d7b6": 0.0125,
+          "179a61b7": -0.00806,
+          "17cc40ee": 0.01524,
+          "1816b768": -0.00937,
+          "18a8f03f": 0.05233,
+          "18c54a68": 0.14516
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 214863,
+        "cost_adjusted_effect_per_100k_parameters": 0.00122,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|medium|linear|none|h1": "unconverged",
+            "gru|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "gru_large_vs_small": {
+        "mean": -0.00275,
+        "lower_95_cb": -0.01988,
+        "upper_95_cb": 0.01438,
+        "group_mean": -0.00356,
+        "group_lower_95_cb": -0.01761,
+        "group_upper_95_cb": 0.01049,
+        "group_heterogeneity": 0.06451,
+        "per_seed_effects": [
+          0.001,
+          -0.0135,
+          -0.022,
+          -0.0165,
+          -0.0415,
+          0.009,
+          0.0305,
+          0.031
+        ],
+        "per_unit_effects": {
+          "00176480": -0.03409,
+          "004ae714": 0.09659,
+          "00970ce1": 0.03125,
+          "00f0204f": 0.06081,
+          "012187a4": -0.08482,
+          "012c8314": 0.0,
+          "0165e0e8": -0.07212,
+          "019fa366": -0.04167,
+          "01bb6a2a": 0.0,
+          "02746d24": 0.01136,
+          "02fcd241": -0.00781,
+          "030ec18b": -0.0125,
+          "035de8fe": 0.0625,
+          "0474c92a": -0.02734,
+          "05cf43ef": -0.02365,
+          "060cd039": 0.02976,
+          "069ab0d5": 0.02885,
+          "0819edb0": -0.0625,
+          "09ddc105": 0.06897,
+          "0a196374": -0.05859,
+          "0a2b400e": -0.0463,
+          "0a9f9af7": -0.01429,
+          "0b77ee66": 0.00463,
+          "0b7ee1a0": -0.065,
+          "0bac8a71": 0.14643,
+          "0bde966a": -0.12946,
+          "0c2ca723": 0.07065,
+          "0c40e715": -0.0125,
+          "0c5027de": -0.00481,
+          "0cb74144": 0.05435,
+          "0d2bcf9d": -0.01389,
+          "0ea0e2f4": -0.03571,
+          "0f46028a": -0.0375,
+          "0f7205ef": 0.01736,
+          "0f7dc557": -0.02273,
+          "0ff728b5": -0.01613,
+          "10467b06": -0.01339,
+          "105e72bb": 0.0,
+          "10c6d873": -0.03226,
+          "10f2bb12": -0.05804,
+          "113b3fbc": -0.00735,
+          "118261a9": 0.01042,
+          "11b1df78": 0.0,
+          "12623a81": 0.03205,
+          "12c206ea": -0.00481,
+          "13199b79": -0.04268,
+          "1338a799": 0.02961,
+          "13a93b33": -0.13125,
+          "13d7b8c9": -0.00833,
+          "14587ff0": -0.16304,
+          "1474273a": 0.01071,
+          "15574821": 0.06481,
+          "1589451d": -0.0121,
+          "15c371c7": -0.17411,
+          "1626bc5a": 0.14062,
+          "171edea9": 0.06563,
+          "173ce2be": -0.00625,
+          "1746d7b6": -0.00833,
+          "179a61b7": -0.00403,
+          "17cc40ee": -0.01524,
+          "1816b768": 0.0125,
+          "18a8f03f": 0.02907,
+          "18c54a68": 0.20161
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 705330,
+        "cost_adjusted_effect_per_100k_parameters": -0.00039,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|large|linear|none|h1": "unconverged",
+            "gru|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "lstm_micro_vs_small": {
+        "mean": -0.04613,
+        "lower_95_cb": -0.06085,
+        "upper_95_cb": -0.0314,
+        "group_mean": -0.04454,
+        "group_lower_95_cb": -0.05843,
+        "group_upper_95_cb": -0.03065,
+        "group_heterogeneity": 0.06376,
+        "per_seed_effects": [
+          -0.041,
+          -0.076,
+          -0.072,
+          -0.041,
+          -0.0305,
+          -0.042,
+          -0.0575,
+          -0.009
+        ],
+        "per_unit_effects": {
+          "00176480": -0.07576,
+          "004ae714": -0.04545,
+          "00970ce1": 0.05804,
+          "00f0204f": -0.18581,
+          "012187a4": -0.15625,
+          "012c8314": -0.02941,
+          "0165e0e8": -0.00481,
+          "019fa366": 0.0,
+          "01bb6a2a": 0.01103,
+          "02746d24": -0.14394,
+          "02fcd241": 0.01562,
+          "030ec18b": -0.0125,
+          "035de8fe": -0.04167,
+          "0474c92a": -0.08203,
+          "05cf43ef": -0.06081,
+          "060cd039": 0.04167,
+          "069ab0d5": -0.12981,
+          "0819edb0": -0.0125,
+          "09ddc105": -0.0819,
+          "0a196374": 0.04297,
+          "0a2b400e": -0.02778,
+          "0a9f9af7": -0.05,
+          "0b77ee66": 0.04167,
+          "0b7ee1a0": -0.05,
+          "0bac8a71": -0.08214,
+          "0bde966a": -0.05804,
+          "0c2ca723": -0.11957,
+          "0c40e715": 0.025,
+          "0c5027de": -0.07692,
+          "0cb74144": -0.02174,
+          "0d2bcf9d": 0.01852,
+          "0ea0e2f4": -0.14286,
+          "0f46028a": -0.00313,
+          "0f7205ef": -0.02083,
+          "0f7dc557": -0.03409,
+          "0ff728b5": -0.03629,
+          "10467b06": -0.11607,
+          "105e72bb": -0.05714,
+          "10c6d873": -0.07258,
+          "10f2bb12": 0.03571,
+          "113b3fbc": 0.02206,
+          "118261a9": -0.02604,
+          "11b1df78": -0.16129,
+          "12623a81": -0.07372,
+          "12c206ea": -0.03365,
+          "13199b79": -0.07927,
+          "1338a799": 0.0,
+          "13a93b33": -0.16875,
+          "13d7b8c9": 0.0375,
+          "14587ff0": -0.16848,
+          "1474273a": -0.01429,
+          "15574821": 0.01852,
+          "1589451d": 0.00806,
+          "15c371c7": 0.03571,
+          "1626bc5a": 0.00781,
+          "171edea9": -0.0875,
+          "173ce2be": -0.03437,
+          "1746d7b6": -0.17083,
+          "179a61b7": -0.02823,
+          "17cc40ee": -0.02439,
+          "1816b768": -0.075,
+          "18a8f03f": -0.10465,
+          "18c54a68": 0.05645
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 53163,
+        "cost_adjusted_effect_per_100k_parameters": -0.08677,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|micro|linear|none|h1": "unconverged",
+            "lstm|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "lstm_medium_vs_small": {
+        "mean": -0.00444,
+        "lower_95_cb": -0.01701,
+        "upper_95_cb": 0.00814,
+        "group_mean": -0.00299,
+        "group_lower_95_cb": -0.01555,
+        "group_upper_95_cb": 0.00958,
+        "group_heterogeneity": 0.05769,
+        "per_seed_effects": [
+          0.0125,
+          0.004,
+          0.0105,
+          -0.022,
+          0.001,
+          -0.043,
+          -0.001,
+          0.0025
+        ],
+        "per_unit_effects": {
+          "00176480": -0.08712,
+          "004ae714": -0.02841,
+          "00970ce1": 0.05804,
+          "00f0204f": -0.03041,
+          "012187a4": -0.09375,
+          "012c8314": -0.00735,
+          "0165e0e8": -0.01442,
+          "019fa366": -0.00347,
+          "01bb6a2a": -0.05515,
+          "02746d24": -0.04924,
+          "02fcd241": -0.0625,
+          "030ec18b": 0.05417,
+          "035de8fe": 0.0119,
+          "0474c92a": -0.03516,
+          "05cf43ef": 0.125,
+          "060cd039": 0.10714,
+          "069ab0d5": 0.01923,
+          "0819edb0": 0.07917,
+          "09ddc105": -0.03017,
+          "0a196374": -0.03516,
+          "0a2b400e": 0.01389,
+          "0a9f9af7": -0.02143,
+          "0b77ee66": 0.08333,
+          "0b7ee1a0": -0.05,
+          "0bac8a71": -0.025,
+          "0bde966a": -0.00446,
+          "0c2ca723": 0.01087,
+          "0c40e715": -0.03333,
+          "0c5027de": 0.01442,
+          "0cb74144": -0.04348,
+          "0d2bcf9d": -0.03704,
+          "0ea0e2f4": -0.09643,
+          "0f46028a": 0.05312,
+          "0f7205ef": -0.00694,
+          "0f7dc557": -0.02273,
+          "0ff728b5": 0.04839,
+          "10467b06": -0.03125,
+          "105e72bb": 0.00714,
+          "10c6d873": -0.04435,
+          "10f2bb12": 0.00893,
+          "113b3fbc": 0.02941,
+          "118261a9": 0.02083,
+          "11b1df78": 0.14919,
+          "12623a81": 0.05128,
+          "12c206ea": 0.02885,
+          "13199b79": -0.04573,
+          "1338a799": 0.0,
+          "13a93b33": -0.13125,
+          "13d7b8c9": -0.00833,
+          "14587ff0": -0.02174,
+          "1474273a": -0.05,
+          "15574821": 0.13426,
+          "1589451d": -0.01613,
+          "15c371c7": -0.00893,
+          "1626bc5a": -0.09375,
+          "171edea9": 0.075,
+          "173ce2be": 0.03438,
+          "1746d7b6": -0.0375,
+          "179a61b7": 0.00806,
+          "17cc40ee": -0.0061,
+          "1816b768": -0.05625,
+          "18a8f03f": -0.07849,
+          "18c54a68": 0.08871
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 208206,
+        "cost_adjusted_effect_per_100k_parameters": -0.00213,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|medium|linear|none|h1": "unconverged",
+            "lstm|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "lstm_large_vs_small": {
+        "mean": -0.00431,
+        "lower_95_cb": -0.02121,
+        "upper_95_cb": 0.01259,
+        "group_mean": -0.00225,
+        "group_lower_95_cb": -0.01685,
+        "group_upper_95_cb": 0.01235,
+        "group_heterogeneity": 0.06702,
+        "per_seed_effects": [
+          -0.008,
+          0.0345,
+          -0.023,
+          -0.037,
+          -0.019,
+          -0.0145,
+          0.0295,
+          0.003
+        ],
+        "per_unit_effects": {
+          "00176480": -0.26515,
+          "004ae714": 0.01705,
+          "00970ce1": 0.03571,
+          "00f0204f": -0.0777,
+          "012187a4": -0.04911,
+          "012c8314": 0.00735,
+          "0165e0e8": 0.07692,
+          "019fa366": -0.01736,
+          "01bb6a2a": 0.00735,
+          "02746d24": -0.00758,
+          "02fcd241": 0.05469,
+          "030ec18b": 0.09583,
+          "035de8fe": 0.00595,
+          "0474c92a": -0.10938,
+          "05cf43ef": 0.04392,
+          "060cd039": 0.06548,
+          "069ab0d5": -0.03365,
+          "0819edb0": 0.00833,
+          "09ddc105": -0.07759,
+          "0a196374": -0.05078,
+          "0a2b400e": -0.01852,
+          "0a9f9af7": 0.00714,
+          "0b77ee66": 0.10648,
+          "0b7ee1a0": -0.065,
+          "0bac8a71": 0.03214,
+          "0bde966a": 0.02679,
+          "0c2ca723": 0.08152,
+          "0c40e715": 0.00417,
+          "0c5027de": 0.0,
+          "0cb74144": -0.04348,
+          "0d2bcf9d": 0.02315,
+          "0ea0e2f4": -0.1,
+          "0f46028a": 0.0375,
+          "0f7205ef": 0.01736,
+          "0f7dc557": -0.03409,
+          "0ff728b5": 0.0121,
+          "10467b06": -0.02232,
+          "105e72bb": 0.00714,
+          "10c6d873": -0.05242,
+          "10f2bb12": 0.07143,
+          "113b3fbc": 0.02574,
+          "118261a9": 0.01562,
+          "11b1df78": 0.05242,
+          "12623a81": 0.00962,
+          "12c206ea": 0.02404,
+          "13199b79": -0.06707,
+          "1338a799": -0.02961,
+          "13a93b33": -0.20937,
+          "13d7b8c9": -0.01667,
+          "14587ff0": -0.08152,
+          "1474273a": -0.01786,
+          "15574821": 0.09722,
+          "1589451d": 0.02823,
+          "15c371c7": 0.0625,
+          "1626bc5a": -0.01172,
+          "171edea9": 0.02812,
+          "173ce2be": 0.00625,
+          "1746d7b6": -0.0625,
+          "179a61b7": -0.0121,
+          "17cc40ee": 0.03354,
+          "1816b768": 0.01875,
+          "18a8f03f": -0.00581,
+          "18c54a68": 0.14919
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 683169,
+        "cost_adjusted_effect_per_100k_parameters": -0.00063,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|large|linear|none|h1": "unconverged",
+            "lstm|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "mgu_micro_vs_small": {
+        "mean": -0.03612,
+        "lower_95_cb": -0.05906,
+        "upper_95_cb": -0.01319,
+        "group_mean": -0.03793,
+        "group_lower_95_cb": -0.05184,
+        "group_upper_95_cb": -0.02402,
+        "group_heterogeneity": 0.06387,
+        "per_seed_effects": [
+          -0.025,
+          -0.044,
+          -0.028,
+          -0.043,
+          -0.058,
+          -0.0845,
+          -0.0415,
+          0.035
+        ],
+        "per_unit_effects": {
+          "00176480": -0.10227,
+          "004ae714": -0.09091,
+          "00970ce1": 0.14732,
+          "00f0204f": -0.13176,
+          "012187a4": -0.09821,
+          "012c8314": -0.03676,
+          "0165e0e8": -0.06731,
+          "019fa366": 0.01736,
+          "01bb6a2a": 0.05515,
+          "02746d24": -0.11742,
+          "02fcd241": 0.0,
+          "030ec18b": -0.0375,
+          "035de8fe": -0.00595,
+          "0474c92a": -0.00781,
+          "05cf43ef": -0.13851,
+          "060cd039": 0.00595,
+          "069ab0d5": -0.16346,
+          "0819edb0": 0.00833,
+          "09ddc105": -0.06466,
+          "0a196374": 0.0,
+          "0a2b400e": -0.01389,
+          "0a9f9af7": -0.04286,
+          "0b77ee66": -0.02315,
+          "0b7ee1a0": -0.005,
+          "0bac8a71": -0.01071,
+          "0bde966a": -0.09375,
+          "0c2ca723": -0.03804,
+          "0c40e715": 0.00833,
+          "0c5027de": -0.07212,
+          "0cb74144": 0.0,
+          "0d2bcf9d": -0.125,
+          "0ea0e2f4": -0.05,
+          "0f46028a": -0.0625,
+          "0f7205ef": 0.03125,
+          "0f7dc557": -0.01894,
+          "0ff728b5": -0.0121,
+          "10467b06": -0.07143,
+          "105e72bb": -0.05714,
+          "10c6d873": -0.06452,
+          "10f2bb12": 0.04018,
+          "113b3fbc": -0.01838,
+          "118261a9": -0.03125,
+          "11b1df78": -0.10081,
+          "12623a81": 0.00321,
+          "12c206ea": 0.01442,
+          "13199b79": 0.02134,
+          "1338a799": -0.00658,
+          "13a93b33": 0.02813,
+          "13d7b8c9": -0.08333,
+          "14587ff0": -0.29891,
+          "1474273a": -0.02857,
+          "15574821": -0.05556,
+          "1589451d": -0.10081,
+          "15c371c7": 0.04018,
+          "1626bc5a": -0.01172,
+          "171edea9": -0.02813,
+          "173ce2be": 0.0,
+          "1746d7b6": 0.00417,
+          "179a61b7": -0.03629,
+          "17cc40ee": 0.01829,
+          "1816b768": -0.03125,
+          "18a8f03f": -0.11337,
+          "18c54a68": -0.06452
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 57087,
+        "cost_adjusted_effect_per_100k_parameters": -0.06327,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|micro|linear|none|h1": "converged",
+            "mgu|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "mgu_medium_vs_small": {
+        "mean": -0.01331,
+        "lower_95_cb": -0.03843,
+        "upper_95_cb": 0.01181,
+        "group_mean": -0.01434,
+        "group_lower_95_cb": -0.02924,
+        "group_upper_95_cb": 0.00057,
+        "group_heterogeneity": 0.06843,
+        "per_seed_effects": [
+          0.0365,
+          -0.0065,
+          0.001,
+          -0.0465,
+          -0.073,
+          -0.0405,
+          -0.0045,
+          0.027
+        ],
+        "per_unit_effects": {
+          "00176480": -0.07576,
+          "004ae714": -0.10795,
+          "00970ce1": 0.14732,
+          "00f0204f": -0.05405,
+          "012187a4": 0.01339,
+          "012c8314": 0.00368,
+          "0165e0e8": -0.07212,
+          "019fa366": -0.02431,
+          "01bb6a2a": 0.03676,
+          "02746d24": 0.02273,
+          "02fcd241": -0.04688,
+          "030ec18b": -0.01667,
+          "035de8fe": 0.03274,
+          "0474c92a": 0.03906,
+          "05cf43ef": -0.06419,
+          "060cd039": 0.10714,
+          "069ab0d5": 0.01923,
+          "0819edb0": -0.07083,
+          "09ddc105": -0.05603,
+          "0a196374": -0.07031,
+          "0a2b400e": -0.05093,
+          "0a9f9af7": -0.01786,
+          "0b77ee66": 0.0787,
+          "0b7ee1a0": 0.005,
+          "0bac8a71": -0.05714,
+          "0bde966a": 0.02679,
+          "0c2ca723": 0.03261,
+          "0c40e715": 0.05833,
+          "0c5027de": 0.00481,
+          "0cb74144": 0.02174,
+          "0d2bcf9d": 0.02778,
+          "0ea0e2f4": -0.05357,
+          "0f46028a": -0.01563,
+          "0f7205ef": 0.03125,
+          "0f7dc557": -0.01515,
+          "0ff728b5": -0.04435,
+          "10467b06": 0.00446,
+          "105e72bb": 0.06429,
+          "10c6d873": -0.11694,
+          "10f2bb12": 0.02232,
+          "113b3fbc": -0.00735,
+          "118261a9": 0.02083,
+          "11b1df78": -0.18548,
+          "12623a81": -0.02885,
+          "12c206ea": 0.0,
+          "13199b79": -0.06707,
+          "1338a799": 0.0,
+          "13a93b33": 0.0375,
+          "13d7b8c9": 0.025,
+          "14587ff0": -0.2663,
+          "1474273a": -0.03214,
+          "15574821": 0.02315,
+          "1589451d": -0.05242,
+          "15c371c7": -0.16964,
+          "1626bc5a": 0.00781,
+          "171edea9": 0.04688,
+          "173ce2be": 0.03438,
+          "1746d7b6": -0.075,
+          "179a61b7": -0.04839,
+          "17cc40ee": 0.07317,
+          "1816b768": 0.0875,
+          "18a8f03f": -0.06395,
+          "18c54a68": -0.03226
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 206715,
+        "cost_adjusted_effect_per_100k_parameters": -0.00644,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|medium|linear|none|h1": "unconverged",
+            "mgu|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "mgu_large_vs_small": {
+        "mean": -0.01256,
+        "lower_95_cb": -0.03975,
+        "upper_95_cb": 0.01463,
+        "group_mean": -0.01283,
+        "group_lower_95_cb": -0.02845,
+        "group_upper_95_cb": 0.00279,
+        "group_heterogeneity": 0.0717,
+        "per_seed_effects": [
+          0.036,
+          -0.006,
+          -0.0025,
+          -0.0915,
+          -0.0265,
+          -0.038,
+          -0.0025,
+          0.0305
+        ],
+        "per_unit_effects": {
+          "00176480": -0.04167,
+          "004ae714": -0.03409,
+          "00970ce1": 0.0,
+          "00f0204f": -0.05743,
+          "012187a4": -0.00893,
+          "012c8314": 0.0,
+          "0165e0e8": -0.00481,
+          "019fa366": -0.02778,
+          "01bb6a2a": 0.00735,
+          "02746d24": 0.07576,
+          "02fcd241": -0.03906,
+          "030ec18b": -0.04583,
+          "035de8fe": 0.0506,
+          "0474c92a": 0.00391,
+          "05cf43ef": -0.02365,
+          "060cd039": 0.14881,
+          "069ab0d5": 0.01442,
+          "0819edb0": -0.06667,
+          "09ddc105": -0.06466,
+          "0a196374": -0.07422,
+          "0a2b400e": -0.10185,
+          "0a9f9af7": -0.02143,
+          "0b77ee66": 0.0463,
+          "0b7ee1a0": 0.02,
+          "0bac8a71": -0.10357,
+          "0bde966a": 0.0,
+          "0c2ca723": 0.06522,
+          "0c40e715": 0.00833,
+          "0c5027de": 0.01442,
+          "0cb74144": 0.07609,
+          "0d2bcf9d": 0.06019,
+          "0ea0e2f4": 0.00357,
+          "0f46028a": 0.0375,
+          "0f7205ef": 0.06944,
+          "0f7dc557": 0.00758,
+          "0ff728b5": -0.02419,
+          "10467b06": 0.02679,
+          "105e72bb": -0.01071,
+          "10c6d873": -0.09677,
+          "10f2bb12": 0.02232,
+          "113b3fbc": -0.00368,
+          "118261a9": 0.02604,
+          "11b1df78": -0.09677,
+          "12623a81": -0.00321,
+          "12c206ea": 0.00962,
+          "13199b79": -0.05793,
+          "1338a799": -0.00658,
+          "13a93b33": -0.04688,
+          "13d7b8c9": -0.00417,
+          "14587ff0": -0.3913,
+          "1474273a": -0.06071,
+          "15574821": 0.08796,
+          "1589451d": -0.03629,
+          "15c371c7": -0.10268,
+          "1626bc5a": 0.04688,
+          "171edea9": 0.07812,
+          "173ce2be": -0.04063,
+          "1746d7b6": -0.06667,
+          "179a61b7": -0.06452,
+          "17cc40ee": 0.03354,
+          "1816b768": 0.05312,
+          "18a8f03f": -0.0407,
+          "18c54a68": -0.03226
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 658812,
+        "cost_adjusted_effect_per_100k_parameters": -0.00191,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|large|linear|none|h1": "unconverged",
+            "mgu|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "pooled_micro_vs_small": {
+        "mean": -0.00494,
+        "lower_95_cb": -0.01549,
+        "upper_95_cb": 0.00561,
+        "group_mean": -0.0044,
+        "group_lower_95_cb": -0.0168,
+        "group_upper_95_cb": 0.008,
+        "group_heterogeneity": 0.05693,
+        "per_seed_effects": [
+          0.018,
+          0.015,
+          -0.0305,
+          -0.011,
+          -0.0105,
+          -0.002,
+          -0.014,
+          -0.0045
+        ],
+        "per_unit_effects": {
+          "00176480": -0.09848,
+          "004ae714": 0.01136,
+          "00970ce1": -0.10714,
+          "00f0204f": 0.01014,
+          "012187a4": -0.02679,
+          "012c8314": -0.05147,
+          "0165e0e8": 0.03846,
+          "019fa366": 0.07292,
+          "01bb6a2a": 0.01838,
+          "02746d24": -0.01136,
+          "02fcd241": 0.03125,
+          "030ec18b": -0.02083,
+          "035de8fe": -0.00893,
+          "0474c92a": -0.00781,
+          "05cf43ef": -0.01014,
+          "060cd039": 0.0119,
+          "069ab0d5": 0.00962,
+          "0819edb0": -0.01667,
+          "09ddc105": 0.03017,
+          "0a196374": 0.03516,
+          "0a2b400e": 0.0,
+          "0a9f9af7": 0.08214,
+          "0b77ee66": -0.03241,
+          "0b7ee1a0": 0.04,
+          "0bac8a71": -0.13929,
+          "0bde966a": 0.00446,
+          "0c2ca723": -0.02717,
+          "0c40e715": 0.02083,
+          "0c5027de": -0.02885,
+          "0cb74144": 0.02174,
+          "0d2bcf9d": -0.04167,
+          "0ea0e2f4": 0.01429,
+          "0f46028a": 0.00313,
+          "0f7205ef": -0.02083,
+          "0f7dc557": -0.01894,
+          "0ff728b5": 0.03226,
+          "10467b06": 0.04464,
+          "105e72bb": -0.00357,
+          "10c6d873": -0.00806,
+          "10f2bb12": 0.10268,
+          "113b3fbc": 0.05882,
+          "118261a9": -0.00521,
+          "11b1df78": -0.0121,
+          "12623a81": -0.03846,
+          "12c206ea": -0.00481,
+          "13199b79": 0.0,
+          "1338a799": 0.04605,
+          "13a93b33": 0.01875,
+          "13d7b8c9": -0.04167,
+          "14587ff0": 0.16304,
+          "1474273a": -0.02143,
+          "15574821": 0.02778,
+          "1589451d": -0.15323,
+          "15c371c7": 0.0,
+          "1626bc5a": -0.02344,
+          "171edea9": -0.01562,
+          "173ce2be": 0.00625,
+          "1746d7b6": -0.17083,
+          "179a61b7": 0.0,
+          "17cc40ee": 0.09756,
+          "1816b768": 0.01875,
+          "18a8f03f": -0.06977,
+          "18c54a68": -0.1129
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 53611,
+        "cost_adjusted_effect_per_100k_parameters": -0.00921,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|micro|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "pooled_medium_vs_small": {
+        "mean": 0.01631,
+        "lower_95_cb": -0.0002,
+        "upper_95_cb": 0.03283,
+        "group_mean": 0.01708,
+        "group_lower_95_cb": 0.00682,
+        "group_upper_95_cb": 0.02734,
+        "group_heterogeneity": 0.04711,
+        "per_seed_effects": [
+          0.069,
+          -0.0055,
+          0.0205,
+          -0.0095,
+          0.0065,
+          0.006,
+          0.027,
+          0.0165
+        ],
+        "per_unit_effects": {
+          "00176480": -0.00758,
+          "004ae714": 0.03409,
+          "00970ce1": 0.0,
+          "00f0204f": 0.02703,
+          "012187a4": 0.05357,
+          "012c8314": 0.0625,
+          "0165e0e8": -0.06731,
+          "019fa366": 0.06597,
+          "01bb6a2a": -0.01471,
+          "02746d24": -0.06818,
+          "02fcd241": -0.01562,
+          "030ec18b": -0.025,
+          "035de8fe": 0.04464,
+          "0474c92a": -0.03906,
+          "05cf43ef": 0.0473,
+          "060cd039": 0.01786,
+          "069ab0d5": 0.01442,
+          "0819edb0": -0.025,
+          "09ddc105": 0.05603,
+          "0a196374": -0.00391,
+          "0a2b400e": 0.03241,
+          "0a9f9af7": -0.00714,
+          "0b77ee66": 0.03241,
+          "0b7ee1a0": 0.005,
+          "0bac8a71": -0.06429,
+          "0bde966a": -0.00893,
+          "0c2ca723": 0.03261,
+          "0c40e715": 0.00417,
+          "0c5027de": 0.03365,
+          "0cb74144": -0.0163,
+          "0d2bcf9d": 0.01852,
+          "0ea0e2f4": 0.03571,
+          "0f46028a": -0.00625,
+          "0f7205ef": 0.01389,
+          "0f7dc557": 0.09091,
+          "0ff728b5": 0.0121,
+          "10467b06": 0.06696,
+          "105e72bb": 0.00357,
+          "10c6d873": 0.06048,
+          "10f2bb12": 0.07143,
+          "113b3fbc": 0.0625,
+          "118261a9": 0.01562,
+          "11b1df78": 0.00403,
+          "12623a81": 0.05128,
+          "12c206ea": 0.00481,
+          "13199b79": -0.00305,
+          "1338a799": 0.05263,
+          "13a93b33": 0.02812,
+          "13d7b8c9": -0.00417,
+          "14587ff0": 0.24457,
+          "1474273a": -0.00714,
+          "15574821": 0.01389,
+          "1589451d": -0.07661,
+          "15c371c7": 0.02232,
+          "1626bc5a": -0.01172,
+          "171edea9": 0.04063,
+          "173ce2be": 0.01875,
+          "1746d7b6": 0.01667,
+          "179a61b7": -0.01613,
+          "17cc40ee": 0.04573,
+          "1816b768": 0.05,
+          "18a8f03f": -0.07267,
+          "18c54a68": 0.02823
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 202331,
+        "cost_adjusted_effect_per_100k_parameters": 0.00806,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|medium|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "pooled_large_vs_small": {
+        "mean": 0.00462,
+        "lower_95_cb": -0.00929,
+        "upper_95_cb": 0.01854,
+        "group_mean": 0.00373,
+        "group_lower_95_cb": -0.00703,
+        "group_upper_95_cb": 0.01448,
+        "group_heterogeneity": 0.04938,
+        "per_seed_effects": [
+          0.018,
+          0.0375,
+          0.0085,
+          -0.009,
+          -0.006,
+          -0.0265,
+          -0.008,
+          0.0225
+        ],
+        "per_unit_effects": {
+          "00176480": 0.04545,
+          "004ae714": 0.0,
+          "00970ce1": -0.00893,
+          "00f0204f": 0.05405,
+          "012187a4": -0.00446,
+          "012c8314": -0.01103,
+          "0165e0e8": -0.09615,
+          "019fa366": 0.02778,
+          "01bb6a2a": -0.01838,
+          "02746d24": -0.06061,
+          "02fcd241": 0.00781,
+          "030ec18b": -0.08333,
+          "035de8fe": -0.03869,
+          "0474c92a": -0.03516,
+          "05cf43ef": -0.01689,
+          "060cd039": -0.00595,
+          "069ab0d5": 0.02885,
+          "0819edb0": 0.00833,
+          "09ddc105": 0.04741,
+          "0a196374": 0.03125,
+          "0a2b400e": -0.02315,
+          "0a9f9af7": 0.02143,
+          "0b77ee66": -0.03704,
+          "0b7ee1a0": 0.015,
+          "0bac8a71": -0.01429,
+          "0bde966a": -0.02679,
+          "0c2ca723": 0.00543,
+          "0c40e715": 0.06667,
+          "0c5027de": 0.00481,
+          "0cb74144": -0.00543,
+          "0d2bcf9d": -0.03704,
+          "0ea0e2f4": 0.02143,
+          "0f46028a": -0.00312,
+          "0f7205ef": 0.0,
+          "0f7dc557": -0.01136,
+          "0ff728b5": 0.00806,
+          "10467b06": 0.13393,
+          "105e72bb": -0.03929,
+          "10c6d873": 0.02016,
+          "10f2bb12": -0.01786,
+          "113b3fbc": -0.00368,
+          "118261a9": 0.03125,
+          "11b1df78": 0.0121,
+          "12623a81": 0.08333,
+          "12c206ea": 0.06731,
+          "13199b79": 0.16768,
+          "1338a799": 0.05592,
+          "13a93b33": -0.05625,
+          "13d7b8c9": 0.0,
+          "14587ff0": 0.05978,
+          "1474273a": -0.00714,
+          "15574821": 0.01389,
+          "1589451d": -0.08468,
+          "15c371c7": -0.09375,
+          "1626bc5a": -0.05469,
+          "171edea9": -0.025,
+          "173ce2be": -0.01562,
+          "1746d7b6": -0.025,
+          "179a61b7": -0.00403,
+          "17cc40ee": 0.05488,
+          "1816b768": 0.09687,
+          "18a8f03f": -0.0436,
+          "18c54a68": 0.05242
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 714859,
+        "cost_adjusted_effect_per_100k_parameters": 0.00065,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|large|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_micro_vs_small": {
+        "mean": -0.001,
+        "lower_95_cb": -0.01048,
+        "upper_95_cb": 0.00848,
+        "group_mean": -0.00155,
+        "group_lower_95_cb": -0.01374,
+        "group_upper_95_cb": 0.01063,
+        "group_heterogeneity": 0.05593,
+        "per_seed_effects": [
+          0.009,
+          0.0055,
+          0.009,
+          0.0025,
+          -0.0055,
+          0.0005,
+          0.005,
+          -0.034
+        ],
+        "per_unit_effects": {
+          "00176480": 0.0,
+          "004ae714": 0.00568,
+          "00970ce1": -0.10714,
+          "00f0204f": 0.07432,
+          "012187a4": -0.00893,
+          "012c8314": 0.02574,
+          "0165e0e8": -0.05288,
+          "019fa366": 0.05903,
+          "01bb6a2a": -0.01471,
+          "02746d24": -0.11742,
+          "02fcd241": 0.03516,
+          "030ec18b": 0.05,
+          "035de8fe": 0.00595,
+          "0474c92a": -0.05859,
+          "05cf43ef": -0.02365,
+          "060cd039": 0.03571,
+          "069ab0d5": 0.02885,
+          "0819edb0": 0.00833,
+          "09ddc105": 0.01293,
+          "0a196374": 0.02734,
+          "0a2b400e": -0.01852,
+          "0a9f9af7": -0.01071,
+          "0b77ee66": -0.09259,
+          "0b7ee1a0": 0.08,
+          "0bac8a71": 0.0,
+          "0bde966a": 0.10268,
+          "0c2ca723": -0.03261,
+          "0c40e715": -0.0625,
+          "0c5027de": -0.01923,
+          "0cb74144": -0.05435,
+          "0d2bcf9d": 0.00926,
+          "0ea0e2f4": -0.05,
+          "0f46028a": 0.02187,
+          "0f7205ef": -0.00694,
+          "0f7dc557": -0.09091,
+          "0ff728b5": -0.02016,
+          "10467b06": -0.02679,
+          "105e72bb": 0.01071,
+          "10c6d873": 0.00806,
+          "10f2bb12": -0.06696,
+          "113b3fbc": -0.01471,
+          "118261a9": 0.03125,
+          "11b1df78": 0.05242,
+          "12623a81": -0.01923,
+          "12c206ea": 0.02404,
+          "13199b79": 0.0061,
+          "1338a799": -0.00329,
+          "13a93b33": -0.0375,
+          "13d7b8c9": 0.02083,
+          "14587ff0": -0.10326,
+          "1474273a": 0.05714,
+          "15574821": 0.03704,
+          "1589451d": 0.04839,
+          "15c371c7": 0.00446,
+          "1626bc5a": -0.04688,
+          "171edea9": 0.0,
+          "173ce2be": 0.05938,
+          "1746d7b6": -0.03333,
+          "179a61b7": -0.01613,
+          "17cc40ee": -0.03049,
+          "1816b768": -0.07188,
+          "18a8f03f": 0.03779,
+          "18c54a68": 0.23387
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 54978,
+        "cost_adjusted_effect_per_100k_parameters": -0.00182,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|micro|linear|none|h1": "unconverged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_medium_vs_small": {
+        "mean": 0.00294,
+        "lower_95_cb": -0.00792,
+        "upper_95_cb": 0.0138,
+        "group_mean": 0.00275,
+        "group_lower_95_cb": -0.00784,
+        "group_upper_95_cb": 0.01334,
+        "group_heterogeneity": 0.04863,
+        "per_seed_effects": [
+          0.028,
+          0.013,
+          0.0205,
+          -0.02,
+          -0.0025,
+          0.0005,
+          -0.0085,
+          -0.0075
+        ],
+        "per_unit_effects": {
+          "00176480": 0.03788,
+          "004ae714": -0.00568,
+          "00970ce1": -0.05357,
+          "00f0204f": -0.01014,
+          "012187a4": -0.00893,
+          "012c8314": 0.06618,
+          "0165e0e8": -0.01442,
+          "019fa366": 0.07292,
+          "01bb6a2a": -0.02574,
+          "02746d24": -0.08333,
+          "02fcd241": 0.0,
+          "030ec18b": 0.10417,
+          "035de8fe": 0.02976,
+          "0474c92a": -0.02344,
+          "05cf43ef": 0.06757,
+          "060cd039": 0.03571,
+          "069ab0d5": 0.08654,
+          "0819edb0": 0.0125,
+          "09ddc105": -0.00431,
+          "0a196374": 0.00781,
+          "0a2b400e": -0.04167,
+          "0a9f9af7": 0.025,
+          "0b77ee66": 0.06019,
+          "0b7ee1a0": 0.07,
+          "0bac8a71": 0.0,
+          "0bde966a": -0.00446,
+          "0c2ca723": -0.04348,
+          "0c40e715": -0.09583,
+          "0c5027de": -0.01923,
+          "0cb74144": -0.04348,
+          "0d2bcf9d": 0.00463,
+          "0ea0e2f4": -0.10714,
+          "0f46028a": 0.05625,
+          "0f7205ef": -0.01389,
+          "0f7dc557": -0.03788,
+          "0ff728b5": 0.00806,
+          "10467b06": 0.0,
+          "105e72bb": 0.01429,
+          "10c6d873": 0.0,
+          "10f2bb12": -0.05357,
+          "113b3fbc": -0.01103,
+          "118261a9": -0.03125,
+          "11b1df78": 0.0121,
+          "12623a81": 0.0,
+          "12c206ea": -0.05769,
+          "13199b79": -0.00915,
+          "1338a799": -0.01316,
+          "13a93b33": -0.05,
+          "13d7b8c9": 0.00833,
+          "14587ff0": 0.10326,
+          "1474273a": -0.01429,
+          "15574821": 0.0,
+          "1589451d": 0.0,
+          "15c371c7": -0.00446,
+          "1626bc5a": -0.01562,
+          "171edea9": 0.0625,
+          "173ce2be": 0.08438,
+          "1746d7b6": -0.00833,
+          "179a61b7": 0.03226,
+          "17cc40ee": 0.06402,
+          "1816b768": -0.00937,
+          "18a8f03f": -0.11919,
+          "18c54a68": 0.08065
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 197358,
+        "cost_adjusted_effect_per_100k_parameters": 0.00149,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|medium|linear|none|h1": "unconverged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_large_vs_small": {
+        "mean": -0.00606,
+        "lower_95_cb": -0.0126,
+        "upper_95_cb": 0.00047,
+        "group_mean": -0.00766,
+        "group_lower_95_cb": -0.02315,
+        "group_upper_95_cb": 0.00783,
+        "group_heterogeneity": 0.07112,
+        "per_seed_effects": [
+          0.011,
+          -0.02,
+          -0.0125,
+          -0.001,
+          -0.002,
+          -0.001,
+          -0.009,
+          -0.014
+        ],
+        "per_unit_effects": {
+          "00176480": -0.03788,
+          "004ae714": -0.05114,
+          "00970ce1": -0.16071,
+          "00f0204f": -0.03041,
+          "012187a4": 0.0,
+          "012c8314": -0.02941,
+          "0165e0e8": -0.12981,
+          "019fa366": 0.04861,
+          "01bb6a2a": -0.08824,
+          "02746d24": 0.00758,
+          "02fcd241": 0.0,
+          "030ec18b": -0.02083,
+          "035de8fe": 0.02083,
+          "0474c92a": -0.08984,
+          "05cf43ef": 0.03378,
+          "060cd039": -0.02976,
+          "069ab0d5": -0.01923,
+          "0819edb0": -0.0375,
+          "09ddc105": -0.05172,
+          "0a196374": -0.01562,
+          "0a2b400e": -0.05556,
+          "0a9f9af7": 0.00714,
+          "0b77ee66": -0.00463,
+          "0b7ee1a0": 0.055,
+          "0bac8a71": 0.0,
+          "0bde966a": -0.00893,
+          "0c2ca723": -0.05978,
+          "0c40e715": -0.15,
+          "0c5027de": 0.01923,
+          "0cb74144": -0.0,
+          "0d2bcf9d": -0.09722,
+          "0ea0e2f4": -0.08571,
+          "0f46028a": 0.05625,
+          "0f7205ef": 0.08333,
+          "0f7dc557": 0.0,
+          "0ff728b5": -0.02016,
+          "10467b06": -0.04911,
+          "105e72bb": -0.01786,
+          "10c6d873": 0.0,
+          "10f2bb12": -0.08929,
+          "113b3fbc": 0.01103,
+          "118261a9": -0.00521,
+          "11b1df78": -0.01613,
+          "12623a81": 0.02564,
+          "12c206ea": -0.00962,
+          "13199b79": 0.11585,
+          "1338a799": 0.06579,
+          "13a93b33": -0.02187,
+          "13d7b8c9": 0.00417,
+          "14587ff0": 0.30978,
+          "1474273a": -0.02143,
+          "15574821": 0.09259,
+          "1589451d": 0.02419,
+          "15c371c7": -0.01786,
+          "1626bc5a": -0.01562,
+          "171edea9": 0.07188,
+          "173ce2be": 0.07187,
+          "1746d7b6": -0.04583,
+          "179a61b7": 0.02016,
+          "17cc40ee": 0.07927,
+          "1816b768": -0.025,
+          "18a8f03f": -0.15407,
+          "18c54a68": 0.05645
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 689283,
+        "cost_adjusted_effect_per_100k_parameters": -0.00088,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|large|linear|none|h1": "unconverged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "tcn_micro_vs_small": {
+        "mean": -0.03469,
+        "lower_95_cb": -0.04578,
+        "upper_95_cb": -0.02359,
+        "group_mean": -0.03491,
+        "group_lower_95_cb": -0.051,
+        "group_upper_95_cb": -0.01881,
+        "group_heterogeneity": 0.0739,
+        "per_seed_effects": [
+          -0.0275,
+          -0.01,
+          -0.043,
+          -0.0195,
+          -0.0255,
+          -0.045,
+          -0.059,
+          -0.048
+        ],
+        "per_unit_effects": {
+          "00176480": 0.07955,
+          "004ae714": -0.0,
+          "00970ce1": -0.00893,
+          "00f0204f": -0.14865,
+          "012187a4": -0.06696,
+          "012c8314": -0.07721,
+          "0165e0e8": -0.0625,
+          "019fa366": -0.07292,
+          "01bb6a2a": -0.02206,
+          "02746d24": -0.16288,
+          "02fcd241": -0.07812,
+          "030ec18b": -0.07917,
+          "035de8fe": -0.02381,
+          "0474c92a": -0.06641,
+          "05cf43ef": 0.04392,
+          "060cd039": -0.14286,
+          "069ab0d5": -0.00481,
+          "0819edb0": -0.06667,
+          "09ddc105": -0.07759,
+          "0a196374": 0.03906,
+          "0a2b400e": -0.07407,
+          "0a9f9af7": 0.00714,
+          "0b77ee66": 0.09722,
+          "0b7ee1a0": -0.05,
+          "0bac8a71": 0.11429,
+          "0bde966a": 0.00446,
+          "0c2ca723": 0.00543,
+          "0c40e715": -0.07917,
+          "0c5027de": -0.03365,
+          "0cb74144": -0.06522,
+          "0d2bcf9d": 0.03241,
+          "0ea0e2f4": -0.075,
+          "0f46028a": -0.1125,
+          "0f7205ef": 0.04861,
+          "0f7dc557": -0.10985,
+          "0ff728b5": 0.04435,
+          "10467b06": -0.00446,
+          "105e72bb": 0.09643,
+          "10c6d873": -0.0121,
+          "10f2bb12": 0.0,
+          "113b3fbc": -0.07353,
+          "118261a9": 0.0625,
+          "11b1df78": 0.0,
+          "12623a81": -0.00641,
+          "12c206ea": -0.03846,
+          "13199b79": -0.1311,
+          "1338a799": -0.12829,
+          "13a93b33": 0.1125,
+          "13d7b8c9": -0.03333,
+          "14587ff0": -0.21739,
+          "1474273a": 0.05714,
+          "15574821": -0.12037,
+          "1589451d": 0.06048,
+          "15c371c7": -0.05804,
+          "1626bc5a": -0.11719,
+          "171edea9": -0.09062,
+          "173ce2be": 0.02187,
+          "1746d7b6": -0.05,
+          "179a61b7": -0.04032,
+          "17cc40ee": 0.00305,
+          "1816b768": -0.20625,
+          "18a8f03f": -0.0407,
+          "18c54a68": 0.0
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 56080,
+        "cost_adjusted_effect_per_100k_parameters": -0.06186,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|micro|linear|none|h1": "unconverged",
+            "tcn|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "tcn_medium_vs_small": {
+        "mean": -0.00112,
+        "lower_95_cb": -0.01604,
+        "upper_95_cb": 0.01379,
+        "group_mean": -0.00076,
+        "group_lower_95_cb": -0.01501,
+        "group_upper_95_cb": 0.01349,
+        "group_heterogeneity": 0.06542,
+        "per_seed_effects": [
+          0.0135,
+          -0.0155,
+          0.0025,
+          0.0435,
+          -0.0055,
+          -0.023,
+          0.0,
+          -0.0245
+        ],
+        "per_unit_effects": {
+          "00176480": 0.07955,
+          "004ae714": 0.01705,
+          "00970ce1": 0.09821,
+          "00f0204f": -0.04054,
+          "012187a4": 0.04464,
+          "012c8314": 0.05515,
+          "0165e0e8": 0.02885,
+          "019fa366": -0.02083,
+          "01bb6a2a": 0.02941,
+          "02746d24": -0.01515,
+          "02fcd241": -0.08984,
+          "030ec18b": 0.025,
+          "035de8fe": 0.0119,
+          "0474c92a": 0.04688,
+          "05cf43ef": 0.03378,
+          "060cd039": -0.02976,
+          "069ab0d5": 0.00962,
+          "0819edb0": 0.07083,
+          "09ddc105": -0.07328,
+          "0a196374": 0.08203,
+          "0a2b400e": -0.05093,
+          "0a9f9af7": 0.01071,
+          "0b77ee66": 0.10648,
+          "0b7ee1a0": -0.08,
+          "0bac8a71": 0.05,
+          "0bde966a": 0.02232,
+          "0c2ca723": 0.02717,
+          "0c40e715": 0.06667,
+          "0c5027de": -0.01442,
+          "0cb74144": 0.02174,
+          "0d2bcf9d": 0.05556,
+          "0ea0e2f4": -0.11786,
+          "0f46028a": -0.05,
+          "0f7205ef": -0.02431,
+          "0f7dc557": -0.02273,
+          "0ff728b5": 0.00403,
+          "10467b06": -0.00446,
+          "105e72bb": 0.03214,
+          "10c6d873": -0.03226,
+          "10f2bb12": 0.0,
+          "113b3fbc": -0.02206,
+          "118261a9": 0.02083,
+          "11b1df78": 0.125,
+          "12623a81": -0.07692,
+          "12c206ea": 0.00962,
+          "13199b79": 0.04268,
+          "1338a799": -0.00329,
+          "13a93b33": -0.0125,
+          "13d7b8c9": -0.11667,
+          "14587ff0": -0.15761,
+          "1474273a": 0.11429,
+          "15574821": 0.02315,
+          "1589451d": 0.04839,
+          "15c371c7": -0.07143,
+          "1626bc5a": -0.12891,
+          "171edea9": -0.08437,
+          "173ce2be": 0.04687,
+          "1746d7b6": -0.19167,
+          "179a61b7": 0.02419,
+          "17cc40ee": -0.02439,
+          "1816b768": 0.04375,
+          "18a8f03f": -0.07267,
+          "18c54a68": 0.05242
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 214145,
+        "cost_adjusted_effect_per_100k_parameters": -0.00052,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|medium|linear|none|h1": "unconverged",
+            "tcn|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "tcn_large_vs_small": {
+        "mean": -0.00012,
+        "lower_95_cb": -0.01729,
+        "upper_95_cb": 0.01704,
+        "group_mean": -0.00042,
+        "group_lower_95_cb": -0.01435,
+        "group_upper_95_cb": 0.01351,
+        "group_heterogeneity": 0.06395,
+        "per_seed_effects": [
+          0.01,
+          -0.029,
+          -0.0345,
+          0.031,
+          0.0125,
+          -0.0195,
+          -0.0025,
+          0.031
+        ],
+        "per_unit_effects": {
+          "00176480": 0.07955,
+          "004ae714": -0.03977,
+          "00970ce1": 0.17857,
+          "00f0204f": -0.10811,
+          "012187a4": -0.00893,
+          "012c8314": 0.08456,
+          "0165e0e8": -0.04327,
+          "019fa366": -0.04167,
+          "01bb6a2a": 0.01103,
+          "02746d24": 0.03788,
+          "02fcd241": -0.03906,
+          "030ec18b": -0.06667,
+          "035de8fe": -0.02381,
+          "0474c92a": -0.00391,
+          "05cf43ef": 0.13514,
+          "060cd039": -0.04167,
+          "069ab0d5": -0.01923,
+          "0819edb0": 0.0375,
+          "09ddc105": 0.01724,
+          "0a196374": 0.04297,
+          "0a2b400e": -0.04167,
+          "0a9f9af7": -0.00357,
+          "0b77ee66": 0.16204,
+          "0b7ee1a0": 0.03,
+          "0bac8a71": 0.03929,
+          "0bde966a": 0.00893,
+          "0c2ca723": 0.08696,
+          "0c40e715": 0.00833,
+          "0c5027de": -0.00962,
+          "0cb74144": -0.05435,
+          "0d2bcf9d": -0.00463,
+          "0ea0e2f4": 0.025,
+          "0f46028a": -0.16563,
+          "0f7205ef": -0.06944,
+          "0f7dc557": -0.0303,
+          "0ff728b5": 0.04839,
+          "10467b06": -0.01339,
+          "105e72bb": 0.05357,
+          "10c6d873": 0.02419,
+          "10f2bb12": -0.01786,
+          "113b3fbc": -0.04779,
+          "118261a9": 0.02604,
+          "11b1df78": 0.05645,
+          "12623a81": 0.01923,
+          "12c206ea": -0.01442,
+          "13199b79": 0.05793,
+          "1338a799": -0.00987,
+          "13a93b33": 0.05312,
+          "13d7b8c9": -0.0625,
+          "14587ff0": -0.125,
+          "1474273a": 0.01429,
+          "15574821": -0.04167,
+          "1589451d": 0.03629,
+          "15c371c7": -0.02679,
+          "1626bc5a": -0.04688,
+          "171edea9": -0.01875,
+          "173ce2be": 0.04688,
+          "1746d7b6": -0.17917,
+          "179a61b7": -0.02419,
+          "17cc40ee": -0.01524,
+          "1816b768": -0.0125,
+          "18a8f03f": -0.02907,
+          "18c54a68": 0.05242
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 678273,
+        "cost_adjusted_effect_per_100k_parameters": -2e-05,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|large|linear|none|h1": "unconverged",
+            "tcn|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      }
+    },
+    "harth_stream": {
+      "gru_micro_vs_small": {
+        "mean": -0.00563,
+        "lower_95_cb": -0.01724,
+        "upper_95_cb": 0.00598,
+        "group_mean": -0.00662,
+        "group_lower_95_cb": -0.01907,
+        "group_upper_95_cb": 0.00584,
+        "group_heterogeneity": 0.01696,
+        "per_seed_effects": [
+          -0.006,
+          0.01425,
+          0.01951,
+          -0.00826,
+          -0.02101,
+          0.003,
+          -0.03151,
+          -0.015
+        ],
+        "per_unit_effects": {
+          "S006": -0.00177,
+          "S008": -0.00128,
+          "S009": -0.04371,
+          "S010": -0.00069,
+          "S012": -0.00385,
+          "S013": -0.00417,
+          "S014": 0.00915
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 57059,
+        "cost_adjusted_effect_per_100k_parameters": -0.00987,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|micro|linear|none|h1": "converged",
+            "gru|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "gru_medium_vs_small": {
+        "mean": 0.0135,
+        "lower_95_cb": -0.00311,
+        "upper_95_cb": 0.03012,
+        "group_mean": 0.0148,
+        "group_lower_95_cb": -0.0062,
+        "group_upper_95_cb": 0.0358,
+        "group_heterogeneity": 0.02859,
+        "per_seed_effects": [
+          0.03301,
+          0.02101,
+          -0.02925,
+          0.015,
+          -0.02026,
+          0.03301,
+          0.02026,
+          0.03526
+        ],
+        "per_unit_effects": {
+          "S006": 0.0171,
+          "S008": 0.00128,
+          "S009": 0.07592,
+          "S010": -0.0103,
+          "S012": -0.00064,
+          "S013": 0.01597,
+          "S014": 0.00427
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 212431,
+        "cost_adjusted_effect_per_100k_parameters": 0.00636,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|medium|linear|none|h1": "converged",
+            "gru|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "gru_large_vs_small": {
+        "mean": -0.00835,
+        "lower_95_cb": -0.03599,
+        "upper_95_cb": 0.0193,
+        "group_mean": -0.00956,
+        "group_lower_95_cb": -0.02434,
+        "group_upper_95_cb": 0.00522,
+        "group_heterogeneity": 0.02012,
+        "per_seed_effects": [
+          -0.02775,
+          -0.00675,
+          -0.00375,
+          -0.07052,
+          0.027,
+          0.04651,
+          -0.05626,
+          0.02476
+        ],
+        "per_unit_effects": {
+          "S006": 0.00825,
+          "S008": -0.00255,
+          "S009": -0.05138,
+          "S010": -0.01786,
+          "S012": -0.00321,
+          "S013": 0.00347,
+          "S014": -0.00366
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 697356,
+        "cost_adjusted_effect_per_100k_parameters": -0.0012,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "gru|large|linear|none|h1": "converged",
+            "gru|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "lstm_micro_vs_small": {
+        "mean": -0.0226,
+        "lower_95_cb": -0.05355,
+        "upper_95_cb": 0.00835,
+        "group_mean": -0.026,
+        "group_lower_95_cb": -0.07571,
+        "group_upper_95_cb": 0.0237,
+        "group_heterogeneity": 0.06768,
+        "per_seed_effects": [
+          0.0195,
+          0.01876,
+          0.0105,
+          -0.04651,
+          -0.04726,
+          -0.03226,
+          -0.11253,
+          0.00901
+        ],
+        "per_unit_effects": {
+          "S006": -0.00884,
+          "S008": -0.00638,
+          "S009": -0.17868,
+          "S010": -0.00137,
+          "S012": 0.00449,
+          "S013": 0.01181,
+          "S014": -0.00305
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 56358,
+        "cost_adjusted_effect_per_100k_parameters": -0.0401,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|micro|linear|none|h1": "converged",
+            "lstm|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "lstm_medium_vs_small": {
+        "mean": 0.0121,
+        "lower_95_cb": -0.00641,
+        "upper_95_cb": 0.0306,
+        "group_mean": 0.01368,
+        "group_lower_95_cb": -0.00794,
+        "group_upper_95_cb": 0.03529,
+        "group_heterogeneity": 0.02943,
+        "per_seed_effects": [
+          0.03075,
+          0.01351,
+          -0.00375,
+          -0.02776,
+          0.009,
+          0.05401,
+          -0.01575,
+          0.03676
+        ],
+        "per_unit_effects": {
+          "S006": 0.01002,
+          "S008": -0.00383,
+          "S009": 0.07899,
+          "S010": -0.00137,
+          "S012": 0.00256,
+          "S013": 0.01181,
+          "S014": -0.00244
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 206613,
+        "cost_adjusted_effect_per_100k_parameters": 0.00586,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|medium|linear|none|h1": "unconverged",
+            "lstm|small|linear|none|h1": "converged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "lstm_large_vs_small": {
+        "mean": -0.003,
+        "lower_95_cb": -0.03168,
+        "upper_95_cb": 0.02567,
+        "group_mean": -0.00352,
+        "group_lower_95_cb": -0.01213,
+        "group_upper_95_cb": 0.00509,
+        "group_heterogeneity": 0.01172,
+        "per_seed_effects": [
+          0.04951,
+          -0.00075,
+          -0.06677,
+          -0.02626,
+          -0.02926,
+          0.02851,
+          -0.03076,
+          0.05177
+        ],
+        "per_unit_effects": {
+          "S006": 0.00884,
+          "S008": -0.00255,
+          "S009": -0.02454,
+          "S010": -0.00755,
+          "S012": 0.0,
+          "S013": 0.00972,
+          "S014": -0.00854
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 676850,
+        "cost_adjusted_effect_per_100k_parameters": -0.00044,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "lstm|large|linear|none|h1": "converged",
+            "lstm|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "mgu_micro_vs_small": {
+        "mean": 0.006,
+        "lower_95_cb": -0.0168,
+        "upper_95_cb": 0.0288,
+        "group_mean": 0.00652,
+        "group_lower_95_cb": -0.0031,
+        "group_upper_95_cb": 0.01614,
+        "group_heterogeneity": 0.0131,
+        "per_seed_effects": [
+          -0.03001,
+          0.018,
+          0.01275,
+          0.03751,
+          -0.05626,
+          0.02701,
+          0.04126,
+          -0.00225
+        ],
+        "per_unit_effects": {
+          "S006": 0.00825,
+          "S008": -0.00255,
+          "S009": 0.03451,
+          "S010": -0.00137,
+          "S012": -0.00192,
+          "S013": 0.00139,
+          "S014": 0.00732
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 53236,
+        "cost_adjusted_effect_per_100k_parameters": 0.01127,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|micro|linear|none|h1": "converged",
+            "mgu|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "mgu_medium_vs_small": {
+        "mean": 0.02654,
+        "lower_95_cb": 0.00157,
+        "upper_95_cb": 0.05151,
+        "group_mean": 0.03021,
+        "group_lower_95_cb": -0.02307,
+        "group_upper_95_cb": 0.0835,
+        "group_heterogeneity": 0.07256,
+        "per_seed_effects": [
+          0.0105,
+          0.00675,
+          0.06677,
+          0.03225,
+          -0.05026,
+          0.04726,
+          0.05401,
+          0.04501
+        ],
+        "per_unit_effects": {
+          "S006": 0.00649,
+          "S008": 0.0051,
+          "S009": 0.19325,
+          "S010": -0.0158,
+          "S012": -0.00192,
+          "S013": 0.00972,
+          "S014": 0.01463
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 196641,
+        "cost_adjusted_effect_per_100k_parameters": 0.0135,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|medium|linear|none|h1": "converged",
+            "mgu|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "mgu_large_vs_small": {
+        "mean": 0.01566,
+        "lower_95_cb": -0.01098,
+        "upper_95_cb": 0.0423,
+        "group_mean": 0.01741,
+        "group_lower_95_cb": -0.00775,
+        "group_upper_95_cb": 0.04256,
+        "group_heterogeneity": 0.03426,
+        "per_seed_effects": [
+          -0.00075,
+          0.03151,
+          0.03676,
+          0.04426,
+          -0.07501,
+          0.03451,
+          0.04201,
+          0.012
+        ],
+        "per_unit_effects": {
+          "S006": -0.00118,
+          "S008": 0.00702,
+          "S009": 0.08972,
+          "S010": -0.01374,
+          "S012": -0.00128,
+          "S013": 0.02361,
+          "S014": 0.01768
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 742095,
+        "cost_adjusted_effect_per_100k_parameters": 0.00211,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "mgu|large|linear|none|h1": "converged",
+            "mgu|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "pooled_micro_vs_small": {
+        "mean": 0.00694,
+        "lower_95_cb": -0.03691,
+        "upper_95_cb": 0.05079,
+        "group_mean": 0.00465,
+        "group_lower_95_cb": -0.02231,
+        "group_upper_95_cb": 0.03162,
+        "group_heterogeneity": 0.03672,
+        "per_seed_effects": [
+          -0.08928,
+          -0.06901,
+          -0.00525,
+          0.04126,
+          0.02251,
+          0.06677,
+          -0.01501,
+          0.10353
+        ],
+        "per_unit_effects": {
+          "S006": 0.04894,
+          "S008": 0.05293,
+          "S009": -0.04525,
+          "S010": -0.02816,
+          "S012": -0.00385,
+          "S013": -0.00486,
+          "S014": 0.0128
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null_futile",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 52601,
+        "cost_adjusted_effect_per_100k_parameters": 0.01319,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|micro|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "pooled_medium_vs_small": {
+        "mean": -0.02701,
+        "lower_95_cb": -0.04975,
+        "upper_95_cb": -0.00426,
+        "group_mean": -0.03446,
+        "group_lower_95_cb": -0.12231,
+        "group_upper_95_cb": 0.0534,
+        "group_heterogeneity": 0.11963,
+        "per_seed_effects": [
+          -0.09003,
+          -0.03901,
+          -0.00525,
+          -0.02025,
+          0.0165,
+          -0.04201,
+          -0.04201,
+          0.006
+        ],
+        "per_unit_effects": {
+          "S006": 0.03302,
+          "S008": 0.05038,
+          "S009": -0.29371,
+          "S010": -0.06113,
+          "S012": 0.01282,
+          "S013": -0.00208,
+          "S014": 0.01951
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 211366,
+        "cost_adjusted_effect_per_100k_parameters": -0.01278,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|medium|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "pooled_large_vs_small": {
+        "mean": -0.01528,
+        "lower_95_cb": -0.0423,
+        "upper_95_cb": 0.01173,
+        "group_mean": -0.02106,
+        "group_lower_95_cb": -0.08753,
+        "group_upper_95_cb": 0.0454,
+        "group_heterogeneity": 0.0905,
+        "per_seed_effects": [
+          -0.09678,
+          0.01651,
+          -0.01125,
+          0.03226,
+          -0.003,
+          -0.018,
+          -0.04576,
+          0.00375
+        ],
+        "per_unit_effects": {
+          "S006": 0.03833,
+          "S008": 0.0574,
+          "S009": -0.20552,
+          "S010": -0.06868,
+          "S012": 0.01474,
+          "S013": -0.00139,
+          "S014": 0.01768
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 690158,
+        "cost_adjusted_effect_per_100k_parameters": -0.00221,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "pooled|large|linear|none|h1": "unconverged",
+            "pooled|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_micro_vs_small": {
+        "mean": 0.0257,
+        "lower_95_cb": -0.00488,
+        "upper_95_cb": 0.05627,
+        "group_mean": 0.02092,
+        "group_lower_95_cb": -0.03192,
+        "group_upper_95_cb": 0.07377,
+        "group_heterogeneity": 0.07196,
+        "per_seed_effects": [
+          0.00975,
+          -0.0285,
+          0.03376,
+          -0.02176,
+          0.03226,
+          0.0,
+          0.08327,
+          0.09678
+        ],
+        "per_unit_effects": {
+          "S006": 0.09316,
+          "S008": 0.01531,
+          "S009": -0.11503,
+          "S010": 0.03228,
+          "S012": 0.00321,
+          "S013": 0.01389,
+          "S014": 0.10366
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "null",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 54513,
+        "cost_adjusted_effect_per_100k_parameters": 0.04714,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|micro|linear|none|h1": "converged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_medium_vs_small": {
+        "mean": -0.00056,
+        "lower_95_cb": -0.03258,
+        "upper_95_cb": 0.03145,
+        "group_mean": -0.00334,
+        "group_lower_95_cb": -0.037,
+        "group_upper_95_cb": 0.03032,
+        "group_heterogeneity": 0.04583,
+        "per_seed_effects": [
+          0.02851,
+          -0.05326,
+          0.02326,
+          -0.04351,
+          0.03976,
+          -0.06002,
+          -0.00751,
+          0.06827
+        ],
+        "per_unit_effects": {
+          "S006": 0.02535,
+          "S008": 0.01467,
+          "S009": -0.10199,
+          "S010": 0.00893,
+          "S012": -0.01218,
+          "S013": 0.00833,
+          "S014": 0.03354
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 198217,
+        "cost_adjusted_effect_per_100k_parameters": -0.00028,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|medium|linear|none|h1": "unconverged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "histmlp_large_vs_small": {
+        "mean": -0.00563,
+        "lower_95_cb": -0.0368,
+        "upper_95_cb": 0.02554,
+        "group_mean": -0.00765,
+        "group_lower_95_cb": -0.03739,
+        "group_upper_95_cb": 0.02209,
+        "group_heterogeneity": 0.04049,
+        "per_seed_effects": [
+          0.009,
+          -0.05476,
+          0.02851,
+          -0.04577,
+          -0.003,
+          -0.04501,
+          -0.01801,
+          0.08402
+        ],
+        "per_unit_effects": {
+          "S006": 0.02005,
+          "S008": -0.0102,
+          "S009": -0.09126,
+          "S010": 0.03365,
+          "S012": -0.01346,
+          "S013": -0.00208,
+          "S014": 0.00976
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 644452,
+        "cost_adjusted_effect_per_100k_parameters": -0.00087,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "histmlp|large|linear|none|h1": "unconverged",
+            "histmlp|small|linear|none|h1": "unconverged"
+          },
+          "all_converged": false,
+          "classification": "provisional_unconverged_or_unmeasured"
+        }
+      },
+      "tcn_micro_vs_small": {
+        "mean": -0.0166,
+        "lower_95_cb": -0.03974,
+        "upper_95_cb": 0.00655,
+        "group_mean": -0.01739,
+        "group_lower_95_cb": -0.04139,
+        "group_upper_95_cb": 0.00661,
+        "group_heterogeneity": 0.03268,
+        "per_seed_effects": [
+          -0.01726,
+          -0.05101,
+          0.0105,
+          -0.01725,
+          -0.05026,
+          -0.03901,
+          0.05252,
+          -0.021
+        ],
+        "per_unit_effects": {
+          "S006": -0.05307,
+          "S008": 0.00383,
+          "S009": -0.07515,
+          "S010": 0.0,
+          "S012": -0.00064,
+          "S013": -0.00278,
+          "S014": 0.0061
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 55203,
+        "cost_adjusted_effect_per_100k_parameters": -0.03007,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|micro|linear|none|h1": "converged",
+            "tcn|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "tcn_medium_vs_small": {
+        "mean": -0.00197,
+        "lower_95_cb": -0.03913,
+        "upper_95_cb": 0.03519,
+        "group_mean": 0.00112,
+        "group_lower_95_cb": -0.0346,
+        "group_upper_95_cb": 0.03685,
+        "group_heterogeneity": 0.04865,
+        "per_seed_effects": [
+          0.021,
+          -0.02026,
+          0.09077,
+          0.02626,
+          -0.09152,
+          -0.02026,
+          -0.04801,
+          0.02626
+        ],
+        "per_unit_effects": {
+          "S006": -0.06427,
+          "S008": -0.0051,
+          "S009": 0.09893,
+          "S010": 0.0,
+          "S012": -0.01474,
+          "S013": -0.00694,
+          "S014": 0.0
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 200606,
+        "cost_adjusted_effect_per_100k_parameters": -0.00098,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|medium|linear|none|h1": "converged",
+            "tcn|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      },
+      "tcn_large_vs_small": {
+        "mean": -0.01688,
+        "lower_95_cb": -0.04975,
+        "upper_95_cb": 0.01599,
+        "group_mean": -0.01646,
+        "group_lower_95_cb": -0.02793,
+        "group_upper_95_cb": -0.00499,
+        "group_heterogeneity": 0.01562,
+        "per_seed_effects": [
+          -0.02701,
+          0.03901,
+          -0.01651,
+          -0.006,
+          -0.08402,
+          -0.07502,
+          0.05777,
+          -0.02325
+        ],
+        "per_unit_effects": {
+          "S006": -0.04599,
+          "S008": -0.01467,
+          "S009": -0.01764,
+          "S010": 0.00275,
+          "S012": -0.00449,
+          "S013": -0.02361,
+          "S014": -0.01159
+        },
+        "components": null,
+        "formula_signs": null,
+        "estimand": null,
+        "verdict": "wrong_direction_failure",
+        "estimator_sufficient": true,
+        "component_parameter_sum": 651678,
+        "cost_adjusted_effect_per_100k_parameters": -0.00259,
+        "component_floor_status": "provisional_or_below_floor",
+        "convergence": {
+          "cells": {
+            "tcn|large|linear|none|h1": "converged",
+            "tcn|small|linear|none|h1": "converged"
+          },
+          "all_converged": true,
+          "classification": "converged"
+        }
+      }
+    }
+  },
+  "measured_parameters": {
+    "har_stream": {
+      "pooled|small|linear|none|h1": {
+        "core": 41974,
+        "readout": 390,
+        "total": 42364
+      },
+      "histmlp|small|linear|none|h1": {
+        "core": 41578,
+        "readout": 390,
+        "total": 41968
+      },
+      "tcn|small|linear|none|h1": {
+        "core": 44264,
+        "readout": 390,
+        "total": 44654
+      },
+      "gru|small|linear|none|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "lstm|small|linear|none|h1": {
+        "core": 45004,
+        "readout": 390,
+        "total": 45394
+      },
+      "mgu|small|linear|none|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "ff_gru|small|linear|none|h1": {
+        "core": 44524,
+        "readout": 390,
+        "total": 44914
+      },
+      "gru|micro|linear|none|h1": {
+        "core": 10720,
+        "readout": 390,
+        "total": 11110
+      },
+      "gru|medium|linear|none|h1": {
+        "core": 166464,
+        "readout": 390,
+        "total": 166854
+      },
+      "gru|large|linear|none|h1": {
+        "core": 651878,
+        "readout": 390,
+        "total": 652268
+      },
+      "lstm|micro|linear|none|h1": {
+        "core": 10880,
+        "readout": 390,
+        "total": 11270
+      },
+      "lstm|medium|linear|none|h1": {
+        "core": 161450,
+        "readout": 390,
+        "total": 161840
+      },
+      "lstm|large|linear|none|h1": {
+        "core": 632104,
+        "readout": 390,
+        "total": 632494
+      },
+      "mgu|micro|linear|none|h1": {
+        "core": 10312,
+        "readout": 390,
+        "total": 10702
+      },
+      "mgu|medium|linear|none|h1": {
+        "core": 154152,
+        "readout": 390,
+        "total": 154542
+      },
+      "mgu|large|linear|none|h1": {
+        "core": 600328,
+        "readout": 390,
+        "total": 600718
+      },
+      "pooled|micro|linear|none|h1": {
+        "core": 10354,
+        "readout": 390,
+        "total": 10744
+      },
+      "pooled|medium|linear|none|h1": {
+        "core": 150162,
+        "readout": 390,
+        "total": 150552
+      },
+      "pooled|large|linear|none|h1": {
+        "core": 649918,
+        "readout": 390,
+        "total": 650308
+      },
+      "histmlp|micro|linear|none|h1": {
+        "core": 10202,
+        "readout": 390,
+        "total": 10592
+      },
+      "histmlp|medium|linear|none|h1": {
+        "core": 160792,
+        "readout": 390,
+        "total": 161182
+      },
+      "histmlp|large|linear|none|h1": {
+        "core": 625882,
+        "readout": 390,
+        "total": 626272
+      },
+      "tcn|micro|linear|none|h1": {
+        "core": 11014,
+        "readout": 390,
+        "total": 11404
+      },
+      "tcn|medium|linear|none|h1": {
+        "core": 157290,
+        "readout": 390,
+        "total": 157680
+      },
+      "tcn|large|linear|none|h1": {
+        "core": 609514,
+        "readout": 390,
+        "total": 609904
+      },
+      "gru|small|mlp1|none|h1": {
+        "core": 45910,
+        "readout": 4550,
+        "total": 50460
+      },
+      "gru|small|mlp_strong|none|h1": {
+        "core": 45910,
+        "readout": 83974,
+        "total": 129884
+      },
+      "pooled|small|mlp1|none|h1": {
+        "core": 41974,
+        "readout": 4550,
+        "total": 46524
+      },
+      "pooled|small|mlp_strong|none|h1": {
+        "core": 41974,
+        "readout": 83974,
+        "total": 125948
+      },
+      "histmlp|small|mlp1|none|h1": {
+        "core": 41578,
+        "readout": 4550,
+        "total": 46128
+      },
+      "histmlp|small|mlp_strong|none|h1": {
+        "core": 41578,
+        "readout": 83974,
+        "total": 125552
+      },
+      "gru|small|linear|horizon_1|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|horizon_2|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|horizon_5|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|horizon_10|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|horizon_20|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|horizon_45|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|horizon_90|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|horizon_full|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "mgu|small|linear|horizon_1|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "mgu|small|linear|horizon_2|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "mgu|small|linear|horizon_5|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "mgu|small|linear|horizon_10|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "mgu|small|linear|horizon_20|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "mgu|small|linear|horizon_45|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "mgu|small|linear|horizon_90|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "mgu|small|linear|horizon_full|h1": {
+        "core": 42552,
+        "readout": 390,
+        "total": 42942
+      },
+      "gru|small|linear|every_observation|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|misaligned_a|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|misaligned_b|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|random_rate_matched|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|block_shuffled|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|true_boundary|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "gru|small|linear|wrong_boundary|h1": {
+        "core": 45910,
+        "readout": 390,
+        "total": 46300
+      },
+      "histmlp|small|linear|none|h2": {
+        "core": 43058,
+        "readout": 390,
+        "total": 43448
+      },
+      "histmlp|small|linear|none|h5": {
+        "core": 41644,
+        "readout": 390,
+        "total": 42034
+      },
+      "histmlp|small|linear|none|h10": {
+        "core": 42844,
+        "readout": 390,
+        "total": 43234
+      },
+      "histmlp|small|linear|none|h20": {
+        "core": 42449,
+        "readout": 390,
+        "total": 42839
+      },
+      "histmlp|small|linear|none|hfull_window": {
+        "core": 41303,
+        "readout": 390,
+        "total": 41693
+      },
+      "histmlp|small|linear|none|hpooled_summary": {
+        "core": 41974,
+        "readout": 390,
+        "total": 42364
+      },
+      "tcn|small|linear|none|h5": {
+        "core": 44264,
+        "readout": 390,
+        "total": 44654
+      },
+      "tcn|small|linear|none|h20": {
+        "core": 44264,
+        "readout": 390,
+        "total": 44654
+      },
+      "tcn|small|linear|none|hfull_window": {
+        "core": 44264,
+        "readout": 390,
+        "total": 44654
+      },
+      "gru|micro|linear|horizon_5|h1": {
+        "core": 10720,
+        "readout": 390,
+        "total": 11110
+      },
+      "gru|micro|linear|horizon_45|h1": {
+        "core": 10720,
+        "readout": 390,
+        "total": 11110
+      },
+      "gru|micro|linear|horizon_full|h1": {
+        "core": 10720,
+        "readout": 390,
+        "total": 11110
+      },
+      "gru|medium|linear|horizon_5|h1": {
+        "core": 166464,
+        "readout": 390,
+        "total": 166854
+      },
+      "gru|medium|linear|horizon_45|h1": {
+        "core": 166464,
+        "readout": 390,
+        "total": 166854
+      },
+      "gru|medium|linear|horizon_full|h1": {
+        "core": 166464,
+        "readout": 390,
+        "total": 166854
+      },
+      "gru|large|linear|horizon_5|h1": {
+        "core": 651878,
+        "readout": 390,
+        "total": 652268
+      },
+      "gru|large|linear|horizon_45|h1": {
+        "core": 651878,
+        "readout": 390,
+        "total": 652268
+      },
+      "gru|large|linear|horizon_full|h1": {
+        "core": 651878,
+        "readout": 390,
+        "total": 652268
+      },
+      "pooled|large|mlp_strong|none|h1": {
+        "core": 649918,
+        "readout": 83974,
+        "total": 733892
+      },
+      "histmlp|large|mlp_strong|none|h1": {
+        "core": 625882,
+        "readout": 83974,
+        "total": 709856
+      },
+      "tcn|large|mlp_strong|none|h1": {
+        "core": 609514,
+        "readout": 83974,
+        "total": 693488
+      },
+      "gru|large|mlp_strong|none|h1": {
+        "core": 651878,
+        "readout": 83974,
+        "total": 735852
+      }
+    },
+    "speech_stream": {
+      "pooled|small|linear|none|h1": {
+        "core": 41600,
+        "readout": 650,
+        "total": 42250
+      },
+      "histmlp|small|linear|none|h1": {
+        "core": 43009,
+        "readout": 650,
+        "total": 43659
+      },
+      "tcn|small|linear|none|h1": {
+        "core": 43744,
+        "readout": 650,
+        "total": 44394
+      },
+      "gru|small|linear|none|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "lstm|small|linear|none|h1": {
+        "core": 41209,
+        "readout": 650,
+        "total": 41859
+      },
+      "mgu|small|linear|none|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "ff_gru|small|linear|none|h1": {
+        "core": 40832,
+        "readout": 650,
+        "total": 41482
+      },
+      "gru|micro|linear|none|h1": {
+        "core": 10774,
+        "readout": 650,
+        "total": 11424
+      },
+      "gru|medium|linear|none|h1": {
+        "core": 171424,
+        "readout": 650,
+        "total": 172074
+      },
+      "gru|large|linear|none|h1": {
+        "core": 661891,
+        "readout": 650,
+        "total": 662541
+      },
+      "lstm|micro|linear|none|h1": {
+        "core": 10654,
+        "readout": 650,
+        "total": 11304
+      },
+      "lstm|medium|linear|none|h1": {
+        "core": 165697,
+        "readout": 650,
+        "total": 166347
+      },
+      "lstm|large|linear|none|h1": {
+        "core": 640660,
+        "readout": 650,
+        "total": 641310
+      },
+      "mgu|micro|linear|none|h1": {
+        "core": 10321,
+        "readout": 650,
+        "total": 10971
+      },
+      "mgu|medium|linear|none|h1": {
+        "core": 159949,
+        "readout": 650,
+        "total": 160599
+      },
+      "mgu|large|linear|none|h1": {
+        "core": 612046,
+        "readout": 650,
+        "total": 612696
+      },
+      "pooled|micro|linear|none|h1": {
+        "core": 10711,
+        "readout": 650,
+        "total": 11361
+      },
+      "pooled|medium|linear|none|h1": {
+        "core": 159431,
+        "readout": 650,
+        "total": 160081
+      },
+      "pooled|large|linear|none|h1": {
+        "core": 671959,
+        "readout": 650,
+        "total": 672609
+      },
+      "histmlp|micro|linear|none|h1": {
+        "core": 10669,
+        "readout": 650,
+        "total": 11319
+      },
+      "histmlp|medium|linear|none|h1": {
+        "core": 153049,
+        "readout": 650,
+        "total": 153699
+      },
+      "histmlp|large|linear|none|h1": {
+        "core": 644974,
+        "readout": 650,
+        "total": 645624
+      },
+      "tcn|micro|linear|none|h1": {
+        "core": 11036,
+        "readout": 650,
+        "total": 11686
+      },
+      "tcn|medium|linear|none|h1": {
+        "core": 169101,
+        "readout": 650,
+        "total": 169751
+      },
+      "tcn|large|linear|none|h1": {
+        "core": 633229,
+        "readout": 650,
+        "total": 633879
+      },
+      "gru|small|mlp1|none|h1": {
+        "core": 42139,
+        "readout": 4810,
+        "total": 46949
+      },
+      "gru|small|mlp_strong|none|h1": {
+        "core": 42139,
+        "readout": 85002,
+        "total": 127141
+      },
+      "pooled|small|mlp1|none|h1": {
+        "core": 41600,
+        "readout": 4810,
+        "total": 46410
+      },
+      "pooled|small|mlp_strong|none|h1": {
+        "core": 41600,
+        "readout": 85002,
+        "total": 126602
+      },
+      "histmlp|small|mlp1|none|h1": {
+        "core": 43009,
+        "readout": 4810,
+        "total": 47819
+      },
+      "histmlp|small|mlp_strong|none|h1": {
+        "core": 43009,
+        "readout": 85002,
+        "total": 128011
+      },
+      "gru|small|linear|horizon_1|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|horizon_2|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|horizon_5|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|horizon_10|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|horizon_20|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|horizon_45|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|horizon_90|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|horizon_full|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "mgu|small|linear|horizon_1|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "mgu|small|linear|horizon_2|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "mgu|small|linear|horizon_5|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "mgu|small|linear|horizon_10|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "mgu|small|linear|horizon_20|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "mgu|small|linear|horizon_45|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "mgu|small|linear|horizon_90|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "mgu|small|linear|horizon_full|h1": {
+        "core": 45466,
+        "readout": 650,
+        "total": 46116
+      },
+      "gru|small|linear|every_observation|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|misaligned_a|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|misaligned_b|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|random_rate_matched|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|block_shuffled|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|true_boundary|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "gru|small|linear|wrong_boundary|h1": {
+        "core": 42139,
+        "readout": 650,
+        "total": 42789
+      },
+      "histmlp|small|linear|none|h2": {
+        "core": 40084,
+        "readout": 650,
+        "total": 40734
+      },
+      "histmlp|small|linear|none|h5": {
+        "core": 42464,
+        "readout": 650,
+        "total": 43114
+      },
+      "histmlp|small|linear|none|h10": {
+        "core": 40519,
+        "readout": 650,
+        "total": 41169
+      },
+      "histmlp|small|linear|none|h20": {
+        "core": 41584,
+        "readout": 650,
+        "total": 42234
+      },
+      "histmlp|small|linear|none|hfull_window": {
+        "core": 41679,
+        "readout": 650,
+        "total": 42329
+      },
+      "histmlp|small|linear|none|hpooled_summary": {
+        "core": 41600,
+        "readout": 650,
+        "total": 42250
+      },
+      "tcn|small|linear|none|h5": {
+        "core": 43744,
+        "readout": 650,
+        "total": 44394
+      },
+      "tcn|small|linear|none|h20": {
+        "core": 43744,
+        "readout": 650,
+        "total": 44394
+      },
+      "tcn|small|linear|none|hfull_window": {
+        "core": 43744,
+        "readout": 650,
+        "total": 44394
+      },
+      "gru|micro|linear|horizon_5|h1": {
+        "core": 10774,
+        "readout": 650,
+        "total": 11424
+      },
+      "gru|micro|linear|horizon_45|h1": {
+        "core": 10774,
+        "readout": 650,
+        "total": 11424
+      },
+      "gru|micro|linear|horizon_full|h1": {
+        "core": 10774,
+        "readout": 650,
+        "total": 11424
+      },
+      "gru|medium|linear|horizon_5|h1": {
+        "core": 171424,
+        "readout": 650,
+        "total": 172074
+      },
+      "gru|medium|linear|horizon_45|h1": {
+        "core": 171424,
+        "readout": 650,
+        "total": 172074
+      },
+      "gru|medium|linear|horizon_full|h1": {
+        "core": 171424,
+        "readout": 650,
+        "total": 172074
+      },
+      "gru|large|linear|horizon_5|h1": {
+        "core": 661891,
+        "readout": 650,
+        "total": 662541
+      },
+      "gru|large|linear|horizon_45|h1": {
+        "core": 661891,
+        "readout": 650,
+        "total": 662541
+      },
+      "gru|large|linear|horizon_full|h1": {
+        "core": 661891,
+        "readout": 650,
+        "total": 662541
+      },
+      "pooled|large|mlp_strong|none|h1": {
+        "core": 671959,
+        "readout": 85002,
+        "total": 756961
+      },
+      "histmlp|large|mlp_strong|none|h1": {
+        "core": 644974,
+        "readout": 85002,
+        "total": 729976
+      },
+      "tcn|large|mlp_strong|none|h1": {
+        "core": 633229,
+        "readout": 85002,
+        "total": 718231
+      },
+      "gru|large|mlp_strong|none|h1": {
+        "core": 661891,
+        "readout": 85002,
+        "total": 746893
+      }
+    },
+    "harth_stream": {
+      "pooled|small|linear|none|h1": {
+        "core": 41593,
+        "readout": 390,
+        "total": 41983
+      },
+      "histmlp|small|linear|none|h1": {
+        "core": 43161,
+        "readout": 390,
+        "total": 43551
+      },
+      "tcn|small|linear|none|h1": {
+        "core": 43679,
+        "readout": 390,
+        "total": 44069
+      },
+      "gru|small|linear|none|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "lstm|small|linear|none|h1": {
+        "core": 44794,
+        "readout": 390,
+        "total": 45184
+      },
+      "mgu|small|linear|none|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "ff_gru|small|linear|none|h1": {
+        "core": 44344,
+        "readout": 390,
+        "total": 44734
+      },
+      "gru|micro|linear|none|h1": {
+        "core": 10612,
+        "readout": 390,
+        "total": 11002
+      },
+      "gru|medium|linear|none|h1": {
+        "core": 165984,
+        "readout": 390,
+        "total": 166374
+      },
+      "gru|large|linear|none|h1": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      },
+      "lstm|micro|linear|none|h1": {
+        "core": 10784,
+        "readout": 390,
+        "total": 11174
+      },
+      "lstm|medium|linear|none|h1": {
+        "core": 161039,
+        "readout": 390,
+        "total": 161429
+      },
+      "lstm|large|linear|none|h1": {
+        "core": 631276,
+        "readout": 390,
+        "total": 631666
+      },
+      "mgu|micro|linear|none|h1": {
+        "core": 10186,
+        "readout": 390,
+        "total": 10576
+      },
+      "mgu|medium|linear|none|h1": {
+        "core": 153591,
+        "readout": 390,
+        "total": 153981
+      },
+      "mgu|large|linear|none|h1": {
+        "core": 699045,
+        "readout": 390,
+        "total": 699435
+      },
+      "pooled|micro|linear|none|h1": {
+        "core": 10228,
+        "readout": 390,
+        "total": 10618
+      },
+      "pooled|medium|linear|none|h1": {
+        "core": 168993,
+        "readout": 390,
+        "total": 169383
+      },
+      "pooled|large|linear|none|h1": {
+        "core": 647785,
+        "readout": 390,
+        "total": 648175
+      },
+      "histmlp|micro|linear|none|h1": {
+        "core": 10572,
+        "readout": 390,
+        "total": 10962
+      },
+      "histmlp|medium|linear|none|h1": {
+        "core": 154276,
+        "readout": 390,
+        "total": 154666
+      },
+      "histmlp|large|linear|none|h1": {
+        "core": 600511,
+        "readout": 390,
+        "total": 600901
+      },
+      "tcn|micro|linear|none|h1": {
+        "core": 10744,
+        "readout": 390,
+        "total": 11134
+      },
+      "tcn|medium|linear|none|h1": {
+        "core": 156147,
+        "readout": 390,
+        "total": 156537
+      },
+      "tcn|large|linear|none|h1": {
+        "core": 607219,
+        "readout": 390,
+        "total": 607609
+      },
+      "gru|small|mlp1|none|h1": {
+        "core": 45667,
+        "readout": 4550,
+        "total": 50217
+      },
+      "gru|small|mlp_strong|none|h1": {
+        "core": 45667,
+        "readout": 83974,
+        "total": 129641
+      },
+      "pooled|small|mlp1|none|h1": {
+        "core": 41593,
+        "readout": 4550,
+        "total": 46143
+      },
+      "pooled|small|mlp_strong|none|h1": {
+        "core": 41593,
+        "readout": 83974,
+        "total": 125567
+      },
+      "histmlp|small|mlp1|none|h1": {
+        "core": 43161,
+        "readout": 4550,
+        "total": 47711
+      },
+      "histmlp|small|mlp_strong|none|h1": {
+        "core": 43161,
+        "readout": 83974,
+        "total": 127135
+      },
+      "gru|small|linear|horizon_1|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|horizon_2|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|horizon_5|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|horizon_10|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|horizon_20|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|horizon_45|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|horizon_90|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|horizon_full|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "mgu|small|linear|horizon_1|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "mgu|small|linear|horizon_2|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "mgu|small|linear|horizon_5|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "mgu|small|linear|horizon_10|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "mgu|small|linear|horizon_20|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "mgu|small|linear|horizon_45|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "mgu|small|linear|horizon_90|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "mgu|small|linear|horizon_full|h1": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "gru|small|linear|every_observation|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|misaligned_a|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|misaligned_b|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|random_rate_matched|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|block_shuffled|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|true_boundary|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "gru|small|linear|wrong_boundary|h1": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "histmlp|small|linear|none|h2": {
+        "core": 43261,
+        "readout": 390,
+        "total": 43651
+      },
+      "histmlp|small|linear|none|h5": {
+        "core": 42149,
+        "readout": 390,
+        "total": 42539
+      },
+      "histmlp|small|linear|none|h10": {
+        "core": 40439,
+        "readout": 390,
+        "total": 40829
+      },
+      "histmlp|small|linear|none|h20": {
+        "core": 40394,
+        "readout": 390,
+        "total": 40784
+      },
+      "histmlp|small|linear|none|hfull_window": {
+        "core": 41779,
+        "readout": 390,
+        "total": 42169
+      },
+      "histmlp|small|linear|none|hpooled_summary": {
+        "core": 41593,
+        "readout": 390,
+        "total": 41983
+      },
+      "tcn|small|linear|none|h5": {
+        "core": 43679,
+        "readout": 390,
+        "total": 44069
+      },
+      "tcn|small|linear|none|h20": {
+        "core": 43679,
+        "readout": 390,
+        "total": 44069
+      },
+      "tcn|small|linear|none|hfull_window": {
+        "core": 43679,
+        "readout": 390,
+        "total": 44069
+      },
+      "gru|micro|linear|horizon_5|h1": {
+        "core": 10612,
+        "readout": 390,
+        "total": 11002
+      },
+      "gru|micro|linear|horizon_45|h1": {
+        "core": 10612,
+        "readout": 390,
+        "total": 11002
+      },
+      "gru|micro|linear|horizon_full|h1": {
+        "core": 10612,
+        "readout": 390,
+        "total": 11002
+      },
+      "gru|medium|linear|horizon_5|h1": {
+        "core": 165984,
+        "readout": 390,
+        "total": 166374
+      },
+      "gru|medium|linear|horizon_45|h1": {
+        "core": 165984,
+        "readout": 390,
+        "total": 166374
+      },
+      "gru|medium|linear|horizon_full|h1": {
+        "core": 165984,
+        "readout": 390,
+        "total": 166374
+      },
+      "gru|large|linear|horizon_5|h1": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      },
+      "gru|large|linear|horizon_45|h1": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      },
+      "gru|large|linear|horizon_full|h1": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      },
+      "pooled|large|mlp_strong|none|h1": {
+        "core": 647785,
+        "readout": 83974,
+        "total": 731759
+      },
+      "histmlp|large|mlp_strong|none|h1": {
+        "core": 600511,
+        "readout": 83974,
+        "total": 684485
+      },
+      "tcn|large|mlp_strong|none|h1": {
+        "core": 607219,
+        "readout": 83974,
+        "total": 691193
+      },
+      "gru|large|mlp_strong|none|h1": {
+        "core": 650909,
+        "readout": 83974,
+        "total": 734883
+      }
+    }
+  },
+  "monotonic": {
+    "har_stream": false,
+    "speech_stream": false,
+    "harth_stream": false
+  },
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "444a03590a659bff43e5e6cd9c375b587fe450ed3179c169cb37c22f79f5c66e"
+}

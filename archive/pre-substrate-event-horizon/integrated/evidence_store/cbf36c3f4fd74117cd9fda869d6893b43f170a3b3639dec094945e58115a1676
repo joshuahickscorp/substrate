@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "har_stream",
+  "spec": {
+    "family": "pooled",
+    "tier": "large",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "pooled|large|linear|none|h1",
+  "curve": {
+    "400": 0.44855,
+    "800": 0.44438,
+    "1600": 0.43130666666666667,
+    "3200": 0.40958333333333335,
+    "6400": 0.39631333333333335,
+    "12800": 0.3942433333333333
+  },
+  "seed_spread": {
+    "400": 0.03233,
+    "800": 0.00386,
+    "1600": 0.01782,
+    "3200": 0.00927,
+    "6400": 0.00073,
+    "12800": 0.0032
+  },
+  "seed_scores": {
+    "400": [
+      0.41171,
+      0.4722,
+      0.46174
+    ],
+    "800": [
+      0.44054,
+      0.44825,
+      0.44435
+    ],
+    "1600": [
+      0.41081,
+      0.44311,
+      0.44
+    ],
+    "3200": [
+      0.41982,
+      0.40719,
+      0.40174
+    ],
+    "6400": [
+      0.3955,
+      0.39692,
+      0.39652
+    ],
+    "12800": [
+      0.39099,
+      0.39435,
+      0.39739
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.41171,
+        "checkpoint_sha": "0ec75dc44eea943a697966f7f10ebc8e85498935d3c55fa50463dc97242fba6d"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.4722,
+        "checkpoint_sha": "69e05bdfd939e05a40a29ba4a7b08b30193f27c2980a40332cb731eea3b88c45"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.46174,
+        "checkpoint_sha": "774094671abf88598cbd2c4a909b09003b593bee8b155c85d5fa8d9996a285b6"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.44054,
+        "checkpoint_sha": "e58cac76b1c2862e7e0a4d35b52a2347c4b1693c35032235e7fb123479d45f2c"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.44825,
+        "checkpoint_sha": "9ec53f0a13611a1453488e8a98f553b4d71d6e69f84eb15e795c3b71bfbe4a7c"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.44435,
+        "checkpoint_sha": "baec6bfc6abfb6746bde48bfd051d17dde2ad85a9b73d157e7acb09e295a600a"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.41081,
+        "checkpoint_sha": "2997a6b41a424de5cd629b5de760b90674eb6fe417998458664f3d8968e9456e"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.44311,
+        "checkpoint_sha": "b903af68856a231a940f5b75597ac0cd308ccfb70861b14315c48219e30deb9c"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.44,
+        "checkpoint_sha": "f989719499c1f275827e2c5160a37b7e73ecca46d148a4e82f47c87e0e0d891f"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.41982,
+        "checkpoint_sha": "2b56bf4b957a3f802d5f4db23c6f866f5465bda0998b15cf10c849edd052b429"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.40719,
+        "checkpoint_sha": "aa978e3cbdd46d27a8d5367b95878848416a8ded012f79859928056fcc15a652"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.40174,
+        "checkpoint_sha": "146954093ca4b8a6752791790cf177288d217b73e0dd62e29afa956416a17999"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.3955,
+        "checkpoint_sha": "4d011560328463a7dd6f577ebe22fe27846f6fd73be76f29f4be7dd0ffa0be44"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.39692,
+        "checkpoint_sha": "dbc52b74be1f827e0d7ec98ed1611ac360c5d5a954443cf4e317d7e98eaf9423"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.39652,
+        "checkpoint_sha": "45e3c3119b3829cdb41bfb3bf97dd1e47953f1c5cb63fee1bc56e6afb64b299b"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.39099,
+        "checkpoint_sha": "b48f5626a145f009326e0b37a1f48a64bc7256714ce937cc8cda46366ba935b2"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.39435,
+        "checkpoint_sha": "073ec60f2ab820640f72c4d76573cc67dfdf971c1755c6e4c25e7f9e38ca6cce"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.39739,
+        "checkpoint_sha": "0650a68399c6de926bf7d6597c3b32fb64c40a07dba45ae14627199a197bb5f8"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 649918,
+    "readout": 390,
+    "total": 650308
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_har_stream_21.json",
+    "sha256": "b16dad11b34dd97b5c356f74214fec68e9abf68466407cbcd75f0dc10c184ce5",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "d92c9c1a90a51bc52950791530656f3540c0e763",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.44855,
+    0.44438,
+    0.43131,
+    0.40958,
+    0.39631,
+    0.39424
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.01534,
+  "residual_slope": -0.00767,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": false,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0153 with slope -0.00767; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 4207.1,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "d92c9c1a90a51bc52950791530656f3540c0e763",
+  "source_tree_oid": "81861eb79b64de25bd51f323de77e9517b04da34",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "d05285ff44bfcd842edc13a9a6c7a46abbf0e1913f08beb6a8e0f23d8247b075"
+}

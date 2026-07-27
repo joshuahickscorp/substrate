@@ -1,0 +1,7 @@
+{
+  "schema": "mop-substrate-cross-domain-report/v1",
+  "class": "cross_domain_moldability_null",
+  "reason": "cross-domain moldability requires a substrate-candidate positive first (requirement 36); both architectures are substrate_candidate_null on both domains, so no positive transfer evidence is licensed",
+  "note": "owned projection is domain-specific (784 vs 561 dims); only the slow workspace could transfer, but there is no substrate positive to package",
+  "sha256": "3d8e20deb4dcd047168d2003442776e91cef34a9124b19729b4333c08c832ab6"
+}

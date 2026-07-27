@@ -1,0 +1,140 @@
+{
+  "schema": "mop-substrate-memory-frontier/v1",
+  "domain": "HAR_raw",
+  "source_commit": "4b8799afdf946e479cc391fe803cfdcd5eba0558",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "no_memory": 0.3695,
+  "full_memory": 0.7336,
+  "full_gap": 0.3642,
+  "budgets_windows": [
+    40,
+    150,
+    375,
+    750
+  ],
+  "frontier": {
+    "40": {
+      "reservoir": {
+        "avg_final": 0.724,
+        "frac_of_full_gap": 0.9735
+      },
+      "gdumb": {
+        "avg_final": 0.7412,
+        "frac_of_full_gap": 1.0208
+      },
+      "coreset": {
+        "avg_final": 0.6556,
+        "frac_of_full_gap": 0.7856
+      },
+      "prototype": {
+        "avg_final": 0.6693,
+        "frac_of_full_gap": 0.8233
+      },
+      "dual": {
+        "avg_final": 0.5739,
+        "frac_of_full_gap": 0.5615
+      }
+    },
+    "150": {
+      "reservoir": {
+        "avg_final": 0.7469,
+        "frac_of_full_gap": 1.0364
+      },
+      "gdumb": {
+        "avg_final": 0.7695,
+        "frac_of_full_gap": 1.0985
+      },
+      "coreset": {
+        "avg_final": 0.6947,
+        "frac_of_full_gap": 0.8932
+      },
+      "prototype": {
+        "avg_final": 0.7771,
+        "frac_of_full_gap": 1.1192
+      },
+      "dual": {
+        "avg_final": 0.697,
+        "frac_of_full_gap": 0.8995
+      }
+    },
+    "375": {
+      "reservoir": {
+        "avg_final": 0.7376,
+        "frac_of_full_gap": 1.0109
+      },
+      "gdumb": {
+        "avg_final": 0.7772,
+        "frac_of_full_gap": 1.1196
+      },
+      "coreset": {
+        "avg_final": 0.7629,
+        "frac_of_full_gap": 1.0804
+      },
+      "prototype": {
+        "avg_final": 0.8045,
+        "frac_of_full_gap": 1.1946
+      },
+      "dual": {
+        "avg_final": 0.6783,
+        "frac_of_full_gap": 0.8482
+      }
+    },
+    "750": {
+      "reservoir": {
+        "avg_final": 0.7747,
+        "frac_of_full_gap": 1.1128
+      },
+      "gdumb": {
+        "avg_final": 0.7325,
+        "frac_of_full_gap": 0.9968
+      },
+      "coreset": {
+        "avg_final": 0.7909,
+        "frac_of_full_gap": 1.1573
+      },
+      "prototype": {
+        "avg_final": 0.756,
+        "frac_of_full_gap": 1.0614
+      },
+      "dual": {
+        "avg_final": 0.696,
+        "frac_of_full_gap": 0.8966
+      }
+    }
+  },
+  "best_over_gdumb_per_budget": {
+    "40": {
+      "best_policy": "gdumb",
+      "best_avg_final": 0.7412,
+      "gdumb_avg_final": 0.7412,
+      "compression_beats_gdumb": 0.0
+    },
+    "150": {
+      "best_policy": "prototype",
+      "best_avg_final": 0.7771,
+      "gdumb_avg_final": 0.7695,
+      "compression_beats_gdumb": 0.0076
+    },
+    "375": {
+      "best_policy": "prototype",
+      "best_avg_final": 0.8045,
+      "gdumb_avg_final": 0.7772,
+      "compression_beats_gdumb": 0.0273
+    },
+    "750": {
+      "best_policy": "coreset",
+      "best_avg_final": 0.7909,
+      "gdumb_avg_final": 0.7325,
+      "compression_beats_gdumb": 0.0584
+    }
+  },
+  "primary_question": "can bounded compression recover a material fraction of the full-memory gap and beat GDumb at matched budget",
+  "wall_seconds": 5529.6,
+  "sha256": "abdc340fd10508c803b2c1d077544a8da233f72bbfd6b01b42a3374d2f65cb2e"
+}

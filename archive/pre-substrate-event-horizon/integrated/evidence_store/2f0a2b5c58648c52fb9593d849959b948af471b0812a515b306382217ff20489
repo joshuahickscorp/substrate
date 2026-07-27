@@ -1,0 +1,55 @@
+{
+  "schema": "mop-ledger-wording-check/v1",
+  "checks": {
+    "cross_domain_transfer": true,
+    "within_domain_on_invalid_beds": true,
+    "e1_core_effect": true,
+    "e1_readout_effect": true,
+    "e4_state_only": true,
+    "e4_state_only_retention": true,
+    "activation": true
+  },
+  "offenders": {},
+  "claims": {
+    "cross_domain_transfer": {
+      "claim": "cross domain transfer of the shared fast core is null in both directions and this program did not reopen it",
+      "sealed_verdict": "cross_domain_null",
+      "passes": true
+    },
+    "within_domain_on_invalid_beds": {
+      "claim": "the inherited within domain battery ran on beds sealed invalid, so it bounds nothing about temporal dynamics",
+      "sealed_verdict": "invalid_no_temporal_headroom",
+      "passes": true
+    },
+    "e1_core_effect": {
+      "claim": "the recurrent core effect is positive on both beds and beats every control that was run",
+      "sealed_verdict": "positive",
+      "passes": true
+    },
+    "e1_readout_effect": {
+      "claim": "readout capacity did not separate any cell",
+      "sealed_verdict": "failure_wrong_direction",
+      "passes": true
+    },
+    "e4_state_only": {
+      "claim": "state only adaptation improves acquisition with zero parameter updates",
+      "sealed_verdict": "positive",
+      "passes": true
+    },
+    "e4_state_only_retention": {
+      "claim": "state only adaptation is a null on retention",
+      "sealed_verdict": "harm",
+      "passes": true
+    },
+    "activation": {
+      "claim": "activation is not licensed and no architecture is selected",
+      "sealed_verdict": "invalid",
+      "passes": true
+    }
+  },
+  "all_pass": true,
+  "note": "each claim is checked against the verdict it summarizes. The e4 retention claim is the interesting one: the sealed verdict there is harm, so calling it a null would be a softening in the other direction and is caught by the same rule",
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "36d23ec399cc1eb6e82001aae526313a5a3755ccf053ede4799e0ecb61b8dc00"
+}

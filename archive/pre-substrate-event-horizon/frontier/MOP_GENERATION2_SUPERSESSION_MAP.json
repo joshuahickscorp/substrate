@@ -1,0 +1,16 @@
+{
+  "schema": "mop-gen2-supersession/v1",
+  "supersedes": [
+    {
+      "original_statement": "confirmed architecture remains P1R alone",
+      "original_artifacts_unchanged": [
+        "frontier/MOP_GENERATION2_FRONTIER_SYNTHESIS.md",
+        "frontier/MOP_GENERATION2_ARCHITECTURE_BOUNDARY.json"
+      ],
+      "corrected_authority": "P1R is the strongest surviving internal hypothesis: three same-team benchmark positives (split-MNIST, CIFAR-100, KMNIST), bounded by a stronger external replication null (EMNIST), with no construction, integration, or activation license.",
+      "reason": "P1R was never externally independently replicated and its external-method replication is null; calling it a confirmed architecture overstates the evidence class."
+    }
+  ],
+  "rule": "corrections are append-only; original sealed artifacts are preserved unchanged.",
+  "sha256": "1816b02bc48f6f8151ebd08569bf42de95951fbc98acb7276d91466e51f1e2b2"
+}

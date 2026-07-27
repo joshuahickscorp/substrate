@@ -1,0 +1,5521 @@
+{
+  "schema": "mop-optimization-convergence-report/v1",
+  "grid": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "per_bed": {
+    "har_stream": {
+      "all_converged": false,
+      "unconverged": [
+        "ff_gru|small|linear|none|h1",
+        "gru|large|linear|horizon_45|h1",
+        "gru|large|linear|horizon_5|h1",
+        "gru|large|linear|horizon_full|h1",
+        "gru|large|linear|none|h1",
+        "gru|large|mlp_strong|none|h1",
+        "gru|medium|linear|horizon_45|h1",
+        "gru|medium|linear|horizon_5|h1",
+        "gru|medium|linear|horizon_full|h1",
+        "gru|medium|linear|none|h1",
+        "gru|micro|linear|horizon_45|h1",
+        "gru|micro|linear|horizon_5|h1",
+        "gru|small|linear|block_shuffled|h1",
+        "gru|small|linear|every_observation|h1",
+        "gru|small|linear|horizon_10|h1",
+        "gru|small|linear|horizon_1|h1",
+        "gru|small|linear|horizon_20|h1",
+        "gru|small|linear|horizon_2|h1",
+        "gru|small|linear|horizon_45|h1",
+        "gru|small|linear|horizon_5|h1",
+        "gru|small|linear|horizon_90|h1",
+        "gru|small|linear|horizon_full|h1",
+        "gru|small|linear|none|h1",
+        "gru|small|linear|true_boundary|h1",
+        "gru|small|linear|wrong_boundary|h1",
+        "histmlp|large|linear|none|h1",
+        "histmlp|large|mlp_strong|none|h1",
+        "histmlp|medium|linear|none|h1",
+        "histmlp|micro|linear|none|h1",
+        "histmlp|small|linear|none|h1",
+        "histmlp|small|linear|none|h10",
+        "histmlp|small|linear|none|h2",
+        "histmlp|small|linear|none|h5",
+        "histmlp|small|linear|none|hfull_window",
+        "histmlp|small|linear|none|hpooled_summary",
+        "histmlp|small|mlp_strong|none|h1",
+        "lstm|large|linear|none|h1",
+        "lstm|micro|linear|none|h1",
+        "mgu|small|linear|horizon_10|h1",
+        "mgu|small|linear|horizon_1|h1",
+        "mgu|small|linear|horizon_2|h1",
+        "mgu|small|linear|horizon_5|h1",
+        "pooled|large|linear|none|h1",
+        "pooled|large|mlp_strong|none|h1",
+        "pooled|medium|linear|none|h1",
+        "pooled|micro|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "pooled|small|mlp1|none|h1",
+        "pooled|small|mlp_strong|none|h1",
+        "tcn|large|linear|none|h1",
+        "tcn|large|mlp_strong|none|h1",
+        "tcn|micro|linear|none|h1",
+        "tcn|small|linear|none|h1",
+        "tcn|small|linear|none|h20",
+        "tcn|small|linear|none|h5",
+        "tcn|small|linear|none|hfull_window"
+      ],
+      "grid": [
+        400,
+        800,
+        1600,
+        3200,
+        6400,
+        12800
+      ],
+      "load_bearing_cells": [
+        "gru|small|linear|none|h1",
+        "mgu|small|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "tcn|small|linear|none|h1",
+        "histmlp|small|linear|none|hfull_window",
+        "gru|small|linear|horizon_45|h1",
+        "gru|small|linear|horizon_90|h1"
+      ],
+      "load_bearing_all_converged": false,
+      "load_bearing_unconverged": [
+        "gru|small|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "tcn|small|linear|none|h1",
+        "histmlp|small|linear|none|hfull_window",
+        "gru|small|linear|horizon_45|h1",
+        "gru|small|linear|horizon_90|h1"
+      ],
+      "configs": {
+        "gru|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00489,
+          "residual_slope": 0.002443,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.93858,
+            "800": 0.9372933333333334,
+            "1600": 0.94179,
+            "3200": 0.9386966666666666,
+            "6400": 0.9435833333333333,
+            "12800": 0.9435833333333333
+          }
+        },
+        "lstm|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00955,
+          "residual_slope": -0.002938,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9439366666666666,
+            "800": 0.9512633333333333,
+            "1600": 0.9183433333333334,
+            "3200": 0.9428133333333334,
+            "6400": 0.9332600000000001,
+            "12800": 0.9369366666666666
+          }
+        },
+        "mgu|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00216,
+          "residual_slope": -0.00108,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9329166666666667,
+            "800": 0.9340566666666668,
+            "1600": 0.9395833333333333,
+            "3200": 0.9442833333333334,
+            "6400": 0.9436633333333333,
+            "12800": 0.9421233333333333
+          }
+        },
+        "pooled|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01815,
+          "residual_slope": -0.009073,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.44978999999999997,
+            "800": 0.4538433333333334,
+            "1600": 0.44988999999999996,
+            "3200": 0.42795999999999995,
+            "6400": 0.41190666666666664,
+            "12800": 0.40981333333333336
+          }
+        },
+        "tcn|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00855,
+          "residual_slope": 0.004167,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.91969,
+            "800": 0.9325733333333334,
+            "1600": 0.9336033333333335,
+            "3200": 0.93453,
+            "6400": 0.9430766666666667,
+            "12800": 0.9428633333333334
+          }
+        },
+        "histmlp|small|linear|none|h20": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00992,
+          "residual_slope": -0.004958,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9280900000000001,
+            "800": 0.9326066666666666,
+            "1600": 0.9376066666666668,
+            "3200": 0.9225833333333333,
+            "6400": 0.9210033333333333,
+            "12800": 0.9126666666666666
+          }
+        },
+        "gru|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00495,
+          "residual_slope": 0.00214,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.94408,
+            "800": 0.9247133333333334,
+            "1600": 0.9394433333333333,
+            "3200": 0.9346866666666666,
+            "6400": 0.9396399999999999,
+            "12800": 0.9389666666666668
+          }
+        },
+        "pooled|large|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.02017,
+          "residual_slope": -0.010085,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.3978733333333333,
+            "800": 0.43620333333333333,
+            "1600": 0.4324266666666667,
+            "3200": 0.44090333333333337,
+            "6400": 0.42583,
+            "12800": 0.42073333333333335
+          }
+        },
+        "histmlp|small|linear|none|hfull_window": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.01766,
+          "residual_slope": 0.007835,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8680666666666667,
+            "800": 0.8627433333333334,
+            "1600": 0.8618633333333333,
+            "3200": 0.8551433333333334,
+            "6400": 0.8531566666666667,
+            "12800": 0.8708133333333333
+          }
+        },
+        "gru|small|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01779,
+          "residual_slope": -0.008893,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9179533333333333,
+            "800": 0.92639,
+            "1600": 0.93003,
+            "3200": 0.9121733333333334,
+            "6400": 0.9110833333333334,
+            "12800": 0.8943866666666667
+          }
+        },
+        "gru|small|linear|horizon_90|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01779,
+          "residual_slope": -0.008893,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9179533333333333,
+            "800": 0.92639,
+            "1600": 0.93003,
+            "3200": 0.9121733333333334,
+            "6400": 0.9110833333333334,
+            "12800": 0.8943866666666667
+          }
+        },
+        "gru|micro|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00641,
+          "residual_slope": -0.003207,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9360933333333333,
+            "800": 0.9407800000000001,
+            "1600": 0.9386133333333332,
+            "3200": 0.9460500000000001,
+            "6400": 0.9422833333333333,
+            "12800": 0.9396366666666666
+          }
+        },
+        "gru|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00682,
+          "residual_slope": 0.003412,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9491033333333333,
+            "800": 0.9459833333333333,
+            "1600": 0.9434266666666667,
+            "3200": 0.9402266666666667,
+            "6400": 0.9450200000000001,
+            "12800": 0.94705
+          }
+        },
+        "lstm|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.03036,
+          "residual_slope": -0.01518,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9266333333333332,
+            "800": 0.9234766666666667,
+            "1600": 0.94901,
+            "3200": 0.9527733333333334,
+            "6400": 0.9378266666666667,
+            "12800": 0.9224133333333334
+          }
+        },
+        "lstm|medium|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00798,
+          "residual_slope": -0.003067,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9579733333333333,
+            "800": 0.94198,
+            "1600": 0.9454899999999999,
+            "3200": 0.9365366666666667,
+            "6400": 0.9285599999999999,
+            "12800": 0.9304033333333334
+          }
+        },
+        "lstm|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01602,
+          "residual_slope": 0.005242,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9415766666666666,
+            "800": 0.9352766666666668,
+            "1600": 0.9453033333333334,
+            "3200": 0.9280566666666666,
+            "6400": 0.9225166666666667,
+            "12800": 0.93854
+          }
+        },
+        "mgu|micro|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00236,
+          "residual_slope": 0.000218,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.93179,
+            "800": 0.9360533333333333,
+            "1600": 0.9392233333333334,
+            "3200": 0.9354233333333334,
+            "6400": 0.9377833333333333,
+            "12800": 0.93586
+          }
+        },
+        "mgu|medium|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00507,
+          "residual_slope": 0.001215,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9446133333333333,
+            "800": 0.9386533333333333,
+            "1600": 0.9373266666666668,
+            "3200": 0.9442533333333333,
+            "6400": 0.94932,
+            "12800": 0.9466833333333332
+          }
+        },
+        "mgu|large|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00286,
+          "residual_slope": 0.001432,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9380533333333334,
+            "800": 0.9286833333333333,
+            "1600": 0.9263366666666667,
+            "3200": 0.91663,
+            "6400": 0.91922,
+            "12800": 0.9194933333333334
+          }
+        },
+        "pooled|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.02097,
+          "residual_slope": -0.008307,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.44287666666666664,
+            "800": 0.45426666666666665,
+            "1600": 0.4532966666666667,
+            "3200": 0.45328666666666667,
+            "6400": 0.43232,
+            "12800": 0.4366733333333333
+          }
+        },
+        "pooled|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.03122,
+          "residual_slope": -0.010725,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.43115666666666663,
+            "800": 0.43970333333333333,
+            "1600": 0.43727999999999995,
+            "3200": 0.4379,
+            "6400": 0.40667666666666663,
+            "12800": 0.41645
+          }
+        },
+        "pooled|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01534,
+          "residual_slope": -0.00767,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.44855,
+            "800": 0.44438,
+            "1600": 0.43130666666666667,
+            "3200": 0.40958333333333335,
+            "6400": 0.39631333333333335,
+            "12800": 0.3942433333333333
+          }
+        },
+        "histmlp|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02216,
+          "residual_slope": -0.01108,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7726866666666666,
+            "800": 0.7856466666666666,
+            "1600": 0.79639,
+            "3200": 0.7754233333333334,
+            "6400": 0.7671000000000001,
+            "12800": 0.7532633333333333
+          }
+        },
+        "histmlp|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.02383,
+          "residual_slope": -0.011917,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7817033333333333,
+            "800": 0.7817866666666666,
+            "1600": 0.7847366666666667,
+            "3200": 0.7849433333333334,
+            "6400": 0.7810333333333334,
+            "12800": 0.76111
+          }
+        },
+        "histmlp|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01833,
+          "residual_slope": 0.002233,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7828400000000001,
+            "800": 0.7795866666666665,
+            "1600": 0.7818166666666665,
+            "3200": 0.7540733333333334,
+            "6400": 0.7724066666666666,
+            "12800": 0.75854
+          }
+        },
+        "histmlp|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01996,
+          "residual_slope": -0.009247,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7778466666666667,
+            "800": 0.7831433333333333,
+            "1600": 0.7793033333333333,
+            "3200": 0.7755733333333333,
+            "6400": 0.7556166666666666,
+            "12800": 0.7570800000000001
+          }
+        },
+        "tcn|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01031,
+          "residual_slope": 0.002468,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.94617,
+            "800": 0.9336833333333333,
+            "1600": 0.9428000000000001,
+            "3200": 0.92592,
+            "6400": 0.9205433333333334,
+            "12800": 0.9308566666666667
+          }
+        },
+        "tcn|medium|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00029,
+          "residual_slope": 0.000145,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9359299999999999,
+            "800": 0.9330666666666666,
+            "1600": 0.94326,
+            "3200": 0.9352266666666665,
+            "6400": 0.9354,
+            "12800": 0.9355166666666666
+          }
+        },
+        "tcn|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01434,
+          "residual_slope": -0.007172,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.95295,
+            "800": 0.93655,
+            "1600": 0.92713,
+            "3200": 0.9396800000000001,
+            "6400": 0.93217,
+            "12800": 0.9253366666666666
+          }
+        },
+        "ff_gru|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.0134,
+          "residual_slope": 0.006698,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.95497,
+            "800": 0.9556033333333334,
+            "1600": 0.9539666666666667,
+            "3200": 0.9381033333333333,
+            "6400": 0.9413566666666666,
+            "12800": 0.9515000000000001
+          }
+        },
+        "gru|small|mlp1|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00623,
+          "residual_slope": -0.001857,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9477633333333334,
+            "800": 0.9473566666666667,
+            "1600": 0.9350033333333334,
+            "3200": 0.9375366666666666,
+            "6400": 0.9400533333333333,
+            "12800": 0.9338233333333333
+          }
+        },
+        "gru|small|mlp_strong|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00263,
+          "residual_slope": -0.000543,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9417733333333334,
+            "800": 0.9404133333333333,
+            "1600": 0.9382566666666667,
+            "3200": 0.9449266666666666,
+            "6400": 0.94647,
+            "12800": 0.9438400000000001
+          }
+        },
+        "pooled|small|mlp1|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01696,
+          "residual_slope": -0.00848,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.45569,
+            "800": 0.44325333333333333,
+            "1600": 0.43985666666666673,
+            "3200": 0.4285833333333333,
+            "6400": 0.41337666666666667,
+            "12800": 0.4116233333333333
+          }
+        },
+        "pooled|small|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00619,
+          "residual_slope": -0.003093,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.4287366666666667,
+            "800": 0.42055,
+            "1600": 0.44722666666666666,
+            "3200": 0.4175233333333333,
+            "6400": 0.4125433333333333,
+            "12800": 0.4113366666666667
+          }
+        },
+        "histmlp|small|mlp1|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00694,
+          "residual_slope": -0.000362,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.77097,
+            "800": 0.7662666666666667,
+            "1600": 0.7787333333333333,
+            "3200": 0.7556600000000001,
+            "6400": 0.7618766666666666,
+            "12800": 0.7549366666666666
+          }
+        },
+        "histmlp|small|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01441,
+          "residual_slope": -0.001695,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7622599999999999,
+            "800": 0.78737,
+            "1600": 0.7734366666666667,
+            "3200": 0.7526799999999999,
+            "6400": 0.7637,
+            "12800": 0.7492899999999999
+          }
+        },
+        "gru|small|linear|horizon_1|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02338,
+          "residual_slope": -0.006707,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7665466666666667,
+            "800": 0.7695433333333334,
+            "1600": 0.7788400000000001,
+            "3200": 0.7622566666666667,
+            "6400": 0.7722199999999999,
+            "12800": 0.7488433333333333
+          }
+        },
+        "gru|small|linear|horizon_2|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01989,
+          "residual_slope": -0.009125,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7987000000000001,
+            "800": 0.8102299999999999,
+            "1600": 0.8161166666666667,
+            "3200": 0.8146999999999999,
+            "6400": 0.8163366666666666,
+            "12800": 0.79645
+          }
+        },
+        "gru|small|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01989,
+          "residual_slope": -0.009125,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7987000000000001,
+            "800": 0.8102299999999999,
+            "1600": 0.8161166666666667,
+            "3200": 0.8146999999999999,
+            "6400": 0.8163366666666666,
+            "12800": 0.79645
+          }
+        },
+        "gru|small|linear|horizon_10|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01989,
+          "residual_slope": -0.009125,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7987000000000001,
+            "800": 0.8102299999999999,
+            "1600": 0.8161166666666667,
+            "3200": 0.8146999999999999,
+            "6400": 0.8163366666666666,
+            "12800": 0.79645
+          }
+        },
+        "gru|small|linear|horizon_20|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01779,
+          "residual_slope": -0.008893,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9179533333333333,
+            "800": 0.92639,
+            "1600": 0.93003,
+            "3200": 0.9121733333333334,
+            "6400": 0.9110833333333334,
+            "12800": 0.8943866666666667
+          }
+        },
+        "gru|small|linear|horizon_full|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00489,
+          "residual_slope": 0.002443,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.93858,
+            "800": 0.9372933333333334,
+            "1600": 0.94179,
+            "3200": 0.9386966666666666,
+            "6400": 0.9435833333333333,
+            "12800": 0.9435833333333333
+          }
+        },
+        "mgu|small|linear|horizon_1|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01124,
+          "residual_slope": -0.005622,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7632933333333334,
+            "800": 0.7734033333333333,
+            "1600": 0.7752966666666666,
+            "3200": 0.7626466666666666,
+            "6400": 0.7590966666666666,
+            "12800": 0.7514033333333333
+          }
+        },
+        "mgu|small|linear|horizon_2|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.02298,
+          "residual_slope": -0.01149,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8022266666666665,
+            "800": 0.8107466666666667,
+            "1600": 0.8051566666666666,
+            "3200": 0.80402,
+            "6400": 0.8017599999999999,
+            "12800": 0.78104
+          }
+        },
+        "mgu|small|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.02298,
+          "residual_slope": -0.01149,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8022266666666665,
+            "800": 0.8107466666666667,
+            "1600": 0.8051566666666666,
+            "3200": 0.80402,
+            "6400": 0.8017599999999999,
+            "12800": 0.78104
+          }
+        },
+        "mgu|small|linear|horizon_10|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.02298,
+          "residual_slope": -0.01149,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8022266666666665,
+            "800": 0.8107466666666667,
+            "1600": 0.8051566666666666,
+            "3200": 0.80402,
+            "6400": 0.8017599999999999,
+            "12800": 0.78104
+          }
+        },
+        "mgu|small|linear|horizon_20|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00483,
+          "residual_slope": -0.00071,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9117033333333334,
+            "800": 0.9185766666666666,
+            "1600": 0.9206733333333333,
+            "3200": 0.91128,
+            "6400": 0.9146933333333335,
+            "12800": 0.9098600000000001
+          }
+        },
+        "mgu|small|linear|horizon_45|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00483,
+          "residual_slope": -0.00071,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9117033333333334,
+            "800": 0.9185766666666666,
+            "1600": 0.9206733333333333,
+            "3200": 0.91128,
+            "6400": 0.9146933333333335,
+            "12800": 0.9098600000000001
+          }
+        },
+        "mgu|small|linear|horizon_90|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00483,
+          "residual_slope": -0.00071,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9117033333333334,
+            "800": 0.9185766666666666,
+            "1600": 0.9206733333333333,
+            "3200": 0.91128,
+            "6400": 0.9146933333333335,
+            "12800": 0.9098600000000001
+          }
+        },
+        "mgu|small|linear|horizon_full|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00216,
+          "residual_slope": -0.00108,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9329166666666667,
+            "800": 0.9340566666666668,
+            "1600": 0.9395833333333333,
+            "3200": 0.9442833333333334,
+            "6400": 0.9436633333333333,
+            "12800": 0.9421233333333333
+          }
+        },
+        "gru|small|linear|every_observation|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02338,
+          "residual_slope": -0.006707,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7665466666666667,
+            "800": 0.7695433333333334,
+            "1600": 0.7788400000000001,
+            "3200": 0.7622566666666667,
+            "6400": 0.7722199999999999,
+            "12800": 0.7488433333333333
+          }
+        },
+        "gru|small|linear|misaligned_a|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00738,
+          "residual_slope": -0.003692,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9404666666666667,
+            "800": 0.93298,
+            "1600": 0.9487899999999999,
+            "3200": 0.9496766666666666,
+            "6400": 0.9440833333333334,
+            "12800": 0.9422933333333333
+          }
+        },
+        "gru|small|linear|misaligned_b|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00641,
+          "residual_slope": 0.000522,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9275333333333333,
+            "800": 0.93278,
+            "1600": 0.9365433333333333,
+            "3200": 0.9226800000000001,
+            "6400": 0.9290866666666666,
+            "12800": 0.9237233333333333
+          }
+        },
+        "gru|small|linear|random_rate_matched|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00169,
+          "residual_slope": 0.000282,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9275533333333333,
+            "800": 0.9406500000000001,
+            "1600": 0.9407800000000001,
+            "3200": 0.93235,
+            "6400": 0.9340433333333333,
+            "12800": 0.9329133333333334
+          }
+        },
+        "gru|small|linear|block_shuffled|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.01811,
+          "residual_slope": -0.009055,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9410466666666667,
+            "800": 0.9358766666666667,
+            "1600": 0.9496600000000001,
+            "3200": 0.9508366666666667,
+            "6400": 0.94785,
+            "12800": 0.9327266666666666
+          }
+        },
+        "gru|small|linear|true_boundary|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01102,
+          "residual_slope": -0.003477,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9451433333333333,
+            "800": 0.9455766666666667,
+            "1600": 0.94772,
+            "3200": 0.94532,
+            "6400": 0.9493899999999998,
+            "12800": 0.9383666666666667
+          }
+        },
+        "gru|small|linear|wrong_boundary|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01506,
+          "residual_slope": -0.00494,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9390533333333333,
+            "800": 0.9335966666666667,
+            "1600": 0.9504833333333332,
+            "3200": 0.9459766666666667,
+            "6400": 0.9511533333333334,
+            "12800": 0.9360966666666668
+          }
+        },
+        "gru|micro|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01945,
+          "residual_slope": -0.008415,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7809400000000001,
+            "800": 0.7944233333333334,
+            "1600": 0.8052233333333333,
+            "3200": 0.79845,
+            "6400": 0.8010699999999998,
+            "12800": 0.7816199999999999
+          }
+        },
+        "gru|micro|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.01419,
+          "residual_slope": -0.007095,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9036633333333334,
+            "800": 0.9133533333333334,
+            "1600": 0.9171266666666668,
+            "3200": 0.9221933333333333,
+            "6400": 0.9125966666666666,
+            "12800": 0.9080033333333333
+          }
+        },
+        "gru|micro|linear|horizon_full|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00641,
+          "residual_slope": -0.003207,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9360933333333333,
+            "800": 0.9407800000000001,
+            "1600": 0.9386133333333332,
+            "3200": 0.9460500000000001,
+            "6400": 0.9422833333333333,
+            "12800": 0.9396366666666666
+          }
+        },
+        "gru|medium|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01587,
+          "residual_slope": -0.007937,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8058666666666666,
+            "800": 0.8185133333333333,
+            "1600": 0.8251133333333334,
+            "3200": 0.8063933333333333,
+            "6400": 0.8044366666666667,
+            "12800": 0.79052
+          }
+        },
+        "gru|medium|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.0166,
+          "residual_slope": -0.006335,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9250066666666666,
+            "800": 0.9274766666666666,
+            "1600": 0.9373900000000001,
+            "3200": 0.9205333333333333,
+            "6400": 0.9039333333333334,
+            "12800": 0.9078633333333332
+          }
+        },
+        "gru|medium|linear|horizon_full|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00682,
+          "residual_slope": 0.003412,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9491033333333333,
+            "800": 0.9459833333333333,
+            "1600": 0.9434266666666667,
+            "3200": 0.9402266666666667,
+            "6400": 0.9450200000000001,
+            "12800": 0.94705
+          }
+        },
+        "gru|large|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01882,
+          "residual_slope": -0.00941,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8105033333333332,
+            "800": 0.8308366666666668,
+            "1600": 0.7953933333333333,
+            "3200": 0.8035666666666667,
+            "6400": 0.78877,
+            "12800": 0.7847466666666666
+          }
+        },
+        "gru|large|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01189,
+          "residual_slope": -0.001338,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9287899999999999,
+            "800": 0.9184633333333334,
+            "1600": 0.9216466666666667,
+            "3200": 0.90392,
+            "6400": 0.9131333333333335,
+            "12800": 0.9012433333333334
+          }
+        },
+        "gru|large|linear|horizon_full|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00495,
+          "residual_slope": 0.00214,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.94408,
+            "800": 0.9247133333333334,
+            "1600": 0.9394433333333333,
+            "3200": 0.9346866666666666,
+            "6400": 0.9396399999999999,
+            "12800": 0.9389666666666668
+          }
+        },
+        "histmlp|small|linear|none|h2": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01604,
+          "residual_slope": -0.00802,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8325833333333333,
+            "800": 0.8150666666666666,
+            "1600": 0.8243766666666666,
+            "3200": 0.8177466666666667,
+            "6400": 0.8066333333333334,
+            "12800": 0.8017066666666667
+          }
+        },
+        "histmlp|small|linear|none|h5": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.02795,
+          "residual_slope": -0.006685,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8734866666666669,
+            "800": 0.8576799999999999,
+            "1600": 0.8842033333333333,
+            "3200": 0.8785266666666667,
+            "6400": 0.8931066666666667,
+            "12800": 0.8651566666666667
+          }
+        },
+        "histmlp|small|linear|none|h10": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.02096,
+          "residual_slope": 0.00822,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9131900000000001,
+            "800": 0.91485,
+            "1600": 0.9154800000000001,
+            "3200": 0.89514,
+            "6400": 0.9161,
+            "12800": 0.91158
+          }
+        },
+        "histmlp|small|linear|none|hpooled_summary": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01815,
+          "residual_slope": -0.009073,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.44978999999999997,
+            "800": 0.4538433333333334,
+            "1600": 0.44988999999999996,
+            "3200": 0.42795999999999995,
+            "6400": 0.41190666666666664,
+            "12800": 0.40981333333333336
+          }
+        },
+        "tcn|small|linear|none|h5": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00855,
+          "residual_slope": 0.004167,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.91969,
+            "800": 0.9325733333333334,
+            "1600": 0.9336033333333335,
+            "3200": 0.93453,
+            "6400": 0.9430766666666667,
+            "12800": 0.9428633333333334
+          }
+        },
+        "tcn|small|linear|none|h20": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00855,
+          "residual_slope": 0.004167,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.91969,
+            "800": 0.9325733333333334,
+            "1600": 0.9336033333333335,
+            "3200": 0.93453,
+            "6400": 0.9430766666666667,
+            "12800": 0.9428633333333334
+          }
+        },
+        "tcn|small|linear|none|hfull_window": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00855,
+          "residual_slope": 0.004167,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.91969,
+            "800": 0.9325733333333334,
+            "1600": 0.9336033333333335,
+            "3200": 0.93453,
+            "6400": 0.9430766666666667,
+            "12800": 0.9428633333333334
+          }
+        },
+        "histmlp|large|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01048,
+          "residual_slope": -0.002152,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7619466666666668,
+            "800": 0.7649,
+            "1600": 0.7791066666666667,
+            "3200": 0.76412,
+            "6400": 0.7703000000000001,
+            "12800": 0.7598166666666666
+          }
+        },
+        "tcn|large|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00445,
+          "residual_slope": 0.002227,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9254166666666667,
+            "800": 0.9437066666666668,
+            "1600": 0.9283966666666666,
+            "3200": 0.9316966666666667,
+            "6400": 0.9332199999999999,
+            "12800": 0.93615
+          }
+        },
+        "gru|large|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00443,
+          "residual_slope": 0.002217,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.92761,
+            "800": 0.93045,
+            "1600": 0.9400633333333334,
+            "3200": 0.9318366666666668,
+            "6400": 0.9318533333333333,
+            "12800": 0.93627
+          }
+        }
+      }
+    },
+    "speech_stream": {
+      "all_converged": false,
+      "unconverged": [
+        "ff_gru|small|linear|none|h1",
+        "gru|large|linear|horizon_45|h1",
+        "gru|large|linear|horizon_5|h1",
+        "gru|large|linear|horizon_full|h1",
+        "gru|large|linear|none|h1",
+        "gru|large|mlp_strong|none|h1",
+        "gru|medium|linear|horizon_45|h1",
+        "gru|medium|linear|horizon_full|h1",
+        "gru|medium|linear|none|h1",
+        "gru|micro|linear|horizon_45|h1",
+        "gru|micro|linear|horizon_full|h1",
+        "gru|micro|linear|none|h1",
+        "gru|small|linear|block_shuffled|h1",
+        "gru|small|linear|every_observation|h1",
+        "gru|small|linear|horizon_10|h1",
+        "gru|small|linear|horizon_1|h1",
+        "gru|small|linear|horizon_20|h1",
+        "gru|small|linear|horizon_2|h1",
+        "gru|small|linear|horizon_45|h1",
+        "gru|small|linear|horizon_90|h1",
+        "gru|small|linear|misaligned_a|h1",
+        "gru|small|linear|misaligned_b|h1",
+        "gru|small|linear|random_rate_matched|h1",
+        "gru|small|linear|true_boundary|h1",
+        "gru|small|linear|wrong_boundary|h1",
+        "gru|small|mlp_strong|none|h1",
+        "histmlp|large|linear|none|h1",
+        "histmlp|medium|linear|none|h1",
+        "histmlp|micro|linear|none|h1",
+        "histmlp|small|linear|none|h1",
+        "histmlp|small|linear|none|h10",
+        "histmlp|small|linear|none|h2",
+        "histmlp|small|linear|none|h20",
+        "histmlp|small|linear|none|hfull_window",
+        "histmlp|small|linear|none|hpooled_summary",
+        "histmlp|small|mlp1|none|h1",
+        "histmlp|small|mlp_strong|none|h1",
+        "lstm|large|linear|none|h1",
+        "lstm|medium|linear|none|h1",
+        "lstm|micro|linear|none|h1",
+        "lstm|small|linear|none|h1",
+        "mgu|large|linear|none|h1",
+        "mgu|medium|linear|none|h1",
+        "mgu|small|linear|horizon_10|h1",
+        "mgu|small|linear|horizon_1|h1",
+        "mgu|small|linear|horizon_20|h1",
+        "mgu|small|linear|horizon_2|h1",
+        "mgu|small|linear|horizon_45|h1",
+        "mgu|small|linear|horizon_5|h1",
+        "mgu|small|linear|horizon_90|h1",
+        "pooled|large|linear|none|h1",
+        "pooled|large|mlp_strong|none|h1",
+        "pooled|medium|linear|none|h1",
+        "pooled|micro|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "pooled|small|mlp1|none|h1",
+        "pooled|small|mlp_strong|none|h1",
+        "tcn|large|linear|none|h1",
+        "tcn|large|mlp_strong|none|h1",
+        "tcn|medium|linear|none|h1",
+        "tcn|micro|linear|none|h1"
+      ],
+      "grid": [
+        400,
+        800,
+        1600,
+        3200,
+        6400,
+        12800
+      ],
+      "load_bearing_cells": [
+        "gru|small|linear|none|h1",
+        "mgu|small|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "tcn|small|linear|none|h1",
+        "histmlp|small|linear|none|hfull_window",
+        "gru|small|linear|horizon_45|h1",
+        "gru|small|linear|horizon_90|h1"
+      ],
+      "load_bearing_all_converged": false,
+      "load_bearing_unconverged": [
+        "pooled|small|linear|none|h1",
+        "histmlp|small|linear|none|hfull_window",
+        "gru|small|linear|horizon_45|h1",
+        "gru|small|linear|horizon_90|h1"
+      ],
+      "configs": {
+        "gru|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00315,
+          "residual_slope": -0.001573,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7108033333333333,
+            "800": 0.7226333333333333,
+            "1600": 0.7356466666666667,
+            "3200": 0.7433633333333333,
+            "6400": 0.74134,
+            "12800": 0.7402166666666666
+          }
+        },
+        "lstm|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.0227,
+          "residual_slope": 0.00858,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6348433333333333,
+            "800": 0.6762233333333333,
+            "1600": 0.6841633333333333,
+            "3200": 0.7083499999999999,
+            "6400": 0.7310466666666667,
+            "12800": 0.72551
+          }
+        },
+        "mgu|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00983,
+          "residual_slope": -0.002977,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7127266666666667,
+            "800": 0.7222133333333333,
+            "1600": 0.7300166666666668,
+            "3200": 0.7438166666666666,
+            "6400": 0.7339833333333333,
+            "12800": 0.7378633333333333
+          }
+        },
+        "pooled|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01229,
+          "residual_slope": -0.004545,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.24587,
+            "800": 0.2509966666666667,
+            "1600": 0.23927666666666667,
+            "3200": 0.24122666666666667,
+            "6400": 0.22894,
+            "12800": 0.23213666666666666
+          }
+        },
+        "tcn|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00904,
+          "residual_slope": -0.003438,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.5969733333333332,
+            "800": 0.6178633333333333,
+            "1600": 0.6105833333333334,
+            "3200": 0.6306466666666667,
+            "6400": 0.6328133333333333,
+            "12800": 0.6237699999999999
+          }
+        },
+        "histmlp|small|linear|none|h20": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.0428,
+          "residual_slope": 0.004535,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.41508666666666666,
+            "800": 0.4126266666666667,
+            "1600": 0.40734000000000004,
+            "3200": 0.39338,
+            "6400": 0.43617666666666666,
+            "12800": 0.40245
+          }
+        },
+        "gru|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02323,
+          "residual_slope": -0.011292,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7390733333333334,
+            "800": 0.7372799999999998,
+            "1600": 0.7563033333333333,
+            "3200": 0.7351733333333333,
+            "6400": 0.7358233333333333,
+            "12800": 0.71259
+          }
+        },
+        "pooled|large|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.02169,
+          "residual_slope": -0.010843,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.21446666666666667,
+            "800": 0.22775333333333334,
+            "1600": 0.21941666666666668,
+            "3200": 0.22301333333333337,
+            "6400": 0.22101666666666664,
+            "12800": 0.20132666666666665
+          }
+        },
+        "histmlp|small|linear|none|hfull_window": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01678,
+          "residual_slope": 0.007792,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.41834333333333334,
+            "800": 0.4467933333333333,
+            "1600": 0.41658,
+            "3200": 0.42821,
+            "6400": 0.4270133333333333,
+            "12800": 0.44379333333333326
+          }
+        },
+        "gru|small|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01643,
+          "residual_slope": -0.003727,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.2898233333333333,
+            "800": 0.29071,
+            "1600": 0.3028666666666667,
+            "3200": 0.29534333333333335,
+            "6400": 0.3043166666666667,
+            "12800": 0.28789
+          }
+        },
+        "gru|small|linear|horizon_90|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.02024,
+          "residual_slope": -0.008943,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7261466666666667,
+            "800": 0.7466333333333334,
+            "1600": 0.76347,
+            "3200": 0.7791533333333334,
+            "6400": 0.7815033333333332,
+            "12800": 0.7612666666666666
+          }
+        },
+        "gru|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01186,
+          "residual_slope": 0.005523,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.68623,
+            "800": 0.7220366666666665,
+            "1600": 0.7359166666666668,
+            "3200": 0.7327933333333334,
+            "6400": 0.7446533333333333,
+            "12800": 0.74384
+          }
+        },
+        "gru|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.02123,
+          "residual_slope": -0.010613,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7459666666666666,
+            "800": 0.7367933333333333,
+            "1600": 0.7473966666666666,
+            "3200": 0.7618066666666666,
+            "6400": 0.76121,
+            "12800": 0.74058
+          }
+        },
+        "lstm|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.04057,
+          "residual_slope": 0.020285,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.48779,
+            "800": 0.6310433333333333,
+            "1600": 0.6472066666666666,
+            "3200": 0.6593100000000001,
+            "6400": 0.68234,
+            "12800": 0.69988
+          }
+        },
+        "lstm|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01297,
+          "residual_slope": 0.005265,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.68309,
+            "800": 0.7183333333333334,
+            "1600": 0.7327466666666668,
+            "3200": 0.7268533333333332,
+            "6400": 0.7398233333333333,
+            "12800": 0.7373833333333333
+          }
+        },
+        "lstm|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.01707,
+          "residual_slope": -0.008535,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6776399999999999,
+            "800": 0.7246533333333334,
+            "1600": 0.7180433333333333,
+            "3200": 0.7401266666666667,
+            "6400": 0.7306733333333333,
+            "12800": 0.7230566666666668
+          }
+        },
+        "mgu|micro|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00784,
+          "residual_slope": -0.003922,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6117633333333333,
+            "800": 0.6898433333333335,
+            "1600": 0.6929366666666666,
+            "3200": 0.7164999999999999,
+            "6400": 0.7155266666666668,
+            "12800": 0.7086566666666667
+          }
+        },
+        "mgu|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.01657,
+          "residual_slope": 0.008285,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7326266666666665,
+            "800": 0.7540933333333334,
+            "1600": 0.7116000000000001,
+            "3200": 0.74046,
+            "6400": 0.7472533333333334,
+            "12800": 0.75703
+          }
+        },
+        "mgu|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.0253,
+          "residual_slope": -0.010002,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7335466666666667,
+            "800": 0.7588566666666666,
+            "1600": 0.7449833333333333,
+            "3200": 0.7582066666666667,
+            "6400": 0.7635000000000001,
+            "12800": 0.7382033333333333
+          }
+        },
+        "pooled|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01758,
+          "residual_slope": -0.008788,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.21760333333333334,
+            "800": 0.2288,
+            "1600": 0.23916333333333337,
+            "3200": 0.23088333333333333,
+            "6400": 0.22772666666666666,
+            "12800": 0.21330666666666664
+          }
+        },
+        "pooled|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01704,
+          "residual_slope": -0.008518,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.26447,
+            "800": 0.23921,
+            "1600": 0.25424,
+            "3200": 0.24514000000000002,
+            "6400": 0.23635333333333333,
+            "12800": 0.22810333333333332
+          }
+        },
+        "pooled|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02263,
+          "residual_slope": -0.011313,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.25014,
+            "800": 0.24837333333333333,
+            "1600": 0.2517833333333333,
+            "3200": 0.24851,
+            "6400": 0.23417666666666662,
+            "12800": 0.22588333333333332
+          }
+        },
+        "histmlp|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.03669,
+          "residual_slope": 0.017438,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.12941666666666665,
+            "800": 0.10764,
+            "1600": 0.12643666666666667,
+            "3200": 0.11441666666666668,
+            "6400": 0.15110333333333334,
+            "12800": 0.14929333333333336
+          }
+        },
+        "histmlp|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.02443,
+          "residual_slope": 0.012213,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.13677333333333333,
+            "800": 0.12815666666666667,
+            "1600": 0.13013333333333335,
+            "3200": 0.12748666666666666,
+            "6400": 0.13689666666666667,
+            "12800": 0.15191333333333334
+          }
+        },
+        "histmlp|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01621,
+          "residual_slope": -0.005317,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.12456,
+            "800": 0.11933666666666665,
+            "1600": 0.09974333333333334,
+            "3200": 0.13202333333333335,
+            "6400": 0.13759666666666667,
+            "12800": 0.12139
+          }
+        },
+        "histmlp|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01933,
+          "residual_slope": 0.007518,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.12792666666666666,
+            "800": 0.12839333333333333,
+            "1600": 0.12683999999999998,
+            "3200": 0.10968,
+            "6400": 0.1290066666666667,
+            "12800": 0.12471666666666666
+          }
+        },
+        "tcn|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.01905,
+          "residual_slope": 0.001033,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.5310766666666665,
+            "800": 0.5766266666666666,
+            "1600": 0.6015433333333333,
+            "3200": 0.6173099999999999,
+            "6400": 0.60033,
+            "12800": 0.6193766666666667
+          }
+        },
+        "tcn|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.0649,
+          "residual_slope": -0.032448,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6274366666666666,
+            "800": 0.6400766666666665,
+            "1600": 0.60699,
+            "3200": 0.64357,
+            "6400": 0.6429900000000001,
+            "12800": 0.5786733333333333
+          }
+        },
+        "tcn|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.02542,
+          "residual_slope": 0.005863,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.61523,
+            "800": 0.6443166666666666,
+            "1600": 0.6394666666666667,
+            "3200": 0.6203233333333333,
+            "6400": 0.6457466666666667,
+            "12800": 0.63205
+          }
+        },
+        "ff_gru|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.04257,
+          "residual_slope": -0.010552,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7260366666666668,
+            "800": 0.7403433333333332,
+            "1600": 0.7556233333333333,
+            "3200": 0.7592166666666667,
+            "6400": 0.71665,
+            "12800": 0.7381133333333333
+          }
+        },
+        "gru|small|mlp1|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00502,
+          "residual_slope": -0.000662,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7055033333333333,
+            "800": 0.7379933333333333,
+            "1600": 0.7713333333333333,
+            "3200": 0.76062,
+            "6400": 0.7556033333333333,
+            "12800": 0.7592966666666667
+          }
+        },
+        "gru|small|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.01815,
+          "residual_slope": 0.009075,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7041533333333332,
+            "800": 0.74498,
+            "1600": 0.7457633333333332,
+            "3200": 0.7574966666666668,
+            "6400": 0.7706799999999999,
+            "12800": 0.7756466666666667
+          }
+        },
+        "pooled|small|mlp1|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.0133,
+          "residual_slope": -0.002237,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.21828333333333336,
+            "800": 0.23650000000000002,
+            "1600": 0.24440666666666666,
+            "3200": 0.24334333333333333,
+            "6400": 0.23004666666666665,
+            "12800": 0.23887
+          }
+        },
+        "pooled|small|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.01255,
+          "residual_slope": -0.006277,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.20877999999999997,
+            "800": 0.22992333333333334,
+            "1600": 0.22354666666666667,
+            "3200": 0.23032333333333332,
+            "6400": 0.22752666666666665,
+            "12800": 0.21777000000000002
+          }
+        },
+        "histmlp|small|mlp1|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.02421,
+          "residual_slope": 0.012103,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.14365666666666668,
+            "800": 0.11523,
+            "1600": 0.14128333333333334,
+            "3200": 0.12167666666666666,
+            "6400": 0.13480666666666666,
+            "12800": 0.14588333333333334
+          }
+        },
+        "histmlp|small|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.01611,
+          "residual_slope": 0.001985,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.10774,
+            "800": 0.1285666666666667,
+            "1600": 0.13863333333333336,
+            "3200": 0.14924666666666667,
+            "6400": 0.13710666666666668,
+            "12800": 0.15321666666666667
+          }
+        },
+        "gru|small|linear|horizon_1|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01363,
+          "residual_slope": 0.006815,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.14638666666666664,
+            "800": 0.11950000000000001,
+            "1600": 0.12956,
+            "3200": 0.12875333333333333,
+            "6400": 0.14124,
+            "12800": 0.14238333333333333
+          }
+        },
+        "gru|small|linear|horizon_2|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01363,
+          "residual_slope": 0.006815,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.14638666666666664,
+            "800": 0.11950000000000001,
+            "1600": 0.12956,
+            "3200": 0.12875333333333333,
+            "6400": 0.14124,
+            "12800": 0.14238333333333333
+          }
+        },
+        "gru|small|linear|horizon_5|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00757,
+          "residual_slope": -0.003207,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.15991,
+            "800": 0.13518333333333335,
+            "1600": 0.15052333333333334,
+            "3200": 0.15600666666666665,
+            "6400": 0.14843666666666666,
+            "12800": 0.14959333333333333
+          }
+        },
+        "gru|small|linear|horizon_10|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.03036,
+          "residual_slope": -0.015182,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.20586666666666667,
+            "800": 0.21507666666666667,
+            "1600": 0.2442966666666667,
+            "3200": 0.23758333333333334,
+            "6400": 0.20865333333333333,
+            "12800": 0.20722
+          }
+        },
+        "gru|small|linear|horizon_20|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.03036,
+          "residual_slope": -0.015182,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.20586666666666667,
+            "800": 0.21507666666666667,
+            "1600": 0.2442966666666667,
+            "3200": 0.23758333333333334,
+            "6400": 0.20865333333333333,
+            "12800": 0.20722
+          }
+        },
+        "gru|small|linear|horizon_full|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00315,
+          "residual_slope": -0.001573,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7108033333333333,
+            "800": 0.7226333333333333,
+            "1600": 0.7356466666666667,
+            "3200": 0.7433633333333333,
+            "6400": 0.74134,
+            "12800": 0.7402166666666666
+          }
+        },
+        "mgu|small|linear|horizon_1|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.02871,
+          "residual_slope": 0.014353,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.13366,
+            "800": 0.12442333333333333,
+            "1600": 0.12980999999999998,
+            "3200": 0.12146333333333333,
+            "6400": 0.14610333333333334,
+            "12800": 0.15017
+          }
+        },
+        "mgu|small|linear|horizon_2|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.02871,
+          "residual_slope": 0.014353,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.13366,
+            "800": 0.12442333333333333,
+            "1600": 0.12980999999999998,
+            "3200": 0.12146333333333333,
+            "6400": 0.14610333333333334,
+            "12800": 0.15017
+          }
+        },
+        "mgu|small|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.03046,
+          "residual_slope": -0.015228,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.14881,
+            "800": 0.12974666666666668,
+            "1600": 0.15755,
+            "3200": 0.17442000000000002,
+            "6400": 0.15324333333333331,
+            "12800": 0.1439633333333333
+          }
+        },
+        "mgu|small|linear|horizon_10|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.0132,
+          "residual_slope": 0.00082,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.19310666666666668,
+            "800": 0.20844666666666667,
+            "1600": 0.18096,
+            "3200": 0.20138666666666669,
+            "6400": 0.21458333333333335,
+            "12800": 0.2030266666666667
+          }
+        },
+        "mgu|small|linear|horizon_20|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.0132,
+          "residual_slope": 0.00082,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.19310666666666668,
+            "800": 0.20844666666666667,
+            "1600": 0.18096,
+            "3200": 0.20138666666666669,
+            "6400": 0.21458333333333335,
+            "12800": 0.2030266666666667
+          }
+        },
+        "mgu|small|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.03188,
+          "residual_slope": -0.008315,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.2792333333333334,
+            "800": 0.28918333333333335,
+            "1600": 0.29682333333333333,
+            "3200": 0.2982666666666667,
+            "6400": 0.26639,
+            "12800": 0.2816366666666667
+          }
+        },
+        "mgu|small|linear|horizon_90|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.01441,
+          "residual_slope": 0.007203,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7008899999999999,
+            "800": 0.73816,
+            "1600": 0.7371833333333333,
+            "3200": 0.74701,
+            "6400": 0.7599066666666667,
+            "12800": 0.7614166666666667
+          }
+        },
+        "mgu|small|linear|horizon_full|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00983,
+          "residual_slope": -0.002977,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7127266666666667,
+            "800": 0.7222133333333333,
+            "1600": 0.7300166666666668,
+            "3200": 0.7438166666666666,
+            "6400": 0.7339833333333333,
+            "12800": 0.7378633333333333
+          }
+        },
+        "gru|small|linear|every_observation|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01363,
+          "residual_slope": 0.006815,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.14638666666666664,
+            "800": 0.11950000000000001,
+            "1600": 0.12956,
+            "3200": 0.12875333333333333,
+            "6400": 0.14124,
+            "12800": 0.14238333333333333
+          }
+        },
+        "gru|small|linear|misaligned_a|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.0178,
+          "residual_slope": 0.008898,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.15860333333333332,
+            "800": 0.13903333333333334,
+            "1600": 0.15411666666666665,
+            "3200": 0.14238333333333333,
+            "6400": 0.15132666666666664,
+            "12800": 0.16018
+          }
+        },
+        "gru|small|linear|misaligned_b|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.03034,
+          "residual_slope": -0.001325,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.49622999999999995,
+            "800": 0.4811533333333333,
+            "1600": 0.5082566666666667,
+            "3200": 0.49920666666666663,
+            "6400": 0.46886333333333335,
+            "12800": 0.4965566666666667
+          }
+        },
+        "gru|small|linear|random_rate_matched|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00638,
+          "residual_slope": 0.000433,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.28060999999999997,
+            "800": 0.26132333333333335,
+            "1600": 0.26859,
+            "3200": 0.2401066666666667,
+            "6400": 0.24649000000000001,
+            "12800": 0.24097333333333334
+          }
+        },
+        "gru|small|linear|block_shuffled|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.02824,
+          "residual_slope": 0.010215,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.28082333333333337,
+            "800": 0.29283333333333333,
+            "1600": 0.2868633333333333,
+            "3200": 0.28390333333333334,
+            "6400": 0.3121466666666667,
+            "12800": 0.30433333333333334
+          }
+        },
+        "gru|small|linear|true_boundary|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01157,
+          "residual_slope": -0.005007,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7302333333333334,
+            "800": 0.7360133333333333,
+            "1600": 0.7652066666666667,
+            "3200": 0.7667866666666668,
+            "6400": 0.7683399999999999,
+            "12800": 0.7567733333333333
+          }
+        },
+        "gru|small|linear|wrong_boundary|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.02005,
+          "residual_slope": -0.010023,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.5308966666666667,
+            "800": 0.5543566666666667,
+            "1600": 0.5316633333333334,
+            "3200": 0.5563033333333334,
+            "6400": 0.5500333333333334,
+            "12800": 0.5362566666666667
+          }
+        },
+        "gru|micro|linear|horizon_5|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00287,
+          "residual_slope": 0.001307,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.13776,
+            "800": 0.14776333333333333,
+            "1600": 0.1429,
+            "3200": 0.14533333333333331,
+            "6400": 0.14507333333333333,
+            "12800": 0.14794666666666667
+          }
+        },
+        "gru|micro|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02342,
+          "residual_slope": 0.001867,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.28386333333333336,
+            "800": 0.3122433333333334,
+            "1600": 0.31239,
+            "3200": 0.3079233333333333,
+            "6400": 0.28824,
+            "12800": 0.31165666666666664
+          }
+        },
+        "gru|micro|linear|horizon_full|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01186,
+          "residual_slope": 0.005523,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.68623,
+            "800": 0.7220366666666665,
+            "1600": 0.7359166666666668,
+            "3200": 0.7327933333333334,
+            "6400": 0.7446533333333333,
+            "12800": 0.74384
+          }
+        },
+        "gru|medium|linear|horizon_5|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00269,
+          "residual_slope": 0.00133,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.13960333333333333,
+            "800": 0.14801,
+            "1600": 0.15130333333333335,
+            "3200": 0.15272,
+            "6400": 0.15269333333333335,
+            "12800": 0.15538
+          }
+        },
+        "gru|medium|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.01092,
+          "residual_slope": 0.00431,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.31805333333333335,
+            "800": 0.29948,
+            "1600": 0.31561,
+            "3200": 0.3096933333333333,
+            "6400": 0.30739,
+            "12800": 0.31831333333333334
+          }
+        },
+        "gru|medium|linear|horizon_full|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.02123,
+          "residual_slope": -0.010613,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7459666666666666,
+            "800": 0.7367933333333333,
+            "1600": 0.7473966666666666,
+            "3200": 0.7618066666666666,
+            "6400": 0.76121,
+            "12800": 0.74058
+          }
+        },
+        "gru|large|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.0178,
+          "residual_slope": -0.003817,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.15494,
+            "800": 0.13565333333333332,
+            "1600": 0.14650333333333332,
+            "3200": 0.15601666666666666,
+            "6400": 0.13822,
+            "12800": 0.14838333333333334
+          }
+        },
+        "gru|large|linear|horizon_45|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01856,
+          "residual_slope": -0.003105,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.33407666666666663,
+            "800": 0.31490666666666667,
+            "1600": 0.29873666666666665,
+            "3200": 0.3025866666666667,
+            "6400": 0.31493666666666664,
+            "12800": 0.2963766666666667
+          }
+        },
+        "gru|large|linear|horizon_full|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02323,
+          "residual_slope": -0.011292,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7390733333333334,
+            "800": 0.7372799999999998,
+            "1600": 0.7563033333333333,
+            "3200": 0.7351733333333333,
+            "6400": 0.7358233333333333,
+            "12800": 0.71259
+          }
+        },
+        "histmlp|small|linear|none|h2": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.02429,
+          "residual_slope": 0.009303,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.14897666666666667,
+            "800": 0.12915666666666667,
+            "1600": 0.15144,
+            "3200": 0.14061,
+            "6400": 0.16490000000000002,
+            "12800": 0.15921666666666665
+          }
+        },
+        "histmlp|small|linear|none|h5": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00657,
+          "residual_slope": -0.003283,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.17831333333333332,
+            "800": 0.17779333333333333,
+            "1600": 0.18141,
+            "3200": 0.18241333333333332,
+            "6400": 0.18016,
+            "12800": 0.17584666666666668
+          }
+        },
+        "histmlp|small|linear|none|h10": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.0126,
+          "residual_slope": 0.000462,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.2591966666666667,
+            "800": 0.25150666666666666,
+            "1600": 0.25042333333333333,
+            "3200": 0.26362,
+            "6400": 0.27621999999999997,
+            "12800": 0.26454333333333335
+          }
+        },
+        "histmlp|small|linear|none|hpooled_summary": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01229,
+          "residual_slope": -0.004545,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.24587,
+            "800": 0.2509966666666667,
+            "1600": 0.23927666666666667,
+            "3200": 0.24122666666666667,
+            "6400": 0.22894,
+            "12800": 0.23213666666666666
+          }
+        },
+        "tcn|small|linear|none|h5": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00904,
+          "residual_slope": -0.003438,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.5969733333333332,
+            "800": 0.6178633333333333,
+            "1600": 0.6105833333333334,
+            "3200": 0.6306466666666667,
+            "6400": 0.6328133333333333,
+            "12800": 0.6237699999999999
+          }
+        },
+        "tcn|small|linear|none|h20": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00904,
+          "residual_slope": -0.003438,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.5969733333333332,
+            "800": 0.6178633333333333,
+            "1600": 0.6105833333333334,
+            "3200": 0.6306466666666667,
+            "6400": 0.6328133333333333,
+            "12800": 0.6237699999999999
+          }
+        },
+        "tcn|small|linear|none|hfull_window": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00904,
+          "residual_slope": -0.003438,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.5969733333333332,
+            "800": 0.6178633333333333,
+            "1600": 0.6105833333333334,
+            "3200": 0.6306466666666667,
+            "6400": 0.6328133333333333,
+            "12800": 0.6237699999999999
+          }
+        },
+        "histmlp|large|mlp_strong|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00938,
+          "residual_slope": 0.001863,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.11953666666666667,
+            "800": 0.12191,
+            "1600": 0.10896666666666667,
+            "3200": 0.10890333333333334,
+            "6400": 0.11828,
+            "12800": 0.11263000000000001
+          }
+        },
+        "tcn|large|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.054,
+          "residual_slope": -0.026998,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.5945933333333334,
+            "800": 0.58399,
+            "1600": 0.6219333333333333,
+            "3200": 0.6265966666666667,
+            "6400": 0.6014933333333333,
+            "12800": 0.5726
+          }
+        },
+        "gru|large|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.03207,
+          "residual_slope": -0.016033,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.7533733333333333,
+            "800": 0.75521,
+            "1600": 0.7504133333333334,
+            "3200": 0.72819,
+            "6400": 0.7192766666666666,
+            "12800": 0.6961233333333334
+          }
+        }
+      }
+    },
+    "harth_stream": {
+      "all_converged": false,
+      "unconverged": [
+        "gru|micro|linear|horizon_5|h1",
+        "gru|small|linear|every_observation|h1",
+        "gru|small|linear|horizon_10|h1",
+        "gru|small|linear|horizon_1|h1",
+        "gru|small|linear|horizon_2|h1",
+        "gru|small|linear|horizon_5|h1",
+        "gru|small|linear|misaligned_a|h1",
+        "gru|small|linear|random_rate_matched|h1",
+        "histmlp|large|linear|none|h1",
+        "histmlp|large|mlp_strong|none|h1",
+        "histmlp|medium|linear|none|h1",
+        "histmlp|small|linear|none|h1",
+        "histmlp|small|linear|none|h10",
+        "histmlp|small|linear|none|h2",
+        "histmlp|small|linear|none|h5",
+        "histmlp|small|linear|none|hfull_window",
+        "histmlp|small|linear|none|hpooled_summary",
+        "histmlp|small|mlp_strong|none|h1",
+        "lstm|medium|linear|none|h1",
+        "mgu|small|linear|horizon_10|h1",
+        "mgu|small|linear|horizon_1|h1",
+        "mgu|small|linear|horizon_2|h1",
+        "mgu|small|linear|horizon_5|h1",
+        "mgu|small|linear|horizon_90|h1",
+        "mgu|small|linear|horizon_full|h1",
+        "mgu|small|linear|none|h1",
+        "pooled|large|linear|none|h1",
+        "pooled|medium|linear|none|h1",
+        "pooled|micro|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "pooled|small|mlp1|none|h1",
+        "pooled|small|mlp_strong|none|h1"
+      ],
+      "grid": [
+        400,
+        800,
+        1600,
+        3200,
+        6400,
+        12800
+      ],
+      "load_bearing_cells": [
+        "gru|small|linear|none|h1",
+        "mgu|small|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "tcn|small|linear|none|h1",
+        "histmlp|small|linear|none|hfull_window",
+        "gru|small|linear|horizon_45|h1",
+        "gru|small|linear|horizon_90|h1"
+      ],
+      "load_bearing_all_converged": false,
+      "load_bearing_unconverged": [
+        "mgu|small|linear|none|h1",
+        "pooled|small|linear|none|h1",
+        "histmlp|small|linear|none|hfull_window"
+      ],
+      "configs": {
+        "gru|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00043,
+          "residual_slope": -3e-06,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9837533333333334,
+            "800": 0.9709233333333334,
+            "1600": 0.9884566666666667,
+            "3200": 0.9876133333333333,
+            "6400": 0.9880399999999999,
+            "12800": 0.9876066666666666
+          }
+        },
+        "lstm|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00087,
+          "residual_slope": 0.000433,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9667066666666666,
+            "800": 0.9502266666666667,
+            "1600": 0.9776333333333334,
+            "3200": 0.9763766666666666,
+            "6400": 0.9763833333333333,
+            "12800": 0.9772433333333334
+          }
+        },
+        "mgu|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00599,
+          "residual_slope": 0.002995,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9815300000000001,
+            "800": 0.9815966666666668,
+            "1600": 0.9717233333333333,
+            "3200": 0.9738600000000001,
+            "6400": 0.9768633333333333,
+            "12800": 0.9798499999999999
+          }
+        },
+        "pooled|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01569,
+          "residual_slope": -0.006823,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.65781,
+            "800": 0.6280566666666667,
+            "1600": 0.6679499999999999,
+            "3200": 0.6672733333333333,
+            "6400": 0.6693133333333333,
+            "12800": 0.6536266666666667
+          }
+        },
+        "tcn|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00043,
+          "residual_slope": -0.00021,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9599066666666666,
+            "800": 0.9448266666666667,
+            "1600": 0.9785499999999999,
+            "3200": 0.9768500000000001,
+            "6400": 0.9764200000000001,
+            "12800": 0.97643
+          }
+        },
+        "histmlp|small|linear|none|h20": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00087,
+          "residual_slope": 0.000435,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9360633333333334,
+            "800": 0.94338,
+            "1600": 0.9447,
+            "3200": 0.9464199999999999,
+            "6400": 0.94685,
+            "12800": 0.9472900000000001
+          }
+        },
+        "gru|large|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00086,
+          "residual_slope": -3e-06,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9880033333333333,
+            "800": 0.9666,
+            "1600": 0.9829266666666667,
+            "3200": 0.9841500000000001,
+            "6400": 0.9832899999999999,
+            "12800": 0.9841433333333334
+          }
+        },
+        "pooled|large|mlp_strong|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00126,
+          "residual_slope": 0.000595,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.61714,
+            "800": 0.6501333333333333,
+            "1600": 0.6781933333333333,
+            "3200": 0.6619866666666666,
+            "6400": 0.66325,
+            "12800": 0.6631766666666666
+          }
+        },
+        "histmlp|small|linear|none|hfull_window": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.0034,
+          "residual_slope": 0.001292,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8096533333333333,
+            "800": 0.79731,
+            "1600": 0.8390766666666667,
+            "3200": 0.80442,
+            "6400": 0.8078233333333333,
+            "12800": 0.8070033333333333
+          }
+        },
+        "gru|small|linear|horizon_45|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00043,
+          "residual_slope": 3e-06,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.97901,
+            "800": 0.98547,
+            "1600": 0.98761,
+            "3200": 0.9871766666666666,
+            "6400": 0.98761,
+            "12800": 0.9871833333333333
+          }
+        },
+        "gru|small|linear|horizon_90|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00043,
+          "residual_slope": -3e-06,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9837533333333334,
+            "800": 0.9709233333333334,
+            "1600": 0.9884566666666667,
+            "3200": 0.9876133333333333,
+            "6400": 0.9880399999999999,
+            "12800": 0.9876066666666666
+          }
+        },
+        "gru|micro|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00172,
+          "residual_slope": -0.00086,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9773266666666668,
+            "800": 0.9658666666666668,
+            "1600": 0.9850300000000001,
+            "3200": 0.9880666666666666,
+            "6400": 0.98719,
+            "12800": 0.9863466666666666
+          }
+        },
+        "gru|medium|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00258,
+          "residual_slope": 0.001292,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.94914,
+            "800": 0.9698266666666666,
+            "1600": 0.98497,
+            "3200": 0.98541,
+            "6400": 0.98755,
+            "12800": 0.9879933333333334
+          }
+        },
+        "lstm|micro|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00254,
+          "residual_slope": 0.00062,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.96443,
+            "800": 0.9733766666666667,
+            "1600": 0.9812166666666666,
+            "3200": 0.9782299999999999,
+            "6400": 0.9807733333333334,
+            "12800": 0.9794700000000001
+          }
+        },
+        "lstm|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.0047,
+          "residual_slope": 0.002348,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.94264,
+            "800": 0.96793,
+            "1600": 0.9759566666666667,
+            "3200": 0.9785533333333333,
+            "6400": 0.97897,
+            "12800": 0.98325
+          }
+        },
+        "lstm|large|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00257,
+          "residual_slope": 0.001067,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.96407,
+            "800": 0.96238,
+            "1600": 0.9529033333333333,
+            "3200": 0.9806966666666668,
+            "6400": 0.9802633333333334,
+            "12800": 0.9828299999999999
+          }
+        },
+        "mgu|micro|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00303,
+          "residual_slope": 0.001513,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9672166666666667,
+            "800": 0.9606266666666667,
+            "1600": 0.9722200000000001,
+            "3200": 0.9824166666666666,
+            "6400": 0.9845766666666668,
+            "12800": 0.9854433333333333
+          }
+        },
+        "mgu|medium|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00172,
+          "residual_slope": 0.00086,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9807933333333333,
+            "800": 0.97567,
+            "1600": 0.9845700000000001,
+            "3200": 0.9845766666666668,
+            "6400": 0.9858633333333334,
+            "12800": 0.9862966666666667
+          }
+        },
+        "mgu|large|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00341,
+          "residual_slope": -0.000843,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.96591,
+            "800": 0.9828899999999999,
+            "1600": 0.98375,
+            "3200": 0.9862733333333334,
+            "6400": 0.9828666666666667,
+            "12800": 0.9845866666666666
+          }
+        },
+        "pooled|micro|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.03027,
+          "residual_slope": -0.003128,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6345766666666667,
+            "800": 0.6503333333333333,
+            "1600": 0.6644866666666666,
+            "3200": 0.6421933333333333,
+            "6400": 0.6119233333333333,
+            "12800": 0.6359366666666667
+          }
+        },
+        "pooled|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01383,
+          "residual_slope": -0.006913,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6826466666666667,
+            "800": 0.65333,
+            "1600": 0.6645,
+            "3200": 0.6671133333333333,
+            "6400": 0.6603033333333334,
+            "12800": 0.6532866666666667
+          }
+        },
+        "pooled|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.01943,
+          "residual_slope": 0.000948,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6899333333333333,
+            "800": 0.6458266666666667,
+            "1600": 0.65741,
+            "3200": 0.6482366666666667,
+            "6400": 0.6676700000000001,
+            "12800": 0.6501333333333333
+          }
+        },
+        "histmlp|micro|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00486,
+          "residual_slope": -0.002432,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8450466666666667,
+            "800": 0.8697266666666666,
+            "1600": 0.8621766666666666,
+            "3200": 0.8474133333333334,
+            "6400": 0.8467699999999999,
+            "12800": 0.84255
+          }
+        },
+        "histmlp|small|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.01019,
+          "residual_slope": -0.002117,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8543099999999999,
+            "800": 0.8583500000000001,
+            "1600": 0.85593,
+            "3200": 0.8613799999999999,
+            "6400": 0.8511899999999999,
+            "12800": 0.8571466666666666
+          }
+        },
+        "histmlp|medium|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00778,
+          "residual_slope": 0.003892,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.84976,
+            "800": 0.8709266666666666,
+            "1600": 0.8626366666666666,
+            "3200": 0.8501766666666666,
+            "6400": 0.8519233333333333,
+            "12800": 0.85796
+          }
+        },
+        "histmlp|large|linear|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01529,
+          "residual_slope": -0.001905,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8367066666666666,
+            "800": 0.8562033333333333,
+            "1600": 0.8480333333333333,
+            "3200": 0.8482599999999999,
+            "6400": 0.8329733333333333,
+            "12800": 0.84445
+          }
+        },
+        "tcn|micro|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00171,
+          "residual_slope": 0.00043,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.899,
+            "800": 0.9634900000000001,
+            "1600": 0.98463,
+            "3200": 0.9846533333333333,
+            "6400": 0.9838066666666667,
+            "12800": 0.9855133333333334
+          }
+        },
+        "tcn|medium|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00128,
+          "residual_slope": 0.000203,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.86944,
+            "800": 0.9709333333333333,
+            "1600": 0.9689,
+            "3200": 0.9693299999999999,
+            "6400": 0.96846,
+            "12800": 0.9697366666666666
+          }
+        },
+        "tcn|large|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00298,
+          "residual_slope": 0.001492,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9824333333333334,
+            "800": 0.9704766666666668,
+            "1600": 0.97819,
+            "3200": 0.97349,
+            "6400": 0.9743566666666666,
+            "12800": 0.9764733333333333
+          }
+        },
+        "ff_gru|small|linear|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00258,
+          "residual_slope": 0.00129,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9543866666666667,
+            "800": 0.9425566666666666,
+            "1600": 0.9597566666666667,
+            "3200": 0.9674200000000001,
+            "6400": 0.9687100000000001,
+            "12800": 0.9700000000000001
+          }
+        },
+        "gru|small|mlp1|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00085,
+          "residual_slope": 0.000208,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9828766666666667,
+            "800": 0.9811833333333334,
+            "1600": 0.9888766666666667,
+            "3200": 0.9884333333333334,
+            "6400": 0.988,
+            "12800": 0.9888499999999999
+          }
+        },
+        "gru|small|mlp_strong|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00043,
+          "residual_slope": -0.000213,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.90914,
+            "800": 0.9823966666666667,
+            "1600": 0.9816066666666666,
+            "3200": 0.9782066666666666,
+            "6400": 0.9782066666666666,
+            "12800": 0.97778
+          }
+        },
+        "pooled|small|mlp1|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.01801,
+          "residual_slope": -0.009005,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6619966666666667,
+            "800": 0.5681233333333333,
+            "1600": 0.65695,
+            "3200": 0.6638633333333334,
+            "6400": 0.65495,
+            "12800": 0.6458533333333334
+          }
+        },
+        "pooled|small|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.01401,
+          "residual_slope": -0.004837,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.6768033333333333,
+            "800": 0.6453566666666667,
+            "1600": 0.6832933333333333,
+            "3200": 0.6753166666666667,
+            "6400": 0.6613033333333334,
+            "12800": 0.6656433333333335
+          }
+        },
+        "histmlp|small|mlp1|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00911,
+          "residual_slope": -0.001183,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8595033333333334,
+            "800": 0.86244,
+            "1600": 0.8643199999999999,
+            "3200": 0.85468,
+            "6400": 0.8455699999999999,
+            "12800": 0.8523133333333334
+          }
+        },
+        "histmlp|small|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02428,
+          "residual_slope": 0.012142,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8497333333333333,
+            "800": 0.8510266666666667,
+            "1600": 0.8779633333333333,
+            "3200": 0.8240933333333333,
+            "6400": 0.8416100000000001,
+            "12800": 0.8483766666666667
+          }
+        },
+        "gru|small|linear|horizon_1|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01153,
+          "residual_slope": 0.005765,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8650666666666668,
+            "800": 0.8704833333333334,
+            "1600": 0.8681333333333333,
+            "3200": 0.83718,
+            "6400": 0.84052,
+            "12800": 0.8487100000000001
+          }
+        },
+        "gru|small|linear|horizon_2|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01153,
+          "residual_slope": 0.005765,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8650666666666668,
+            "800": 0.8704833333333334,
+            "1600": 0.8681333333333333,
+            "3200": 0.83718,
+            "6400": 0.84052,
+            "12800": 0.8487100000000001
+          }
+        },
+        "gru|small|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00506,
+          "residual_slope": 0.002103,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9535,
+            "800": 0.9666199999999999,
+            "1600": 0.9615633333333333,
+            "3200": 0.9662700000000001,
+            "6400": 0.9713333333333334,
+            "12800": 0.9704766666666668
+          }
+        },
+        "gru|small|linear|horizon_10|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00506,
+          "residual_slope": 0.002103,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9535,
+            "800": 0.9666199999999999,
+            "1600": 0.9615633333333333,
+            "3200": 0.9662700000000001,
+            "6400": 0.9713333333333334,
+            "12800": 0.9704766666666668
+          }
+        },
+        "gru|small|linear|horizon_20|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00213,
+          "residual_slope": 0.001065,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.97347,
+            "800": 0.9893299999999999,
+            "1600": 0.9906033333333334,
+            "3200": 0.9910233333333333,
+            "6400": 0.9910233333333333,
+            "12800": 0.9931533333333333
+          }
+        },
+        "gru|small|linear|horizon_full|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00043,
+          "residual_slope": -3e-06,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9837533333333334,
+            "800": 0.9709233333333334,
+            "1600": 0.9884566666666667,
+            "3200": 0.9876133333333333,
+            "6400": 0.9880399999999999,
+            "12800": 0.9876066666666666
+          }
+        },
+        "mgu|small|linear|horizon_1|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.03312,
+          "residual_slope": 0.01656,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.84479,
+            "800": 0.8471433333333334,
+            "1600": 0.8562433333333334,
+            "3200": 0.8222166666666665,
+            "6400": 0.8541066666666667,
+            "12800": 0.8553366666666666
+          }
+        },
+        "mgu|small|linear|horizon_2|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.03312,
+          "residual_slope": 0.01656,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.84479,
+            "800": 0.8471433333333334,
+            "1600": 0.8562433333333334,
+            "3200": 0.8222166666666665,
+            "6400": 0.8541066666666667,
+            "12800": 0.8553366666666666
+          }
+        },
+        "mgu|small|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.0047,
+          "residual_slope": 0.002352,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.93464,
+            "800": 0.9517066666666666,
+            "1600": 0.95901,
+            "3200": 0.9593766666666667,
+            "6400": 0.9636566666666667,
+            "12800": 0.96408
+          }
+        },
+        "mgu|small|linear|horizon_10|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.0047,
+          "residual_slope": 0.002352,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.93464,
+            "800": 0.9517066666666666,
+            "1600": 0.95901,
+            "3200": 0.9593766666666667,
+            "6400": 0.9636566666666667,
+            "12800": 0.96408
+          }
+        },
+        "mgu|small|linear|horizon_20|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00171,
+          "residual_slope": 0.000855,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9845833333333333,
+            "800": 0.9828766666666667,
+            "1600": 0.9713133333333334,
+            "3200": 0.9811733333333333,
+            "6400": 0.9816033333333333,
+            "12800": 0.9828833333333332
+          }
+        },
+        "mgu|small|linear|horizon_45|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.0017,
+          "residual_slope": 0.000852,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9658333333333333,
+            "800": 0.97093,
+            "1600": 0.9824533333333334,
+            "3200": 0.9845833333333335,
+            "6400": 0.98543,
+            "12800": 0.9862866666666666
+          }
+        },
+        "mgu|small|linear|horizon_90|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00599,
+          "residual_slope": 0.002995,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9815300000000001,
+            "800": 0.9815966666666668,
+            "1600": 0.9717233333333333,
+            "3200": 0.9738600000000001,
+            "6400": 0.9768633333333333,
+            "12800": 0.9798499999999999
+          }
+        },
+        "mgu|small|linear|horizon_full|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00599,
+          "residual_slope": 0.002995,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9815300000000001,
+            "800": 0.9815966666666668,
+            "1600": 0.9717233333333333,
+            "3200": 0.9738600000000001,
+            "6400": 0.9768633333333333,
+            "12800": 0.9798499999999999
+          }
+        },
+        "gru|small|linear|every_observation|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.01153,
+          "residual_slope": 0.005765,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8650666666666668,
+            "800": 0.8704833333333334,
+            "1600": 0.8681333333333333,
+            "3200": 0.83718,
+            "6400": 0.84052,
+            "12800": 0.8487100000000001
+          }
+        },
+        "gru|small|linear|misaligned_a|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.02869,
+          "residual_slope": 0.014347,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9428866666666665,
+            "800": 0.9441033333333334,
+            "1600": 0.9402966666666667,
+            "3200": 0.9120366666666667,
+            "6400": 0.9398533333333333,
+            "12800": 0.94073
+          }
+        },
+        "gru|small|linear|misaligned_b|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.003,
+          "residual_slope": -0.001498,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9329966666666666,
+            "800": 0.9674966666666668,
+            "1600": 0.9729966666666666,
+            "3200": 0.9657433333333333,
+            "6400": 0.9627666666666667,
+            "12800": 0.9627466666666665
+          }
+        },
+        "gru|small|linear|random_rate_matched|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00555,
+          "residual_slope": 0.002775,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9828866666666668,
+            "800": 0.9623200000000001,
+            "1600": 0.97768,
+            "3200": 0.98026,
+            "6400": 0.9853900000000001,
+            "12800": 0.98581
+          }
+        },
+        "gru|small|linear|block_shuffled|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00299,
+          "residual_slope": 0.000212,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.96314,
+            "800": 0.9614033333333333,
+            "1600": 0.9618166666666667,
+            "3200": 0.9614033333333333,
+            "6400": 0.9588399999999999,
+            "12800": 0.9618266666666667
+          }
+        },
+        "gru|small|linear|true_boundary|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00043,
+          "residual_slope": 5e-06,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.93804,
+            "800": 0.9872,
+            "1600": 0.9927233333333333,
+            "3200": 0.9927199999999999,
+            "6400": 0.9931533333333333,
+            "12800": 0.99273
+          }
+        },
+        "gru|small|linear|wrong_boundary|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00173,
+          "residual_slope": 1.3e-05,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9658066666666666,
+            "800": 0.9786066666666667,
+            "1600": 0.9798399999999999,
+            "3200": 0.9807033333333334,
+            "6400": 0.9824333333333334,
+            "12800": 0.98073
+          }
+        },
+        "gru|micro|linear|horizon_5|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00508,
+          "residual_slope": 0.002542,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9217833333333334,
+            "800": 0.9615233333333334,
+            "1600": 0.9593933333333333,
+            "3200": 0.9606733333333333,
+            "6400": 0.9623766666666667,
+            "12800": 0.9657566666666666
+          }
+        },
+        "gru|micro|linear|horizon_45|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 800,
+          "second_half_movement": 0.00257,
+          "residual_slope": -0.001283,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9717266666666666,
+            "800": 0.9858699999999999,
+            "1600": 0.9837566666666667,
+            "3200": 0.9833333333333334,
+            "6400": 0.9829,
+            "12800": 0.9807666666666667
+          }
+        },
+        "gru|micro|linear|horizon_full|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 3200,
+          "second_half_movement": 0.00172,
+          "residual_slope": -0.00086,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9773266666666668,
+            "800": 0.9658666666666668,
+            "1600": 0.9850300000000001,
+            "3200": 0.9880666666666666,
+            "6400": 0.98719,
+            "12800": 0.9863466666666666
+          }
+        },
+        "gru|medium|linear|horizon_5|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00127,
+          "residual_slope": 0.000635,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9687233333333335,
+            "800": 0.9713133333333333,
+            "1600": 0.9743766666666667,
+            "3200": 0.9657833333333333,
+            "6400": 0.9670533333333333,
+            "12800": 0.9670533333333333
+          }
+        },
+        "gru|medium|linear|horizon_45|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00172,
+          "residual_slope": -0.000858,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9850099999999999,
+            "800": 0.9778533333333334,
+            "1600": 0.9893033333333333,
+            "3200": 0.9880066666666667,
+            "6400": 0.9871533333333334,
+            "12800": 0.98629
+          }
+        },
+        "gru|medium|linear|horizon_full|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00258,
+          "residual_slope": 0.001292,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.94914,
+            "800": 0.9698266666666666,
+            "1600": 0.98497,
+            "3200": 0.98541,
+            "6400": 0.98755,
+            "12800": 0.9879933333333334
+          }
+        },
+        "gru|large|linear|horizon_5|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.00044,
+          "residual_slope": -0.00022,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9494733333333333,
+            "800": 0.97209,
+            "1600": 0.9653700000000001,
+            "3200": 0.9730466666666667,
+            "6400": 0.9730500000000001,
+            "12800": 0.9726066666666667
+          }
+        },
+        "gru|large|linear|horizon_45|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00257,
+          "residual_slope": 0.001285,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.98974,
+            "800": 0.9718100000000001,
+            "1600": 0.97609,
+            "3200": 0.9777933333333334,
+            "6400": 0.9790766666666667,
+            "12800": 0.9803633333333334
+          }
+        },
+        "gru|large|linear|horizon_full|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 400,
+          "second_half_movement": 0.00086,
+          "residual_slope": -3e-06,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9880033333333333,
+            "800": 0.9666,
+            "1600": 0.9829266666666667,
+            "3200": 0.9841500000000001,
+            "6400": 0.9832899999999999,
+            "12800": 0.9841433333333334
+          }
+        },
+        "histmlp|small|linear|none|h2": {
+          "classification": "unconverged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.02454,
+          "residual_slope": 0.010618,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9236966666666667,
+            "800": 0.92732,
+            "1600": 0.9363333333333334,
+            "3200": 0.90713,
+            "6400": 0.93167,
+            "12800": 0.9283666666666667
+          }
+        },
+        "histmlp|small|linear|none|h5": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.0102,
+          "residual_slope": 0.001677,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9288166666666666,
+            "800": 0.9387599999999999,
+            "1600": 0.9369166666666667,
+            "3200": 0.9297233333333333,
+            "6400": 0.9399233333333333,
+            "12800": 0.9330766666666666
+          }
+        },
+        "histmlp|small|linear|none|h10": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.02201,
+          "residual_slope": 0.011005,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9248,
+            "800": 0.9110366666666666,
+            "1600": 0.9110800000000001,
+            "3200": 0.90806,
+            "6400": 0.9081800000000001,
+            "12800": 0.9300700000000001
+          }
+        },
+        "histmlp|small|linear|none|hpooled_summary": {
+          "classification": "unconverged",
+          "selected_checkpoint": 6400,
+          "second_half_movement": 0.01569,
+          "residual_slope": -0.006823,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.65781,
+            "800": 0.6280566666666667,
+            "1600": 0.6679499999999999,
+            "3200": 0.6672733333333333,
+            "6400": 0.6693133333333333,
+            "12800": 0.6536266666666667
+          }
+        },
+        "tcn|small|linear|none|h5": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00043,
+          "residual_slope": -0.00021,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9599066666666666,
+            "800": 0.9448266666666667,
+            "1600": 0.9785499999999999,
+            "3200": 0.9768500000000001,
+            "6400": 0.9764200000000001,
+            "12800": 0.97643
+          }
+        },
+        "tcn|small|linear|none|h20": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00043,
+          "residual_slope": -0.00021,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9599066666666666,
+            "800": 0.9448266666666667,
+            "1600": 0.9785499999999999,
+            "3200": 0.9768500000000001,
+            "6400": 0.9764200000000001,
+            "12800": 0.97643
+          }
+        },
+        "tcn|small|linear|none|hfull_window": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00043,
+          "residual_slope": -0.00021,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9599066666666666,
+            "800": 0.9448266666666667,
+            "1600": 0.9785499999999999,
+            "3200": 0.9768500000000001,
+            "6400": 0.9764200000000001,
+            "12800": 0.97643
+          }
+        },
+        "histmlp|large|mlp_strong|none|h1": {
+          "classification": "unconverged",
+          "selected_checkpoint": 12800,
+          "second_half_movement": 0.00682,
+          "residual_slope": 0.003365,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.8510333333333334,
+            "800": 0.8395733333333334,
+            "1600": 0.8502533333333333,
+            "3200": 0.8507833333333333,
+            "6400": 0.8506966666666665,
+            "12800": 0.8575133333333333
+          }
+        },
+        "tcn|large|mlp_strong|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.00221,
+          "residual_slope": -0.00088,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.96544,
+            "800": 0.9461766666666667,
+            "1600": 0.9777533333333333,
+            "3200": 0.9659366666666666,
+            "6400": 0.96373,
+            "12800": 0.9641766666666666
+          }
+        },
+        "gru|large|mlp_strong|none|h1": {
+          "classification": "converged",
+          "selected_checkpoint": 1600,
+          "second_half_movement": 0.0,
+          "residual_slope": 0.0,
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "curve": {
+            "400": 0.9787033333333334,
+            "800": 0.9581433333333335,
+            "1600": 0.9794433333333332,
+            "3200": 0.9748133333333332,
+            "6400": 0.9748166666666668,
+            "12800": 0.9748133333333332
+          }
+        }
+      }
+    }
+  },
+  "required_optimization_contrasts": {
+    "har_stream": {
+      "large_model_at_same_update_count": {
+        "budget": 400,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 400,
+            "trainable_param_count": 652268,
+            "parameter_update_exposure": 260907200,
+            "score": 0.92432,
+            "per_unit_accuracy": {
+              "21": 0.9892857142857143,
+              "23": 0.9207547169811321,
+              "5": 0.8156028368794326,
+              "6": 0.9717314487632509
+            },
+            "checkpoint_sha": "c5e314bda6654cbcfbdda50c0a2fb9914d21b10b2b82ac49b46f3c7e12c5810d",
+            "wall_seconds": 112.04
+          },
+          {
+            "seed": 1,
+            "updates": 400,
+            "trainable_param_count": 652268,
+            "parameter_update_exposure": 260907200,
+            "score": 0.94183,
+            "per_unit_accuracy": {
+              "1": 0.9930555555555556,
+              "22": 0.9966777408637874,
+              "28": 0.8698884758364313,
+              "8": 0.9035369774919614
+            },
+            "checkpoint_sha": "e20e5f7a00d530092d8ba40c60dfd41f3354d96fe812de31d472abbd83773973",
+            "wall_seconds": 119.95
+          },
+          {
+            "seed": 2,
+            "updates": 400,
+            "trainable_param_count": 652268,
+            "parameter_update_exposure": 260907200,
+            "score": 0.96609,
+            "per_unit_accuracy": {
+              "15": 0.9251700680272109,
+              "19": 0.9837662337662337,
+              "27": 1.0,
+              "3": 0.9583333333333334
+            },
+            "checkpoint_sha": "7a498e45e1dbc0851767a145dce906f8296fac354184034cc447559e331d8d43",
+            "wall_seconds": 118.21
+          }
+        ]
+      },
+      "large_model_at_convergence": {
+        "budget": 400,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 400,
+            "trainable_param_count": 652268,
+            "parameter_update_exposure": 260907200,
+            "score": 0.92432,
+            "per_unit_accuracy": {
+              "21": 0.9892857142857143,
+              "23": 0.9207547169811321,
+              "5": 0.8156028368794326,
+              "6": 0.9717314487632509
+            },
+            "checkpoint_sha": "c5e314bda6654cbcfbdda50c0a2fb9914d21b10b2b82ac49b46f3c7e12c5810d",
+            "wall_seconds": 112.04
+          },
+          {
+            "seed": 1,
+            "updates": 400,
+            "trainable_param_count": 652268,
+            "parameter_update_exposure": 260907200,
+            "score": 0.94183,
+            "per_unit_accuracy": {
+              "1": 0.9930555555555556,
+              "22": 0.9966777408637874,
+              "28": 0.8698884758364313,
+              "8": 0.9035369774919614
+            },
+            "checkpoint_sha": "e20e5f7a00d530092d8ba40c60dfd41f3354d96fe812de31d472abbd83773973",
+            "wall_seconds": 119.95
+          },
+          {
+            "seed": 2,
+            "updates": 400,
+            "trainable_param_count": 652268,
+            "parameter_update_exposure": 260907200,
+            "score": 0.96609,
+            "per_unit_accuracy": {
+              "15": 0.9251700680272109,
+              "19": 0.9837662337662337,
+              "27": 1.0,
+              "3": 0.9583333333333334
+            },
+            "checkpoint_sha": "7a498e45e1dbc0851767a145dce906f8296fac354184034cc447559e331d8d43",
+            "wall_seconds": 118.21
+          }
+        ],
+        "classification": "converged"
+      },
+      "small_model_at_same_compute": {
+        "budget": 5635,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 5635,
+            "trainable_param_count": 46300,
+            "parameter_update_exposure": 260900500,
+            "score": 0.90541,
+            "per_unit_accuracy": {
+              "21": 0.9535714285714286,
+              "23": 0.8943396226415095,
+              "5": 0.8368794326241135,
+              "6": 0.9363957597173145
+            },
+            "checkpoint_sha": "cf37e4bd502c2b5bf996f0f474160efa3c538ad96a98ea29c8dedad4099bc36c",
+            "wall_seconds": 291.26
+          },
+          {
+            "seed": 1,
+            "updates": 5635,
+            "trainable_param_count": 46300,
+            "parameter_update_exposure": 260900500,
+            "score": 0.94354,
+            "per_unit_accuracy": {
+              "1": 1.0,
+              "22": 1.0,
+              "28": 0.8178438661710037,
+              "8": 0.9453376205787781
+            },
+            "checkpoint_sha": "b46574b9014c10ff1c4e8427de139809e0058340d2a138da4143d3e8029fddf2",
+            "wall_seconds": 293.54
+          },
+          {
+            "seed": 2,
+            "updates": 5635,
+            "trainable_param_count": 46300,
+            "parameter_update_exposure": 260900500,
+            "score": 0.97826,
+            "per_unit_accuracy": {
+              "15": 0.9761904761904762,
+              "19": 0.9805194805194806,
+              "27": 0.9846153846153847,
+              "3": 0.9722222222222222
+            },
+            "checkpoint_sha": "167cfc19aeb82dae0be5945ad520605d8746403af8b6bd7c7cba0c7b90243ef9",
+            "wall_seconds": 293.59
+          }
+        ]
+      },
+      "small_model_at_convergence": {
+        "budget": 6400,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 6400,
+            "trainable_param_count": 46300,
+            "parameter_update_exposure": 296320000,
+            "score": 0.90721,
+            "per_unit_accuracy": {
+              "21": 0.9428571428571428,
+              "23": 0.8905660377358491,
+              "5": 0.851063829787234,
+              "6": 0.9434628975265018
+            },
+            "checkpoint_sha": "f9095725c65eb0a7c8fcd68707bc0e513e63b8bbc3d4c5039129087086d90fff",
+            "wall_seconds": 328.88
+          },
+          {
+            "seed": 1,
+            "updates": 6400,
+            "trainable_param_count": 46300,
+            "parameter_update_exposure": 296320000,
+            "score": 0.94354,
+            "per_unit_accuracy": {
+              "1": 1.0,
+              "22": 1.0,
+              "28": 0.8178438661710037,
+              "8": 0.9453376205787781
+            },
+            "checkpoint_sha": "8707b977de9f5e84f94f9b169a4fca6fca7ab9098ae7162fec500838d497787e",
+            "wall_seconds": 333.22
+          },
+          {
+            "seed": 2,
+            "updates": 6400,
+            "trainable_param_count": 46300,
+            "parameter_update_exposure": 296320000,
+            "score": 0.98,
+            "per_unit_accuracy": {
+              "15": 0.9761904761904762,
+              "19": 0.9837662337662337,
+              "27": 0.9884615384615385,
+              "3": 0.9722222222222222
+            },
+            "checkpoint_sha": "5fa88ca8ef08b64ab9bda3d3e3d90877c34f6241f5504e09e8a0580188669f8f",
+            "wall_seconds": 330.17
+          }
+        ],
+        "classification": "unconverged"
+      },
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 260907200,
+        "small_steps": 5635,
+        "small_parameter_updates": 260900500,
+        "relative_parameter_update_error": 2.568e-05
+      },
+      "same_family": "gru",
+      "capacity_levels": [
+        "small",
+        "large"
+      ]
+    },
+    "speech_stream": {
+      "large_model_at_same_update_count": {
+        "budget": 400,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 400,
+            "trainable_param_count": 662541,
+            "parameter_update_exposure": 265016400,
+            "score": 0.72895,
+            "per_unit_accuracy": {
+              "0132a06d": 0.782608695652174,
+              "01648c51": 0.9795918367346939,
+              "01d22d03": 0.9583333333333334,
+              "042ea76c": 1.0,
+              "05d18852": 1.0,
+              "0685264e": 0.725,
+              "06a79a03": 1.0,
+              "06f6c194": 0.5121951219512195,
+              "07089da9": 0.9354838709677419,
+              "0717b9f6": 0.8918918918918919,
+              "075e38c3": 0.0,
+              "07ad9b59": 1.0,
+              "0ac15fe9": 0.13043478260869565,
+              "0b09edd3": 1.0,
+              "0c540988": 0.18421052631578946,
+              "0cd323ec": 0.6071428571428571,
+              "0f2442b6": 0.391304347826087,
+              "0f7266cf": 1.0,
+              "11099149": 0.9032258064516129,
+              "144d27ff": 0.7346938775510204,
+              "151bfb79": 0.9772727272727273,
+              "15f04ff8": 0.6578947368421053,
+              "161fcca8": 0.717948717948718,
+              "1678e6f1": 0.23255813953488372,
+              "172dc2b0": 0.5714285714285714,
+              "1851e33b": 0.6486486486486487,
+              "189cbabe": 1.0,
+              "18f8afd5": 1.0
+            },
+            "checkpoint_sha": "30ab400686885ae331a07bc7f2a3d044de8fdd9df7c66732db7f5356a9d6902e",
+            "wall_seconds": 76.31
+          },
+          {
+            "seed": 1,
+            "updates": 400,
+            "trainable_param_count": 662541,
+            "parameter_update_exposure": 265016400,
+            "score": 0.79898,
+            "per_unit_accuracy": {
+              "01b4757a": 0.24324324324324326,
+              "022cd682": 1.0,
+              "02e85b60": 0.8666666666666667,
+              "03401e93": 0.8679245283018868,
+              "03431e13": 0.3902439024390244,
+              "0397ecda": 0.8,
+              "03c96658": 0.9024390243902439,
+              "03cf93b1": 0.10256410256410256,
+              "042186b8": 0.9545454545454546,
+              "050170cb": 1.0,
+              "067f61e2": 0.8604651162790697,
+              "07089da9": 1.0,
+              "093f65a1": 0.925,
+              "09bcdc9d": 0.8541666666666666,
+              "0ac15fe9": 0.5869565217391305,
+              "0ba018fc": 0.8918918918918919,
+              "0d82fd99": 1.0,
+              "0f250098": 0.8947368421052632,
+              "0fa1e7a9": 1.0,
+              "130d9a87": 1.0,
+              "1365dd89": 1.0,
+              "146d97db": 0.7454545454545455,
+              "152491bc": 0.5135135135135135,
+              "161fcca8": 0.8461538461538461,
+              "1678e6f1": 0.32558139534883723,
+              "171b56dc": 0.85,
+              "1887fe04": 1.0,
+              "18e910f4": 0.9230769230769231
+            },
+            "checkpoint_sha": "352ebabb201357c0087d62ef96727118a5e56d677dd71876fdf8927facd550d5",
+            "wall_seconds": 81.83
+          },
+          {
+            "seed": 2,
+            "updates": 400,
+            "trainable_param_count": 662541,
+            "parameter_update_exposure": 265016400,
+            "score": 0.68929,
+            "per_unit_accuracy": {
+              "016e2c6d": 0.6956521739130435,
+              "01d22d03": 0.7708333333333334,
+              "022cd682": 0.9545454545454546,
+              "038da7ee": 0.3191489361702128,
+              "03cf93b1": 0.358974358974359,
+              "05b2db80": 0.2127659574468085,
+              "06076b6b": 0.782608695652174,
+              "0717b9f6": 0.8378378378378378,
+              "07c5129e": 0.7441860465116279,
+              "08ab231c": 1.0,
+              "0a5636ca": 0.5535714285714286,
+              "0ab3b47d": 0.9148936170212766,
+              "0ac15fe9": 0.3695652173913043,
+              "0b56bcfe": 0.9705882352941176,
+              "0ba018fc": 0.7567567567567568,
+              "0d6d7360": 0.7222222222222222,
+              "0f2442b6": 0.08695652173913043,
+              "0f250098": 0.7631578947368421,
+              "12529547": 0.9285714285714286,
+              "13dce503": 0.2619047619047619,
+              "144d27ff": 0.5918367346938775,
+              "14872d06": 0.8636363636363636,
+              "14c7b073": 0.9333333333333333,
+              "15dd287d": 0.9545454545454546,
+              "161fcca8": 0.5897435897435898,
+              "172dc2b0": 0.7142857142857143,
+              "17c94b23": 0.8260869565217391,
+              "189cbabe": 1.0
+            },
+            "checkpoint_sha": "2d8048154dcb6270d05f81e429a63cc7a23a3af64ce3027232b3fe6fa4e31619",
+            "wall_seconds": 84.82
+          }
+        ]
+      },
+      "large_model_at_convergence": {
+        "budget": 1600,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 1600,
+            "trainable_param_count": 662541,
+            "parameter_update_exposure": 1060065600,
+            "score": 0.71754,
+            "per_unit_accuracy": {
+              "0132a06d": 0.8695652173913043,
+              "01648c51": 0.9183673469387755,
+              "01d22d03": 0.9166666666666666,
+              "042ea76c": 1.0,
+              "05d18852": 0.32432432432432434,
+              "0685264e": 1.0,
+              "06a79a03": 0.8936170212765957,
+              "06f6c194": 0.5609756097560976,
+              "07089da9": 1.0,
+              "0717b9f6": 0.8108108108108109,
+              "075e38c3": 0.0,
+              "07ad9b59": 0.9787234042553191,
+              "0ac15fe9": 0.5434782608695652,
+              "0b09edd3": 0.6388888888888888,
+              "0c540988": 0.0,
+              "0cd323ec": 0.6071428571428571,
+              "0f2442b6": 0.391304347826087,
+              "0f7266cf": 0.9555555555555556,
+              "11099149": 0.9032258064516129,
+              "144d27ff": 0.7346938775510204,
+              "151bfb79": 1.0,
+              "15f04ff8": 0.6578947368421053,
+              "161fcca8": 0.9743589743589743,
+              "1678e6f1": 0.23255813953488372,
+              "172dc2b0": 0.46938775510204084,
+              "1851e33b": 0.7567567567567568,
+              "189cbabe": 1.0,
+              "18f8afd5": 1.0
+            },
+            "checkpoint_sha": "5be00ba69a699298a8605e40d667c512d7e14edecea1886c709e4563a537bfd8",
+            "wall_seconds": 336.31
+          },
+          {
+            "seed": 1,
+            "updates": 1600,
+            "trainable_param_count": 662541,
+            "parameter_update_exposure": 1060065600,
+            "score": 0.80239,
+            "per_unit_accuracy": {
+              "01b4757a": 0.40540540540540543,
+              "022cd682": 1.0,
+              "02e85b60": 0.8444444444444444,
+              "03401e93": 0.9056603773584906,
+              "03431e13": 0.17073170731707318,
+              "0397ecda": 0.98,
+              "03c96658": 1.0,
+              "03cf93b1": 0.48717948717948717,
+              "042186b8": 0.8636363636363636,
+              "050170cb": 0.9705882352941176,
+              "067f61e2": 0.9069767441860465,
+              "07089da9": 0.8387096774193549,
+              "093f65a1": 0.9,
+              "09bcdc9d": 1.0,
+              "0ac15fe9": 0.45652173913043476,
+              "0ba018fc": 0.7297297297297297,
+              "0d82fd99": 0.8837209302325582,
+              "0f250098": 0.9473684210526315,
+              "0fa1e7a9": 1.0,
+              "130d9a87": 0.85,
+              "1365dd89": 0.918918918918919,
+              "146d97db": 1.0,
+              "152491bc": 0.2972972972972973,
+              "161fcca8": 0.8461538461538461,
+              "1678e6f1": 0.4186046511627907,
+              "171b56dc": 0.775,
+              "1887fe04": 1.0,
+              "18e910f4": 0.8461538461538461
+            },
+            "checkpoint_sha": "fe32ff5c6a485842e72dcfc0dd70a8bab33aa0901d0dd0b0eafe9f72af517afd",
+            "wall_seconds": 332.6
+          },
+          {
+            "seed": 2,
+            "updates": 1600,
+            "trainable_param_count": 662541,
+            "parameter_update_exposure": 1060065600,
+            "score": 0.74898,
+            "per_unit_accuracy": {
+              "016e2c6d": 0.6956521739130435,
+              "01d22d03": 0.8958333333333334,
+              "022cd682": 0.9090909090909091,
+              "038da7ee": 0.19148936170212766,
+              "03cf93b1": 0.4358974358974359,
+              "05b2db80": 0.1276595744680851,
+              "06076b6b": 0.8913043478260869,
+              "0717b9f6": 0.8648648648648649,
+              "07c5129e": 1.0,
+              "08ab231c": 1.0,
+              "0a5636ca": 0.625,
+              "0ab3b47d": 0.8297872340425532,
+              "0ac15fe9": 0.8043478260869565,
+              "0b56bcfe": 1.0,
+              "0ba018fc": 0.7567567567567568,
+              "0d6d7360": 0.8333333333333334,
+              "0f2442b6": 0.21739130434782608,
+              "0f250098": 0.8947368421052632,
+              "12529547": 1.0,
+              "13dce503": 0.2857142857142857,
+              "144d27ff": 0.5714285714285714,
+              "14872d06": 0.9545454545454546,
+              "14c7b073": 0.9111111111111111,
+              "15dd287d": 0.9772727272727273,
+              "161fcca8": 0.7692307692307693,
+              "172dc2b0": 0.8775510204081632,
+              "17c94b23": 0.8478260869565217,
+              "189cbabe": 1.0
+            },
+            "checkpoint_sha": "0ef10c4f43a7b58aa380e53cf319f24766921e84f5a97141dfb4477d8a8fdb4d",
+            "wall_seconds": 328.1
+          }
+        ],
+        "classification": "unconverged"
+      },
+      "small_model_at_same_compute": {
+        "budget": 6194,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 6194,
+            "trainable_param_count": 42789,
+            "parameter_update_exposure": 265035066,
+            "score": 0.70965,
+            "per_unit_accuracy": {
+              "0132a06d": 0.8043478260869565,
+              "01648c51": 1.0,
+              "01d22d03": 0.9583333333333334,
+              "042ea76c": 1.0,
+              "05d18852": 0.32432432432432434,
+              "0685264e": 0.725,
+              "06a79a03": 1.0,
+              "06f6c194": 0.6341463414634146,
+              "07089da9": 1.0,
+              "0717b9f6": 0.7837837837837838,
+              "075e38c3": 0.3170731707317073,
+              "07ad9b59": 1.0,
+              "0ac15fe9": 0.21739130434782608,
+              "0b09edd3": 0.6944444444444444,
+              "0c540988": 0.0,
+              "0cd323ec": 0.5714285714285714,
+              "0f2442b6": 0.5,
+              "0f7266cf": 0.9555555555555556,
+              "11099149": 0.9354838709677419,
+              "144d27ff": 0.673469387755102,
+              "151bfb79": 0.9318181818181818,
+              "15f04ff8": 0.6578947368421053,
+              "161fcca8": 0.8205128205128205,
+              "1678e6f1": 0.27906976744186046,
+              "172dc2b0": 0.5918367346938775,
+              "1851e33b": 0.6486486486486487,
+              "189cbabe": 0.8125,
+              "18f8afd5": 1.0
+            },
+            "checkpoint_sha": "88560a532316488c1357c6118fe95ba45d6426385a11052d10a34e9a2bec0029",
+            "wall_seconds": 239.93
+          },
+          {
+            "seed": 1,
+            "updates": 6194,
+            "trainable_param_count": 42789,
+            "parameter_update_exposure": 265035066,
+            "score": 0.81601,
+            "per_unit_accuracy": {
+              "01b4757a": 0.24324324324324326,
+              "022cd682": 1.0,
+              "02e85b60": 1.0,
+              "03401e93": 0.8679245283018868,
+              "03431e13": 0.5609756097560976,
+              "0397ecda": 1.0,
+              "03c96658": 1.0,
+              "03cf93b1": 0.7435897435897436,
+              "042186b8": 0.9545454545454546,
+              "050170cb": 0.9705882352941176,
+              "067f61e2": 0.813953488372093,
+              "07089da9": 1.0,
+              "093f65a1": 0.9,
+              "09bcdc9d": 0.9166666666666666,
+              "0ac15fe9": 0.17391304347826086,
+              "0ba018fc": 0.8648648648648649,
+              "0d82fd99": 0.9302325581395349,
+              "0f250098": 1.0,
+              "0fa1e7a9": 0.9782608695652174,
+              "130d9a87": 0.6,
+              "1365dd89": 1.0,
+              "146d97db": 1.0,
+              "152491bc": 0.2702702702702703,
+              "161fcca8": 0.8461538461538461,
+              "1678e6f1": 0.23255813953488372,
+              "171b56dc": 0.95,
+              "1887fe04": 1.0,
+              "18e910f4": 0.9230769230769231
+            },
+            "checkpoint_sha": "0777c13247f248da1e23031931c7c7fe00a4e93f44b2dbdb6b305981b733f664",
+            "wall_seconds": 236.18
+          },
+          {
+            "seed": 2,
+            "updates": 6194,
+            "trainable_param_count": 42789,
+            "parameter_update_exposure": 265035066,
+            "score": 0.71954,
+            "per_unit_accuracy": {
+              "016e2c6d": 0.782608695652174,
+              "01d22d03": 0.9583333333333334,
+              "022cd682": 0.8409090909090909,
+              "038da7ee": 0.3404255319148936,
+              "03cf93b1": 0.3076923076923077,
+              "05b2db80": 0.1276595744680851,
+              "06076b6b": 0.8913043478260869,
+              "0717b9f6": 1.0,
+              "07c5129e": 0.9767441860465116,
+              "08ab231c": 0.9814814814814815,
+              "0a5636ca": 0.5357142857142857,
+              "0ab3b47d": 0.8936170212765957,
+              "0ac15fe9": 0.782608695652174,
+              "0b56bcfe": 1.0,
+              "0ba018fc": 0.7567567567567568,
+              "0d6d7360": 0.3888888888888889,
+              "0f2442b6": 0.2608695652173913,
+              "0f250098": 0.7631578947368421,
+              "12529547": 0.7380952380952381,
+              "13dce503": 0.23809523809523808,
+              "144d27ff": 0.4897959183673469,
+              "14872d06": 0.9545454545454546,
+              "14c7b073": 0.8888888888888888,
+              "15dd287d": 0.9772727272727273,
+              "161fcca8": 0.8717948717948718,
+              "172dc2b0": 0.7755102040816326,
+              "17c94b23": 0.8043478260869565,
+              "189cbabe": 0.9375
+            },
+            "checkpoint_sha": "0773e1fea3b629ea77443f5d6a540fced0d32d5f7fde93cc415277326e2b88ff",
+            "wall_seconds": 239.53
+          }
+        ]
+      },
+      "small_model_at_convergence": {
+        "budget": 3200,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 3200,
+            "trainable_param_count": 42789,
+            "parameter_update_exposure": 136924800,
+            "score": 0.70526,
+            "per_unit_accuracy": {
+              "0132a06d": 0.8043478260869565,
+              "01648c51": 1.0,
+              "01d22d03": 0.9583333333333334,
+              "042ea76c": 1.0,
+              "05d18852": 0.32432432432432434,
+              "0685264e": 0.8,
+              "06a79a03": 1.0,
+              "06f6c194": 0.6097560975609756,
+              "07089da9": 1.0,
+              "0717b9f6": 0.7837837837837838,
+              "075e38c3": 0.3170731707317073,
+              "07ad9b59": 1.0,
+              "0ac15fe9": 0.21739130434782608,
+              "0b09edd3": 0.6944444444444444,
+              "0c540988": 0.0,
+              "0cd323ec": 0.5357142857142857,
+              "0f2442b6": 0.5,
+              "0f7266cf": 0.9333333333333333,
+              "11099149": 0.9354838709677419,
+              "144d27ff": 0.6938775510204082,
+              "151bfb79": 0.9318181818181818,
+              "15f04ff8": 0.6578947368421053,
+              "161fcca8": 0.8205128205128205,
+              "1678e6f1": 0.3023255813953488,
+              "172dc2b0": 0.5306122448979592,
+              "1851e33b": 0.5405405405405406,
+              "189cbabe": 0.8125,
+              "18f8afd5": 1.0
+            },
+            "checkpoint_sha": "b36fd256ea872b0bc051d8d2b599a4f507362afc544b9bd5a17b23b068c19421",
+            "wall_seconds": 120.62
+          },
+          {
+            "seed": 1,
+            "updates": 3200,
+            "trainable_param_count": 42789,
+            "parameter_update_exposure": 136924800,
+            "score": 0.79302,
+            "per_unit_accuracy": {
+              "01b4757a": 0.21621621621621623,
+              "022cd682": 1.0,
+              "02e85b60": 1.0,
+              "03401e93": 0.7735849056603774,
+              "03431e13": 0.17073170731707318,
+              "0397ecda": 1.0,
+              "03c96658": 1.0,
+              "03cf93b1": 0.5384615384615384,
+              "042186b8": 0.9772727272727273,
+              "050170cb": 1.0,
+              "067f61e2": 0.8372093023255814,
+              "07089da9": 0.967741935483871,
+              "093f65a1": 1.0,
+              "09bcdc9d": 0.9166666666666666,
+              "0ac15fe9": 0.043478260869565216,
+              "0ba018fc": 0.972972972972973,
+              "0d82fd99": 0.9534883720930233,
+              "0f250098": 1.0,
+              "0fa1e7a9": 0.9782608695652174,
+              "130d9a87": 0.625,
+              "1365dd89": 1.0,
+              "146d97db": 1.0,
+              "152491bc": 0.35135135135135137,
+              "161fcca8": 0.8974358974358975,
+              "1678e6f1": 0.23255813953488372,
+              "171b56dc": 0.9,
+              "1887fe04": 1.0,
+              "18e910f4": 0.7692307692307693
+            },
+            "checkpoint_sha": "b8326a09bef7a95d228b65de4fbed2bc9117f7535f748cd5dfff0c874511b374",
+            "wall_seconds": 123.05
+          },
+          {
+            "seed": 2,
+            "updates": 3200,
+            "trainable_param_count": 42789,
+            "parameter_update_exposure": 136924800,
+            "score": 0.73181,
+            "per_unit_accuracy": {
+              "016e2c6d": 0.782608695652174,
+              "01d22d03": 0.9583333333333334,
+              "022cd682": 0.8181818181818182,
+              "038da7ee": 0.425531914893617,
+              "03cf93b1": 0.23076923076923078,
+              "05b2db80": 0.14893617021276595,
+              "06076b6b": 0.8478260869565217,
+              "0717b9f6": 1.0,
+              "07c5129e": 0.9767441860465116,
+              "08ab231c": 1.0,
+              "0a5636ca": 0.6071428571428571,
+              "0ab3b47d": 0.9148936170212766,
+              "0ac15fe9": 0.8043478260869565,
+              "0b56bcfe": 1.0,
+              "0ba018fc": 0.7567567567567568,
+              "0d6d7360": 0.5277777777777778,
+              "0f2442b6": 0.2608695652173913,
+              "0f250098": 0.7368421052631579,
+              "12529547": 0.7619047619047619,
+              "13dce503": 0.23809523809523808,
+              "144d27ff": 0.5510204081632653,
+              "14872d06": 0.9318181818181818,
+              "14c7b073": 0.9111111111111111,
+              "15dd287d": 1.0,
+              "161fcca8": 0.8717948717948718,
+              "172dc2b0": 0.6530612244897959,
+              "17c94b23": 0.8913043478260869,
+              "189cbabe": 1.0
+            },
+            "checkpoint_sha": "209083cf0067f1e659b39bf0fc299bcff05c4cd19f15b916a116c323f0ecdc4a",
+            "wall_seconds": 124.75
+          }
+        ],
+        "classification": "converged"
+      },
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 265016400,
+        "small_steps": 6194,
+        "small_parameter_updates": 265035066,
+        "relative_parameter_update_error": 7.043e-05
+      },
+      "same_family": "gru",
+      "capacity_levels": [
+        "small",
+        "large"
+      ]
+    },
+    "harth_stream": {
+      "large_model_at_same_update_count": {
+        "budget": 400,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 400,
+            "trainable_param_count": 651299,
+            "parameter_update_exposure": 260519600,
+            "score": 0.99241,
+            "per_unit_accuracy": {
+              "S019": 0.9892086330935251,
+              "S025": 0.9878542510121457,
+              "S027": 1.0
+            },
+            "checkpoint_sha": "e36d46bc8874c8358f37cd73b6fc10dacd28fbee35bcd944c8d3856b5df15c4e",
+            "wall_seconds": 37.39
+          },
+          {
+            "seed": 1,
+            "updates": 400,
+            "trainable_param_count": 651299,
+            "parameter_update_exposure": 260519600,
+            "score": 0.98462,
+            "per_unit_accuracy": {
+              "S020": 1.0,
+              "S022": 0.9689922480620154,
+              "S029": 0.9847908745247148
+            },
+            "checkpoint_sha": "75d5c4f2c072e360f35d9292734b17c8c2210329c1924d25256c26348f1711f0",
+            "wall_seconds": 37.89
+          },
+          {
+            "seed": 2,
+            "updates": 400,
+            "trainable_param_count": 651299,
+            "parameter_update_exposure": 260519600,
+            "score": 0.98698,
+            "per_unit_accuracy": {
+              "S015": 0.9924812030075187,
+              "S025": 0.9676113360323887,
+              "S028": 1.0
+            },
+            "checkpoint_sha": "ad697850eaca06d60344390f26adaabc0baf85f06bfec7b053639095df5776ee",
+            "wall_seconds": 39.84
+          }
+        ]
+      },
+      "large_model_at_convergence": {
+        "budget": 400,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 400,
+            "trainable_param_count": 651299,
+            "parameter_update_exposure": 260519600,
+            "score": 0.99241,
+            "per_unit_accuracy": {
+              "S019": 0.9892086330935251,
+              "S025": 0.9878542510121457,
+              "S027": 1.0
+            },
+            "checkpoint_sha": "e36d46bc8874c8358f37cd73b6fc10dacd28fbee35bcd944c8d3856b5df15c4e",
+            "wall_seconds": 37.39
+          },
+          {
+            "seed": 1,
+            "updates": 400,
+            "trainable_param_count": 651299,
+            "parameter_update_exposure": 260519600,
+            "score": 0.98462,
+            "per_unit_accuracy": {
+              "S020": 1.0,
+              "S022": 0.9689922480620154,
+              "S029": 0.9847908745247148
+            },
+            "checkpoint_sha": "75d5c4f2c072e360f35d9292734b17c8c2210329c1924d25256c26348f1711f0",
+            "wall_seconds": 37.89
+          },
+          {
+            "seed": 2,
+            "updates": 400,
+            "trainable_param_count": 651299,
+            "parameter_update_exposure": 260519600,
+            "score": 0.98698,
+            "per_unit_accuracy": {
+              "S015": 0.9924812030075187,
+              "S025": 0.9676113360323887,
+              "S028": 1.0
+            },
+            "checkpoint_sha": "ad697850eaca06d60344390f26adaabc0baf85f06bfec7b053639095df5776ee",
+            "wall_seconds": 39.84
+          }
+        ],
+        "classification": "converged"
+      },
+      "small_model_at_same_compute": {
+        "budget": 5656,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 5656,
+            "trainable_param_count": 46057,
+            "parameter_update_exposure": 260498392,
+            "score": 0.99114,
+            "per_unit_accuracy": {
+              "S019": 0.9892086330935251,
+              "S025": 0.9838056680161943,
+              "S027": 1.0
+            },
+            "checkpoint_sha": "a35f57a4a186aaada113f14bbe1c461eee1421969da22be1e03c1086ebf1fdf4",
+            "wall_seconds": 97.53
+          },
+          {
+            "seed": 1,
+            "updates": 5656,
+            "trainable_param_count": 46057,
+            "parameter_update_exposure": 260498392,
+            "score": 0.97949,
+            "per_unit_accuracy": {
+              "S020": 1.0,
+              "S022": 0.9612403100775194,
+              "S029": 0.9771863117870723
+            },
+            "checkpoint_sha": "eb85537c472b040c53b0f9e298a828ddf4082efcd12773627adac6c39ef2b227",
+            "wall_seconds": 98.85
+          },
+          {
+            "seed": 2,
+            "updates": 5656,
+            "trainable_param_count": 46057,
+            "parameter_update_exposure": 260498392,
+            "score": 0.99349,
+            "per_unit_accuracy": {
+              "S015": 0.9924812030075187,
+              "S025": 0.9878542510121457,
+              "S028": 1.0
+            },
+            "checkpoint_sha": "a9af9fd94dbaec6ca550460acb568ef141e68b07440615533f39ebef8fb578cd",
+            "wall_seconds": 98.9
+          }
+        ]
+      },
+      "small_model_at_convergence": {
+        "budget": 1600,
+        "records": [
+          {
+            "seed": 0,
+            "updates": 1600,
+            "trainable_param_count": 46057,
+            "parameter_update_exposure": 73691200,
+            "score": 0.99241,
+            "per_unit_accuracy": {
+              "S019": 0.9928057553956835,
+              "S025": 0.9838056680161943,
+              "S027": 1.0
+            },
+            "checkpoint_sha": "522211f34a5d0e799ec341e2f9f5d1d7d5214da2e4bbc2842f92b980dca6972f",
+            "wall_seconds": 27.69
+          },
+          {
+            "seed": 1,
+            "updates": 1600,
+            "trainable_param_count": 46057,
+            "parameter_update_exposure": 73691200,
+            "score": 0.98077,
+            "per_unit_accuracy": {
+              "S020": 1.0,
+              "S022": 0.9689922480620154,
+              "S029": 0.973384030418251
+            },
+            "checkpoint_sha": "f5dfb94b0b689121483a8075877d8593a22245216c4d27c90e83107524462f92",
+            "wall_seconds": 27.93
+          },
+          {
+            "seed": 2,
+            "updates": 1600,
+            "trainable_param_count": 46057,
+            "parameter_update_exposure": 73691200,
+            "score": 0.99219,
+            "per_unit_accuracy": {
+              "S015": 0.9924812030075187,
+              "S025": 0.9838056680161943,
+              "S028": 1.0
+            },
+            "checkpoint_sha": "a78826e9fbdc52bc4477f577a4b74dcf99c1eb1b3ea769f156f9423e87c86eda",
+            "wall_seconds": 28.05
+          }
+        ],
+        "classification": "converged"
+      },
+      "compute_match": {
+        "large_steps": 400,
+        "large_parameter_updates": 260519600,
+        "small_steps": 5656,
+        "small_parameter_updates": 260498392,
+        "relative_parameter_update_error": 8.141e-05
+      },
+      "same_family": "gru",
+      "capacity_levels": [
+        "small",
+        "large"
+      ]
+    }
+  },
+  "rule": "an unconverged arm cannot determine a scientific classification, and the remedy is a longer budget rather than a looser plateau rule",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "17cf7eb2414dacd7ad8ea63bda51d4288dc911b33425990a0aa2e561568076da"
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_DIRTY_SRC_HALTS_SUPERVISOR",
+  "defect": "the Substrate master program writes modules into src/mop/cognition inside the live temporal core worktree. The temporal supervisor refuses any shard launch while git reports src dirty, so uncommitted Substrate files made a required startup stage fail and the supervisor returned. launchd does not restart a clean exit, so it stayed down until noticed",
+  "correction": "the incident is recorded in the temporal orchestration ledger as substrate_program_dirty_src_supervisor_exit_20260727.json. SUBSTRATE_STATE.json now reports source_tree_clean, computed from git, so a state file written from a dirty tree carries that fact rather than hiding it. The operating rule is that Substrate edits land in commits before the supervisor next needs to launch anything",
+  "regression_test": "tests/cognition/test_program.py::test_state_reports_whether_the_source_tree_was_clean",
+  "reproduced_by": "observed live at 2026-07-27, supervisor exit on mop.temporal.runs.codelife with two untracked src/mop/cognition files; eight principal workers survived and were re adopted on restart",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+  "activation": false,
+  "sha256": "c91a678fc6a92861291a73423297327693cd50942cdac0c4732108dc430caf74"
+}

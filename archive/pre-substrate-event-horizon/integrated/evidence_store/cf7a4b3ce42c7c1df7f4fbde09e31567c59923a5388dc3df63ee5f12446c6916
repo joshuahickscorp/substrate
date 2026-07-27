@@ -1,0 +1,82 @@
+{
+  "schema": "mop-control-semantic-registry/v1",
+  "controls": {
+    "order_free": {
+      "removes": "the ability to consume temporal order",
+      "proofs": [
+        "timestep permutation",
+        "sequence reversal",
+        "temporal block permutation",
+        "cyclic shift",
+        "determinism",
+        "no temporal convolution",
+        "no recurrence",
+        "no position encoding",
+        "no carried state buffer"
+      ],
+      "implementation": "mop.method.controls.order_free"
+    },
+    "no_replay": {
+      "removes": "the use of any historical item in an update",
+      "proofs": [
+        "no replayed items",
+        "no hidden buffer read",
+        "no cached batch",
+        "buffer declared empty"
+      ],
+      "implementation": "mop.method.controls.no_replay"
+    },
+    "replay_active": {
+      "removes": "nothing: this is the mirror proof that a replay arm actually replayed",
+      "proofs": [
+        "items replayed",
+        "buffer kept replacing",
+        "context boundary crossed",
+        "buffer contents changed"
+      ],
+      "implementation": "mop.method.controls.replay_active"
+    },
+    "random": {
+      "removes": "the information in the decision, keeping its rate",
+      "proofs": [
+        "rate matched",
+        "budget matched",
+        "information matched",
+        "seed bound",
+        "independent of target"
+      ],
+      "implementation": "mop.method.controls.random_control"
+    },
+    "shuffled": {
+      "removes": "the relation, keeping the marginals",
+      "proofs": [
+        "marginals preserved",
+        "relation destroyed"
+      ],
+      "implementation": "mop.method.controls.shuffled_control"
+    },
+    "wrong_time": {
+      "removes": "the timing, keeping the intervention and the budget",
+      "proofs": [
+        "same intervention",
+        "budget matched",
+        "times preregistered",
+        "times differ from the real ones"
+      ],
+      "implementation": "mop.method.controls.wrong_time_control"
+    },
+    "frozen": {
+      "removes": "every change to the target parameter groups",
+      "proofs": [
+        "no target parameter changed",
+        "targets exist",
+        "receipt lists changes"
+      ],
+      "implementation": "mop.method.controls.frozen_control"
+    }
+  },
+  "rule": "a control that fails any proof cannot be the comparison for a verdict",
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "e71e27756ee9ae9b13acdc1a92f84b585660b9034ca1d907a217ebe7f539b06f"
+}

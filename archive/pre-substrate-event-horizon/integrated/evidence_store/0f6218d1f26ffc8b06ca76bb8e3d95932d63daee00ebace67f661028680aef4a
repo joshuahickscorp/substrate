@@ -1,0 +1,130 @@
+{
+  "schema": "mop-temporal-core-resource-report/v1",
+  "measurements": [
+    {
+      "tier": "small",
+      "workers": 1,
+      "aggregate_steps_per_second": 18.99,
+      "per_worker": 18.99,
+      "wall_seconds": 3.6
+    },
+    {
+      "tier": "small",
+      "workers": 2,
+      "aggregate_steps_per_second": 36.31,
+      "per_worker": 18.15,
+      "wall_seconds": 3.9
+    },
+    {
+      "tier": "small",
+      "workers": 4,
+      "aggregate_steps_per_second": 69.82,
+      "per_worker": 17.45,
+      "wall_seconds": 4.2
+    },
+    {
+      "tier": "small",
+      "workers": 8,
+      "aggregate_steps_per_second": 127.68,
+      "per_worker": 15.96,
+      "wall_seconds": 4.6
+    },
+    {
+      "tier": "small",
+      "workers": 12,
+      "aggregate_steps_per_second": 159.27,
+      "per_worker": 13.27,
+      "wall_seconds": 5.5
+    },
+    {
+      "tier": "small",
+      "workers": 16,
+      "aggregate_steps_per_second": 181.97,
+      "per_worker": 11.37,
+      "wall_seconds": 6.7
+    },
+    {
+      "tier": "small",
+      "workers": 20,
+      "aggregate_steps_per_second": 184.05,
+      "per_worker": 9.2,
+      "wall_seconds": 8.3
+    },
+    {
+      "tier": "small",
+      "workers": 24,
+      "aggregate_steps_per_second": 186.2,
+      "per_worker": 7.76,
+      "wall_seconds": 9.9
+    },
+    {
+      "tier": "large",
+      "workers": 1,
+      "aggregate_steps_per_second": 6.18,
+      "per_worker": 6.18,
+      "wall_seconds": 8.0
+    },
+    {
+      "tier": "large",
+      "workers": 2,
+      "aggregate_steps_per_second": 10.99,
+      "per_worker": 5.5,
+      "wall_seconds": 9.0
+    },
+    {
+      "tier": "large",
+      "workers": 4,
+      "aggregate_steps_per_second": 21.01,
+      "per_worker": 5.25,
+      "wall_seconds": 9.5
+    },
+    {
+      "tier": "large",
+      "workers": 8,
+      "aggregate_steps_per_second": 33.82,
+      "per_worker": 4.23,
+      "wall_seconds": 12.1
+    },
+    {
+      "tier": "large",
+      "workers": 12,
+      "aggregate_steps_per_second": 40.1,
+      "per_worker": 3.34,
+      "wall_seconds": 15.2
+    },
+    {
+      "tier": "large",
+      "workers": 16,
+      "aggregate_steps_per_second": 45.07,
+      "per_worker": 2.82,
+      "wall_seconds": 17.3
+    },
+    {
+      "tier": "large",
+      "workers": 20,
+      "aggregate_steps_per_second": 44.27,
+      "per_worker": 2.21,
+      "wall_seconds": 21.9
+    },
+    {
+      "tier": "large",
+      "workers": 24,
+      "aggregate_steps_per_second": 44.49,
+      "per_worker": 1.85,
+      "wall_seconds": 26.6
+    }
+  ],
+  "optimum_workers": {
+    "small": 24,
+    "large": 16
+  },
+  "optimum_aggregate": {
+    "small": 186.2,
+    "large": 45.07
+  },
+  "note": "the optimum is rebenchmarked per size tier because the previous optimum was measured on one tier and need not hold for a larger core",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "85a871e121871dfe4945de0d46339df4378aae6c93b463989983ab2f53924be1"
+}

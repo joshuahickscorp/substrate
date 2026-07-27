@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_ATTENTION_CANDIDATE_NOT_A_REGION",
+  "defect": "the attended set filters the perspective pool by declared inputs, but one attention candidate was named observation, which is not a workspace region. The one perspective that reads the perceptual region was therefore dropped by attention on every cycle at every budget, including an unlimited one",
+  "correction": "candidate ids are region names, and a regression test requires every candidate to name a region that at least one perspective declares as an input",
+  "regression_test": "tests/cognition/test_certification.py::test_every_attention_candidate_is_a_region_a_perspective_can_read",
+  "reproduced_by": "reproduced by the closure gate certification run",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "activation": false,
+  "sha256": "e14b648a8622e6e7a3dcbb7d943c7c8b58ba9016a5b7c800bd669817ea4ccbad"
+}

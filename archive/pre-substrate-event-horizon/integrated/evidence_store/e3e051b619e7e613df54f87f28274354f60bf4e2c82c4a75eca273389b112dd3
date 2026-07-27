@@ -1,0 +1,79 @@
+{
+  "schema": "mop-temporal-cross-worktree-handoff/v1",
+  "from": {
+    "root": "/Users/scammermike/Downloads/mop-temporal-core-mechanism",
+    "branch": "agent/mop-cognition-workspace",
+    "head": "168161f5f9f236bcc02a895a87eef43bd0a3b584"
+  },
+  "to": {
+    "root": "/private/tmp/mop-temporal-hardening-v2.3NVs0a",
+    "branch": "agent/mop-temporal-core-mechanism",
+    "head": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+  },
+  "detached_worker_pids": [
+    36181,
+    36189,
+    36197,
+    36206,
+    36217,
+    36226,
+    36235,
+    36242
+  ],
+  "principal_receipts": [
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/speech_stream_0.json",
+      "sha256": "d4a4d429e7b8fc1a52ef1522a18dec98edb79cf133550e58e72caf0355ad48a7"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/speech_stream_1.json",
+      "sha256": "0cd1b8b7781902fb93bb246b4cb14ac2348a55cf9bafef00030c72bfbd7a200f"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/speech_stream_2.json",
+      "sha256": "f45a5b4beefc2935e06f846b8fe2c517f7411e557b9318b7e6d3be4d17fa3388"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/speech_stream_3.json",
+      "sha256": "a4f815599163b66824528c9069c6d3fff117056a982e809a0c0b4a38eb315b70"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/speech_stream_4.json",
+      "sha256": "920ceaf59ca49181ceba4da6916e7a71d4f4a12a376e260d4d4bc4f9ba44451d"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/speech_stream_5.json",
+      "sha256": "37bf2393cb138209e18dcb3262e08dbc4659a1fa84cdb6e0ea411f233f2ae612"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/speech_stream_6.json",
+      "sha256": "023851326b625e2c5cafacf55c0873e727eab3b73f951e46783fb7fbf9215453"
+    },
+    {
+      "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/speech_stream_7.json",
+      "sha256": "b39b05c2e5990120937c14ea261dc2f8590707ae131fc3243e074f81f16c768c"
+    }
+  ],
+  "services": [
+    "com.mop.temporal-core.telegram",
+    "com.mop.temporal-core.supervisor",
+    "com.mop.temporal-core.refill",
+    "com.mop.temporal-core.guard",
+    "com.mop.temporal-core.finalizer"
+  ],
+  "checks": {
+    "all_eight_live_workers_exited": true,
+    "all_eight_principal_receipts_copied": true,
+    "temporal_branch_exact": true,
+    "temporal_head_exact": true,
+    "cognition_branch_preserved": true,
+    "activation_remains_false": true
+  },
+  "all_checks_pass": true,
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "source_tree_oid": "88ab61be53af2941e3e2389fa85befabb452907f",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "0175a2c8ba69f0596b4c095948553bff86feb7bbd0e763b30f3a64b8063e7bf7"
+}

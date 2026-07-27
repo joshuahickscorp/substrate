@@ -1,0 +1,24 @@
+{
+  "schema": "mop-substrate-code-report/v1",
+  "active_substrate_loc": 837,
+  "budget": "<=6000 LOC",
+  "within_budget": true,
+  "entrypoints": [
+    "run_preflight.py",
+    "run_domain.py",
+    "build_substrate_synthesis.py"
+  ],
+  "training_engines": 1,
+  "registries": 1,
+  "config_roots": 1,
+  "files": [
+    "domains.py",
+    "verify_substrate.py",
+    "core.py",
+    "engine.py",
+    "run_domain.py",
+    "run_preflight.py",
+    "build_substrate_synthesis.py"
+  ],
+  "sha256": "8e1afe9e0c52ca9dc33bd308cf775f46ff61f50eabcb8a683e98f36780cceb1e"
+}

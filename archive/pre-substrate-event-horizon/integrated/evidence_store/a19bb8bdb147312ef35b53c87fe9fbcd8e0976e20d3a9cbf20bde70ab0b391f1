@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "micro",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "gru|micro|linear|none|h1",
+  "curve": {
+    "400": 0.68623,
+    "800": 0.7220366666666665,
+    "1600": 0.7359166666666668,
+    "3200": 0.7327933333333334,
+    "6400": 0.7446533333333333,
+    "12800": 0.74384
+  },
+  "seed_spread": {
+    "400": 0.06929,
+    "800": 0.07568,
+    "1600": 0.06094,
+    "3200": 0.05925,
+    "6400": 0.08387,
+    "12800": 0.06026
+  },
+  "seed_scores": {
+    "400": [
+      0.70088,
+      0.74702,
+      0.61079
+    ],
+    "800": [
+      0.72456,
+      0.79642,
+      0.64513
+    ],
+    "1600": [
+      0.73509,
+      0.79727,
+      0.67539
+    ],
+    "3200": [
+      0.75175,
+      0.78024,
+      0.66639
+    ],
+    "6400": [
+      0.75789,
+      0.82112,
+      0.65495
+    ],
+    "12800": [
+      0.74386,
+      0.80409,
+      0.68357
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.70088,
+        "checkpoint_sha": "33d6716d4329f56d9105b2258f273a8b1c5f546f82e534f06e18cc381c1c6076"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.74702,
+        "checkpoint_sha": "95122d797fc7439f6fa3ec75c3e02b3c4493c15b769e5030747af940e0bf38a0"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.61079,
+        "checkpoint_sha": "2b0f5561001a6c8276708191a4bf23ce8e28ed34458ce3105cf1e7698b5abeff"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.72456,
+        "checkpoint_sha": "e901a8bbcc0e031086ef4bce2221345a2099f1e608f2ecbf769082585258e9a2"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.79642,
+        "checkpoint_sha": "e97d7abfced47a62cde3fa9b279a65152ecc2654b81fc861fa36bef95123e816"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.64513,
+        "checkpoint_sha": "f440d69da8ad663260bdac99e21be4b404781443b5ad1b4123d4c8228e19ff28"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.73509,
+        "checkpoint_sha": "ab1b775fb07d4d43700c495562df62e01791a0fb3f42e8a6c27f8780360d1c04"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.79727,
+        "checkpoint_sha": "de5fd8edda3656d2ea9d6a9020f9c4df6b3f07386e9e9d9b9c26a0c928dff716"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.67539,
+        "checkpoint_sha": "c76cbb33c1909830b5ddef08b52721467c43f4281cc6e90d8bc4d113e53dce24"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.75175,
+        "checkpoint_sha": "09027f067fa4b60795114c3dfd7495f158d05d25f9b33115b083ceed02af68e2"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.78024,
+        "checkpoint_sha": "c9aac9c6625b563f04200ecf155f46bf01c07d25581f47de9fe988139560680a"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.66639,
+        "checkpoint_sha": "8b260ded66497675ad5788a9a042dc33f1e17983406dbaaf8c432033a38eb738"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.75789,
+        "checkpoint_sha": "c18267dc9362c5d1a9963b7b3b74b287840af2ee67b9555a7e6441b4a2da843f"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.82112,
+        "checkpoint_sha": "63e93cdff6551af90d3da67c96a4dc5ce0bc9daed288cdef18b69e450855c444"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.65495,
+        "checkpoint_sha": "68796f7dc45033fe26b6f333da58a716dd079084480e3aabf5797137143f6edc"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.74386,
+        "checkpoint_sha": "4bb9dcad192beba64106de34299f83e485fa4a4850fd19a037084be773b02da2"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.80409,
+        "checkpoint_sha": "915c815dedbce34081e9e303e409a5972f8316b213d5781b6c3e3226e17cc04a"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.68357,
+        "checkpoint_sha": "debefe786c4a2b62e1814b60bbffb05491462e9ce6866d5f286801481aebf7c9"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 10774,
+    "readout": 650,
+    "total": 11424
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_11.json",
+    "sha256": "43c75f4e5dfd2a60564c445e3016ea9dc66cd453c26ee52b0c54b347fcd03667",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.68623,
+    0.72204,
+    0.73592,
+    0.73279,
+    0.74465,
+    0.74384
+  ],
+  "best_budget": 6400,
+  "selected_checkpoint": 6400,
+  "second_half_movement": 0.01186,
+  "residual_slope": 0.005523,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0119 with slope 0.00552; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 1266.1,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "3e352289f145bf711d17076530012374adbcdd999ebe2a9e8826716d10983170"
+}

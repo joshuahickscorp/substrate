@@ -1,0 +1,29 @@
+{
+  "schema": "substrate-reorganization/v1",
+  "permitted": [
+    "activate_dormant_perspective",
+    "retire_ineffective_perspective",
+    "alter_routing_weights",
+    "alter_perspective_reliability",
+    "assign_domain_local_adapter",
+    "change_memory_ownership",
+    "freeze_or_reopen_declared_component",
+    "activate_preallocated_latent_slot",
+    "alter_bounded_communication_edge"
+  ],
+  "forbidden": [
+    "arbitrary_code_rewriting",
+    "unbounded_module_creation",
+    "unverified_package_installation",
+    "schema_mutation_outside_authority",
+    "removal_of_evidence_systems",
+    "removal_of_stop_switches",
+    "unbounded_self_modification"
+  ],
+  "evidence_rule": "reorganization is credited only when it beats the stronger of fixed and simple routing after its own cost is charged",
+  "permitted_is_not_sufficient": "appearing on the permitted list bounds a change, it does not earn it",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "31b611280a0ae751dee580b1a734497a61f96ce487436a77bf2cc1a4ae02fa3d"
+}

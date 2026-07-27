@@ -3,45 +3,25 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "mop"
-version = "0.1.0"
-description = "Developmental continual-learning system around a frozen V-JEPA perceptual substrate"
+name = "substrate"
+version = "1.0.0"
+description = "Compact, evidence-bound developmental cognition scaffold"
 requires-python = ">=3.11"
 dependencies = [
-  "torch>=2.4",
   "numpy>=1.26",
-  "omegaconf>=2.3",
-  "pyyaml>=6.0",
-  "matplotlib>=3.8",
-  "faiss-cpu>=1.8",
-  # Required by scale-boundary and memory-envelope receipts. Missing telemetry must fail closed.
-  "psutil>=6.0",
-  # Gives detached supervisors and worker pools explicit OS-visible MOP process titles.
-  "setproctitle>=1.3",
 ]
 
 [project.optional-dependencies]
-# Real encoder weights (deferred path). Lazy-imported; never required for tests.
-encoder = ["transformers>=4.44", "huggingface-hub>=0.24"]
-# Meta's official V-JEPA 2.1 PyTorch encoder-only path. Video decoding stays on `.[video]` so the
-# macOS-incompatible decord dependency from the full upstream repository is not pulled implicitly.
-vjepa21 = ["timm", "einops"]
-# Alt ANN index, fallback to the faiss/brute-force path.
-ann = ["hnswlib>=0.8"]
-# Apple Silicon throughput experiment (optional, not on the hot path; see APPLE_SILICON.md).
-apple = ["mlx>=0.18; platform_machine == 'arm64' and sys_platform == 'darwin'"]
-# Real natural-video decode. torchvision's decoder requires PyAV; decord remains a manual alternative.
-video = ["torchvision>=0.19", "av>=12"]
 dev = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.11"]
 
 [project.scripts]
-mop = "mop.harness.cli:main"
+substrate = "substrate.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/mop"]
+packages = ["src/substrate"]
 
 [tool.ruff]
-line-length = 110
+line-length = 160
 target-version = "py311"
 src = ["src", "tests"]
 
@@ -51,29 +31,15 @@ ignore = ["E741", "B008", "SIM108"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["E501"]
-# Axis-ceiling analysis/provenance scripts (one-off, not library code): E501 relaxed for their dense
-# preregistered-hypothesis and verdict strings, same rationale as tests. Correctness lints (F, B, SIM,
-# E4/E7, I, UP) still apply. See docs/mixture_of_perspectives/AXIS_CEILING_RESULT.md.
-"scripts/build_extended_compute_requirements.py" = ["E501"]
-"scripts/mop_cbp_plasticity_repair.py" = ["E501"]
-"scripts/mop_shell_continual.py" = ["E501"]
-"scripts/mop_density_retention_byte.py" = ["E501"]
-"scripts/mop_density_adaptation_update.py" = ["E501"]
-"scripts/mop_abstraction_richer_slots.py" = ["E501"]
-"scripts/mop_survivor_completeness.py" = ["E501"]
-"scripts/mop_meta_control_audit.py" = ["E501"]
-"scripts/mop_density_mixture_win.py" = ["E501"]
-"scripts/mop_abstraction_systematicity.py" = ["E501"]
-"scripts/mop_dr13_predictor_fidelity.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
 ignore_missing_imports = true
 warn_unused_ignores = false
 disable_error_code = ["import-untyped", "no-redef"]
-files = ["src/mop"]
+files = ["src/substrate"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests/substrate"]
 addopts = "-q"
 filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]

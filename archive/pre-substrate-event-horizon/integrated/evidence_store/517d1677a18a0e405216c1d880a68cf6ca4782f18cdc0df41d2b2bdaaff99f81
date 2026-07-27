@@ -1,0 +1,143 @@
+{
+  "schema": "mop-temporal-core-synthesis/v1",
+  "terminal_questions": {
+    "1 was the E1 temporal core effect reproduced": {
+      "har_stream": true,
+      "speech_stream": true,
+      "harth_stream": true
+    },
+    "2 was the magnitude comparable": {
+      "har_stream": 0.46187,
+      "speech_stream": 0.65187,
+      "harth_stream": 0.18576
+    },
+    "3 did larger capacity increase the effect": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "4 did it saturate": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "6 what was the smallest useful core": null,
+    "7 did a strong readout reproduce the effect": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "8 did explicit history reproduce the effect": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "9 was recurrence independently necessary": "open",
+    "11 what was the shortest useful horizon": {
+      "har_stream": null,
+      "speech_stream": null,
+      "harth_stream": 90
+    },
+    "16 were all load bearing baselines converged": {
+      "har_stream": false,
+      "speech_stream": false,
+      "harth_stream": false
+    },
+    "17 did optimization explain any apparent architecture effect": "open",
+    "19 did both valid beds agree": true,
+    "20 was a third valid bed found": [],
+    "22 which hypotheses survived": [],
+    "23 which hypotheses closed": [],
+    "24 was Owned Temporal Core v1 selected": false,
+    "25 which architecture does it use": null,
+    "26 how many parameters does it have": null,
+    "27 what state does it own": null,
+    "28 what horizon does it retain": null,
+    "31 did E3 open": false,
+    "32 did E5 open": false,
+    "33 did hybrid adaptation open": false,
+    "34 did data custody pass": true,
+    "35 can worktree deletion remove a unique corpus": false,
+    "36 what code remains active": 6167,
+    "37 what code remains frozen for reproducibility": 30456,
+    "38 did independent replication pass": "open",
+    "39 did every required mutation fail": true,
+    "40 what scientific evidence ceiling was reached": "this is a substrate component with evidence on the beds named here. It does not establish a complete substrate architecture, continual plasticity, cross domain transfer, functional reorganization or activation",
+    "41 is a useful owned substrate component now evidenced": false,
+    "42 is a complete substrate architecture selected": false,
+    "43 is plasticity evidenced": false,
+    "44 is cross domain moldability evidenced": false,
+    "45 is activation licensed": false,
+    "46 what exact experiment has the highest information value next": "no licensed successor remains",
+    "verification": {
+      "role_b": false,
+      "role_c": false
+    },
+    "coverage": {
+      "method_kernel": true,
+      "active_critical_path": true
+    }
+  },
+  "stages": {
+    "start_authority": true,
+    "binding_results": true,
+    "data_custody": true,
+    "code_lifecycle": true,
+    "method_extension": true,
+    "e2_calibration": true,
+    "scout": true,
+    "convergence": true,
+    "bed_validity": true,
+    "third_bed_preflight": true,
+    "e2_principal": true,
+    "capacity_corrections": true,
+    "independent_replication": true,
+    "core_selection": true,
+    "successor_gates": true,
+    "successors_terminal": true,
+    "receipt_integrity": false,
+    "mutations": true,
+    "verification": true,
+    "tests_and_coverage": false,
+    "preclone_deliverables": true,
+    "clean_clone": false,
+    "evidence_fabric": true,
+    "terminal_metadata": true
+  },
+  "all_terminal": false,
+  "activation": false,
+  "forbidden_claims": [
+    "a complete substrate architecture is selected",
+    "plasticity is evidenced",
+    "cross domain moldability is evidenced",
+    "activation is licensed",
+    "the E4 state only adaptation rule is competitive"
+  ],
+  "science_snapshot_binding": {
+    "science_snapshot_commit": null,
+    "final_metadata_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+    "relationship": "invalid_or_missing_snapshot",
+    "snapshot_fields_match": false,
+    "bound": false
+  },
+  "terminal_evidence_binding": {
+    "science_snapshot_commit": null,
+    "terminal_evidence_commit": null,
+    "validated_commit": null,
+    "final_metadata_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+    "terminal_evidence_report_shaped": false,
+    "terminal_evidence_fabric_lookup": false,
+    "reported_snapshot_ancestry": false,
+    "snapshot_to_terminal_evidence": false,
+    "terminal_evidence_to_final_metadata": false,
+    "report_green": false,
+    "bound": false
+  },
+  "wall_seconds": 0.7,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "2ca64e34aa3d23567b5e55c0c79fdad7a3869318702d392b7894499233a33b5d"
+}

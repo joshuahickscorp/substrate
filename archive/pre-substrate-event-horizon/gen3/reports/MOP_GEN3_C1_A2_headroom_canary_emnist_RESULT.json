@@ -1,0 +1,61 @@
+{
+  "schema": "mop-gen3-c1-result/v1",
+  "stream": "C1",
+  "stage": "A2_headroom_canary",
+  "source": "emnist",
+  "source_commit": "4fe2a877e53a7e897469263a3759053cec543d27",
+  "classification": "invalid_bed",
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "primary": "learned P1R sampling-priority main effect on fixed GDumb buffer vs strongest simple control",
+  "detail": {
+    "final_avg_means": {
+      "uniform": 0.3095,
+      "loss_priority": 0.1987,
+      "oracle_priority": 0.3197,
+      "shuffled_p1r": 0.3184,
+      "random_rate_matched": 0.3136,
+      "learned_p1r:rff_ridge": 0.1906,
+      "learned_p1r:kernel_ridge": 0.1845,
+      "learned_p1r:knn": 0.1867
+    },
+    "bed_valid": false,
+    "controls_ok": true,
+    "estimator_effects": {
+      "rff_ridge": {
+        "mean": -0.1286,
+        "sd": 0.0576,
+        "lower_95_cb": -0.166,
+        "favorable_fraction": 0.0,
+        "n": 8,
+        "pass": false
+      },
+      "kernel_ridge": {
+        "mean": -0.1456,
+        "sd": 0.0931,
+        "lower_95_cb": -0.206,
+        "favorable_fraction": 0.0,
+        "n": 8,
+        "pass": false
+      },
+      "knn": {
+        "mean": -0.1181,
+        "sd": 0.0563,
+        "lower_95_cb": -0.1545,
+        "favorable_fraction": 0.0,
+        "n": 8,
+        "pass": false
+      }
+    },
+    "n_estimators_agree": 0,
+    "strongest_simple_control": "max(uniform, loss_priority)",
+    "oracle_headroom_over_uniform": 0.0102,
+    "learned_vs_loss_priority": {
+      "rff_ridge": -0.0081,
+      "kernel_ridge": -0.0143,
+      "knn": -0.0121
+    }
+  },
+  "wall_seconds": 2153.7,
+  "sha256": "d8eff2c6482b61fcaa6077f9c0d41f616d29bae7a90d8c80bbe1d8e7aa4c13e5"
+}

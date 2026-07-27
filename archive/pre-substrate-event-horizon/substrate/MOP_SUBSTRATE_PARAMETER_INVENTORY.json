@@ -1,0 +1,42 @@
+{
+  "schema": "mop-substrate-parameter-inventory/v1",
+  "architectures": {
+    "A": {
+      "total_params": 216862,
+      "param_groups": {
+        "proj": 116992,
+        "workspace": 33024,
+        "fast": 37248,
+        "ctx": 1024,
+        "head": 28574
+      },
+      "timescales": [
+        "fast (per-sequence GRU state)",
+        "episodic (bounded replay memory)",
+        "slow (projection + workspace/module params under eligibility)",
+        "policy (consolidation/eligibility/routing schedule)"
+      ]
+    },
+    "B": {
+      "total_params": 389604,
+      "param_groups": {
+        "proj": 116992,
+        "router": 8646,
+        "fast": 37248,
+        "head": 28574,
+        "module_0": 33024,
+        "module_1": 33024,
+        "module_2": 33024,
+        "module_3": 33024,
+        "module_4": 33024,
+        "module_5": 33024
+      },
+      "timescales": [
+        "fast (per-sequence GRU state)",
+        "episodic (bounded replay memory)",
+        "slow (projection + workspace/module params under eligibility)",
+        "policy (consolidation/eligibility/routing schedule)"
+      ]
+    }
+  }
+}

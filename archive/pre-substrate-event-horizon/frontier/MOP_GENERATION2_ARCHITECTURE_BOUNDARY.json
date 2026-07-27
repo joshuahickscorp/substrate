@@ -1,0 +1,34 @@
+{
+  "schema": "mop-gen2-arch-boundary/v1",
+  "current_confirmed_architecture": "G1-P1R (plasticity / replay-value prediction) only, as same-team cross-architecture evidence on MNIST-family and CIFAR-100 and KMNIST",
+  "not_externally_replicated": true,
+  "external_method_replication_result": "replication_null",
+  "excluded_mechanisms": [
+    "G1-D1",
+    "G1-U1",
+    "G1-N1",
+    "G1-R1",
+    "historical_G1-I1"
+  ],
+  "not_admitted_mechanisms": [
+    "G1-V1 (architecture_dependent)",
+    "G1-K1",
+    "G1-M1",
+    "G1-E1",
+    "G1-C0",
+    "G1-A1",
+    "G1-S1"
+  ],
+  "clusters_licensed": [],
+  "construction_licensed": false,
+  "integration_licensed": false,
+  "activation": false,
+  "forbidden_claims": [
+    "any unopened mechanism is scientifically confirmed",
+    "P1R is independently externally replicated (it is not)",
+    "any cluster, construction, or integration is evidenced",
+    "the architecture is activated"
+  ],
+  "source_commit": "b59a5fa5ee34c2a78a4455b43a8bebcb34465044",
+  "artifact_sha256": "6fb2f12832d55e6c23098d35c8f3fa827dc89135b700aac02714ad2b8f5a0824"
+}

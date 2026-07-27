@@ -1,0 +1,20 @@
+{
+  "schema": "mop-substrate-arch-d-and-oracle/v1",
+  "D_means": {
+    "avg_final": 0.4565,
+    "retention": 0.239,
+    "new": 0.935,
+    "params": 45834.0
+  },
+  "oracle_fullmem_means": {
+    "avg_final": 0.7638,
+    "retention": 0.7231,
+    "new": 0.9101,
+    "params": 37254.0
+  },
+  "lstm_gdumb_avg_final": 0.4799,
+  "D_class": "structural_null (does not beat LSTM; hierarchical routing decorative)",
+  "continual_headroom_oracle_vs_gdumb": 0.2839,
+  "interpretation": "oracle_fullmem = LSTM with UNBOUNDED memory (stores all past windows) = the continual upper bound at this compute. If it barely beats bounded GDumb-LSTM, memory capacity is not the bottleneck and no smarter continual/plasticity mechanism has headroom to exploit; if it far exceeds, the bottleneck is memory not architecture.",
+  "sha256": "dc88ff45d6150844d0d0613d815ec5f90928cc1adc5556b37bb15b382dfca9d1"
+}

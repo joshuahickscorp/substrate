@@ -1,0 +1,1211 @@
+{
+  "schema": "mop-fast-state-cross-domain-direction/v1",
+  "direction": "har->speech",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "arms": [
+    "G0_always_trainable",
+    "G1_frozen_after_first",
+    "G2_reopened_at_return",
+    "G3_reopened_on_drop",
+    "G4_adapters_only",
+    "G5_projection_and_head",
+    "G6_oracle_schedule",
+    "H_always_update",
+    "H_cosine_gate",
+    "H_drift_gate",
+    "H_never_update",
+    "H_oracle_schedule",
+    "H_perf_gate",
+    "H_probe_gate",
+    "H_random_gate",
+    "H_shuffled_gate",
+    "H_task_label_freeze",
+    "H_wrong_domain_gate",
+    "ewc_shared_core",
+    "fresh_independent",
+    "lstm_gdumb",
+    "matched_capacity_multi_domain",
+    "projection_only_transfer",
+    "separate_per_domain",
+    "shared_adapters_conventional"
+  ],
+  "step_budget": {
+    "per_domain": {
+      "har": 550,
+      "speech": 1200,
+      "speech_stream": 1200,
+      "har_stream": 1200,
+      "harth_transition": 800,
+      "pamap2_transition": 800
+    },
+    "learning_rate": {
+      "har": 0.003,
+      "speech": 0.003,
+      "speech_stream": 0.003,
+      "har_stream": 0.003,
+      "harth_transition": 0.003,
+      "pamap2_transition": 0.003
+    },
+    "return_fraction": 3
+  },
+  "strongest_matched_baseline": "fresh_independent",
+  "means": {
+    "G0_always_trainable": {
+      "first_acquisition": 0.8965,
+      "second_acquisition": 0.7938,
+      "first_retention": 0.6428,
+      "return_recovery": 0.8981,
+      "future_adaptation": 0.8851,
+      "negative_transfer": 0.2536,
+      "backward_transfer": 0.0016,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 92.61,
+      "trainable_phase2": 36410.0,
+      "changed_phase2": 16.0,
+      "tune_utility": 0.8459
+    },
+    "G1_frozen_after_first": {
+      "first_acquisition": 0.8965,
+      "second_acquisition": 0.7137,
+      "first_retention": 0.8965,
+      "return_recovery": 0.8967,
+      "future_adaptation": 0.8342,
+      "negative_transfer": 0.0,
+      "backward_transfer": 0.0003,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 87.3975,
+      "trainable_phase2": 11450.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.8147
+    },
+    "G2_reopened_at_return": {
+      "first_acquisition": 0.8965,
+      "second_acquisition": 0.7137,
+      "first_retention": 0.8965,
+      "return_recovery": 0.8934,
+      "future_adaptation": 0.8444,
+      "negative_transfer": 0.0,
+      "backward_transfer": -0.0031,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 85.9875,
+      "trainable_phase2": 11450.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.8153
+    },
+    "G3_reopened_on_drop": {
+      "first_acquisition": 0.8965,
+      "second_acquisition": 0.7507,
+      "first_retention": 0.7386,
+      "return_recovery": 0.8921,
+      "future_adaptation": 0.8734,
+      "negative_transfer": 0.1579,
+      "backward_transfer": -0.0043,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 89.6713,
+      "trainable_phase2": 36410.0,
+      "changed_phase2": 16.0,
+      "tune_utility": 0.8257
+    },
+    "G4_adapters_only": {
+      "first_acquisition": 0.8852,
+      "second_acquisition": 0.2128,
+      "first_retention": 0.8852,
+      "return_recovery": 0.8935,
+      "future_adaptation": 0.2376,
+      "negative_transfer": 0.0,
+      "backward_transfer": 0.0083,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 60.7525,
+      "trainable_phase2": 2906.0,
+      "changed_phase2": 8.0,
+      "tune_utility": 0.5639
+    },
+    "G5_projection_and_head": {
+      "first_acquisition": 0.8976,
+      "second_acquisition": 0.6758,
+      "first_retention": 0.8976,
+      "return_recovery": 0.8967,
+      "future_adaptation": 0.8153,
+      "negative_transfer": 0.0,
+      "backward_transfer": -0.0009,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 80.1625,
+      "trainable_phase2": 9194.0,
+      "changed_phase2": 6.0,
+      "tune_utility": 0.7961
+    },
+    "G6_oracle_schedule": {
+      "first_acquisition": 0.8965,
+      "second_acquisition": 0.7865,
+      "first_retention": 0.6744,
+      "return_recovery": 0.8984,
+      "future_adaptation": 0.8799,
+      "negative_transfer": 0.222,
+      "backward_transfer": 0.002,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 91.8625,
+      "trainable_phase2": 33290.0,
+      "changed_phase2": 15.5,
+      "tune_utility": 0.8467
+    },
+    "H_always_update": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.7695,
+      "first_retention": 0.5892,
+      "return_recovery": 0.8897,
+      "future_adaptation": 0.8761,
+      "negative_transfer": 0.302,
+      "backward_transfer": -0.0015,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 85.8425,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.8437
+    },
+    "H_cosine_gate": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.6763,
+      "first_retention": 0.212,
+      "return_recovery": 0.8924,
+      "future_adaptation": 0.8077,
+      "negative_transfer": 0.6793,
+      "backward_transfer": 0.0011,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 83.1825,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.798
+    },
+    "H_drift_gate": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.6567,
+      "first_retention": 0.8912,
+      "return_recovery": 0.8929,
+      "future_adaptation": 0.8139,
+      "negative_transfer": 0.0,
+      "backward_transfer": 0.0016,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 85.4487,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 8.0,
+      "tune_utility": 0.7825
+    },
+    "H_never_update": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.6567,
+      "first_retention": 0.8912,
+      "return_recovery": 0.8905,
+      "future_adaptation": 0.7845,
+      "negative_transfer": 0.0,
+      "backward_transfer": -0.0008,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 80.5213,
+      "trainable_phase2": 10218.0,
+      "changed_phase2": 8.0,
+      "tune_utility": 0.7793
+    },
+    "H_oracle_schedule": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.7646,
+      "first_retention": 0.6588,
+      "return_recovery": 0.8914,
+      "future_adaptation": 0.8695,
+      "negative_transfer": 0.2324,
+      "backward_transfer": 0.0002,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 86.6775,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.8462
+    },
+    "H_perf_gate": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.7293,
+      "first_retention": 0.59,
+      "return_recovery": 0.8937,
+      "future_adaptation": 0.8552,
+      "negative_transfer": 0.3013,
+      "backward_transfer": 0.0025,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 87.9188,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.8298
+    },
+    "H_probe_gate": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.6736,
+      "first_retention": 0.8539,
+      "return_recovery": 0.892,
+      "future_adaptation": 0.8361,
+      "negative_transfer": 0.0374,
+      "backward_transfer": 0.0007,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 88.2812,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.7965
+    },
+    "H_random_gate": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.7535,
+      "first_retention": 0.6189,
+      "return_recovery": 0.8912,
+      "future_adaptation": 0.8684,
+      "negative_transfer": 0.2724,
+      "backward_transfer": -0.0,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 85.27,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.8299
+    },
+    "H_shuffled_gate": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.7029,
+      "first_retention": 0.6844,
+      "return_recovery": 0.8896,
+      "future_adaptation": 0.8581,
+      "negative_transfer": 0.2069,
+      "backward_transfer": -0.0017,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 83.7862,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.8068
+    },
+    "H_task_label_freeze": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.6661,
+      "first_retention": 0.8912,
+      "return_recovery": 0.8892,
+      "future_adaptation": 0.8003,
+      "negative_transfer": 0.0,
+      "backward_transfer": -0.002,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 80.3762,
+      "trainable_phase2": 10218.0,
+      "changed_phase2": 8.0,
+      "tune_utility": 0.7985
+    },
+    "H_wrong_domain_gate": {
+      "first_acquisition": 0.8912,
+      "second_acquisition": 0.6994,
+      "first_retention": 0.2956,
+      "return_recovery": 0.8929,
+      "future_adaptation": 0.8374,
+      "negative_transfer": 0.5956,
+      "backward_transfer": 0.0016,
+      "params": 65136.0,
+      "checkpoint_bytes": 260544.0,
+      "train_updates": 2333.0,
+      "train_seconds": 85.2862,
+      "trainable_phase2": 35178.0,
+      "changed_phase2": 12.0,
+      "tune_utility": 0.8027
+    },
+    "ewc_shared_core": {
+      "first_acquisition": 0.8828,
+      "second_acquisition": 0.7181,
+      "first_retention": 0.7297,
+      "return_recovery": 0.8817,
+      "future_adaptation": 0.8309,
+      "negative_transfer": 0.1532,
+      "backward_transfer": -0.0012,
+      "params": 46448.0,
+      "checkpoint_bytes": 185792.0,
+      "train_updates": 2333.0,
+      "train_seconds": 102.3063,
+      "trainable_phase2": 42474.0,
+      "changed_phase2": 10.0,
+      "tune_utility": 0.8149
+    },
+    "fresh_independent": {
+      "first_acquisition": 0.8965,
+      "second_acquisition": 0.7786,
+      "first_retention": 0.1939,
+      "return_recovery": 0.8936,
+      "future_adaptation": 0.8767,
+      "negative_transfer": 0.7025,
+      "backward_transfer": -0.0028,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 129.455,
+      "trainable_phase2": 36410.0,
+      "changed_phase2": 16.0,
+      "tune_utility": 0.8422
+    },
+    "lstm_gdumb": {
+      "first_acquisition": 0.8828,
+      "second_acquisition": 0.7182,
+      "first_retention": 0.5535,
+      "return_recovery": 0.8839,
+      "future_adaptation": 0.8527,
+      "negative_transfer": 0.3294,
+      "backward_transfer": 0.0011,
+      "params": 46448.0,
+      "checkpoint_bytes": 185792.0,
+      "train_updates": 2333.0,
+      "train_seconds": 129.8712,
+      "trainable_phase2": 42474.0,
+      "changed_phase2": 10.0,
+      "tune_utility": 0.8104
+    },
+    "matched_capacity_multi_domain": {
+      "first_acquisition": 0.8723,
+      "second_acquisition": 0.7229,
+      "first_retention": 0.4925,
+      "return_recovery": 0.8847,
+      "future_adaptation": 0.8413,
+      "negative_transfer": 0.3798,
+      "backward_transfer": 0.0124,
+      "params": 75888.0,
+      "checkpoint_bytes": 303552.0,
+      "train_updates": 2333.0,
+      "train_seconds": 148.4688,
+      "trainable_phase2": 71722.0,
+      "changed_phase2": 10.0,
+      "tune_utility": 0.8078
+    },
+    "projection_only_transfer": {
+      "first_acquisition": 0.8965,
+      "second_acquisition": 0.784,
+      "first_retention": 0.1276,
+      "return_recovery": 0.8909,
+      "future_adaptation": 0.8737,
+      "negative_transfer": 0.7688,
+      "backward_transfer": -0.0055,
+      "params": 42640.0,
+      "checkpoint_bytes": 170560.0,
+      "train_updates": 2333.0,
+      "train_seconds": 124.5162,
+      "trainable_phase2": 36410.0,
+      "changed_phase2": 16.0,
+      "tune_utility": 0.8491
+    },
+    "separate_per_domain": {
+      "first_acquisition": 0.8621,
+      "second_acquisition": 0.7014,
+      "first_retention": 0.8621,
+      "return_recovery": 0.8839,
+      "future_adaptation": 0.8306,
+      "negative_transfer": 0.0,
+      "backward_transfer": 0.0218,
+      "params": 79728.0,
+      "checkpoint_bytes": 318912.0,
+      "train_updates": 2333.0,
+      "train_seconds": 130.065,
+      "trainable_phase2": 42474.0,
+      "changed_phase2": 10.0,
+      "tune_utility": 0.8166
+    },
+    "shared_adapters_conventional": {
+      "first_acquisition": 0.88,
+      "second_acquisition": 0.7081,
+      "first_retention": 0.4942,
+      "return_recovery": 0.8823,
+      "future_adaptation": 0.8239,
+      "negative_transfer": 0.3858,
+      "backward_transfer": 0.0023,
+      "params": 50704.0,
+      "checkpoint_bytes": 202816.0,
+      "train_updates": 2333.0,
+      "train_seconds": 111.6713,
+      "trainable_phase2": 44602.0,
+      "changed_phase2": 14.0,
+      "tune_utility": 0.812
+    }
+  },
+  "utility": {
+    "G0_always_trainable": 0.8131,
+    "G1_frozen_after_first": 0.769,
+    "G2_reopened_at_return": 0.7712,
+    "G3_reopened_on_drop": 0.7929,
+    "G4_adapters_only": 0.4021,
+    "G5_projection_and_head": 0.75,
+    "G6_oracle_schedule": 0.809,
+    "H_always_update": 0.775,
+    "H_cosine_gate": 0.722,
+    "H_drift_gate": 0.7177,
+    "H_never_update": 0.7071,
+    "H_oracle_schedule": 0.7717,
+    "H_perf_gate": 0.756,
+    "H_probe_gate": 0.7304,
+    "H_random_gate": 0.7676,
+    "H_shuffled_gate": 0.7468,
+    "H_task_label_freeze": 0.7151,
+    "H_wrong_domain_gate": 0.7398,
+    "ewc_shared_core": 0.7602,
+    "fresh_independent": 0.8037,
+    "lstm_gdumb": 0.7683,
+    "matched_capacity_multi_domain": 0.7346,
+    "projection_only_transfer": 0.8036,
+    "separate_per_domain": 0.7195,
+    "shared_adapters_conventional": 0.7502
+  },
+  "effects": {
+    "G0_always_trainable": {
+      "vs_strongest_baseline": {
+        "mean": 0.0093,
+        "lower_95_cb": 0.0004,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": 0.0152,
+        "lower_95_cb": 0.0046,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": 0.0045,
+        "lower_95_cb": -0.0029,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": 0.0084,
+        "lower_95_cb": -0.0131,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.4489,
+        "lower_95_cb": 0.3699,
+        "n": 8
+      }
+    },
+    "G1_frozen_after_first": {
+      "vs_strongest_baseline": {
+        "mean": -0.0348,
+        "lower_95_cb": -0.0511,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0649,
+        "lower_95_cb": -0.0889,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": 0.0031,
+        "lower_95_cb": -0.005,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0425,
+        "lower_95_cb": -0.0679,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.7025,
+        "lower_95_cb": 0.6421,
+        "n": 8
+      }
+    },
+    "G2_reopened_at_return": {
+      "vs_strongest_baseline": {
+        "mean": -0.0325,
+        "lower_95_cb": -0.0503,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0649,
+        "lower_95_cb": -0.0889,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0003,
+        "lower_95_cb": -0.0095,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0323,
+        "lower_95_cb": -0.0602,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.7025,
+        "lower_95_cb": 0.6421,
+        "n": 8
+      }
+    },
+    "G3_reopened_on_drop": {
+      "vs_strongest_baseline": {
+        "mean": -0.0109,
+        "lower_95_cb": -0.0228,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0279,
+        "lower_95_cb": -0.046,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0015,
+        "lower_95_cb": -0.0119,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0033,
+        "lower_95_cb": -0.0267,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.5447,
+        "lower_95_cb": 0.4163,
+        "n": 8
+      }
+    },
+    "G4_adapters_only": {
+      "vs_strongest_baseline": {
+        "mean": -0.4017,
+        "lower_95_cb": -0.4213,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.5658,
+        "lower_95_cb": -0.5892,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0001,
+        "lower_95_cb": -0.008,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.6391,
+        "lower_95_cb": -0.679,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.6913,
+        "lower_95_cb": 0.6306,
+        "n": 8
+      }
+    },
+    "G5_projection_and_head": {
+      "vs_strongest_baseline": {
+        "mean": -0.0537,
+        "lower_95_cb": -0.0652,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.1028,
+        "lower_95_cb": -0.1163,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": 0.0031,
+        "lower_95_cb": -0.0065,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0614,
+        "lower_95_cb": -0.0841,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.7036,
+        "lower_95_cb": 0.6411,
+        "n": 8
+      }
+    },
+    "G6_oracle_schedule": {
+      "vs_strongest_baseline": {
+        "mean": 0.0053,
+        "lower_95_cb": -0.0028,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": 0.0079,
+        "lower_95_cb": -0.0034,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": 0.0048,
+        "lower_95_cb": -0.0024,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": 0.0032,
+        "lower_95_cb": -0.0159,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.4805,
+        "lower_95_cb": 0.3649,
+        "n": 8
+      }
+    },
+    "H_always_update": {
+      "vs_strongest_baseline": {
+        "mean": -0.0287,
+        "lower_95_cb": -0.0404,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.009,
+        "lower_95_cb": -0.0268,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0039,
+        "lower_95_cb": -0.0132,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0006,
+        "lower_95_cb": -0.0254,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.3953,
+        "lower_95_cb": 0.2773,
+        "n": 8
+      }
+    },
+    "H_cosine_gate": {
+      "vs_strongest_baseline": {
+        "mean": -0.0817,
+        "lower_95_cb": -0.1015,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.1022,
+        "lower_95_cb": -0.1359,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0012,
+        "lower_95_cb": -0.01,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.069,
+        "lower_95_cb": -0.0997,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.0181,
+        "lower_95_cb": -0.0731,
+        "n": 8
+      }
+    },
+    "H_drift_gate": {
+      "vs_strongest_baseline": {
+        "mean": -0.086,
+        "lower_95_cb": -0.1028,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.1219,
+        "lower_95_cb": -0.1416,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0008,
+        "lower_95_cb": -0.0109,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0628,
+        "lower_95_cb": -0.098,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.6973,
+        "lower_95_cb": 0.6351,
+        "n": 8
+      }
+    },
+    "H_never_update": {
+      "vs_strongest_baseline": {
+        "mean": -0.0966,
+        "lower_95_cb": -0.1104,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.1219,
+        "lower_95_cb": -0.1416,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0031,
+        "lower_95_cb": -0.0153,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0922,
+        "lower_95_cb": -0.1174,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.6973,
+        "lower_95_cb": 0.6351,
+        "n": 8
+      }
+    },
+    "H_oracle_schedule": {
+      "vs_strongest_baseline": {
+        "mean": -0.032,
+        "lower_95_cb": -0.0477,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.014,
+        "lower_95_cb": -0.0384,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0022,
+        "lower_95_cb": -0.0114,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0072,
+        "lower_95_cb": -0.0356,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.4649,
+        "lower_95_cb": 0.3913,
+        "n": 8
+      }
+    },
+    "H_perf_gate": {
+      "vs_strongest_baseline": {
+        "mean": -0.0478,
+        "lower_95_cb": -0.0599,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0493,
+        "lower_95_cb": -0.0653,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": 0.0001,
+        "lower_95_cb": -0.0082,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0215,
+        "lower_95_cb": -0.0516,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.396,
+        "lower_95_cb": 0.279,
+        "n": 8
+      }
+    },
+    "H_probe_gate": {
+      "vs_strongest_baseline": {
+        "mean": -0.0733,
+        "lower_95_cb": -0.0906,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.105,
+        "lower_95_cb": -0.1307,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0017,
+        "lower_95_cb": -0.0104,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0406,
+        "lower_95_cb": -0.0643,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.66,
+        "lower_95_cb": 0.6029,
+        "n": 8
+      }
+    },
+    "H_random_gate": {
+      "vs_strongest_baseline": {
+        "mean": -0.0361,
+        "lower_95_cb": -0.0468,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0251,
+        "lower_95_cb": -0.0387,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0024,
+        "lower_95_cb": -0.0103,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0083,
+        "lower_95_cb": -0.0321,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.425,
+        "lower_95_cb": 0.2867,
+        "n": 8
+      }
+    },
+    "H_shuffled_gate": {
+      "vs_strongest_baseline": {
+        "mean": -0.057,
+        "lower_95_cb": -0.0674,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0757,
+        "lower_95_cb": -0.0897,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.004,
+        "lower_95_cb": -0.0119,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0185,
+        "lower_95_cb": -0.0424,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.4905,
+        "lower_95_cb": 0.3523,
+        "n": 8
+      }
+    },
+    "H_task_label_freeze": {
+      "vs_strongest_baseline": {
+        "mean": -0.0886,
+        "lower_95_cb": -0.0975,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.1125,
+        "lower_95_cb": -0.1243,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0044,
+        "lower_95_cb": -0.0163,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0764,
+        "lower_95_cb": -0.0955,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.6973,
+        "lower_95_cb": 0.6351,
+        "n": 8
+      }
+    },
+    "H_wrong_domain_gate": {
+      "vs_strongest_baseline": {
+        "mean": -0.064,
+        "lower_95_cb": -0.0768,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0792,
+        "lower_95_cb": -0.0919,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0008,
+        "lower_95_cb": -0.0078,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0393,
+        "lower_95_cb": -0.07,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.1017,
+        "lower_95_cb": 0.0278,
+        "n": 8
+      }
+    },
+    "ewc_shared_core": {
+      "vs_strongest_baseline": {
+        "mean": -0.0435,
+        "lower_95_cb": -0.0561,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0605,
+        "lower_95_cb": -0.0743,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.012,
+        "lower_95_cb": -0.0209,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0458,
+        "lower_95_cb": -0.0732,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.5358,
+        "lower_95_cb": 0.4502,
+        "n": 8
+      }
+    },
+    "fresh_independent": {
+      "vs_strongest_baseline": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0,
+        "n": 8
+      }
+    },
+    "lstm_gdumb": {
+      "vs_strongest_baseline": {
+        "mean": -0.0354,
+        "lower_95_cb": -0.0458,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0604,
+        "lower_95_cb": -0.0758,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0097,
+        "lower_95_cb": -0.0223,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0239,
+        "lower_95_cb": -0.0488,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.3596,
+        "lower_95_cb": 0.2313,
+        "n": 8
+      }
+    },
+    "matched_capacity_multi_domain": {
+      "vs_strongest_baseline": {
+        "mean": -0.0691,
+        "lower_95_cb": -0.0858,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0557,
+        "lower_95_cb": -0.0761,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0089,
+        "lower_95_cb": -0.0155,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0353,
+        "lower_95_cb": -0.0641,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.2986,
+        "lower_95_cb": 0.2415,
+        "n": 8
+      }
+    },
+    "projection_only_transfer": {
+      "vs_strongest_baseline": {
+        "mean": -0.0001,
+        "lower_95_cb": -0.0084,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": 0.0054,
+        "lower_95_cb": -0.002,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0027,
+        "lower_95_cb": -0.0085,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.003,
+        "lower_95_cb": -0.02,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": -0.0663,
+        "lower_95_cb": -0.1511,
+        "n": 8
+      }
+    },
+    "separate_per_domain": {
+      "vs_strongest_baseline": {
+        "mean": -0.0842,
+        "lower_95_cb": -0.0989,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0772,
+        "lower_95_cb": -0.0938,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0097,
+        "lower_95_cb": -0.0176,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0461,
+        "lower_95_cb": -0.079,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.6682,
+        "lower_95_cb": 0.6002,
+        "n": 8
+      }
+    },
+    "shared_adapters_conventional": {
+      "vs_strongest_baseline": {
+        "mean": -0.0535,
+        "lower_95_cb": -0.0725,
+        "n": 8
+      },
+      "second_acquisition_vs_baseline": {
+        "mean": -0.0704,
+        "lower_95_cb": -0.0921,
+        "n": 8
+      },
+      "return_recovery_vs_baseline": {
+        "mean": -0.0113,
+        "lower_95_cb": -0.0177,
+        "n": 8
+      },
+      "future_adaptation_vs_baseline": {
+        "mean": -0.0528,
+        "lower_95_cb": -0.1,
+        "n": 8
+      },
+      "first_retention_vs_baseline": {
+        "mean": 0.3003,
+        "lower_95_cb": 0.1656,
+        "n": 8
+      }
+    }
+  },
+  "component_floors": {
+    "second_acquisition": 0.7586,
+    "first_retention": 0.8421,
+    "return_recovery": 0.8736,
+    "future_adaptation": 0.8567
+  },
+  "utility_definition": {
+    "weighted": [
+      "second_acquisition",
+      "return_recovery",
+      "future_adaptation"
+    ],
+    "not_weighted": [
+      "first_retention"
+    ],
+    "why": "retention is enforced as a hard floor rather than averaged in, because an arm can buy a high retention average by refusing to learn the second domain at all. G4 adapters only is exactly that arm. Averaging retention would reward it; a floor does not.",
+    "consequence": "an arm that dominates on retention alone cannot pass, and that is intended. Retention is reported per arm so the choice can be checked rather than taken on trust.",
+    "parameter_price": "0.05 times the arm parameter count over the lstm_gdumb parameter count. It cancels exactly between two arms of equal capacity, so it does no work in the headline comparison, which is recorded in the mutation report."
+  },
+  "utility_spread": {
+    "all_arms": 0.411,
+    "excluding_degenerate_arms": 0.106,
+    "SESOI": 0.05,
+    "note": "SESOI is a fixed absolute bar, not a fraction of the observed spread. It is reported next to the spread so the reader can judge how demanding it was here."
+  },
+  "component_floor_source_baseline": {
+    "second_acquisition": "fresh_independent",
+    "first_retention": "separate_per_domain",
+    "return_recovery": "fresh_independent",
+    "future_adaptation": "fresh_independent"
+  },
+  "strongest_baseline_meets_the_floors": {
+    "second_acquisition": true,
+    "first_retention": false,
+    "return_recovery": true,
+    "future_adaptation": true
+  },
+  "comparator_and_floors_are_separate_mechanisms": "the effect comparator is whichever baseline scores highest on the decision utility, and the floors are the best any baseline achieved per component. They can disagree, and here they do: the utility comparator forgets most of the first domain while the retention floor comes from a different baseline that does not. An arm must clear both, which is strictly harder than clearing either, and the disagreement is reported rather than resolved by quietly picking one.",
+  "arms_passing_all_conditions": [],
+  "verdict": "cross_domain_null",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "8a23e0326929170daab46a51c3b018bd53375ef7",
+  "SESOI": 0.05,
+  "sha256": "fea21153744550bbc5cd1d17ead3046ffb6cf1b85b00073bd41d69fc974ad9fb"
+}

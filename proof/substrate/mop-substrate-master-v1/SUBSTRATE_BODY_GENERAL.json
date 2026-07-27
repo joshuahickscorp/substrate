@@ -1,0 +1,39 @@
+{
+  "schema": "substrate-body-general/v1",
+  "body": "larger_general_model",
+  "class": "general",
+  "conformance": {
+    "body": "larger_general_model",
+    "mode": "adapter_layer",
+    "implements": [
+      "adaptation_proposal",
+      "checkpoint",
+      "hidden_state",
+      "inference",
+      "memory_request",
+      "resource_report",
+      "selected_activations",
+      "tool_request",
+      "verification_request"
+    ],
+    "missing": [],
+    "declaration_violations": [],
+    "conforms": true,
+    "partial": false
+  },
+  "message_gaps": {},
+  "all_messages_valid": true,
+  "n_parameters": 144,
+  "held_out_accuracy": 0.670668,
+  "views": [
+    "static",
+    "dynamic",
+    "spread"
+  ],
+  "tool_dominant": false,
+  "external_blocker": "no frontier model weights and no inference credential are present on this machine, so the larger general body is a higher capacity local model rather than a large language model. That instantiation is externally blocked, not unbuilt",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "sha256": "3e5843022cd37cf65cae8efe7ba5efcea8a1f714b0367efa9e79d8b9ad6bff89"
+}

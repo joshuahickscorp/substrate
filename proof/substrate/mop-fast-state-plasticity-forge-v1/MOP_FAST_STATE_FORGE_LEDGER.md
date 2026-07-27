@@ -1,0 +1,44 @@
+# Fast State Plasticity Forge ledger
+
+| id | requirement | status | next exact action |
+| --- | --- | --- | --- |
+| R01 | Freeze the inherited interpretation | terminal | none |
+| R02 | Bind the inherited nulls | terminal | none |
+| R03 | Repair cross domain arm aliasing | terminal | none |
+| R04 | Implement and seal Architecture G | terminal | none |
+| R05 | Implement and seal Architecture H | terminal | none |
+| R06 | Baseline convergence curves | terminal | none |
+| R07 | Resource profile | terminal | none |
+| R08 | Within domain battery, HAR | terminal | none |
+| R09 | Within domain battery, Speech | terminal | none |
+| R10 | Cross domain direction 1, HAR to Speech | terminal | none |
+| R11 | Cross domain direction 2, Speech to HAR | terminal | none |
+| R12 | Bidirectional synthesis | terminal | none |
+| R13 | Interference map | terminal | none |
+| R14 | Plasticity action headroom gate | terminal | none |
+| R15 | Architecture improvement rounds | terminal | none |
+| R16 | Functional reorganization | terminal | none |
+| R17 | Task free context inference | terminal | none |
+| R18 | Fast core representation analysis | terminal | none |
+| R19 | Third temporal domain preflight | terminal | none |
+| R20 | Code accounting | terminal | none |
+| R21 | Test report | terminal | none |
+| R22 | Independent verification | terminal | none |
+| R23 | Mutation suites | terminal | none |
+| R24 | Clean clone validation | terminal | none |
+| R25 | Evidence fabric indexing | terminal | none |
+| R26 | Synthesis and next frontier | terminal | none |
+
+## Scores
+
+| dimension | implementation | target | evidence | target |
+| --- | --- | --- | --- | --- |
+| evidence_and_falsification | 100 | 98 | 95 | 95 |
+| orchestration | 100 | 98 | 95 | 95 |
+| failure_understanding | 100 | 98 | 95 | 95 |
+| owned_substrate | 100 | 98 | 45 | 80 |
+| multi_timescale_and_partitioned_plasticity | 100 | 95 |  |  |
+| functional_reorganization | 100 | 85 | 5 | 55 |
+| cross_domain_entity | 100 | 90 | 10 | 65 |
+| useful_plasticity | | | 5 | 60 |
+| partitioned_moldability | | | 15 | 70 |

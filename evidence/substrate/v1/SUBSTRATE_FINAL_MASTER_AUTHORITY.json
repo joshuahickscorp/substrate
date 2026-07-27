@@ -1,0 +1,172 @@
+{
+  "schema": "substrate-final-master-authority/v1",
+  "supersedes": "the archived predecessor plans without invalidating anything they sealed",
+  "plans": {
+    "final": {
+      "path": "/Users/scammermike/Downloads/substrate/docs/LONG_RUN_PLAN.md",
+      "sha256": "cbe665b6bcd741ce1cda1bc9d40675838a14e129ad20d44cc925f13aed56eb7f",
+      "resolved": true
+    }
+  },
+  "source": {
+    "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+    "tree": "ffbc76cece925b6ff201f09806b326033538c9ba",
+    "branch": "agent/substrate-event-horizon",
+    "remote_branch": "agent/substrate-event-horizon",
+    "pull_request": 35
+  },
+  "proof_roots": {
+    "active": "evidence/substrate/v1",
+    "historical_authority": "evidence/substrate/v1/SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json"
+  },
+  "inherited_authorities": [
+    {
+      "program": "method_reformation",
+      "reference": "historical:experimental_validity_kernel",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "sha256": "04c3c426aa26b7f1d8e51637102ace4a13887a88ee6cfaed12bd9b5315c3207a",
+      "role": "the admission gate every new Substrate experiment must pass"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "historical:historical_experiment_defect_ledger",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "sha256": "4c62053d18833fe4f4cb6995febc89e7d12687ed2d4bd730ab7677d80a0071e1",
+      "role": "eighteen reproduced defect classes, each a permanent regression"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "historical:inherited_hypothesis_graph",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa",
+      "role": "the inherited hypothesis graph this program extends and never rewrites"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "historical:method_next_frontier",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+      "sha256": "70b09760a6ede7f7f856474d3f780c87212ec2916dbb060475876e4ff5f1901f",
+      "role": "the value of information selection that licensed the temporal core program"
+    },
+    {
+      "program": "fast_state_forge",
+      "reference": "historical:fast_state_binding_nulls",
+      "resolved": true,
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+      "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26",
+      "role": "immutable inherited nulls, supersedable only by an appended authority"
+    },
+    {
+      "program": "fast_state_forge",
+      "reference": "historical:fast_state_synthesis",
+      "resolved": true,
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+      "sha256": "efd5419d67bbcc7847291b4a93a20e2335ae5f6f7232e7f7939ee9db7d339f86",
+      "role": "the terminal synthesis of the fast state program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "historical:temporal_start_authority",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "sha256": "d0138ed3100b7d255332201cc6afcc5a5027ded6f368c9956838a3a8192386f1",
+      "role": "the start authority of the live temporal core mechanism program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "historical:temporal_method_extension",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "sha256": "6d1ab9b7a3b70406e91243e34f7cd1db344dc2191931457069d02486fbd1cb06",
+      "role": "five method witnesses added by the temporal program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "historical:temporal_hypothesis_graph",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f",
+      "role": "the temporal factorial hypothesis graph"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "historical:data_custody",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
+      "sha256": "1c9d2654660883c5024b7fed96a11b26220d360d11e9f8b386a7fac9b4a0737e",
+      "role": "corpus custody and the deletion guard"
+    }
+  ],
+  "naming_authority": {
+    "current_program": "Substrate",
+    "map": {
+      "MOP": "the original research program, valid inside every historical authority",
+      "Mixture of Perspectives": "the perspective generation and arbitration subsystem, items C3 to C5",
+      "Mixture of Thinking": "the composition of heterogeneous cognitive processes, items C5, K1 and T1"
+    },
+    "rule": "active product, package, command, path and environment identities are Substrate. Historical files, commits, tags, proofs, schemas and program identities remain byte-identical and are read only through the Substrate historical evidence authority",
+    "active_rename_complete": true,
+    "compatibility_namespace": null,
+    "historical_authority": "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json"
+  },
+  "claim_boundary": {
+    "levels": [
+      "demonstrated engineering property",
+      "behavioural indication",
+      "architectural prerequisite",
+      "philosophical interpretation",
+      "unsupported claim"
+    ],
+    "permitted_terms": [
+      "sentience adjacent architecture",
+      "entity like continuity",
+      "developmental cognition",
+      "reflective cognitive organization"
+    ],
+    "forbidden_claims_as_written_in_the_plan": [
+      "consciousness",
+      "sentience",
+      "feelings",
+      "wants",
+      "suffering",
+      "subjective experience",
+      "life"
+    ],
+    "enforced_vocabulary": "substrate.safety.FORBIDDEN_CLAIM_TERMS",
+    "rule": "no single architectural property is proof of sentience"
+  },
+  "goal_authority": {
+    "origin": "SUBSTRATE_MASTER_PLAN.md, supplied by the operator",
+    "scope": "the items declared in substrate.program.ITEMS",
+    "authority": "operator issued, bounded by this file",
+    "resources": "local compute already licensed to the temporal core supervisor plus this session",
+    "constraints": "activation stays false, no autonomous removal of protected surfaces",
+    "termination": "the declared authority is terminal and no dependency ready work remains",
+    "audit": "SUBSTRATE_STATE.json, regenerated from the tree on every run",
+    "may_not": "silently create unrestricted long term goals"
+  },
+  "single_infrastructure": {
+    "scheduler": "substrate.execution over substrate.graph",
+    "engine": "substrate.execution",
+    "admission_gate": "substrate.method.gate through substrate.admission",
+    "registry": "substrate.program.ITEMS",
+    "configuration_authority": "configs/substrate/config.json through substrate.config",
+    "cli": "substrate",
+    "evidence_fabric": "evidence/substrate/v1 through substrate.evidence"
+  },
+  "program_graph": {
+    "nodes": 26,
+    "valid": true,
+    "externally_blocked": [],
+    "buildable_prerequisites": []
+  },
+  "resume_without_history": "every field a successor needs is in SUBSTRATE_FINAL_STATE.json and this file. No conversation is required to continue",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "aad8dc153c4cf6569ec5f5ef81d57fa9f521c84b81211df815ad1c76fdaf5a73"
+}

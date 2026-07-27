@@ -1,0 +1,580 @@
+{
+  "schema": "substrate-long-run-dag/v1",
+  "units": [
+    {
+      "identity": "audit",
+      "module": "substrate.audit",
+      "args": [
+        "run"
+      ],
+      "depends_on": [],
+      "certified": "gates every later unit",
+      "produces": [
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ],
+      "work_classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "resource_class": "tiny",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 64,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "declarations",
+      "module": "substrate.deliverables",
+      "args": [
+        "seal-declarations"
+      ],
+      "depends_on": [
+        "audit"
+      ],
+      "certified": "necessary: every later unit reads declaration families with no dedicated later owner",
+      "produces": [
+        "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+        "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+        "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+        "SUBSTRATE_ONTOLOGY.json",
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+        "SUBSTRATE_WORKSPACE.json",
+        "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+        "SUBSTRATE_ARBITRATION_SYSTEM.json",
+        "SUBSTRATE_WORLD_MODEL.json",
+        "SUBSTRATE_METACOGNITION.json",
+        "SUBSTRATE_RUNTIME.json",
+        "SUBSTRATE_GOAL_SYSTEM.json",
+        "SUBSTRATE_VALUATION_SYSTEM.json",
+        "SUBSTRATE_GROUNDING.json",
+        "SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+        "SUBSTRATE_NOUS_CLOSURE.json"
+      ],
+      "work_classification": "artifact regeneration",
+      "campaign_phase": "terminal packaging",
+      "resource_class": "small_io",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 128,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+        "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+        "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+        "SUBSTRATE_ONTOLOGY.json",
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+        "SUBSTRATE_WORKSPACE.json",
+        "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+        "SUBSTRATE_ARBITRATION_SYSTEM.json",
+        "SUBSTRATE_WORLD_MODEL.json",
+        "SUBSTRATE_METACOGNITION.json",
+        "SUBSTRATE_RUNTIME.json",
+        "SUBSTRATE_GOAL_SYSTEM.json",
+        "SUBSTRATE_VALUATION_SYSTEM.json",
+        "SUBSTRATE_GROUNDING.json",
+        "SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+        "SUBSTRATE_NOUS_CLOSURE.json"
+      ],
+      "concurrency_safe": false,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "temporal_continuity",
+      "module": "substrate.temporal_link",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "runtime activity: the temporal region changes the decision path",
+      "produces": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "work_classification": "simple seal of an existing result",
+      "campaign_phase": "verification campaign",
+      "resource_class": "tiny",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 64,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "ontology_epistemology",
+      "module": "substrate.epistemology",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "tested batteries in sections 6.2 and 7.3",
+      "produces": [
+        "SUBSTRATE_EPISTEMOLOGY.json",
+        "SUBSTRATE_BELIEF_REVISION.json"
+      ],
+      "work_classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "resource_class": "tiny",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 64,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_EPISTEMOLOGY.json",
+        "SUBSTRATE_BELIEF_REVISION.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "memory",
+      "module": "substrate.memory",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "session canary: memory reuse and restoration",
+      "produces": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "work_classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "resource_class": "tiny",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 64,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "diversity_arbitration",
+      "module": "substrate.sx2",
+      "args": [
+        "run"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "SX2 closed on a compute matched comparison; the unit records the closure",
+      "produces": [
+        "SUBSTRATE_SX2_DIVERSITY.json"
+      ],
+      "work_classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "resource_class": "small_cpu",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 128,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_SX2_DIVERSITY.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "world_model",
+      "module": "substrate.worldbed",
+      "args": [
+        "integrate"
+      ],
+      "depends_on": [
+        "memory"
+      ],
+      "certified": "state dependent bed, decision gain measured and negative",
+      "produces": [
+        "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+      ],
+      "work_classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "resource_class": "small_cpu",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 128,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "self_model",
+      "module": "substrate.selfmodel",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "memory"
+      ],
+      "certified": "session canary: calibration paired to outcomes",
+      "produces": [
+        "SUBSTRATE_SELF_MODEL.json"
+      ],
+      "work_classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "resource_class": "tiny",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 64,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_SELF_MODEL.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "body_compact",
+      "module": "substrate.bodies",
+      "args": [
+        "compact"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "body canary: pairwise distinct",
+      "produces": [
+        "SUBSTRATE_BODY_COMPACT.json"
+      ],
+      "work_classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "resource_class": "numpy_medium",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 256,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_BODY_COMPACT.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "body_general",
+      "module": "substrate.bodies",
+      "args": [
+        "general"
+      ],
+      "depends_on": [
+        "body_compact"
+      ],
+      "certified": "body canary: pairwise distinct",
+      "produces": [
+        "SUBSTRATE_BODY_GENERAL.json"
+      ],
+      "work_classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "resource_class": "numpy_medium",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 384,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_BODY_GENERAL.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "body_tool",
+      "module": "substrate.bodies",
+      "args": [
+        "tool"
+      ],
+      "depends_on": [
+        "body_compact"
+      ],
+      "certified": "body canary: pairwise distinct",
+      "produces": [
+        "SUBSTRATE_BODY_TOOL.json"
+      ],
+      "work_classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "resource_class": "numpy_medium",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 320,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_BODY_TOOL.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "body_comparison",
+      "module": "substrate.bodies",
+      "args": [
+        "compare"
+      ],
+      "depends_on": [
+        "body_general",
+        "body_tool",
+        "temporal_continuity"
+      ],
+      "certified": "ablation ladder measured against all three bodies",
+      "produces": [
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ],
+      "work_classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "resource_class": "numpy_medium",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 512,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "admitted_plasticity",
+      "module": "substrate.plasticity",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "declarations"
+      ],
+      "certified": "runtime activity: adapt changes the reliability state",
+      "produces": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json",
+        "SUBSTRATE_REORGANIZATION.json"
+      ],
+      "work_classification": "instrument validation",
+      "campaign_phase": "verification campaign",
+      "resource_class": "tiny",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 64,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json",
+        "SUBSTRATE_REORGANIZATION.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "developmental_divergence",
+      "module": "substrate.divergence",
+      "args": [
+        "run"
+      ],
+      "depends_on": [
+        "memory",
+        "temporal_continuity"
+      ],
+      "certified": "control clean: identical histories produce no divergence",
+      "produces": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ],
+      "work_classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "resource_class": "small_cpu",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 128,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "entity_batteries",
+      "module": "substrate.batteries",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "world_model",
+        "self_model",
+        "body_comparison",
+        "admitted_plasticity"
+      ],
+      "certified": "runtime activity: every stage the batteries read is active",
+      "produces": [
+        "SUBSTRATE_THINKING_BATTERY.json",
+        "SUBSTRATE_CONTINUITY_BATTERY.json",
+        "SUBSTRATE_UNITY_BATTERY.json",
+        "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
+        "SUBSTRATE_AGENCY_BATTERY.json",
+        "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"
+      ],
+      "work_classification": "report synthesis",
+      "campaign_phase": "verification campaign",
+      "resource_class": "small_cpu",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 128,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_THINKING_BATTERY.json",
+        "SUBSTRATE_CONTINUITY_BATTERY.json",
+        "SUBSTRATE_UNITY_BATTERY.json",
+        "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
+        "SUBSTRATE_AGENCY_BATTERY.json",
+        "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "certification",
+      "module": "substrate.certify",
+      "args": [
+        "run"
+      ],
+      "depends_on": [
+        "entity_batteries",
+        "developmental_divergence",
+        "diversity_arbitration"
+      ],
+      "certified": "necessary: reruns the cheap certification against the run's own outputs",
+      "produces": [
+        "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
+      ],
+      "work_classification": "report synthesis",
+      "campaign_phase": "verification campaign",
+      "resource_class": "small_cpu",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 192,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "recomputation",
+      "module": "substrate.verification",
+      "args": [
+        "recompute"
+      ],
+      "depends_on": [
+        "certification"
+      ],
+      "certified": "necessary: a second route over the sealed bytes",
+      "produces": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "work_classification": "recomputation from sealed raw evidence",
+      "campaign_phase": "verification campaign",
+      "resource_class": "small_io",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 128,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "concurrency_safe": true,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "mutations",
+      "module": "substrate.verification",
+      "args": [
+        "mutate"
+      ],
+      "depends_on": [
+        "recomputation"
+      ],
+      "certified": "necessary: every guard is broken on purpose",
+      "produces": [
+        "SUBSTRATE_MUTATION_REPORT.json"
+      ],
+      "work_classification": "mutation",
+      "campaign_phase": "verification campaign",
+      "resource_class": "mutation_subprocess",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 512,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_MUTATION_REPORT.json"
+      ],
+      "concurrency_safe": false,
+      "timeout_seconds": 300,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    },
+    {
+      "identity": "terminal_synthesis",
+      "module": "substrate.authority",
+      "args": [
+        "seal"
+      ],
+      "depends_on": [
+        "mutations"
+      ],
+      "certified": "necessary: the closing authority",
+      "produces": [
+        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+        "SUBSTRATE_FINAL_STATE.json"
+      ],
+      "work_classification": "report synthesis",
+      "campaign_phase": "terminal packaging",
+      "resource_class": "small_io",
+      "cpu_thread_budget": 1,
+      "memory_estimate_mib": 192,
+      "mps_required": false,
+      "exclusive_device_required": false,
+      "artifact_families": [
+        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+        "SUBSTRATE_FINAL_STATE.json"
+      ],
+      "concurrency_safe": false,
+      "timeout_seconds": 120,
+      "retry_rule": "one retry for a transient process failure; deterministic failures hold"
+    }
+  ],
+  "unit_count": 19,
+  "graph_nodes": 26,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "a805f718c956b710b76cb3554305ac9e53ffd44110470ba478f8b5bfed5aba20"
+}

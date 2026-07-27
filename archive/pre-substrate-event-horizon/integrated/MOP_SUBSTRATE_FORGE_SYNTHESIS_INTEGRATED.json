@@ -1,0 +1,28 @@
+{
+  "schema": "integrated-forge-synthesis/v1",
+  "authority": "agent/mop-integrated-substrate-forge",
+  "integrated_commit": "64d2801",
+  "domains": {
+    "HAR_raw": "valid",
+    "SpeechCommands": "valid (after bounded repair)",
+    "PAMAP2": "invalid_no_temporal_headroom",
+    "STARSS23_cached": "invalid (8 clips, no temporal sequence)"
+  },
+  "architectures": {
+    "A-T": "null (3 rounds)",
+    "C": "null (carried)",
+    "D": "structural null (carried)",
+    "E": "terminal compression null",
+    "F": "null, falsified by shuffled-time control"
+  },
+  "cross_domain": "cross_domain_moldability_null",
+  "timescales": {
+    "fast": 0.0627,
+    "medium": 0.0033,
+    "slow": -0.0278
+  },
+  "strongest_baseline": "LSTM+GDumb (util 0.390); no substrate arm beat it above SESOI",
+  "evidence_ceiling": "owned substrate implemented and now tested on two valid temporal domains; no architecture, timescale, memory policy, compression strategy, predictive objective, or persistent cross-domain core shows incremental value above SESOI over strong matched baselines",
+  "activation": false,
+  "sha256": "d0bbbe7291cd326d10a39ac02f26f72e85dabd3c38dff78f420dc0115562f291"
+}

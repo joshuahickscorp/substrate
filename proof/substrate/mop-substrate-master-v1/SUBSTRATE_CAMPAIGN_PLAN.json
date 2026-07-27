@@ -1,0 +1,205 @@
+{
+  "schema": "substrate-campaign-plan/v1",
+  "authority": "SUBSTRATE_MASTER_PLAN.md section 22",
+  "driver": "python -m mop.cognition.campaign run <waves>",
+  "stop_switch": "/Users/scammermike/.mop_substrate_stop",
+  "stage_graph": [
+    {
+      "stage": "declarations",
+      "deps": [],
+      "detail": "seal every module declaration from the current tree"
+    },
+    {
+      "stage": "tests",
+      "deps": [
+        "declarations"
+      ],
+      "detail": "run every declared test node and record the ledger"
+    },
+    {
+      "stage": "experiments",
+      "deps": [
+        "tests"
+      ],
+      "detail": "admit the declared experiments and record each decision with its reason"
+    },
+    {
+      "stage": "bed_screen",
+      "deps": [
+        "experiments"
+      ],
+      "detail": "screen every bed under custody against the declared SESOI"
+    },
+    {
+      "stage": "sx1b",
+      "deps": [
+        "bed_screen"
+      ],
+      "detail": "the typed workspace successor, refused on power and recorded as refused"
+    },
+    {
+      "stage": "sx5",
+      "deps": [
+        "bed_screen"
+      ],
+      "detail": "self model calibration on the temporal program's sealed receipts"
+    },
+    {
+      "stage": "deliverables",
+      "deps": [
+        "sx1b",
+        "sx5"
+      ],
+      "detail": "regenerate every master artifact from the tree"
+    },
+    {
+      "stage": "recompute",
+      "deps": [
+        "deliverables"
+      ],
+      "detail": "recompute every sealed number by a second route from the sealed bytes"
+    },
+    {
+      "stage": "mutate",
+      "deps": [
+        "recompute"
+      ],
+      "detail": "break every declared guard on purpose and require the guard to notice"
+    },
+    {
+      "stage": "classify",
+      "deps": [
+        "mutate"
+      ],
+      "detail": "turn a verified measurement into a recorded classification, and only then"
+    },
+    {
+      "stage": "consolidate",
+      "deps": [
+        "classify"
+      ],
+      "detail": "regenerate the frontier and the value queue with the new classification in them"
+    }
+  ],
+  "current_status": {
+    "wave": 1,
+    "ready": [
+      "declarations"
+    ],
+    "terminal": false
+  },
+  "waves": [
+    {
+      "wave": "W1_close_the_loop",
+      "goal": "every stage in the graph above reaches a receipt and the frontier is regenerated with the new classifications in it",
+      "entry": "none, this is the wave the driver runs today",
+      "exit": "all campaign stages done, SUBSTRATE_NEXT_FRONTIER.json regenerated",
+      "work": [
+        "seal declarations",
+        "run declared tests",
+        "admit experiments",
+        "screen beds",
+        "recompute independently",
+        "mutate every guard",
+        "classify what survived"
+      ],
+      "horizon": "hours",
+      "blocked_on_absent_prerequisite": null
+    },
+    {
+      "wave": "W2_perspective_families",
+      "goal": "close the gap between nineteen declared perspective families and the six implemented",
+      "entry": "W1 terminal",
+      "exit": "every family that has an implementable verification method is implemented, and the ones that do not are listed with the reason",
+      "work": [
+        "implement the families whose verification is a computation rather than a judgement",
+        "refuse the ones whose verification would be a human opinion, and say so",
+        "extend the catalog declaration and its distinctness test"
+      ],
+      "horizon": "hours",
+      "blocked_on_absent_prerequisite": null
+    },
+    {
+      "wave": "W3_sx2_perspective_diversity",
+      "goal": "test whether a heterogeneous perspective set beats the strongest single perspective at matched compute",
+      "entry": "W2 terminal, and a bed that was not built to answer this question",
+      "exit": "a classification, or a recorded refusal with the number that decides it",
+      "work": [
+        "treat the temporal factorial's seventy six cells as a real perspective set with per unit scores that already exist",
+        "match compute honestly: selecting among k perspectives costs k times one perspective",
+        "measure the oracle ceiling before spending anything on the fitted arm"
+      ],
+      "horizon": "hours",
+      "blocked_on_absent_prerequisite": null,
+      "risk": "the compute matched bar is severe. A set of seventy six cells must beat the best single cell given seventy six times its budget, and it may simply not"
+    },
+    {
+      "wave": "W4_world_model_in_the_loop",
+      "goal": "the world model changes a decision inside a cycle rather than scoring well beside it",
+      "entry": "a bed where a prediction about the next state changes which action the arbiter selects",
+      "exit": "a decision improvement measured inside the runtime, or a recorded finding that the bed does not contain such a decision",
+      "work": [
+        "wire the world model into the select and arbitrate stages",
+        "find or build a bed with state dependent actions that nobody designed for this"
+      ],
+      "horizon": "days",
+      "blocked_on_absent_prerequisite": "a bed with state dependent decisions that this program did not design. The limited instrument verdict already exists precisely because prediction without decision improvement is not enough"
+    },
+    {
+      "wave": "W5_model_body",
+      "goal": "attach a real model body through the nine message kinds and run the same Substrate against more than one",
+      "entry": "a body that implements the contract",
+      "exit": "three conformance reports, one per declared body class",
+      "work": [
+        "implement an adapter for a compact specialist",
+        "implement an adapter for a larger general model",
+        "implement a tool dominant adapter",
+        "run the same runtime against each and compare what has to live in weights"
+      ],
+      "horizon": "days to weeks",
+      "blocked_on_absent_prerequisite": "no model body is attached and none is implemented. The contract is testable and a partial body reports as partial, but there is nothing on the other end of it"
+    },
+    {
+      "wave": "W6_entity_batteries_on_real_sessions",
+      "goal": "run the thinking, continuity, unity and reflective batteries on sessions nobody wrote for the purpose",
+      "entry": "W5, because a real session needs a body to produce it",
+      "exit": "a classification per battery, or a recorded measurement boundary per battery",
+      "work": [
+        "replace the synthetic demo session with a recorded one",
+        "rerun continuity with a transcript whose length nobody chose",
+        "score thinking against all six declared alternatives"
+      ],
+      "horizon": "weeks",
+      "blocked_on_absent_prerequisite": "the same missing body as W5, plus a source of real sessions. Until then the continuity margin is a property of how much filler the generator added"
+    }
+  ],
+  "waves_blocked_on_an_absent_prerequisite": [
+    {
+      "wave": "W4_world_model_in_the_loop",
+      "missing": "a bed with state dependent decisions that this program did not design. The limited instrument verdict already exists precisely because prediction without decision improvement is not enough"
+    },
+    {
+      "wave": "W5_model_body",
+      "missing": "no model body is attached and none is implemented. The contract is testable and a partial body reports as partial, but there is nothing on the other end of it"
+    },
+    {
+      "wave": "W6_entity_batteries_on_real_sessions",
+      "missing": "the same missing body as W5, plus a source of real sessions. Until then the continuity margin is a property of how much filler the generator added"
+    }
+  ],
+  "honest_horizon": "W1 to W3 are runnable now and are measured in hours. W4 to W6 are not schedulable, because each waits on a component or a data source that does not exist yet. Half of this plan is a list of what would have to be true",
+  "termination": {
+    "rule": "the campaign ends when no stage is dependency ready, when every open hypothesis is measurement blocked, or when the stop switch exists. It does not end by reaching a target score",
+    "what_would_not_end_it": "running out of ideas is not a terminal condition, it is a queue that needs refilling with measurable questions"
+  },
+  "explicitly_not_planned": [
+    "activation. No wave sets it true and no wave proposes a step that would",
+    "unbounded goal creation. Every wave entry and exit is declared here in advance",
+    "raising an evidence score without a classification",
+    "lowering a SESOI to make a wave exit reachable"
+  ],
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+  "sha256": "fdf75545d9f67cd1c8550852c9681d69c12e4925e8d1e48ee3d13c0d840e5810"
+}

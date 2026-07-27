@@ -1,0 +1,93 @@
+{
+  "schema": "mop-generation3-terminal-synthesis/v1",
+  "source_commit": "4fe2a877e53a7e897469263a3759053cec543d27",
+  "program_id": "mop-generation3-discovery-v1",
+  "branch": "agent/mop-generation3-discovery",
+  "streams": {
+    "C1_p1r_priority": {
+      "premise": "P1R replay value as a soft SAMPLING PRIORITY over a fixed independently-maintained buffer, keep policy separate from replay-frequency",
+      "sources_tested": {
+        "EMNIST_full_budget": "invalid_bed",
+        "HAR_non_image": "invalid_bed",
+        "EMNIST_high_forgetting": "invalid_bed"
+      },
+      "key_finding": "INVALID BED across all three tested regimes. At normal training budgets GDumb-uniform captures nearly all oracle value (EMNIST oracle headroom about +0.01 unstable, HAR about +0.006; HAR activity recognition is too separable, all methods about 0.92). The precompute headroom (+0.169) was a TWO-SEED ARTIFACT: at the same high-forgetting regime measured over five stable seeds, oracle_priority (0.320) beats uniform (0.309) by only +0.010, below the 0.02 validity threshold, and shuffled/random concentration (0.318/0.314) match the oracle. So GDumb-uniform captures essentially all recoverable value at every stable budget, making the bed invalid for the C1 question. Separately, the LEARNED P1R priority is actively HARMFUL where a tiny oracle edge exists (0.18-0.19, worse than uniform, loss, oracle, shuffled, and random; per-task effect lcb -0.15 to -0.21): concentrating replay by a noisy learned value reduces diversity and hurts.",
+      "meta_finding": "the two-seed precompute gate produced a false-positive headroom signal that a proper five-seed power analysis overturned; adequate seeding (mandate gate 7) is decisive.",
+      "headroom_regime_detail": {
+        "final_avg_means": {
+          "uniform": 0.3095,
+          "loss_priority": 0.1987,
+          "oracle_priority": 0.3197,
+          "shuffled_p1r": 0.3184,
+          "random_rate_matched": 0.3136,
+          "learned_p1r:rff_ridge": 0.1906,
+          "learned_p1r:kernel_ridge": 0.1845,
+          "learned_p1r:knn": 0.1867
+        },
+        "bed_valid": false,
+        "controls_ok": true,
+        "estimator_effects": {
+          "rff_ridge": {
+            "mean": -0.1286,
+            "sd": 0.0576,
+            "lower_95_cb": -0.166,
+            "favorable_fraction": 0.0,
+            "n": 8,
+            "pass": false
+          },
+          "kernel_ridge": {
+            "mean": -0.1456,
+            "sd": 0.0931,
+            "lower_95_cb": -0.206,
+            "favorable_fraction": 0.0,
+            "n": 8,
+            "pass": false
+          },
+          "knn": {
+            "mean": -0.1181,
+            "sd": 0.0563,
+            "lower_95_cb": -0.1545,
+            "favorable_fraction": 0.0,
+            "n": 8,
+            "pass": false
+          }
+        },
+        "n_estimators_agree": 0,
+        "strongest_simple_control": "max(uniform, loss_priority)",
+        "oracle_headroom_over_uniform": 0.0102,
+        "learned_vs_loss_priority": {
+          "rff_ridge": -0.0081,
+          "kernel_ridge": -0.0143,
+          "knn": -0.0121
+        }
+      },
+      "terminal_classification": "invalid_bed (no valid bed found; learned priority harmful where a tiny oracle edge exists)"
+    },
+    "C3_model_error_aware_simulation": {
+      "premise": "allocate bounded simulation only where expected decision benefit exceeds expected model-error cost; condition depth/trust on estimated rollout error",
+      "precompute_verdict": "terminate_no_headroom",
+      "gate5_oracle_error_aware_vs_reactive": {
+        "mean": -0.5434,
+        "lower_95_cb": -1.3804,
+        "n": 2
+      },
+      "gate6_residual_vs_planner": {
+        "mean": -0.5434,
+        "lower_95_cb": -1.3804,
+        "n": 2
+      },
+      "informative_units": 2,
+      "key_finding": "Terminated at the precompute gate. Only 2 of 10 env units are informative (both CartPole; Acrobot and MountainCar are unsolvable by a linear model), and on those the oracle error-aware allocator is WORSE than reactive (mean about -0.54). Even a perfect model-error oracle cannot make learned-model simulation help on these environments. C3 is closed before any principal canary, continuing the Gen2 S1 null.",
+      "terminal_classification": "precompute_gate_failure_no_canary"
+    }
+  },
+  "surviving_subsystem": "none new. P1R remains the strongest surviving internal hypothesis (Gen2), unchanged: same-team benchmark positives bounded by an external replication null, no downstream license.",
+  "construction_integration_activation": "unlicensed; activation false (unchanged from Gen2)",
+  "forbidden_claims": [
+    "P1R-priority is a validated replay mechanism (headroom is budget-specific and not shown recoverable by a learned priority on a valid stable bed)",
+    "C3 model-error-aware simulation has any headroom (it does not)",
+    "any new mechanism is confirmed or activated"
+  ],
+  "exact_next_frontier": "If EMNIST_high_forgetting shows a learned priority robustly beating loss-priority and uniform on a VALID bed, C1 becomes a bounded replay-subsystem candidate needing external-method replication. Otherwise the null map's replay and simulation premises are exhausted at this compute scale, and the next genuinely new premise must target a domain with a strong non-image sequential source that has real forgetting AND oracle headroom the established method leaves open.",
+  "sha256": "d0bb77234ccaaa64f3811a7b0a4245ab06e82ef6b32e225c64ad1a35de51eba2"
+}

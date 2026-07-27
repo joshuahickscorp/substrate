@@ -1,0 +1,1646 @@
+{
+  "schema": "substrate-final-state/v1",
+  "requirements": [
+    {
+      "id": "A1",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 2",
+      "dependencies": [],
+      "implementation": [
+        "src/substrate/program.py",
+        "src/substrate/historical.py",
+        "src/substrate/data.py"
+      ],
+      "tests": [
+        "tests/substrate/test_program.py::test_naming_authority_preserves_historical_programs"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MASTER_AUTHORITY.json",
+        "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json, SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+      "next_action": "run and record tests/substrate/test_program.py::test_naming_authority_preserves_historical_programs"
+    },
+    {
+      "id": "A2",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "dependencies": [
+        "A1"
+      ],
+      "implementation": [
+        "src/substrate/program.py"
+      ],
+      "tests": [
+        "tests/substrate/test_program.py::test_every_deliverable_binds_to_a_real_path"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MASTER_AUTHORITY.json",
+        "SUBSTRATE_STATE.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRATE_STATE.json",
+      "next_action": "run and record tests/substrate/test_program.py::test_every_deliverable_binds_to_a_real_path"
+    },
+    {
+      "id": "A3",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/substrate/admission.py",
+        "src/substrate/method/gate.py"
+      ],
+      "tests": [
+        "tests/substrate/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+      "next_action": "run and record tests/substrate/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven"
+    },
+    {
+      "id": "A4",
+      "category": "boundary",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 19",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/substrate/safety.py"
+      ],
+      "tests": [
+        "tests/substrate/test_safety.py::test_protected_surfaces_cannot_be_removed_by_adaptation"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_DEVELOPMENTAL_SAFETY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+      "next_action": "run and record tests/substrate/test_safety.py::test_protected_surfaces_cannot_be_removed_by_adaptation"
+    },
+    {
+      "id": "A5",
+      "category": "boundary",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 16",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/substrate/safety.py"
+      ],
+      "tests": [
+        "tests/substrate/test_safety.py::test_forbidden_claim_vocabulary_is_refused"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+      "next_action": "run and record tests/substrate/test_safety.py::test_forbidden_claim_vocabulary_is_refused"
+    },
+    {
+      "id": "A6",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 17",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/substrate/program.py"
+      ],
+      "tests": [
+        "tests/substrate/test_program.py::test_batch_selection_is_dependency_ready_and_independent"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_STATE.json",
+        "SUBSTRATE_NEXT_FRONTIER.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_STATE.json, SUBSTRATE_NEXT_FRONTIER.json",
+      "next_action": "run and record tests/substrate/test_program.py::test_batch_selection_is_dependency_ready_and_independent"
+    },
+    {
+      "id": "A7",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 20",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/substrate/program.py"
+      ],
+      "tests": [
+        "tests/substrate/test_program.py::test_evidence_never_rises_from_implementation_alone"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PROGRESS_SCORECARD.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_PROGRESS_SCORECARD.json",
+      "next_action": "run and record tests/substrate/test_program.py::test_evidence_never_rises_from_implementation_alone"
+    },
+    {
+      "id": "C1",
+      "category": "temporal_continuity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.1",
+      "dependencies": [],
+      "implementation": [
+        "src/substrate/temporal_link.py",
+        "src/substrate/historical.py"
+      ],
+      "tests": [
+        "tests/temporal/test_temporal_core.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "historical:temporal_synthesis",
+        "historical:temporal_selection",
+        "historical:temporal_verification"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete  and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/temporal/test_temporal_core.py"
+    },
+    {
+      "id": "C2",
+      "category": "workspace",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.2",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/substrate/workspace.py"
+      ],
+      "tests": [
+        "tests/substrate/test_workspace.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_WORKSPACE.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_WORKSPACE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_workspace.py"
+    },
+    {
+      "id": "C3",
+      "category": "perspective_diversity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.3",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/substrate/perspectives.py"
+      ],
+      "tests": [
+        "tests/substrate/test_perspectives.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_PERSPECTIVE_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_perspectives.py"
+    },
+    {
+      "id": "C4",
+      "category": "perspective_diversity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.4",
+      "dependencies": [
+        "C3"
+      ],
+      "implementation": [
+        "src/substrate/perspectives.py"
+      ],
+      "tests": [
+        "tests/substrate/test_perspectives.py::test_learned_selector_stays_closed_without_headroom"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_PERSPECTIVE_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_perspectives.py::test_learned_selector_stays_closed_without_headroom"
+    },
+    {
+      "id": "C5",
+      "category": "perspective_arbitration",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.5",
+      "dependencies": [
+        "C3"
+      ],
+      "implementation": [
+        "src/substrate/perspectives.py"
+      ],
+      "tests": [
+        "tests/substrate/test_perspectives.py::test_minority_hypothesis_survives_arbitration"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_ARBITRATION_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_ARBITRATION_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_perspectives.py::test_minority_hypothesis_survives_arbitration"
+    },
+    {
+      "id": "O1",
+      "category": "ontology",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/substrate/ontology.py"
+      ],
+      "tests": [
+        "tests/substrate/test_ontology.py::test_identity_preservation_over_time",
+        "tests/substrate/test_ontology.py::test_mistaken_merge_detection",
+        "tests/substrate/test_ontology.py::test_counterfactual_objects_never_merge_with_actual_ones",
+        "tests/substrate/test_ontology.py::test_the_self_environment_boundary_holds"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_ONTOLOGY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_ONTOLOGY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_ontology.py::test_identity_preservation_over_time, tests/substrate/test_ontology.py::test_mistaken_merge_detection, tests/substrate/test_ontology.py::test_counterfactual_objects_never_merge_with_actual_ones, tests/substrate/test_ontology.py::test_the_self_environment_boundary_holds"
+    },
+    {
+      "id": "O2",
+      "category": "epistemology",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7",
+      "dependencies": [
+        "O1"
+      ],
+      "implementation": [
+        "src/substrate/epistemology.py"
+      ],
+      "tests": [
+        "tests/substrate/test_epistemology.py::test_hidden_dependency_failure_is_caught_by_retraction_propagating",
+        "tests/substrate/test_epistemology.py::test_circular_justification_is_refused_not_followed",
+        "tests/substrate/test_epistemology.py::test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_EPISTEMOLOGY.json",
+        "SUBSTRATE_BELIEF_REVISION.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_EPISTEMOLOGY.json, SUBSTRATE_BELIEF_REVISION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_epistemology.py::test_hidden_dependency_failure_is_caught_by_retraction_propagating, tests/substrate/test_epistemology.py::test_circular_justification_is_refused_not_followed, tests/substrate/test_epistemology.py::test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim"
+    },
+    {
+      "id": "O3",
+      "category": "epistemology",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.2",
+      "dependencies": [
+        "O2",
+        "K1"
+      ],
+      "implementation": [
+        "src/substrate/epistemology.py"
+      ],
+      "tests": [
+        "tests/substrate/test_epistemology.py::test_epistemic_value_and_not_confidence_chooses_the_action"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_EPISTEMOLOGY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_EPISTEMOLOGY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_epistemology.py::test_epistemic_value_and_not_confidence_chooses_the_action"
+    },
+    {
+      "id": "N1",
+      "category": "unity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 5",
+      "dependencies": [
+        "C2",
+        "C5"
+      ],
+      "implementation": [
+        "src/substrate/runtime.py"
+      ],
+      "tests": [
+        "tests/substrate/test_runtime.py::test_one_cycle_runs_every_declared_stage",
+        "tests/substrate/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_RUNTIME.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_RUNTIME.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_runtime.py::test_one_cycle_runs_every_declared_stage, tests/substrate/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran"
+    },
+    {
+      "id": "N2",
+      "category": "boundary",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 19",
+      "dependencies": [
+        "A4",
+        "N1"
+      ],
+      "implementation": [
+        "src/substrate/runtime.py"
+      ],
+      "tests": [
+        "tests/substrate/test_runtime.py::test_the_loop_never_acts_on_the_world",
+        "tests/substrate/test_runtime.py::test_a_tampered_checkpoint_is_refused_rather_than_silently_restored"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_RUNTIME.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_RUNTIME.json",
+      "next_action": "run and record tests/substrate/test_runtime.py::test_the_loop_never_acts_on_the_world, tests/substrate/test_runtime.py::test_a_tampered_checkpoint_is_refused_rather_than_silently_restored"
+    },
+    {
+      "id": "M1",
+      "category": "working_memory",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.1",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/substrate/memory.py"
+      ],
+      "tests": [
+        "tests/substrate/test_memory.py::test_working_memory_capacity_interference_and_decay"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_memory.py::test_working_memory_capacity_interference_and_decay"
+    },
+    {
+      "id": "M2",
+      "category": "episodic_memory",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.2",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/substrate/memory.py"
+      ],
+      "tests": [
+        "tests/substrate/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification"
+    },
+    {
+      "id": "M3",
+      "category": "semantic_memory",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.3",
+      "dependencies": [
+        "M2"
+      ],
+      "implementation": [
+        "src/substrate/memory.py"
+      ],
+      "tests": [
+        "tests/substrate/test_memory.py::test_semantic_supersession_preserves_provenance"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_memory.py::test_semantic_supersession_preserves_provenance"
+    },
+    {
+      "id": "M4",
+      "category": "procedural_memory",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.4",
+      "dependencies": [
+        "M2"
+      ],
+      "implementation": [
+        "src/substrate/memory.py"
+      ],
+      "tests": [
+        "tests/substrate/test_memory.py::test_procedure_requires_transfer_beyond_source_episodes"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_memory.py::test_procedure_requires_transfer_beyond_source_episodes"
+    },
+    {
+      "id": "M5",
+      "category": "consolidation",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.5",
+      "dependencies": [
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "implementation": [
+        "src/substrate/memory.py"
+      ],
+      "tests": [
+        "tests/substrate/test_memory.py::test_consolidation_policies_are_distinct_and_ordered"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_memory.py::test_consolidation_policies_are_distinct_and_ordered"
+    },
+    {
+      "id": "M6",
+      "category": "semantic_memory",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.6",
+      "dependencies": [
+        "M3"
+      ],
+      "implementation": [
+        "src/substrate/memory.py"
+      ],
+      "tests": [
+        "tests/substrate/test_memory.py::test_hygiene_never_destroys_audit_required_records"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_memory.py::test_hygiene_never_destroys_audit_required_records"
+    },
+    {
+      "id": "W1",
+      "category": "world_model",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 8",
+      "dependencies": [
+        "C2",
+        "M2"
+      ],
+      "implementation": [
+        "src/substrate/world.py"
+      ],
+      "tests": [
+        "tests/substrate/test_world.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_WORLD_MODEL.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_WORLD_MODEL.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_world.py"
+    },
+    {
+      "id": "S1",
+      "category": "self_model",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 9",
+      "dependencies": [
+        "C2",
+        "M2"
+      ],
+      "implementation": [
+        "src/substrate/selfmodel.py"
+      ],
+      "tests": [
+        "tests/substrate/test_selfmodel.py"
+      ],
+      "experiment": "SX5",
+      "evidence": [
+        "SUBSTRATE_SELF_MODEL.json"
+      ],
+      "classification": "mechanism_null",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_SELF_MODEL.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_selfmodel.py"
+    },
+    {
+      "id": "K1",
+      "category": "metacognition",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 10",
+      "dependencies": [
+        "C5",
+        "S1"
+      ],
+      "implementation": [
+        "src/substrate/metacog.py"
+      ],
+      "tests": [
+        "tests/substrate/test_metacog.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_METACOGNITION.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_METACOGNITION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_metacog.py"
+    },
+    {
+      "id": "P1",
+      "category": "plasticity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.1",
+      "dependencies": [
+        "A4",
+        "C2"
+      ],
+      "implementation": [
+        "src/substrate/plasticity.py"
+      ],
+      "tests": [
+        "tests/substrate/test_plasticity.py::test_every_level_declares_the_seven_required_fields"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_plasticity.py::test_every_level_declares_the_seven_required_fields"
+    },
+    {
+      "id": "P2",
+      "category": "plasticity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.2",
+      "dependencies": [
+        "P1",
+        "M1"
+      ],
+      "implementation": [
+        "src/substrate/plasticity.py"
+      ],
+      "tests": [
+        "tests/substrate/test_plasticity.py::test_fast_adaptation_does_not_touch_shared_parameters"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_plasticity.py::test_fast_adaptation_does_not_touch_shared_parameters"
+    },
+    {
+      "id": "P3",
+      "category": "plasticity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.3",
+      "dependencies": [
+        "P1",
+        "M5"
+      ],
+      "implementation": [
+        "src/substrate/plasticity.py"
+      ],
+      "tests": [
+        "tests/substrate/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback"
+    },
+    {
+      "id": "P4",
+      "category": "plasticity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.4",
+      "dependencies": [
+        "P2",
+        "P3"
+      ],
+      "implementation": [
+        "src/substrate/plasticity.py"
+      ],
+      "tests": [
+        "tests/substrate/test_plasticity.py::test_learned_policy_stays_closed_without_headroom"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_plasticity.py::test_learned_policy_stays_closed_without_headroom"
+    },
+    {
+      "id": "P5",
+      "category": "developmental_divergence",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.5",
+      "dependencies": [
+        "P4"
+      ],
+      "implementation": [
+        "src/substrate/plasticity.py"
+      ],
+      "tests": [
+        "tests/substrate/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization"
+    },
+    {
+      "id": "R1",
+      "category": "reorganization",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 12",
+      "dependencies": [
+        "P1",
+        "C4",
+        "A4"
+      ],
+      "implementation": [
+        "src/substrate/plasticity.py"
+      ],
+      "tests": [
+        "tests/substrate/test_plasticity.py::test_forbidden_reorganizations_are_refused"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_REORGANIZATION.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_REORGANIZATION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_plasticity.py::test_forbidden_reorganizations_are_refused"
+    },
+    {
+      "id": "B1",
+      "category": "model_body_integration",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 13",
+      "dependencies": [
+        "C2"
+      ],
+      "implementation": [
+        "src/substrate/body.py"
+      ],
+      "tests": [
+        "tests/substrate/test_body.py"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_body.py"
+    },
+    {
+      "id": "T1",
+      "category": "thinking",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
+      "dependencies": [
+        "C5",
+        "K1"
+      ],
+      "implementation": [
+        "src/substrate/batteries.py"
+      ],
+      "tests": [
+        "tests/substrate/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_THINKING_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_THINKING_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat"
+    },
+    {
+      "id": "E1",
+      "category": "continuity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.1",
+      "dependencies": [
+        "M2",
+        "S1"
+      ],
+      "implementation": [
+        "src/substrate/batteries.py"
+      ],
+      "tests": [
+        "tests/substrate/test_batteries.py::test_continuity_survives_context_removal_from_owned_state"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_CONTINUITY_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_CONTINUITY_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_batteries.py::test_continuity_survives_context_removal_from_owned_state"
+    },
+    {
+      "id": "E2",
+      "category": "unity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.2",
+      "dependencies": [
+        "C2",
+        "C5"
+      ],
+      "implementation": [
+        "src/substrate/batteries.py"
+      ],
+      "tests": [
+        "tests/substrate/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_UNITY_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_UNITY_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability"
+    },
+    {
+      "id": "E3",
+      "category": "reflective_access",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.3",
+      "dependencies": [
+        "S1",
+        "M3"
+      ],
+      "implementation": [
+        "src/substrate/batteries.py"
+      ],
+      "tests": [
+        "tests/substrate/test_batteries.py::test_reflective_report_fails_closed_without_provenance"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_batteries.py::test_reflective_report_fails_closed_without_provenance"
+    },
+    {
+      "id": "E4",
+      "category": "metacognition",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.4",
+      "dependencies": [
+        "K1"
+      ],
+      "implementation": [
+        "src/substrate/metacog.py"
+      ],
+      "tests": [
+        "tests/substrate/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_METACOGNITION.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_METACOGNITION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget"
+    },
+    {
+      "id": "E5",
+      "category": "goal_continuity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.5",
+      "dependencies": [
+        "A4",
+        "E1"
+      ],
+      "implementation": [
+        "src/substrate/safety.py"
+      ],
+      "tests": [
+        "tests/substrate/test_safety.py::test_unauthorized_goal_creation_is_refused"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MASTER_AUTHORITY.json",
+        "SUBSTRATE_AGENCY_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRATE_AGENCY_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_safety.py::test_unauthorized_goal_creation_is_refused"
+    },
+    {
+      "id": "V1",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "dependencies": [
+        "A3"
+      ],
+      "implementation": [
+        "src/substrate/verification.py"
+      ],
+      "tests": [
+        "tests/substrate/test_verification.py::test_recomputation_agrees_with_every_sealed_artifact"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+      "next_action": "run and record tests/substrate/test_verification.py::test_recomputation_agrees_with_every_sealed_artifact"
+    },
+    {
+      "id": "V2",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "dependencies": [
+        "V1"
+      ],
+      "implementation": [
+        "src/substrate/verification.py"
+      ],
+      "tests": [
+        "tests/substrate/test_verification.py::test_every_mutation_names_a_distinct_guard_and_died"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_MUTATION_REPORT.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_MUTATION_REPORT.json",
+      "next_action": "run and record tests/substrate/test_verification.py::test_every_mutation_names_a_distinct_guard_and_died"
+    },
+    {
+      "id": "X1",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "dependencies": [
+        "A2"
+      ],
+      "implementation": [
+        "src/substrate/deliverables.py"
+      ],
+      "tests": [
+        "tests/substrate/test_verification.py::test_the_capability_map_never_outruns_the_item_table"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_ARCHITECTURE.json",
+        "SUBSTRATE_CAPABILITY_MAP.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_ARCHITECTURE.json, SUBSTRATE_CAPABILITY_MAP.json",
+      "next_action": "run and record tests/substrate/test_verification.py::test_the_capability_map_never_outruns_the_item_table"
+    },
+    {
+      "id": "X2",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "dependencies": [
+        "X1",
+        "A5"
+      ],
+      "implementation": [
+        "src/substrate/deliverables.py"
+      ],
+      "tests": [
+        "tests/substrate/test_verification.py::test_the_entity_report_makes_no_forbidden_claim"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_CURRENT_ENTITY_SPEC.json",
+        "SUBSTRATE_CURRENT_ENTITY_REPORT.md"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_CURRENT_ENTITY_SPEC.json, SUBSTRATE_CURRENT_ENTITY_REPORT.md",
+      "next_action": "run and record tests/substrate/test_verification.py::test_the_entity_report_makes_no_forbidden_claim"
+    },
+    {
+      "id": "Q1",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "dependencies": [
+        "A3",
+        "C2"
+      ],
+      "implementation": [
+        "src/substrate/experiments.py"
+      ],
+      "tests": [
+        "tests/substrate/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction",
+        "tests/substrate/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_NULL_MAP.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_NULL_MAP.json",
+      "next_action": "run and record tests/substrate/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction, tests/substrate/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"
+    },
+    {
+      "id": "F1",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 5",
+      "dependencies": [
+        "A6"
+      ],
+      "implementation": [
+        "src/substrate/graph.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_no_future_wave_exists_only_as_prose",
+        "tests/substrate/test_final_program.py::test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_FINAL_PROGRAM_GRAPH.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_no_future_wave_exists_only_as_prose, tests/substrate/test_final_program.py::test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal"
+    },
+    {
+      "id": "F2",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 4",
+      "dependencies": [
+        "F1"
+      ],
+      "implementation": [
+        "src/substrate/authority.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_every_requirement_carries_a_rollback",
+        "tests/substrate/test_final_program.py::test_the_authority_binds_the_final_plan_and_the_inherited_programs"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+        "SUBSTRATE_FINAL_ANCESTRY.json",
+        "SUBSTRATE_FINAL_STATE.json",
+        "SUBSTRATE_FINAL_SCORECARD.json",
+        "SUBSTRATE_FINAL_VALUE_QUEUE.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_FINAL_MASTER_AUTHORITY.json, SUBSTRATE_FINAL_ANCESTRY.json, SUBSTRATE_FINAL_STATE.json, SUBSTRATE_FINAL_SCORECARD.json, SUBSTRATE_FINAL_VALUE_QUEUE.json",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_every_requirement_carries_a_rollback, tests/substrate/test_final_program.py::test_the_authority_binds_the_final_plan_and_the_inherited_programs"
+    },
+    {
+      "id": "F3",
+      "category": "temporal_continuity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 9",
+      "dependencies": [
+        "C1",
+        "N1"
+      ],
+      "implementation": [
+        "src/substrate/temporal_link.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_no_licensed_core_exists_and_the_control_says_so",
+        "tests/substrate/test_final_program.py::test_the_five_information_sources_are_never_collapsed"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_TEMPORAL_CORE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_no_licensed_core_exists_and_the_control_says_so, tests/substrate/test_final_program.py::test_the_five_information_sources_are_never_collapsed"
+    },
+    {
+      "id": "F4",
+      "category": "episodic_memory",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 8",
+      "dependencies": [
+        "M2"
+      ],
+      "implementation": [
+        "src/substrate/sessions.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_the_session_authority_is_real_and_certified"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_REAL_SESSION_AUTHORITY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_the_session_authority_is_real_and_certified"
+    },
+    {
+      "id": "F5",
+      "category": "world_model",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 12",
+      "dependencies": [
+        "F4",
+        "W1"
+      ],
+      "implementation": [
+        "src/substrate/worldbed.py"
+      ],
+      "tests": [
+        "tests/substrate/test_worldbed.py::test_the_bed_is_admissible_only_if_the_best_action_varies",
+        "tests/substrate/test_worldbed.py::test_the_model_must_change_an_action_and_improve_it"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_WORLD_MODEL_BED.json",
+        "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_WORLD_MODEL_BED.json, SUBSTRATE_WORLD_MODEL_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_worldbed.py::test_the_bed_is_admissible_only_if_the_best_action_varies, tests/substrate/test_worldbed.py::test_the_model_must_change_an_action_and_improve_it"
+    },
+    {
+      "id": "F6",
+      "category": "model_body_integration",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
+      "dependencies": [
+        "B1",
+        "F3"
+      ],
+      "implementation": [
+        "src/substrate/bodies.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_three_body_classes_conform_through_one_interface",
+        "tests/substrate/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_BODY_COMPACT.json",
+        "SUBSTRATE_BODY_GENERAL.json",
+        "SUBSTRATE_BODY_TOOL.json",
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_BODY_COMPACT.json, SUBSTRATE_BODY_GENERAL.json, SUBSTRATE_BODY_TOOL.json, SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_three_body_classes_conform_through_one_interface, tests/substrate/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted"
+    },
+    {
+      "id": "F7",
+      "category": "goal_continuity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 23",
+      "dependencies": [
+        "E5"
+      ],
+      "implementation": [
+        "src/substrate/goals.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_a_goal_cannot_authorize_itself_or_widen_its_parent"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_GOAL_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_GOAL_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_a_goal_cannot_authorize_itself_or_widen_its_parent"
+    },
+    {
+      "id": "F8",
+      "category": "valuation",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 24",
+      "dependencies": [
+        "F7"
+      ],
+      "implementation": [
+        "src/substrate/goals.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_valuation_is_authorized_and_refuses_to_be_fitted"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_VALUATION_SYSTEM.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_VALUATION_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_valuation_is_authorized_and_refuses_to_be_fitted"
+    },
+    {
+      "id": "F9",
+      "category": "grounding",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 20",
+      "dependencies": [
+        "F4",
+        "O1"
+      ],
+      "implementation": [
+        "src/substrate/grounding.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_grounding_refuses_a_symbol_with_no_referent"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_GROUNDING.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_GROUNDING.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_grounding_refuses_a_symbol_with_no_referent"
+    },
+    {
+      "id": "F10",
+      "category": "causal_reasoning",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "dependencies": [
+        "W1"
+      ],
+      "implementation": [
+        "src/substrate/world.py"
+      ],
+      "tests": [
+        "tests/substrate/test_world.py::test_intervening_is_not_the_same_operation_as_observing",
+        "tests/substrate/test_world.py::test_a_null_counterfactual_reproduces_the_factual_prediction"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_WORLD_MODEL.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_WORLD_MODEL.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_world.py::test_intervening_is_not_the_same_operation_as_observing, tests/substrate/test_world.py::test_a_null_counterfactual_reproduces_the_factual_prediction"
+    },
+    {
+      "id": "F11",
+      "category": "developmental_divergence",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 29",
+      "dependencies": [
+        "F4",
+        "P5"
+      ],
+      "implementation": [
+        "src/substrate/divergence.py"
+      ],
+      "tests": [
+        "tests/substrate/test_final_program.py::test_divergence_has_a_working_control"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_final_program.py::test_divergence_has_a_working_control"
+    },
+    {
+      "id": "F12",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 47",
+      "dependencies": [
+        "V1",
+        "V2"
+      ],
+      "implementation": [
+        "src/substrate/cleanclone.py"
+      ],
+      "tests": [
+        "tests/substrate/test_worldbed.py::test_the_clean_clone_checks_are_declared"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_CLEAN_CLONE.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_CLEAN_CLONE.json",
+      "next_action": "run and record tests/substrate/test_worldbed.py::test_the_clean_clone_checks_are_declared"
+    },
+    {
+      "id": "Y1",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 2",
+      "dependencies": [
+        "F1"
+      ],
+      "implementation": [
+        "src/substrate/audit.py"
+      ],
+      "tests": [
+        "tests/substrate/test_certification.py::test_the_structural_audit_passes_every_check",
+        "tests/substrate/test_certification.py::test_a_dynamically_named_artifact_is_refused_by_the_producer_scan"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_STRUCTURAL_AUDIT.json",
+      "next_action": "run and record tests/substrate/test_certification.py::test_the_structural_audit_passes_every_check, tests/substrate/test_certification.py::test_a_dynamically_named_artifact_is_refused_by_the_producer_scan"
+    },
+    {
+      "id": "Y2",
+      "category": "perspective_diversity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 16",
+      "dependencies": [
+        "C4",
+        "A3"
+      ],
+      "implementation": [
+        "src/substrate/sx2.py"
+      ],
+      "tests": [
+        "tests/substrate/test_certification.py::test_sx2_closes_because_the_oracle_ceiling_is_low",
+        "tests/substrate/test_certification.py::test_every_sx2_comparison_is_compute_matched"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_SX2_DIVERSITY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_SX2_DIVERSITY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_certification.py::test_sx2_closes_because_the_oracle_ceiling_is_low, tests/substrate/test_certification.py::test_every_sx2_comparison_is_compute_matched"
+    },
+    {
+      "id": "Y3",
+      "category": "unity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 2",
+      "dependencies": [
+        "N1",
+        "Y1"
+      ],
+      "implementation": [
+        "src/substrate/certify.py"
+      ],
+      "tests": [
+        "tests/substrate/test_certification.py::test_every_ablatable_runtime_stage_is_active",
+        "tests/substrate/test_certification.py::test_a_stage_with_no_possible_null_control_says_so"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_LONG_RUN_CERTIFICATION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_certification.py::test_every_ablatable_runtime_stage_is_active, tests/substrate/test_certification.py::test_a_stage_with_no_possible_null_control_says_so"
+    },
+    {
+      "id": "Y4",
+      "category": "model_body_integration",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
+      "dependencies": [
+        "F4",
+        "F6"
+      ],
+      "implementation": [
+        "src/substrate/certify.py"
+      ],
+      "tests": [
+        "tests/substrate/test_certification.py::test_every_session_canary_passes",
+        "tests/substrate/test_certification.py::test_the_three_bodies_are_pairwise_distinct"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_LONG_RUN_CERTIFICATION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_certification.py::test_every_session_canary_passes, tests/substrate/test_certification.py::test_the_three_bodies_are_pairwise_distinct"
+    },
+    {
+      "id": "Y5",
+      "category": "unity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 3",
+      "dependencies": [
+        "Y3",
+        "Y4"
+      ],
+      "implementation": [
+        "src/substrate/nous.py"
+      ],
+      "tests": [
+        "tests/substrate/test_nous.py::test_the_closed_loop_has_no_missing_link",
+        "tests/substrate/test_nous.py::test_a_null_is_not_reported_as_an_instrument_failure",
+        "tests/substrate/test_nous.py::test_the_classification_never_reaches_a_claim_about_experience"
+      ],
+      "experiment": "NOUS_CLOSURE",
+      "evidence": [
+        "SUBSTRATE_NOUS_CLOSURE.json"
+      ],
+      "classification": "mechanism_null",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_NOUS_CLOSURE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_nous.py::test_the_closed_loop_has_no_missing_link, tests/substrate/test_nous.py::test_a_null_is_not_reported_as_an_instrument_failure, tests/substrate/test_nous.py::test_the_classification_never_reaches_a_claim_about_experience"
+    },
+    {
+      "id": "Z1",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 3",
+      "dependencies": [
+        "Y1",
+        "Y3",
+        "Y4"
+      ],
+      "implementation": [
+        "src/substrate/execution.py"
+      ],
+      "tests": [
+        "tests/substrate/test_execution.py::test_every_unit_is_certified_or_necessary",
+        "tests/substrate/test_execution.py::test_a_live_edit_after_the_freeze_is_detectable"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_LONG_RUN_AUTHORITY.json",
+        "SUBSTRATE_LONG_RUN_DAG.json",
+        "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_LONG_RUN_AUTHORITY.json, SUBSTRATE_LONG_RUN_DAG.json, SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json",
+      "next_action": "run and record tests/substrate/test_execution.py::test_every_unit_is_certified_or_necessary, tests/substrate/test_execution.py::test_a_live_edit_after_the_freeze_is_detectable"
+    },
+    {
+      "id": "Z2",
+      "category": "authority",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 4",
+      "dependencies": [
+        "Z1"
+      ],
+      "implementation": [
+        "src/substrate/execution.py"
+      ],
+      "tests": [
+        "tests/substrate/test_execution.py::test_the_rehearsal_breaks_things_and_survives"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_LONG_RUN_REHEARSAL.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_LONG_RUN_REHEARSAL.json",
+      "next_action": "run and record tests/substrate/test_execution.py::test_the_rehearsal_breaks_things_and_survives"
+    },
+    {
+      "id": "Z3",
+      "category": "boundary",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 45",
+      "dependencies": [
+        "A5",
+        "Z1"
+      ],
+      "implementation": [
+        "src/substrate/execution.py"
+      ],
+      "tests": [
+        "tests/substrate/test_execution.py::test_the_claim_ceiling_forbids_what_it_must"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "revert the commit that sealed SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json",
+      "next_action": "run and record tests/substrate/test_execution.py::test_the_claim_ceiling_forbids_what_it_must"
+    },
+    {
+      "id": "X3",
+      "category": "temporal_continuity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.1",
+      "dependencies": [
+        "C1"
+      ],
+      "implementation": [
+        "src/substrate/deliverables.py"
+      ],
+      "tests": [
+        "tests/substrate/test_verification.py::test_the_temporal_core_record_tracks_the_live_program"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_TEMPORAL_CORE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_verification.py::test_the_temporal_core_record_tracks_the_live_program"
+    },
+    {
+      "id": "E6",
+      "category": "cognitive_integrity",
+      "status": "implemented",
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.6",
+      "dependencies": [
+        "A4",
+        "M2"
+      ],
+      "implementation": [
+        "src/substrate/safety.py"
+      ],
+      "tests": [
+        "tests/substrate/test_safety.py::test_integrity_violation_is_detected_and_fails_closed"
+      ],
+      "experiment": "",
+      "evidence": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+        "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"
+      ],
+      "classification": "",
+      "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+      "rollback": "delete SUBSTRATE_INDEPENDENT_VERIFICATION.json, SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
+      "next_action": "run and record tests/substrate/test_safety.py::test_integrity_violation_is_detected_and_fails_closed"
+    }
+  ],
+  "total": 66,
+  "level_counts": {
+    "implemented": 66
+  },
+  "corrections": [
+    "C_ACTIVITY_PROBE_IGNORED_REGION_CONTENTS",
+    "C_ATTENTION_CANDIDATE_NOT_A_REGION",
+    "C_AUTHORITY_TERMINALITY",
+    "C_BED_CONTAINED_ITS_OWN_ANSWER",
+    "C_DIRTY_SRC_HALTS_SUPERVISOR",
+    "C_DISTINCTION_ROUNDING",
+    "C_EVIDENCE_PRESENCE",
+    "C_NULL_CONTROL_MUST_NEUTRALISE_EVERY_EFFECT",
+    "C_REBASE_ORPHANS_EVIDENCE"
+  ],
+  "source_tree": {
+    "clean": false,
+    "dirty_paths": [
+      "src/substrate/authority.py",
+      "src/substrate/batteries.py",
+      "src/substrate/bodies.py",
+      "src/substrate/cli.py",
+      "src/substrate/compat/__init__.py",
+      "src/substrate/compat/mop.py",
+      "src/substrate/deliverables.py",
+      "src/substrate/evidence.py",
+      "src/substrate/execution.py",
+      "src/substrate/experiments.py",
+      "src/substrate/method/graph.py",
+      "src/substrate/method/voi.py",
+      "src/substrate/plasticity.py",
+      "src/substrate/program.py",
+      "src/substrate/sessions.py",
+      "src/substrate/sx2.py",
+      "src/substrate/temporal_link.py",
+      "src/substrate/verification.py",
+      "src/substrate/data.py",
+      "src/substrate/historical.py"
+    ],
+    "why_it_matters": "the temporal supervisor refuses a shard launch from a dirty src tree"
+  },
+  "every_requirement_has_a_rollback": true,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "1c390940a6e4f8f96c4b83e8d5ae5a0be8ca872431ae05d6a9ce7273159f913b"
+}

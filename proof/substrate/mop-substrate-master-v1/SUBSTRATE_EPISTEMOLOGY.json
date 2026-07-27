@@ -1,0 +1,77 @@
+{
+  "schema": "substrate-epistemology/v1",
+  "kinds": [
+    "raw_observation",
+    "memory",
+    "testimony",
+    "retrieved_record",
+    "inference",
+    "hypothesis",
+    "assumption",
+    "prediction",
+    "counterfactual",
+    "verified_fact",
+    "disputed_claim",
+    "unknown"
+  ],
+  "belief_fields": [
+    "content",
+    "provenance",
+    "supporting_evidence",
+    "contradicting_evidence",
+    "method",
+    "confidence",
+    "calibration",
+    "scope",
+    "time",
+    "defeaters",
+    "supersession",
+    "verification_status"
+  ],
+  "concepts": [
+    "belief",
+    "knowledge_claim",
+    "evidence",
+    "justification",
+    "uncertainty",
+    "ignorance",
+    "contradiction",
+    "defeasibility",
+    "revision",
+    "retraction",
+    "dependency",
+    "testimony",
+    "source_reliability"
+  ],
+  "epistemic_actions": [
+    "accept_provisionally",
+    "reject",
+    "defer",
+    "retrieve",
+    "verify",
+    "test",
+    "ask",
+    "simulate",
+    "seek_counterexample",
+    "preserve_multiple_hypotheses"
+  ],
+  "verification_states": [
+    "unverified",
+    "verifying",
+    "verified",
+    "refuted",
+    "unresolved"
+  ],
+  "justification_is_a_graph": true,
+  "retraction_propagates": {
+    "dependant": "conclusion",
+    "confidence_before": 0.85,
+    "confidence_after": 0.2,
+    "rule": "a conclusion is only as held as its premises"
+  },
+  "control_rule": "metacognitive control operates on epistemic value, which combines uncertainty, stakes and how much rests on the belief. Confidence alone does not choose",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "2fa84b59b63dc3996f8ebf1c581b8104fbf9a9a74bbf44c62b6a1787cc217d39"
+}

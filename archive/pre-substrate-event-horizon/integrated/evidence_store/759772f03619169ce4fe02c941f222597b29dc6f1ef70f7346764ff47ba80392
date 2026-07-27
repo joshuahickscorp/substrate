@@ -1,0 +1,21 @@
+{
+  "schema": "mop-arm-distinctness-mutations/v1",
+  "attacks": {
+    "same_implementation_under_two_names": true,
+    "same_default_policy": true,
+    "same_trainable_group": true,
+    "same_memory_policy": true,
+    "same_output_path": true,
+    "same_checkpoint": true,
+    "same_resource_budget": true,
+    "same_result_file": true,
+    "inactive_branch": true,
+    "configuration_field_ignored": true,
+    "treatment_flag_ignored": true,
+    "all_rejected": true
+  },
+  "all_rejected": true,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "b542cf49b6da903e457e6fbb8d655a4b82dd375fc8d3706f4eb2da1370c20d70"
+}

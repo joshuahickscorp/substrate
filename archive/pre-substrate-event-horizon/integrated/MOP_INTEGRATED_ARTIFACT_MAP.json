@@ -1,0 +1,29 @@
+{
+  "schema": "mop-integrated-artifact-map/v1",
+  "classification": {
+    "collapse_owned_retained": 146,
+    "substrate_owned_retained": 333,
+    "intentional_test_seam": [
+      "tests/unit/test_collapse_invariants.py"
+    ],
+    "intentional_evidence_preservation": 74,
+    "generated_authority": 0,
+    "unexpected": []
+  },
+  "unexpected_count": 0,
+  "substrate_dirs_present": {
+    "substrate_evo": true,
+    "forge": true,
+    "frontier": true,
+    "campaign2": true,
+    "salvage": true
+  },
+  "registries": [
+    "registry/experiments.yaml"
+  ],
+  "config_roots": [
+    "configs"
+  ],
+  "clis": [],
+  "sha256": "100486cccf009d2492d0e2bc5a00f6d0d8a070c038bdf2b6ad2df3717022bc2a"
+}

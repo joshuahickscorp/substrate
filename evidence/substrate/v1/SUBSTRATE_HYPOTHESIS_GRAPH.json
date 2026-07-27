@@ -1,0 +1,269 @@
+{
+  "schema": "substrate-hypothesis-graph/v1",
+  "states": [
+    "unopened",
+    "headroom_pending",
+    "instrument_pending",
+    "admitted",
+    "supported",
+    "mixed",
+    "null",
+    "harm",
+    "invalid",
+    "superseded",
+    "closed"
+  ],
+  "inherited_graph": {
+    "reference": "historical:inherited_hypothesis_graph",
+    "resolved": true,
+    "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+    "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa"
+  },
+  "inherited_temporal_graph": {
+    "reference": "historical:temporal_hypothesis_graph",
+    "resolved": true,
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+    "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f"
+  },
+  "inheritance_rule": "the inherited graphs are sealed evidence. This program appends Substrate native hypotheses and never edits an inherited node",
+  "hypotheses": [
+    {
+      "id": "H_typed_workspace",
+      "items": [
+        "C2",
+        "E2"
+      ],
+      "premise": "typed regions with declared readers and writers beat one unrestricted shared state of matched capacity on tasks that need cross perspective information",
+      "predecessor": null,
+      "state": "instrument_pending",
+      "required_bed": "a bed where at least two perspectives hold information neither one has alone",
+      "required_headroom": "residual headroom over the untyped shared state control",
+      "strongest_baseline": "one opaque state of matched capacity and matched update budget",
+      "cheapest_falsifier": "the same tasks with region typing removed and nothing else changed",
+      "dependent_hypotheses": [
+        "H_arbitration_minority"
+      ],
+      "blocking_null": null,
+      "refused_attempts": [
+        "SX1",
+        "SX1b"
+      ],
+      "still_open": true,
+      "measurement_boundary": {
+        "screen": "no_bed_can_answer_at_this_effect_size",
+        "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered",
+        "beds_screened": [
+          "harth_stream",
+          "pamap2_stream"
+        ],
+        "best_ceiling_lower_95_cb": 0.003234,
+        "sesoi": 0.05,
+        "closes_descendants": false
+      },
+      "carrying_items": [
+        {
+          "id": "C2",
+          "level": "implemented"
+        },
+        {
+          "id": "E2",
+          "level": "implemented"
+        }
+      ]
+    },
+    {
+      "id": "H_perspective_diversity",
+      "items": [
+        "C3",
+        "C4"
+      ],
+      "premise": "a set of heterogeneous perspectives beats the single strongest perspective given the same total compute",
+      "predecessor": null,
+      "state": "unopened",
+      "required_bed": "a bed where the best single perspective leaves measured residual headroom",
+      "required_headroom": "oracle selection over the perspective set must beat the best fixed single one",
+      "strongest_baseline": "best single perspective at the full combined budget",
+      "cheapest_falsifier": "oracle selection with no headroom over the best single perspective",
+      "dependent_hypotheses": [
+        "H_learned_selector"
+      ],
+      "blocking_null": null,
+      "carrying_items": [
+        {
+          "id": "C3",
+          "level": "implemented"
+        },
+        {
+          "id": "C4",
+          "level": "implemented"
+        }
+      ]
+    },
+    {
+      "id": "H_learned_selector",
+      "items": [
+        "C4"
+      ],
+      "premise": "a learned perspective selector beats the strongest simple selection rule",
+      "predecessor": "H_perspective_diversity",
+      "state": "unopened",
+      "required_bed": "inherits the bed of its predecessor",
+      "required_headroom": "stable residual headroom beyond reliability weighted selection",
+      "strongest_baseline": "reliability weighted selection",
+      "cheapest_falsifier": "oracle minus strong simple selection at or below the SESOI",
+      "dependent_hypotheses": [],
+      "blocking_null": null,
+      "carrying_items": [
+        {
+          "id": "C4",
+          "level": "implemented"
+        }
+      ]
+    },
+    {
+      "id": "H_arbitration_minority",
+      "items": [
+        "C5"
+      ],
+      "premise": "preserving a minority hypothesis through arbitration improves the terminal decision over forcing consensus at the same budget",
+      "predecessor": "H_typed_workspace",
+      "state": "unopened",
+      "required_bed": "a bed containing items where the majority perspective is wrong",
+      "required_headroom": "the minority must be correct often enough to be recoverable",
+      "strongest_baseline": "confidence weighted majority with no minority retention",
+      "cheapest_falsifier": "no bed item where the preserved minority changes the terminal answer",
+      "dependent_hypotheses": [],
+      "blocking_null": null,
+      "carrying_items": [
+        {
+          "id": "C5",
+          "level": "implemented"
+        }
+      ]
+    },
+    {
+      "id": "H_owned_continuity",
+      "items": [
+        "E1"
+      ],
+      "premise": "owned state restores goals, beliefs and unresolved questions after context removal better than replaying the transcript at a matched token budget",
+      "predecessor": null,
+      "state": "unopened",
+      "required_bed": "tasks that span an enforced interruption and a checkpoint restore",
+      "required_headroom": "transcript replay must be measurably imperfect at the matched budget",
+      "strongest_baseline": "full transcript replay truncated to the same budget as the owned state",
+      "cheapest_falsifier": "transcript replay matching owned state on every continuity probe",
+      "dependent_hypotheses": [
+        "H_selfmodel_calibration"
+      ],
+      "blocking_null": null,
+      "carrying_items": [
+        {
+          "id": "E1",
+          "level": "implemented"
+        }
+      ]
+    },
+    {
+      "id": "H_selfmodel_calibration",
+      "items": [
+        "S1",
+        "E3"
+      ],
+      "premise": "a measured self model improves decisions over a fixed prior of the same form",
+      "predecessor": "H_owned_continuity",
+      "state": "unopened",
+      "required_bed": "tasks where predicted and actual outcome can both be measured per unit",
+      "required_headroom": "the fixed prior must be measurably miscalibrated",
+      "strongest_baseline": "a fixed prior fitted once and never updated",
+      "cheapest_falsifier": "the fixed prior already calibrated within the SESOI",
+      "dependent_hypotheses": [],
+      "blocking_null": null,
+      "carrying_items": [
+        {
+          "id": "S1",
+          "level": "implemented"
+        },
+        {
+          "id": "E3",
+          "level": "implemented"
+        }
+      ]
+    },
+    {
+      "id": "H_consolidation",
+      "items": [
+        "M5"
+      ],
+      "premise": "verification triggered consolidation beats both no consolidation and a fixed schedule",
+      "predecessor": null,
+      "state": "unopened",
+      "required_bed": "a stream with repeated structure and a verifiable outcome per episode",
+      "required_headroom": "oracle consolidation must beat no consolidation",
+      "strongest_baseline": "fixed schedule consolidation at the matched write budget",
+      "cheapest_falsifier": "oracle consolidation at or below no consolidation",
+      "dependent_hypotheses": [],
+      "blocking_null": null,
+      "carrying_items": [
+        {
+          "id": "M5",
+          "level": "implemented"
+        }
+      ]
+    },
+    {
+      "id": "H_bounded_reorg",
+      "items": [
+        "R1"
+      ],
+      "premise": "bounded functional reorganization improves downstream utility beyond fixed and simple routing after its cost is charged",
+      "predecessor": null,
+      "state": "unopened",
+      "required_bed": "a multi domain bed where the useful routing differs by domain",
+      "required_headroom": "oracle routing must beat fixed routing after cost",
+      "strongest_baseline": "simple context rule routing",
+      "cheapest_falsifier": "oracle routing at or below fixed routing once cost is charged",
+      "dependent_hypotheses": [],
+      "blocking_null": null,
+      "carrying_items": [
+        {
+          "id": "R1",
+          "level": "implemented"
+        }
+      ]
+    },
+    {
+      "id": "H_learned_plasticity_policy",
+      "items": [
+        "P4"
+      ],
+      "premise": "a learned plasticity policy beats the strongest simple plasticity rule",
+      "predecessor": null,
+      "state": "closed",
+      "required_bed": "inherits the fast state forge beds",
+      "required_headroom": "stable residual headroom beyond simple rules",
+      "strongest_baseline": "the best simple triggered rule",
+      "cheapest_falsifier": "already run and null",
+      "dependent_hypotheses": [],
+      "blocking_null": "historical:fast_state_binding_nulls#inherited_nulls.learned_plasticity",
+      "carrying_items": [
+        {
+          "id": "P4",
+          "level": "implemented"
+        }
+      ],
+      "closure": {
+        "reference": "historical:fast_state_binding_nulls",
+        "resolved": true,
+        "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+        "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26"
+      },
+      "closes_descendants": []
+    }
+  ],
+  "open_count": 8,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "activation": false,
+  "sha256": "5dbbc2a2994adb8e517e98bcd5d1c75487903459d654c30ee08caa6c874d016f"
+}
