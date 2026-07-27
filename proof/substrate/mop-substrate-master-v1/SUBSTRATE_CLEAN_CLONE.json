@@ -1,13 +1,13 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
+  "commit": "5fdb3b3cabd3128882821a67619231ca4e4d255f",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
     "package_import": true,
-    "declared_tests": false,
+    "declared_tests": true,
     "graph_valid": true,
-    "artifacts_regenerate_identically": false,
+    "artifacts_regenerate_identically": true,
     "independent_recomputation": true,
     "no_activation": true
   },
@@ -18,17 +18,17 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
-      "expected": "e64814da877f09c42653d1aa3bec09a8cab22fa1"
+      "head": "5fdb3b3cabd3128882821a67619231ca4e4d255f",
+      "expected": "5fdb3b3cabd3128882821a67619231ca4e4d255f"
     },
     "package_import": {
       "ok": true,
       "detail": ""
     },
     "declared_tests": {
-      "ok": false,
+      "ok": true,
       "detail": [
-        "FAILED tests/cognition/test_certification.py::test_the_structural_audit_passes_every_check"
+        ".........                                                                [100%]"
       ]
     },
     "graph_valid": {
@@ -36,7 +36,7 @@
       "detail": "{\"valid\": true, \"blocked\": []}"
     },
     "artifacts_regenerate_identically": {
-      "ok": false,
+      "ok": true,
       "drifted_from_committed": [],
       "nondeterministic_across_two_runs": [],
       "compared": 61,
@@ -61,14 +61,11 @@
       "detail": "false"
     }
   },
-  "failed": [
-    "artifacts_regenerate_identically",
-    "declared_tests"
-  ],
-  "all_pass": false,
+  "failed": [],
+  "all_pass": true,
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
-  "sha256": "e5f68b07b7b0cce2d054897971fb688a72a06e4b7575c10786ceeab175fdb805"
+  "source_commit": "5fdb3b3cabd3128882821a67619231ca4e4d255f",
+  "sha256": "c7e2d3a6af09be05d56a1fcab621fd160793a18f6d3612564169067d76da0baf"
 }

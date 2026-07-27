@@ -25,6 +25,6 @@
   "enforcement": "mop.cognition.safety.assert_claim_safe raises rather than warning",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
-  "sha256": "c3c0df0983964cd0a2948d3b1083b26041476e38d3b436b2931a504285204dd9"
+  "source_commit": "5fdb3b3cabd3128882821a67619231ca4e4d255f",
+  "sha256": "f06820b92cc7686c1fda1e9c672f8a671ab3a855293fb4c6bf5308a9c0952638"
 }

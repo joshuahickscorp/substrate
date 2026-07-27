@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `e64814da877f09c42653d1aa3bec09a8cab22fa1`. Status is derived, never asserted: an item is
+Generated from the tree at commit `5fdb3b3cabd3128882821a67619231ca4e4d255f`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 67. Levels: measured 43, terminal 22, tested 2.
+Items: 67. Levels: measured 43, terminal 23, tested 1.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -63,7 +63,7 @@ Items: 67. Levels: measured 43, terminal 22, tested 2.
 | F9 | 20 | Grounding where a verbal definition is not evidence | measured | F4, O1 | classify the result through mop.method.gate.classify_result and record it |
 | F10 | 21 | Intervention is distinguished from observation | measured | W1 | classify the result through mop.method.gate.classify_result and record it |
 | F11 | 29 | Developmental divergence with a working control | measured | F4, P5 | classify the result through mop.method.gate.classify_result and record it |
-| F12 | 47 | Clean clone reproduces the evidence away from this machine | tested | V1, V2 | seal SUBSTRATE_CLEAN_CLONE.json |
+| F12 | 47 | Clean clone reproduces the evidence away from this machine | terminal | V1, V2 | none, an authority is terminal once sealed and tested |
 | Y1 | 2 | Structural audit: exclusive producers, no stale outputs, no activation path | terminal | F1 | none, an authority is terminal once sealed and tested |
 | Y2 | 16 | SX2 diversity closed on a compute matched comparison | measured | C4, A3 | classify the result through mop.method.gate.classify_result and record it |
 | Y3 | 2 | Every runtime stage is active, with a null control where one is possible | measured | N1, Y1 | classify the result through mop.method.gate.classify_result and record it |

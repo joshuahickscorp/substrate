@@ -1,7 +1,7 @@
 {
   "schema": "substrate-long-run-authority/v1",
   "frozen_manifest": {
-    "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
+    "source_commit": "5fdb3b3cabd3128882821a67619231ca4e4d255f",
     "data_root_declared_by": "MOP_DATA_CUSTODY_AUTHORITY.json canonical_root",
     "sessions": "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
     "splits": "group disjoint by source unit, sealed in the temporal receipts",
@@ -33,7 +33,7 @@
     "claim_ceiling": "engineering property or architectural prerequisite only. No consciousness, sentience, feeling, suffering, desire, personhood or life",
     "activation": false,
     "source_digest": "614d8ac7a69b2e5eb5dfc459dd4366806c31b40ff6d2e4d5409b07a4ed1e2526",
-    "source_tree": "d1b0af4a47c482ad95894b2300493a956dc0c21e",
+    "source_tree": "bacda934a3864e6676b1708ddab2ec3095dd94a1",
     "units": [
       "audit",
       "declarations",
@@ -57,7 +57,7 @@
     ],
     "unit_count": 19,
     "completion": "all units terminal, which is a count of scientific work units, not wall time",
-    "manifest_sha256": "31d0aca8af71691fb302501ea05760172c0cc20d673e42134427fa2a65193398"
+    "manifest_sha256": "56d1e76ec96f855ca0791d969ada86458a3a8883e80c63ea62b5e5ce20e6c9bd"
   },
   "audit": {
     "all_pass": true,
@@ -89,6 +89,6 @@
   },
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
-  "sha256": "c1b23d5bcaefde3476766d29ba992ac1b61e3f904482aa64e7a1b677694739fe"
+  "source_commit": "5fdb3b3cabd3128882821a67619231ca4e4d255f",
+  "sha256": "df4b7f05e272cea9ff1f2566835b061004382cd252d5e8ac4d4073f2a1143898"
 }
