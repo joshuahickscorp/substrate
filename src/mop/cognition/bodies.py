@@ -28,7 +28,7 @@ from dataclasses import dataclass, field
 from mop.cognition import body as CONTRACT
 from mop.cognition import io, memory as M, temporal_link as TL
 
-BED_CACHE = io.ROOT.parent / "mop-data" / "harth" / "harth_stream.npz"
+BED_CACHE = io.data_root() / "harth" / "harth_stream.npz"
 
 ABLATIONS = ("body_alone", "body_plus_memory", "body_plus_temporal_core", "body_plus_arbitration",
              "body_plus_bounded_adaptation", "full_substrate")

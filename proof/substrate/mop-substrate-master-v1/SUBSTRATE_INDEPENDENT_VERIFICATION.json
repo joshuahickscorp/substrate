@@ -9,8 +9,8 @@
       "route": "counted writer sets in the sealed region table, not by importing the workspace"
     },
     "workspace_every_region_globally_readable": {
-      "reported": 10,
-      "recomputed": 10,
+      "reported": 12,
+      "recomputed": 12,
       "agrees": true,
       "route": "counted reader sets in the sealed region table"
     },
@@ -116,6 +116,12 @@
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
+    "scorecard_evidence_workspace": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
     "scorecard_evidence_working_memory": {
       "reported": 0,
       "recomputed": 0,
@@ -170,7 +176,25 @@
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
+    "scorecard_evidence_grounding": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_causal_reasoning": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
     "scorecard_evidence_goal_continuity": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_valuation": {
       "reported": 0,
       "recomputed": 0,
       "agrees": true,
@@ -200,6 +224,18 @@
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
+    "scorecard_evidence_thinking": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_continuity": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
     "scorecard_evidence_unity": {
       "reported": 0,
       "recomputed": 0,
@@ -207,6 +243,12 @@
       "route": "recounted classified results in the sealed state file"
     },
     "scorecard_evidence_reflective_access": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_cognitive_integrity": {
       "reported": 0,
       "recomputed": 0,
       "agrees": true,
@@ -247,14 +289,26 @@
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
     "SUBSTRATE_BELIEF_REVISION.json": true,
+    "SUBSTRATE_BODY_COMPACT.json": true,
+    "SUBSTRATE_BODY_GENERAL.json": true,
+    "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
     "SUBSTRATE_EPISTEMOLOGY.json": true,
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
+    "SUBSTRATE_FINAL_ANCESTRY.json": true,
+    "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_FINAL_PROGRAM_GRAPH.json": true,
+    "SUBSTRATE_FINAL_SCORECARD.json": true,
+    "SUBSTRATE_FINAL_STATE.json": true,
+    "SUBSTRATE_FINAL_VALUE_QUEUE.json": true,
+    "SUBSTRATE_GOAL_SYSTEM.json": true,
+    "SUBSTRATE_GROUNDING.json": true,
     "SUBSTRATE_HYPOTHESIS_GRAPH.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
@@ -268,6 +322,7 @@
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
+    "SUBSTRATE_REAL_SESSION_AUTHORITY.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
     "SUBSTRATE_REORGANIZATION.json": true,
     "SUBSTRATE_RUNTIME.json": true,
@@ -277,14 +332,17 @@
     "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
+    "SUBSTRATE_VALUATION_SYSTEM.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
-    "SUBSTRATE_WORLD_MODEL.json": true
+    "SUBSTRATE_WORLD_MODEL.json": true,
+    "SUBSTRATE_WORLD_MODEL_BATTERY.json": true,
+    "SUBSTRATE_WORLD_MODEL_BED.json": true
   },
   "disagreements": [],
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
   "activation": false,
-  "sha256": "1a1f41b7cf3604a81e990eeed5b495be0660759079928a2893a8408907277c10"
+  "sha256": "bc8f22c6ed408cba0f79991bd332656254d6725ca57f7c033697f5cbb18ed300"
 }

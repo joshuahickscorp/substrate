@@ -1,13 +1,13 @@
 # Substrate final ledger
 
-Derived from the tree at `66e2d09264e52bea3d9285b8f47c79e247f0a8b0`. Status is computed, never asserted.
+Derived from the tree at `bbbd1647b05345a57c68e24a2d17f31252c90242`. Status is computed, never asserted.
 
-60 requirements. implemented 1, measured 40, terminal 17, tested 2.
+60 requirements. measured 40, terminal 18, tested 2.
 
 | id | category | status | classification | next action | rollback |
 |---|---|---|---|---|---|
 | A1 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json |
-| A2 | authority | implemented | - | run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path | revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRA |
+| A2 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRA |
 | A3 | authority | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json |
 | A4 | boundary | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_DEVELOPMENTAL_SAFETY.json |
 | A5 | boundary | terminal | - | none, an authority is terminal once sealed and tested | revert the commit that sealed SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.js |

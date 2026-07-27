@@ -171,7 +171,7 @@ SX1B_DESIGN = {
 
 # ---------------------------------------------------------------- SX1b, implemented
 
-BED_CACHE = io.ROOT.parent / "mop-data" / "harth" / "harth_stream.npz"
+BED_CACHE = io.data_root() / "harth" / "harth_stream.npz"
 
 
 def _features(x):
@@ -476,7 +476,7 @@ BED_CACHES = {"harth_stream": "harth/harth_stream.npz", "pamap2_stream": "pamap2
 def screen_bed(name: str) -> dict:
     import numpy as np
 
-    cache = io.ROOT.parent / "mop-data" / BED_CACHES[name]
+    cache = io.data_root() / BED_CACHES[name]
     if not cache.is_file():
         return {"bed": name, "available": False, "reason": f"no cache under custody at {cache}"}
     d = np.load(cache)
