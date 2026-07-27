@@ -669,6 +669,7 @@ def reconcile_live_state(phase: str, snapshot=None) -> dict:
            "mode": "live_supervisor_reconciliation", "phase": phase, "stages": stages,
            "stage_dependencies": dependencies, "dependency_ready": ready, "items": items,
            "active_shards": snapshot["active_shards"], "stalled_workers": snapshot.get("stalled_workers", []),
+           "long_running_active_workers": snapshot.get("long_running_active_workers", []),
            "repeatedly_failing_shards": snapshot.get("repeatedly_failing_shards", []),
            "deterministic_failure_holds": snapshot.get("deterministic_failure_holds", []),
            "stop_switch_active": snapshot["stop_switch_active"],
