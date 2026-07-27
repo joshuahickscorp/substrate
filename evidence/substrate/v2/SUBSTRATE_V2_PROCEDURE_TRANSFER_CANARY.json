@@ -1,0 +1,1901 @@
+{
+  "schema": "substrate-v2-procedure-transfer-canary/v1",
+  "positive_pairs": {
+    "A_to_B": [
+      {
+        "seed": 100,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.67,
+          "episodic_only": 0.67,
+          "semantic_only": 0.7918,
+          "transcript_replay_control": 0.67,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "semantic_only",
+        "strongest_control_utility": 0.7918,
+        "margin": 0.12180000000000002,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:100:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:100:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:100:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:100:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:100:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:100:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:100:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:100:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 101,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.545,
+          "episodic_only": 0.545,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.545,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:101:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:101:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:101:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:101:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:101:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:101:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:101:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:101:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 102,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.67,
+          "episodic_only": 0.67,
+          "semantic_only": 0.67,
+          "transcript_replay_control": 0.67,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:102:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:102:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:102:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:102:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:102:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:102:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:102:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:102:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 103,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.17,
+          "episodic_only": 0.17,
+          "semantic_only": 0.5418,
+          "transcript_replay_control": 0.17,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:103:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:103:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:103:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:103:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:103:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:103:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:103:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:103:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 104,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.29500000000000004,
+          "episodic_only": 0.29500000000000004,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.29500000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:104:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:104:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:104:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:104:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:104:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:104:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:104:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:104:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 105,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.545,
+          "episodic_only": 0.545,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.545,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:105:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:105:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:105:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:105:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:105:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:105:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:105:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:105:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 106,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.29500000000000004,
+          "episodic_only": 0.29500000000000004,
+          "semantic_only": 0.5418,
+          "transcript_replay_control": 0.29500000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:106:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:106:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:106:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:106:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:106:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:106:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:106:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:106:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 107,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.42000000000000004,
+          "episodic_only": 0.42000000000000004,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.42000000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:107:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:107:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:107:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:107:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:107:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:107:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:107:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:107:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 108,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.67,
+          "episodic_only": 0.67,
+          "semantic_only": 0.7918,
+          "transcript_replay_control": 0.67,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "semantic_only",
+        "strongest_control_utility": 0.7918,
+        "margin": 0.12180000000000002,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:108:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:108:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:108:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:108:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:108:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:108:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:108:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:108:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 109,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.42000000000000004,
+          "episodic_only": 0.42000000000000004,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.42000000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:109:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:109:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:109:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:109:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:109:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:109:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:109:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:109:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 110,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.42000000000000004,
+          "episodic_only": 0.42000000000000004,
+          "semantic_only": 0.7918,
+          "transcript_replay_control": 0.42000000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "semantic_only",
+        "strongest_control_utility": 0.7918,
+        "margin": 0.12180000000000002,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:110:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:110:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:110:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:110:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:110:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:110:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:110:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:110:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 111,
+        "pair": "A_to_B",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.42000000000000004,
+          "episodic_only": 0.42000000000000004,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.42000000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:111:B:canary_probe:100",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:111:B:canary_probe:101",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:111:B:canary_probe:102",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:111:B:canary_probe:103",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:111:B:canary_probe:104",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:111:B:canary_probe:105",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:111:B:canary_probe:106",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:111:B:canary_probe:107",
+            "target_domain": "B",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      }
+    ],
+    "C_to_D": [
+      {
+        "seed": 100,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.17,
+          "episodic_only": 0.17,
+          "semantic_only": 0.41759999999999997,
+          "transcript_replay_control": 0.17,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:100:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:100:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:100:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:100:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:100:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:100:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:100:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:100:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 101,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.17,
+          "episodic_only": 0.17,
+          "semantic_only": 0.5418,
+          "transcript_replay_control": 0.17,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:101:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:101:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:101:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:101:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:101:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:101:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:101:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:101:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 102,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.29500000000000004,
+          "episodic_only": 0.29500000000000004,
+          "semantic_only": 0.5418,
+          "transcript_replay_control": 0.29500000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:102:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:102:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:102:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:102:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:102:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:102:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:102:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:102:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 103,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.42000000000000004,
+          "episodic_only": 0.42000000000000004,
+          "semantic_only": 0.5418,
+          "transcript_replay_control": 0.42000000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:103:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:103:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:103:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:103:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:103:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:103:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:103:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:103:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 104,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.42000000000000004,
+          "episodic_only": 0.42000000000000004,
+          "semantic_only": 0.7918,
+          "transcript_replay_control": 0.42000000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "semantic_only",
+        "strongest_control_utility": 0.7918,
+        "margin": 0.12180000000000002,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:104:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:104:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:104:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:104:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:104:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:104:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:104:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:104:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 105,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.29500000000000004,
+          "episodic_only": 0.29500000000000004,
+          "semantic_only": 0.5418,
+          "transcript_replay_control": 0.29500000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:105:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:105:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:105:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:105:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:105:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:105:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:105:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:105:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 106,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.67,
+          "episodic_only": 0.67,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.67,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:106:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:106:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:106:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:106:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:106:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:106:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:106:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:106:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 107,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.42000000000000004,
+          "episodic_only": 0.42000000000000004,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.42000000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:107:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:107:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:107:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:107:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:107:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:107:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:107:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:107:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 108,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.42000000000000004,
+          "episodic_only": 0.42000000000000004,
+          "semantic_only": 0.6668,
+          "transcript_replay_control": 0.42000000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:108:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:108:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:108:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:108:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:108:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:108:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:108:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:108:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 109,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.29500000000000004,
+          "episodic_only": 0.29500000000000004,
+          "semantic_only": 0.41759999999999997,
+          "transcript_replay_control": 0.29500000000000004,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:109:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:109:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:109:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:109:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:109:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:109:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:109:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:109:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 110,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.045000000000000005,
+          "episodic_only": 0.045000000000000005,
+          "semantic_only": 0.5418,
+          "transcript_replay_control": 0.045000000000000005,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "more_compute",
+        "strongest_control_utility": 0.6799999999999999,
+        "margin": 0.23360000000000003,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:110:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:110:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:110:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:110:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:110:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:110:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:110:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:110:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      },
+      {
+        "seed": 111,
+        "pair": "C_to_D",
+        "full_utility": 0.9136,
+        "controls": {
+          "fresh_control": 0.545,
+          "episodic_only": 0.545,
+          "semantic_only": 0.7918,
+          "transcript_replay_control": 0.545,
+          "more_compute": 0.6799999999999999
+        },
+        "strongest_control": "semantic_only",
+        "strongest_control_utility": 0.7918,
+        "margin": 0.12180000000000002,
+        "full_accuracy": 1.0,
+        "procedure_uses": 8,
+        "procedure_count": 1,
+        "semantic_count": 2,
+        "transfer_receipts": [
+          {
+            "task": "admission:111:D:canary_probe:100",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 26
+          },
+          {
+            "task": "admission:111:D:canary_probe:101",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 28
+          },
+          {
+            "task": "admission:111:D:canary_probe:102",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 30
+          },
+          {
+            "task": "admission:111:D:canary_probe:103",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 32
+          },
+          {
+            "task": "admission:111:D:canary_probe:104",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 34
+          },
+          {
+            "task": "admission:111:D:canary_probe:105",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 36
+          },
+          {
+            "task": "admission:111:D:canary_probe:106",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 38
+          },
+          {
+            "task": "admission:111:D:canary_probe:107",
+            "target_domain": "D",
+            "correct": true,
+            "cross_domain": true,
+            "step": 40
+          }
+        ]
+      }
+    ]
+  },
+  "margins": {
+    "A_to_B": 0.20565000000000003,
+    "C_to_D": 0.21496666666666667
+  },
+  "negative": {
+    "id": "C10",
+    "statement": "negative transfer is detected or avoided",
+    "mechanism_activity": [
+      {
+        "task": "admission:100:D:negative_transfer:900",
+        "target_domain": "D",
+        "selected": false,
+        "reason": "task signature mismatch",
+        "preoutcome": true,
+        "step": 26
+      }
+    ],
+    "positive_fixture": "signature mismatch refused before outcome",
+    "null_fixture": "always select wrong history procedure",
+    "controls": [
+      "wrong history",
+      "random procedure"
+    ],
+    "oracle": "risk route",
+    "headroom": 1.0,
+    "margin": 1.0,
+    "SESOI": 0.05,
+    "classification": "mechanism_positive",
+    "passes": true,
+    "raw_independent_units": [
+      {
+        "task": "admission:100:D:negative_transfer:900",
+        "components": [
+          "perspective:direct"
+        ]
+      }
+    ]
+  },
+  "passes": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "sha256": "de68d3a9ab40049ac6cd7db6dd25b32d26117690ea5752ecf088bed2117bf28a"
+}

@@ -1,0 +1,120 @@
+{
+  "schema": "substrate-v2-self-model-calibration/v1",
+  "predictions": [
+    {
+      "identity": "prediction:1",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|none|general",
+      "predicted": 0.5,
+      "made_at_step": 1,
+      "outcome_step": 2,
+      "actual": 1.0
+    },
+    {
+      "identity": "prediction:2",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|none|general",
+      "predicted": 0.625,
+      "made_at_step": 3,
+      "outcome_step": 4,
+      "actual": 0.0
+    },
+    {
+      "identity": "prediction:3",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|none|general",
+      "predicted": 0.46875,
+      "made_at_step": 5,
+      "outcome_step": 6,
+      "actual": 0.0
+    },
+    {
+      "identity": "prediction:4",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|none|general",
+      "predicted": 0.3515625,
+      "made_at_step": 7,
+      "outcome_step": 8,
+      "actual": 0.0
+    },
+    {
+      "identity": "prediction:5",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|none|general",
+      "predicted": 0.263671875,
+      "made_at_step": 9,
+      "outcome_step": 10,
+      "actual": 1.0
+    },
+    {
+      "identity": "prediction:6",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|none|general",
+      "predicted": 0.44775390625,
+      "made_at_step": 11,
+      "outcome_step": 12,
+      "actual": 1.0
+    },
+    {
+      "identity": "prediction:7",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+      "predicted": 0.5,
+      "made_at_step": 13,
+      "outcome_step": 14,
+      "actual": 1.0
+    },
+    {
+      "identity": "prediction:8",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+      "predicted": 0.625,
+      "made_at_step": 15,
+      "outcome_step": 16,
+      "actual": 1.0
+    },
+    {
+      "identity": "prediction:9",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+      "predicted": 0.71875,
+      "made_at_step": 17,
+      "outcome_step": 18,
+      "actual": 1.0
+    },
+    {
+      "identity": "prediction:10",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+      "predicted": 0.7890625,
+      "made_at_step": 19,
+      "outcome_step": 20,
+      "actual": 1.0
+    },
+    {
+      "identity": "prediction:11",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+      "predicted": 0.841796875,
+      "made_at_step": 21,
+      "outcome_step": 22,
+      "actual": 1.0
+    },
+    {
+      "identity": "prediction:12",
+      "kind": "accuracy",
+      "context_key": "accuracy|conditional ordered selection|procedure:conditional ordered selection:boundary_route|general",
+      "predicted": 0.88134765625,
+      "made_at_step": 23,
+      "outcome_step": 24,
+      "actual": 1.0
+    }
+  ],
+  "all_paired_after_prediction": true,
+  "held_out_utility_margin": 0.92,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
+  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
+  "sha256": "c8a626ecd60c80ec2ba6580ebe9766c0651642dc3a44d208ae6a74f2268065eb"
+}
