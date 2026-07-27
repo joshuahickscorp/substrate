@@ -1,5 +1,5 @@
 {
-  "schema": "substrate-v2-claim-boundary/v1",
+  "schema": "substrate-v2-claim-ceiling/v1",
   "permitted_classifications": [
     "certified_cognitive_scaffold",
     "persistent_developmental_cognition",
@@ -29,5 +29,5 @@
   "program": "substrate-v2",
   "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
   "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
-  "sha256": "8818b5d83618cff8cfe2138c0804854367a75dd1be64e03c8369a24b31ad65a3"
+  "sha256": "994046a121a7f8eb619dc435f9ce7c7854130e1063fb626b520a942fa3de8b6a"
 }

@@ -176,7 +176,7 @@
   "passes": true,
   "activation": false,
   "program": "substrate-v2",
-  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
-  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
-  "sha256": "f1ebedd4ab987460acc3946c02ade4f16ad35daf062755026d5361deef99f63c"
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "553f20943e35ffe35976dec25050858b17d71c0ba2bd4498f1802f66e957e85c"
 }

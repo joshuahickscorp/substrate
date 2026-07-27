@@ -33,7 +33,7 @@
   "nonsaturated": true,
   "activation": false,
   "program": "substrate-v2",
-  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
-  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
-  "sha256": "b2472ef046e79984de1223850c0e79e735f067fe7ef3286338cefca71ff89db8"
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "2ca21acc38243f918d9a5732e886e39a9c3d5147ac40e6bb093454dd241677b0"
 }

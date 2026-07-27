@@ -39,7 +39,7 @@
   "maximum": "functional_or_proto_nous_candidate",
   "activation": false,
   "program": "substrate-v2",
-  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
-  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
-  "sha256": "b3576b038ce7de8185e011c2bdbac24435c48f3609c720f512d0040a20294b21"
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "eaa73aeb6d0177930b27842e1aa2c13d51327c207adb6ff4595a670544883673"
 }

@@ -35,7 +35,7 @@
   "saved_but_not_hashed": [],
   "activation": false,
   "program": "substrate-v2",
-  "source_commit": "a56c3eb2bf5abf51c11863a39cda02c37013fcbb",
-  "source_digest": "02aa3146691b79e447938c2fcce01c69a387f1b6248346a2f660d565ef550991",
-  "sha256": "e48555a2c0c67552a2d271379f29d183edc4d1d7260115093b4717824040a2df"
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "ede05a7d76660041deb762e8fe8e25d5bf59d199beab5ffe0166512f9a3cc6c1"
 }

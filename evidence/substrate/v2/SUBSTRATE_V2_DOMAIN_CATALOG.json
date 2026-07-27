@@ -199,7 +199,7 @@
   "domain_count": 4,
   "activation": false,
   "program": "substrate-v2",
-  "source_commit": "20ba38ed097b6ccfc46bc0b2a34b82923b873aed",
-  "source_digest": "368b9d49aaa95ebb116b441151cb9e4cf27efb0c071bacdce2ff2e5f10329839",
-  "sha256": "608d2605821f90867de0fe5016932132bd970d70941ab20ab22f1f406689d972"
+  "source_commit": "e1d96c02c15b85dbed45675eedd795a872cb8b64",
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "sha256": "273abfcffdacd1847ecc62c955b0e757c664d6d4b0dc26edbed3e1ff6a4ebc78"
 }
