@@ -7,33 +7,12 @@
     "pre_tag_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
     "main": "4c81bf445c3889f579c28de9a4f079b81aae6743",
     "origin_main": "4c81bf445c3889f579c28de9a4f079b81aae6743",
-    "current_head": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+    "current_head": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
     "branch": "agent/substrate-v3-nous-constitutional-ascent",
-    "dirty": [
-      " M src/substrate/cli.py",
-      " M src/substrate/epistemology.py",
-      " M src/substrate/metacog.py",
-      " M src/substrate/ontology.py",
-      " M src/substrate/world.py",
-      "?? artifacts/substrate/v3/",
-      "?? configs/substrate/v3/",
-      "?? evidence/substrate/v3/",
-      "?? src/substrate/v3.py",
-      "?? src/substrate/v3campaign.py",
-      "?? src/substrate/v3canary.py",
-      "?? src/substrate/v3config.py",
-      "?? src/substrate/v3fabric.py",
-      "?? src/substrate/v3io.py",
-      "?? src/substrate/v3pilot.py",
-      "?? src/substrate/v3principal.py",
-      "?? src/substrate/v3state.py",
-      "?? src/substrate/v3verify.py",
-      "?? tests/substrate/test_v3_campaign.py",
-      "?? tests/substrate/test_v3_mechanisms.py"
-    ],
+    "dirty": [],
     "worktrees": [
       "worktree /Users/scammermike/Downloads/substrate",
-      "HEAD 4c81bf445c3889f579c28de9a4f079b81aae6743",
+      "HEAD bd693322ffe7a268ba117d8f7914daf81795b9cb",
       "branch refs/heads/agent/substrate-v3-nous-constitutional-ascent"
     ],
     "open_pull_requests": [
@@ -79,12 +58,12 @@
   "principal_files": [],
   "v3_workers": [],
   "resources": {
-    "disk_available_gib": 108.51909255981445,
-    "memory_free_percent": 82,
+    "disk_available_gib": 108.98456573486328,
+    "memory_free_percent": 81,
     "swap_total_mib": 2048.0,
     "swap_used_mib": 1293.5,
     "swap_free_mib": 754.5,
-    "aggregate_cpu_percent": 401.7,
+    "aggregate_cpu_percent": 460.2,
     "machine": {
       "processor": "arm",
       "logical_cores": 28,
@@ -96,10 +75,10 @@
       {
         "pid": 16057,
         "ppid": 1,
-        "cpu_percent": 97.7,
+        "cpu_percent": 98.4,
         "memory_percent": 0.3,
-        "rss_mib": 276.0,
-        "elapsed": "01:37",
+        "rss_mib": 279.234375,
+        "elapsed": "02:49",
         "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python /Users/scammermike/Downloads/hawking/tools/condense/glm52_source_fetch.py safe-to-leave"
       }
     ],
@@ -128,7 +107,7 @@
   "all_pass": true,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
   "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "3a07e804cbf880d45fd762800f11f595be84fc0fbfc956d8efac815813ebab1a"
+  "sha256": "95dfcca2f059858cad8db1f94356c1abc7a52953ed29b178161acb37b7748367"
 }

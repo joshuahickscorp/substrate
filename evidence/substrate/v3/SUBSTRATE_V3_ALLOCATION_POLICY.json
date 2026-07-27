@@ -24599,7 +24599,7 @@
   "margin": 0.10824218750000003,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
   "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "acc0e688d95cee687bcd115bd11c24217bc3e9df59baca087a60024f971f1855"
+  "sha256": "8f5e5f97eed5f6be3dae70a13c09e3b882eb4c4d72e939b3877dd529180da046"
 }

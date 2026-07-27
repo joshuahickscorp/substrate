@@ -21,7 +21,7 @@
   "resource_plan_safe": true,
   "splits_frozen": true,
   "statistics_frozen": true,
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
   "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "ab5b72e716c038181e2d7160cca9ff516f739c120736ac4b56f754e60a2eaeeb"
+  "sha256": "0b4437105892695e32877226fc25d72a85f76b4e5b88792ec3f46b8b2688cd41"
 }

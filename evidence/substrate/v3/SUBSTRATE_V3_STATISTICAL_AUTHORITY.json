@@ -15,7 +15,7 @@
   "missing_data": "retain and report failed units; no silent deletion",
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
   "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "699184042c465eaeb116d6086608cbe3d3cd094ea0e460c8c30556621df7647d"
+  "sha256": "f637f0b61bf3587e38271b04cd0649adc5cb121fc6a54a462742de2e50234d33"
 }

@@ -63,7 +63,7 @@
   "unqualified_nous_requires_external_review": true,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "4c81bf445c3889f579c28de9a4f079b81aae6743",
+  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
   "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "a0fedfb274ae04d352d71ea2b4441786d32d59557da1c2c95ee74c31d5ab734b"
+  "sha256": "0007419381622b0e5ce0149a1cfb3f6307970c5c256893a5e481ce8d74bb6fcf"
 }
