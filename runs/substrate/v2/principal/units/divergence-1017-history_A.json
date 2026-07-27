@@ -1,0 +1,470 @@
+{
+  "schema": "substrate-v2-unit-receipt/v1",
+  "identity": "divergence-1017-history_A",
+  "payload": {
+    "kind": "divergence",
+    "variant": "history_A",
+    "seed": 1017,
+    "split": "principal",
+    "development_domain": "A",
+    "episode_ledger": [
+      {
+        "identity": "principal:1017:A:divergence_history_A:0",
+        "phase": "development",
+        "domain": "A",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:1",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:2",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:3",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:4",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": null,
+        "semantic": "A",
+        "components": [
+          "perspective:direct",
+          "semantic:A"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:5",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": null,
+        "semantic": "A",
+        "components": [
+          "perspective:direct",
+          "semantic:A"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:6",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:7",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:8",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:9",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:10",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:A:divergence_history_A:11",
+        "phase": "development",
+        "domain": "A",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:B:divergence_eval_B:30000",
+        "phase": "evaluation_B",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:B:divergence_eval_B:30001",
+        "phase": "evaluation_B",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:B:divergence_eval_B:30002",
+        "phase": "evaluation_B",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:B:divergence_eval_B:30003",
+        "phase": "evaluation_B",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:B:divergence_eval_B:30004",
+        "phase": "evaluation_B",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:B:divergence_eval_B:30005",
+        "phase": "evaluation_B",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:B:divergence_eval_B:30006",
+        "phase": "evaluation_B",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:B:divergence_eval_B:30007",
+        "phase": "evaluation_B",
+        "domain": "B",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:conditional ordered selection:boundary_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:conditional ordered selection:boundary_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:D:divergence_eval_D:30000",
+        "phase": "evaluation_D",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:D:divergence_eval_D:30001",
+        "phase": "evaluation_D",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:D:divergence_eval_D:30002",
+        "phase": "evaluation_D",
+        "domain": "D",
+        "correct": false,
+        "utility": -0.08,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:D:divergence_eval_D:30003",
+        "phase": "evaluation_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.92,
+        "compute": 1.0,
+        "procedure": null,
+        "semantic": null,
+        "components": [
+          "perspective:direct"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:D:divergence_eval_D:30004",
+        "phase": "evaluation_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": null,
+        "semantic": "D",
+        "components": [
+          "perspective:direct",
+          "semantic:D"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:D:divergence_eval_D:30005",
+        "phase": "evaluation_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": null,
+        "semantic": "D",
+        "components": [
+          "perspective:direct",
+          "semantic:D"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:D:divergence_eval_D:30006",
+        "phase": "evaluation_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      },
+      {
+        "identity": "principal:1017:D:divergence_eval_D:30007",
+        "phase": "evaluation_D",
+        "domain": "D",
+        "correct": true,
+        "utility": 0.9136,
+        "compute": 1.08,
+        "procedure": "procedure:cost sensitive conditional routing:risk_route",
+        "semantic": null,
+        "components": [
+          "perspective:direct",
+          "procedure:procedure:cost sensitive conditional routing:risk_route"
+        ],
+        "prediction_precedes_outcome": true,
+        "activation": false
+      }
+    ],
+    "episode_count": 28,
+    "state_identity": "0c3c35810306b612c862344b046c32614ed5dac104d10c8ed3bd20b78b54909a",
+    "evaluation": {
+      "B": 1.0,
+      "D": 0.625
+    },
+    "procedures": [
+      "procedure:conditional ordered selection:boundary_route",
+      "procedure:cost sensitive conditional routing:risk_route"
+    ],
+    "runtime_seconds": 0.0030181669862940907,
+    "activation": false
+  },
+  "source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "configuration_digest": "facb3ccd7c4a5caf068d20573fffad78bb23b787f941da1cd9eda17612ec88ad",
+  "split_digest": "068226721fb997f955da7e241b41efb27aacf9dd419f326388689b358466b898",
+  "activation": false,
+  "receipt_sha256": "a777f37f57bd8eaf8f3f1c90d38f6935974b6761bf1a70c982389ba7c651381f"
+}
