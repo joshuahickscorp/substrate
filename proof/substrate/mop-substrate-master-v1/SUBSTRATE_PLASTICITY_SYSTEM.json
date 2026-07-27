@@ -236,6 +236,6 @@
   "sesoi": 0.05,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "a2771dffcd3748e37237766258ded9d57e093779",
-  "sha256": "cd876de7df58429ad38836ed679380b997a1c2e9988b4f25cf971466b10c2713"
+  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
+  "sha256": "af2e4549cdbecf3e8fedd64afa9e962f2ef2700d8d3921e12f535c4ea67db5d1"
 }

@@ -1066,7 +1066,7 @@
     "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
-    "SUBSTRATE_CLEAN_CLONE.json": true,
+    "SUBSTRATE_CLEAN_CLONE.json": false,
     "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
@@ -1123,11 +1123,11 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 23,
-    "tested": 1,
+    "terminal": 22,
+    "tested": 2,
     "measured": 43
   },
   "activation": false,
-  "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
-  "sha256": "5dbdcc90b61d0db3ad2928d414b058d6890445d64a5d246fe9d943ae56f9092a"
+  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
+  "sha256": "b0998c9a45c00774c8a9d23e987216ae297d4eb92da0d140f7da2a91aa3083f0"
 }
