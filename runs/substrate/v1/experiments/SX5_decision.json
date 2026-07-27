@@ -1,0 +1,340 @@
+{
+  "schema": "substrate-experiment-decision/v1",
+  "experiment_id": "SX5",
+  "title": "does a self model that learns its own tune to test offset on one bed predict its accuracy better on a bed it has not seen than the strongest uncorrected baseline",
+  "hypotheses": [
+    "H_selfmodel_calibration",
+    "H_offset_instability",
+    "H_prior_sufficient"
+  ],
+  "design": {
+    "schema": "substrate-experiment-design/v1",
+    "experiment_id": "SX5",
+    "question": "does a self model that learns its own tune to test offset on one bed predict its accuracy better on a bed it has not seen than the strongest uncorrected baseline",
+    "bed": "the sealed convergence and principal receipts of the temporal core program",
+    "why_the_bed_is_not_designed_here": "both receipt families were produced by another program for another question, months of compute before this one existed",
+    "prediction": "the tune split accuracy at the checkpoint convergence selected, per factorial cell",
+    "outcome": "the principal test accuracy for the same cell, averaged over seeds",
+    "arms": {
+      "naive": "the self model reports its tune score unchanged",
+      "fixed_prior": "the mean test accuracy of the fitting bed, one number for every cell",
+      "updating": "the tune score minus the mean offset measured on the fitting bed",
+      "oracle": "the actual test accuracy, an upper bound at zero error"
+    },
+    "units": "core family on the held out bed, group disjoint by construction",
+    "replications": [
+      "har_stream to harth_stream",
+      "harth_stream to har_stream"
+    ],
+    "both_directions_must_support": true,
+    "primary_outcome": "mean absolute calibration error per held out core family",
+    "sesoi": 0.05,
+    "predictions": {
+      "H_selfmodel_calibration": {
+        "updating_beats_best_baseline": true,
+        "in_both_directions": true
+      },
+      "H_offset_instability": {
+        "updating_beats_best_baseline": false,
+        "in_both_directions": false
+      },
+      "H_prior_sufficient": {
+        "updating_beats_best_baseline": false,
+        "in_both_directions": true
+      }
+    },
+    "declared_limitation": "the mean tune to test gap on both beds was seen during design. The claim is restricted to whether the offset transfers, which the peek did not answer",
+    "activation": false
+  },
+  "preprincipal_evidence": {
+    "fitting_bed": "har_stream",
+    "held_out_bed": "harth_stream",
+    "n_cells": 76,
+    "families": [
+      "ff_gru",
+      "gru",
+      "histmlp",
+      "lstm",
+      "mgu",
+      "pooled",
+      "tcn"
+    ],
+    "n_units": 7,
+    "mean_offset": 0.054156,
+    "offset_sd": 0.020511,
+    "per_family_offset": {
+      "ff_gru": 0.055478,
+      "gru": 0.057273,
+      "histmlp": 0.073049,
+      "lstm": 0.060594,
+      "mgu": 0.055065,
+      "pooled": 0.011723,
+      "tcn": 0.04376
+    },
+    "fixed_prior_value": 0.796731,
+    "baseline_error": {
+      "naive": 0.054156,
+      "fixed_prior": 0.115391
+    },
+    "oracle_headroom": {
+      "n_seeds": 7,
+      "residual": 0.054156,
+      "residual_lower_95_cb": 0.040877
+    },
+    "power": {
+      "mde": 0.013279,
+      "n_units": 7
+    },
+    "arms_distinct": true,
+    "held_out_bed_touched": false
+  },
+  "admission": {
+    "experiment_id": "SX5",
+    "title": "does a self model that learns its own tune to test offset on one bed predict its accuracy better on a bed it has not seen than the strongest uncorrected baseline",
+    "requested_stage": "principal",
+    "stages": {
+      "scientific_premise": {
+        "contracts": [
+          "q"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "causal_model": {
+        "contracts": [
+          "g"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "measurement_model": {
+        "contracts": [
+          "m"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "instrument_calibration": {
+        "contracts": [
+          "i"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "arm_distinctness": {
+        "contracts": [
+          "updating"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "control_semantics": {
+        "contracts": [
+          "fixed_prior"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "bed_validity": {
+        "contracts": [
+          "bed",
+          "units"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "baseline_convergence": {
+        "contracts": [
+          "base"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "oracle_headroom": {
+        "contracts": [
+          "oracle"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "power_and_units": {
+        "contracts": [
+          "power"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "scout": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "independent_reproduction": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "principal": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      }
+    },
+    "blocked_at": null,
+    "blocking_violations": [],
+    "licensed": true,
+    "principal_execution_licensed": true,
+    "completeness_violations": [],
+    "substrate_admission": "licensed"
+  },
+  "causal_graph_violations": [],
+  "licensed": true,
+  "classification": "licensed",
+  "activation": false,
+  "principal": {
+    "directions": {
+      "har_stream_to_harth_stream": {
+        "fitted_offset": 0.054156,
+        "fixed_prior_value": 0.796731,
+        "per_family": {
+          "ff_gru": {
+            "naive": 0.064336,
+            "fixed_prior": 0.108933,
+            "updating": 0.01018,
+            "n_cells": 1
+          },
+          "gru": {
+            "naive": 0.063109,
+            "fixed_prior": 0.11109,
+            "updating": 0.011194,
+            "n_cells": 31
+          },
+          "histmlp": {
+            "naive": 0.04944,
+            "fixed_prior": 0.050722,
+            "updating": 0.029854,
+            "n_cells": 13
+          },
+          "lstm": {
+            "naive": 0.063003,
+            "fixed_prior": 0.121498,
+            "updating": 0.011151,
+            "n_cells": 4
+          },
+          "mgu": {
+            "naive": 0.065201,
+            "fixed_prior": 0.097594,
+            "updating": 0.015956,
+            "n_cells": 12
+          },
+          "pooled": {
+            "naive": 0.058927,
+            "fixed_prior": 0.061842,
+            "updating": 0.113083,
+            "n_cells": 7
+          },
+          "tcn": {
+            "naive": 0.081126,
+            "fixed_prior": 0.100997,
+            "updating": 0.02697,
+            "n_cells": 8
+          }
+        },
+        "mean_error": {
+          "naive": 0.063592,
+          "fixed_prior": 0.093239,
+          "updating": 0.031198
+        },
+        "effect_best_baseline_minus_updating": 0.032393,
+        "lower_95_cb": 0.00269,
+        "upper_95_cb": 0.062097,
+        "n_units": 7,
+        "supports": false
+      },
+      "harth_stream_to_har_stream": {
+        "fitted_offset": 0.049457,
+        "fixed_prior_value": 0.876736,
+        "per_family": {
+          "ff_gru": {
+            "naive": 0.055478,
+            "fixed_prior": 0.023389,
+            "updating": 0.006021,
+            "n_cells": 1
+          },
+          "gru": {
+            "naive": 0.057273,
+            "fixed_prior": 0.047988,
+            "updating": 0.011622,
+            "n_cells": 31
+          },
+          "histmlp": {
+            "naive": 0.073049,
+            "fixed_prior": 0.150435,
+            "updating": 0.028802,
+            "n_cells": 13
+          },
+          "lstm": {
+            "naive": 0.060594,
+            "fixed_prior": 0.014498,
+            "updating": 0.011137,
+            "n_cells": 4
+          },
+          "mgu": {
+            "naive": 0.055065,
+            "fixed_prior": 0.053659,
+            "updating": 0.009265,
+            "n_cells": 12
+          },
+          "pooled": {
+            "naive": 0.011723,
+            "fixed_prior": 0.439861,
+            "updating": 0.037734,
+            "n_cells": 7
+          },
+          "tcn": {
+            "naive": 0.04376,
+            "fixed_prior": 0.024303,
+            "updating": 0.00725,
+            "n_cells": 8
+          }
+        },
+        "mean_error": {
+          "naive": 0.050992,
+          "fixed_prior": 0.107733,
+          "updating": 0.015976
+        },
+        "effect_best_baseline_minus_updating": 0.019539,
+        "lower_95_cb": 0.000752,
+        "upper_95_cb": 0.038327,
+        "n_units": 7,
+        "supports": false
+      }
+    },
+    "both_directions_support": false,
+    "verdict": "null",
+    "sesoi": 0.05
+  },
+  "result": {
+    "classification": "scientifically_unresolved",
+    "reason": "the independent verifier did not reproduce the null",
+    "scientific": false,
+    "effect": {
+      "verdict": "null",
+      "estimate": 0.025966,
+      "lower_95_cb": 0.000752
+    }
+  }
+}
