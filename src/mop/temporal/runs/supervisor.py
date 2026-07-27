@@ -18,8 +18,7 @@ LOCK_PUBLICATION_GRACE_SECONDS = 5.0
 HEX = set("0123456789abcdef")
 LEGACY_AUTHORITY = "b3f7421e6545527b3385f1368784ac2f0e1602a6"
 LEGACY_BINDING = "legacy_receipt_hash_normalization_20260721.json"
-SUCCESSOR_REFRESH = ("mop.temporal.runs.mutations", "mop.temporal.runs.successors",
-                     "mop.temporal.runs.verify")
+SUCCESSOR_REFRESH = ("mop.temporal.runs.mutations", "mop.temporal.runs.successors", "mop.temporal.runs.verify")
 def workers() -> int:
     r = subprocess.run(["pgrep", "-f", "mop.temporal.runs"], capture_output=True, text=True)
     return max(0, len([x for x in r.stdout.split() if x]) - 1, sum(lock_active(p.stem.replace("_", ":", 1)) for p in LOCKS.glob("*.json")) if LOCKS.is_dir() else 0)
@@ -809,7 +808,8 @@ def run_verified_successor_gates() -> bool:
     verification = io.load("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") if io.exists("MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json") else {}
     terminal = bool((verification.get("role_b") or {}).get("checks")) and bool((verification.get("role_c") or {}).get("n_checks"))
     if decision is False and terminal:
-        print("[supervisor] no verified core exists; sealing fail-closed successor gates", flush=True); return run_sync("mop.temporal.runs.successors") and run_sync("mop.temporal.runs.verify")
+        print("[supervisor] no verified core exists; sealing fail-closed successor gates", flush=True)
+        return run_sync("mop.temporal.runs.successors") and run_sync("mop.temporal.runs.verify")
     return False
 def main(argv=None):
     argv = argv or sys.argv[1:]
