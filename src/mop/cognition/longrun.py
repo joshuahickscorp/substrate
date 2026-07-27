@@ -198,6 +198,12 @@ def _receipt(unit: str) -> Path:
     return UNITS / f"{unit}.json"
 
 
+def _units_subdir() -> str:
+    """Where run_unit writes, relative to the runs root. The rehearsal rebinds this to its own root so
+    it cannot delete the receipts of a completed run, which is the very property it claims to prove."""
+    return UNITS.relative_to(io.RUNS).as_posix()
+
+
 def done(unit: str) -> bool:
     path = _receipt(unit)
     if not path.is_file():
@@ -247,7 +253,7 @@ def run_unit(unit: Unit, *, dry: bool = False) -> dict:
                "returncode": code, "detail": out.strip()[-300:],
                "wall_seconds": round(time.time() - t0, 2), "source_commit": io.commit(),
                "activation": False}
-    io.run_json(f"{unit.identity}.json", receipt, "long_run/units")
+    io.run_json(f"{unit.identity}.json", receipt, _units_subdir())
     return receipt
 
 
@@ -291,9 +297,26 @@ def drive(max_units: int = 10 ** 6, dry: bool = False) -> dict:
 
 
 def rehearse() -> dict:
-    """A reduced end to end run that tries to break the machinery rather than to succeed."""
+    """A reduced end to end run that tries to break the machinery rather than to succeed.
+
+    It runs against its own receipt root. The first version cleaned the real one on the way out, so
+    sealing the authority after a completed run destroyed that run's progress record, which is precisely
+    the property the injected failure check claims to protect.
+    """
     import shutil
 
+    global UNITS, LOCKS
+    real_units, real_locks = UNITS, LOCKS
+    UNITS = io.RUNS / "long_run" / "rehearsal" / "units"
+    LOCKS = io.RUNS / "long_run" / "rehearsal" / "locks"
+    try:
+        return _rehearse_body(shutil)
+    finally:
+        shutil.rmtree(UNITS.parent, ignore_errors=True)
+        UNITS, LOCKS = real_units, real_locks
+
+
+def _rehearse_body(shutil) -> dict:
     shutil.rmtree(UNITS, ignore_errors=True)
     shutil.rmtree(LOCKS, ignore_errors=True)
     checks: dict[str, dict] = {}
@@ -364,8 +387,6 @@ def rehearse() -> dict:
     # 10 the audit still passes after all of that
     checks["audit_still_passes"] = {"ok": A.run()["all_pass"] is True}
 
-    shutil.rmtree(UNITS, ignore_errors=True)
-    shutil.rmtree(LOCKS, ignore_errors=True)
     failed = sorted(k for k, v in checks.items() if not v["ok"])
     return {"schema": "substrate-long-run-rehearsal/v1", "checks": checks, "failed": failed,
             "all_pass": not failed,

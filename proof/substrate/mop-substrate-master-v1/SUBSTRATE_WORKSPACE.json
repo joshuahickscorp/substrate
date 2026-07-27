@@ -233,6 +233,6 @@
   "capacity_matched": true,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
-  "sha256": "7144f3e09e30a362180a89e481b37c058baa9dc5c8c620695e04d43818ea6bb7"
+  "source_commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
+  "sha256": "e03d0d7ff007a45293074058439b3f3438ad00a3ddec6837e756b6f7d3689f79"
 }

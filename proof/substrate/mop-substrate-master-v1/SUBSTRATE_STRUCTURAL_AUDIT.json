@@ -19,14 +19,7 @@
     "no_stale_outputs": {
       "checked": 61,
       "stale": [],
-      "artifacts_reporting_failure": [
-        {
-          "artifact": "SUBSTRATE_CLEAN_CLONE.json",
-          "keys": [
-            "all_pass"
-          ]
-        }
-      ],
+      "artifacts_reporting_failure": [],
       "note": "an artifact reporting a failure is not stale. Evidence still refuses to count it, which is mop.cognition.program.evidence_state, a different question from whether the tree carries an output it can no longer reproduce",
       "ok": true
     },
@@ -352,9 +345,9 @@
   },
   "failed": [],
   "all_pass": true,
-  "commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
+  "commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
-  "sha256": "00a2a2d261204fc3d02ed70047672d07317387b74e743160ce6030f2e7a54b0f"
+  "source_commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
+  "sha256": "cbf6204d86b66756173d90b1db32ad1e2798b2a620f6352d3eadf2830be894da"
 }
