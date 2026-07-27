@@ -72,6 +72,23 @@ def test_corpus_recovery_command_is_recorded_when_absent():
     assert v["status"] == "absent" and v["recovery"]
 
 
+def test_corpus_verifier_supports_file_valued_cache(tmp_path):
+    cache = tmp_path / "cache.npz"
+    cache.write_bytes(b"derived cache")
+    corpus = _corpus(
+        cache,
+        retention_class="derived_rebuildable",
+        kind="non_rebuildable_cache",
+        rebuild_command="rebuild from source",
+        extracted_hashes={cache.name: TIO.sha_file(cache)},
+    )
+    verified = C.verify_corpus(corpus)
+    assert verified["status"] == "intact"
+    assert verified["live_hashes"] == {cache.name: TIO.sha_file(cache)}
+    cache.write_bytes(b"drifted")
+    assert C.verify_corpus(corpus)["status"] == "damaged"
+
+
 def test_corpus_requires_a_canonical_root():
     assert _corpus(Path("/tmp/elsewhere")).violations()
 
