@@ -1,0 +1,94 @@
+{
+  "schema": "substrate-long-run-authority/v1",
+  "frozen_manifest": {
+    "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
+    "data_root_declared_by": "MOP_DATA_CUSTODY_AUTHORITY.json canonical_root",
+    "sessions": "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+    "splits": "group disjoint by source unit, sealed in the temporal receipts",
+    "perspectives": "mop.cognition.perspectives.CATALOG",
+    "bodies": [
+      "compact",
+      "general",
+      "tool"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "cycle_budget": 6.0,
+    "controls": {
+      "temporal_core": "declared control, no core licensed",
+      "diversity": "strongest compute matched single cell",
+      "continuity": "transcript replay at matched budget"
+    },
+    "sesoi": 0.05,
+    "stop_rules": [
+      "stop switch present",
+      "deterministic failure hold",
+      "no unit dependency ready"
+    ],
+    "checkpoint_policy": "one receipt per unit, resumable from disk, identity digest verified on restore",
+    "retries": 2,
+    "claim_ceiling": "engineering property or architectural prerequisite only. No consciousness, sentience, feeling, suffering, desire, personhood or life",
+    "activation": false,
+    "source_digest": "7453804786a6485d37d381e2540652853e6a43d36bbc86c2fc9a90945ac2982d",
+    "source_tree": "9b8df2da23945ac806397bfaed753f0cb6859ed6",
+    "units": [
+      "audit",
+      "declarations",
+      "temporal_continuity",
+      "ontology_epistemology",
+      "memory",
+      "diversity_arbitration",
+      "world_model",
+      "self_model",
+      "body_compact",
+      "body_general",
+      "body_tool",
+      "body_comparison",
+      "admitted_plasticity",
+      "developmental_divergence",
+      "entity_batteries",
+      "certification",
+      "recomputation",
+      "mutations",
+      "terminal_synthesis"
+    ],
+    "unit_count": 19,
+    "completion": "all units terminal, which is a count of scientific work units, not wall time",
+    "manifest_sha256": "370b1cd1aec8f341e7fc1cf0a118f70434b3d8707a1234349dd0653dcd8662e1"
+  },
+  "audit": {
+    "all_pass": true,
+    "failed": []
+  },
+  "certification": {
+    "green": true,
+    "gated_components": [],
+    "sx2": {
+      "verdict": "closed_no_headroom",
+      "k_clearing_sesoi": [],
+      "best_margin": 0.008964,
+      "sesoi": 0.05
+    }
+  },
+  "rehearsal": {
+    "all_pass": true,
+    "failed": []
+  },
+  "admission": "green",
+  "refusal_reason": "",
+  "no_live_edits_after_launch": "the frozen manifest carries the source commit and tree. A later run whose tree differs is a live edit and is detectable",
+  "defect_procedure": "pause, append only repair, regression test, transition receipt, safe resume. Completed units are not redone",
+  "commands": {
+    "launch": "python -m mop.cognition.longrun launch",
+    "status": "python -m mop.cognition.longrun status",
+    "stop": "touch /Users/scammermike/.mop_substrate_stop",
+    "resume": "python -m mop.cognition.longrun launch"
+  },
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
+  "sha256": "ae59bea713d642e25b7824f88e82f126f936931c11d65ba66163768edd670a3b"
+}
