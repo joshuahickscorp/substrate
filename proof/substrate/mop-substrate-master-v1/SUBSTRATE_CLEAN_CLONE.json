@@ -1,6 +1,6 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
+  "commit": "e4400b453c3da981e37916cfd2e8122793fb3374",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
@@ -18,8 +18,8 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
-      "expected": "53617078f2da70f69f8fa106ced6a5c48716b7f1"
+      "head": "e4400b453c3da981e37916cfd2e8122793fb3374",
+      "expected": "e4400b453c3da981e37916cfd2e8122793fb3374"
     },
     "package_import": {
       "ok": true,
@@ -39,7 +39,7 @@
       "ok": true,
       "drifted_from_committed": [],
       "nondeterministic_across_two_runs": [],
-      "compared": 51,
+      "compared": 53,
       "excluded_fields": [
         "sha256",
         "source_commit"
@@ -61,6 +61,6 @@
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
-  "sha256": "f09718a860f0b09b1e7b2d464b09a80346857db5a5bd43940c7b665827d377aa"
+  "source_commit": "e4400b453c3da981e37916cfd2e8122793fb3374",
+  "sha256": "54ff6be2ff8bd9c58ba33c6a74ff8a25bcd1d3544b740ebcd1b129c15793bc90"
 }
