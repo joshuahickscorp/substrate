@@ -21499,11 +21499,11 @@
   },
   "all_pass": false,
   "rule": "a load bearing result requires Role A, Role B and Role C to pass",
-  "wall_seconds": 5.5,
+  "wall_seconds": 5.7,
   "program": "mop-temporal-core-mechanism-v1",
-  "source_commit": "01771460cf731e019047415494e26eab2e3b88c1",
-  "source_tree_oid": "138aa6816a8982dbdac4c3085183a1790ff3b1e8",
+  "source_commit": "2107115ec27dbe3733902a1f5b724bd9cf418497",
+  "source_tree_oid": "0d06c743e68d28de6fa8048a02d9f3d44c5c58a8",
   "SESOI": 0.05,
   "sha256_version": "canonical_json_v2",
-  "sha256": "c2b5b074e78925ecdfbf295c4ac6008ed89020313b37cb5e876e9fd68dbbdc6e"
+  "sha256": "24cf00630264578b2471e884dd00d39f9ddea3d25b8c1b763b1c57d30887fc6f"
 }
