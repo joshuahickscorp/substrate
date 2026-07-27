@@ -1,0 +1,210 @@
+{
+  "schema": "substrate-architecture/v1",
+  "shape": [
+    "model body or bodies",
+    "owned temporal core",
+    "typed workspace",
+    "memory hierarchy",
+    "world model",
+    "self model",
+    "perspective system",
+    "arbitration",
+    "metacognition",
+    "plasticity",
+    "verification fabric"
+  ],
+  "components": [
+    {
+      "component": "temporal_control",
+      "path": "src/substrate/temporal_link.py",
+      "role": "the declared control inherited from the terminal temporal factorial",
+      "present": true,
+      "items": [
+        "C1",
+        "F3"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "typed_workspace",
+      "path": "src/substrate/workspace.py",
+      "role": "broad reads, narrow writes, ten typed regions",
+      "present": true,
+      "items": [
+        "C2"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "perspective_system",
+      "path": "src/substrate/perspectives.py",
+      "role": "processes, a selection ladder, arbitration",
+      "present": true,
+      "items": [
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "memory_hierarchy",
+      "path": "src/substrate/memory.py",
+      "role": "working, episodic, semantic, procedural, consolidation, hygiene",
+      "present": true,
+      "items": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5",
+        "M6"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "world_model",
+      "path": "src/substrate/world.py",
+      "role": "causal graph plus tabular dynamics, four distinctions",
+      "present": true,
+      "items": [
+        "F10",
+        "W1"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "self_model",
+      "path": "src/substrate/selfmodel.py",
+      "role": "measured facts, predictions paired to outcomes",
+      "present": true,
+      "items": [
+        "S1"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "metacognition",
+      "path": "src/substrate/metacog.py",
+      "role": "eleven governed actions, eight measures, attention",
+      "present": true,
+      "items": [
+        "E4",
+        "K1"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "plasticity",
+      "path": "src/substrate/plasticity.py",
+      "role": "ten levels, fast and slow bars, bounded reorganization",
+      "present": true,
+      "items": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "R1"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "model_body_interface",
+      "path": "src/substrate/body.py",
+      "role": "nine message kinds, six integration modes",
+      "present": true,
+      "items": [
+        "B1"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "batteries",
+      "path": "src/substrate/batteries.py",
+      "role": "thinking, continuity, unity, reflective access",
+      "present": true,
+      "items": [
+        "E1",
+        "E2",
+        "E3",
+        "T1"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "verification_fabric",
+      "path": "src/substrate/verification.py",
+      "role": "recomputation from sealed bytes, mutation attacks",
+      "present": true,
+      "items": [
+        "V1",
+        "V2"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "admission_gate",
+      "path": "src/substrate/method",
+      "role": "the compact experiment validity kernel",
+      "present": true,
+      "items": [
+        "A3"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    },
+    {
+      "component": "scheduler",
+      "path": "src/substrate/execution.py",
+      "role": "the single DAG executor and supervisor",
+      "present": true,
+      "items": [
+        "Z1",
+        "Z2",
+        "Z3"
+      ],
+      "levels": [
+        "implemented"
+      ]
+    }
+  ],
+  "components_present": 13,
+  "components_declared": 13,
+  "one_of_each": {
+    "scheduler": 1,
+    "experiment_engine": 1,
+    "evidence_fabric": 1,
+    "registry": 1,
+    "configuration_authority": 1,
+    "cli": 1
+  },
+  "no_parallel_framework": "Substrate stages reuse the temporal supervisor, the method admission gate and the existing evidence fabric",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "02c22804bbd31213c4073b5d572bfee15f68bd90ebda158be14cd578831689b5"
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "substrate-sentience-research-boundary/v1",
+  "levels": [
+    "demonstrated engineering property",
+    "behavioural indication",
+    "architectural prerequisite",
+    "philosophical interpretation",
+    "unsupported claim"
+  ],
+  "prerequisites_under_study": [
+    "global integration",
+    "persistent self model",
+    "autobiographical memory",
+    "metacognition",
+    "unified workspace",
+    "endogenous attention",
+    "goal continuity",
+    "adaptive valuation",
+    "world modeling",
+    "counterfactual modeling",
+    "reflective access"
+  ],
+  "permitted_terms": [
+    "sentience adjacent architecture",
+    "entity like continuity",
+    "developmental cognition",
+    "reflective cognitive organization"
+  ],
+  "forbidden_claims": [
+    "conscious",
+    "consciousness",
+    "sentient",
+    "sentience",
+    "feelings",
+    "feeling",
+    "wants",
+    "suffering",
+    "subjective experience",
+    "alive"
+  ],
+  "rule": "no single architectural property is proof of sentience",
+  "enforcement": "substrate.safety.assert_claim_safe, refusal raises rather than warns",
+  "what_this_is_not": "cognitive integrity protects memory, evidence, goals, checkpoints and task continuity. It is not biological self preservation and implies nothing about experience",
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "activation": false,
+  "sha256": "fdc720034b8aa3609155544d5d54869d1312d0b743bf57a53abadaae7419f36a"
+}

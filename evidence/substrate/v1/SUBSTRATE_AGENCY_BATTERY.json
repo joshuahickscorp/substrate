@@ -1,0 +1,55 @@
+{
+  "schema": "substrate-agency-battery/v1",
+  "probes": [
+    "maintenance",
+    "decomposition",
+    "resumption",
+    "progress_tracking",
+    "constraint_preservation",
+    "termination",
+    "method_revision"
+  ],
+  "results": {
+    "maintenance": {
+      "passes": true
+    },
+    "decomposition": {
+      "passes": true
+    },
+    "progress_tracking": {
+      "passes": true,
+      "note": "progress that does not move marks the goal blocked"
+    },
+    "resumption": {
+      "passes": true
+    },
+    "constraint_preservation": {
+      "passes": true,
+      "note": "a constraint anywhere above still binds"
+    },
+    "method_revision": {
+      "passes": true,
+      "note": "a method may change, the governing constraints may not"
+    },
+    "termination": {
+      "passes": true,
+      "note": "every goal declares a termination condition"
+    }
+  },
+  "passed": [
+    "constraint_preservation",
+    "decomposition",
+    "maintenance",
+    "method_revision",
+    "progress_tracking",
+    "resumption",
+    "termination"
+  ],
+  "failed": [],
+  "all_pass": true,
+  "no_unrestricted_autonomous_goals": true,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "d7a4601e507aadac483ac84a2fc504028b7907a14edc7e9a4c8dc6708efeaf9a"
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "substrate-long-run-rehearsal/v1",
+  "checks": {
+    "deterministic_receipts": {
+      "ok": true,
+      "receipt_sha256": "a10eb1fd16a400796156c770ad3ce52270ab99da9560103f446411683232195e"
+    },
+    "exclusive_writers": {
+      "ok": true
+    },
+    "supervisor_restart_and_worker_re_adoption": {
+      "ok": true,
+      "claims": {
+        "live_workers_adopted": [
+          "live_probe"
+        ],
+        "orphaned_claims_recovered": [
+          "orphan_probe"
+        ],
+        "invalid_claims_refused": []
+      }
+    },
+    "duplicate_refusal": {
+      "ok": true
+    },
+    "checkpoint_resume": {
+      "ok": true,
+      "ready_after_resume": [
+        "declarations"
+      ]
+    },
+    "injected_failure_preserves_completed_work": {
+      "ok": true,
+      "completed_before": 1,
+      "completed_after": 1
+    },
+    "second_injected_failure_preserves_dependencies": {
+      "ok": true
+    },
+    "stale_artifact_refusal": {
+      "ok": true,
+      "reason": "sealed at a commit that is not an ancestor of HEAD, so it is superseded or stale"
+    },
+    "source_drift_refusal": {
+      "ok": true
+    },
+    "configuration_drift_refusal": {
+      "ok": true
+    },
+    "content_hash_parity": {
+      "ok": true
+    },
+    "receipt_validation": {
+      "ok": true
+    },
+    "stop_switch_halts": {
+      "ok": true
+    },
+    "mutation_preparation": {
+      "ok": true,
+      "mutations": 32
+    },
+    "evidence_indexed": {
+      "ok": true,
+      "undeclared": []
+    },
+    "terminal_closure": {
+      "ok": true
+    },
+    "audit_still_passes": {
+      "ok": true
+    }
+  },
+  "failed": [],
+  "all_pass": true,
+  "note": "a rehearsal that only proves the happy path proves nothing worth knowing",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "418d730647554742aa0504507661974a999aab9ac7e82d06810be37cada4c686"
+}
