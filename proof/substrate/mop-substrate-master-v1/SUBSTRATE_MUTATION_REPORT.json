@@ -288,7 +288,7 @@
   "survivors": [],
   "all_rejected": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "86d50c71e482e1e936c7308e61ad89c6a43cb1da",
+  "source_commit": "c9daed7f6c76ae9ff2b47339dab9749b046e4ca3",
   "activation": false,
-  "sha256": "1e93b172bb72f8c8feda299502a4f9c971c70aaeea5223e34d54a789f4de8f56"
+  "sha256": "866628f043895563456fbdb516b942d187ee1c396d95484432fa9a47cb13238f"
 }

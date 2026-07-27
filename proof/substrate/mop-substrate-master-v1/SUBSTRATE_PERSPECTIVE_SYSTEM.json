@@ -395,6 +395,6 @@
   "honest_gap": "a family with no implementation has no evidence. Expansion is terminal when every unimplemented family is terminally gated with a stated reason, and a family whose verification would be a human opinion is gated rather than faked",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
-  "sha256": "ab6adb8f8eec3a2ea973765f8730bf4ae4d1516c06a54c528acf55c84a9f9d46"
+  "source_commit": "c9daed7f6c76ae9ff2b47339dab9749b046e4ca3",
+  "sha256": "fc03838d5ab97bf72e4f437a3a4ca3ccd26995e9e4b1f09e8a756f8db8885c41"
 }
