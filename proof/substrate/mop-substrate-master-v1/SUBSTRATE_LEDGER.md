@@ -1,6 +1,6 @@
 # Substrate ledger
 
-Generated from the tree at commit `d1d69b7727c5222a39d447f4dbd2c17aa1a02762`. Status is derived, never asserted: an item is
+Generated from the tree at commit `3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
@@ -15,7 +15,7 @@ Items: 41. Levels: measured 27, terminal 13, tested 1.
 | A5 | 16 | Sentience research boundary | terminal | A2 | none, an authority is terminal once sealed and tested |
 | A6 | 17 | Continuous six batch research program | terminal | A2 | none, an authority is terminal once sealed and tested |
 | A7 | 20 | Scorecard separates implementation from evidence | terminal | A2 | none, an authority is terminal once sealed and tested |
-| C1 | 6.1 | Temporal core identified and selected | tested | none | seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json |
+| C1 | 6.1 | Temporal core identified and selected | tested | none | seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json |
 | C2 | 6.2 | Typed cognitive workspace | measured | A2 | classify the result through mop.method.gate.classify_result and record it |
 | C3 | 6.3 | Mixture of Perspectives, perspectives as processes | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
 | C4 | 6.4 | Perspective selection ladder | measured | C3 | classify the result through mop.method.gate.classify_result and record it |
@@ -52,7 +52,7 @@ Items: 41. Levels: measured 27, terminal 13, tested 1.
 
 ## Selected next batch
 
-Primary: C1 Temporal core identified and selected. seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
+Primary: C1 Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
 Secondary: C2 Typed cognitive workspace. classify the result through mop.method.gate.classify_result and record it
 
 Activation remains false.

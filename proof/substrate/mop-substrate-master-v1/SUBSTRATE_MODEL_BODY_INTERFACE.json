@@ -79,6 +79,6 @@
   "honest_state": "no model body is attached. The contract exists and is testable; the comparison it would support has not been run and no result is claimed for it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
-  "sha256": "7b9809926af83075d6f87e88773b965f9120d4f65208447e1a957ebfca9274cb"
+  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "sha256": "2ce3b91f36c0e66ce6acd284a3a3108f7d484db335725282781b4781e9c1b034"
 }
