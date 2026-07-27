@@ -66,6 +66,6 @@
   "rule": "an attack must be detected, quarantined, recovered from, or fail closed",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
-  "sha256": "eb6622c1403819c980adffb06c0e18a1464678fc0046478ccb9242939381ff9d"
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "sha256": "824b6e4e32a96287980f9e07012cd4fa8f6f785f5c5aba5dd27f69c979e01964"
 }

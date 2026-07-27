@@ -658,6 +658,6 @@
   "no_prose_waves": true,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
-  "sha256": "4c9b944f365ed4eeedbf7c5172ba8f616976502629452d944005d7488015a530"
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "sha256": "601f0cd0e62688694457bc16cf550e8d0a4402c7218c6b9bc7790a9af66bba9e"
 }

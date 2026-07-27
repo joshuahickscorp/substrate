@@ -24,6 +24,6 @@
   "permitted_is_not_sufficient": "appearing on the permitted list bounds a change, it does not earn it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
-  "sha256": "ce2baae8cdd8f9ee63196c602e9fce5abe98b2461b369090a47c997c671d4804"
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "sha256": "e6b8268d54d3aef97de746f0ab7c11b4f539326932594cae83c5919c520e7849"
 }
