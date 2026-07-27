@@ -253,7 +253,7 @@ def main():
     for name, key in (("MOP_E3_SHARED_LOCAL_RESULT.json", "E3_shared_versus_local"),
                       ("MOP_E5_SELF_SUPERVISED_RESULT.json", "E5_self_supervised"),
                       ("MOP_HYBRID_ADAPTATION_RESULT.json", "hybrid_adaptation")):
-        existing = io.load(name) if io.exists(name) else {}; licensed_now = key in licensed
+        existing, licensed_now = (io.load(name) if io.exists(name) else {}), key in licensed
         history = existing if existing.get("experiment_terminal") and not licensed_now else existing.get("historical_execution")
         actually_executed = licensed_now and bool(existing.get("experiment_terminal"))
         io.seal(name, {
