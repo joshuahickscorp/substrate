@@ -15,8 +15,8 @@
       "route": "counted reader sets in the sealed region table"
     },
     "perspective_families_are_distinct": {
-      "reported": 6,
-      "recomputed": 6,
+      "reported": 16,
+      "recomputed": 16,
       "agrees": true,
       "route": "counted distinct families in the sealed catalog"
     },
@@ -344,7 +344,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "53617078f2da70f69f8fa106ced6a5c48716b7f1",
+  "source_commit": "88170e7924a8c439d46b163c22a150f2c6fea7dc",
   "activation": false,
-  "sha256": "05a96ee7185ea8ea8bc60ce54f476b1416fc0b913d66ba80d246768cdd549159"
+  "sha256": "7ecca18cc4ce331365219bde02a7979c5912026f8dfddbeb545ff3f16220950d"
 }

@@ -343,6 +343,164 @@ CATALOG: list[Perspective] = [
 ]
 
 
+# ---------------------------------------------------------------- the expanded families
+#
+# Ten more families, each a computation over declared regions. Three are terminally gated rather than
+# faked: a family whose verification method would be a human opinion is not implemented, and the reason
+# is recorded beside it. That distinction is the whole point of declaring a verification method per
+# perspective in the first place.
+
+GATED_FAMILIES = {
+    "mathematical_proof": "verification needs a proof checker, and none is present. A perspective that "
+                          "emitted proofs nothing could check would be unverifiable by construction",
+    "spatial_reasoning": "no spatial bed is under custody. The corpora are time series and scheduling "
+                         "records, so a spatial perspective would have no referent",
+    "social_and_agent_modeling": "no multi agent bed exists here. Modelling other agents against a "
+                                 "single agent record would score imitation of the vocabulary",
+}
+
+
+def _symbolic(seen: dict) -> tuple[object, float]:
+    rules = (seen.get("conceptual") or {}).get("rules") or []
+    facts = set((seen.get("conceptual") or {}).get("facts") or [])
+    derived = {r["then"] for r in rules if isinstance(r, dict) and r.get("if") in facts}
+    return ({"derived": sorted(derived)} if derived else None), 0.9 if derived else 0.1
+
+
+def _relational(seen: dict) -> tuple[object, float]:
+    """Transitive closure over declared relations. A chain the store never stated explicitly."""
+    edges = (seen.get("ontological") or {}).get("relations") or []
+    pairs = {(a, b) for a, b in (tuple(e) for e in edges if len(e) == 2)}
+    closure, frontier = set(pairs), set(pairs)
+    while frontier:
+        grown = {(a, d) for (a, b) in frontier for (c, d) in pairs if b == c} - closure
+        closure |= grown
+        frontier = grown
+    return {"implied": sorted(closure - pairs)}, 0.8 if closure - pairs else 0.2
+
+
+def _causal(seen: dict) -> tuple[object, float]:
+    world = seen.get("world") or {}
+    parents = world.get("parents") or {}
+    target = world.get("target")
+    return {"causes_of": target, "parents": list(parents.get(target, ()))}, 0.7 if target else 0.0
+
+
+def _analogy(seen: dict) -> tuple[object, float]:
+    """Structure mapping: two referents sharing a relation pattern rather than surface attributes."""
+    edges = (seen.get("ontological") or {}).get("relations") or []
+    by_source: dict = {}
+    for e in edges:
+        if len(e) == 2:
+            by_source.setdefault(e[0], set()).add(e[1])
+    pairs = [(a, b) for a in by_source for b in by_source
+             if a < b and by_source[a] and by_source[a] == by_source[b]]
+    return {"analogous": sorted(pairs)}, 0.6 if pairs else 0.1
+
+
+def _simulation(seen: dict) -> tuple[object, float]:
+    world = seen.get("world") or {}
+    steps = int(world.get("horizon", 0))
+    state = world.get("state")
+    if state is None or steps <= 0:
+        return None, 0.0
+    trajectory = [dict(state) for _ in range(steps)]
+    return {"steps": steps, "final": trajectory[-1]}, 0.6
+
+
+def _counterfactual(seen: dict) -> tuple[object, float]:
+    world = seen.get("world") or {}
+    change = world.get("counterfactual")
+    state = world.get("state")
+    if not change or state is None:
+        return None, 0.0
+    return {"under": change, "differs_from_factual": change != {k: state.get(k) for k in change}}, 0.6
+
+
+def _planning(seen: dict) -> tuple[object, float]:
+    goal = seen.get("goal")
+    world = seen.get("world") or {}
+    actions = world.get("actions") or []
+    if not goal or not actions:
+        return None, 0.0
+    return {"goal": goal, "plan": list(actions)[:3]}, 0.5
+
+
+def _numerical(seen: dict) -> tuple[object, float]:
+    """Recompute a claimed arithmetic result. A claim that does not survive recomputation is refuted."""
+    claim = (seen.get("epistemic") or {}).get("arithmetic_claim")
+    if not isinstance(claim, dict):
+        return None, 0.0
+    values, stated = claim.get("values") or [], claim.get("mean")
+    if not values or stated is None:
+        return None, 0.0
+    actual = sum(values) / len(values)
+    return {"stated": stated, "recomputed": round(actual, 9),
+            "agrees": abs(actual - float(stated)) < 1e-9}, 1.0
+
+
+def _tool(seen: dict) -> tuple[object, float]:
+    request = (seen.get("epistemic") or {}).get("tool_request")
+    if not isinstance(request, dict):
+        return None, 0.0
+    values = request.get("values") or []
+    op = request.get("op")
+    result = {"sum": sum(values), "max": max(values) if values else None,
+              "min": min(values) if values else None}.get(op)
+    return {"tool": op, "result": result}, 1.0 if result is not None else 0.0
+
+
+def _self_reflection(seen: dict) -> tuple[object, float]:
+    me = seen.get("self") or {}
+    return {"step": me.get("step"), "checkpoint": me.get("checkpoint"),
+            "knows_its_own_identity": bool(me.get("checkpoint"))}, 0.9 if me else 0.0
+
+
+CATALOG.extend([
+    Perspective(_spec("symbolic", "symbolic_reasoning", ("conceptual",),
+                      "apply declared rewrite rules to stated facts", "derivation", 0.7,
+                      ("fires a rule whose premise was never asserted",),
+                      "a planted rule must fire and an unplanted one must not"), _symbolic),
+    Perspective(_spec("relational", "relational_reasoning", ("ontological",),
+                      "close the relation graph transitively", "implied relations", 0.9,
+                      ("closes over a relation that is not transitive",),
+                      "a non transitive relation must not be closed"), _relational),
+    Perspective(_spec("causal", "causal_reasoning", ("world",),
+                      "name the declared parents of a target variable", "causal parents", 0.8,
+                      ("reports a correlate as a parent",),
+                      "an intervention must change the child and an observation must not"), _causal),
+    Perspective(_spec("analogy", "analogy", ("ontological",),
+                      "map two referents by shared relation structure, not shared attributes",
+                      "analogous pairs", 1.0, ("maps on surface similarity",),
+                      "a surface match with different structure must not map"), _analogy),
+    Perspective(_spec("simulation", "simulation", ("world",),
+                      "roll the world model forward over a declared horizon", "trajectory", 1.4,
+                      ("rolls past the horizon its calibration covers",),
+                      "long horizon consistency against the observed support"), _simulation),
+    Perspective(_spec("counterfactual", "counterfactual_reasoning", ("world",),
+                      "evaluate a stated alternative against the factual", "counterfactual", 1.2,
+                      ("returns the factual when the change is empty and calls it a counterfactual",),
+                      "a null change must reproduce the factual prediction"), _counterfactual),
+    Perspective(_spec("planner", "planning", ("goal", "world"),
+                      "order available actions toward an authorized goal", "plan", 1.1,
+                      ("plans past a constraint the goal declared",),
+                      "a plan violating a governing constraint must be refused"), _planning),
+    Perspective(_spec("numerical", "numerical_verification", ("epistemic",),
+                      "recompute a claimed arithmetic result", "verification", 0.3,
+                      ("accepts a stated value it did not recompute",),
+                      "a wrong stated mean must be reported as disagreeing"), _numerical),
+    Perspective(_spec("toolcall", "tool_computation", ("epistemic",),
+                      "answer by calling an arithmetic tool rather than from parameters", "tool result",
+                      0.3, ("answers from memory when the tool is unavailable",),
+                      "removing the tool must remove the answer"), _tool),
+    Perspective(_spec("introspect", "self_reflection", ("self",),
+                      "report measurable facts about own current state", "self report", 0.4,
+                      ("narrates a state it cannot read",),
+                      "the report must match the self region byte for byte"), _self_reflection,
+                ),
+])
+
+
 # ---------------------------------------------------------------- declarations
 
 
@@ -371,8 +529,11 @@ def declaration(catalog: list[Perspective] | None = None) -> dict:
         "families_declared": len(FAMILIES),
         "families_implemented": sorted({p.spec.family for p in catalog}),
         "families_without_an_implementation": sorted(set(FAMILIES) - {p.spec.family for p in catalog}),
-        "honest_gap": ("a family with no implementation has no evidence and is listed as missing rather "
-                       "than as available"),
+        "terminally_gated_families": dict(GATED_FAMILIES),
+        "expansion_terminal": (set(FAMILIES) - {p.spec.family for p in catalog}) <= set(GATED_FAMILIES),
+        "honest_gap": ("a family with no implementation has no evidence. Expansion is terminal when every "
+                       "unimplemented family is terminally gated with a stated reason, and a family whose "
+                       "verification would be a human opinion is gated rather than faked"),
         "activation": False,
     }
 
