@@ -1,0 +1,75 @@
+{
+  "schema": "substrate-clean-clone/v1",
+  "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "checks": {
+    "clone": true,
+    "exact_commit_checkout": true,
+    "package_import": true,
+    "declared_tests": false,
+    "graph_valid": true,
+    "artifacts_regenerate_identically": false,
+    "independent_recomputation": true,
+    "no_activation": true
+  },
+  "detail": {
+    "clone": {
+      "ok": true,
+      "detail": ""
+    },
+    "exact_commit_checkout": {
+      "ok": true,
+      "head": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+      "expected": "bbbd1647b05345a57c68e24a2d17f31252c90242"
+    },
+    "package_import": {
+      "ok": true,
+      "detail": ""
+    },
+    "declared_tests": {
+      "ok": false,
+      "detail": [
+        "FAILED tests/cognition/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted"
+      ]
+    },
+    "graph_valid": {
+      "ok": true,
+      "detail": "{\"valid\": true, \"blocked\": []}"
+    },
+    "artifacts_regenerate_identically": {
+      "ok": false,
+      "drifted_from_committed": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json",
+        "SUBSTRATE_RUNTIME.json",
+        "SUBSTRATE_TEMPORAL_CORE.json",
+        "SUBSTRATE_WORKSPACE.json"
+      ],
+      "nondeterministic_across_two_runs": [],
+      "compared": 50,
+      "excluded_fields": [
+        "sha256",
+        "source_commit"
+      ],
+      "detail": "ce\": \"sealed\",\n  \"perspectives\": \"sealed\",\n  \"memory\": \"sealed\",\n  \"world\": \"sealed\",\n  \"selfmodel\": \"sealed\",\n  \"metacog\": \"sealed\",\n  \"plasticity\": \"sealed\",\n  \"body\": \"sealed\",\n  \"batteries\": \"sealed\",\n  \"runtime\": \"sealed\",\n  \"temporal_link\": \"sealed\",\n  \"goals\": \"sealed\",\n  \"graph\": \"sealed\"\n}\n",
+      "note": "content is compared with the commit stamp and its digest excluded, because a committed artifact was sealed at an earlier commit by construction. An artifact whose content depends on the machine shows up as drifted; one that differs between two runs in the same clone shows up as nondeterministic"
+    },
+    "independent_recomputation": {
+      "ok": true,
+      "detail": "substrate recomputation: 45 checks, 0 disagreements, 0 broken seals"
+    },
+    "no_activation": {
+      "ok": true,
+      "detail": "false"
+    }
+  },
+  "failed": [
+    "artifacts_regenerate_identically",
+    "declared_tests"
+  ],
+  "all_pass": false,
+  "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "sha256": "4c0e5b17c7455d442da7e0636d56ae83ca87db8b3cc7f705a722b3577c7a011c"
+}

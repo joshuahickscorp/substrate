@@ -24,6 +24,31 @@ STOP = Path.home() / ".mop_substrate_stop"
 ACTIVATION = False
 
 
+def data_root() -> Path:
+    """Where the corpora live, which is deliberately outside every worktree.
+
+    Resolving this as ROOT.parent / mop-data works in the checkout it was written in and nowhere else. A
+    clean clone lands in a temporary directory whose parent holds no corpora, so every data backed module
+    silently loses its bed. The order below is explicit override, then the custody authority that already
+    declares the canonical root, then the historical layout.
+    """
+    import json
+    import os
+
+    env = os.environ.get("MOP_DATA_ROOT")
+    if env:
+        return Path(env)
+    custody = (ROOT / "proof" / "substrate" / "mop-temporal-core-mechanism-v1"
+               / "MOP_DATA_CUSTODY_AUTHORITY.json")
+    try:
+        declared = json.loads(custody.read_text()).get("canonical_root")
+        if declared and Path(declared).is_dir():
+            return Path(declared)
+    except (OSError, ValueError, json.JSONDecodeError):
+        pass
+    return ROOT.parent / "mop-data"
+
+
 def sha_obj(v) -> str:
     return hashlib.sha256(
         json.dumps(v, sort_keys=True, separators=(",", ":"), default=str).encode()

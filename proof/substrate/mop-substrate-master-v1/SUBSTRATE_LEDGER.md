@@ -1,15 +1,15 @@
 # Substrate ledger
 
-Generated from the tree at commit `66e2d09264e52bea3d9285b8f47c79e247f0a8b0`. Status is derived, never asserted: an item is
+Generated from the tree at commit `bbbd1647b05345a57c68e24a2d17f31252c90242`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 60. Levels: implemented 1, measured 40, terminal 17, tested 2.
+Items: 60. Levels: measured 40, terminal 18, tested 2.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
 | A1 | 2 | Naming and historical continuity authority | terminal | none | none, an authority is terminal once sealed and tested |
-| A2 | 21 | Master deliverable set exists and binds to real things | implemented | A1 | run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path |
+| A2 | 21 | Master deliverable set exists and binds to real things | terminal | A1 | none, an authority is terminal once sealed and tested |
 | A3 | 18 | Experimental requirements bind every new Substrate experiment | terminal | A2 | none, an authority is terminal once sealed and tested |
 | A4 | 19 | Developmental safety envelope | terminal | A2 | none, an authority is terminal once sealed and tested |
 | A5 | 16 | Sentience research boundary | terminal | A2 | none, an authority is terminal once sealed and tested |
@@ -71,7 +71,7 @@ Items: 60. Levels: implemented 1, measured 40, terminal 17, tested 2.
 
 ## Selected next batch
 
-Primary: A2 Master deliverable set exists and binds to real things. run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path
-Secondary: C1 Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
+Primary: C1 Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
+Secondary: O1 Typed ontology with the nine distinctions it refuses to collapse. classify the result through mop.method.gate.classify_result and record it
 
 Activation remains false.

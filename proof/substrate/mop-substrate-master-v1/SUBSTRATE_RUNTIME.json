@@ -85,7 +85,9 @@
           "action",
           "verification",
           "later_usefulness"
-        ]
+        ],
+        "working_memory_held": true,
+        "working_memory_pressure": ""
       },
       "self_update": {
         "ran": true,
@@ -167,6 +169,6 @@
     "adaptation_constraints"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
-  "sha256": "958b4ffe791e3f977607ccb01bc2677a77a3ba25d13caa8172eede4cea11adda"
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "sha256": "7cb38771565c1b957c23ef52d9bd1bd0503929a602d21fd7009bd4723cf1071d"
 }

@@ -1,7 +1,6 @@
 {
   "schema": "substrate-next-frontier/v1",
   "dependency_ready": [
-    "A2",
     "C1",
     "O1",
     "O2",
@@ -45,15 +44,15 @@
     "X3"
   ],
   "primary": {
-    "id": "A2",
-    "title": "Master deliverable set exists and binds to real things",
-    "next_action": "run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path",
-    "batch": 1
-  },
-  "secondary": {
     "id": "C1",
     "title": "Temporal core identified and selected",
     "next_action": "seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
+    "batch": 1
+  },
+  "secondary": {
+    "id": "O1",
+    "title": "Typed ontology with the nine distinctions it refuses to collapse",
+    "next_action": "classify the result through mop.method.gate.classify_result and record it",
     "batch": 1
   },
   "independence_rule": "the secondary shares no dependency with the primary and is not its ancestor or descendant, so a failed branch closes only its own descendants",
@@ -342,7 +341,7 @@
     "activation": false
   },
   "program": "mop-substrate-master-v1",
-  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
   "activation": false,
-  "sha256": "cf4e77756cefc7528fb87db27c9aa0ebe391399c377d94b9989acffe31746c60"
+  "sha256": "0908d73f5ae02bc505520248ca94c244fb2a06b81edd9f8bb6c94ae4d0983221"
 }

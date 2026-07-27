@@ -202,6 +202,6 @@
   "no_parallel_framework": "Substrate stages reuse the temporal supervisor, the method admission gate and the existing evidence fabric",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-  "sha256": "1c08f18fe5dd7d6411c9689bd3ce099ad5d70fb34ecbfd563931705a3ec48b6f"
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "sha256": "ef1b22f5783f1ef22ca89ff48edc1652efb1963236ff6230f1cb8efcb56ff88f"
 }

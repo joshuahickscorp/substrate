@@ -1,6 +1,6 @@
 # Substrate: what the entity currently is
 
-Generated from the tree at commit `66e2d09264e52bea3d9285b8f47c79e247f0a8b0`. Every number below is derived from the
+Generated from the tree at commit `bbbd1647b05345a57c68e24a2d17f31252c90242`. Every number below is derived from the
 repository, and any number that would require evidence nobody has measured is reported as zero
 rather than estimated.
 
@@ -64,8 +64,8 @@ the selection is terminal and independently verified
 
 ## The exact next frontier
 
-Primary: A2, Master deliverable set exists and binds to real things. run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path
+Primary: C1, Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
 
-Secondary: C1, Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
+Secondary: O1, Typed ontology with the nine distinctions it refuses to collapse. classify the result through mop.method.gate.classify_result and record it
 
 Activation remains false.

@@ -110,6 +110,6 @@
   "limitation": "the referents are scheduling and receipt symbols from one program. Grounding here means connected to recorded outcomes, not perceptually grounded",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-  "sha256": "caf874b6be221e33eda790f4a7ea528d5bcf298e7e4dd4d99137c7f29982eab6"
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "sha256": "6cc30537ede744f3f38cc6bc19e796b453b72c454af85055e906d17c89e3c9ee"
 }

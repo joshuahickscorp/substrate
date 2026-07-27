@@ -14,8 +14,8 @@
     }
   },
   "source": {
-    "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-    "tree": "feac03922db73e18c30dcd52dd907995735ffdea",
+    "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+    "tree": "ebbdbd24fb7ab2d96562ef192cfa86b7eb9c5a4d",
     "branch": "agent/mop-cognition-workspace",
     "remote_branch": "agent/mop-temporal-core-mechanism",
     "pull_request": 35
@@ -171,6 +171,6 @@
   "resume_without_history": "every field a successor needs is in SUBSTRATE_FINAL_STATE.json and this file. No conversation is required to continue",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-  "sha256": "97e3a9bdea9d6bec56814d4649aada92c3a08c2b9af0f459f7e5df0da4930976"
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "sha256": "fcef1c022d084c7921cb21a08db2fc45a9f3e907af351f6422291d6bd4c29872"
 }

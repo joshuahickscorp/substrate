@@ -47,6 +47,6 @@
   "why_this_bed": "the record was written to run a factorial. Its states, actions and outcomes were not chosen to make a world model look useful",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-  "sha256": "86c63edb6f81bd5ca0513efc0bbb0140c6f2c5a318631ac1dd22abb57946220e"
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "sha256": "9775cc2b8080725e450cb5800c265b6070cc4432593ac2cb4a474f6fe8eb3403"
 }

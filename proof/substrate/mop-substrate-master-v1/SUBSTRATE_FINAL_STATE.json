@@ -18,14 +18,14 @@
         "SUBSTRATE_MASTER_AUTHORITY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     {
       "id": "A2",
       "category": "authority",
-      "status": "implemented",
+      "status": "terminal",
       "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
       "dependencies": [
         "A1"
@@ -42,9 +42,9 @@
         "SUBSTRATE_STATE.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRATE_STATE.json",
-      "next_action": "run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path"
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     {
       "id": "A3",
@@ -66,7 +66,7 @@
         "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -89,7 +89,7 @@
         "SUBSTRATE_DEVELOPMENTAL_SAFETY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -112,7 +112,7 @@
         "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -136,7 +136,7 @@
         "SUBSTRATE_NEXT_FRONTIER.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_STATE.json, SUBSTRATE_NEXT_FRONTIER.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -159,7 +159,7 @@
         "SUBSTRATE_PROGRESS_SCORECARD.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_PROGRESS_SCORECARD.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -183,7 +183,7 @@
         "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete  and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
     },
@@ -206,7 +206,7 @@
         "SUBSTRATE_WORKSPACE.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_WORKSPACE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -229,7 +229,7 @@
         "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_PERSPECTIVE_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -252,7 +252,7 @@
         "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_PERSPECTIVE_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -275,7 +275,7 @@
         "SUBSTRATE_ARBITRATION_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_ARBITRATION_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -301,7 +301,7 @@
         "SUBSTRATE_ONTOLOGY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_ONTOLOGY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -327,7 +327,7 @@
         "SUBSTRATE_BELIEF_REVISION.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_EPISTEMOLOGY.json, SUBSTRATE_BELIEF_REVISION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -351,7 +351,7 @@
         "SUBSTRATE_EPISTEMOLOGY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_EPISTEMOLOGY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -376,7 +376,7 @@
         "SUBSTRATE_RUNTIME.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_RUNTIME.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -401,7 +401,7 @@
         "SUBSTRATE_RUNTIME.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_RUNTIME.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -424,7 +424,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -447,7 +447,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -470,7 +470,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -493,7 +493,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -518,7 +518,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -541,7 +541,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -565,7 +565,7 @@
         "SUBSTRATE_WORLD_MODEL.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_WORLD_MODEL.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -589,7 +589,7 @@
         "SUBSTRATE_SELF_MODEL.json"
       ],
       "classification": "mechanism_null",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_SELF_MODEL.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "none"
     },
@@ -613,7 +613,7 @@
         "SUBSTRATE_METACOGNITION.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_METACOGNITION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -637,7 +637,7 @@
         "SUBSTRATE_PLASTICITY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -661,7 +661,7 @@
         "SUBSTRATE_PLASTICITY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -685,7 +685,7 @@
         "SUBSTRATE_PLASTICITY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -709,7 +709,7 @@
         "SUBSTRATE_PLASTICITY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -732,7 +732,7 @@
         "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -757,7 +757,7 @@
         "SUBSTRATE_REORGANIZATION.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_REORGANIZATION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -780,7 +780,7 @@
         "SUBSTRATE_MODEL_BODY_INTERFACE.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -804,7 +804,7 @@
         "SUBSTRATE_THINKING_BATTERY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_THINKING_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -828,7 +828,7 @@
         "SUBSTRATE_CONTINUITY_BATTERY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_CONTINUITY_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -852,7 +852,7 @@
         "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_UNIFIED_COGNITION_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -876,7 +876,7 @@
         "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -899,7 +899,7 @@
         "SUBSTRATE_METACOGNITION.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_METACOGNITION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -923,7 +923,7 @@
         "SUBSTRATE_MASTER_AUTHORITY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_MASTER_AUTHORITY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -946,7 +946,7 @@
         "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_INDEPENDENT_VERIFICATION.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -969,7 +969,7 @@
         "SUBSTRATE_MUTATION_REPORT.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_MUTATION_REPORT.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -993,7 +993,7 @@
         "SUBSTRATE_CAPABILITY_MAP.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_ARCHITECTURE.json, SUBSTRATE_CAPABILITY_MAP.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -1018,7 +1018,7 @@
         "SUBSTRATE_CURRENT_ENTITY_REPORT.md"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_CURRENT_ENTITY_SPEC.json, SUBSTRATE_CURRENT_ENTITY_REPORT.md",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -1043,7 +1043,7 @@
         "SUBSTRATE_NULL_MAP.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_NULL_MAP.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -1067,7 +1067,7 @@
         "SUBSTRATE_FINAL_PROGRAM_GRAPH.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -1095,7 +1095,7 @@
         "SUBSTRATE_FINAL_VALUE_QUEUE.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_FINAL_MASTER_AUTHORITY.json, SUBSTRATE_FINAL_ANCESTRY.json, SUBSTRATE_FINAL_STATE.json, SUBSTRATE_FINAL_SCORECARD.json, SUBSTRATE_FINAL_VALUE_QUEUE.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -1120,7 +1120,7 @@
         "SUBSTRATE_TEMPORAL_CORE.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_TEMPORAL_CORE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1143,7 +1143,7 @@
         "SUBSTRATE_REAL_SESSION_AUTHORITY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_REAL_SESSION_AUTHORITY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1169,7 +1169,7 @@
         "SUBSTRATE_WORLD_MODEL_BATTERY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_WORLD_MODEL_BED.json, SUBSTRATE_WORLD_MODEL_BATTERY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1197,7 +1197,7 @@
         "SUBSTRATE_MODEL_BODY_INTERFACE.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_BODY_COMPACT.json, SUBSTRATE_BODY_GENERAL.json, SUBSTRATE_BODY_TOOL.json, SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1220,7 +1220,7 @@
         "SUBSTRATE_GOAL_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_GOAL_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1243,7 +1243,7 @@
         "SUBSTRATE_VALUATION_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_VALUATION_SYSTEM.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1267,7 +1267,7 @@
         "SUBSTRATE_GROUNDING.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_GROUNDING.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1291,7 +1291,7 @@
         "SUBSTRATE_WORLD_MODEL.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_WORLD_MODEL.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1315,7 +1315,7 @@
         "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1339,7 +1339,7 @@
         "SUBSTRATE_CLEAN_CLONE.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_CLEAN_CLONE.json",
       "next_action": "seal SUBSTRATE_CLEAN_CLONE.json"
     },
@@ -1365,7 +1365,7 @@
         "SUBSTRATE_CAMPAIGN_PLAN.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_CAMPAIGN_PLAN.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -1389,7 +1389,7 @@
         "SUBSTRATE_CAMPAIGN_PLAN.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "revert the commit that sealed SUBSTRATE_CAMPAIGN_PLAN.json",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
@@ -1412,7 +1412,7 @@
         "SUBSTRATE_TEMPORAL_CORE.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_TEMPORAL_CORE.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
@@ -1436,15 +1436,14 @@
         "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
       ],
       "classification": "",
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "rollback": "delete SUBSTRATE_INDEPENDENT_VERIFICATION.json and rerun mop.cognition.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     }
   ],
   "total": 60,
   "level_counts": {
-    "terminal": 17,
-    "implemented": 1,
+    "terminal": 18,
     "tested": 2,
     "measured": 40
   },
@@ -1458,26 +1457,15 @@
   "source_tree": {
     "clean": false,
     "dirty_paths": [
-      "src/mop/cognition/body.py",
-      "src/mop/cognition/deliverables.py",
-      "src/mop/cognition/program.py",
-      "src/mop/cognition/runtime.py",
-      "src/mop/cognition/authority.py",
       "src/mop/cognition/bodies.py",
-      "src/mop/cognition/cleanclone.py",
-      "src/mop/cognition/divergence.py",
-      "src/mop/cognition/goals.py",
-      "src/mop/cognition/graph.py",
-      "src/mop/cognition/grounding.py",
-      "src/mop/cognition/sessions.py",
-      "src/mop/cognition/temporal_link.py",
-      "src/mop/cognition/worldbed.py"
+      "src/mop/cognition/experiments.py",
+      "src/mop/cognition/io.py"
     ],
     "why_it_matters": "the temporal supervisor refuses a shard launch from a dirty src tree"
   },
   "every_requirement_has_a_rollback": true,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-  "sha256": "6ff0425646bf9b8f2551f8b2c303c898c34887a8ac5d6819d176bf2221d5bc4e"
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "sha256": "e0ed133791c55a38bc3f77fd144c0dfe19ee8e8bae94cf69810477d9301c90eb"
 }

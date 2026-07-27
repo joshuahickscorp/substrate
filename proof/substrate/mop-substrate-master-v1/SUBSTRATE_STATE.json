@@ -44,12 +44,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A2": {
@@ -60,7 +60,7 @@
       "kind": "authority",
       "category": null,
       "batch": 1,
-      "level": "implemented",
+      "level": "terminal",
       "dependencies": [
         "A1"
       ],
@@ -79,9 +79,9 @@
           "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path"
         ],
         "recorded": {
-          "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path": false
+          "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
@@ -99,20 +99,20 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_STATE.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
-      "next_action": "run and record tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path"
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+      "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A3": {
       "id": "A3",
@@ -161,12 +161,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A4": {
@@ -214,12 +214,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A5": {
@@ -267,12 +267,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A6": {
@@ -322,19 +322,19 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_NEXT_FRONTIER.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A7": {
@@ -382,12 +382,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "C1": {
@@ -467,7 +467,7 @@
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
     },
     "C2": {
@@ -515,12 +515,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C3": {
@@ -568,12 +568,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C4": {
@@ -621,12 +621,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C5": {
@@ -674,12 +674,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "O1": {
@@ -733,12 +733,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "O2": {
@@ -792,19 +792,19 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_BELIEF_REVISION.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "O3": {
@@ -855,12 +855,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "N1": {
@@ -911,12 +911,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "N2": {
@@ -967,12 +967,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "M1": {
@@ -1020,12 +1020,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M2": {
@@ -1073,12 +1073,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M3": {
@@ -1126,12 +1126,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M4": {
@@ -1179,12 +1179,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M5": {
@@ -1234,12 +1234,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M6": {
@@ -1287,12 +1287,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "W1": {
@@ -1341,12 +1341,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "S1": {
@@ -1395,7 +1395,7 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
@@ -1449,9 +1449,9 @@
           "sesoi": 0.05,
           "reading": "learning the offset roughly halves calibration error in both directions, and the improvement is between 0.02 and 0.03, below the 0.05 the program preregistered as the smallest effect worth caring about"
         },
-        "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+        "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
       },
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none"
     },
     "K1": {
@@ -1500,12 +1500,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P1": {
@@ -1554,12 +1554,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P2": {
@@ -1608,12 +1608,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P3": {
@@ -1662,12 +1662,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P4": {
@@ -1716,12 +1716,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P5": {
@@ -1769,12 +1769,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "R1": {
@@ -1824,12 +1824,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "B1": {
@@ -1877,12 +1877,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "T1": {
@@ -1931,12 +1931,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E1": {
@@ -1985,12 +1985,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E2": {
@@ -2039,12 +2039,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E3": {
@@ -2093,12 +2093,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E4": {
@@ -2146,12 +2146,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E5": {
@@ -2200,12 +2200,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "V1": {
@@ -2258,7 +2258,7 @@
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "V2": {
@@ -2311,7 +2311,7 @@
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X1": {
@@ -2361,19 +2361,19 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_CAPABILITY_MAP.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X2": {
@@ -2424,7 +2424,7 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_CURRENT_ENTITY_REPORT.md",
@@ -2435,7 +2435,7 @@
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "Q1": {
@@ -2486,12 +2486,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "F1": {
@@ -2541,12 +2541,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "F2": {
@@ -2604,40 +2604,40 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_FINAL_ANCESTRY.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_FINAL_STATE.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_FINAL_SCORECARD.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_FINAL_VALUE_QUEUE.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "F3": {
@@ -2688,12 +2688,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F4": {
@@ -2741,12 +2741,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F5": {
@@ -2799,19 +2799,19 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_WORLD_MODEL_BATTERY.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F6": {
@@ -2868,33 +2868,33 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_BODY_GENERAL.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_BODY_TOOL.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           },
           {
             "reference": "SUBSTRATE_MODEL_BODY_INTERFACE.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F7": {
@@ -2942,12 +2942,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F8": {
@@ -2995,12 +2995,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F9": {
@@ -3049,12 +3049,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F10": {
@@ -3104,12 +3104,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F11": {
@@ -3158,12 +3158,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "F12": {
@@ -3203,18 +3203,25 @@
           "SUBSTRATE_CLEAN_CLONE.json"
         ],
         "sealed": [],
-        "present_but_refused": [],
+        "present_but_refused": [
+          {
+            "reference": "SUBSTRATE_CLEAN_CLONE.json",
+            "present": true,
+            "counts": false,
+            "reason": "terminal keys not true: ['all_pass']"
+          }
+        ],
         "detail": [
           {
             "reference": "SUBSTRATE_CLEAN_CLONE.json",
-            "present": false,
+            "present": true,
             "counts": false,
-            "reason": "artifact absent"
+            "reason": "terminal keys not true: ['all_pass']"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "seal SUBSTRATE_CLEAN_CLONE.json"
     },
     "L1": {
@@ -3272,7 +3279,7 @@
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "L2": {
@@ -3326,7 +3333,7 @@
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X3": {
@@ -3374,12 +3381,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0"
+            "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242"
           }
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E6": {
@@ -3433,13 +3440,12 @@
         ]
       },
       "result": null,
-      "commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+      "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     }
   },
   "level_counts": {
-    "terminal": 17,
-    "implemented": 1,
+    "terminal": 18,
     "tested": 2,
     "measured": 40
   },
@@ -3447,20 +3453,9 @@
   "source_tree": {
     "clean": false,
     "dirty_paths": [
-      "src/mop/cognition/body.py",
-      "src/mop/cognition/deliverables.py",
-      "src/mop/cognition/program.py",
-      "src/mop/cognition/runtime.py",
-      "src/mop/cognition/authority.py",
       "src/mop/cognition/bodies.py",
-      "src/mop/cognition/cleanclone.py",
-      "src/mop/cognition/divergence.py",
-      "src/mop/cognition/goals.py",
-      "src/mop/cognition/graph.py",
-      "src/mop/cognition/grounding.py",
-      "src/mop/cognition/sessions.py",
-      "src/mop/cognition/temporal_link.py",
-      "src/mop/cognition/worldbed.py"
+      "src/mop/cognition/experiments.py",
+      "src/mop/cognition/io.py"
     ],
     "why_it_matters": "the temporal supervisor refuses a shard launch from a dirty src tree"
   },
@@ -3472,7 +3467,7 @@
     "C_REBASE_ORPHANS_EVIDENCE"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "66e2d09264e52bea3d9285b8f47c79e247f0a8b0",
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
   "activation": false,
-  "sha256": "62bc5c32867f45c6e38ec044c043b6a09b853dc91edd328142b810e0923ca58b"
+  "sha256": "bd1d0cfca13c1c1b22bbb06af437d832c6faa7505890c398a16606ac298e0258"
 }
