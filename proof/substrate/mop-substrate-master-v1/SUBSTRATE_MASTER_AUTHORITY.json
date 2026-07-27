@@ -283,6 +283,30 @@
       ]
     },
     {
+      "id": "N1",
+      "section": "5",
+      "title": "The runtime loop that makes the modules one entity",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "unified_cognition",
+      "dependencies": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "N2",
+      "section": "19",
+      "title": "The loop has no path to acting on the world",
+      "batch": 2,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "A4",
+        "N1"
+      ]
+    },
+    {
       "id": "M1",
       "section": "7.1",
       "title": "Working memory",
@@ -644,6 +668,7 @@
     "SUBSTRATE_PROGRESS_SCORECARD.json",
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
     "SUBSTRATE_REORGANIZATION.json",
+    "SUBSTRATE_RUNTIME.json",
     "SUBSTRATE_SELF_MODEL.json",
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
     "SUBSTRATE_STATE.json",
@@ -679,6 +704,7 @@
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
     "SUBSTRATE_REORGANIZATION.json": true,
+    "SUBSTRATE_RUNTIME.json": true,
     "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
@@ -714,6 +740,7 @@
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
     "SUBSTRATE_REORGANIZATION.json": true,
+    "SUBSTRATE_RUNTIME.json": true,
     "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
@@ -727,11 +754,11 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 13,
+    "terminal": 14,
     "tested": 1,
-    "measured": 27
+    "measured": 28
   },
   "activation": false,
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
-  "sha256": "a02a8ac1e519c9a6f5bb823205e480f76b50b5525ba0bc54a6b6b6b4e51c8ecc"
+  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
+  "sha256": "9c694c490ef75e6a2adf41b29d2ff710630321afc6e6a3a394c1a68b2f9235bd"
 }

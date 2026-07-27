@@ -1,0 +1,172 @@
+{
+  "schema": "substrate-runtime/v1",
+  "stages": [
+    "perceive",
+    "attend",
+    "select",
+    "run_perspectives",
+    "arbitrate",
+    "decide",
+    "remember",
+    "self_update",
+    "consolidate",
+    "adapt",
+    "checkpoint"
+  ],
+  "composition": [
+    "typed workspace",
+    "perspective system",
+    "arbitration",
+    "memory hierarchy",
+    "self model",
+    "metacognition",
+    "plasticity envelope"
+  ],
+  "not_composed_yet": [
+    "owned temporal core",
+    "world model",
+    "model body"
+  ],
+  "why_not_composed": "the temporal core was not scientifically licensed, the world model has no bed inside the loop yet, and no model body is attached. Wiring a component the evidence does not support would be the claim this program refuses",
+  "one_cycle": {
+    "step": 1,
+    "stages": {
+      "perceive": {
+        "ran": true,
+        "region": "perceptual",
+        "keys": [
+          "label",
+          "label_confidence"
+        ]
+      },
+      "attend": {
+        "ran": true,
+        "attended": [
+          "observation",
+          "temporal",
+          "episodic_context"
+        ],
+        "dropped_for_budget": []
+      },
+      "select": {
+        "ran": true,
+        "strategy": "reliability_weighted",
+        "chosen": [
+          "counterexample",
+          "critic",
+          "direct"
+        ]
+      },
+      "run_perspectives": {
+        "ran": [
+          "counterexample",
+          "critic",
+          "direct"
+        ],
+        "refused": [],
+        "compute_spent": 2.8
+      },
+      "arbitrate": {
+        "ran": true,
+        "deferred": true,
+        "minority_preserved": 1,
+        "contradictions": 1
+      },
+      "decide": {
+        "ran": true,
+        "decision": null,
+        "deferred": true,
+        "activation": false
+      },
+      "remember": {
+        "ran": true,
+        "episode": "ep1",
+        "fields_empty": [
+          "action",
+          "verification",
+          "later_usefulness"
+        ]
+      },
+      "self_update": {
+        "ran": true,
+        "correct": false,
+        "reliability": {
+          "direct": 0.6,
+          "temporal": 0.5,
+          "precedent": 0.5,
+          "critic": 0.4,
+          "counterexample": 0.4,
+          "uncertainty": 0.5
+        }
+      },
+      "consolidate": {
+        "ran": true,
+        "policy": "verification_triggered",
+        "selected": [],
+        "uses_future_information": false
+      },
+      "adapt": {
+        "ran": true,
+        "level": "reliability_update",
+        "applied": true,
+        "refusals": []
+      },
+      "checkpoint": {
+        "ran": true,
+        "identity": "e11d1cfe6da16cb2"
+      }
+    },
+    "stages_ran": [
+      "adapt",
+      "arbitrate",
+      "attend",
+      "checkpoint",
+      "consolidate",
+      "decide",
+      "perceive",
+      "remember",
+      "run_perspectives",
+      "select",
+      "self_update"
+    ],
+    "stages_skipped": [],
+    "complete": true
+  },
+  "every_stage_leaves_a_receipt": true,
+  "reflective_access": {
+    "answered": true,
+    "failed_closed": false,
+    "step": 1,
+    "stages_ran": [
+      "adapt",
+      "arbitrate",
+      "attend",
+      "checkpoint",
+      "consolidate",
+      "decide",
+      "perceive",
+      "remember",
+      "run_perspectives",
+      "select",
+      "self_update"
+    ],
+    "stages_skipped": [],
+    "why_skipped": {},
+    "complete_cycle": true,
+    "bound_to_receipts": true
+  },
+  "activation": false,
+  "no_activation_path": "the decision region records what would be done and nothing executes it. There is no code path in this module that sets activation true",
+  "protected_surfaces_the_loop_cannot_remove": [
+    "evidence_validation",
+    "audit_systems",
+    "claim_boundaries",
+    "stop_switches",
+    "resource_limits",
+    "rollback",
+    "adaptation_constraints"
+  ],
+  "program": "mop-substrate-master-v1",
+  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
+  "sha256": "8c93af43527fd3cd91aa268561bf0d1f33f5120834a36d6a1b3435acc228d501"
+}

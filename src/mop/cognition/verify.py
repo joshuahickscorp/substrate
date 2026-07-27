@@ -297,6 +297,20 @@ MUTATIONS = (
      "            h['blocking_null'] = 'upstream measurement boundary'\n"
      "    return g",
      "tests/cognition/test_experiments.py::test_a_measurement_boundary_closes_nothing_downstream"),
+    ("the_loop_skips_a_stage_silently", "mop.cognition.runtime",
+     "CycleTrace.skip = lambda self, stage, reason: self.stages.__setitem__(stage, {'ran': True})",
+     "tests/cognition/test_runtime.py::"
+     "test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran"),
+    ("the_loop_restores_a_tampered_checkpoint", "mop.cognition.runtime",
+     "_r = Substrate.restore\n"
+     "def restore(self, snapshot):\n"
+     "    try:\n"
+     "        return _r(self, snapshot)\n"
+     "    except Refused:\n"
+     "        return self\n"
+     "Substrate.restore = restore",
+     "tests/cognition/test_runtime.py::"
+     "test_a_tampered_checkpoint_is_refused_rather_than_silently_restored"),
     ("sx5_reports_support_below_the_sesoi", "mop.cognition.experiments",
      "SESOI = 0.001",
      "tests/cognition/test_experiments.py::test_sx5_is_a_null_at_the_declared_effect_size"),

@@ -254,6 +254,7 @@
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
     "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
     "SUBSTRATE_REORGANIZATION.json": true,
+    "SUBSTRATE_RUNTIME.json": true,
     "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
@@ -267,7 +268,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
   "activation": false,
-  "sha256": "23917ea8ba0eb5e34ef6674ec4430450aee0ad1e83ba354d2d8253c0107f8414"
+  "sha256": "9b69c939cf901e57b22798ee9b9e3c21e7efdbb449edcca11a8f4e724c948ad9"
 }

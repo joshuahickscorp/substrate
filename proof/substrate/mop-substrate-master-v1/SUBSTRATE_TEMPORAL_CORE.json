@@ -51,6 +51,6 @@
   "honest_state": "the selection is terminal and independently verified",
   "remains_one_component": true,
   "activation": false,
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
-  "sha256": "5b985b1748cac7ffa8c1429f2bace9c85b011402973e335a49e3775b39f1e79e"
+  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
+  "sha256": "7f8611cc0426fe468745210ec4a6a241ce58d6eacf1f8f7ddae6cd5319089812"
 }

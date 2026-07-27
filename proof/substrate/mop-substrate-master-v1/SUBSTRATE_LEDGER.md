@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b`. Status is derived, never asserted: an item is
+Generated from the tree at commit `0a6df4264b1f7c018bc7267375b918dba26b0a69`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 41. Levels: measured 27, terminal 13, tested 1.
+Items: 43. Levels: measured 28, terminal 14, tested 1.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -20,6 +20,8 @@ Items: 41. Levels: measured 27, terminal 13, tested 1.
 | C3 | 6.3 | Mixture of Perspectives, perspectives as processes | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
 | C4 | 6.4 | Perspective selection ladder | measured | C3 | classify the result through mop.method.gate.classify_result and record it |
 | C5 | 6.5 | Perspective arbitration | measured | C3 | classify the result through mop.method.gate.classify_result and record it |
+| N1 | 5 | The runtime loop that makes the modules one entity | measured | C2, C5 | classify the result through mop.method.gate.classify_result and record it |
+| N2 | 19 | The loop has no path to acting on the world | terminal | A4, N1 | none, an authority is terminal once sealed and tested |
 | M1 | 7.1 | Working memory | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
 | M2 | 7.2 | Episodic memory | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
 | M3 | 7.3 | Semantic memory | measured | M2 | classify the result through mop.method.gate.classify_result and record it |
