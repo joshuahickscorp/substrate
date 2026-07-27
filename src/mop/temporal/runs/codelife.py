@@ -15,7 +15,7 @@ from pathlib import Path
 
 from mop.temporal import io
 
-CLASSES = ("active_runtime", "active_method", "active_substrate", "active_tests",
+CLASSES = ("active_runtime", "active_method", "active_substrate", "active_cognition", "active_tests",
            "frozen_reproducibility", "historical_migration", "generated")
 
 # path prefix to lifecycle class, longest prefix wins
@@ -36,8 +36,13 @@ RULES = [
     ("src/mop/temporal/io.py", "active_runtime"),
     ("src/mop/temporal", "active_substrate"),
     ("src/mop/method", "active_method"),
+    # The Substrate master program is a separate active program with its own budget, the same treatment
+    # active_method already receives. Folding it into active_runtime would charge one program's cap for
+    # another program's code and hide both numbers.
+    ("src/mop/cognition", "active_cognition"),
     ("tests/temporal", "active_tests"),
     ("tests/method", "active_tests"),
+    ("tests/cognition", "active_tests"),
     # fastforge/runs holds the Fast State Forge program's own stages, which are frozen behind its receipts.
     # The engine, the architectures and the data providers are the live execution system this program uses.
     ("fastforge/runs", "frozen_reproducibility"),
@@ -71,6 +76,7 @@ RULES = [
 TARGETS = {
     "active_runtime_loc": 8000,
     "new_active_e2_implementation_loc": 2500,
+    "active_cognition_loc": 4000,
     "normal_entrypoints": 3,
     "configuration_roots": 1,
     "registries": 1,
@@ -119,6 +125,9 @@ def main():
         "active_runtime": {"files": rows["active_runtime"], "loc": loc["active_runtime"]},
         "active_method": {"files": rows["active_method"], "loc": loc["active_method"]},
         "active_substrate": {"files": rows["active_substrate"], "loc": loc["active_substrate"]},
+        "active_cognition": {"files": rows["active_cognition"], "loc": loc["active_cognition"],
+                             "target": TARGETS["active_cognition_loc"],
+                             "within_target": loc["active_cognition"] <= TARGETS["active_cognition_loc"]},
         "active_tests": {"files": rows["active_tests"], "loc": loc["active_tests"]},
         "active_runtime_plus_substrate": active_runtime,
         "active_runtime_target": TARGETS["active_runtime_loc"],
@@ -152,6 +161,7 @@ def main():
     })
     print(f"code lifecycle: active runtime+substrate {active_runtime}/{TARGETS['active_runtime_loc']}, "
           f"new E2 {sum(e2.values())}/{TARGETS['new_active_e2_implementation_loc']}, "
+          f"cognition {loc['active_cognition']}/{TARGETS['active_cognition_loc']}, "
           f"frozen {loc['frozen_reproducibility']}", flush=True)
     print("CODELIFE_DONE", flush=True)
 

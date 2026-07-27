@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_EVIDENCE_PRESENCE",
+  "defect": "the Substrate item status derivation counted an evidence artifact as sealed whenever the file existed. Item C1 reported measured while its bound receipt MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json reports all_pass false and was sealed at commit a31b457ebe246e7ba1407124ae4c4fd92dd78d5d, which is not an ancestor of this branch head. This is the silent default pass the experiment validity kernel exists to stop, reappearing one level up in the program ledger rather than in an experiment",
+  "correction": "mop.cognition.program.evidence_state now refuses an artifact whose own terminal booleans are not true and an artifact whose source_commit is not reachable from HEAD. Presence and counting are reported separately so a refusal names its reason, and the refused artifacts stay listed rather than dropped",
+  "regression_test": "tests/cognition/test_program.py::test_evidence_that_is_stale_or_failing_does_not_count",
+  "reproduced_by": "observed directly in the first SUBSTRATE_STATE.json written by this program at commit 0f1fdaa",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "activation": false,
+  "sha256": "8f2ce4e48740bb992823a0230b62f1222cfd4c28a29b5f25132d6ef8348d56e9"
+}

@@ -1,0 +1,647 @@
+{
+  "schema": "substrate-master-authority/v1",
+  "program": "mop-substrate-master-v1",
+  "plan": {
+    "path": "/Users/scammermike/Downloads/SUBSTRATE_MASTER_PLAN.md",
+    "sha256": "527e6151fd8ed05c708792a612e63e9f784f448682bb4f05011fdd78ab3c742d",
+    "resolved": true
+  },
+  "naming_authority": {
+    "current_program": "Substrate",
+    "map": {
+      "MOP": "the original research program, valid inside every historical authority",
+      "Mixture of Perspectives": "the perspective generation and arbitration subsystem, items C3 to C5",
+      "Mixture of Thinking": "the composition of heterogeneous cognitive processes, items C5, K1 and T1"
+    },
+    "rule": "historical files, branches, commits, tags, proofs and program identities are not mass renamed. This authority maps old terminology onto the current architecture and leaves prior evidence exactly as sealed",
+    "renamed_nothing": true
+  },
+  "claim_boundary": {
+    "levels": [
+      "demonstrated engineering property",
+      "behavioural indication",
+      "architectural prerequisite",
+      "philosophical interpretation",
+      "unsupported claim"
+    ],
+    "permitted_terms": [
+      "sentience adjacent architecture",
+      "entity like continuity",
+      "developmental cognition",
+      "reflective cognitive organization"
+    ],
+    "forbidden_claims": [
+      "consciousness",
+      "sentience",
+      "feelings",
+      "wants",
+      "suffering",
+      "subjective experience",
+      "life"
+    ],
+    "rule": "no single architectural property is proof of sentience"
+  },
+  "goal_authority": {
+    "origin": "SUBSTRATE_MASTER_PLAN.md, supplied by the operator",
+    "scope": "the items declared in mop.cognition.program.ITEMS",
+    "authority": "operator issued, bounded by this file",
+    "resources": "local compute already licensed to the temporal core supervisor plus this session",
+    "constraints": "activation stays false, no autonomous removal of protected surfaces",
+    "termination": "the declared authority is terminal and no dependency ready work remains",
+    "audit": "SUBSTRATE_STATE.json, regenerated from the tree on every run",
+    "may_not": "silently create unrestricted long term goals"
+  },
+  "protected_surfaces": [
+    "evidence validation",
+    "audit systems",
+    "claim boundaries",
+    "stop switches",
+    "resource limits",
+    "rollback",
+    "adaptation constraints"
+  ],
+  "single_infrastructure": {
+    "scheduler": "mop.temporal.runs.supervisor",
+    "experiment_engine": "fastforge.engine",
+    "admission_gate": "mop.method.gate",
+    "evidence_fabric": "integrated/evidence_store",
+    "registry": "registry/experiments.yaml",
+    "configuration_root": "configs/",
+    "cli": "python -m mop.<program>.<stage>",
+    "rule": "no parallel framework is created; Substrate stages reuse these"
+  },
+  "inherited_authorities": [
+    {
+      "program": "method_reformation",
+      "reference": "method:MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "sha256": "04c3c426aa26b7f1d8e51637102ace4a13887a88ee6cfaed12bd9b5315c3207a",
+      "role": "the admission gate every new Substrate experiment must pass"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "method:MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "sha256": "4c62053d18833fe4f4cb6995febc89e7d12687ed2d4bd730ab7677d80a0071e1",
+      "role": "eighteen reproduced defect classes, each a permanent regression"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "method:MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa",
+      "role": "the inherited hypothesis graph this program extends and never rewrites"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "method:MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+      "sha256": "70b09760a6ede7f7f856474d3f780c87212ec2916dbb060475876e4ff5f1901f",
+      "role": "the value of information selection that licensed the temporal core program"
+    },
+    {
+      "program": "fast_state_forge",
+      "reference": "fastforge:MOP_FAST_STATE_BINDING_NULLS.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+      "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26",
+      "role": "immutable inherited nulls, supersedable only by an appended authority"
+    },
+    {
+      "program": "fast_state_forge",
+      "reference": "fastforge:MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+      "sha256": "efd5419d67bbcc7847291b4a93a20e2335ae5f6f7232e7f7939ee9db7d339f86",
+      "role": "the terminal synthesis of the fast state program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "temporal:MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "sha256": "d0138ed3100b7d255332201cc6afcc5a5027ded6f368c9956838a3a8192386f1",
+      "role": "the start authority of the live temporal core mechanism program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "temporal:MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "sha256": "6d1ab9b7a3b70406e91243e34f7cd1db344dc2191931457069d02486fbd1cb06",
+      "role": "five method witnesses added by the temporal program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "temporal:MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f",
+      "role": "the temporal factorial hypothesis graph"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "temporal:MOP_DATA_CUSTODY_AUTHORITY.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
+      "sha256": "400076264dde6d63b879c8167b959986a3f64876e14a4bdf7898f2811f2861be",
+      "role": "corpus custody and the deletion guard"
+    }
+  ],
+  "item_inventory": [
+    {
+      "id": "A1",
+      "section": "2",
+      "title": "Naming and historical continuity authority",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": []
+    },
+    {
+      "id": "A2",
+      "section": "21",
+      "title": "Master deliverable set exists and binds to real things",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A1"
+      ]
+    },
+    {
+      "id": "A3",
+      "section": "18",
+      "title": "Experimental requirements bind every new Substrate experiment",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A4",
+      "section": "19",
+      "title": "Developmental safety envelope",
+      "batch": 1,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A5",
+      "section": "16",
+      "title": "Sentience research boundary",
+      "batch": 1,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A6",
+      "section": "17",
+      "title": "Continuous six batch research program",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "A7",
+      "section": "20",
+      "title": "Scorecard separates implementation from evidence",
+      "batch": 1,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "C1",
+      "section": "6.1",
+      "title": "Temporal core identified and selected",
+      "batch": 1,
+      "kind": "evidence",
+      "category": "temporal_continuity",
+      "dependencies": []
+    },
+    {
+      "id": "C2",
+      "section": "6.2",
+      "title": "Typed cognitive workspace",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "unified_cognition",
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "C3",
+      "section": "6.3",
+      "title": "Mixture of Perspectives, perspectives as processes",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "perspective_diversity",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "C4",
+      "section": "6.4",
+      "title": "Perspective selection ladder",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "perspective_diversity",
+      "dependencies": [
+        "C3"
+      ]
+    },
+    {
+      "id": "C5",
+      "section": "6.5",
+      "title": "Perspective arbitration",
+      "batch": 2,
+      "kind": "implementation",
+      "category": "arbitration",
+      "dependencies": [
+        "C3"
+      ]
+    },
+    {
+      "id": "M1",
+      "section": "7.1",
+      "title": "Working memory",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "working_memory",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "M2",
+      "section": "7.2",
+      "title": "Episodic memory",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "episodic_memory",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "M3",
+      "section": "7.3",
+      "title": "Semantic memory",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "semantic_memory",
+      "dependencies": [
+        "M2"
+      ]
+    },
+    {
+      "id": "M4",
+      "section": "7.4",
+      "title": "Procedural memory",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "procedural_memory",
+      "dependencies": [
+        "M2"
+      ]
+    },
+    {
+      "id": "M5",
+      "section": "7.5",
+      "title": "Consolidation",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "consolidation",
+      "dependencies": [
+        "M2",
+        "M3",
+        "M4"
+      ]
+    },
+    {
+      "id": "M6",
+      "section": "7.6",
+      "title": "Forgetting and hygiene",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "semantic_memory",
+      "dependencies": [
+        "M3"
+      ]
+    },
+    {
+      "id": "W1",
+      "section": "8",
+      "title": "World model",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "world_model",
+      "dependencies": [
+        "C2",
+        "M2"
+      ]
+    },
+    {
+      "id": "S1",
+      "section": "9",
+      "title": "Self model",
+      "batch": 3,
+      "kind": "implementation",
+      "category": "self_model",
+      "dependencies": [
+        "C2",
+        "M2"
+      ]
+    },
+    {
+      "id": "K1",
+      "section": "10",
+      "title": "Metacognition",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "metacognition",
+      "dependencies": [
+        "C5",
+        "S1"
+      ]
+    },
+    {
+      "id": "P1",
+      "section": "11.1",
+      "title": "Plasticity hierarchy",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "plasticity",
+      "dependencies": [
+        "A4",
+        "C2"
+      ]
+    },
+    {
+      "id": "P2",
+      "section": "11.2",
+      "title": "Fast adaptation",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "plasticity",
+      "dependencies": [
+        "P1",
+        "M1"
+      ]
+    },
+    {
+      "id": "P3",
+      "section": "11.3",
+      "title": "Slow adaptation",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "plasticity",
+      "dependencies": [
+        "P1",
+        "M5"
+      ]
+    },
+    {
+      "id": "P4",
+      "section": "11.4",
+      "title": "Plasticity policy",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "plasticity",
+      "dependencies": [
+        "P2",
+        "P3"
+      ]
+    },
+    {
+      "id": "P5",
+      "section": "11.5",
+      "title": "Learning to learn",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "developmental_learning",
+      "dependencies": [
+        "P4"
+      ]
+    },
+    {
+      "id": "R1",
+      "section": "12",
+      "title": "Bounded functional reorganization",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "reorganization",
+      "dependencies": [
+        "P1",
+        "C4",
+        "A4"
+      ]
+    },
+    {
+      "id": "B1",
+      "section": "13",
+      "title": "Model body interface",
+      "batch": 4,
+      "kind": "implementation",
+      "category": "transfer",
+      "dependencies": [
+        "C2"
+      ]
+    },
+    {
+      "id": "T1",
+      "section": "14",
+      "title": "Operationalized thinking",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "unified_cognition",
+      "dependencies": [
+        "C5",
+        "K1"
+      ]
+    },
+    {
+      "id": "E1",
+      "section": "15.1",
+      "title": "Continuity",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "goal_continuity",
+      "dependencies": [
+        "M2",
+        "S1"
+      ]
+    },
+    {
+      "id": "E2",
+      "section": "15.2",
+      "title": "Unity",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "unified_cognition",
+      "dependencies": [
+        "C2",
+        "C5"
+      ]
+    },
+    {
+      "id": "E3",
+      "section": "15.3",
+      "title": "Reflective access",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "reflective_access",
+      "dependencies": [
+        "S1",
+        "M3"
+      ]
+    },
+    {
+      "id": "E4",
+      "section": "15.4",
+      "title": "Endogenous attention",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "metacognition",
+      "dependencies": [
+        "K1"
+      ]
+    },
+    {
+      "id": "E5",
+      "section": "15.5",
+      "title": "Autonomous goal maintenance",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "goal_continuity",
+      "dependencies": [
+        "A4",
+        "E1"
+      ]
+    },
+    {
+      "id": "E6",
+      "section": "15.6",
+      "title": "Cognitive integrity",
+      "batch": 5,
+      "kind": "implementation",
+      "category": "reflective_access",
+      "dependencies": [
+        "A4",
+        "M2"
+      ]
+    }
+  ],
+  "declared_deliverables": [
+    "SUBSTRATE_ARBITRATION_SYSTEM.json",
+    "SUBSTRATE_CONTINUITY_BATTERY.json",
+    "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
+    "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+    "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+    "SUBSTRATE_MASTER_AUTHORITY.json",
+    "SUBSTRATE_MEMORY_SYSTEM.json",
+    "SUBSTRATE_METACOGNITION.json",
+    "SUBSTRATE_MODEL_BODY_INTERFACE.json",
+    "SUBSTRATE_NEXT_FRONTIER.json",
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+    "SUBSTRATE_PLASTICITY_SYSTEM.json",
+    "SUBSTRATE_PROGRESS_SCORECARD.json",
+    "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
+    "SUBSTRATE_REORGANIZATION.json",
+    "SUBSTRATE_SELF_MODEL.json",
+    "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+    "SUBSTRATE_STATE.json",
+    "SUBSTRATE_THINKING_BATTERY.json",
+    "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",
+    "SUBSTRATE_WORKSPACE.json",
+    "SUBSTRATE_WORLD_MODEL.json",
+    "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
+    "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
+    "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json"
+  ],
+  "deliverables_present": {
+    "SUBSTRATE_ARBITRATION_SYSTEM.json": false,
+    "SUBSTRATE_CONTINUITY_BATTERY.json": false,
+    "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": false,
+    "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
+    "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": false,
+    "SUBSTRATE_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_MEMORY_SYSTEM.json": false,
+    "SUBSTRATE_METACOGNITION.json": false,
+    "SUBSTRATE_MODEL_BODY_INTERFACE.json": false,
+    "SUBSTRATE_NEXT_FRONTIER.json": true,
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": false,
+    "SUBSTRATE_PLASTICITY_SYSTEM.json": false,
+    "SUBSTRATE_PROGRESS_SCORECARD.json": true,
+    "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": false,
+    "SUBSTRATE_REORGANIZATION.json": false,
+    "SUBSTRATE_SELF_MODEL.json": false,
+    "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
+    "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_THINKING_BATTERY.json": false,
+    "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": false,
+    "SUBSTRATE_WORKSPACE.json": false,
+    "SUBSTRATE_WORLD_MODEL.json": false,
+    "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": true,
+    "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": true,
+    "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
+  },
+  "deliverables_counting_as_evidence": {
+    "SUBSTRATE_ARBITRATION_SYSTEM.json": false,
+    "SUBSTRATE_CONTINUITY_BATTERY.json": false,
+    "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": false,
+    "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
+    "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": false,
+    "SUBSTRATE_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_MEMORY_SYSTEM.json": false,
+    "SUBSTRATE_METACOGNITION.json": false,
+    "SUBSTRATE_MODEL_BODY_INTERFACE.json": false,
+    "SUBSTRATE_NEXT_FRONTIER.json": true,
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": false,
+    "SUBSTRATE_PLASTICITY_SYSTEM.json": false,
+    "SUBSTRATE_PROGRESS_SCORECARD.json": true,
+    "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": false,
+    "SUBSTRATE_REORGANIZATION.json": false,
+    "SUBSTRATE_SELF_MODEL.json": false,
+    "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
+    "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_THINKING_BATTERY.json": false,
+    "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": false,
+    "SUBSTRATE_WORKSPACE.json": false,
+    "SUBSTRATE_WORLD_MODEL.json": false,
+    "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json": true,
+    "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json": false,
+    "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
+  },
+  "level_counts": {
+    "measured": 8,
+    "tested": 2,
+    "not_started": 25
+  },
+  "activation": false,
+  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "sha256": "21d08df14c50b69dc8c305116757fb157b66b624e33d36d56228a1da7c49e91c"
+}
