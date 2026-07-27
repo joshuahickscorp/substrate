@@ -160,6 +160,7 @@ def scout(bedname: str) -> dict:
           f"median sd {doc['median_sd']}, dominated {len(dominated)}", flush=True)
     return doc
 def principal(bedname: str, seed: int) -> dict:
+    t0 = time.time()
     sp = B.splits(bedname, seed)
     cells = Fx.sweep_cells()["_all"]
     convergence_path = io.RUNS / "e2_converge" / f"converge_{bedname}.json"
@@ -171,20 +172,35 @@ def principal(bedname: str, seed: int) -> dict:
     if set(configs) != expected:
         raise RuntimeError(f"principal convergence inventory mismatch on {bedname}")
     checkpoints = {cell: int(configs[cell]["selected_checkpoint"]) for cell in expected}
-    runs = [Fx.run_cell(sp, spec, seed, "test", steps=checkpoints[Fx.cell_name(**spec)])
-            for spec in cells]
+    convergence_sha = io.sha_file(convergence_path)
+    progress_path = _checkpoint_path("principal", bedname, seed)
+    runs, elapsed_before = _resume_principal(
+        progress_path, bedname, seed, cells, checkpoints, convergence_sha)
+    for spec in cells[len(runs):]:
+        runs.append(Fx.run_cell(
+            sp, spec, seed, "test", steps=checkpoints[Fx.cell_name(**spec)]))
+        _save_checkpoint(progress_path, {
+            "schema": "mop-e2-principal-progress/v1",
+            "cell": f"principal:{bedname}:{seed}",
+            "source_commit": io.launch_commit(), "source_tree_oid": io.launch_tree_oid(),
+            "bed": bedname, "seed": seed, "convergence_sha256": convergence_sha,
+            "selected_checkpoints": checkpoints, "runs": runs,
+            "elapsed_before": elapsed_before + (time.time() - t0),
+        })
     doc = {"schema": "mop-e2-principal-shard/v2",
            "receipt_contract": RC.declaration(RC.PRINCIPAL, "factorial_runs"),
            "bed": bedname, "seed": seed,
            "n_cells": len(runs), "runs": runs,
            "convergence_authority": {
                "path": convergence_path.relative_to(io.ROOT).as_posix(),
-               "sha256": io.sha_file(convergence_path),
+               "sha256": convergence_sha,
                "selected_checkpoints": checkpoints,
                "all_factorial_cells_measured": set(configs) == expected,
            },
-           "majority_rate": B.majority_rate(sp["test"][1]), "chance_rate": B.chance_rate(sp["classes"])}
+           "majority_rate": B.majority_rate(sp["test"][1]), "chance_rate": B.chance_rate(sp["classes"]),
+           "wall_seconds": round(elapsed_before + (time.time() - t0), 1)}
     io.run_json(f"{bedname}_{seed}.json", doc, "e2_principal")
+    progress_path.unlink(missing_ok=True)
     print(f"E2 principal {bedname} seed {seed}: {len(runs)} cells, "
           f"best {max(r['accuracy'] for r in runs):.4f}", flush=True)
     return doc
@@ -257,7 +273,8 @@ def _load_checkpoint(path, expected_cell: str) -> dict | None:
         doc = json.loads(path.read_text())
     except (OSError, json.JSONDecodeError):
         return None
-    if doc.get("cell") != expected_cell or doc.get("source_commit") != io.launch_commit():
+    if (doc.get("cell") != expected_cell or doc.get("source_commit") != io.launch_commit()
+            or doc.get("source_tree_oid") != io.launch_tree_oid()):
         return None
     return doc
 
@@ -265,6 +282,23 @@ def _load_checkpoint(path, expected_cell: str) -> dict | None:
 def _save_checkpoint(path, doc: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     io._atomic_text(path, json.dumps(doc, default=str))
+
+
+def _resume_principal(path, bed: str, seed: int, cells: list[dict],
+                      checkpoints: dict[str, int], convergence_sha: str):
+    saved = _load_checkpoint(path, f"principal:{bed}:{seed}")
+    runs = saved.get("runs") if saved else None
+    names = [Fx.cell_name(**spec) for spec in cells]
+    if (not isinstance(runs, list) or len(runs) > len(names)
+            or saved.get("bed") != bed or saved.get("seed") != seed
+            or saved.get("convergence_sha256") != convergence_sha
+            or saved.get("selected_checkpoints") != checkpoints
+            or [row.get("cell") for row in runs if isinstance(row, dict)] != names[:len(runs)]
+            or any(row.get("bed") != bed or row.get("seed") != seed
+                   or row.get("steps") != checkpoints[row["cell"]]
+                   or row.get("updates") != checkpoints[row["cell"]] for row in runs)):
+        return [], 0.0
+    return runs, float(saved.get("elapsed_before", 0.0))
 
 
 def _resume_grid_state(saved: dict | None):
@@ -300,6 +334,7 @@ def converge_shard(bedname: str, idx: int) -> dict:
                                "checkpoint_sha": row["checkpoint_sha_after"]}
                               for seed, row in zip(CONVERGENCE_SEEDS, rows, strict=True)]
         _save_checkpoint(ckpt_path, {"cell": cell, "source_commit": io.launch_commit(),
+            "source_tree_oid": io.launch_tree_oid(),
             "curve": curve, "seed_spread": spread, "seed_scores": seed_scores,
             "arm_records": arm_records, "parameter_count": parameter_count,
             "elapsed_before": elapsed_before + (time.time() - t0)})
@@ -350,6 +385,7 @@ def extend_converge_shard(bedname: str, idx: int) -> dict:
                                "checkpoint_sha": row["checkpoint_sha_after"]}
                               for seed, row in zip(CONVERGENCE_SEEDS, rows, strict=True)]
         _save_checkpoint(ckpt_path, {"cell": expected_cell, "source_commit": io.launch_commit(),
+            "source_tree_oid": io.launch_tree_oid(),
             "curve": curve, "seed_spread": spread, "seed_scores": seed_scores,
             "arm_records": arm_records, "parameter_count": parameter_count,
             "elapsed_before": elapsed_before + (time.time() - t0)})
