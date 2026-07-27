@@ -192,8 +192,17 @@ HYPOTHESES = (
 )
 
 
+def bed_screen_result() -> dict:
+    path = io.RUNS / "experiments" / "bed_screen.json"
+    try:
+        return json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
 def hypothesis_graph(st: dict) -> dict:
     items = st["items"]
+    screen = bed_screen_result()
     refused_by_hypothesis: dict[str, list] = {}
     for row in methodological_refusals():
         # a refusal attaches to the hypotheses the refused experiment named, from its own declaration
@@ -206,6 +215,21 @@ def hypothesis_graph(st: dict) -> dict:
         if refused and row["state"] == "unopened":
             row["state"] = "instrument_pending"
             row["refused_attempts"] = refused
+            row["still_open"] = True
+        # a hypothesis nothing under custody can measure at the declared effect size is measurement
+        # blocked. That is a boundary on the instruments, not a verdict on the hypothesis, so the state
+        # stays open and nothing downstream closes.
+        if h["id"] == "H_typed_workspace" and screen and not screen.get("any_candidate"):
+            row["measurement_boundary"] = {
+                "screen": screen.get("classification"),
+                "finding": screen.get("finding"),
+                "beds_screened": [r.get("bed") for r in screen.get("screened", [])],
+                "best_ceiling_lower_95_cb": max(
+                    (r.get("oracle_ceiling_lower_95_cb", 0.0) for r in screen.get("screened", [])),
+                    default=None),
+                "sesoi": screen.get("rule", {}).get("sesoi"),
+                "closes_descendants": False,
+            }
             row["still_open"] = True
         row["carrying_items"] = [{"id": i, "level": items.get(i, {}).get("level")} for i in h["items"]]
         if h["blocking_null"]:
@@ -251,7 +275,17 @@ def null_map(st: dict) -> dict:
     native = P.null_ledger()
     unresolved = [row["reference"] for row in inherited if not row["resolved"]]
     refusals = methodological_refusals()
+    screen = bed_screen_result()
     return {
+        "measurement_boundaries": ([{
+            "hypothesis": "H_typed_workspace",
+            "classification": screen.get("classification"),
+            "finding": screen.get("finding"),
+            "screened": screen.get("screened"),
+            "not_a_null": screen.get("not_a_null"),
+        }] if screen and not screen.get("any_candidate") else []),
+        "boundary_rule": ("a hypothesis nothing under custody can measure at the declared effect size is "
+                          "untested, not refuted. The SESOI is not lowered to manufacture a candidate"),
         "methodological_refusals": refusals,
         "refusal_rule": ("a methodological failure is not a scientific null. A refused experiment leaves "
                          "its hypothesis untested, not refuted, and closes nothing downstream"),

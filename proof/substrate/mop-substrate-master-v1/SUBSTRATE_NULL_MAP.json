@@ -1,4 +1,39 @@
 {
+  "measurement_boundaries": [
+    {
+      "hypothesis": "H_typed_workspace",
+      "classification": "no_bed_can_answer_at_this_effect_size",
+      "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered",
+      "screened": [
+        {
+          "bed": "harth_stream",
+          "available": true,
+          "n_train_units": 15,
+          "mean_reliability": {
+            "static": 0.576894,
+            "dynamic": 0.545188
+          },
+          "oracle_ceiling": 0.036124,
+          "oracle_ceiling_lower_95_cb": 0.003234,
+          "clears_sesoi": false
+        },
+        {
+          "bed": "pamap2_stream",
+          "available": true,
+          "n_train_units": 6,
+          "mean_reliability": {
+            "static": 0.386473,
+            "dynamic": 0.323413
+          },
+          "oracle_ceiling": 0.038403,
+          "oracle_ceiling_lower_95_cb": -0.010695,
+          "clears_sesoi": false
+        }
+      ],
+      "not_a_null": "a hypothesis nothing can currently measure is untested, not refuted. Nothing downstream of H_typed_workspace closes"
+    }
+  ],
+  "boundary_rule": "a hypothesis nothing under custody can measure at the declared effect size is untested, not refuted. The SESOI is not lowered to manufacture a candidate",
   "methodological_refusals": [
     {
       "experiment_id": "SX1",
@@ -127,7 +162,7 @@
     "H_learned_plasticity_policy"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "64f5e98f4c1068333d9101b4395f1cae8a810e65",
+  "source_commit": "19c2c5442ee22df2ebeab10b5b0cca91aaaa9063",
   "activation": false,
-  "sha256": "d5b1b479f37c0bcacb0446a6f69d3dd02684d82d940f5b5ae2ad5cfd9392c0b9"
+  "sha256": "41f70f83e12cf4eaa5cec4dd79155dcf5e3b18db683825b6d4fbc665fc546e9f"
 }

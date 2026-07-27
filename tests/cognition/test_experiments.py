@@ -87,6 +87,46 @@ def test_the_sx1b_diagnosis_names_the_number_that_actually_decides():
     assert "untested on this bed, not refuted" in d["not_a_null"]
 
 
+def test_the_bed_screen_rule_is_declared_before_its_outcome():
+    """Searching beds until one clears the SESOI is the same defect as searching arms until one does."""
+    rule = X.BED_SCREEN_RULE
+    assert rule["sesoi"] == 0.05
+    assert set(rule["candidates"]) == {"harth_stream", "pamap2_stream"}
+    # the beds that are excluded say why, rather than being silently absent
+    assert set(rule["excluded"]) == {"har_stream", "speech_stream"}
+    assert all("invalid principal bed" in why for why in rule["excluded"].values())
+    # and the outcome if nothing clears is fixed in advance, including not moving the SESOI
+    assert "not lowered" in rule["outcome_if_none_clears"]
+    assert "carried forward unchanged" in rule["prior_measurement"]
+
+
+def test_no_bed_under_custody_can_test_the_typed_workspace_hypothesis():
+    out = X.bed_screen()
+    assert [r["bed"] for r in out["screened"]] == X.BED_SCREEN_RULE["candidates"]
+    assert all(r["available"] for r in out["screened"]), "both caches are under custody"
+    assert out["any_candidate"] is False
+    assert out["classification"] == "no_bed_can_answer_at_this_effect_size"
+    for row in out["screened"]:
+        assert row["oracle_ceiling_lower_95_cb"] <= X.BED_SCREEN_RULE["sesoi"]
+    assert "untested, not refuted" in out["not_a_null"]
+
+
+def test_a_measurement_boundary_closes_nothing_downstream():
+    graph = D.hypothesis_graph(P.state())
+    typed = next(h for h in graph["hypotheses"] if h["id"] == "H_typed_workspace")
+    boundary = typed["measurement_boundary"]
+    assert boundary["closes_descendants"] is False
+    assert boundary["best_ceiling_lower_95_cb"] <= boundary["sesoi"]
+    assert typed["still_open"] is True and typed["blocking_null"] is None
+    # the descendant is untouched
+    dependent = next(h for h in graph["hypotheses"] if h["id"] == "H_arbitration_minority")
+    assert dependent["state"] == "unopened" and dependent["blocking_null"] is None
+    # and the boundary is filed apart from the nulls
+    nulls = D.null_map(P.state())
+    assert nulls["measurement_boundaries"]
+    assert nulls["substrate_native_nulls"] == {}
+
+
 def test_the_successor_design_is_not_a_closed_form():
     design = X.SX1B_DESIGN
     assert design["experiment_id"] == "SX1b"
