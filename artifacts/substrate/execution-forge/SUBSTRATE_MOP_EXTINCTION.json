@@ -1,0 +1,105 @@
+{
+  "schema": "substrate-mop-extinction/v1",
+  "scope": "active operational surfaces on the workstation, in the repository, and on GitHub",
+  "active_occurrences": {
+    "total": 0,
+    "imports": 0,
+    "commands": 0,
+    "environment_variables": 0,
+    "runtime_paths": 0,
+    "compatibility_modules": 0,
+    "executable_wrappers": 0,
+    "configuration_paths": 0,
+    "run_or_artifact_roots": 0,
+    "cache_roots": 0,
+    "worktree_records": 0,
+    "symlinks": 0,
+    "editable_installations": 0,
+    "launchd_jobs": 0,
+    "processes": 0,
+    "local_branch_names": 0,
+    "remote_branch_names": 0,
+    "local_tag_names": 0,
+    "remote_tag_names": 0,
+    "github_repositories": 0,
+    "ci_names": 0,
+    "badges": 0,
+    "default_labels": 0,
+    "runtime_dependencies_on_historical_filenames": 0
+  },
+  "removed": {
+    "compatibility_reader": "src/substrate/compat/mop.py",
+    "legacy_configuration": "configs/config.yaml",
+    "legacy_event_horizon_tool": "tools/event_horizon.py",
+    "remote_branch_names": 8,
+    "local_tag_names": 285,
+    "remote_tag_names": 285,
+    "launch_agent_definitions": 7
+  },
+  "unique_history_preservation": {
+    "source_ref": "agent/mop-extreme-condensation",
+    "unique_commits": 2,
+    "source_tip": "de43a9a3f2af628735d5446bcdf1876d36a5feaa",
+    "preserved_ref": "archive/substrate-extreme-condensation-unmerged",
+    "preserved_tip": "de43a9a3f2af628735d5446bcdf1876d36a5feaa",
+    "other_legacy_branches_had_unique_commits": false
+  },
+  "launch_agents": {
+    "unloaded_labels": [
+      "com.mop.generation1.telegram",
+      "com.mop.temporal-core.finalizer",
+      "com.mop.temporal-core.guard",
+      "com.mop.temporal-core.handoff",
+      "com.mop.temporal-core.refill",
+      "com.mop.temporal-core.supervisor",
+      "com.mop.temporal-core.telegram"
+    ],
+    "recoverable_location": "/Users/scammermike/.Trash/substrate-execution-forge-legacy-launchagents-20260727",
+    "active_labels_after_removal": 0,
+    "active_processes_after_removal": 0
+  },
+  "historical_or_sealed_occurrences": {
+    "total_counted_text_occurrences": 126352,
+    "immutable_proof": {
+      "occurrences": 32607,
+      "files": 349
+    },
+    "immutable_archive": {
+      "occurrences": 93186,
+      "files": 2638
+    },
+    "immutable_historical_runs": {
+      "occurrences": 1,
+      "files": 1
+    },
+    "substrate_evidence_historical_citations": {
+      "occurrences": 548,
+      "files": 9
+    },
+    "source_test_and_documentation_historical_citations": {
+      "occurrences": 10,
+      "files": [
+        "docs/ARCHITECTURE.md",
+        "src/substrate/__init__.py",
+        "src/substrate/authority.py",
+        "src/substrate/deliverables.py",
+        "tests/substrate/test_event_horizon_contracts.py",
+        "tests/substrate/test_program.py"
+      ]
+    },
+    "git_history": "preserved and intentionally not rewritten; not included in the textual count"
+  },
+  "historical_access": {
+    "active_authority": "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+    "access_model": "neutral aliases bound to immutable predecessor paths and SHA-256 values",
+    "verified_objects": 13,
+    "verified": true
+  },
+  "github_repository_lookup": {
+    "old_name_result": "redirects to joshuahickscorp/substrate",
+    "separate_active_repository_exists": false
+  },
+  "scientific_run_launched": false,
+  "activation": false,
+  "all_pass": true
+}

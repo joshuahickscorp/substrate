@@ -1,0 +1,81 @@
+{
+  "schema": "substrate-github-publication/v1",
+  "repository": "joshuahickscorp/substrate",
+  "url": "https://github.com/joshuahickscorp/substrate",
+  "visibility": "public",
+  "default_branch": "main",
+  "description": "Evidence-bound developmental cognition scaffold with deterministic terminal synthesis",
+  "topics": [
+    "cognitive-science",
+    "python",
+    "reproducible-research",
+    "substrate"
+  ],
+  "authoritative_implementation_head": "f9b1925bf1bb07215597987d5dcb75c1153dd06f",
+  "pr": {
+    "number": 35,
+    "url": "https://github.com/joshuahickscorp/substrate/pull/35",
+    "base": "main",
+    "head_at_merge": "f9b1925bf1bb07215597987d5dcb75c1153dd06f",
+    "ready_only_after_terminal_checks": true,
+    "merged": true,
+    "merged_at": "2026-07-27T18:54:41Z",
+    "merge_commit": "4992cc174d4490b8418960056dca07ae9e6e9e79",
+    "merge_contains_validated_head": true
+  },
+  "ci": {
+    "workflow": ".github/workflows/substrate.yml",
+    "python": "3.12",
+    "authoritative_branch_run": {
+      "id": 30295797285,
+      "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30295797285",
+      "conclusion": "success"
+    },
+    "pull_request_run": {
+      "id": 30295804355,
+      "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30295804355",
+      "conclusion": "success"
+    },
+    "merged_main_run": {
+      "id": 30295907266,
+      "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30295907266",
+      "conclusion": "success",
+      "head": "4992cc174d4490b8418960056dca07ae9e6e9e79"
+    },
+    "steps": [
+      "clean Python 3.12 installation",
+      "231 active tests",
+      "scientific verification",
+      "32-mutation suite",
+      "clean-clone artifact-drift check",
+      "activation=false check"
+    ]
+  },
+  "clean_clone_from_github_remote": {
+    "remote": "git@github.com:joshuahickscorp/substrate.git",
+    "branch": "main",
+    "commit": "4992cc174d4490b8418960056dca07ae9e6e9e79",
+    "clean_noneditable_install": true,
+    "tests": "231 passed",
+    "independent_recomputation": "45 checks, 0 disagreements, 0 broken seals",
+    "mutations": "32/32 rejected, 0 survivors",
+    "artifact_drift": "0 drifted, 0 nondeterministic, 63 compared",
+    "activation": false,
+    "all_pass": true
+  },
+  "ref_cleanup": {
+    "old_pr_bridge_deleted": true,
+    "obsolete_legacy_branches_deleted": 8,
+    "legacy_tags_deleted": 285,
+    "remote_legacy_branch_names_remaining": 0,
+    "remote_legacy_tag_names_remaining": 0,
+    "unique_history_preserved_at": "archive/substrate-extreme-condensation-unmerged"
+  },
+  "old_repository_lookup_redirects_here": true,
+  "separate_active_old_repository": false,
+  "launch_ready_tag": "substrate-v1-launch-ready",
+  "tag_target": "the final publication-receipt commit containing this document",
+  "scientific_run_launched": false,
+  "activation": false,
+  "all_pass": true
+}
