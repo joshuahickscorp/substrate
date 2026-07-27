@@ -18,8 +18,13 @@
     },
     "no_stale_outputs": {
       "checked": 61,
-      "stale": [],
-      "ok": true
+      "stale": [
+        {
+          "artifact": "SUBSTRATE_CLEAN_CLONE.json",
+          "reason": "terminal keys not true: ['all_pass']"
+        }
+      ],
+      "ok": false
     },
     "no_duplicate_stages": {
       "nodes": 26,
@@ -341,11 +346,13 @@
       "ok": true
     }
   },
-  "failed": [],
-  "all_pass": true,
-  "commit": "c9daed7f6c76ae9ff2b47339dab9749b046e4ca3",
+  "failed": [
+    "no_stale_outputs"
+  ],
+  "all_pass": false,
+  "commit": "a2771dffcd3748e37237766258ded9d57e093779",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9daed7f6c76ae9ff2b47339dab9749b046e4ca3",
-  "sha256": "8ce5bdf04f4f1f13f6fdd11bdf646f32b3df56eebdd63b047217adaeb58102da"
+  "source_commit": "a2771dffcd3748e37237766258ded9d57e093779",
+  "sha256": "15b907e1e889dcbf3c0ac26ed14e10545438ba2e48e5692ee4da4adde55e52ab"
 }
