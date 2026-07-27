@@ -275,7 +275,7 @@ def run() -> dict:
         and exact_interrupt_restore
         and body_restore.identity_hash() == post_body_checkpoint["identity"]
         and not wrong_selected
-        and publication["published"]
+        and (publication["published"] or publication["cache_hit"])
         and cache["cache_hit"]
         and resource_safe
         and seed not in C.SPLITS["principal"]

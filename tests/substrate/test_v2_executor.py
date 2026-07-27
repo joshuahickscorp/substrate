@@ -36,3 +36,19 @@ def test_receipt_identity_detects_tampering():
     tampered = copy.deepcopy(document)
     tampered["payload"]["value"] = 2
     assert not X.validate_receipt(tampered)
+
+
+def test_byte_identical_republication_is_a_cache_hit_and_divergence_is_refused(
+    tmp_path,
+    monkeypatch,
+):
+    document = X.receipt_body("unit", {"value": 1}, X.context())
+    monkeypatch.setattr(X.io, "ROOT", tmp_path)
+    monkeypatch.setattr(X.io, "RUNS", tmp_path)
+    first = X.publish_unit("units/unit.json", document)
+    second = X.publish_unit("units/unit.json", document)
+    assert first["published"] and not first["cache_hit"]
+    assert not second["published"] and second["cache_hit"]
+    divergent = X.receipt_body("unit", {"value": 2}, X.context())
+    with pytest.raises(X.Refused, match="divergent duplicate"):
+        X.publish_unit("units/unit.json", divergent)
