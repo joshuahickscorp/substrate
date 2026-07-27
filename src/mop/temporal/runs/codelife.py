@@ -26,6 +26,11 @@ RULES = [
     ("src/mop/temporal/runs/e2.py", "active_substrate"),
     ("src/mop/temporal/runs/__init__.py", "active_substrate"),
     ("src/mop/temporal/runs", "frozen_reproducibility"),
+    # These three modules are live, shared execution plumbing rather than E2 mechanism implementation.
+    # They still count toward the global active runtime cap; this boundary does not freeze or hide them.
+    ("src/mop/temporal/receipt_contract.py", "active_runtime"),
+    ("src/mop/temporal/custody.py", "active_runtime"),
+    ("src/mop/temporal/io.py", "active_runtime"),
     ("src/mop/temporal", "active_substrate"),
     ("src/mop/method", "active_method"),
     ("tests/temporal", "active_tests"),
