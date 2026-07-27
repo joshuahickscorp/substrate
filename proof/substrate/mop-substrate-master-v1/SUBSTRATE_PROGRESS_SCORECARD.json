@@ -189,7 +189,8 @@
       "evidence_pct": 0,
       "items": [
         "C3",
-        "C4"
+        "C4",
+        "Y2"
       ],
       "items_with_earned_evidence": [],
       "classifications": {},
@@ -326,7 +327,8 @@
       "evidence_pct": 0,
       "items": [
         "N1",
-        "E2"
+        "E2",
+        "Y3"
       ],
       "items_with_earned_evidence": [],
       "classifications": {},
@@ -357,7 +359,8 @@
       "evidence_pct": 0,
       "items": [
         "B1",
-        "F6"
+        "F6",
+        "Y4"
       ],
       "items_with_earned_evidence": [],
       "classifications": {},
@@ -370,7 +373,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "mop-substrate-master-v1",
-  "source_commit": "696017c3e57e2d42f0cbb4cb8cf3eda06456d3da",
+  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
   "activation": false,
-  "sha256": "5a07e582c8097b35e98465405130f304775487061da4bca2ef2ab1f9e466496f"
+  "sha256": "99836283b5bca9d5c2d3ef2d444b67c42db952e2d66f869f4eecb2351a8c8b5f"
 }

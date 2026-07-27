@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `696017c3e57e2d42f0cbb4cb8cf3eda06456d3da`. Status is derived, never asserted: an item is
+Generated from the tree at commit `8f18a48ff44266f0a4f7334f457e38b9c4868b51`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 60. Levels: measured 40, terminal 18, tested 2.
+Items: 64. Levels: measured 43, terminal 20, tested 1.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -63,7 +63,11 @@ Items: 60. Levels: measured 40, terminal 18, tested 2.
 | F9 | 20 | Grounding where a verbal definition is not evidence | measured | F4, O1 | classify the result through mop.method.gate.classify_result and record it |
 | F10 | 21 | Intervention is distinguished from observation | measured | W1 | classify the result through mop.method.gate.classify_result and record it |
 | F11 | 29 | Developmental divergence with a working control | measured | F4, P5 | classify the result through mop.method.gate.classify_result and record it |
-| F12 | 47 | Clean clone reproduces the evidence away from this machine | tested | V1, V2 | seal SUBSTRATE_CLEAN_CLONE.json |
+| F12 | 47 | Clean clone reproduces the evidence away from this machine | terminal | V1, V2 | none, an authority is terminal once sealed and tested |
+| Y1 | 2 | Structural audit: exclusive producers, no stale outputs, no activation path | terminal | F1 | none, an authority is terminal once sealed and tested |
+| Y2 | 16 | SX2 diversity closed on a compute matched comparison | measured | C4, A3 | classify the result through mop.method.gate.classify_result and record it |
+| Y3 | 2 | Every runtime stage is active, with a null control where one is possible | measured | N1, Y1 | classify the result through mop.method.gate.classify_result and record it |
+| Y4 | 14 | Session and body canaries on the sealed authority | measured | F4, F6 | classify the result through mop.method.gate.classify_result and record it |
 | L1 | 17 | A resumable campaign driver for a run measured in days | terminal | A6, V2 | none, an authority is terminal once sealed and tested |
 | L2 | 22 | The long run plan names what it cannot schedule | terminal | L1, A5 | none, an authority is terminal once sealed and tested |
 | X3 | 6.1 | Substrate Temporal Core v1 selection record | measured | C1 | classify the result through mop.method.gate.classify_result and record it |

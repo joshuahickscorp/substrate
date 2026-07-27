@@ -1,0 +1,351 @@
+{
+  "schema": "substrate-structural-audit/v1",
+  "checks": [
+    "exclusive_producers",
+    "no_stale_outputs",
+    "no_duplicate_stages",
+    "causal_paths_present",
+    "every_node_actionable",
+    "runtime_stages_reachable",
+    "no_activation_path"
+  ],
+  "results": {
+    "exclusive_producers": {
+      "artifacts": 59,
+      "duplicated": {},
+      "on_disk_without_a_producer": [],
+      "ok": true
+    },
+    "no_stale_outputs": {
+      "checked": 55,
+      "stale": [],
+      "ok": true
+    },
+    "no_duplicate_stages": {
+      "nodes": 26,
+      "duplicate_identities": [],
+      "nodes_running_the_same_command": {
+        "mop.cognition.deliverables ('write',)": [
+          "deliverables",
+          "consolidate"
+        ]
+      },
+      "ok": true
+    },
+    "causal_paths_present": {
+      "roots": [
+        "declarations"
+      ],
+      "missing_dependencies": [],
+      "unreachable": [],
+      "ok": true
+    },
+    "every_node_actionable": {
+      "nodes": [
+        {
+          "node": "declarations",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [],
+          "actionable": true
+        },
+        {
+          "node": "tests",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "declarations"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "authority",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "tests"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "temporal_core_integration",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "declarations"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "world_model_bed",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "declarations"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "world_model_in_loop",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "world_model_bed",
+            "temporal_core_integration"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "body_adapter_compact",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "declarations"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "body_adapter_general",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "body_adapter_compact"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "body_adapter_tool",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "body_adapter_compact"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "body_comparison",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "body_adapter_compact",
+            "body_adapter_general",
+            "body_adapter_tool"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "real_session_authority",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "declarations"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "goal_and_valuation",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "declarations"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "grounding",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "real_session_authority",
+            "goal_and_valuation"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "perspective_expansion",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "declarations"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "developmental_divergence",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "real_session_authority",
+            "temporal_core_integration"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "entity_batteries",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "world_model_in_loop",
+            "body_comparison",
+            "grounding",
+            "goal_and_valuation"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "experiments",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "tests"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "bed_screen",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "experiments"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "sx1b",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "bed_screen"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "sx5",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "bed_screen"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "deliverables",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "sx1b",
+            "sx5",
+            "authority"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "recompute",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "deliverables"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "mutate",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "recompute"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "classify",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "mutate"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "clean_clone",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "classify"
+          ],
+          "actionable": true
+        },
+        {
+          "node": "consolidate",
+          "runnable": true,
+          "externally_gated": false,
+          "depends_on_named_results": [
+            "classify",
+            "entity_batteries",
+            "developmental_divergence",
+            "clean_clone"
+          ],
+          "actionable": true
+        }
+      ],
+      "not_actionable": [],
+      "ok": true
+    },
+    "runtime_stages_reachable": {
+      "declared": [
+        "perceive",
+        "attend",
+        "select",
+        "run_perspectives",
+        "arbitrate",
+        "decide",
+        "remember",
+        "self_update",
+        "consolidate",
+        "adapt",
+        "checkpoint"
+      ],
+      "written_in_the_loop": [
+        "adapt",
+        "arbitrate",
+        "attend",
+        "checkpoint",
+        "consolidate",
+        "decide",
+        "perceive",
+        "remember",
+        "run_perspectives",
+        "select",
+        "self_update"
+      ],
+      "observed_in_one_cycle": [
+        "adapt",
+        "arbitrate",
+        "attend",
+        "checkpoint",
+        "consolidate",
+        "decide",
+        "perceive",
+        "remember",
+        "run_perspectives",
+        "select",
+        "self_update"
+      ],
+      "declared_but_never_written": [],
+      "declared_but_not_observed": [],
+      "ok": true
+    },
+    "no_activation_path": {
+      "source_hits": [],
+      "sealed_artifacts_with_activation_true": [],
+      "ok": true
+    }
+  },
+  "failed": [],
+  "all_pass": true,
+  "commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "8f18a48ff44266f0a4f7334f457e38b9c4868b51",
+  "sha256": "8defb64ee54d3a47733e877c23caf992d0e45f6c9022447225285e3625ae98fe"
+}

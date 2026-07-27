@@ -234,7 +234,11 @@ def main(argv=None) -> None:
         command = "compare"
     if command in ("compact", "general", "tool"):
         doc = conformance(command)
-        path = io.seal(f"SUBSTRATE_BODY_{command.upper()}.json", doc)
+        # literal names, not an f-string. A dynamically named artifact is invisible to the exclusive
+        # producer audit, which is exactly where a second producer would hide.
+        path = io.seal({"compact": "SUBSTRATE_BODY_COMPACT.json",
+                        "general": "SUBSTRATE_BODY_GENERAL.json",
+                        "tool": "SUBSTRATE_BODY_TOOL.json"}[command], doc)
         print(json.dumps({"sealed": path.relative_to(io.ROOT).as_posix(),
                           "conforms": doc["conformance"]["conforms"],
                           "parameters": doc["n_parameters"],

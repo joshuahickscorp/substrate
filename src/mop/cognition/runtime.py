@@ -24,7 +24,8 @@ import sys
 from dataclasses import dataclass, field
 
 from mop.cognition import io, memory as M, metacog as K, perspectives as PS
-from mop.cognition import plasticity as PL, safety as SF, selfmodel as SM, workspace as W
+from mop.cognition import plasticity as PL, safety as SF, selfmodel as SM
+from mop.cognition import temporal_link as TL, workspace as W
 
 # section 5, the composition. A stage missing from this tuple is a stage the entity does not have.
 STAGES = ("perceive", "attend", "select", "run_perspectives", "arbitrate", "decide", "remember",
@@ -65,8 +66,21 @@ class Substrate:
     def __init__(self, *, catalog: list[PS.Perspective] | None = None,
                  selection: str = "reliability_weighted",
                  consolidation: str = "verification_triggered",
-                 cycle_budget: float = 6.0, workspace_budget: float = float("inf")):
+                 cycle_budget: float = 6.0, workspace_budget: float = float("inf"),
+                 ablate: frozenset | None = None):
+        # `ablate` names stages to disable. Certification has to show each stage changes something on a
+        # positive fixture and nothing on a null one, and a stage nobody can switch off cannot be shown
+        # to do anything at all. An ablated stage is skipped with the reason recorded, exactly like any
+        # other skip, so an ablated cycle is never mistaken for a complete one.
+        self.ablate = frozenset(ablate or ())
+        unknown = self.ablate - set(STAGES)
+        if unknown:
+            raise Refused(f"cannot ablate undeclared stages {sorted(unknown)}")
         self.ws = W.Workspace(budget=workspace_budget)
+        # the temporal core is a declared control until one is licensed, and it is wired in rather than
+        # left beside the loop. Two catalogued perspectives read regions nobody wrote before this, so
+        # they could never fire and arbitration had nothing to arbitrate.
+        self.core = TL.resolve_core()
         self.catalog = list(catalog if catalog is not None else PS.CATALOG)
         self.episodes = M.EpisodicMemory()
         self.semantic = M.SemanticMemory()
@@ -93,58 +107,102 @@ class Substrate:
         trace = CycleTrace(self.step_index)
         budget = self.cycle_budget
 
-        # 1 perceive
+        # 1 perceive. The observation, the temporal state it updates, and the episodic window are three
+        # distinct information sources and are written to three distinct regions, never merged.
         self.ws.write("perceptual", "sensor", observation, provenance=f"observation:{self.step_index}")
-        trace.record("perceive", region="perceptual", keys=sorted(observation))
+        self.core.observe(float(observation.get("label_confidence", 0.0)))
+        state = self.core.current_temporal_state()
+        self.ws.write("temporal", "temporal_core",
+                      {"value": state.value, "history": list(self.core.history[-6:]),
+                       "is_control": self.core.is_control},
+                      provenance=f"temporal_core:{self.step_index}")
+        recent = list(self.episodes.store.values())[-6:]
+        self.ws.write("episodic_context", "episodic_memory",
+                      {"recent": [{"id": e.id, "outcome": e.outcome,
+                                   "similarity": 1.0 if e.observation == observation else 0.3}
+                                  for e in recent]},
+                      provenance=f"episodic:{self.step_index}")
+        trace.record("perceive", region="perceptual", keys=sorted(observation),
+                     temporal_state=state.value, episodic_window=len(recent))
 
         # 2 attend, under a resource limit
         if goal is not None:
             self.ws.write("goal", "goal_authority", goal, provenance="authorized_goal")
-        candidates = self._attention_candidates(observation)
-        attention = K.attend(candidates, budget=budget)
-        trace.record("attend", attended=attention["attended"],
-                     dropped_for_budget=attention["dropped_for_budget"])
+        attention = {"attended": [], "dropped_for_budget": []}
+        if "attend" in self.ablate:
+            trace.skip("attend", "ablated")
+        else:
+            attention = K.attend(self._attention_candidates(observation), budget=budget)
+            trace.record("attend", attended=attention["attended"],
+                         dropped_for_budget=attention["dropped_for_budget"])
 
         # 3 select which perspectives run
-        try:
-            chosen = PS.select(self.selection, self.catalog, k=3, reliability=self.reliability,
-                               context={"regions": attention["attended"]})
-            trace.record("select", strategy=self.selection,
-                         chosen=[p.spec.name for p in chosen])
-        except W.Refused as exc:
-            trace.skip("select", str(exc))
-            chosen = []
+        chosen: list = []
+        if "select" in self.ablate:
+            trace.skip("select", "ablated")
+        else:
+            try:
+                # attention filters the pool before selection ranks it. Without this the attended
+                # regions were computed and discarded, and ablating attend changed nothing.
+                attended = set(attention["attended"])
+                pool = [p for p in self.catalog if not attended
+                        or set(p.spec.inputs) & attended] or self.catalog
+                chosen = PS.select(self.selection, pool, k=3, reliability=self.reliability,
+                                   context={"regions": attention["attended"]})
+                trace.record("select", strategy=self.selection,
+                             chosen=[p.spec.name for p in chosen])
+            except W.Refused as exc:
+                trace.skip("select", str(exc))
+                chosen = []
 
         # 4 run them, each reading only what it declared
         outputs, spent = [], 0.0
-        for p in chosen:
-            if spent + p.spec.resource_cost > budget:
-                continue
-            out = p.run(self.ws)
-            spent += p.spec.resource_cost
-            outputs.append(out)
-        trace.record("run_perspectives", ran=[o.perspective for o in outputs],
-                     refused=[o.perspective for o in outputs if o.refused],
-                     compute_spent=round(spent, 6))
+        if "run_perspectives" in self.ablate:
+            trace.skip("run_perspectives", "ablated")
+        else:
+            for p in chosen:
+                if spent + p.spec.resource_cost > budget:
+                    continue
+                out = p.run(self.ws)
+                spent += p.spec.resource_cost
+                outputs.append(out)
+            trace.record("run_perspectives", ran=[o.perspective for o in outputs],
+                         refused=[o.perspective for o in outputs if o.refused],
+                         compute_spent=round(spent, 6))
 
         # 5 arbitrate
-        report = PS.arbitrate(outputs, reliability=self.reliability, budget=max(budget - spent, 0.0))
-        trace.record("arbitrate", deferred=report["deferred"],
-                     minority_preserved=report["minority_preserved"],
-                     contradictions=len(report["unresolved_contradictions"]))
+        if "arbitrate" in self.ablate:
+            trace.skip("arbitrate", "ablated")
+            # with no arbiter the first output stands unexamined, which is the point of the contrast
+            first = outputs[0] if outputs else None
+            report = {"decision": first.value if first else None, "deferred": False,
+                      "provisional_belief": None, "required_evidence": [],
+                      "confidence_interval": None, "minority_preserved": 0,
+                      "unresolved_contradictions": []}
+        else:
+            report = PS.arbitrate(outputs, reliability=self.reliability,
+                                  budget=max(budget - spent, 0.0))
+            trace.record("arbitrate", deferred=report["deferred"],
+                         minority_preserved=report["minority_preserved"],
+                         contradictions=len(report["unresolved_contradictions"]))
 
         # 6 decide. Recorded, never executed.
+        if "decide" in self.ablate:
+            trace.skip("decide", "ablated")
         decision = {"value": report["decision"], "deferred": report["deferred"],
                     "provisional": report["provisional_belief"],
                     "required_evidence": report["required_evidence"], "activation": False}
-        self.ws.write("decision", "arbiter", decision, provenance=f"arbitration:{self.step_index}",
-                      confidence=max((o.confidence for o in outputs), default=0.0))
-        self.ws.write("uncertainty", "arbiter",
-                      {"interval": report["confidence_interval"],
-                       "unresolved": [c["alternative"] for c in report["unresolved_contradictions"]]},
-                      provenance=f"arbitration:{self.step_index}", confidence=1.0)
-        trace.record("decide", decision=report["decision"], deferred=report["deferred"],
-                     activation=False)
+        if "decide" not in self.ablate:
+            self.ws.write("decision", "arbiter", decision,
+                          provenance=f"arbitration:{self.step_index}",
+                          confidence=max((o.confidence for o in outputs), default=0.0))
+            self.ws.write("uncertainty", "arbiter",
+                          {"interval": report["confidence_interval"],
+                           "unresolved": [c["alternative"]
+                                          for c in report["unresolved_contradictions"]]},
+                          provenance=f"arbitration:{self.step_index}", confidence=1.0)
+            trace.record("decide", decision=report["decision"], deferred=report["deferred"],
+                         activation=False)
 
         # 7 remember, with every declared episode field populated or explicitly empty
         episode = M.Episode(
@@ -153,24 +211,31 @@ class Substrate:
             action=report["decision"], outcome=outcome,
             error=None if outcome is None else (outcome != report["decision"]),
             perspectives_used=tuple(o.perspective for o in outputs),
-            verification=None, confidence=max((o.confidence for o in outputs), default=0.0),
+            verification=({"verified": True, "receipt": f"outcome:{self.step_index}"}
+                          if outcome is not None and outcome == report["decision"] else None),
+            confidence=max((o.confidence for o in outputs), default=0.0),
             cost=round(spent, 6), later_usefulness=None)
-        self.episodes.add(episode)
+        if "remember" in self.ablate:
+            trace.skip("remember", "ablated")
+        else:
+            self.episodes.add(episode)
         # working memory is bounded and refuses an arrival that does not outrank the weakest slot. That
         # refusal is an expected condition of a bounded store, not an error, so the cycle records the
         # pressure and continues. Priority rises with recency, so a newer step can displace an older one
         # rather than every cycle after the seventh dying on a tie.
-        held, pressure = True, ""
-        try:
-            self.working.write(f"step{self.step_index}", report["decision"],
-                               priority=0.5 + self.step_index * 1e-6)
-        except M.Refused as exc:
-            held, pressure = False, str(exc)
-        trace.record("remember", episode=episode.id, fields_empty=episode.missing_fields(),
-                     working_memory_held=held, working_memory_pressure=pressure)
+            held, pressure = True, ""
+            try:
+                self.working.write(f"step{self.step_index}", report["decision"],
+                                   priority=0.5 + self.step_index * 1e-6)
+            except M.Refused as exc:
+                held, pressure = False, str(exc)
+            trace.record("remember", episode=episode.id, fields_empty=episode.missing_fields(),
+                         working_memory_held=held, working_memory_pressure=pressure)
 
         # 8 self update, only where an outcome exists to compare against
-        if outcome is None:
+        if "self_update" in self.ablate:
+            trace.skip("self_update", "ablated")
+        elif outcome is None:
             trace.skip("self_update", "no outcome was observed, so nothing can be compared")
         else:
             correct = float(report["decision"] == outcome)
@@ -182,21 +247,37 @@ class Substrate:
                          reliability={k: round(v, 4) for k, v in self.reliability.items()})
 
         # 9 consolidate on the declared policy
-        selected = self.consolidation.select(list(self.episodes.store.values()), {})
-        trace.record("consolidate", policy=self.consolidation.name,
-                     selected=[e.id for e in selected],
-                     uses_future_information=not self.consolidation.available_at_decision_time)
+        if "consolidate" in self.ablate:
+            trace.skip("consolidate", "ablated")
+        else:
+            selected = self.consolidation.select(list(self.episodes.store.values()), {})
+            # applying the selection is the stage. Selecting and doing nothing is a report, not a
+            # consolidation, and ablating it changed nothing because nothing was ever applied.
+            promoted = []
+            for e in selected:
+                if e.klass == "recent":
+                    e.klass = "compressed"
+                    promoted.append(e.id)
+            trace.record("consolidate", policy=self.consolidation.name,
+                         selected=[e.id for e in selected], promoted=promoted,
+                         uses_future_information=not self.consolidation.available_at_decision_time)
 
         # 10 adapt, through the safety envelope, never around it
-        trace.record("adapt", **self._adapt())
+        if "adapt" in self.ablate:
+            trace.skip("adapt", "ablated")
+        else:
+            trace.record("adapt", **self._adapt())
 
         # 11 checkpoint
-        digest = io.sha_obj(self._state_for_hash())
-        self.ws.write("self", "self_model",
-                      {"step": self.step_index, "checkpoint": digest,
-                       "reliability": dict(self.reliability)},
-                      provenance=f"checkpoint:{self.step_index}", confidence=1.0)
-        trace.record("checkpoint", identity=digest[:16])
+        if "checkpoint" in self.ablate:
+            trace.skip("checkpoint", "ablated")
+        else:
+            digest = io.sha_obj(self._state_for_hash())
+            self.ws.write("self", "self_model",
+                          {"step": self.step_index, "checkpoint": digest,
+                           "reliability": dict(self.reliability)},
+                          provenance=f"checkpoint:{self.step_index}", confidence=1.0)
+            trace.record("checkpoint", identity=digest[:16])
 
         out_trace = trace.as_dict()
         self.traces.append(out_trace)
@@ -217,18 +298,32 @@ class Substrate:
         ]
 
     def _adapt(self) -> dict:
-        """A reliability update is the only adaptation the loop proposes, and it still goes through."""
+        """A reliability update, admitted through the envelope and then actually applied.
+
+        The first version admitted the proposal and changed nothing, so ablating the stage moved no state
+        and the certification called it wiring. An adaptation that is admitted and not applied is a form
+        filled in and filed.
+        """
         proposal = PL.Adaptation("reliability_update", target="persistent_state", domain="runtime",
                                  checkpoint=f"step:{self.step_index}")
         admitted = PL.fast_adapt(proposal)
+        applied = {}
+        if admitted.applied:
+            # decay every reliability estimate toward the prior, which is what a bounded state level
+            # adaptation is: small, reversible, and visible in the state hash.
+            for name, value in self.reliability.items():
+                self.reliability[name] = round(value + 0.01 * (0.5 - value), 9)
+                applied[name] = self.reliability[name]
         record = {"level": proposal.level, "applied": admitted.applied,
-                  "refusals": list(admitted.refusals)}
+                  "refusals": list(admitted.refusals), "reliability_after": applied}
         self.adaptations.append(record)
         return record
 
     def _state_for_hash(self) -> dict:
         return {"step": self.step_index, "workspace": sorted(self.ws.store),
-                "episodes": sorted(self.episodes.store), "facts": sorted(self.semantic.store),
+                "episodes": sorted(self.episodes.store),
+                "episode_classes": {k: v.klass for k, v in sorted(self.episodes.store.items())},
+                "facts": sorted(self.semantic.store),
                 "reliability": {k: round(v, 6) for k, v in sorted(self.reliability.items())}}
 
     # ------------------------------------------------------------ continuity

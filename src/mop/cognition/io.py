@@ -65,6 +65,11 @@ def seal(name: str, obj: dict, subdir: str = "") -> Path:
     obj.setdefault("program", PROGRAM)
     obj.setdefault("source_commit", commit())
     obj.setdefault("activation", ACTIVATION)
+    # The digest is taken over the round tripped form, not the in memory object. JSON has no integer
+    # keys, so a dict keyed by int is written with string keys and read back with string keys, and a
+    # seal computed before the round trip can never verify after it. One artifact with integer keys was
+    # already unverifiable for exactly this reason.
+    obj = json.loads(json.dumps({k: v for k, v in obj.items() if k != "sha256"}, default=str))
     obj["sha256"] = sha_obj({k: v for k, v in obj.items() if k != "sha256"})
     out = PROOF / subdir
     out.mkdir(parents=True, exist_ok=True)
