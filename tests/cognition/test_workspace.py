@@ -13,7 +13,7 @@ from mop.cognition import workspace as W
 def test_every_region_declares_all_ten_fields():
     for spec in W.REGIONS:
         assert spec.violations() == [], spec.violations()
-    assert len(W.REGIONS) == 10
+    assert len(W.REGIONS) == 12  # section 10 of the final authority adds ontological and epistemic
     assert W.declaration()["all_regions_fully_declared"] is True
 
 

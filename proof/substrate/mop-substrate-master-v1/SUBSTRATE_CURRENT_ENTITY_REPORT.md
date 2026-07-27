@@ -1,6 +1,6 @@
 # Substrate: what the entity currently is
 
-Generated from the tree at commit `9410160a76c4d58752b70fd335f405cc5c76e784`. Every number below is derived from the
+Generated from the tree at commit `f301a72120da308c2555d57fde4d6649082da3b2`. Every number below is derived from the
 repository, and any number that would require evidence nobody has measured is reported as zero
 rather than estimated.
 
@@ -9,23 +9,32 @@ rather than estimated.
 | category | implementation | evidence |
 |---|---:|---:|
 | temporal_continuity | 95% | 0% |
+| ontology | 100% | 0% |
+| epistemology | 100% | 0% |
+| workspace | 0% | 0% |
 | working_memory | 100% | 0% |
 | episodic_memory | 100% | 0% |
 | semantic_memory | 100% | 0% |
 | procedural_memory | 100% | 0% |
 | world_model | 100% | 0% |
 | self_model | 100% | 100% |
-| metacognition | 100% | 0% |
 | perspective_diversity | 100% | 0% |
-| arbitration | 100% | 0% |
+| perspective_arbitration | 100% | 0% |
+| metacognition | 100% | 0% |
+| grounding | 0% | 0% |
+| causal_reasoning | 0% | 0% |
+| goal_continuity | 100% | 0% |
+| valuation | 0% | 0% |
 | plasticity | 100% | 0% |
 | consolidation | 100% | 0% |
-| transfer | 100% | 0% |
 | reorganization | 100% | 0% |
-| developmental_learning | 100% | 0% |
-| goal_continuity | 100% | 0% |
+| developmental_divergence | 100% | 0% |
+| thinking | 0% | 0% |
+| continuity | 0% | 0% |
+| unity | 100% | 0% |
 | reflective_access | 100% | 0% |
-| unified_cognition | 100% | 0% |
+| cognitive_integrity | 0% | 0% |
+| model_body_integration | 100% | 0% |
 
 Implementation is high because the declared surfaces exist and their tests pass. Evidence is
 zero in every category that has not produced a scientific classification, and raising it would
@@ -57,6 +66,6 @@ the selection is terminal and independently verified
 
 Primary: C1, Temporal core identified and selected. seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json
 
-Secondary: C2, Typed cognitive workspace. classify the result through mop.method.gate.classify_result and record it
+Secondary: O1, Typed ontology with the nine distinctions it refuses to collapse. classify the result through mop.method.gate.classify_result and record it
 
 Activation remains false.

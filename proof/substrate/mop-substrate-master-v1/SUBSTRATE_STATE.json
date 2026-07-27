@@ -49,7 +49,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A2": {
@@ -111,7 +111,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A3": {
@@ -166,7 +166,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A4": {
@@ -219,7 +219,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A5": {
@@ -272,7 +272,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A6": {
@@ -334,7 +334,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A7": {
@@ -387,7 +387,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "C1": {
@@ -467,7 +467,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "seal temporal:MOP_OWNED_TEMPORAL_CORE_V1.json, temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
     },
     "C2": {
@@ -476,7 +476,7 @@
       "title": "Typed cognitive workspace",
       "requirement": "Not one unrestricted opaque tensor. Every region declares shape, persistence, timescale, readers, writers, provenance, confidence, cost, reset behaviour and update rule. Important information becomes globally available without letting arbitrary components corrupt every region.",
       "kind": "implementation",
-      "category": "unified_cognition",
+      "category": "unity",
       "batch": 2,
       "level": "measured",
       "dependencies": [
@@ -520,7 +520,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C3": {
@@ -573,7 +573,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C4": {
@@ -626,7 +626,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C5": {
@@ -635,7 +635,7 @@
       "title": "Perspective arbitration",
       "requirement": "Compare outputs, preserve provenance, detect contradiction, evaluate confidence, weigh historical reliability, request verification, allocate compute, combine compatible results, preserve minority hypotheses, defer when evidence is insufficient and choose under a resource budget.",
       "kind": "implementation",
-      "category": "arbitration",
+      "category": "perspective_arbitration",
       "batch": 2,
       "level": "measured",
       "dependencies": [
@@ -679,7 +679,188 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "O1": {
+      "id": "O1",
+      "section": "6",
+      "title": "Typed ontology with the nine distinctions it refuses to collapse",
+      "requirement": "Twenty seven types plus unknown, nine declared item fields, and nine distinctions the typing must not let collapse. Merging is evidenced and reversible; unknown is a first class type that carries the reason it is unknown.",
+      "kind": "implementation",
+      "category": "ontology",
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "C2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/ontology.py"
+        ],
+        "present": [
+          "src/mop/cognition/ontology.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_ontology.py::test_identity_preservation_over_time",
+          "tests/cognition/test_ontology.py::test_mistaken_merge_detection",
+          "tests/cognition/test_ontology.py::test_counterfactual_objects_never_merge_with_actual_ones",
+          "tests/cognition/test_ontology.py::test_the_self_environment_boundary_holds"
+        ],
+        "recorded": {
+          "tests/cognition/test_ontology.py::test_identity_preservation_over_time": true,
+          "tests/cognition/test_ontology.py::test_mistaken_merge_detection": true,
+          "tests/cognition/test_ontology.py::test_counterfactual_objects_never_merge_with_actual_ones": true,
+          "tests/cognition/test_ontology.py::test_the_self_environment_boundary_holds": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_ONTOLOGY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_ONTOLOGY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_ONTOLOGY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "O2": {
+      "id": "O2",
+      "section": "7",
+      "title": "Epistemology where justification is a graph, not a confidence table",
+      "requirement": "Twelve epistemic kinds, twelve declared belief fields, and dependency aware revision. Retraction propagates to every dependant, circular justification is refused, and a claim resting on a retraction loses whatever its confidence says.",
+      "kind": "implementation",
+      "category": "epistemology",
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "O1"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/epistemology.py"
+        ],
+        "present": [
+          "src/mop/cognition/epistemology.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_epistemology.py::test_hidden_dependency_failure_is_caught_by_retraction_propagating",
+          "tests/cognition/test_epistemology.py::test_circular_justification_is_refused_not_followed",
+          "tests/cognition/test_epistemology.py::test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim"
+        ],
+        "recorded": {
+          "tests/cognition/test_epistemology.py::test_hidden_dependency_failure_is_caught_by_retraction_propagating": true,
+          "tests/cognition/test_epistemology.py::test_circular_justification_is_refused_not_followed": true,
+          "tests/cognition/test_epistemology.py::test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_EPISTEMOLOGY.json",
+          "SUBSTRATE_BELIEF_REVISION.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_EPISTEMOLOGY.json",
+          "SUBSTRATE_BELIEF_REVISION.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_EPISTEMOLOGY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+          },
+          {
+            "reference": "SUBSTRATE_BELIEF_REVISION.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "O3": {
+      "id": "O3",
+      "section": "7.2",
+      "title": "Metacognitive control runs on epistemic value, not confidence",
+      "requirement": "A claim at one confidence with nothing at stake and one with everything resting on it get different actions. Confidence alone cannot separate them, so it is not what chooses.",
+      "kind": "implementation",
+      "category": "epistemology",
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "O2",
+        "K1"
+      ],
+      "unmet_dependencies": [
+        "K1"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.2",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/epistemology.py"
+        ],
+        "present": [
+          "src/mop/cognition/epistemology.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_epistemology.py::test_epistemic_value_and_not_confidence_chooses_the_action"
+        ],
+        "recorded": {
+          "tests/cognition/test_epistemology.py::test_epistemic_value_and_not_confidence_chooses_the_action": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_EPISTEMOLOGY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_EPISTEMOLOGY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_EPISTEMOLOGY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "N1": {
@@ -688,7 +869,7 @@
       "title": "The runtime loop that makes the modules one entity",
       "requirement": "A mature Substrate is the composition, not the parts. One cycle runs perceive, attend, select, run perspectives, arbitrate, decide, remember, self update, consolidate, adapt and checkpoint, and every stage leaves a receipt a reflective report can bind to.",
       "kind": "implementation",
-      "category": "unified_cognition",
+      "category": "unity",
       "batch": 2,
       "level": "measured",
       "dependencies": [
@@ -735,7 +916,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "N2": {
@@ -791,7 +972,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "M1": {
@@ -844,7 +1025,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M2": {
@@ -897,7 +1078,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M3": {
@@ -950,7 +1131,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M4": {
@@ -1003,7 +1184,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M5": {
@@ -1058,7 +1239,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M6": {
@@ -1111,7 +1292,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "W1": {
@@ -1165,7 +1346,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "S1": {
@@ -1268,9 +1449,9 @@
           "sesoi": 0.05,
           "reading": "learning the offset roughly halves calibration error in both directions, and the improvement is between 0.02 and 0.03, below the 0.05 the program preregistered as the smallest effect worth caring about"
         },
-        "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784"
+        "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2"
       },
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none"
     },
     "K1": {
@@ -1324,7 +1505,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P1": {
@@ -1378,7 +1559,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P2": {
@@ -1432,7 +1613,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P3": {
@@ -1486,7 +1667,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P4": {
@@ -1540,7 +1721,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P5": {
@@ -1549,7 +1730,7 @@
       "title": "Learning to learn",
       "requirement": "Learn which adaptations generalize, which memories matter, which perspectives are trustworthy, which errors recur, which representations should stay stable, when specialization is needed and when to reopen plasticity. Must generalize across tasks.",
       "kind": "implementation",
-      "category": "developmental_learning",
+      "category": "developmental_divergence",
       "batch": 4,
       "level": "measured",
       "dependencies": [
@@ -1593,7 +1774,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "R1": {
@@ -1648,7 +1829,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "B1": {
@@ -1657,7 +1838,7 @@
       "title": "Model body interface",
       "requirement": "Attach to specialist or general model bodies through explicit contracts covering inference, hidden state, selected activations, tool request, memory request, verification request, adaptation proposal, resource report and checkpoint.",
       "kind": "implementation",
-      "category": "transfer",
+      "category": "model_body_integration",
       "batch": 4,
       "level": "measured",
       "dependencies": [
@@ -1701,7 +1882,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "T1": {
@@ -1710,7 +1891,7 @@
       "title": "Operationalized thinking",
       "requirement": "Measure internal computation that improves outcomes, compared against a larger static model, a stronger readout, longer context, more samples, more tokens and tool only systems. Latency and hidden activations are not evidence of thinking.",
       "kind": "implementation",
-      "category": "unified_cognition",
+      "category": "unity",
       "batch": 5,
       "level": "measured",
       "dependencies": [
@@ -1755,7 +1936,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E1": {
@@ -1809,7 +1990,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E2": {
@@ -1818,7 +1999,7 @@
       "title": "Unity",
       "requirement": "Measure global availability, shared goals, cross perspective memory, conflict resolution, consistent action and preservation of alternatives.",
       "kind": "implementation",
-      "category": "unified_cognition",
+      "category": "unity",
       "batch": 5,
       "level": "measured",
       "dependencies": [
@@ -1863,7 +2044,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E3": {
@@ -1917,7 +2098,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E4": {
@@ -1970,7 +2151,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E5": {
@@ -2024,7 +2205,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "V1": {
@@ -2077,7 +2258,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "V2": {
@@ -2130,7 +2311,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X1": {
@@ -2192,7 +2373,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X2": {
@@ -2254,7 +2435,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "Q1": {
@@ -2310,7 +2491,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "L1": {
@@ -2368,7 +2549,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "L2": {
@@ -2422,7 +2603,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "X3": {
@@ -2475,7 +2656,7 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E6": {
@@ -2529,23 +2710,24 @@
         ]
       },
       "result": null,
-      "commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+      "commit": "f301a72120da308c2555d57fde4d6649082da3b2",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     }
   },
   "level_counts": {
     "terminal": 16,
     "tested": 1,
-    "measured": 28
+    "measured": 31
   },
-  "total_items": 45,
+  "total_items": 48,
   "source_tree": {
     "clean": false,
     "dirty_paths": [
       "src/mop/cognition/deliverables.py",
       "src/mop/cognition/program.py",
-      "src/mop/cognition/verify.py",
-      "src/mop/cognition/campaign.py"
+      "src/mop/cognition/workspace.py",
+      "src/mop/cognition/epistemology.py",
+      "src/mop/cognition/ontology.py"
     ],
     "why_it_matters": "the temporal supervisor refuses a shard launch from a dirty src tree"
   },
@@ -2557,7 +2739,7 @@
     "C_REBASE_ORPHANS_EVIDENCE"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
   "activation": false,
-  "sha256": "0468969ed87376845ce895d59f59628779cb01b5258f9820ad217995537bc0a3"
+  "sha256": "a0fb09a05c1d70293a82fca2ef1728de760c8ae19d04fadc8e3484808df848a1"
 }

@@ -696,8 +696,9 @@ def write_all() -> dict:
     return {name: path.relative_to(io.ROOT).as_posix() for name, path in written.items()}
 
 
-MODULES_THAT_SEAL = ("admission", "safety", "workspace", "perspectives", "memory", "world",
-                     "selfmodel", "metacog", "plasticity", "body", "batteries", "runtime")
+MODULES_THAT_SEAL = ("admission", "safety", "ontology", "epistemology", "workspace", "perspectives",
+                     "memory", "world", "selfmodel", "metacog", "plasticity", "body", "batteries",
+                     "runtime")
 
 
 def seal_modules() -> dict:

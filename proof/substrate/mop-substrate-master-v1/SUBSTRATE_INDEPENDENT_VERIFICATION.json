@@ -104,6 +104,18 @@
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
+    "scorecard_evidence_ontology": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_epistemology": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
     "scorecard_evidence_working_memory": {
       "reported": 0,
       "recomputed": 0,
@@ -140,19 +152,25 @@
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
-    "scorecard_evidence_metacognition": {
-      "reported": 0,
-      "recomputed": 0,
-      "agrees": true,
-      "route": "recounted classified results in the sealed state file"
-    },
     "scorecard_evidence_perspective_diversity": {
       "reported": 0,
       "recomputed": 0,
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
-    "scorecard_evidence_arbitration": {
+    "scorecard_evidence_perspective_arbitration": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_metacognition": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_goal_continuity": {
       "reported": 0,
       "recomputed": 0,
       "agrees": true,
@@ -170,25 +188,19 @@
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
-    "scorecard_evidence_transfer": {
-      "reported": 0,
-      "recomputed": 0,
-      "agrees": true,
-      "route": "recounted classified results in the sealed state file"
-    },
     "scorecard_evidence_reorganization": {
       "reported": 0,
       "recomputed": 0,
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
-    "scorecard_evidence_developmental_learning": {
+    "scorecard_evidence_developmental_divergence": {
       "reported": 0,
       "recomputed": 0,
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
-    "scorecard_evidence_goal_continuity": {
+    "scorecard_evidence_unity": {
       "reported": 0,
       "recomputed": 0,
       "agrees": true,
@@ -200,7 +212,7 @@
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
-    "scorecard_evidence_unified_cognition": {
+    "scorecard_evidence_model_body_integration": {
       "reported": 0,
       "recomputed": 0,
       "agrees": true,
@@ -234,12 +246,14 @@
   "seal_integrity": {
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_BELIEF_REVISION.json": true,
     "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
+    "SUBSTRATE_EPISTEMOLOGY.json": true,
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
     "SUBSTRATE_HYPOTHESIS_GRAPH.json": true,
     "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
@@ -250,6 +264,7 @@
     "SUBSTRATE_MUTATION_REPORT.json": true,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
     "SUBSTRATE_NULL_MAP.json": true,
+    "SUBSTRATE_ONTOLOGY.json": true,
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
     "SUBSTRATE_PROGRESS_SCORECARD.json": true,
@@ -269,7 +284,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
   "activation": false,
-  "sha256": "c382df41a9f5f1c1d8d8aedab46549546d77b67265caf241b702801df82b517c"
+  "sha256": "1a1f41b7cf3604a81e990eeed5b495be0660759079928a2893a8408907277c10"
 }

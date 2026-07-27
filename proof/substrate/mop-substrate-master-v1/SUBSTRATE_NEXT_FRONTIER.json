@@ -2,6 +2,8 @@
   "schema": "substrate-next-frontier/v1",
   "dependency_ready": [
     "C1",
+    "O1",
+    "O2",
     "C2",
     "C3",
     "C4",
@@ -38,10 +40,10 @@
     "batch": 1
   },
   "secondary": {
-    "id": "C2",
-    "title": "Typed cognitive workspace",
+    "id": "O1",
+    "title": "Typed ontology with the nine distinctions it refuses to collapse",
     "next_action": "classify the result through mop.method.gate.classify_result and record it",
-    "batch": 2
+    "batch": 1
   },
   "independence_rule": "the secondary shares no dependency with the primary and is not its ancestor or descendant, so a failed branch closes only its own descendants",
   "value_of_information": {
@@ -329,7 +331,7 @@
     "activation": false
   },
   "program": "mop-substrate-master-v1",
-  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+  "source_commit": "f301a72120da308c2555d57fde4d6649082da3b2",
   "activation": false,
-  "sha256": "c34fde8b5656ff56d3b4ec835d0f1d1b7a07fd082c193c12a569a1822b77bd37"
+  "sha256": "4b14743d0d27f50d2d3b4b3037f4ac3d8a5fa772a7c94baea6ce34eff78f1124"
 }
