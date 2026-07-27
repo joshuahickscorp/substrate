@@ -205,3 +205,22 @@ def test_valuation_is_authorized_and_refuses_to_be_fitted():
         GO.value({"vibes": 1.0})
     with pytest.raises(GO.Refused):
         GO.fit_weights_from_preference({"anything": 1})
+
+
+def test_every_sealed_artifact_has_exactly_one_producer():
+    """Two producers for one filename means the last one to run decides what the evidence says.
+
+    The clean clone found three of these at once: developmental history, the model body interface and
+    the temporal core record were each written by two modules with different content.
+    """
+    import collections
+    import pathlib
+    import re
+
+    producers = collections.defaultdict(set)
+    for f in sorted((io.ROOT / "src/mop/cognition").glob("*.py")):
+        for m in re.finditer(r"io\.seal(?:_md)?\(\s*[\"']([A-Z_0-9]+\.(?:json|md))[\"']", f.read_text()):
+            producers[m.group(1)].add(f.stem)
+    duplicated = {k: sorted(v) for k, v in producers.items() if len(v) > 1}
+    assert duplicated == {}, duplicated
+    assert len(producers) >= 25, "the scan found suspiciously few sealed artifacts"

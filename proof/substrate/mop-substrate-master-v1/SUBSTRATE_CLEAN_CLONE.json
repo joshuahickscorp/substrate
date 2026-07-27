@@ -1,11 +1,11 @@
 {
   "schema": "substrate-clean-clone/v1",
-  "commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
   "checks": {
     "clone": true,
     "exact_commit_checkout": true,
     "package_import": true,
-    "declared_tests": false,
+    "declared_tests": true,
     "graph_valid": true,
     "artifacts_regenerate_identically": false,
     "independent_recomputation": true,
@@ -18,17 +18,17 @@
     },
     "exact_commit_checkout": {
       "ok": true,
-      "head": "bbbd1647b05345a57c68e24a2d17f31252c90242",
-      "expected": "bbbd1647b05345a57c68e24a2d17f31252c90242"
+      "head": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
+      "expected": "3bcb43cb25595e0e9c8c6fde16898579804227dc"
     },
     "package_import": {
       "ok": true,
       "detail": ""
     },
     "declared_tests": {
-      "ok": false,
+      "ok": true,
       "detail": [
-        "FAILED tests/cognition/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted"
+        "............................................................             [100%]"
       ]
     },
     "graph_valid": {
@@ -40,12 +40,10 @@
       "drifted_from_committed": [
         "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
         "SUBSTRATE_MODEL_BODY_INTERFACE.json",
-        "SUBSTRATE_RUNTIME.json",
-        "SUBSTRATE_TEMPORAL_CORE.json",
-        "SUBSTRATE_WORKSPACE.json"
+        "SUBSTRATE_TEMPORAL_CORE.json"
       ],
       "nondeterministic_across_two_runs": [],
-      "compared": 50,
+      "compared": 51,
       "excluded_fields": [
         "sha256",
         "source_commit"
@@ -63,13 +61,12 @@
     }
   },
   "failed": [
-    "artifacts_regenerate_identically",
-    "declared_tests"
+    "artifacts_regenerate_identically"
   ],
   "all_pass": false,
   "why_a_clone": "the working tree has caches, untracked state and whatever the last command left behind. A clone at the exact commit has none of it",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
-  "sha256": "4c0e5b17c7455d442da7e0636d56ae83ca87db8b3cc7f705a722b3577c7a011c"
+  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
+  "sha256": "eced18c706a29646a59fd71f550ef52c76e963d16cc1c6120bb2bf20804cb4ec"
 }

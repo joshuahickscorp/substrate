@@ -230,6 +230,8 @@ def compare() -> dict:
 def main(argv=None) -> None:
     argv = argv or sys.argv[1:]
     command = argv[0] if argv else "compare"
+    if command == "seal":  # this module owns SUBSTRATE_MODEL_BODY_INTERFACE.json, so seal means compare
+        command = "compare"
     if command in ("compact", "general", "tool"):
         doc = conformance(command)
         path = io.seal(f"SUBSTRATE_BODY_{command.upper()}.json", doc)

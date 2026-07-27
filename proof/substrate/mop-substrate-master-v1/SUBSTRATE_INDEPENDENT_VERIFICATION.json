@@ -342,7 +342,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
   "activation": false,
-  "sha256": "bc8f22c6ed408cba0f79991bd332656254d6725ca57f7c033697f5cbb18ed300"
+  "sha256": "bcf3248e3fe92d206b9f9fe172870a492c53e6fe1278443bdb05d746612dbdd1"
 }

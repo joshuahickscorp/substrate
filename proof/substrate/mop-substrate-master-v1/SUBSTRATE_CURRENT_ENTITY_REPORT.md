@@ -1,6 +1,6 @@
 # Substrate: what the entity currently is
 
-Generated from the tree at commit `bbbd1647b05345a57c68e24a2d17f31252c90242`. Every number below is derived from the
+Generated from the tree at commit `3bcb43cb25595e0e9c8c6fde16898579804227dc`. Every number below is derived from the
 repository, and any number that would require evidence nobody has measured is reported as zero
 rather than estimated.
 

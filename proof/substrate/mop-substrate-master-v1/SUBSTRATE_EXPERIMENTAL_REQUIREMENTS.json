@@ -58,7 +58,7 @@
   "defect_rule": "a reproduced defect overrides reviewer votes, becomes an append only correction and becomes a permanent regression test",
   "method_failure_rule": "a methodological failure is not a scientific null",
   "program": "mop-substrate-master-v1",
-  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
   "activation": false,
-  "sha256": "1d2550a851aadfbd7a54e15a7f7bdf2043d1ef7db80178ed1044bfb963ecd6eb"
+  "sha256": "e9a412479501674c222413acd7de3a51d76da56ea682e4393e407e6843ee7562"
 }

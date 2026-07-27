@@ -232,6 +232,8 @@ def ledger_markdown(st: dict) -> str:
 
 def write_all() -> dict:
     st = P.state()
+    # SUBSTRATE_FINAL_PROGRAM_GRAPH.json is owned by mop.cognition.graph. One producer per artifact,
+    # because two producers means the last one to run decides what the evidence says.
     written = {
         "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": io.seal(
             "SUBSTRATE_FINAL_MASTER_AUTHORITY.json", master_authority(st)),
@@ -241,8 +243,6 @@ def write_all() -> dict:
                                                   final_scorecard(st)),
         "SUBSTRATE_FINAL_VALUE_QUEUE.json": io.seal("SUBSTRATE_FINAL_VALUE_QUEUE.json",
                                                     value_queue(st)),
-        "SUBSTRATE_FINAL_PROGRAM_GRAPH.json": io.seal("SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
-                                                      G.declaration()),
         "SUBSTRATE_FINAL_LEDGER.md": io.seal_md("SUBSTRATE_FINAL_LEDGER.md", ledger_markdown(st)),
     }
     return {k: v.relative_to(io.ROOT).as_posix() for k, v in written.items()}
