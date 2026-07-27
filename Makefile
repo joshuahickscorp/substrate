@@ -1,23 +1,18 @@
 VENV=.venv/bin
 PY=$(VENV)/python
 
-.PHONY: install install-studio verify-install test lint types fmt accept clean doctor
+.PHONY: install verify-install test lint types fmt accept audit clean
 
 install:
 	uv venv --python 3.12 .venv
-	uv pip install -e ".[dev,ann]"
-	$(MAKE) verify-install
-
-install-studio:
-	uv venv --python 3.12 .venv
-	uv pip install -e ".[dev,ann,encoder,video,apple]"
+	uv pip install -e ".[dev]"
 	$(MAKE) verify-install
 
 verify-install:
-	cd /tmp && $(abspath $(PY)) -I -c "import importlib.metadata, mop; print('mop', importlib.metadata.version('mop'), mop.__file__)"
+	cd /tmp && $(abspath $(PY)) -I -c "import importlib.metadata, substrate; print('substrate', importlib.metadata.version('substrate'), substrate.__file__)"
 
 test:
-	$(VENV)/pytest
+	$(VENV)/substrate test
 
 lint:
 	$(VENV)/ruff check src tests
@@ -31,10 +26,10 @@ types:
 	$(VENV)/mypy
 
 accept:
-	$(PY) scripts/acceptance.py
+	$(VENV)/substrate verify
 
-doctor:
-	$(VENV)/mop doctor        # Studio readiness report (JSON + runs/studio_doctor.md)
+audit:
+	$(VENV)/substrate audit
 
 clean:
-	rm -rf runs/* data/cache/* .pytest_cache .mypy_cache .ruff_cache
+	rm -rf .pytest_cache .mypy_cache .ruff_cache
