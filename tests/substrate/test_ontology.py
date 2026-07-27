@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import ontology as O
+from substrate import ontology as O
 
 
 def _o():
@@ -18,8 +18,17 @@ def test_every_declared_type_and_distinction_exists():
     assert len(O.TYPES) == 28  # twenty seven declared plus unknown
     assert "unknown" in O.TYPES
     assert len(O.DISTINCTIONS) == 9
-    assert set(O.ITEM_FIELDS) == {"identity", "type", "attributes", "relations", "temporal_extent",
-                                  "source", "confidence", "persistence", "supersession"}
+    assert set(O.ITEM_FIELDS) == {
+        "identity",
+        "type",
+        "attributes",
+        "relations",
+        "temporal_extent",
+        "source",
+        "confidence",
+        "persistence",
+        "supersession",
+    }
 
 
 def test_identity_preservation_over_time():
@@ -116,8 +125,7 @@ def test_unknown_object_handling():
 def test_counterfactual_objects_never_merge_with_actual_ones():
     o = _o()
     o.add(O.Item("real", "object", {"colour": "red"}, temporal_extent=(0, 5), modality="actual"))
-    o.add(O.Item("imagined", "object", {"colour": "red"}, temporal_extent=(0, 5),
-                 modality="counterfactual"))
+    o.add(O.Item("imagined", "object", {"colour": "red"}, temporal_extent=(0, 5), modality="counterfactual"))
     assert o.distinguishable("real", "imagined")["separated_by"] == ["possible_versus_actual"]
     with pytest.raises(O.Refused):
         o.merge("real", "imagined", evidence="they look identical")
@@ -146,13 +154,20 @@ def test_an_observation_is_never_merged_with_an_inference():
 
 def test_the_learned_typer_stays_closed_without_headroom():
     for simple in O.SIMPLE_TYPING:
-        O.type_of({"id": "a", "mass": 1}, simple, rules={"mass": "object"},
-                  prototypes={"object": ("mass",)}, retrieved={"a": "object"})
+        O.type_of(
+            {"id": "a", "mass": 1},
+            simple,
+            rules={"mass": "object"},
+            prototypes={"object": ("mass",)},
+            retrieved={"a": "object"},
+        )
     with pytest.raises(O.Refused):
         O.type_of({"id": "a"}, "learned")
     with pytest.raises(O.Refused):
         O.type_of({"id": "a"}, "learned", headroom={"residual_lower_95_cb": 0.01})
-    assert O.type_of({"id": "a"}, "learned", headroom={"residual_lower_95_cb": 0.2},
-                     retrieved={"a": "object"}) == "object"
+    assert (
+        O.type_of({"id": "a"}, "learned", headroom={"residual_lower_95_cb": 0.2}, retrieved={"a": "object"})
+        == "object"
+    )
     with pytest.raises(O.Refused):
         O.type_of({"id": "a"}, "oracle")

@@ -13,19 +13,22 @@ import copy
 
 import pytest
 
-from mop.cognition import deliverables as D
-from mop.cognition import io
-from mop.cognition import program as P
+from substrate import deliverables as D
+from substrate import evidence as io
+from substrate import program as P
 
 
 def test_naming_authority_preserves_historical_programs():
-    """Section 2: historical identities stay valid and nothing was mass renamed."""
-    assert D.NAMING["renamed_nothing"] is True
+    """Active identities are renamed while historical evidence remains readable."""
+    assert D.NAMING["active_rename_complete"] is True
+    assert D.NAMING["compatibility_namespace"] == "substrate.compat.mop"
     assert set(D.NAMING["map"]) == {"MOP", "Mixture of Perspectives", "Mixture of Thinking"}
     # the historical proof roots are still where their sealed receipts say they are
-    for root in ("proof/method/mop-experimental-method-reformation-v1",
-                 "proof/substrate/mop-fast-state-plasticity-forge-v1",
-                 "proof/substrate/mop-temporal-core-mechanism-v1"):
+    for root in (
+        "proof/method/mop-experimental-method-reformation-v1",
+        "proof/substrate/mop-fast-state-plasticity-forge-v1",
+        "proof/substrate/mop-temporal-core-mechanism-v1",
+    ):
         assert (io.ROOT / root).is_dir(), f"historical authority root vanished: {root}"
 
 
@@ -40,9 +43,14 @@ def test_every_deliverable_binds_to_a_real_path():
             assert name.endswith((".json", ".md")), f"{item.id} names a malformed artifact {name!r}"
     # nothing sealed into this program's proof root is undeclared
     declared = {e.rpartition(":")[2] for item in P.ITEMS for e in item.evidence}
-    declared |= {"SUBSTRATE_STATE.json", "SUBSTRATE_LEDGER.md", "SUBSTRATE_HYPOTHESIS_GRAPH.json",
-                 "SUBSTRATE_NULL_MAP.json", "SUBSTRATE_NEXT_FRONTIER.json",
-                 "SUBSTRATE_FINAL_LEDGER.md"}
+    declared |= {
+        "SUBSTRATE_STATE.json",
+        "SUBSTRATE_LEDGER.md",
+        "SUBSTRATE_HYPOTHESIS_GRAPH.json",
+        "SUBSTRATE_NULL_MAP.json",
+        "SUBSTRATE_NEXT_FRONTIER.json",
+        "SUBSTRATE_FINAL_LEDGER.md",
+    }
     # SUBSTRATE_CLEAN_CLONE.json is produced by cloning the commit that would have to contain it, so it
     # can never be present in that commit. The bootstrap exception is declared rather than silently
     # tolerated, and the artifact is still required to be declared by an item.
@@ -83,8 +91,7 @@ def test_evidence_never_rises_from_implementation_alone():
     one["result"] = {"classification": "positive", "scientific": True}
     moved = P.scorecard(st)["categories"]
     assert moved["working_memory"]["evidence_pct"] > 0
-    assert all(v["evidence_pct"] == 0 for k, v in moved.items()
-               if k != "working_memory" and v["items"])
+    assert all(v["evidence_pct"] == 0 for k, v in moved.items() if k != "working_memory" and v["items"])
 
 
 def test_evidence_that_is_stale_or_failing_does_not_count(tmp_path, monkeypatch):
@@ -118,10 +125,15 @@ def test_evidence_that_is_stale_or_failing_does_not_count(tmp_path, monkeypatch)
     assert P.evidence_state("tmp:absent.json")["present"] is False
 
     # and an item whose only evidence is refused cannot climb past tested
-    item = P.Item("Z8", "0", "stale evidence", "an item bound to a failing receipt",
-                  impl=("src/mop/cognition/program.py",),
-                  tests=("tests/cognition/test_program.py::test_status_is_derived_not_asserted",),
-                  evidence=("tmp:failing.json",))
+    item = P.Item(
+        "Z8",
+        "0",
+        "stale evidence",
+        "an item bound to a failing receipt",
+        impl=("src/substrate/program.py",),
+        tests=("tests/substrate/test_program.py::test_status_is_derived_not_asserted",),
+        evidence=("tmp:failing.json",),
+    )
     row = P.item_status(item, {item.tests[0]: True}, {}, {})
     assert row["level"] == "tested"
     assert row["evidence"]["present_but_refused"]
@@ -141,19 +153,21 @@ def test_an_authority_is_terminal_once_sealed_and_tested(tmp_path, monkeypatch):
     monkeypatch.setattr(P, "_REACHABLE", {}, raising=False)
     (root / "auth.json").write_text(_json.dumps({"source_commit": P.io.commit()}))
 
-    common = dict(impl=("src/mop/cognition/program.py",),
-                  tests=("tests/cognition/test_program.py::test_status_is_derived_not_asserted",),
-                  evidence=("tmp:auth.json",))
+    common = dict(
+        impl=("src/substrate/program.py",),
+        tests=("tests/substrate/test_program.py::test_status_is_derived_not_asserted",),
+        evidence=("tmp:auth.json",),
+    )
     green = {common["tests"][0]: True}
 
     for kind in ("authority", "boundary"):
-        row = P.item_status(P.Item("Z1", "0", "an authority", "declared", kind=kind, **common),
-                            green, {}, {})
+        row = P.item_status(P.Item("Z1", "0", "an authority", "declared", kind=kind, **common), green, {}, {})
         assert row["level"] == "terminal", kind
 
     # an empirical item is not let through on the same evidence
-    row = P.item_status(P.Item("Z2", "0", "an experiment", "declared", kind="implementation", **common),
-                        green, {}, {})
+    row = P.item_status(
+        P.Item("Z2", "0", "an experiment", "declared", kind="implementation", **common), green, {}, {}
+    )
     assert row["level"] == "measured"
     assert "classify" in row["next_action"]
 
@@ -177,14 +191,26 @@ def test_corrections_are_append_only():
     # rewriting an existing correction with different content is refused
     first = P.corrections()[0]
     with pytest.raises(ValueError):
-        P.record_correction(first["correction_id"], "a different defect", "a different fix",
-                            "a different test", "a different observation")
+        P.record_correction(
+            first["correction_id"],
+            "a different defect",
+            "a different fix",
+            "a different test",
+            "a different observation",
+        )
 
 
 def test_status_is_derived_not_asserted():
     """An item whose declared file is absent can never report implemented."""
-    ghost = P.Item("Z9", "0", "ghost", "a requirement with no implementation on disk",
-                   impl=("src/mop/cognition/does_not_exist.py",), tests=(), evidence=())
+    ghost = P.Item(
+        "Z9",
+        "0",
+        "ghost",
+        "a requirement with no implementation on disk",
+        impl=("src/substrate/does_not_exist.py",),
+        tests=(),
+        evidence=(),
+    )
     row = P.item_status(ghost, {}, {}, {})
     assert row["level"] == "not_started"
     assert row["next_action"].startswith("implement")

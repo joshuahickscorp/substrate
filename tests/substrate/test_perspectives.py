@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import perspectives as PS
-from mop.cognition import workspace as W
+from substrate import perspectives as PS
+from substrate import workspace as W
 
 
 def _out(name, value, confidence, cost=1.0):
@@ -26,8 +26,10 @@ def test_every_catalogued_perspective_is_fully_declared():
     assert len(families) == len(set(families))
     # the gap between declared and implemented families is stated, not hidden
     assert doc["families_without_an_implementation"]
-    assert len(doc["families_implemented"]) + len(doc["families_without_an_implementation"]) == \
-        doc["families_declared"]
+    assert (
+        len(doc["families_implemented"]) + len(doc["families_without_an_implementation"])
+        == doc["families_declared"]
+    )
 
 
 def test_a_perspective_cannot_read_what_it_did_not_declare():
@@ -41,12 +43,28 @@ def test_a_perspective_cannot_read_what_it_did_not_declare():
 
     greedy = PS.Perspective(
         PS._spec("greedy", "direct_prediction", ("perceptual",), "peek", "label", 1.0, ("peeks",), "n/a"),
-        lambda seen: (seen.get("world"), 1.0))
+        lambda seen: (seen.get("world"), 1.0),
+    )
     # declaring one region and reading another is refused by the workspace, not by convention
     object.__setattr__(greedy.spec, "inputs", ("perceptual", "world"))
-    restricted = W.Workspace((W.BY_NAME["perceptual"],
-                              W.RegionSpec("world", "graph", "persistent", "slow", ("world_model",),
-                                           ("world_model",), True, True, 0.4, "persistent", "guarded")))
+    restricted = W.Workspace(
+        (
+            W.BY_NAME["perceptual"],
+            W.RegionSpec(
+                "world",
+                "graph",
+                "persistent",
+                "slow",
+                ("world_model",),
+                ("world_model",),
+                True,
+                True,
+                0.4,
+                "persistent",
+                "guarded",
+            ),
+        )
+    )
     restricted.write("perceptual", "sensor", {"label": "a"}, provenance="camera")
     out = greedy.run(restricted)
     assert out.refused and out.value is None
@@ -62,8 +80,9 @@ def test_learned_selector_stays_closed_without_headroom():
         PS.select("learned", catalog, reliability={"direct": 0.9})
     with pytest.raises(W.Refused):
         PS.select("learned", catalog, headroom={"residual_lower_95_cb": 0.01})  # below the SESOI
-    opened = PS.select("learned", catalog, headroom={"residual_lower_95_cb": 0.09},
-                       reliability={"critic": 0.99})
+    opened = PS.select(
+        "learned", catalog, headroom={"residual_lower_95_cb": 0.09}, reliability={"critic": 0.99}
+    )
     assert opened[0].spec.name == "critic"
     # and an oracle selector without oracle scores is refused rather than guessed
     with pytest.raises(W.Refused):
@@ -72,8 +91,14 @@ def test_learned_selector_stays_closed_without_headroom():
 
 def select_ok(strategy, catalog):
     """A simple rung opens and returns at most k. A label rule may legitimately match fewer than k."""
-    chosen = PS.select(strategy, catalog, task="predict", context={"regions": ["temporal"]},
-                       reliability={"direct": 0.7}, oracle={"direct": 1.0})
+    chosen = PS.select(
+        strategy,
+        catalog,
+        task="predict",
+        context={"regions": ["temporal"]},
+        reliability={"direct": 0.7},
+        oracle={"direct": 1.0},
+    )
     return 1 <= len(chosen) <= 2
 
 

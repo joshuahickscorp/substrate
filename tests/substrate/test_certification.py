@@ -9,13 +9,11 @@ import json
 
 import pytest
 
-from mop.cognition import audit as A
-from mop.cognition import certify as C
-from mop.cognition import io
-from mop.cognition import runtime as R
-from mop.cognition import sx2 as X2
-from mop.cognition import workspace as W
-
+from substrate import audit as A
+from substrate import certify as C
+from substrate import evidence as io
+from substrate import runtime as R
+from substrate import workspace as W
 
 # ---------------------------------------------------------------- audit
 
@@ -41,7 +39,7 @@ def test_a_dynamically_named_artifact_is_refused_by_the_producer_scan():
 
 def test_the_seal_survives_a_json_round_trip():
     """A dict keyed by integers is written with string keys, so a seal taken before the write fails."""
-    from mop.cognition import verify as V
+    from substrate import verification as V
 
     path = io.seal("SUBSTRATE_SEAL_ROUNDTRIP_PROBE.json", {"k_rows": {1: "a", 2: "b"}, "probe": True})
     try:

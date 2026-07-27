@@ -8,16 +8,15 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import authority as AU
-from mop.cognition import bodies as B
-from mop.cognition import divergence as DV
-from mop.cognition import goals as GO
-from mop.cognition import graph as G
-from mop.cognition import grounding as GR
-from mop.cognition import io
-from mop.cognition import sessions as S
-from mop.cognition import temporal_link as TL
-
+from substrate import authority as AU
+from substrate import bodies as B
+from substrate import divergence as DV
+from substrate import evidence as io
+from substrate import goals as GO
+from substrate import graph as G
+from substrate import grounding as GR
+from substrate import sessions as S
+from substrate import temporal_link as TL
 
 # ---------------------------------------------------------------- section 5, the graph
 
@@ -34,8 +33,14 @@ def test_the_graph_is_valid_and_declares_every_required_field():
 def test_no_future_wave_exists_only_as_prose():
     """Section 5: the world model bed, the body adapters and the real session authority are nodes."""
     ids = set(G.BY_ID)
-    for required in ("world_model_bed", "world_model_in_loop", "body_adapter_compact",
-                     "body_adapter_general", "body_adapter_tool", "real_session_authority"):
+    for required in (
+        "world_model_bed",
+        "world_model_in_loop",
+        "body_adapter_compact",
+        "body_adapter_general",
+        "body_adapter_tool",
+        "real_session_authority",
+    ):
         assert required in ids, f"{required} is not a node"
         assert G.BY_ID[required].module, f"{required} has nothing that can run it"
     assert G.declaration()["no_prose_waves"] is True
@@ -51,8 +56,13 @@ def test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal():
 
 
 def test_an_exit_gate_cannot_be_passed_by_declaring_it_passed():
-    ghost = G.Node("ghost", "implementation", module="x", exit_gate="something",
-                   produces=("SUBSTRATE_DOES_NOT_EXIST.json",))
+    ghost = G.Node(
+        "ghost",
+        "implementation",
+        module="x",
+        exit_gate="something",
+        produces=("SUBSTRATE_DOES_NOT_EXIST.json",),
+    )
     assert G.exit_passed(ghost)["passed"] is False
     assert "SUBSTRATE_DOES_NOT_EXIST.json" in G.exit_passed(ghost)["missing_artifacts"]
 
@@ -61,17 +71,33 @@ def test_an_exit_gate_cannot_be_passed_by_declaring_it_passed():
 
 
 def test_every_requirement_carries_a_rollback():
-    from mop.cognition import program as P
+    from substrate import program as P
 
     rows = AU.requirement_rows(P.state())
     assert rows and all(r["rollback"] for r in rows)
-    assert all(set(r) >= {"id", "category", "status", "authority", "dependencies", "implementation",
-                          "tests", "experiment", "evidence", "classification", "commit", "rollback",
-                          "next_action"} for r in rows)
+    assert all(
+        set(r)
+        >= {
+            "id",
+            "category",
+            "status",
+            "authority",
+            "dependencies",
+            "implementation",
+            "tests",
+            "experiment",
+            "evidence",
+            "classification",
+            "commit",
+            "rollback",
+            "next_action",
+        }
+        for r in rows
+    )
 
 
 def test_the_authority_binds_the_final_plan_and_the_inherited_programs():
-    from mop.cognition import program as P
+    from substrate import program as P
 
     doc = AU.master_authority(P.state())
     assert doc["plans"]["final"]["resolved"] is True
@@ -182,11 +208,19 @@ def test_grounding_refuses_a_symbol_with_no_referent():
 
 def test_a_goal_cannot_authorize_itself_or_widen_its_parent():
     gs = GO.GoalSystem()
-    good = dict(origin="operator", scope="s", priority=1.0, constraints=("activation stays false",),
-                resources="local", progress_measure="p", termination="t", rollback="r",
-                authority="pending")
+    good = dict(
+        origin="operator",
+        scope="s",
+        priority=1.0,
+        constraints=("activation stays false",),
+        resources="local",
+        progress_measure="p",
+        termination="t",
+        rollback="r",
+        authority="pending",
+    )
     with pytest.raises(GO.Refused):
-        gs.authorize(GO.Goal("g", **good), external_authority="mop.cognition.goals")
+        gs.authorize(GO.Goal("g", **good), external_authority="substrate.goals")
     root = gs.authorize(GO.Goal("root", **good), external_authority="SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md")
     assert root.authority.endswith(".md")
     with pytest.raises(GO.Refused):
@@ -214,11 +248,10 @@ def test_every_sealed_artifact_has_exactly_one_producer():
     the temporal core record were each written by two modules with different content.
     """
     import collections
-    import pathlib
     import re
 
     producers = collections.defaultdict(set)
-    for f in sorted((io.ROOT / "src/mop/cognition").glob("*.py")):
+    for f in sorted((io.ROOT / "src/substrate").glob("*.py")):
         for m in re.finditer(r"io\.seal(?:_md)?\(\s*[\"']([A-Z_0-9]+\.(?:json|md))[\"']", f.read_text()):
             producers[m.group(1)].add(f.stem)
     duplicated = {k: sorted(v) for k, v in producers.items() if len(v) > 1}

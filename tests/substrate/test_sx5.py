@@ -5,13 +5,11 @@ House style: no dashes.
 
 from __future__ import annotations
 
-import json
-
 import pytest
 
-from mop.cognition import experiments as X
-from mop.cognition import io
-from mop.cognition import program as P
+from substrate import evidence as io
+from substrate import experiments as X
+from substrate import program as P
 
 
 @pytest.fixture(scope="module")
@@ -56,14 +54,16 @@ def test_sx5_requires_both_directions(decision):
     assert set(principal["directions"]) == {"har_stream_to_harth_stream", "harth_stream_to_har_stream"}
     assert X.SX5_DESIGN["both_directions_must_support"] is True
     assert principal["both_directions_support"] == all(
-        d["supports"] for d in principal["directions"].values())
+        d["supports"] for d in principal["directions"].values()
+    )
 
 
 def test_the_updating_arm_beats_the_fixed_prior_control_by_a_lot(decision):
     """The control is a fixed prior of the same form, and it is the weaker of the two baselines here."""
     for direction in decision["principal"]["directions"].values():
-        assert direction["mean_error"]["fixed_prior"] > direction["mean_error"]["naive"], \
+        assert direction["mean_error"]["fixed_prior"] > direction["mean_error"]["naive"], (
             "the uncorrected self report is the stronger baseline, so it is the one that must be beaten"
+        )
 
 
 def test_a_null_only_becomes_scientific_once_the_verifier_and_the_mutations_report():

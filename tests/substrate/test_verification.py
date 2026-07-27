@@ -11,13 +11,11 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
-from mop.cognition import deliverables as D
-from mop.cognition import io
-from mop.cognition import program as P
-from mop.cognition import safety
-from mop.cognition import verify as V
+from substrate import deliverables as D
+from substrate import evidence as io
+from substrate import program as P
+from substrate import safety
+from substrate import verification as V
 
 
 def test_recomputation_agrees_with_every_sealed_artifact():
@@ -99,9 +97,14 @@ def test_no_sealed_substrate_artifact_is_undeclared():
     """The no placeholder rule, checked against what is actually on disk."""
     # only this program's own proof root. An artifact in an inherited root is that program's to write.
     declared = {e for item in P.ITEMS for e in item.evidence if ":" not in e}
-    declared |= {"SUBSTRATE_STATE.json", "SUBSTRATE_LEDGER.md", "SUBSTRATE_HYPOTHESIS_GRAPH.json",
-                 "SUBSTRATE_NULL_MAP.json", "SUBSTRATE_NEXT_FRONTIER.json",
-                 "SUBSTRATE_FINAL_LEDGER.md"}
+    declared |= {
+        "SUBSTRATE_STATE.json",
+        "SUBSTRATE_LEDGER.md",
+        "SUBSTRATE_HYPOTHESIS_GRAPH.json",
+        "SUBSTRATE_NULL_MAP.json",
+        "SUBSTRATE_NEXT_FRONTIER.json",
+        "SUBSTRATE_FINAL_LEDGER.md",
+    }
     # SUBSTRATE_CLEAN_CLONE.json is produced by cloning the commit that would have to contain it, so it
     # can never be present in that commit. The bootstrap exception is declared rather than silently
     # tolerated, and the artifact is still required to be declared by an item.

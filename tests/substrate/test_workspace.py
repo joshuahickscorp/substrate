@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import workspace as W
+from substrate import workspace as W
 
 
 def test_every_region_declares_all_ten_fields():
@@ -29,8 +29,19 @@ def test_a_write_outside_the_declared_writers_is_refused():
 
 
 def test_a_read_outside_the_declared_readers_is_refused():
-    spec = W.RegionSpec("private", "scalar", "episode", "fast", ("owner",), ("owner",), True, False,
-                        0.1, "episode", "owner only")
+    spec = W.RegionSpec(
+        "private",
+        "scalar",
+        "episode",
+        "fast",
+        ("owner",),
+        ("owner",),
+        True,
+        False,
+        0.1,
+        "episode",
+        "owner only",
+    )
     ws = W.Workspace((spec,))
     ws.write("private", "owner", 1, provenance="self")
     assert ws.read("private", "owner") == 1

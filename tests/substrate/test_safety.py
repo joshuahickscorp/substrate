@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import safety as S
+from substrate import safety as S
 
 COMPLETE = {
     "information_used": "eight held out units",
@@ -33,13 +33,24 @@ def test_every_required_adaptation_field_is_mandatory(field):
 def test_protected_surfaces_cannot_be_removed_by_adaptation():
     # the declaration itself is asserted first. A loop over an empty tuple passes trivially, which is how
     # a mutation that simply deleted the protected list survived the first version of this test.
-    assert set(S.PROTECTED_SURFACES) == {"evidence_validation", "audit_systems", "claim_boundaries",
-                                         "stop_switches", "resource_limits", "rollback",
-                                         "adaptation_constraints"}
+    assert set(S.PROTECTED_SURFACES) == {
+        "evidence_validation",
+        "audit_systems",
+        "claim_boundaries",
+        "stop_switches",
+        "resource_limits",
+        "rollback",
+        "adaptation_constraints",
+    }
     assert set(S.FORBIDDEN_REORGANIZATIONS) == {
-        "arbitrary_code_rewriting", "unbounded_module_creation", "unverified_package_installation",
-        "schema_mutation_outside_authority", "removal_of_evidence_systems", "removal_of_stop_switches",
-        "unbounded_self_modification"}
+        "arbitrary_code_rewriting",
+        "unbounded_module_creation",
+        "unverified_package_installation",
+        "schema_mutation_outside_authority",
+        "removal_of_evidence_systems",
+        "removal_of_stop_switches",
+        "unbounded_self_modification",
+    }
     for surface in S.PROTECTED_SURFACES:
         report = S.admit_adaptation({**COMPLETE, "removes": [surface]})
         assert report["admitted"] is False
@@ -49,25 +60,33 @@ def test_protected_surfaces_cannot_be_removed_by_adaptation():
         assert report["admitted"] is False
     # an irreversible change with no checkpoint has no rollback
     assert S.admit_adaptation({**COMPLETE, "reversibility": "irreversible"})["admitted"] is False
-    assert S.admit_adaptation({**COMPLETE, "reversibility": "irreversible",
-                               "checkpoint": "proof/.../ckpt.json"})["admitted"] is True
+    assert (
+        S.admit_adaptation(
+            {**COMPLETE, "reversibility": "irreversible", "checkpoint": "proof/.../ckpt.json"}
+        )["admitted"]
+        is True
+    )
 
 
 def test_forbidden_claim_vocabulary_is_refused():
-    for bad in ("the system is conscious",
-                "Substrate has feelings about the result",
-                "we are sentient",
-                "the entity experiences subjective experience"):
+    for bad in (
+        "the system is conscious",
+        "Substrate has feelings about the result",
+        "we are sentient",
+        "the entity experiences subjective experience",
+    ):
         assert S.check_claim(bad), f"not refused: {bad!r}"
         with pytest.raises(S.Refused):
             S.assert_claim_safe(bad)
 
     # reporting the boundary is not a claim, and neither is a denial
-    for fine in ("the project must not claim consciousness, sentience or feelings",
-                 "this system is not conscious",
-                 "no single architectural property is proof of sentience",
-                 "sentience adjacent architecture is the permitted term",
-                 "the entity has a persistent self model and an autobiographical memory"):
+    for fine in (
+        "the project must not claim consciousness, sentience or feelings",
+        "this system is not conscious",
+        "no single architectural property is proof of sentience",
+        "sentience adjacent architecture is the permitted term",
+        "the entity has a persistent self model and an autobiographical memory",
+    ):
         assert S.check_claim(fine) == [], f"wrongly refused: {fine!r}"
         S.assert_claim_safe(fine)
 

@@ -5,15 +5,16 @@ House style: no dashes.
 
 from __future__ import annotations
 
-from mop.cognition import deliverables as D
-from mop.cognition import experiments as X
-from mop.cognition import program as P
-from mop.method import graph as G
+from substrate import deliverables as D
+from substrate import experiments as X
+from substrate import program as P
+from substrate.method import graph as G
 
 
 def test_sx1_declares_every_mandatory_contract():
     """The refusal has to be about the science, not about a missing form."""
-    from mop.cognition import admission as A
+    from substrate import admission as A
+
     prereg = X.sx1()
     assert A.completeness(prereg) == [], "SX1 is refused for its causal graph, not for a missing contract"
 
@@ -30,17 +31,22 @@ def test_sx1_is_refused_because_its_effect_is_true_by_construction():
 
 def test_relabelling_the_structural_edge_as_measured_does_not_rescue_it():
     """The obvious way to make SX1 pass is the exact defect the ledger already names."""
-    cheated = {**X.SX1_GRAPH, "edges": [
-        {**e, "type": "measured_relation", "actually": "structurally_guaranteed"}
-        if e["src"] == "typed" and e["dst"] == "answer" else e
-        for e in X.SX1_GRAPH["edges"]]}
+    cheated = {
+        **X.SX1_GRAPH,
+        "edges": [
+            {**e, "type": "measured_relation", "actually": "structurally_guaranteed"}
+            if e["src"] == "typed" and e["dst"] == "answer"
+            else e
+            for e in X.SX1_GRAPH["edges"]
+        ],
+    }
     violations = G.validate(cheated)
     assert any("reported as measured but is structurally_guaranteed" in v for v in violations)
 
 
 def test_a_refusal_is_not_recorded_as_a_null():
     refusals = D.methodological_refusals()
-    assert any(r["experiment_id"] == "SX1" for r in refusals), "run mop.cognition.experiments seal first"
+    assert any(r["experiment_id"] == "SX1" for r in refusals), "run substrate.experiments seal first"
     doc = D.null_map(P.state())
     assert doc["refused_count"] >= 1
     assert "not a scientific null" in doc["refusal_rule"]
@@ -148,9 +154,11 @@ def test_the_value_queue_refuses_what_the_evidence_already_closed():
 def test_the_successor_design_is_not_a_closed_form():
     design = X.SX1B_DESIGN
     assert design["experiment_id"] == "SX1b"
-    assert "measured on training units" in design["why_it_is_not_a_closed_form"] or \
-        "measured on training" in design["why_it_is_not_a_closed_form"] or \
-        "measured on" in design["why_it_is_not_a_closed_form"]
+    assert (
+        "measured on training units" in design["why_it_is_not_a_closed_form"]
+        or "measured on training" in design["why_it_is_not_a_closed_form"]
+        or "measured on" in design["why_it_is_not_a_closed_form"]
+    )
     # the arms include an oracle upper bound and a harm direction, not only the flattering one
     assert "typed_oracle" in design["arms"] and "typed_wrong" in design["arms"]
     # the three hypotheses do not all predict the same thing

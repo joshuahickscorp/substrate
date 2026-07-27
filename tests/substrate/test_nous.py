@@ -9,9 +9,9 @@ import json
 
 import pytest
 
-from mop.cognition import io
-from mop.cognition import nous as N
-from mop.cognition import safety as SF
+from substrate import evidence as io
+from substrate import nous as N
+from substrate import safety as SF
 
 
 @pytest.fixture(scope="module")
@@ -33,8 +33,10 @@ def test_the_closed_loop_has_no_missing_link(closure):
 
 
 def test_a_verbal_claim_without_a_receipt_does_not_pass(closure):
-    assert closure["results"]["grounded_closed_loop"]["links"][
-        "verbal_claim_without_a_receipt_is_refused"] is True
+    assert (
+        closure["results"]["grounded_closed_loop"]["links"]["verbal_claim_without_a_receipt_is_refused"]
+        is True
+    )
 
 
 def test_a_null_is_not_reported_as_an_instrument_failure(closure):
@@ -43,8 +45,10 @@ def test_a_null_is_not_reported_as_an_instrument_failure(closure):
     nulls = {n["gate"] for n in closure["mechanism_nulls"]}
     assert not (gated & nulls), "a gate cannot be both gated and a null"
     for row in closure["terminally_gated"]:
-        assert row["classification"] in ("terminally_gated_nothing_to_win",
-                                         "instrumentation_failure_not_a_null")
+        assert row["classification"] in (
+            "terminally_gated_nothing_to_win",
+            "instrumentation_failure_not_a_null",
+        )
     for row in closure["mechanism_nulls"]:
         assert row["classification"] == "mechanism_null_on_this_bed"
         # a null requires both an active mechanism and real headroom, or it is not a null
@@ -91,8 +95,10 @@ def test_the_classification_never_reaches_a_claim_about_experience(closure):
     assert "none of them is a claim about experience" in verdict["claim_rule"].lower()
     assert SF.check_claim(json.dumps(verdict)) == []
     # proto nous is not reachable from a closure pass whatever the gates say
-    assert "Not available from a closure pass" in \
-        verdict["requires_for_next_level"]["functional_or_proto_nous_candidate"]
+    assert (
+        "Not available from a closure pass"
+        in verdict["requires_for_next_level"]["functional_or_proto_nous_candidate"]
+    )
 
 
 def test_the_gate_added_no_architecture(closure):

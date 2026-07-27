@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import selfmodel as S
+from substrate import selfmodel as S
 
 
 def test_a_self_fact_without_a_source_is_refused():

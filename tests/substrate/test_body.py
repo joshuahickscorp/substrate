@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import body as B
+from substrate import body as B
 
 
 def test_the_contract_declares_nine_kinds_and_six_modes():
@@ -21,15 +21,17 @@ def test_a_message_missing_a_required_field_is_named_not_accepted():
     gaps = B.validate_message("checkpoint", {"identity": "core_v1"})
     assert gaps == ["checkpoint: sha256 not supplied"]
     # an adaptation proposal carries the same seven fields the safety envelope requires
-    from mop.cognition import safety
+    from substrate import safety
+
     assert set(B.REQUIRED_FIELDS["adaptation_proposal"]) == set(safety.ADAPTATION_FIELDS)
     with pytest.raises(B.Refused):
         B.validate_message("telepathy", {})
 
 
 def test_a_partial_body_is_reported_as_partial_not_as_conforming():
-    partial = B.BodyContract("compact_specialist", "sidecar_temporal_core",
-                             ("inference", "hidden_state", "checkpoint"))
+    partial = B.BodyContract(
+        "compact_specialist", "sidecar_temporal_core", ("inference", "hidden_state", "checkpoint")
+    )
     report = B.conformance(partial)
     assert report["conforms"] is False and report["partial"] is True
     assert set(report["missing"]) == set(B.MESSAGE_KINDS) - set(partial.implements)
