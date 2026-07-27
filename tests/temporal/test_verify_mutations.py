@@ -1,5 +1,6 @@
 import math
 import copy
+import json
 
 from mop.temporal import arch as A
 from mop.temporal.runs import analyze
@@ -20,6 +21,27 @@ def test_unit_duplicate_mutation_is_rejected_before_averaging():
     assert result["original_audit"]["all_pass"]
     assert not result["forged_audit"]["all_pass"]
     assert result["forged_audit"]["duplicate_units"] == ["unit_a"]
+
+
+def test_training_update_mutation_uses_each_cells_sealed_checkpoint(monkeypatch, tmp_path):
+    principal = tmp_path / "e2_principal"
+    principal.mkdir()
+    selected = {"cell_a": 400, "cell_b": 1600}
+    receipt = {
+        "convergence_authority": {"selected_checkpoints": selected},
+        "runs": [
+            {"cell": "cell_a", "steps": 400, "updates": 400},
+            {"cell": "cell_b", "steps": 1600, "updates": 1600},
+        ],
+    }
+    path = principal / "bed_0.json"
+    path.write_text(json.dumps(receipt))
+    monkeypatch.setattr(mutations.io, "RUNS", tmp_path)
+    result = mutations.training_update_mutation()
+    assert result["pass"] and result["n_receipts"] == 1 and result["n_runs"] == 2
+    receipt["runs"][1]["updates"] = 1601
+    path.write_text(json.dumps(receipt))
+    assert not mutations.training_update_mutation()["pass"]
 
 
 def test_readout_inventory_checks_each_readout_across_all_cells():

@@ -52,8 +52,12 @@ def test_failed_post_core_verification_withdraws_selection_and_reverifies(monkey
     assert len(quarantined) == 1 and quarantined[0].read_bytes() == b"packaged"
 
 
-def test_successors_stay_closed_when_withdrawal_verification_is_not_green(monkeypatch):
-    docs = {VERIFY: {"all_pass": True}, CORE: {"selected": False}}
+def test_negative_verified_core_decision_seals_closed_successor_gates(monkeypatch):
+    docs = {
+        VERIFY: {"all_pass": True, "role_b": {"checks": {"a": True}},
+                 "role_c": {"n_checks": 1}},
+        CORE: {"selected": False, "selection": {"reason": "load bearing evidence is red"}},
+    }
     calls = []
     _artifacts(monkeypatch, docs)
 
@@ -66,7 +70,17 @@ def test_successors_stay_closed_when_withdrawal_verification_is_not_green(monkey
         return True
 
     monkeypatch.setattr(supervisor, "run_sync", run)
+    assert supervisor.run_verified_successor_gates()
+    assert calls == ["mop.temporal.runs.coresel", "mop.temporal.runs.verify",
+                     "mop.temporal.runs.coresel", "mop.temporal.runs.verify",
+                     "mop.temporal.runs.successors"]
+
+
+def test_successor_gating_stops_when_negative_core_decision_is_incomplete(monkeypatch):
+    docs = {VERIFY: {"all_pass": False}, CORE: {"selected": False}}
+    calls = []
+    _artifacts(monkeypatch, docs)
+    monkeypatch.setattr(supervisor, "run_sync", lambda mod, args=(): calls.append(mod) or True)
     assert not supervisor.run_verified_successor_gates()
     assert calls == ["mop.temporal.runs.coresel", "mop.temporal.runs.verify",
                      "mop.temporal.runs.coresel", "mop.temporal.runs.verify"]
-    assert "mop.temporal.runs.successors" not in calls
