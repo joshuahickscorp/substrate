@@ -20,7 +20,7 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).expanduser().resolve()
 AUTHORITY = ROOT / "evidence" / "substrate" / "v1" / "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json"
 
 

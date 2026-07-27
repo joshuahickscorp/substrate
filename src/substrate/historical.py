@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sys
 from functools import lru_cache
 from pathlib import Path
@@ -18,7 +19,7 @@ class Refused(RuntimeError):
 
 
 def repository() -> Path:
-    return Path(__file__).resolve().parents[2]
+    return Path(os.environ.get("SUBSTRATE_REPOSITORY_ROOT", Path(__file__).resolve().parents[2])).expanduser().resolve()
 
 
 def authority_path() -> Path:
