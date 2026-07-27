@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `8796fbdd24486c788d373c9cd36c172cb04cea4f`. Status is derived, never asserted: an item is
+Generated from the tree at commit `f4bf65cba05be8acb6996a9d62bf1afc9a13de58`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 35. Levels: measured 13, not_started 13, terminal 7, tested 2.
+Items: 35. Levels: measured 20, not_started 6, terminal 7, tested 2.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -29,13 +29,13 @@ Items: 35. Levels: measured 13, not_started 13, terminal 7, tested 2.
 | W1 | 8 | World model | measured | C2, M2 | classify the result through mop.method.gate.classify_result and record it |
 | S1 | 9 | Self model | measured | C2, M2 | classify the result through mop.method.gate.classify_result and record it |
 | K1 | 10 | Metacognition | not_started | C5, S1 | implement src/mop/cognition/metacog.py |
-| P1 | 11.1 | Plasticity hierarchy | not_started | A4, C2 | implement src/mop/cognition/plasticity.py |
-| P2 | 11.2 | Fast adaptation | not_started | P1, M1 | implement src/mop/cognition/plasticity.py |
-| P3 | 11.3 | Slow adaptation | not_started | P1, M5 | implement src/mop/cognition/plasticity.py |
-| P4 | 11.4 | Plasticity policy | not_started | P2, P3 | implement src/mop/cognition/plasticity.py |
-| P5 | 11.5 | Learning to learn | not_started | P4 | implement src/mop/cognition/plasticity.py |
-| R1 | 12 | Bounded functional reorganization | not_started | P1, C4, A4 | implement src/mop/cognition/plasticity.py |
-| B1 | 13 | Model body interface | not_started | C2 | implement src/mop/cognition/body.py |
+| P1 | 11.1 | Plasticity hierarchy | measured | A4, C2 | classify the result through mop.method.gate.classify_result and record it |
+| P2 | 11.2 | Fast adaptation | measured | P1, M1 | classify the result through mop.method.gate.classify_result and record it |
+| P3 | 11.3 | Slow adaptation | measured | P1, M5 | classify the result through mop.method.gate.classify_result and record it |
+| P4 | 11.4 | Plasticity policy | measured | P2, P3 | classify the result through mop.method.gate.classify_result and record it |
+| P5 | 11.5 | Learning to learn | measured | P4 | classify the result through mop.method.gate.classify_result and record it |
+| R1 | 12 | Bounded functional reorganization | measured | P1, C4, A4 | classify the result through mop.method.gate.classify_result and record it |
+| B1 | 13 | Model body interface | measured | C2 | classify the result through mop.method.gate.classify_result and record it |
 | T1 | 14 | Operationalized thinking | not_started | C5, K1 | implement src/mop/cognition/batteries.py |
 | E1 | 15.1 | Continuity | not_started | M2, S1 | implement src/mop/cognition/batteries.py |
 | E2 | 15.2 | Unity | not_started | C2, C5 | implement src/mop/cognition/batteries.py |

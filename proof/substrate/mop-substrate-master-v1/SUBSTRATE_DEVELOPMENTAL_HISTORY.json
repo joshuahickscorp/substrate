@@ -1,0 +1,11 @@
+{
+  "schema": "substrate-developmental-history/v1",
+  "generalization_rule": "an adaptation rule counts as generalizing only after it helps on held out tasks it was not derived from",
+  "min_held_out_tasks": 2,
+  "measured_rules": {},
+  "honest_state": "no adaptation rule has yet been evaluated across tasks, so no developmental learning has been earned",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+  "sha256": "7ec0a18e900b7a783772fc256159c9777d69101ce0f35bbf51577eeacbc78587"
+}

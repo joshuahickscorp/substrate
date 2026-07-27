@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import copy
 
+import pytest
+
 from mop.cognition import deliverables as D
 from mop.cognition import io
 from mop.cognition import program as P
@@ -149,6 +151,29 @@ def test_an_authority_is_terminal_once_sealed_and_tested(tmp_path, monkeypatch):
                         green, {}, {})
     assert row["level"] == "measured"
     assert "classify" in row["next_action"]
+
+
+def test_state_reports_whether_the_source_tree_was_clean():
+    """Correction C_DIRTY_SRC_HALTS_SUPERVISOR: a state file written from a dirty tree must say so."""
+    tree = P.source_tree_state()
+    assert set(tree) == {"clean", "dirty_paths", "why_it_matters"}
+    assert isinstance(tree["clean"], bool)
+    assert tree["clean"] == (not tree["dirty_paths"])
+    assert "supervisor" in tree["why_it_matters"]
+    assert P.state()["source_tree"]["clean"] == tree["clean"]
+
+
+def test_corrections_are_append_only():
+    recorded = {c["correction_id"] for c in P.corrections()}
+    assert {"C_EVIDENCE_PRESENCE", "C_AUTHORITY_TERMINALITY"} <= recorded
+    for c in P.corrections():
+        assert c["regression_test"], f"{c['correction_id']} has no permanent regression test"
+        assert c["reproduced_by"], f"{c['correction_id']} does not say how it was reproduced"
+    # rewriting an existing correction with different content is refused
+    first = P.corrections()[0]
+    with pytest.raises(ValueError):
+        P.record_correction(first["correction_id"], "a different defect", "a different fix",
+                            "a different test", "a different observation")
 
 
 def test_status_is_derived_not_asserted():

@@ -156,7 +156,7 @@
       "items_with_earned_evidence": []
     },
     "plasticity": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "P1",
@@ -175,7 +175,7 @@
       "items_with_earned_evidence": []
     },
     "transfer": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "B1"
@@ -183,7 +183,7 @@
       "items_with_earned_evidence": []
     },
     "reorganization": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "R1"
@@ -191,7 +191,7 @@
       "items_with_earned_evidence": []
     },
     "developmental_learning": {
-      "implementation_pct": 0,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "P5"
@@ -233,7 +233,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "mop-substrate-master-v1",
-  "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f",
+  "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
   "activation": false,
-  "sha256": "ec37b5ba1717ccf03e309fd239f502b1ea9ece78045ffad463476dd223ccc223"
+  "sha256": "f6b48a8c479cfb7138b4e20311fc4e21e7e15d6ebb592397e83190a84ee6f152"
 }
