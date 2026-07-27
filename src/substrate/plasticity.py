@@ -348,7 +348,7 @@ LEARNED_POLICY_CLOSURE = {
     "hypothesis": "H_learned_plasticity_policy",
     "verdict": "null",
     "finding": "no stable headroom, simple policy sufficient",
-    "authority": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+    "authority": "historical:fast_state_binding_nulls",
     "key": "inherited_nulls.learned_plasticity",
 }
 

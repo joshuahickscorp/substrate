@@ -3,7 +3,7 @@
 Section 9 says: if the current Temporal Core authority has not selected a valid minimal core, use a
 declared control implementation and preserve the scientific limitation. That is exactly the situation. The
 factorial is terminal, role B found the load bearing baselines unconverged on all three beds, and
-`MOP_OWNED_TEMPORAL_CORE_V1.json` records `selected: false`.
+The hash-bound predecessor selection authority records `selected: false`.
 
 So this module wires a control, and the control is labelled a control everywhere it appears. The interface
 is versioned so that a licensed core can replace it without the runtime changing, and a test asserts the
@@ -49,7 +49,7 @@ SOURCES = (
     "world_model_prediction",
 )
 
-TEMPORAL_AUTHORITY = "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json"
+TEMPORAL_AUTHORITY = "historical:temporal_selection"
 
 
 class Refused(RuntimeError):

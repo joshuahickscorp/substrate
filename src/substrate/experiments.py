@@ -28,6 +28,7 @@ import json
 import sys
 
 from substrate import admission as A
+from substrate import data, historical
 from substrate import evidence as io
 from substrate.method import contracts as C
 from substrate.method import gate
@@ -245,7 +246,7 @@ SX1B_DESIGN = {
 
 # ---------------------------------------------------------------- SX1b, implemented
 
-BED_CACHE = io.data_root() / "harth" / "harth_stream.npz"
+BED_CACHE = data.cache_path("harth")
 
 
 def _features(x):
@@ -652,13 +653,13 @@ BED_SCREEN_RULE = {
     "activation": False,
 }
 
-BED_CACHES = {"harth_stream": "harth/harth_stream.npz", "pamap2_stream": "pamap2/pamap2_stream.npz"}
+BED_CACHES = {"harth_stream": "harth", "pamap2_stream": "pamap2"}
 
 
 def screen_bed(name: str) -> dict:
     import numpy as np
 
-    cache = io.data_root() / BED_CACHES[name]
+    cache = data.cache_path(BED_CACHES[name])
     if not cache.is_file():
         return {"bed": name, "available": False, "reason": f"no cache under custody at {cache}"}
     d = np.load(cache)
@@ -713,7 +714,7 @@ def bed_screen() -> dict:
 # the peek did not answer, and what the terminal claim is restricted to, is whether an offset fitted on
 # one bed transfers to the other, per core family.
 
-TEMPORAL_RUNS = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
+TEMPORAL_RUNS = historical.root("temporal_receipts")
 
 SX5_DESIGN = {
     "schema": "substrate-experiment-design/v1",

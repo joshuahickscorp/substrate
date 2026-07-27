@@ -4,26 +4,25 @@
   "plans": {
     "final": {
       "path": "/Users/scammermike/Downloads/substrate/docs/LONG_RUN_PLAN.md",
-      "sha256": "a75f435fd662edc5e36b00b644ab0f31187c32ca42aac7c0cacb7021b058ae0a",
+      "sha256": "cbe665b6bcd741ce1cda1bc9d40675838a14e129ad20d44cc925f13aed56eb7f",
       "resolved": true
     }
   },
   "source": {
-    "commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
-    "tree": "8f8b8c6f5d736a9d14e472dff164b78c07eb5232",
+    "commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+    "tree": "ffbc76cece925b6ff201f09806b326033538c9ba",
     "branch": "agent/substrate-event-horizon",
     "remote_branch": "agent/substrate-event-horizon",
     "pull_request": 35
   },
   "proof_roots": {
-    "temporal": "proof/substrate/mop-temporal-core-mechanism-v1",
-    "method": "proof/method/mop-experimental-method-reformation-v1",
-    "fastforge": "proof/substrate/mop-fast-state-plasticity-forge-v1"
+    "active": "evidence/substrate/v1",
+    "historical_authority": "evidence/substrate/v1/SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json"
   },
   "inherited_authorities": [
     {
       "program": "method_reformation",
-      "reference": "method:MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "reference": "historical:experimental_validity_kernel",
       "resolved": true,
       "path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
       "sha256": "04c3c426aa26b7f1d8e51637102ace4a13887a88ee6cfaed12bd9b5315c3207a",
@@ -31,7 +30,7 @@
     },
     {
       "program": "method_reformation",
-      "reference": "method:MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "reference": "historical:historical_experiment_defect_ledger",
       "resolved": true,
       "path": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
       "sha256": "4c62053d18833fe4f4cb6995febc89e7d12687ed2d4bd730ab7677d80a0071e1",
@@ -39,7 +38,7 @@
     },
     {
       "program": "method_reformation",
-      "reference": "method:MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "reference": "historical:inherited_hypothesis_graph",
       "resolved": true,
       "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
       "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa",
@@ -47,7 +46,7 @@
     },
     {
       "program": "method_reformation",
-      "reference": "method:MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+      "reference": "historical:method_next_frontier",
       "resolved": true,
       "path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
       "sha256": "70b09760a6ede7f7f856474d3f780c87212ec2916dbb060475876e4ff5f1901f",
@@ -55,7 +54,7 @@
     },
     {
       "program": "fast_state_forge",
-      "reference": "fastforge:MOP_FAST_STATE_BINDING_NULLS.json",
+      "reference": "historical:fast_state_binding_nulls",
       "resolved": true,
       "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
       "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26",
@@ -63,7 +62,7 @@
     },
     {
       "program": "fast_state_forge",
-      "reference": "fastforge:MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+      "reference": "historical:fast_state_synthesis",
       "resolved": true,
       "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.json",
       "sha256": "efd5419d67bbcc7847291b4a93a20e2335ae5f6f7232e7f7939ee9db7d339f86",
@@ -71,7 +70,7 @@
     },
     {
       "program": "temporal_core",
-      "reference": "temporal:MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "reference": "historical:temporal_start_authority",
       "resolved": true,
       "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
       "sha256": "d0138ed3100b7d255332201cc6afcc5a5027ded6f368c9956838a3a8192386f1",
@@ -79,7 +78,7 @@
     },
     {
       "program": "temporal_core",
-      "reference": "temporal:MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "reference": "historical:temporal_method_extension",
       "resolved": true,
       "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
       "sha256": "6d1ab9b7a3b70406e91243e34f7cd1db344dc2191931457069d02486fbd1cb06",
@@ -87,7 +86,7 @@
     },
     {
       "program": "temporal_core",
-      "reference": "temporal:MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "reference": "historical:temporal_hypothesis_graph",
       "resolved": true,
       "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
       "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f",
@@ -95,7 +94,7 @@
     },
     {
       "program": "temporal_core",
-      "reference": "temporal:MOP_DATA_CUSTODY_AUTHORITY.json",
+      "reference": "historical:data_custody",
       "resolved": true,
       "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
       "sha256": "1c9d2654660883c5024b7fed96a11b26220d360d11e9f8b386a7fac9b4a0737e",
@@ -109,9 +108,10 @@
       "Mixture of Perspectives": "the perspective generation and arbitration subsystem, items C3 to C5",
       "Mixture of Thinking": "the composition of heterogeneous cognitive processes, items C5, K1 and T1"
     },
-    "rule": "active product, package, command, path and environment identities are Substrate. Historical files, commits, tags, proofs, schemas and program identities remain byte-identical and are read only through substrate.compat.mop",
+    "rule": "active product, package, command, path and environment identities are Substrate. Historical files, commits, tags, proofs, schemas and program identities remain byte-identical and are read only through the Substrate historical evidence authority",
     "active_rename_complete": true,
-    "compatibility_namespace": "substrate.compat.mop"
+    "compatibility_namespace": null,
+    "historical_authority": "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json"
   },
   "claim_boundary": {
     "levels": [
@@ -167,6 +167,6 @@
   "resume_without_history": "every field a successor needs is in SUBSTRATE_FINAL_STATE.json and this file. No conversation is required to continue",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
-  "sha256": "606aed311a117610d48a481538c3c3a1b244f531506fc24fe4ca0fc51d0679f9"
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "aad8dc153c4cf6569ec5f5ef81d57fa9f521c84b81211df815ad1c76fdaf5a73"
 }

@@ -1,0 +1,237 @@
+{
+  "schema": "substrate-real-workload-profile/v1",
+  "machine": {
+    "chip": "Apple M3 Ultra",
+    "logical_cores": 28,
+    "memory_gib": 96
+  },
+  "complete_workload": {
+    "units": 19,
+    "median_wall_seconds": 7.112080249935389,
+    "p95_wall_seconds": 7.1187789579853415,
+    "median_total_cpu_seconds": 8.255213000000005,
+    "cpu_utilization_percent": 116.073,
+    "effective_core_utilization": 1.160731,
+    "peak_rss_mib": 316.171875,
+    "peak_process_count": 5,
+    "peak_thread_count": 5,
+    "swap_delta_mib": 0,
+    "output_bytes": 601516,
+    "block_input_operations": 0,
+    "block_output_operations": 0,
+    "memory_free_percent_before": [
+      89,
+      89,
+      89
+    ],
+    "memory_free_percent_after": [
+      89,
+      89,
+      89
+    ],
+    "thermal": [
+      {
+        "available": true,
+        "detail": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+      },
+      {
+        "available": true,
+        "detail": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+      },
+      {
+        "available": true,
+        "detail": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+      }
+    ]
+  },
+  "per_unit_wall_seconds_median": {
+    "audit": 0.080087,
+    "declarations": 0.425411,
+    "temporal_continuity": 0.015538,
+    "ontology_epistemology": 0.015272,
+    "memory": 0.014714,
+    "diversity_arbitration": 0.096986,
+    "world_model": 0.148857,
+    "self_model": 0.014556,
+    "body_compact": 0.046683,
+    "body_general": 0.044448,
+    "body_tool": 0.042231,
+    "body_comparison": 0.197499,
+    "admitted_plasticity": 0.016541,
+    "developmental_divergence": 0.310471,
+    "entity_batteries": 0.021587,
+    "certification": 0.339263,
+    "recomputation": 0.046714,
+    "mutations": 4.940042,
+    "terminal_synthesis": 0.164209
+  },
+  "equivalent_sampled_profile": {
+    "method": "per-unit wall decomposition plus 200 ms process-tree/RSS samples over every complete trial",
+    "top_cost_centers": [
+      {
+        "unit": "mutations",
+        "median_wall_seconds": 4.940042,
+        "percent_of_selected_wall": 69.46
+      },
+      {
+        "unit": "declarations",
+        "median_wall_seconds": 0.425411,
+        "percent_of_selected_wall": 5.982
+      },
+      {
+        "unit": "certification",
+        "median_wall_seconds": 0.339263,
+        "percent_of_selected_wall": 4.77
+      },
+      {
+        "unit": "developmental_divergence",
+        "median_wall_seconds": 0.310471,
+        "percent_of_selected_wall": 4.365
+      },
+      {
+        "unit": "body_comparison",
+        "median_wall_seconds": 0.197499,
+        "percent_of_selected_wall": 2.777
+      },
+      {
+        "unit": "terminal_synthesis",
+        "median_wall_seconds": 0.164209,
+        "percent_of_selected_wall": 2.309
+      },
+      {
+        "unit": "world_model",
+        "median_wall_seconds": 0.148857,
+        "percent_of_selected_wall": 2.093
+      },
+      {
+        "unit": "diversity_arbitration",
+        "median_wall_seconds": 0.096986,
+        "percent_of_selected_wall": 1.364
+      },
+      {
+        "unit": "audit",
+        "median_wall_seconds": 0.080087,
+        "percent_of_selected_wall": 1.126
+      },
+      {
+        "unit": "recomputation",
+        "median_wall_seconds": 0.046714,
+        "percent_of_selected_wall": 0.657
+      },
+      {
+        "unit": "body_compact",
+        "median_wall_seconds": 0.046683,
+        "percent_of_selected_wall": 0.656
+      },
+      {
+        "unit": "body_general",
+        "median_wall_seconds": 0.044448,
+        "percent_of_selected_wall": 0.625
+      },
+      {
+        "unit": "body_tool",
+        "median_wall_seconds": 0.042231,
+        "percent_of_selected_wall": 0.594
+      },
+      {
+        "unit": "entity_batteries",
+        "median_wall_seconds": 0.021587,
+        "percent_of_selected_wall": 0.304
+      },
+      {
+        "unit": "admitted_plasticity",
+        "median_wall_seconds": 0.016541,
+        "percent_of_selected_wall": 0.233
+      },
+      {
+        "unit": "temporal_continuity",
+        "median_wall_seconds": 0.015538,
+        "percent_of_selected_wall": 0.218
+      },
+      {
+        "unit": "ontology_epistemology",
+        "median_wall_seconds": 0.015272,
+        "percent_of_selected_wall": 0.215
+      },
+      {
+        "unit": "memory",
+        "median_wall_seconds": 0.014714,
+        "percent_of_selected_wall": 0.207
+      },
+      {
+        "unit": "self_model",
+        "median_wall_seconds": 0.014556,
+        "percent_of_selected_wall": 0.205
+      }
+    ],
+    "sampled_child_process_tree_at_peak": [
+      {
+        "pid": 16056,
+        "ppid": 12971,
+        "rss_kib": 2288,
+        "threads": 1,
+        "command": "ps axo pid=,ppid=,rss=,command="
+      },
+      {
+        "pid": 15849,
+        "ppid": 12971,
+        "rss_kib": 19088,
+        "threads": 1,
+        "command": "/Users/scammermike/Downloads/substrate/.venv/bin/python -c from multiprocessing.resource_tracker import main;main(8)"
+      },
+      {
+        "pid": 15850,
+        "ppid": 12971,
+        "rss_kib": 157376,
+        "threads": 1,
+        "command": "/Users/scammermike/Downloads/substrate/.venv/bin/python -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=9, pipe_handle=17) --multiprocessing-fork"
+      },
+      {
+        "pid": 16055,
+        "ppid": 15850,
+        "rss_kib": 57536,
+        "threads": 1,
+        "command": "/Users/scammermike/Downloads/substrate/.venv/bin/python -c \\012import importlib, sys\\012import pytest\\012mod = importlib.import_module('substrate.experiments')\\012exec(\"BED_SCREEN_RULE = {**BED_SCREEN_RULE, 'sesoi': 0.001}\", mod.__dict__)\\012sys.exit(pytest.main([\"-q\", \"--no-header\", \"-p\", \"no:cacheprovider\", 'tests/substrate/test_experiments.py::test_no_bed_under_custody_can_test_the_typed_workspace_hypothesis']))\\012"
+      }
+    ]
+  },
+  "overhead_decomposition": {
+    "unit_body_wall_sum_seconds": 6.98111,
+    "persistent_supervision_checkpoint_and_idle_seconds": 0.13097,
+    "subprocess_model_median_seconds": 8.923076125094667,
+    "subprocess_startup_import_serialization_penalty_seconds": 1.810996,
+    "mutation_seconds": 4.940042,
+    "verification_seconds": 0.046714,
+    "hashing_and_serialization": "included in each seal and independent verification unit",
+    "idle_dependency_time": "one worker has no dependency idle time while any unit is ready"
+  },
+  "work_types": {
+    "python_orchestration": "dominant outside mutation subprocesses",
+    "native_numpy_or_blas": "body units; measured thread scaling was immaterial",
+    "external_subprocess": "32 mutation probes and the reference execution model",
+    "io_wait": "small; output is under one MiB and block-I/O counters were recorded",
+    "single_threaded_python": "audit, sealing, certification, graph and receipt validation",
+    "parallelizable_independent_units": [
+      "audit",
+      "temporal_continuity",
+      "ontology_epistemology",
+      "memory",
+      "diversity_arbitration",
+      "world_model",
+      "self_model",
+      "body_compact",
+      "body_general",
+      "body_tool",
+      "admitted_plasticity",
+      "recomputation"
+    ],
+    "exclusive_writer_units": [
+      "declarations",
+      "mutations",
+      "terminal_synthesis"
+    ]
+  },
+  "limitations": "Per-unit CPU and peak RSS are not attributed from parent-only counters because that would omit mutation grandchildren. Complete-run child-tree sampling and declared per-unit memory classes are used instead; wall time is measured per unit.",
+  "scientific_run_launched": false,
+  "activation": false
+}

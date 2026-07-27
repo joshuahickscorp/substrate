@@ -14,13 +14,13 @@
     "closed"
   ],
   "inherited_graph": {
-    "reference": "method:MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+    "reference": "historical:inherited_hypothesis_graph",
     "resolved": true,
     "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
     "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa"
   },
   "inherited_temporal_graph": {
-    "reference": "temporal:MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+    "reference": "historical:temporal_hypothesis_graph",
     "resolved": true,
     "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
     "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f"
@@ -245,7 +245,7 @@
       "strongest_baseline": "the best simple triggered rule",
       "cheapest_falsifier": "already run and null",
       "dependent_hypotheses": [],
-      "blocking_null": "fastforge:MOP_FAST_STATE_BINDING_NULLS.json#inherited_nulls.learned_plasticity",
+      "blocking_null": "historical:fast_state_binding_nulls#inherited_nulls.learned_plasticity",
       "carrying_items": [
         {
           "id": "P4",
@@ -253,7 +253,7 @@
         }
       ],
       "closure": {
-        "reference": "fastforge:MOP_FAST_STATE_BINDING_NULLS.json",
+        "reference": "historical:fast_state_binding_nulls",
         "resolved": true,
         "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
         "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26"
@@ -263,7 +263,7 @@
   ],
   "open_count": 8,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
   "activation": false,
-  "sha256": "4f0919bb49eac4db7f474d871f31c1fd0c533d4326b437dc42174221720d99dd"
+  "sha256": "5dbbc2a2994adb8e517e98bcd5d1c75487903459d654c30ee08caa6c874d016f"
 }

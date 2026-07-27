@@ -290,6 +290,6 @@
   "do_not_run_everything": true,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
-  "sha256": "5929555729deab9ebc9b39cbe6d21518d1ac83e6da353cb0473e0b19b8c40d4b"
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "68b163f93c4efbbd97e9f75678c2d60ce86bef6c21177dfbb537d8cf25d26996"
 }

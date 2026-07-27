@@ -116,7 +116,7 @@ def test_reflective_report_fails_closed_without_provenance():
     grounded = B.reflective_report(entity, "f1")
     assert grounded["answered"] is True and grounded["bound_to_receipts"] is True
     assert set(grounded["answers"]) == set(B.REFLECTIVE_QUESTIONS)
-    assert grounded["answers"]["where_a_belief_came_from"].startswith("proof/")
+    assert grounded["answers"]["where_a_belief_came_from"].startswith("historical:")
 
     unsourced = B.reflective_report(entity, "f2")
     assert unsourced["answered"] is False and unsourced["failed_closed"] is True

@@ -32,15 +32,16 @@ substrate rehearse
 - Sealed evidence is immutable.
 - Mutable receipts belong under `runs/substrate/v1/`.
 - Current evidence belongs under `evidence/substrate/v1/`.
-- Event Horizon measurements and reports belong under `artifacts/substrate/event-horizon/`.
+- Execution Forge measurements and reports belong under `artifacts/substrate/execution-forge/`.
 - Scratch data and caches are never authorities.
 - Every artifact has one declared producer and checkout-independent content identity.
 
 ## Naming and archive rules
 
 Active product, package, command, path, program, branch, configuration, and environment names use
-Substrate. MOP remains only as a historical identity, sealed schema/value, or read-only migration record
-inside `substrate.compat.mop`. There is no active `import mop` shim.
+Substrate. Predecessor identities remain only in sealed historical evidence, citations, and the hash-bound
+migration manifest. Active code reads neutral aliases through `substrate.historical`; no compatibility
+package or predecessor environment reader exists.
 
 Superseded source, tests, and documents live under `archive/pre-substrate-event-horizon/` and are absent
 from active navigation. Exact duplicates are deleted rather than archived repeatedly.

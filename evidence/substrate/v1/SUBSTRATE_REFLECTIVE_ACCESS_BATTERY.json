@@ -22,7 +22,7 @@
           "internal_state",
           "goal"
         ],
-        "where_a_belief_came_from": "proof/substrate/mop-temporal-core-mechanism-v1/E1.json",
+        "where_a_belief_came_from": "historical:temporal_receipts:E1.json",
         "what_evidence_supports_it": [
           "f1"
         ],
@@ -70,7 +70,7 @@
   "every_answer_bound_to_a_receipt": true,
   "rule": "a report with no provenance fails closed rather than answering",
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
   "activation": false,
-  "sha256": "bfaa2aefe253f9b9a1d797a0c59d5af8d3f48033c11f8c8687762a1fbdd7d229"
+  "sha256": "2796adee9a6000c0772abc4582256e2787c8cd185750287a0e2ba397bc522741"
 }

@@ -16,9 +16,8 @@ import sys
 from pathlib import Path
 
 from substrate import evidence as io
+from substrate import historical, safety
 from substrate import program as P
-from substrate import safety
-from substrate.compat import mop as historical_mop
 
 PLAN_PATH = Path(P.PLAN)
 
@@ -26,59 +25,58 @@ PLAN_PATH = Path(P.PLAN)
 INHERITED_AUTHORITIES = (
     (
         "method_reformation",
-        "method:MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+        "historical:experimental_validity_kernel",
         "the admission gate every new Substrate experiment must pass",
     ),
     (
         "method_reformation",
-        "method:MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+        "historical:historical_experiment_defect_ledger",
         "eighteen reproduced defect classes, each a permanent regression",
     ),
     (
         "method_reformation",
-        "method:MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+        "historical:inherited_hypothesis_graph",
         "the inherited hypothesis graph this program extends and never rewrites",
     ),
     (
         "method_reformation",
-        "method:MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+        "historical:method_next_frontier",
         "the value of information selection that licensed the temporal core program",
     ),
     (
         "fast_state_forge",
-        "fastforge:MOP_FAST_STATE_BINDING_NULLS.json",
+        "historical:fast_state_binding_nulls",
         "immutable inherited nulls, supersedable only by an appended authority",
     ),
     (
         "fast_state_forge",
-        "fastforge:MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+        "historical:fast_state_synthesis",
         "the terminal synthesis of the fast state program",
     ),
     (
         "temporal_core",
-        "temporal:MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+        "historical:temporal_start_authority",
         "the start authority of the live temporal core mechanism program",
     ),
     (
         "temporal_core",
-        "temporal:MOP_TEMPORAL_METHOD_EXTENSION.json",
+        "historical:temporal_method_extension",
         "five method witnesses added by the temporal program",
     ),
     (
         "temporal_core",
-        "temporal:MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+        "historical:temporal_hypothesis_graph",
         "the temporal factorial hypothesis graph",
     ),
-    ("temporal_core", "temporal:MOP_DATA_CUSTODY_AUTHORITY.json", "corpus custody and the deletion guard"),
+    ("temporal_core", "historical:data_custody", "corpus custody and the deletion guard"),
 )
-
-ROOTS = dict(P.PROOF_ROOTS)
-ROOTS["fastforge"] = historical_mop.roots(io.ROOT)["fastforge"]
 
 
 def _resolve(ref: str) -> Path:
     root, _, name = ref.rpartition(":")
-    return ROOTS.get(root, io.PROOF) / name
+    if root == "historical":
+        return historical.artifact(name)
+    return P.PROOF_ROOTS.get(root, io.PROOF) / name
 
 
 def _bind(ref: str) -> dict:
@@ -110,10 +108,11 @@ NAMING = {
     "rule": (
         "active product, package, command, path and environment identities are Substrate. Historical "
         "files, commits, tags, proofs, schemas and program identities remain byte-identical and are "
-        "read only through substrate.compat.mop"
+        "read only through the Substrate historical evidence authority"
     ),
     "active_rename_complete": True,
-    "compatibility_namespace": "substrate.compat.mop",
+    "compatibility_namespace": None,
+    "historical_authority": "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
 }
 
 CLAIM_BOUNDARY = {
@@ -287,7 +286,7 @@ HYPOTHESES = (
         strongest_baseline="the best simple triggered rule",
         cheapest_falsifier="already run and null",
         dependent_hypotheses=[],
-        blocking_null="fastforge:MOP_FAST_STATE_BINDING_NULLS.json#inherited_nulls.learned_plasticity",
+        blocking_null="historical:fast_state_binding_nulls#inherited_nulls.learned_plasticity",
     ),
 )
 
@@ -353,8 +352,8 @@ def hypothesis_graph(st: dict) -> dict:
             "superseded",
             "closed",
         ],
-        "inherited_graph": _bind("method:MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json"),
-        "inherited_temporal_graph": _bind("temporal:MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json"),
+        "inherited_graph": _bind("historical:inherited_hypothesis_graph"),
+        "inherited_temporal_graph": _bind("historical:temporal_hypothesis_graph"),
         "inheritance_rule": ("the inherited graphs are sealed evidence. This program appends Substrate native hypotheses and never edits an inherited node"),
         "hypotheses": rows,
         "open_count": sum(1 for r in rows if r["state"] not in ("closed", "null", "superseded")),
@@ -640,7 +639,7 @@ def capability_map(st: dict) -> dict:
 # ---------------------------------------------------------------- the live temporal core record
 
 
-TEMPORAL_RUNS = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
+TEMPORAL_RUNS = historical.root("temporal_receipts")
 
 
 def _temporal_progress(counts: dict) -> dict:
@@ -702,9 +701,9 @@ def temporal_core_record() -> dict:
         d = TEMPORAL_RUNS / sub
         return len(list(d.glob(pattern))) if d.is_dir() else 0
 
-    synthesis = _bind("temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json")
-    selection = _bind("temporal:MOP_OWNED_TEMPORAL_CORE_V1.json")
-    verification = _bind("temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json")
+    synthesis = _bind("historical:temporal_synthesis")
+    selection = _bind("historical:temporal_selection")
+    verification = _bind("historical:temporal_verification")
     counts = {
         "e2_scout": count("e2_scout"),
         "e2_converge": count("e2_converge"),
@@ -717,11 +716,11 @@ def temporal_core_record() -> dict:
         "failure_holds": count("failure_holds"),
         "active_locks": count("locks"),
     }
-    terminal = P.evidence_state("temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json")["counts"]
+    terminal = P.evidence_state("historical:temporal_synthesis")["counts"]
     return {
         "progress": _temporal_progress(counts),
         "schema": "substrate-temporal-core/v1",
-        "program": "mop-temporal-core-mechanism-v1",
+        "program": "predecessor-temporal-core-mechanism-v1",
         "question": (
             "whether recurrence is necessary, whether explicit history is sufficient, the "
             "minimum useful state horizon, the smallest useful capacity, the simplest "
@@ -880,6 +879,8 @@ def write_all() -> dict:
 # one producer per artifact. body is absent because bodies owns the interface artifact, and the ordering
 # puts every declaration before the modules that measure against it.
 MODULES_THAT_SEAL = (
+    "historical",
+    "data",
     "admission",
     "safety",
     "ontology",
@@ -903,23 +904,56 @@ MODULES_THAT_SEAL = (
     "audit",
 )
 
+# The terminal synthesis owns each artifact family once. These are the declarations that do not have a
+# dedicated work unit later in the DAG. Keeping this list separate prevents the old declarations unit
+# from regenerating body, experiment, certification, and audit artifacts that later units then rewrote.
+DECLARATION_MODULES = (
+    "historical",
+    "data",
+    "admission",
+    "safety",
+    "ontology",
+    "sessions",
+    "workspace",
+    "perspectives",
+    "world",
+    "metacog",
+    "runtime",
+    "goals",
+    "grounding",
+    "graph",
+    "nous",
+)
 
-def seal_modules() -> dict:
-    """Reseal every module declaration from the current tree. One entry point, so the campaign has one."""
+
+def _seal_named(names: tuple[str, ...]) -> dict:
     import importlib
 
     out = {}
-    for name in MODULES_THAT_SEAL:
+    for name in names:
         module = importlib.import_module(f"substrate.{name}")
         module.main(["seal"])
         out[name] = "sealed"
     return out
 
 
+def seal_modules() -> dict:
+    """Reseal every module declaration from the current tree. One entry point, so the campaign has one."""
+    return _seal_named(MODULES_THAT_SEAL)
+
+
+def seal_declarations() -> dict:
+    """Seal only artifact families without a dedicated terminal-synthesis unit."""
+    return _seal_named(DECLARATION_MODULES)
+
+
 def main(argv=None) -> None:
     argv = argv or sys.argv[1:]
     if argv and argv[0] == "seal-modules":
         print(json.dumps(seal_modules(), indent=2))
+        return
+    if argv and argv[0] == "seal-declarations":
+        print(json.dumps(seal_declarations(), indent=2))
         return
     if argv and argv[0] != "write":
         raise ValueError(argv)

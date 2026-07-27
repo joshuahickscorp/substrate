@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from substrate import audit, evidence, runtime
+from substrate import audit, evidence, historical, runtime
 
 
 def test_portability_contract_uses_no_predecessor_checkout_path():
@@ -21,8 +21,9 @@ def test_portability_contract_uses_no_predecessor_checkout_path():
 
 
 def test_collapse_invariants_leave_one_product_and_one_writer():
-    assert not (evidence.ROOT / "src/mop").exists()
+    assert not (evidence.ROOT / "src" / "substrate" / "compat").exists()
     assert (evidence.ROOT / "src/substrate/cli.py").is_file()
+    assert historical.verify_all()["all_pass"] is True
     assert audit.run()["results"]["exclusive_producers"]["ok"] is True
     writers = [path for path in (evidence.ROOT / "src/substrate").glob("*.py") if "def _atomic_write(" in path.read_text()]
     assert writers == [evidence.ROOT / "src/substrate/evidence.py"]

@@ -20,25 +20,10 @@ reports/telegram_notifier/
 # contents, then re-include the specific curated files. See STUDIO_RUN_REPORT.md durability note.
 !runs/
 runs/*
-# The method program's raw shard receipts are 1.9 MB of JSON and are what the independent scientific
-# verifier recomputes from. Tracking them is what makes Role C reproducible from a clean clone.
-!runs/method/
-runs/method/*
-!runs/method/mop-experimental-method-reformation-v1/
-!runs/method/mop-experimental-method-reformation-v1/**
-runs/method/mop-experimental-method-reformation-v1/coverage/
-# The Substrate master program's verdict evidence. The experiment decisions carry the admission reports,
-# the refusals with their blocking violations and the principal measurements, and the result ledger is
-# what turns an item terminal. The independent recomputation reads them, so a clean clone needs them.
-# test_ledger.json is deliberately NOT tracked: a clean clone must rerun the tests rather than inherit a
-# claim that they passed.
+# Historical receipts are already tracked and remain in Git through the migration manifest. New mutable
+# state is admitted only under the active Substrate run root.
 !runs/substrate/
 runs/substrate/*
-!runs/substrate/mop-substrate-master-v1/
-runs/substrate/mop-substrate-master-v1/*
-!runs/substrate/mop-substrate-master-v1/result_ledger.json
-!runs/substrate/mop-substrate-master-v1/experiments/
-!runs/substrate/mop-substrate-master-v1/experiments/**
 !runs/substrate/v1/
 runs/substrate/v1/*
 !runs/substrate/v1/result_ledger.json
@@ -68,3 +53,6 @@ GO.md
 
 # Accretion Collapse scratch working area
 .collapse/
+
+# Execution Forge isolated benchmark roots are disposable; only the sealed matrix and reports are tracked.
+artifacts/substrate/execution-forge/.benchmark-*/

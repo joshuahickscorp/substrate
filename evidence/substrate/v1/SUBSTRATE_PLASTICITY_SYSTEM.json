@@ -230,12 +230,12 @@
     "hypothesis": "H_learned_plasticity_policy",
     "verdict": "null",
     "finding": "no stable headroom, simple policy sufficient",
-    "authority": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+    "authority": "historical:fast_state_binding_nulls",
     "key": "inherited_nulls.learned_plasticity"
   },
   "sesoi": 0.05,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
-  "sha256": "6171e6a6498bd67ce896e6b7b6d032b2b413e0bad9cfbe8efdda9d3e72cc0805"
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "08348972aa497d22ac48ffbc0d701d30bc538c7322a4509a5f5b35a3907d3b2a"
 }

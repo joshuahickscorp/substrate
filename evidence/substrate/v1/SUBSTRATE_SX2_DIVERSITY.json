@@ -147,6 +147,6 @@
   "reading": "oracle selection is an upper bound that no selector can exceed. If the upper bound does not clear the SESOI over a compute matched single cell, no selector built on this set can, and SX2 closes without training one",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
-  "sha256": "5e668e1ca8e3efeedff5e73e29d433398e0f4504f10ec94480cd7b86daf8e42e"
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "aaf3cd78ca2d2f5079960bc6a75737c81972035a0eca0acc2ca1f670fdc61859"
 }

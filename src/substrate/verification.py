@@ -23,6 +23,7 @@ import sys
 from pathlib import Path
 
 from substrate import evidence as io
+from substrate import historical
 
 PY = sys.executable
 
@@ -38,7 +39,7 @@ def _recompute_sx5(doc: dict) -> dict:
     """A second, independent derivation of SX5 straight from the temporal program's sealed receipts."""
     import statistics
 
-    runs = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
+    runs = historical.root("temporal_receipts")
 
     def pairs(bed: str) -> dict:
         cfg = json.loads((runs / "e2_converge" / f"converge_{bed}.json").read_text())["configs"]

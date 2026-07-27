@@ -48,7 +48,9 @@ def test_the_frozen_manifest_covers_everything_the_authority_lists():
         assert man.get(key) not in (None, ""), key
     assert man["manifest_sha256"]
     assert man["sesoi"] == L.SESOI
-    assert "not wall time" in man["completion"]
+    assert man["run_classification"] == "terminal deterministic synthesis"
+    assert man["scientific_work_unit_count"] == 0
+    assert "zero new scientific trials" in man["completion"]
 
 
 def test_a_live_edit_after_the_freeze_is_detectable():
@@ -73,8 +75,9 @@ def test_a_unit_cannot_be_claimed_twice():
 def test_completion_is_units_not_wall_time():
     plan = L.resource_plan()
     assert plan["completion_criterion"] == "all units terminal"
-    assert "has not done less science" in plan["not_a_wall_clock"]
+    assert "independent of elapsed time" in plan["not_a_wall_clock"]
     assert plan["unit_count"] == len(L.UNIT_LIST)
+    assert plan["scientific_work_units"] == 0
 
 
 def test_the_rehearsal_breaks_things_and_survives():

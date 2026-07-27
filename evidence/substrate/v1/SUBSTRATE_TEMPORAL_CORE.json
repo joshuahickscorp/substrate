@@ -21,7 +21,7 @@
   "is_control": true,
   "scientific_limitation": "no temporal core was scientifically licensed. The factorial is terminal and its independent verification did not pass, so this is a declared control and not a selected minimal core. Any result that depends on it inherits that limitation",
   "licensing": {
-    "authority": "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
+    "authority": "historical:temporal_selection",
     "counts_as_evidence": false,
     "licensed_core_available": false,
     "rule": "a licensed core drops into the same interface without the runtime changing"
@@ -90,6 +90,6 @@
   },
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "5dd513da5e82dc71e5678f8cc4d644a5e5ffc7ff",
-  "sha256": "46926a2fbea209f07a20c13a63baca61395e4a1b309259b7c0cae4c007f1120c"
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "b90fb151a40c7791e13429dabe998b85958c2f5a03b2a1f13e25e97f38efbe0c"
 }

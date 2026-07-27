@@ -409,7 +409,7 @@ def _demo_entity() -> tuple[Entity, dict]:
             "f1",
             "two of three beds are temporal",
             0.8,
-            provenance="proof/substrate/mop-temporal-core-mechanism-v1/E1.json",
+            provenance="historical:temporal_receipts:E1.json",
         )
     )
     e.semantic.assert_(M.Fact("f2", "an unsourced hunch", 0.9, provenance="x"))

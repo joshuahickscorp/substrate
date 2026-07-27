@@ -37,7 +37,7 @@ EDGE_TYPES = (
 )
 
 SCHEMA = {
-    "schema": "mop-experiment-causal-graph/v1",
+    "schema": "substrate-experiment-causal-graph/v1",
     "node_types": list(NODE_TYPES),
     "edge_types": list(EDGE_TYPES),
     "node_fields": {
