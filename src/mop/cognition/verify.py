@@ -297,6 +297,16 @@ MUTATIONS = (
      "            h['blocking_null'] = 'upstream measurement boundary'\n"
      "    return g",
      "tests/cognition/test_experiments.py::test_a_measurement_boundary_closes_nothing_downstream"),
+    ("the_campaign_counts_a_failed_stage_as_done", "mop.cognition.campaign",
+     "done = lambda stage: (RECEIPTS / (stage + '.json')).is_file()",
+     "tests/cognition/test_campaign.py::test_a_stage_is_done_because_its_receipt_exists"),
+    ("the_campaign_retries_a_broken_stage_forever", "mop.cognition.campaign",
+     "MAX_ATTEMPTS = 10**9",
+     "tests/cognition/test_campaign.py::test_a_repeated_failure_stops_being_retried"),
+    ("the_plan_hides_a_blocked_wave", "mop.cognition.campaign",
+     "WAVES = tuple({**w, 'blocked_on_absent_prerequisite': None} for w in WAVES)",
+     "tests/cognition/test_campaign.py::"
+     "test_the_plan_says_which_waves_wait_on_something_that_does_not_exist"),
     ("the_loop_skips_a_stage_silently", "mop.cognition.runtime",
      "CycleTrace.skip = lambda self, stage, reason: self.stages.__setitem__(stage, {'ran': True})",
      "tests/cognition/test_runtime.py::"

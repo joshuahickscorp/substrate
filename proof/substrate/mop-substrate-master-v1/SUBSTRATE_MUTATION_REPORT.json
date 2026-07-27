@@ -219,6 +219,30 @@
       "detail": ""
     },
     {
+      "mutation": "the_campaign_counts_a_failed_stage_as_done",
+      "module": "mop.cognition.campaign",
+      "guard": "tests/cognition/test_campaign.py::test_a_stage_is_done_because_its_receipt_exists",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_campaign_retries_a_broken_stage_forever",
+      "module": "mop.cognition.campaign",
+      "guard": "tests/cognition/test_campaign.py::test_a_repeated_failure_stops_being_retried",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "the_plan_hides_a_blocked_wave",
+      "module": "mop.cognition.campaign",
+      "guard": "tests/cognition/test_campaign.py::test_the_plan_says_which_waves_wait_on_something_that_does_not_exist",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
       "mutation": "the_loop_skips_a_stage_silently",
       "module": "mop.cognition.runtime",
       "guard": "tests/cognition/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran",
@@ -259,12 +283,12 @@
       "detail": ""
     }
   ],
-  "total": 32,
-  "rejected": 32,
+  "total": 35,
+  "rejected": 35,
   "survivors": [],
   "all_rejected": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
   "activation": false,
-  "sha256": "6a6d553a4db0a2d23b0e2fd2ce008b119d58500fbcda8722656f46a4af85c222"
+  "sha256": "cb7418d855b79741fc06eaeb77b4115a36cf63cacd301d636e9dca4e88d28014"
 }

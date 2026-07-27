@@ -696,8 +696,27 @@ def write_all() -> dict:
     return {name: path.relative_to(io.ROOT).as_posix() for name, path in written.items()}
 
 
+MODULES_THAT_SEAL = ("admission", "safety", "workspace", "perspectives", "memory", "world",
+                     "selfmodel", "metacog", "plasticity", "body", "batteries", "runtime")
+
+
+def seal_modules() -> dict:
+    """Reseal every module declaration from the current tree. One entry point, so the campaign has one."""
+    import importlib
+
+    out = {}
+    for name in MODULES_THAT_SEAL:
+        module = importlib.import_module(f"mop.cognition.{name}")
+        module.main(["seal"])
+        out[name] = "sealed"
+    return out
+
+
 def main(argv=None) -> None:
     argv = argv or sys.argv[1:]
+    if argv and argv[0] == "seal-modules":
+        print(json.dumps(seal_modules(), indent=2))
+        return
     if argv and argv[0] != "write":
         raise ValueError(argv)
     written = write_all()

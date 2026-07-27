@@ -622,6 +622,30 @@
       ]
     },
     {
+      "id": "L1",
+      "section": "17",
+      "title": "A resumable campaign driver for a run measured in days",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A6",
+        "V2"
+      ]
+    },
+    {
+      "id": "L2",
+      "section": "22",
+      "title": "The long run plan names what it cannot schedule",
+      "batch": 6,
+      "kind": "boundary",
+      "category": null,
+      "dependencies": [
+        "L1",
+        "A5"
+      ]
+    },
+    {
       "id": "X3",
       "section": "6.1",
       "title": "Substrate Temporal Core v1 selection record",
@@ -648,6 +672,7 @@
   "declared_deliverables": [
     "SUBSTRATE_ARBITRATION_SYSTEM.json",
     "SUBSTRATE_ARCHITECTURE.json",
+    "SUBSTRATE_CAMPAIGN_PLAN.json",
     "SUBSTRATE_CAPABILITY_MAP.json",
     "SUBSTRATE_CONTINUITY_BATTERY.json",
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md",
@@ -684,6 +709,7 @@
   "deliverables_present": {
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
@@ -720,6 +746,7 @@
   "deliverables_counting_as_evidence": {
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
     "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_CAMPAIGN_PLAN.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
@@ -754,11 +781,11 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 14,
+    "terminal": 16,
     "tested": 1,
     "measured": 28
   },
   "activation": false,
-  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
-  "sha256": "9c694c490ef75e6a2adf41b29d2ff710630321afc6e6a3a394c1a68b2f9235bd"
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+  "sha256": "e062cfc8fc9ad9278d33fec34493d642640ed368754b27a08cc6e2091c1f3d89"
 }

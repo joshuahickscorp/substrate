@@ -24,7 +24,7 @@
     "latency"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
   "activation": false,
-  "sha256": "f975c64eca35445a39478c3c6560d44872bb734f83a9083457ed9aa6be2c31eb"
+  "sha256": "8a91be4cfb7cacd4aa05f491520b3231290b7092d7f9c1878c9ab359bba05731"
 }

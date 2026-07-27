@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `0a6df4264b1f7c018bc7267375b918dba26b0a69`. Status is derived, never asserted: an item is
+Generated from the tree at commit `9410160a76c4d58752b70fd335f405cc5c76e784`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 43. Levels: measured 28, terminal 14, tested 1.
+Items: 45. Levels: measured 28, terminal 16, tested 1.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -49,6 +49,8 @@ Items: 43. Levels: measured 28, terminal 14, tested 1.
 | X1 | 21 | Architecture and capability map | terminal | A2 | none, an authority is terminal once sealed and tested |
 | X2 | 21 | Current entity specification and report | terminal | X1, A5 | none, an authority is terminal once sealed and tested |
 | Q1 | 18 | The first Substrate experiment reaches a decision with its reason recorded | terminal | A3, C2 | none, an authority is terminal once sealed and tested |
+| L1 | 17 | A resumable campaign driver for a run measured in days | terminal | A6, V2 | none, an authority is terminal once sealed and tested |
+| L2 | 22 | The long run plan names what it cannot schedule | terminal | L1, A5 | none, an authority is terminal once sealed and tested |
 | X3 | 6.1 | Substrate Temporal Core v1 selection record | measured | C1 | classify the result through mop.method.gate.classify_result and record it |
 | E6 | 15.6 | Cognitive integrity | measured | A4, M2 | classify the result through mop.method.gate.classify_result and record it |
 

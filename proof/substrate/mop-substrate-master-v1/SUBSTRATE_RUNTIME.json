@@ -167,6 +167,6 @@
     "adaptation_constraints"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "0a6df4264b1f7c018bc7267375b918dba26b0a69",
-  "sha256": "8c93af43527fd3cd91aa268561bf0d1f33f5120834a36d6a1b3435acc228d501"
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+  "sha256": "958b4ffe791e3f977607ccb01bc2677a77a3ba25d13caa8172eede4cea11adda"
 }

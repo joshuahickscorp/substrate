@@ -53,6 +53,6 @@
   "stop_switch": "/Users/scammermike/.mop_substrate_stop",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
-  "sha256": "6eaa72b5ba8fcdbfa39b5c4d79e424e378b48c703c093154a1fd7d6cfda70f43"
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+  "sha256": "b08f7e879dfe96e8b80f62bf5d46952b092c504b714abbaf16c0533faa83bfa4"
 }

@@ -6,6 +6,6 @@
   "honest_state": "no adaptation rule has yet been evaluated across tasks, so no developmental learning has been earned",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
-  "sha256": "e3776f082badc31824bec48e7ae3927f1bf16b6fe48374ca9cc6d86ec6e09b5b"
+  "source_commit": "9410160a76c4d58752b70fd335f405cc5c76e784",
+  "sha256": "2817e334e2ce99e44d3c106baeeec60831d98ebec9f0fac549ed96ec7c9e8fbb"
 }
