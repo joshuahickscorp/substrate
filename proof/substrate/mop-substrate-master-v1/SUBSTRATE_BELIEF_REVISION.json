@@ -61,6 +61,6 @@
   "unresolved_rule": "when neither claim dominates by the SESOI the conflict is marked unresolved rather than settled by arrival order",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "e64814da877f09c42653d1aa3bec09a8cab22fa1",
-  "sha256": "312d2915181e13dfb1d3e6d5bee1c19c50cd9b8c98497c058e97d9c73f524fba"
+  "source_commit": "b16a2f5ace5e73ef61e6a4359ad3a87fcee6d183",
+  "sha256": "bf922346416197c3d4ecdc25b60a93306734c965e8577a6c877dcb4b4c2d4588"
 }
