@@ -1,0 +1,6297 @@
+{
+  "schema": "substrate-v3-checkpoint/v1",
+  "owned_identity": "v3:2002:v2_developmental_control",
+  "semantic_state": {
+    "arm": "v2_developmental_control",
+    "entity_id": "v3:2002:v2_developmental_control",
+    "body": "compact",
+    "tools": [
+      "deterministic_compare",
+      "sandbox_simulation",
+      "graph_inspector"
+    ],
+    "ontology": {
+      "concepts": {},
+      "instance_features": {},
+      "cross_representation_maps": {}
+    },
+    "epistemology": {
+      "beliefs": {},
+      "defeater_receipts": [],
+      "inquiry_receipts": [],
+      "knowledge_admissions": []
+    },
+    "reasoning_receipts": [],
+    "structure": {
+      "edges": [
+        [
+          "role_0",
+          "role_1"
+        ],
+        [
+          "role_1",
+          "role_2"
+        ],
+        [
+          "role_2",
+          "role_3"
+        ]
+      ],
+      "mechanisms": {
+        "role_0>role_1": "dependency",
+        "role_1>role_2": "transformation",
+        "role_2>role_3": "delivery"
+      },
+      "representation_maps": {}
+    },
+    "self_model": {
+      "estimates": {
+        "accuracy": 0.5261889300807848
+      },
+      "history": [
+        {
+          "kind": "accuracy",
+          "predicted": 0.5,
+          "actual": 1.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.65,
+          "actual": 0.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.455,
+          "actual": 1.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6185,
+          "actual": 0.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.43295000000000006,
+          "actual": 0.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.30306500000000003,
+          "actual": 1.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5121455,
+          "actual": 1.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.65850185,
+          "actual": 0.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.46095129500000004,
+          "actual": 0.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.32266590650000004,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.52586613455,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.668106294185,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7676744059295,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.83737208415065,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.886160458905455,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9203123212338186,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.944218624863673,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9609530374045712,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6726671261831998,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7708669883282399,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8396068918297679,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5877248242808375,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7114073769965863,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4979851638976104,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.3485896147283273,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.24401273030982912,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.47080891121688034,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6295662378518163,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4406963664962714,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.30848745654738996,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.515941219583173,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.661158853708221,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.46281119759575473,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6239678383170283,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7367774868219198,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8157442407753439,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8710209685427407,
+          "actual": 0.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6097146779799185,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.726800274585943,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.80876019221016,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.866132134547112,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9062924941829784,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9344047459280849,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6540833221496594,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4578583255047616,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.3205008278533331,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.22435057949733317,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.15704540564813324,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.10993178395369327,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.37695224876758526,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5638665741373097,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6947066018961168,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7862946213272818,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8504062349290973,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8952843644503681,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9266990551152576,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9486893385806804,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9640825370064763,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9748577759045334,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9824004431331733,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9876803101932213,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9913762171352549,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9939633519946784,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9957743463962749,
+          "actual": 1.0,
+          "context": "causal_micro_worlds"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9970420424773925,
+          "actual": 0.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6979294297341747,
+          "actual": 0.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4885506008139223,
+          "actual": 0.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.3419854205697456,
+          "actual": 0.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.23938979439882194,
+          "actual": 1.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4675728560791753,
+          "actual": 1.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6273009992554227,
+          "actual": 1.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7391106994787959,
+          "actual": 1.0,
+          "context": "reasoning_method_selection"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8173774896351571,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.87216424274461,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.910514969921227,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.937360478944859,
+          "actual": 0.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6561523352614013,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7593066346829809,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8315146442780866,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8820602509946607,
+          "actual": 0.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6174421756962625,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7322095229873837,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5125466660911686,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.658782666263818,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7611478663846726,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8328035064692708,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5829624545284896,
+          "actual": 0.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.40807371816994276,
+          "actual": 1.0,
+          "context": "epistemic_laboratory"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5856516027189599,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4099561219032719,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5869692853322903,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.41087849973260326,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5876149498128223,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4113304648689756,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.2879313254082829,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.501551927785798,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.3510863494500587,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.545760444615041,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6820323112305287,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.77742261786137,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.844195832502959,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8909370827520713,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.9236559579264499,
+          "actual": 1.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.946559170548515,
+          "actual": 0.0,
+          "context": "ontology_garden"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6625914193839606,
+          "actual": 0.0,
+          "context": "adversarial_ambiguity"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4638139935687724,
+          "actual": 0.0,
+          "context": "adversarial_ambiguity"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.3246697954981407,
+          "actual": 0.0,
+          "context": "adversarial_ambiguity"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.22726885684869846,
+          "actual": 0.0,
+          "context": "adversarial_ambiguity"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.15908819979408895,
+          "actual": 0.0,
+          "context": "adversarial_ambiguity"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.11136173985586226,
+          "actual": 0.0,
+          "context": "adversarial_ambiguity"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.07795321789910359,
+          "actual": 0.0,
+          "context": "adversarial_ambiguity"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.054567252529372515,
+          "actual": 0.0,
+          "context": "adversarial_ambiguity"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.038197076770560764,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.026737953739392535,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.3187165676175747,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.5231015973323023,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.3661711181326116,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.2563197826928281,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.4794238478849797,
+          "actual": 0.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.33559669351948584,
+          "actual": 1.0,
+          "context": "cross_representation_systems"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.53491768546364,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.674442379824548,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7721096658771837,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.8404767661140286,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.88833373627982,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.921833615395874,
+          "actual": 0.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.6452835307771119,
+          "actual": 1.0,
+          "context": "scientific_inquiry"
+        },
+        {
+          "kind": "accuracy",
+          "predicted": 0.7516984715439783,
+          "actual": 0.0,
+          "context": "scientific_inquiry"
+        }
+      ]
+    },
+    "self_receipts": [
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.5,
+        "actual": 1.0,
+        "prediction_step": 1,
+        "outcome_step": 2
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.65,
+        "actual": 0.0,
+        "prediction_step": 2,
+        "outcome_step": 3
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.455,
+        "actual": 1.0,
+        "prediction_step": 3,
+        "outcome_step": 4
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.6185,
+        "actual": 0.0,
+        "prediction_step": 4,
+        "outcome_step": 5
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.43295000000000006,
+        "actual": 0.0,
+        "prediction_step": 5,
+        "outcome_step": 6
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.30306500000000003,
+        "actual": 1.0,
+        "prediction_step": 6,
+        "outcome_step": 7
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.5121455,
+        "actual": 1.0,
+        "prediction_step": 7,
+        "outcome_step": 8
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.65850185,
+        "actual": 0.0,
+        "prediction_step": 8,
+        "outcome_step": 9
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.46095129500000004,
+        "actual": 0.0,
+        "prediction_step": 9,
+        "outcome_step": 10
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.32266590650000004,
+        "actual": 1.0,
+        "prediction_step": 10,
+        "outcome_step": 11
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.52586613455,
+        "actual": 1.0,
+        "prediction_step": 11,
+        "outcome_step": 12
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.668106294185,
+        "actual": 1.0,
+        "prediction_step": 12,
+        "outcome_step": 13
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.7676744059295,
+        "actual": 1.0,
+        "prediction_step": 13,
+        "outcome_step": 14
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.83737208415065,
+        "actual": 1.0,
+        "prediction_step": 14,
+        "outcome_step": 15
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.886160458905455,
+        "actual": 1.0,
+        "prediction_step": 15,
+        "outcome_step": 16
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.9203123212338186,
+        "actual": 1.0,
+        "prediction_step": 16,
+        "outcome_step": 17
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.944218624863673,
+        "actual": 1.0,
+        "prediction_step": 17,
+        "outcome_step": 18
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.9609530374045712,
+        "actual": 0.0,
+        "prediction_step": 18,
+        "outcome_step": 19
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.6726671261831998,
+        "actual": 1.0,
+        "prediction_step": 19,
+        "outcome_step": 20
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.7708669883282399,
+        "actual": 1.0,
+        "prediction_step": 20,
+        "outcome_step": 21
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.8396068918297679,
+        "actual": 0.0,
+        "prediction_step": 21,
+        "outcome_step": 22
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.5877248242808375,
+        "actual": 1.0,
+        "prediction_step": 22,
+        "outcome_step": 23
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.7114073769965863,
+        "actual": 0.0,
+        "prediction_step": 23,
+        "outcome_step": 24
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.4979851638976104,
+        "actual": 0.0,
+        "prediction_step": 24,
+        "outcome_step": 25
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.3485896147283273,
+        "actual": 0.0,
+        "prediction_step": 25,
+        "outcome_step": 26
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.24401273030982912,
+        "actual": 1.0,
+        "prediction_step": 26,
+        "outcome_step": 27
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.47080891121688034,
+        "actual": 1.0,
+        "prediction_step": 27,
+        "outcome_step": 28
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.6295662378518163,
+        "actual": 0.0,
+        "prediction_step": 28,
+        "outcome_step": 29
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.4406963664962714,
+        "actual": 0.0,
+        "prediction_step": 29,
+        "outcome_step": 30
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.30848745654738996,
+        "actual": 1.0,
+        "prediction_step": 30,
+        "outcome_step": 31
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.515941219583173,
+        "actual": 1.0,
+        "prediction_step": 31,
+        "outcome_step": 32
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.661158853708221,
+        "actual": 0.0,
+        "prediction_step": 32,
+        "outcome_step": 33
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.46281119759575473,
+        "actual": 1.0,
+        "prediction_step": 33,
+        "outcome_step": 34
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.6239678383170283,
+        "actual": 1.0,
+        "prediction_step": 34,
+        "outcome_step": 35
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.7367774868219198,
+        "actual": 1.0,
+        "prediction_step": 35,
+        "outcome_step": 36
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.8157442407753439,
+        "actual": 1.0,
+        "prediction_step": 36,
+        "outcome_step": 37
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.8710209685427407,
+        "actual": 0.0,
+        "prediction_step": 37,
+        "outcome_step": 38
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.6097146779799185,
+        "actual": 1.0,
+        "prediction_step": 38,
+        "outcome_step": 39
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.726800274585943,
+        "actual": 1.0,
+        "prediction_step": 39,
+        "outcome_step": 40
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.80876019221016,
+        "actual": 1.0,
+        "prediction_step": 40,
+        "outcome_step": 41
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.866132134547112,
+        "actual": 1.0,
+        "prediction_step": 41,
+        "outcome_step": 42
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.9062924941829784,
+        "actual": 1.0,
+        "prediction_step": 42,
+        "outcome_step": 43
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.9344047459280849,
+        "actual": 0.0,
+        "prediction_step": 43,
+        "outcome_step": 44
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.6540833221496594,
+        "actual": 0.0,
+        "prediction_step": 44,
+        "outcome_step": 45
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.4578583255047616,
+        "actual": 0.0,
+        "prediction_step": 45,
+        "outcome_step": 46
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.3205008278533331,
+        "actual": 0.0,
+        "prediction_step": 46,
+        "outcome_step": 47
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.22435057949733317,
+        "actual": 0.0,
+        "prediction_step": 47,
+        "outcome_step": 48
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.15704540564813324,
+        "actual": 0.0,
+        "prediction_step": 48,
+        "outcome_step": 49
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.10993178395369327,
+        "actual": 1.0,
+        "prediction_step": 49,
+        "outcome_step": 50
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.37695224876758526,
+        "actual": 1.0,
+        "prediction_step": 50,
+        "outcome_step": 51
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.5638665741373097,
+        "actual": 1.0,
+        "prediction_step": 51,
+        "outcome_step": 52
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.6947066018961168,
+        "actual": 1.0,
+        "prediction_step": 52,
+        "outcome_step": 53
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.7862946213272818,
+        "actual": 1.0,
+        "prediction_step": 53,
+        "outcome_step": 54
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.8504062349290973,
+        "actual": 1.0,
+        "prediction_step": 54,
+        "outcome_step": 55
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.8952843644503681,
+        "actual": 1.0,
+        "prediction_step": 55,
+        "outcome_step": 56
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9266990551152576,
+        "actual": 1.0,
+        "prediction_step": 56,
+        "outcome_step": 57
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9486893385806804,
+        "actual": 1.0,
+        "prediction_step": 57,
+        "outcome_step": 58
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9640825370064763,
+        "actual": 1.0,
+        "prediction_step": 58,
+        "outcome_step": 59
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9748577759045334,
+        "actual": 1.0,
+        "prediction_step": 59,
+        "outcome_step": 60
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9824004431331733,
+        "actual": 1.0,
+        "prediction_step": 60,
+        "outcome_step": 61
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9876803101932213,
+        "actual": 1.0,
+        "prediction_step": 61,
+        "outcome_step": 62
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9913762171352549,
+        "actual": 1.0,
+        "prediction_step": 62,
+        "outcome_step": 63
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9939633519946784,
+        "actual": 1.0,
+        "prediction_step": 63,
+        "outcome_step": 64
+      },
+      {
+        "kind": "accuracy",
+        "family": "causal_micro_worlds",
+        "predicted": 0.9957743463962749,
+        "actual": 1.0,
+        "prediction_step": 64,
+        "outcome_step": 65
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.9970420424773925,
+        "actual": 0.0,
+        "prediction_step": 65,
+        "outcome_step": 66
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.6979294297341747,
+        "actual": 0.0,
+        "prediction_step": 66,
+        "outcome_step": 67
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.4885506008139223,
+        "actual": 0.0,
+        "prediction_step": 67,
+        "outcome_step": 68
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.3419854205697456,
+        "actual": 0.0,
+        "prediction_step": 68,
+        "outcome_step": 69
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.23938979439882194,
+        "actual": 1.0,
+        "prediction_step": 69,
+        "outcome_step": 70
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.4675728560791753,
+        "actual": 1.0,
+        "prediction_step": 70,
+        "outcome_step": 71
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.6273009992554227,
+        "actual": 1.0,
+        "prediction_step": 71,
+        "outcome_step": 72
+      },
+      {
+        "kind": "accuracy",
+        "family": "reasoning_method_selection",
+        "predicted": 0.7391106994787959,
+        "actual": 1.0,
+        "prediction_step": 72,
+        "outcome_step": 73
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.8173774896351571,
+        "actual": 1.0,
+        "prediction_step": 73,
+        "outcome_step": 74
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.87216424274461,
+        "actual": 1.0,
+        "prediction_step": 74,
+        "outcome_step": 75
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.910514969921227,
+        "actual": 1.0,
+        "prediction_step": 75,
+        "outcome_step": 76
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.937360478944859,
+        "actual": 0.0,
+        "prediction_step": 76,
+        "outcome_step": 77
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.6561523352614013,
+        "actual": 1.0,
+        "prediction_step": 77,
+        "outcome_step": 78
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.7593066346829809,
+        "actual": 1.0,
+        "prediction_step": 78,
+        "outcome_step": 79
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.8315146442780866,
+        "actual": 1.0,
+        "prediction_step": 79,
+        "outcome_step": 80
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.8820602509946607,
+        "actual": 0.0,
+        "prediction_step": 80,
+        "outcome_step": 81
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.6174421756962625,
+        "actual": 1.0,
+        "prediction_step": 81,
+        "outcome_step": 82
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.7322095229873837,
+        "actual": 0.0,
+        "prediction_step": 82,
+        "outcome_step": 83
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.5125466660911686,
+        "actual": 1.0,
+        "prediction_step": 83,
+        "outcome_step": 84
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.658782666263818,
+        "actual": 1.0,
+        "prediction_step": 84,
+        "outcome_step": 85
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.7611478663846726,
+        "actual": 1.0,
+        "prediction_step": 85,
+        "outcome_step": 86
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.8328035064692708,
+        "actual": 0.0,
+        "prediction_step": 86,
+        "outcome_step": 87
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.5829624545284896,
+        "actual": 0.0,
+        "prediction_step": 87,
+        "outcome_step": 88
+      },
+      {
+        "kind": "accuracy",
+        "family": "epistemic_laboratory",
+        "predicted": 0.40807371816994276,
+        "actual": 1.0,
+        "prediction_step": 88,
+        "outcome_step": 89
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.5856516027189599,
+        "actual": 0.0,
+        "prediction_step": 89,
+        "outcome_step": 90
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.4099561219032719,
+        "actual": 1.0,
+        "prediction_step": 90,
+        "outcome_step": 91
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.5869692853322903,
+        "actual": 0.0,
+        "prediction_step": 91,
+        "outcome_step": 92
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.41087849973260326,
+        "actual": 1.0,
+        "prediction_step": 92,
+        "outcome_step": 93
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.5876149498128223,
+        "actual": 0.0,
+        "prediction_step": 93,
+        "outcome_step": 94
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.4113304648689756,
+        "actual": 0.0,
+        "prediction_step": 94,
+        "outcome_step": 95
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.2879313254082829,
+        "actual": 1.0,
+        "prediction_step": 95,
+        "outcome_step": 96
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.501551927785798,
+        "actual": 0.0,
+        "prediction_step": 96,
+        "outcome_step": 97
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.3510863494500587,
+        "actual": 1.0,
+        "prediction_step": 97,
+        "outcome_step": 98
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.545760444615041,
+        "actual": 1.0,
+        "prediction_step": 98,
+        "outcome_step": 99
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.6820323112305287,
+        "actual": 1.0,
+        "prediction_step": 99,
+        "outcome_step": 100
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.77742261786137,
+        "actual": 1.0,
+        "prediction_step": 100,
+        "outcome_step": 101
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.844195832502959,
+        "actual": 1.0,
+        "prediction_step": 101,
+        "outcome_step": 102
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.8909370827520713,
+        "actual": 1.0,
+        "prediction_step": 102,
+        "outcome_step": 103
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.9236559579264499,
+        "actual": 1.0,
+        "prediction_step": 103,
+        "outcome_step": 104
+      },
+      {
+        "kind": "accuracy",
+        "family": "ontology_garden",
+        "predicted": 0.946559170548515,
+        "actual": 0.0,
+        "prediction_step": 104,
+        "outcome_step": 105
+      },
+      {
+        "kind": "accuracy",
+        "family": "adversarial_ambiguity",
+        "predicted": 0.6625914193839606,
+        "actual": 0.0,
+        "prediction_step": 105,
+        "outcome_step": 106
+      },
+      {
+        "kind": "accuracy",
+        "family": "adversarial_ambiguity",
+        "predicted": 0.4638139935687724,
+        "actual": 0.0,
+        "prediction_step": 106,
+        "outcome_step": 107
+      },
+      {
+        "kind": "accuracy",
+        "family": "adversarial_ambiguity",
+        "predicted": 0.3246697954981407,
+        "actual": 0.0,
+        "prediction_step": 107,
+        "outcome_step": 108
+      },
+      {
+        "kind": "accuracy",
+        "family": "adversarial_ambiguity",
+        "predicted": 0.22726885684869846,
+        "actual": 0.0,
+        "prediction_step": 108,
+        "outcome_step": 109
+      },
+      {
+        "kind": "accuracy",
+        "family": "adversarial_ambiguity",
+        "predicted": 0.15908819979408895,
+        "actual": 0.0,
+        "prediction_step": 109,
+        "outcome_step": 110
+      },
+      {
+        "kind": "accuracy",
+        "family": "adversarial_ambiguity",
+        "predicted": 0.11136173985586226,
+        "actual": 0.0,
+        "prediction_step": 110,
+        "outcome_step": 111
+      },
+      {
+        "kind": "accuracy",
+        "family": "adversarial_ambiguity",
+        "predicted": 0.07795321789910359,
+        "actual": 0.0,
+        "prediction_step": 111,
+        "outcome_step": 112
+      },
+      {
+        "kind": "accuracy",
+        "family": "adversarial_ambiguity",
+        "predicted": 0.054567252529372515,
+        "actual": 0.0,
+        "prediction_step": 112,
+        "outcome_step": 113
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.038197076770560764,
+        "actual": 0.0,
+        "prediction_step": 113,
+        "outcome_step": 114
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.026737953739392535,
+        "actual": 1.0,
+        "prediction_step": 114,
+        "outcome_step": 115
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.3187165676175747,
+        "actual": 1.0,
+        "prediction_step": 115,
+        "outcome_step": 116
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.5231015973323023,
+        "actual": 0.0,
+        "prediction_step": 116,
+        "outcome_step": 117
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.3661711181326116,
+        "actual": 0.0,
+        "prediction_step": 117,
+        "outcome_step": 118
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.2563197826928281,
+        "actual": 1.0,
+        "prediction_step": 118,
+        "outcome_step": 119
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.4794238478849797,
+        "actual": 0.0,
+        "prediction_step": 119,
+        "outcome_step": 120
+      },
+      {
+        "kind": "accuracy",
+        "family": "cross_representation_systems",
+        "predicted": 0.33559669351948584,
+        "actual": 1.0,
+        "prediction_step": 120,
+        "outcome_step": 121
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.53491768546364,
+        "actual": 1.0,
+        "prediction_step": 121,
+        "outcome_step": 122
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.674442379824548,
+        "actual": 1.0,
+        "prediction_step": 122,
+        "outcome_step": 123
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.7721096658771837,
+        "actual": 1.0,
+        "prediction_step": 123,
+        "outcome_step": 124
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.8404767661140286,
+        "actual": 1.0,
+        "prediction_step": 124,
+        "outcome_step": 125
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.88833373627982,
+        "actual": 1.0,
+        "prediction_step": 125,
+        "outcome_step": 126
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.921833615395874,
+        "actual": 0.0,
+        "prediction_step": 126,
+        "outcome_step": 127
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.6452835307771119,
+        "actual": 1.0,
+        "prediction_step": 127,
+        "outcome_step": 128
+      },
+      {
+        "kind": "accuracy",
+        "family": "scientific_inquiry",
+        "predicted": 0.7516984715439783,
+        "actual": 0.0,
+        "prediction_step": 128,
+        "outcome_step": 129
+      }
+    ],
+    "ontology_receipts": [],
+    "world_receipts": [],
+    "semantic": {
+      "reasoning_method_selection": {
+        "last_task": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:807",
+        "last_outcome": true,
+        "verified": true
+      },
+      "ontology_garden": {
+        "last_task": "replication:2002:ontology_garden:phase_12_return_prior_domains:1207",
+        "last_outcome": false,
+        "verified": true
+      },
+      "epistemic_laboratory": {
+        "last_task": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1007",
+        "last_outcome": true,
+        "verified": true
+      },
+      "cross_representation_systems": {
+        "last_task": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1407",
+        "last_outcome": true,
+        "verified": true
+      },
+      "causal_micro_worlds": {
+        "last_task": "replication:2002:causal_micro_worlds:phase_7_counterfactual:707",
+        "last_outcome": true,
+        "verified": true
+      },
+      "scientific_inquiry": {
+        "last_task": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507",
+        "last_outcome": false,
+        "verified": true
+      },
+      "adversarial_ambiguity": {
+        "last_task": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1307",
+        "last_outcome": false,
+        "verified": true
+      }
+    },
+    "procedures": {
+      "procedure:reasoning_method_selection": {
+        "family": "reasoning_method_selection",
+        "uses": 16,
+        "verified_sources": [
+          "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:807"
+        ]
+      },
+      "procedure:ontology_garden": {
+        "family": "ontology_garden",
+        "uses": 24,
+        "verified_sources": [
+          "replication:2002:ontology_garden:phase_12_return_prior_domains:1207"
+        ]
+      },
+      "procedure:epistemic_laboratory": {
+        "family": "epistemic_laboratory",
+        "uses": 24,
+        "verified_sources": [
+          "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1007"
+        ]
+      },
+      "procedure:cross_representation_systems": {
+        "family": "cross_representation_systems",
+        "uses": 24,
+        "verified_sources": [
+          "replication:2002:cross_representation_systems:phase_14_open_world_structures:1407"
+        ]
+      },
+      "procedure:causal_micro_worlds": {
+        "family": "causal_micro_worlds",
+        "uses": 16,
+        "verified_sources": [
+          "replication:2002:causal_micro_worlds:phase_7_counterfactual:707"
+        ]
+      },
+      "procedure:scientific_inquiry": {
+        "family": "scientific_inquiry",
+        "uses": 16,
+        "verified_sources": [
+          "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507"
+        ]
+      },
+      "procedure:adversarial_ambiguity": {
+        "family": "adversarial_ambiguity",
+        "uses": 8,
+        "verified_sources": [
+          "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1307"
+        ]
+      }
+    },
+    "allocation_counts": {
+      "('low', True, 'shifted')": {
+        "stop": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inquire": [
+          0.30000000000000004,
+          0.30000000000000004,
+          0.30000000000000004,
+          0.30000000000000004,
+          0.30000000000000004
+        ]
+      },
+      "('high', False, 'stable')": {
+        "stop": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "inquire": [
+          -0.7,
+          -0.7,
+          -0.7,
+          -0.7
+        ]
+      },
+      "('low', True, 'stable')": {
+        "stop": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "inquire": [
+          -0.7,
+          -0.7,
+          -0.7
+        ]
+      },
+      "('high', True, 'shifted')": {
+        "stop": [
+          0.0
+        ],
+        "inquire": [
+          0.30000000000000004
+        ]
+      },
+      "('low', False, 'stable')": {
+        "stop": [
+          1.0,
+          1.0
+        ],
+        "inquire": [
+          -0.7,
+          -0.7
+        ]
+      },
+      "('high', False, 'shifted')": {
+        "stop": [
+          0.0
+        ],
+        "inquire": [
+          0.30000000000000004
+        ]
+      }
+    },
+    "history_specialization": {
+      "reasoning_method_selection": 8,
+      "ontology_garden": 21,
+      "epistemic_laboratory": 13,
+      "cross_representation_systems": 9,
+      "causal_micro_worlds": 16,
+      "scientific_inquiry": 12,
+      "adversarial_ambiguity": 0
+    },
+    "cycles": [
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_0_cold_baseline:0",
+        "step": 1,
+        "family": "reasoning_method_selection",
+        "phase": "phase_0_cold_baseline",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.5,
+        "self_prediction_step": 1,
+        "outcome_step": 2,
+        "decision": true,
+        "outcome": {
+          "correct": true,
+          "target": true,
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_0_cold_baseline:1",
+        "step": 2,
+        "family": "reasoning_method_selection",
+        "phase": "phase_0_cold_baseline",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.65,
+        "self_prediction_step": 2,
+        "outcome_step": 3,
+        "decision": true,
+        "outcome": {
+          "correct": false,
+          "target": [
+            "inspect",
+            "repair",
+            "verify"
+          ],
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_0_cold_baseline:2",
+        "step": 3,
+        "family": "reasoning_method_selection",
+        "phase": "phase_0_cold_baseline",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.455,
+        "self_prediction_step": 3,
+        "outcome_step": 4,
+        "decision": true,
+        "outcome": {
+          "correct": true,
+          "target": true,
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_0_cold_baseline:3",
+        "step": 4,
+        "family": "reasoning_method_selection",
+        "phase": "phase_0_cold_baseline",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.6185,
+        "self_prediction_step": 4,
+        "outcome_step": 5,
+        "decision": true,
+        "outcome": {
+          "correct": false,
+          "target": [
+            "inspect",
+            "repair",
+            "verify"
+          ],
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_0_cold_baseline:4",
+        "step": 5,
+        "family": "reasoning_method_selection",
+        "phase": "phase_0_cold_baseline",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.43295000000000006,
+        "self_prediction_step": 5,
+        "outcome_step": 6,
+        "decision": true,
+        "outcome": {
+          "correct": false,
+          "target": "bearing",
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_0_cold_baseline:5",
+        "step": 6,
+        "family": "reasoning_method_selection",
+        "phase": "phase_0_cold_baseline",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.30306500000000003,
+        "self_prediction_step": 6,
+        "outcome_step": 7,
+        "decision": true,
+        "outcome": {
+          "correct": true,
+          "target": true,
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_0_cold_baseline:6",
+        "step": 7,
+        "family": "reasoning_method_selection",
+        "phase": "phase_0_cold_baseline",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.5121455,
+        "self_prediction_step": 7,
+        "outcome_step": 8,
+        "decision": true,
+        "outcome": {
+          "correct": true,
+          "target": true,
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_0_cold_baseline:7",
+        "step": 8,
+        "family": "reasoning_method_selection",
+        "phase": "phase_0_cold_baseline",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.65850185,
+        "self_prediction_step": 8,
+        "outcome_step": 9,
+        "decision": true,
+        "outcome": {
+          "correct": false,
+          "target": "bearing",
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_1_ontology_acquisition:100",
+        "step": 9,
+        "family": "ontology_garden",
+        "phase": "phase_1_ontology_acquisition",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "process",
+        "self_model_prediction": 0.46095129500000004,
+        "self_prediction_step": 9,
+        "outcome_step": 10,
+        "decision": "process",
+        "outcome": {
+          "correct": false,
+          "target": "entity",
+          "proposal": "process",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_1_ontology_acquisition:101",
+        "step": 10,
+        "family": "ontology_garden",
+        "phase": "phase_1_ontology_acquisition",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.32266590650000004,
+        "self_prediction_step": 10,
+        "outcome_step": 11,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_1_ontology_acquisition:102",
+        "step": 11,
+        "family": "ontology_garden",
+        "phase": "phase_1_ontology_acquisition",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.52586613455,
+        "self_prediction_step": 11,
+        "outcome_step": 12,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_1_ontology_acquisition:103",
+        "step": 12,
+        "family": "ontology_garden",
+        "phase": "phase_1_ontology_acquisition",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.668106294185,
+        "self_prediction_step": 12,
+        "outcome_step": 13,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_1_ontology_acquisition:104",
+        "step": 13,
+        "family": "ontology_garden",
+        "phase": "phase_1_ontology_acquisition",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "process",
+        "self_model_prediction": 0.7676744059295,
+        "self_prediction_step": 13,
+        "outcome_step": 14,
+        "decision": "process",
+        "outcome": {
+          "correct": true,
+          "target": "process",
+          "proposal": "process",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_1_ontology_acquisition:105",
+        "step": 14,
+        "family": "ontology_garden",
+        "phase": "phase_1_ontology_acquisition",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.83737208415065,
+        "self_prediction_step": 14,
+        "outcome_step": 15,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_1_ontology_acquisition:106",
+        "step": 15,
+        "family": "ontology_garden",
+        "phase": "phase_1_ontology_acquisition",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.886160458905455,
+        "self_prediction_step": 15,
+        "outcome_step": 16,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_1_ontology_acquisition:107",
+        "step": 16,
+        "family": "ontology_garden",
+        "phase": "phase_1_ontology_acquisition",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.9203123212338186,
+        "self_prediction_step": 16,
+        "outcome_step": 17,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_2_semantic_procedural_development:200",
+        "step": 17,
+        "family": "epistemic_laboratory",
+        "phase": "phase_2_semantic_procedural_development",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.944218624863673,
+        "self_prediction_step": 17,
+        "outcome_step": 18,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_2_semantic_procedural_development:201",
+        "step": 18,
+        "family": "epistemic_laboratory",
+        "phase": "phase_2_semantic_procedural_development",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.9609530374045712,
+        "self_prediction_step": 18,
+        "outcome_step": 19,
+        "decision": 1,
+        "outcome": {
+          "correct": false,
+          "target": 0,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_2_semantic_procedural_development:202",
+        "step": 19,
+        "family": "epistemic_laboratory",
+        "phase": "phase_2_semantic_procedural_development",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.6726671261831998,
+        "self_prediction_step": 19,
+        "outcome_step": 20,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_2_semantic_procedural_development:203",
+        "step": 20,
+        "family": "epistemic_laboratory",
+        "phase": "phase_2_semantic_procedural_development",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.7708669883282399,
+        "self_prediction_step": 20,
+        "outcome_step": 21,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_2_semantic_procedural_development:204",
+        "step": 21,
+        "family": "epistemic_laboratory",
+        "phase": "phase_2_semantic_procedural_development",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.8396068918297679,
+        "self_prediction_step": 21,
+        "outcome_step": 22,
+        "decision": 0,
+        "outcome": {
+          "correct": false,
+          "target": 1,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_2_semantic_procedural_development:205",
+        "step": 22,
+        "family": "epistemic_laboratory",
+        "phase": "phase_2_semantic_procedural_development",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.5877248242808375,
+        "self_prediction_step": 22,
+        "outcome_step": 23,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_2_semantic_procedural_development:206",
+        "step": 23,
+        "family": "epistemic_laboratory",
+        "phase": "phase_2_semantic_procedural_development",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.7114073769965863,
+        "self_prediction_step": 23,
+        "outcome_step": 24,
+        "decision": 0,
+        "outcome": {
+          "correct": false,
+          "target": 1,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_2_semantic_procedural_development:207",
+        "step": 24,
+        "family": "epistemic_laboratory",
+        "phase": "phase_2_semantic_procedural_development",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.4979851638976104,
+        "self_prediction_step": 24,
+        "outcome_step": 25,
+        "decision": 0,
+        "outcome": {
+          "correct": false,
+          "target": 1,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:300",
+        "step": 25,
+        "family": "epistemic_laboratory",
+        "phase": "phase_3_conflicting_evidence_defeaters",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.3485896147283273,
+        "self_prediction_step": 25,
+        "outcome_step": 26,
+        "decision": 1,
+        "outcome": {
+          "correct": false,
+          "target": 0,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:301",
+        "step": 26,
+        "family": "epistemic_laboratory",
+        "phase": "phase_3_conflicting_evidence_defeaters",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.24401273030982912,
+        "self_prediction_step": 26,
+        "outcome_step": 27,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:302",
+        "step": 27,
+        "family": "epistemic_laboratory",
+        "phase": "phase_3_conflicting_evidence_defeaters",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.47080891121688034,
+        "self_prediction_step": 27,
+        "outcome_step": 28,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:303",
+        "step": 28,
+        "family": "epistemic_laboratory",
+        "phase": "phase_3_conflicting_evidence_defeaters",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.6295662378518163,
+        "self_prediction_step": 28,
+        "outcome_step": 29,
+        "decision": 0,
+        "outcome": {
+          "correct": false,
+          "target": 1,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:304",
+        "step": 29,
+        "family": "epistemic_laboratory",
+        "phase": "phase_3_conflicting_evidence_defeaters",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.4406963664962714,
+        "self_prediction_step": 29,
+        "outcome_step": 30,
+        "decision": 1,
+        "outcome": {
+          "correct": false,
+          "target": 0,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:305",
+        "step": 30,
+        "family": "epistemic_laboratory",
+        "phase": "phase_3_conflicting_evidence_defeaters",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.30848745654738996,
+        "self_prediction_step": 30,
+        "outcome_step": 31,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:306",
+        "step": 31,
+        "family": "epistemic_laboratory",
+        "phase": "phase_3_conflicting_evidence_defeaters",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.515941219583173,
+        "self_prediction_step": 31,
+        "outcome_step": 32,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_3_conflicting_evidence_defeaters:307",
+        "step": 32,
+        "family": "epistemic_laboratory",
+        "phase": "phase_3_conflicting_evidence_defeaters",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.661158853708221,
+        "self_prediction_step": 32,
+        "outcome_step": 33,
+        "decision": 0,
+        "outcome": {
+          "correct": false,
+          "target": 1,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_4_ontology_repair:400",
+        "step": 33,
+        "family": "ontology_garden",
+        "phase": "phase_4_ontology_repair",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.46281119759575473,
+        "self_prediction_step": 33,
+        "outcome_step": 34,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_4_ontology_repair:401",
+        "step": 34,
+        "family": "ontology_garden",
+        "phase": "phase_4_ontology_repair",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.6239678383170283,
+        "self_prediction_step": 34,
+        "outcome_step": 35,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_4_ontology_repair:402",
+        "step": 35,
+        "family": "ontology_garden",
+        "phase": "phase_4_ontology_repair",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.7367774868219198,
+        "self_prediction_step": 35,
+        "outcome_step": 36,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_4_ontology_repair:403",
+        "step": 36,
+        "family": "ontology_garden",
+        "phase": "phase_4_ontology_repair",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "process",
+        "self_model_prediction": 0.8157442407753439,
+        "self_prediction_step": 36,
+        "outcome_step": 37,
+        "decision": "process",
+        "outcome": {
+          "correct": true,
+          "target": "process",
+          "proposal": "process",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_4_ontology_repair:404",
+        "step": 37,
+        "family": "ontology_garden",
+        "phase": "phase_4_ontology_repair",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "process",
+        "self_model_prediction": 0.8710209685427407,
+        "self_prediction_step": 37,
+        "outcome_step": 38,
+        "decision": "process",
+        "outcome": {
+          "correct": false,
+          "target": "entity",
+          "proposal": "process",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_4_ontology_repair:405",
+        "step": 38,
+        "family": "ontology_garden",
+        "phase": "phase_4_ontology_repair",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.6097146779799185,
+        "self_prediction_step": 38,
+        "outcome_step": 39,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_4_ontology_repair:406",
+        "step": 39,
+        "family": "ontology_garden",
+        "phase": "phase_4_ontology_repair",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "process",
+        "self_model_prediction": 0.726800274585943,
+        "self_prediction_step": 39,
+        "outcome_step": 40,
+        "decision": "process",
+        "outcome": {
+          "correct": true,
+          "target": "process",
+          "proposal": "process",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_4_ontology_repair:407",
+        "step": 40,
+        "family": "ontology_garden",
+        "phase": "phase_4_ontology_repair",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.80876019221016,
+        "self_prediction_step": 40,
+        "outcome_step": 41,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_5_cross_representation_transfer:500",
+        "step": 41,
+        "family": "cross_representation_systems",
+        "phase": "phase_5_cross_representation_transfer",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "ka",
+        "self_model_prediction": 0.866132134547112,
+        "self_prediction_step": 41,
+        "outcome_step": 42,
+        "decision": "ka",
+        "outcome": {
+          "correct": true,
+          "target": "ka",
+          "proposal": "ka",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_5_cross_representation_transfer:501",
+        "step": 42,
+        "family": "cross_representation_systems",
+        "phase": "phase_5_cross_representation_transfer",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "te",
+        "self_model_prediction": 0.9062924941829784,
+        "self_prediction_step": 42,
+        "outcome_step": 43,
+        "decision": "te",
+        "outcome": {
+          "correct": true,
+          "target": "te",
+          "proposal": "te",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_5_cross_representation_transfer:502",
+        "step": 43,
+        "family": "cross_representation_systems",
+        "phase": "phase_5_cross_representation_transfer",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "te",
+        "self_model_prediction": 0.9344047459280849,
+        "self_prediction_step": 43,
+        "outcome_step": 44,
+        "decision": "te",
+        "outcome": {
+          "correct": false,
+          "target": "ka",
+          "proposal": "te",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_5_cross_representation_transfer:503",
+        "step": 44,
+        "family": "cross_representation_systems",
+        "phase": "phase_5_cross_representation_transfer",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "te",
+        "self_model_prediction": 0.6540833221496594,
+        "self_prediction_step": 44,
+        "outcome_step": 45,
+        "decision": "te",
+        "outcome": {
+          "correct": false,
+          "target": "zu",
+          "proposal": "te",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_5_cross_representation_transfer:504",
+        "step": 45,
+        "family": "cross_representation_systems",
+        "phase": "phase_5_cross_representation_transfer",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "mi",
+        "self_model_prediction": 0.4578583255047616,
+        "self_prediction_step": 45,
+        "outcome_step": 46,
+        "decision": "mi",
+        "outcome": {
+          "correct": false,
+          "target": "ka",
+          "proposal": "mi",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_5_cross_representation_transfer:505",
+        "step": 46,
+        "family": "cross_representation_systems",
+        "phase": "phase_5_cross_representation_transfer",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "ka",
+        "self_model_prediction": 0.3205008278533331,
+        "self_prediction_step": 46,
+        "outcome_step": 47,
+        "decision": "ka",
+        "outcome": {
+          "correct": false,
+          "target": "mi",
+          "proposal": "ka",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_5_cross_representation_transfer:506",
+        "step": 47,
+        "family": "cross_representation_systems",
+        "phase": "phase_5_cross_representation_transfer",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "zu",
+        "self_model_prediction": 0.22435057949733317,
+        "self_prediction_step": 47,
+        "outcome_step": 48,
+        "decision": "zu",
+        "outcome": {
+          "correct": false,
+          "target": "ka",
+          "proposal": "zu",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_5_cross_representation_transfer:507",
+        "step": 48,
+        "family": "cross_representation_systems",
+        "phase": "phase_5_cross_representation_transfer",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "zu",
+        "self_model_prediction": 0.15704540564813324,
+        "self_prediction_step": 48,
+        "outcome_step": 49,
+        "decision": "zu",
+        "outcome": {
+          "correct": false,
+          "target": "te",
+          "proposal": "zu",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_6_causal_intervention:600",
+        "step": 49,
+        "family": "causal_micro_worlds",
+        "phase": "phase_6_causal_intervention",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "causal",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "causal",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.10993178395369327,
+        "self_prediction_step": 49,
+        "outcome_step": 50,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_6_causal_intervention:601",
+        "step": 50,
+        "family": "causal_micro_worlds",
+        "phase": "phase_6_causal_intervention",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "causal",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "causal",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.37695224876758526,
+        "self_prediction_step": 50,
+        "outcome_step": 51,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_6_causal_intervention:602",
+        "step": 51,
+        "family": "causal_micro_worlds",
+        "phase": "phase_6_causal_intervention",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "causal",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "causal",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.5638665741373097,
+        "self_prediction_step": 51,
+        "outcome_step": 52,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_6_causal_intervention:603",
+        "step": 52,
+        "family": "causal_micro_worlds",
+        "phase": "phase_6_causal_intervention",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "causal",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "causal",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.6947066018961168,
+        "self_prediction_step": 52,
+        "outcome_step": 53,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_6_causal_intervention:604",
+        "step": 53,
+        "family": "causal_micro_worlds",
+        "phase": "phase_6_causal_intervention",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "causal",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "causal",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.7862946213272818,
+        "self_prediction_step": 53,
+        "outcome_step": 54,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_6_causal_intervention:605",
+        "step": 54,
+        "family": "causal_micro_worlds",
+        "phase": "phase_6_causal_intervention",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "causal",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "causal",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.8504062349290973,
+        "self_prediction_step": 54,
+        "outcome_step": 55,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_6_causal_intervention:606",
+        "step": 55,
+        "family": "causal_micro_worlds",
+        "phase": "phase_6_causal_intervention",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "causal",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "causal",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.8952843644503681,
+        "self_prediction_step": 55,
+        "outcome_step": 56,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_6_causal_intervention:607",
+        "step": 56,
+        "family": "causal_micro_worlds",
+        "phase": "phase_6_causal_intervention",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "causal",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "causal",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.9266990551152576,
+        "self_prediction_step": 56,
+        "outcome_step": 57,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_7_counterfactual:700",
+        "step": 57,
+        "family": "causal_micro_worlds",
+        "phase": "phase_7_counterfactual",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "counterfactual",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "counterfactual",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.9486893385806804,
+        "self_prediction_step": 57,
+        "outcome_step": 58,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_7_counterfactual:701",
+        "step": 58,
+        "family": "causal_micro_worlds",
+        "phase": "phase_7_counterfactual",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "counterfactual",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "counterfactual",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.9640825370064763,
+        "self_prediction_step": 58,
+        "outcome_step": 59,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_7_counterfactual:702",
+        "step": 59,
+        "family": "causal_micro_worlds",
+        "phase": "phase_7_counterfactual",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "counterfactual",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "counterfactual",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.9748577759045334,
+        "self_prediction_step": 59,
+        "outcome_step": 60,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_7_counterfactual:703",
+        "step": 60,
+        "family": "causal_micro_worlds",
+        "phase": "phase_7_counterfactual",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "counterfactual",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "counterfactual",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.9824004431331733,
+        "self_prediction_step": 60,
+        "outcome_step": 61,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_7_counterfactual:704",
+        "step": 61,
+        "family": "causal_micro_worlds",
+        "phase": "phase_7_counterfactual",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "counterfactual",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "counterfactual",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.9876803101932213,
+        "self_prediction_step": 61,
+        "outcome_step": 62,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_7_counterfactual:705",
+        "step": 62,
+        "family": "causal_micro_worlds",
+        "phase": "phase_7_counterfactual",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "counterfactual",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "counterfactual",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.9913762171352549,
+        "self_prediction_step": 62,
+        "outcome_step": 63,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_7_counterfactual:706",
+        "step": 63,
+        "family": "causal_micro_worlds",
+        "phase": "phase_7_counterfactual",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "counterfactual",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "counterfactual",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.9939633519946784,
+        "self_prediction_step": 63,
+        "outcome_step": 64,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:causal_micro_worlds:phase_7_counterfactual:707",
+        "step": 64,
+        "family": "causal_micro_worlds",
+        "phase": "phase_7_counterfactual",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "counterfactual",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "counterfactual",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.9957743463962749,
+        "self_prediction_step": 64,
+        "outcome_step": 65,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:800",
+        "step": 65,
+        "family": "reasoning_method_selection",
+        "phase": "phase_8_reasoning_method_switching",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.9970420424773925,
+        "self_prediction_step": 65,
+        "outcome_step": 66,
+        "decision": true,
+        "outcome": {
+          "correct": false,
+          "target": "x",
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:801",
+        "step": 66,
+        "family": "reasoning_method_selection",
+        "phase": "phase_8_reasoning_method_switching",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.6979294297341747,
+        "self_prediction_step": 66,
+        "outcome_step": 67,
+        "decision": true,
+        "outcome": {
+          "correct": false,
+          "target": "x",
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:802",
+        "step": 67,
+        "family": "reasoning_method_selection",
+        "phase": "phase_8_reasoning_method_switching",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.4885506008139223,
+        "self_prediction_step": 67,
+        "outcome_step": 68,
+        "decision": true,
+        "outcome": {
+          "correct": false,
+          "target": [
+            "inspect",
+            "repair",
+            "verify"
+          ],
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:803",
+        "step": 68,
+        "family": "reasoning_method_selection",
+        "phase": "phase_8_reasoning_method_switching",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.3419854205697456,
+        "self_prediction_step": 68,
+        "outcome_step": 69,
+        "decision": true,
+        "outcome": {
+          "correct": false,
+          "target": [
+            "inspect",
+            "repair",
+            "verify"
+          ],
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:804",
+        "step": 69,
+        "family": "reasoning_method_selection",
+        "phase": "phase_8_reasoning_method_switching",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.23938979439882194,
+        "self_prediction_step": 69,
+        "outcome_step": 70,
+        "decision": true,
+        "outcome": {
+          "correct": true,
+          "target": true,
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:805",
+        "step": 70,
+        "family": "reasoning_method_selection",
+        "phase": "phase_8_reasoning_method_switching",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.4675728560791753,
+        "self_prediction_step": 70,
+        "outcome_step": 71,
+        "decision": true,
+        "outcome": {
+          "correct": true,
+          "target": true,
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:806",
+        "step": 71,
+        "family": "reasoning_method_selection",
+        "phase": "phase_8_reasoning_method_switching",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.6273009992554227,
+        "self_prediction_step": 71,
+        "outcome_step": 72,
+        "decision": true,
+        "outcome": {
+          "correct": true,
+          "target": true,
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:reasoning_method_selection:phase_8_reasoning_method_switching:807",
+        "step": 72,
+        "family": "reasoning_method_selection",
+        "phase": "phase_8_reasoning_method_switching",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": true,
+        "self_model_prediction": 0.7391106994787959,
+        "self_prediction_step": 72,
+        "outcome_step": 73,
+        "decision": true,
+        "outcome": {
+          "correct": true,
+          "target": true,
+          "proposal": true,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_9_inquiry_under_cost:900",
+        "step": 73,
+        "family": "scientific_inquiry",
+        "phase": "phase_9_inquiry_under_cost",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.8173774896351571,
+        "self_prediction_step": 73,
+        "outcome_step": 74,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_9_inquiry_under_cost:901",
+        "step": 74,
+        "family": "scientific_inquiry",
+        "phase": "phase_9_inquiry_under_cost",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.87216424274461,
+        "self_prediction_step": 74,
+        "outcome_step": 75,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_9_inquiry_under_cost:902",
+        "step": 75,
+        "family": "scientific_inquiry",
+        "phase": "phase_9_inquiry_under_cost",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.910514969921227,
+        "self_prediction_step": 75,
+        "outcome_step": 76,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_9_inquiry_under_cost:903",
+        "step": 76,
+        "family": "scientific_inquiry",
+        "phase": "phase_9_inquiry_under_cost",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.937360478944859,
+        "self_prediction_step": 76,
+        "outcome_step": 77,
+        "decision": "inquire",
+        "outcome": {
+          "correct": false,
+          "target": "stop",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_9_inquiry_under_cost:904",
+        "step": 77,
+        "family": "scientific_inquiry",
+        "phase": "phase_9_inquiry_under_cost",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.6561523352614013,
+        "self_prediction_step": 77,
+        "outcome_step": 78,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_9_inquiry_under_cost:905",
+        "step": 78,
+        "family": "scientific_inquiry",
+        "phase": "phase_9_inquiry_under_cost",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.7593066346829809,
+        "self_prediction_step": 78,
+        "outcome_step": 79,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_9_inquiry_under_cost:906",
+        "step": 79,
+        "family": "scientific_inquiry",
+        "phase": "phase_9_inquiry_under_cost",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.8315146442780866,
+        "self_prediction_step": 79,
+        "outcome_step": 80,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_9_inquiry_under_cost:907",
+        "step": 80,
+        "family": "scientific_inquiry",
+        "phase": "phase_9_inquiry_under_cost",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.8820602509946607,
+        "self_prediction_step": 80,
+        "outcome_step": 81,
+        "decision": "inquire",
+        "outcome": {
+          "correct": false,
+          "target": "stop",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1000",
+        "step": 81,
+        "family": "epistemic_laboratory",
+        "phase": "phase_10_interruption_checkpoint",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.6174421756962625,
+        "self_prediction_step": 81,
+        "outcome_step": 82,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1001",
+        "step": 82,
+        "family": "epistemic_laboratory",
+        "phase": "phase_10_interruption_checkpoint",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.7322095229873837,
+        "self_prediction_step": 82,
+        "outcome_step": 83,
+        "decision": 0,
+        "outcome": {
+          "correct": false,
+          "target": 1,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1002",
+        "step": 83,
+        "family": "epistemic_laboratory",
+        "phase": "phase_10_interruption_checkpoint",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.5125466660911686,
+        "self_prediction_step": 83,
+        "outcome_step": 84,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1003",
+        "step": 84,
+        "family": "epistemic_laboratory",
+        "phase": "phase_10_interruption_checkpoint",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 1,
+        "self_model_prediction": 0.658782666263818,
+        "self_prediction_step": 84,
+        "outcome_step": 85,
+        "decision": 1,
+        "outcome": {
+          "correct": true,
+          "target": 1,
+          "proposal": 1,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1004",
+        "step": 85,
+        "family": "epistemic_laboratory",
+        "phase": "phase_10_interruption_checkpoint",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.7611478663846726,
+        "self_prediction_step": 85,
+        "outcome_step": 86,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1005",
+        "step": 86,
+        "family": "epistemic_laboratory",
+        "phase": "phase_10_interruption_checkpoint",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.8328035064692708,
+        "self_prediction_step": 86,
+        "outcome_step": 87,
+        "decision": 0,
+        "outcome": {
+          "correct": false,
+          "target": 1,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1006",
+        "step": 87,
+        "family": "epistemic_laboratory",
+        "phase": "phase_10_interruption_checkpoint",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.5829624545284896,
+        "self_prediction_step": 87,
+        "outcome_step": 88,
+        "decision": 0,
+        "outcome": {
+          "correct": false,
+          "target": 1,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:epistemic_laboratory:phase_10_interruption_checkpoint:1007",
+        "step": 88,
+        "family": "epistemic_laboratory",
+        "phase": "phase_10_interruption_checkpoint",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": 0,
+        "self_model_prediction": 0.40807371816994276,
+        "self_prediction_step": 88,
+        "outcome_step": 89,
+        "decision": 0,
+        "outcome": {
+          "correct": true,
+          "target": 0,
+          "proposal": 0,
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_11_body_tool_change:1100",
+        "step": 89,
+        "family": "cross_representation_systems",
+        "phase": "phase_11_body_tool_change",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "ka",
+        "self_model_prediction": 0.5856516027189599,
+        "self_prediction_step": 89,
+        "outcome_step": 90,
+        "decision": "ka",
+        "outcome": {
+          "correct": false,
+          "target": "zu",
+          "proposal": "ka",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_11_body_tool_change:1101",
+        "step": 90,
+        "family": "cross_representation_systems",
+        "phase": "phase_11_body_tool_change",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "ka",
+        "self_model_prediction": 0.4099561219032719,
+        "self_prediction_step": 90,
+        "outcome_step": 91,
+        "decision": "ka",
+        "outcome": {
+          "correct": true,
+          "target": "ka",
+          "proposal": "ka",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_11_body_tool_change:1102",
+        "step": 91,
+        "family": "cross_representation_systems",
+        "phase": "phase_11_body_tool_change",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "mi",
+        "self_model_prediction": 0.5869692853322903,
+        "self_prediction_step": 91,
+        "outcome_step": 92,
+        "decision": "mi",
+        "outcome": {
+          "correct": false,
+          "target": "te",
+          "proposal": "mi",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_11_body_tool_change:1103",
+        "step": 92,
+        "family": "cross_representation_systems",
+        "phase": "phase_11_body_tool_change",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "te",
+        "self_model_prediction": 0.41087849973260326,
+        "self_prediction_step": 92,
+        "outcome_step": 93,
+        "decision": "te",
+        "outcome": {
+          "correct": true,
+          "target": "te",
+          "proposal": "te",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_11_body_tool_change:1104",
+        "step": 93,
+        "family": "cross_representation_systems",
+        "phase": "phase_11_body_tool_change",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "ka",
+        "self_model_prediction": 0.5876149498128223,
+        "self_prediction_step": 93,
+        "outcome_step": 94,
+        "decision": "ka",
+        "outcome": {
+          "correct": false,
+          "target": "mi",
+          "proposal": "ka",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_11_body_tool_change:1105",
+        "step": 94,
+        "family": "cross_representation_systems",
+        "phase": "phase_11_body_tool_change",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "ka",
+        "self_model_prediction": 0.4113304648689756,
+        "self_prediction_step": 94,
+        "outcome_step": 95,
+        "decision": "ka",
+        "outcome": {
+          "correct": false,
+          "target": "mi",
+          "proposal": "ka",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_11_body_tool_change:1106",
+        "step": 95,
+        "family": "cross_representation_systems",
+        "phase": "phase_11_body_tool_change",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "te",
+        "self_model_prediction": 0.2879313254082829,
+        "self_prediction_step": 95,
+        "outcome_step": 96,
+        "decision": "te",
+        "outcome": {
+          "correct": true,
+          "target": "te",
+          "proposal": "te",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_11_body_tool_change:1107",
+        "step": 96,
+        "family": "cross_representation_systems",
+        "phase": "phase_11_body_tool_change",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "ka",
+        "self_model_prediction": 0.501551927785798,
+        "self_prediction_step": 96,
+        "outcome_step": 97,
+        "decision": "ka",
+        "outcome": {
+          "correct": false,
+          "target": "mi",
+          "proposal": "ka",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_12_return_prior_domains:1200",
+        "step": 97,
+        "family": "ontology_garden",
+        "phase": "phase_12_return_prior_domains",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.3510863494500587,
+        "self_prediction_step": 97,
+        "outcome_step": 98,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_12_return_prior_domains:1201",
+        "step": 98,
+        "family": "ontology_garden",
+        "phase": "phase_12_return_prior_domains",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "process",
+        "self_model_prediction": 0.545760444615041,
+        "self_prediction_step": 98,
+        "outcome_step": 99,
+        "decision": "process",
+        "outcome": {
+          "correct": true,
+          "target": "process",
+          "proposal": "process",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_12_return_prior_domains:1202",
+        "step": 99,
+        "family": "ontology_garden",
+        "phase": "phase_12_return_prior_domains",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.6820323112305287,
+        "self_prediction_step": 99,
+        "outcome_step": 100,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_12_return_prior_domains:1203",
+        "step": 100,
+        "family": "ontology_garden",
+        "phase": "phase_12_return_prior_domains",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.77742261786137,
+        "self_prediction_step": 100,
+        "outcome_step": 101,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_12_return_prior_domains:1204",
+        "step": 101,
+        "family": "ontology_garden",
+        "phase": "phase_12_return_prior_domains",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.844195832502959,
+        "self_prediction_step": 101,
+        "outcome_step": 102,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_12_return_prior_domains:1205",
+        "step": 102,
+        "family": "ontology_garden",
+        "phase": "phase_12_return_prior_domains",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "process",
+        "self_model_prediction": 0.8909370827520713,
+        "self_prediction_step": 102,
+        "outcome_step": 103,
+        "decision": "process",
+        "outcome": {
+          "correct": true,
+          "target": "process",
+          "proposal": "process",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_12_return_prior_domains:1206",
+        "step": 103,
+        "family": "ontology_garden",
+        "phase": "phase_12_return_prior_domains",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "entity",
+        "self_model_prediction": 0.9236559579264499,
+        "self_prediction_step": 103,
+        "outcome_step": 104,
+        "decision": "entity",
+        "outcome": {
+          "correct": true,
+          "target": "entity",
+          "proposal": "entity",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:ontology_garden:phase_12_return_prior_domains:1207",
+        "step": 104,
+        "family": "ontology_garden",
+        "phase": "phase_12_return_prior_domains",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "process",
+        "self_model_prediction": 0.946559170548515,
+        "self_prediction_step": 104,
+        "outcome_step": 105,
+        "decision": "process",
+        "outcome": {
+          "correct": false,
+          "target": "entity",
+          "proposal": "process",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1300",
+        "step": 105,
+        "family": "adversarial_ambiguity",
+        "phase": "phase_13_misleading_analogy",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "reject",
+        "self_model_prediction": 0.6625914193839606,
+        "self_prediction_step": 105,
+        "outcome_step": 106,
+        "decision": "reject",
+        "outcome": {
+          "correct": false,
+          "target": "transfer",
+          "proposal": "reject",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1301",
+        "step": 106,
+        "family": "adversarial_ambiguity",
+        "phase": "phase_13_misleading_analogy",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "reject",
+        "self_model_prediction": 0.4638139935687724,
+        "self_prediction_step": 106,
+        "outcome_step": 107,
+        "decision": "reject",
+        "outcome": {
+          "correct": false,
+          "target": "transfer",
+          "proposal": "reject",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1302",
+        "step": 107,
+        "family": "adversarial_ambiguity",
+        "phase": "phase_13_misleading_analogy",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "reject",
+        "self_model_prediction": 0.3246697954981407,
+        "self_prediction_step": 107,
+        "outcome_step": 108,
+        "decision": "reject",
+        "outcome": {
+          "correct": false,
+          "target": "transfer",
+          "proposal": "reject",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1303",
+        "step": 108,
+        "family": "adversarial_ambiguity",
+        "phase": "phase_13_misleading_analogy",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "reject",
+        "self_model_prediction": 0.22726885684869846,
+        "self_prediction_step": 108,
+        "outcome_step": 109,
+        "decision": "reject",
+        "outcome": {
+          "correct": false,
+          "target": "transfer",
+          "proposal": "reject",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1304",
+        "step": 109,
+        "family": "adversarial_ambiguity",
+        "phase": "phase_13_misleading_analogy",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "reject",
+        "self_model_prediction": 0.15908819979408895,
+        "self_prediction_step": 109,
+        "outcome_step": 110,
+        "decision": "reject",
+        "outcome": {
+          "correct": false,
+          "target": "transfer",
+          "proposal": "reject",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1305",
+        "step": 110,
+        "family": "adversarial_ambiguity",
+        "phase": "phase_13_misleading_analogy",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "transfer",
+        "self_model_prediction": 0.11136173985586226,
+        "self_prediction_step": 110,
+        "outcome_step": 111,
+        "decision": "transfer",
+        "outcome": {
+          "correct": false,
+          "target": "reject",
+          "proposal": "transfer",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1306",
+        "step": 111,
+        "family": "adversarial_ambiguity",
+        "phase": "phase_13_misleading_analogy",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "reject",
+        "self_model_prediction": 0.07795321789910359,
+        "self_prediction_step": 111,
+        "outcome_step": 112,
+        "decision": "reject",
+        "outcome": {
+          "correct": false,
+          "target": "transfer",
+          "proposal": "reject",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:adversarial_ambiguity:phase_13_misleading_analogy:1307",
+        "step": 112,
+        "family": "adversarial_ambiguity",
+        "phase": "phase_13_misleading_analogy",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "reject",
+        "self_model_prediction": 0.054567252529372515,
+        "self_prediction_step": 112,
+        "outcome_step": 113,
+        "decision": "reject",
+        "outcome": {
+          "correct": false,
+          "target": "transfer",
+          "proposal": "reject",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1400",
+        "step": 113,
+        "family": "cross_representation_systems",
+        "phase": "phase_14_open_world_structures",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "zu",
+        "self_model_prediction": 0.038197076770560764,
+        "self_prediction_step": 113,
+        "outcome_step": 114,
+        "decision": "zu",
+        "outcome": {
+          "correct": false,
+          "target": "te",
+          "proposal": "zu",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1401",
+        "step": 114,
+        "family": "cross_representation_systems",
+        "phase": "phase_14_open_world_structures",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "mi",
+        "self_model_prediction": 0.026737953739392535,
+        "self_prediction_step": 114,
+        "outcome_step": 115,
+        "decision": "mi",
+        "outcome": {
+          "correct": true,
+          "target": "mi",
+          "proposal": "mi",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1402",
+        "step": 115,
+        "family": "cross_representation_systems",
+        "phase": "phase_14_open_world_structures",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "ka",
+        "self_model_prediction": 0.3187165676175747,
+        "self_prediction_step": 115,
+        "outcome_step": 116,
+        "decision": "ka",
+        "outcome": {
+          "correct": true,
+          "target": "ka",
+          "proposal": "ka",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1403",
+        "step": 116,
+        "family": "cross_representation_systems",
+        "phase": "phase_14_open_world_structures",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "mi",
+        "self_model_prediction": 0.5231015973323023,
+        "self_prediction_step": 116,
+        "outcome_step": 117,
+        "decision": "mi",
+        "outcome": {
+          "correct": false,
+          "target": "zu",
+          "proposal": "mi",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1404",
+        "step": 117,
+        "family": "cross_representation_systems",
+        "phase": "phase_14_open_world_structures",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "mi",
+        "self_model_prediction": 0.3661711181326116,
+        "self_prediction_step": 117,
+        "outcome_step": 118,
+        "decision": "mi",
+        "outcome": {
+          "correct": false,
+          "target": "te",
+          "proposal": "mi",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1405",
+        "step": 118,
+        "family": "cross_representation_systems",
+        "phase": "phase_14_open_world_structures",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "te",
+        "self_model_prediction": 0.2563197826928281,
+        "self_prediction_step": 118,
+        "outcome_step": 119,
+        "decision": "te",
+        "outcome": {
+          "correct": true,
+          "target": "te",
+          "proposal": "te",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1406",
+        "step": 119,
+        "family": "cross_representation_systems",
+        "phase": "phase_14_open_world_structures",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "mi",
+        "self_model_prediction": 0.4794238478849797,
+        "self_prediction_step": 119,
+        "outcome_step": 120,
+        "decision": "mi",
+        "outcome": {
+          "correct": false,
+          "target": "ka",
+          "proposal": "mi",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:cross_representation_systems:phase_14_open_world_structures:1407",
+        "step": 120,
+        "family": "cross_representation_systems",
+        "phase": "phase_14_open_world_structures",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "strongest simple control",
+        "inquiry_action": "none",
+        "evidence_gathered": "public observation",
+        "procedure_used": "strongest simple control",
+        "world_model_prediction": "zu",
+        "self_model_prediction": 0.33559669351948584,
+        "self_prediction_step": 120,
+        "outcome_step": 121,
+        "decision": "zu",
+        "outcome": {
+          "correct": true,
+          "target": "zu",
+          "proposal": "zu",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1500",
+        "step": 121,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.53491768546364,
+        "self_prediction_step": 121,
+        "outcome_step": 122,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1501",
+        "step": 122,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.674442379824548,
+        "self_prediction_step": 122,
+        "outcome_step": 123,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1502",
+        "step": 123,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.7721096658771837,
+        "self_prediction_step": 123,
+        "outcome_step": 124,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1503",
+        "step": 124,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.8404767661140286,
+        "self_prediction_step": 124,
+        "outcome_step": 125,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1504",
+        "step": 125,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.88833373627982,
+        "self_prediction_step": 125,
+        "outcome_step": 126,
+        "decision": "inquire",
+        "outcome": {
+          "correct": true,
+          "target": "inquire",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1505",
+        "step": 126,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.921833615395874,
+        "self_prediction_step": 126,
+        "outcome_step": 127,
+        "decision": "stop",
+        "outcome": {
+          "correct": false,
+          "target": "inquire",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1506",
+        "step": 127,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "stop",
+        "evidence_gathered": "public observation",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "stop",
+        "self_model_prediction": 0.6452835307771119,
+        "self_prediction_step": 127,
+        "outcome_step": 128,
+        "decision": "stop",
+        "outcome": {
+          "correct": true,
+          "target": "stop",
+          "proposal": "stop",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 1.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      },
+      {
+        "identity": "replication:2002:scientific_inquiry:phase_15_terminal_integrated_evaluation:1507",
+        "step": 128,
+        "family": "scientific_inquiry",
+        "phase": "phase_15_terminal_integrated_evaluation",
+        "ontology_used": [],
+        "beliefs_used": [],
+        "defeaters_considered": [],
+        "reasoning_mode": "simple inquiry",
+        "inquiry_action": "inquire",
+        "evidence_gathered": "contextual expected information value",
+        "procedure_used": "simple inquiry",
+        "world_model_prediction": "inquire",
+        "self_model_prediction": 0.7516984715439783,
+        "self_prediction_step": 128,
+        "outcome_step": 129,
+        "decision": "inquire",
+        "outcome": {
+          "correct": false,
+          "target": "stop",
+          "proposal": "inquire",
+          "revealed_after_commitment": true
+        },
+        "revision": null,
+        "explanation": null,
+        "compute": 2.0,
+        "body": "compact",
+        "tools": [
+          "deterministic_compare",
+          "sandbox_simulation",
+          "graph_inspector"
+        ],
+        "activation": false
+      }
+    ],
+    "step": 128,
+    "activation": false
+  },
+  "identity_hash": "3fe1d4fb2b4916be93f7df540f353a9ff682611f8ccd156e0e587edd81511313",
+  "activation": false,
+  "program": "substrate-v3"
+}

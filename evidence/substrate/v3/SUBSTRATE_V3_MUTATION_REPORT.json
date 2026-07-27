@@ -1,0 +1,84 @@
+{
+  "schema": "substrate-v3-mutation-report/v1",
+  "mutations": {
+    "answer_leaked_into_observation": {
+      "detected": true,
+      "survived": false
+    },
+    "future_outcome_used_by_inquiry": {
+      "detected": true,
+      "survived": false
+    },
+    "principal_seed_used_in_construction": {
+      "detected": true,
+      "survived": false
+    },
+    "ontology_revised_from_held_out_evidence": {
+      "detected": true,
+      "survived": false
+    },
+    "unsupported_belief_admitted_as_knowledge": {
+      "detected": true,
+      "survived": false
+    },
+    "defeater_ignored": {
+      "detected": true,
+      "survived": false
+    },
+    "wrong_reasoning_method_credited": {
+      "detected": true,
+      "survived": false
+    },
+    "explanation_cites_nonexistent_premise": {
+      "detected": true,
+      "survived": false
+    },
+    "counterfactual_changes_multiple_premises": {
+      "detected": true,
+      "survived": false
+    },
+    "cross_representation_identity_leaked": {
+      "detected": true,
+      "survived": false
+    },
+    "oracle_action_used_by_learned_policy": {
+      "detected": true,
+      "survived": false
+    },
+    "self_model_prediction_after_outcome": {
+      "detected": true,
+      "survived": false
+    },
+    "checkpoint_omits_ontology": {
+      "detected": true,
+      "survived": false
+    },
+    "checkpoint_omits_epistemology": {
+      "detected": true,
+      "survived": false
+    },
+    "checkpoint_omits_reasoning_policy": {
+      "detected": true,
+      "survived": false
+    },
+    "fresh_control_receives_developed_state": {
+      "detected": true,
+      "survived": false
+    },
+    "more_compute_receives_less_compute": {
+      "detected": true,
+      "survived": false
+    },
+    "activation_becomes_true": {
+      "detected": true,
+      "survived": false
+    }
+  },
+  "survivors": [],
+  "zero_survivors": true,
+  "activation": false,
+  "program": "substrate-v3",
+  "source_commit": "2c54932dca5ba999d2f2bf261ac25e193e9a77dd",
+  "source_digest": "869a6353cfc0d8b5622ad5f75083b9d66b04d623320a9ad3405489cf3448e594",
+  "sha256": "5223b17565c4eceb928ad290b6af841efb72a595002745816dc12828e99e20a2"
+}
