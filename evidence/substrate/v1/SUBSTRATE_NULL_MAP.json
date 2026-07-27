@@ -162,7 +162,7 @@
     "H_learned_plasticity_policy"
   ],
   "program": "substrate-v1",
-  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
   "activation": false,
-  "sha256": "7b0fa01a5a225ac1d0aef8440ad0a06e016cdeb53d99ba53966db47fa536d441"
+  "sha256": "51dd8a9495dda7e0047b6a0ebd059c8cc6471bc110322675bb6df6c3f5f3a97f"
 }

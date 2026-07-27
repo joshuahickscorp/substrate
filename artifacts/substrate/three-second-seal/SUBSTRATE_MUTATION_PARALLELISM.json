@@ -1,0 +1,305 @@
+{
+  "schema": "substrate-mutation-parallelism/v1",
+  "classification": "engineering benchmark over the frozen mutation set; zero new scientific work",
+  "isolation": "fresh interpreter and module graph per mutation",
+  "supervisor": "bounded persistent thread pool",
+  "candidates": [
+    {
+      "workers": 2,
+      "runs": 5,
+      "all_rejected_every_run": true,
+      "distribution": {
+        "minimum": 2.4331107079051435,
+        "median": 2.4808978750370443,
+        "p95": 2.5095084590138867,
+        "maximum": 2.5095084590138867,
+        "mean": 2.4720340583939104,
+        "population_stdev": 0.027460242144253612
+      }
+    },
+    {
+      "workers": 4,
+      "runs": 5,
+      "all_rejected_every_run": true,
+      "distribution": {
+        "minimum": 1.3767178748967126,
+        "median": 1.3971738750115037,
+        "p95": 1.4815292090643197,
+        "maximum": 1.4815292090643197,
+        "mean": 1.419220916973427,
+        "population_stdev": 0.04386641428534591
+      }
+    },
+    {
+      "workers": 6,
+      "runs": 5,
+      "all_rejected_every_run": true,
+      "distribution": {
+        "minimum": 1.0534330420196056,
+        "median": 1.0611804579384625,
+        "p95": 1.1362681669415906,
+        "maximum": 1.1362681669415906,
+        "mean": 1.0745383583707735,
+        "population_stdev": 0.031021911290876735
+      }
+    },
+    {
+      "workers": 8,
+      "runs": 5,
+      "all_rejected_every_run": true,
+      "distribution": {
+        "minimum": 0.7790689170360565,
+        "median": 0.7874743330758065,
+        "p95": 0.9976182500831783,
+        "maximum": 0.9976182500831783,
+        "mean": 0.8287038750480861,
+        "population_stdev": 0.08456490247066636
+      }
+    },
+    {
+      "workers": 12,
+      "runs": 5,
+      "all_rejected_every_run": true,
+      "distribution": {
+        "minimum": 0.6204103750642389,
+        "median": 0.6366224579978734,
+        "p95": 0.672897333977744,
+        "maximum": 0.672897333977744,
+        "mean": 0.6394177000038326,
+        "population_stdev": 0.018186266814041712
+      }
+    }
+  ],
+  "selected_workers": 12,
+  "selection_rule": "lowest median among candidates with every mutation rejected in every run",
+  "raw_trials": [
+    {
+      "workers": 2,
+      "wall_seconds": 2.449027542024851,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 1
+    },
+    {
+      "workers": 2,
+      "wall_seconds": 2.5095084590138867,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 2
+    },
+    {
+      "workers": 2,
+      "wall_seconds": 2.4876257079886273,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 3
+    },
+    {
+      "workers": 2,
+      "wall_seconds": 2.4808978750370443,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 4
+    },
+    {
+      "workers": 2,
+      "wall_seconds": 2.4331107079051435,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 5
+    },
+    {
+      "workers": 4,
+      "wall_seconds": 1.3788454589666799,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 1
+    },
+    {
+      "workers": 4,
+      "wall_seconds": 1.3767178748967126,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 2
+    },
+    {
+      "workers": 4,
+      "wall_seconds": 1.3971738750115037,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 3
+    },
+    {
+      "workers": 4,
+      "wall_seconds": 1.4618381669279188,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 4
+    },
+    {
+      "workers": 4,
+      "wall_seconds": 1.4815292090643197,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 5
+    },
+    {
+      "workers": 6,
+      "wall_seconds": 1.1362681669415906,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 1
+    },
+    {
+      "workers": 6,
+      "wall_seconds": 1.0611804579384625,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 2
+    },
+    {
+      "workers": 6,
+      "wall_seconds": 1.0534330420196056,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 3
+    },
+    {
+      "workers": 6,
+      "wall_seconds": 1.0625819999258965,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 4
+    },
+    {
+      "workers": 6,
+      "wall_seconds": 1.0592281250283122,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 5
+    },
+    {
+      "workers": 8,
+      "wall_seconds": 0.7923855839762837,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 1
+    },
+    {
+      "workers": 8,
+      "wall_seconds": 0.7790689170360565,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 2
+    },
+    {
+      "workers": 8,
+      "wall_seconds": 0.7869722910691053,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 3
+    },
+    {
+      "workers": 8,
+      "wall_seconds": 0.7874743330758065,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 4
+    },
+    {
+      "workers": 8,
+      "wall_seconds": 0.9976182500831783,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 5
+    },
+    {
+      "workers": 12,
+      "wall_seconds": 0.672897333977744,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 1
+    },
+    {
+      "workers": 12,
+      "wall_seconds": 0.6204103750642389,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 2
+    },
+    {
+      "workers": 12,
+      "wall_seconds": 0.6266673329519108,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 3
+    },
+    {
+      "workers": 12,
+      "wall_seconds": 0.6404910000273958,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 4
+    },
+    {
+      "workers": 12,
+      "wall_seconds": 0.6366224579978734,
+      "rejected": 32,
+      "total": 32,
+      "survivors": [],
+      "all_rejected": true,
+      "repetition": 5
+    }
+  ],
+  "mutation_count": 32,
+  "all_pass": true,
+  "activation": false
+}

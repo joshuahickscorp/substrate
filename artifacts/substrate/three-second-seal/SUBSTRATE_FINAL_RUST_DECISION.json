@@ -1,0 +1,10 @@
+{
+  "schema": "substrate-final-rust-decision/v1",
+  "decision": "retain Python",
+  "reason": "the sealed Python capsule and explicit Python full recomputation both satisfy their hard latency gates while preserving exact artifact and normalized receipt parity; a Rust rewrite would add semantic and validation risk with no launch requirement left unmet",
+  "fast_median_seconds": 0.2185754580423236,
+  "full_median_seconds": 3.184283582959324,
+  "rust_required": false,
+  "new_science": false,
+  "activation": false
+}

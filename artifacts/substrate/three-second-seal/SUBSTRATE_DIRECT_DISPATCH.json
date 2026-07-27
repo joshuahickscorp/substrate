@@ -1,0 +1,247 @@
+{
+  "schema": "substrate-direct-dispatch/v1",
+  "units": [
+    {
+      "unit": "audit",
+      "callable": "_direct_audit",
+      "declared_module": "substrate.audit",
+      "declared_arguments": [
+        "run"
+      ],
+      "produces": [
+        "SUBSTRATE_STRUCTURAL_AUDIT.json"
+      ]
+    },
+    {
+      "unit": "declarations",
+      "callable": "_direct_declarations",
+      "declared_module": "substrate.deliverables",
+      "declared_arguments": [
+        "seal-declarations"
+      ],
+      "produces": [
+        "SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json",
+        "SUBSTRATE_DATA_CUSTODY_AUTHORITY.json",
+        "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+        "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+        "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+        "SUBSTRATE_ONTOLOGY.json",
+        "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+        "SUBSTRATE_WORKSPACE.json",
+        "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+        "SUBSTRATE_ARBITRATION_SYSTEM.json",
+        "SUBSTRATE_WORLD_MODEL.json",
+        "SUBSTRATE_METACOGNITION.json",
+        "SUBSTRATE_RUNTIME.json",
+        "SUBSTRATE_GOAL_SYSTEM.json",
+        "SUBSTRATE_VALUATION_SYSTEM.json",
+        "SUBSTRATE_GROUNDING.json",
+        "SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
+        "SUBSTRATE_NOUS_CLOSURE.json"
+      ]
+    },
+    {
+      "unit": "temporal_continuity",
+      "callable": "_direct_temporal",
+      "declared_module": "substrate.temporal_link",
+      "declared_arguments": [
+        "seal"
+      ],
+      "produces": [
+        "SUBSTRATE_TEMPORAL_CORE.json"
+      ]
+    },
+    {
+      "unit": "ontology_epistemology",
+      "callable": "_direct_epistemology",
+      "declared_module": "substrate.epistemology",
+      "declared_arguments": [
+        "seal"
+      ],
+      "produces": [
+        "SUBSTRATE_EPISTEMOLOGY.json",
+        "SUBSTRATE_BELIEF_REVISION.json"
+      ]
+    },
+    {
+      "unit": "memory",
+      "callable": "_direct_memory",
+      "declared_module": "substrate.memory",
+      "declared_arguments": [
+        "seal"
+      ],
+      "produces": [
+        "SUBSTRATE_MEMORY_SYSTEM.json"
+      ]
+    },
+    {
+      "unit": "diversity_arbitration",
+      "callable": "_direct_sx2",
+      "declared_module": "substrate.sx2",
+      "declared_arguments": [
+        "run"
+      ],
+      "produces": [
+        "SUBSTRATE_SX2_DIVERSITY.json"
+      ]
+    },
+    {
+      "unit": "world_model",
+      "callable": "_direct_world_model",
+      "declared_module": "substrate.worldbed",
+      "declared_arguments": [
+        "integrate"
+      ],
+      "produces": [
+        "SUBSTRATE_WORLD_MODEL_BATTERY.json"
+      ]
+    },
+    {
+      "unit": "self_model",
+      "callable": "_direct_self_model",
+      "declared_module": "substrate.selfmodel",
+      "declared_arguments": [
+        "seal"
+      ],
+      "produces": [
+        "SUBSTRATE_SELF_MODEL.json"
+      ]
+    },
+    {
+      "unit": "body_compact",
+      "callable": "_direct_body_compact",
+      "declared_module": "substrate.bodies",
+      "declared_arguments": [
+        "compact"
+      ],
+      "produces": [
+        "SUBSTRATE_BODY_COMPACT.json"
+      ]
+    },
+    {
+      "unit": "body_general",
+      "callable": "_direct_body_general",
+      "declared_module": "substrate.bodies",
+      "declared_arguments": [
+        "general"
+      ],
+      "produces": [
+        "SUBSTRATE_BODY_GENERAL.json"
+      ]
+    },
+    {
+      "unit": "body_tool",
+      "callable": "_direct_body_tool",
+      "declared_module": "substrate.bodies",
+      "declared_arguments": [
+        "tool"
+      ],
+      "produces": [
+        "SUBSTRATE_BODY_TOOL.json"
+      ]
+    },
+    {
+      "unit": "body_comparison",
+      "callable": "_direct_body_comparison",
+      "declared_module": "substrate.bodies",
+      "declared_arguments": [
+        "compare"
+      ],
+      "produces": [
+        "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+      ]
+    },
+    {
+      "unit": "admitted_plasticity",
+      "callable": "_direct_plasticity",
+      "declared_module": "substrate.plasticity",
+      "declared_arguments": [
+        "seal"
+      ],
+      "produces": [
+        "SUBSTRATE_PLASTICITY_SYSTEM.json",
+        "SUBSTRATE_REORGANIZATION.json"
+      ]
+    },
+    {
+      "unit": "developmental_divergence",
+      "callable": "_direct_divergence",
+      "declared_module": "substrate.divergence",
+      "declared_arguments": [
+        "run"
+      ],
+      "produces": [
+        "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+      ]
+    },
+    {
+      "unit": "entity_batteries",
+      "callable": "_direct_batteries",
+      "declared_module": "substrate.batteries",
+      "declared_arguments": [
+        "seal"
+      ],
+      "produces": [
+        "SUBSTRATE_THINKING_BATTERY.json",
+        "SUBSTRATE_CONTINUITY_BATTERY.json",
+        "SUBSTRATE_UNITY_BATTERY.json",
+        "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
+        "SUBSTRATE_AGENCY_BATTERY.json",
+        "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"
+      ]
+    },
+    {
+      "unit": "certification",
+      "callable": "_direct_certification",
+      "declared_module": "substrate.certify",
+      "declared_arguments": [
+        "run"
+      ],
+      "produces": [
+        "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
+      ]
+    },
+    {
+      "unit": "recomputation",
+      "callable": "_direct_recomputation",
+      "declared_module": "substrate.verification",
+      "declared_arguments": [
+        "recompute"
+      ],
+      "produces": [
+        "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+      ]
+    },
+    {
+      "unit": "mutations",
+      "callable": "_direct_mutations",
+      "declared_module": "substrate.verification",
+      "declared_arguments": [
+        "mutate"
+      ],
+      "produces": [
+        "SUBSTRATE_MUTATION_REPORT.json"
+      ]
+    },
+    {
+      "unit": "terminal_synthesis",
+      "callable": "_direct_authority",
+      "declared_module": "substrate.authority",
+      "declared_arguments": [
+        "seal"
+      ],
+      "produces": [
+        "SUBSTRATE_FINAL_MASTER_AUTHORITY.json",
+        "SUBSTRATE_FINAL_STATE.json"
+      ]
+    }
+  ],
+  "unit_count": 19,
+  "registry_sha256": "15bbaf28ad7da88e7689c18a5e36af2cb113594a5808c7922d25bb90e6ffb862",
+  "preimported": true,
+  "shell_or_cli_dispatch": false,
+  "activation": false,
+  "old_transport": "module CLI main dispatch through a spawned synthesis worker",
+  "selected_transport": "preimported in process callable registry",
+  "semantic_unit_count_unchanged": true
+}

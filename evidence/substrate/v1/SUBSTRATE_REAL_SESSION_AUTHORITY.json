@@ -4,7 +4,7 @@
   "why_it_is_real": "a supervisor ran for days under changing resource pressure and recorded every decision, incident, hold and outcome. None of it was produced to test a cognitive architecture and its length was set by the compute, not by us",
   "provenance": {
     "runs_root": "runs/substrate/mop-temporal-core-mechanism-v1",
-    "log": "logs/supervisor.detached.log",
+    "log": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
     "every_event_cites_its_file": true
   },
   "event_fields": [
@@ -4711,7 +4711,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 190, 'extended': 222, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 448
     },
     {
@@ -4724,7 +4724,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 190, 'extended': 222, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 449
     },
     {
@@ -4737,7 +4737,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 190, 'extended': 222, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 450
     },
     {
@@ -4750,7 +4750,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 190, 'extended': 222, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 451
     },
     {
@@ -4763,7 +4763,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 190, 'extended': 222, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 452
     },
     {
@@ -4776,7 +4776,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 190, 'extended': 222, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 453
     },
     {
@@ -4789,7 +4789,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 190, 'extended': 221, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 454
     },
     {
@@ -4802,7 +4802,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 221, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 455
     },
     {
@@ -4815,7 +4815,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 220, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 456
     },
     {
@@ -4828,7 +4828,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 219, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 457
     },
     {
@@ -4841,7 +4841,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 218, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 458
     },
     {
@@ -4854,7 +4854,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 217, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 459
     },
     {
@@ -4867,7 +4867,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 217, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 460
     },
     {
@@ -4880,7 +4880,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 217, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 461
     },
     {
@@ -4893,7 +4893,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 216, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 462
     },
     {
@@ -4906,7 +4906,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 215, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 463
     },
     {
@@ -4919,7 +4919,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 214, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 464
     },
     {
@@ -4932,7 +4932,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 214, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 465
     },
     {
@@ -4945,7 +4945,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 213, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 466
     },
     {
@@ -4958,7 +4958,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 212, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 467
     },
     {
@@ -4971,7 +4971,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 211, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 468
     },
     {
@@ -4984,7 +4984,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 210, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 469
     },
     {
@@ -4997,7 +4997,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 209, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 470
     },
     {
@@ -5010,7 +5010,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 208, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 471
     },
     {
@@ -5023,7 +5023,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 206, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 472
     },
     {
@@ -5036,7 +5036,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 204, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 473
     },
     {
@@ -5049,7 +5049,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 203, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 474
     },
     {
@@ -5062,7 +5062,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 202, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 475
     },
     {
@@ -5075,7 +5075,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 201, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 476
     },
     {
@@ -5088,7 +5088,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 200, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 477
     },
     {
@@ -5101,7 +5101,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 199, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 478
     },
     {
@@ -5114,7 +5114,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 198, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 479
     },
     {
@@ -5127,7 +5127,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 197, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 480
     },
     {
@@ -5140,7 +5140,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 196, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 481
     },
     {
@@ -5153,7 +5153,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 195, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 482
     },
     {
@@ -5166,7 +5166,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 194, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 483
     },
     {
@@ -5179,7 +5179,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 193, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 484
     },
     {
@@ -5192,7 +5192,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 192, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 485
     },
     {
@@ -5205,7 +5205,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 191, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 486
     },
     {
@@ -5218,7 +5218,7 @@
         "resource_class": "large_class_isolated",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 487
     },
     {
@@ -5231,7 +5231,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 189, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 488
     },
     {
@@ -5244,7 +5244,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 187, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 489
     },
     {
@@ -5257,7 +5257,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 186, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 490
     },
     {
@@ -5270,7 +5270,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 185, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 491
     },
     {
@@ -5283,7 +5283,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 184, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 492
     },
     {
@@ -5296,7 +5296,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 184, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 493
     },
     {
@@ -5309,7 +5309,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 183, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 494
     },
     {
@@ -5322,7 +5322,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 181, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 495
     },
     {
@@ -5335,7 +5335,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 179, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 496
     },
     {
@@ -5348,7 +5348,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 178, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 497
     },
     {
@@ -5361,7 +5361,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 177, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 498
     },
     {
@@ -5374,7 +5374,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 176, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 499
     },
     {
@@ -5387,7 +5387,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 175, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 500
     },
     {
@@ -5400,7 +5400,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 173, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 501
     },
     {
@@ -5413,7 +5413,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 172, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 502
     },
     {
@@ -5426,7 +5426,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 171, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 503
     },
     {
@@ -5439,7 +5439,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 166, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 504
     },
     {
@@ -5452,7 +5452,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 165, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 505
     },
     {
@@ -5465,7 +5465,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 164, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 506
     },
     {
@@ -5478,7 +5478,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 163, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 507
     },
     {
@@ -5491,7 +5491,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 158, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 508
     },
     {
@@ -5504,7 +5504,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 156, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 509
     },
     {
@@ -5517,7 +5517,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 155, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 510
     },
     {
@@ -5530,7 +5530,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 154, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 511
     },
     {
@@ -5543,7 +5543,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 149, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 512
     },
     {
@@ -5556,7 +5556,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 148, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 513
     },
     {
@@ -5569,7 +5569,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 147, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 514
     },
     {
@@ -5582,7 +5582,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 144, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 515
     },
     {
@@ -5595,7 +5595,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 142, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 516
     },
     {
@@ -5608,7 +5608,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 141, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 517
     },
     {
@@ -5621,7 +5621,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 139, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 518
     },
     {
@@ -5634,7 +5634,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 137, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 519
     },
     {
@@ -5647,7 +5647,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 136, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 520
     },
     {
@@ -5660,7 +5660,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 135, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 521
     },
     {
@@ -5673,7 +5673,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 134, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 522
     },
     {
@@ -5686,7 +5686,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 133, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 523
     },
     {
@@ -5699,7 +5699,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 129, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 524
     },
     {
@@ -5712,7 +5712,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 127, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 525
     },
     {
@@ -5725,7 +5725,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 126, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 526
     },
     {
@@ -5738,7 +5738,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 124, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 527
     },
     {
@@ -5751,7 +5751,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 119, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 528
     },
     {
@@ -5764,7 +5764,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 117, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 529
     },
     {
@@ -5777,7 +5777,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 116, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 530
     },
     {
@@ -5790,7 +5790,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 115, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 531
     },
     {
@@ -5803,7 +5803,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 113, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 532
     },
     {
@@ -5816,7 +5816,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 111, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 533
     },
     {
@@ -5829,7 +5829,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 110, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 534
     },
     {
@@ -5842,7 +5842,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 109, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 535
     },
     {
@@ -5855,7 +5855,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 108, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 536
     },
     {
@@ -5868,7 +5868,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 107, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 537
     },
     {
@@ -5881,7 +5881,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 104, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 538
     },
     {
@@ -5894,7 +5894,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 102, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 539
     },
     {
@@ -5907,7 +5907,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 101, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 540
     },
     {
@@ -5920,7 +5920,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 99, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 541
     },
     {
@@ -5933,7 +5933,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 96, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 542
     },
     {
@@ -5946,7 +5946,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 95, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 543
     },
     {
@@ -5959,7 +5959,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 94, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 544
     },
     {
@@ -5972,7 +5972,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 93, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 545
     },
     {
@@ -5985,7 +5985,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 91, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 546
     },
     {
@@ -5998,7 +5998,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 90, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 547
     },
     {
@@ -6011,7 +6011,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 88, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 548
     },
     {
@@ -6024,7 +6024,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 86, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 549
     },
     {
@@ -6037,7 +6037,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 84, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 550
     },
     {
@@ -6050,7 +6050,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 82, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 551
     },
     {
@@ -6063,7 +6063,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 78, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 552
     },
     {
@@ -6076,7 +6076,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 77, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 553
     },
     {
@@ -6089,7 +6089,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 76, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 554
     },
     {
@@ -6102,7 +6102,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 75, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 555
     },
     {
@@ -6115,7 +6115,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 73, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 556
     },
     {
@@ -6128,7 +6128,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 70, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 557
     },
     {
@@ -6141,7 +6141,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 69, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 558
     },
     {
@@ -6154,7 +6154,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 68, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 559
     },
     {
@@ -6167,7 +6167,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 67, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 560
     },
     {
@@ -6180,7 +6180,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 66, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 561
     },
     {
@@ -6193,7 +6193,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 65, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 562
     },
     {
@@ -6206,7 +6206,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 63, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 563
     },
     {
@@ -6219,7 +6219,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 61, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 564
     },
     {
@@ -6232,7 +6232,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 58, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 565
     },
     {
@@ -6245,7 +6245,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 56, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 566
     },
     {
@@ -6258,7 +6258,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 51, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 567
     },
     {
@@ -6271,7 +6271,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 50, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 568
     },
     {
@@ -6284,7 +6284,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 49, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 569
     },
     {
@@ -6297,7 +6297,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 47, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 570
     },
     {
@@ -6310,7 +6310,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 46, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 571
     },
     {
@@ -6323,7 +6323,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 39, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 572
     },
     {
@@ -6336,7 +6336,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 38, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 573
     },
     {
@@ -6349,7 +6349,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 36, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 574
     },
     {
@@ -6362,7 +6362,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 31, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 575
     },
     {
@@ -6375,7 +6375,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 30, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 576
     },
     {
@@ -6388,7 +6388,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 29, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 577
     },
     {
@@ -6401,7 +6401,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 23, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 578
     },
     {
@@ -6414,7 +6414,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 21, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 579
     },
     {
@@ -6427,7 +6427,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 17, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 580
     },
     {
@@ -6440,7 +6440,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 14, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 581
     },
     {
@@ -6453,7 +6453,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 13, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 582
     },
     {
@@ -6466,7 +6466,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 11, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 583
     },
     {
@@ -6479,7 +6479,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 8, 'extended': 190, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 584
     },
     {
@@ -6492,7 +6492,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 7, 'extended': 188, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 585
     },
     {
@@ -6505,7 +6505,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 6, 'extended': 188, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 586
     },
     {
@@ -6518,7 +6518,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 5, 'extended': 188, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 587
     },
     {
@@ -6531,7 +6531,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 4, 'extended': 188, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 588
     },
     {
@@ -6544,7 +6544,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 3, 'extended': 188, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 589
     },
     {
@@ -6557,7 +6557,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 2, 'extended': 188, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 590
     },
     {
@@ -6570,7 +6570,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 2, 'extended': 187, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 591
     },
     {
@@ -6583,7 +6583,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 2, 'extended': 186, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 592
     },
     {
@@ -6596,7 +6596,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 2, 'extended': 184, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 593
     },
     {
@@ -6609,7 +6609,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 2, 'extended': 182, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 594
     },
     {
@@ -6622,7 +6622,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 2, 'extended': 181, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 595
     },
     {
@@ -6635,7 +6635,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 2, 'extended': 180, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 596
     },
     {
@@ -6648,7 +6648,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 180, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 597
     },
     {
@@ -6661,7 +6661,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 179, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 598
     },
     {
@@ -6674,7 +6674,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 178, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 599
     },
     {
@@ -6687,7 +6687,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 177, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 600
     },
     {
@@ -6700,7 +6700,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 175, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 601
     },
     {
@@ -6713,7 +6713,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 174, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 602
     },
     {
@@ -6726,7 +6726,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 173, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 603
     },
     {
@@ -6739,7 +6739,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 172, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 604
     },
     {
@@ -6752,7 +6752,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 171, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 605
     },
     {
@@ -6765,7 +6765,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 170, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 606
     },
     {
@@ -6778,7 +6778,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 169, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 607
     },
     {
@@ -6791,7 +6791,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 168, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 608
     },
     {
@@ -6804,7 +6804,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 167, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 609
     },
     {
@@ -6817,7 +6817,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 1, 'extended': 166, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 610
     },
     {
@@ -6830,7 +6830,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 166, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 611
     },
     {
@@ -6843,7 +6843,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 165, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 612
     },
     {
@@ -6856,7 +6856,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 164, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 613
     },
     {
@@ -6869,7 +6869,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 163, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 614
     },
     {
@@ -6882,7 +6882,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 163, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 615
     },
     {
@@ -6895,7 +6895,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 162, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 616
     },
     {
@@ -6908,7 +6908,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 161, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 617
     },
     {
@@ -6921,7 +6921,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 160, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 618
     },
     {
@@ -6934,7 +6934,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 159, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 619
     },
     {
@@ -6947,7 +6947,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 158, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 620
     },
     {
@@ -6960,7 +6960,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 157, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 621
     },
     {
@@ -6973,7 +6973,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 155, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 622
     },
     {
@@ -6986,7 +6986,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 154, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 623
     },
     {
@@ -6999,7 +6999,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 153, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 624
     },
     {
@@ -7012,7 +7012,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 152, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 625
     },
     {
@@ -7025,7 +7025,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 151, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 626
     },
     {
@@ -7038,7 +7038,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 149, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 627
     },
     {
@@ -7051,7 +7051,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 148, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 628
     },
     {
@@ -7064,7 +7064,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 147, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 629
     },
     {
@@ -7077,7 +7077,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 146, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 630
     },
     {
@@ -7090,7 +7090,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 145, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 631
     },
     {
@@ -7103,7 +7103,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 143, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 632
     },
     {
@@ -7116,7 +7116,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 142, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 633
     },
     {
@@ -7129,7 +7129,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 141, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 634
     },
     {
@@ -7142,7 +7142,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 140, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 635
     },
     {
@@ -7155,7 +7155,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 139, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 636
     },
     {
@@ -7168,7 +7168,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 138, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 637
     },
     {
@@ -7181,7 +7181,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 137, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 638
     },
     {
@@ -7194,7 +7194,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 136, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 639
     },
     {
@@ -7207,7 +7207,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 135, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 640
     },
     {
@@ -7220,7 +7220,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 134, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 641
     },
     {
@@ -7233,7 +7233,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 133, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 642
     },
     {
@@ -7246,7 +7246,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 132, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 643
     },
     {
@@ -7259,7 +7259,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 131, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 644
     },
     {
@@ -7272,7 +7272,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 130, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 645
     },
     {
@@ -7285,7 +7285,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 129, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 646
     },
     {
@@ -7298,7 +7298,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 128, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 647
     },
     {
@@ -7311,7 +7311,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 127, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 648
     },
     {
@@ -7324,7 +7324,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 126, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 649
     },
     {
@@ -7337,7 +7337,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 125, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 650
     },
     {
@@ -7350,7 +7350,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 124, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 651
     },
     {
@@ -7363,7 +7363,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 122, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 652
     },
     {
@@ -7376,7 +7376,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 121, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 653
     },
     {
@@ -7389,7 +7389,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 120, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 654
     },
     {
@@ -7402,7 +7402,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 119, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 655
     },
     {
@@ -7415,7 +7415,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 118, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 656
     },
     {
@@ -7428,7 +7428,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 117, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 657
     },
     {
@@ -7441,7 +7441,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 116, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 658
     },
     {
@@ -7454,7 +7454,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 115, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 659
     },
     {
@@ -7467,7 +7467,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 114, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 660
     },
     {
@@ -7480,7 +7480,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 113, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 661
     },
     {
@@ -7493,7 +7493,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 112, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 662
     },
     {
@@ -7506,7 +7506,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 110, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 663
     },
     {
@@ -7519,7 +7519,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 109, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 664
     },
     {
@@ -7532,7 +7532,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 108, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 665
     },
     {
@@ -7545,7 +7545,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 107, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 666
     },
     {
@@ -7558,7 +7558,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 106, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 667
     },
     {
@@ -7571,7 +7571,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 105, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 668
     },
     {
@@ -7584,7 +7584,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 104, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 669
     },
     {
@@ -7597,7 +7597,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 103, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 670
     },
     {
@@ -7610,7 +7610,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 102, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 671
     },
     {
@@ -7623,7 +7623,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 101, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 672
     },
     {
@@ -7636,7 +7636,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 100, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 673
     },
     {
@@ -7649,7 +7649,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 99, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 674
     },
     {
@@ -7662,7 +7662,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 98, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 675
     },
     {
@@ -7675,7 +7675,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 97, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 676
     },
     {
@@ -7688,7 +7688,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 96, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 677
     },
     {
@@ -7701,7 +7701,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 95, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 678
     },
     {
@@ -7714,7 +7714,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 94, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 679
     },
     {
@@ -7727,7 +7727,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 93, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 680
     },
     {
@@ -7740,7 +7740,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 92, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 681
     },
     {
@@ -7753,7 +7753,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 90, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 682
     },
     {
@@ -7766,7 +7766,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 89, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 683
     },
     {
@@ -7779,7 +7779,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 88, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 684
     },
     {
@@ -7792,7 +7792,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 87, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 685
     },
     {
@@ -7805,7 +7805,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 86, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 686
     },
     {
@@ -7818,7 +7818,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 85, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 687
     },
     {
@@ -7831,7 +7831,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 84, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 688
     },
     {
@@ -7844,7 +7844,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 83, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 689
     },
     {
@@ -7857,7 +7857,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 82, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 690
     },
     {
@@ -7870,7 +7870,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 81, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 691
     },
     {
@@ -7883,7 +7883,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 80, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 692
     },
     {
@@ -7896,7 +7896,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 79, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 693
     },
     {
@@ -7909,7 +7909,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 78, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 694
     },
     {
@@ -7922,7 +7922,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 77, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 695
     },
     {
@@ -7935,7 +7935,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 76, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 696
     },
     {
@@ -7948,7 +7948,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 75, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 697
     },
     {
@@ -7961,7 +7961,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 74, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 698
     },
     {
@@ -7974,7 +7974,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 73, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 699
     },
     {
@@ -7987,7 +7987,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 72, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 700
     },
     {
@@ -8000,7 +8000,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 71, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 701
     },
     {
@@ -8013,7 +8013,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 70, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 702
     },
     {
@@ -8026,7 +8026,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 69, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 703
     },
     {
@@ -8039,7 +8039,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 68, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 704
     },
     {
@@ -8052,7 +8052,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 67, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 705
     },
     {
@@ -8065,7 +8065,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 66, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 706
     },
     {
@@ -8078,7 +8078,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 65, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 707
     },
     {
@@ -8091,7 +8091,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 64, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 708
     },
     {
@@ -8104,7 +8104,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 63, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 709
     },
     {
@@ -8117,7 +8117,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 62, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 710
     },
     {
@@ -8130,7 +8130,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 61, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 711
     },
     {
@@ -8143,7 +8143,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 60, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 712
     },
     {
@@ -8156,7 +8156,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 59, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 713
     },
     {
@@ -8169,7 +8169,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 57, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 714
     },
     {
@@ -8182,7 +8182,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 56, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 715
     },
     {
@@ -8195,7 +8195,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 55, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 716
     },
     {
@@ -8208,7 +8208,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 54, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 717
     },
     {
@@ -8221,7 +8221,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 53, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 718
     },
     {
@@ -8234,7 +8234,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 52, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 719
     },
     {
@@ -8247,7 +8247,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 51, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 720
     },
     {
@@ -8260,7 +8260,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 49, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 721
     },
     {
@@ -8273,7 +8273,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 48, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 722
     },
     {
@@ -8286,7 +8286,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 47, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 723
     },
     {
@@ -8299,7 +8299,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 46, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 724
     },
     {
@@ -8312,7 +8312,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 45, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 725
     },
     {
@@ -8325,7 +8325,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 44, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 726
     },
     {
@@ -8338,7 +8338,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 43, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 727
     },
     {
@@ -8351,7 +8351,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 42, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 728
     },
     {
@@ -8364,7 +8364,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 41, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 729
     },
     {
@@ -8377,7 +8377,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 40, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 730
     },
     {
@@ -8390,7 +8390,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 39, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 731
     },
     {
@@ -8403,7 +8403,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 38, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 732
     },
     {
@@ -8416,7 +8416,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 37, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 733
     },
     {
@@ -8429,7 +8429,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 35, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 734
     },
     {
@@ -8442,7 +8442,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 34, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 735
     },
     {
@@ -8455,7 +8455,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 33, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 736
     },
     {
@@ -8468,7 +8468,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 32, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 737
     },
     {
@@ -8481,7 +8481,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 31, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 738
     },
     {
@@ -8494,7 +8494,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 30, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 739
     },
     {
@@ -8507,7 +8507,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 29, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 740
     },
     {
@@ -8520,7 +8520,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 28, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 741
     },
     {
@@ -8533,7 +8533,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 26, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 742
     },
     {
@@ -8546,7 +8546,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 25, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 743
     },
     {
@@ -8559,7 +8559,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 24, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 744
     },
     {
@@ -8572,7 +8572,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 23, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 745
     },
     {
@@ -8585,7 +8585,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 22, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 746
     },
     {
@@ -8598,7 +8598,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 21, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 747
     },
     {
@@ -8611,7 +8611,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 20, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 748
     },
     {
@@ -8624,7 +8624,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 19, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 749
     },
     {
@@ -8637,7 +8637,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 18, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 750
     },
     {
@@ -8650,7 +8650,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 17, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 751
     },
     {
@@ -8663,7 +8663,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 16, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 752
     },
     {
@@ -8676,7 +8676,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 15, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 753
     },
     {
@@ -8689,7 +8689,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 14, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 754
     },
     {
@@ -8702,7 +8702,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 13, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 755
     },
     {
@@ -8715,7 +8715,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 12, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 756
     },
     {
@@ -8728,7 +8728,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 11, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 757
     },
     {
@@ -8741,7 +8741,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 10, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 758
     },
     {
@@ -8754,7 +8754,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 9, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 759
     },
     {
@@ -8767,7 +8767,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 8, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 760
     },
     {
@@ -8780,7 +8780,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 5, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 761
     },
     {
@@ -8793,7 +8793,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 4, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 762
     },
     {
@@ -8806,7 +8806,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 3, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 763
     },
     {
@@ -8819,7 +8819,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 2, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 764
     },
     {
@@ -8832,7 +8832,7 @@
         "resource_class": "operator_override",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 1, 'aggregates': 3, 'preprincipal_corrections': 9, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 765
     },
     {
@@ -8845,7 +8845,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 24}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 766
     },
     {
@@ -8858,7 +8858,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 23}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 767
     },
     {
@@ -8871,7 +8871,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 22}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 768
     },
     {
@@ -8884,7 +8884,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 20}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 769
     },
     {
@@ -8897,7 +8897,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 18}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 770
     },
     {
@@ -8910,7 +8910,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 17}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 771
     },
     {
@@ -8923,7 +8923,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 16}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 772
     },
     {
@@ -8936,7 +8936,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 16}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 773
     },
     {
@@ -8949,7 +8949,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 16}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 774
     },
     {
@@ -8962,7 +8962,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 16}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 775
     },
     {
@@ -8975,7 +8975,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 16}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 776
     },
     {
@@ -8988,7 +8988,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 15}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 777
     },
     {
@@ -9001,7 +9001,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 13}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 778
     },
     {
@@ -9014,7 +9014,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 12}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 779
     },
     {
@@ -9027,7 +9027,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 9}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 780
     },
     {
@@ -9040,7 +9040,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 8}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 781
     },
     {
@@ -9053,7 +9053,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 8}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 782
     },
     {
@@ -9066,7 +9066,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 8}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 783
     },
     {
@@ -9079,7 +9079,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 8}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 784
     },
     {
@@ -9092,7 +9092,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 8}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 785
     },
     {
@@ -9105,7 +9105,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 8}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 786
     },
     {
@@ -9118,7 +9118,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 0}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 787
     },
     {
@@ -9131,7 +9131,7 @@
         "resource_class": "small",
         "remaining": "{'scout': 0, 'converge': 0, 'extended': 0, 'aggregates': 0, 'preprincipal_corrections': 0, 'partials': 0, 'principal': 0}"
       },
-      "source_path": "logs/supervisor.detached.log",
+      "source_path": "archive/pre-substrate-event-horizon/logs/supervisor.detached.log",
       "index": 788
     }
   ],
@@ -9171,6 +9171,6 @@
     "failed": []
   },
   "program": "substrate-v1",
-  "source_commit": "24b843d63928e48f25cc84d335caa16988065f45",
-  "sha256": "fe0be64951c30022c5e8c85d3f283c74e0b22c4dc2d2fb568fc1529ff328ff13"
+  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
+  "sha256": "87c27294f743f3da26a1df8140cf778d0f4355f304daf8d55b559e21170c3173"
 }
