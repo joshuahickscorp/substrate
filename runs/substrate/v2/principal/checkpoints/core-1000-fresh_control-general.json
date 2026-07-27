@@ -1,0 +1,1279 @@
+{
+  "schema": "substrate-v2-entity-checkpoint/v1",
+  "state": {
+    "arm": "fresh_control",
+    "features": {
+      "semantic": false,
+      "procedure_store": false,
+      "procedure_retrieve": false,
+      "procedure_execute": false,
+      "procedure_utility": false,
+      "self_model": false,
+      "allocator": "best_fixed_policy",
+      "credit": false
+    },
+    "entity_id": "principal:1000:fresh_control:reset:10",
+    "step": 32,
+    "episodic_memory": {
+      "principal:1000:A:phase_10_terminal_held_out:100000": {
+        "identity": "principal:1000:A:phase_10_terminal_held_out:100000",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok8d92a5",
+            "tok3c3260",
+            "tok66c95b"
+          ],
+          "boundary": false,
+          "context": "seq6",
+          "distractor": 576
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:A:phase_10_terminal_held_out:100000",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "43ba7e9ab2168950ce6e001b1a565c40de4b52b34fc9628fb5a0ce30199700aa"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "43ba7e9ab2168950ce6e001b1a565c40de4b52b34fc9628fb5a0ce30199700aa",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.5,
+        "step": 2,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:A:phase_10_terminal_held_out:100004": {
+        "identity": "principal:1000:A:phase_10_terminal_held_out:100004",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok6e0aa7",
+            "tokff5fac",
+            "tokcab1d6"
+          ],
+          "boundary": false,
+          "context": "seq3",
+          "distractor": 300
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:A:phase_10_terminal_held_out:100004",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "35ee27683831ea33c2fbcf9e18bd616dc5e5d84b87e338ea6984dfae2d737332"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "35ee27683831ea33c2fbcf9e18bd616dc5e5d84b87e338ea6984dfae2d737332",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.28125,
+        "step": 10,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:A:phase_10_terminal_held_out:100008": {
+        "identity": "principal:1000:A:phase_10_terminal_held_out:100008",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok692341",
+            "tokd5f670",
+            "tokf6cf8c"
+          ],
+          "boundary": false,
+          "context": "seq2",
+          "distractor": 329
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:A:phase_10_terminal_held_out:100008",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "733eea10822b2d13c8f46a27d09d345d96c483b3312248cddb62d47e998a0cf2"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "733eea10822b2d13c8f46a27d09d345d96c483b3312248cddb62d47e998a0cf2",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.158203125,
+        "step": 18,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:A:phase_10_terminal_held_out:100012": {
+        "identity": "principal:1000:A:phase_10_terminal_held_out:100012",
+        "origin": "observed",
+        "domain": "A",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "tokens": [
+            "tok30b87d",
+            "tokff480f",
+            "tokdb600b"
+          ],
+          "boundary": true,
+          "context": "seq6",
+          "distractor": 938
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:A:phase_10_terminal_held_out:100012",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "83f09f62dce96905f7b68b2dae5f2af8465dc2eb2362639f95f58c2728935e0b"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "83f09f62dce96905f7b68b2dae5f2af8465dc2eb2362639f95f58c2728935e0b",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.3389892578125,
+        "step": 26,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:B:phase_10_terminal_held_out:100001": {
+        "identity": "principal:1000:B:phase_10_terminal_held_out:100001",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyph1e2b9b",
+            "glyph266b3f",
+            "glyph4f0b3e"
+          ],
+          "exception": false,
+          "rule_context": "rule4",
+          "distractor": "circle"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:B:phase_10_terminal_held_out:100001",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "05b89acfbeb14bebbe06096b2b05dd8bd235d9314a9a72b785469aed39d7f18a"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "05b89acfbeb14bebbe06096b2b05dd8bd235d9314a9a72b785469aed39d7f18a",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.375,
+        "step": 4,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:B:phase_10_terminal_held_out:100005": {
+        "identity": "principal:1000:B:phase_10_terminal_held_out:100005",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyphfbfc4b",
+            "glyphdef124",
+            "glyphc03b16"
+          ],
+          "exception": false,
+          "rule_context": "rule4",
+          "distractor": "triangle"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:B:phase_10_terminal_held_out:100005",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "6c1320026f4816a3e6d933a614d7d5ac8074ea3f75c108cc1f7f2412f734ef35"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "6c1320026f4816a3e6d933a614d7d5ac8074ea3f75c108cc1f7f2412f734ef35",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.2109375,
+        "step": 12,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:B:phase_10_terminal_held_out:100009": {
+        "identity": "principal:1000:B:phase_10_terminal_held_out:100009",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyphad85d7",
+            "glyph565f61",
+            "glyph9755a7"
+          ],
+          "exception": true,
+          "rule_context": "rule2",
+          "distractor": "triangle"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:B:phase_10_terminal_held_out:100009",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "640d8f54d0a93b63257a0f3eed8eb0d0080fcf134d48bdc93f58f8b8f2418030"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "640d8f54d0a93b63257a0f3eed8eb0d0080fcf134d48bdc93f58f8b8f2418030",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.11865234375,
+        "step": 20,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:B:phase_10_terminal_held_out:100013": {
+        "identity": "principal:1000:B:phase_10_terminal_held_out:100013",
+        "origin": "observed",
+        "domain": "B",
+        "task_signature": "conditional ordered selection",
+        "observation": {
+          "glyphs": [
+            "glyphb2c9c3",
+            "glyph26546f",
+            "glyph74d8e2"
+          ],
+          "exception": true,
+          "rule_context": "rule6",
+          "distractor": "circle"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:B:phase_10_terminal_held_out:100013",
+          "proposal": "select_position_0",
+          "target": "select_position_0",
+          "correct": true,
+          "required_operation": "boundary_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "64f0b16f27fd9b2bca7180484e8ec79ac0ad15f86eeea5ae49242d6c34d01149"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "64f0b16f27fd9b2bca7180484e8ec79ac0ad15f86eeea5ae49242d6c34d01149",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.504241943359375,
+        "step": 28,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:C:phase_10_terminal_held_out:100002": {
+        "identity": "principal:1000:C:phase_10_terminal_held_out:100002",
+        "origin": "observed",
+        "domain": "C",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "sources": [
+            "sourcedaf5da",
+            "sourcedf8efb"
+          ],
+          "risk": 0.711827,
+          "contradiction": false,
+          "budget": 1.0,
+          "distractor": 581
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:C:phase_10_terminal_held_out:100002",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "11ab622ad7531f0758a0a783fa5d9b636e954ad468dfea87354950f43823c3a4"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "11ab622ad7531f0758a0a783fa5d9b636e954ad468dfea87354950f43823c3a4",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.5,
+        "step": 6,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:C:phase_10_terminal_held_out:100006": {
+        "identity": "principal:1000:C:phase_10_terminal_held_out:100006",
+        "origin": "observed",
+        "domain": "C",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "sources": [
+            "source5a654f",
+            "sourcedce400"
+          ],
+          "risk": 0.295566,
+          "contradiction": true,
+          "budget": 1.0,
+          "distractor": 441
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:C:phase_10_terminal_held_out:100006",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "31331cfefbd2faee0a2e51f63f025203fd07b2062160b82c0492124bd8920c7c"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "31331cfefbd2faee0a2e51f63f025203fd07b2062160b82c0492124bd8920c7c",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.28125,
+        "step": 14,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:C:phase_10_terminal_held_out:100010": {
+        "identity": "principal:1000:C:phase_10_terminal_held_out:100010",
+        "origin": "observed",
+        "domain": "C",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "sources": [
+            "source50bc4d",
+            "source6d9b99"
+          ],
+          "risk": 0.077299,
+          "contradiction": true,
+          "budget": 1.0,
+          "distractor": 16
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:C:phase_10_terminal_held_out:100010",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "adf46572721d7f54a26e88fe18fbbd332549c9ce21f817d15641b2f5f9a3e0a6"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "adf46572721d7f54a26e88fe18fbbd332549c9ce21f817d15641b2f5f9a3e0a6",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.158203125,
+        "step": 22,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:C:phase_10_terminal_held_out:100014": {
+        "identity": "principal:1000:C:phase_10_terminal_held_out:100014",
+        "origin": "observed",
+        "domain": "C",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "sources": [
+            "source8b9b9b",
+            "sourcee5db36"
+          ],
+          "risk": 0.981659,
+          "contradiction": false,
+          "budget": 1.0,
+          "distractor": 926
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:C:phase_10_terminal_held_out:100014",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "d03a19532700e9e56f59c71a28c195e2485bf80209cd7a2bdff135c4bc82503d"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "d03a19532700e9e56f59c71a28c195e2485bf80209cd7a2bdff135c4bc82503d",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.0889892578125,
+        "step": 30,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:D:phase_10_terminal_held_out:100003": {
+        "identity": "principal:1000:D:phase_10_terminal_held_out:100003",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "tool6355d6",
+            "tool2da6bf"
+          ],
+          "failure_risk": 0.878666,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "lookup"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:D:phase_10_terminal_held_out:100003",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "67e9d3ca6d249d215f29dae01b611ac412ba53fdfdf641f9c1435624c31f517a"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "67e9d3ca6d249d215f29dae01b611ac412ba53fdfdf641f9c1435624c31f517a",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.375,
+        "step": 8,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:D:phase_10_terminal_held_out:100007": {
+        "identity": "principal:1000:D:phase_10_terminal_held_out:100007",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "tool13aff6",
+            "tool0ffc14"
+          ],
+          "failure_risk": 0.670989,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "compare"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:D:phase_10_terminal_held_out:100007",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "acc5ccb5c5d7d6fd11e04f12200151bdab4e060af00f00cb296b924a7b00a6d1"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "acc5ccb5c5d7d6fd11e04f12200151bdab4e060af00f00cb296b924a7b00a6d1",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.2109375,
+        "step": 16,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:D:phase_10_terminal_held_out:100011": {
+        "identity": "principal:1000:D:phase_10_terminal_held_out:100011",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "tool4e23db",
+            "toold73365"
+          ],
+          "failure_risk": 0.915791,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "compare"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:D:phase_10_terminal_held_out:100011",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "b6358bd0960f58bc2fbc6c18f70f2caa924955aaa7076f012dfb3bdc51584bfc"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "b6358bd0960f58bc2fbc6c18f70f2caa924955aaa7076f012dfb3bdc51584bfc",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.11865234375,
+        "step": 24,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      },
+      "principal:1000:D:phase_10_terminal_held_out:100015": {
+        "identity": "principal:1000:D:phase_10_terminal_held_out:100015",
+        "origin": "observed",
+        "domain": "D",
+        "task_signature": "cost sensitive conditional routing",
+        "observation": {
+          "tools": [
+            "tool8d35fa",
+            "tool1cada3"
+          ],
+          "failure_risk": 0.785312,
+          "known_limitation": false,
+          "budget": 1.0,
+          "distractor": "transform"
+        },
+        "proposal": "select_position_0",
+        "outcome": {
+          "task": "principal:1000:D:phase_10_terminal_held_out:100015",
+          "proposal": "select_position_0",
+          "target": "select_position_1",
+          "correct": false,
+          "required_operation": "risk_route",
+          "revealed_after_commitment": true,
+          "activation": false,
+          "verification_digest": "ecbdf27be35de08fc6ebc89e3f3f7316debf386e0d5718cd895954dd75e4040f"
+        },
+        "verification": {
+          "verified": true,
+          "receipt": "ecbdf27be35de08fc6ebc89e3f3f7316debf386e0d5718cd895954dd75e4040f",
+          "environment": "deterministic delayed task fabric"
+        },
+        "components_used": [
+          "perspective:direct"
+        ],
+        "compute": 1.0,
+        "predicted_accuracy": 0.066741943359375,
+        "step": 32,
+        "phase": "phase_10_terminal_held_out",
+        "verified": true
+      }
+    },
+    "semantic_memory": {},
+    "procedural_memory": {},
+    "working_memory": {
+      "task": "principal:1000:D:phase_10_terminal_held_out:100015",
+      "proposal": "select_position_0",
+      "procedure": null,
+      "prediction": "prediction:16"
+    },
+    "belief_graph": {
+      "belief:2": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "43ba7e9ab2168950ce6e001b1a565c40de4b52b34fc9628fb5a0ce30199700aa"
+      },
+      "belief:4": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "05b89acfbeb14bebbe06096b2b05dd8bd235d9314a9a72b785469aed39d7f18a"
+      },
+      "belief:6": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "11ab622ad7531f0758a0a783fa5d9b636e954ad468dfea87354950f43823c3a4"
+      },
+      "belief:8": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "67e9d3ca6d249d215f29dae01b611ac412ba53fdfdf641f9c1435624c31f517a"
+      },
+      "belief:10": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "35ee27683831ea33c2fbcf9e18bd616dc5e5d84b87e338ea6984dfae2d737332"
+      },
+      "belief:12": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "6c1320026f4816a3e6d933a614d7d5ac8074ea3f75c108cc1f7f2412f734ef35"
+      },
+      "belief:14": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "31331cfefbd2faee0a2e51f63f025203fd07b2062160b82c0492124bd8920c7c"
+      },
+      "belief:16": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "acc5ccb5c5d7d6fd11e04f12200151bdab4e060af00f00cb296b924a7b00a6d1"
+      },
+      "belief:18": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "733eea10822b2d13c8f46a27d09d345d96c483b3312248cddb62d47e998a0cf2"
+      },
+      "belief:20": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "640d8f54d0a93b63257a0f3eed8eb0d0080fcf134d48bdc93f58f8b8f2418030"
+      },
+      "belief:22": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "adf46572721d7f54a26e88fe18fbbd332549c9ce21f817d15641b2f5f9a3e0a6"
+      },
+      "belief:24": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "b6358bd0960f58bc2fbc6c18f70f2caa924955aaa7076f012dfb3bdc51584bfc"
+      },
+      "belief:26": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "83f09f62dce96905f7b68b2dae5f2af8465dc2eb2362639f95f58c2728935e0b"
+      },
+      "belief:28": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": true,
+        "receipt": "64f0b16f27fd9b2bca7180484e8ec79ac0ad15f86eeea5ae49242d6c34d01149"
+      },
+      "belief:30": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "d03a19532700e9e56f59c71a28c195e2485bf80209cd7a2bdff135c4bc82503d"
+      },
+      "belief:32": {
+        "proposal": "select_position_0",
+        "verified": true,
+        "correct": false,
+        "receipt": "ecbdf27be35de08fc6ebc89e3f3f7316debf386e0d5718cd895954dd75e4040f"
+      }
+    },
+    "self_model_facts": {},
+    "self_model_predictions": [
+      {
+        "identity": "prediction:1",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.5,
+        "made_at_step": 1,
+        "outcome_step": 2,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:2",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.375,
+        "made_at_step": 3,
+        "outcome_step": 4,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:3",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.5,
+        "made_at_step": 5,
+        "outcome_step": 6,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:4",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.375,
+        "made_at_step": 7,
+        "outcome_step": 8,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:5",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.28125,
+        "made_at_step": 9,
+        "outcome_step": 10,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:6",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.2109375,
+        "made_at_step": 11,
+        "outcome_step": 12,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:7",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.28125,
+        "made_at_step": 13,
+        "outcome_step": 14,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:8",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.2109375,
+        "made_at_step": 15,
+        "outcome_step": 16,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:9",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.158203125,
+        "made_at_step": 17,
+        "outcome_step": 18,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:10",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.11865234375,
+        "made_at_step": 19,
+        "outcome_step": 20,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:11",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.158203125,
+        "made_at_step": 21,
+        "outcome_step": 22,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:12",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.11865234375,
+        "made_at_step": 23,
+        "outcome_step": 24,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:13",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.3389892578125,
+        "made_at_step": 25,
+        "outcome_step": 26,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:14",
+        "kind": "accuracy",
+        "context_key": "accuracy|conditional ordered selection|none|general",
+        "predicted": 0.504241943359375,
+        "made_at_step": 27,
+        "outcome_step": 28,
+        "actual": 1.0
+      },
+      {
+        "identity": "prediction:15",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.0889892578125,
+        "made_at_step": 29,
+        "outcome_step": 30,
+        "actual": 0.0
+      },
+      {
+        "identity": "prediction:16",
+        "kind": "accuracy",
+        "context_key": "accuracy|cost sensitive conditional routing|none|general",
+        "predicted": 0.066741943359375,
+        "made_at_step": 31,
+        "outcome_step": 32,
+        "actual": 0.0
+      }
+    ],
+    "conditional_competence_estimates": {
+      "accuracy|conditional ordered selection|none|general": 0.6281814575195312,
+      "accuracy|cost sensitive conditional routing|none|general": 0.05005645751953125
+    },
+    "conditional_competence_counts": {
+      "accuracy|conditional ordered selection|none|general": 8,
+      "accuracy|cost sensitive conditional routing|none|general": 8
+    },
+    "self_model_mode": "domain_plus_procedure_conditional_estimate",
+    "perspective_reliability": {
+      "direct": 0.5,
+      "memory": 0.5,
+      "procedure": 0.5
+    },
+    "procedure_utility": {},
+    "allocator_state": {
+      "policy": "best_fixed_policy",
+      "values": {
+        "A|low|False|none": {
+          "continue": 0.16999999999999998,
+          "verify": 0.0
+        },
+        "B|low|False|none": {
+          "continue": 0.42,
+          "verify": 0.0
+        },
+        "C|high|False|none": {
+          "continue": -0.08,
+          "verify": 0.0
+        },
+        "D|high|False|none": {
+          "continue": -0.08,
+          "verify": 0.0
+        },
+        "C|low|True|none": {
+          "continue": -0.08,
+          "verify": 0.0
+        }
+      },
+      "counts": {
+        "A|low|False|none": {
+          "continue": 4,
+          "verify": 0
+        },
+        "B|low|False|none": {
+          "continue": 4,
+          "verify": 0
+        },
+        "C|high|False|none": {
+          "continue": 2,
+          "verify": 0
+        },
+        "D|high|False|none": {
+          "continue": 4,
+          "verify": 0
+        },
+        "C|low|True|none": {
+          "continue": 2,
+          "verify": 0
+        }
+      },
+      "history": [
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": -0.08,
+          "policy_version": 1,
+          "outcome_step": 2
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": -0.08,
+          "policy_version": 2,
+          "outcome_step": 4
+        },
+        {
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": -0.08,
+          "policy_version": 3,
+          "outcome_step": 6
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": -0.08,
+          "policy_version": 4,
+          "outcome_step": 8
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": 0.0,
+          "policy_version": 5,
+          "outcome_step": 10
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": 0.0,
+          "policy_version": 6,
+          "outcome_step": 12
+        },
+        {
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": -0.08,
+          "policy_version": 7,
+          "outcome_step": 14
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": 0.0,
+          "policy_version": 8,
+          "outcome_step": 16
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": 0.0,
+          "policy_version": 9,
+          "outcome_step": 18
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": 0.92,
+          "update": 0.3333333333333333,
+          "policy_version": 10,
+          "outcome_step": 20
+        },
+        {
+          "context": {
+            "domain": "C",
+            "risk_bucket": "low",
+            "contradiction": true,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": 0.0,
+          "policy_version": 11,
+          "outcome_step": 22
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": 0.0,
+          "policy_version": 12,
+          "outcome_step": 24
+        },
+        {
+          "context": {
+            "domain": "A",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": 0.92,
+          "update": 0.25,
+          "policy_version": 13,
+          "outcome_step": 26
+        },
+        {
+          "context": {
+            "domain": "B",
+            "risk_bucket": "low",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": 0.92,
+          "update": 0.16666666666666669,
+          "policy_version": 14,
+          "outcome_step": 28
+        },
+        {
+          "context": {
+            "domain": "C",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": 0.0,
+          "policy_version": 15,
+          "outcome_step": 30
+        },
+        {
+          "context": {
+            "domain": "D",
+            "risk_bucket": "high",
+            "contradiction": false,
+            "procedure_match": "none",
+            "confidence": 0.5,
+            "remaining_budget": 1.0
+          },
+          "action": "continue",
+          "predicted_utility": 0.5,
+          "actual_utility": -0.08,
+          "update": 0.0,
+          "policy_version": 16,
+          "outcome_step": 32
+        }
+      ],
+      "version": 17
+    },
+    "credit_ledger": [],
+    "domain_local_state": {
+      "A": {
+        "episodes": 4,
+        "correct": 1
+      },
+      "B": {
+        "episodes": 4,
+        "correct": 2
+      },
+      "C": {
+        "episodes": 4,
+        "correct": 0
+      },
+      "D": {
+        "episodes": 4,
+        "correct": 0
+      }
+    },
+    "active_goals": [
+      "preserve verified competence",
+      "solve delayed task"
+    ],
+    "unfinished_tasks": [],
+    "unresolved_hypotheses": [],
+    "body_state": {
+      "name": "general",
+      "generation": 0,
+      "capabilities": [
+        "memory",
+        "selection",
+        "pure tools"
+      ]
+    },
+    "tool_competence_estimates": {
+      "cheap": 0.5,
+      "robust": 0.5
+    },
+    "adaptation_history": [],
+    "procedure_use_receipts": [],
+    "uncertainty": [],
+    "activation": false
+  },
+  "identity": "2188bdf00ba47c2dd047eae32398b1ca56a9c22d6f70436fc61732b6d7b2d3d1",
+  "activation": false,
+  "program": "substrate-v2"
+}
