@@ -1,0 +1,532 @@
+{
+  "schema": "mop-fast-state-within-domain/v1",
+  "domain": "har",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "steps_per_context": 275,
+  "learning_rate": 0.003,
+  "arms": [
+    "AT_no_slow",
+    "G0_always_trainable",
+    "G1_frozen_after_first",
+    "G4_adapters_only",
+    "G5_projection_and_head",
+    "H_always_update",
+    "H_cosine_gate",
+    "H_never_update",
+    "H_probe_gate",
+    "bag_order_free",
+    "ewc",
+    "gru",
+    "joint_upper_bound",
+    "lstm",
+    "lstm_gdumb",
+    "no_memory",
+    "reservoir",
+    "separate_per_context",
+    "shared_adapters"
+  ],
+  "means": {
+    "AT_no_slow": {
+      "avg_final": 0.9561,
+      "retention": 0.9682,
+      "new_context": 0.9624,
+      "return_to_prior": 0.9548,
+      "future_adaptation": 0.9675,
+      "avg_final_missing_observations": 0.9425,
+      "missing_observation_drop": 0.0136,
+      "params": 43650.0,
+      "updates": 916.0
+    },
+    "G0_always_trainable": {
+      "avg_final": 0.9572,
+      "retention": 0.9701,
+      "new_context": 0.9643,
+      "return_to_prior": 0.9683,
+      "future_adaptation": 0.9722,
+      "avg_final_missing_observations": 0.937,
+      "missing_observation_drop": 0.0201,
+      "params": 43650.0,
+      "updates": 916.0
+    },
+    "G1_frozen_after_first": {
+      "avg_final": 0.9485,
+      "retention": 0.9792,
+      "new_context": 0.9485,
+      "return_to_prior": 0.9813,
+      "future_adaptation": 0.9799,
+      "avg_final_missing_observations": 0.9345,
+      "missing_observation_drop": 0.014,
+      "params": 43650.0,
+      "updates": 916.0
+    },
+    "G4_adapters_only": {
+      "avg_final": 0.8967,
+      "retention": 0.9396,
+      "new_context": 0.8967,
+      "return_to_prior": 0.9816,
+      "future_adaptation": 0.9323,
+      "avg_final_missing_observations": 0.8795,
+      "missing_observation_drop": 0.0172,
+      "params": 43650.0,
+      "updates": 916.0
+    },
+    "G5_projection_and_head": {
+      "avg_final": 0.945,
+      "retention": 0.9753,
+      "new_context": 0.945,
+      "return_to_prior": 0.9784,
+      "future_adaptation": 0.9678,
+      "avg_final_missing_observations": 0.9299,
+      "missing_observation_drop": 0.0151,
+      "params": 43650.0,
+      "updates": 916.0
+    },
+    "H_always_update": {
+      "avg_final": 0.8753,
+      "retention": 0.8496,
+      "new_context": 0.9618,
+      "return_to_prior": 0.7458,
+      "future_adaptation": 0.9705,
+      "avg_final_missing_observations": 0.8094,
+      "missing_observation_drop": 0.0659,
+      "params": 64914.0,
+      "updates": 916.0
+    },
+    "H_cosine_gate": {
+      "avg_final": 0.7595,
+      "retention": 0.6926,
+      "new_context": 0.9484,
+      "return_to_prior": 0.6652,
+      "future_adaptation": 0.9673,
+      "avg_final_missing_observations": 0.7188,
+      "missing_observation_drop": 0.0407,
+      "params": 64914.0,
+      "updates": 916.0
+    },
+    "H_never_update": {
+      "avg_final": 0.958,
+      "retention": 0.9775,
+      "new_context": 0.958,
+      "return_to_prior": 0.982,
+      "future_adaptation": 0.9603,
+      "avg_final_missing_observations": 0.9118,
+      "missing_observation_drop": 0.0461,
+      "params": 64914.0,
+      "updates": 916.0
+    },
+    "H_probe_gate": {
+      "avg_final": 0.9357,
+      "retention": 0.9363,
+      "new_context": 0.9643,
+      "return_to_prior": 0.9063,
+      "future_adaptation": 0.9756,
+      "avg_final_missing_observations": 0.8756,
+      "missing_observation_drop": 0.06,
+      "params": 64914.0,
+      "updates": 916.0
+    },
+    "bag_order_free": {
+      "avg_final": 0.8857,
+      "retention": 0.8619,
+      "new_context": 0.9685,
+      "return_to_prior": 0.7875,
+      "future_adaptation": 0.9715,
+      "avg_final_missing_observations": 0.8781,
+      "missing_observation_drop": 0.0076,
+      "params": 24978.0,
+      "updates": 916.0
+    },
+    "ewc": {
+      "avg_final": 0.8508,
+      "retention": 0.8265,
+      "new_context": 0.9466,
+      "return_to_prior": 0.7657,
+      "future_adaptation": 0.9572,
+      "avg_final_missing_observations": 0.7752,
+      "missing_observation_drop": 0.0755,
+      "params": 45202.0,
+      "updates": 916.0
+    },
+    "gru": {
+      "avg_final": 0.8473,
+      "retention": 0.8068,
+      "new_context": 0.9604,
+      "return_to_prior": 0.6887,
+      "future_adaptation": 0.9716,
+      "avg_final_missing_observations": 0.8025,
+      "missing_observation_drop": 0.0448,
+      "params": 36882.0,
+      "updates": 916.0
+    },
+    "joint_upper_bound": {
+      "avg_final": 0.9167,
+      "retention": 0.9166,
+      "new_context": 0.9167,
+      "return_to_prior": 0.8874,
+      "future_adaptation": 0.9613,
+      "avg_final_missing_observations": 0.8741,
+      "missing_observation_drop": 0.0427,
+      "params": 45202.0,
+      "updates": 907.0
+    },
+    "lstm": {
+      "avg_final": 0.8436,
+      "retention": 0.8115,
+      "new_context": 0.9483,
+      "return_to_prior": 0.7449,
+      "future_adaptation": 0.9436,
+      "avg_final_missing_observations": 0.7637,
+      "missing_observation_drop": 0.0799,
+      "params": 45202.0,
+      "updates": 916.0
+    },
+    "lstm_gdumb": {
+      "avg_final": 0.8436,
+      "retention": 0.8115,
+      "new_context": 0.9483,
+      "return_to_prior": 0.7449,
+      "future_adaptation": 0.9436,
+      "avg_final_missing_observations": 0.7637,
+      "missing_observation_drop": 0.0799,
+      "params": 45202.0,
+      "updates": 916.0
+    },
+    "no_memory": {
+      "avg_final": 0.8643,
+      "retention": 0.8352,
+      "new_context": 0.9529,
+      "return_to_prior": 0.8372,
+      "future_adaptation": 0.9461,
+      "avg_final_missing_observations": 0.7927,
+      "missing_observation_drop": 0.0716,
+      "params": 45202.0,
+      "updates": 916.0
+    },
+    "reservoir": {
+      "avg_final": 0.9081,
+      "retention": 0.8988,
+      "new_context": 0.9478,
+      "return_to_prior": 0.8314,
+      "future_adaptation": 0.983,
+      "avg_final_missing_observations": 0.8312,
+      "missing_observation_drop": 0.077,
+      "params": 45202.0,
+      "updates": 916.0
+    },
+    "separate_per_context": {
+      "avg_final": 0.9481,
+      "retention": 0.9689,
+      "new_context": 0.9481,
+      "return_to_prior": 0.9808,
+      "future_adaptation": 0.9459,
+      "avg_final_missing_observations": 0.902,
+      "missing_observation_drop": 0.0461,
+      "params": 111762.0,
+      "updates": 916.0
+    },
+    "shared_adapters": {
+      "avg_final": 0.8595,
+      "retention": 0.831,
+      "new_context": 0.96,
+      "return_to_prior": 0.827,
+      "future_adaptation": 0.9592,
+      "avg_final_missing_observations": 0.7265,
+      "missing_observation_drop": 0.133,
+      "params": 51586.0,
+      "updates": 916.0
+    }
+  },
+  "utility": {
+    "AT_no_slow": 0.9078,
+    "G0_always_trainable": 0.9089,
+    "G1_frozen_after_first": 0.9002,
+    "G4_adapters_only": 0.8484,
+    "G5_projection_and_head": 0.8967,
+    "H_always_update": 0.8035,
+    "H_cosine_gate": 0.6877,
+    "H_never_update": 0.8861,
+    "H_probe_gate": 0.8639,
+    "bag_order_free": 0.8581,
+    "ewc": 0.8008,
+    "gru": 0.8065,
+    "joint_upper_bound": 0.8667,
+    "lstm": 0.7936,
+    "lstm_gdumb": 0.7936,
+    "no_memory": 0.8143,
+    "reservoir": 0.8581,
+    "separate_per_context": 0.8245,
+    "shared_adapters": 0.8025
+  },
+  "strongest_matched_baseline": "reservoir",
+  "effects_vs_strongest_baseline": {
+    "AT_no_slow": {
+      "mean": 0.0497,
+      "lower_95_cb": 0.0028,
+      "n": 5
+    },
+    "G0_always_trainable": {
+      "mean": 0.0507,
+      "lower_95_cb": -0.0005,
+      "n": 5
+    },
+    "G1_frozen_after_first": {
+      "mean": 0.0421,
+      "lower_95_cb": -0.0189,
+      "n": 5
+    },
+    "G4_adapters_only": {
+      "mean": -0.0097,
+      "lower_95_cb": -0.1004,
+      "n": 5
+    },
+    "G5_projection_and_head": {
+      "mean": 0.0385,
+      "lower_95_cb": -0.0229,
+      "n": 5
+    },
+    "H_always_update": {
+      "mean": -0.0547,
+      "lower_95_cb": -0.1464,
+      "n": 5
+    },
+    "H_cosine_gate": {
+      "mean": -0.1705,
+      "lower_95_cb": -0.3575,
+      "n": 5
+    },
+    "H_never_update": {
+      "mean": 0.028,
+      "lower_95_cb": -0.0281,
+      "n": 5
+    },
+    "H_probe_gate": {
+      "mean": 0.0057,
+      "lower_95_cb": -0.0646,
+      "n": 5
+    },
+    "bag_order_free": {
+      "mean": -0.0001,
+      "lower_95_cb": -0.1027,
+      "n": 5
+    },
+    "ewc": {
+      "mean": -0.0574,
+      "lower_95_cb": -0.1484,
+      "n": 5
+    },
+    "gru": {
+      "mean": -0.0516,
+      "lower_95_cb": -0.1673,
+      "n": 5
+    },
+    "joint_upper_bound": {
+      "mean": 0.0086,
+      "lower_95_cb": -0.0624,
+      "n": 5
+    },
+    "lstm": {
+      "mean": -0.0645,
+      "lower_95_cb": -0.1191,
+      "n": 5
+    },
+    "lstm_gdumb": {
+      "mean": -0.0645,
+      "lower_95_cb": -0.1191,
+      "n": 5
+    },
+    "no_memory": {
+      "mean": -0.0438,
+      "lower_95_cb": -0.1085,
+      "n": 5
+    },
+    "reservoir": {
+      "mean": 0.0,
+      "lower_95_cb": 0.0,
+      "n": 5
+    },
+    "separate_per_context": {
+      "mean": -0.0336,
+      "lower_95_cb": -0.097,
+      "n": 5
+    },
+    "shared_adapters": {
+      "mean": -0.0557,
+      "lower_95_cb": -0.1567,
+      "n": 5
+    }
+  },
+  "joint_training_upper_bound": 0.8667,
+  "joint_upper_bound_caveat": "the joint arm interleaves every context round robin at a matched total update budget. Several sequential arms score above it, so it is not behaving as an upper bound on this protocol. The likely reason is that per context heads make the sequential arms task incremental, which is easier than the interleaved multi head problem the joint arm solves. It is reported as a reference point and is not used as a ceiling in any verdict.",
+  "protocol_disclosure": "task incremental: every context owns its projection, adapter, normalization and head, and the context identity is given at evaluation. Forgetting is therefore confined to the shared core, which is the object of study, but the absolute numbers are not comparable to class incremental continual learning results.",
+  "order_free_control": 0.8581,
+  "stressors": {
+    "G0_always_trainable": {
+      "limited": {
+        "utility": 0.9046,
+        "vs_plain": {
+          "mean": -0.0043,
+          "lower_95_cb": -0.0118,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.915,
+        "vs_plain": {
+          "mean": 0.0061,
+          "lower_95_cb": -0.0038,
+          "n": 5
+        }
+      }
+    },
+    "G1_frozen_after_first": {
+      "limited": {
+        "utility": 0.8914,
+        "vs_plain": {
+          "mean": -0.0088,
+          "lower_95_cb": -0.0172,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.8994,
+        "vs_plain": {
+          "mean": -0.0008,
+          "lower_95_cb": -0.0043,
+          "n": 5
+        }
+      }
+    },
+    "G4_adapters_only": {
+      "limited": {
+        "utility": 0.7951,
+        "vs_plain": {
+          "mean": -0.0533,
+          "lower_95_cb": -0.0852,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.8475,
+        "vs_plain": {
+          "mean": -0.0009,
+          "lower_95_cb": -0.0033,
+          "n": 5
+        }
+      }
+    },
+    "H_cosine_gate": {
+      "limited": {
+        "utility": 0.6643,
+        "vs_plain": {
+          "mean": -0.0234,
+          "lower_95_cb": -0.1396,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.6457,
+        "vs_plain": {
+          "mean": -0.042,
+          "lower_95_cb": -0.2235,
+          "n": 5
+        }
+      }
+    },
+    "H_never_update": {
+      "limited": {
+        "utility": 0.8482,
+        "vs_plain": {
+          "mean": -0.0379,
+          "lower_95_cb": -0.07,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.8869,
+        "vs_plain": {
+          "mean": 0.0008,
+          "lower_95_cb": -0.0014,
+          "n": 5
+        }
+      }
+    },
+    "AT_no_slow": {
+      "limited": {
+        "utility": 0.9006,
+        "vs_plain": {
+          "mean": -0.0072,
+          "lower_95_cb": -0.0238,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.9125,
+        "vs_plain": {
+          "mean": 0.0046,
+          "lower_95_cb": -0.0023,
+          "n": 5
+        }
+      }
+    },
+    "lstm_gdumb": {
+      "limited": {
+        "utility": 0.7511,
+        "vs_plain": {
+          "mean": -0.0425,
+          "lower_95_cb": -0.1378,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.7902,
+        "vs_plain": {
+          "mean": -0.0035,
+          "lower_95_cb": -0.0949,
+          "n": 5
+        }
+      }
+    },
+    "separate_per_context": {
+      "limited": {
+        "utility": 0.7782,
+        "vs_plain": {
+          "mean": -0.0463,
+          "lower_95_cb": -0.0933,
+          "n": 5
+        }
+      },
+      "small_mem": {
+        "utility": 0.8356,
+        "vs_plain": {
+          "mean": 0.0111,
+          "lower_95_cb": 0.0001,
+          "n": 5
+        }
+      }
+    }
+  },
+  "arms_beating_the_strongest_baseline": [],
+  "verdict": "within_domain_null",
+  "simplification_check": {
+    "G1_frozen_vs_G0_always": {
+      "mean": -0.0086,
+      "lower_95_cb": -0.0314,
+      "n": 5
+    },
+    "G4_adapters_only_vs_G0": {
+      "mean": -0.0605,
+      "lower_95_cb": -0.1046,
+      "n": 5
+    }
+  },
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "ee54f419f7ead5a2aa7877711d22439d52ee21e2",
+  "SESOI": 0.05,
+  "sha256": "cec5d63dd397a19be1a886e73a95ebb8a908d1ed65899d01df54b32124a687f4"
+}

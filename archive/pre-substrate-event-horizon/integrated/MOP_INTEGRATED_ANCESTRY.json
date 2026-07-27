@@ -1,0 +1,20 @@
+{
+  "schema": "mop-integrated-ancestry/v1",
+  "chain": [
+    "collapse condensation -> dd5498a",
+    "substrate/evidence lineage -> d33dc69 (forge boundary)",
+    "merge d023d9d (-X theirs)",
+    "wholesale code adoption 9de20f0",
+    "registry/config + invariant scoping 64d2801"
+  ],
+  "counts": {
+    "integrated_files": 479,
+    "collapse_files": 146,
+    "forge_files": 2082,
+    "collapse_retained": 146,
+    "substrate_retained": 333,
+    "generated": 0,
+    "proof_preserved_beyond_collapse": 74
+  },
+  "sha256": "4a657114152a7e6fa48820189798ff87f952e1d40836e5e953a997667a3268a8"
+}

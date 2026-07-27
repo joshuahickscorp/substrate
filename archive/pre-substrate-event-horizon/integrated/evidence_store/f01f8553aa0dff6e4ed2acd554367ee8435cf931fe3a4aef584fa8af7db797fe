@@ -1,0 +1,58 @@
+{
+  "bed": "har_stream",
+  "spec": {
+    "family": "pooled",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "pooled|small|linear|none|h1",
+  "curve": {
+    "400": 0.44978999999999997,
+    "800": 0.4538433333333334,
+    "1600": 0.44988999999999996,
+    "3200": 0.42795999999999995
+  },
+  "seed_spread": {
+    "400": 0.04437,
+    "800": 0.02937,
+    "1600": 0.0258,
+    "3200": 0.01594
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.44979,
+    0.45384,
+    0.44989,
+    0.42796
+  ],
+  "best_budget": 800,
+  "selected_checkpoint": 800,
+  "second_half_movement": 0.02193,
+  "residual_slope": -0.02193,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0219 with slope -0.02193; extend the budget grid past 3200",
+  "classification": "unconverged",
+  "wall_seconds": 919.2
+}

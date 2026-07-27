@@ -1,0 +1,359 @@
+{
+  "schema": "mop-temporal-implementation-transition/v1",
+  "reason": "append-only normalization of the sealed HARTH train-pool cardinality assertion and aggregate iterable repair",
+  "old_implementation": {
+    "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+    "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+  },
+  "new_implementation": {
+    "source_commit": "51e1d1307871991561b77c91d467e09cf12b729a",
+    "source_tree_oid": "fb4b14672e6dbdbf8570f66db624899a9c802539"
+  },
+  "scientific_manifest": [
+    {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "old_blob": "e5b65534d07896bfb9aeefbc32d1f17f236464d6",
+      "new_blob": "e5b65534d07896bfb9aeefbc32d1f17f236464d6"
+    },
+    {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "old_blob": "8b27a4ed1386d59f4e350b3c80eafff2aaa63248",
+      "new_blob": "8b27a4ed1386d59f4e350b3c80eafff2aaa63248"
+    },
+    {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "old_blob": "ca7d8813a136c08925099963f9d8c9dfbff65f4c",
+      "new_blob": "ca7d8813a136c08925099963f9d8c9dfbff65f4c"
+    },
+    {
+      "path": "src/mop/temporal/factorial.py",
+      "old_blob": "014303669e4766ef0eb5b58ca8d81f0aa94c6af4",
+      "new_blob": "014303669e4766ef0eb5b58ca8d81f0aa94c6af4"
+    },
+    {
+      "path": "src/mop/temporal/beds.py",
+      "old_blob": "b735340d3f8751f28ba9c3f9d6a630559b4316fe",
+      "new_blob": "b735340d3f8751f28ba9c3f9d6a630559b4316fe"
+    },
+    {
+      "path": "src/mop/temporal/analysis.py",
+      "old_blob": "64bf698e9c65832463864355cdfc4f968f2f830c",
+      "new_blob": "64bf698e9c65832463864355cdfc4f968f2f830c"
+    }
+  ],
+  "scientific_manifest_unchanged": true,
+  "repaired_code_paths": [
+    {
+      "path": "src/mop/temporal/custody.py",
+      "old_blob": "8bfdf684677eacdb90e7ca3c2b7e8500d7deac05",
+      "new_blob": "4527158f03c1a58f12155690f6b58c719a7e2d33"
+    },
+    {
+      "path": "src/mop/temporal/runs/codelife.py",
+      "old_blob": "1067456d2440accc380cca9b2596710985a81980",
+      "new_blob": "dc4fe863ad069ade33f70ed37f87803a7aa3cdaa"
+    },
+    {
+      "path": "src/mop/temporal/runs/e2.py",
+      "old_blob": "588abdd56d6c593d33506ec9e6677172c9ebf96c",
+      "new_blob": "835093f0959fdc9767d0a90f97c9d55d3b45b67b"
+    },
+    {
+      "path": "src/mop/temporal/runs/reports.py",
+      "old_blob": "a1ea352f71794f33bbd38e0afd46a58fa0bde794",
+      "new_blob": "ba2ece05fe3265d7ea86ac53b55860bb13e297c4"
+    },
+    {
+      "path": "src/mop/temporal/runs/thirdbed.py",
+      "old_blob": "eec73c217c7ccec6a0a7f59a50bbcf4961e4d1c5",
+      "new_blob": "63f14a2711b32eb0eeaed7ff96dcda229227d267"
+    },
+    {
+      "path": "tests/temporal/test_convergence_checkpoint_resume.py",
+      "old_blob": "fae08c6c7c54a8e0013b234316ef29cf69eaa291",
+      "new_blob": "518751c693ec38d2939e2ff5382b1b52e735725d"
+    },
+    {
+      "path": "tests/temporal/test_durable_fabric.py",
+      "old_blob": "b84f23a4394c3ab08c539f2309b3ca52c991d083",
+      "new_blob": "20a1ba0f5d063eea9ca05b04c71e31b742160b46"
+    },
+    {
+      "path": "tests/temporal/test_temporal_core.py",
+      "old_blob": "a9f8b57d9f9ae8c28a4448e8a21e8e25b7e06d1a",
+      "new_blob": "5756d0a558b84a50a1f4a96f5727b1d2bb4526f1"
+    }
+  ],
+  "live_re_adoption": {
+    "supervisor_pid": 45327,
+    "supervisor_state_receipt": {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_STATE.json",
+      "sha256": "ab968dfbcba6f47e2acd4bb7908d19246ebeab7dde44ac18eacf9329b8647918"
+    },
+    "active_worker_count": 16,
+    "active_worker_locks": [
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_0.json",
+        "sha256": "7d2361821435226a9102d662c87fab1d37b9c9fa64f910650fa592132b80005d",
+        "pid": 36124,
+        "tag": "p:har_stream_0",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_1.json",
+        "sha256": "695b3aec5f4fcf9db1e18538bdc3c14ce1b76dc79b7cad310689e1c6be3bc23d",
+        "pid": 36131,
+        "tag": "p:har_stream_1",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_2.json",
+        "sha256": "028132c32865a6792ffbac8de71e558b6fce1b1752f34d2675d692074c5afbc2",
+        "pid": 36137,
+        "tag": "p:har_stream_2",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_3.json",
+        "sha256": "6136aea24f1afb2600e6aed3d5282881d6b2861bff8cf182e79053a76f76de35",
+        "pid": 36143,
+        "tag": "p:har_stream_3",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_4.json",
+        "sha256": "5475367e385d861fc03172e0cbd3cc15b45cfcc0b4f32868f168521a45bc6ca4",
+        "pid": 36149,
+        "tag": "p:har_stream_4",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_5.json",
+        "sha256": "fa42b352b56f15a79511e1e44394210d0fac39e3dbc2a3f4d5dde4233f4a8c32",
+        "pid": 36156,
+        "tag": "p:har_stream_5",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_6.json",
+        "sha256": "b5fca5dbc43d3dc7ab2879fb7c50a2cede04f49b646fbd0c0e051b19f5107747",
+        "pid": 36165,
+        "tag": "p:har_stream_6",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_7.json",
+        "sha256": "13f373161cfc8a84e9ba7ecf0519346d9f08a7d84944bc3af1e8560ec1a5dcbd",
+        "pid": 36173,
+        "tag": "p:har_stream_7",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_0.json",
+        "sha256": "4ba5d72463c2eebfd5722fdace020889aa241268b187b2d866d9446b57a7f5f2",
+        "pid": 36181,
+        "tag": "p:speech_stream_0",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_1.json",
+        "sha256": "e994ca387e62dcc4993914dde678a87eb4e7d9e31a8cc30882deb5ba3ba50ab2",
+        "pid": 36189,
+        "tag": "p:speech_stream_1",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_2.json",
+        "sha256": "2982778df74ed4a4812241cb5ed1e0aff0a8f575ade6caf8887bb0f52c360fce",
+        "pid": 36197,
+        "tag": "p:speech_stream_2",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_3.json",
+        "sha256": "13f1ab6cf27063937036cb1c77c61208f4c0f4fd4da6b3480b885e70f9aacf2d",
+        "pid": 36206,
+        "tag": "p:speech_stream_3",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_4.json",
+        "sha256": "df9f4ddfef74d62d27ac733fec4dbeb2434a3278f6e3c888d3f0797f23ad81fc",
+        "pid": 36217,
+        "tag": "p:speech_stream_4",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_5.json",
+        "sha256": "f84cceb0ed23a86d923ea52a30bf391e7c20113bdf04bf9936dcbcf51ee84f6c",
+        "pid": 36226,
+        "tag": "p:speech_stream_5",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_6.json",
+        "sha256": "605b2788ecdbccef1e58989ac6696f15b295b65b0fbea2e6b84048057cf95434",
+        "pid": 36235,
+        "tag": "p:speech_stream_6",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_7.json",
+        "sha256": "c5a38a4aa187ee82c0aa392e1e0dc70a1f9d5a645fc363db99a9434299ae3be2",
+        "pid": 36242,
+        "tag": "p:speech_stream_7",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      }
+    ],
+    "worker_implementation_preserved": true,
+    "duplicate_worker_identities": [],
+    "principal_receipts_complete": 8,
+    "partial_receipts": []
+  },
+  "third_bed_receipt_normalization": {
+    "source_receipts": [
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_0.json",
+        "sha256": "76bf6ae29b6e570929a7b0987312caf8cd6321c88fe1eb9ca20610a6124a381f",
+        "result_sha256": "6409d2ea86e7f13906b770726baeeb32369915987c6fd6b499e1727472e05fd9"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_1.json",
+        "sha256": "54a96438f300b8edb9403c7da774d8029112bd23a8b5e0415fea7a1e28aa989a",
+        "result_sha256": "4df365db1a9064221d7129bbadcc4260942f47a33348fad6d4a7f12fb143fe7e"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_2.json",
+        "sha256": "a1c937ad00b4688d0ff5699e533834467511c80b81110b87425db96be4deba21",
+        "result_sha256": "06938a86b4a6e44a5de45252211367825e05fac6fb24a267c22f284ea9631a08"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_3.json",
+        "sha256": "4d69aa992dfa8b4952369dbdcd704a6d2524b7fdb7c276ce9a499f35016ce92c",
+        "result_sha256": "05b329ca33fdcef9892157c7533817c3a9c552fdfd18eb28d203ff6f0b6fec3a"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_4.json",
+        "sha256": "2b89da5546022f1412731248824329911c6f897caade2870894ea93da1fe8677",
+        "result_sha256": "f629031b2363dfcbda5459fc723ed7e1336fc9d3c62dc88cf0c3910294ad86b6"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_5.json",
+        "sha256": "134e6a170fd97da87c15d7aeb4584196742bac726c7d364c47def729d6994bd3",
+        "result_sha256": "8bf4f22e8b942fdbb09111b4ee36c5c7d0ae0bb09e9ea81a11ccd135a16a7c64"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_6.json",
+        "sha256": "8d77537c559775b9ffd2705728a35ade502aaf86a50c21076451264a28c1c8ca",
+        "result_sha256": "cb2866e7169d89466c38d486114f01fd333db6d2c518c0d2bbe449d9778edc16"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_7.json",
+        "sha256": "55b6c7b765b33bd0a7473214bc7b5d436b5b39771434c58237717b8b936131aa",
+        "result_sha256": "6599a964aa6f1314092b69baef669527549bab45cc4d088f5929cd5ad39ac1fe"
+      }
+    ],
+    "source_receipts_preserved": true,
+    "migration_sidecars": [
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_receipt_migrations/harth_preflight_0__76bf6ae29b6e.json",
+        "sha256": "65b60dd79964978d3c63ceca94a36ed45b968c292891c758001b33f1b777cf46",
+        "source_sha256": "76bf6ae29b6e570929a7b0987312caf8cd6321c88fe1eb9ca20610a6124a381f"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_receipt_migrations/harth_preflight_1__54a96438f300.json",
+        "sha256": "8bde71cd61a905f756b3a9eaa5b19fde50f03a0cc74cbf341068fa5f55a81f28",
+        "source_sha256": "54a96438f300b8edb9403c7da774d8029112bd23a8b5e0415fea7a1e28aa989a"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_receipt_migrations/harth_preflight_2__a1c937ad00b4.json",
+        "sha256": "ab9b2a48c4ff1e6626f520a140262e6d19400cd580fe52f03d185c2a418805bf",
+        "source_sha256": "a1c937ad00b4688d0ff5699e533834467511c80b81110b87425db96be4deba21"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_receipt_migrations/harth_preflight_3__4d69aa992dfa.json",
+        "sha256": "928f46c2bbc996c7263a1decde7f8e40b95f8f3071c5a21d5487a89cb177c8fe",
+        "source_sha256": "4d69aa992dfa8b4952369dbdcd704a6d2524b7fdb7c276ce9a499f35016ce92c"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_receipt_migrations/harth_preflight_4__2b89da554602.json",
+        "sha256": "72b9acfd8a34c04d1136ab45e03f3180a78a2d7c80c68462e7c11982352fec5a",
+        "source_sha256": "2b89da5546022f1412731248824329911c6f897caade2870894ea93da1fe8677"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_receipt_migrations/harth_preflight_5__134e6a170fd9.json",
+        "sha256": "7d19fef6870a0b90b22931ae4bfadd8821a8d143ddb830a08f89c78a903476a0",
+        "source_sha256": "134e6a170fd97da87c15d7aeb4584196742bac726c7d364c47def729d6994bd3"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_receipt_migrations/harth_preflight_6__8d77537c5597.json",
+        "sha256": "2eba7eb1f2da01a81e5cebd047b42d580784b3108bfcd5f1d3f6ed5999b6101e",
+        "source_sha256": "8d77537c559775b9ffd2705728a35ade502aaf86a50c21076451264a28c1c8ca"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_receipt_migrations/harth_preflight_7__55b6c7b765b3.json",
+        "sha256": "98c3d3babc06946113eb2e7ac68ed907999285261b360e24b0d077acd6da1534",
+        "source_sha256": "55b6c7b765b33bd0a7473214bc7b5d436b5b39771434c58237717b8b936131aa"
+      }
+    ],
+    "migration_count": 8,
+    "migration_index_sha256": "0d74e8c03ab750901e5964bc5c4211cea9b3580a2df0410f0d4284f91fc687b1",
+    "normalized_instrument_checks_pass": true,
+    "aggregate": {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_THIRD_TEMPORAL_BED_ADMISSION_PROBE.json",
+      "sha256": "4dc6d170c05093efeca1a3033aede0e3cc628da4ba2752d2ab8335c1c3903786",
+      "classification": "preflight_failed",
+      "checks": {
+        "all_eight_shards_valid": true,
+        "context_boundary_crossed": true,
+        "future_adaptation_headroom": true,
+        "returning_context_recovery": false,
+        "natural_independent_units": true,
+        "temporal_order_required": true,
+        "pooled_reader_order_invariant": true
+      }
+    },
+    "scientific_outcome_changed_by_normalization": false,
+    "scientific_interpretation": "instrument-valid preflight failure because returning-context recovery did not pass"
+  },
+  "test_evidence": {
+    "command": "python3 -m pytest tests/temporal tests/method -q",
+    "result": "passed",
+    "focused_migration_and_aggregate_regressions": "passed",
+    "isolated_exact_live_receipt_rehearsal": "8 source receipts preserved; 8 sidecars valid; aggregate completed",
+    "code_accounting": {
+      "new_e2_loc": 2446,
+      "new_e2_target": 2500,
+      "active_runtime_plus_substrate_loc": 6113,
+      "active_runtime_target": 8000
+    }
+  },
+  "release": {
+    "old_worker_receipts_remain_valid": true,
+    "new_launches_use_new_implementation": true,
+    "queue_resume_licensed": true
+  },
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "51e1d1307871991561b77c91d467e09cf12b729a",
+  "source_tree_oid": "fb4b14672e6dbdbf8570f66db624899a9c802539",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "36382b0132222ba9fb93234a377a16ccf8e1c83b6d6c5f695a169a0f93436166"
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "substrate-rust-reassessment/v1",
+  "decision": "no Rust conversion justified",
+  "measured_bottleneck": {
+    "unit": "mutations",
+    "wall_seconds": 4.940041791996919,
+    "nature": "32 isolated Python test subprocesses required for fault containment"
+  },
+  "criteria": {
+    "real_path_cpu_bound": false,
+    "path_stable": true,
+    "python_consumes_meaningful_total_time": true,
+    "python_or_numpy_optimization_insufficient": false,
+    "boundary_smaller_than_complexity": false,
+    "projected_total_wall_reduction_at_least_10_percent": false,
+    "reliability_memory_or_determinism_need": false
+  },
+  "threshold": {
+    "isolated_speedup": 1.5,
+    "projected_total_wall_reduction": 0.1
+  },
+  "reason": "The dominant path is deliberate process isolation for mutation reliability, not a stable high-volume kernel. Scheduler overhead is not the bottleneck. Rust would enlarge the trust boundary without measured evidence that it can meet both admission thresholds.",
+  "rust_parity_required": false,
+  "scientific_run_launched": false,
+  "activation": false
+}

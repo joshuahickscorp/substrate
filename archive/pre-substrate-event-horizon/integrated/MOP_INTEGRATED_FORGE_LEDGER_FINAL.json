@@ -1,0 +1,16 @@
+{
+  "schema": "integrated-forge-ledger/v1",
+  "terminal": {
+    "audio_domain": "SpeechCommands temporal_headroom_present after one bounded instrumentation repair",
+    "A-T rounds": "A-T1/A-T2/A-T3 all null",
+    "architecture_E": "terminal compression null",
+    "architecture_F": "null (falsified: shuffled-time equals real prediction)",
+    "cross_domain": "cross_domain_moldability_null",
+    "memory_frontier": "compression_null (carried forward)",
+    "PAMAP2": "invalid_no_temporal_headroom (carried forward)"
+  },
+  "known_limitations": [
+    "cross-domain arms projection_only==fresh_core and slow_core_transfer==finetuned==full_persistent share a code path; the three persistent arms were not distinguished. The null is unaffected since the measured persistent value is the best of them, but the arm matrix is coarser than declared."
+  ],
+  "sha256": "9d8c53182d270bfb620eb34da13cf4fc2026754ebf6b47ec15276d6f3bed8197"
+}

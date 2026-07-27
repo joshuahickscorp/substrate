@@ -1,0 +1,26 @@
+{
+  "schema": "mop-canary-preregistration/v2",
+  "lane": "G1-U1",
+  "question": "does uncertainty change decisions (verify/abstain/gather) with positive downstream value",
+  "supersedes": "does NOT reuse the Phase 4 authority; new append-only authority; SESOI unchanged at 0.05",
+  "mechanism_definition": "best of capacity-matched capable estimators (knn, kernel_ridge, rff_ridge) predicting lane reducible value from decision-time features; tuned on a tuning partition",
+  "independent_units": "12 independent generator families, group-disjoint train/tune/test",
+  "architectures": [
+    "knn",
+    "kernel_ridge",
+    "rff_ridge",
+    "linear (baseline only, not counted for architecture independence)"
+  ],
+  "capacity_matching": "same features, training units, tuning information, allocation and inference budget",
+  "oracle_definition": "top-budget by true reducible value",
+  "primary_metric": "fraction of oracle headroom over random captured",
+  "sesoi": 0.05,
+  "group_generalization_rule": "random-effects lower 95% confidence bound on the mean family effect >= SESOI",
+  "architecture_independence_rule": ">= 2 capable estimators pass the group rule",
+  "multiplicity": "all clauses A-J plus residual-headroom must pass jointly",
+  "futility": "oracle raw headroom < 10% -> invalid_bed",
+  "harm_rule": "excess noisy-TV allocation > SESOI prunes",
+  "compute_ceiling": "one battery over 12 families x 3 capable estimators (small)",
+  "claim_ceiling": "controlled-bed mechanism plausibility only; admission licenses a SMALL real-data or independently sourced canary, not scientific confirmation",
+  "prereg_sha256": "c11e756112c994569c64ead95b50402862097e50325ea5bbd6ecd638ea759316"
+}

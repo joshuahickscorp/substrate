@@ -1,0 +1,14 @@
+{
+  "schema": "mop-temporal-core-clean-clone/v1",
+  "cloned": true,
+  "tests_returncode": 0,
+  "tests_tail": [
+    ".............................                                            [100%]"
+  ],
+  "proof_artifacts_present": 12,
+  "skips_expected": "corpora live outside the repository by design, so data bound tests skip",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "fc2d220041145c98d23760a86d99c3e3be4e2e6df0bdc6445a04269ef2342506"
+}

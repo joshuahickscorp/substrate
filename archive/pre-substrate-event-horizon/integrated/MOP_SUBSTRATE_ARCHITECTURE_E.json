@@ -1,0 +1,9 @@
+{
+  "schema": "architecture-e/v1",
+  "name": "Dual-Memory Compressed Episodic",
+  "status": "terminal compression null",
+  "basis": "8-seed lower-CB: prototype/coreset/dual do not beat GDumb at matched budget",
+  "new_premise_opened": false,
+  "reason": "mandate requires proving stable residual headroom over GDumb before a new representation premise; no bounded representation demonstrated it",
+  "sha256": "1b67b053e82d786a9c939f34de263ddf441d501acfcd611f12408509dd152724"
+}

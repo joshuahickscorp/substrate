@@ -1,0 +1,1775 @@
+{
+  "schema": "mop-experiment-admission/v1",
+  "experiment": "E1",
+  "beds": [
+    "har_stream",
+    "speech_stream"
+  ],
+  "cells": [
+    "pooled_linear",
+    "pooled_mlp",
+    "fast_linear",
+    "fast_mlp",
+    "reset3_linear",
+    "reset3_mlp",
+    "reset5_linear",
+    "reset5_mlp"
+  ],
+  "hypothesis_predictions": {
+    "H_fast_state": "fast beats pooled at both readouts, and fast beats the misaligned reset control",
+    "H_readout_capacity": "mlp beats linear at both cores, and fast does not beat pooled",
+    "H_core_readout_interaction": "fast beats pooled only under one readout",
+    "H_bed_insufficiency": "pooled matches fast, so the bed does not require order after all",
+    "H_shared_core_capacity": "no cell separates, because capacity is matched and capacity is what mattered"
+  },
+  "causal_graph": {
+    "nodes": [
+      {
+        "id": "temporal_capability",
+        "type": "scientific_construct",
+        "label": "the capability that lets a model use order in a stream"
+      },
+      {
+        "id": "recurrent_core",
+        "type": "mechanism",
+        "implementation": "mop.method.runs.factorial.Cell.represent"
+      },
+      {
+        "id": "readout_capacity",
+        "type": "mechanism",
+        "implementation": "mop.method.runs.factorial.Cell.head"
+      },
+      {
+        "id": "set_core",
+        "type": "intervention",
+        "implementation": "mop.method.runs.factorial.build"
+      },
+      {
+        "id": "set_readout",
+        "type": "intervention",
+        "implementation": "mop.method.runs.factorial.build"
+      },
+      {
+        "id": "pooled_control",
+        "type": "control",
+        "implementation": "mop.method.runs.factorial.Cell",
+        "removes": "the ability to consume temporal order"
+      },
+      {
+        "id": "reset_control",
+        "type": "control",
+        "implementation": "mop.method.runs.factorial.Cell",
+        "removes": "state carried across a block boundary"
+      },
+      {
+        "id": "stream_order",
+        "type": "available_information",
+        "time": "decision_time"
+      },
+      {
+        "id": "final_window_label",
+        "type": "hidden_information",
+        "time": "future",
+        "declared": true
+      },
+      {
+        "id": "unit_identity",
+        "type": "confounder",
+        "declared": true,
+        "label": "subject or speaker, controlled by unit disjoint splits"
+      },
+      {
+        "id": "capacity",
+        "type": "confounder",
+        "declared": true,
+        "label": "parameter count, matched by construction and measured"
+      },
+      {
+        "id": "segment_alignment",
+        "type": "confounder",
+        "declared": true,
+        "label": "a reset period of three lands on the real stream boundaries on both beds, so reset3 is oracle segmented. reset5 lands on no boundary and is the neutral ablation"
+      },
+      {
+        "id": "representation",
+        "type": "mediator",
+        "label": "the fixed width vector the core emits, identical in shape across every cell"
+      },
+      {
+        "id": "logits",
+        "type": "mediator",
+        "label": "the readout output"
+      },
+      {
+        "id": "subject_or_speaker",
+        "type": "independent_unit"
+      },
+      {
+        "id": "test_accuracy",
+        "type": "primary_outcome"
+      },
+      {
+        "id": "compute",
+        "type": "cost"
+      },
+      {
+        "id": "core_vs_readout_verdict",
+        "type": "verdict",
+        "requires": [
+          "test_accuracy"
+        ]
+      },
+      {
+        "id": "claim_fast_state_carries_capability",
+        "type": "claim",
+        "requires": [
+          "test_accuracy"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "src": "temporal_capability",
+        "dst": "recurrent_core",
+        "type": "assumed_scientific_relation"
+      },
+      {
+        "src": "recurrent_core",
+        "dst": "set_core",
+        "type": "implemented_causal_path"
+      },
+      {
+        "src": "readout_capacity",
+        "dst": "set_readout",
+        "type": "implemented_causal_path"
+      },
+      {
+        "src": "set_core",
+        "dst": "representation",
+        "type": "implemented_causal_path"
+      },
+      {
+        "src": "set_readout",
+        "dst": "logits",
+        "type": "implemented_causal_path"
+      },
+      {
+        "src": "representation",
+        "dst": "logits",
+        "type": "implemented_causal_path"
+      },
+      {
+        "src": "logits",
+        "dst": "test_accuracy",
+        "type": "measured_relation"
+      },
+      {
+        "src": "set_core",
+        "dst": "test_accuracy",
+        "type": "measured_relation"
+      },
+      {
+        "src": "set_readout",
+        "dst": "test_accuracy",
+        "type": "measured_relation"
+      },
+      {
+        "src": "pooled_control",
+        "dst": "representation",
+        "type": "implemented_causal_path"
+      },
+      {
+        "src": "reset_control",
+        "dst": "representation",
+        "type": "implemented_causal_path"
+      },
+      {
+        "src": "stream_order",
+        "dst": "recurrent_core",
+        "type": "implemented_causal_path"
+      },
+      {
+        "src": "final_window_label",
+        "dst": "set_core",
+        "type": "forbidden_information_path",
+        "realized": false
+      },
+      {
+        "src": "unit_identity",
+        "dst": "test_accuracy",
+        "type": "assumed_scientific_relation"
+      },
+      {
+        "src": "capacity",
+        "dst": "test_accuracy",
+        "type": "structural_guarantee"
+      },
+      {
+        "src": "segment_alignment",
+        "dst": "test_accuracy",
+        "type": "assumed_scientific_relation"
+      },
+      {
+        "src": "subject_or_speaker",
+        "dst": "test_accuracy",
+        "type": "measured_relation"
+      },
+      {
+        "src": "set_core",
+        "dst": "compute",
+        "type": "measured_relation"
+      },
+      {
+        "src": "recurrent_core",
+        "dst": "temporal_capability",
+        "type": "assumed_scientific_relation"
+      }
+    ]
+  },
+  "causal_graph_rejections": [],
+  "causal_graph_summary": {
+    "nodes": 19,
+    "edges": 19,
+    "by_node_type": {
+      "scientific_construct": 1,
+      "mechanism": 2,
+      "intervention": 2,
+      "available_information": 1,
+      "hidden_information": 1,
+      "treatment": 0,
+      "control": 2,
+      "mediator": 2,
+      "confounder": 3,
+      "independent_unit": 1,
+      "primary_outcome": 1,
+      "cost": 1,
+      "verdict": 1,
+      "claim": 1
+    },
+    "by_edge_type": {
+      "implemented_causal_path": 8,
+      "assumed_scientific_relation": 4,
+      "measured_relation": 5,
+      "analytic_relation": 0,
+      "structural_guarantee": 1,
+      "forbidden_information_path": 1
+    }
+  },
+  "per_bed": {
+    "har_stream": {
+      "arm_distinctness": {
+        "n_arms": 8,
+        "pairs": {
+          "pooled_linear|pooled_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|fast_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|fast_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|reset3_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|fast_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|fast_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|reset3_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|fast_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|reset3_linear": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_mlp|reset3_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_mlp|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_mlp|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_mlp|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_linear|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_linear|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_linear|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_mlp|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_mlp|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset5_linear|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          }
+        },
+        "aliased_pairs": [],
+        "all_distinct": true,
+        "per_arm": {
+          "pooled_linear": {
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "pooled_mlp": {
+            "pooled_linear": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "fast_linear": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "fast_mlp": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "reset3_linear": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "reset3_mlp": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "reset5_linear": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "reset5_mlp": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct"
+          }
+        }
+      },
+      "config_sensitivity": {
+        "core": {
+          "honoured": true,
+          "moved_traces": [
+            "call_graph_sha",
+            "state_transition_sha",
+            "param_delta_sha",
+            "resource_sha",
+            "output_sha"
+          ]
+        },
+        "readout": {
+          "honoured": true,
+          "moved_traces": [
+            "call_graph_sha",
+            "state_transition_sha",
+            "param_delta_sha",
+            "output_sha"
+          ]
+        },
+        "all_honoured": true
+      },
+      "control_semantics": {
+        "pooled": {
+          "timestep_permutation_invariant": true,
+          "sequence_reversal_invariant": true,
+          "block_permutation_invariant": true,
+          "timestamp_removal_invariant": true,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": true,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": true,
+          "structural_findings": {
+            "conv": [],
+            "recurrent": [],
+            "position": [],
+            "state": []
+          }
+        },
+        "fast": {
+          "timestep_permutation_invariant": false,
+          "sequence_reversal_invariant": false,
+          "block_permutation_invariant": false,
+          "timestamp_removal_invariant": false,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": false,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": false,
+          "structural_findings": {
+            "conv": [],
+            "recurrent": [
+              "rnn:GRU"
+            ],
+            "position": [],
+            "state": []
+          }
+        },
+        "reset3": {
+          "timestep_permutation_invariant": false,
+          "sequence_reversal_invariant": false,
+          "block_permutation_invariant": false,
+          "timestamp_removal_invariant": false,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": false,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": false,
+          "structural_findings": {
+            "conv": [],
+            "recurrent": [
+              "rnn:GRU"
+            ],
+            "position": [],
+            "state": []
+          }
+        },
+        "reset5": {
+          "timestep_permutation_invariant": false,
+          "sequence_reversal_invariant": false,
+          "block_permutation_invariant": false,
+          "timestamp_removal_invariant": false,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": false,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": false,
+          "structural_findings": {
+            "conv": [],
+            "recurrent": [
+              "rnn:GRU"
+            ],
+            "position": [],
+            "state": []
+          }
+        },
+        "frozen_core": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        }
+      },
+      "mechanism_activity": {
+        "classification": "active",
+        "active": true,
+        "checks": {
+          "intervened_at_all": true,
+          "disabled_does_not_intervene": true,
+          "touched_samples": true,
+          "touched_parameters_or_state": true,
+          "counterfactual_difference": true,
+          "reaches_outcome": true,
+          "costs_something": true,
+          "forcing_increases_intervention": true,
+          "signal_beats_permuted_signal": true,
+          "all_pass": true
+        },
+        "failed": [],
+        "accuracies": {
+          "fast": 0.79259,
+          "pooled": 0.39918,
+          "reset5": 0.71193
+        },
+        "representation_l2_gap": {
+          "fast_vs_pooled": 74.6216,
+          "fast_vs_reset5": 24.2022
+        }
+      },
+      "unit_audit": {
+        "n_units": 25,
+        "n_train_units": 12,
+        "n_tune_units": 4,
+        "n_test_units": 9,
+        "overlaps": {
+          "train_tune": [],
+          "train_test": [],
+          "tune_test": []
+        },
+        "group_disjoint": true,
+        "test_touched": false
+      },
+      "leakage_audit": {
+        "normalization_scope": "train_only",
+        "normalization_is_train_only": true,
+        "no_shared_fit_units": false,
+        "clean": false
+      },
+      "parameter_match": {
+        "pooled_linear": {
+          "core": 25698,
+          "readout": 390
+        },
+        "pooled_mlp": {
+          "core": 25698,
+          "readout": 4550
+        },
+        "fast_linear": {
+          "core": 25600,
+          "readout": 390
+        },
+        "fast_mlp": {
+          "core": 25600,
+          "readout": 4550
+        },
+        "reset3_linear": {
+          "core": 25600,
+          "readout": 390
+        },
+        "reset3_mlp": {
+          "core": 25600,
+          "readout": 4550
+        },
+        "reset5_linear": {
+          "core": 25600,
+          "readout": 390
+        },
+        "reset5_mlp": {
+          "core": 25600,
+          "readout": 4550
+        }
+      }
+    },
+    "speech_stream": {
+      "arm_distinctness": {
+        "n_arms": 8,
+        "pairs": {
+          "pooled_linear|pooled_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|fast_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|fast_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|reset3_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_linear|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|fast_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|fast_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|reset3_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "pooled_mlp|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|fast_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|reset3_linear": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_linear|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_mlp|reset3_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_mlp|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_mlp|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "fast_mlp|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_linear|reset3_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_linear|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_linear|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_mlp|reset5_linear": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset3_mlp|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "call_graph_sha",
+              "memory_sha",
+              "resource_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          },
+          "reset5_linear|reset5_mlp": {
+            "identical_fields": [
+              "source_sha",
+              "memory_sha"
+            ],
+            "differing_fields": [
+              "config_sha",
+              "call_graph_sha",
+              "state_transition_sha",
+              "param_delta_sha",
+              "resource_sha",
+              "output_sha"
+            ],
+            "aliased": false,
+            "verdict": "distinct"
+          }
+        },
+        "aliased_pairs": [],
+        "all_distinct": true,
+        "per_arm": {
+          "pooled_linear": {
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "pooled_mlp": {
+            "pooled_linear": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "fast_linear": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "fast_mlp": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "reset3_linear": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "reset3_mlp": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset5_linear": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "reset5_linear": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_mlp": "distinct"
+          },
+          "reset5_mlp": {
+            "pooled_linear": "distinct",
+            "pooled_mlp": "distinct",
+            "fast_linear": "distinct",
+            "fast_mlp": "distinct",
+            "reset3_linear": "distinct",
+            "reset3_mlp": "distinct",
+            "reset5_linear": "distinct"
+          }
+        }
+      },
+      "config_sensitivity": {
+        "core": {
+          "honoured": true,
+          "moved_traces": [
+            "call_graph_sha",
+            "state_transition_sha",
+            "param_delta_sha",
+            "resource_sha",
+            "output_sha"
+          ]
+        },
+        "readout": {
+          "honoured": true,
+          "moved_traces": [
+            "call_graph_sha",
+            "state_transition_sha",
+            "param_delta_sha",
+            "output_sha"
+          ]
+        },
+        "all_honoured": true
+      },
+      "control_semantics": {
+        "pooled": {
+          "timestep_permutation_invariant": true,
+          "sequence_reversal_invariant": true,
+          "block_permutation_invariant": true,
+          "timestamp_removal_invariant": true,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": true,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": true,
+          "structural_findings": {
+            "conv": [],
+            "recurrent": [],
+            "position": [],
+            "state": []
+          }
+        },
+        "fast": {
+          "timestep_permutation_invariant": false,
+          "sequence_reversal_invariant": false,
+          "block_permutation_invariant": true,
+          "timestamp_removal_invariant": false,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": false,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": false,
+          "structural_findings": {
+            "conv": [],
+            "recurrent": [
+              "rnn:GRU"
+            ],
+            "position": [],
+            "state": []
+          }
+        },
+        "reset3": {
+          "timestep_permutation_invariant": false,
+          "sequence_reversal_invariant": false,
+          "block_permutation_invariant": true,
+          "timestamp_removal_invariant": false,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": false,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": false,
+          "structural_findings": {
+            "conv": [],
+            "recurrent": [
+              "rnn:GRU"
+            ],
+            "position": [],
+            "state": []
+          }
+        },
+        "reset5": {
+          "timestep_permutation_invariant": false,
+          "sequence_reversal_invariant": false,
+          "block_permutation_invariant": true,
+          "timestamp_removal_invariant": false,
+          "deterministic": true,
+          "no_temporal_convolution": true,
+          "no_recurrence": false,
+          "no_position_encoding": true,
+          "no_carried_state_buffer": true,
+          "all_pass": false,
+          "structural_findings": {
+            "conv": [],
+            "recurrent": [
+              "rnn:GRU"
+            ],
+            "position": [],
+            "state": []
+          }
+        },
+        "frozen_core": {
+          "no_target_parameter_changed": true,
+          "targets_exist": true,
+          "receipt_lists_changes": true,
+          "all_pass": true
+        }
+      },
+      "mechanism_activity": {
+        "classification": "active",
+        "active": true,
+        "checks": {
+          "intervened_at_all": true,
+          "disabled_does_not_intervene": true,
+          "touched_samples": true,
+          "touched_parameters_or_state": true,
+          "counterfactual_difference": true,
+          "reaches_outcome": true,
+          "costs_something": true,
+          "forcing_increases_intervention": true,
+          "signal_beats_permuted_signal": true,
+          "all_pass": true
+        },
+        "failed": [],
+        "accuracies": {
+          "fast": 0.26215,
+          "pooled": 0.12326,
+          "reset5": 0.12066
+        },
+        "representation_l2_gap": {
+          "fast_vs_pooled": 42.4944,
+          "fast_vs_reset5": 31.6029
+        }
+      },
+      "unit_audit": {
+        "n_units": 171,
+        "n_train_units": 80,
+        "n_tune_units": 28,
+        "n_test_units": 63,
+        "overlaps": {
+          "train_tune": [],
+          "train_test": [],
+          "tune_test": []
+        },
+        "group_disjoint": true,
+        "test_touched": false
+      },
+      "leakage_audit": {
+        "normalization_scope": "train_only",
+        "normalization_is_train_only": true,
+        "no_shared_fit_units": false,
+        "clean": false
+      },
+      "parameter_match": {
+        "pooled_linear": {
+          "core": 27682,
+          "readout": 650
+        },
+        "pooled_mlp": {
+          "core": 27682,
+          "readout": 4810
+        },
+        "fast_linear": {
+          "core": 27584,
+          "readout": 650
+        },
+        "fast_mlp": {
+          "core": 27584,
+          "readout": 4810
+        },
+        "reset3_linear": {
+          "core": 27584,
+          "readout": 650
+        },
+        "reset3_mlp": {
+          "core": 27584,
+          "readout": 4810
+        },
+        "reset5_linear": {
+          "core": 27584,
+          "readout": 650
+        },
+        "reset5_mlp": {
+          "core": 27584,
+          "readout": 4810
+        }
+      }
+    }
+  },
+  "admission": {
+    "experiment_id": "E1",
+    "title": "core by readout factorial on the two sealed valid temporal beds",
+    "requested_stage": "control_semantics",
+    "stages": {
+      "scientific_premise": {
+        "contracts": [
+          "E1"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "causal_model": {
+        "contracts": [
+          "E1"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "measurement_model": {
+        "contracts": [
+          "E1"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "instrument_calibration": {
+        "contracts": [],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "arm_distinctness": {
+        "contracts": [
+          "har_stream:pooled_linear",
+          "har_stream:pooled_mlp",
+          "har_stream:fast_linear",
+          "har_stream:fast_mlp",
+          "har_stream:reset3_linear",
+          "har_stream:reset3_mlp",
+          "har_stream:reset5_linear",
+          "har_stream:reset5_mlp",
+          "speech_stream:pooled_linear",
+          "speech_stream:pooled_mlp",
+          "speech_stream:fast_linear",
+          "speech_stream:fast_mlp",
+          "speech_stream:reset3_linear",
+          "speech_stream:reset3_mlp",
+          "speech_stream:reset5_linear",
+          "speech_stream:reset5_mlp"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      },
+      "control_semantics": {
+        "contracts": [
+          "har_stream:pooled_order_free",
+          "har_stream:frozen_core",
+          "speech_stream:pooled_order_free",
+          "speech_stream:frozen_core"
+        ],
+        "violations": [],
+        "passed": true,
+        "reached": true
+      }
+    },
+    "blocked_at": null,
+    "blocking_violations": [],
+    "licensed": true,
+    "principal_execution_licensed": false
+  },
+  "wall_seconds": 16.3,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "b8cf98c1366783296edebcbf5efba7334af9e7fa",
+  "sha256": "8eecde7601148df0fc7053b05e2ca232e9a43c7142d1c06d80c80b141df07530"
+}

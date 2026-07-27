@@ -1,0 +1,15 @@
+{
+  "schema": "mop-substrate-forge-start-authority/v1",
+  "base_commit": "3b86774",
+  "binds": {
+    "evolution_terminal": {
+      "commit": "3b86774",
+      "tag": "mop-autonomous-substrate-terminal"
+    }
+  },
+  "immutable": "all prior terminal evidence immutable",
+  "collapse_branch": "agent/mop-accretion-collapse untouched",
+  "decisive_new_question": "the Evolution program found the continual bottleneck is MEMORY CAPACITY (unbounded 0.764 vs GDumb 0.480, +0.284). The Forge asks: can any BOUNDED representation/compression (coreset, prototype, herding, dual-memory) recover a material fraction of that gap at matched memory bytes and compute? This is NOT learned retrieval (R1/P1R closed) - it tests compression of stored representation.",
+  "session_constraint_note": "executed across bounded interactive turns with detached compute, not a literal 24h daemon; work-floor items pursued in decreasing scientific-value order; no premature global event horizon",
+  "sha256": "34799df0434cda071a7e6434fa1c4cb6f7ba367f39c97221d034a82a71911a6d"
+}

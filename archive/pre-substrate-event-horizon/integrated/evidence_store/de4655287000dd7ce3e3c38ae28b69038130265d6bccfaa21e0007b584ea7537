@@ -1,0 +1,82 @@
+{
+  "schema": "mop-method-code-report/v1",
+  "kernel": {
+    "files": {
+      "src/mop/method/__init__.py": 45,
+      "src/mop/method/acceptance.py": 361,
+      "src/mop/method/arms.py": 186,
+      "src/mop/method/baseline.py": 150,
+      "src/mop/method/bed.py": 190,
+      "src/mop/method/calibration.py": 257,
+      "src/mop/method/contracts.py": 365,
+      "src/mop/method/controls.py": 213,
+      "src/mop/method/defects.py": 296,
+      "src/mop/method/gate.py": 201,
+      "src/mop/method/graph.py": 179,
+      "src/mop/method/hypothesis.py": 96,
+      "src/mop/method/io.py": 67,
+      "src/mop/method/mechanism.py": 75,
+      "src/mop/method/power.py": 121,
+      "src/mop/method/report.py": 184,
+      "src/mop/method/voi.py": 107
+    },
+    "loc": 3093,
+    "budget": 5000,
+    "within_budget": true
+  },
+  "experiment_stages": {
+    "files": {
+      "src/mop/method/runs/__init__.py": 1,
+      "src/mop/method/runs/acceptance_run.py": 145,
+      "src/mop/method/runs/analyze1.py": 204,
+      "src/mop/method/runs/analyze4.py": 202,
+      "src/mop/method/runs/audit.py": 269,
+      "src/mop/method/runs/authorities.py": 248,
+      "src/mop/method/runs/authority.py": 201,
+      "src/mop/method/runs/exp1.py": 548,
+      "src/mop/method/runs/exp4.py": 557,
+      "src/mop/method/runs/fabric.py": 147,
+      "src/mop/method/runs/factorial.py": 138,
+      "src/mop/method/runs/ledger.py": 192,
+      "src/mop/method/runs/locus.py": 125,
+      "src/mop/method/runs/mutations.py": 180,
+      "src/mop/method/runs/reaudit.py": 455,
+      "src/mop/method/runs/reports.py": 238,
+      "src/mop/method/runs/select.py": 324,
+      "src/mop/method/runs/supervisor.py": 142,
+      "src/mop/method/runs/synthesis.py": 266,
+      "src/mop/method/runs/verify.py": 166
+    },
+    "loc": 4748
+  },
+  "method_tests": {
+    "files": {
+      "tests/method/__init__.py": 0,
+      "tests/method/test_defect_regressions.py": 540,
+      "tests/method/test_kernel.py": 544
+    },
+    "loc": 1084,
+    "budget": 5000,
+    "within_budget": true
+  },
+  "maintained_python": {
+    "loc": 24273,
+    "budget": 18000,
+    "within_budget": false
+  },
+  "inherited_implementations_behind_sealed_evidence": {
+    "loc": 9918,
+    "policy": "retained and not deleted. These are the implementations behind sealed immutable receipts; deleting them would make prior evidence unreproducible, which the immutability rule forbids"
+  },
+  "new_cli_commands": 0,
+  "new_configuration_roots": 0,
+  "new_registries": 0,
+  "new_experiment_engines": 0,
+  "entrypoints": [
+    "python -m mop.method.runs.supervisor",
+    "python -m mop.method.runs.<stage>"
+  ],
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "e07b79ea50d0bb4d328816ab617eeb41bffb701984c94a2ed284935b025f4c98"
+}

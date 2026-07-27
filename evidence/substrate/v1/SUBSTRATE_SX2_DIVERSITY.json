@@ -1,0 +1,152 @@
+{
+  "schema": "substrate-sx2-diversity/v1",
+  "bed": "harth_stream",
+  "perspective_set": "the 76 cells of the temporal core factorial",
+  "why_admissible": "each cell is a different architecture, capacity, readout, horizon and reset schedule, each already scored on the same held out units, and none was built to be a perspective set",
+  "n_cells": 76,
+  "n_units": 7,
+  "units": [
+    "S006",
+    "S008",
+    "S009",
+    "S010",
+    "S012",
+    "S013",
+    "S014"
+  ],
+  "diversity_statistics": {
+    "n_cells": 76,
+    "n_units": 7,
+    "mean_pairwise_correlation": 0.939514,
+    "min_pairwise_correlation": 0.490402,
+    "complementary_pairs": 1750,
+    "total_pairs": 2850,
+    "complementary_fraction": 0.614035,
+    "mean_pairwise_disagreement": 0.075138
+  },
+  "best_single_unmatched": {
+    "cell": "gru|medium|linear|horizon_45|h1",
+    "value": 0.945426,
+    "cost": 266198400.0
+  },
+  "k_rows": {
+    "1": {
+      "k": 1,
+      "set_cost": 266198400.0,
+      "oracle_top_k": 0.945426,
+      "oracle_diverse_k": 0.945426,
+      "oracle_random_k": 0.908361,
+      "mean_vote_top_k": 0.945426,
+      "reliability_weighted_top_k": 0.945426,
+      "best_single_unmatched": 0.945426,
+      "strongest_compute_matched_single": {
+        "cell": "gru|medium|linear|horizon_45|h1",
+        "value": 0.945426,
+        "n_affordable": 49
+      },
+      "margin_over_matched_single": 0.0,
+      "clears_sesoi": false
+    },
+    "2": {
+      "k": 2,
+      "set_cost": 526718000.0,
+      "oracle_top_k": 0.94998,
+      "oracle_diverse_k": 0.945426,
+      "oracle_random_k": 0.913858,
+      "mean_vote_top_k": 0.943541,
+      "reliability_weighted_top_k": 0.943545,
+      "best_single_unmatched": 0.945426,
+      "strongest_compute_matched_single": {
+        "cell": "gru|medium|linear|horizon_45|h1",
+        "value": 0.945426,
+        "n_affordable": 59
+      },
+      "margin_over_matched_single": 0.004554,
+      "clears_sesoi": false
+    },
+    "4": {
+      "k": 4,
+      "set_cost": 2736652400.0,
+      "oracle_top_k": 0.950667,
+      "oracle_diverse_k": 0.945426,
+      "oracle_random_k": 0.899117,
+      "mean_vote_top_k": 0.936667,
+      "reliability_weighted_top_k": 0.93672,
+      "best_single_unmatched": 0.945426,
+      "strongest_compute_matched_single": {
+        "cell": "gru|medium|linear|horizon_45|h1",
+        "value": 0.945426,
+        "n_affordable": 73
+      },
+      "margin_over_matched_single": 0.005241,
+      "clears_sesoi": false
+    },
+    "8": {
+      "k": 8,
+      "set_cost": 7749330800.0,
+      "oracle_top_k": 0.952843,
+      "oracle_diverse_k": 0.94998,
+      "oracle_random_k": 0.916732,
+      "mean_vote_top_k": 0.932263,
+      "reliability_weighted_top_k": 0.932311,
+      "best_single_unmatched": 0.945426,
+      "strongest_compute_matched_single": {
+        "cell": "gru|medium|linear|horizon_45|h1",
+        "value": 0.945426,
+        "n_affordable": 74
+      },
+      "margin_over_matched_single": 0.007417,
+      "clears_sesoi": false
+    },
+    "16": {
+      "k": 16,
+      "set_cost": 15066263600.0,
+      "oracle_top_k": 0.953945,
+      "oracle_diverse_k": 0.952843,
+      "oracle_random_k": 0.938572,
+      "mean_vote_top_k": 0.924826,
+      "reliability_weighted_top_k": 0.924918,
+      "best_single_unmatched": 0.945426,
+      "strongest_compute_matched_single": {
+        "cell": "gru|medium|linear|horizon_45|h1",
+        "value": 0.945426,
+        "n_affordable": 76
+      },
+      "margin_over_matched_single": 0.008519,
+      "clears_sesoi": false
+    },
+    "32": {
+      "k": 32,
+      "set_cost": 30071776400.0,
+      "oracle_top_k": 0.95439,
+      "oracle_diverse_k": 0.953945,
+      "oracle_random_k": 0.945998,
+      "mean_vote_top_k": 0.915849,
+      "reliability_weighted_top_k": 0.915992,
+      "best_single_unmatched": 0.945426,
+      "strongest_compute_matched_single": {
+        "cell": "gru|medium|linear|horizon_45|h1",
+        "value": 0.945426,
+        "n_affordable": 76
+      },
+      "margin_over_matched_single": 0.008964,
+      "clears_sesoi": false
+    }
+  },
+  "marginal_value_of_k": {
+    "1_to_2": 0.004554,
+    "2_to_4": 0.000687,
+    "4_to_8": 0.002176,
+    "8_to_16": 0.001102,
+    "16_to_32": 0.000445
+  },
+  "sesoi": 0.05,
+  "k_clearing_sesoi": [],
+  "verdict": "closed_no_headroom",
+  "compute_matching": "selecting among k cells costs k times one cell, so every comparison is against the strongest single cell affordable at the same total cost. The factorial contains larger and longer trained cells, so that alternative is real rather than hypothetical",
+  "reading": "oracle selection is an upper bound that no selector can exceed. If the upper bound does not clear the SESOI over a compute matched single cell, no selector built on this set can, and SX2 closes without training one",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "aaf3cd78ca2d2f5079960bc6a75737c81972035a0eca0acc2ca1f670fdc61859"
+}

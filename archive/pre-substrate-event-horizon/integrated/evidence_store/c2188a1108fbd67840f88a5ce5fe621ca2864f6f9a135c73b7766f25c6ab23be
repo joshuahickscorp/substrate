@@ -1,0 +1,735 @@
+{
+  "schema": "mop-substrate-interference-map/v1",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "directions": [
+    "har->speech",
+    "speech->har"
+  ],
+  "short_horizon_budget": {
+    "second": 150,
+    "return": 60,
+    "adapt": 60
+  },
+  "scored_on": "tuning split, unit disjoint from both training and test",
+  "groups": {
+    "G.adapter": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.0624,
+          "lower_95_cb": 0.0419,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8794,
+        "future_adaptation": 0.1598,
+        "trainable_params": 2778,
+        "compute_seconds": 3.38
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.5069,
+          "lower_95_cb": 0.4689,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7657,
+        "future_adaptation": 0.731,
+        "trainable_params": 2518,
+        "compute_seconds": 1.86
+      }
+    },
+    "G.head": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.0555,
+          "lower_95_cb": 0.0313,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8786,
+        "future_adaptation": 0.1549,
+        "trainable_params": 650,
+        "compute_seconds": 3.26
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.4737,
+          "lower_95_cb": 0.4182,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7679,
+        "future_adaptation": 0.7082,
+        "trainable_params": 390,
+        "compute_seconds": 1.79
+      }
+    },
+    "G.memory_state": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.1768,
+          "lower_95_cb": 0.1424,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.1839,
+          "lower_95_cb": 0.0762,
+          "n": 8
+        },
+        "return_recovery": 0.8776,
+        "future_adaptation": 0.3529,
+        "trainable_params": 25610,
+        "compute_seconds": 4.46
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.6648,
+          "lower_95_cb": 0.6208,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.3367,
+          "lower_95_cb": 0.2621,
+          "n": 8
+        },
+        "return_recovery": 0.7449,
+        "future_adaptation": 0.9218,
+        "trainable_params": 25350,
+        "compute_seconds": 3.56
+      }
+    },
+    "G.norm": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.0554,
+          "lower_95_cb": 0.0313,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.879,
+        "future_adaptation": 0.1564,
+        "trainable_params": 778,
+        "compute_seconds": 3.32
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.478,
+          "lower_95_cb": 0.4223,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7678,
+        "future_adaptation": 0.7143,
+        "trainable_params": 518,
+        "compute_seconds": 1.88
+      }
+    },
+    "G.proj_conv": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.2095,
+          "lower_95_cb": 0.1805,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8805,
+        "future_adaptation": 0.3698,
+        "trainable_params": 7082,
+        "compute_seconds": 4.7
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.6727,
+          "lower_95_cb": 0.6263,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7644,
+        "future_adaptation": 0.9365,
+        "trainable_params": 1862,
+        "compute_seconds": 3.44
+      }
+    },
+    "G.proj_lin": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.1532,
+          "lower_95_cb": 0.1296,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8808,
+        "future_adaptation": 0.2774,
+        "trainable_params": 2762,
+        "compute_seconds": 4.53
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.6267,
+          "lower_95_cb": 0.5786,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7649,
+        "future_adaptation": 0.9259,
+        "trainable_params": 2502,
+        "compute_seconds": 3.38
+      }
+    },
+    "G.shared_fast_core": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.1917,
+          "lower_95_cb": 0.1574,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.1907,
+          "lower_95_cb": 0.1024,
+          "n": 8
+        },
+        "return_recovery": 0.8869,
+        "future_adaptation": 0.3519,
+        "trainable_params": 25610,
+        "compute_seconds": 4.52
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.6511,
+          "lower_95_cb": 0.5947,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.3533,
+          "lower_95_cb": 0.2834,
+          "n": 8
+        },
+        "return_recovery": 0.7481,
+        "future_adaptation": 0.9329,
+        "trainable_params": 25350,
+        "compute_seconds": 3.62
+      }
+    },
+    "H.adapter": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.0125,
+          "lower_95_cb": 0.0043,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8662,
+        "future_adaptation": 0.1025,
+        "trainable_params": 1674,
+        "compute_seconds": 3.33
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.3308,
+          "lower_95_cb": 0.2522,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7701,
+        "future_adaptation": 0.5921,
+        "trainable_params": 1414,
+        "compute_seconds": 1.83
+      }
+    },
+    "H.head": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.011,
+          "lower_95_cb": 0.0027,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8637,
+        "future_adaptation": 0.1032,
+        "trainable_params": 650,
+        "compute_seconds": 3.39
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.2964,
+          "lower_95_cb": 0.232,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7685,
+        "future_adaptation": 0.5179,
+        "trainable_params": 390,
+        "compute_seconds": 1.81
+      }
+    },
+    "H.memory_state": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.1382,
+          "lower_95_cb": 0.1084,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.1765,
+          "lower_95_cb": 0.1046,
+          "n": 8
+        },
+        "return_recovery": 0.8619,
+        "future_adaptation": 0.2516,
+        "trainable_params": 25610,
+        "compute_seconds": 4.87
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.3762,
+          "lower_95_cb": 0.3064,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.4121,
+          "lower_95_cb": 0.2861,
+          "n": 8
+        },
+        "return_recovery": 0.7695,
+        "future_adaptation": 0.652,
+        "trainable_params": 25350,
+        "compute_seconds": 3.59
+      }
+    },
+    "H.norm": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.011,
+          "lower_95_cb": 0.0027,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8637,
+        "future_adaptation": 0.1032,
+        "trainable_params": 650,
+        "compute_seconds": 3.34
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.2964,
+          "lower_95_cb": 0.232,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7685,
+        "future_adaptation": 0.5179,
+        "trainable_params": 390,
+        "compute_seconds": 1.81
+      }
+    },
+    "H.proj_conv": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.1808,
+          "lower_95_cb": 0.163,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8604,
+        "future_adaptation": 0.3393,
+        "trainable_params": 7082,
+        "compute_seconds": 4.82
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.4726,
+          "lower_95_cb": 0.3978,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.7733,
+        "future_adaptation": 0.7697,
+        "trainable_params": 1862,
+        "compute_seconds": 3.42
+      }
+    },
+    "H.proj_lin": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.115,
+          "lower_95_cb": 0.0947,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.8604,
+        "future_adaptation": 0.2376,
+        "trainable_params": 2762,
+        "compute_seconds": 4.53
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.4557,
+          "lower_95_cb": 0.3893,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.0,
+          "lower_95_cb": 0.0,
+          "n": 8
+        },
+        "return_recovery": 0.779,
+        "future_adaptation": 0.7542,
+        "trainable_params": 2502,
+        "compute_seconds": 3.29
+      }
+    },
+    "H.shared_fast_delta": {
+      "har->speech": {
+        "new_domain_gain": {
+          "mean": 0.1287,
+          "lower_95_cb": 0.0995,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.1217,
+          "lower_95_cb": 0.0644,
+          "n": 8
+        },
+        "return_recovery": 0.8725,
+        "future_adaptation": 0.2579,
+        "trainable_params": 25610,
+        "compute_seconds": 4.79
+      },
+      "speech->har": {
+        "new_domain_gain": {
+          "mean": 0.3952,
+          "lower_95_cb": 0.3239,
+          "n": 8
+        },
+        "old_domain_loss": {
+          "mean": 0.3413,
+          "lower_95_cb": 0.208,
+          "n": 8
+        },
+        "return_recovery": 0.7682,
+        "future_adaptation": 0.6474,
+        "trainable_params": 25350,
+        "compute_seconds": 3.58
+      }
+    }
+  },
+  "classification": {
+    "G.adapter": {
+      "mean_new_domain_gain": 0.2847,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8226,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "G.head": {
+      "mean_new_domain_gain": 0.2646,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8233,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "G.memory_state": {
+      "mean_new_domain_gain": 0.4208,
+      "mean_old_domain_loss": 0.2603,
+      "mean_return_recovery": 0.8113,
+      "is_shared_across_domains": true,
+      "enables_acquisition": true,
+      "causes_forgetting": true,
+      "acquires_without_forgetting": false,
+      "transferable": false,
+      "domain_specific": false,
+      "safe_to_reopen": false,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": true
+    },
+    "G.norm": {
+      "mean_new_domain_gain": 0.2667,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8234,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "G.proj_conv": {
+      "mean_new_domain_gain": 0.4411,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8224,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "G.proj_lin": {
+      "mean_new_domain_gain": 0.39,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8229,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "G.shared_fast_core": {
+      "mean_new_domain_gain": 0.4214,
+      "mean_old_domain_loss": 0.272,
+      "mean_return_recovery": 0.8175,
+      "is_shared_across_domains": true,
+      "enables_acquisition": true,
+      "causes_forgetting": true,
+      "acquires_without_forgetting": false,
+      "transferable": false,
+      "domain_specific": false,
+      "safe_to_reopen": false,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": true
+    },
+    "H.adapter": {
+      "mean_new_domain_gain": 0.1716,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8181,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "H.head": {
+      "mean_new_domain_gain": 0.1537,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8161,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "H.memory_state": {
+      "mean_new_domain_gain": 0.2572,
+      "mean_old_domain_loss": 0.2943,
+      "mean_return_recovery": 0.8157,
+      "is_shared_across_domains": true,
+      "enables_acquisition": true,
+      "causes_forgetting": true,
+      "acquires_without_forgetting": false,
+      "transferable": false,
+      "domain_specific": false,
+      "safe_to_reopen": false,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": true
+    },
+    "H.norm": {
+      "mean_new_domain_gain": 0.1537,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8161,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "H.proj_conv": {
+      "mean_new_domain_gain": 0.3267,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8169,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "H.proj_lin": {
+      "mean_new_domain_gain": 0.2853,
+      "mean_old_domain_loss": 0.0,
+      "mean_return_recovery": 0.8197,
+      "is_shared_across_domains": false,
+      "enables_acquisition": true,
+      "causes_forgetting": false,
+      "acquires_without_forgetting": true,
+      "transferable": false,
+      "domain_specific": true,
+      "safe_to_reopen": true,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": false
+    },
+    "H.shared_fast_delta": {
+      "mean_new_domain_gain": 0.262,
+      "mean_old_domain_loss": 0.2315,
+      "mean_return_recovery": 0.8204,
+      "is_shared_across_domains": true,
+      "enables_acquisition": true,
+      "causes_forgetting": true,
+      "acquires_without_forgetting": false,
+      "transferable": false,
+      "domain_specific": false,
+      "safe_to_reopen": false,
+      "should_remain_frozen": false,
+      "acquisition_bought_with_forgetting": true
+    }
+  },
+  "transferable_groups": [],
+  "domain_specific_groups": [
+    "G.adapter",
+    "G.head",
+    "G.norm",
+    "G.proj_conv",
+    "G.proj_lin",
+    "H.adapter",
+    "H.head",
+    "H.norm",
+    "H.proj_conv",
+    "H.proj_lin"
+  ],
+  "forgetting_groups": [
+    "G.memory_state",
+    "G.shared_fast_core",
+    "H.memory_state",
+    "H.shared_fast_delta"
+  ],
+  "safe_to_reopen": [
+    "G.adapter",
+    "G.head",
+    "G.norm",
+    "G.proj_conv",
+    "G.proj_lin",
+    "H.adapter",
+    "H.head",
+    "H.norm",
+    "H.proj_conv",
+    "H.proj_lin"
+  ],
+  "keep_frozen": [],
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
+  "SESOI": 0.05,
+  "sha256": "6929810ef2941e4df0da40cca2bbdd738c764bcde51c51ac96f9599b53223524"
+}

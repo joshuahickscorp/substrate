@@ -1,0 +1,47 @@
+# Temporal core ledger
+
+Stages green: 12 of 15.
+
+{
+ "start_authority": true,
+ "binding_results": true,
+ "data_custody": true,
+ "code_lifecycle": true,
+ "method_extension": true,
+ "e2_calibration": true,
+ "bed_validity": true,
+ "third_bed_preflight": true,
+ "e2_principal": true,
+ "core_selection": true,
+ "successor_gates": true,
+ "mutations": false,
+ "verification": false,
+ "reports": true,
+ "evidence_fabric": false
+}
+
+## Selected core
+
+{
+ "architecture": "gru",
+ "capacity_tier": "small",
+ "owned_parameters": 46300,
+ "core_parameters": 45910,
+ "owned_state": "one recurrent hidden state vector, carried across timesteps within the horizon",
+ "readout": "linear",
+ "horizon": 90,
+ "reset_semantics": "horizon_90",
+ "training_rule": "Adam at 0.003, batch 64, 1200 updates, all declared groups trainable",
+ "adaptation_rule": "none is selected. The E4 state only rule is explicitly not reused",
+ "memory_cost_bytes": 185200,
+ "compute_cost": "see MOP_TEMPORAL_CORE_RESOURCE_REPORT.json",
+ "valid_domains": [
+  "har_stream",
+  "speech_stream",
+  "harth_stream"
+ ]
+}
+
+## Resume
+
+`python3.12 -m mop.temporal.runs.supervisor` resumes from the shard files on disk without replanning.

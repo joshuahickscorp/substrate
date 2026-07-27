@@ -1,0 +1,38 @@
+{
+  "schema": "substrate-body-tool/v1",
+  "body": "tool_dominant_system",
+  "class": "tool",
+  "conformance": {
+    "body": "tool_dominant_system",
+    "mode": "adapter_layer",
+    "implements": [
+      "adaptation_proposal",
+      "checkpoint",
+      "hidden_state",
+      "inference",
+      "memory_request",
+      "resource_report",
+      "selected_activations",
+      "tool_request",
+      "verification_request"
+    ],
+    "missing": [],
+    "declaration_violations": [],
+    "conforms": true,
+    "partial": false
+  },
+  "message_gaps": {},
+  "all_messages_valid": true,
+  "n_parameters": 96,
+  "held_out_accuracy": 0.651163,
+  "views": [
+    "static",
+    "dynamic"
+  ],
+  "tool_dominant": true,
+  "external_blocker": "",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "24b843d63928e48f25cc84d335caa16988065f45",
+  "sha256": "23e1517ee219444da53bfdcfbc383778adf4feec9c2605b94283ca4bcd7121e8"
+}

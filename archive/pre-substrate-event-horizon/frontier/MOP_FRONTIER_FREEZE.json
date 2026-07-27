@@ -1,0 +1,63 @@
+{
+  "schema": "mop-frontier-freeze/v1",
+  "base_commit": "094bdd9",
+  "terminal_negative_routes": {
+    "G1-D1": {
+      "status": "retired_frozen_design",
+      "resurrection": "prohibited"
+    },
+    "G1-U1": {
+      "status": "real_benchmark_canary_null",
+      "detail": "raw uncertainty fails reducibility discrimination; frozen negative control for Lane V"
+    },
+    "G1-N1": {
+      "status": "mnist_positive_then_confirmation_null",
+      "detail": "MNIST canary positive; CIFAR-10 second-source confirmation null"
+    },
+    "G1-R1": {
+      "status": "kmnist_real_data_canary_null",
+      "detail": "no incremental value beyond nearest-similarity retrieval"
+    },
+    "Cluster_B": {
+      "status": "blocked_by_R1_null",
+      "detail": "R1+P1R factorial not licensed"
+    },
+    "historical_G1-I1": {
+      "status": "retired_route",
+      "resurrection": "prohibited"
+    }
+  },
+  "surviving_route": {
+    "G1-P1R": {
+      "status": "positive_not_externally_replicated",
+      "sources_positive": [
+        "split-MNIST canary",
+        "CIFAR-100 same-team cross-architecture",
+        "KMNIST same-team cross-architecture"
+      ],
+      "not": [
+        "externally independently replicated",
+        "activated"
+      ],
+      "open_question": "external / established-method replication under matched memory and compute on a stronger source"
+    }
+  },
+  "unopened_routes_mechanics_only": {
+    "G1-A1": "action",
+    "G1-S1": "simulation",
+    "G1-V1": "verification",
+    "G1-K1": "contradiction repair",
+    "G1-M1": "messaging",
+    "G1-E1": "relational temporal event formation",
+    "G1-C0": "trace stability"
+  },
+  "credit_rule": "unopened routes receive no scientific credit until they independently pass admission, real-data canary, and confirmation gates",
+  "house_rules": [
+    "a tie is a null",
+    "a wrong-direction effect is a failure",
+    "no positive is sealed without independent adversarial verification",
+    "no model or assistant attribution in git",
+    "activation remains false unless separately and explicitly granted"
+  ],
+  "freeze_sha256": "b7ac2a7c121224dec99da41b0bbc5e0c27fd3170f5b25c5ad69a9553a8ff7e51"
+}

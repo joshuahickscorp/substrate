@@ -1,0 +1,32 @@
+{
+  "schema": "mop-fast-state-bidirectional-synthesis/v1",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "directions": [
+    "har->speech",
+    "speech->har"
+  ],
+  "arms_passing_in_both_directions": [],
+  "bidirectional_verdict": "cross_domain_null",
+  "rule": "a return recovery improvement with impaired acquisition is a null; a domain specific improvement that fails in the reverse direction is not a unified cross domain positive",
+  "per_direction_verdicts": {
+    "har->speech": "cross_domain_null",
+    "speech->har": "cross_domain_null"
+  },
+  "per_direction_strongest_baseline": {
+    "har->speech": "fresh_independent",
+    "speech->har": "fresh_independent"
+  },
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
+  "SESOI": 0.05,
+  "sha256": "c2672e839fa5f67517b28e4b1a68af0c9928bed42b15ca114d9e44d970e58e71"
+}

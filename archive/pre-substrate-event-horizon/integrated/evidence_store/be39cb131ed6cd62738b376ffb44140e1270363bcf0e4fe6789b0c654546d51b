@@ -1,0 +1,44 @@
+# Fast State Plasticity Forge ledger
+
+| id | requirement | status | next exact action |
+| --- | --- | --- | --- |
+| R01 | Freeze the inherited interpretation | terminal | none |
+| R02 | Bind the inherited nulls | terminal | none |
+| R03 | Repair cross domain arm aliasing | terminal | none |
+| R04 | Implement and seal Architecture G | terminal | none |
+| R05 | Implement and seal Architecture H | terminal | none |
+| R06 | Baseline convergence curves | terminal | none |
+| R07 | Resource profile | ready | run fastforge.runs.bench |
+| R08 | Within domain battery, HAR | ready | run fastforge.runs.withinrun shards then aggregate |
+| R09 | Within domain battery, Speech | ready | run fastforge.runs.withinrun shards then aggregate |
+| R10 | Cross domain direction 1, HAR to Speech | terminal | none |
+| R11 | Cross domain direction 2, Speech to HAR | terminal | none |
+| R12 | Bidirectional synthesis | terminal | none |
+| R13 | Interference map | terminal | none |
+| R14 | Plasticity action headroom gate | terminal | none |
+| R15 | Architecture improvement rounds | terminal | none |
+| R16 | Functional reorganization | terminal | none |
+| R17 | Task free context inference | terminal | none |
+| R18 | Fast core representation analysis | terminal | none |
+| R19 | Third temporal domain preflight | terminal | none |
+| R20 | Code accounting | terminal | none |
+| R21 | Test report | ready | run fastforge.runs.testreport |
+| R22 | Independent verification | terminal | none |
+| R23 | Mutation suites | terminal | none |
+| R24 | Clean clone validation | ready | run fastforge.runs.cleanclone |
+| R25 | Evidence fabric indexing | terminal | none |
+| R26 | Synthesis and next frontier | ready | run fastforge.runs.synthesis |
+
+## Scores
+
+| dimension | implementation | target | evidence | target |
+| --- | --- | --- | --- | --- |
+| evidence_and_falsification | 100 | 98 | 73 | 95 |
+| orchestration | 60 | 98 | 73 | 95 |
+| failure_understanding | 100 | 98 | 73 | 95 |
+| owned_substrate | 50 | 98 | 10 | 80 |
+| multi_timescale_and_partitioned_plasticity | 100 | 95 |  |  |
+| functional_reorganization | 100 | 85 | 5 | 55 |
+| cross_domain_entity | 100 | 90 | 10 | 65 |
+| useful_plasticity | | | 5 | 60 |
+| partitioned_moldability | | | 15 | 70 |

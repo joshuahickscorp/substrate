@@ -1,0 +1,127 @@
+{
+  "schema": "mop-salvage-inventory/v1",
+  "terminal_verified_evidence": {
+    "horizon_1": {
+      "epochs": 5,
+      "all_seals_verified": true,
+      "chain_linked": true,
+      "executed_mechanics_rungs": 10739,
+      "proof_sealed": true
+    },
+    "horizon_2": {
+      "epochs": 5,
+      "all_seals_verified": true,
+      "chain_linked": true,
+      "executed_mechanics_rungs": 9965,
+      "proof_sealed": true
+    },
+    "total_epochs": 10,
+    "total_executed_mechanics_rungs": 20704,
+    "surviving_mechanics_lanes": [
+      "G1-A1",
+      "G1-C0",
+      "G1-E1",
+      "G1-G1",
+      "G1-K1",
+      "G1-M1",
+      "G1-R1",
+      "G1-S1",
+      "G1-V1"
+    ],
+    "pruned_lanes": [
+      "G1-D1",
+      "G1-I1",
+      "G1-P1"
+    ],
+    "evidence_class": "same-code generated mechanics robustness only (mechanics_noninferential)"
+  },
+  "partial_but_valid_receipts": {
+    "categorized_wave_complete_capsules": 57,
+    "categorized_wave_total_capsules": 59,
+    "capsule_receipts_individually_sealed": true,
+    "note": "the 57 completed categorized-wave capsule receipts are individually valid; the wave as a whole lacks its terminal verify and report, so no wave-level aggregate claim is terminal",
+    "capsules": [
+      "admit_v2",
+      "categorized_wave_aggregate",
+      "classify_retire_old_d1",
+      "freeze_d1_redesign_v2",
+      "i1_classify",
+      "i1_integrate",
+      "screen_d1_redesign_v2",
+      "verify_old_d1",
+      "w01_action_simulation",
+      "w01_classify",
+      "w01_communication_repair",
+      "w01_construction",
+      "w01_dispatch_redesign",
+      "w01_formation_trace",
+      "w01_memory_plasticity",
+      "w02_action_simulation",
+      "w02_classify",
+      "w02_communication_repair",
+      "w02_construction",
+      "w02_dispatch_redesign",
+      "w02_formation_trace",
+      "w02_memory_plasticity",
+      "w03_action_simulation",
+      "w03_classify",
+      "w03_communication_repair",
+      "w03_construction",
+      "w03_dispatch_redesign",
+      "w03_formation_trace",
+      "w03_memory_plasticity",
+      "w04_action_simulation",
+      "w04_classify",
+      "w04_communication_repair",
+      "w04_construction",
+      "w04_dispatch_redesign",
+      "w04_formation_trace",
+      "w04_memory_plasticity",
+      "w05_action_simulation",
+      "w05_classify",
+      "w05_communication_repair",
+      "w05_construction",
+      "w05_dispatch_redesign",
+      "w05_formation_trace",
+      "w05_memory_plasticity",
+      "w06_action_simulation",
+      "w06_classify",
+      "w06_communication_repair",
+      "w06_construction",
+      "w06_dispatch_redesign",
+      "w06_formation_trace",
+      "w06_memory_plasticity",
+      "w07_action_simulation",
+      "w07_classify",
+      "w07_communication_repair",
+      "w07_construction",
+      "w07_dispatch_redesign",
+      "w07_formation_trace",
+      "w07_memory_plasticity"
+    ]
+  },
+  "unverified_artifacts": {
+    "proofs_with_unreproduced_seal": [],
+    "proofs_without_recognized_seal_field_or_unreadable": 64
+  },
+  "incomplete_capsules": {
+    "categorized_wave_incomplete_capsules": {
+      "categorized_wave_report": "pending",
+      "categorized_wave_verify": "running"
+    },
+    "categorized_wave_verify_role": "final independent verification of the whole wave (the stuck capsule)",
+    "categorized_wave_report_role": "the wave report, dependent on verify",
+    "full_generations_wave": "never started (blocked by the stuck verify)"
+  },
+  "invalidated_by_missing_terminal_verification": {
+    "categorized_wave_aggregate_claim": "not terminally verified: the wave verifier never completed, so the wave's aggregate scientific claim cannot be asserted",
+    "full_generations_wave_results": "none (stage never executed)"
+  },
+  "proof_seal_summary": {
+    "total_proofs": 178,
+    "seal_verified": 114,
+    "seal_failed": 0,
+    "no_recognized_seal_or_plain_record": 64
+  },
+  "inventory_sha256": "466fc8da9f7c4fdf6d553be81b7fe09c213df6b39d5cb63d470c82b8f49f8114"
+}

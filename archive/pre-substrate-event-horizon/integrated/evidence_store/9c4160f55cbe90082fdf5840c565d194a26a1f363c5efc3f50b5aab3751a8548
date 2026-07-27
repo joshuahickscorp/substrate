@@ -1,0 +1,13 @@
+{
+  "schema": "mop-method-next-substrate-frontier/v1",
+  "selected_by": "measured information gain over the value queue, not architectural ambition",
+  "surviving_hypotheses": [
+    "H_fast_state",
+    "H_interference"
+  ],
+  "closed_by_this_program": [],
+  "activation": false,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "71b2c411ff60e10dbbcd43fcf4b62abe2a12b1a4e50f128de4e9c8d4a3aa787b"
+}

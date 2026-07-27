@@ -1,0 +1,54 @@
+{
+  "schema": "mop-clusterB-terminal/v1",
+  "program_id": "mop-clusterB-memory-plasticity",
+  "source_commit": "d7f752bcd422a8747cf8ed30edb36cc545bab36c",
+  "mandate": "EXECUTE CLUSTER B AUTONOMOUSLY: R1 ADMISSION, REAL-DATA CANARY, MEMORY-PLASTICITY CLUSTER, AND LICENSED SUCCESSORS",
+  "governing_rule": "only R1 canary_positive licenses the full R1+P1R factorial cluster; if R1 fails validly, run one bounded third-source P1R replication and terminate the cluster path",
+  "third_source": "KMNIST (Kuzushiji-MNIST); grayscale-handwriting FORMAT like MNIST but a genuinely different SOURCE, distinct from the split-MNIST canary source and the CIFAR-100 confirmation source",
+  "gate_result": "R1_canary_null -> factorial Cluster B NOT licensed",
+  "R1_admission": {
+    "classification": "canary_null",
+    "battery_classification": "pruned_mechanism",
+    "clauses_passed": "7/11",
+    "first_failing_clause": "G_noisy_tv",
+    "why_null": "bed is construct-valid (oracle headroom 0.783, decodability real, controls H/I/J pass) but the retrieval mechanism does NOT robustly beat the strongest simple control nearest_similarity: D incremental lower-95CB -0.076, E group lower-95CB -0.076 (between-family SD 0.415), F architecture independence 0/3 capable estimators (knn -0.076, kernel_ridge -0.349, rff_ridge -0.261 all point-negative out of sample), G noisy-TV fails (over-allocates 0.161 of budget to high-similarity-but-useless memory items). The residual-beyond-similarity headroom (0.648) exists in the data but is not robustly learnable by any capable architecture across the independent KMNIST tasks.",
+    "interpretation": "a successful nearest-neighbour lookup is not a novel memory mechanism; here nothing robustly improves on similarity, so R1 is not admitted as a distinct retrieval mechanism on this real third source",
+    "independent_verification": {
+      "independent_mean_effect": 0.648,
+      "producer_mean_effect": 0.632,
+      "agree": true
+    },
+    "result_sha256": "038fa208c102c0cfc802743d7fb22c6071c96ae89e70d3c6b21d5fb2c8746f3f"
+  },
+  "P1R_third_source_replication": {
+    "classification": "same_team_cross_architecture_positive",
+    "battery_classification": "admitted",
+    "clauses_passed": "11/11",
+    "D_incremental_lower95cb": 0.061,
+    "E_group_lower95cb": 0.061,
+    "F_capable_estimators_passing": "3/3",
+    "F_per_arch": {
+      "knn": 0.063,
+      "kernel_ridge": 0.061,
+      "rff_ridge": 0.056
+    },
+    "independent_verification": {
+      "independent_mean_effect": 0.841,
+      "producer_mean_effect": 0.916,
+      "agree": true
+    },
+    "result_sha256": "d5436ceb3d08e4d38635f5daf10bacf8839f41c76738188801c57db737762b9e"
+  },
+  "p1r_evidence_arc": "P1R now positive on three independent sources: MNIST (real-data canary), CIFAR-100 (same_team_cross_architecture), KMNIST (same_team_cross_architecture). Same-team implementations across capable architectures; not full external independent replication.",
+  "cluster_decision": "cluster path TERMINATED. R1 is not licensed, so the R1+P1R factorial (arms A through O) is not run. No construction over unconfirmed memory components. P1R retains its bounded same-team cross-source support; it does not gain a memory-retrieval partner mechanism, because R1 did not clear admission.",
+  "constraints_honored": [
+    "did not rerun or reinterpret N1 or U1 (their terminal results untouched)",
+    "did not use raw uncertainty as a substitute for R1",
+    "third source distinct from canary (split-MNIST) and confirmation (CIFAR-100) sources",
+    "a tie is a null; wrong-direction is failure; SESOI 0.05 applied",
+    "new Cluster B program id and stop switch (~/.mop_clusterB_stop); legacy ~/.mop_autonomy_stop preserved",
+    "positive (P1R replication) independently adversarially verified before sealing"
+  ],
+  "prereg_sha256": "9cef94cc871bb4c300da0f4c1525d6277b69ff1ecef4bd88d0fa69d7b6de3c0b",
+  "terminal_sha256": "a67644e7ba46f011ee17ffb4d0e7af2cb6fc63c1bd6b8d1989cf15a96837c442"
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "mop-substrate-state-inventory/v1",
+  "timescales": {
+    "immediate": "per-sequence GRU fast state (resets at boundaries)",
+    "episodic": "bounded GDumb/reservoir replay memory + local stats",
+    "slow": "owned projection + workspace/module params under eligibility",
+    "policy": "consolidation/eligibility/routing schedule (simple rules)"
+  },
+  "owned": [
+    "projection",
+    "workspace/modules",
+    "fast GRU",
+    "heads"
+  ],
+  "frozen_providers": [
+    "raw flattened pixels (EMNIST/CIFAR)",
+    "HAR 561-d sensor features"
+  ],
+  "no_hidden_global_state": true,
+  "no_untracked_optimizer_state": true,
+  "sha256": "a5b6811fba132c6fa6f6e05f5f496c8c87db53466a0ec10de6a1694a3af533f4"
+}

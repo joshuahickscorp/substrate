@@ -1,0 +1,31 @@
+{
+  "schema": "mop-frontier-campaign-manifest/v1",
+  "program_id": "mop-generation2-scientific-frontier-v1",
+  "run_root": "runs/generation2/mop-generation2-scientific-frontier-v1",
+  "proof_root": "proof/generation2/scientific_frontier",
+  "stop_switch": "~/.mop_scientific_frontier_stop",
+  "stop_semantics": "absent = active; present = halt at next checkpoint",
+  "preserved_legacy_switches": [
+    "~/.mop_autonomy_stop",
+    "~/.mop_clusterB_stop"
+  ],
+  "process_identity": {
+    "supervisor_label": "mop-frontier-supervisor",
+    "process_label_prefix": "mopfrontier",
+    "pid_receipt": "/Users/scammermike/Downloads/mop-scientific-frontier/runs/generation2/mop-generation2-scientific-frontier-v1/pid_receipt.json",
+    "pgid_receipt": "/Users/scammermike/Downloads/mop-scientific-frontier/runs/generation2/mop-generation2-scientific-frontier-v1/pgid_receipt.json",
+    "event_log": "/Users/scammermike/Downloads/mop-scientific-frontier/runs/generation2/mop-generation2-scientific-frontier-v1/events.jsonl",
+    "status_projection": "/Users/scammermike/Downloads/mop-scientific-frontier/runs/generation2/mop-generation2-scientific-frontier-v1/status.json",
+    "resource_authority": "/Users/scammermike/Downloads/mop-scientific-frontier/runs/generation2/mop-generation2-scientific-frontier-v1/resource_profiles.json"
+  },
+  "isolation_proof": {
+    "distinct_program_id": "not reused from mop-generation2-realdata-canary or mop-clusterB-memory-plasticity or any General Run identity",
+    "distinct_run_root": "runs/generation2/... never used by historical runs (runs/ historical roots differ)",
+    "distinct_stop_switch": "~/.mop_scientific_frontier_stop; legacy relaunchers key off ~/.mop_autonomy_stop or ~/.mop_clusterB_stop and cannot signal this campaign",
+    "distinct_status_file": "status.json under the new run root; historical status projections are at other paths and are not read or written by this campaign",
+    "legacy_cannot_adopt": "a legacy relauncher matching on historical program_id/run_root/status path finds none of this campaign's identifiers, so it cannot adopt, signal, overwrite, or confuse it"
+  },
+  "resume_command": "read /Users/scammermike/Downloads/mop-scientific-frontier/MOP_SCIENTIFIC_FRONTIER_STATE.json and continue each lane from its next_exact_action",
+  "inspection_command": "cat /Users/scammermike/Downloads/mop-scientific-frontier/runs/generation2/mop-generation2-scientific-frontier-v1/status.json",
+  "manifest_sha256": "4660733cb22c35d6bade3a74883866aa96f9780cb2a6812ae7bd457c485dde40"
+}

@@ -1,0 +1,241 @@
+{
+  "schema": "substrate-plasticity-system/v1",
+  "levels": [
+    {
+      "name": "state_update",
+      "information_used": "the current observation and the temporal core state",
+      "affected_state": "workspace temporal region",
+      "reversibility": "reversible",
+      "cost": 0.01,
+      "risk": "carries a stale context across a boundary",
+      "verification": "misaligned reset control must lose the effect",
+      "rollback": "reset the region",
+      "speed": "fast",
+      "touches_shared_parameters": false
+    },
+    {
+      "name": "memory_write",
+      "information_used": "one episode",
+      "affected_state": "episodic store",
+      "reversibility": "reversible",
+      "cost": 0.02,
+      "risk": "writes an unverified generated episode",
+      "verification": "promotion requires a verification receipt",
+      "rollback": "quarantine the episode",
+      "speed": "fast",
+      "touches_shared_parameters": false
+    },
+    {
+      "name": "memory_consolidation",
+      "information_used": "a window of episodes",
+      "affected_state": "semantic and procedural stores",
+      "reversibility": "reversible_from_checkpoint",
+      "cost": 0.2,
+      "risk": "consolidates a coincidence into a rule",
+      "verification": "held out transfer test",
+      "rollback": "restore the pre consolidation checkpoint",
+      "speed": "slow",
+      "touches_shared_parameters": false
+    },
+    {
+      "name": "head_update",
+      "information_used": "the current domain only",
+      "affected_state": "the task head",
+      "reversibility": "reversible_from_checkpoint",
+      "cost": 0.3,
+      "risk": "overfits the domain that triggered it",
+      "verification": "held out accuracy on the same domain",
+      "rollback": "restore the previous head",
+      "speed": "fast",
+      "touches_shared_parameters": false
+    },
+    {
+      "name": "adapter_update",
+      "information_used": "the current domain only",
+      "affected_state": "a domain local adapter",
+      "reversibility": "reversible_from_checkpoint",
+      "cost": 0.4,
+      "risk": "leaks a domain specific bias into shared use",
+      "verification": "retention on prior domains",
+      "rollback": "detach the adapter",
+      "speed": "fast",
+      "touches_shared_parameters": false
+    },
+    {
+      "name": "projection_update",
+      "information_used": "several domains",
+      "affected_state": "the shared projection",
+      "reversibility": "reversible_from_checkpoint",
+      "cost": 0.8,
+      "risk": "shifts the representation every domain depends on",
+      "verification": "cross domain retention",
+      "rollback": "restore the previous projection",
+      "speed": "slow",
+      "touches_shared_parameters": true
+    },
+    {
+      "name": "core_update",
+      "information_used": "several domains and repeated evidence",
+      "affected_state": "selected temporal core groups",
+      "reversibility": "reversible_from_checkpoint",
+      "cost": 1.0,
+      "risk": "destabilizes the component the whole substrate reads",
+      "verification": "cross domain retention and an objective drift check",
+      "rollback": "restore the core checkpoint",
+      "speed": "slow",
+      "touches_shared_parameters": true
+    },
+    {
+      "name": "routing_update",
+      "information_used": "measured perspective utility",
+      "affected_state": "the routing weights",
+      "reversibility": "reversible_from_checkpoint",
+      "cost": 0.3,
+      "risk": "locks in a routing that suited one distribution",
+      "verification": "utility beyond fixed and simple routing after cost",
+      "rollback": "restore the previous weights",
+      "speed": "slow",
+      "touches_shared_parameters": false
+    },
+    {
+      "name": "reliability_update",
+      "information_used": "the paired prediction and outcome history",
+      "affected_state": "the reliability table",
+      "reversibility": "reversible",
+      "cost": 0.05,
+      "risk": "an early streak becomes a permanent prior",
+      "verification": "calibration against held out outcomes",
+      "rollback": "recompute from the sealed history",
+      "speed": "fast",
+      "touches_shared_parameters": false
+    },
+    {
+      "name": "structural_slot_activation",
+      "information_used": "repeated failure of every active component",
+      "affected_state": "a preallocated slot",
+      "reversibility": "reversible_from_checkpoint",
+      "cost": 1.0,
+      "risk": "grows capacity instead of fixing the cause",
+      "verification": "the slot must beat the unactivated arm after cost",
+      "rollback": "deactivate the slot",
+      "speed": "slow",
+      "touches_shared_parameters": true
+    }
+  ],
+  "required_declarations": [
+    "information_used",
+    "affected_state",
+    "reversibility",
+    "cost",
+    "risk",
+    "verification",
+    "rollback"
+  ],
+  "all_levels_fully_declared": true,
+  "declaration_violations": [],
+  "fast_mechanisms": [
+    "persistent_state",
+    "working_memory",
+    "temporary_bindings",
+    "prototypes",
+    "domain_local_adapters",
+    "cached_procedures",
+    "active_readout_adaptation"
+  ],
+  "fast_rule": "fast adaptation may not write shared parameters",
+  "slow_targets": [
+    "adapters",
+    "projections",
+    "procedural_memory",
+    "semantic_memory",
+    "reliability_estimates",
+    "selected_core_groups"
+  ],
+  "slow_rule": "repeated evidence, a held out improvement above the SESOI, retention on prior domains and a checkpoint, all four",
+  "policies": [
+    {
+      "name": "fixed_schedule",
+      "trigger": "every k steps",
+      "information_used": [
+        "step_index"
+      ],
+      "learned": false
+    },
+    {
+      "name": "error_triggered",
+      "trigger": "an error above threshold",
+      "information_used": [
+        "error"
+      ],
+      "learned": false
+    },
+    {
+      "name": "boundary_triggered",
+      "trigger": "a declared context boundary",
+      "information_used": [
+        "boundary"
+      ],
+      "learned": false
+    },
+    {
+      "name": "verification_triggered",
+      "trigger": "a verification receipt",
+      "information_used": [
+        "verification"
+      ],
+      "learned": false
+    },
+    {
+      "name": "domain_local",
+      "trigger": "a change confined to the active domain",
+      "information_used": [
+        "domain"
+      ],
+      "learned": false
+    },
+    {
+      "name": "adapter_only",
+      "trigger": "adapters and nothing else",
+      "information_used": [
+        "target_class"
+      ],
+      "learned": false
+    },
+    {
+      "name": "head_only",
+      "trigger": "heads and nothing else",
+      "information_used": [
+        "target_class"
+      ],
+      "learned": false
+    },
+    {
+      "name": "state_only",
+      "trigger": "state and nothing else",
+      "information_used": [
+        "target_class"
+      ],
+      "learned": false
+    },
+    {
+      "name": "learned",
+      "trigger": "a learned controller",
+      "information_used": [
+        "full_history"
+      ],
+      "learned": true
+    }
+  ],
+  "learned_policy_closure": {
+    "hypothesis": "H_learned_plasticity_policy",
+    "verdict": "null",
+    "finding": "no stable headroom, simple policy sufficient",
+    "authority": "historical:fast_state_binding_nulls",
+    "key": "inherited_nulls.learned_plasticity"
+  },
+  "sesoi": 0.05,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "08348972aa497d22ac48ffbc0d701d30bc538c7322a4509a5f5b35a3907d3b2a"
+}

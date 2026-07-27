@@ -1,0 +1,112 @@
+{
+  "schema": "mop-fast-state-memory-defect-impact/v1",
+  "defect": "the replay buffer gated admission on a free slot, so once it reached capacity no later item was admitted and the GDumb rebalance only ever saw what arrived first",
+  "found_by": "a unit test written for the coverage target, not by the science",
+  "every_sealed_run_used_the_legacy_buffer": true,
+  "why_arm_comparisons_stay_internally_fair": "the same buffer was used by every arm at the same capacity, so the comparison between arms was not biased toward any of them. What is at stake is the absolute strength of the replay baselines.",
+  "buffer_diversity_probe": {
+    "legacy": {
+      "retained": 600,
+      "distinct_source_rows": 600,
+      "max_source_row_index": 599.0,
+      "classes_present": 6
+    },
+    "fixed": {
+      "retained": 600,
+      "distinct_source_rows": 600,
+      "max_source_row_index": 2996.0,
+      "classes_present": 6
+    }
+  },
+  "domain": "har",
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "arms": [
+    "lstm_gdumb",
+    "G0_always_trainable",
+    "reservoir"
+  ],
+  "accuracy_by_policy": {
+    "lstm_gdumb": {
+      "legacy": [
+        0.7801,
+        0.8687,
+        0.961,
+        0.867,
+        0.7414
+      ],
+      "fixed": [
+        0.7801,
+        0.6645,
+        0.9738,
+        0.9434,
+        0.7414
+      ]
+    },
+    "G0_always_trainable": {
+      "legacy": [
+        0.9568,
+        0.966,
+        0.9862,
+        0.9973,
+        0.8795
+      ],
+      "fixed": [
+        0.9568,
+        0.9739,
+        0.9786,
+        0.997,
+        0.8795
+      ]
+    },
+    "reservoir": {
+      "legacy": [
+        0.9308,
+        0.9673,
+        0.9817,
+        0.8468,
+        0.814
+      ],
+      "fixed": [
+        0.9308,
+        0.9673,
+        0.9817,
+        0.8468,
+        0.814
+      ]
+    }
+  },
+  "fixed_minus_legacy": {
+    "lstm_gdumb": {
+      "mean": -0.023,
+      "lower_95_cb": -0.11,
+      "n": 5
+    },
+    "G0_always_trainable": {
+      "mean": -0.0,
+      "lower_95_cb": -0.0045,
+      "n": 5
+    },
+    "reservoir": {
+      "mean": 0.0,
+      "lower_95_cb": 0.0,
+      "n": 5
+    }
+  },
+  "material_at_SESOI": {
+    "lstm_gdumb": false,
+    "G0_always_trainable": false,
+    "reservoir": false
+  },
+  "verdict": "memory_defect_immaterial",
+  "wall_seconds": 829.4,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "361ef0c8572ba50ea8c177a57e0741694781837a",
+  "SESOI": 0.05,
+  "sha256": "f7c505000bb1f0acf438ba775266c6cebc83482598ee57f1e24b030f2561439a"
+}

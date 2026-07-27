@@ -1,0 +1,3 @@
+# Owned Substrate v0 Spec
+
+Implemented and tested; NO candidate selected (both architectures null vs strong matched baselines). Owned: trainable projection, latent workspace/modules, slow representation, fast GRU state, heads. Four timescales: immediate fast state, episodic memory (GDumb), slow params, policy schedule (simple). Controllers are simple (GDumb memory, EWC consolidation, context/sparse routing, all-update plasticity); no learned controller opened (no headroom). Evidence ceiling: no owned architecture beats GRU+GDumb on cost-adjusted moldability at matched budget on EMNIST or HAR. Activation false.

@@ -1,0 +1,172 @@
+{
+  "bed": "harth_stream",
+  "spec": {
+    "family": "tcn",
+    "tier": "micro",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "tcn|micro|linear|none|h1",
+  "curve": {
+    "400": 0.899,
+    "800": 0.9634900000000001,
+    "1600": 0.98463,
+    "3200": 0.9846533333333333
+  },
+  "seed_spread": {
+    "400": 0.05021,
+    "800": 0.02912,
+    "1600": 0.00445,
+    "3200": 0.00644
+  },
+  "seed_scores": {
+    "400": [
+      0.88101,
+      0.86026,
+      0.95573
+    ],
+    "800": [
+      0.93291,
+      0.96667,
+      0.99089
+    ],
+    "1600": [
+      0.97975,
+      0.98846,
+      0.98568
+    ],
+    "3200": [
+      0.97722,
+      0.98846,
+      0.98828
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.88101,
+        "checkpoint_sha": "8c281017603c113312e7a49bba72d0c180643c989f4f94ff2dfb05f0fb9f975e"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.86026,
+        "checkpoint_sha": "e57bfeb05f293d50a6ce4f1ee5752d57a54d10fc267f78ccd63f954983190a84"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.95573,
+        "checkpoint_sha": "c8fe87f9a851a7a6f0498b3a12756699aa525ff49f4c44ed8357d420f388ad24"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.93291,
+        "checkpoint_sha": "641bd372f3908885f6e03dadf9818562af349a1249c00bd2dee40e12f0a6efbb"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.96667,
+        "checkpoint_sha": "42e11b011f078041651e717479642f2c9c5c3ff3886ef7ff81e05a6e2ce9b91b"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.99089,
+        "checkpoint_sha": "8fc9c0b81b79195adcf5c0638d36e8e1e1b12a29878c655703500f4c9c900778"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.97975,
+        "checkpoint_sha": "96039a0fb1b2d8cd5d533ed6f17f159db5a9559ecb73d29dc51dde56d28b8295"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.98846,
+        "checkpoint_sha": "02a9a3b20622550307531432aa19e97f72ca9579773610e4e82ba4f1df6f84e1"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.98568,
+        "checkpoint_sha": "df1cffa0a50d1516548923e2eeadec5d61bc8be3a4fd32a9f6c93c3da36c46bb"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.97722,
+        "checkpoint_sha": "ac9e54288d0dce5cb2e232d67299b31938cdd963b9f7eebbcf09ec5a1c8ed1aa"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.98846,
+        "checkpoint_sha": "785dbbf49d96c59b332a035d0170e14763ba2b76a7053b8dd55a63d7fb01ba8d"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.98828,
+        "checkpoint_sha": "16cbb69e063ccf217208a52c98dc727506cbbd15b7d5fdd9a08bfc8221390214"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 10744,
+    "readout": 390,
+    "total": 11134
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.899,
+    0.96349,
+    0.98463,
+    0.98465
+  ],
+  "best_budget": 3200,
+  "selected_checkpoint": 3200,
+  "second_half_movement": 2e-05,
+  "residual_slope": 2.3e-05,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 260.6,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0fbe01b989ef45254c911f8be40d38cd84b2aec0",
+  "source_tree_oid": "2147d9abe411edeb814a8898ff94c5eb4c9407c3",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "fa7e493e95485b4e052ca08e1df70530d07e1b85015d1a08e25b20839fb71538"
+}

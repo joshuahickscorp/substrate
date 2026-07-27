@@ -1,0 +1,18 @@
+{
+  "schema": "mop-gen2-claim-boundary/v1",
+  "mop_claims": [
+    "robust seeded experimental mechanics across many mechanism families",
+    "a calibrated, construct-validity-checked admission battery that prunes null/oracle-free beds",
+    "real-data canary and same-team cross-architecture evidence for P1R",
+    "a work-conserving resource-token DAG orchestration layer"
+  ],
+  "mop_does_not_claim": [
+    "any externally independently replicated mechanism",
+    "any mechanism with incremental value beyond strong established controls that survives external test",
+    "any licensed cluster, construction, integration, or activation",
+    "that P1R is a competitive replay method (it is not, vs GDumb)"
+  ],
+  "strongest_surviving_hypothesis": "P1R is the strongest surviving internal hypothesis: three same-team benchmark positives (split-MNIST, CIFAR-100, KMNIST), bounded by a stronger external replication null (EMNIST), with no construction, integration, or activation license.",
+  "activation": false,
+  "sha256": "427dfea92820fa70583b95fd3113903f959ff53db95505ebf4d4d50840cec7d6"
+}

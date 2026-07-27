@@ -1,0 +1,37 @@
+{
+  "schema": "mop-temporal-orchestration-incident/v1",
+  "classification": "supervisor_process_group_handoff_terminated_active_children",
+  "trigger": "old supervisor could not see append-only convergence indices 11 through 28",
+  "attempt": {
+    "supervisor_pid": 37819,
+    "signal": "TERM",
+    "active_child_identities": [
+      "xshard_har_stream_6",
+      "xshard_har_stream_7",
+      "xshard_speech_stream_6",
+      "xshard_speech_stream_7",
+      "xshard_harth_stream_6",
+      "xshard_harth_stream_7"
+    ],
+    "elapsed_minutes": 45
+  },
+  "outcome": {
+    "receipts_landed": 0,
+    "partial_receipts": [],
+    "child_processes_remained_alive": false,
+    "exit_codes": "unavailable after process-group termination"
+  },
+  "scientific_consequence": "none: atomic writers landed no result and all six identities remain missing",
+  "repair": "resume all identities from committed authority 05af7a9; future handoffs must preserve the terminal process group",
+  "retries_pending": [
+    "xshard_har_stream_6",
+    "xshard_har_stream_7",
+    "xshard_speech_stream_6",
+    "xshard_speech_stream_7",
+    "xshard_harth_stream_6",
+    "xshard_harth_stream_7"
+  ],
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "05af7a91ecd65aff1bcd3d5b0b669d33659a1f80",
+  "result_sha256": "ff5c52d555e894d72f634a493accf811812cc1d0f11bcb8ca821b1b99a7f3cc2"
+}

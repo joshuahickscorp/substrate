@@ -1,0 +1,370 @@
+{
+  "schema": "mop-substrate-hypothesis-graph/v1",
+  "states": [
+    "unopened",
+    "headroom_pending",
+    "instrument_pending",
+    "admitted",
+    "supported",
+    "mixed",
+    "null",
+    "harm",
+    "invalid",
+    "superseded",
+    "closed"
+  ],
+  "hypotheses": [
+    {
+      "id": "H_fast_state",
+      "premise": "a fast recurrent state is the component that carries the useful temporal capability",
+      "predecessor": null,
+      "support": [
+        "inherited timescale ablation: fast state is the only timescale with a positive contribution, +0.063"
+      ],
+      "contradictions": [
+        "cross domain transfer of the shared fast core is null in both directions",
+        "the within domain battery is null, but only on beds that do not require dynamics"
+      ],
+      "required_bed": "a bed sealed temporal_headroom_present",
+      "required_headroom": "residual headroom over the strongest order free and readout matched control",
+      "strongest_baseline": "matched capacity conventional recurrent model",
+      "cheapest_falsifier": "a core by readout factorial on a valid temporal bed",
+      "dependent_hypotheses": [
+        "H_readout_capacity",
+        "H_shared_core_capacity"
+      ],
+      "requires_premise_of": [],
+      "state": "supported",
+      "results": [
+        {
+          "hypothesis": "H_fast_state",
+          "verdict": "supported",
+          "experiment": "E1",
+          "evidence": {
+            "prediction": "fast beats pooled at both readouts, and fast beats the misaligned reset control",
+            "supported_on": {
+              "har_stream": true,
+              "speech_stream": true
+            },
+            "supported_everywhere": true
+          }
+        },
+        {
+          "hypothesis": "H_fast_state",
+          "verdict": "supported",
+          "experiment": "E4",
+          "evidence": {
+            "prediction": "state_only recovers a real share of full acquisition and keeps more retention than core_only",
+            "supported_on": {
+              "speech_stream": true,
+              "har_stream": true
+            },
+            "supported_everywhere": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "H_readout_capacity",
+      "premise": "the measured advantage of the owned substrate comes from readout capacity, not from state",
+      "predecessor": "H_fast_state",
+      "support": [
+        "never separated: every prior arm changed core and readout together"
+      ],
+      "contradictions": [],
+      "required_bed": "a bed sealed temporal_headroom_present",
+      "required_headroom": "any measurable difference between the two factors",
+      "strongest_baseline": "simple core with strong readout",
+      "cheapest_falsifier": "the same factorial, read along the readout axis",
+      "dependent_hypotheses": [],
+      "requires_premise_of": [],
+      "state": "null",
+      "results": [
+        {
+          "hypothesis": "H_readout_capacity",
+          "verdict": "null",
+          "experiment": "E1",
+          "evidence": {
+            "prediction": "mlp beats linear at both cores, and fast does not beat pooled",
+            "supported_on": {
+              "har_stream": false,
+              "speech_stream": false
+            },
+            "supported_everywhere": false
+          }
+        },
+        {
+          "hypothesis": "H_readout_capacity",
+          "verdict": "null",
+          "experiment": "E4",
+          "evidence": {
+            "prediction": "head_only alone explains the adaptation gain",
+            "supported_on": {
+              "speech_stream": false,
+              "har_stream": false
+            },
+            "supported_everywhere": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "H_shared_core_capacity",
+      "premise": "shared core capacity moves the acquisition retention frontier rather than scaling both",
+      "predecessor": "H_fast_state",
+      "support": [],
+      "contradictions": [
+        "matched capacity conventional baselines were never beaten"
+      ],
+      "required_bed": "a bed sealed temporal_headroom_present with two contexts",
+      "required_headroom": "a frontier that moves, not two curves that scale together",
+      "strongest_baseline": "matched capacity separate per context models",
+      "cheapest_falsifier": "three capacities against matched separate models",
+      "dependent_hypotheses": [],
+      "requires_premise_of": [],
+      "state": "null",
+      "results": [
+        {
+          "hypothesis": "H_shared_core_capacity",
+          "verdict": "null",
+          "experiment": "E1",
+          "evidence": {
+            "prediction": "no cell separates, because capacity is matched and capacity is what mattered",
+            "supported_on": {
+              "har_stream": false,
+              "speech_stream": false
+            },
+            "supported_everywhere": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "H_domain_specific_representation",
+      "premise": "no transferable temporal structure exists because representations are domain specific",
+      "predecessor": null,
+      "support": [
+        "cross domain null in both directions",
+        "secondary matrix null on two strongly temporal beds"
+      ],
+      "contradictions": [],
+      "required_bed": "two beds from different modalities",
+      "required_headroom": "an oracle that shows any transferable component at all",
+      "strongest_baseline": "fresh independent per domain",
+      "cheapest_falsifier": "causal parameter group interventions on the shared groups",
+      "dependent_hypotheses": [],
+      "requires_premise_of": [],
+      "state": "null",
+      "results": [
+        {
+          "hypothesis": "H_domain_specific_representation",
+          "verdict": "null",
+          "experiment": "E4",
+          "evidence": {
+            "prediction": "head_only matches full and state_only matches no_adapt",
+            "supported_on": {
+              "speech_stream": false,
+              "har_stream": false
+            },
+            "supported_everywhere": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "H_interference",
+      "premise": "shared updates interfere destructively and that interference is the binding constraint",
+      "predecessor": null,
+      "support": [
+        "the interference map attributes forgetting to the shared groups"
+      ],
+      "contradictions": [
+        "simple fixed partitioning already removes it and does not produce a gain"
+      ],
+      "required_bed": "a bed with two contexts and a return phase",
+      "required_headroom": "a partition oracle above SESOI",
+      "strongest_baseline": "simple fixed partition",
+      "cheapest_falsifier": "adaptation locus factorial: state only, head only, adapter only, core, full",
+      "dependent_hypotheses": [],
+      "requires_premise_of": [],
+      "state": "supported",
+      "results": [
+        {
+          "hypothesis": "H_interference",
+          "verdict": "supported",
+          "experiment": "E4",
+          "evidence": {
+            "prediction": "core_only acquires most and retains least, and every restricted locus sits on a better frontier",
+            "supported_on": {
+              "speech_stream": true,
+              "har_stream": true
+            },
+            "supported_everywhere": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "H_bed_insufficiency",
+      "premise": "the nulls are explained by beds that never required the capability under test",
+      "predecessor": null,
+      "support": [
+        "har and speech carry the sealed verdict invalid_no_temporal_headroom",
+        "the principal matrix and the within domain battery ran on exactly those beds"
+      ],
+      "contradictions": [
+        "the secondary matrix is null on two beds sealed temporal_headroom_present"
+      ],
+      "required_bed": "a bed sealed temporal_headroom_present",
+      "required_headroom": "not applicable: this hypothesis is about the bed, not the mechanism",
+      "strongest_baseline": "the same arms on a valid bed",
+      "cheapest_falsifier": "rerun the unmeasured within domain cell on har_stream and speech_stream",
+      "dependent_hypotheses": [
+        "H_fast_state"
+      ],
+      "requires_premise_of": [],
+      "state": "null",
+      "results": [
+        {
+          "hypothesis": "H_bed_insufficiency",
+          "verdict": "null",
+          "experiment": "E1",
+          "evidence": {
+            "prediction": "pooled matches fast, so the bed does not require order after all",
+            "supported_on": {
+              "har_stream": false,
+              "speech_stream": false
+            },
+            "supported_everywhere": false
+          }
+        },
+        {
+          "hypothesis": "H_bed_insufficiency",
+          "verdict": "null",
+          "experiment": "E4",
+          "evidence": {
+            "prediction": "no locus moves acquisition at all, because there is nothing to adapt to",
+            "supported_on": {
+              "speech_stream": false,
+              "har_stream": false
+            },
+            "supported_everywhere": false
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "n": 6,
+    "by_state": {
+      "supported": [
+        "H_fast_state",
+        "H_interference"
+      ],
+      "null": [
+        "H_readout_capacity",
+        "H_shared_core_capacity",
+        "H_domain_specific_representation",
+        "H_bed_insufficiency"
+      ]
+    },
+    "open": [],
+    "terminal": [
+      "H_fast_state",
+      "H_readout_capacity",
+      "H_shared_core_capacity",
+      "H_domain_specific_representation",
+      "H_interference",
+      "H_bed_insufficiency"
+    ]
+  },
+  "updates": [
+    {
+      "hypothesis": "H_fast_state",
+      "new_state": "supported",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [],
+      "still_open": [
+        "H_readout_capacity",
+        "H_shared_core_capacity",
+        "H_interference",
+        "H_bed_insufficiency"
+      ]
+    },
+    {
+      "hypothesis": "H_readout_capacity",
+      "new_state": "null",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [],
+      "still_open": [
+        "H_shared_core_capacity",
+        "H_interference",
+        "H_bed_insufficiency"
+      ]
+    },
+    {
+      "hypothesis": "H_bed_insufficiency",
+      "new_state": "null",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [
+        "H_fast_state"
+      ],
+      "still_open": [
+        "H_shared_core_capacity",
+        "H_interference"
+      ]
+    },
+    {
+      "hypothesis": "H_shared_core_capacity",
+      "new_state": "null",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [],
+      "still_open": [
+        "H_interference"
+      ]
+    },
+    {
+      "hypothesis": "H_fast_state",
+      "new_state": "supported",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [],
+      "still_open": [
+        "H_interference"
+      ]
+    },
+    {
+      "hypothesis": "H_interference",
+      "new_state": "supported",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [],
+      "still_open": []
+    },
+    {
+      "hypothesis": "H_domain_specific_representation",
+      "new_state": "null",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [],
+      "still_open": []
+    },
+    {
+      "hypothesis": "H_readout_capacity",
+      "new_state": "null",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [],
+      "still_open": []
+    },
+    {
+      "hypothesis": "H_bed_insufficiency",
+      "new_state": "null",
+      "closed_descendants": [],
+      "independent_descendants_left_open": [
+        "H_fast_state"
+      ],
+      "still_open": []
+    }
+  ],
+  "rule": "a null closes only the descendants that require the failed premise",
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "d337d2881b56a8d27ddeba4953ebb14d06f48b389f5970f5f92bc6b807fbd6c5"
+}

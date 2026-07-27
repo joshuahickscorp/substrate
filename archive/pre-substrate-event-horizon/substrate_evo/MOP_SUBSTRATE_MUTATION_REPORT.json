@@ -1,0 +1,7 @@
+{
+  "schema": "mutation/v1",
+  "required": false,
+  "reason": "no positive to defend; all architectures null",
+  "status": "terminal_vacuous",
+  "sha256": "a5dc9e50c3a749808c05be48145300aa92cdb66ce69c139def7cdb1e2902b18a"
+}

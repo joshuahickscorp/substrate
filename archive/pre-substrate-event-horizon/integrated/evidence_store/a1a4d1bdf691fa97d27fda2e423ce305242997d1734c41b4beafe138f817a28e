@@ -1,0 +1,172 @@
+{
+  "bed": "speech_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "large",
+    "readout": "mlp_strong",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "histmlp|large|mlp_strong|none|h1",
+  "curve": {
+    "400": 0.11953666666666667,
+    "800": 0.12191,
+    "1600": 0.10896666666666667,
+    "3200": 0.10890333333333334
+  },
+  "seed_spread": {
+    "400": 0.01877,
+    "800": 0.01642,
+    "1600": 0.01819,
+    "3200": 0.02578
+  },
+  "seed_scores": {
+    "400": [
+      0.13947,
+      0.10221,
+      0.11693
+    ],
+    "800": [
+      0.12982,
+      0.13288,
+      0.10303
+    ],
+    "1600": [
+      0.12544,
+      0.08944,
+      0.11202
+    ],
+    "3200": [
+      0.13684,
+      0.08603,
+      0.10384
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.13947,
+        "checkpoint_sha": "25e1846362152e40a59da76b15e92b1e3515b6b8f84241bfa65c19a4669b981f"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.10221,
+        "checkpoint_sha": "892ec537d829ac5dbdc926c1897b228bcd97cea4ae056658f2721ada76c6c05e"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.11693,
+        "checkpoint_sha": "7426275ac05022a94776a4fa22eed6804f6d14618b36b08a8ab068554835827f"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.12982,
+        "checkpoint_sha": "e8b2fec32abefea33b773d7504978309e7ba26208d0d08212ca42e7463e10796"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.13288,
+        "checkpoint_sha": "e06c9094372e432b91e020c3561614b48a252c52c6cd11ff15784548bcce72d9"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.10303,
+        "checkpoint_sha": "dbce9ccf8f4a8988d5271b2e15fbc0c75900b30c98dcb8ec36bf54886a550915"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.12544,
+        "checkpoint_sha": "783522d202f38c1fdb0fb0fb38ed326a5d948680b64bc8eba32873e04100e886"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.08944,
+        "checkpoint_sha": "8aa36f3447c0ca60a35579982b2e0ff8a6fdc71be3afb919229bec6d0a7d63bf"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.11202,
+        "checkpoint_sha": "62c96350fdc032bd65e538b6efb430997781fcae3f267ee610714c56c1c8fe20"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.13684,
+        "checkpoint_sha": "973c5a6bd4752af76684f1e6c4a8a2ed8dfe9f839078bbfdd876514e751f5a23"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.08603,
+        "checkpoint_sha": "6253e2584d89a6a246fbc1bc3636619e9e61d7e187363c59c0f9f4eeef769bda"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.10384,
+        "checkpoint_sha": "0f97e5b82076ffff9f2b23be57c7f0e6aaa4072d0f5d5c22f7007f481bccb206"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 644974,
+    "readout": 85002,
+    "total": 729976
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.11954,
+    0.12191,
+    0.10897,
+    0.1089
+  ],
+  "best_budget": 800,
+  "selected_checkpoint": 800,
+  "second_half_movement": 6e-05,
+  "residual_slope": -6.3e-05,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 113.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e25cb6d827bcb7dcfde8b027d8d7c746ef9502b",
+  "source_tree_oid": "ec983509fee77f03b2cb3fed3f6ae53899daefaf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "aeb873a2c70f261d2289640488c080682c636cc80549f962ddc4b0b2215b6539"
+}

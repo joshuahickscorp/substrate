@@ -1,0 +1,32 @@
+{
+  "schema": "mop-integrated-evidence-accounting/v1",
+  "artifacts": 134,
+  "unique_objects": 134,
+  "unique_bytes": 47917433,
+  "duplicate_bytes_eliminated": 0,
+  "index_bytes_added": 81292,
+  "sets": {
+    "collapse": {
+      "count": 60,
+      "bytes": 682239,
+      "merkle_root": "55b01c32558144a8cac81f66c1ff2d14899f13b18a9bed82f58ace63bdc156df"
+    },
+    "substrate": {
+      "count": 1,
+      "bytes": 94801,
+      "merkle_root": "04c6d1ba089e271a5db4113234e7c33139be7fc0307806738e4fb6da0b66b975"
+    },
+    "campaign": {
+      "count": 37,
+      "bytes": 34951944,
+      "merkle_root": "df3f8e983ee5820cbd9cb9e6fb39c43667325e23469dbcbbfb0265bece607680"
+    },
+    "historical": {
+      "count": 36,
+      "bytes": 12188449,
+      "merkle_root": "74363115841c147145a16d71064c1cd188bec32fa3ddc462e5bacfece7e0d3c9"
+    }
+  },
+  "note": "content store is additive; originals untouched and exactly recoverable",
+  "sha256": "eb5f8c232335abe37ea98ded22380ef3bf37edc21f26f9a6db28dcb37b5cd031"
+}

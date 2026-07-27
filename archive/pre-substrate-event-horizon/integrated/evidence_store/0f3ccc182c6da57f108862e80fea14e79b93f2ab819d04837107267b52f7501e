@@ -1,0 +1,334 @@
+{
+  "schema": "mop-method-reformation-synthesis/v1",
+  "terminal_questions": {
+    "1 which historical defects are now automatically detectable": [
+      "D1",
+      "D10",
+      "D11",
+      "D12",
+      "D13",
+      "D14",
+      "D15",
+      "D16",
+      "D17",
+      "D18",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "D6",
+      "D7",
+      "D8",
+      "D9"
+    ],
+    "2 which remain manually detectable only": [],
+    "3 can an aliased arm reach principal execution": false,
+    "4 can an inactive mechanism reach principal execution": false,
+    "5 can a semantically invalid control reach principal execution": false,
+    "6 can an unconverged baseline produce a verdict": false,
+    "7 can a missing report key pass": false,
+    "8 can a report reference the wrong baseline": false,
+    "9 can human prose soften a sealed verdict": false,
+    "10 can reviewer consensus override a reproduced defect": false,
+    "11 how many invalid runs were prevented": 208,
+    "12 how much compute was avoided": {
+      "principal_runs_that_would_have_been_invalid": 208,
+      "updates_avoided": 249600,
+      "wall_seconds_avoided_at_measured_optimum": 650.8,
+      "basis": "measured aggregate throughput from the resource report at the measured optimum worker count",
+      "caveat": "this counts runs the gate stopped before they were spent, not a projection of future savings"
+    },
+    "13 did coverage meet the target": true,
+    "14 was the Fast State Forge terminal evidence preserved": true,
+    "15 did the reaudit find new load bearing issues": [
+      "R1",
+      "R2"
+    ],
+    "16 which hypotheses remain open": [],
+    "17 which were closed": [
+      "H_fast_state",
+      "H_readout_capacity",
+      "H_shared_core_capacity",
+      "H_domain_specific_representation",
+      "H_interference",
+      "H_bed_insufficiency"
+    ],
+    "18 which two experiments had the highest information value": [
+      "E1",
+      "E4"
+    ],
+    "19 were their instruments valid": {
+      "E1": true,
+      "E4": true
+    },
+    "20 were their beds valid": "har_stream and speech_stream carry the inherited sealed verdict temporal_headroom_present",
+    "23 what did the scouts establish": {
+      "E1:har_stream": {
+        "cell_means": {
+          "pooled_linear": 0.43864,
+          "pooled_mlp": 0.43593,
+          "fast_linear": 0.89167,
+          "fast_mlp": 0.89268,
+          "reset3_linear": 0.89891,
+          "reset3_mlp": 0.88558,
+          "reset5_linear": 0.76046,
+          "reset5_mlp": 0.75302
+        },
+        "residual_headroom_over_strongest_control": {
+          "mean": 0.46027,
+          "lower_95_cb": 0.43673,
+          "n_seeds": 5
+        },
+        "oracle_headroom": 0.46298
+      },
+      "E1:speech_stream": {
+        "cell_means": {
+          "pooled_linear": 0.23809,
+          "pooled_mlp": 0.21226,
+          "fast_linear": 0.72715,
+          "fast_mlp": 0.74105,
+          "reset3_linear": 0.73602,
+          "reset3_mlp": 0.75773,
+          "reset5_linear": 0.12545,
+          "reset5_mlp": 0.13164
+        },
+        "residual_headroom_over_strongest_control": {
+          "mean": 0.51964,
+          "lower_95_cb": 0.47122,
+          "n_seeds": 5
+        },
+        "oracle_headroom": 0.63228
+      },
+      "E4:har_stream": {
+        "oracle_headroom": {
+          "mean": 0.38796,
+          "lower_95_cb": 0.27963,
+          "n_seeds": 5
+        },
+        "acquisition_means": {
+          "no_adapt": 0.53582,
+          "state_only": 0.66535,
+          "state_noise": 0.53892,
+          "head_only": 0.81772,
+          "adapter_only": 0.82582,
+          "core_only": 0.91907,
+          "full": 0.92377
+        },
+        "retention_means": {
+          "no_adapt": 0.84803,
+          "state_only": 0.80245,
+          "state_noise": 0.85054,
+          "head_only": 0.7827,
+          "adapter_only": 0.78439,
+          "core_only": 0.83585,
+          "full": 0.83195
+        },
+        "residual_state_only_over_no_adapt": {
+          "mean": 0.12953,
+          "lower_95_cb": 0.0177,
+          "n_seeds": 5
+        }
+      },
+      "E4:speech_stream": {
+        "oracle_headroom": {
+          "mean": 0.2714,
+          "lower_95_cb": 0.12948,
+          "n_seeds": 5
+        },
+        "acquisition_means": {
+          "no_adapt": 0.4342,
+          "state_only": 0.52181,
+          "state_noise": 0.42093,
+          "head_only": 0.58035,
+          "adapter_only": 0.57788,
+          "core_only": 0.71043,
+          "full": 0.7056
+        },
+        "retention_means": {
+          "no_adapt": 0.68154,
+          "state_only": 0.5477,
+          "state_noise": 0.67814,
+          "head_only": 0.56685,
+          "adapter_only": 0.55479,
+          "core_only": 0.6595,
+          "full": 0.65037
+        },
+        "residual_state_only_over_no_adapt": {
+          "mean": 0.08761,
+          "lower_95_cb": 0.02892,
+          "n_seeds": 5
+        }
+      }
+    },
+    "24 what did the principal experiments establish": {
+      "E1": [
+        "H_fast_state"
+      ],
+      "E4": [
+        "H_fast_state",
+        "H_interference"
+      ]
+    },
+    "30 is any substrate mechanism scientifically positive": {
+      "E1": [
+        "har_stream:core_effect_at_linear",
+        "har_stream:core_effect_at_mlp",
+        "har_stream:long_range_state_at_linear",
+        "har_stream:long_range_state_at_mlp",
+        "speech_stream:best_cell_over_external_baseline",
+        "speech_stream:core_effect_at_linear",
+        "speech_stream:core_effect_at_mlp",
+        "speech_stream:long_range_state_at_linear",
+        "speech_stream:long_range_state_at_mlp"
+      ],
+      "E4": [
+        "har_stream:acquisition_contrasts:adapter_only_vs_no_adapt",
+        "har_stream:acquisition_contrasts:core_only_vs_no_adapt",
+        "har_stream:acquisition_contrasts:full_vs_no_adapt",
+        "har_stream:acquisition_contrasts:head_only_vs_no_adapt",
+        "har_stream:acquisition_contrasts:state_only_vs_no_adapt",
+        "har_stream:acquisition_contrasts:state_only_vs_state_noise",
+        "speech_stream:acquisition_contrasts:adapter_only_vs_no_adapt",
+        "speech_stream:acquisition_contrasts:core_only_vs_no_adapt",
+        "speech_stream:acquisition_contrasts:full_vs_no_adapt",
+        "speech_stream:acquisition_contrasts:head_only_vs_no_adapt",
+        "speech_stream:acquisition_contrasts:state_only_vs_no_adapt",
+        "speech_stream:acquisition_contrasts:state_only_vs_state_noise"
+      ]
+    },
+    "31 is any architecture selected": false,
+    "32 is activation licensed": false,
+    "33 what claims remain forbidden": [
+      "any owned architecture beats strong matched baselines",
+      "shared fast dynamics transfer across modalities",
+      "a learned plasticity gate is licensed",
+      "functional self reorganization is evidenced",
+      "activation is licensed",
+      "the Fast State Forge nulls were caused by the beds alone",
+      "any result here licenses an architecture selection"
+    ]
+  },
+  "acceptance": {
+    "calibration": {
+      "positive_passes": true,
+      "null_fails_positive_gate": true,
+      "harm_triggers_harm_classification": true,
+      "invalid_bed_does_not_become_mechanism_null": true,
+      "no_headroom_bed_becomes_invalid": true,
+      "leakage_is_rejected": true,
+      "arm_aliasing_is_rejected": true,
+      "inactive_mechanism_is_rejected": true,
+      "weak_estimator_distinguished_from_mechanism_failure": true,
+      "unconverged_baseline_blocks_comparison": true,
+      "wrong_control_is_rejected": true,
+      "all_pass": true
+    },
+    "mutations_rejected": true,
+    "n_mutations": 20,
+    "every_ledger_class_has_a_mutation": true,
+    "green": true
+  },
+  "reaudit": {
+    "findings": [
+      "R1",
+      "R2",
+      "R3"
+    ],
+    "load_bearing": [
+      "R1",
+      "R2"
+    ],
+    "classification_counts": {
+      "fully_valid": [
+        "functional_reorganization",
+        "improvement_rounds",
+        "plasticity_policy",
+        "secondary_matrix",
+        "task_free_context",
+        "third_domain_preflight"
+      ],
+      "valid_with_nonloadbearing_issue": [],
+      "requires_append_only_correction": [
+        "cross_domain_matrix",
+        "within_domain_battery"
+      ],
+      "invalid_instrument": [],
+      "scientifically_unresolved": []
+    }
+  },
+  "independent_verification": true,
+  "independent_audit": true,
+  "code": {
+    "kernel": 3103,
+    "experiment_stages": 4777,
+    "method_tests": 1091,
+    "maintained_python": 24319
+  },
+  "scorecard": {
+    "schema": "mop-method-reformation-scorecard/v1",
+    "implementation": {
+      "instrument_validity": 100,
+      "arm_distinctness": 100,
+      "control_validity": 100,
+      "mechanism_activity": 100,
+      "bed_validity": 100,
+      "baseline_convergence": 100,
+      "power_validity": 100,
+      "independent_verification": 100,
+      "report_integrity": 100,
+      "defect_detection": 100,
+      "experiment_information_value": 100,
+      "compute_efficiency": 100
+    },
+    "implementation_minimum": 100,
+    "demonstrated": {
+      "all_historical_defect_mutations_rejected": true,
+      "zero_unknown_experimental_classifications": true,
+      "zero_unresolved_report_fields": true,
+      "zero_principal_runs_with_invalid_instrumentation": true,
+      "coverage_targets_met": true,
+      "confirmed_defects_open": 0
+    },
+    "defects_caught_before_principal_execution": 17,
+    "defects_caught_after_execution_before_claim": 3,
+    "invalid_runs_prevented": {
+      "blocked": [
+        {
+          "experiment": "E1",
+          "defect": "the reset control at period three lands exactly on the stream segment boundaries, so it was an oracle segmented control read as a neutral ablation",
+          "caught_at": "scout, before principal execution",
+          "runs_that_would_have_been_invalid": 96,
+          "repair": "a misaligned period five control was added and the alignment declared as a confounder"
+        },
+        {
+          "experiment": "E4",
+          "defect": "the state mechanism moved the representation toward zero rather than toward the pretrained anchor, so it could only have produced a null",
+          "caught_at": "admission, mechanism activity probe, before principal execution",
+          "runs_that_would_have_been_invalid": 112,
+          "repair": "the anchor is measured at the end of pretraining and the state aims at it"
+        },
+        {
+          "experiment": "E1",
+          "defect": "two interventions in the causal graph had no implemented causal path to any mediator",
+          "caught_at": "causal model, before any compute",
+          "runs_that_would_have_been_invalid": 0,
+          "repair": "the representation and logits mediators were added, which is what the code actually does"
+        }
+      ],
+      "count": 3,
+      "principal_runs_prevented_from_being_invalid": 208
+    },
+    "compute_avoided": {
+      "principal_runs_that_would_have_been_invalid": 208,
+      "updates_avoided": 249600,
+      "wall_seconds_avoided_at_measured_optimum": 650.8,
+      "basis": "measured aggregate throughput from the resource report at the measured optimum worker count",
+      "caveat": "this counts runs the gate stopped before they were spent, not a projection of future savings"
+    }
+  },
+  "activation": false,
+  "wall_seconds": 0.0,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "cdbe5ddb5a55722803fbaed58b7cdf1162034a6175481ea820f8e0182b8a6271"
+}

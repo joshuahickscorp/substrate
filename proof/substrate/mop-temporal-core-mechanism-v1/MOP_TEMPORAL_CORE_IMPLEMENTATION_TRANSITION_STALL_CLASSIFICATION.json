@@ -1,0 +1,213 @@
+{
+  "schema": "mop-temporal-implementation-transition/v1",
+  "reason": "replace age-only stall false positives with process-activity classification",
+  "old_implementation": {
+    "source_commit": "51e1d1307871991561b77c91d467e09cf12b729a",
+    "source_tree_oid": "fb4b14672e6dbdbf8570f66db624899a9c802539"
+  },
+  "new_implementation": {
+    "source_commit": "d68e6611d5dcc1078d059b8ce59448e3f02e1192",
+    "source_tree_oid": "fe0fe5931dc2b8f435b864bd0e2ed41e5100b3ed"
+  },
+  "scientific_manifest": [
+    {
+      "path": "src/mop/temporal/factorial.py",
+      "old_blob": "014303669e4766ef0eb5b58ca8d81f0aa94c6af4",
+      "new_blob": "014303669e4766ef0eb5b58ca8d81f0aa94c6af4"
+    },
+    {
+      "path": "src/mop/temporal/beds.py",
+      "old_blob": "b735340d3f8751f28ba9c3f9d6a630559b4316fe",
+      "new_blob": "b735340d3f8751f28ba9c3f9d6a630559b4316fe"
+    },
+    {
+      "path": "src/mop/temporal/analysis.py",
+      "old_blob": "64bf698e9c65832463864355cdfc4f968f2f830c",
+      "new_blob": "64bf698e9c65832463864355cdfc4f968f2f830c"
+    },
+    {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "old_blob": "e5b65534d07896bfb9aeefbc32d1f17f236464d6",
+      "new_blob": "e5b65534d07896bfb9aeefbc32d1f17f236464d6"
+    },
+    {
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "old_blob": "8b27a4ed1386d59f4e350b3c80eafff2aaa63248",
+      "new_blob": "8b27a4ed1386d59f4e350b3c80eafff2aaa63248"
+    }
+  ],
+  "scientific_manifest_unchanged": true,
+  "repaired_code_paths": [
+    {
+      "path": "src/mop/temporal/runs/supervisor.py",
+      "old_blob": "1e8a4d81cbf252767aa1576b20095c4bab8dbb32",
+      "new_blob": "f68fa21bb2ed06ac768a7320aaba50716e055625"
+    },
+    {
+      "path": "tests/temporal/test_stall_detection.py",
+      "old_blob": "2480f2129258fcb2da091062eb92b00e4f756c8d",
+      "new_blob": "f5d843a6169a9e61da2eeb488de03c8411adfa35"
+    }
+  ],
+  "live_re_adoption": {
+    "supervisor_pid": 46797,
+    "active_worker_count": 16,
+    "active_worker_locks": [
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_0.json",
+        "sha256": "7d2361821435226a9102d662c87fab1d37b9c9fa64f910650fa592132b80005d",
+        "pid": 36124,
+        "tag": "p:har_stream_0",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_1.json",
+        "sha256": "695b3aec5f4fcf9db1e18538bdc3c14ce1b76dc79b7cad310689e1c6be3bc23d",
+        "pid": 36131,
+        "tag": "p:har_stream_1",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_2.json",
+        "sha256": "028132c32865a6792ffbac8de71e558b6fce1b1752f34d2675d692074c5afbc2",
+        "pid": 36137,
+        "tag": "p:har_stream_2",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_3.json",
+        "sha256": "6136aea24f1afb2600e6aed3d5282881d6b2861bff8cf182e79053a76f76de35",
+        "pid": 36143,
+        "tag": "p:har_stream_3",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_4.json",
+        "sha256": "5475367e385d861fc03172e0cbd3cc15b45cfcc0b4f32868f168521a45bc6ca4",
+        "pid": 36149,
+        "tag": "p:har_stream_4",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_5.json",
+        "sha256": "fa42b352b56f15a79511e1e44394210d0fac39e3dbc2a3f4d5dde4233f4a8c32",
+        "pid": 36156,
+        "tag": "p:har_stream_5",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_6.json",
+        "sha256": "b5fca5dbc43d3dc7ab2879fb7c50a2cede04f49b646fbd0c0e051b19f5107747",
+        "pid": 36165,
+        "tag": "p:har_stream_6",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_har_stream_7.json",
+        "sha256": "13f373161cfc8a84e9ba7ecf0519346d9f08a7d84944bc3af1e8560ec1a5dcbd",
+        "pid": 36173,
+        "tag": "p:har_stream_7",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_0.json",
+        "sha256": "4ba5d72463c2eebfd5722fdace020889aa241268b187b2d866d9446b57a7f5f2",
+        "pid": 36181,
+        "tag": "p:speech_stream_0",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_1.json",
+        "sha256": "e994ca387e62dcc4993914dde678a87eb4e7d9e31a8cc30882deb5ba3ba50ab2",
+        "pid": 36189,
+        "tag": "p:speech_stream_1",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_2.json",
+        "sha256": "2982778df74ed4a4812241cb5ed1e0aff0a8f575ade6caf8887bb0f52c360fce",
+        "pid": 36197,
+        "tag": "p:speech_stream_2",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_3.json",
+        "sha256": "13f1ab6cf27063937036cb1c77c61208f4c0f4fd4da6b3480b885e70f9aacf2d",
+        "pid": 36206,
+        "tag": "p:speech_stream_3",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_4.json",
+        "sha256": "df9f4ddfef74d62d27ac733fec4dbeb2434a3278f6e3c888d3f0797f23ad81fc",
+        "pid": 36217,
+        "tag": "p:speech_stream_4",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_5.json",
+        "sha256": "f84cceb0ed23a86d923ea52a30bf391e7c20113bdf04bf9936dcbcf51ee84f6c",
+        "pid": 36226,
+        "tag": "p:speech_stream_5",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_6.json",
+        "sha256": "605b2788ecdbccef1e58989ac6696f15b295b65b0fbea2e6b84048057cf95434",
+        "pid": 36235,
+        "tag": "p:speech_stream_6",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/locks/p_speech_stream_7.json",
+        "sha256": "c5a38a4aa187ee82c0aa392e1e0dc70a1f9d5a645fc363db99a9434299ae3be2",
+        "pid": 36242,
+        "tag": "p:speech_stream_7",
+        "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+        "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+      }
+    ],
+    "worker_implementation_preserved": true,
+    "duplicate_worker_identities": [],
+    "stalled_workers": [],
+    "long_running_active_worker_count": 16,
+    "partial_receipts": [],
+    "deterministic_failure_holds": []
+  },
+  "test_evidence": {
+    "full_temporal_and_method_suite": "passed",
+    "stall_regressions": "passed",
+    "code_accounting": {
+      "new_e2_loc": 2461,
+      "new_e2_target": 2500,
+      "active_runtime_plus_substrate_loc": 6128,
+      "active_runtime_target": 8000
+    }
+  },
+  "release": {
+    "queue_resume_licensed": true,
+    "single_launch_authority_verified": true
+  },
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "d68e6611d5dcc1078d059b8ce59448e3f02e1192",
+  "source_tree_oid": "fe0fe5931dc2b8f435b864bd0e2ed41e5100b3ed",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "f77a6d1d1371d3334d5326ed2664e4efafcb979bb1fad0b8bf84a5ae7bacae3f"
+}

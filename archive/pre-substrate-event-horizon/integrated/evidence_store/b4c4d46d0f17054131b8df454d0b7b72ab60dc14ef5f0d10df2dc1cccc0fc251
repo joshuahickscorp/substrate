@@ -1,0 +1,113 @@
+{
+  "schema": "mop-power-and-sequential-design/v1",
+  "stages": [
+    "calibration",
+    "scout",
+    "canary",
+    "principal",
+    "replication"
+  ],
+  "stage_rule": "a stage opens only when the previous one passed",
+  "decision_rule": "positive requires the lower 95 percent bound over independent units to reach the SESOI; a tie is a null; a wrong direction effect is a failure; seeds may not be added after a near miss unless the continuation rule was sealed in advance",
+  "per_experiment": {
+    "E1:har_stream": {
+      "name": "E1:har_stream",
+      "independent_unit": "subject",
+      "expected_sd": 0.03084,
+      "sesoi": 0.05,
+      "minimum_detectable_effect": 0.02066,
+      "adequately_powered": true,
+      "seeds": 8,
+      "units": 9,
+      "max_seeds": 8,
+      "futility_boundary": 0.01,
+      "harm_boundary": 0.05,
+      "continuation_boundary": "none: the seed count is fixed before the first run",
+      "multiplicity": 1,
+      "bonferroni_sesoi": 0.05,
+      "decision_rule": "positive requires lower_95_cb >= sesoi over independent units; a tie is a null; an effect in the wrong direction is a failure; seeds may not be added after the fact",
+      "stages": [
+        "calibration",
+        "scout",
+        "canary",
+        "principal",
+        "replication"
+      ]
+    },
+    "E1:speech_stream": {
+      "name": "E1:speech_stream",
+      "independent_unit": "speaker",
+      "expected_sd": 0.0262,
+      "sesoi": 0.05,
+      "minimum_detectable_effect": 0.01756,
+      "adequately_powered": true,
+      "seeds": 8,
+      "units": 63,
+      "max_seeds": 8,
+      "futility_boundary": 0.01,
+      "harm_boundary": 0.05,
+      "continuation_boundary": "none: the seed count is fixed before the first run",
+      "multiplicity": 1,
+      "bonferroni_sesoi": 0.05,
+      "decision_rule": "positive requires lower_95_cb >= sesoi over independent units; a tie is a null; an effect in the wrong direction is a failure; seeds may not be added after the fact",
+      "stages": [
+        "calibration",
+        "scout",
+        "canary",
+        "principal",
+        "replication"
+      ]
+    },
+    "E4:har_stream": {
+      "name": "E4:har_stream",
+      "independent_unit": "subject",
+      "expected_sd": 0.07463,
+      "sesoi": 0.05,
+      "minimum_detectable_effect": 0.03226,
+      "adequately_powered": true,
+      "seeds": 16,
+      "units": 6,
+      "max_seeds": 16,
+      "futility_boundary": 0.01,
+      "harm_boundary": 0.05,
+      "continuation_boundary": "none: the seed count is fixed before the first run",
+      "multiplicity": 1,
+      "bonferroni_sesoi": 0.05,
+      "decision_rule": "positive requires lower_95_cb >= sesoi over independent units; a tie is a null; an effect in the wrong direction is a failure; seeds may not be added after the fact",
+      "stages": [
+        "calibration",
+        "scout",
+        "canary",
+        "principal",
+        "replication"
+      ]
+    },
+    "E4:speech_stream": {
+      "name": "E4:speech_stream",
+      "independent_unit": "speaker",
+      "expected_sd": 0.10988,
+      "sesoi": 0.05,
+      "minimum_detectable_effect": 0.07361,
+      "adequately_powered": false,
+      "seeds": 8,
+      "units": 6,
+      "max_seeds": 8,
+      "futility_boundary": 0.01,
+      "harm_boundary": 0.05,
+      "continuation_boundary": "none: the seed count is fixed before the first run",
+      "multiplicity": 1,
+      "bonferroni_sesoi": 0.05,
+      "decision_rule": "positive requires lower_95_cb >= sesoi over independent units; a tie is a null; an effect in the wrong direction is a failure; seeds may not be added after the fact",
+      "stages": [
+        "calibration",
+        "scout",
+        "canary",
+        "principal",
+        "replication"
+      ]
+    }
+  },
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "32e03545cf7f9c5d24dfe4cee0a79d40edd320bb8e61759b6140dd370526293e"
+}

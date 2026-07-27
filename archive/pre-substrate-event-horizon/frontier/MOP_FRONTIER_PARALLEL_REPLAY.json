@@ -1,0 +1,142 @@
+{
+  "schema": "mop-frontier-parallel-replay/v1",
+  "scheduler": "resource-token DAG, work-conserving, host 28 cpu / 96 GB",
+  "measured_slowdown_used": {
+    "1": 1.0,
+    "2": 1.026,
+    "3": 1.119,
+    "4": 1.223
+  },
+  "modeled_parallel_wall_seconds": 3499.9,
+  "serial_sum_wall_seconds": 3892.6,
+  "scientific_critical_path": {
+    "length_seconds": 3140.8,
+    "path": [
+      "emnist_dl",
+      "lane_P",
+      "synthesis"
+    ]
+  },
+  "peak_concurrency": 6,
+  "average_concurrency": 1.24,
+  "timeline": [
+    {
+      "cid": "authority",
+      "class": "report",
+      "t_start": 0.0,
+      "t_end": 6.0,
+      "concurrency": 1,
+      "authority": "frontier-authority"
+    },
+    {
+      "cid": "emnist_dl",
+      "class": "download",
+      "t_start": 0.0,
+      "t_end": 120.0,
+      "concurrency": 2,
+      "authority": "emnist"
+    },
+    {
+      "cid": "adm_V",
+      "class": "torch_train",
+      "t_start": 6.0,
+      "t_end": 306.52,
+      "concurrency": 2,
+      "authority": "G1-V1"
+    },
+    {
+      "cid": "adm_K",
+      "class": "torch_train",
+      "t_start": 6.0,
+      "t_end": 368.67,
+      "concurrency": 3,
+      "authority": "G1-K1"
+    },
+    {
+      "cid": "adm_M",
+      "class": "torch_train",
+      "t_start": 6.0,
+      "t_end": 97.11,
+      "concurrency": 4,
+      "authority": "G1-M1"
+    },
+    {
+      "cid": "adm_E",
+      "class": "torch_train",
+      "t_start": 6.0,
+      "t_end": 50.27,
+      "concurrency": 5,
+      "authority": "G1-E1"
+    },
+    {
+      "cid": "adm_A",
+      "class": "control_arm",
+      "t_start": 6.0,
+      "t_end": 14.0,
+      "concurrency": 6,
+      "authority": "G1-A1"
+    },
+    {
+      "cid": "adm_S",
+      "class": "control_arm",
+      "t_start": 14.0,
+      "t_end": 22.0,
+      "concurrency": 6,
+      "authority": "G1-S1"
+    },
+    {
+      "cid": "adm_C",
+      "class": "numpy_battery",
+      "t_start": 50.27,
+      "t_end": 50.37,
+      "concurrency": 5,
+      "authority": "G1-C0"
+    },
+    {
+      "cid": "lane_P",
+      "class": "memory_heavy_cl",
+      "t_start": 120.0,
+      "t_end": 3496.92,
+      "concurrency": 3,
+      "authority": "G1-P1R"
+    },
+    {
+      "cid": "verify_adm",
+      "class": "small_verify",
+      "t_start": 368.67,
+      "t_end": 370.67,
+      "concurrency": 2,
+      "authority": "verify"
+    },
+    {
+      "cid": "synthesis",
+      "class": "aggregation",
+      "t_start": 3496.92,
+      "t_end": 3499.92,
+      "concurrency": 1,
+      "authority": "terminal-synthesis"
+    }
+  ],
+  "status_projection": {
+    "total": 12,
+    "ready": 0,
+    "running": 0,
+    "blocked": 0,
+    "held": 0,
+    "completed": 12,
+    "pruned": 0
+  },
+  "observed_admissions_wall_seconds": 727.7,
+  "note": "The ideal parallel schedule runs all seven admissions concurrently with Lane P; the scientific critical path is Lane P (the single longest capsule), so the corrected wall time approaches Lane P's duration rather than the sum of independent lanes. The v1->audit->v2 rework in the observed run was a correctness event, not a scheduling one, and is excluded from the ideal model.",
+  "admissions_speedup_vs_observed": 2.25,
+  "decomposed_lane_p": {
+    "note": "Lane P split into 5 seeds x 6 methods (30 torch capsules), shared init per seed, parallel method branches, concurrent seeds. Scientific budgets unchanged (same init, data, task order, update and memory budgets per method); only wall-clock start times differ.",
+    "modeled_parallel_wall_seconds": 1226.3,
+    "serial_sum_wall_seconds": 3924.8,
+    "peak_concurrency": 7,
+    "average_concurrency": 3.81,
+    "speedup_vs_observed_excl_rework": 3.15,
+    "speedup_vs_observed_incl_rework": 6.23
+  },
+  "sha256": "6f4d2b7c4fa71bdc603755114519c8077c0f67f52e4ed1abc24c0043a6bbed6f"
+}

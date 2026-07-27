@@ -1,0 +1,20 @@
+{
+  "schema": "mop-temporal-deterministic-failure-hold/v1",
+  "stage": "e2_converge_corrections",
+  "identity": "convergence_harth_stream",
+  "state": "implementation_change_required",
+  "error_code": "missing_arm_records",
+  "error_fingerprint": "2c6c62359fa86da347d3a4bb8e0661540852c218f1be97f4f761200a53db379e",
+  "observed_identical_failures_minimum": 78,
+  "implementation_authority": {
+    "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+    "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf"
+  },
+  "release_rule": "retry prohibited until source_commit or source_tree_oid changes",
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "259ab6a6f8bf61279aabc67498f77a89649547d4835c04deeb312840abf01085"
+}

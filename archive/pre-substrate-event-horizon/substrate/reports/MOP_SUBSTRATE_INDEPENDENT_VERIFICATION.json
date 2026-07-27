@@ -1,0 +1,33 @@
+{
+  "schema": "mop-substrate-independent-verification/v1",
+  "domains": {
+    "emnist": {
+      "sealed": "substrate_candidate_null",
+      "independent": "substrate_candidate_null",
+      "match": true,
+      "receipt_intact": true,
+      "best_baseline_recount": "gru_gdumb",
+      "A_util_gap": -0.0184,
+      "B_util_gap": -0.0878,
+      "not_solely_replay": {
+        "A_full_vs_A_nomem": 0.1048,
+        "B_full_vs_B_nomem": 0.0678
+      }
+    },
+    "har_class": {
+      "sealed": "substrate_candidate_null",
+      "independent": "substrate_candidate_null",
+      "match": true,
+      "receipt_intact": true,
+      "best_baseline_recount": "gru_gdumb",
+      "A_util_gap": 0.1121,
+      "B_util_gap": -0.078,
+      "not_solely_replay": {
+        "A_full_vs_A_nomem": 0.279,
+        "B_full_vs_B_nomem": 0.1837
+      }
+    }
+  },
+  "all_consistent": true,
+  "sha256": "686880b53f4b3aef1b22b82f9904b964e7ba3682bb94a149b4ac4a7e8fe26cd2"
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "mop-temporal-receipt-migration/v1",
+  "source_path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge_extended/xshard_har_stream_12.json",
+  "source_sha256": "01356e3fa26d89c06497e1a380150dd21aeb89d3944721ba4a2aca225eca789b",
+  "kind": "extended_convergence",
+  "normalized_contract": {
+    "version": "mop-temporal-receipt-contract/v1",
+    "kind": "extended_convergence",
+    "projection": "raw_arm_grid"
+  },
+  "normalization": "append only metadata sidecar; source receipt bytes unchanged",
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "b558d89aaaa838fb910ddf6689fa85a8fa8060a5",
+  "source_tree_oid": "be4c52abf8e156173ef2d3301a381e665b96b985",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "837ca3f0f9c2862cb522c9e1ae01f4d2df887a00b9e1278a4e9a535b638d2e6f"
+}

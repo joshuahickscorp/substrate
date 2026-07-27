@@ -1,0 +1,15 @@
+{
+  "schema": "mop-temporal-receipt-quarantine/v2",
+  "stage": "e2_converge_corrections",
+  "identity": "convergence_harth_stream",
+  "original_path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge_corrections/convergence_harth_stream.json",
+  "quarantine_path": "runs/substrate/mop-temporal-core-mechanism-v1/quarantine/invalid_receipts/e2_converge_corrections_convergence_harth_stream_57f52aa5a2cf.json",
+  "sha256": "57f52aa5a2cf31fd17f8fa5c4c799faeef7e49a180bff26c07b70114333d39b7",
+  "classification": "invalid_receipts_excluded_pending_replacement",
+  "preservation": "append only move; original bytes retained at quarantine_path",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "7a0282bb8fd51b3c9b12894509d1f9965f576f99cd1ceb14377bc6d1305c2db4"
+}

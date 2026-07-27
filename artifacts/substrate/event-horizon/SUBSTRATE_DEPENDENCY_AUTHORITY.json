@@ -1,0 +1,128 @@
+{
+  "schema": "substrate-dependency-authority/v1",
+  "before": {
+    "runtime_direct": 8,
+    "runtime": [
+      "torch",
+      "numpy",
+      "omegaconf",
+      "pyyaml",
+      "matplotlib",
+      "faiss-cpu",
+      "psutil",
+      "setproctitle"
+    ],
+    "optional_packages": 6,
+    "development": 3
+  },
+  "after": {
+    "runtime_direct": 1,
+    "runtime": [
+      {
+        "name": "numpy",
+        "classification": "load_bearing",
+        "import_locations": [
+          "src/substrate/experiments.py",
+          "src/substrate/metacog.py",
+          "src/substrate/perspectives.py"
+        ],
+        "runtime_role": "deterministic arrays, statistics, and fitted controls",
+        "license": "BSD-3-Clause",
+        "reproducibility_consequence": "locked by uv.lock"
+      }
+    ],
+    "development": [
+      {
+        "name": "pytest",
+        "classification": "test_only",
+        "license": "MIT"
+      },
+      {
+        "name": "ruff",
+        "classification": "development_only",
+        "license": "MIT"
+      },
+      {
+        "name": "mypy",
+        "classification": "development_only",
+        "license": "MIT"
+      }
+    ],
+    "clean_environment_installed_packages_including_project": 14
+  },
+  "removed": [
+    {
+      "name": "torch",
+      "classification": "historical",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "omegaconf",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "pyyaml",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "matplotlib",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "faiss-cpu",
+      "classification": "historical",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "psutil",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "setproctitle",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "transformers",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "huggingface-hub",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "hnswlib",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "mlx",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "torchvision",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    },
+    {
+      "name": "av",
+      "classification": "unused",
+      "reason": "no active Substrate import or runtime role"
+    }
+  ],
+  "runtime_direct_reduction": {
+    "count": 7,
+    "percent": 87.5
+  },
+  "single_lockfile": "uv.lock",
+  "source_commit": "26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c",
+  "activation": false,
+  "sha256": "3e76d8fb88ffa500019870145d17d74ad779f59e74238469bfb0669d09252785"
+}

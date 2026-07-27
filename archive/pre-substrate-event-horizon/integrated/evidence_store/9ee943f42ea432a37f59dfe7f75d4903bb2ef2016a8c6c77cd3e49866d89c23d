@@ -1,0 +1,29 @@
+{
+  "schema": "mop-fast-state-next-frontier/v1",
+  "closed_by_this_program": [
+    "next activity prediction on scripted or free living accelerometry as a temporal bed, on two independent datasets, for the same reason both times: the set of values in a window carries the answer and their order does not",
+    "cross domain transfer of a shared fast temporal core between sensor and audio, under every update partition tested, in both directions",
+    "interference gated adaptation as a route to safe shared plasticity",
+    "bounded and reversible shared plasticity as a route to safe shared plasticity",
+    "next activity prediction on scripted accelerometry as a temporal bed",
+    "next activity prediction on free living accelerometry as a temporal bed"
+  ],
+  "open": [
+    "domain pairs that share temporal structure rather than merely both being sequences",
+    "whether the fast state advantage measured within a domain is a property of the core or of the readout, which this program did not separate",
+    "whether a larger shared core changes the transfer answer, which capacity matched comparison cannot decide on its own"
+  ],
+  "not_reopened": [
+    "architecture E compression",
+    "architecture F predictive consolidation",
+    "shared medium state",
+    "learned replay, retrieval, simulation",
+    "PAMAP2 window classification",
+    "adding seeds to the inherited A-T no slow near miss"
+  ],
+  "activation": false,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "e5ac6045edada3c0ea8bdaa4442d4b51f1034a9b",
+  "SESOI": 0.05,
+  "sha256": "0481ec9792762f674ef086e97808cf05e337b7bce0829746a14684d5bfd8ab60"
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "mop-experiment-value-queue/v2-temporal",
+  "gates": {
+    "E3_shared_versus_local": {
+      "condition": "an E2 core positive exists and either capacity increases forgetting or bed heterogeneity indicates domain specific representation",
+      "core_positive": true,
+      "capacity_increases_forgetting": true,
+      "bed_heterogeneity": true,
+      "opens": true
+    },
+    "E5_self_supervised": {
+      "condition": "a robust E2 core positive remains, capacity, explicit history and optimization do not explain all value, and self supervision has measurable residual oracle headroom",
+      "core_positive": true,
+      "residual_oracle_headroom_measured": false,
+      "opens": false,
+      "why_not": "no residual oracle headroom for self supervision has been measured, and the failed Architecture F premise may not be repeated on a guess"
+    },
+    "hybrid_adaptation": {
+      "condition": "a minimal temporal core is selected",
+      "core_selected": true,
+      "opens": true,
+      "constraint": "the E4 state only rule is not reused unchanged. A hybrid must introduce a new causal premise, and head plus state is only interesting if the state arm carries zero hidden core updates"
+    },
+    "third_bed_replication": {
+      "condition": "a third valid bed exists and the principal effects reproduce on it",
+      "opens": true
+    }
+  },
+  "opened": [
+    "E3_shared_versus_local",
+    "hybrid_adaptation",
+    "third_bed_replication"
+  ],
+  "licensed_top_two": [
+    "third_bed_replication",
+    "E3_shared_versus_local"
+  ],
+  "rule": "execute the top two licensed successors, not every branch that is listed",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "0aba68da2fe3f8e258522bf0481df426a989ccdb38083ea4d8b51426fd1feca8"
+}

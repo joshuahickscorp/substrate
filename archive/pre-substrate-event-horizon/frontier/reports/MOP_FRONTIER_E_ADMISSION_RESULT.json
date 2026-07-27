@@ -1,0 +1,38 @@
+{
+  "schema": "mop-frontier-admission-result/v1",
+  "lane": "E",
+  "mechanism": "G1-E1 relational temporal event formation",
+  "question": "relational temporal boundaries improve downstream prediction beyond fixed windows and change detectors",
+  "source_commit": "dedd5358dde795995ed1aa6775dcca5c42d78532",
+  "dataset": "externally-ordered KMNIST class-run stream",
+  "independent_units": "sessions",
+  "harness": "temporal-sequence",
+  "classification": "pruned_mechanism",
+  "detail": {
+    "tuned_threshold": 1.1,
+    "n_sessions": 14,
+    "n_test": 10,
+    "incremental_over_best_simple": {
+      "mean": 0.012,
+      "between_session_sd": 0.0282,
+      "lower_95_cb": -0.0043,
+      "min_detectable_effect": 0.0163,
+      "favorable_fraction": 0.6,
+      "n": 10,
+      "pass": false
+    },
+    "oracle_headroom": 0.1885,
+    "E1_mean": 0.74,
+    "best_simple_mean": 0.728,
+    "oracle_mean": 0.9165,
+    "none_mean": 0.133,
+    "beats_shuffled": -0.0065,
+    "beats_random_rate_matched": 0.1075
+  },
+  "controls": "controls: none, fixed_window, uniform, random_rate_matched, novelty_threshold, prederr_threshold, change_point, shuffled_boundaries, oracle",
+  "SESOI": 0.05,
+  "tie_is_null": true,
+  "licenses_canary": false,
+  "wall_seconds": 36.2,
+  "result_sha256": "fe5d0a6ebd854bd8ebc3241fe005566f8cf6d52f8b701c323a0763d0035a1373"
+}

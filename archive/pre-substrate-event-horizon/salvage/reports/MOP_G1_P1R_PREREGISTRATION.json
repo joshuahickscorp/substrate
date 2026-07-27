@@ -1,0 +1,37 @@
+{
+  "schema": "mop-canary-preregistration/v1",
+  "lane": "G1-P1R",
+  "question": "retain prior capability while learning materially new capability, without sacrificing either",
+  "primary_null": "the mechanism does not allocate budget to reducible-value items better than the best simple heuristic and the rate-matched random control",
+  "secondary_nulls": [
+    "no oracle headroom",
+    "signal not decodable at decision time",
+    "effect does not hold across independent generator families or implementations"
+  ],
+  "independent_unit": "generator family (regime) with group-disjoint train/test units; no seed reuse",
+  "primary_metric": "normalized realized allocation value (fraction of oracle headroom captured)",
+  "direction": "higher is better; a wrong-direction estimate fails regardless of nominal size",
+  "sesoi": 0.05,
+  "multiplicity_correction": "all clauses must pass jointly (no cherry-picking a regime)",
+  "minimum_unit_count": 3,
+  "oracle_headroom_threshold": 0.05,
+  "required_controls": [
+    "no_replay",
+    "replay_only",
+    "frozen_core",
+    "fresh_init",
+    "adapter_only",
+    "matched_param_simpler",
+    "matched_compute",
+    "abrupt_change",
+    "gradual_change"
+  ],
+  "admission_thresholds": "every clause A-J passes at the sealed SESOI",
+  "futility_rule": "if oracle headroom < SESOI the bed is invalid; do not weaken the gate",
+  "harm_rule": "over-allocation to noisy-TV above SESOI prunes the lane",
+  "stop_rule": "classify terminally after one battery; a failed clause is a terminal scientific result",
+  "claim_ceiling": "controlled-bed mechanism plausibility only; NOT scientific confirmation; a real-data canary with independent-unit data is required before any confirmation claim",
+  "tie_is_null": true,
+  "max_compute": "one battery over 3 regimes x 2 implementations (small)",
+  "prereg_sha256": "e4e13985a8fc938fff1be4c66e523e54a193c9b028b1309ad237413b445c2ee6"
+}

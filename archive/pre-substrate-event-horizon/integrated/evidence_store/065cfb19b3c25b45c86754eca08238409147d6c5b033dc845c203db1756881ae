@@ -1,0 +1,172 @@
+{
+  "bed": "har_stream",
+  "spec": {
+    "family": "mgu",
+    "tier": "micro",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "mgu|micro|linear|none|h1",
+  "curve": {
+    "400": 0.93179,
+    "800": 0.9360533333333333,
+    "1600": 0.9392233333333334,
+    "3200": 0.9354233333333334
+  },
+  "seed_spread": {
+    "400": 0.0344,
+    "800": 0.04834,
+    "1600": 0.03471,
+    "3200": 0.02522
+  },
+  "seed_scores": {
+    "400": [
+      0.9045,
+      0.92044,
+      0.97043
+    ],
+    "800": [
+      0.88378,
+      0.94525,
+      0.97913
+    ],
+    "1600": [
+      0.9045,
+      0.93926,
+      0.97391
+    ],
+    "3200": [
+      0.90631,
+      0.94953,
+      0.95043
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.9045,
+        "checkpoint_sha": "e5b11cfe0fef005a905e159c2f95279d3f6eae0df1745aa886618ac5d9199030"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.92044,
+        "checkpoint_sha": "87d73770ce3a76984c0c1d814281bbf3ca84080a2bc22009f0f49e863aba691f"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.97043,
+        "checkpoint_sha": "74f4adc7393c3577d356feedf9d034a2b02487fe945445fc60e923e279a35664"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.88378,
+        "checkpoint_sha": "99e8dff6e1c07639cd64a748c11a762e510804089bdf76bc4007dfe94d1a53ef"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.94525,
+        "checkpoint_sha": "267580d09cf9f4e5c74afd154c24f8a4fdc077eb166ede4c2281e02b6c4f8b6a"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.97913,
+        "checkpoint_sha": "479ed0855a6cb60f471c148c48ea9028e64c4a437ecc4af8498a2a76b8706363"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.9045,
+        "checkpoint_sha": "df31c86c3b4233d8f94eb9effab563a233e76cb57c28e46a20d5ded94a1d0a9e"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.93926,
+        "checkpoint_sha": "e99197e5404cadf5305b460f45de2cc04cc38a839220fa3d5d328d44049227c6"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.97391,
+        "checkpoint_sha": "f813055bf0eb5cfcdcfc2734a0ba528ce2b6f4d71d6ac5e45aa44653751b1a64"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.90631,
+        "checkpoint_sha": "df4418eeb2b5812f4b7714de78ebf7b171d9dd721007dfc241f91e99a68510d2"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.94953,
+        "checkpoint_sha": "c323c42d13dedb5c372c0e29b8bc7840aa9dddda942419cfa448178bb902d02c"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.95043,
+        "checkpoint_sha": "00743c2758a85b6a392c2cefae56821bc61d2577e5555284a060468860c2bf34"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 10312,
+    "readout": 390,
+    "total": 10702
+  },
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.93179,
+    0.93605,
+    0.93922,
+    0.93542
+  ],
+  "best_budget": 1600,
+  "selected_checkpoint": 1600,
+  "second_half_movement": 0.0038,
+  "residual_slope": -0.0038,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 2621.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "f7d7fcd38b5ae51ddc364c9e071266c61a393308",
+  "source_tree_oid": "7b94fb3a85035968c693426f29361ef98b4e3c01",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "0c4ab51f6bb59cca195163a9f7c1e8f0dab63e3f5871125f57fd7c133f58310c"
+}

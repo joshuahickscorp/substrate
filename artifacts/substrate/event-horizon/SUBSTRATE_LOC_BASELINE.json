@@ -1,0 +1,228 @@
+{
+  "schema": "substrate-loc-baseline/v1",
+  "closure_commit": "7158451d80cfcacc0763894dad3ee5ee1ca834ec",
+  "production": {
+    "files": 141,
+    "physical_loc": 36221,
+    "executable_loc": 28736,
+    "method": "nonblank physical lines; executable excludes comment-only, docstring, and delimiter-only structural lines"
+  },
+  "tests": {
+    "files": 67,
+    "physical_loc": 9915,
+    "executable_loc": 7233,
+    "method": "nonblank physical lines; executable excludes comment-only, docstring, and delimiter-only structural lines"
+  },
+  "active_documents": {
+    "count": 40,
+    "words": 34486,
+    "documents": [
+      {
+        "path": "ARCHITECTURE.md",
+        "words": 110,
+        "sha256": "97f309d94ce932cc373ea28bc6924127a092bd552a51a2bc59fcf1beb4b2880c"
+      },
+      {
+        "path": "MOP_AUTONOMOUS_SUBSTRATE_LEDGER.md",
+        "words": 58,
+        "sha256": "09c02e71dff4c387dc1f50d3b61e9c91ee70598aea80b467987a20eeb380b91f"
+      },
+      {
+        "path": "MOP_COLLAPSE_LEDGER.md",
+        "words": 181,
+        "sha256": "569f8c432e253b7935f34330e679435d7a929f42fbe118cbe435b31437298d23"
+      },
+      {
+        "path": "MOP_FRONTIER_ANCESTRY.md",
+        "words": 267,
+        "sha256": "e9de3d36237498455e15e67303ac41abde7a8600705e3fd66efdfbf15b827c22"
+      },
+      {
+        "path": "MOP_GENERATION3_LEDGER.md",
+        "words": 73,
+        "sha256": "39663a2e1d3742606e3e534b5c9d6323c72f3366e55482687b620d1684589a4f"
+      },
+      {
+        "path": "MOP_SCIENTIFIC_FRONTIER_LEDGER.md",
+        "words": 250,
+        "sha256": "2f569a18d09c2cfb39581f2640b4beee6c0d775cdd6117847d0bc6fdc1ce7fba"
+      },
+      {
+        "path": "MOP_SUBSTRATE_GENESIS_LEDGER.md",
+        "words": 116,
+        "sha256": "25a36bc3a0a65ad498c7c3cbc00ab8949fd5a80951730e8cf43c509adb0d2c2b"
+      },
+      {
+        "path": "README.md",
+        "words": 168,
+        "sha256": "f4e25b65eea85c7b8114513708e468b6e3fb62cad4f9374ce7220236acc87a3a"
+      },
+      {
+        "path": "STATUS.md",
+        "words": 69,
+        "sha256": "0ea5709ae4facda36409b593e46401fc32cd79cc85421d7531bfa7f71cd457a6"
+      },
+      {
+        "path": "docs/ESCS_DEEP_RESEARCH.md",
+        "words": 5701,
+        "sha256": "2cb377808fef2a336cfd733ad358ece65b3f01d76f830ee6f02ca9273562130e"
+      },
+      {
+        "path": "docs/MOP_TELEGRAM_NOTIFICATIONS.md",
+        "words": 425,
+        "sha256": "dcd720f6b6a85ef69329a5f57ee65a2870400e356bf4c78614ae78a5bc7af0ac"
+      },
+      {
+        "path": "docs/SUBSTRATE_POST_RUN_REFACTOR_MAP.md",
+        "words": 651,
+        "sha256": "90d232a680941e386b15a45703839d810c277068785059589457ba947a2162c4"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/21_generation1_successor_evidence_chain.md",
+        "words": 2386,
+        "sha256": "185d8a85312d2d062fe9e50d23879f74850638441d14ae76d4535cf6fa0efac5"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/22_generation1_successor_horizon_v2.md",
+        "words": 1486,
+        "sha256": "5bd8355a3d9961445691cb84ff2b98d884d0b50a4cf4eaf62c372076e0972ae3"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/23_generation1_categorized_batch_wave.md",
+        "words": 1099,
+        "sha256": "471d00970bdef0be0b2130a6ae0fc502deb412170f1f7129ff06b1473dba261d"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/24_generation1_successor_recovery_v5.md",
+        "words": 999,
+        "sha256": "7956fc0834d1e17681bb64d56f107846fab76ef3b4d894c04d5d76c6efef9498"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/25_generation1_full_generations_wave.md",
+        "words": 3011,
+        "sha256": "4ed117c67a8bbf876ea713f3b7927beb9fccde0cc69f22c5beb19d6f57f1b6b1"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/26_escs_starss23_bed.md",
+        "words": 2768,
+        "sha256": "234022a7df3752d64d6fc81cb7d0663f16aee62551d0e06e53c71e77d9b1f1da"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/27_escs_starss23_counting_bed.md",
+        "words": 2021,
+        "sha256": "2ae3a356172084a526ca89e6ac3b164d9536aa4fd23dceaa3e19a0bc588eaab5"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/28_escs_starss23_counting_reproductions.md",
+        "words": 1250,
+        "sha256": "84870fa45716d90d829e9a5bec930ac02ead1e5c99e7496eae91527a77b9064e"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/29_escs_starss23_doa_bed.md",
+        "words": 2384,
+        "sha256": "b6b032d99943ed539d9303b16ea54fd3ccdc44ff00773306b24e978da3847fae"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/30_escs_starss23_voc_headroom.md",
+        "words": 1603,
+        "sha256": "2d5836a447606f1c0c3d0fa97a546a408cd2dc7c1c412c29b5317d6e5fe192ed"
+      },
+      {
+        "path": "docs/mixture_of_perspectives/31_pre_substrate_expansion_program.md",
+        "words": 1170,
+        "sha256": "c55fb2a88682586d2d064d8a0f509786c951210b3495f2e3447c7cd3c353292f"
+      },
+      {
+        "path": "forge/MOP_SUBSTRATE_FORGE_START_AUTHORITY.md",
+        "words": 68,
+        "sha256": "4b9c9135f15c123577188c8d2b1dffae02dca11e3661ea73c6c0e0c6c9989316"
+      },
+      {
+        "path": "forge/MOP_SUBSTRATE_FORGE_SYNTHESIS.md",
+        "words": 387,
+        "sha256": "55a9ab9bff50a5db10cd6fcf09d5a71dc73827a821d331ff392c5045cd7a49c1"
+      },
+      {
+        "path": "frontier/MOP_GENERATION2_CLOSURE.md",
+        "words": 454,
+        "sha256": "7639a668668dda95cf2396ef5ca4b7310c504dded9ef9f9823aa45739d8fa8d0"
+      },
+      {
+        "path": "frontier/MOP_GENERATION2_EXTERNAL_REVIEW.md",
+        "words": 469,
+        "sha256": "92398e38a3cf89d67ee697a8c8568a902e6c77469e66561a51b29832c384498d"
+      },
+      {
+        "path": "frontier/MOP_GENERATION2_FRONTIER_SYNTHESIS.md",
+        "words": 931,
+        "sha256": "aea99dfd2bb28fee16996d3340ad4fc2d429bc5b49d810c8a96097e6830b9f13"
+      },
+      {
+        "path": "frontier/MOP_GENERATION2_REPRODUCTION_GUIDE.md",
+        "words": 311,
+        "sha256": "37f2ae3a51b6770bbbafb02fe4818fd1d7350e2012d25212c36e446646998309"
+      },
+      {
+        "path": "frontier/MOP_GENERATION3_DISCOVERY_AUTHORITY.md",
+        "words": 509,
+        "sha256": "c6795be1fe1eaa9905ef4b5f0f99015dcd0d35838871c7d4ea272f73953cc7d4"
+      },
+      {
+        "path": "frontier/MOP_NULL_DERIVED_CONSTRAINTS.md",
+        "words": 376,
+        "sha256": "4ee616b97bbf0925a8185d5cf9646b3e9447d326059a27603d93c5610626b49e"
+      },
+      {
+        "path": "gen3/MOP_GENERATION3_TERMINAL_SYNTHESIS.md",
+        "words": 607,
+        "sha256": "a93c57f9a25141abdf6ad2522c215d25af2c358fc9038aa10ca9f6ae866053cb"
+      },
+      {
+        "path": "salvage/MOP_EVIDENCE_CAMPAIGN_LEDGER.md",
+        "words": 372,
+        "sha256": "f4ae55cfa60ffe5c7659b5afec8f6a51ebea879f6eb2fe3693c292783107f164"
+      },
+      {
+        "path": "substrate/MOP_OWNED_SUBSTRATE_V0_SPEC.md",
+        "words": 78,
+        "sha256": "8ccda757e4377b35d04ff6b8c18bcfa173eda72b01575ac0f72bef6f55d44600"
+      },
+      {
+        "path": "substrate/MOP_SUBSTRATE_GENESIS_START_AUTHORITY.md",
+        "words": 146,
+        "sha256": "6014ea6b7ef0f48770a4cdc32386612263b70046df545bcda9217debcdb58bbf"
+      },
+      {
+        "path": "substrate/MOP_SUBSTRATE_GENESIS_SYNTHESIS.md",
+        "words": 660,
+        "sha256": "297d7022e660b59b9aeee7b04fa2380e841dba27aaf984a2d314d75a52a89755"
+      },
+      {
+        "path": "substrate/MOP_SUBSTRATE_MOLDABILITY_BATTERY.md",
+        "words": 93,
+        "sha256": "5a61ac1fbee070febda4820db9854265061e7a4b039de819f85b3c6a20fea289"
+      },
+      {
+        "path": "substrate_evo/MOP_AUTONOMOUS_SUBSTRATE_SYNTHESIS.md",
+        "words": 562,
+        "sha256": "f17a6d5cffc7b570056e84acb7e76bd7bcf1976e81690bfe8825066d00fee1f8"
+      },
+      {
+        "path": "substrate_evo/MOP_OWNED_SUBSTRATE_V1_SPEC.md",
+        "words": 65,
+        "sha256": "06b51f796661f58620ed49851fd8a4e43b001bfe3ff96db52257676636168057"
+      },
+      {
+        "path": "substrate_evo/MOP_SUBSTRATE_PROGRESS_SCORECARD.md",
+        "words": 152,
+        "sha256": "928d5c9cb733909156e0c08c1a3eca9816b9e569d1033308797db438168f130f"
+      }
+    ]
+  },
+  "generated_artifacts_count_against_floor": false,
+  "sealed_evidence_counts_against_floor": false,
+  "archive_counts_against_floor": false,
+  "source_commit": "26bb0aa1326e0a25f0a93b5a0fd35ff389602b2c",
+  "activation": false,
+  "sha256": "1c5ddec3130b3c9103938bf8b7ca21133be3b0cd5aae1dd1d1289555860f5cfb"
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "mop-autonomous-substrate-state/v1",
+  "program_id": "mop-autonomous-substrate-evolution-v1",
+  "branch": "agent/mop-autonomous-substrate-evolution",
+  "base_commit": "4b4a0ec",
+  "SESOI": 0.05,
+  "seed_floor": 5,
+  "tie_is_null": true,
+  "activation": false,
+  "checklist": {
+    "AUTH": {
+      "status": "complete",
+      "next": "authority/scorecard/ledger/manifest sealed"
+    },
+    "TEMPORAL_GATE": {
+      "status": "complete",
+      "next": "HAR raw order-headroom gate (correct vs shuffled vs bag); forks the program"
+    },
+    "DOMAIN": {
+      "status": "complete",
+      "next": "if HAR raw valid, use it; attempt PAMAP2; classify each"
+    },
+    "BASELINE": {
+      "status": "complete",
+      "next": "converge GRU/LSTM/TCN/bag under sealed plateau"
+    },
+    "ARCH_AT": {
+      "status": "complete",
+      "next": "Temporal Shared Latent Workspace (carry A forward, add medium state + multi-horizon heads)"
+    },
+    "ARCH_C": {
+      "status": "complete",
+      "next": "Multi-Horizon Predictive State Substrate"
+    },
+    "ARCH_D": {
+      "status": "complete",
+      "next": "Hierarchical Plasticity Lattice"
+    },
+    "COMPARE": {
+      "status": "complete",
+      "next": "A-T/C/D vs converged baselines on valid temporal domains, 5 seeds, cost-adjusted"
+    },
+    "TIMESCALE_ABLATION": {
+      "status": "complete",
+      "next": "fast/medium/slow state value ablations"
+    },
+    "PLAST_GATE": {
+      "status": "complete",
+      "next": "substrate-specific plasticity headroom gate on temporal domain"
+    },
+    "REORG_GATE": {
+      "status": "complete",
+      "next": "Architecture D functional reorganization vs simple routing"
+    },
+    "NEW_PREMISES": {
+      "status": "complete",
+      "next": "if all null, derive <=3 materially new theses, implement top 2 that gate-pass"
+    },
+    "EVENT_HORIZON": {
+      "status": "complete",
+      "next": "if exhausted: seal full exhaustion proof (2 archs + 2 premises + converged baselines + measured headroom + adequate units + no gate weakened + irreducible blocker)",
+      "result": "SEALED (5 architectures/5 premises null; converged baselines; valid temporal headroom; memory-capacity irreducible blocker)"
+    },
+    "SYNTHESIS": {
+      "status": "complete",
+      "next": "terminal synthesis + scorecard + 45 questions"
+    }
+  },
+  "terminal_conditions": {
+    "A_target_state": "all 8 layer targets met",
+    "B_event_horizon": "full exhaustion proof (not a single null)"
+  },
+  "terminal_condition_reached": "B_substrate_event_horizon",
+  "sha256": "1cb01f78234908b5abf6365b69bc693f4ab5f4637e53bd4b898ee3b0e1ffde51"
+}

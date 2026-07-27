@@ -1,0 +1,18 @@
+{
+  "schema": "mop-substrate-architecture-comparison/v1",
+  "bed": "HAR_raw (valid temporal, order-headroom +0.085)",
+  "classification": "substrate_candidate_null",
+  "best_baseline": "lstm",
+  "util_mean": {
+    "gru": 0.4059,
+    "lstm": 0.4156,
+    "bag": 0.4037,
+    "AT": 0.3834,
+    "C": 0.399
+  },
+  "AT_effect_lcb": -0.0769,
+  "C_effect_lcb": -0.0633,
+  "D_class": "structural_null (does not beat LSTM; hierarchical routing decorative)",
+  "selection": "no_substrate_candidate_selected (A-T/C/D all null; LSTM+GDumb strongest)",
+  "sha256": "88033d0ea4401fa4172018574aeeacc225356b4c1e6f3872960e4feffe877895"
+}

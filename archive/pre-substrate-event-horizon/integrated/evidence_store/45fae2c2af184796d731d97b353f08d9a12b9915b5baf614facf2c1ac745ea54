@@ -1,0 +1,37 @@
+{
+  "schema": "mop-temporal-core-scorecard/v1",
+  "dimensions": {
+    "data_custody": 100,
+    "method_extension": 100,
+    "calibration": 100,
+    "bed_validity": 100,
+    "principal_factorial": 100,
+    "independent_replication": 100,
+    "verification": 0,
+    "mutations": 0,
+    "coverage": 100,
+    "code_lifecycle": 100
+  },
+  "stages_green": {
+    "start_authority": true,
+    "binding_results": true,
+    "data_custody": true,
+    "code_lifecycle": true,
+    "method_extension": true,
+    "e2_calibration": true,
+    "bed_validity": true,
+    "third_bed_preflight": true,
+    "e2_principal": true,
+    "core_selection": true,
+    "successor_gates": true,
+    "mutations": false,
+    "verification": false,
+    "reports": true,
+    "evidence_fabric": false
+  },
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "11d11b67ff560e6741359016c65f9968098eb7e5b626b3a0b68918b8f3788d2b"
+}

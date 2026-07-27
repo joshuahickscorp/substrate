@@ -1,0 +1,296 @@
+{
+  "schema": "mop-e2-capacity-tier-correction-shard/v2",
+  "receipt_contract": {
+    "version": "mop-temporal-receipt-contract/v1",
+    "kind": "correction",
+    "projection": "replacement_runs"
+  },
+  "correction_projection": {
+    "schema": "mop-temporal-correction-projection/v1",
+    "mode": "run_replacement",
+    "cells": [
+      "histmlp|large|linear|none|h1",
+      "histmlp|large|mlp_strong|none|h1"
+    ],
+    "parent_receipts": [
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/har_stream_1.json",
+        "sha256": "7c5bf6cc1df0baf760c847061ae732616f4272e85eba4f57c52bdc4d5eddd30f",
+        "cell": "histmlp|large|linear|none|h1"
+      },
+      {
+        "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_principal/har_stream_1.json",
+        "sha256": "7c5bf6cc1df0baf760c847061ae732616f4272e85eba4f57c52bdc4d5eddd30f",
+        "cell": "histmlp|large|mlp_strong|none|h1"
+      }
+    ],
+    "runs": [
+      {
+        "cell": "histmlp|large|linear|none|h1",
+        "bed": "har_stream",
+        "seed": 1,
+        "eval_on": "test",
+        "spec": {
+          "family": "histmlp",
+          "tier": "large",
+          "readout": "linear",
+          "reset": "none",
+          "history_k": 1
+        },
+        "accuracy": 0.7245,
+        "per_unit_accuracy": {
+          "10": 0.5761904761904761,
+          "12": 0.75,
+          "13": 0.847457627118644,
+          "18": 0.8545454545454545,
+          "2": 0.6044444444444445,
+          "20": 0.7511111111111111,
+          "24": 0.8354430379746836,
+          "4": 0.7,
+          "9": 0.5714285714285714
+        },
+        "params": {
+          "core": 625882,
+          "readout": 390,
+          "total": 626272
+        },
+        "steps": 800,
+        "updates": 800,
+        "undeclared_changes": [],
+        "checkpoint_sha_after": "1ad6ce0ee475427f8a914c7ac44dbab2819c69105e4b6467ddd4437f9aa8bec7",
+        "reset_witness": {
+          "n_resets": 0,
+          "exact_fraction": 0.0,
+          "within_tolerance_fraction": 0.0,
+          "expected_random_alignment": 0.0,
+          "checks": {
+            "is_misaligned": true,
+            "all_pass": true
+          },
+          "classification": "no_reset",
+          "kind": "none",
+          "periods_used": [
+            33,
+            35
+          ]
+        },
+        "history_profile": {
+          "kinds": [
+            "last_k_observations"
+          ],
+          "k": 1,
+          "effective_horizon": 1
+        },
+        "prediction_concentration": 0.186,
+        "wall_seconds": 16.5
+      },
+      {
+        "cell": "histmlp|large|mlp_strong|none|h1",
+        "bed": "har_stream",
+        "seed": 1,
+        "eval_on": "test",
+        "spec": {
+          "family": "histmlp",
+          "tier": "large",
+          "readout": "mlp_strong",
+          "reset": "none",
+          "history_k": 1
+        },
+        "accuracy": 0.7065,
+        "per_unit_accuracy": {
+          "10": 0.580952380952381,
+          "12": 0.7352941176470589,
+          "13": 0.8050847457627118,
+          "18": 0.8045454545454546,
+          "2": 0.6888888888888889,
+          "20": 0.7066666666666667,
+          "24": 0.7974683544303798,
+          "4": 0.625,
+          "9": 0.5960591133004927
+        },
+        "params": {
+          "core": 625882,
+          "readout": 83974,
+          "total": 709856
+        },
+        "steps": 1600,
+        "updates": 1600,
+        "undeclared_changes": [],
+        "checkpoint_sha_after": "6a8a8449d76bbef019b684bd22c4685e91da70ec035ff5d621bc259ab8ba4854",
+        "reset_witness": {
+          "n_resets": 0,
+          "exact_fraction": 0.0,
+          "within_tolerance_fraction": 0.0,
+          "expected_random_alignment": 0.0,
+          "checks": {
+            "is_misaligned": true,
+            "all_pass": true
+          },
+          "classification": "no_reset",
+          "kind": "none",
+          "periods_used": [
+            33,
+            35
+          ]
+        },
+        "history_profile": {
+          "kinds": [
+            "last_k_observations"
+          ],
+          "k": 1,
+          "effective_horizon": 1
+        },
+        "prediction_concentration": 0.1815,
+        "wall_seconds": 30.71
+      }
+    ]
+  },
+  "bed": "har_stream",
+  "seed": 1,
+  "supersedes_for_analysis": [
+    "histmlp|large|linear|none|h1",
+    "histmlp|large|mlp_strong|none|h1"
+  ],
+  "runs": [
+    {
+      "cell": "histmlp|large|linear|none|h1",
+      "bed": "har_stream",
+      "seed": 1,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.7245,
+      "per_unit_accuracy": {
+        "10": 0.5761904761904761,
+        "12": 0.75,
+        "13": 0.847457627118644,
+        "18": 0.8545454545454545,
+        "2": 0.6044444444444445,
+        "20": 0.7511111111111111,
+        "24": 0.8354430379746836,
+        "4": 0.7,
+        "9": 0.5714285714285714
+      },
+      "params": {
+        "core": 625882,
+        "readout": 390,
+        "total": 626272
+      },
+      "steps": 800,
+      "updates": 800,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "1ad6ce0ee475427f8a914c7ac44dbab2819c69105e4b6467ddd4437f9aa8bec7",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          33,
+          35
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.186,
+      "wall_seconds": 16.5
+    },
+    {
+      "cell": "histmlp|large|mlp_strong|none|h1",
+      "bed": "har_stream",
+      "seed": 1,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "large",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.7065,
+      "per_unit_accuracy": {
+        "10": 0.580952380952381,
+        "12": 0.7352941176470589,
+        "13": 0.8050847457627118,
+        "18": 0.8045454545454546,
+        "2": 0.6888888888888889,
+        "20": 0.7066666666666667,
+        "24": 0.7974683544303798,
+        "4": 0.625,
+        "9": 0.5960591133004927
+      },
+      "params": {
+        "core": 625882,
+        "readout": 83974,
+        "total": 709856
+      },
+      "steps": 1600,
+      "updates": 1600,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "6a8a8449d76bbef019b684bd22c4685e91da70ec035ff5d621bc259ab8ba4854",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          33,
+          35
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.1815,
+      "wall_seconds": 30.71
+    }
+  ],
+  "convergence_authority": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/converge_har_stream.json",
+    "sha256": "a900375eede280b2139086a4d9461e0b7bd9ebfb846deecb57b14a8eeca62783",
+    "selected_checkpoints": {
+      "histmlp|large|linear|none|h1": 800,
+      "histmlp|large|mlp_strong|none|h1": 1600
+    }
+  },
+  "checks": {
+    "two_affected_cells": true,
+    "large_core_band": true,
+    "exact_selected_budget": true,
+    "no_undeclared_changes": true
+  },
+  "all_checks_pass": true,
+  "reason": "the original width search ceiling left the large HistMLP core below 600000 parameters",
+  "wall_seconds": 51.1,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "179effcc651d7696591503fb21e6030c95d8ada1",
+  "source_tree_oid": "ad7b77960c0e56bdd367eb7cfecda3b13ca30c9c",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "f02cae4f18dcb89f8486744eafe510b871d7676ad09abc57c392c4cfadbd79ce"
+}

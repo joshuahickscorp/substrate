@@ -1,0 +1,303 @@
+{
+  "schema": "mop-substrate-plasticity-action-headroom/v2",
+  "actions": [
+    "adapter_plus_head",
+    "all_active_groups",
+    "fast_core_plus_adapter",
+    "fast_core_plus_head",
+    "head_only",
+    "no_update",
+    "projection_plus_head"
+  ],
+  "action_definition": {
+    "no_update": [],
+    "head_only": [
+      "head"
+    ],
+    "projection_plus_head": [
+      "proj_conv",
+      "proj_lin",
+      "head"
+    ],
+    "adapter_plus_head": [
+      "adapter",
+      "norm",
+      "head"
+    ],
+    "fast_core_plus_head": [
+      "__shared__",
+      "head"
+    ],
+    "fast_core_plus_adapter": [
+      "__shared__",
+      "adapter",
+      "norm",
+      "head"
+    ],
+    "all_active_groups": [
+      "__shared__",
+      "proj_conv",
+      "proj_lin",
+      "adapter",
+      "norm",
+      "head"
+    ]
+  },
+  "per_direction": {
+    "har->speech": {
+      "candidates": [
+        "G.adapter_plus_head",
+        "G.all_active_groups",
+        "G.fast_core_plus_adapter",
+        "G.fast_core_plus_head",
+        "G.head_only",
+        "G.no_update",
+        "G.projection_plus_head",
+        "H.adapter_plus_head",
+        "H.all_active_groups",
+        "H.fast_core_plus_adapter",
+        "H.fast_core_plus_head",
+        "H.head_only",
+        "H.no_update",
+        "H.projection_plus_head"
+      ],
+      "best_fixed_policy": "G.all_active_groups",
+      "best_fixed_utility": 0.6375,
+      "oracle_utility": 0.639,
+      "oracle_choice_per_seed": [
+        "H.all_active_groups",
+        "G.all_active_groups",
+        "G.all_active_groups",
+        "G.all_active_groups",
+        "G.all_active_groups",
+        "G.all_active_groups",
+        "G.all_active_groups",
+        "G.all_active_groups"
+      ],
+      "oracle_advantage_over_best_fixed": {
+        "mean": 0.0014,
+        "lower_95_cb": -0.0012,
+        "n": 8
+      },
+      "random_control": {
+        "mean": -0.1689,
+        "lower_95_cb": -0.229,
+        "n": 8
+      },
+      "shuffled_control": {
+        "mean": -0.0058,
+        "lower_95_cb": -0.0163,
+        "n": 8
+      },
+      "positive_control_oracle_beats_random": {
+        "mean": 0.1703,
+        "lower_95_cb": 0.1096,
+        "n": 8
+      },
+      "action_utility_mean": {
+        "G.adapter_plus_head": 0.4001,
+        "G.all_active_groups": 0.6375,
+        "G.fast_core_plus_adapter": 0.513,
+        "G.fast_core_plus_head": 0.5114,
+        "G.head_only": 0.3975,
+        "G.no_update": 0.3587,
+        "G.projection_plus_head": 0.556,
+        "H.adapter_plus_head": 0.3604,
+        "H.all_active_groups": 0.5516,
+        "H.fast_core_plus_adapter": 0.449,
+        "H.fast_core_plus_head": 0.453,
+        "H.head_only": 0.3593,
+        "H.no_update": 0.3519,
+        "H.projection_plus_head": 0.5065
+      },
+      "cost_accounting": {
+        "G.adapter_plus_head": {
+          "trainable_params": 2906,
+          "compute_seconds": 3.23
+        },
+        "G.all_active_groups": {
+          "trainable_params": 36410,
+          "compute_seconds": 4.97
+        },
+        "G.fast_core_plus_adapter": {
+          "trainable_params": 27866,
+          "compute_seconds": 4.67
+        },
+        "G.fast_core_plus_head": {
+          "trainable_params": 25610,
+          "compute_seconds": 4.55
+        },
+        "G.head_only": {
+          "trainable_params": 650,
+          "compute_seconds": 3.19
+        },
+        "G.no_update": {
+          "trainable_params": 0,
+          "compute_seconds": 0.0
+        },
+        "G.projection_plus_head": {
+          "trainable_params": 9194,
+          "compute_seconds": 4.57
+        },
+        "H.adapter_plus_head": {
+          "trainable_params": 1674,
+          "compute_seconds": 3.46
+        },
+        "H.all_active_groups": {
+          "trainable_params": 35178,
+          "compute_seconds": 5.16
+        },
+        "H.fast_core_plus_adapter": {
+          "trainable_params": 26634,
+          "compute_seconds": 4.72
+        },
+        "H.fast_core_plus_head": {
+          "trainable_params": 25610,
+          "compute_seconds": 4.71
+        },
+        "H.head_only": {
+          "trainable_params": 650,
+          "compute_seconds": 3.4
+        },
+        "H.no_update": {
+          "trainable_params": 0,
+          "compute_seconds": 0.0
+        },
+        "H.projection_plus_head": {
+          "trainable_params": 9194,
+          "compute_seconds": 4.93
+        }
+      }
+    },
+    "speech->har": {
+      "candidates": [
+        "G.adapter_plus_head",
+        "G.all_active_groups",
+        "G.fast_core_plus_adapter",
+        "G.fast_core_plus_head",
+        "G.head_only",
+        "G.no_update",
+        "G.projection_plus_head",
+        "H.adapter_plus_head",
+        "H.all_active_groups",
+        "H.fast_core_plus_adapter",
+        "H.fast_core_plus_head",
+        "H.head_only",
+        "H.no_update",
+        "H.projection_plus_head"
+      ],
+      "best_fixed_policy": "G.all_active_groups",
+      "best_fixed_utility": 0.8631,
+      "oracle_utility": 0.867,
+      "oracle_choice_per_seed": [
+        "G.projection_plus_head",
+        "G.all_active_groups",
+        "G.all_active_groups",
+        "G.all_active_groups",
+        "G.projection_plus_head",
+        "G.all_active_groups",
+        "H.projection_plus_head",
+        "G.projection_plus_head"
+      ],
+      "oracle_advantage_over_best_fixed": {
+        "mean": 0.0038,
+        "lower_95_cb": -0.0,
+        "n": 8
+      },
+      "random_control": {
+        "mean": -0.1397,
+        "lower_95_cb": -0.2391,
+        "n": 8
+      },
+      "shuffled_control": {
+        "mean": -0.008,
+        "lower_95_cb": -0.0155,
+        "n": 8
+      },
+      "positive_control_oracle_beats_random": {
+        "mean": 0.1435,
+        "lower_95_cb": 0.0458,
+        "n": 8
+      },
+      "action_utility_mean": {
+        "G.adapter_plus_head": 0.7156,
+        "G.all_active_groups": 0.8631,
+        "G.fast_core_plus_adapter": 0.824,
+        "G.fast_core_plus_head": 0.8241,
+        "G.head_only": 0.6966,
+        "G.no_update": 0.3514,
+        "G.projection_plus_head": 0.8606,
+        "H.adapter_plus_head": 0.6249,
+        "H.all_active_groups": 0.8138,
+        "H.fast_core_plus_adapter": 0.6911,
+        "H.fast_core_plus_head": 0.6642,
+        "H.head_only": 0.5882,
+        "H.no_update": 0.3741,
+        "H.projection_plus_head": 0.7909
+      },
+      "cost_accounting": {
+        "G.adapter_plus_head": {
+          "trainable_params": 2646,
+          "compute_seconds": 1.79
+        },
+        "G.all_active_groups": {
+          "trainable_params": 31190,
+          "compute_seconds": 4.04
+        },
+        "G.fast_core_plus_adapter": {
+          "trainable_params": 27606,
+          "compute_seconds": 3.69
+        },
+        "G.fast_core_plus_head": {
+          "trainable_params": 25350,
+          "compute_seconds": 3.42
+        },
+        "G.head_only": {
+          "trainable_params": 390,
+          "compute_seconds": 1.78
+        },
+        "G.no_update": {
+          "trainable_params": 0,
+          "compute_seconds": 0.0
+        },
+        "G.projection_plus_head": {
+          "trainable_params": 3974,
+          "compute_seconds": 3.33
+        },
+        "H.adapter_plus_head": {
+          "trainable_params": 1414,
+          "compute_seconds": 1.87
+        },
+        "H.all_active_groups": {
+          "trainable_params": 29958,
+          "compute_seconds": 3.92
+        },
+        "H.fast_core_plus_adapter": {
+          "trainable_params": 26374,
+          "compute_seconds": 3.64
+        },
+        "H.fast_core_plus_head": {
+          "trainable_params": 25350,
+          "compute_seconds": 3.66
+        },
+        "H.head_only": {
+          "trainable_params": 390,
+          "compute_seconds": 1.84
+        },
+        "H.no_update": {
+          "trainable_params": 0,
+          "compute_seconds": 0.0
+        },
+        "H.projection_plus_head": {
+          "trainable_params": 3974,
+          "compute_seconds": 3.48
+        }
+      }
+    }
+  },
+  "verdict": "simple_partition_policy_sufficient",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
+  "SESOI": 0.05,
+  "sha256": "8a4e5e88a4635531d82c5a7ec6822032b9051df307b4dfc128d4914524f7bd1c"
+}

@@ -1,0 +1,342 @@
+{
+  "schema": "mop-verification-cache/v1",
+  "entries": {
+    "ad919d301dc6497680ccc5ad046009ad3ba96c398ce3cc8e62fbd0943ce423b2": {
+      "checkpoint_id": "gate:admit_v2",
+      "artifact_identity": "acc9df224ffbacaaf532a344b10ec90a5475551f01c40a2b6090f4489a434335",
+      "file_hash": "ac76784640d2049ba7df8ca77e211506e845cb2d084361a97bb643db3cbfa6e3",
+      "verified": true
+    },
+    "013eaa06ae449eff01e88e3afe077eb1fd5c1f8dc16c38af9836e979489a35ff": {
+      "checkpoint_id": "gate:verify_old_d1",
+      "artifact_identity": "565ee677c97642cf70d18e787007e6866c0d34c1212e3e0c4a80a2b8ae26ac06",
+      "file_hash": "215a7a1e0d234b6628bd18d8704cd0ee259f81cf3a8038dd4bbed3ee3a5e9061",
+      "verified": true
+    },
+    "5139773eb4a23bdedb2f55739f794cdb887b224e29007389c1f32231f3795d94": {
+      "checkpoint_id": "gate:classify_retire_old_d1",
+      "artifact_identity": "74e105f56233015cd896daa45f56bd3d5bce36f862f9488bb96fe0b0f1aa9c21",
+      "file_hash": "8b7b3179f41d57ff2c2e03105d9029f1b2e2c4ec29a0abd67771a8fd6ba95b97",
+      "verified": true
+    },
+    "2ea3f45ab7440f2483629510d2249b0cfc447357b224acdb66cb469168bf5a1b": {
+      "checkpoint_id": "gate:screen_d1_redesign_v2",
+      "artifact_identity": "e6f5be59ea8814d13870e95e025a9d1493439634263ebe2c6b1bab3addeee4f1",
+      "file_hash": "cd976f5cb7af9e2a027e3f4329ce967801bdfa863c8d46f8474e5915577d6ec7",
+      "verified": true
+    },
+    "6038b8bfb8abef513d64dcfa3e6082db25932d0bb66e8b778c6bd8bc07fb44f4": {
+      "checkpoint_id": "gate:freeze_d1_redesign_v2",
+      "artifact_identity": "689abace7cd5b260c33352c4b893e5b894715ab5cb0767060799b3cc8f9671ae",
+      "file_hash": "b5a6f85e710460a69193c39f3e4a9b87cd199f50379e817e6a45ec2c1063eb27",
+      "verified": true
+    },
+    "f0a0d23b932cd2b7fb10e88a6313a750970438b74e5b307a49132e47b7b2e3eb": {
+      "checkpoint_id": "classification:w01",
+      "artifact_identity": "3c96e129f1cc9122644c155eb518f110d3d97179dbec4932983055b6b4cec2a3",
+      "file_hash": "cef1b97c3bccf8bddfeca31aeada2ba4e35daf76499524a13cb4724466d23416",
+      "verified": true
+    },
+    "3eb044c9b2b19486001626e0ca10de813af6be3b0ab1da12a477869e9da95a5c": {
+      "checkpoint_id": "classification:w02",
+      "artifact_identity": "a8cb65bc71be89852d80b9dbc5466a34c735b31d93344eaa6fb574b14b2c26a4",
+      "file_hash": "3f996fc72f7f207bcfc6814b8cfb0e7d33d608e4f740b9015ede5cab879daffc",
+      "verified": true
+    },
+    "f424db1265815f7950c815ee2a24bb70bbe812cf7ab086eea828b81fec32b193": {
+      "checkpoint_id": "classification:w03",
+      "artifact_identity": "0b63d270353ba62563aaca609a41c0417b59dbc7b3e5f376bc4432c21fddb49f",
+      "file_hash": "65ee66cb742769d898c7a4a29d5f5697fff0e3e0609d9a2e01f672464881c3b5",
+      "verified": true
+    },
+    "0c015f9743793bd2fbd25f88e6ab0726d2207675203ec45aed3ae4c5c34ef529": {
+      "checkpoint_id": "classification:w04",
+      "artifact_identity": "b9b1ca81034bb71bc1fed320e0d09379f1ddf7e4a94e2b16bd887283c0d89f56",
+      "file_hash": "c024dd6fc5ec7a3466a34bdb72f8c5130b204b2b341ac5a3f5c1e6dd5fc500ca",
+      "verified": true
+    },
+    "b32db877f95455fc0a24e688232811162d47e5cb4b2595fa03158ec3052b189f": {
+      "checkpoint_id": "classification:w05",
+      "artifact_identity": "fa6d46dbf62ab71a841bf8bf129c40050c36b6410a372a013e541080907ae01e",
+      "file_hash": "e1242e54a4833700e8b870c6a4d3299e92a46c10c176f0718ebb4c07af0d8038",
+      "verified": true
+    },
+    "f8706d667795b0c540d211ee15ab864660209ee3d5aea5ce11e86350968f314e": {
+      "checkpoint_id": "classification:w06",
+      "artifact_identity": "7217adfc121556dc3bbd5acfe6d515d7603e77778d064b6e1773acfa388db739",
+      "file_hash": "586466bc3c995ab2015b156f8001781f61c173610429809638237c6e9442a2fb",
+      "verified": true
+    },
+    "26dedf60e431843b152a2e27f564f3f920534bc69d2b53cc263be1cec14d4770": {
+      "checkpoint_id": "classification:w07",
+      "artifact_identity": "64c85c86fab75874d5c65390149a44d60fda25f6dfaf1e3dda54f4fe3ffcd35b",
+      "file_hash": "ca34bb3ca907acb4c003d8b1d12e6e5a1403f4a7bf2551d400fc2c09d469914c",
+      "verified": true
+    },
+    "f3172bba6eeb2efedb2a281af09ca3bd557f7ee96e919c79a5171c2c1a19c250": {
+      "checkpoint_id": "capsule:w01:formation_trace",
+      "artifact_identity": "bf5404e1653685a118ebba3db7f4bfc777f32bd0e1ec1869a05c817c6060032c",
+      "file_hash": "e25a3c27053b85e27ef9efe0388ce5b0520021378220e2baafaba81c3c417799",
+      "verified": true
+    },
+    "d0ce9357925715e94750daa567d88f0677ac5a72d0f252805eac962a78a1a93a": {
+      "checkpoint_id": "capsule:w01:communication_repair",
+      "artifact_identity": "7879fa44e0803ee80624222eabb9ae53838c7dc3c4ba75fad6c7894fa3891c26",
+      "file_hash": "502055bb87bbc995f31e7597a780654ea097007acc626cb52d301ebff8400dbc",
+      "verified": true
+    },
+    "28dccbe00f96e9c62e0737f0e47c831b3b17a7cb04007966932ee57387b7b203": {
+      "checkpoint_id": "capsule:w01:memory_plasticity",
+      "artifact_identity": "a3acab89a31dd3dee6dd9d4b1ba464556650f55efaf13f6fc2e34d8e635026ac",
+      "file_hash": "73e02ccea8231e76dddff646fd31218ee01821d2f8dc913d8c4b0db773a65852",
+      "verified": true
+    },
+    "1dcad032ce24c49d187023e14b5010bd3ebf7849b91cbed6229415f5c51be060": {
+      "checkpoint_id": "capsule:w01:action_simulation",
+      "artifact_identity": "9a977b7e3fc4b9296937b36b61ef4579e43ea5d472cb9738f950ea28eb713ecb",
+      "file_hash": "d1b6cd21eade3efb35628551e2fb28afd2e60df7d4d55b66570e5db8f6171033",
+      "verified": true
+    },
+    "3a7bb32a13b9367abaa6352bde5fcd68e2fa353122025759b5591eaa56fd41bf": {
+      "checkpoint_id": "capsule:w01:construction",
+      "artifact_identity": "d27ee633c1d6d62e5e1ac6136c072b04a8b8cee22eb9a39128e93f0e35cbbabb",
+      "file_hash": "36fef7e978e5349cfc1be4322e44c65bba6527d65f9f593fb8f81d9c755f5f02",
+      "verified": true
+    },
+    "10957e37b93599d24c74703f147c324d681a9f826131ae13f76ac72ab87eaa7a": {
+      "checkpoint_id": "capsule:w01:dispatch_redesign",
+      "artifact_identity": "48ba98250c69af0b47eb3b7ff6087e7ad0e1db1240975853fc28eeda0ce243d8",
+      "file_hash": "2f86c749d95610919fd2e0b4cc0f27b18d787d3a37371c6b2e8322a0e94e42e5",
+      "verified": true
+    },
+    "2f7ce01a43bb249a4fc41553ff0a6177ce8b7e32ec5e0ccc079e297adbe275f9": {
+      "checkpoint_id": "capsule:w02:formation_trace",
+      "artifact_identity": "098ce94e5032d85cddc5f960f8d355302d0642feb84ac03a5e573aca8fd15e02",
+      "file_hash": "74f0f3aa31b9ce6524240dea287163c33b361c60fd8303c594007602aabd85aa",
+      "verified": true
+    },
+    "045dd2f20f1ecb0f5eb26bf8d7e88af30c0aa532d2178912ea3c976aa4ee499a": {
+      "checkpoint_id": "capsule:w02:communication_repair",
+      "artifact_identity": "76f619019674b22d71f76f45bf9db23da75798c14a1280d163a29fee7afdb5d7",
+      "file_hash": "0520ca291c12c9ae09f15b98168fc1e210bfff2edfa2eaf2f273b0e891ea9514",
+      "verified": true
+    },
+    "a3c4bb1fc5a39e0370237fe4dba001608452d46d58616fe2d8c50fbcf46cd8d5": {
+      "checkpoint_id": "capsule:w02:memory_plasticity",
+      "artifact_identity": "8540fd62b6b014982c32488029e217091e874132d3d75006b6b0eadfbe6a9289",
+      "file_hash": "c98b75abeafc0c121e393c827bf18907238e6af6955948dfd56d8f635c1394a0",
+      "verified": true
+    },
+    "dedf42e7947c6e55f1b2b1efcd503c7127ace2d7b0b413bd48d57a4cde3a9ea5": {
+      "checkpoint_id": "capsule:w02:action_simulation",
+      "artifact_identity": "ca1de200e96f9270d7ed63c7d0897ec1697b3587eb191e1c61ac009554aae034",
+      "file_hash": "aae6072abb01300148bf8e339c8a1dc8a800bcb7894784487cb1477a84086595",
+      "verified": true
+    },
+    "396f40d14ac100de403dc991439363ccb7edd549742326456a837f8a2a8ef7c2": {
+      "checkpoint_id": "capsule:w02:construction",
+      "artifact_identity": "ce4348c51824124a4cdfb7e7b18b6ce06626ca3420a5b918a9a8badade115a85",
+      "file_hash": "3b83a25e832a6c5e5843305e66bdd4fc0908e5bc8afa61499c283d4b00907261",
+      "verified": true
+    },
+    "979fe17de1341032bb2bb3ad65a82c6367a7f6220b3338963ae62f360438d51c": {
+      "checkpoint_id": "capsule:w02:dispatch_redesign",
+      "artifact_identity": "71ec2cb5992465efcbbf56b19c1fc08c3a13264fe0186424dacf1eaf6460aede",
+      "file_hash": "816ad86c619331df7ce1803277aa1dcccfc0e5e320a8137a200880256aeeaf17",
+      "verified": true
+    },
+    "c91585826c8adbc3f934d47419261f42842d21e17377fb606f8df3926c3f5a07": {
+      "checkpoint_id": "capsule:w03:formation_trace",
+      "artifact_identity": "3fec05009b52dcb1b048fb34439a6e0776720f504952decf9cb204b2c6afdffb",
+      "file_hash": "2525f5d299977176306a611f2a42219fd884f9a0730738b62b9cae95106465f9",
+      "verified": true
+    },
+    "471f85050df9def126ccafde8d175fd5aa3908a2bbc4bbd23a1f2a7bd9f25de4": {
+      "checkpoint_id": "capsule:w03:communication_repair",
+      "artifact_identity": "aeb5181675b7234e207b971e86b381be6d74cfebf4ec783d5c379ca0a8f90fa6",
+      "file_hash": "33d28e18b1b25043dc6acddfbfe2e06a60b0dcdbfcca8e468f936a5f2d196d81",
+      "verified": true
+    },
+    "9eecc1f184980d984efdf25c860cdf6412af6aaf2d5ce55000728192fc10cd51": {
+      "checkpoint_id": "capsule:w03:memory_plasticity",
+      "artifact_identity": "b7dd52735e4d7a6edcaf64086d1f915f798ab161d97eb40b044a8373830510e3",
+      "file_hash": "af4d4a2abe2f136c8ac48e9e96d95789cc230a28deedcd63cfb9066178ec4da8",
+      "verified": true
+    },
+    "0f3127fbabde18d16e7d1ce7e1fbf9692e8f6b6070b2a581017851c59fd7323c": {
+      "checkpoint_id": "capsule:w03:action_simulation",
+      "artifact_identity": "8e18e6cea070a5f93fcf446938c0fdc31751b236d536d65d8da600e581950ee8",
+      "file_hash": "b424745b3e67d14c8f6215b8c1f986d1f44ba5daafb5356f6a0a7ab505d083f9",
+      "verified": true
+    },
+    "ff613f7f8a58f4dccf137ee5a4c93b80b26a55eda32320cb90474aa9fcbb6b71": {
+      "checkpoint_id": "capsule:w03:construction",
+      "artifact_identity": "bbb5e1c1318827e369221a98487c85973e0c804031399ff60f25e3331f6faba6",
+      "file_hash": "93dc9871be93e89b6e527d85d218db81a4bdd3d7659440e115a1b823bed0c8ad",
+      "verified": true
+    },
+    "bc7e97544c927dbf524c79e59f6a0d394392aff0d56369970f85f56d97f4b269": {
+      "checkpoint_id": "capsule:w03:dispatch_redesign",
+      "artifact_identity": "986887d5135a0c8f0f6dee8de532f0314922054744bf3c0107da241d05a70fef",
+      "file_hash": "8abbfc3592dec1fc65b675a90eaf39bda033bbf815a96fb4fd5118a89558abc4",
+      "verified": true
+    },
+    "a414167c31a1e64020ce327f22ccb505bb43e8e84374e67bf8b35a5475988655": {
+      "checkpoint_id": "capsule:w04:formation_trace",
+      "artifact_identity": "89dd7d2d6467039b99bf09237143b265ec43ca83eec150a684fdbdbe61fc3c38",
+      "file_hash": "8ed4e40d61522ece0002a8d7f7c7c3c1b410e419895be8e450c1bb1f4c8b9915",
+      "verified": true
+    },
+    "fcf3418ae202a5684c3c25a751f0d5aa58ddb20d5a4942ef5fa153e4a019e2bd": {
+      "checkpoint_id": "capsule:w04:communication_repair",
+      "artifact_identity": "c8a8ad4e32c399dad022bd0b8398009239b666cb831909f89707fc3206c84b1f",
+      "file_hash": "38b51d6c5e74da5dcf6686abdec57815377a65d57dd444012036c666f435f35f",
+      "verified": true
+    },
+    "03c9870e62294a62cf9312e163d564fd31a228b317a33ef5ccb8ca51724faf58": {
+      "checkpoint_id": "capsule:w04:memory_plasticity",
+      "artifact_identity": "0df93c23f0369a2aa524a5461bb4a059e95fdb980f2c2ed1ff36f0871562ebf9",
+      "file_hash": "4fb8fbf89bc574612961024208fb4efad789af392811a0d277c880b4f88a45a3",
+      "verified": true
+    },
+    "eaec3af55f92cdec9e0e246989901862cbe07b12b03202c575de4eaf7f5dc64e": {
+      "checkpoint_id": "capsule:w04:action_simulation",
+      "artifact_identity": "b0cbb729fd1a9aaa3718ba2bf625f1475c31f9ea76dcf854c1ffd5f97c4a4773",
+      "file_hash": "87fc91168ef533d5900b2f66720c454df8831be87b252e23ff2ee325e2a049e8",
+      "verified": true
+    },
+    "77b6d5a83096466ce5f0adb6bbc9b53ec6d8748dd665a2c5a02ebd019079023c": {
+      "checkpoint_id": "capsule:w04:construction",
+      "artifact_identity": "61dfb786d5bca3305a9b18498974e09e9a30538929e660492307db111c22e9fb",
+      "file_hash": "2806c5cf73feb7bf13eacbbc121c88c4aab1467dcc55768c14146386cf9d070c",
+      "verified": true
+    },
+    "eb321e1e016733abb0e4cd1203caae714ff3b28b85eebdf9bd21c2c95e18bca3": {
+      "checkpoint_id": "capsule:w04:dispatch_redesign",
+      "artifact_identity": "be718c01a9edb21ae8e40126bc5d976760e862e8f03fce2aee19055aebd37199",
+      "file_hash": "7e5c371cebf3e4f42553723eca32ffd72153fb7de1cc9f762c1f183f28f5c254",
+      "verified": true
+    },
+    "a45782384eea69a2a773459943d0e9f78a20091e57e416673f9595de8c4773a1": {
+      "checkpoint_id": "capsule:w05:formation_trace",
+      "artifact_identity": "11b2399826bd63b9514d2a573d56d37617765e5223c6a3e0b7f91a33506ff220",
+      "file_hash": "762233e1a7b186d185c592d74778a6762e104e1b8d6a51f2e786c42c2aecb65b",
+      "verified": true
+    },
+    "65bd109aef82a1e3491e2f925caefd1c4f8cd37326334fafa2d103f745aa74b4": {
+      "checkpoint_id": "capsule:w05:communication_repair",
+      "artifact_identity": "c2682a277c98ba2a47770a80f23fb434fc0733502b635eed25c2c1ea1fb5cbad",
+      "file_hash": "35f80b76500af852df3a07099d8f6eca5687c911b87beb1489ad9de29d43ff22",
+      "verified": true
+    },
+    "7bd46e6f2cf8507cadd3f636d29f737af82702d13801e03c7efd61742abdcc73": {
+      "checkpoint_id": "capsule:w05:memory_plasticity",
+      "artifact_identity": "17f26e0e3ffeb2a192216d7bdf410ba40ee36a2170ae2cc4147d1c94790155e9",
+      "file_hash": "12f2634dd07c7bbf476052eab8a9802849fe6ef1f43d888d1d813044f131c80d",
+      "verified": true
+    },
+    "548ce5961d8b0e4a54a1a58a954ed920f14e078a998be0a18f2a92d63d36287b": {
+      "checkpoint_id": "capsule:w05:action_simulation",
+      "artifact_identity": "a6d2b202c930315de2c66669db5449c8ac0b1970ed8ee08128397e3303abd891",
+      "file_hash": "418d5be53c26564b58e412e20deaef30029a4e0860418d29aac96feaa6e5ccf3",
+      "verified": true
+    },
+    "e829a5224c659e282b71326076a9b2087a293894f123e66bd994d18df3ccef31": {
+      "checkpoint_id": "capsule:w05:construction",
+      "artifact_identity": "8605fcda7c1abdb754514487ef0b72b9fe3837e136066ff95e9c9bd937413ae0",
+      "file_hash": "d8ce8f990a95ac478b58832cddab647f8e07191ac5fb6628ad27b59712086cb6",
+      "verified": true
+    },
+    "358091bc76ec47a251a082429ced0f03e32740dee9675f3565e4f4c42f28541f": {
+      "checkpoint_id": "capsule:w05:dispatch_redesign",
+      "artifact_identity": "f4ee6c2c6a3876b76073b6f91a7846a32dd21fc56e1723143b3eadf194aea08b",
+      "file_hash": "607544df6e41c06bbe21e5cfab6b030e2046a3b76be2f57d11c6df2b46d0f97e",
+      "verified": true
+    },
+    "353d962bfea0eb3f71b9f7b6b8eaa2e14eefb26cff4b5dd1977eb4cf3080a106": {
+      "checkpoint_id": "capsule:w06:formation_trace",
+      "artifact_identity": "1ec3586687ef5e187126081d052886743ef3b555975d844722756795735ba822",
+      "file_hash": "4f86d1dcc013e9db842ccf2842cc67ea4f9f59e9aa87768fc1a2f21075625ec7",
+      "verified": true
+    },
+    "efe5fcb95e1d1ca1785f1cf8eb1bb7c58cfb63794a381c3defc65b37dd9a59a5": {
+      "checkpoint_id": "capsule:w06:communication_repair",
+      "artifact_identity": "406b658883563d20cd09c69dfd372ca61e0d771aa53368bc131720b8f3ede261",
+      "file_hash": "91c5a2a66d1c9eee7675c0e0052032ea886a205529216beccc88a93ec3161997",
+      "verified": true
+    },
+    "3f64f0d84c8ffeb9a36a77b3155cc0ff5acb02d5f9d213eed9d26b1ca4a834ba": {
+      "checkpoint_id": "capsule:w06:memory_plasticity",
+      "artifact_identity": "977c14fac22ce4066d2127d1014ec9d2fcfd62b1919ecd7636a062324d1ed32a",
+      "file_hash": "3e999874fc4e8f26e791cd7969aee45cefc10399833dde5521c7a625888ca717",
+      "verified": true
+    },
+    "ea0c733dcfd13c6255156667d5383686bbad7517db254f0f7d5fe74c64b2cf07": {
+      "checkpoint_id": "capsule:w06:action_simulation",
+      "artifact_identity": "d8b8d1fe43144e4f2c32d3eed127dab953d07b07728e195fbc9670cae21c50dd",
+      "file_hash": "7a62b9cdde00baa2ab7b9683de5df13a59156db6d1be6a88006b98dbd6822b44",
+      "verified": true
+    },
+    "ec3a41a9d827cba71244c428ff32e2b01ff6a975acf80d92efe78da69ece2935": {
+      "checkpoint_id": "capsule:w06:construction",
+      "artifact_identity": "2088cfdad9cc0515bd76dc31489a78349cb967dbb836a53af3c9316c707e6f10",
+      "file_hash": "fecd2b342843516f70f8eca5dd57bcd1d1c9742a613c964d2140fc7472bec036",
+      "verified": true
+    },
+    "7683f521c95b9588966e8845835f2b913687003d17ab64c6c0118ea7889da18e": {
+      "checkpoint_id": "capsule:w06:dispatch_redesign",
+      "artifact_identity": "84e7b27642eb2f22fa1ea56b81cec79f0214a3475fee497f62cf2e915c02b5c0",
+      "file_hash": "a388a7d148c9ccc98cb36e76d615b7d7f5ea3a7b729636aef03e5239be4f9944",
+      "verified": true
+    },
+    "dc06f6ba6fdf640923f655955407d9fe27182cf599b827cfb815df37281d2aea": {
+      "checkpoint_id": "capsule:w07:formation_trace",
+      "artifact_identity": "a0ffc8421b9c52df2bca83b42fb1a60245829b5a21054a44bac76a83023c8ace",
+      "file_hash": "f073c9af91de6d6be9f602fc394d00644d280ced5187c0645ce4825a88e4b5ba",
+      "verified": true
+    },
+    "f389549b56380ed634a9b2468ba3909d64768abd6766534d9b25458c64b6e677": {
+      "checkpoint_id": "capsule:w07:communication_repair",
+      "artifact_identity": "51ecee1e63c70d37e79757cfcb908307fc29ad0f57c2788fd83232af15eeaab4",
+      "file_hash": "ace6821c0f0a303a4adf79e75ec4160b52dde3f8d144842989b2fe746bb59455",
+      "verified": true
+    },
+    "f5e22898bcf995843266ecbcea2dec72d0bdb43c42eebd9a0a7d2bdca66fada0": {
+      "checkpoint_id": "capsule:w07:memory_plasticity",
+      "artifact_identity": "af05c4fcaec9f472a1d7075e8ebade3e96254fd67a8feb1533343349db385663",
+      "file_hash": "66a9fc4313494a32afab12955e730e45edbf0dd3f7168716dbb04343e5348064",
+      "verified": true
+    },
+    "9489b82831734ef3c410a47fbd736d905906f3d44e7bf9cc27de21d6926311e1": {
+      "checkpoint_id": "capsule:w07:action_simulation",
+      "artifact_identity": "530b0f651b387a5ccc9c582f0d51ef1f28a553664117104466e62fae18d2844c",
+      "file_hash": "1d14e09eaba2ac83341df947e782c5236df1fef0dcf3e5d6ffbf4277bcd647c6",
+      "verified": true
+    },
+    "be674546c62309483f5a284a01b27563f7f51bd140b008c45462a818ee02d531": {
+      "checkpoint_id": "capsule:w07:construction",
+      "artifact_identity": "634a032d23cbfd3b2de769a7fa2825cc48253bfdf23ba2941c4611ab4b60fb6c",
+      "file_hash": "ec81d514d1a7eaceb34ad33c564632c7296f3e4042cffc4af8f9576ffe8ee526",
+      "verified": true
+    },
+    "b2a16b163d9978537d9a0dd8f61a3c16d2ba184f24b9788c65988804fe6c3bcc": {
+      "checkpoint_id": "capsule:w07:dispatch_redesign",
+      "artifact_identity": "6d64e98c1dcfa7958eed5f802d3be1e0536c2803421a6f6744f8574ba3393ad4",
+      "file_hash": "f499659dac28827a51e66483b5e420956f35c294eedb593bc270fc0c9d8c17dc",
+      "verified": true
+    },
+    "f2840775d51c9f2b67b9f007d5981d83deb3f9ef3bad8862f770faeef5bd8540": {
+      "checkpoint_id": "integration:i1",
+      "artifact_identity": "0ad1f76b4350631c69299414a7dafcb2c6738b93693af9a813e6331564603383",
+      "file_hash": "3a43e517a0e0f417d4fd2666b292c75e5b335054d44427c0a73b5a394130438a",
+      "verified": true
+    },
+    "65b958b25a63507a87ee98d510ebd325d2ace3fb577d1d7f1e2e5e5e65a46d67": {
+      "checkpoint_id": "integration:i1_classification",
+      "artifact_identity": "83a41529edaeb2f6748388c4696e9ed633f693bac165a03fbdef66430258639f",
+      "file_hash": "6fd88aeedaa446dc68b20d36023f62df66835ad500d3e6402e4c7921fabd329a",
+      "verified": true
+    }
+  },
+  "cache_sha256": "731481c96e0f9360ba1a3197f5642402e49935cf063b2d6e2270da2566198799"
+}

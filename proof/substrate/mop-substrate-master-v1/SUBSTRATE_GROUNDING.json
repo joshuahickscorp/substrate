@@ -1,0 +1,115 @@
+{
+  "schema": "substrate-grounding/v1",
+  "source_session": "the temporal core mechanism campaign's own execution history",
+  "symbols": 17,
+  "tests": [
+    "referent_identification",
+    "symbol_reuse",
+    "new_concept_acquisition",
+    "concept_drift",
+    "ambiguous_reference",
+    "grounded_correction",
+    "symbol_with_no_referent",
+    "conflicting_modalities",
+    "language_to_action_consistency"
+  ],
+  "results": {
+    "referent_identification": {
+      "symbols": 17,
+      "grounded": [
+        "convergence_index_shift_detected_before_terminal_aggregation",
+        "e2_converge",
+        "e2_converge_corrections",
+        "e2_converge_extended",
+        "e2_principal",
+        "e2_principal_corrections",
+        "e2_scout",
+        "legacy_pre_persistence_object_hash_not_recomputable_after_json_normalization",
+        "mixed_resource_class_trial_failed_without_scientific_receipts",
+        "normal_supervisor_exit_closed_pty_and_terminated_active_children",
+        "principal_flat_stall_threshold_false_positive",
+        "process_visibility_race_exceeded_large_class_cap_by_one",
+        "stage_completed",
+        "supervisor",
+        "supervisor_exit_on_dirty_source_tree_from_a_concurrent_program",
+        "supervisor_process_group_handoff_terminated_active_children",
+        "third_bed_preflight"
+      ],
+      "passes": true,
+      "rule": "a symbol is grounded when removing its referent changes what is predicted"
+    },
+    "symbol_reuse": {
+      "reused_symbols": 8,
+      "passes": true
+    },
+    "new_concept_acquisition": {
+      "entered_as": "unknown",
+      "passes": true,
+      "rule": "a new symbol enters as unknown and earns a type from evidence"
+    },
+    "concept_drift": {
+      "measured": {
+        "e2_principal": 1.0,
+        "e2_principal_corrections": 0.0,
+        "third_bed_preflight": 0.0,
+        "e2_converge_corrections": 0.0,
+        "e2_converge": 0.0,
+        "e2_scout": 0.0,
+        "supervisor": 0.0
+      },
+      "drifting": [
+        "e2_principal"
+      ],
+      "passes": true
+    },
+    "ambiguous_reference": {
+      "ambiguous": [
+        "e2_principal"
+      ],
+      "passes": true,
+      "rule": "an ambiguous symbol is reported as ambiguous rather than forced to one referent"
+    },
+    "grounded_correction": {
+      "symbol": "e2_converge_corrections",
+      "outcome": 0.0,
+      "passes": true,
+      "rule": "the record corrects the symbol, the symbol does not explain away the record"
+    },
+    "symbol_with_no_referent": {
+      "symbol": "coherence_of_the_substrate",
+      "in_corpus": false,
+      "passes": true,
+      "rule": "a definition is not a referent. A symbol absent from the record is ungrounded"
+    },
+    "conflicting_modalities": {
+      "symbols": [
+        "e2_principal"
+      ],
+      "passes": true,
+      "rule": "disagreement is preserved as disagreement"
+    },
+    "language_to_action_consistency": {
+      "passes": true,
+      "rule": "the symbol that drove the decision is the one the outcome is filed under"
+    }
+  },
+  "passed": [
+    "ambiguous_reference",
+    "concept_drift",
+    "conflicting_modalities",
+    "grounded_correction",
+    "language_to_action_consistency",
+    "new_concept_acquisition",
+    "referent_identification",
+    "symbol_reuse",
+    "symbol_with_no_referent"
+  ],
+  "failed": [],
+  "all_pass": true,
+  "verbal_definition_is_not_evidence": true,
+  "limitation": "the referents are scheduling and receipt symbols from one program. Grounding here means connected to recorded outcomes, not perceptually grounded",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
+  "sha256": "6cc30537ede744f3f38cc6bc19e796b453b72c454af85055e906d17c89e3c9ee"
+}

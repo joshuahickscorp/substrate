@@ -1,0 +1,192 @@
+{
+  "schema": "mop-code-lifecycle-authority/v1",
+  "classes": [
+    "active_runtime",
+    "active_method",
+    "active_substrate",
+    "active_tests",
+    "frozen_reproducibility",
+    "historical_migration",
+    "generated"
+  ],
+  "rules": [
+    {
+      "prefix": "src/mop/temporal/runs/supervisor.py",
+      "class": "active_substrate"
+    },
+    {
+      "prefix": "src/mop/temporal/runs/e2.py",
+      "class": "active_substrate"
+    },
+    {
+      "prefix": "src/mop/temporal/runs/__init__.py",
+      "class": "active_substrate"
+    },
+    {
+      "prefix": "src/mop/temporal/runs/thirdbed.py",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/temporal/runs",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop/temporal/receipt_contract.py",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/temporal/custody.py",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/temporal/io.py",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/temporal",
+      "class": "active_substrate"
+    },
+    {
+      "prefix": "src/mop/method",
+      "class": "active_method"
+    },
+    {
+      "prefix": "tests/temporal",
+      "class": "active_tests"
+    },
+    {
+      "prefix": "tests/method",
+      "class": "active_tests"
+    },
+    {
+      "prefix": "fastforge/runs",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge/verify.py",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge/arms.py",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge/within.py",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge/sequence.py",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "fastforge",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/beds",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop/substrate",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop/experiments",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop/science",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/harness",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "src/mop/studio",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "src/mop",
+      "class": "active_runtime"
+    },
+    {
+      "prefix": "tests",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "substrate",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "gen3",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "frontier",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "integrated",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "collapse",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "campaign2",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "salvage",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "substrate_evo",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "forge",
+      "class": "frozen_reproducibility"
+    },
+    {
+      "prefix": "legacy_scaffolding",
+      "class": "historical_migration"
+    },
+    {
+      "prefix": "scaffolding",
+      "class": "historical_migration"
+    },
+    {
+      "prefix": "scripts",
+      "class": "active_runtime"
+    }
+  ],
+  "targets": {
+    "active_runtime_loc": 8000,
+    "new_active_e2_implementation_loc": 2500,
+    "normal_entrypoints": 3,
+    "configuration_roots": 1,
+    "registries": 1,
+    "experiment_engines": 1,
+    "evidence_fabrics": 1
+  },
+  "policy": "frozen reproducibility code is the implementation behind sealed immutable receipts. It stays recoverable and is excluded from the orientation surface by classification, not by deletion. Reclassification is reported as reclassification",
+  "loc_by_class": {
+    "active_runtime": 3667,
+    "active_method": 7999,
+    "active_substrate": 2500,
+    "active_tests": 4025,
+    "frozen_reproducibility": 30456,
+    "historical_migration": 2534,
+    "generated": 0
+  },
+  "total_python_loc": 51181,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "672d48036485d4b76e6670bc619d80db0e731d1f13feb290d280fc258a9d5c5d"
+}

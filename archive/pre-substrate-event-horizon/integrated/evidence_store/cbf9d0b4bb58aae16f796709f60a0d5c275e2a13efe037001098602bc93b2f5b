@@ -1,0 +1,68 @@
+{
+  "schema": "mop-temporal-cap-preserving-refill-authority/v2",
+  "observed_at": "2026-07-27T05:53:23+00:00",
+  "implementation": {
+    "path": "reports/telegram_notifier/temporal_core_refill.py",
+    "sha256": "9943871ef179dcda3a65851fc3ba746804f781a16fbad52f7edeb7e9e9129232",
+    "launchd_plist": "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.refill.plist",
+    "launchd_plist_sha256": "c80b0b604a7080d17dacdc9be613aa3905809497b41a0042b2f849135ea8f41c",
+    "hardening_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+    "hardening_tree_oid": "88ab61be53af2941e3e2389fa85befabb452907f"
+  },
+  "scope": "principal-to-capacity-correction overlap only",
+  "invariants": {
+    "large_worker_cap": 16,
+    "all_principal_identities_accounted_before_launch": true,
+    "accounting_equation": "completed principal receipts + live principal locks = 24",
+    "exact_parent_receipt_required": true,
+    "atomic_fix_identity_reservation_required": true,
+    "fresh_partial_reservation_fails_closed": true,
+    "completion_rechecked_after_reservation_before_spawn": true,
+    "missing_or_crashed_principal_blocks_refill": true,
+    "refill_exits_after_principal_wave_terminal": true,
+    "activation_unchanged": true
+  },
+  "current_gate": {
+    "completed_principal": 16,
+    "live_principal": 8,
+    "accounted_principal": 24,
+    "completed_principal_corrections": 16,
+    "ready_parent_bound_corrections": [],
+    "active_principal_or_correction_tags": [
+      "p:speech_stream_0",
+      "p:speech_stream_1",
+      "p:speech_stream_2",
+      "p:speech_stream_3",
+      "p:speech_stream_4",
+      "p:speech_stream_5",
+      "p:speech_stream_6",
+      "p:speech_stream_7"
+    ],
+    "free_large_slots": 8
+  },
+  "contained_incident": {
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION_ATOMIC_LOCK_PUBLICATION.json",
+    "sha256": "0a859520dd3ac5cd229ab66a41b1be38c17e4f9a32c701450ae0928c3b4f64c0"
+  },
+  "service": {
+    "running": true,
+    "pid": 72292,
+    "error_log_bytes": 0
+  },
+  "checks": {
+    "principal_accounting_exact": true,
+    "no_duplicate_active_tags": true,
+    "completed_corrections_do_not_reenter_ready_queue": true,
+    "service_singleton": true,
+    "error_log_empty": true,
+    "activation_remains_false": true
+  },
+  "all_checks_pass": true,
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "source_tree_oid": "88ab61be53af2941e3e2389fa85befabb452907f",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "54a11f247f33bd5e71c684ef96639472aebeb325b31203a2147eec53b1587058"
+}

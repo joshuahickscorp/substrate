@@ -1,0 +1,12 @@
+{
+  "schema": "mop-substrate-consolidation-report/v1",
+  "policies": [
+    "none",
+    "fixed",
+    "boundary",
+    "perf"
+  ],
+  "mechanism": "EWC Fisher penalty at task boundaries",
+  "learned_consolidation": "not opened (no headroom gate passed)",
+  "sha256": "053b125cf9aaac09f528f426d6996e8e1c12083e44c6b89dc391d8ecae48d518"
+}

@@ -1,0 +1,115 @@
+{
+  "schema": "mop-baseline-convergence-authority/v1",
+  "plateau_criterion": "no improvement above 0.5 percent for three validation checks",
+  "rule": "a comparison against an undertrained, misconfigured, aliased or under budgeted baseline is provisional and cannot be terminal",
+  "per_experiment": {
+    "E1:har_stream": {
+      "fast_mlp": {
+        "identity": "fast_mlp",
+        "converged": false,
+        "reason": "still improving, best at check 3 of 5",
+        "validation_curve": [
+          0.8469,
+          0.8411,
+          0.8609,
+          0.8667,
+          0.8543,
+          0.8626
+        ],
+        "training_updates": 1200,
+        "selected_checkpoint": "steps=1200",
+        "seed_variance": 0.000643
+      },
+      "pooled_mlp": {
+        "identity": "pooled_mlp",
+        "converged": false,
+        "reason": "still improving, best at check 3 of 5",
+        "validation_curve": [
+          0.4428,
+          0.4362,
+          0.4222,
+          0.451,
+          0.4115,
+          0.4132
+        ],
+        "training_updates": 1200,
+        "selected_checkpoint": "steps=1200",
+        "seed_variance": 0.000201
+      }
+    },
+    "E1:speech_stream": {
+      "fast_mlp": {
+        "identity": "fast_mlp",
+        "converged": true,
+        "reason": "",
+        "validation_curve": [
+          0.7483,
+          0.7665,
+          0.763,
+          0.7535,
+          0.7613,
+          0.7665
+        ],
+        "training_updates": 1200,
+        "selected_checkpoint": "steps=1200",
+        "seed_variance": 0.00088
+      },
+      "pooled_mlp": {
+        "identity": "pooled_mlp",
+        "converged": false,
+        "reason": "still improving, best at check 3 of 5",
+        "validation_curve": [
+          0.2092,
+          0.2292,
+          0.263,
+          0.27,
+          0.2422,
+          0.2613
+        ],
+        "training_updates": 1200,
+        "selected_checkpoint": "steps=1200",
+        "seed_variance": 0.000173
+      }
+    },
+    "E4:har_stream": {
+      "locus_pretrain": {
+        "identity": "locus_pretrain",
+        "converged": true,
+        "reason": "",
+        "validation_curve": [
+          0.872,
+          0.8732,
+          0.8515,
+          0.8696,
+          0.878,
+          0.8732,
+          0.8732
+        ],
+        "training_updates": 700,
+        "selected_checkpoint": "steps=700",
+        "seed_variance": 0.002316
+      }
+    },
+    "E4:speech_stream": {
+      "locus_pretrain": {
+        "identity": "locus_pretrain",
+        "converged": true,
+        "reason": "",
+        "validation_curve": [
+          0.4907,
+          0.5963,
+          0.5917,
+          0.5893,
+          0.5917
+        ],
+        "training_updates": 700,
+        "selected_checkpoint": "steps=700",
+        "seed_variance": 0.00534
+      }
+    }
+  },
+  "all_converged": false,
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "76fb8b3131c06c1c50f7d66ee64ef28eabb340c747220b579b9ff010b521081a"
+}

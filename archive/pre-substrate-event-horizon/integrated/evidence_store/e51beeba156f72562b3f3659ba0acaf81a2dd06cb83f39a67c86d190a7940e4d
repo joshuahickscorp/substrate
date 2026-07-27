@@ -1,0 +1,73 @@
+{
+  "schema": "mop-method-resource-report/v1",
+  "task_class": "one factorial cell, 40 updates, batch 64, two BLAS threads per worker",
+  "measurements": [
+    {
+      "workers": 1,
+      "per_worker_steps_per_second": 25.21,
+      "aggregate_steps_per_second": 25.21,
+      "wall_seconds": 3.4
+    },
+    {
+      "workers": 2,
+      "per_worker_steps_per_second": 25.2,
+      "aggregate_steps_per_second": 50.4,
+      "wall_seconds": 3.4
+    },
+    {
+      "workers": 3,
+      "per_worker_steps_per_second": 24.22,
+      "aggregate_steps_per_second": 72.65,
+      "wall_seconds": 3.5
+    },
+    {
+      "workers": 4,
+      "per_worker_steps_per_second": 23.95,
+      "aggregate_steps_per_second": 95.78,
+      "wall_seconds": 3.6
+    },
+    {
+      "workers": 5,
+      "per_worker_steps_per_second": 23.17,
+      "aggregate_steps_per_second": 115.86,
+      "wall_seconds": 3.7
+    },
+    {
+      "workers": 8,
+      "per_worker_steps_per_second": 22.75,
+      "aggregate_steps_per_second": 181.99,
+      "wall_seconds": 3.8
+    },
+    {
+      "workers": 12,
+      "per_worker_steps_per_second": 21.16,
+      "aggregate_steps_per_second": 253.88,
+      "wall_seconds": 4.1
+    },
+    {
+      "workers": 16,
+      "per_worker_steps_per_second": 19.7,
+      "aggregate_steps_per_second": 315.18,
+      "wall_seconds": 4.5
+    },
+    {
+      "workers": 20,
+      "per_worker_steps_per_second": 18.35,
+      "aggregate_steps_per_second": 366.96,
+      "wall_seconds": 4.8
+    },
+    {
+      "workers": 24,
+      "per_worker_steps_per_second": 15.98,
+      "aggregate_steps_per_second": 383.53,
+      "wall_seconds": 5.6
+    }
+  ],
+  "optimum_workers": 24,
+  "optimum_aggregate_steps_per_second": 383.53,
+  "speedup_over_one_worker": 15.21,
+  "note": "another program was using this host during the benchmark, so these are throughput numbers under real contention rather than on an idle machine, which is the condition the supervisor runs in",
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "51c9c6a999347c945f0fcbd89a62e637a998c115f791ca126a5e70568b940762"
+}

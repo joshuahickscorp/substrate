@@ -1,0 +1,22 @@
+{
+  "schema": "mop-phase4-gate-report/v1",
+  "gates": {
+    "1_wave_verification_terminal_or_failed": true,
+    "2_wave_report_sealed": true,
+    "3_incremental_verification_mutation_tested": true,
+    "4_cached_receipts_invalidate_after_drift": true,
+    "5_scheduler_receipt_identity_across_widths": true,
+    "6_repeated_deterministic_stops_escalate": true,
+    "7_stall_alerts_work": true,
+    "8_task_class_benchmarks_complete": true,
+    "9_resource_profiles_frozen": true,
+    "10_next_canary_manifest_binds_repaired_runtime": false
+  },
+  "gates_passed": 9,
+  "gates_total": 10,
+  "gate_10_note": "authored as the first Phase 4 action; binds this runtime authority before any canary compute",
+  "phase2_complete": true,
+  "phase3_complete": true,
+  "phase4_launch_decision": "gates 1-9 pass; proceed to Phase 4 by authoring the P1R/U1/N1 canary manifests bound to the repaired runtime (gate 10), then run the Mechanism Admission Battery before any heavy compute",
+  "gate_report_sha256": "03b538dd0a8c71ea908afada3beece33a13297522709472719fee5e4e1c699e7"
+}

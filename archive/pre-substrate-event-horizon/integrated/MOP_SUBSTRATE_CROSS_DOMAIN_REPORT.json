@@ -1,0 +1,126 @@
+{
+  "schema": "mop-integrated-cross-domain/v1",
+  "source_commit": "1af3a4d24ee27ec64878897e38b470ad35af8852",
+  "sequence": "HAR sensor -> Speech Commands audio -> return HAR -> held-out speaker adaptation",
+  "domains_valid": {
+    "HAR_raw": "temporal_headroom_present",
+    "SpeechCommands": "temporal_headroom_present (mel filterbank)"
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "arms": [
+    "fresh_core",
+    "projection_only",
+    "slow_core_transfer",
+    "frozen_transferred_core",
+    "finetuned_transferred_core",
+    "full_persistent_substrate"
+  ],
+  "means": {
+    "fresh_core": {
+      "har_after_stage1": 0.7627,
+      "speech_acquisition": 0.2556,
+      "har_return_recovery": 0.7288,
+      "future_adaptation": 0.385,
+      "negative_transfer": 0.0339
+    },
+    "projection_only": {
+      "har_after_stage1": 0.7627,
+      "speech_acquisition": 0.2556,
+      "har_return_recovery": 0.7288,
+      "future_adaptation": 0.385,
+      "negative_transfer": 0.0339
+    },
+    "slow_core_transfer": {
+      "har_after_stage1": 0.7627,
+      "speech_acquisition": 0.285,
+      "har_return_recovery": 0.7921,
+      "future_adaptation": 0.3827,
+      "negative_transfer": -0.0294
+    },
+    "frozen_transferred_core": {
+      "har_after_stage1": 0.7627,
+      "speech_acquisition": 0.2096,
+      "har_return_recovery": 0.8026,
+      "future_adaptation": 0.2566,
+      "negative_transfer": -0.0399
+    },
+    "finetuned_transferred_core": {
+      "har_after_stage1": 0.7627,
+      "speech_acquisition": 0.285,
+      "har_return_recovery": 0.7921,
+      "future_adaptation": 0.3827,
+      "negative_transfer": -0.0294
+    },
+    "full_persistent_substrate": {
+      "har_after_stage1": 0.7627,
+      "speech_acquisition": 0.285,
+      "har_return_recovery": 0.7921,
+      "future_adaptation": 0.3827,
+      "negative_transfer": -0.0294
+    }
+  },
+  "effects_vs_fresh_core": {
+    "projection_only": {
+      "speech_acq_vs_fresh": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0,
+        "lower_95_cb": 0.0
+      }
+    },
+    "slow_core_transfer": {
+      "speech_acq_vs_fresh": {
+        "mean": 0.0294,
+        "lower_95_cb": -0.0166
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0633,
+        "lower_95_cb": 0.038
+      }
+    },
+    "frozen_transferred_core": {
+      "speech_acq_vs_fresh": {
+        "mean": -0.046,
+        "lower_95_cb": -0.0823
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0738,
+        "lower_95_cb": 0.0498
+      }
+    },
+    "finetuned_transferred_core": {
+      "speech_acq_vs_fresh": {
+        "mean": 0.0294,
+        "lower_95_cb": -0.0166
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0633,
+        "lower_95_cb": 0.038
+      }
+    },
+    "full_persistent_substrate": {
+      "speech_acq_vs_fresh": {
+        "mean": 0.0294,
+        "lower_95_cb": -0.0166
+      },
+      "har_return_vs_fresh": {
+        "mean": 0.0633,
+        "lower_95_cb": 0.038
+      }
+    }
+  },
+  "positive_arms": [],
+  "verdict": "cross_domain_moldability_null",
+  "SESOI": 0.05,
+  "core_reinitialized_for_persistent_arm": false,
+  "wall_seconds": 916.8,
+  "sha256": "7a87c3a53d0b0d304e0a885e31eb38e11f9df3dea99aa73e7c9b48c940186d00"
+}

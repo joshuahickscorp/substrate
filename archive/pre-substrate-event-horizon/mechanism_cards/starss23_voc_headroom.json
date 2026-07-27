@@ -1,0 +1,14 @@
+{
+ "card_id": "starss23_voc_headroom",
+ "disposition": "redesign",
+ "evidence_level": "M0",
+ "failure_domain": "descriptive instrument; informed is a label-aware ceiling",
+ "forbidden_claim": "no activation, promotion, or confirmation from these sealed runs",
+ "form_family": "native_audio",
+ "hypothesis": "a trained value_of_computation beats matched controls on value_of_computation",
+ "independent_units": "clips within a small number of rooms (not independent environments)",
+ "mechanism_family": "value_of_computation",
+ "phenomenon": "value_of_computation",
+ "source_artifact": "STARSS23_VOC_HEADROOM.json",
+ "strongest_control": "rate_matched_random at matched budget"
+}

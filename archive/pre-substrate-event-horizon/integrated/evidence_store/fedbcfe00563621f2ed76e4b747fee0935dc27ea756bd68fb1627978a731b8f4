@@ -1,0 +1,61 @@
+{
+  "bed": "har_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "large",
+    "readout": "linear",
+    "reset": "horizon_5",
+    "history_k": 1
+  },
+  "cell": "gru|large|linear|horizon_5|h1",
+  "curve": {
+    "400": 0.8105033333333332,
+    "800": 0.8308366666666668,
+    "1600": 0.7953933333333333,
+    "3200": 0.8035666666666667
+  },
+  "seed_spread": {
+    "400": 0.04692,
+    "800": 0.01485,
+    "1600": 0.02997,
+    "3200": 0.03322
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.8105,
+    0.83084,
+    0.79539,
+    0.80357
+  ],
+  "best_budget": 800,
+  "selected_checkpoint": 800,
+  "second_half_movement": 0.00817,
+  "residual_slope": 0.008173,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0082 with slope 0.00817; extend the budget grid past 3200",
+  "classification": "unconverged",
+  "wall_seconds": 2601.4,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "bfca5afdb7fbfbe1b2f8201d85c97a9fe7349097",
+  "result_sha256": "5e2b52c4ea30c8fbf8bd096b27f2cc3ff815b1401357eff1a9fa7b101ec1d59a"
+}

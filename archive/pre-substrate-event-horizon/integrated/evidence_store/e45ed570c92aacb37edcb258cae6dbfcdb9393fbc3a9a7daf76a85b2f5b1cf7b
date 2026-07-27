@@ -1,0 +1,113 @@
+{
+  "schema": "mop-temporal-core-binding-results/v1",
+  "read_from": "proof/method/mop-experimental-method-reformation-v1",
+  "evidence_fabric_root": "c59e4573cef0272fbba6fd1708fb7c6e10afa33effd08f4c85c2ccb9a2cc4bc9",
+  "validity_system": {
+    "kernel_loc": 3103,
+    "stages_before_principal_compute": 12,
+    "total_admission_stages": 17,
+    "calibration_all_pass": true,
+    "calibration_cases": 12,
+    "defect_mutations": 20,
+    "defect_mutations_rejected": true,
+    "statement_coverage": 98.9,
+    "branch_coverage": 94.4,
+    "confirmed_open_defects": 0
+  },
+  "E1": {
+    "design": "core by readout factorial",
+    "cells": 8,
+    "seeds": 8,
+    "core_effect": {
+      "har_stream": {
+        "at_linear": 0.455,
+        "at_mlp": 0.45525,
+        "group_lower_95_cb": 0.38605
+      },
+      "speech_stream": {
+        "at_linear": 0.46475,
+        "at_mlp": 0.49075,
+        "group_lower_95_cb": 0.41545
+      }
+    },
+    "readout_effect": {
+      "har_stream": {
+        "at_pooled": -0.00063,
+        "at_fast": -0.00038
+      },
+      "speech_stream": {
+        "at_pooled": -0.01113,
+        "at_fast": 0.01487
+      }
+    },
+    "persistent_state_versus_misaligned_reset": {
+      "har_stream": {
+        "at_linear": 0.166,
+        "at_mlp": 0.16319
+      },
+      "speech_stream": {
+        "at_linear": 0.5895,
+        "at_mlp": 0.60556
+      }
+    },
+    "permitted_interpretation": "a trainable temporal core and persistent state produce substantial value on two strongly temporal controlled beds, and increasing readout capacity does not explain the effect",
+    "forbidden_interpretations": [
+      "complete substrate positive",
+      "cross domain substrate positive",
+      "continual learning positive",
+      "plasticity controller positive",
+      "architecture selection",
+      "external replication",
+      "activation"
+    ]
+  },
+  "E4": {
+    "design": "adaptation locus",
+    "arms": 7,
+    "seeds": 16,
+    "state_only_versus_no_adapt": {
+      "speech_stream": 0.08862,
+      "har_stream": 0.13129
+    },
+    "state_only_versus_state_noise": {
+      "speech_stream": 0.09318,
+      "har_stream": 0.13384
+    },
+    "state_only_versus_head_only": {
+      "speech_stream": "wrong_direction_failure",
+      "har_stream": "harm"
+    },
+    "state_only_retention": {
+      "speech_stream": -0.13481,
+      "har_stream": -0.10163
+    },
+    "permitted_interpretation": "fast owned state can alter behaviour without parameter change, and the tested state only adaptation rule is not competitive",
+    "selection": "the E4 state only rule is not selected and is not reused unchanged"
+  },
+  "defect_constraints": {
+    "D16": {
+      "title": "a context split that crosses no boundary",
+      "detector": "mop.method.bed.context_boundary",
+      "mutation": "context_split_that_crosses_no_boundary"
+    },
+    "D17": {
+      "title": "a brittle plateau criterion reported a flat curve as still improving",
+      "detector": "mop.method.baseline.plateau",
+      "mutation": "brittle_plateau_criterion"
+    },
+    "D18": {
+      "title": "a label permutation control scored against zero difference instead of the majority class rate",
+      "detector": "mop.method.runs.mutations.e1_mutations",
+      "mutation": "label_permutation_scored_against_zero"
+    }
+  },
+  "reset_alignment_defect": {
+    "title": "reset period three coincided with every true segment boundary on both stream beds",
+    "detector": "mop.temporal.witness.reset_alignment",
+    "mutation": "reset_period_three_is_oracle_segmented"
+  },
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+  "SESOI": 0.05,
+  "sha256": "a9140ae7b71808307ae6fbf9c8beef3d5e9ad35f8b9df94f3503a3635d149094"
+}

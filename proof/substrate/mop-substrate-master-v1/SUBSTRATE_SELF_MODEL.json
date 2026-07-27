@@ -1,0 +1,110 @@
+{
+  "schema": "substrate-self-model/v1",
+  "fact_kinds": [
+    "active_goals",
+    "available_capabilities",
+    "known_limitations",
+    "current_state",
+    "active_perspectives",
+    "historical_reliability",
+    "memory_integrity",
+    "resource_limits",
+    "unfinished_tasks",
+    "recent_errors",
+    "checkpoint_identity",
+    "developmental_history"
+  ],
+  "prediction_kinds": [
+    "accuracy",
+    "failure_probability",
+    "time",
+    "cost",
+    "tool_competence",
+    "memory_confidence",
+    "perspective_reliability",
+    "task_progress"
+  ],
+  "usefulness_criteria": [
+    "decisions",
+    "calibration",
+    "recovery",
+    "planning",
+    "adaptation"
+  ],
+  "not_a_narrative": "a self fact carries a source artifact or code path or it is refused. No self report is generated from a description of the system",
+  "control": "a fixed prior of the same form, fitted once and never updated",
+  "facts_recorded": [],
+  "facts_missing": [
+    "active_goals",
+    "available_capabilities",
+    "known_limitations",
+    "current_state",
+    "active_perspectives",
+    "historical_reliability",
+    "memory_integrity",
+    "resource_limits",
+    "unfinished_tasks",
+    "recent_errors",
+    "checkpoint_identity",
+    "developmental_history"
+  ],
+  "calibration": {
+    "per_kind": {
+      "accuracy": {
+        "n": 0,
+        "calibrated": false,
+        "reason": "no prediction was ever compared against an outcome"
+      },
+      "failure_probability": {
+        "n": 0,
+        "calibrated": false,
+        "reason": "no prediction was ever compared against an outcome"
+      },
+      "time": {
+        "n": 0,
+        "calibrated": false,
+        "reason": "no prediction was ever compared against an outcome"
+      },
+      "cost": {
+        "n": 0,
+        "calibrated": false,
+        "reason": "no prediction was ever compared against an outcome"
+      },
+      "tool_competence": {
+        "n": 0,
+        "calibrated": false,
+        "reason": "no prediction was ever compared against an outcome"
+      },
+      "memory_confidence": {
+        "n": 0,
+        "calibrated": false,
+        "reason": "no prediction was ever compared against an outcome"
+      },
+      "perspective_reliability": {
+        "n": 0,
+        "calibrated": false,
+        "reason": "no prediction was ever compared against an outcome"
+      },
+      "task_progress": {
+        "n": 0,
+        "calibrated": false,
+        "reason": "no prediction was ever compared against an outcome"
+      }
+    },
+    "kinds_with_evidence": [],
+    "kinds_without_evidence": [
+      "accuracy",
+      "failure_probability",
+      "time",
+      "cost",
+      "tool_competence",
+      "memory_confidence",
+      "perspective_reliability",
+      "task_progress"
+    ]
+  },
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "b05b0d3b6b086890e60c8caba3a6d55772c086f40f2aa979535fe83fed9df885"
+}

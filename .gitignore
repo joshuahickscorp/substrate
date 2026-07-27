@@ -20,6 +20,16 @@ reports/telegram_notifier/
 # contents, then re-include the specific curated files. See STUDIO_RUN_REPORT.md durability note.
 !runs/
 runs/*
+# Historical receipts are already tracked and remain in Git through the migration manifest. New mutable
+# state is admitted only under the active Substrate run root.
+!runs/substrate/
+runs/substrate/*
+!runs/substrate/v1/
+runs/substrate/v1/*
+!runs/substrate/v1/result_ledger.json
+!runs/substrate/v1/experiments/
+!runs/substrate/v1/experiments/**
+
 !runs/pre_studio/
 runs/pre_studio/*
 !runs/pre_studio/close_e7_sparse.json
@@ -40,3 +50,9 @@ runs/mot/*
 *.bin
 **/.DS_Store
 GO.md
+
+# Accretion Collapse scratch working area
+.collapse/
+
+# Execution Forge isolated benchmark roots are disposable; only the sealed matrix and reports are tracked.
+artifacts/substrate/execution-forge/.benchmark-*/

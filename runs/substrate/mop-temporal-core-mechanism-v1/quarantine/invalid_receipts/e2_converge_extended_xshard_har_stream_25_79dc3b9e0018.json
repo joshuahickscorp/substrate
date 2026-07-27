@@ -1,0 +1,81 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "har_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "large",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "histmlp|large|linear|none|h1",
+  "curve": {
+    "400": 0.7814766666666667,
+    "800": 0.7911833333333332,
+    "1600": 0.7670033333333334,
+    "3200": 0.7566266666666667,
+    "6400": 0.7645799999999999,
+    "12800": 0.76175
+  },
+  "seed_spread": {
+    "400": 0.06272,
+    "800": 0.0623,
+    "1600": 0.07142,
+    "3200": 0.08223,
+    "6400": 0.07483,
+    "12800": 0.0711
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_har_stream_25.json",
+    "sha256": "cb466f7b0015a24fa11a9f5875861844de320d76a02ee3ee9ddf47ce626deeca",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "8192dbda940c2362fb474abf6bc1b95549fdd38e",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.78148,
+    0.79118,
+    0.767,
+    0.75663,
+    0.76458,
+    0.76175
+  ],
+  "best_budget": 800,
+  "selected_checkpoint": 800,
+  "second_half_movement": 0.00795,
+  "residual_slope": 0.002562,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": false,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.008 with slope 0.00256; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 154.6,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "8192dbda940c2362fb474abf6bc1b95549fdd38e",
+  "result_sha256": "a4c8b1e743b9ff65dad9552c1998d6bb2fec6e64366e314ca431f416c4316579"
+}

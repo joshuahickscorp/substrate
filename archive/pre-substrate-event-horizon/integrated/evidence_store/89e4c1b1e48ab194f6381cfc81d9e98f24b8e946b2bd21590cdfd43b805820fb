@@ -1,0 +1,215 @@
+{
+  "schema": "mop-architecture-h/v1",
+  "name": "Anchored Fast Dynamics with Interference Gated Adaptation",
+  "premise": "shared plasticity is safe when it is explicitly bounded and reversible, and is opened only when the measured interference signal permits it",
+  "materially_different_from_G": [
+    "the shared core is a frozen anchor plus a bounded trainable delta, not a directly trainable core",
+    "the delta is bounded by a smooth tanh bound of tau, so shared drift has a hard ceiling",
+    "the delta can be reverted toward the anchor, so shared plasticity is reversible",
+    "domain local capacity is low rank rather than a bottleneck residual",
+    "the update decision is driven by measured interference, not by a fixed schedule"
+  ],
+  "owned_state": {
+    "shared fast dynamics core": "GRU parameters evaluated functionally as anchor plus bounded delta",
+    "frozen reference anchor": "registered buffers, never trainable",
+    "trainable fast delta": "parameter per anchor tensor, bounded by tau = 0.5",
+    "domain local low rank adapters": "rank 8 residual per domain",
+    "domain local heads": "linear per domain",
+    "interference statistics": "gradient conflict, reference probe loss, weight space drift"
+  },
+  "gate_rules": {
+    "always": "simple rule, no learned parameters",
+    "never": "simple rule, no learned parameters",
+    "cosine": "simple rule, no learned parameters",
+    "probe": "simple rule, no learned parameters",
+    "drift": "simple rule, no learned parameters",
+    "perf": "simple rule, no learned parameters",
+    "random": "simple rule, no learned parameters",
+    "shuffled": "simple rule, no learned parameters",
+    "wrong": "simple rule, no learned parameters"
+  },
+  "learned_gate_policy": "a learned gate opens only through a stable headroom authority",
+  "arms": {
+    "H_always_update": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "gate": "always"
+    },
+    "H_never_update": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": false,
+      "shared_p3": false,
+      "gate": "never"
+    },
+    "H_cosine_gate": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "gate": "cosine",
+      "thresh": 0.0
+    },
+    "H_probe_gate": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "gate": "probe",
+      "thresh": 0.05
+    },
+    "H_drift_gate": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "gate": "drift",
+      "thresh": 1.0
+    },
+    "H_perf_gate": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "gate": "perf",
+      "thresh": 0.02
+    },
+    "H_random_gate": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "gate": "random"
+    },
+    "H_shuffled_gate": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "gate": "shuffled",
+      "shuffle_of": "H_cosine_gate"
+    },
+    "H_wrong_domain_gate": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "gate": "wrong",
+      "thresh": 0.0
+    },
+    "H_task_label_freeze": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": false,
+      "shared_p3": true
+    },
+    "H_oracle_schedule": {
+      "arch": "H",
+      "carry": true,
+      "shared_p2": true,
+      "shared_p3": true,
+      "oracle": true
+    }
+  },
+  "inventory": {
+    "total_parameters": 65136,
+    "trainable_parameters": 40176,
+    "parameter_groups": {
+      "fast_delta": {
+        "parameters": [
+          "delta.bias_hh_l0",
+          "delta.bias_ih_l0",
+          "delta.weight_hh_l0",
+          "delta.weight_ih_l0"
+        ],
+        "count": 24960
+      },
+      "proj_conv.har": {
+        "parameters": [
+          "projs.har.conv.bias",
+          "projs.har.conv.weight"
+        ],
+        "count": 1472
+      },
+      "proj_lin.har": {
+        "parameters": [
+          "projs.har.lin.bias",
+          "projs.har.lin.weight"
+        ],
+        "count": 2112
+      },
+      "adapter.har": {
+        "parameters": [
+          "adapters.har.a",
+          "adapters.har.b"
+        ],
+        "count": 1024
+      },
+      "head.har": {
+        "parameters": [
+          "heads.har.bias",
+          "heads.har.weight"
+        ],
+        "count": 390
+      },
+      "proj_conv.speech": {
+        "parameters": [
+          "projs.speech.conv.bias",
+          "projs.speech.conv.weight"
+        ],
+        "count": 6432
+      },
+      "proj_lin.speech": {
+        "parameters": [
+          "projs.speech.lin.bias",
+          "projs.speech.lin.weight"
+        ],
+        "count": 2112
+      },
+      "adapter.speech": {
+        "parameters": [
+          "adapters.speech.a",
+          "adapters.speech.b"
+        ],
+        "count": 1024
+      },
+      "head.speech": {
+        "parameters": [
+          "heads.speech.bias",
+          "heads.speech.weight"
+        ],
+        "count": 650
+      }
+    },
+    "non_trainable_buffers": {
+      "anchor_weight_ih_l0": [
+        192,
+        64
+      ],
+      "anchor_weight_hh_l0": [
+        192,
+        64
+      ],
+      "anchor_bias_ih_l0": [
+        192
+      ],
+      "anchor_bias_hh_l0": [
+        192
+      ]
+    },
+    "partition_is_exact": true,
+    "undeclared_parameters": [],
+    "duplicated_parameters": []
+  },
+  "implementation": {
+    "module": "fastforge/arch.py",
+    "class": "ArchH",
+    "loc": 53
+  },
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "c570b87b96f806d16da9492d5ee6c08c3af854f0",
+  "SESOI": 0.05,
+  "sha256": "c6bbe4caeb8a15831eb65d404aad196525573bb5982886ecc7528347d1d59800"
+}

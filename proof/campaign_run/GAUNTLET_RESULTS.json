@@ -1,0 +1,86 @@
+{
+ "passed": 16,
+ "failed": 0,
+ "checks": [
+  {
+   "name": "first launch acquires the singleton lock",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "second launch adopts (does not acquire a competitor)",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "stale lock (dead pid) is not adopted; a fresh owner acquires",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "clean run seals every node exactly once",
+   "pass": true,
+   "detail": "exec=['a', 'b', 'c']"
+  },
+  {
+   "name": "sealed nodes are not recomputed on restart",
+   "pass": true,
+   "detail": "a=1 b=1"
+  },
+  {
+   "name": "incomplete node is recovered from stale lease and completes",
+   "pass": true,
+   "detail": "c ran 2 times (1 original + 1 recovery)"
+  },
+  {
+   "name": "all nodes terminal after restart, no deadlock",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "failing node is marked failed, not sealed",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "unrelated nodes still complete",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "no partial artifact accepted for the failed node",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "dangling dependency rejected at construction",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "forged artifact fails its seal",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "tampered lock identity is not treated as a live owner",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "per-node seals identical across pool widths 1/4/8",
+   "pass": true,
+   "detail": "widths gave identical seals"
+  },
+  {
+   "name": "receipt-invariance sweep: identical merged receipt across worker widths",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "name": "telegram rehearsal delivered",
+   "pass": true,
+   "detail": "message_id=6052"
+  }
+ ]
+}

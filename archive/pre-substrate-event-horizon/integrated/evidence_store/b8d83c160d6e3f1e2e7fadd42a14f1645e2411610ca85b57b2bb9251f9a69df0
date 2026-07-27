@@ -1,0 +1,1404 @@
+{
+  "schema": "mop-baseline-convergence/v2",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "step_grid": [
+    150,
+    350,
+    550,
+    900,
+    1400
+  ],
+  "learning_rate_grid": [
+    0.001,
+    0.003
+  ],
+  "baselines": [
+    "gru",
+    "lstm",
+    "separate",
+    "shared_adapters",
+    "matched_capacity",
+    "bag"
+  ],
+  "curves": {
+    "har|gru": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.7756,
+          "seed_sd": 0.0358,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8744,
+          "seed_sd": 0.0062,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8823,
+          "seed_sd": 0.0079,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8915,
+          "seed_sd": 0.007,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.8988,
+          "seed_sd": 0.0016,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.8778,
+          "seed_sd": 0.0042,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.9009,
+          "seed_sd": 0.0092,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.9033,
+          "seed_sd": 0.0082,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.9106,
+          "seed_sd": 0.0046,
+          "params": 28934,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.9106,
+          "seed_sd": 0.0114,
+          "params": 28934,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 550,
+          "accuracy_at_plateau": 0.8823,
+          "best_accuracy": 0.8988,
+          "seed_sd_at_plateau": 0.0079
+        },
+        "0.003": {
+          "plateau_steps": 550,
+          "accuracy_at_plateau": 0.9033,
+          "best_accuracy": 0.9106,
+          "seed_sd_at_plateau": 0.0082
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|550",
+      "plateau_steps": 550,
+      "accuracy_at_selected_checkpoint": 0.9033,
+      "seed_variance_at_plateau": 0.0082
+    },
+    "har|lstm": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.7832,
+          "seed_sd": 0.0543,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8532,
+          "seed_sd": 0.0516,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8731,
+          "seed_sd": 0.0175,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8904,
+          "seed_sd": 0.0062,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.8928,
+          "seed_sd": 0.0114,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.8162,
+          "seed_sd": 0.0243,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8858,
+          "seed_sd": 0.0093,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.885,
+          "seed_sd": 0.0062,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8842,
+          "seed_sd": 0.0245,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.9044,
+          "seed_sd": 0.0021,
+          "params": 37254,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.8928,
+          "best_accuracy": 0.8928,
+          "seed_sd_at_plateau": 0.0114
+        },
+        "0.003": {
+          "plateau_steps": 550,
+          "accuracy_at_plateau": 0.885,
+          "best_accuracy": 0.9044,
+          "seed_sd_at_plateau": 0.0062
+        }
+      },
+      "selected_learning_rate": 0.001,
+      "selected_checkpoint": "0.001|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.8928,
+      "seed_variance_at_plateau": 0.0114
+    },
+    "har|separate": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.7832,
+          "seed_sd": 0.0543,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8532,
+          "seed_sd": 0.0516,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8731,
+          "seed_sd": 0.0175,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8904,
+          "seed_sd": 0.0062,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.8928,
+          "seed_sd": 0.0114,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.8162,
+          "seed_sd": 0.0243,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8858,
+          "seed_sd": 0.0093,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.885,
+          "seed_sd": 0.0062,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8842,
+          "seed_sd": 0.0245,
+          "params": 37254,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.9044,
+          "seed_sd": 0.0021,
+          "params": 37254,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.8928,
+          "best_accuracy": 0.8928,
+          "seed_sd_at_plateau": 0.0114
+        },
+        "0.003": {
+          "plateau_steps": 550,
+          "accuracy_at_plateau": 0.885,
+          "best_accuracy": 0.9044,
+          "seed_sd_at_plateau": 0.0062
+        }
+      },
+      "selected_learning_rate": 0.001,
+      "selected_checkpoint": "0.001|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.8928,
+      "seed_variance_at_plateau": 0.0114
+    },
+    "har|shared_adapters": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.6882,
+          "seed_sd": 0.0576,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8185,
+          "seed_sd": 0.0508,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8687,
+          "seed_sd": 0.0098,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.87,
+          "seed_sd": 0.0317,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.887,
+          "seed_sd": 0.0085,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.7344,
+          "seed_sd": 0.0285,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8699,
+          "seed_sd": 0.0091,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8964,
+          "seed_sd": 0.0043,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8964,
+          "seed_sd": 0.0122,
+          "params": 39382,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.8871,
+          "seed_sd": 0.0185,
+          "params": 39382,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 900,
+          "accuracy_at_plateau": 0.87,
+          "best_accuracy": 0.887,
+          "seed_sd_at_plateau": 0.0317
+        },
+        "0.003": {
+          "plateau_steps": 900,
+          "accuracy_at_plateau": 0.8964,
+          "best_accuracy": 0.8964,
+          "seed_sd_at_plateau": 0.0122
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|900",
+      "plateau_steps": 900,
+      "accuracy_at_selected_checkpoint": 0.8964,
+      "seed_variance_at_plateau": 0.0122
+    },
+    "har|matched_capacity": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.738,
+          "seed_sd": 0.0225,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8019,
+          "seed_sd": 0.0271,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8666,
+          "seed_sd": 0.0256,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8851,
+          "seed_sd": 0.0091,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.8939,
+          "seed_sd": 0.0059,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.7125,
+          "seed_sd": 0.1172,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8807,
+          "seed_sd": 0.0175,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8895,
+          "seed_sd": 0.0105,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.894,
+          "seed_sd": 0.0067,
+          "params": 66374,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.9028,
+          "seed_sd": 0.0112,
+          "params": 66374,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.8939,
+          "best_accuracy": 0.8939,
+          "seed_sd_at_plateau": 0.0059
+        },
+        "0.003": {
+          "plateau_steps": 550,
+          "accuracy_at_plateau": 0.8895,
+          "best_accuracy": 0.9028,
+          "seed_sd_at_plateau": 0.0105
+        }
+      },
+      "selected_learning_rate": 0.001,
+      "selected_checkpoint": "0.001|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.8939,
+      "seed_variance_at_plateau": 0.0059
+    },
+    "har|bag": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.8462,
+          "seed_sd": 0.0107,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8747,
+          "seed_sd": 0.0051,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8769,
+          "seed_sd": 0.0054,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8825,
+          "seed_sd": 0.0077,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.8945,
+          "seed_sd": 0.0131,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.876,
+          "seed_sd": 0.0015,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.8818,
+          "seed_sd": 0.0056,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.8835,
+          "seed_sd": 0.0123,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.8906,
+          "seed_sd": 0.0079,
+          "params": 19334,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.904,
+          "seed_sd": 0.0092,
+          "params": 19334,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 550,
+          "accuracy_at_plateau": 0.8769,
+          "best_accuracy": 0.8945,
+          "seed_sd_at_plateau": 0.0054
+        },
+        "0.003": {
+          "plateau_steps": 350,
+          "accuracy_at_plateau": 0.8818,
+          "best_accuracy": 0.904,
+          "seed_sd_at_plateau": 0.0056
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|350",
+      "plateau_steps": 350,
+      "accuracy_at_selected_checkpoint": 0.8818,
+      "seed_variance_at_plateau": 0.0056
+    },
+    "speech|gru": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.282,
+          "seed_sd": 0.0172,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.6293,
+          "seed_sd": 0.0403,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.7316,
+          "seed_sd": 0.0371,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.7857,
+          "seed_sd": 0.0221,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.7876,
+          "seed_sd": 0.0093,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.4951,
+          "seed_sd": 0.0868,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.734,
+          "seed_sd": 0.0169,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.7818,
+          "seed_sd": 0.0118,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.7946,
+          "seed_sd": 0.0122,
+          "params": 34154,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.7946,
+          "seed_sd": 0.0188,
+          "params": 34154,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.7876,
+          "best_accuracy": 0.7876,
+          "seed_sd_at_plateau": 0.0093
+        },
+        "0.003": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.7946,
+          "best_accuracy": 0.7946,
+          "seed_sd_at_plateau": 0.0188
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.7946,
+      "seed_variance_at_plateau": 0.0188
+    },
+    "speech|lstm": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.2089,
+          "seed_sd": 0.0274,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.2388,
+          "seed_sd": 0.0259,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.3201,
+          "seed_sd": 0.0335,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.4862,
+          "seed_sd": 0.1048,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.6356,
+          "seed_sd": 0.0995,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.233,
+          "seed_sd": 0.017,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.4002,
+          "seed_sd": 0.1496,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.5383,
+          "seed_sd": 0.0962,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.6935,
+          "seed_sd": 0.0189,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.7538,
+          "seed_sd": 0.0435,
+          "params": 42474,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.6356,
+          "best_accuracy": 0.6356,
+          "seed_sd_at_plateau": 0.0995
+        },
+        "0.003": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.7538,
+          "best_accuracy": 0.7538,
+          "seed_sd_at_plateau": 0.0435
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.7538,
+      "seed_variance_at_plateau": 0.0435
+    },
+    "speech|separate": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.2089,
+          "seed_sd": 0.0274,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.2388,
+          "seed_sd": 0.0259,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.3201,
+          "seed_sd": 0.0335,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.4862,
+          "seed_sd": 0.1048,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.6356,
+          "seed_sd": 0.0995,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.233,
+          "seed_sd": 0.017,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.4002,
+          "seed_sd": 0.1496,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.5383,
+          "seed_sd": 0.0962,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.6935,
+          "seed_sd": 0.0189,
+          "params": 42474,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.7538,
+          "seed_sd": 0.0435,
+          "params": 42474,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.6356,
+          "best_accuracy": 0.6356,
+          "seed_sd_at_plateau": 0.0995
+        },
+        "0.003": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.7538,
+          "best_accuracy": 0.7538,
+          "seed_sd_at_plateau": 0.0435
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.7538,
+      "seed_variance_at_plateau": 0.0435
+    },
+    "speech|shared_adapters": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.1844,
+          "seed_sd": 0.0053,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.2194,
+          "seed_sd": 0.0911,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.3446,
+          "seed_sd": 0.0677,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.4376,
+          "seed_sd": 0.117,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.6569,
+          "seed_sd": 0.0808,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.203,
+          "seed_sd": 0.0492,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.3014,
+          "seed_sd": 0.0471,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.494,
+          "seed_sd": 0.0149,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.6947,
+          "seed_sd": 0.0408,
+          "params": 44602,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.7165,
+          "seed_sd": 0.0306,
+          "params": 44602,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.6569,
+          "best_accuracy": 0.6569,
+          "seed_sd_at_plateau": 0.0808
+        },
+        "0.003": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.7165,
+          "best_accuracy": 0.7165,
+          "seed_sd_at_plateau": 0.0306
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.7165,
+      "seed_variance_at_plateau": 0.0306
+    },
+    "speech|matched_capacity": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.1956,
+          "seed_sd": 0.0175,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.2964,
+          "seed_sd": 0.0053,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.3742,
+          "seed_sd": 0.0322,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.5181,
+          "seed_sd": 0.0355,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.6593,
+          "seed_sd": 0.0435,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.1906,
+          "seed_sd": 0.0293,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.3851,
+          "seed_sd": 0.0051,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.5445,
+          "seed_sd": 0.0409,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.6709,
+          "seed_sd": 0.0321,
+          "params": 71722,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.7316,
+          "seed_sd": 0.013,
+          "params": 71722,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.6593,
+          "best_accuracy": 0.6593,
+          "seed_sd_at_plateau": 0.0435
+        },
+        "0.003": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.7316,
+          "best_accuracy": 0.7316,
+          "seed_sd_at_plateau": 0.013
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.7316,
+      "seed_variance_at_plateau": 0.013
+    },
+    "speech|bag": {
+      "grid": {
+        "0.001|150": {
+          "learning_rate": 0.001,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.5305,
+          "seed_sd": 0.0298,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.001|350": {
+          "learning_rate": 0.001,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.6639,
+          "seed_sd": 0.0188,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.001|550": {
+          "learning_rate": 0.001,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.7227,
+          "seed_sd": 0.0162,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.001|900": {
+          "learning_rate": 0.001,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.7421,
+          "seed_sd": 0.0276,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.001|1400": {
+          "learning_rate": 0.001,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.7553,
+          "seed_sd": 0.0115,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.003|150": {
+          "learning_rate": 0.003,
+          "steps": 150,
+          "updates": 150,
+          "accuracy_mean": 0.6037,
+          "seed_sd": 0.0177,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.003|350": {
+          "learning_rate": 0.003,
+          "steps": 350,
+          "updates": 350,
+          "accuracy_mean": 0.7281,
+          "seed_sd": 0.0012,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.003|550": {
+          "learning_rate": 0.003,
+          "steps": 550,
+          "updates": 550,
+          "accuracy_mean": 0.7406,
+          "seed_sd": 0.0044,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.003|900": {
+          "learning_rate": 0.003,
+          "steps": 900,
+          "updates": 900,
+          "accuracy_mean": 0.7697,
+          "seed_sd": 0.0088,
+          "params": 20586,
+          "memory_cap": 0
+        },
+        "0.003|1400": {
+          "learning_rate": 0.003,
+          "steps": 1400,
+          "updates": 1400,
+          "accuracy_mean": 0.7639,
+          "seed_sd": 0.0316,
+          "params": 20586,
+          "memory_cap": 0
+        }
+      },
+      "per_learning_rate": {
+        "0.001": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.7553,
+          "best_accuracy": 0.7553,
+          "seed_sd_at_plateau": 0.0115
+        },
+        "0.003": {
+          "plateau_steps": 1400,
+          "accuracy_at_plateau": 0.7639,
+          "best_accuracy": 0.7697,
+          "seed_sd_at_plateau": 0.0316
+        }
+      },
+      "selected_learning_rate": 0.003,
+      "selected_checkpoint": "0.003|1400",
+      "plateau_steps": 1400,
+      "accuracy_at_selected_checkpoint": 0.7639,
+      "seed_variance_at_plateau": 0.0316
+    }
+  },
+  "plateau_criterion": "first step count whose accuracy gain over the previous grid point is below 0.01",
+  "principal_budget": {
+    "har": {
+      "learning_rate": 0.003,
+      "steps": 1400,
+      "rule": "the learning rate most baselines converge best under, and the largest plateau across baselines, so no baseline is starved by the principal budget"
+    },
+    "speech": {
+      "learning_rate": 0.003,
+      "steps": 1400,
+      "rule": "the learning rate most baselines converge best under, and the largest plateau across baselines, so no baseline is starved by the principal budget"
+    }
+  },
+  "rule": "no substrate result is terminal against an unconverged baseline. The principal budget is chosen so that every baseline is at or past its own plateau.",
+  "note": "the separate baseline is architecturally identical to lstm when only one context is registered, so its single domain curve matches lstm by construction",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "d5d86735fa4fe6715054d0c4e38b93374e5eca6d",
+  "SESOI": 0.05,
+  "sha256": "2085dcf89c7748f13ce9a820b1c509f1cb73efb7221468a6a6b6480c0a73a04b"
+}

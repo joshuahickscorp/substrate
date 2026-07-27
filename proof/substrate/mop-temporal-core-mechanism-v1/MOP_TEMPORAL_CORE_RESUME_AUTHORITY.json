@@ -1,0 +1,56 @@
+{
+  "schema": "mop-temporal-core-resume-authority/v1",
+  "implementation_authority": {
+    "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+    "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+  },
+  "pre_resume_state": {
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_STATE.json",
+    "sha256": "b7b157028497fd10af125ac846c52e10a1488feebb92c96e9b08ba0687d48df0",
+    "phase": "pre_resume_after_canary"
+  },
+  "implementation_transition": {
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_IMPLEMENTATION_TRANSITION.json",
+    "sha256": "2f4298172ba8363bab4e687c6f8e6c287eff42a9e8f2c59df909cb1f0d95ca37"
+  },
+  "canary": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge_corrections/convergence_har_stream.json",
+    "sha256": "8efde08680c7e2a1055309151dbde902ce85e8fd24791522a1bf6bfa487b95bf",
+    "contract_valid": true,
+    "aggregate_valid": true,
+    "independent_validation_pass": true
+  },
+  "detached_worker_re_adoption": {
+    "survivors_found": [],
+    "re_adopted": [],
+    "classification": "no_detached_survivors_at_quiescence"
+  },
+  "processes": [],
+  "locks": [],
+  "partial_receipts": {},
+  "duplicate_worker_or_writer": false,
+  "single_launch_authority": {
+    "label": "com.mop.temporal-core.supervisor",
+    "state": "unloaded_pending_release",
+    "plist_path": "/Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.supervisor.plist",
+    "plist_sha256": "093f777b743f19ee4cbf77c9250912d3f4a3a1c84bd356f1e908d2e7468cda3e"
+  },
+  "throughput_authority": {
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_RESOURCE_REPORT.json",
+    "sha256": "0f6218d1f26ffc8b06ca76bb8e3d95932d63daee00ebace67f661028680aef4a",
+    "small_worker_cap": 24,
+    "large_worker_cap": 16,
+    "nested_oversubscription": false
+  },
+  "resume": {
+    "stop_switch_active_before_release": true,
+    "command": "launchctl bootstrap gui/503 /Users/scammermike/Library/LaunchAgents/com.mop.temporal-core.supervisor.plist"
+  },
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+  "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "4e26032bb03b6234b48d86707184aa0a865496e27b044cc14552d0bde1b1981a"
+}

@@ -1,0 +1,2 @@
+E4 scout har_stream: oracle {'mean': 0.38796, 'lower_95_cb': 0.27963, 'n_seeds': 5}, state_only residual {'mean': 0.12953, 'lower_95_cb': 0.0177, 'n_seeds': 5}, mde 0.05
+E4_SCOUT_DONE

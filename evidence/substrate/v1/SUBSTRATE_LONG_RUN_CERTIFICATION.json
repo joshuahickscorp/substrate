@@ -1,0 +1,358 @@
+{
+  "schema": "substrate-long-run-certification/v1",
+  "runtime_activity": {
+    "schema": "substrate-runtime-activity/v1",
+    "ablatable_stages": [
+      "attend",
+      "select",
+      "run_perspectives",
+      "arbitrate",
+      "decide",
+      "remember",
+      "self_update",
+      "consolidate",
+      "adapt",
+      "checkpoint"
+    ],
+    "perceive_excluded": "without input the cycle has nothing to run, so ablating it tests nothing",
+    "results": {
+      "attend": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": true,
+        "null_control": {
+          "applicable": true,
+          "quiet": true,
+          "fixture": "a stream on which attend has nothing to do"
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "select": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": true,
+        "null_control": {
+          "applicable": true,
+          "quiet": true,
+          "fixture": "a stream on which select has nothing to do"
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "run_perspectives": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": true,
+        "null_control": {
+          "applicable": true,
+          "quiet": true,
+          "fixture": "a stream on which run_perspectives has nothing to do"
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "arbitrate": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": false,
+        "null_control": {
+          "applicable": false,
+          "reason": "emits an arbitration report every cycle by design, and the no arbiter arm fabricates a report of its own rather than staying silent",
+          "quiet": null
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "decide": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": true,
+        "null_control": {
+          "applicable": false,
+          "reason": "writes the decision region every cycle by design",
+          "quiet": null
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "remember": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": false,
+        "null_control": {
+          "applicable": false,
+          "reason": "writes an episode every cycle by design",
+          "quiet": null
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "self_update": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": true,
+        "null_control": {
+          "applicable": true,
+          "quiet": true,
+          "fixture": "a stream on which self_update has nothing to do"
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "consolidate": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": false,
+        "null_control": {
+          "applicable": true,
+          "quiet": true,
+          "fixture": "a stream on which consolidate has nothing to do"
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "adapt": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": false,
+        "null_control": {
+          "applicable": true,
+          "quiet": true,
+          "fixture": "a stream on which adapt has nothing to do"
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      },
+      "checkpoint": {
+        "positive_state_changed": true,
+        "positive_decision_path_changed": false,
+        "null_control": {
+          "applicable": false,
+          "reason": "writes the self region and the identity digest every cycle by design",
+          "quiet": null
+        },
+        "active": true,
+        "classification": "active",
+        "note": ""
+      }
+    },
+    "active": [
+      "adapt",
+      "arbitrate",
+      "attend",
+      "checkpoint",
+      "consolidate",
+      "decide",
+      "remember",
+      "run_perspectives",
+      "select",
+      "self_update"
+    ],
+    "inactive": [],
+    "null_fixture_sensitive": [],
+    "null_control_inapplicable": {
+      "decide": "writes the decision region every cycle by design",
+      "remember": "writes an episode every cycle by design",
+      "checkpoint": "writes the self region and the identity digest every cycle by design",
+      "arbitrate": "emits an arbitration report every cycle by design, and the no arbiter arm fabricates a report of its own rather than staying silent"
+    },
+    "all_active": true,
+    "control_clean": true,
+    "reading": "each stage gets a null control built so that stage has nothing to do, and ablating it there must change nothing. Three stages write owned state every cycle by design and admit no such stream, which is declared rather than papered over with a fixture that would fail by construction",
+    "activation": false
+  },
+  "session_canaries": {
+    "schema": "substrate-session-canaries/v1",
+    "canaries": [
+      "restoration",
+      "goal_preservation",
+      "memory_reuse",
+      "calibration",
+      "reliability_update",
+      "world_model_value",
+      "reflective_receipts"
+    ],
+    "events_used": 60,
+    "source": "the temporal core mechanism campaign's own execution history",
+    "results": {
+      "restoration": {
+        "passes": true,
+        "note": "the restored entity reproduces the checkpoint identity or the restore is refused"
+      },
+      "goal_preservation": {
+        "passes": true
+      },
+      "memory_reuse": {
+        "episodes": 30,
+        "passes": true
+      },
+      "reliability_update": {
+        "changed": true,
+        "passes": true,
+        "note": "reliability that never moves across half a real session is not being updated"
+      },
+      "calibration": {
+        "n": 30,
+        "passes": true,
+        "mean_absolute_error": 0.055554
+      },
+      "world_model_value": {
+        "verdict": "no_measurable_decision_gain",
+        "decision_gain": -0.010084,
+        "passes": true,
+        "note": "measured, and negative gain is reported as measured"
+      },
+      "reflective_receipts": {
+        "answered": true,
+        "bound": true,
+        "passes": true
+      }
+    },
+    "passed": [
+      "calibration",
+      "goal_preservation",
+      "memory_reuse",
+      "reflective_receipts",
+      "reliability_update",
+      "restoration",
+      "world_model_value"
+    ],
+    "failed": [],
+    "all_pass": true,
+    "activation": false
+  },
+  "body_canaries": {
+    "schema": "substrate-body-canaries/v1",
+    "dimensions": [
+      "implementation",
+      "state",
+      "resources",
+      "tool_path",
+      "checkpoint",
+      "output"
+    ],
+    "profiles": {
+      "compact": {
+        "implementation": [
+          "static"
+        ],
+        "state": [
+          1
+        ],
+        "resources": 48,
+        "tool_path": false,
+        "checkpoint": "d23c27576a83c3f592bb54d98d155cb12795eab389ae8b3601894f23c5a1dd72",
+        "output": "a41f2d2555676c49f3652dc693ec067519729e44bb52c6e5d7b844d9db844204"
+      },
+      "general": {
+        "implementation": [
+          "dynamic",
+          "spread",
+          "static"
+        ],
+        "state": [
+          3
+        ],
+        "resources": 144,
+        "tool_path": false,
+        "checkpoint": "2f237b3814eaeb1e16335dfe29f7c990bbe7dcc6040e1103709171fa698b3b12",
+        "output": "6d8caecaaae3b0caa75f0b22bdcd25a684894a04966edfa4112ad3b7e1f02e21"
+      },
+      "tool": {
+        "implementation": [
+          "dynamic",
+          "static"
+        ],
+        "state": [
+          2
+        ],
+        "resources": 96,
+        "tool_path": true,
+        "checkpoint": "c55d595808f491b7f1fdacb1cdf552330e43a6d6b1830301965d279b6e8be98f",
+        "output": "fab429b5630d32f149f94cc8069580170ea1eb9af58275f79272e5b84d087e0f"
+      }
+    },
+    "all_three_differ_on": {
+      "implementation": true,
+      "state": true,
+      "resources": true,
+      "tool_path": false,
+      "checkpoint": true,
+      "output": true
+    },
+    "dimension_separates_the_set": {
+      "implementation": true,
+      "state": true,
+      "resources": true,
+      "tool_path": true,
+      "checkpoint": true,
+      "output": true
+    },
+    "pairwise_differing_dimensions": {
+      "compact_vs_general": [
+        "implementation",
+        "state",
+        "resources",
+        "checkpoint",
+        "output"
+      ],
+      "compact_vs_tool": [
+        "implementation",
+        "state",
+        "resources",
+        "tool_path",
+        "checkpoint",
+        "output"
+      ],
+      "general_vs_tool": [
+        "implementation",
+        "state",
+        "resources",
+        "tool_path",
+        "checkpoint",
+        "output"
+      ]
+    },
+    "every_pair_differs_somewhere": true,
+    "every_dimension_separates": true,
+    "distinct_on_every_dimension": true,
+    "non_distinct_dimensions": [],
+    "criterion": "a dimension must separate the set, and every pair of bodies must differ on at least one dimension. Requiring three distinct values on a boolean would mark a correctly built set as non distinct",
+    "microtasks": {
+      "compact": {
+        "body_alone_accuracy": 0.663916,
+        "decisions_substrate_changed": 19,
+        "decisions_substrate_agreed": 75,
+        "substrate_changes_body_facing_behaviour": true
+      },
+      "general": {
+        "body_alone_accuracy": 0.670668,
+        "decisions_substrate_changed": 11,
+        "decisions_substrate_agreed": 84,
+        "substrate_changes_body_facing_behaviour": true
+      },
+      "tool": {
+        "body_alone_accuracy": 0.651163,
+        "decisions_substrate_changed": 15,
+        "decisions_substrate_agreed": 80,
+        "substrate_changes_body_facing_behaviour": true
+      }
+    },
+    "any_body_facing_change": true,
+    "activation": false
+  },
+  "sx2": {
+    "verdict": "closed_no_headroom",
+    "k_clearing_sesoi": [],
+    "best_margin": 0.008964,
+    "sesoi": 0.05
+  },
+  "gated_components": [],
+  "green": true,
+  "rule": "a failed component is gated out of the run rather than blocking the run",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "e250d9bf351742ca3ab0ece6d1276486c1de12d67994ac18e1732c6540c95dd0"
+}

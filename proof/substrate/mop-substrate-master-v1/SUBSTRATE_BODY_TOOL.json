@@ -1,0 +1,38 @@
+{
+  "schema": "substrate-body-tool/v1",
+  "body": "tool_dominant_system",
+  "class": "tool",
+  "conformance": {
+    "body": "tool_dominant_system",
+    "mode": "adapter_layer",
+    "implements": [
+      "adaptation_proposal",
+      "checkpoint",
+      "hidden_state",
+      "inference",
+      "memory_request",
+      "resource_report",
+      "selected_activations",
+      "tool_request",
+      "verification_request"
+    ],
+    "missing": [],
+    "declaration_violations": [],
+    "conforms": true,
+    "partial": false
+  },
+  "message_gaps": {},
+  "all_messages_valid": true,
+  "n_parameters": 96,
+  "held_out_accuracy": 0.651163,
+  "views": [
+    "static",
+    "dynamic"
+  ],
+  "tool_dominant": true,
+  "external_blocker": "",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "sha256": "437cb033dc6f279ba77be1d561ab6c773755fcd21cdceb32d1f4ad1f59eb7ba2"
+}

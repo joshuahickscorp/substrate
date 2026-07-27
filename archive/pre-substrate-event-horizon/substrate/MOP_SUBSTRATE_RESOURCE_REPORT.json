@@ -1,0 +1,17 @@
+{
+  "schema": "mop-substrate-resource-report/v1",
+  "host_cores": 28,
+  "preflight_wall_s": 77.1,
+  "domain_wall_s": {
+    "emnist": 264.4,
+    "har_class": 136.0
+  },
+  "parallelism": "two domain comparisons run concurrently; CPU-first, small models",
+  "params": {
+    "A": 216862,
+    "B": 389604,
+    "budget": "<=2M",
+    "within": true
+  },
+  "sha256": "9a42ca685acd5c4db20807847df6723a46237d56698737e555b39e29e818d450"
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "substrate-reflective-access-battery/v1",
+  "questions": [
+    "what_is_known",
+    "what_is_not_known",
+    "where_a_belief_came_from",
+    "what_evidence_supports_it",
+    "confidence",
+    "failure",
+    "what_would_change_it"
+  ],
+  "reports": [
+    {
+      "schema": "substrate-reflective-access-battery/v1",
+      "belief": "f1",
+      "answered": true,
+      "failed_closed": false,
+      "answers": {
+        "what_is_known": "two of three beds are temporal",
+        "what_is_not_known": [
+          "context",
+          "internal_state",
+          "goal"
+        ],
+        "where_a_belief_came_from": "proof/substrate/mop-temporal-core-mechanism-v1/E1.json",
+        "what_evidence_supports_it": [
+          "f1"
+        ],
+        "confidence": 0.8,
+        "failure": "",
+        "what_would_change_it": "a measurement on the same bed that contradicts 'two of three beds are temporal' above the SESOI"
+      },
+      "bound_to_receipts": true
+    },
+    {
+      "schema": "substrate-reflective-access-battery/v1",
+      "belief": "f2",
+      "answered": false,
+      "failed_closed": true,
+      "reason": "the belief carries no provenance, so no report can bind to a receipt",
+      "answers": {
+        "what_is_known": null,
+        "what_is_not_known": null,
+        "where_a_belief_came_from": null,
+        "what_evidence_supports_it": null,
+        "confidence": null,
+        "failure": null,
+        "what_would_change_it": null
+      }
+    },
+    {
+      "schema": "substrate-reflective-access-battery/v1",
+      "belief": "f_absent",
+      "answered": false,
+      "failed_closed": true,
+      "reason": "no such belief is held, which is itself an answer to what is not known",
+      "answers": {
+        "what_is_known": null,
+        "what_is_not_known": null,
+        "where_a_belief_came_from": null,
+        "what_evidence_supports_it": null,
+        "confidence": null,
+        "failure": null,
+        "what_would_change_it": null
+      }
+    }
+  ],
+  "answered": 1,
+  "failed_closed": 2,
+  "every_answer_bound_to_a_receipt": true,
+  "rule": "a report with no provenance fails closed rather than answering",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "activation": false,
+  "sha256": "094fb69e98649f0a78cd28d458f9bdac2ca2a3aaa9750c540700c79aa9bd3c7a"
+}

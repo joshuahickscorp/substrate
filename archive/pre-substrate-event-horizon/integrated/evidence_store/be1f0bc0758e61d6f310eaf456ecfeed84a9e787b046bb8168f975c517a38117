@@ -1,0 +1,47 @@
+{
+  "schema": "mop-successor-gate/E3_shared_versus_local",
+  "gate": {
+    "candidate_id": "E3",
+    "condition": "an E2 core positive exists and either capacity increases forgetting or bed heterogeneity indicates domain specific representation",
+    "core_positive": false,
+    "capacity_increases_forgetting": false,
+    "capacity_forgetting_measurement": {
+      "measured": false,
+      "increases_forgetting": false,
+      "estimand": null,
+      "mean": null,
+      "lower_95_cb": null,
+      "n_independent_units": 0,
+      "source": "MOP_E2_PRINCIPAL_RESULT.json#/capacity_retention_or_interference",
+      "why_unmeasured": "E2 did not measure retention or interference as a function of capacity"
+    },
+    "bed_heterogeneity": false,
+    "bed_heterogeneity_magnitude": 0.0,
+    "opens": false,
+    "ranking": {
+      "value_of_information": 0.0,
+      "estimated_parameter_update_cost": 0,
+      "priority_score": null,
+      "evidence": [
+        {
+          "artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+          "field": "/core/owned_parameters",
+          "value": null
+        }
+      ],
+      "complete": false
+    }
+  },
+  "opened": false,
+  "status": "gate_closed",
+  "experiment_terminal": false,
+  "result": null,
+  "mutation_checks": {},
+  "rule": "a conditional experiment that does not open still produces this artifact",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "b9723e99dded27126064c32882f3c3b69c61101644911b039ca20e04e515da13"
+}

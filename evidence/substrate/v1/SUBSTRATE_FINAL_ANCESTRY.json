@@ -1,0 +1,46 @@
+{
+  "schema": "substrate-final-ancestry/v1",
+  "programs": [
+    {
+      "program": "mop",
+      "contribution": "the original research program",
+      "role": "historical, preserved in place, never mass renamed",
+      "proof_root": null
+    },
+    {
+      "program": "mop-experimental-method-reformation-v1",
+      "contribution": "the experiment validity kernel",
+      "role": "the admission gate every Substrate experiment passes",
+      "proof_root": null
+    },
+    {
+      "program": "mop-fast-state-plasticity-forge-v1",
+      "contribution": "fast state and plasticity",
+      "role": "immutable inherited nulls including the learned plasticity closure",
+      "proof_root": "proof/substrate/mop-fast-state-plasticity-forge-v1"
+    },
+    {
+      "program": "mop-temporal-core-mechanism-v1",
+      "contribution": "the temporal core factorial",
+      "role": "terminal, and no core was scientifically licensed",
+      "proof_root": "proof/substrate/mop-temporal-core-mechanism-v1"
+    },
+    {
+      "program": "mop-substrate-master-v1",
+      "contribution": "the predecessor Substrate entity program",
+      "role": "historical evidence identity inherited by substrate-v1",
+      "proof_root": "proof/substrate/mop-substrate-master-v1"
+    }
+  ],
+  "rule": "historical evidence is preserved in place. This authority binds it and never rewrites it, and a superseded claim keeps its original sealed bytes",
+  "temporal_core_verdict": {
+    "terminal": true,
+    "licensed": false,
+    "why": "role B found the load bearing baselines unconverged on all three beds, so the selection was withdrawn and no successor opened",
+    "consequence": "the runtime integrates a declared control implementation and records the scientific limitation rather than pretending a core was selected"
+  },
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "82197e084a0276a9adbc99977332eb654d20dffb65d478e4bf8749e6077b7803"
+}

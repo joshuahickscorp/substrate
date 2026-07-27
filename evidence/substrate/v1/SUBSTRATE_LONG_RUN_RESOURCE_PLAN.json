@@ -1,0 +1,61 @@
+{
+  "schema": "substrate-long-run-resource-plan/v1",
+  "run_classification": "terminal deterministic synthesis",
+  "machine": {
+    "model": "Mac Studio",
+    "chip": "Apple M3 Ultra",
+    "logical_cores": 28,
+    "memory_gib": 96
+  },
+  "scheduler": "one supervisor and one bounded persistent worker, one dependency-ready unit at a time",
+  "execution_model": "persistent worker process with deterministic state reset between units",
+  "workers": 1,
+  "native_threads_per_worker": 1,
+  "concurrency": 1,
+  "why_serial": "two conservative workers reduced the 8.923 second subprocess reference to 6.574 seconds, but reduced the one-persistent-worker time of 7.112 seconds by only 7.6 percent. That is below the declared 15 percent threshold for concurrency, while four and eight workers increased memory and variance",
+  "unit_count": 19,
+  "total_work_units": 19,
+  "scientific_work_units": 0,
+  "estimated_cpu_hours": {
+    "low": 0.0019,
+    "high": 0.0024
+  },
+  "gpu_or_mps_hours": 0,
+  "estimated_peak_memory_mib": {
+    "low": 220,
+    "high": 340
+  },
+  "estimated_disk_growth_mib": {
+    "low": 1,
+    "high": 16
+  },
+  "write_amplification": "one immutable evidence write plus one receipt/index update per unit",
+  "checkpoint_frequency": "every scientific work-unit boundary",
+  "expected_restart_cost": "zero completed units; at most the active unit",
+  "verification_overhead_seconds": {
+    "independent_recompute_estimate": 0.2
+  },
+  "mutation_overhead_seconds_measured": 5.5,
+  "rehearsal_seconds_measured": 0.19,
+  "reference_subprocess_median_seconds": 8.923076,
+  "selected_persistent_median_seconds": 7.11208,
+  "selected_speedup": 1.254637,
+  "terminal_run_range_seconds": {
+    "low": 6.8,
+    "high": 7.3
+  },
+  "estimate_boundary": "measured terminal synthesis; neither this benchmark nor sealing launched a scientific campaign",
+  "completion_criterion": "all units terminal",
+  "not_a_wall_clock": "completion is all declared synthesis units, independent of elapsed time",
+  "stop_switch": "/Users/scammermike/.substrate/stop",
+  "retries": 2,
+  "external_dependencies": {
+    "corpora": "under custody outside every worktree",
+    "network": "none required"
+  },
+  "scientific_run_launched": false,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "bcf2188379c71b24c95c0f18ca9a6e50553a54725b5f8f7b619056120b027834"
+}

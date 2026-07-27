@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_REBASE_ORPHANS_EVIDENCE",
+  "defect": "rebasing the Substrate branch onto the sealed temporal terminal head rewrote every Substrate commit hash. Every sealed Substrate artifact still carried its pre rebase source_commit, which is no longer an ancestor of HEAD, so thirty eight of forty one items silently lost their evidence and dropped from measured or terminal back to tested",
+  "correction": "no code change was needed. The guard added by C_EVIDENCE_PRESENCE already refuses an artifact whose commit is unreachable from HEAD, and it fired on a situation it was not written for. The repair is operational: after any history rewrite the whole seal chain is regenerated at the new head and the independent recomputation is rerun. This correction records that a rebase is a reseal event",
+  "regression_test": "tests/cognition/test_program.py::test_evidence_that_is_stale_or_failing_does_not_count",
+  "reproduced_by": "observed directly after rebasing twelve Substrate commits onto 0a549ef; state reported tested 38, terminal 3 until every artifact was resealed",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "3bd32ec6b4bcc716048b313ae1a35f6e42f19e9b",
+  "activation": false,
+  "sha256": "3ff334db398967469c3c48c7734e46335ae78656bdde59b8987c9ed3c0dc3a17"
+}

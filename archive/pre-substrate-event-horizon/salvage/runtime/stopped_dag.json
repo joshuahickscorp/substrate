@@ -1,0 +1,684 @@
+{
+  "admit_v2": {
+    "deps": [],
+    "dur": 68.3,
+    "kind": "aggregate",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T03:21:32.211753+00:00",
+    "finish": "2026-07-19T03:22:40.535515+00:00"
+  },
+  "categorized_wave_aggregate": {
+    "deps": [
+      "i1_classify"
+    ],
+    "dur": 2253.0,
+    "kind": "aggregate",
+    "task_class": "aggregation",
+    "status": "complete",
+    "start": "2026-07-19T14:24:34.427525+00:00",
+    "finish": "2026-07-19T15:02:07.465698+00:00"
+  },
+  "categorized_wave_report": {
+    "deps": [
+      "categorized_wave_verify"
+    ],
+    "dur": null,
+    "kind": "aggregate",
+    "task_class": "report",
+    "status": "pending",
+    "start": null,
+    "finish": null
+  },
+  "categorized_wave_verify": {
+    "deps": [
+      "categorized_wave_aggregate"
+    ],
+    "dur": null,
+    "kind": "verifier",
+    "task_class": "verification",
+    "status": "running",
+    "start": "2026-07-19T15:02:38.293425+00:00",
+    "finish": null
+  },
+  "classify_retire_old_d1": {
+    "deps": [
+      "verify_old_d1"
+    ],
+    "dur": 436.3,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T03:30:30.536878+00:00",
+    "finish": "2026-07-19T03:37:46.839344+00:00"
+  },
+  "freeze_d1_redesign_v2": {
+    "deps": [
+      "screen_d1_redesign_v2"
+    ],
+    "dur": 115.6,
+    "kind": "aggregate",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T03:40:08.769491+00:00",
+    "finish": "2026-07-19T03:42:04.400975+00:00"
+  },
+  "i1_classify": {
+    "deps": [
+      "i1_integrate"
+    ],
+    "dur": 658.6,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T14:13:05.008779+00:00",
+    "finish": "2026-07-19T14:24:03.615532+00:00"
+  },
+  "i1_integrate": {
+    "deps": [
+      "w07_classify"
+    ],
+    "dur": 139.4,
+    "kind": "aggregate",
+    "task_class": "aggregation",
+    "status": "complete",
+    "start": "2026-07-19T14:10:14.767495+00:00",
+    "finish": "2026-07-19T14:12:34.203800+00:00"
+  },
+  "screen_d1_redesign_v2": {
+    "deps": [
+      "classify_retire_old_d1"
+    ],
+    "dur": 80.3,
+    "kind": "aggregate",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T03:38:17.664110+00:00",
+    "finish": "2026-07-19T03:39:37.990233+00:00"
+  },
+  "verify_old_d1": {
+    "deps": [
+      "admit_v2"
+    ],
+    "dur": 408.5,
+    "kind": "aggregate",
+    "task_class": "verification",
+    "status": "complete",
+    "start": "2026-07-19T03:23:11.296145+00:00",
+    "finish": "2026-07-19T03:29:59.798196+00:00"
+  },
+  "w01_action_simulation": {
+    "deps": [
+      "freeze_d1_redesign_v2"
+    ],
+    "dur": 75.7,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T03:42:35.172911+00:00",
+    "finish": "2026-07-19T03:43:50.854994+00:00"
+  },
+  "w01_classify": {
+    "deps": [
+      "w01_formation_trace",
+      "w01_communication_repair",
+      "w01_memory_plasticity",
+      "w01_action_simulation",
+      "w01_construction",
+      "w01_dispatch_redesign"
+    ],
+    "dur": 163.7,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T04:59:48.944678+00:00",
+    "finish": "2026-07-19T05:02:32.681046+00:00"
+  },
+  "w01_communication_repair": {
+    "deps": [
+      "freeze_d1_redesign_v2"
+    ],
+    "dur": 132.9,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T03:44:21.611280+00:00",
+    "finish": "2026-07-19T03:46:34.493842+00:00"
+  },
+  "w01_construction": {
+    "deps": [
+      "freeze_d1_redesign_v2"
+    ],
+    "dur": 3728.8,
+    "kind": "corpus",
+    "task_class": "construction",
+    "status": "complete",
+    "start": "2026-07-19T03:47:05.260519+00:00",
+    "finish": "2026-07-19T04:49:14.059135+00:00"
+  },
+  "w01_dispatch_redesign": {
+    "deps": [
+      "freeze_d1_redesign_v2"
+    ],
+    "dur": 33.5,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T04:49:44.836624+00:00",
+    "finish": "2026-07-19T04:50:18.287139+00:00"
+  },
+  "w01_formation_trace": {
+    "deps": [
+      "freeze_d1_redesign_v2"
+    ],
+    "dur": 392.3,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T04:50:49.249535+00:00",
+    "finish": "2026-07-19T04:57:21.521456+00:00"
+  },
+  "w01_memory_plasticity": {
+    "deps": [
+      "freeze_d1_redesign_v2"
+    ],
+    "dur": 85.9,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T04:57:52.276013+00:00",
+    "finish": "2026-07-19T04:59:18.172527+00:00"
+  },
+  "w02_action_simulation": {
+    "deps": [
+      "w01_classify"
+    ],
+    "dur": 93.4,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T05:03:03.494616+00:00",
+    "finish": "2026-07-19T05:04:36.940847+00:00"
+  },
+  "w02_classify": {
+    "deps": [
+      "w02_formation_trace",
+      "w02_communication_repair",
+      "w02_memory_plasticity",
+      "w02_action_simulation",
+      "w02_construction",
+      "w02_dispatch_redesign"
+    ],
+    "dur": 238.6,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T06:22:21.216367+00:00",
+    "finish": "2026-07-19T06:26:19.853758+00:00"
+  },
+  "w02_communication_repair": {
+    "deps": [
+      "w01_classify"
+    ],
+    "dur": 153.4,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T05:05:07.734042+00:00",
+    "finish": "2026-07-19T05:07:41.137091+00:00"
+  },
+  "w02_construction": {
+    "deps": [
+      "w01_classify"
+    ],
+    "dur": 3770.9,
+    "kind": "corpus",
+    "task_class": "construction",
+    "status": "complete",
+    "start": "2026-07-19T05:08:11.895143+00:00",
+    "finish": "2026-07-19T06:11:02.753018+00:00"
+  },
+  "w02_dispatch_redesign": {
+    "deps": [
+      "w01_classify"
+    ],
+    "dur": 51.6,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T06:11:33.566833+00:00",
+    "finish": "2026-07-19T06:12:25.178907+00:00"
+  },
+  "w02_formation_trace": {
+    "deps": [
+      "w01_classify"
+    ],
+    "dur": 403.2,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T06:12:55.995956+00:00",
+    "finish": "2026-07-19T06:19:39.238897+00:00"
+  },
+  "w02_memory_plasticity": {
+    "deps": [
+      "w01_classify"
+    ],
+    "dur": 100.4,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T06:20:10.007757+00:00",
+    "finish": "2026-07-19T06:21:50.428310+00:00"
+  },
+  "w03_action_simulation": {
+    "deps": [
+      "w02_classify"
+    ],
+    "dur": 111.3,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T06:26:50.575694+00:00",
+    "finish": "2026-07-19T06:28:41.880572+00:00"
+  },
+  "w03_classify": {
+    "deps": [
+      "w03_formation_trace",
+      "w03_communication_repair",
+      "w03_memory_plasticity",
+      "w03_action_simulation",
+      "w03_construction",
+      "w03_dispatch_redesign"
+    ],
+    "dur": 290.2,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T07:57:14.892187+00:00",
+    "finish": "2026-07-19T08:02:05.066884+00:00"
+  },
+  "w03_communication_repair": {
+    "deps": [
+      "w02_classify"
+    ],
+    "dur": 796.3,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T06:29:12.637152+00:00",
+    "finish": "2026-07-19T06:42:28.911740+00:00"
+  },
+  "w03_construction": {
+    "deps": [
+      "w02_classify"
+    ],
+    "dur": 3730.4,
+    "kind": "corpus",
+    "task_class": "construction",
+    "status": "complete",
+    "start": "2026-07-19T06:42:59.680352+00:00",
+    "finish": "2026-07-19T07:45:10.033942+00:00"
+  },
+  "w03_dispatch_redesign": {
+    "deps": [
+      "w02_classify"
+    ],
+    "dur": 64.4,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T07:45:40.792227+00:00",
+    "finish": "2026-07-19T07:46:45.235951+00:00"
+  },
+  "w03_formation_trace": {
+    "deps": [
+      "w02_classify"
+    ],
+    "dur": 420.2,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T07:47:15.968643+00:00",
+    "finish": "2026-07-19T07:54:16.169180+00:00"
+  },
+  "w03_memory_plasticity": {
+    "deps": [
+      "w02_classify"
+    ],
+    "dur": 117.0,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T07:54:47.059976+00:00",
+    "finish": "2026-07-19T07:56:44.094925+00:00"
+  },
+  "w04_action_simulation": {
+    "deps": [
+      "w03_classify"
+    ],
+    "dur": 122.7,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T08:02:35.851002+00:00",
+    "finish": "2026-07-19T08:04:38.588027+00:00"
+  },
+  "w04_classify": {
+    "deps": [
+      "w04_formation_trace",
+      "w04_communication_repair",
+      "w04_memory_plasticity",
+      "w04_action_simulation",
+      "w04_construction",
+      "w04_dispatch_redesign"
+    ],
+    "dur": 346.1,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T09:24:12.462463+00:00",
+    "finish": "2026-07-19T09:29:58.577490+00:00"
+  },
+  "w04_communication_repair": {
+    "deps": [
+      "w03_classify"
+    ],
+    "dur": 181.1,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T08:05:09.356451+00:00",
+    "finish": "2026-07-19T08:08:10.411104+00:00"
+  },
+  "w04_construction": {
+    "deps": [
+      "w03_classify"
+    ],
+    "dur": 3759.6,
+    "kind": "corpus",
+    "task_class": "construction",
+    "status": "complete",
+    "start": "2026-07-19T08:08:41.177292+00:00",
+    "finish": "2026-07-19T09:11:20.779777+00:00"
+  },
+  "w04_dispatch_redesign": {
+    "deps": [
+      "w03_classify"
+    ],
+    "dur": 80.5,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T09:11:51.538686+00:00",
+    "finish": "2026-07-19T09:13:12.038730+00:00"
+  },
+  "w04_formation_trace": {
+    "deps": [
+      "w03_classify"
+    ],
+    "dur": 434.9,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T09:13:42.841613+00:00",
+    "finish": "2026-07-19T09:20:57.776305+00:00"
+  },
+  "w04_memory_plasticity": {
+    "deps": [
+      "w03_classify"
+    ],
+    "dur": 133.1,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T09:21:28.572592+00:00",
+    "finish": "2026-07-19T09:23:41.692100+00:00"
+  },
+  "w05_action_simulation": {
+    "deps": [
+      "w04_classify"
+    ],
+    "dur": 137.8,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T09:30:29.377239+00:00",
+    "finish": "2026-07-19T09:32:47.141685+00:00"
+  },
+  "w05_classify": {
+    "deps": [
+      "w05_formation_trace",
+      "w05_communication_repair",
+      "w05_memory_plasticity",
+      "w05_action_simulation",
+      "w05_construction",
+      "w05_dispatch_redesign"
+    ],
+    "dur": 373.6,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T10:53:46.214053+00:00",
+    "finish": "2026-07-19T10:59:59.790683+00:00"
+  },
+  "w05_communication_repair": {
+    "deps": [
+      "w04_classify"
+    ],
+    "dur": 196.9,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T09:33:17.894221+00:00",
+    "finish": "2026-07-19T09:36:34.750603+00:00"
+  },
+  "w05_construction": {
+    "deps": [
+      "w04_classify"
+    ],
+    "dur": 3782.8,
+    "kind": "corpus",
+    "task_class": "construction",
+    "status": "complete",
+    "start": "2026-07-19T09:37:05.525601+00:00",
+    "finish": "2026-07-19T10:40:08.373844+00:00"
+  },
+  "w05_dispatch_redesign": {
+    "deps": [
+      "w04_classify"
+    ],
+    "dur": 95.3,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T10:40:39.168294+00:00",
+    "finish": "2026-07-19T10:42:14.494215+00:00"
+  },
+  "w05_formation_trace": {
+    "deps": [
+      "w04_classify"
+    ],
+    "dur": 450.5,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T10:42:45.286282+00:00",
+    "finish": "2026-07-19T10:50:15.776227+00:00"
+  },
+  "w05_memory_plasticity": {
+    "deps": [
+      "w04_classify"
+    ],
+    "dur": 148.9,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T10:50:46.549801+00:00",
+    "finish": "2026-07-19T10:53:15.435931+00:00"
+  },
+  "w06_action_simulation": {
+    "deps": [
+      "w05_classify"
+    ],
+    "dur": 153.0,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T11:00:30.598467+00:00",
+    "finish": "2026-07-19T11:03:03.581426+00:00"
+  },
+  "w06_classify": {
+    "deps": [
+      "w06_formation_trace",
+      "w06_communication_repair",
+      "w06_memory_plasticity",
+      "w06_action_simulation",
+      "w06_construction",
+      "w06_dispatch_redesign"
+    ],
+    "dur": 505.5,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T12:24:58.496966+00:00",
+    "finish": "2026-07-19T12:33:24.033518+00:00"
+  },
+  "w06_communication_repair": {
+    "deps": [
+      "w05_classify"
+    ],
+    "dur": 213.0,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T11:03:34.358322+00:00",
+    "finish": "2026-07-19T11:07:07.314053+00:00"
+  },
+  "w06_construction": {
+    "deps": [
+      "w05_classify"
+    ],
+    "dur": 3773.9,
+    "kind": "corpus",
+    "task_class": "construction",
+    "status": "complete",
+    "start": "2026-07-19T11:07:38.083936+00:00",
+    "finish": "2026-07-19T12:10:32.031074+00:00"
+  },
+  "w06_dispatch_redesign": {
+    "deps": [
+      "w05_classify"
+    ],
+    "dur": 111.4,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T12:11:02.824206+00:00",
+    "finish": "2026-07-19T12:12:54.221235+00:00"
+  },
+  "w06_formation_trace": {
+    "deps": [
+      "w05_classify"
+    ],
+    "dur": 466.5,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T12:13:24.999332+00:00",
+    "finish": "2026-07-19T12:21:11.497403+00:00"
+  },
+  "w06_memory_plasticity": {
+    "deps": [
+      "w05_classify"
+    ],
+    "dur": 165.4,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T12:21:42.279417+00:00",
+    "finish": "2026-07-19T12:24:27.711921+00:00"
+  },
+  "w07_action_simulation": {
+    "deps": [
+      "w06_classify"
+    ],
+    "dur": 170.2,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T12:33:54.836654+00:00",
+    "finish": "2026-07-19T12:36:45.014600+00:00"
+  },
+  "w07_classify": {
+    "deps": [
+      "w07_formation_trace",
+      "w07_communication_repair",
+      "w07_memory_plasticity",
+      "w07_action_simulation",
+      "w07_construction",
+      "w07_dispatch_redesign"
+    ],
+    "dur": 583.2,
+    "kind": "aggregate",
+    "task_class": "classify",
+    "status": "complete",
+    "start": "2026-07-19T14:00:00.768596+00:00",
+    "finish": "2026-07-19T14:09:43.937617+00:00"
+  },
+  "w07_communication_repair": {
+    "deps": [
+      "w06_classify"
+    ],
+    "dur": 228.6,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T12:37:15.778288+00:00",
+    "finish": "2026-07-19T12:41:04.411765+00:00"
+  },
+  "w07_construction": {
+    "deps": [
+      "w06_classify"
+    ],
+    "dur": 3790.4,
+    "kind": "corpus",
+    "task_class": "construction",
+    "status": "complete",
+    "start": "2026-07-19T12:41:35.198703+00:00",
+    "finish": "2026-07-19T13:44:45.611324+00:00"
+  },
+  "w07_dispatch_redesign": {
+    "deps": [
+      "w06_classify"
+    ],
+    "dur": 126.4,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T13:45:16.404493+00:00",
+    "finish": "2026-07-19T13:47:22.807304+00:00"
+  },
+  "w07_formation_trace": {
+    "deps": [
+      "w06_classify"
+    ],
+    "dur": 483.4,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T13:47:53.583354+00:00",
+    "finish": "2026-07-19T13:55:57.002115+00:00"
+  },
+  "w07_memory_plasticity": {
+    "deps": [
+      "w06_classify"
+    ],
+    "dur": 182.2,
+    "kind": "corpus",
+    "task_class": "small_cpu",
+    "status": "complete",
+    "start": "2026-07-19T13:56:27.837294+00:00",
+    "finish": "2026-07-19T13:59:30.001167+00:00"
+  }
+}

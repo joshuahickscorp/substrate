@@ -1,0 +1,16 @@
+{
+  "schema": "mop-proof-scope-mutations/v1",
+  "mutations": {
+    "mutated_proof_rejected": true,
+    "missing_proof_rejected": true,
+    "duplicate_identity_rejected": true,
+    "wrong_set_assignment_rejected": true,
+    "path_substitution_rejected": true,
+    "forged_count_rejected": true,
+    "changed_merkle_root_rejected": true,
+    "omitted_null_evidence_rejected": true,
+    "missing_object_rejected": true,
+    "all_rejected": true
+  },
+  "sha256": "a59ce9a11704e46bc5d89c64aadfbe4990cf13e95f6e4e8974093602eb38d8e1"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "mop-third-bed-preflight-migration/v1",
+  "source_path": "runs/substrate/mop-temporal-core-mechanism-v1/third_bed_preflight/harth_preflight_3.json",
+  "source_sha256": "4d69aa992dfa8b4952369dbdcd704a6d2524b7fdb7c276ce9a499f35016ce92c",
+  "source_result_sha256": "05b329ca33fdcef9892157c7533817c3a9c552fdfd18eb28d203ff6f0b6fec3a",
+  "superseded_check": "fifteen_train_seven_untouched_evaluation_units",
+  "normalization": "replace stale hard-coded unit cardinality assertion only",
+  "normalized_checks": {
+    "unit_disjoint": true,
+    "pretrain_budget": true,
+    "pooled_control_budget": true,
+    "adapt_budget": true,
+    "return_budget": true,
+    "no_undeclared_changes": true,
+    "sealed_train_pool_partition_exact": true,
+    "sealed_external_test_units_untouched": true
+  },
+  "normalized_all_checks_pass": true,
+  "bed_partition_authority": {
+    "bed": "harth_stream",
+    "bed_identity": {
+      "bed": "harth_stream",
+      "task_identity": "stream classification: name the sequence that ends the stream",
+      "unit_kind": "subject",
+      "sequence_length": 75,
+      "segment_length": 25,
+      "segments_per_stream": 3,
+      "channels": 6,
+      "classes": 6,
+      "n_train": 4000,
+      "n_test": 1333,
+      "n_units_train": 15,
+      "n_units_test": 7,
+      "data_hash": "8ced9818e77f00fceb6ffa7bb2e5f94c172e5f55ad54ce7799d5577ed44e1fc6"
+    },
+    "sealed_train_units_sha256": "b09ee2f4098b3cec03e363bb07847eaad63293244ee8f483b77743f557244f6b",
+    "sealed_test_units_sha256": "b9377e963b66648556b3147c2e212fa362f934de1435cc964d3ede55d47e2496",
+    "sealed_train_unit_count": 15,
+    "sealed_test_unit_count": 7,
+    "internal_train_unit_count": 11,
+    "internal_evaluation_unit_count": 4
+  },
+  "original_receipt_preserved": true,
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "51e1d1307871991561b77c91d467e09cf12b729a",
+  "source_tree_oid": "fb4b14672e6dbdbf8570f66db624899a9c802539",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "0938d7f7b8503589284605640ae7d85da8579975961df4f444bcebdc4b0ccdb8"
+}

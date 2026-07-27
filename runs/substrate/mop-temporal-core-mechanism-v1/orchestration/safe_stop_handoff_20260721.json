@@ -1,0 +1,62 @@
+{
+  "schema": "mop-temporal-orchestration-incident/v1",
+  "classification": "normal_supervisor_exit_closed_pty_and_terminated_active_children",
+  "trigger": "the committed stop switch was used to prevent a stale 29-configuration supervisor from entering downstream aggregation before the 66-configuration controller could resume",
+  "attempt": {
+    "supervisor_pid": 43753,
+    "signal": "none; normal exit after observing stop switch",
+    "active_child_identities": [
+      "cshard_har_stream_15",
+      "cshard_har_stream_18",
+      "cshard_har_stream_21",
+      "cshard_har_stream_28",
+      "cshard_speech_stream_15",
+      "cshard_speech_stream_18",
+      "cshard_speech_stream_21",
+      "cshard_speech_stream_28",
+      "cshard_harth_stream_15",
+      "cshard_harth_stream_18",
+      "cshard_harth_stream_21",
+      "cshard_harth_stream_28",
+      "xshard_har_stream_6",
+      "xshard_har_stream_7",
+      "xshard_speech_stream_6",
+      "xshard_speech_stream_7"
+    ],
+    "active_children": 16,
+    "observed_at_utc": "2026-07-21T18:44:35Z"
+  },
+  "outcome": {
+    "durable_base_receipts_before": 36,
+    "durable_base_receipts_after": 36,
+    "durable_extension_receipts_before": 1,
+    "durable_extension_receipts_after": 1,
+    "receipts_landed": 0,
+    "partial_receipts": [],
+    "child_processes_remained_alive": false,
+    "exit_codes": "unavailable after PTY closure"
+  },
+  "scientific_consequence": "none: atomic writers landed no result and all sixteen identities remain missing and retryable",
+  "repair": "restart the committed 66-configuration supervisor in a persistent PTY and do not close that PTY while any descendants are active",
+  "retries_pending": [
+    "cshard_har_stream_15",
+    "cshard_har_stream_18",
+    "cshard_har_stream_21",
+    "cshard_har_stream_28",
+    "cshard_speech_stream_15",
+    "cshard_speech_stream_18",
+    "cshard_speech_stream_21",
+    "cshard_speech_stream_28",
+    "cshard_harth_stream_15",
+    "cshard_harth_stream_18",
+    "cshard_harth_stream_21",
+    "cshard_harth_stream_28",
+    "xshard_har_stream_6",
+    "xshard_har_stream_7",
+    "xshard_speech_stream_6",
+    "xshard_speech_stream_7"
+  ],
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0cac2ff01d8773ecd0dab07f2a213c5c14000e38",
+  "result_sha256": "a606ae924b395855d4255ee7fa57e85d74e24c273cfe4b4b2c28480af1ce6140"
+}

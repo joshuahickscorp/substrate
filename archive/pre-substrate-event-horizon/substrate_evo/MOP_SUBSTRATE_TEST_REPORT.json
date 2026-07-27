@@ -1,0 +1,8 @@
+{
+  "schema": "test/v1",
+  "temporal_order_gate": "pass (order matters)",
+  "receipts_hashed": true,
+  "seeds": 5,
+  "units": "subject-disjoint",
+  "sha256": "556c7c54d5c7a0f436b904d7d13a67424f083f8dadd0358aade9a2933ef55641"
+}

@@ -1,0 +1,234 @@
+{
+  "schema": "substrate-final-rehearsal/v1",
+  "single_worker_reference": {
+    "model": "subprocess",
+    "workers": 1,
+    "thread_budget_per_worker": 1,
+    "wall_seconds": 9.6616498749936,
+    "total_cpu_seconds": 11.039499,
+    "peak_rss_mib": 155.953125,
+    "success": true
+  },
+  "selected_optimized": {
+    "model": "persistent",
+    "workers": 1,
+    "thread_budget_per_worker": 1,
+    "wall_seconds": 7.163963707978837,
+    "total_cpu_seconds": 8.357719,
+    "peak_rss_mib": 269.09375,
+    "success": true
+  },
+  "normalized_artifact_parity": true,
+  "different_artifacts": [],
+  "dependency_and_failure_rehearsal": {
+    "schema": "substrate-long-run-rehearsal/v1",
+    "checks": {
+      "deterministic_receipts": {
+        "ok": true,
+        "receipt_sha256": "0b6e6681f0f215a8e73ddbd0f7e95616c279633530ea3cc462854949542d1c3c"
+      },
+      "worker_claim_race_and_exclusive_writers": {
+        "ok": true,
+        "contenders": 2,
+        "owners": 1
+      },
+      "supervisor_restart_and_worker_re_adoption": {
+        "ok": true,
+        "claims": {
+          "live_workers_adopted": [
+            "live_probe"
+          ],
+          "orphaned_claims_recovered": [
+            "orphan_probe"
+          ],
+          "invalid_claims_refused": []
+        }
+      },
+      "corrupt_lock_refusal": {
+        "ok": true,
+        "claims": {
+          "live_workers_adopted": [],
+          "orphaned_claims_recovered": [],
+          "invalid_claims_refused": [
+            "corrupt_probe"
+          ]
+        }
+      },
+      "worker_killed_during_computation": {
+        "ok": true,
+        "claims": {
+          "live_workers_adopted": [],
+          "orphaned_claims_recovered": [
+            "killed_probe"
+          ],
+          "invalid_claims_refused": []
+        }
+      },
+      "worker_killed_during_publication": {
+        "ok": true,
+        "rule": "a partial staging byte never becomes an authoritative receipt"
+      },
+      "orphan_staging_discard": {
+        "ok": true
+      },
+      "parallel_staging_and_central_publication": {
+        "ok": true,
+        "simultaneously_staged": [
+          "alpha",
+          "beta"
+        ],
+        "publication_order": [
+          "alpha",
+          "beta"
+        ],
+        "publisher": "supervisor"
+      },
+      "resource_refusals": {
+        "ok": true,
+        "disk": [
+          "disk_floor"
+        ],
+        "memory": [
+          "memory_pressure"
+        ],
+        "swap": [
+          "swap_pressure"
+        ]
+      },
+      "machine_sleep_boundary": {
+        "ok": true,
+        "policy": "a monotonic pause completes no unit; resources are rechecked before the next claim"
+      },
+      "timeout_and_retry_exhaustion": {
+        "ok": true,
+        "maximum_attempts": 2
+      },
+      "historical_evidence_integrity": {
+        "ok": true,
+        "verified_objects": 13,
+        "tamper_probe": "data_custody"
+      },
+      "stop_with_active_worker_and_child_reaping": {
+        "ok": true,
+        "policy": "finish the active atomic unit, start no new unit, then reap the worker"
+      },
+      "duplicate_refusal": {
+        "ok": true
+      },
+      "checkpoint_resume": {
+        "ok": true,
+        "ready_after_resume": [
+          "declarations"
+        ]
+      },
+      "dependency_shapes_and_simultaneous_readiness": {
+        "ok": true,
+        "ready_after_declarations": [
+          "temporal_continuity",
+          "ontology_epistemology",
+          "memory",
+          "diversity_arbitration",
+          "body_compact",
+          "admitted_plasticity"
+        ],
+        "dependency_in_degrees": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "injected_failure_preserves_completed_work": {
+        "ok": true,
+        "completed_before": 2,
+        "completed_after": 2
+      },
+      "second_injected_failure_preserves_dependencies": {
+        "ok": true
+      },
+      "stale_artifact_refusal": {
+        "ok": true,
+        "reason": "sealed at a commit that is not an ancestor of HEAD, so it is superseded or stale"
+      },
+      "source_drift_refusal": {
+        "ok": true
+      },
+      "configuration_drift_refusal": {
+        "ok": true
+      },
+      "content_hash_parity": {
+        "ok": true
+      },
+      "receipt_validation": {
+        "ok": true
+      },
+      "artifact_tamper_refusal": {
+        "ok": true,
+        "probe": "a receipt payload changed without recomputing its content hash"
+      },
+      "stop_switch_halts": {
+        "ok": true
+      },
+      "mutation_preparation": {
+        "ok": true,
+        "mutations": 32
+      },
+      "evidence_indexed": {
+        "ok": true,
+        "undeclared": []
+      },
+      "terminal_closure": {
+        "ok": true
+      },
+      "audit_still_passes": {
+        "ok": true
+      }
+    },
+    "failed": [],
+    "all_pass": true,
+    "note": "a rehearsal that only proves the happy path proves nothing worth knowing",
+    "activation": false
+  },
+  "doctor": {
+    "schema": "substrate-doctor/v1",
+    "checks": {
+      "structural_audit": true,
+      "historical_evidence": true,
+      "data_custody": true,
+      "configuration": true,
+      "resources": true,
+      "no_live_worker_claim": true,
+      "no_completed_synthesis_units": true,
+      "activation_false": true
+    },
+    "failed": [],
+    "all_pass": true,
+    "scientific_run_launched": false,
+    "activation": false
+  },
+  "workers": {
+    "schema": "substrate-worker-status/v1",
+    "selected_worker_count": 1,
+    "selected_native_threads_per_worker": 1,
+    "claims": [],
+    "live": [],
+    "activation": false
+  },
+  "status": {
+    "completed": 0,
+    "total": 19,
+    "completed_scientific_units": 0,
+    "stop_switch_active": false,
+    "terminal": false
+  },
+  "mutations": {
+    "total": 32,
+    "rejected": 32,
+    "survivors": [],
+    "all_rejected": true
+  },
+  "all_pass": true,
+  "scientific_run_launched": false,
+  "activation": false
+}

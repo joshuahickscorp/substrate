@@ -1,0 +1,45 @@
+{
+  "schema": "mop-successor-gate/hybrid_adaptation",
+  "gate": {
+    "candidate_id": "E6",
+    "condition": "a minimal temporal core is selected",
+    "core_selected": false,
+    "opens": false,
+    "constraint": "the E4 state only rule is not reused unchanged. A hybrid must introduce a new causal premise, and head plus state is only interesting if the state arm carries zero hidden core updates",
+    "ranking": {
+      "value_of_information": 0.06778,
+      "estimated_parameter_update_cost": 0,
+      "priority_score": null,
+      "evidence": [
+        {
+          "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+          "field": "/per_bed/har_stream/effects/recurrent_versus_matched_history/gru_vs_histmlp_kfull_window/group_lower_95_cb",
+          "value": 0.06778
+        },
+        {
+          "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+          "field": "/per_bed/speech_stream/effects/recurrent_versus_matched_history/gru_vs_histmlp_kfull_window/group_lower_95_cb",
+          "value": 0.3048
+        },
+        {
+          "artifact": "MOP_OWNED_TEMPORAL_CORE_V1.json",
+          "field": "/core/owned_parameters",
+          "value": null
+        }
+      ],
+      "complete": false
+    }
+  },
+  "opened": false,
+  "status": "gate_closed",
+  "experiment_terminal": false,
+  "result": null,
+  "mutation_checks": {},
+  "rule": "a conditional experiment that does not open still produces this artifact",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "60b15abf1dcddf8f35716f0981c92f509c979684ddc1da398a17772ceb290293"
+}

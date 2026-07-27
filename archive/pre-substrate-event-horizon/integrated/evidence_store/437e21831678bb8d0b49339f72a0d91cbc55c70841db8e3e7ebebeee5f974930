@@ -1,0 +1,77 @@
+{
+  "schema": "mop-fast-state-test-report/v1",
+  "suite_command": "pytest tests -q with PYTHONPATH=src",
+  "suite_exit_code": 0,
+  "suite_summary": "..............................................                           [100%]",
+  "coverage_command_exit_code": 0,
+  "critical_substrate_modules": [
+    "fastforge/arch.py",
+    "fastforge/engine.py",
+    "fastforge/sequence.py",
+    "fastforge/arms.py",
+    "fastforge/within.py",
+    "fastforge/data.py"
+  ],
+  "coverage_scope": [
+    "fastforge/arch.py",
+    "fastforge/engine.py",
+    "fastforge/sequence.py",
+    "fastforge/arms.py",
+    "fastforge/within.py",
+    "fastforge/data.py"
+  ],
+  "coverage_scope_note": "the mandate sets the target for critical substrate coverage, so coverage is measured over the architecture, engine, sequence, arm, within domain and data modules. The experiment runners are exercised by real runs rather than by unit tests and are excluded from the target, which is stated here rather than left implicit.",
+  "coverage": {
+    "statement_coverage_percent": 78.11,
+    "covered_statements": 747,
+    "total_statements": 933,
+    "branch_coverage_percent": 70.26,
+    "per_file": {
+      "fastforge/arch.py": 91.39,
+      "fastforge/arms.py": 97.98,
+      "fastforge/data.py": 42.33,
+      "fastforge/engine.py": 92.56,
+      "fastforge/sequence.py": 87.6
+    }
+  },
+  "coverage_targets": {
+    "critical_statement_ge_92": false,
+    "branch_ge_82": false
+  },
+  "property_and_metamorphic_transitions_covered": [
+    "acquire first domain",
+    "domain boundary carry",
+    "domain boundary reinitialize",
+    "second domain acquisition under a partition",
+    "shared group frozen",
+    "shared group gated",
+    "return to the first domain",
+    "future unit adaptation",
+    "anchor restoration",
+    "memory admission",
+    "memory eviction",
+    "context routing"
+  ],
+  "mandatory_tests": [
+    "cross domain arm non aliasing",
+    "trainable group identity",
+    "frozen group identity",
+    "fast core persistence",
+    "domain adapter isolation",
+    "anchor restoration",
+    "fast delta bounds",
+    "domain order reversal",
+    "bidirectional transfer",
+    "domain core non reinitialization",
+    "domain local checkpoint recovery",
+    "task free context inference",
+    "interference map invariants",
+    "oracle headroom leakage",
+    "plasticity action bounds"
+  ],
+  "coverage_is_not_evidence": "a fully covered wrong experiment is still a wrong experiment",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "a20ba41f17ec6a674cc768e913d1fab2d1ec5420",
+  "SESOI": 0.05,
+  "sha256": "5beec2d35ef13c9e38503b3f703130f2ef721330b7953dd26c993a6cd834b2dc"
+}

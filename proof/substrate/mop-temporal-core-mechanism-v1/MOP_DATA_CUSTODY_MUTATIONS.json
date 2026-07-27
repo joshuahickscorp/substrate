@@ -1,0 +1,64 @@
+{
+  "schema": "mop-data-custody-mutations/v1",
+  "dataset_inside_disposable_worktree": {
+    "expected": "refused",
+    "actual": "refused",
+    "reason": "1 unique holding(s) live only here: corpus_inside_a_disposable_worktree",
+    "pass": true
+  },
+  "external_dataset_path": {
+    "expected": "allowed",
+    "actual": "allowed",
+    "pass": true
+  },
+  "missing_archive": {
+    "expected": "absent",
+    "actual": "absent",
+    "recovery_recorded": true,
+    "pass": true
+  },
+  "partial_extraction": {
+    "expected": "damaged",
+    "actual": "damaged",
+    "pass": true
+  },
+  "hash_mismatch": {
+    "expected": "damaged",
+    "actual": "damaged",
+    "pass": true
+  },
+  "stale_cache_with_live_source": {
+    "expected": "allowed",
+    "actual": "allowed",
+    "pass": true
+  },
+  "missing_source_with_rebuildable_cache": {
+    "expected": "refused",
+    "actual": "refused",
+    "note": "no surviving source means the cache is the only copy",
+    "pass": true
+  },
+  "redownload_recovery_override": {
+    "expected": "refused by default and allowed only with an explicit override",
+    "default_allowed": false,
+    "override_allowed": true,
+    "pass": true
+  },
+  "unindexed_evidence_inside_worktree": {
+    "expected": "refused",
+    "actual": "refused",
+    "pass": true
+  },
+  "worktree_deletion_when_nothing_unique_is_held": {
+    "expected": "removed",
+    "actual": "removed",
+    "pass": true
+  },
+  "all_pass": true,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "01771460cf731e019047415494e26eab2e3b88c1",
+  "source_tree_oid": "138aa6816a8982dbdac4c3085183a1790ff3b1e8",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "3dc73ceef770d66e15d15f6fcc41e5f1a98d6f727efb17d7be12cb95370e61ba"
+}

@@ -1,0 +1,191 @@
+{
+  "schema": "substrate-memory-system/v1",
+  "working_memory": {
+    "declared_capacity": 7,
+    "decay_per_tick": 0.15,
+    "measured": {
+      "declared_capacity": 7,
+      "measured_held": 7,
+      "items_offered": 12,
+      "interference": 0.4167,
+      "oldest_survived": true,
+      "retention_curve": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "decay_per_tick": 0.15
+    },
+    "measures": [
+      "capacity",
+      "interference",
+      "decay",
+      "refresh",
+      "prioritization",
+      "downstream value"
+    ]
+  },
+  "episodic_memory": {
+    "episode_fields": [
+      "context",
+      "observation",
+      "internal_state",
+      "goal",
+      "action",
+      "outcome",
+      "error",
+      "perspectives_used",
+      "verification",
+      "confidence",
+      "cost",
+      "later_usefulness"
+    ],
+    "classes": [
+      "recent",
+      "compressed",
+      "verified",
+      "failed",
+      "unresolved",
+      "quarantined"
+    ],
+    "promotion_rule": "a generated episode needs a verification receipt before it can become training material"
+  },
+  "semantic_memory": {
+    "kinds": [
+      "concept",
+      "fact",
+      "relation",
+      "rule",
+      "abstraction",
+      "exception"
+    ],
+    "supersession_rule": "a superseded fact stays in the store marked with its successor, so a belief keeps a traceable chain"
+  },
+  "procedural_memory": {
+    "transfer_rule": "a procedure is transferable only after evaluation on episodes it did not come from"
+  },
+  "consolidation": {
+    "policies": [
+      {
+        "name": "none",
+        "information_used": [],
+        "available_at_decision_time": true
+      },
+      {
+        "name": "fixed_schedule",
+        "information_used": [
+          "episode_index"
+        ],
+        "available_at_decision_time": true
+      },
+      {
+        "name": "boundary_triggered",
+        "information_used": [
+          "context_boundary",
+          "episode_index"
+        ],
+        "available_at_decision_time": true
+      },
+      {
+        "name": "performance_triggered",
+        "information_used": [
+          "confidence",
+          "episode_index"
+        ],
+        "available_at_decision_time": true
+      },
+      {
+        "name": "verification_triggered",
+        "information_used": [
+          "episode_index",
+          "verification"
+        ],
+        "available_at_decision_time": true
+      },
+      {
+        "name": "repetition_triggered",
+        "information_used": [
+          "action_history",
+          "episode_index"
+        ],
+        "available_at_decision_time": true
+      },
+      {
+        "name": "oracle",
+        "information_used": [
+          "later_usefulness"
+        ],
+        "available_at_decision_time": false
+      }
+    ],
+    "comparison_on_a_probe_stream": {
+      "selected": {
+        "none": [],
+        "fixed_schedule": [
+          "e12",
+          "e3",
+          "e6",
+          "e9"
+        ],
+        "boundary_triggered": [
+          "e12",
+          "e4",
+          "e8"
+        ],
+        "performance_triggered": [
+          "e1",
+          "e12",
+          "e4",
+          "e5",
+          "e8",
+          "e9"
+        ],
+        "verification_triggered": [
+          "e10",
+          "e5"
+        ],
+        "repetition_triggered": [
+          "e11",
+          "e12"
+        ],
+        "oracle": [
+          "e10",
+          "e11",
+          "e12",
+          "e7",
+          "e8",
+          "e9"
+        ]
+      },
+      "distinct_selections": 7,
+      "policies": 7,
+      "all_distinct": true,
+      "upper_bound_only": [
+        "oracle"
+      ]
+    }
+  },
+  "hygiene": {
+    "actions": [
+      "decay",
+      "supersede",
+      "quarantine",
+      "archive",
+      "delete"
+    ],
+    "rule": "a delete against an audit required record is refused and archived instead"
+  },
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "f9d90a920849237d113bdd5d56133c8398239d229534a1375559d622fdd8afab"
+}

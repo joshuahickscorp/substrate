@@ -1,0 +1,111 @@
+{
+  "schema": "mop-functional-reorganization/v1",
+  "bar": "a reorganization policy is credited only if it beats fixed domain label switching by SESOI at the lower confidence bound. Switching on a known label is a control.",
+  "policy_classes": {
+    "G1_frozen_after_first": "fixed_domain_label_switching",
+    "G2_reopened_at_return": "fixed_domain_label_switching",
+    "H_task_label_freeze": "fixed_domain_label_switching",
+    "G0_always_trainable": "fixed_schedule",
+    "H_always_update": "fixed_schedule",
+    "H_never_update": "fixed_schedule",
+    "G3_reopened_on_drop": "measured_interference_response",
+    "H_cosine_gate": "measured_interference_response",
+    "H_probe_gate": "measured_interference_response",
+    "H_drift_gate": "measured_interference_response",
+    "H_perf_gate": "measured_interference_response",
+    "H_random_gate": "random_switching",
+    "H_shuffled_gate": "shuffled_switching",
+    "H_wrong_domain_gate": "wrong_domain_switching",
+    "G6_oracle_schedule": "oracle_switching",
+    "H_oracle_schedule": "oracle_switching"
+  },
+  "per_direction": {
+    "har->speech": {
+      "policy_class_best_arm": {
+        "fixed_domain_label_switching": "G2_reopened_at_return",
+        "fixed_schedule": "G0_always_trainable",
+        "measured_interference_response": "G3_reopened_on_drop",
+        "random_switching": "H_random_gate",
+        "shuffled_switching": "H_shuffled_gate",
+        "wrong_domain_switching": "H_wrong_domain_gate",
+        "oracle_switching": "G6_oracle_schedule"
+      },
+      "policy_class_utility": {
+        "fixed_domain_label_switching": 0.8171,
+        "fixed_schedule": 0.859,
+        "measured_interference_response": 0.8388,
+        "random_switching": 0.8377,
+        "shuffled_switching": 0.8169,
+        "wrong_domain_switching": 0.8099,
+        "oracle_switching": 0.8549
+      },
+      "measured_interference_vs_fixed_label": {
+        "mean": 0.0216,
+        "lower_95_cb": 0.0117,
+        "n": 8
+      },
+      "random_switching_vs_fixed_label": {
+        "mean": 0.0206,
+        "lower_95_cb": 0.0057,
+        "n": 8
+      },
+      "wrong_domain_vs_fixed_label": {
+        "mean": -0.0072,
+        "lower_95_cb": -0.0161,
+        "n": 8
+      },
+      "oracle_vs_fixed_label": {
+        "mean": 0.0378,
+        "lower_95_cb": 0.0197,
+        "n": 8
+      },
+      "credited": false
+    },
+    "speech->har": {
+      "policy_class_best_arm": {
+        "fixed_domain_label_switching": "G2_reopened_at_return",
+        "fixed_schedule": "G0_always_trainable",
+        "measured_interference_response": "G3_reopened_on_drop",
+        "random_switching": "H_random_gate",
+        "shuffled_switching": "H_shuffled_gate",
+        "wrong_domain_switching": "H_wrong_domain_gate",
+        "oracle_switching": "G6_oracle_schedule"
+      },
+      "policy_class_utility": {
+        "fixed_domain_label_switching": 0.8802,
+        "fixed_schedule": 0.8831,
+        "measured_interference_response": 0.8759,
+        "random_switching": 0.8736,
+        "shuffled_switching": 0.8737,
+        "wrong_domain_switching": 0.8707,
+        "oracle_switching": 0.8819
+      },
+      "measured_interference_vs_fixed_label": {
+        "mean": -0.0043,
+        "lower_95_cb": -0.0096,
+        "n": 8
+      },
+      "random_switching_vs_fixed_label": {
+        "mean": -0.0066,
+        "lower_95_cb": -0.0145,
+        "n": 8
+      },
+      "wrong_domain_vs_fixed_label": {
+        "mean": -0.0095,
+        "lower_95_cb": -0.018,
+        "n": 8
+      },
+      "oracle_vs_fixed_label": {
+        "mean": 0.0016,
+        "lower_95_cb": -0.0038,
+        "n": 8
+      },
+      "credited": false
+    }
+  },
+  "verdict": "functional_reorganization_null",
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
+  "SESOI": 0.05,
+  "sha256": "d21486880e2f407da8af413a027e8d215bd05401b4177043d6a4d1184f32d4f5"
+}

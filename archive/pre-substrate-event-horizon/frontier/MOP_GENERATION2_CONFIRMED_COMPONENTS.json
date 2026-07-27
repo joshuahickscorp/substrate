@@ -1,0 +1,10 @@
+{
+  "schema": "mop-gen2-confirmed/v1",
+  "confirmed_to_independent_scientific_replication": [],
+  "same_team_cross_architecture_only": [
+    "G1-P1R"
+  ],
+  "note": "G1-P1R is the only mechanism with any real-data positive. It is same-team cross-architecture (MNIST, CIFAR-100, KMNIST). Lane P external-method replication classification: replication_null. No mechanism reached independent scientific confirmation.",
+  "source_commit": "b59a5fa5ee34c2a78a4455b43a8bebcb34465044",
+  "artifact_sha256": "81d8bcc4a608e5767764b546153734aa2e8d0c28e57706363cca6e502a1b187f"
+}

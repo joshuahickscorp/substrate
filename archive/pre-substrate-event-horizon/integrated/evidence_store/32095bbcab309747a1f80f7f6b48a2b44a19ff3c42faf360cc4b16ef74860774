@@ -1,0 +1,36 @@
+{
+  "schema": "mop-successor-gate/E5_self_supervised",
+  "gate": {
+    "candidate_id": "E5",
+    "condition": "a robust E2 core positive remains, capacity, explicit history and optimization do not explain all value, and self supervision has measurable residual oracle headroom",
+    "core_positive": false,
+    "residual_oracle_headroom_measured": false,
+    "opens": false,
+    "why_not": "no residual oracle headroom for self supervision has been measured, and the failed Architecture F premise may not be repeated on a guess",
+    "ranking": {
+      "value_of_information": 0.0,
+      "estimated_parameter_update_cost": 0,
+      "priority_score": null,
+      "evidence": [
+        {
+          "artifact": "MOP_E2_PRINCIPAL_RESULT.json",
+          "field": "/residual_oracle_headroom",
+          "value": null
+        }
+      ],
+      "complete": false
+    }
+  },
+  "opened": false,
+  "status": "gate_closed",
+  "experiment_terminal": false,
+  "result": null,
+  "mutation_checks": {},
+  "rule": "a conditional experiment that does not open still produces this artifact",
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "134a001ddcf59583ab5f4cd60ebd11958bf0b6e0a9268a4c275eaebc37272eb3"
+}

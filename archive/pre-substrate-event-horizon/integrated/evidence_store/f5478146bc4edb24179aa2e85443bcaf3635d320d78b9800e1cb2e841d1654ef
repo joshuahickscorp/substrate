@@ -1,0 +1,458 @@
+{
+  "schema": "mop-method-acceptance-mutations/v1",
+  "mutations": {
+    "temporal_conv_in_order_free_control": {
+      "rejected": true,
+      "classification": "invalid_control_semantics",
+      "expected_classification": "invalid_control_semantics",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "failed": [
+          "timestep_permutation_invariant",
+          "sequence_reversal_invariant",
+          "timestamp_removal_invariant",
+          "no_temporal_convolution",
+          "all_pass"
+        ]
+      },
+      "defect_id": "D1",
+      "stage_caught": "control_semantics",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "inactive_replay": {
+      "rejected": true,
+      "classification": "inactive_instrumentation",
+      "expected_classification": "inactive_instrumentation",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "replay_checks": {
+          "items_were_replayed": false,
+          "buffer_kept_replacing": false,
+          "context_boundary_crossed": true,
+          "buffer_contents_changed": false,
+          "all_pass": false
+        }
+      },
+      "defect_id": "D2",
+      "stage_caught": "control_semantics",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "buffer_that_stops_replacing": {
+      "rejected": true,
+      "classification": "inactive_instrumentation",
+      "expected_classification": "inactive_instrumentation",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "admitted": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "late_items_admitted": [],
+        "checks": {
+          "items_were_replayed": true,
+          "buffer_kept_replacing": false,
+          "context_boundary_crossed": true,
+          "buffer_contents_changed": false,
+          "all_pass": false
+        }
+      },
+      "defect_id": "D3",
+      "stage_caught": "control_semantics",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "aliased_lstm_and_lstm_gdumb": {
+      "rejected": true,
+      "classification": "aliased_arm",
+      "expected_classification": "aliased_arm",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "aliased_pairs": [
+          "lstm|lstm_gdumb"
+        ]
+      },
+      "defect_id": "D4",
+      "stage_caught": "arm_distinctness",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "phantom_parameter_group": {
+      "rejected": true,
+      "classification": "invalid_causal_graph",
+      "expected_classification": "invalid_causal_graph",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "rejections": [
+          "mechanism H.norm has no intervention: nothing acts on the world",
+          "mechanism H.norm has no implementation path"
+        ]
+      },
+      "defect_id": "D5",
+      "stage_caught": "causal_model",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "variable_without_causal_path": {
+      "rejected": true,
+      "classification": "invalid_causal_graph",
+      "expected_classification": "invalid_causal_graph",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "rejections": [
+          "mechanism memory_state has no implementation path",
+          "intervention iv has no implementation path"
+        ]
+      },
+      "defect_id": "D5",
+      "stage_caught": "causal_model",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "analytic_value_marked_measured": {
+      "rejected": true,
+      "classification": "analytic_reported_as_measured",
+      "expected_classification": "analytic_reported_as_measured",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "rejections": [
+          "edge partition->forgetting is reported as measured but is structurally_guaranteed by construction"
+        ],
+        "quantity_violations": []
+      },
+      "defect_id": "D6",
+      "stage_caught": "causal_model",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "missing_report_key": {
+      "rejected": true,
+      "classification": "report_field_unresolved",
+      "expected_classification": "report_field_unresolved",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "preregistration_time": [
+          "Q13: pointer '/answers/Q13': key 'Q13' absent, keys are ['Q12']"
+        ],
+        "artifact_time": [
+          "Q13: pointer '/answers/Q13': key 'Q13' absent, keys are ['Q12']"
+        ]
+      },
+      "defect_id": "D7",
+      "stage_caught": "measurement_model",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "wrong_baseline_comparison": {
+      "rejected": true,
+      "classification": "baseline_identity_mismatch",
+      "expected_classification": "baseline_identity_mismatch",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": [
+        "declared baseline 'lstm_gdumb' but the effect was computed against 'fresh_independent'"
+      ],
+      "defect_id": "D8",
+      "stage_caught": "baseline_convergence",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "softened_verdict_wording": {
+      "rejected": true,
+      "classification": "verdict_softened",
+      "expected_classification": "verdict_softened",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": [
+        {
+          "term": "marginal",
+          "asserts_class": "mixed",
+          "sealed_class": "invalid"
+        },
+        {
+          "term": "nearly",
+          "asserts_class": "mixed",
+          "sealed_class": "invalid"
+        }
+      ],
+      "defect_id": "D9",
+      "stage_caught": "terminal_classification",
+      "blocks": "claim",
+      "before_principal_execution": false
+    },
+    "reviewer_consensus_overrides_reproduction": {
+      "rejected": true,
+      "classification": "defect_confirmed",
+      "expected_classification": "defect_confirmed",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "status": "defect_confirmed",
+        "authority": "reproduction",
+        "votes": {
+          "confirmed": 1,
+          "refuted": 4
+        },
+        "vote_overridden": true
+      },
+      "defect_id": "D10",
+      "stage_caught": "adjudication",
+      "blocks": "claim",
+      "before_principal_execution": false
+    },
+    "narrowed_coverage_scope": {
+      "rejected": true,
+      "classification": "coverage_scope_narrowed",
+      "expected_classification": "coverage_scope_narrowed",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "statement": 96.0,
+        "branch": 88.0,
+        "target_statement": 92.0,
+        "target_branch": 82.0,
+        "statement_met": true,
+        "branch_met": true,
+        "scope": [
+          "mop/method/power.py"
+        ],
+        "excluded_from_scope": [
+          "mop/method/controls.py",
+          "fastforge/data.py"
+        ],
+        "scope_narrowing_declared": true,
+        "met": true,
+        "honest_blocker": ""
+      },
+      "defect_id": "D11",
+      "stage_caught": "acceptance",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "ignored_treatment_flag": {
+      "rejected": true,
+      "classification": "configuration_field_ignored",
+      "expected_classification": "configuration_field_ignored",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "treatment": {
+          "honoured": false,
+          "moved_traces": []
+        },
+        "all_honoured": false
+      },
+      "defect_id": "D12",
+      "stage_caught": "arm_distinctness",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "future_information_leakage": {
+      "rejected": true,
+      "classification": "future_information_leakage",
+      "expected_classification": "future_information_leakage",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "rejections": [
+          "future information whole_sequence_stat reaches decision time node gate"
+        ]
+      },
+      "defect_id": "D13",
+      "stage_caught": "causal_model",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "two_seed_false_headroom": {
+      "rejected": true,
+      "classification": "insufficient_headroom_authority",
+      "expected_classification": "insufficient_headroom_authority",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": [
+        "oracle:update_partition_oracle: headroom rests on 2 seeds, needs at least 3"
+      ],
+      "defect_id": "D14",
+      "stage_caught": "oracle_headroom",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "unconverged_baseline": {
+      "rejected": true,
+      "classification": "unconverged_baseline",
+      "expected_classification": "unconverged_baseline",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "issues": [
+          "baseline not converged: still rising: best at check 4 of 4, the second half peak is 0.0 below the global best and the second half slope is 0.135"
+        ]
+      },
+      "defect_id": "D15",
+      "stage_caught": "baseline_convergence",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "context_split_that_crosses_no_boundary": {
+      "rejected": true,
+      "classification": "invalid_no_context_boundary",
+      "expected_classification": "invalid_no_context_boundary",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "measured": {
+          "checks": {
+            "new_context_is_measurably_harder": false,
+            "adaptation_costs_the_old_context": false,
+            "boundary_crossed": false
+          },
+          "distribution_shift": -0.00545,
+          "retention_change_under_adaptation": 0.04853,
+          "classification": "invalid_no_context_boundary"
+        },
+        "a_real_boundary_still_passes": {
+          "new_context_is_measurably_harder": true,
+          "adaptation_costs_the_old_context": true,
+          "boundary_crossed": true
+        }
+      },
+      "defect_id": "D16",
+      "stage_caught": "bed_validity",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "brittle_plateau_criterion": {
+      "rejected": true,
+      "classification": "brittle_criterion_repaired",
+      "expected_classification": "brittle_criterion_repaired",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "rising_curve_still_rejected": true,
+        "flat_curve_now_accepted_by": "plateau",
+        "strict_criterion_still_reported": false
+      },
+      "defect_id": "D17",
+      "stage_caught": "baseline_convergence",
+      "blocks": "compute",
+      "before_principal_execution": true
+    },
+    "label_permutation_scored_against_zero": {
+      "rejected": true,
+      "classification": "label_permutation_criterion_repaired",
+      "expected_classification": "label_permutation_criterion_repaired",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": {
+        "majority_class_rate": 0.2123,
+        "fast": 0.2228,
+        "pooled": 0.1871,
+        "zero_difference_criterion_would_have_failed_it": true,
+        "majority_rate_criterion_rejects_it": true
+      },
+      "defect_id": "D18",
+      "stage_caught": "mutation_attacks",
+      "blocks": "claim",
+      "before_principal_execution": false
+    },
+    "underpowered_design_admitted": {
+      "rejected": true,
+      "classification": "insufficient_power",
+      "expected_classification": "insufficient_power",
+      "correctly_classified": true,
+      "pass": true,
+      "detail": [
+        "power:weak: minimum detectable effect 0.42147 exceeds SESOI 0.05, the design cannot see the effect it declares interesting"
+      ],
+      "defect_id": "D14",
+      "stage_caught": "power_and_units",
+      "blocks": "compute",
+      "before_principal_execution": true
+    }
+  },
+  "n_mutations": 20,
+  "all_rejected": true,
+  "failures": [],
+  "defect_classes_covered": [
+    "D1",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D15",
+    "D16",
+    "D17",
+    "D18",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9"
+  ],
+  "defect_classes_in_ledger": [
+    "D1",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D15",
+    "D16",
+    "D17",
+    "D18",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9"
+  ],
+  "every_ledger_class_has_a_mutation": true,
+  "blocks_compute": [
+    "aliased_lstm_and_lstm_gdumb",
+    "analytic_value_marked_measured",
+    "brittle_plateau_criterion",
+    "buffer_that_stops_replacing",
+    "context_split_that_crosses_no_boundary",
+    "future_information_leakage",
+    "ignored_treatment_flag",
+    "inactive_replay",
+    "missing_report_key",
+    "narrowed_coverage_scope",
+    "phantom_parameter_group",
+    "temporal_conv_in_order_free_control",
+    "two_seed_false_headroom",
+    "unconverged_baseline",
+    "underpowered_design_admitted",
+    "variable_without_causal_path",
+    "wrong_baseline_comparison"
+  ],
+  "blocks_claim_only": [
+    "label_permutation_scored_against_zero",
+    "reviewer_consensus_overrides_reproduction",
+    "softened_verdict_wording"
+  ],
+  "all_automatically_detected": true,
+  "all_caught_before_principal_execution": false,
+  "note": "report integrity and adjudication defects are caught automatically but after execution, because prose and reviewer votes do not exist before the run. They block the claim, not the compute, and no claim can be sealed while one is open.",
+  "program": "mop-experimental-method-reformation-v1",
+  "source_commit": "673ca3166dd6065c686a5ab99a5b59e5078fec27",
+  "sha256": "fe4f6a32814f1eec6a775c3ebad70fbeafc898eb85787c31ff579b096da1f38f"
+}

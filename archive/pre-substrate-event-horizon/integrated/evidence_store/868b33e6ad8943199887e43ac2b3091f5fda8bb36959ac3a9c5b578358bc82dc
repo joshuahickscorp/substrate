@@ -1,0 +1,20 @@
+{
+  "schema": "mop-temporal-core-next-frontier/v1",
+  "next": "third_bed_replication",
+  "hypotheses_open": [
+    "H1_recurrence",
+    "H4_state_horizon",
+    "H5_optimization"
+  ],
+  "hypotheses_closed": [
+    "H3_capacity",
+    "H6_core_horizon_interaction",
+    "H7_architecture_family",
+    "H8_bed_specificity"
+  ],
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5",
+  "SESOI": 0.05,
+  "sha256": "d25f345cba15bc30db0d0322b648cd3c791fed63dcacca6114a84e3fc62968e4"
+}

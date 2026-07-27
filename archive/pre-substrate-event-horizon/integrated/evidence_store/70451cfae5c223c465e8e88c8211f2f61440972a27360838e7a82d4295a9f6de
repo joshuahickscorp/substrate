@@ -1,0 +1,217 @@
+{
+  "schema": "mop-temporal-core-user-resume/v1",
+  "resumed_at": "2026-07-27T00:14:08+00:00",
+  "reason": "user released Hawking resource pause and directed full aggressive temporal-core completion",
+  "parent_pause": {
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HAWKING_PAUSE_20260725T2241.json",
+    "sha256": "63a681fd44d7c573dda5a019b591dc88365707b82b250b334b8936056289df17"
+  },
+  "stop_switch": {
+    "active": false,
+    "release_marker": "runs/substrate/mop-temporal-core-mechanism-v1/orchestration/stop_switch_released_hawking_20260726.marker"
+  },
+  "launch_authority": {
+    "label": "com.mop.temporal-core.supervisor",
+    "pid": 33542,
+    "single": true
+  },
+  "workers": [
+    {
+      "tag": "p:har_stream_0",
+      "pid": 36124,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:har_stream_1",
+      "pid": 36131,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:har_stream_2",
+      "pid": 36137,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:har_stream_3",
+      "pid": 36143,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:har_stream_4",
+      "pid": 36149,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:har_stream_5",
+      "pid": 36156,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:har_stream_6",
+      "pid": 36165,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:har_stream_7",
+      "pid": 36173,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:harth_stream_0",
+      "pid": 36251,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:harth_stream_1",
+      "pid": 36259,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:harth_stream_2",
+      "pid": 36272,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:harth_stream_3",
+      "pid": 36286,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:harth_stream_4",
+      "pid": 36298,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:harth_stream_5",
+      "pid": 36311,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:harth_stream_6",
+      "pid": 36323,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:harth_stream_7",
+      "pid": 36339,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:speech_stream_0",
+      "pid": 36181,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:speech_stream_1",
+      "pid": 36189,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:speech_stream_2",
+      "pid": 36197,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:speech_stream_3",
+      "pid": 36206,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:speech_stream_4",
+      "pid": 36217,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:speech_stream_5",
+      "pid": 36226,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:speech_stream_6",
+      "pid": 36235,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    },
+    {
+      "tag": "p:speech_stream_7",
+      "pid": 36242,
+      "process_state": "Rs",
+      "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+      "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68"
+    }
+  ],
+  "worker_count": 24,
+  "unique_worker_pids": 24,
+  "preserved_in_memory_progress": true,
+  "aggressive_cpu_validation": {
+    "observation_seconds": 8,
+    "sampled_cpu_time_growth_seconds": {
+      "p:har_stream_0": 7.78,
+      "p:speech_stream_0": 7.73,
+      "p:harth_stream_0": 7.69,
+      "p:harth_stream_7": 7.69
+    },
+    "sampled_cpu_percent_range": [
+      95.1,
+      96.0
+    ],
+    "all_sampled_workers_advancing": true
+  },
+  "receipt_health": {
+    "invalid_total": 0,
+    "partial_total": 0,
+    "deterministic_failure_holds": 0
+  },
+  "activation": false,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "0e8d28dadbf44c3748972b3ae3e4a3da3327d4a6",
+  "source_tree_oid": "05db0fb25b645550435bfac9f4b136867116ad68",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "ec5856a6f86e730e8f870742e776abc02ce15609351f81e0160fad1d95a75cf2"
+}

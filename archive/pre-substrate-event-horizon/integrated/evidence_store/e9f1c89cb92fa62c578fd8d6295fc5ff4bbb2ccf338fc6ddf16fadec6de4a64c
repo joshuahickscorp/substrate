@@ -1,0 +1,58 @@
+{
+  "bed": "harth_stream",
+  "spec": {
+    "family": "gru",
+    "tier": "large",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "gru|large|linear|none|h1",
+  "curve": {
+    "400": 0.9880033333333333,
+    "800": 0.9666,
+    "1600": 0.9829266666666667,
+    "3200": 0.9841500000000001
+  },
+  "seed_spread": {
+    "400": 0.00399,
+    "800": 0.03269,
+    "1600": 0.0047,
+    "3200": 0.00403
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.988,
+    0.9666,
+    0.98293,
+    0.98415
+  ],
+  "best_budget": 400,
+  "selected_checkpoint": 400,
+  "second_half_movement": 0.00122,
+  "residual_slope": 0.001223,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 2344.1
+}

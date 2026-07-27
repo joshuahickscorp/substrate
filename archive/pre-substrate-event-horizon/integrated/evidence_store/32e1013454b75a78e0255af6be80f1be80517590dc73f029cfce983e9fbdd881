@@ -1,0 +1,4516 @@
+{
+  "bed": "harth_stream",
+  "seed": 5,
+  "n_cells": 76,
+  "runs": [
+    {
+      "cell": "pooled|small|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "pooled",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.77719,
+      "per_unit_accuracy": {
+        "S006": 0.7028301886792453,
+        "S008": 0.8724489795918368,
+        "S009": 0.8220858895705522,
+        "S010": 0.6153846153846154,
+        "S012": 0.7948717948717948,
+        "S013": 0.8277777777777777,
+        "S014": 0.8097560975609757
+      },
+      "params": {
+        "core": 41593,
+        "readout": 390,
+        "total": 41983
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "038ed91796601db309b8445089f0482129abcb5c873d790d58d51bffc8091c93",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "pooled_history"
+        ],
+        "k": null,
+        "effective_horizon": "full_unordered"
+      },
+      "prediction_concentration": 0.6466616654163541,
+      "wall_seconds": 27.1
+    },
+    {
+      "cell": "histmlp|small|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.82746,
+      "per_unit_accuracy": {
+        "S006": 0.9575471698113207,
+        "S008": 0.923469387755102,
+        "S009": 0.3496932515337423,
+        "S010": 0.8076923076923077,
+        "S012": 0.9794871794871794,
+        "S013": 0.9666666666666667,
+        "S014": 0.7317073170731707
+      },
+      "params": {
+        "core": 43161,
+        "readout": 390,
+        "total": 43551
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "9274c0a9b4581243d7a91330fa9983180fe2147ed6ee8cf9d99f3f1e3fd82f34",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6136534133533383,
+      "wall_seconds": 0.78
+    },
+    {
+      "cell": "tcn|small|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "tcn",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.89872,
+      "per_unit_accuracy": {
+        "S006": 0.9198113207547169,
+        "S008": 0.9948979591836735,
+        "S009": 0.4601226993865031,
+        "S010": 0.978021978021978,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 43679,
+        "readout": 390,
+        "total": 44069
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "c37991a66774b2e2ac391a61c496231818d9d4d6e2437321d35763f270d2cb85",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6376594148537135,
+      "wall_seconds": 45.86
+    },
+    {
+      "cell": "gru|small|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.87322,
+      "per_unit_accuracy": {
+        "S006": 0.9481132075471698,
+        "S008": 0.9846938775510204,
+        "S009": 0.1901840490797546,
+        "S010": 0.9725274725274725,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9658536585365853
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d4d5ccca3b759fee4563d8410642e1c694bd2edc90aba3ff140ed53355d0bf69",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 32.96
+    },
+    {
+      "cell": "lstm|small|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "lstm",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.90773,
+      "per_unit_accuracy": {
+        "S006": 0.9669811320754716,
+        "S008": 0.9795918367346939,
+        "S009": 0.5030674846625767,
+        "S010": 0.967032967032967,
+        "S012": 1.0,
+        "S013": 0.9388888888888889,
+        "S014": 0.9317073170731708
+      },
+      "params": {
+        "core": 44794,
+        "readout": 390,
+        "total": 45184
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "74a7e570b76ae5295a27f9d6148c472aa0946a7a25a57cd6dd7d4453681e2ce6",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6429107276819205,
+      "wall_seconds": 30.33
+    },
+    {
+      "cell": "mgu|small|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.92348,
+      "per_unit_accuracy": {
+        "S006": 0.9905660377358491,
+        "S008": 0.9846938775510204,
+        "S009": 0.5644171779141104,
+        "S010": 0.967032967032967,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9609756097560975
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "120e9c58311448317aa3e22e05f8b271cb2a9a3e66016679dc4b184723814ac2",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6399099774943736,
+      "wall_seconds": 127.55
+    },
+    {
+      "cell": "ff_gru|small|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "ff_gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.95349,
+      "per_unit_accuracy": {
+        "S006": 0.9858490566037735,
+        "S008": 0.9846938775510204,
+        "S009": 0.8773006134969326,
+        "S010": 0.9505494505494505,
+        "S012": 0.9897435897435898,
+        "S013": 0.9277777777777778,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 44344,
+        "readout": 390,
+        "total": 44734
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "2e0f0dfc27832db3340b6103d6af4128f054a3b902d6f57a8655cb9fdadc1c97",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6429107276819205,
+      "wall_seconds": 60.26
+    },
+    {
+      "cell": "gru|micro|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.90848,
+      "per_unit_accuracy": {
+        "S006": 0.9622641509433962,
+        "S008": 0.9795918367346939,
+        "S009": 0.48466257668711654,
+        "S010": 0.989010989010989,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 10612,
+        "readout": 390,
+        "total": 11002
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "0a5285b43b27bde59d4de250d26cde3ff40ec01b83c2ec8818eaeadad733674f",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 15.43
+    },
+    {
+      "cell": "gru|medium|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.92048,
+      "per_unit_accuracy": {
+        "S006": 0.9669811320754716,
+        "S008": 0.9795918367346939,
+        "S009": 0.5766871165644172,
+        "S010": 0.989010989010989,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 165984,
+        "readout": 390,
+        "total": 166374
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "548947dace2259466f73df884411dab3ea0a07e66dfca249e067382076ff701d",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6391597899474869,
+      "wall_seconds": 49.61
+    },
+    {
+      "cell": "gru|large|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.90248,
+      "per_unit_accuracy": {
+        "S006": 0.9764150943396226,
+        "S008": 0.9846938775510204,
+        "S009": 0.4110429447852761,
+        "S010": 0.967032967032967,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9609756097560975
+      },
+      "params": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "bb090cdf1e4da39a271f6182cc0c85dce53775524f98008ca8bb78d9c2d3542b",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6399099774943736,
+      "wall_seconds": 138.59
+    },
+    {
+      "cell": "lstm|micro|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "lstm",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.88447,
+      "per_unit_accuracy": {
+        "S006": 0.9481132075471698,
+        "S008": 0.9795918367346939,
+        "S009": 0.3619631901840491,
+        "S010": 0.9560439560439561,
+        "S012": 1.0,
+        "S013": 0.95,
+        "S014": 0.9121951219512195
+      },
+      "params": {
+        "core": 10784,
+        "readout": 390,
+        "total": 11174
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "e1252fc69118604f90d53746a2c1b49acf90b3d12afa904d38ab5c306a8f4297",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6481620405101275,
+      "wall_seconds": 15.89
+    },
+    {
+      "cell": "lstm|medium|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "lstm",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.90623,
+      "per_unit_accuracy": {
+        "S006": 0.8537735849056604,
+        "S008": 0.9795918367346939,
+        "S009": 0.6809815950920245,
+        "S010": 0.9615384615384616,
+        "S012": 0.9897435897435898,
+        "S013": 0.9166666666666666,
+        "S014": 0.9317073170731708
+      },
+      "params": {
+        "core": 161039,
+        "readout": 390,
+        "total": 161429
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "6f92cd1016e104f12770fef15d5e18113f8b7b6591f706306ffdca6ce04e5b94",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6219054763690923,
+      "wall_seconds": 71.71
+    },
+    {
+      "cell": "lstm|large|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "lstm",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.91448,
+      "per_unit_accuracy": {
+        "S006": 0.9858490566037735,
+        "S008": 0.9846938775510204,
+        "S009": 0.5460122699386503,
+        "S010": 0.9505494505494505,
+        "S012": 0.9897435897435898,
+        "S013": 0.9555555555555556,
+        "S014": 0.926829268292683
+      },
+      "params": {
+        "core": 631276,
+        "readout": 390,
+        "total": 631666
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "15be8c7e764b879998d80f49c0696fb44afa1cd9dfb6303c8b4995c7122f0edc",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6466616654163541,
+      "wall_seconds": 161.29
+    },
+    {
+      "cell": "mgu|micro|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.87697,
+      "per_unit_accuracy": {
+        "S006": 0.9764150943396226,
+        "S008": 0.9744897959183674,
+        "S009": 0.25153374233128833,
+        "S010": 0.9615384615384616,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 10186,
+        "readout": 390,
+        "total": 10576
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "73a9f63dfa600825599b7c3130a8873f2652f69a2cf496aa0c578380d0580b07",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6399099774943736,
+      "wall_seconds": 37.24
+    },
+    {
+      "cell": "mgu|medium|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.91298,
+      "per_unit_accuracy": {
+        "S006": 0.9575471698113207,
+        "S008": 0.9846938775510204,
+        "S009": 0.5030674846625767,
+        "S010": 0.967032967032967,
+        "S012": 0.9897435897435898,
+        "S013": 0.9666666666666667,
+        "S014": 0.9560975609756097
+      },
+      "params": {
+        "core": 153591,
+        "readout": 390,
+        "total": 153981
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "74475d0d446a111bcab46f4732c88acf4aef8d7bf8145ad7dd091799fcf13c96",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.641410352588147,
+      "wall_seconds": 275.58
+    },
+    {
+      "cell": "mgu|large|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.94824,
+      "per_unit_accuracy": {
+        "S006": 0.9952830188679245,
+        "S008": 0.9795918367346939,
+        "S009": 0.7484662576687117,
+        "S010": 0.9560439560439561,
+        "S012": 0.9948717948717949,
+        "S013": 0.9833333333333333,
+        "S014": 0.9463414634146341
+      },
+      "params": {
+        "core": 699045,
+        "readout": 390,
+        "total": 699435
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d09e6622c2cc8a998d40b848db0205a60a9f11e24b7510abfb3249010c0e1ff5",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6474118529632408,
+      "wall_seconds": 617.2
+    },
+    {
+      "cell": "pooled|micro|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "pooled",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.75019,
+      "per_unit_accuracy": {
+        "S006": 0.7452830188679245,
+        "S008": 0.8928571428571429,
+        "S009": 0.6196319018404908,
+        "S010": 0.5054945054945055,
+        "S012": 0.8,
+        "S013": 0.85,
+        "S014": 0.8048780487804879
+      },
+      "params": {
+        "core": 10228,
+        "readout": 390,
+        "total": 10618
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "c0f423db095a9c4ede9468621f885c93b2e9c92168a0afe9e233c07422de3d06",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "pooled_history"
+        ],
+        "k": null,
+        "effective_horizon": "full_unordered"
+      },
+      "prediction_concentration": 0.6984246061515379,
+      "wall_seconds": 8.52
+    },
+    {
+      "cell": "pooled|medium|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "pooled",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.68192,
+      "per_unit_accuracy": {
+        "S006": 0.7075471698113207,
+        "S008": 0.8520408163265306,
+        "S009": 0.11042944785276074,
+        "S010": 0.5054945054945055,
+        "S012": 0.8512820512820513,
+        "S013": 0.8388888888888889,
+        "S014": 0.8048780487804879
+      },
+      "params": {
+        "core": 168993,
+        "readout": 390,
+        "total": 169383
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "370099868f29e4048b47984fd65708c8784b4324294d223aa9ef95d71d897113",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "pooled_history"
+        ],
+        "k": null,
+        "effective_horizon": "full_unordered"
+      },
+      "prediction_concentration": 0.6939234808702176,
+      "wall_seconds": 60.37
+    },
+    {
+      "cell": "pooled|large|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "pooled",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.73068,
+      "per_unit_accuracy": {
+        "S006": 0.6886792452830188,
+        "S008": 0.8724489795918368,
+        "S009": 0.34355828220858897,
+        "S010": 0.6153846153846154,
+        "S012": 0.8564102564102564,
+        "S013": 0.85,
+        "S014": 0.824390243902439
+      },
+      "params": {
+        "core": 647785,
+        "readout": 390,
+        "total": 648175
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "f32f4ee17209579c87ae0954cac9339fbb43a4f58a1434c95aed8f33296f7a21",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "pooled_history"
+        ],
+        "k": null,
+        "effective_horizon": "full_unordered"
+      },
+      "prediction_concentration": 0.6789197299324832,
+      "wall_seconds": 121.2
+    },
+    {
+      "cell": "histmlp|micro|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.85146,
+      "per_unit_accuracy": {
+        "S006": 0.9622641509433962,
+        "S008": 0.9642857142857143,
+        "S009": 0.3128834355828221,
+        "S010": 0.8736263736263736,
+        "S012": 0.9794871794871794,
+        "S013": 0.9555555555555556,
+        "S014": 0.824390243902439
+      },
+      "params": {
+        "core": 10572,
+        "readout": 390,
+        "total": 10962
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "addb895d39f60733a81c3dfe9f7fa1c321e783476c9d8b7e275a4e5f28bf4125",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6369092273068268,
+      "wall_seconds": 0.78
+    },
+    {
+      "cell": "histmlp|medium|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.83421,
+      "per_unit_accuracy": {
+        "S006": 0.9716981132075472,
+        "S008": 0.8979591836734694,
+        "S009": 0.3558282208588957,
+        "S010": 0.8241758241758241,
+        "S012": 0.9948717948717949,
+        "S013": 0.9555555555555556,
+        "S014": 0.7609756097560976
+      },
+      "params": {
+        "core": 154276,
+        "readout": 390,
+        "total": 154666
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "8d74dcaf7b89c0c2a5430e1a551d44d694c0584742fb76e8b5165bd206387a4d",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6249062265566392,
+      "wall_seconds": 2.91
+    },
+    {
+      "cell": "histmlp|large|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.82521,
+      "per_unit_accuracy": {
+        "S006": 0.9292452830188679,
+        "S008": 0.8877551020408163,
+        "S009": 0.3558282208588957,
+        "S010": 0.8516483516483516,
+        "S012": 0.9846153846153847,
+        "S013": 0.9611111111111111,
+        "S014": 0.7365853658536585
+      },
+      "params": {
+        "core": 343136,
+        "readout": 390,
+        "total": 343526
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "fe21a722777acfe0ebe0fa28483f814904251e3e84105f9363fa1e0845afac39",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6189047261815454,
+      "wall_seconds": 4.82
+    },
+    {
+      "cell": "tcn|micro|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "tcn",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.85071,
+      "per_unit_accuracy": {
+        "S006": 0.9433962264150944,
+        "S008": 0.9744897959183674,
+        "S009": 0.03067484662576687,
+        "S010": 0.9505494505494505,
+        "S012": 1.0,
+        "S013": 0.9888888888888889,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 10744,
+        "readout": 390,
+        "total": 11134
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "5fb5a7c0f657c8d5b6674b60f8d3ef1951e484928b7c740bbd80dc1c0110cf03",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6474118529632408,
+      "wall_seconds": 24.33
+    },
+    {
+      "cell": "tcn|medium|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "tcn",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.92198,
+      "per_unit_accuracy": {
+        "S006": 0.9811320754716981,
+        "S008": 0.9795918367346939,
+        "S009": 0.5644171779141104,
+        "S010": 0.9615384615384616,
+        "S012": 0.9897435897435898,
+        "S013": 0.9777777777777777,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 156147,
+        "readout": 390,
+        "total": 156537
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "9826053c507fd36338a9589e29d7adace0347c71a311d67c54fcd4df1f711013",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6436609152288072,
+      "wall_seconds": 94.13
+    },
+    {
+      "cell": "tcn|large|linear|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "tcn",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.89122,
+      "per_unit_accuracy": {
+        "S006": 0.9764150943396226,
+        "S008": 0.9846938775510204,
+        "S009": 0.2883435582822086,
+        "S010": 0.9725274725274725,
+        "S012": 1.0,
+        "S013": 0.9777777777777777,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 607219,
+        "readout": 390,
+        "total": 607609
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "806beeb10f3555ac5b0b2e53ca62ca4b39306e896db87c6bcd4c4d66ab5ad513",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6466616654163541,
+      "wall_seconds": 205.01
+    },
+    {
+      "cell": "gru|small|mlp1|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "mlp1",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.95049,
+      "per_unit_accuracy": {
+        "S006": 0.9198113207547169,
+        "S008": 0.9897959183673469,
+        "S009": 0.8466257668711656,
+        "S010": 0.989010989010989,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9609756097560975
+      },
+      "params": {
+        "core": 45667,
+        "readout": 4550,
+        "total": 50217
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "8e8c14a5308705e175477f0533f60e209b95dc53b4809dd8d6481d94b387ba47",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6316579144786196,
+      "wall_seconds": 34.49
+    },
+    {
+      "cell": "gru|small|mlp_strong|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.94899,
+      "per_unit_accuracy": {
+        "S006": 0.9905660377358491,
+        "S008": 0.9846938775510204,
+        "S009": 0.7852760736196319,
+        "S010": 0.9725274725274725,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 45667,
+        "readout": 83974,
+        "total": 129641
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "4974657323c76b84b7558ed16d9acfad7b09daaf0065071cf6588183ff0eb14a",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6466616654163541,
+      "wall_seconds": 37.48
+    },
+    {
+      "cell": "pooled|small|mlp1|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "pooled",
+        "tier": "small",
+        "readout": "mlp1",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.67442,
+      "per_unit_accuracy": {
+        "S006": 0.6981132075471698,
+        "S008": 0.8826530612244898,
+        "S009": 0.006134969325153374,
+        "S010": 0.532967032967033,
+        "S012": 0.8564102564102564,
+        "S013": 0.8444444444444444,
+        "S014": 0.7853658536585366
+      },
+      "params": {
+        "core": 41593,
+        "readout": 4550,
+        "total": 46143
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "2ef6256bb1cd8e3173e2dcfde0299b9f1f45b1c6fd56cefbcee6fe4663d3d4f5",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "pooled_history"
+        ],
+        "k": null,
+        "effective_horizon": "full_unordered"
+      },
+      "prediction_concentration": 0.7179294823705926,
+      "wall_seconds": 24.73
+    },
+    {
+      "cell": "pooled|small|mlp_strong|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "pooled",
+        "tier": "small",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.72393,
+      "per_unit_accuracy": {
+        "S006": 0.7075471698113207,
+        "S008": 0.8877551020408163,
+        "S009": 0.38650306748466257,
+        "S010": 0.554945054945055,
+        "S012": 0.8307692307692308,
+        "S013": 0.8222222222222222,
+        "S014": 0.8146341463414634
+      },
+      "params": {
+        "core": 41593,
+        "readout": 83974,
+        "total": 125567
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "25460d978d99a91d816e18f2e45457ac54ec80a4a1bb822b24eadbfd7ebfe435",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "pooled_history"
+        ],
+        "k": null,
+        "effective_horizon": "full_unordered"
+      },
+      "prediction_concentration": 0.6789197299324832,
+      "wall_seconds": 25.25
+    },
+    {
+      "cell": "histmlp|small|mlp1|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "mlp1",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.8192,
+      "per_unit_accuracy": {
+        "S006": 0.9386792452830188,
+        "S008": 0.9336734693877551,
+        "S009": 0.34355828220858897,
+        "S010": 0.7912087912087912,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.7121951219512195
+      },
+      "params": {
+        "core": 43161,
+        "readout": 4550,
+        "total": 47711
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "60ae2c5865b68d2a4cc432057f18ab1f300783d391af57fd4854b11f80bde9c0",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6234058514628658,
+      "wall_seconds": 1.77
+    },
+    {
+      "cell": "histmlp|small|mlp_strong|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.78995,
+      "per_unit_accuracy": {
+        "S006": 0.8632075471698113,
+        "S008": 0.8877551020408163,
+        "S009": 0.3496932515337423,
+        "S010": 0.7857142857142857,
+        "S012": 0.9692307692307692,
+        "S013": 0.9166666666666666,
+        "S014": 0.6926829268292682
+      },
+      "params": {
+        "core": 43161,
+        "readout": 83974,
+        "total": 127135
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d5f7bb8cb32f3e8d12c06391446b7303993e50fc17b9e9623b057666a8d77fd0",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.5843960990247562,
+      "wall_seconds": 3.05
+    },
+    {
+      "cell": "gru|small|linear|horizon_1|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_1",
+        "history_k": 1
+      },
+      "accuracy": 0.82671,
+      "per_unit_accuracy": {
+        "S006": 0.9575471698113207,
+        "S008": 0.8826530612244898,
+        "S009": 0.38650306748466257,
+        "S010": 0.8186813186813187,
+        "S012": 0.9948717948717949,
+        "S013": 0.9444444444444444,
+        "S014": 0.7317073170731707
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d5ed358505fee447e69c32359df512234881d6c248950ecf2ef65da7f623a14a",
+      "reset_witness": {
+        "n_resets": 74,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.02703,
+        "within_tolerance_fraction": 0.08108,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_1",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6129032258064516,
+      "wall_seconds": 16.77
+    },
+    {
+      "cell": "gru|small|linear|horizon_2|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_2",
+        "history_k": 1
+      },
+      "accuracy": 0.82671,
+      "per_unit_accuracy": {
+        "S006": 0.9575471698113207,
+        "S008": 0.8826530612244898,
+        "S009": 0.38650306748466257,
+        "S010": 0.8186813186813187,
+        "S012": 0.9948717948717949,
+        "S013": 0.9444444444444444,
+        "S014": 0.7317073170731707
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d5ed358505fee447e69c32359df512234881d6c248950ecf2ef65da7f623a14a",
+      "reset_witness": {
+        "n_resets": 37,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.02703,
+        "within_tolerance_fraction": 0.08108,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_2",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6129032258064516,
+      "wall_seconds": 15.69
+    },
+    {
+      "cell": "gru|small|linear|horizon_5|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_5",
+        "history_k": 1
+      },
+      "accuracy": 0.92048,
+      "per_unit_accuracy": {
+        "S006": 0.9858490566037735,
+        "S008": 0.9744897959183674,
+        "S009": 0.5950920245398773,
+        "S010": 0.9560439560439561,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "ab2a75861a65f50acac1a9a866a2a319e8982d0b7ece5a3b88ea6909162f500c",
+      "reset_witness": {
+        "n_resets": 14,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.14286,
+        "within_tolerance_fraction": 0.14286,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "horizon_5",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6429107276819205,
+      "wall_seconds": 15.33
+    },
+    {
+      "cell": "gru|small|linear|horizon_10|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_10",
+        "history_k": 1
+      },
+      "accuracy": 0.92048,
+      "per_unit_accuracy": {
+        "S006": 0.9858490566037735,
+        "S008": 0.9744897959183674,
+        "S009": 0.5950920245398773,
+        "S010": 0.9560439560439561,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "ab2a75861a65f50acac1a9a866a2a319e8982d0b7ece5a3b88ea6909162f500c",
+      "reset_witness": {
+        "n_resets": 7,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.14286,
+        "within_tolerance_fraction": 0.14286,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "horizon_10",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6429107276819205,
+      "wall_seconds": 16.46
+    },
+    {
+      "cell": "gru|small|linear|horizon_20|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_20",
+        "history_k": 1
+      },
+      "accuracy": 0.92873,
+      "per_unit_accuracy": {
+        "S006": 0.9669811320754716,
+        "S008": 0.9795918367346939,
+        "S009": 0.6503067484662577,
+        "S010": 0.978021978021978,
+        "S012": 0.9897435897435898,
+        "S013": 0.9333333333333333,
+        "S014": 0.9560975609756097
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "93cc742be28ac9e91cd8cf1a52747776095d445675ec387aa1c530e1f7811816",
+      "reset_witness": {
+        "n_resets": 3,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_20",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 15
+      },
+      "prediction_concentration": 0.6384096024006002,
+      "wall_seconds": 19.33
+    },
+    {
+      "cell": "gru|small|linear|horizon_45|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_45",
+        "history_k": 1
+      },
+      "accuracy": 0.90173,
+      "per_unit_accuracy": {
+        "S006": 0.9811320754716981,
+        "S008": 0.9795918367346939,
+        "S009": 0.3803680981595092,
+        "S010": 0.9835164835164835,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9609756097560975
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "4f20fe10775f4366235bfe19079b487b2e00e8c606b43d5403c0ff6566025484",
+      "reset_witness": {
+        "n_resets": 1,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_45",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 30
+      },
+      "prediction_concentration": 0.6399099774943736,
+      "wall_seconds": 24.09
+    },
+    {
+      "cell": "gru|small|linear|horizon_90|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_90",
+        "history_k": 1
+      },
+      "accuracy": 0.87322,
+      "per_unit_accuracy": {
+        "S006": 0.9481132075471698,
+        "S008": 0.9846938775510204,
+        "S009": 0.1901840490797546,
+        "S010": 0.9725274725274725,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9658536585365853
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d4d5ccca3b759fee4563d8410642e1c694bd2edc90aba3ff140ed53355d0bf69",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "horizon_90",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 36.09
+    },
+    {
+      "cell": "gru|small|linear|horizon_full|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_full",
+        "history_k": 1
+      },
+      "accuracy": 0.87322,
+      "per_unit_accuracy": {
+        "S006": 0.9481132075471698,
+        "S008": 0.9846938775510204,
+        "S009": 0.1901840490797546,
+        "S010": 0.9725274725274725,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9658536585365853
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d4d5ccca3b759fee4563d8410642e1c694bd2edc90aba3ff140ed53355d0bf69",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "horizon_full",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 35.55
+    },
+    {
+      "cell": "mgu|small|linear|horizon_1|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_1",
+        "history_k": 1
+      },
+      "accuracy": 0.7877,
+      "per_unit_accuracy": {
+        "S006": 0.7122641509433962,
+        "S008": 0.8979591836734694,
+        "S009": 0.39263803680981596,
+        "S010": 0.8351648351648352,
+        "S012": 0.9794871794871794,
+        "S013": 0.9611111111111111,
+        "S014": 0.697560975609756
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "cabd5661812bb2962581854479cd9c4e5b5a3647db9d36f3580fc1810c824536",
+      "reset_witness": {
+        "n_resets": 74,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.02703,
+        "within_tolerance_fraction": 0.08108,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_1",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.5708927231807952,
+      "wall_seconds": 16.95
+    },
+    {
+      "cell": "mgu|small|linear|horizon_2|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_2",
+        "history_k": 1
+      },
+      "accuracy": 0.7877,
+      "per_unit_accuracy": {
+        "S006": 0.7122641509433962,
+        "S008": 0.8979591836734694,
+        "S009": 0.39263803680981596,
+        "S010": 0.8351648351648352,
+        "S012": 0.9794871794871794,
+        "S013": 0.9611111111111111,
+        "S014": 0.697560975609756
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "cabd5661812bb2962581854479cd9c4e5b5a3647db9d36f3580fc1810c824536",
+      "reset_witness": {
+        "n_resets": 37,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.02703,
+        "within_tolerance_fraction": 0.08108,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_2",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.5708927231807952,
+      "wall_seconds": 16.4
+    },
+    {
+      "cell": "mgu|small|linear|horizon_5|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_5",
+        "history_k": 1
+      },
+      "accuracy": 0.90098,
+      "per_unit_accuracy": {
+        "S006": 0.9669811320754716,
+        "S008": 0.9795918367346939,
+        "S009": 0.4723926380368098,
+        "S010": 0.9505494505494505,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.926829268292683
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "0d03a4428511579f4248f66a5bab14bb7f553264faa49ff3054147ab145de98c",
+      "reset_witness": {
+        "n_resets": 14,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.14286,
+        "within_tolerance_fraction": 0.14286,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "horizon_5",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6459114778694673,
+      "wall_seconds": 16.97
+    },
+    {
+      "cell": "mgu|small|linear|horizon_10|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_10",
+        "history_k": 1
+      },
+      "accuracy": 0.90098,
+      "per_unit_accuracy": {
+        "S006": 0.9669811320754716,
+        "S008": 0.9795918367346939,
+        "S009": 0.4723926380368098,
+        "S010": 0.9505494505494505,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.926829268292683
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "0d03a4428511579f4248f66a5bab14bb7f553264faa49ff3054147ab145de98c",
+      "reset_witness": {
+        "n_resets": 7,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.14286,
+        "within_tolerance_fraction": 0.14286,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "horizon_10",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6459114778694673,
+      "wall_seconds": 19.27
+    },
+    {
+      "cell": "mgu|small|linear|horizon_20|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_20",
+        "history_k": 1
+      },
+      "accuracy": 0.94149,
+      "per_unit_accuracy": {
+        "S006": 0.9905660377358491,
+        "S008": 0.9795918367346939,
+        "S009": 0.7300613496932515,
+        "S010": 0.9615384615384616,
+        "S012": 0.9897435897435898,
+        "S013": 0.9388888888888889,
+        "S014": 0.9609756097560975
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d29fe95b4845ed0043f359a7082423903b12073d35120982a4f9b777fe50cb7f",
+      "reset_witness": {
+        "n_resets": 3,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_20",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 15
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 24.58
+    },
+    {
+      "cell": "mgu|small|linear|horizon_45|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_45",
+        "history_k": 1
+      },
+      "accuracy": 0.88897,
+      "per_unit_accuracy": {
+        "S006": 0.9811320754716981,
+        "S008": 0.9846938775510204,
+        "S009": 0.3128834355828221,
+        "S010": 0.9945054945054945,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9219512195121952
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "bd2990651bdc3cb1f825a080b855ee9c6118de94f9faf4d2adedcd91ffb0c964",
+      "reset_witness": {
+        "n_resets": 1,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_45",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 30
+      },
+      "prediction_concentration": 0.6391597899474869,
+      "wall_seconds": 31.89
+    },
+    {
+      "cell": "mgu|small|linear|horizon_90|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_90",
+        "history_k": 1
+      },
+      "accuracy": 0.92348,
+      "per_unit_accuracy": {
+        "S006": 0.9905660377358491,
+        "S008": 0.9846938775510204,
+        "S009": 0.5644171779141104,
+        "S010": 0.967032967032967,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9609756097560975
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "120e9c58311448317aa3e22e05f8b271cb2a9a3e66016679dc4b184723814ac2",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "horizon_90",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6399099774943736,
+      "wall_seconds": 145.03
+    },
+    {
+      "cell": "mgu|small|linear|horizon_full|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "mgu",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "horizon_full",
+        "history_k": 1
+      },
+      "accuracy": 0.92348,
+      "per_unit_accuracy": {
+        "S006": 0.9905660377358491,
+        "S008": 0.9846938775510204,
+        "S009": 0.5644171779141104,
+        "S010": 0.967032967032967,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9609756097560975
+      },
+      "params": {
+        "core": 42270,
+        "readout": 390,
+        "total": 42660
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "120e9c58311448317aa3e22e05f8b271cb2a9a3e66016679dc4b184723814ac2",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "horizon_full",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6399099774943736,
+      "wall_seconds": 142.08
+    },
+    {
+      "cell": "gru|small|linear|every_observation|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "every_observation",
+        "history_k": 1
+      },
+      "accuracy": 0.82671,
+      "per_unit_accuracy": {
+        "S006": 0.9575471698113207,
+        "S008": 0.8826530612244898,
+        "S009": 0.38650306748466257,
+        "S010": 0.8186813186813187,
+        "S012": 0.9948717948717949,
+        "S013": 0.9444444444444444,
+        "S014": 0.7317073170731707
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d5ed358505fee447e69c32359df512234881d6c248950ecf2ef65da7f623a14a",
+      "reset_witness": {
+        "n_resets": 74,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.02703,
+        "within_tolerance_fraction": 0.08108,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "every_observation",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.6129032258064516,
+      "wall_seconds": 16.74
+    },
+    {
+      "cell": "gru|small|linear|misaligned_a|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "misaligned_a",
+        "history_k": 1
+      },
+      "accuracy": 0.87922,
+      "per_unit_accuracy": {
+        "S006": 0.910377358490566,
+        "S008": 0.9693877551020408,
+        "S009": 0.39263803680981596,
+        "S010": 0.9505494505494505,
+        "S012": 0.9846153846153847,
+        "S013": 0.9444444444444444,
+        "S014": 0.926829268292683
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "02ea4353d75b04f4242c6b7f2045ae7f7736ce8b15d52ae3a3d30b11e986acaf",
+      "reset_witness": {
+        "n_resets": 6,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.16667,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "misaligned_a",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 3
+      },
+      "prediction_concentration": 0.6324081020255063,
+      "wall_seconds": 16.21
+    },
+    {
+      "cell": "gru|small|linear|misaligned_b|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "misaligned_b",
+        "history_k": 1
+      },
+      "accuracy": 0.89872,
+      "per_unit_accuracy": {
+        "S006": 0.9716981132075472,
+        "S008": 0.9897959183673469,
+        "S009": 0.4110429447852761,
+        "S010": 0.9615384615384616,
+        "S012": 0.9897435897435898,
+        "S013": 0.9333333333333333,
+        "S014": 0.9512195121951219
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "75516760c3a4884ea33d3fbcd6574a1f32f782e7ad1f4f1478e231839692972d",
+      "reset_witness": {
+        "n_resets": 5,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.2,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "misaligned_b",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 10
+      },
+      "prediction_concentration": 0.6436609152288072,
+      "wall_seconds": 16.83
+    },
+    {
+      "cell": "gru|small|linear|random_rate_matched|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "random_rate_matched",
+        "history_k": 1
+      },
+      "accuracy": 0.83271,
+      "per_unit_accuracy": {
+        "S006": 0.7075471698113207,
+        "S008": 0.9795918367346939,
+        "S009": 0.2822085889570552,
+        "S010": 0.945054945054945,
+        "S012": 0.9897435897435898,
+        "S013": 0.9277777777777778,
+        "S014": 0.926829268292683
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "7f9e051a1be4755468851b9e07321a9f78aa20c784aeb3ec0dc28fee0daa8c47",
+      "reset_witness": {
+        "n_resets": 6,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.16667,
+        "within_tolerance_fraction": 0.16667,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "random_rate_matched",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 11
+      },
+      "prediction_concentration": 0.6046511627906976,
+      "wall_seconds": 18.42
+    },
+    {
+      "cell": "gru|small|linear|block_shuffled|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "block_shuffled",
+        "history_k": 1
+      },
+      "accuracy": 0.89647,
+      "per_unit_accuracy": {
+        "S006": 0.9433962264150944,
+        "S008": 0.9846938775510204,
+        "S009": 0.37423312883435583,
+        "S010": 0.9835164835164835,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9658536585365853
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "4f1f765f80ca756a010b6fc61687ee42722709de136872def7480fadf4e4b28e",
+      "reset_witness": {
+        "n_resets": 2,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.5,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "block_shuffled",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 39
+      },
+      "prediction_concentration": 0.6384096024006002,
+      "wall_seconds": 23.57
+    },
+    {
+      "cell": "gru|small|linear|true_boundary|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "true_boundary",
+        "history_k": 1
+      },
+      "accuracy": 0.88897,
+      "per_unit_accuracy": {
+        "S006": 0.9669811320754716,
+        "S008": 0.9846938775510204,
+        "S009": 0.2822085889570552,
+        "S010": 0.9835164835164835,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9658536585365853
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "39becfe821fe975a468cd0862f9d3eb4a537d4659998f95787cb6d8dc62d425e",
+      "reset_witness": {
+        "n_resets": 2,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 1.0,
+        "within_tolerance_fraction": 1.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": false,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "true_boundary",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 25
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 19.32
+    },
+    {
+      "cell": "gru|small|linear|wrong_boundary|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "wrong_boundary",
+        "history_k": 1
+      },
+      "accuracy": 0.87397,
+      "per_unit_accuracy": {
+        "S006": 0.9386792452830188,
+        "S008": 0.9795918367346939,
+        "S009": 0.25766871165644173,
+        "S010": 0.9835164835164835,
+        "S012": 0.9897435897435898,
+        "S013": 0.9333333333333333,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 45667,
+        "readout": 390,
+        "total": 46057
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "0c0ccfdf2a5054e634212c3a63db5ee17d2b868e477d4edefbf902b2c241b0d4",
+      "reset_witness": {
+        "n_resets": 2,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "wrong_boundary",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 13
+      },
+      "prediction_concentration": 0.6391597899474869,
+      "wall_seconds": 18.72
+    },
+    {
+      "cell": "histmlp|small|linear|none|h2",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 2
+      },
+      "accuracy": 0.88672,
+      "per_unit_accuracy": {
+        "S006": 0.9622641509433962,
+        "S008": 0.9642857142857143,
+        "S009": 0.4171779141104294,
+        "S010": 0.9065934065934066,
+        "S012": 0.9846153846153847,
+        "S013": 0.9666666666666667,
+        "S014": 0.926829268292683
+      },
+      "params": {
+        "core": 43261,
+        "readout": 390,
+        "total": 43651
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "834d1795ee31a949b719cfa1191a532c743f9f247864dd488533f6c863513a98",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 2,
+        "effective_horizon": 2
+      },
+      "prediction_concentration": 0.6466616654163541,
+      "wall_seconds": 1.5
+    },
+    {
+      "cell": "histmlp|small|linear|none|h5",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 5
+      },
+      "accuracy": 0.89047,
+      "per_unit_accuracy": {
+        "S006": 0.9764150943396226,
+        "S008": 0.9693877551020408,
+        "S009": 0.3619631901840491,
+        "S010": 0.9505494505494505,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9512195121951219
+      },
+      "params": {
+        "core": 42149,
+        "readout": 390,
+        "total": 42539
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "04364a0b7608940fc4fbde7e09dac6e875f7f9ded12239cb682c9d94d1b6100f",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 5,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6436609152288072,
+      "wall_seconds": 1.36
+    },
+    {
+      "cell": "histmlp|small|linear|none|h10",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 10
+      },
+      "accuracy": 0.87772,
+      "per_unit_accuracy": {
+        "S006": 0.9056603773584906,
+        "S008": 0.9693877551020408,
+        "S009": 0.3803680981595092,
+        "S010": 0.967032967032967,
+        "S012": 0.9897435897435898,
+        "S013": 0.9277777777777778,
+        "S014": 0.926829268292683
+      },
+      "params": {
+        "core": 40439,
+        "readout": 390,
+        "total": 40829
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "3024989b36047ce13b0ad7ed4127695ac459470962f9ed7729581ae4ebbdc8b2",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 10,
+        "effective_horizon": 10
+      },
+      "prediction_concentration": 0.6271567891972993,
+      "wall_seconds": 1.12
+    },
+    {
+      "cell": "histmlp|small|linear|none|h20",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 20
+      },
+      "accuracy": 0.89347,
+      "per_unit_accuracy": {
+        "S006": 0.9811320754716981,
+        "S008": 0.9948979591836735,
+        "S009": 0.3558282208588957,
+        "S010": 0.9560439560439561,
+        "S012": 0.9948717948717949,
+        "S013": 0.9444444444444444,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 40394,
+        "readout": 390,
+        "total": 40784
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "c5c8875686d2c886cd611cc4e35d6ead3ae7bf140e02e89377ac0ba115c8e199",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 20,
+        "effective_horizon": 20
+      },
+      "prediction_concentration": 0.6459114778694673,
+      "wall_seconds": 1.6
+    },
+    {
+      "cell": "histmlp|small|linear|none|hfull_window",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": "full_window"
+      },
+      "accuracy": 0.81095,
+      "per_unit_accuracy": {
+        "S006": 0.910377358490566,
+        "S008": 0.9591836734693877,
+        "S009": 0.15337423312883436,
+        "S010": 0.7142857142857143,
+        "S012": 0.9641025641025641,
+        "S013": 0.9444444444444444,
+        "S014": 0.9121951219512195
+      },
+      "params": {
+        "core": 41779,
+        "readout": 390,
+        "total": 42169
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "e127a25c6b9fcd9e3bef1c86585c28d90bbe3add9cf2885ea62391d4eebaa22a",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 75,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6436609152288072,
+      "wall_seconds": 1.27
+    },
+    {
+      "cell": "histmlp|small|linear|none|hpooled_summary",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": "pooled_summary"
+      },
+      "accuracy": 0.77719,
+      "per_unit_accuracy": {
+        "S006": 0.7028301886792453,
+        "S008": 0.8724489795918368,
+        "S009": 0.8220858895705522,
+        "S010": 0.6153846153846154,
+        "S012": 0.7948717948717948,
+        "S013": 0.8277777777777777,
+        "S014": 0.8097560975609757
+      },
+      "params": {
+        "core": 41593,
+        "readout": 390,
+        "total": 41983
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "038ed91796601db309b8445089f0482129abcb5c873d790d58d51bffc8091c93",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "pooled_history"
+        ],
+        "k": null,
+        "effective_horizon": "full_unordered"
+      },
+      "prediction_concentration": 0.6466616654163541,
+      "wall_seconds": 23.31
+    },
+    {
+      "cell": "tcn|small|linear|none|h5",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "tcn",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 5
+      },
+      "accuracy": 0.89872,
+      "per_unit_accuracy": {
+        "S006": 0.9198113207547169,
+        "S008": 0.9948979591836735,
+        "S009": 0.4601226993865031,
+        "S010": 0.978021978021978,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 43679,
+        "readout": 390,
+        "total": 44069
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "c37991a66774b2e2ac391a61c496231818d9d4d6e2437321d35763f270d2cb85",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 5,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6376594148537135,
+      "wall_seconds": 47.74
+    },
+    {
+      "cell": "tcn|small|linear|none|h20",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "tcn",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": 20
+      },
+      "accuracy": 0.89872,
+      "per_unit_accuracy": {
+        "S006": 0.9198113207547169,
+        "S008": 0.9948979591836735,
+        "S009": 0.4601226993865031,
+        "S010": 0.978021978021978,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 43679,
+        "readout": 390,
+        "total": 44069
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "c37991a66774b2e2ac391a61c496231818d9d4d6e2437321d35763f270d2cb85",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 20,
+        "effective_horizon": 20
+      },
+      "prediction_concentration": 0.6376594148537135,
+      "wall_seconds": 47.02
+    },
+    {
+      "cell": "tcn|small|linear|none|hfull_window",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "tcn",
+        "tier": "small",
+        "readout": "linear",
+        "reset": "none",
+        "history_k": "full_window"
+      },
+      "accuracy": 0.89872,
+      "per_unit_accuracy": {
+        "S006": 0.9198113207547169,
+        "S008": 0.9948979591836735,
+        "S009": 0.4601226993865031,
+        "S010": 0.978021978021978,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 43679,
+        "readout": 390,
+        "total": 44069
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "c37991a66774b2e2ac391a61c496231818d9d4d6e2437321d35763f270d2cb85",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 75,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6376594148537135,
+      "wall_seconds": 47.31
+    },
+    {
+      "cell": "gru|micro|linear|horizon_5|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "horizon_5",
+        "history_k": 1
+      },
+      "accuracy": 0.92873,
+      "per_unit_accuracy": {
+        "S006": 0.9764150943396226,
+        "S008": 0.9795918367346939,
+        "S009": 0.6932515337423313,
+        "S010": 0.945054945054945,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9317073170731708
+      },
+      "params": {
+        "core": 10612,
+        "readout": 390,
+        "total": 11002
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "114c82726e4fb2596df57d59b0fab1e6501400331f349feb59da879b800a6816",
+      "reset_witness": {
+        "n_resets": 14,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.14286,
+        "within_tolerance_fraction": 0.14286,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "horizon_5",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6481620405101275,
+      "wall_seconds": 9.23
+    },
+    {
+      "cell": "gru|micro|linear|horizon_45|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "horizon_45",
+        "history_k": 1
+      },
+      "accuracy": 0.89047,
+      "per_unit_accuracy": {
+        "S006": 0.9716981132075472,
+        "S008": 0.9897959183673469,
+        "S009": 0.2883435582822086,
+        "S010": 0.989010989010989,
+        "S012": 0.9897435897435898,
+        "S013": 0.9388888888888889,
+        "S014": 0.9658536585365853
+      },
+      "params": {
+        "core": 10612,
+        "readout": 390,
+        "total": 11002
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "01b46a76b273646dd83ec5f26a2017889b82da01b7e8bcc225ce66d3e1129cd4",
+      "reset_witness": {
+        "n_resets": 1,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_45",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 30
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 12.64
+    },
+    {
+      "cell": "gru|micro|linear|horizon_full|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "micro",
+        "readout": "linear",
+        "reset": "horizon_full",
+        "history_k": 1
+      },
+      "accuracy": 0.90848,
+      "per_unit_accuracy": {
+        "S006": 0.9622641509433962,
+        "S008": 0.9795918367346939,
+        "S009": 0.48466257668711654,
+        "S010": 0.989010989010989,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 10612,
+        "readout": 390,
+        "total": 11002
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "0a5285b43b27bde59d4de250d26cde3ff40ec01b83c2ec8818eaeadad733674f",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "horizon_full",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 16.12
+    },
+    {
+      "cell": "gru|medium|linear|horizon_5|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "horizon_5",
+        "history_k": 1
+      },
+      "accuracy": 0.91673,
+      "per_unit_accuracy": {
+        "S006": 0.9811320754716981,
+        "S008": 0.9795918367346939,
+        "S009": 0.5521472392638037,
+        "S010": 0.945054945054945,
+        "S012": 0.9897435897435898,
+        "S013": 0.9722222222222222,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 165984,
+        "readout": 390,
+        "total": 166374
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "b43e01e836ad909046e59d12bfbedcad050642cc70fc2ac569e8c28f82e9d3b3",
+      "reset_witness": {
+        "n_resets": 14,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.14286,
+        "within_tolerance_fraction": 0.14286,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "horizon_5",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6451612903225806,
+      "wall_seconds": 24.49
+    },
+    {
+      "cell": "gru|medium|linear|horizon_45|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "horizon_45",
+        "history_k": 1
+      },
+      "accuracy": 0.95574,
+      "per_unit_accuracy": {
+        "S006": 0.9858490566037735,
+        "S008": 0.9897959183673469,
+        "S009": 0.8282208588957055,
+        "S010": 0.9835164835164835,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 165984,
+        "readout": 390,
+        "total": 166374
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d37222ada01ab49a42a6e0502e1f761a9769e6c2de2f5e12e687b6812f53c1be",
+      "reset_witness": {
+        "n_resets": 1,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_45",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 30
+      },
+      "prediction_concentration": 0.6421605401350338,
+      "wall_seconds": 41.44
+    },
+    {
+      "cell": "gru|medium|linear|horizon_full|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "medium",
+        "readout": "linear",
+        "reset": "horizon_full",
+        "history_k": 1
+      },
+      "accuracy": 0.92048,
+      "per_unit_accuracy": {
+        "S006": 0.9669811320754716,
+        "S008": 0.9795918367346939,
+        "S009": 0.5766871165644172,
+        "S010": 0.989010989010989,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 165984,
+        "readout": 390,
+        "total": 166374
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "548947dace2259466f73df884411dab3ea0a07e66dfca249e067382076ff701d",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "horizon_full",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6391597899474869,
+      "wall_seconds": 49.99
+    },
+    {
+      "cell": "gru|large|linear|horizon_5|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "horizon_5",
+        "history_k": 1
+      },
+      "accuracy": 0.90398,
+      "per_unit_accuracy": {
+        "S006": 0.9764150943396226,
+        "S008": 0.9693877551020408,
+        "S009": 0.4601226993865031,
+        "S010": 0.9505494505494505,
+        "S012": 0.9897435897435898,
+        "S013": 0.9666666666666667,
+        "S014": 0.9414634146341463
+      },
+      "params": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "34642f73a36fa48bd385ebc485a8d0656f79d57772c038c468c27c395e606053",
+      "reset_witness": {
+        "n_resets": 14,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.14286,
+        "within_tolerance_fraction": 0.14286,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": false,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": false
+        },
+        "classification": "oracle_segmented",
+        "kind": "horizon_5",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 5
+      },
+      "prediction_concentration": 0.6444111027756939,
+      "wall_seconds": 77.21
+    },
+    {
+      "cell": "gru|large|linear|horizon_45|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "horizon_45",
+        "history_k": 1
+      },
+      "accuracy": 0.92123,
+      "per_unit_accuracy": {
+        "S006": 0.9622641509433962,
+        "S008": 0.9846938775510204,
+        "S009": 0.588957055214724,
+        "S010": 0.9835164835164835,
+        "S012": 0.9897435897435898,
+        "S013": 0.95,
+        "S014": 0.9365853658536586
+      },
+      "params": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "ba6f871e56af3dac37f1efdcf1f848e6e307f9438d6a02a7d77a0c6bd9c766ef",
+      "reset_witness": {
+        "n_resets": 1,
+        "segment_boundaries": [
+          25,
+          50
+        ],
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.08,
+        "tolerance": 1,
+        "checks": {
+          "is_misaligned": true,
+          "not_wholly_aligned": true,
+          "boundaries_declared": true,
+          "all_pass": true
+        },
+        "classification": "misaligned",
+        "kind": "horizon_45",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 30
+      },
+      "prediction_concentration": 0.6406601650412603,
+      "wall_seconds": 71.53
+    },
+    {
+      "cell": "gru|large|linear|horizon_full|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "large",
+        "readout": "linear",
+        "reset": "horizon_full",
+        "history_k": 1
+      },
+      "accuracy": 0.90248,
+      "per_unit_accuracy": {
+        "S006": 0.9764150943396226,
+        "S008": 0.9846938775510204,
+        "S009": 0.4110429447852761,
+        "S010": 0.967032967032967,
+        "S012": 0.9897435897435898,
+        "S013": 0.9444444444444444,
+        "S014": 0.9609756097560975
+      },
+      "params": {
+        "core": 650909,
+        "readout": 390,
+        "total": 651299
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "bb090cdf1e4da39a271f6182cc0c85dce53775524f98008ca8bb78d9c2d3542b",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "horizon_full",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6399099774943736,
+      "wall_seconds": 124.39
+    },
+    {
+      "cell": "pooled|large|mlp_strong|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "pooled",
+        "tier": "large",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.78995,
+      "per_unit_accuracy": {
+        "S006": 0.7169811320754716,
+        "S008": 0.8622448979591837,
+        "S009": 0.8773006134969326,
+        "S010": 0.6098901098901099,
+        "S012": 0.8102564102564103,
+        "S013": 0.85,
+        "S014": 0.8146341463414634
+      },
+      "params": {
+        "core": 647785,
+        "readout": 83974,
+        "total": 731759
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "968f6f6adaf3d645d6359c92cbe52a7af17462a4baa7bbfa43ba8cf2b4bd93b6",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "pooled_history"
+        ],
+        "k": null,
+        "effective_horizon": "full_unordered"
+      },
+      "prediction_concentration": 0.654913728432108,
+      "wall_seconds": 110.88
+    },
+    {
+      "cell": "histmlp|large|mlp_strong|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "histmlp",
+        "tier": "large",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.8162,
+      "per_unit_accuracy": {
+        "S006": 0.9009433962264151,
+        "S008": 0.8724489795918368,
+        "S009": 0.3803680981595092,
+        "S010": 0.8351648351648352,
+        "S012": 0.9538461538461539,
+        "S013": 0.9611111111111111,
+        "S014": 0.7463414634146341
+      },
+      "params": {
+        "core": 343136,
+        "readout": 83974,
+        "total": 427110
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "202d1b29a657fc0415ec10c4054f1c6e5902fd74259f06208ef821be28b7e506",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.5978994748687172,
+      "wall_seconds": 5.1
+    },
+    {
+      "cell": "tcn|large|mlp_strong|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "tcn",
+        "tier": "large",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.82221,
+      "per_unit_accuracy": {
+        "S006": 0.7075471698113207,
+        "S008": 0.9081632653061225,
+        "S009": 0.32515337423312884,
+        "S010": 0.9560439560439561,
+        "S012": 0.9487179487179487,
+        "S013": 0.9222222222222223,
+        "S014": 0.926829268292683
+      },
+      "params": {
+        "core": 607219,
+        "readout": 83974,
+        "total": 691193
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "d6dcc1d39e64150519286bfb9fba6506e860c8f16b62872c6859aae70116dc32",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "last_k_observations"
+        ],
+        "k": 1,
+        "effective_horizon": 1
+      },
+      "prediction_concentration": 0.5806451612903226,
+      "wall_seconds": 204.5
+    },
+    {
+      "cell": "gru|large|mlp_strong|none|h1",
+      "bed": "harth_stream",
+      "seed": 5,
+      "eval_on": "test",
+      "spec": {
+        "family": "gru",
+        "tier": "large",
+        "readout": "mlp_strong",
+        "reset": "none",
+        "history_k": 1
+      },
+      "accuracy": 0.95499,
+      "per_unit_accuracy": {
+        "S006": 0.9952830188679245,
+        "S008": 0.9897959183673469,
+        "S009": 0.8098159509202454,
+        "S010": 0.9725274725274725,
+        "S012": 0.9897435897435898,
+        "S013": 0.9833333333333333,
+        "S014": 0.9219512195121952
+      },
+      "params": {
+        "core": 650909,
+        "readout": 83974,
+        "total": 734883
+      },
+      "steps": 1200,
+      "updates": 1200,
+      "undeclared_changes": [],
+      "checkpoint_sha_after": "ed980c74a7be4c67c711ece5108413bf2c37b56ef8e0de47f59091834897a960",
+      "reset_witness": {
+        "n_resets": 0,
+        "exact_fraction": 0.0,
+        "within_tolerance_fraction": 0.0,
+        "expected_random_alignment": 0.0,
+        "checks": {
+          "is_misaligned": true,
+          "all_pass": true
+        },
+        "classification": "no_reset",
+        "kind": "none",
+        "periods_used": [
+          12,
+          13
+        ]
+      },
+      "history_profile": {
+        "kinds": [
+          "state_carried_from_previous_observations"
+        ],
+        "k": null,
+        "effective_horizon": 75
+      },
+      "prediction_concentration": 0.6474118529632408,
+      "wall_seconds": 173.21
+    }
+  ],
+  "majority_rate": 0.6399099774943736,
+  "chance_rate": 0.16666666666666666
+}

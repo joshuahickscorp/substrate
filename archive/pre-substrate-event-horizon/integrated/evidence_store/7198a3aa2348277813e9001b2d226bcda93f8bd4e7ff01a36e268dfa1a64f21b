@@ -1,0 +1,302 @@
+{
+  "schema": "mop-temporal-core-mutation-report/v1",
+  "structural": {
+    "core_bypassed": {
+      "expected": "a bypass changes the declared arm and cannot retain the recurrent core identity",
+      "pass": true,
+      "detector": "sealed factorial cell identity and core parameter group"
+    },
+    "readout_substituted": {
+      "expected": "a substituted readout changes its inventory and declared identity",
+      "pass": true
+    },
+    "history_inserted": {
+      "expected": "inserted full history fails matched information against the declared one step arm",
+      "pass": true
+    },
+    "reset_aligned_with_boundaries": {
+      "expected": "oracle_segmented",
+      "actual": "oracle_segmented",
+      "pass": true
+    },
+    "wrong_reset_rate": {
+      "expected": "rate mismatch is visible",
+      "fixed": 4,
+      "wrong": 38,
+      "pass": true
+    },
+    "future_history_inserted": {
+      "expected": "violation",
+      "actual": [
+        "leaky: sees future information"
+      ],
+      "pass": true
+    },
+    "history_removed": {
+      "expected": "history profiles differ and the matched check says no",
+      "pass": true
+    },
+    "null_reference_changed": {
+      "expected": "a moved reference changes the verdict",
+      "against_zero": false,
+      "against_majority": true,
+      "pass": true
+    },
+    "baseline_undertrained": {
+      "expected": "unconverged",
+      "actual": "unconverged",
+      "pass": true
+    },
+    "baseline_substituted": {
+      "expected": "a substituted baseline has a different sealed factorial identity",
+      "pass": true
+    },
+    "training_updates_inflated": {
+      "expected": "every principal run binds actual updates to its cell-specific sealed convergence checkpoint",
+      "n_receipts": 24,
+      "n_runs": 1824,
+      "receipt_checks": {
+        "har_stream_0.json": true,
+        "har_stream_1.json": true,
+        "har_stream_2.json": true,
+        "har_stream_3.json": true,
+        "har_stream_4.json": true,
+        "har_stream_5.json": true,
+        "har_stream_6.json": true,
+        "har_stream_7.json": true,
+        "harth_stream_0.json": true,
+        "harth_stream_1.json": true,
+        "harth_stream_2.json": true,
+        "harth_stream_3.json": true,
+        "harth_stream_4.json": true,
+        "harth_stream_5.json": true,
+        "harth_stream_6.json": true,
+        "harth_stream_7.json": true,
+        "speech_stream_0.json": true,
+        "speech_stream_1.json": true,
+        "speech_stream_2.json": true,
+        "speech_stream_3.json": true,
+        "speech_stream_4.json": true,
+        "speech_stream_5.json": true,
+        "speech_stream_6.json": true,
+        "speech_stream_7.json": true
+      },
+      "pass": true
+    },
+    "failing_unit_removed": {
+      "expected": "every expected evaluation unit remains in every principal cell receipt",
+      "checks": 16,
+      "pass": true
+    },
+    "verdict_changed": {
+      "expected": "a tie is a null and a wrong direction is a failure",
+      "tie": "null_futile",
+      "wrong": "wrong_direction_failure",
+      "pass": true
+    },
+    "effect_comparison_changed": {
+      "expected": "a contrast against a different cell gives a different number",
+      "pass": true
+    },
+    "unit_duplicated": {
+      "expected": "the verifier rejects a repeated natural-unit identity before group inference",
+      "mutation": "append a second record carrying unit_a and its score",
+      "original_audit": {
+        "n_records": 3,
+        "n_unique_units": 3,
+        "duplicate_units": [],
+        "all_values_valid": true,
+        "all_pass": true
+      },
+      "forged_audit": {
+        "n_records": 4,
+        "n_unique_units": 3,
+        "duplicate_units": [
+          "unit_a"
+        ],
+        "all_values_valid": false,
+        "all_pass": false
+      },
+      "original_unique_scores": {
+        "unit_a": 0.2,
+        "unit_b": 0.6,
+        "unit_c": 0.9
+      },
+      "forged_unique_scores": {
+        "unit_a": 0.2,
+        "unit_b": 0.6,
+        "unit_c": 0.9
+      },
+      "pass": true,
+      "detector": "Role C unit identity inventory rejects duplicates before any averaging"
+    },
+    "forged_completion": {
+      "expected": "a missing cell is reported as missing rather than skipped",
+      "actual": "missing_cell",
+      "pass": true
+    },
+    "claim_broadened": {
+      "expected": "the causal graph rejects a claim whose required path was not measured",
+      "violations": [
+        "node measured: unknown type 'measurement'",
+        "node unmeasured: unknown type 'measurement'",
+        "claim claim is broader than the measured path, unmeasured: ['unmeasured']"
+      ],
+      "pass": true
+    }
+  },
+  "behavioural": {
+    "core_output_ignored": {
+      "expected": "zeroing the core representation destroys the prediction",
+      "unique_predictions_with_core": 3,
+      "unique_predictions_without_core": 1,
+      "pass": true
+    },
+    "state_silently_reset": {
+      "expected": "the same trained architecture with state destroyed every observation loses at least the SESOI on both preregistered principal beds",
+      "contrast": "gru|small|linear|none|h1 minus gru|small|linear|every_observation|h1",
+      "per_bed_effects": {
+        "har_stream": [
+          0.205,
+          0.2085,
+          0.188,
+          0.1855,
+          0.1975,
+          0.2105,
+          0.1785,
+          0.185
+        ],
+        "speech_stream": [
+          0.64,
+          0.66,
+          0.6515,
+          0.636,
+          0.664,
+          0.6555,
+          0.592,
+          0.6165
+        ]
+      },
+      "per_bed_decisions": {
+        "har_stream": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.19481,
+          "lower_95_cb": 0.18665,
+          "sesoi": 0.05,
+          "observed_sd": 0.01219,
+          "achieved_mde": 0.00817,
+          "adequately_powered": true,
+          "estimator_sufficient": true
+        },
+        "speech_stream": {
+          "verdict": "positive",
+          "n": 8,
+          "mean": 0.63944,
+          "lower_95_cb": 0.62299,
+          "sesoi": 0.05,
+          "observed_sd": 0.02455,
+          "achieved_mde": 0.01645,
+          "adequately_powered": true,
+          "estimator_sufficient": true
+        }
+      },
+      "pass": true,
+      "note": "this paired intervention isolates carried state. Comparing reset GRU against pooled would confound the state mutation with an architecture change"
+    },
+    "state_silently_preserved": {
+      "expected": "preserving state in a declared destructive reset arm changes the representation",
+      "max_representation_delta": 0.2555345296859741,
+      "pass": true
+    },
+    "readout_inflated": {
+      "expected": "an order free control with a strong readout and a large core does not close the gap",
+      "real_effect": 0.4849,
+      "mutated_effect": 0.52095,
+      "pass": true
+    },
+    "history_inserted_measured_control": {
+      "expected": "giving the stateless model the whole window is the honest comparison and it is reported",
+      "gap_at_k20": 0.01506,
+      "gap_at_full_window": 0.08298,
+      "pass": true,
+      "note": "this mutation reports rather than refuses, and the analysis uses the full window"
+    },
+    "parameter_count_inflated": {
+      "expected": "the measured parameter count is what is reported, not the tier label",
+      "measured": {
+        "micro": 10720,
+        "small": 45910,
+        "medium": 166464,
+        "large": 651878
+      },
+      "pass": true
+    },
+    "bed_substituted": {
+      "expected": "bed identity hashes differ",
+      "pass": true
+    }
+  },
+  "successor": {},
+  "n_mutations": 24,
+  "required_mutations": [
+    "core_bypassed",
+    "core_output_ignored",
+    "readout_substituted",
+    "readout_inflated",
+    "history_inserted",
+    "history_removed",
+    "future_history_inserted",
+    "state_silently_reset",
+    "state_silently_preserved",
+    "reset_aligned_with_boundaries",
+    "wrong_reset_rate",
+    "parameter_count_inflated",
+    "training_updates_inflated",
+    "baseline_undertrained",
+    "baseline_substituted",
+    "bed_substituted",
+    "unit_duplicated",
+    "failing_unit_removed",
+    "null_reference_changed",
+    "effect_comparison_changed",
+    "verdict_changed",
+    "claim_broadened",
+    "forged_completion"
+  ],
+  "required_coverage": {
+    "core_bypassed": true,
+    "core_output_ignored": true,
+    "readout_substituted": true,
+    "readout_inflated": true,
+    "history_inserted": true,
+    "history_removed": true,
+    "future_history_inserted": true,
+    "state_silently_reset": true,
+    "state_silently_preserved": true,
+    "reset_aligned_with_boundaries": true,
+    "wrong_reset_rate": true,
+    "parameter_count_inflated": true,
+    "training_updates_inflated": true,
+    "baseline_undertrained": true,
+    "baseline_substituted": true,
+    "bed_substituted": true,
+    "unit_duplicated": true,
+    "failing_unit_removed": true,
+    "null_reference_changed": true,
+    "effect_comparison_changed": true,
+    "verdict_changed": true,
+    "claim_broadened": true,
+    "forged_completion": true
+  },
+  "all_rejected": true,
+  "survivors": [],
+  "rule": "a required mutation that is accepted invalidates the positive it attacks",
+  "wall_seconds": 668.5,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "cefd3c67319b5730932f6b2877c994cd36ca686d",
+  "source_tree_oid": "5165474bb50a36a83d67662611f0fb345a263197",
+  "SESOI": 0.05,
+  "sha256_version": "canonical_json_v2",
+  "sha256": "27f4735d37c0fbe27483fb0096dc769f3f9d75bd6c53e495edf3403f147b45f5"
+}

@@ -1,0 +1,273 @@
+{
+  "schema": "substrate-nous-closure/v1",
+  "gates": [
+    "grounded_closed_loop",
+    "endogenous_allocation",
+    "cross_domain_continuity",
+    "world_self_control_value",
+    "procedural_transfer",
+    "unity_under_conflict"
+  ],
+  "results": {
+    "grounded_closed_loop": {
+      "gate": "grounded_closed_loop",
+      "links": {
+        "observation_receipted": true,
+        "prediction_receipted": true,
+        "proposal_is_sandboxed": true,
+        "outcome_reached_the_self_model": true,
+        "belief_written_with_provenance": true,
+        "belief_revised_by_outcome": true,
+        "memory_updated": true,
+        "episode_carries_the_outcome": true,
+        "verbal_claim_without_a_receipt_is_refused": true
+      },
+      "broken_links": [],
+      "mechanism_activity": {
+        "active": true,
+        "detail": {
+          "self_model_history_without_outcomes": 0,
+          "beliefs_revised_without_outcomes": 0
+        },
+        "test": "removing the outcome must break the downstream links"
+      },
+      "oracle_headroom": {
+        "applicable": false,
+        "reason": "this gate asks whether the links exist, not how well they score. A ceiling would be a category error"
+      },
+      "passes": true,
+      "reading": "a closed loop is a chain of receipts from observation to memory. A verbal description with no consequence linked receipt is not a link in it"
+    },
+    "endogenous_allocation": {
+      "gate": "endogenous_allocation",
+      "lambda_per_compute_unit": 0.02,
+      "arms": {
+        "endogenous": {
+          "accuracy": 0.166667,
+          "compute": 28.5,
+          "cost_adjusted": -0.403333
+        },
+        "fixed_schedule": {
+          "accuracy": 0.375,
+          "compute": 32.0,
+          "cost_adjusted": -0.265
+        },
+        "maximum_compute": {
+          "accuracy": 0.5,
+          "compute": 79.2,
+          "cost_adjusted": -1.084
+        }
+      },
+      "mechanism_activity": {
+        "active": true,
+        "test": "the three arms must actually spend different compute"
+      },
+      "oracle_headroom": {
+        "applicable": true,
+        "oracle": -0.051,
+        "best_control": -0.265,
+        "headroom": 0.214,
+        "clears_sesoi": true
+      },
+      "margin_over_best_control": -0.138333,
+      "accuracy_saturated": false,
+      "saturation_note": "",
+      "passes": false,
+      "reading": "endogenous allocation earns a pass by beating both a fixed schedule and unlimited compute once compute is priced. If perfect allocation itself cannot clear the SESOI there is nothing here to win and the gate closes"
+    },
+    "cross_domain_continuity": {
+      "gate": "cross_domain_continuity",
+      "sequence": "A to B to A to held out B, one entity, nothing reinitialized",
+      "scores": {
+        "a_first": 0.5,
+        "b_first": 0.666667,
+        "a_return": 0.5,
+        "b_heldout": 0.5,
+        "fresh_b_control": 0.5
+      },
+      "retention": 0.0,
+      "transfer": 0.0,
+      "interference": 0.0,
+      "identity_continuity": {
+        "checkpoints": 4,
+        "all_distinct": true,
+        "steps": 40
+      },
+      "mechanism_activity": {
+        "active": true,
+        "test": "the phases must not all score identically"
+      },
+      "oracle_headroom": {
+        "applicable": true,
+        "oracle": 0.5,
+        "clears_sesoi": true
+      },
+      "passes": false,
+      "reading": "continuity means A survives B and B benefits from A, on one entity whose temporal core, memory, self model and reliability were never reset"
+    },
+    "world_self_control_value": {
+      "gate": "world_self_control_value",
+      "control_paths": {
+        "perspective_selection": true,
+        "resource_allocation": false,
+        "deferral": false,
+        "verification": true,
+        "recovery": true,
+        "world_model_changes_an_action": true
+      },
+      "paths_changed": [
+        "perspective_selection",
+        "recovery",
+        "verification",
+        "world_model_changes_an_action"
+      ],
+      "world_model": {
+        "verdict": "no_measurable_decision_gain",
+        "decisions_changed": 22,
+        "decision_gain": -0.010084
+      },
+      "mechanism_activity": {
+        "active": true,
+        "test": "removing the self model must change at least one path"
+      },
+      "oracle_headroom": {
+        "applicable": false,
+        "reason": "this gate asks whether model information changes a control path, which is structural. The world model decision gain is reported beside it as a measured magnitude, not as a ceiling this gate must clear",
+        "measured_world_model_gain": -0.010084
+      },
+      "passes": true,
+      "reading": "the models earn a pass by changing verification, deferral, selection, allocation, planning or recovery. The world model changes actions here and the gain is negative, which is recorded rather than rounded up"
+    },
+    "procedural_transfer": {
+      "gate": "procedural_transfer",
+      "arms": {
+        "carried_procedure": 0.5625,
+        "fresh": 0.5625,
+        "retrieval_only": 0.5625,
+        "more_compute": 0.5625
+      },
+      "best_baseline": 0.5625,
+      "margin": 0.0,
+      "mechanism_activity": {
+        "active": true,
+        "test": "the reliability table must have moved off its prior"
+      },
+      "oracle_headroom": {
+        "applicable": true,
+        "oracle": 0.4375,
+        "clears_sesoi": true
+      },
+      "passes": false,
+      "reading": "a procedure transfers only if carrying it beats a fresh entity, a retrieval only entity and one given unlimited compute on the same distinct task"
+    },
+    "unity_under_conflict": {
+      "gate": "unity_under_conflict",
+      "checks": {
+        "contradiction_detected": true,
+        "minority_preserved": true,
+        "minority_keeps_its_provenance": true,
+        "single_coherent_decision": true,
+        "globally_available": true,
+        "partial_memory_loss_is_detected": true,
+        "goal_survives_body_replacement": true,
+        "uncertainty_survives": true,
+        "no_split_state": true
+      },
+      "failed": [],
+      "arbitration": {
+        "decision": "left",
+        "deferred": false,
+        "minority_preserved": 1
+      },
+      "mechanism_activity": {
+        "active": true,
+        "test": "the injected conflict must actually be detected"
+      },
+      "oracle_headroom": {
+        "applicable": false,
+        "reason": "unity is a structural property. There is no ceiling to beat, only a set of ways to fail"
+      },
+      "passes": true,
+      "reading": "one entity under conflict keeps the contradiction globally available, keeps the minority, keeps its goal across a body swap and refuses a silently truncated memory"
+    }
+  },
+  "terminally_gated": [],
+  "mechanism_nulls": [
+    {
+      "gate": "endogenous_allocation",
+      "oracle": -0.051,
+      "headroom": 0.214,
+      "classification": "mechanism_null_on_this_bed"
+    },
+    {
+      "gate": "cross_domain_continuity",
+      "oracle": 0.5,
+      "headroom": 0.5,
+      "classification": "mechanism_null_on_this_bed"
+    },
+    {
+      "gate": "procedural_transfer",
+      "oracle": 0.4375,
+      "headroom": 0.4375,
+      "classification": "mechanism_null_on_this_bed"
+    }
+  ],
+  "verdict": {
+    "passed": [
+      "grounded_closed_loop",
+      "unity_under_conflict",
+      "world_self_control_value"
+    ],
+    "failed": [
+      "cross_domain_continuity",
+      "endogenous_allocation",
+      "procedural_transfer"
+    ],
+    "classification": "certified_cognitive_scaffold",
+    "requires_for_next_level": {
+      "certified_cognitive_scaffold": [],
+      "persistent_developmental_cognition": [
+        "cross_domain_continuity",
+        "procedural_transfer"
+      ],
+      "reflective_cognitive_organization": [
+        "cross_domain_continuity",
+        "endogenous_allocation",
+        "procedural_transfer"
+      ],
+      "functional_or_proto_nous_candidate": "all six gates plus terminal long run evidence. Not available from a closure pass"
+    },
+    "never_claimed": [
+      "consciousness",
+      "phenomenal experience",
+      "sentience"
+    ],
+    "claim_rule": "these are functional and architectural classifications. None of them is a claim about experience, and no arrangement of them becomes one"
+  },
+  "sesoi": 0.05,
+  "null_versus_failure": "a gate with an active mechanism and real headroom that measures zero is a null about the entity. A gate with no activity is a broken instrument. They are listed separately because they license different next steps",
+  "not_a_new_layer": "every gate runs the existing runtime over existing beds and the sealed session. Nothing was added to the architecture to pass one",
+  "architecture_freeze": {
+    "frozen": true,
+    "scope": "src/substrate and tests/substrate",
+    "rule": "further expansion has to be generated by terminal long run evidence. A gate that failed here names what would license the next classification, and that naming is the only door: a subsystem nobody's evidence asked for does not get built because it would be interesting",
+    "what_would_reopen_it": {
+      "certified_cognitive_scaffold": [],
+      "persistent_developmental_cognition": [
+        "cross_domain_continuity",
+        "procedural_transfer"
+      ],
+      "reflective_cognitive_organization": [
+        "cross_domain_continuity",
+        "endogenous_allocation",
+        "procedural_transfer"
+      ],
+      "functional_or_proto_nous_candidate": "all six gates plus terminal long run evidence. Not available from a closure pass"
+    },
+    "what_may_still_change": "repairs to a defect reproduced by a test, and the beds themselves. A bed is an instrument, and a frozen instrument that is known to be wrong is not a freeze, it is a mistake held in place"
+  },
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
+  "sha256": "2d55e3c8b606a26652579832a2e6fc0e45c25553da52b5c39c159ae99284c448"
+}

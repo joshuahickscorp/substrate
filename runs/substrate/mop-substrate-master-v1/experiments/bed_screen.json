@@ -1,0 +1,52 @@
+{
+  "schema": "substrate-bed-screen/v1",
+  "rule": {
+    "schema": "substrate-bed-screen-rule/v1",
+    "question": "is there any bed under custody where a write restriction could clear the SESOI at all",
+    "screen": "on training source groups only, measure the oracle ceiling, meaning the mean per unit best of the two writers minus the unrestricted control. A bed is a candidate only if the lower 95 percent bound of that ceiling exceeds the SESOI",
+    "candidates": [
+      "harth_stream",
+      "pamap2_stream"
+    ],
+    "excluded": {
+      "har_stream": "classified an invalid principal bed by the fast state reaudit",
+      "speech_stream": "classified an invalid principal bed by the fast state reaudit"
+    },
+    "sesoi": 0.05,
+    "outcome_if_none_clears": "the finding is that no bed under custody can test H_typed_workspace at the declared effect size. That is a mapped boundary and not a null, and the SESOI is not lowered to manufacture a candidate",
+    "prior_measurement": "the harth_stream ceiling of 0.036124 was measured by SX1b before this rule was written and is carried forward unchanged rather than remeasured",
+    "activation": false
+  },
+  "screened": [
+    {
+      "bed": "harth_stream",
+      "available": true,
+      "n_train_units": 15,
+      "mean_reliability": {
+        "static": 0.576894,
+        "dynamic": 0.545188
+      },
+      "oracle_ceiling": 0.036124,
+      "oracle_ceiling_lower_95_cb": 0.003234,
+      "clears_sesoi": false
+    },
+    {
+      "bed": "pamap2_stream",
+      "available": true,
+      "n_train_units": 6,
+      "mean_reliability": {
+        "static": 0.386473,
+        "dynamic": 0.323413
+      },
+      "oracle_ceiling": 0.038403,
+      "oracle_ceiling_lower_95_cb": -0.010695,
+      "clears_sesoi": false
+    }
+  ],
+  "beds_clearing_the_sesoi": [],
+  "any_candidate": false,
+  "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered",
+  "classification": "no_bed_can_answer_at_this_effect_size",
+  "not_a_null": "a hypothesis nothing can currently measure is untested, not refuted. Nothing downstream of H_typed_workspace closes",
+  "activation": false
+}

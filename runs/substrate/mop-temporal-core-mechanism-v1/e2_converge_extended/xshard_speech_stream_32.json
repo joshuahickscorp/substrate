@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "pooled",
+    "tier": "small",
+    "readout": "mlp1",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "pooled|small|mlp1|none|h1",
+  "curve": {
+    "400": 0.21828333333333336,
+    "800": 0.23650000000000002,
+    "1600": 0.24440666666666666,
+    "3200": 0.24334333333333333,
+    "6400": 0.23004666666666665,
+    "12800": 0.23887
+  },
+  "seed_spread": {
+    "400": 0.02568,
+    "800": 0.01431,
+    "1600": 0.01134,
+    "3200": 0.02238,
+    "6400": 0.02594,
+    "12800": 0.02566
+  },
+  "seed_scores": {
+    "400": [
+      0.20175,
+      0.24787,
+      0.20523
+    ],
+    "800": [
+      0.23333,
+      0.25213,
+      0.22404
+    ],
+    "1600": [
+      0.24298,
+      0.25639,
+      0.23385
+    ],
+    "3200": [
+      0.25614,
+      0.25639,
+      0.2175
+    ],
+    "6400": [
+      0.23772,
+      0.25128,
+      0.20114
+    ],
+    "12800": [
+      0.25175,
+      0.25554,
+      0.20932
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.20175,
+        "checkpoint_sha": "f5bfec8cd8561c5de90f524b7eb39c3c4aff286b9b75b247ee78dc062d09f510"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.24787,
+        "checkpoint_sha": "e24f269b8aca9fea1f0713a4e2aa081685eef7ac23993b3b8c927c1b2a89b4fb"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.20523,
+        "checkpoint_sha": "521f17a285b2d5afed18da5cdf3ec3d400c20b395030efa103ae78521be080aa"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.23333,
+        "checkpoint_sha": "afbe0e53746295b14d6a94ddd5fa60ee30e048d261e119ae0068e484fc832185"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.25213,
+        "checkpoint_sha": "4fc584ad4d43d429635257657bbd23a458ef5094514234306fd4d97dc14efce1"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.22404,
+        "checkpoint_sha": "a33809f2000e1da1073e58d95e71eb5f49049f629ad3308167a0a51a5ef2c5f4"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.24298,
+        "checkpoint_sha": "d2dce77f9363c5802f519f2898cc4ccc75a6eee6f853f4b1ded21ff0696d1ab5"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.25639,
+        "checkpoint_sha": "42792ccd3192d00f384789f98ee21ffea05765943da2e0832fcc5f7b24029332"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.23385,
+        "checkpoint_sha": "92f0a197fd7f98bcf258072f8d557030eea41334c42e0719f429380a465ac10e"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.25614,
+        "checkpoint_sha": "9bd531820f5895d62bb33e98e9ada1e0aa23ee6505a3d9eccc357898510f2fbb"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.25639,
+        "checkpoint_sha": "8f044165ab3e1dbf989b3863772061f764c69263fe6c7ac8ddd4f62f46f24489"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.2175,
+        "checkpoint_sha": "11fe13165a0a818f826b394c3c8403185c917796df1fab343c203da68ac9205c"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.23772,
+        "checkpoint_sha": "aa50ffe6c4ceac19a8952299e486e12b75e3e761da8de59a3a6dc13cf8e7337e"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.25128,
+        "checkpoint_sha": "b50367df1970e207f9884c3f06a9a1ea42dbad0faceaebea15bc71aeab58a081"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.20114,
+        "checkpoint_sha": "ea34d3a14f3e34db0955ec3783e4af55a06482df6b2d67a4df2c0f232c90b55e"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.25175,
+        "checkpoint_sha": "f39067214887834e7c54f432f564b27ea24382733cb8ea0eeb573c5a446f56de"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.25554,
+        "checkpoint_sha": "b52fd57e2d278f1d92ee668c556bbfda764cb1c4c46355b55a6003262e72755c"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.20932,
+        "checkpoint_sha": "ff40f03e997df0ee53c789a2262bd9d17778c04f0d2e040d5667ab6072b0512b"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 41600,
+    "readout": 4810,
+    "total": 46410
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_32.json",
+    "sha256": "63b538ddfa793aaa77323f8fd995dc5d60d27befad35ab77c352ebe089e92638",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.21828,
+    0.2365,
+    0.24441,
+    0.24334,
+    0.23005,
+    0.23887
+  ],
+  "best_budget": 1600,
+  "selected_checkpoint": 1600,
+  "second_half_movement": 0.0133,
+  "residual_slope": -0.002237,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0133 with slope -0.00224; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 1526.0,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "bee4dafc07f12a56be71f56724e738d859cd6e1ebdbbfa4b63a7372fdef89d29"
+}

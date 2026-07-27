@@ -1,0 +1,2 @@
+encoder,factor,probe_type,linear_acc,nonlinear_acc,chance_floor,decodable,seeds_n,sem,provenance_tag,repro_level,raw_run_id
+vjepa2_vitl_fpc64_256,identity,linear,1.0,,0.1586,yes,5,0.0,real-encoder,R3,atlas_identity_vitl_ee2c9e1199ed

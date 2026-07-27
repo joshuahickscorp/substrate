@@ -1,0 +1,58 @@
+{
+  "bed": "harth_stream",
+  "spec": {
+    "family": "pooled",
+    "tier": "small",
+    "readout": "linear",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "pooled|small|linear|none|h1",
+  "curve": {
+    "400": 0.65781,
+    "800": 0.6280566666666667,
+    "1600": 0.6679499999999999,
+    "3200": 0.6672733333333333
+  },
+  "seed_spread": {
+    "400": 0.04744,
+    "800": 0.06449,
+    "1600": 0.04865,
+    "3200": 0.00746
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200
+  ],
+  "scores": [
+    0.65781,
+    0.62806,
+    0.66795,
+    0.66727
+  ],
+  "best_budget": 1600,
+  "selected_checkpoint": 1600,
+  "second_half_movement": 0.00068,
+  "residual_slope": -0.000677,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": true,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": true
+  },
+  "converged": true,
+  "reason": "",
+  "classification": "converged",
+  "wall_seconds": 361.1
+}

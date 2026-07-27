@@ -1,0 +1,14 @@
+# Temporal core scorecard
+
+| dimension | score |
+|---|---|
+| data_custody | 100 |
+| method_extension | 100 |
+| calibration | 100 |
+| bed_validity | 100 |
+| principal_factorial | 100 |
+| independent_replication | 100 |
+| verification | 0 |
+| mutations | 0 |
+| coverage | 100 |
+| code_lifecycle | 100 |

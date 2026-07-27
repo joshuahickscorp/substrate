@@ -1,0 +1,110 @@
+{
+  "schema": "mop-fast-state-independent-verification/v1",
+  "shared_with_the_runners": [
+    "hashing",
+    "serialization",
+    "schemas",
+    "file reading"
+  ],
+  "not_shared": [
+    "effect computation",
+    "group inference",
+    "scientific classification"
+  ],
+  "recomputed": [
+    "dataset identities",
+    "units",
+    "splits",
+    "domain sequence",
+    "checkpoint ancestry",
+    "trainable groups",
+    "frozen groups",
+    "changed parameters",
+    "primary metrics",
+    "baseline metrics",
+    "group inference",
+    "architecture result",
+    "verdict",
+    "claim ceiling"
+  ],
+  "dataset_and_splits": {
+    "har": {
+      "rows_train": 7352,
+      "rows_test": 2947,
+      "unit_kind": "subject",
+      "train_units": 21,
+      "test_units": 9,
+      "train_test_unit_overlap": 0,
+      "split_unit_counts": {
+        "main": 12,
+        "tune": 4,
+        "future": 5
+      },
+      "split_partitions_all_units": true,
+      "classes": 6,
+      "channels": 9
+    },
+    "speech": {
+      "rows_train": 2343,
+      "rows_test": 857,
+      "unit_kind": "speaker",
+      "train_units": 160,
+      "test_units": 68,
+      "train_test_unit_overlap": 0,
+      "split_unit_counts": {
+        "main": 88,
+        "tune": 32,
+        "future": 40
+      },
+      "split_partitions_all_units": true,
+      "classes": 10,
+      "channels": 40
+    }
+  },
+  "receipt_verification": {
+    "receipts_checked": 1600,
+    "issues": [],
+    "pass": true
+  },
+  "ancestry_verification": {
+    "transitions_checked": 1200,
+    "issues": [],
+    "pass": true
+  },
+  "cross_domain_recomputation": {
+    "har->speech": {
+      "recomputed_strongest_baseline": "fresh_independent",
+      "sealed_strongest_baseline": "fresh_independent",
+      "recomputed_passing": [],
+      "sealed_passing": [],
+      "verdict_agrees": true,
+      "effect_disagreements_beyond_tolerance": [],
+      "max_absolute_effect_difference": 0.000688
+    },
+    "speech->har": {
+      "recomputed_strongest_baseline": "fresh_independent",
+      "sealed_strongest_baseline": "fresh_independent",
+      "recomputed_passing": [],
+      "sealed_passing": [],
+      "verdict_agrees": true,
+      "effect_disagreements_beyond_tolerance": [],
+      "max_absolute_effect_difference": 0.000527
+    }
+  },
+  "within_domain_shards_seen": 5,
+  "tolerance": 0.001,
+  "checks": {
+    "receipts_consistent": true,
+    "checkpoint_ancestry_intact": true,
+    "cross_domain_verdict_reproduced": true,
+    "effects_reproduced_within_tolerance": true,
+    "splits_unit_disjoint": true,
+    "splits_partition_all_units": true,
+    "all_pass": true
+  },
+  "wall_seconds": 1.5,
+  "program": "mop-fast-state-plasticity-forge-v1",
+  "source_commit": "32907e27b6e7604a87fa548403ae572ea730eb4c",
+  "SESOI": 0.05,
+  "sha256": "2f8151095087ad46525191424b107dafe31df3f565c6635c4f932878c2d5e0d9"
+}

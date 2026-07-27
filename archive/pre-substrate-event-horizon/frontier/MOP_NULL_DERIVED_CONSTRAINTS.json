@@ -1,0 +1,55 @@
+{
+  "schema": "mop-null-derived-constraints/v1",
+  "constraints": [
+    {
+      "origin": "U1",
+      "constraint": "high uncertainty is not reducible uncertainty; a mechanism must discriminate reducible from irreducible error, not fire on raw uncertainty"
+    },
+    {
+      "origin": "N1",
+      "constraint": "source-specific reducibility does not imply cross-source value; a value signal must transfer across sources before confirmation"
+    },
+    {
+      "origin": "R1",
+      "constraint": "learned retrieval must beat nearest-similarity by SESOI, not merely perform a successful nearest-neighbour lookup"
+    },
+    {
+      "origin": "E1",
+      "constraint": "relational event boundaries must beat simple change detectors in downstream value, not merely segment the stream"
+    },
+    {
+      "origin": "C0",
+      "constraint": "a stable trace must beat EMA smoothing and matched-memory buffers in downstream value"
+    },
+    {
+      "origin": "A1",
+      "constraint": "affordance reading must beat a fitted value estimator on the same latent"
+    },
+    {
+      "origin": "S1",
+      "constraint": "learned rollouts must control compounding model error and beat direct prediction and simple planning after charging model-error estimation"
+    },
+    {
+      "origin": "M1",
+      "constraint": "message predictability is not causal message value; a messaging mechanism must estimate intervention-level value and beat a centralized matched-capacity control"
+    },
+    {
+      "origin": "K1",
+      "constraint": "contradiction detection is not repair necessity; a repair mechanism must estimate net corrected-decision value and avoid false-repair harm"
+    },
+    {
+      "origin": "P1R",
+      "constraint": "per-item value prediction is not sufficient for a competitive replay policy; a replay mechanism must beat the best established method (GDumb), not only no-replay"
+    },
+    {
+      "origin": "V1",
+      "constraint": "incremental value must hold across a family of sufficiently capable architectures, not a single one, to be admitted"
+    },
+    {
+      "origin": "battery",
+      "constraint": "every mechanism must clear noisy-TV, shuffled-target, wrong-time, and rate-matched-random controls, and provide oracle headroom, before a canary"
+    }
+  ],
+  "usage": "these become mandatory admission clauses for every future mechanism.",
+  "sha256": "97287926b912702a3ad7bd556a8313beaa0b6dff6c745e7afa4040ffd913be0a"
+}

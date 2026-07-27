@@ -1,0 +1,29 @@
+{
+  "schema": "mop-proof-scope-authority/v1",
+  "sets": {
+    "collapse": {
+      "count": 60,
+      "bytes": 682239,
+      "merkle_root": "55b01c32558144a8cac81f66c1ff2d14899f13b18a9bed82f58ace63bdc156df"
+    },
+    "substrate": {
+      "count": 1,
+      "bytes": 94801,
+      "merkle_root": "04c6d1ba089e271a5db4113234e7c33139be7fc0307806738e4fb6da0b66b975"
+    },
+    "campaign": {
+      "count": 37,
+      "bytes": 34951944,
+      "merkle_root": "df3f8e983ee5820cbd9cb9e6fb39c43667325e23469dbcbbfb0265bece607680"
+    },
+    "historical": {
+      "count": 36,
+      "bytes": 12188449,
+      "merkle_root": "74363115841c147145a16d71064c1cd188bec32fa3ddc462e5bacfece7e0d3c9"
+    }
+  },
+  "union_merkle_root": "6e6eded9806773780e6b1196803b72c1f6e1c88500160d5c25fa6609608abb89",
+  "source_commit": "64d2801",
+  "primary_invariant": "identities, manifests, hashes, set relationships (not a global file count)",
+  "sha256": "d768b879190535f999111a909dc6f9d1f94433e851ee3735557105c7817f1eb3"
+}

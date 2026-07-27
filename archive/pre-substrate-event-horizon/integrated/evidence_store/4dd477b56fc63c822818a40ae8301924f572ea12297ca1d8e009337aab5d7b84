@@ -1,0 +1,242 @@
+{
+  "schema": "mop-e2-extended-convergence-shard/v1",
+  "bed": "speech_stream",
+  "spec": {
+    "family": "histmlp",
+    "tier": "small",
+    "readout": "mlp_strong",
+    "reset": "none",
+    "history_k": 1
+  },
+  "cell": "histmlp|small|mlp_strong|none|h1",
+  "curve": {
+    "400": 0.10774,
+    "800": 0.1285666666666667,
+    "1600": 0.13863333333333336,
+    "3200": 0.14924666666666667,
+    "6400": 0.13710666666666668,
+    "12800": 0.15321666666666667
+  },
+  "seed_spread": {
+    "400": 0.01312,
+    "800": 0.01614,
+    "1600": 0.03606,
+    "3200": 0.01618,
+    "6400": 0.01335,
+    "12800": 0.02316
+  },
+  "seed_scores": {
+    "400": [
+      0.11754,
+      0.09284,
+      0.11284
+    ],
+    "800": [
+      0.11842,
+      0.1201,
+      0.14718
+    ],
+    "1600": [
+      0.16667,
+      0.09796,
+      0.15127
+    ],
+    "3200": [
+      0.14298,
+      0.13714,
+      0.16762
+    ],
+    "6400": [
+      0.14298,
+      0.14651,
+      0.12183
+    ],
+    "12800": [
+      0.17632,
+      0.15332,
+      0.13001
+    ]
+  },
+  "arm_records": {
+    "400": [
+      {
+        "seed": 0,
+        "updates": 400,
+        "score": 0.11754,
+        "checkpoint_sha": "db5fa34db0ae8fca516e5cb41ade1efa51cfbcd1ffdf92f5c1f152166fb37afe"
+      },
+      {
+        "seed": 1,
+        "updates": 400,
+        "score": 0.09284,
+        "checkpoint_sha": "896550f06eec53691d41777bd51c48991b982b40d0a0c0b4d34a80aaa6713d07"
+      },
+      {
+        "seed": 2,
+        "updates": 400,
+        "score": 0.11284,
+        "checkpoint_sha": "4e324db8316ab489f2c633bc1094f65fa06a551be7abe76e83816d4904c44d32"
+      }
+    ],
+    "800": [
+      {
+        "seed": 0,
+        "updates": 800,
+        "score": 0.11842,
+        "checkpoint_sha": "7d522c63e930ef5a021de2825e53b91619c4f58c1708ad536ac98d9cca5544e0"
+      },
+      {
+        "seed": 1,
+        "updates": 800,
+        "score": 0.1201,
+        "checkpoint_sha": "7c6c3a664e26c8f364703db77346a607fd7f62d9a8c76e39163ff6e013397167"
+      },
+      {
+        "seed": 2,
+        "updates": 800,
+        "score": 0.14718,
+        "checkpoint_sha": "c62d319a1b0cab4d9e5cf112c79dbe3bf90d1c2c584da40c5f8e78460fe7abce"
+      }
+    ],
+    "1600": [
+      {
+        "seed": 0,
+        "updates": 1600,
+        "score": 0.16667,
+        "checkpoint_sha": "3f3bd889cd17113b9b3f55a2167234ddf7243115eaf13cfe566a26029668f107"
+      },
+      {
+        "seed": 1,
+        "updates": 1600,
+        "score": 0.09796,
+        "checkpoint_sha": "10e55048e667078770bafe4b6e17158f08f214c358a408b40ee55ca6be78986d"
+      },
+      {
+        "seed": 2,
+        "updates": 1600,
+        "score": 0.15127,
+        "checkpoint_sha": "2198430f45be9ee53ffa7ae01e57ed43834c609a88f77a96796779ec1b69321d"
+      }
+    ],
+    "3200": [
+      {
+        "seed": 0,
+        "updates": 3200,
+        "score": 0.14298,
+        "checkpoint_sha": "45c3949e9c3b13bcc2713b198c9dfe8a5e9d44de90b72f4b7418dd302c39c583"
+      },
+      {
+        "seed": 1,
+        "updates": 3200,
+        "score": 0.13714,
+        "checkpoint_sha": "e2b8e308964398bf81cc2583a3671fb4af9e1b0138bbc888bba8d7590254cf5a"
+      },
+      {
+        "seed": 2,
+        "updates": 3200,
+        "score": 0.16762,
+        "checkpoint_sha": "71619be4d44adf379729fb9c1a6b8011c899faa632cd033ee37bbecb123b6a72"
+      }
+    ],
+    "6400": [
+      {
+        "seed": 0,
+        "updates": 6400,
+        "score": 0.14298,
+        "checkpoint_sha": "28b801f4804619b2b4513b9b216bb09e41901de3e92af1b30d339f0ca7affeb9"
+      },
+      {
+        "seed": 1,
+        "updates": 6400,
+        "score": 0.14651,
+        "checkpoint_sha": "5cc8def46f69d94e2e5ec54c354dc4c8836b6b0fed5c5cfde0abf158270232c9"
+      },
+      {
+        "seed": 2,
+        "updates": 6400,
+        "score": 0.12183,
+        "checkpoint_sha": "734bfc474678c60c7a6137c6f3e008f81fdfe9440b3f0406efd9faf600e8e1fa"
+      }
+    ],
+    "12800": [
+      {
+        "seed": 0,
+        "updates": 12800,
+        "score": 0.17632,
+        "checkpoint_sha": "1d9a70299d6ffcb00a4534c0fa906c5416fbc3badcaed7b078718d1148ec1103"
+      },
+      {
+        "seed": 1,
+        "updates": 12800,
+        "score": 0.15332,
+        "checkpoint_sha": "e31ed0ead56e299c1d14181abd7293085b3f94b171c523914263205531e55407"
+      },
+      {
+        "seed": 2,
+        "updates": 12800,
+        "score": 0.13001,
+        "checkpoint_sha": "29ca42eaee549cb8bd3ef51036a2243f082bf587525124a2a10397e888362497"
+      }
+    ]
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": {
+    "core": 43009,
+    "readout": 85002,
+    "total": 128011
+  },
+  "extends": {
+    "path": "runs/substrate/mop-temporal-core-mechanism-v1/e2_converge/cshard_speech_stream_35.json",
+    "sha256": "3f2e34d58d3595ae91811bf97d0d90b315bd71b0a96fb63c26f4db36bc359b5b",
+    "grid": [
+      400,
+      800,
+      1600,
+      3200
+    ]
+  },
+  "authority_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "budgets": [
+    400,
+    800,
+    1600,
+    3200,
+    6400,
+    12800
+  ],
+  "scores": [
+    0.10774,
+    0.12857,
+    0.13863,
+    0.14925,
+    0.13711,
+    0.15322
+  ],
+  "best_budget": 12800,
+  "selected_checkpoint": 12800,
+  "second_half_movement": 0.01611,
+  "residual_slope": 0.001985,
+  "threshold": 0.01,
+  "slope_threshold": 0.002,
+  "checks": {
+    "enough_budgets": true,
+    "largest_budget_is_not_the_best": true,
+    "second_half_movement_within_threshold": false,
+    "second_half_slope_within_threshold": true,
+    "not_overfitting": true,
+    "all_pass": false
+  },
+  "converged": false,
+  "reason": "second half moves 0.0161 with slope 0.00199; extend the budget grid past 12800",
+  "classification": "unconverged",
+  "wall_seconds": 65.9,
+  "program": "mop-temporal-core-mechanism-v1",
+  "source_commit": "807bdaac86463f7b8f294d5c921e4767e3a5e472",
+  "source_tree_oid": "c076f2cc15a62eb7ba2a5b1949742cc89050abcf",
+  "result_hash_version": "canonical_json_v2",
+  "result_sha256": "de50b11cc11fd2c614e011dfdbe942f0f5c023e4d471025da40d58363dde98f5"
+}

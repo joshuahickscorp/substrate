@@ -1,0 +1,8 @@
+{
+  "schema": "mop-substrate-plasticity-report/v1",
+  "gate_verdict": "no_stable_headroom (simple_policy_sufficient)",
+  "oracle_headroom_lcb": -0.0006,
+  "class": "simple_policy_sufficient",
+  "learned_controller_opened": false,
+  "sha256": "25675d6514b81b336aef9f87ddecf99ac82802fa0ed702d0118dc222b2821f90"
+}

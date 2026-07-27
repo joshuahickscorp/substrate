@@ -1,0 +1,359 @@
+{
+  "schema": "substrate-independent-verification/v1",
+  "role": "recomputation from sealed bytes by a second route, without importing the modules that produced them",
+  "checks": {
+    "workspace_no_region_is_globally_writable": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "counted writer sets in the sealed region table, not by importing the workspace"
+    },
+    "workspace_every_region_globally_readable": {
+      "reported": 12,
+      "recomputed": 12,
+      "agrees": true,
+      "route": "counted reader sets in the sealed region table"
+    },
+    "perspective_families_are_distinct": {
+      "reported": 16,
+      "recomputed": 16,
+      "agrees": true,
+      "route": "counted distinct families in the sealed catalog"
+    },
+    "perspective_family_accounting_closes": {
+      "reported": 19,
+      "recomputed": 19,
+      "agrees": true,
+      "route": "added the implemented and missing family lists from the sealed artifact"
+    },
+    "consolidation_selections_are_distinct": {
+      "reported": 7,
+      "recomputed": 7,
+      "agrees": true,
+      "route": "hashed the sealed selection lists rather than rerunning the policies"
+    },
+    "only_the_oracle_policy_uses_future_information": {
+      "reported": [
+        "oracle"
+      ],
+      "recomputed": [
+        "oracle"
+      ],
+      "agrees": true,
+      "route": "filtered the sealed policy table on availability at decision time"
+    },
+    "world_distinction_predictive_accuracy": {
+      "reported": 0.9445,
+      "recomputed": 0.9445,
+      "agrees": true,
+      "route": "averaged the sealed per test scores back into their declared distinction"
+    },
+    "world_distinction_decision_usefulness": {
+      "reported": 0.4889,
+      "recomputed": 0.4889,
+      "agrees": true,
+      "route": "averaged the sealed per test scores back into their declared distinction"
+    },
+    "world_distinction_causal_validity": {
+      "reported": 1.0,
+      "recomputed": 1.0,
+      "agrees": true,
+      "route": "averaged the sealed per test scores back into their declared distinction"
+    },
+    "world_distinction_simulation_reliability": {
+      "reported": 0.93,
+      "recomputed": 0.93,
+      "agrees": true,
+      "route": "averaged the sealed per test scores back into their declared distinction"
+    },
+    "metacognition_residual_headroom": {
+      "reported": 0.0,
+      "recomputed": 0.0,
+      "agrees": true,
+      "route": "recomputed oracle minus the strongest simple policy from the sealed rows"
+    },
+    "learned_metacognition_licensing": {
+      "reported": false,
+      "recomputed": false,
+      "agrees": true,
+      "route": "reapplied the SESOI rule to the sealed residual"
+    },
+    "continuity_contested_surfaces": {
+      "reported": [
+        "goals",
+        "uncertainty",
+        "world_state"
+      ],
+      "recomputed": [
+        "goals",
+        "uncertainty",
+        "world_state"
+      ],
+      "agrees": true,
+      "route": "rederived the contested set from the sealed per surface rows"
+    },
+    "continuity_support_needs_a_capable_control": {
+      "reported": true,
+      "recomputed": true,
+      "agrees": true,
+      "route": "reapplied the support rule to the sealed margins"
+    },
+    "scorecard_evidence_temporal_continuity": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_ontology": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_epistemology": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_workspace": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_working_memory": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_episodic_memory": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_semantic_memory": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_procedural_memory": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_world_model": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_self_model": {
+      "reported": 100,
+      "recomputed": 100,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_perspective_diversity": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_perspective_arbitration": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_metacognition": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_grounding": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_causal_reasoning": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_goal_continuity": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_valuation": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_plasticity": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_consolidation": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_reorganization": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_developmental_divergence": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_thinking": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_continuity": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_unity": {
+      "reported": 25,
+      "recomputed": 25,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_reflective_access": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_cognitive_integrity": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "scorecard_evidence_model_body_integration": {
+      "reported": 0,
+      "recomputed": 0,
+      "agrees": true,
+      "route": "recounted classified results in the sealed state file"
+    },
+    "sx5_effect_har_stream_to_harth_stream": {
+      "reported": 0.032393,
+      "recomputed": 0.032393,
+      "agrees": true,
+      "route": "rebuilt the pairing and refitted the offset from the temporal receipts"
+    },
+    "sx5_support_har_stream_to_harth_stream": {
+      "reported": false,
+      "recomputed": false,
+      "agrees": true,
+      "route": "reapplied the SESOI rule to the independently derived interval"
+    },
+    "sx5_effect_harth_stream_to_har_stream": {
+      "reported": 0.019539,
+      "recomputed": 0.019539,
+      "agrees": true,
+      "route": "rebuilt the pairing and refitted the offset from the temporal receipts"
+    },
+    "sx5_support_harth_stream_to_har_stream": {
+      "reported": false,
+      "recomputed": false,
+      "agrees": true,
+      "route": "reapplied the SESOI rule to the independently derived interval"
+    }
+  },
+  "seal_integrity": {
+    "SUBSTRATE_AGENCY_BATTERY.json": true,
+    "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
+    "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_BELIEF_REVISION.json": true,
+    "SUBSTRATE_BODY_COMPACT.json": true,
+    "SUBSTRATE_BODY_GENERAL.json": true,
+    "SUBSTRATE_BODY_TOOL.json": true,
+    "SUBSTRATE_CAMPAIGN_PLAN.json": true,
+    "SUBSTRATE_CAPABILITY_MAP.json": true,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
+    "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
+    "SUBSTRATE_CONTINUITY_BATTERY.json": true,
+    "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
+    "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
+    "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
+    "SUBSTRATE_EPISTEMOLOGY.json": true,
+    "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
+    "SUBSTRATE_FINAL_ANCESTRY.json": true,
+    "SUBSTRATE_FINAL_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_FINAL_PROGRAM_GRAPH.json": true,
+    "SUBSTRATE_FINAL_SCORECARD.json": true,
+    "SUBSTRATE_FINAL_STATE.json": true,
+    "SUBSTRATE_FINAL_VALUE_QUEUE.json": true,
+    "SUBSTRATE_GOAL_SYSTEM.json": true,
+    "SUBSTRATE_GROUNDING.json": true,
+    "SUBSTRATE_HYPOTHESIS_GRAPH.json": true,
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_AUTHORITY.json": true,
+    "SUBSTRATE_LONG_RUN_CERTIFICATION.json": true,
+    "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json": true,
+    "SUBSTRATE_LONG_RUN_DAG.json": true,
+    "SUBSTRATE_LONG_RUN_REHEARSAL.json": true,
+    "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json": true,
+    "SUBSTRATE_MASTER_AUTHORITY.json": true,
+    "SUBSTRATE_MEMORY_SYSTEM.json": true,
+    "SUBSTRATE_METACOGNITION.json": true,
+    "SUBSTRATE_MODEL_BODY_INTERFACE.json": true,
+    "SUBSTRATE_MUTATION_REPORT.json": true,
+    "SUBSTRATE_NEXT_FRONTIER.json": true,
+    "SUBSTRATE_NOUS_CLOSURE.json": true,
+    "SUBSTRATE_NULL_MAP.json": true,
+    "SUBSTRATE_ONTOLOGY.json": true,
+    "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
+    "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
+    "SUBSTRATE_PROGRESS_SCORECARD.json": true,
+    "SUBSTRATE_REAL_SESSION_AUTHORITY.json": true,
+    "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json": true,
+    "SUBSTRATE_REORGANIZATION.json": true,
+    "SUBSTRATE_RUNTIME.json": true,
+    "SUBSTRATE_SELF_MODEL.json": true,
+    "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
+    "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_STRUCTURAL_AUDIT.json": true,
+    "SUBSTRATE_SX2_DIVERSITY.json": true,
+    "SUBSTRATE_TEMPORAL_CORE.json": true,
+    "SUBSTRATE_THINKING_BATTERY.json": true,
+    "SUBSTRATE_UNITY_BATTERY.json": true,
+    "SUBSTRATE_VALUATION_SYSTEM.json": true,
+    "SUBSTRATE_WORKSPACE.json": true,
+    "SUBSTRATE_WORLD_MODEL.json": true,
+    "SUBSTRATE_WORLD_MODEL_BATTERY.json": true,
+    "SUBSTRATE_WORLD_MODEL_BED.json": true
+  },
+  "disagreements": [],
+  "broken_seals": [],
+  "all_pass": true,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "6c97246db07bca8a909aa6049890d70cd730ef85",
+  "activation": false,
+  "sha256": "b663fe48e9c608f42c488db89caa50761bfdb713ee18ba117654d7b41445bc72"
+}
