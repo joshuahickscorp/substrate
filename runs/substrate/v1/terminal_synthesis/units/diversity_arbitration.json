@@ -1,0 +1,15 @@
+{
+  "schema": "substrate-terminal-synthesis-unit/v2",
+  "unit": "diversity_arbitration",
+  "ok": true,
+  "returncode": 0,
+  "detail": "sealed synthesis unit complete",
+  "wall_seconds": 0.0,
+  "source_commit": "9de30de22e3d82501eb6751b9710ad6b3378f0d0",
+  "source_digest": "cc7cf719ae5fc6de2a235e3bef052438ed341e48037693c3da70c530e2971aa4",
+  "configuration_sha256": "797e2ca437258960aedc32ec7ee432b05f4b62ef32eec6211534d27c0b5ce68b",
+  "attempt": 1,
+  "thread_budget": 1,
+  "activation": false,
+  "receipt_sha256": "0f30d7e7b2fcdb27bd70a2d60fcfdbb8f4455f0790d65201c63bb58f58d9bc14"
+}
