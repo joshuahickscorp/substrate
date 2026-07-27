@@ -27,6 +27,19 @@ runs/method/*
 !runs/method/mop-experimental-method-reformation-v1/
 !runs/method/mop-experimental-method-reformation-v1/**
 runs/method/mop-experimental-method-reformation-v1/coverage/
+# The Substrate master program's verdict evidence. The experiment decisions carry the admission reports,
+# the refusals with their blocking violations and the principal measurements, and the result ledger is
+# what turns an item terminal. The independent recomputation reads them, so a clean clone needs them.
+# test_ledger.json is deliberately NOT tracked: a clean clone must rerun the tests rather than inherit a
+# claim that they passed.
+!runs/substrate/
+runs/substrate/*
+!runs/substrate/mop-substrate-master-v1/
+runs/substrate/mop-substrate-master-v1/*
+!runs/substrate/mop-substrate-master-v1/result_ledger.json
+!runs/substrate/mop-substrate-master-v1/experiments/
+!runs/substrate/mop-substrate-master-v1/experiments/**
+
 !runs/pre_studio/
 runs/pre_studio/*
 !runs/pre_studio/close_e7_sparse.json
