@@ -166,7 +166,7 @@ def verify_corpus(c: Corpus) -> dict:
                 "status": "absent", "recovery": c.redownload_command}
     live = {}
     for rel, want in (c.extracted_hashes or {}).items():
-        f = p / rel
+        f = p if p.is_file() and rel == p.name else p / rel
         if not f.is_file():
             live[rel] = "missing"
         else:
