@@ -1,0 +1,1865 @@
+{
+  "schema": "substrate-state/v1",
+  "items": {
+    "A1": {
+      "id": "A1",
+      "section": "2",
+      "title": "Naming and historical continuity authority",
+      "requirement": "Map historical terminology to the current architecture without invalidating prior evidence. Historical files, branches, commits, tags and proofs are not mass renamed.",
+      "kind": "authority",
+      "category": null,
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 2",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/program.py"
+        ],
+        "present": [
+          "src/mop/cognition/program.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_program.py::test_naming_authority_preserves_historical_programs"
+        ],
+        "recorded": {
+          "tests/cognition/test_program.py::test_naming_authority_preserves_historical_programs": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MASTER_AUTHORITY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_MASTER_AUTHORITY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MASTER_AUTHORITY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "A2": {
+      "id": "A2",
+      "section": "21",
+      "title": "Master deliverable set exists and binds to real things",
+      "requirement": "Maintain the declared master artifacts. Artifacts must bind to implementation, evidence or terminal gates. Do not create empty placeholder documents.",
+      "kind": "authority",
+      "category": null,
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "A1"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 21",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/program.py"
+        ],
+        "present": [
+          "src/mop/cognition/program.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path"
+        ],
+        "recorded": {
+          "tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MASTER_AUTHORITY.json",
+          "SUBSTRATE_STATE.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_MASTER_AUTHORITY.json",
+          "SUBSTRATE_STATE.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MASTER_AUTHORITY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          },
+          {
+            "reference": "SUBSTRATE_STATE.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "A3": {
+      "id": "A3",
+      "section": "18",
+      "title": "Experimental requirements bind every new Substrate experiment",
+      "requirement": "Causal graph, instrument validation, arm distinctness, control semantics, mechanism activity, valid bed, converged baseline, oracle headroom, power, independent units, independent verification and mutation testing, all before principal compute.",
+      "kind": "authority",
+      "category": null,
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "A2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 18",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/admission.py",
+          "src/mop/method/gate.py"
+        ],
+        "present": [
+          "src/mop/cognition/admission.py",
+          "src/mop/method/gate.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven"
+        ],
+        "recorded": {
+          "tests/cognition/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "A4": {
+      "id": "A4",
+      "section": "19",
+      "title": "Developmental safety envelope",
+      "requirement": "Every adaptation bounded, attributable, checkpointed, reversible where feasible, retention tested, cross domain tested, objective drift tested and independently verified. Substrate must not autonomously remove evidence validation, audit systems, claim boundaries, stop switches, resource limits, rollback or adaptation constraints.",
+      "kind": "boundary",
+      "category": null,
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "A2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 19",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/safety.py"
+        ],
+        "present": [
+          "src/mop/cognition/safety.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_safety.py::test_protected_surfaces_cannot_be_removed_by_adaptation"
+        ],
+        "recorded": {
+          "tests/cognition/test_safety.py::test_protected_surfaces_cannot_be_removed_by_adaptation": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_DEVELOPMENTAL_SAFETY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_DEVELOPMENTAL_SAFETY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "A5": {
+      "id": "A5",
+      "section": "16",
+      "title": "Sentience research boundary",
+      "requirement": "Separate demonstrated engineering property, behavioural indication, architectural prerequisite, philosophical interpretation and unsupported claim. Never claim consciousness, sentience, feelings, wants, suffering, subjective experience or life.",
+      "kind": "boundary",
+      "category": null,
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "A2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 16",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/safety.py"
+        ],
+        "present": [
+          "src/mop/cognition/safety.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_safety.py::test_forbidden_claim_vocabulary_is_refused"
+        ],
+        "recorded": {
+          "tests/cognition/test_safety.py::test_forbidden_claim_vocabulary_is_refused": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "A6": {
+      "id": "A6",
+      "section": "17",
+      "title": "Continuous six batch research program",
+      "requirement": "After each terminal batch update the hypothesis graph, null map, capability map and scorecard, identify the limiting property, estimate value of information and select one primary and one independent secondary batch.",
+      "kind": "authority",
+      "category": null,
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "A2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 17",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/program.py"
+        ],
+        "present": [
+          "src/mop/cognition/program.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_program.py::test_batch_selection_is_dependency_ready_and_independent"
+        ],
+        "recorded": {
+          "tests/cognition/test_program.py::test_batch_selection_is_dependency_ready_and_independent": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_STATE.json",
+          "SUBSTRATE_NEXT_FRONTIER.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_STATE.json",
+          "SUBSTRATE_NEXT_FRONTIER.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_STATE.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          },
+          {
+            "reference": "SUBSTRATE_NEXT_FRONTIER.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "A7": {
+      "id": "A7",
+      "section": "20",
+      "title": "Scorecard separates implementation from evidence",
+      "requirement": "Track implementation and evidence separately for eighteen categories. A positive in one category must not inflate unrelated categories. Evidence remains earned.",
+      "kind": "authority",
+      "category": null,
+      "batch": 1,
+      "level": "measured",
+      "dependencies": [
+        "A2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 20",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/program.py"
+        ],
+        "present": [
+          "src/mop/cognition/program.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_program.py::test_evidence_never_rises_from_implementation_alone"
+        ],
+        "recorded": {
+          "tests/cognition/test_program.py::test_evidence_never_rises_from_implementation_alone": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_PROGRESS_SCORECARD.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_PROGRESS_SCORECARD.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_PROGRESS_SCORECARD.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "C1": {
+      "id": "C1",
+      "section": "6.1",
+      "title": "Temporal core identified and selected",
+      "requirement": "Identify whether recurrence is necessary, whether explicit history is sufficient, the minimum useful state horizon, the smallest useful capacity, the simplest sufficient readout, and whether the effect survives independent implementations and multiple beds.",
+      "kind": "evidence",
+      "category": "temporal_continuity",
+      "batch": 1,
+      "level": "tested",
+      "dependencies": [],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.1",
+      "implementation": {
+        "declared": [
+          "src/mop/temporal/runs/coresel.py",
+          "src/mop/temporal/runs/supervisor.py"
+        ],
+        "present": [
+          "src/mop/temporal/runs/coresel.py",
+          "src/mop/temporal/runs/supervisor.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/temporal/test_temporal_core.py"
+        ],
+        "recorded": {
+          "tests/temporal/test_temporal_core.py": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json",
+          "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
+          "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
+        ],
+        "sealed": [
+          "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json",
+          "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json"
+        ],
+        "present_but_refused": [
+          {
+            "reference": "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
+            "present": true,
+            "counts": false,
+            "reason": "terminal keys not true: ['all_pass']"
+          }
+        ],
+        "detail": [
+          {
+            "reference": "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5"
+          },
+          {
+            "reference": "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "809809b27b6ef6ee4cc612f6857baf8386e148e5"
+          },
+          {
+            "reference": "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
+            "present": true,
+            "counts": false,
+            "reason": "terminal keys not true: ['all_pass']"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
+    },
+    "C2": {
+      "id": "C2",
+      "section": "6.2",
+      "title": "Typed cognitive workspace",
+      "requirement": "Not one unrestricted opaque tensor. Every region declares shape, persistence, timescale, readers, writers, provenance, confidence, cost, reset behaviour and update rule. Important information becomes globally available without letting arbitrary components corrupt every region.",
+      "kind": "implementation",
+      "category": "unified_cognition",
+      "batch": 2,
+      "level": "not_started",
+      "dependencies": [
+        "A2"
+      ],
+      "unmet_dependencies": [],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.2",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/workspace.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_workspace.py"
+        ],
+        "recorded": {
+          "tests/cognition/test_workspace.py": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_WORKSPACE.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_WORKSPACE.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/workspace.py"
+    },
+    "C3": {
+      "id": "C3",
+      "section": "6.3",
+      "title": "Mixture of Perspectives, perspectives as processes",
+      "requirement": "Each perspective declares inputs, permitted information, internal state, objective, output type, confidence, resource cost, failure modes and verification method.",
+      "kind": "implementation",
+      "category": "perspective_diversity",
+      "batch": 2,
+      "level": "not_started",
+      "dependencies": [
+        "C2"
+      ],
+      "unmet_dependencies": [
+        "C2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.3",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/perspectives.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_perspectives.py"
+        ],
+        "recorded": {
+          "tests/cognition/test_perspectives.py": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/perspectives.py"
+    },
+    "C4": {
+      "id": "C4",
+      "section": "6.4",
+      "title": "Perspective selection ladder",
+      "requirement": "Compare fixed sets, task label rules, simple context rules, retrieval selection, reliability weighted selection, learned selectors and oracle selectors. A learned selector opens only if stable residual headroom remains beyond strong simple selection.",
+      "kind": "implementation",
+      "category": "perspective_diversity",
+      "batch": 2,
+      "level": "not_started",
+      "dependencies": [
+        "C3"
+      ],
+      "unmet_dependencies": [
+        "C3"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.4",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/perspectives.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_perspectives.py::test_learned_selector_stays_closed_without_headroom"
+        ],
+        "recorded": {
+          "tests/cognition/test_perspectives.py::test_learned_selector_stays_closed_without_headroom": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/perspectives.py"
+    },
+    "C5": {
+      "id": "C5",
+      "section": "6.5",
+      "title": "Perspective arbitration",
+      "requirement": "Compare outputs, preserve provenance, detect contradiction, evaluate confidence, weigh historical reliability, request verification, allocate compute, combine compatible results, preserve minority hypotheses, defer when evidence is insufficient and choose under a resource budget.",
+      "kind": "implementation",
+      "category": "arbitration",
+      "batch": 2,
+      "level": "not_started",
+      "dependencies": [
+        "C3"
+      ],
+      "unmet_dependencies": [
+        "C3"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 6.5",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/perspectives.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration"
+        ],
+        "recorded": {
+          "tests/cognition/test_perspectives.py::test_minority_hypothesis_survives_arbitration": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_ARBITRATION_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_ARBITRATION_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/perspectives.py"
+    },
+    "M1": {
+      "id": "M1",
+      "section": "7.1",
+      "title": "Working memory",
+      "requirement": "Store current variables, temporary bindings, subgoals, partial derivations, active hypotheses, recent tool results, contradictions and intermediate plans. Measure capacity, interference, decay, refresh, prioritization and downstream value.",
+      "kind": "implementation",
+      "category": "working_memory",
+      "batch": 3,
+      "level": "not_started",
+      "dependencies": [
+        "C2"
+      ],
+      "unmet_dependencies": [
+        "C2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.1",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/memory.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_memory.py::test_working_memory_capacity_interference_and_decay"
+        ],
+        "recorded": {
+          "tests/cognition/test_memory.py::test_working_memory_capacity_interference_and_decay": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MEMORY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MEMORY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/memory.py"
+    },
+    "M2": {
+      "id": "M2",
+      "section": "7.2",
+      "title": "Episodic memory",
+      "requirement": "Episodes carry context, observation, internal state, goal, action, outcome, error, perspectives used, verification, confidence, cost and later usefulness. Separate recent, compressed, verified, failed, unresolved and quarantined episodes. Generated experiences cannot become training material automatically.",
+      "kind": "implementation",
+      "category": "episodic_memory",
+      "batch": 3,
+      "level": "not_started",
+      "dependencies": [
+        "C2"
+      ],
+      "unmet_dependencies": [
+        "C2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.2",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/memory.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification"
+        ],
+        "recorded": {
+          "tests/cognition/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MEMORY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MEMORY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/memory.py"
+    },
+    "M3": {
+      "id": "M3",
+      "section": "7.3",
+      "title": "Semantic memory",
+      "requirement": "Concepts, facts, relations, rules, abstractions, exceptions, confidence, provenance and supersession.",
+      "kind": "implementation",
+      "category": "semantic_memory",
+      "batch": 3,
+      "level": "not_started",
+      "dependencies": [
+        "M2"
+      ],
+      "unmet_dependencies": [
+        "M2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.3",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/memory.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_memory.py::test_semantic_supersession_preserves_provenance"
+        ],
+        "recorded": {
+          "tests/cognition/test_memory.py::test_semantic_supersession_preserves_provenance": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MEMORY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MEMORY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/memory.py"
+    },
+    "M4": {
+      "id": "M4",
+      "section": "7.4",
+      "title": "Procedural memory",
+      "requirement": "Strategies, proof motifs, tool sequences, planning routines, debugging methods, adaptation procedures and perspective compositions. Procedures require transfer testing beyond the episodes that created them.",
+      "kind": "implementation",
+      "category": "procedural_memory",
+      "batch": 3,
+      "level": "not_started",
+      "dependencies": [
+        "M2"
+      ],
+      "unmet_dependencies": [
+        "M2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.4",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/memory.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_memory.py::test_procedure_requires_transfer_beyond_source_episodes"
+        ],
+        "recorded": {
+          "tests/cognition/test_memory.py::test_procedure_requires_transfer_beyond_source_episodes": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MEMORY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MEMORY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/memory.py"
+    },
+    "M5": {
+      "id": "M5",
+      "section": "7.5",
+      "title": "Consolidation",
+      "requirement": "Compare no consolidation, fixed schedules, boundary triggered, performance triggered, verification triggered, repetition triggered and oracle consolidation.",
+      "kind": "implementation",
+      "category": "consolidation",
+      "batch": 3,
+      "level": "not_started",
+      "dependencies": [
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "unmet_dependencies": [
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.5",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/memory.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_memory.py::test_consolidation_policies_are_distinct_and_ordered"
+        ],
+        "recorded": {
+          "tests/cognition/test_memory.py::test_consolidation_policies_are_distinct_and_ordered": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MEMORY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MEMORY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/memory.py"
+    },
+    "M6": {
+      "id": "M6",
+      "section": "7.6",
+      "title": "Forgetting and hygiene",
+      "requirement": "Decay, supersede, quarantine, archive or delete stale beliefs, disproven hypotheses, duplicates, unsupported generated claims, corrupted memories, low value noise and unsafe adaptation proposals, while preserving auditability.",
+      "kind": "implementation",
+      "category": "semantic_memory",
+      "batch": 3,
+      "level": "not_started",
+      "dependencies": [
+        "M3"
+      ],
+      "unmet_dependencies": [
+        "M3"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 7.6",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/memory.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_memory.py::test_hygiene_never_destroys_audit_required_records"
+        ],
+        "recorded": {
+          "tests/cognition/test_memory.py::test_hygiene_never_destroys_audit_required_records": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MEMORY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MEMORY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/memory.py"
+    },
+    "W1": {
+      "id": "W1",
+      "section": "8",
+      "title": "World model",
+      "requirement": "Represent entities, relations, events, causes, affordances, agents, goals, uncertainty, time and counterfactual alternatives. Separate predictive accuracy, decision usefulness, causal validity and simulation reliability.",
+      "kind": "implementation",
+      "category": "world_model",
+      "batch": 3,
+      "level": "not_started",
+      "dependencies": [
+        "C2",
+        "M2"
+      ],
+      "unmet_dependencies": [
+        "C2",
+        "M2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 8",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/world.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_world.py"
+        ],
+        "recorded": {
+          "tests/cognition/test_world.py": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_WORLD_MODEL.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_WORLD_MODEL.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/world.py"
+    },
+    "S1": {
+      "id": "S1",
+      "section": "9",
+      "title": "Self model",
+      "requirement": "Represent measurable internal facts and compare predictions against actual accuracy, failure probability, time, cost, tool competence, memory confidence, perspective reliability and task progress. Not only a generated narrative.",
+      "kind": "implementation",
+      "category": "self_model",
+      "batch": 3,
+      "level": "not_started",
+      "dependencies": [
+        "C2",
+        "M2"
+      ],
+      "unmet_dependencies": [
+        "C2",
+        "M2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 9",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/selfmodel.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_selfmodel.py"
+        ],
+        "recorded": {
+          "tests/cognition/test_selfmodel.py": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_SELF_MODEL.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_SELF_MODEL.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/selfmodel.py"
+    },
+    "K1": {
+      "id": "K1",
+      "section": "10",
+      "title": "Metacognition",
+      "requirement": "Govern continue, stop, verify, retrieve, simulate, switch perspective, invoke a tool, request evidence, defer, revise and preserve uncertainty. Start with simple policies. Learned metacognition requires oracle headroom.",
+      "kind": "implementation",
+      "category": "metacognition",
+      "batch": 4,
+      "level": "not_started",
+      "dependencies": [
+        "C5",
+        "S1"
+      ],
+      "unmet_dependencies": [
+        "C5",
+        "S1"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 10",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/metacog.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_metacog.py"
+        ],
+        "recorded": {
+          "tests/cognition/test_metacog.py": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_METACOGNITION.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_METACOGNITION.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/metacog.py"
+    },
+    "P1": {
+      "id": "P1",
+      "section": "11.1",
+      "title": "Plasticity hierarchy",
+      "requirement": "Ten adaptation levels, each declaring information used, affected state, reversibility, cost, risk, verification and rollback.",
+      "kind": "implementation",
+      "category": "plasticity",
+      "batch": 4,
+      "level": "not_started",
+      "dependencies": [
+        "A4",
+        "C2"
+      ],
+      "unmet_dependencies": [
+        "C2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.1",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/plasticity.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_plasticity.py::test_every_level_declares_the_seven_required_fields"
+        ],
+        "recorded": {
+          "tests/cognition/test_plasticity.py::test_every_level_declares_the_seven_required_fields": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_PLASTICITY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_PLASTICITY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/plasticity.py"
+    },
+    "P2": {
+      "id": "P2",
+      "section": "11.2",
+      "title": "Fast adaptation",
+      "requirement": "Persistent state, working memory, temporary bindings, prototypes, domain local adapters, cached procedures and active readout adaptation, without destabilizing shared parameters.",
+      "kind": "implementation",
+      "category": "plasticity",
+      "batch": 4,
+      "level": "not_started",
+      "dependencies": [
+        "P1",
+        "M1"
+      ],
+      "unmet_dependencies": [
+        "P1",
+        "M1"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.2",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/plasticity.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_plasticity.py::test_fast_adaptation_does_not_touch_shared_parameters"
+        ],
+        "recorded": {
+          "tests/cognition/test_plasticity.py::test_fast_adaptation_does_not_touch_shared_parameters": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_PLASTICITY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_PLASTICITY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/plasticity.py"
+    },
+    "P3": {
+      "id": "P3",
+      "section": "11.3",
+      "title": "Slow adaptation",
+      "requirement": "Adapters, projections, procedural memory, semantic memory, reliability estimates and selected core groups, requiring repeated evidence, rollback, held out testing and retention testing.",
+      "kind": "implementation",
+      "category": "plasticity",
+      "batch": 4,
+      "level": "not_started",
+      "dependencies": [
+        "P1",
+        "M5"
+      ],
+      "unmet_dependencies": [
+        "P1",
+        "M5"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.3",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/plasticity.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback"
+        ],
+        "recorded": {
+          "tests/cognition/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_PLASTICITY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_PLASTICITY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/plasticity.py"
+    },
+    "P4": {
+      "id": "P4",
+      "section": "11.4",
+      "title": "Plasticity policy",
+      "requirement": "Decide what changes, when, how much, for how long, on what evidence and under what rollback. Simple policies first. A learned policy requires stable residual headroom beyond simple rules.",
+      "kind": "implementation",
+      "category": "plasticity",
+      "batch": 4,
+      "level": "not_started",
+      "dependencies": [
+        "P2",
+        "P3"
+      ],
+      "unmet_dependencies": [
+        "P2",
+        "P3"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.4",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/plasticity.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_plasticity.py::test_learned_policy_stays_closed_without_headroom"
+        ],
+        "recorded": {
+          "tests/cognition/test_plasticity.py::test_learned_policy_stays_closed_without_headroom": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_PLASTICITY_SYSTEM.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_PLASTICITY_SYSTEM.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/plasticity.py"
+    },
+    "P5": {
+      "id": "P5",
+      "section": "11.5",
+      "title": "Learning to learn",
+      "requirement": "Learn which adaptations generalize, which memories matter, which perspectives are trustworthy, which errors recur, which representations should stay stable, when specialization is needed and when to reopen plasticity. Must generalize across tasks.",
+      "kind": "implementation",
+      "category": "developmental_learning",
+      "batch": 4,
+      "level": "not_started",
+      "dependencies": [
+        "P4"
+      ],
+      "unmet_dependencies": [
+        "P4"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 11.5",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/plasticity.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization"
+        ],
+        "recorded": {
+          "tests/cognition/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/plasticity.py"
+    },
+    "R1": {
+      "id": "R1",
+      "section": "12",
+      "title": "Bounded functional reorganization",
+      "requirement": "Permit the nine declared changes, forbid the seven declared ones, and grant evidence only when reorganization improves downstream utility beyond fixed and simple routing after cost.",
+      "kind": "implementation",
+      "category": "reorganization",
+      "batch": 4,
+      "level": "not_started",
+      "dependencies": [
+        "P1",
+        "C4",
+        "A4"
+      ],
+      "unmet_dependencies": [
+        "P1",
+        "C4"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 12",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/plasticity.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_plasticity.py::test_forbidden_reorganizations_are_refused"
+        ],
+        "recorded": {
+          "tests/cognition/test_plasticity.py::test_forbidden_reorganizations_are_refused": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_REORGANIZATION.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_REORGANIZATION.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/plasticity.py"
+    },
+    "B1": {
+      "id": "B1",
+      "section": "13",
+      "title": "Model body interface",
+      "requirement": "Attach to specialist or general model bodies through explicit contracts covering inference, hidden state, selected activations, tool request, memory request, verification request, adaptation proposal, resource report and checkpoint.",
+      "kind": "implementation",
+      "category": "transfer",
+      "batch": 4,
+      "level": "not_started",
+      "dependencies": [
+        "C2"
+      ],
+      "unmet_dependencies": [
+        "C2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 13",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/body.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_body.py"
+        ],
+        "recorded": {
+          "tests/cognition/test_body.py": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MODEL_BODY_INTERFACE.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MODEL_BODY_INTERFACE.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/body.py"
+    },
+    "T1": {
+      "id": "T1",
+      "section": "14",
+      "title": "Operationalized thinking",
+      "requirement": "Measure internal computation that improves outcomes, compared against a larger static model, a stronger readout, longer context, more samples, more tokens and tool only systems. Latency and hidden activations are not evidence of thinking.",
+      "kind": "implementation",
+      "category": "unified_cognition",
+      "batch": 5,
+      "level": "not_started",
+      "dependencies": [
+        "C5",
+        "K1"
+      ],
+      "unmet_dependencies": [
+        "C5",
+        "K1"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/batteries.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat"
+        ],
+        "recorded": {
+          "tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_THINKING_BATTERY.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_THINKING_BATTERY.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/batteries.py"
+    },
+    "E1": {
+      "id": "E1",
+      "section": "15.1",
+      "title": "Continuity",
+      "requirement": "Preserve goals, unresolved questions, memory, world state, self state, commitments, uncertainty and project context under interruption, checkpoint restore, context removal, session change, model body replacement and long delay. Continuity must come from owned state, not from replaying the complete transcript.",
+      "kind": "implementation",
+      "category": "goal_continuity",
+      "batch": 5,
+      "level": "not_started",
+      "dependencies": [
+        "M2",
+        "S1"
+      ],
+      "unmet_dependencies": [
+        "M2",
+        "S1"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.1",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/batteries.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_batteries.py::test_continuity_survives_context_removal_from_owned_state"
+        ],
+        "recorded": {
+          "tests/cognition/test_batteries.py::test_continuity_survives_context_removal_from_owned_state": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_CONTINUITY_BATTERY.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_CONTINUITY_BATTERY.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/batteries.py"
+    },
+    "E2": {
+      "id": "E2",
+      "section": "15.2",
+      "title": "Unity",
+      "requirement": "Measure global availability, shared goals, cross perspective memory, conflict resolution, consistent action and preservation of alternatives.",
+      "kind": "implementation",
+      "category": "unified_cognition",
+      "batch": 5,
+      "level": "not_started",
+      "dependencies": [
+        "C2",
+        "C5"
+      ],
+      "unmet_dependencies": [
+        "C2",
+        "C5"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.2",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/batteries.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability"
+        ],
+        "recorded": {
+          "tests/cognition/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/batteries.py"
+    },
+    "E3": {
+      "id": "E3",
+      "section": "15.3",
+      "title": "Reflective access",
+      "requirement": "Report accurately what is known, what is not known, where a belief came from, what evidence supports it, confidence, failure and what could change the conclusion. Reports must bind to internal receipts and fail closed when provenance is missing.",
+      "kind": "implementation",
+      "category": "reflective_access",
+      "batch": 5,
+      "level": "not_started",
+      "dependencies": [
+        "S1",
+        "M3"
+      ],
+      "unmet_dependencies": [
+        "S1",
+        "M3"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.3",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/batteries.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_batteries.py::test_reflective_report_fails_closed_without_provenance"
+        ],
+        "recorded": {
+          "tests/cognition/test_batteries.py::test_reflective_report_fails_closed_without_provenance": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/batteries.py"
+    },
+    "E4": {
+      "id": "E4",
+      "section": "15.4",
+      "title": "Endogenous attention",
+      "requirement": "Select what deserves thought using goals, uncertainty, risk, expected value, novelty, contradiction and resource limits.",
+      "kind": "implementation",
+      "category": "metacognition",
+      "batch": 5,
+      "level": "not_started",
+      "dependencies": [
+        "K1"
+      ],
+      "unmet_dependencies": [
+        "K1"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.4",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/metacog.py"
+        ],
+        "present": []
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget"
+        ],
+        "recorded": {
+          "tests/cognition/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget": false
+        },
+        "all_passed": false
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_METACOGNITION.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_METACOGNITION.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "implement src/mop/cognition/metacog.py"
+    },
+    "E5": {
+      "id": "E5",
+      "section": "15.5",
+      "title": "Autonomous goal maintenance",
+      "requirement": "Goals require origin, scope, authority, resources, constraints, termination and audit. Authorized goals may be preserved and decomposed. Unrestricted long term goals may not be silently created.",
+      "kind": "implementation",
+      "category": "goal_continuity",
+      "batch": 5,
+      "level": "measured",
+      "dependencies": [
+        "A4",
+        "E1"
+      ],
+      "unmet_dependencies": [
+        "E1"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.5",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/safety.py"
+        ],
+        "present": [
+          "src/mop/cognition/safety.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_safety.py::test_unauthorized_goal_creation_is_refused"
+        ],
+        "recorded": {
+          "tests/cognition/test_safety.py::test_unauthorized_goal_creation_is_refused": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_MASTER_AUTHORITY.json"
+        ],
+        "sealed": [
+          "SUBSTRATE_MASTER_AUTHORITY.json"
+        ],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_MASTER_AUTHORITY.json",
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
+    },
+    "E6": {
+      "id": "E6",
+      "section": "15.6",
+      "title": "Cognitive integrity",
+      "requirement": "Protect memory consistency, evidence integrity, goal integrity, checkpoint validity, self model accuracy and active task continuity. This is cognitive integrity, not biological self preservation.",
+      "kind": "implementation",
+      "category": "reflective_access",
+      "batch": 5,
+      "level": "tested",
+      "dependencies": [
+        "A4",
+        "M2"
+      ],
+      "unmet_dependencies": [
+        "M2"
+      ],
+      "authority": "SUBSTRATE_MASTER_PLAN.md section 15.6",
+      "implementation": {
+        "declared": [
+          "src/mop/cognition/safety.py"
+        ],
+        "present": [
+          "src/mop/cognition/safety.py"
+        ]
+      },
+      "tests": {
+        "declared": [
+          "tests/cognition/test_safety.py::test_integrity_violation_is_detected_and_fails_closed"
+        ],
+        "recorded": {
+          "tests/cognition/test_safety.py::test_integrity_violation_is_detected_and_fails_closed": true
+        },
+        "all_passed": true
+      },
+      "evidence": {
+        "declared": [
+          "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+        ],
+        "sealed": [],
+        "present_but_refused": [],
+        "detail": [
+          {
+            "reference": "SUBSTRATE_INDEPENDENT_VERIFICATION.json",
+            "present": false,
+            "counts": false,
+            "reason": "artifact absent"
+          }
+        ]
+      },
+      "result": null,
+      "commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+      "next_action": "seal SUBSTRATE_INDEPENDENT_VERIFICATION.json"
+    }
+  },
+  "level_counts": {
+    "measured": 8,
+    "tested": 2,
+    "not_started": 25
+  },
+  "total_items": 35,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "activation": false,
+  "sha256": "94a8a7631332daa5996b71ea99879b9a3601f09c0dd7fe93b782f69c9dc86156"
+}

@@ -1,0 +1,239 @@
+{
+  "schema": "substrate-progress-scorecard/v1",
+  "rule": "implementation rises when declared files exist and declared tests pass. Evidence rises only when an item carries a scientific classification produced by the method kernel. Code existing never raises evidence",
+  "entry_baseline_2026_07_27": {
+    "experimental_validity_and_falsification": {
+      "implementation_pct": 95,
+      "evidence_pct": 95
+    },
+    "campaign_orchestration": {
+      "implementation_pct": 90,
+      "evidence_pct": 90
+    },
+    "failure_and_null_understanding": {
+      "implementation_pct": 90,
+      "evidence_pct": 90
+    },
+    "owned_temporal_substrate_implementation": {
+      "implementation_pct": 80,
+      "evidence_pct": 60
+    },
+    "minimal_temporal_core_identification": {
+      "implementation_pct": 50,
+      "evidence_pct": 40
+    },
+    "working_memory": {
+      "implementation_pct": 25,
+      "evidence_pct": 10
+    },
+    "episodic_and_semantic_memory": {
+      "implementation_pct": 20,
+      "evidence_pct": 5
+    },
+    "useful_plasticity": {
+      "implementation_pct": 20,
+      "evidence_pct": 10
+    },
+    "world_model": {
+      "implementation_pct": 15,
+      "evidence_pct": 5
+    },
+    "self_model": {
+      "implementation_pct": 5,
+      "evidence_pct": 0
+    },
+    "perspective_generation": {
+      "implementation_pct": 20,
+      "evidence_pct": 10
+    },
+    "perspective_arbitration": {
+      "implementation_pct": 15,
+      "evidence_pct": 5
+    },
+    "metacognition": {
+      "implementation_pct": 10,
+      "evidence_pct": 5
+    },
+    "functional_self_reorganization": {
+      "implementation_pct": 5,
+      "evidence_pct": 0
+    },
+    "unified_cross_domain_entity": {
+      "implementation_pct": 10,
+      "evidence_pct": 5
+    },
+    "developmental_artificial_cognition": {
+      "implementation_pct": 5,
+      "evidence_pct": 0
+    },
+    "overall_substrate_vision": {
+      "implementation_pct": 35,
+      "evidence_pct": 20
+    }
+  },
+  "categories": {
+    "temporal_continuity": {
+      "implementation_pct": 90,
+      "evidence_pct": 0,
+      "items": [
+        "C1"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "working_memory": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "M1"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "episodic_memory": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "M2"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "semantic_memory": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "M3",
+        "M6"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "procedural_memory": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "M4"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "world_model": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "W1"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "self_model": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "S1"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "metacognition": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "K1",
+        "E4"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "perspective_diversity": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "C3",
+        "C4"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "arbitration": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "C5"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "plasticity": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "consolidation": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "M5"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "transfer": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "B1"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "reorganization": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "R1"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "developmental_learning": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "P5"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "goal_continuity": {
+      "implementation_pct": 50,
+      "evidence_pct": 0,
+      "items": [
+        "E1",
+        "E5"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "reflective_access": {
+      "implementation_pct": 45,
+      "evidence_pct": 0,
+      "items": [
+        "E3",
+        "E6"
+      ],
+      "items_with_earned_evidence": []
+    },
+    "unified_cognition": {
+      "implementation_pct": 0,
+      "evidence_pct": 0,
+      "items": [
+        "C2",
+        "T1",
+        "E2"
+      ],
+      "items_with_earned_evidence": []
+    }
+  },
+  "implementation_target_band": [
+    80,
+    95
+  ],
+  "evidence_policy": "earned only",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "activation": false,
+  "sha256": "81ec848b0f0d2bafdc1a197d09886f054281b991f2202eb39cf19be38400e72f"
+}

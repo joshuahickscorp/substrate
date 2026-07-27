@@ -84,10 +84,27 @@
       "src/mop/temporal/runs/supervisor.py": 981,
       "src/mop/temporal/witness.py": 199
     },
-    "loc": 2500
+    "loc": 2496
+  },
+  "active_cognition": {
+    "files": {
+      "src/mop/cognition/__init__.py": 8,
+      "src/mop/cognition/admission.py": 94,
+      "src/mop/cognition/deliverables.py": 331,
+      "src/mop/cognition/io.py": 72,
+      "src/mop/cognition/program.py": 625,
+      "src/mop/cognition/safety.py": 196
+    },
+    "loc": 1326,
+    "target": 4000,
+    "within_target": true
   },
   "active_tests": {
     "files": {
+      "tests/cognition/__init__.py": 0,
+      "tests/cognition/test_admission.py": 131,
+      "tests/cognition/test_program.py": 129,
+      "tests/cognition/test_safety.py": 92,
       "tests/method/__init__.py": 0,
       "tests/method/test_defect_regressions.py": 540,
       "tests/method/test_kernel.py": 553,
@@ -127,7 +144,7 @@
       "src/mop/temporal/runs/supervisor.py": 981,
       "src/mop/temporal/witness.py": 199
     },
-    "loc": 2500,
+    "loc": 2496,
     "target": 2500,
     "within_target": true
   },

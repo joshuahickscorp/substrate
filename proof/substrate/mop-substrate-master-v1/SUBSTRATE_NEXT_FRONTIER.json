@@ -1,0 +1,31 @@
+{
+  "schema": "substrate-next-frontier/v1",
+  "dependency_ready": [
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "C1",
+    "C2"
+  ],
+  "primary": {
+    "id": "A1",
+    "title": "Naming and historical continuity authority",
+    "next_action": "classify the result through mop.method.gate.classify_result and record it",
+    "batch": 1
+  },
+  "secondary": {
+    "id": "A3",
+    "title": "Experimental requirements bind every new Substrate experiment",
+    "next_action": "classify the result through mop.method.gate.classify_result and record it",
+    "batch": 1
+  },
+  "independence_rule": "the secondary shares no dependency with the primary and is not its ancestor or descendant, so a failed branch closes only its own descendants",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "activation": false,
+  "sha256": "2e844a468cbfdf4b25b6aa4fd07ba47a4c822bca93178e956932cd790a81ccd5"
+}
