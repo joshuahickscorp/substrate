@@ -1,0 +1,63 @@
+{
+  "schema": "substrate-v2-clean-clone/v1",
+  "remote": "git@github.com:joshuahickscorp/substrate.git",
+  "ref": "origin/agent/substrate-v2-terminal",
+  "commit": "fd49e92ff3aca9b9c39d6287c5c1c29bf4ab27a3",
+  "clone_returncode": 0,
+  "clone_stderr_tail": "",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "checkout",
+        "--quiet",
+        "origin/agent/substrate-v2-terminal"
+      ],
+      "returncode": 0,
+      "stdout_tail": "",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/substrate",
+        "-q"
+      ],
+      "returncode": 0,
+      "stdout_tail": "........................................................................ [ 25%]\n........................................................................ [ 50%]\n........................................................................ [ 75%]\n........................................................................ [100%]\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "src/substrate",
+        "tests/substrate"
+      ],
+      "returncode": 0,
+      "stdout_tail": "All checks passed!\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "/Users/scammermike/Downloads/substrate/.venv/bin/python",
+        "-c",
+        "from substrate.cli import main; main(['v2', 'verify'])"
+      ],
+      "returncode": 0,
+      "stdout_tail": ",\n    \"counts\": {\n      \"principal_work_units\": 360,\n      \"core_independent_units\": 24,\n      \"episodes_processed\": 28320,\n      \"procedures_induced\": 192,\n      \"procedures_transferred\": 192,\n      \"procedure_uses\": 8355,\n      \"semantic_records_promoted\": 571,\n      \"allocation_compute\": 3685\n    },\n    \"heterogeneity\": {\n      \"per_body\": {\n        \"compact\": [\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136\n        ],\n        \"tool_dominant\": [\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136,\n          0.9136\n        ]\n      },\n      \"failures\": [],\n      \"refusals\": [],\n      \"timeouts\": []\n    },\n    \"activation\": false\n  },\n  \"all_pass\": true,\n  \"activation\": false\n}\n",
+      "stderr_tail": ""
+    }
+  ],
+  "all_pass": true,
+  "temporary_clone_removed": true,
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "fd49e92ff3aca9b9c39d6287c5c1c29bf4ab27a3",
+  "source_digest": "c23415cd264afcd2eb60a89e4663eb40e32c976a08e844c60e70a6c1817344f0",
+  "sha256": "4158bda3ffac2de343190efbdb514ec72288c3a206e996dd0af15fa946a774c1"
+}

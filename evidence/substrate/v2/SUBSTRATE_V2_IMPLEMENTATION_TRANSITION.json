@@ -1,0 +1,25 @@
+{
+  "schema": "substrate-v2-implementation-transition/v1",
+  "trigger": "independent verifier accessed final_identity before branching on divergence unit kind",
+  "classification": "implementation_defect",
+  "detected_after_principal_completion": true,
+  "principal_units_complete_before_transition": 360,
+  "old_principal_source_digest": "9ef955aa32c6479403a9464010ffda689b4ce94c90961e1187866a91bf56b493",
+  "new_verifier_source_digest": "c23415cd264afcd2eb60a89e4663eb40e32c976a08e844c60e70a6c1817344f0",
+  "scope": [
+    "src/substrate/v2verify.py",
+    "tests/substrate/test_v2_verification.py"
+  ],
+  "affected_principal_units": [],
+  "invalidated_principal_units": [],
+  "scientific_configuration_changed": false,
+  "thresholds_splits_seeds_changed": false,
+  "principal_receipts_reused_by_original_content_identity": true,
+  "resume_rule": "no resume required because all 360 units were terminal before the verifier repair",
+  "regression_test": "test_divergence_identity_lookup_does_not_access_core_key",
+  "activation": false,
+  "program": "substrate-v2",
+  "source_commit": "553539bc5edc01737fa53b2c4ee4096eb32a2f23",
+  "source_digest": "c23415cd264afcd2eb60a89e4663eb40e32c976a08e844c60e70a6c1817344f0",
+  "sha256": "cc5a97383ce2cd43a208ac36e1f2503389b33f5ffbab25182b8bed2a313d9358"
+}
