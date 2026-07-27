@@ -31,6 +31,7 @@ def test_extended_shard_running_far_past_its_own_base_wall_is_flagged(monkeypatc
     (base_dir / "cshard_har_stream_18.json").write_text(json.dumps({"wall_seconds": 3600}))
     tag = "x:xshard_har_stream_18"
     write_lock(supervisor.LOCKS, tag, os.getpid(), age_seconds=20000)  # past the 14400s ceiling
+    monkeypatch.setattr(supervisor, "_process_activity", lambda pid: ("S", 0.0))
     stalled = supervisor.stalled_workers()
     assert len(stalled) == 1
     assert stalled[0]["tag"] == tag
@@ -53,6 +54,7 @@ def test_tag_with_no_base_wall_reference_uses_the_flat_default_ceiling(monkeypat
     monkeypatch.setattr(supervisor.io, "RUNS", tmp_path / "runs")
     tag = "c:cshard_har_stream_0"
     write_lock(supervisor.LOCKS, tag, os.getpid(), age_seconds=supervisor.STALL_DEFAULT_SECONDS + 1)
+    monkeypatch.setattr(supervisor, "_process_activity", lambda pid: ("S", 0.0))
     stalled = supervisor.stalled_workers()
     assert len(stalled) == 1 and stalled[0]["threshold_seconds"] == supervisor.STALL_DEFAULT_SECONDS
 
@@ -71,6 +73,7 @@ def test_stall_detection_is_reported_through_status_and_reconcile(monkeypatch, t
     monkeypatch.setattr(supervisor.io, "RUNS", tmp_path)
     write_lock(supervisor.LOCKS, "c:cshard_har_stream_0", os.getpid(),
                age_seconds=supervisor.STALL_DEFAULT_SECONDS + 1)
+    monkeypatch.setattr(supervisor, "_process_activity", lambda pid: ("S", 0.0))
     row = supervisor.status()
     assert len(row["stalled_workers"]) == 1
 
@@ -80,3 +83,14 @@ def test_stall_detection_is_reported_through_status_and_reconcile(monkeypatch, t
     doc = supervisor.reconcile_live_state("test", row)
     assert len(doc["stalled_workers"]) == 1
     assert doc["stalled_workers"][0]["tag"] == "c:cshard_har_stream_0"
+
+
+def test_old_compute_bound_worker_is_active_not_stalled(monkeypatch, tmp_path):
+    monkeypatch.setattr(supervisor, "LOCKS", tmp_path / "locks")
+    monkeypatch.setattr(supervisor.io, "RUNS", tmp_path / "runs")
+    write_lock(supervisor.LOCKS, "p:har_stream_0", os.getpid(),
+               age_seconds=supervisor.STALL_DEFAULT_SECONDS + 1)
+    monkeypatch.setattr(supervisor, "_process_activity", lambda pid: ("R", 98.0))
+    status = supervisor.long_worker_status()
+    assert status["stalled"] == []
+    assert status["active"][0]["tag"] == "p:har_stream_0"

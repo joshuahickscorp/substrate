@@ -513,6 +513,7 @@ def receipt_plan() -> dict[str, tuple[str, list[str]]]:
         "hybrid": ("hybrid", [f"{b}_{s}" for b in e2.B.PRINCIPAL for s in seeds])}
 STALL_DEFAULT_SECONDS = 3 * 3600
 STALL_EXTENDED_MULTIPLE = 4.0
+STALL_ACTIVE_CPU_PCT = 5.0
 def _stall_threshold_seconds(tag: str) -> float:
     """How long a tag may run before it counts as stalled. Detection only — this
     never kills or reschedules anything, it only makes a stuck shard visible.
@@ -556,14 +557,19 @@ def repeatedly_failing_shards(threshold: int = REPEATED_FAILURE_THRESHOLD,
     return [{"stage": stage, "identity": identity, "quarantine_count": len(ages),
              "most_recent_seconds_ago": round(min(ages))}
             for (stage, identity), ages in sorted(counts.items()) if len(ages) >= threshold]
-def stalled_workers() -> list[dict]:
-    """Active shards running past their stall threshold. This is the check that
-    would have surfaced the har_stream_18 extended shard hours before its 42h
-    runtime was noticed by hand: it only reports, an operator or monitor decides
-    whether to intervene."""
+def _process_activity(pid: int) -> tuple[str, float] | None:
+    result = subprocess.run(["ps", "-p", str(pid), "-o", "state=", "-o", "%cpu="],
+                            capture_output=True, text=True)
+    fields = result.stdout.split()
+    try:
+        return fields[0], float(fields[1])
+    except (IndexError, ValueError):
+        return None
+def long_worker_status() -> dict[str, list[dict]]:
+    """Separate old-but-computing workers from actual low-activity stalls."""
     if not LOCKS.is_dir():
-        return []
-    now, out = time.time(), []
+        return {"stalled": [], "active": []}
+    now, out = time.time(), {"stalled": [], "active": []}
     for p in sorted(LOCKS.glob("*.json")):
         try:
             d = json.loads(p.read_text())
@@ -575,9 +581,16 @@ def stalled_workers() -> list[dict]:
         elapsed = now - p.stat().st_mtime
         threshold = _stall_threshold_seconds(tag)
         if elapsed > threshold:
-            out.append({"tag": tag, "pid": pid, "elapsed_seconds": round(elapsed),
-                        "threshold_seconds": round(threshold)})
+            activity = _process_activity(pid)
+            state, cpu = activity if activity is not None else ("unknown", 0.0)
+            row = {"tag": tag, "pid": pid, "elapsed_seconds": round(elapsed),
+                   "threshold_seconds": round(threshold), "process_state": state,
+                   "cpu_pct": round(cpu, 1)}
+            key = "active" if "T" not in state and cpu >= STALL_ACTIVE_CPU_PCT else "stalled"
+            out[key].append(row)
     return out
+def stalled_workers() -> list[dict]:
+    return long_worker_status()["stalled"]
 def status() -> dict:
     plan = receipt_plan()
     absent = {key: missing(sub, names) for key, (sub, names) in plan.items()}
@@ -588,8 +601,10 @@ def status() -> dict:
             tag = p.stem.replace("_", ":", 1)
             if lock_active(tag):
                 active.append(json.loads(p.read_text()))
+    long_workers = long_worker_status()
     return {"schema": "mop-temporal-supervisor-status/v1", "stop_switch_active": io.STOP.exists(),
-        "process_workers": workers(), "active_shards": active, "stalled_workers": stalled_workers(),
+        "process_workers": workers(), "active_shards": active, "stalled_workers": long_workers["stalled"],
+        "long_running_active_workers": long_workers["active"],
         "repeatedly_failing_shards": repeatedly_failing_shards(),
         "deterministic_failure_holds": failure_holds(),
         "completed": {key: len(names) - len(absent[key]) - len(bad[key]) for key, (_, names) in plan.items()},
