@@ -5,46 +5,65 @@ House style: no dashes.
 
 from __future__ import annotations
 
-import pytest
-
-from mop.cognition import batteries as B
-from mop.cognition import memory as M
-from mop.cognition import perspectives as PS
+from substrate import batteries as B
+from substrate import memory as M
+from substrate import perspectives as PS
 
 
 def test_thinking_requires_a_declared_alternative_to_beat():
     # latency alone is refused outright, not scored badly
-    refused = B.thinking_battery({"routes": ["maintaining_state"],
-                                  "beats": {"latency": {"substrate": 10, "alternative": 1}}})
+    refused = B.thinking_battery(
+        {"routes": ["maintaining_state"], "beats": {"latency": {"substrate": 10, "alternative": 1}}}
+    )
     assert refused["scored"] is False and refused["supported"] is False
     assert "excludes" in refused["reason"]
     assert refused["non_evidence_named"] == ["latency"]
 
     # so are hidden activations
-    assert B.thinking_battery({"beats": {"hidden_activations": {"substrate": 1,
-                                                               "alternative": 0}}})["scored"] is False
+    assert (
+        B.thinking_battery({"beats": {"hidden_activations": {"substrate": 1, "alternative": 0}}})["scored"]
+        is False
+    )
 
     # a partial comparison is scored but not supported, and it names what is missing
-    partial = B.thinking_battery({"routes": ["maintaining_state"], "beats": {
-        "larger_static_model": {"substrate": 0.9, "alternative": 0.8}}})
+    partial = B.thinking_battery(
+        {
+            "routes": ["maintaining_state"],
+            "beats": {"larger_static_model": {"substrate": 0.9, "alternative": 0.8}},
+        }
+    )
     assert partial["scored"] is True and partial["supported"] is False
     assert len(partial["alternatives_missing"]) == 5
     assert "never compared against" in partial["reason"]
 
     # all six, each clearing the SESOI, is supported
-    full = B.thinking_battery({"routes": list(B.THINKING_ROUTES), "beats": {
-        a: {"substrate": 0.9, "alternative": 0.7} for a in B.ALTERNATIVES}})
+    full = B.thinking_battery(
+        {
+            "routes": list(B.THINKING_ROUTES),
+            "beats": {a: {"substrate": 0.9, "alternative": 0.7} for a in B.ALTERNATIVES},
+        }
+    )
     assert full["supported"] is True and full["alternatives_missing"] == []
 
     # one alternative inside the SESOI is enough to withhold support
-    narrow = B.thinking_battery({"routes": list(B.THINKING_ROUTES), "beats": {
-        **{a: {"substrate": 0.9, "alternative": 0.7} for a in B.ALTERNATIVES},
-        "more_tokens": {"substrate": 0.9, "alternative": 0.88}}})
+    narrow = B.thinking_battery(
+        {
+            "routes": list(B.THINKING_ROUTES),
+            "beats": {
+                **{a: {"substrate": 0.9, "alternative": 0.7} for a in B.ALTERNATIVES},
+                "more_tokens": {"substrate": 0.9, "alternative": 0.88},
+            },
+        }
+    )
     assert narrow["supported"] is False
 
     # an undeclared thinking route is named
-    odd = B.thinking_battery({"routes": ["telepathy"], "beats": {
-        a: {"substrate": 0.9, "alternative": 0.7} for a in B.ALTERNATIVES}})
+    odd = B.thinking_battery(
+        {
+            "routes": ["telepathy"],
+            "beats": {a: {"substrate": 0.9, "alternative": 0.7} for a in B.ALTERNATIVES},
+        }
+    )
     assert odd["undeclared_routes"] == ["telepathy"] and odd["supported"] is False
 
 
@@ -83,9 +102,11 @@ def test_owned_state_actually_carries_the_answers_after_a_restore():
 
 def test_unity_measures_global_availability_not_shared_mutability():
     entity, _ = B._demo_entity()
-    outputs = [PS.Output("a", "left", 0.9, ["a:perceptual"], 1.0),
-               PS.Output("b", "left", 0.7, ["b:temporal"], 1.0),
-               PS.Output("c", "right", 0.8, ["c:episodic_context"], 1.0)]
+    outputs = [
+        PS.Output("a", "left", 0.9, ["a:perceptual"], 1.0),
+        PS.Output("b", "left", 0.7, ["b:temporal"], 1.0),
+        PS.Output("c", "right", 0.8, ["c:episodic_context"], 1.0),
+    ]
     report = B.unity_battery(entity, outputs)
     ga = report["measures"]["global_availability"]
     assert ga["regions_readable_by_any_component"] > 0
@@ -118,8 +139,9 @@ def test_reflective_report_fails_closed_without_provenance():
 
 def test_a_superseded_belief_reports_its_own_failure():
     entity, _ = B._demo_entity()
-    entity.semantic.supersede("f1", M.Fact("f3", "only one bed is temporal", 0.9,
-                                           provenance="proof/later.json"))
+    entity.semantic.supersede(
+        "f1", M.Fact("f3", "only one bed is temporal", 0.9, provenance="proof/later.json")
+    )
     report = B.reflective_report(entity, "f1")
     assert report["answers"]["failure"] == "superseded by f3"
     assert B.reflective_report(entity, "f3")["answers"]["what_evidence_supports_it"] == ["f3", "f1"]

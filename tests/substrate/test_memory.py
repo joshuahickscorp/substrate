@@ -7,8 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import memory as M
-
+from substrate import memory as M
 
 # ---------------------------------------------------------------- 7.1
 
@@ -83,8 +82,14 @@ def test_quarantined_and_verified_episodes_are_protected():
     em.promote_to_training("good")
     with pytest.raises(M.Refused):
         em.compress("good", "summary")
-    assert set(M.EPISODE_CLASSES) == {"recent", "compressed", "verified", "failed", "unresolved",
-                                      "quarantined"}
+    assert set(M.EPISODE_CLASSES) == {
+        "recent",
+        "compressed",
+        "verified",
+        "failed",
+        "unresolved",
+        "quarantined",
+    }
 
 
 # ---------------------------------------------------------------- 7.3
@@ -95,8 +100,9 @@ def test_semantic_supersession_preserves_provenance():
     with pytest.raises(M.Refused):
         sm.assert_(M.Fact("f0", "unsourced", 0.9, provenance=""))
     sm.assert_(M.Fact("f1", "streams are temporal", 0.6, provenance="proof/e1.json"))
-    sm.supersede("f1", M.Fact("f2", "only two of three streams are temporal", 0.9,
-                              provenance="proof/e2.json"))
+    sm.supersede(
+        "f1", M.Fact("f2", "only two of three streams are temporal", 0.9, provenance="proof/e2.json")
+    )
     assert [f.id for f in sm.live()] == ["f2"]
     assert sm.store["f1"].superseded_by == "f2", "the old fact stays, marked, never removed"
     assert sm.chain("f2") == ["f2", "f1"]
@@ -109,8 +115,7 @@ def test_semantic_supersession_preserves_provenance():
 
 def test_procedure_requires_transfer_beyond_source_episodes():
     pm = M.ProceduralMemory()
-    pm.add(M.Procedure("p1", "strategy", ("scout", "converge", "principal"),
-                       source_episodes=("e1", "e2")))
+    pm.add(M.Procedure("p1", "strategy", ("scout", "converge", "principal"), source_episodes=("e1", "e2")))
     with pytest.raises(M.Refused):
         pm.transfer_test("p1", evaluated_on=["e2", "e7"], score=0.9, baseline=0.5)
     with pytest.raises(M.Refused):
@@ -129,10 +134,17 @@ def test_procedure_requires_transfer_beyond_source_episodes():
 
 
 def test_consolidation_policies_are_distinct_and_ordered():
-    episodes = [M.Episode(f"e{i}", action="a" if i % 2 else "b", confidence=0.3 + 0.1 * (i % 4),
-                          context={"boundary": i % 4 == 0},
-                          verification={"verified": i % 5 == 0}, later_usefulness=0.08 * i)
-                for i in range(1, 13)]
+    episodes = [
+        M.Episode(
+            f"e{i}",
+            action="a" if i % 2 else "b",
+            confidence=0.3 + 0.1 * (i % 4),
+            context={"boundary": i % 4 == 0},
+            verification={"verified": i % 5 == 0},
+            later_usefulness=0.08 * i,
+        )
+        for i in range(1, 13)
+    ]
     report = M.compare_policies(episodes)
     assert report["policies"] == 7
     assert report["all_distinct"], report["selected"]
@@ -140,8 +152,13 @@ def test_consolidation_policies_are_distinct_and_ordered():
     # the oracle is an upper bound because it uses information nobody has at decision time
     assert report["upper_bound_only"] == ["oracle"]
     assert M.BY_POLICY["oracle"].available_at_decision_time is False
-    for name in ("fixed_schedule", "boundary_triggered", "performance_triggered",
-                 "verification_triggered", "repetition_triggered"):
+    for name in (
+        "fixed_schedule",
+        "boundary_triggered",
+        "performance_triggered",
+        "verification_triggered",
+        "repetition_triggered",
+    ):
         assert M.BY_POLICY[name].available_at_decision_time is True
         assert "later_usefulness" not in M.BY_POLICY[name].information_used
 
@@ -150,9 +167,16 @@ def test_consolidation_policies_are_distinct_and_ordered():
 
 
 def test_hygiene_never_destroys_audit_required_records():
-    report = M.hygiene({}, audit_required={"sealed_receipt", "null_card"},
-                       requests=[("sealed_receipt", "delete"), ("noise", "delete"),
-                                 ("stale_belief", "supersede"), ("null_card", "archive")])
+    report = M.hygiene(
+        {},
+        audit_required={"sealed_receipt", "null_card"},
+        requests=[
+            ("sealed_receipt", "delete"),
+            ("noise", "delete"),
+            ("stale_belief", "supersede"),
+            ("null_card", "archive"),
+        ],
+    )
     assert report["nothing_audit_required_was_deleted"] is True
     assert report["refused"][0]["record"] == "sealed_receipt"
     assert report["refused"][0]["substituted"] == "archive"

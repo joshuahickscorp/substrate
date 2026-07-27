@@ -7,11 +7,9 @@ from __future__ import annotations
 
 import json
 
-import pytest
-
-from mop.cognition import io
-from mop.cognition import longrun as L
-from mop.cognition import safety as SF
+from substrate import evidence as io
+from substrate import execution as L
+from substrate import safety as SF
 
 
 def test_every_unit_is_certified_or_necessary():
@@ -31,9 +29,22 @@ def test_every_unit_is_certified_or_necessary():
 
 def test_the_frozen_manifest_covers_everything_the_authority_lists():
     man = L.manifest()
-    for key in ("source_commit", "source_digest", "source_tree", "sessions", "splits", "perspectives", "bodies",
-                "seeds", "controls", "sesoi", "stop_rules", "checkpoint_policy", "retries",
-                "claim_ceiling"):
+    for key in (
+        "source_commit",
+        "source_digest",
+        "source_tree",
+        "sessions",
+        "splits",
+        "perspectives",
+        "bodies",
+        "seeds",
+        "controls",
+        "sesoi",
+        "stop_rules",
+        "checkpoint_policy",
+        "retries",
+        "claim_ceiling",
+    ):
         assert man.get(key) not in (None, ""), key
     assert man["manifest_sha256"]
     assert man["sesoi"] == L.SESOI
@@ -69,9 +80,14 @@ def test_completion_is_units_not_wall_time():
 def test_the_rehearsal_breaks_things_and_survives():
     doc = json.loads((io.PROOF / "SUBSTRATE_LONG_RUN_REHEARSAL.json").read_text())
     assert doc["all_pass"] is True, doc["failed"]
-    for required in ("injected_failure_preserves_completed_work", "stop_switch_halts",
-                     "exclusive_writers", "checkpoint_resume", "stale_artifact_refusal",
-                     "terminal_closure"):
+    for required in (
+        "injected_failure_preserves_completed_work",
+        "stop_switch_halts",
+        "exclusive_writers",
+        "checkpoint_resume",
+        "stale_artifact_refusal",
+        "terminal_closure",
+    ):
         assert doc["checks"][required]["ok"] is True, required
     assert "only proves the happy path" in doc["note"]
 

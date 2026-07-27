@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import metacog as K
+from substrate import metacog as K
 
 
 def _stream(n=60):
@@ -64,12 +64,36 @@ def test_the_oracle_policy_is_an_upper_bound_not_a_candidate():
 
 def test_attention_ranks_by_declared_drivers_under_budget():
     candidates = [
-        {"id": "urgent", "goal_relevance": 1.0, "uncertainty": 0.9, "risk": 0.8, "expected_value": 0.9,
-         "novelty": 0.2, "contradiction": 1.0, "cost": 1.0},
-        {"id": "idle", "goal_relevance": 0.1, "uncertainty": 0.1, "risk": 0.0, "expected_value": 0.1,
-         "novelty": 0.1, "contradiction": 0.0, "cost": 1.0},
-        {"id": "expensive", "goal_relevance": 0.9, "uncertainty": 0.9, "risk": 0.9,
-         "expected_value": 0.9, "novelty": 0.9, "contradiction": 1.0, "cost": 99.0},
+        {
+            "id": "urgent",
+            "goal_relevance": 1.0,
+            "uncertainty": 0.9,
+            "risk": 0.8,
+            "expected_value": 0.9,
+            "novelty": 0.2,
+            "contradiction": 1.0,
+            "cost": 1.0,
+        },
+        {
+            "id": "idle",
+            "goal_relevance": 0.1,
+            "uncertainty": 0.1,
+            "risk": 0.0,
+            "expected_value": 0.1,
+            "novelty": 0.1,
+            "contradiction": 0.0,
+            "cost": 1.0,
+        },
+        {
+            "id": "expensive",
+            "goal_relevance": 0.9,
+            "uncertainty": 0.9,
+            "risk": 0.9,
+            "expected_value": 0.9,
+            "novelty": 0.9,
+            "contradiction": 1.0,
+            "cost": 99.0,
+        },
     ]
     out = K.attend(candidates, budget=2.0)
     assert out["ranked"][0]["id"] == "expensive", "ranking is by score, before any budget is applied"

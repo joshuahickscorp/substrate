@@ -7,10 +7,10 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import perspectives as PS
-from mop.cognition import runtime as R
-from mop.cognition import safety as SF
-from mop.cognition import workspace as W
+from substrate import perspectives as PS
+from substrate import runtime as R
+from substrate import safety as SF
+from substrate import workspace as W
 
 OBS = {"label": "a", "label_confidence": 0.8}
 
@@ -44,22 +44,32 @@ def test_the_loop_never_acts_on_the_world():
     assert doc["activation"] is False
     assert "no code path" in doc["no_activation_path"]
     # the claim is checkable: the module contains no assignment that turns activation on
-    source = (R.io.ROOT / "src/mop/cognition/runtime.py").read_text()
-    assert "activation\": True" not in source and "activation=True" not in source
+    source = (R.io.ROOT / "src/substrate/runtime.py").read_text()
+    assert 'activation": True' not in source and "activation=True" not in source
 
 
 def test_a_perspective_still_cannot_read_outside_its_declaration_inside_the_loop():
     """The type system is not bypassed by being called from the runtime."""
     greedy = PS.Perspective(
-        PS._spec("greedy", "direct_prediction", ("world",), "peek at the world state", "label", 0.5,
-                 ("peeks",), "n/a"),
-        lambda seen: (seen.get("world"), 1.0))
+        PS._spec(
+            "greedy",
+            "direct_prediction",
+            ("world",),
+            "peek at the world state",
+            "label",
+            0.5,
+            ("peeks",),
+            "n/a",
+        ),
+        lambda seen: (seen.get("world"), 1.0),
+    )
     object.__setattr__(greedy.spec, "permitted_information", ("perceptual",))
     entity = R.Substrate(catalog=[greedy])
     trace = entity.step(OBS, outcome="a")
     # it declared world as an input but is only permitted perceptual, so the workspace refuses the read
-    assert trace["stages"]["run_perspectives"]["refused"] == ["greedy"] or \
-        trace["stages"]["run_perspectives"]["ran"] == ["greedy"]
+    assert trace["stages"]["run_perspectives"]["refused"] == ["greedy"] or trace["stages"][
+        "run_perspectives"
+    ]["ran"] == ["greedy"]
     # either way nothing it produced was allowed to write a region it does not own
     with pytest.raises(W.Refused):
         entity.ws.write("world", "greedy", {"forged": True}, provenance="p", confidence=1.0)
@@ -71,19 +81,22 @@ def test_the_cycle_budget_caps_how_much_thinking_happens():
     rich_trace = rich.step(OBS, outcome="a")
     poor_trace = poor.step(OBS, outcome="a")
     assert poor_trace["stages"]["run_perspectives"]["compute_spent"] <= 1.0
-    assert (rich_trace["stages"]["run_perspectives"]["compute_spent"]
-            >= poor_trace["stages"]["run_perspectives"]["compute_spent"])
-    assert poor_trace["stages"]["attend"]["dropped_for_budget"] != [] or \
-        len(poor_trace["stages"]["run_perspectives"]["ran"]) <= \
-        len(rich_trace["stages"]["run_perspectives"]["ran"])
+    assert (
+        rich_trace["stages"]["run_perspectives"]["compute_spent"]
+        >= poor_trace["stages"]["run_perspectives"]["compute_spent"]
+    )
+    assert poor_trace["stages"]["attend"]["dropped_for_budget"] != [] or len(
+        poor_trace["stages"]["run_perspectives"]["ran"]
+    ) <= len(rich_trace["stages"]["run_perspectives"]["ran"])
 
 
 def test_adaptation_goes_through_the_safety_envelope_not_around_it():
     entity = R.Substrate()
     trace = entity.step(OBS, outcome="a")
     adapt = trace["stages"]["adapt"]
-    assert adapt["level"] in {level.name for level in __import__(
-        "mop.cognition.plasticity", fromlist=["LEVELS"]).LEVELS}
+    assert adapt["level"] in {
+        level.name for level in __import__("substrate.plasticity", fromlist=["LEVELS"]).LEVELS
+    }
     assert adapt["applied"] is True and adapt["refusals"] == []
     # the loop cannot propose removing a protected surface, because it never builds such a proposal
     doc = R.declaration()

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import epistemology as E
+from substrate import epistemology as E
 
 
 def _b(bid, content, **kw):
@@ -43,8 +43,7 @@ def test_true_belief_with_weak_evidence_is_not_promoted():
 
 def test_false_belief_with_strong_apparent_evidence_is_revisable():
     s = _store()
-    s.assert_(_b("claim", "streams are temporal", confidence=0.9,
-                 supporting_evidence=["a", "b", "c"]))
+    s.assert_(_b("claim", "streams are temporal", confidence=0.9, supporting_evidence=["a", "b", "c"]))
     s.add_evidence("claim", "the order free control also scored high", supports=False)
     assert s.beliefs["claim"].confidence < 0.9
     assert s.beliefs["claim"].contradicting_evidence
@@ -52,7 +51,7 @@ def test_false_belief_with_strong_apparent_evidence_is_revisable():
 
 def test_conflicting_reliable_sources_are_marked_unresolved_rather_than_settled_by_arrival():
     s = _store()
-    a = s.assert_(_b("a", "same content", confidence=0.7, source="instrument"))
+    s.assert_(_b("a", "same content", confidence=0.7, source="instrument"))
     b = _b("b", "same content", confidence=0.72, source="instrument")
     out = s.revise(b)
     assert out["outcome"] == "unresolved"
@@ -131,8 +130,15 @@ def test_correct_uncertainty_and_explicit_ignorance_are_different_things():
 def test_belief_revision_after_a_counterexample_preserves_the_loser():
     s = _store("evidence_weighted")
     s.assert_(_b("rule", "all swans are white", confidence=0.9, supporting_evidence=["a", "b"]))
-    out = s.revise(_b("counter", "all swans are white", confidence=0.4,
-                      supporting_evidence=["c", "d", "e"], contradicting_evidence=[]))
+    out = s.revise(
+        _b(
+            "counter",
+            "all swans are white",
+            confidence=0.4,
+            supporting_evidence=["c", "d", "e"],
+            contradicting_evidence=[],
+        )
+    )
     assert out["kept"] == "counter"
     assert s.beliefs["rule"].supersession == "counter", "the loser is superseded, never deleted"
 
@@ -162,8 +168,9 @@ def test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim():
 
 def test_epistemic_value_and_not_confidence_chooses_the_action():
     low_stakes = E.epistemic_value(_b("a", "c", confidence=0.5), stakes=0.1, test_available=True)
-    high_stakes = E.epistemic_value(_b("b", "c", confidence=0.5), stakes=5.0, test_available=True,
-                                    dependants=3)
+    high_stakes = E.epistemic_value(
+        _b("b", "c", confidence=0.5), stakes=5.0, test_available=True, dependants=3
+    )
     # identical confidence, different action, so confidence alone did not decide
     assert low_stakes["confidence"] == high_stakes["confidence"]
     assert low_stakes["action"] != high_stakes["action"]
@@ -176,10 +183,8 @@ def test_epistemic_value_and_not_confidence_chooses_the_action():
 def test_the_revision_policies_are_distinct_and_the_oracle_is_an_upper_bound():
     s = _store()
     s.oracle = {"incoming": True}
-    existing = s.assert_(_b("existing", "c", confidence=0.9, source="rumour",
-                            supporting_evidence=["a"]))
-    incoming = _b("incoming", "c", confidence=0.4, source="instrument",
-                  supporting_evidence=["b", "c", "d"])
+    existing = s.assert_(_b("existing", "c", confidence=0.9, source="rumour", supporting_evidence=["a"]))
+    incoming = _b("incoming", "c", confidence=0.4, source="instrument", supporting_evidence=["b", "c", "d"])
     s.beliefs["incoming"] = incoming
     report = E.compare_policies(existing, incoming, s)
     assert report["distinct_outcomes"] >= 2, report["selected"]

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from mop.cognition import world as W
+from substrate import world as W
 
 
 @pytest.fixture(scope="module")
@@ -34,8 +34,14 @@ def test_prediction_recovers_the_known_generative_truth(fitted):
 def test_intervening_is_not_the_same_operation_as_observing(fitted):
     """do(road=slick) holds the road slick and mismatches the summer tyre. Observing it does not."""
     model, _ = fitted
-    dry = {"season": 0, "weather": "dry", "road": "grip", "tyre": "summer", "speed": "fast",
-           "arrive": "ontime"}
+    dry = {
+        "season": 0,
+        "weather": "dry",
+        "road": "grip",
+        "tyre": "summer",
+        "speed": "fast",
+        "arrive": "ontime",
+    }
     done = model.intervene(dry, {"road": "slick"})
     assert done["road"] == "slick", "an intervened variable keeps its forced value"
     assert done["speed"] == "slow", "and its children respond to the forced value"
@@ -52,13 +58,40 @@ def test_a_null_counterfactual_reproduces_the_factual_prediction(fitted):
 
 def test_a_model_that_only_predicts_is_reported_as_a_limited_instrument():
     """The section 8 verdict is computed, not left to prose, and both branches are exercised."""
-    assert W.limited_instrument({"predictive_accuracy": 0.97, "decision_usefulness": 0.0,
-                                 "causal_validity": 1.0, "simulation_reliability": 1.0}) is True
-    assert W.limited_instrument({"predictive_accuracy": 0.97, "decision_usefulness": 0.3,
-                                 "causal_validity": 1.0, "simulation_reliability": 1.0}) is False
+    assert (
+        W.limited_instrument(
+            {
+                "predictive_accuracy": 0.97,
+                "decision_usefulness": 0.0,
+                "causal_validity": 1.0,
+                "simulation_reliability": 1.0,
+            }
+        )
+        is True
+    )
+    assert (
+        W.limited_instrument(
+            {
+                "predictive_accuracy": 0.97,
+                "decision_usefulness": 0.3,
+                "causal_validity": 1.0,
+                "simulation_reliability": 1.0,
+            }
+        )
+        is False
+    )
     # a weak predictor is not called a limited instrument either; it is simply a weak predictor
-    assert W.limited_instrument({"predictive_accuracy": 0.4, "decision_usefulness": 0.0,
-                                 "causal_validity": 0.5, "simulation_reliability": 0.5}) is False
+    assert (
+        W.limited_instrument(
+            {
+                "predictive_accuracy": 0.4,
+                "decision_usefulness": 0.0,
+                "causal_validity": 0.5,
+                "simulation_reliability": 0.5,
+            }
+        )
+        is False
+    )
 
 
 def test_the_four_distinctions_separate_on_the_calibration_bed(fitted):
@@ -78,9 +111,15 @@ def test_the_decision_arm_is_measured_against_the_best_fixed_action(fitted):
     gain = W._decision_gain(model, bed)
     assert gain > 0.0
     # the baseline really is the strongest state free policy, so the gain cannot come from a weak control
-    costs = {a: W._mean([0.0 if model.rollout(model.intervene(s, {"tyre": a}), 2)[-1]["arrive"]
-                         == "ontime" else 1.0 for s, _ in bed["test"]])
-             for a in bed["actions"]["tyre"]}
+    costs = {
+        a: W._mean(
+            [
+                0.0 if model.rollout(model.intervene(s, {"tyre": a}), 2)[-1]["arrive"] == "ontime" else 1.0
+                for s, _ in bed["test"]
+            ]
+        )
+        for a in bed["actions"]["tyre"]
+    }
     assert min(costs.values()) > 0.0, "some fixed action would have been perfect, so the test is empty"
 
 
