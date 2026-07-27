@@ -39,6 +39,11 @@ runs/substrate/mop-substrate-master-v1/*
 !runs/substrate/mop-substrate-master-v1/result_ledger.json
 !runs/substrate/mop-substrate-master-v1/experiments/
 !runs/substrate/mop-substrate-master-v1/experiments/**
+!runs/substrate/v1/
+runs/substrate/v1/*
+!runs/substrate/v1/result_ledger.json
+!runs/substrate/v1/experiments/
+!runs/substrate/v1/experiments/**
 
 !runs/pre_studio/
 runs/pre_studio/*
