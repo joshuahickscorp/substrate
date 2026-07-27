@@ -28,7 +28,7 @@
   "cycles": 112,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
-  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "632180eb72fbf0c65c3282f58be58028c64dbd8f66b6c7c2ef5fa7e40c37b185"
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "c9f97562752563e4ef75b94f8ce4b916f68f8ac6c006efeb052ea0aaaaae9b65"
 }

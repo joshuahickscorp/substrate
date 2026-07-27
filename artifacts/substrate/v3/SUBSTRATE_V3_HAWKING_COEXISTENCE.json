@@ -2,18 +2,8 @@
   "schema": "substrate-v3-hawking-coexistence/v1",
   "policy": "observe only; never signal, pause, restart, modify, or adopt Hawking",
   "snapshot": {
-    "processes": [
-      {
-        "pid": 16057,
-        "ppid": 1,
-        "cpu_percent": 98.4,
-        "memory_percent": 0.3,
-        "rss_mib": 279.234375,
-        "elapsed": "02:49",
-        "command": "/Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app/Contents/MacOS/Python /Users/scammermike/Downloads/hawking/tools/condense/glm52_source_fetch.py safe-to-leave"
-      }
-    ],
-    "active_process_count": 1,
+    "processes": [],
+    "active_process_count": 0,
     "observation_only": true,
     "signals_sent": 0,
     "processes_modified": 0,
@@ -21,12 +11,12 @@
     "mps_adopted": false
   },
   "resources": {
-    "disk_available_gib": 108.98456573486328,
-    "memory_free_percent": 81,
+    "disk_available_gib": 108.9816780090332,
+    "memory_free_percent": 82,
     "swap_total_mib": 2048.0,
     "swap_used_mib": 1293.5,
     "swap_free_mib": 754.5,
-    "aggregate_cpu_percent": 460.2,
+    "aggregate_cpu_percent": 395.0,
     "machine": {
       "processor": "arm",
       "logical_cores": 28,
@@ -37,7 +27,7 @@
   "principal_requires_resource_rehearsal": true,
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
-  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "1e8653217ac35076d9b5d615e067cb01f562815ee8826263deb51f9d3c7d9cc6"
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "cb2572c48aab91cd0718dacd3f99bbd2485f2194afc1e5fb0fdb6f997e0b715b"
 }

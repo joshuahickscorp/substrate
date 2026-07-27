@@ -20,7 +20,7 @@
   ],
   "activation": false,
   "program": "substrate-v3",
-  "source_commit": "bd693322ffe7a268ba117d8f7914daf81795b9cb",
-  "source_digest": "4122c484583085131d5d5c83349e9c0c8c32d4705b1a97b01b7c9930ac2a67ef",
-  "sha256": "be4a66570621c0fbd1c5ed56d5dc48b665aa42af1eac829a052fc308b310ad1f"
+  "source_commit": "787d52ea2c04f69db9e7bbf4cfde506ef5e24979",
+  "source_digest": "5dc84831b016a6f1faf2c88be2700d2a7089bf697f897f4f0ff16d0819d053cb",
+  "sha256": "ef73462b04e54109c9dc9b1fe5442401f3fcb53ffa79a8ec3c780f84215d8ff7"
 }
