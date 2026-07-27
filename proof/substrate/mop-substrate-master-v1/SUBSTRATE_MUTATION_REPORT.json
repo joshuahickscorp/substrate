@@ -219,6 +219,22 @@
       "detail": ""
     },
     {
+      "mutation": "sx5_reports_support_below_the_sesoi",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_sx5_is_a_null_at_the_declared_effect_size",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
+      "mutation": "sx5_drops_the_second_direction",
+      "module": "mop.cognition.experiments",
+      "guard": "tests/cognition/test_experiments.py::test_sx5_requires_both_directions",
+      "rejected": true,
+      "survivor": false,
+      "detail": ""
+    },
+    {
       "mutation": "the_ceiling_below_sesoi_is_blamed_on_the_unit_count",
       "module": "mop.cognition.experiments",
       "guard": "tests/cognition/test_experiments.py::test_the_sx1b_diagnosis_names_the_number_that_actually_decides",
@@ -227,12 +243,12 @@
       "detail": ""
     }
   ],
-  "total": 28,
-  "rejected": 28,
+  "total": 30,
+  "rejected": 30,
   "survivors": [],
   "all_rejected": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9c2847b4a661d354f590b2025ef25475d4406cf",
+  "source_commit": "6bf3eb85629f819957889e483adee984de22c96c",
   "activation": false,
-  "sha256": "272416a3d0d014975f9d5724f9c15dac3bcf6dcaaf64cac5776f489625879c7e"
+  "sha256": "6b77b1a3e0642a9286290cb35979d6d5adba8b8553808d712711a68b62f0bab3"
 }

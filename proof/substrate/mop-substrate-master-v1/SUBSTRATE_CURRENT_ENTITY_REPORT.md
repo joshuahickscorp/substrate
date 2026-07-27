@@ -1,6 +1,6 @@
 # Substrate: what the entity currently is
 
-Generated from the tree at commit `c9c2847b4a661d354f590b2025ef25475d4406cf`. Every number below is derived from the
+Generated from the tree at commit `6bf3eb85629f819957889e483adee984de22c96c`. Every number below is derived from the
 repository, and any number that would require evidence nobody has measured is reported as zero
 rather than estimated.
 
@@ -14,7 +14,7 @@ rather than estimated.
 | semantic_memory | 100% | 0% |
 | procedural_memory | 100% | 0% |
 | world_model | 100% | 0% |
-| self_model | 100% | 0% |
+| self_model | 100% | 100% |
 | metacognition | 100% | 0% |
 | perspective_diversity | 100% | 0% |
 | arbitration | 100% | 0% |
@@ -34,7 +34,7 @@ require an admitted experiment on a valid bed, not more code.
 ## Capability, not aspiration
 
 Of the twenty capabilities the master plan describes for a mature Substrate,
-20 have an implementation and 0 have
+20 have an implementation and 1 have
 earned evidence. The gap between those two numbers is the honest state of the program.
 
 ## Thinking adjacent properties, and what they are not

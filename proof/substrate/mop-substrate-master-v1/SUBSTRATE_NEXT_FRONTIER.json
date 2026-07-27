@@ -12,7 +12,6 @@
     "M4",
     "M5",
     "M6",
-    "S1",
     "W1",
     "B1",
     "K1",
@@ -329,7 +328,7 @@
     "activation": false
   },
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9c2847b4a661d354f590b2025ef25475d4406cf",
+  "source_commit": "6bf3eb85629f819957889e483adee984de22c96c",
   "activation": false,
-  "sha256": "67e96557f182dfbb1de703c657b956caec20ea9327cb018bce17bf51ee88495d"
+  "sha256": "1f89e96d4cef4accd678ab14540e9455618970300333d05b88c8234a77706097"
 }

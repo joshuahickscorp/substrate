@@ -4,13 +4,13 @@
     "components_present": 13,
     "components_declared": 13,
     "capabilities_implemented": 20,
-    "capabilities_with_evidence": 0,
+    "capabilities_with_evidence": 1,
     "capabilities_total": 20
   },
   "item_levels": {
-    "terminal": 12,
+    "terminal": 13,
     "tested": 1,
-    "measured": 28
+    "measured": 27
   },
   "implementation_by_category": {
     "temporal_continuity": 95,
@@ -39,7 +39,7 @@
     "semantic_memory": 0,
     "procedural_memory": 0,
     "world_model": 0,
-    "self_model": 0,
+    "self_model": 100,
     "metacognition": 0,
     "perspective_diversity": 0,
     "arbitration": 0,
@@ -94,6 +94,6 @@
   ],
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9c2847b4a661d354f590b2025ef25475d4406cf",
-  "sha256": "7597b8a5f2a986217d8a12b0a096b41a68457c1655dbca42a9738e118a7f54e3"
+  "source_commit": "6bf3eb85629f819957889e483adee984de22c96c",
+  "sha256": "97009646231293e99a8d5956678036d94481d449081226ea20d7de12f2c30592"
 }
