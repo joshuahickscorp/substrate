@@ -127,6 +127,24 @@ def test_a_measurement_boundary_closes_nothing_downstream():
     assert nulls["substrate_native_nulls"] == {}
 
 
+def test_the_value_queue_refuses_what_the_evidence_already_closed():
+    """Section 17's selection, computed by the queue the method reformation already sealed."""
+    q = X.voi_queue()
+    # the bed screen measured no oracle headroom for the typed workspace, so its successor is refused
+    assert "SX1c" in q["refused"]
+    sx1c = next(c for c in q["candidates"] if c["id"] == "SX1c")
+    assert sx1c["refusal_reason"] == "no oracle headroom" and sx1c["priority"] == 0.0
+    # and the learned plasticity policy is refused on the inherited null, not rerun
+    sx7 = next(c for c in q["candidates"] if c["id"] == "SX7")
+    assert "closed premise" in sx7["refusal_reason"]
+    # two selections that between them separate more than one hypothesis
+    assert len(q["selected"]) == 2
+    assert len(q["hypotheses_covered_by_selection"]) >= 3
+    # every candidate justifies its scores rather than asserting them
+    assert all(c["justification"] for c in q["candidates"])
+    assert "measures the generator" in q["program_lesson"]
+
+
 def test_the_successor_design_is_not_a_closed_form():
     design = X.SX1B_DESIGN
     assert design["experiment_id"] == "SX1b"

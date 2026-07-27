@@ -617,8 +617,13 @@ def entity_report(st: dict, spec: dict, arch: dict, caps: dict, temporal: dict) 
 
 
 def write_all() -> dict:
+    from mop.cognition import experiments as X
+
     st = P.state()
     frontier = P.next_batches(st)
+    # section 17 asks for a value of information estimate beside the batch selection, so the two live in
+    # one artifact. The batch selection says what to build next; the queue says what to measure next.
+    frontier = {**frontier, "value_of_information": X.voi_queue()}
     arch, caps = architecture(st), capability_map(st)
     temporal = temporal_core_record()
     spec = entity_spec(st, arch, caps)
