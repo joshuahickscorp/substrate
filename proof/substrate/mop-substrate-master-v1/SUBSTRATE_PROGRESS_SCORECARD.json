@@ -1,6 +1,8 @@
 {
   "schema": "substrate-progress-scorecard/v1",
   "rule": "implementation rises when declared files exist and declared tests pass. Evidence rises only when an item carries a scientific classification produced by the method kernel. Code existing never raises evidence",
+  "reading_the_evidence_column": "a category at 100 percent evidence has been measured, not vindicated. Read the classifications beside it: a mechanism null is earned knowledge and is not a positive",
+  "categories_with_a_positive": [],
   "entry_baseline_2026_07_27": {
     "experimental_validity_and_falsification": {
       "implementation_pct": 95,
@@ -79,7 +81,9 @@
         "C1",
         "X3"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "working_memory": {
       "implementation_pct": 100,
@@ -87,7 +91,9 @@
       "items": [
         "M1"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "episodic_memory": {
       "implementation_pct": 100,
@@ -95,7 +101,9 @@
       "items": [
         "M2"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "semantic_memory": {
       "implementation_pct": 100,
@@ -104,7 +112,9 @@
         "M3",
         "M6"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "procedural_memory": {
       "implementation_pct": 100,
@@ -112,7 +122,9 @@
       "items": [
         "M4"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "world_model": {
       "implementation_pct": 100,
@@ -120,15 +132,23 @@
       "items": [
         "W1"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "self_model": {
       "implementation_pct": 100,
-      "evidence_pct": 0,
+      "evidence_pct": 100,
       "items": [
         "S1"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [
+        "S1"
+      ],
+      "classifications": {
+        "mechanism_null": 1
+      },
+      "any_positive": false
     },
     "metacognition": {
       "implementation_pct": 100,
@@ -137,7 +157,9 @@
         "K1",
         "E4"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "perspective_diversity": {
       "implementation_pct": 100,
@@ -146,7 +168,9 @@
         "C3",
         "C4"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "arbitration": {
       "implementation_pct": 100,
@@ -154,7 +178,9 @@
       "items": [
         "C5"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "plasticity": {
       "implementation_pct": 100,
@@ -165,7 +191,9 @@
         "P3",
         "P4"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "consolidation": {
       "implementation_pct": 100,
@@ -173,7 +201,9 @@
       "items": [
         "M5"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "transfer": {
       "implementation_pct": 100,
@@ -181,7 +211,9 @@
       "items": [
         "B1"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "reorganization": {
       "implementation_pct": 100,
@@ -189,7 +221,9 @@
       "items": [
         "R1"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "developmental_learning": {
       "implementation_pct": 100,
@@ -197,7 +231,9 @@
       "items": [
         "P5"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "goal_continuity": {
       "implementation_pct": 100,
@@ -206,7 +242,9 @@
         "E1",
         "E5"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "reflective_access": {
       "implementation_pct": 100,
@@ -215,7 +253,9 @@
         "E3",
         "E6"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     },
     "unified_cognition": {
       "implementation_pct": 100,
@@ -225,7 +265,9 @@
         "T1",
         "E2"
       ],
-      "items_with_earned_evidence": []
+      "items_with_earned_evidence": [],
+      "classifications": {},
+      "any_positive": false
     }
   },
   "implementation_target_band": [
@@ -234,7 +276,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9c2847b4a661d354f590b2025ef25475d4406cf",
+  "source_commit": "6bf3eb85629f819957889e483adee984de22c96c",
   "activation": false,
-  "sha256": "58087faaa53c68525caed3e8c0eddc43b937d6a26b6f94be6e76bb005c766d57"
+  "sha256": "87458b339ee303a69caf635533773fe61ff0b5e14a122590372beff73d9541a5"
 }

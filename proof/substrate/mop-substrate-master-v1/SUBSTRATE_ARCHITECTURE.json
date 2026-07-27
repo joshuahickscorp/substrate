@@ -90,7 +90,7 @@
         "S1"
       ],
       "levels": [
-        "measured"
+        "terminal"
       ]
     },
     {
@@ -201,6 +201,6 @@
   "no_parallel_framework": "Substrate stages reuse the temporal supervisor, the method admission gate and the existing evidence fabric",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9c2847b4a661d354f590b2025ef25475d4406cf",
-  "sha256": "11fbcf8b286eb97076bf05298d3d82553924e0857433cf5d9b182861fca737c2"
+  "source_commit": "6bf3eb85629f819957889e483adee984de22c96c",
+  "sha256": "325b7b7685ad86fc8aa84244f48e72d12fbff5ba652e5050a2732913d6d76ccd"
 }

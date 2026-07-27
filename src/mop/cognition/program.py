@@ -554,17 +554,29 @@ def scorecard(st: dict | None = None) -> dict:
         impl = sum(IMPLEMENTATION_WEIGHT[r["level"]] for r in members) / len(members)
         # evidence counts only items with a recorded scientific classification, never code alone
         earned = [r for r in members if r["result"] and r["result"].get("scientific") is True]
+        # a percentage alone cannot distinguish a category evidenced by a positive from one evidenced by
+        # a null. Both are earned knowledge and neither is the other, so the classifications are listed.
+        verdicts: dict[str, int] = {}
+        for r in earned:
+            key = r["result"].get("classification", "unclassified")
+            verdicts[key] = verdicts.get(key, 0) + 1
         rows[category] = {
             "implementation_pct": round(100 * impl),
             "evidence_pct": round(100 * len(earned) / len(members)),
             "items": [r["id"] for r in members],
             "items_with_earned_evidence": [r["id"] for r in earned],
+            "classifications": verdicts,
+            "any_positive": any(k in ("positive", "provisional_positive") for k in verdicts),
         }
     return {
         "schema": "substrate-progress-scorecard/v1",
         "rule": ("implementation rises when declared files exist and declared tests pass. Evidence rises "
                  "only when an item carries a scientific classification produced by the method kernel. "
                  "Code existing never raises evidence"),
+        "reading_the_evidence_column": ("a category at 100 percent evidence has been measured, not "
+                                        "vindicated. Read the classifications beside it: a mechanism "
+                                        "null is earned knowledge and is not a positive"),
+        "categories_with_a_positive": [k for k, v in rows.items() if v.get("any_positive")],
         "entry_baseline_2026_07_27": {k: {"implementation_pct": i, "evidence_pct": e}
                                       for k, (i, e) in BASELINE_2026_07_27.items()},
         "categories": rows,
@@ -629,6 +641,18 @@ def record_correction(correction_id: str, defect: str, correction: str, regressi
         return existing
     io.seal(f"{correction_id}.json", doc, "corrections")
     return doc
+
+
+def record_result(item_id: str, classification: dict, experiment_id: str, evidence: dict) -> dict:
+    """Record a terminal classification against an item. Only a classification moves evidence."""
+    if item_id not in BY_ID:
+        raise ValueError(f"unknown item {item_id}")
+    ledger = _ledger("result_ledger.json")
+    results = ledger.get("results", {})
+    results[item_id] = {**classification, "experiment_id": experiment_id, "evidence": evidence,
+                        "source_commit": io.commit()}
+    io.run_json("result_ledger.json", {"schema": "substrate-result-ledger/v1", "results": results})
+    return results[item_id]
 
 
 def corrections() -> list[dict]:

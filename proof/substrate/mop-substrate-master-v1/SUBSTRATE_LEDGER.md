@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `c9c2847b4a661d354f590b2025ef25475d4406cf`. Status is derived, never asserted: an item is
+Generated from the tree at commit `6bf3eb85629f819957889e483adee984de22c96c`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 41. Levels: measured 28, terminal 12, tested 1.
+Items: 41. Levels: measured 27, terminal 13, tested 1.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -27,7 +27,7 @@ Items: 41. Levels: measured 28, terminal 12, tested 1.
 | M5 | 7.5 | Consolidation | measured | M2, M3, M4 | classify the result through mop.method.gate.classify_result and record it |
 | M6 | 7.6 | Forgetting and hygiene | measured | M3 | classify the result through mop.method.gate.classify_result and record it |
 | W1 | 8 | World model | measured | C2, M2 | classify the result through mop.method.gate.classify_result and record it |
-| S1 | 9 | Self model | measured | C2, M2 | classify the result through mop.method.gate.classify_result and record it |
+| S1 | 9 | Self model | terminal | C2, M2 | none |
 | K1 | 10 | Metacognition | measured | C5, S1 | classify the result through mop.method.gate.classify_result and record it |
 | P1 | 11.1 | Plasticity hierarchy | measured | A4, C2 | classify the result through mop.method.gate.classify_result and record it |
 | P2 | 11.2 | Fast adaptation | measured | P1, M1 | classify the result through mop.method.gate.classify_result and record it |

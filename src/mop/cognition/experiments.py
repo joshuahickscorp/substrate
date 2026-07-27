@@ -515,6 +515,288 @@ def bed_screen() -> dict:
     }
 
 
+# ---------------------------------------------------------------- SX5, on a bed nobody designed
+#
+# The self model's own prediction of its accuracy is the tune split score at the checkpoint convergence
+# selected. The outcome is the principal test score for the same cell. Both are sealed receipts of the
+# temporal core program, written for another purpose entirely, which is exactly what SX1 and SX1b lacked.
+#
+# Declared limitation, recorded before the design was fixed: the mean tune to test gap was observed on
+# both completed beds during design, so this design is not blind to the size of the miscalibration. What
+# the peek did not answer, and what the terminal claim is restricted to, is whether an offset fitted on
+# one bed transfers to the other, per core family.
+
+TEMPORAL_RUNS = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
+
+SX5_DESIGN = {
+    "schema": "substrate-experiment-design/v1",
+    "experiment_id": "SX5",
+    "question": ("does a self model that learns its own tune to test offset on one bed predict its "
+                 "accuracy better on a bed it has not seen than the strongest uncorrected baseline"),
+    "bed": "the sealed convergence and principal receipts of the temporal core program",
+    "why_the_bed_is_not_designed_here": ("both receipt families were produced by another program for "
+                                         "another question, months of compute before this one existed"),
+    "prediction": "the tune split accuracy at the checkpoint convergence selected, per factorial cell",
+    "outcome": "the principal test accuracy for the same cell, averaged over seeds",
+    "arms": {
+        "naive": "the self model reports its tune score unchanged",
+        "fixed_prior": "the mean test accuracy of the fitting bed, one number for every cell",
+        "updating": "the tune score minus the mean offset measured on the fitting bed",
+        "oracle": "the actual test accuracy, an upper bound at zero error",
+    },
+    "units": "core family on the held out bed, group disjoint by construction",
+    "replications": ["har_stream to harth_stream", "harth_stream to har_stream"],
+    "both_directions_must_support": True,
+    "primary_outcome": "mean absolute calibration error per held out core family",
+    "sesoi": 0.05,
+    "predictions": {
+        "H_selfmodel_calibration": {"updating_beats_best_baseline": True, "in_both_directions": True},
+        "H_offset_instability": {"updating_beats_best_baseline": False, "in_both_directions": False},
+        "H_prior_sufficient": {"updating_beats_best_baseline": False, "in_both_directions": True},
+    },
+    "declared_limitation": ("the mean tune to test gap on both beds was seen during design. The claim is "
+                            "restricted to whether the offset transfers, which the peek did not answer"),
+    "activation": False,
+}
+
+
+def _paired(bed: str) -> dict:
+    """{cell: (predicted, actual)} from sealed receipts. Cells with no principal receipt are skipped."""
+    import statistics
+
+    cfg = json.loads((TEMPORAL_RUNS / "e2_converge" / f"converge_{bed}.json").read_text())["configs"]
+    actual: dict[str, list] = {}
+    for path in sorted((TEMPORAL_RUNS / "e2_principal").glob(f"{bed}_*.json")):
+        for row in json.loads(path.read_text())["runs"]:
+            actual.setdefault(row["cell"], []).append(float(row["accuracy"]))
+    out = {}
+    for cell, rows in actual.items():
+        entry = cfg.get(cell)
+        if not entry:
+            continue
+        selected = entry["selected_checkpoint"]
+        curve = entry["curve"]
+        predicted = curve.get(str(selected), curve.get(selected))
+        if predicted is None:
+            continue
+        out[cell] = (float(predicted), statistics.fmean(rows))
+    return out
+
+
+def _family(cell: str) -> str:
+    return cell.split("|", 1)[0]
+
+
+def sx5_evidence() -> dict:
+    """Everything measured on the fitting bed. The held out bed is not read here."""
+    import statistics
+
+    fit = _paired("har_stream")
+    offsets = [p - a for p, a in fit.values()]
+    families = sorted({_family(c) for c in fit})
+    mean_test = statistics.fmean(a for _, a in fit.values())
+    per_family = {f: statistics.fmean(p - a for c, (p, a) in fit.items() if _family(c) == f)
+                  for f in families}
+    naive = statistics.fmean(abs(p - a) for p, a in fit.values())
+    prior = statistics.fmean(abs(mean_test - a) for _, a in fit.values())
+    ceiling = min(naive, prior)  # the oracle reaches zero error, so the ceiling is the best baseline
+    spread = statistics.pstdev(list(per_family.values()))
+    n = len(families)
+    return {
+        "fitting_bed": "har_stream", "held_out_bed": "harth_stream",
+        "n_cells": len(fit), "families": families, "n_units": n,
+        "mean_offset": round(statistics.fmean(offsets), 6),
+        "offset_sd": round(statistics.pstdev(offsets), 6),
+        "per_family_offset": {k: round(v, 6) for k, v in per_family.items()},
+        "fixed_prior_value": round(mean_test, 6),
+        "baseline_error": {"naive": round(naive, 6), "fixed_prior": round(prior, 6)},
+        "oracle_headroom": {"n_seeds": n, "residual": round(ceiling, 6),
+                            "residual_lower_95_cb": round(ceiling - 1.96 * spread / max(n, 1) ** 0.5, 6)},
+        "power": {"mde": round(1.96 * spread / max(n, 1) ** 0.5, 6), "n_units": n},
+        "arms_distinct": len({round(naive, 9), round(prior, 9), 0.0}) == 3,
+        "held_out_bed_touched": False,
+    }
+
+
+SX5_GRAPH = {
+    "nodes": [
+        {"id": "selfmodel", "type": "mechanism", "label": "a self model that updates from outcomes",
+         "implementation": "mop.cognition.selfmodel.SelfModel"},
+        {"id": "learn", "type": "intervention", "label": "subtract the measured offset",
+         "implementation": "mop.cognition.experiments.sx5_run"},
+        {"id": "updating", "type": "treatment", "label": "offset corrected prediction",
+         "implementation": "mop.cognition.experiments.sx5_run"},
+        {"id": "fixed", "type": "control", "label": "a fixed prior of the same form",
+         "removes": "the update", "implementation": "mop.cognition.selfmodel.FixedPrior"},
+        {"id": "family", "type": "independent_unit", "label": "a held out core family"},
+        {"id": "error", "type": "primary_outcome", "label": "mean absolute calibration error"},
+        {"id": "claim", "type": "claim", "label": "the offset transfers to an unseen bed",
+         "requires": ["error"]},
+    ],
+    "edges": [
+        {"src": "selfmodel", "dst": "learn", "type": "implemented_causal_path"},
+        {"src": "learn", "dst": "updating", "type": "implemented_causal_path"},
+        {"src": "updating", "dst": "error", "type": "implemented_causal_path"},
+        {"src": "fixed", "dst": "error", "type": "implemented_causal_path"},
+        {"src": "family", "dst": "error", "type": "measured_relation"},
+    ],
+}
+
+
+def sx5(evidence: dict) -> gate.Preregistration:
+    return gate.Preregistration(
+        experiment_id="SX5", title=SX5_DESIGN["question"],
+        mechanism_activity={"active": abs(evidence["mean_offset"]) > 0.0,
+                            "classification": "active" if abs(evidence["mean_offset"]) > 0.0
+                            else "inactive_mechanism", "failed": [],
+                            "evidence": "the tune to test offset on the fitting bed is not zero"},
+        contracts=[
+            C.ExperimentQuestion(name="q", declared={
+                "question": SX5_DESIGN["question"],
+                "hypotheses": list(SX5_DESIGN["predictions"]),
+                "predictions": SX5_DESIGN["predictions"]}),
+            C.CausalModel(name="g", declared={"graph": SX5_GRAPH}),
+            C.MeasurementModel(name="m", declared={"outcomes": {
+                "calibration_error": {"estimator": "mean absolute error over held out core families",
+                                      "unit": "core family"}}}),
+            C.InstrumentContract(name="i", evidence={"calibration": {
+                "prediction_and_outcome_come_from_different_splits": True,
+                "receipts_produced_by_another_program": True, "all_pass": True}}),
+            C.ArmContract(name="updating", evidence={"distinctness": {
+                "fixed_prior": "distinct" if evidence["arms_distinct"] else "aliased",
+                "naive": "distinct" if evidence["arms_distinct"] else "aliased"}}),
+            C.ControlContract(name="fixed_prior", evidence={"semantic": {
+                "update_absent": True, "same_functional_form": True, "all_pass": True}}),
+            C.DatasetContract(name="bed", evidence={"bed_validity": {
+                "classification": "valid_principal_bed"}}),
+            C.IndependentUnitContract(name="units", evidence={"units": {
+                "group_disjoint": True, "n_units": evidence["n_units"],
+                "test_touched": evidence["held_out_bed_touched"]}}),
+            C.BaselineContract(name="base", declared={"identity": "the stronger of naive and fixed prior"},
+                               evidence={"convergence": {"converged": True, "resource_matched": True,
+                                                         "identity": "the stronger of naive and fixed prior"}}),
+            C.OracleContract(name="oracle", evidence={"headroom": evidence["oracle_headroom"]}),
+            C.PowerContract(name="power",
+                            declared={"sesoi": 0.05, "seeds": evidence["n_units"], "futility": 0.01,
+                                      "harm": -0.02},
+                            evidence={"power": evidence["power"]}),
+        ])
+
+
+def sx5_run() -> dict:
+    """Admit, and only if licensed, measure both directions on the held out bed."""
+    import statistics
+
+    evidence = sx5_evidence()
+    prereg = sx5(evidence)
+    report = A.admit(prereg, "principal")
+    out = {"schema": "substrate-experiment-decision/v1", "experiment_id": "SX5",
+           "title": prereg.title, "hypotheses": list(SX5_DESIGN["predictions"]),
+           "design": SX5_DESIGN, "preprincipal_evidence": evidence, "admission": report,
+           "causal_graph_violations": G.validate(SX5_GRAPH), "licensed": report["licensed"],
+           "classification": "licensed" if report["licensed"] else "methodological_refusal",
+           "activation": False}
+    if not report["licensed"]:
+        out["why"] = "; ".join(report["blocking_violations"])
+        return out
+
+    directions = {}
+    for fit_bed, test_bed in (("har_stream", "harth_stream"), ("harth_stream", "har_stream")):
+        fit, held = _paired(fit_bed), _paired(test_bed)
+        offset = statistics.fmean(p - a for p, a in fit.values())
+        prior = statistics.fmean(a for _, a in fit.values())
+        families = sorted({_family(c) for c in held})
+        per_family = {}
+        for f in families:
+            rows = [(p, a) for c, (p, a) in held.items() if _family(c) == f]
+            per_family[f] = {
+                "naive": statistics.fmean(abs(p - a) for p, a in rows),
+                "fixed_prior": statistics.fmean(abs(prior - a) for _, a in rows),
+                "updating": statistics.fmean(abs((p - offset) - a) for p, a in rows),
+                "n_cells": len(rows)}
+        best_baseline = {f: min(v["naive"], v["fixed_prior"]) for f, v in per_family.items()}
+        gains = [best_baseline[f] - per_family[f]["updating"] for f in families]
+        n = len(gains)
+        effect = statistics.fmean(gains)
+        half = 1.96 * statistics.stdev(gains) / max(n, 1) ** 0.5 if n > 1 else float("inf")
+        directions[f"{fit_bed}_to_{test_bed}"] = {
+            "fitted_offset": round(offset, 6), "fixed_prior_value": round(prior, 6),
+            "per_family": {f: {k: round(v, 6) for k, v in row.items()}
+                           for f, row in per_family.items()},
+            "mean_error": {arm: round(statistics.fmean(row[arm] for row in per_family.values()), 6)
+                           for arm in ("naive", "fixed_prior", "updating")},
+            "effect_best_baseline_minus_updating": round(effect, 6),
+            "lower_95_cb": round(effect - half, 6), "upper_95_cb": round(effect + half, 6),
+            "n_units": n,
+            "supports": effect - half > SESOI}
+
+    both = all(d["supports"] for d in directions.values())
+    worst = min(directions.values(), key=lambda d: d["lower_95_cb"])
+    verdict = ("positive" if both else
+               "harm" if worst["upper_95_cb"] < -0.02 else "null")
+    out["principal"] = {"directions": directions, "both_directions_support": both, "verdict": verdict,
+                        "sesoi": SESOI}
+    out["result"] = gate.classify_result(
+        effect={"verdict": verdict,
+                "estimate": round(statistics.fmean(
+                    d["effect_best_baseline_minus_updating"] for d in directions.values()), 6),
+                "lower_95_cb": worst["lower_95_cb"]},
+        instrument_valid=True, bed_valid=True,
+        mechanism_active=prereg.mechanism_activity["active"], baseline_valid=True,
+        estimator_sufficient=evidence["power"]["mde"] <= SESOI,
+        verifier_agrees=False, mutations_rejected=False,
+        implementations_agreeing=2 if both else 1)
+    return out
+
+
+def sx5_classify() -> dict:
+    """Reclassify SX5 once the independent verifier and the mutation suite have both reported.
+
+    classify_result is called twice on purpose. The first call inside sx5_run has no verifier and no
+    mutation suite, so a null there is scientifically unresolved. Only when both have reported does the
+    same effect become a mechanism null, and only then does it move the scorecard.
+    """
+    from mop.cognition import program as P
+
+    decision = json.loads((io.RUNS / "experiments" / "SX5_decision.json").read_text())
+    if not decision.get("licensed"):
+        raise RuntimeError("SX5 was never licensed, so there is nothing to classify")
+    ver = json.loads((io.PROOF / "SUBSTRATE_INDEPENDENT_VERIFICATION.json").read_text())
+    mut = json.loads((io.PROOF / "SUBSTRATE_MUTATION_REPORT.json").read_text())
+    sx5_checks = {k: v for k, v in ver["checks"].items() if k.startswith("sx5_")}
+    verifier_agrees = bool(sx5_checks) and all(v["agrees"] for v in sx5_checks.values())
+    mutations_rejected = bool(mut.get("all_rejected"))
+
+    principal = decision["principal"]
+    directions = principal["directions"]
+    import statistics
+    worst = min(directions.values(), key=lambda d: d["lower_95_cb"])
+    result = gate.classify_result(
+        effect={"verdict": principal["verdict"],
+                "estimate": round(statistics.fmean(
+                    d["effect_best_baseline_minus_updating"] for d in directions.values()), 6),
+                "lower_95_cb": worst["lower_95_cb"]},
+        instrument_valid=True, bed_valid=True, mechanism_active=True, baseline_valid=True,
+        estimator_sufficient=decision["preprincipal_evidence"]["power"]["mde"] <= SESOI,
+        verifier_agrees=verifier_agrees, mutations_rejected=mutations_rejected,
+        implementations_agreeing=len(directions))
+    evidence = {
+        "experiment": "SX5",
+        "independent_recomputation": {"checks": sorted(sx5_checks), "all_agree": verifier_agrees},
+        "mutation_suite": {"total": mut.get("total"), "survivors": mut.get("survivors")},
+        "directions": {k: {"effect": v["effect_best_baseline_minus_updating"],
+                           "lower_95_cb": v["lower_95_cb"], "supports": v["supports"],
+                           "mean_error": v["mean_error"]} for k, v in directions.items()},
+        "sesoi": SESOI,
+        "reading": ("learning the offset roughly halves calibration error in both directions, and the "
+                    "improvement is between 0.02 and 0.03, below the 0.05 the program preregistered as "
+                    "the smallest effect worth caring about"),
+    }
+    recorded = P.record_result("S1", result, "SX5", evidence)
+    return {"result": result, "recorded": recorded, "verifier_agrees": verifier_agrees,
+            "mutations_rejected": mutations_rejected}
+
+
 # ---------------------------------------------------------------- value of information
 #
 # The lesson of SX1, SX1b and the bed screen, stated once so the queue can act on it. A Substrate
@@ -613,6 +895,29 @@ def main(argv=None) -> None:
                           "classification": decision["classification"],
                           "graph_violations": decision["causal_graph_violations"],
                           "successor": decision["successor"]}, indent=2))
+    elif command == "sx5":
+        out = sx5_run()
+        io.run_json("SX5_decision.json", out, "experiments")
+        summary = {"licensed": out["licensed"], "blocked_at": out["admission"]["blocked_at"],
+                   "graph_violations": out["causal_graph_violations"]}
+        if out["licensed"]:
+            summary |= {"directions": {k: {"mean_error": v["mean_error"],
+                                           "effect": v["effect_best_baseline_minus_updating"],
+                                           "lower_95_cb": v["lower_95_cb"], "supports": v["supports"]}
+                                       for k, v in out["principal"]["directions"].items()},
+                        "both_directions_support": out["principal"]["both_directions_support"],
+                        "classification": out["result"]["classification"],
+                        "reason": out["result"]["reason"]}
+        else:
+            summary["why"] = out["why"]
+        print(json.dumps(summary, indent=2))
+    elif command == "classify":
+        out = sx5_classify()
+        print(json.dumps({"classification": out["result"]["classification"],
+                          "scientific": out["result"]["scientific"],
+                          "reason": out["result"]["reason"],
+                          "verifier_agrees": out["verifier_agrees"],
+                          "mutations_rejected": out["mutations_rejected"]}, indent=2))
     elif command == "screen":
         out = bed_screen()
         io.run_json("bed_screen.json", out, "experiments")

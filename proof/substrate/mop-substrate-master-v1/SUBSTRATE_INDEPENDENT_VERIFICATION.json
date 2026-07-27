@@ -135,8 +135,8 @@
       "route": "recounted classified results in the sealed state file"
     },
     "scorecard_evidence_self_model": {
-      "reported": 0,
-      "recomputed": 0,
+      "reported": 100,
+      "recomputed": 100,
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
     },
@@ -205,6 +205,30 @@
       "recomputed": 0,
       "agrees": true,
       "route": "recounted classified results in the sealed state file"
+    },
+    "sx5_effect_har_stream_to_harth_stream": {
+      "reported": 0.032393,
+      "recomputed": 0.032393,
+      "agrees": true,
+      "route": "rebuilt the pairing and refitted the offset from the temporal receipts"
+    },
+    "sx5_support_har_stream_to_harth_stream": {
+      "reported": false,
+      "recomputed": false,
+      "agrees": true,
+      "route": "reapplied the SESOI rule to the independently derived interval"
+    },
+    "sx5_effect_harth_stream_to_har_stream": {
+      "reported": 0.019539,
+      "recomputed": 0.019539,
+      "agrees": true,
+      "route": "rebuilt the pairing and refitted the offset from the temporal receipts"
+    },
+    "sx5_support_harth_stream_to_har_stream": {
+      "reported": false,
+      "recomputed": false,
+      "agrees": true,
+      "route": "reapplied the SESOI rule to the independently derived interval"
     }
   },
   "seal_integrity": {
@@ -243,7 +267,7 @@
   "broken_seals": [],
   "all_pass": true,
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9c2847b4a661d354f590b2025ef25475d4406cf",
+  "source_commit": "6bf3eb85629f819957889e483adee984de22c96c",
   "activation": false,
-  "sha256": "ba95109e59fe31f400c9a3f2a9a83524bf48eacb3efb474e6cf55f86ef143bac"
+  "sha256": "fe9c27c9f95b57ad103c548a28bcb82f61245614a46d7cceed8476aec211a859"
 }

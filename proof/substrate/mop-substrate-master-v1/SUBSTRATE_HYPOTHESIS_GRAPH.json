@@ -182,7 +182,7 @@
       "carrying_items": [
         {
           "id": "S1",
-          "level": "measured"
+          "level": "terminal"
         },
         {
           "id": "E3",
@@ -263,7 +263,7 @@
   ],
   "open_count": 8,
   "program": "mop-substrate-master-v1",
-  "source_commit": "c9c2847b4a661d354f590b2025ef25475d4406cf",
+  "source_commit": "6bf3eb85629f819957889e483adee984de22c96c",
   "activation": false,
-  "sha256": "e1aa600adf4680860270000139b4e1417058490da0402b76a1eda68ab8763568"
+  "sha256": "4ebbb83a36f124c4e75025d7d8be5724b85ef948f6b954972b8352e29a97901b"
 }

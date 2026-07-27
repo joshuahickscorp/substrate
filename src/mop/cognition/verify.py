@@ -34,6 +34,57 @@ def _sealed(name: str) -> dict:
     return json.loads((io.PROOF / name).read_text())
 
 
+def _recompute_sx5(doc: dict) -> dict:
+    """A second, independent derivation of SX5 straight from the temporal program's sealed receipts."""
+    import statistics
+    from pathlib import Path
+
+    runs = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
+
+    def pairs(bed: str) -> dict:
+        cfg = json.loads((runs / "e2_converge" / f"converge_{bed}.json").read_text())["configs"]
+        by_cell: dict[str, list] = {}
+        for path in sorted(Path(runs / "e2_principal").glob(f"{bed}_*.json")):
+            for row in json.loads(path.read_text())["runs"]:
+                by_cell.setdefault(row["cell"], []).append(float(row["accuracy"]))
+        out = {}
+        for cell, scores in by_cell.items():
+            entry = cfg.get(cell)
+            if not entry:
+                continue
+            curve, sel = entry["curve"], entry["selected_checkpoint"]
+            predicted = curve.get(str(sel), curve.get(sel))
+            if predicted is not None:
+                out[cell] = (float(predicted), sum(scores) / len(scores))
+        return out
+
+    checks = {}
+    for key, reported in doc["principal"]["directions"].items():
+        fit_bed, test_bed = key.split("_to_")
+        fit, held = pairs(fit_bed), pairs(test_bed)
+        offset = statistics.fmean(p - a for p, a in fit.values())
+        prior = statistics.fmean(a for _, a in fit.values())
+        families = sorted({c.split("|", 1)[0] for c in held})
+        gains = []
+        for f in families:
+            rows = [(p, a) for c, (p, a) in held.items() if c.split("|", 1)[0] == f]
+            naive = statistics.fmean(abs(p - a) for p, a in rows)
+            fixed = statistics.fmean(abs(prior - a) for _, a in rows)
+            upd = statistics.fmean(abs((p - offset) - a) for p, a in rows)
+            gains.append(min(naive, fixed) - upd)
+        effect = round(statistics.fmean(gains), 6)
+        half = 1.96 * statistics.stdev(gains) / len(gains) ** 0.5
+        checks[f"sx5_effect_{key}"] = {
+            "reported": reported["effect_best_baseline_minus_updating"], "recomputed": effect,
+            "agrees": reported["effect_best_baseline_minus_updating"] == effect,
+            "route": "rebuilt the pairing and refitted the offset from the temporal receipts"}
+        checks[f"sx5_support_{key}"] = {
+            "reported": reported["supports"], "recomputed": bool(effect - half > 0.05),
+            "agrees": reported["supports"] == bool(effect - half > 0.05),
+            "route": "reapplied the SESOI rule to the independently derived interval"}
+    return checks
+
+
 def _seal_intact(doc: dict) -> bool:
     return doc.get("sha256") == io.sha_obj({k: v for k, v in doc.items() if k != "sha256"})
 
@@ -106,6 +157,16 @@ def recompute() -> dict:
         check(f"scorecard_evidence_{category}", row["evidence_pct"],
               round(100 * len(earned) / len(row["items"])),
               "recounted classified results in the sealed state file")
+
+    # SX5 is recomputed from the temporal program's own receipts, not from the SX5 receipt. The route
+    # shares no code with the experiment: it re reads the sealed convergence and principal files, rebuilds
+    # the pairing, refits the offset and re derives the per family errors from scratch.
+    sx5 = io.RUNS / "experiments" / "SX5_decision.json"
+    if sx5.is_file():
+        doc = json.loads(sx5.read_text())
+        if doc.get("licensed"):
+            for name, row in _recompute_sx5(doc).items():
+                checks[name] = row
 
     seals = {name: _seal_intact(_sealed(name)) for name in sorted(
         p.name for p in io.PROOF.glob("SUBSTRATE_*.json"))}
@@ -236,6 +297,19 @@ MUTATIONS = (
      "            h['blocking_null'] = 'upstream measurement boundary'\n"
      "    return g",
      "tests/cognition/test_experiments.py::test_a_measurement_boundary_closes_nothing_downstream"),
+    ("sx5_reports_support_below_the_sesoi", "mop.cognition.experiments",
+     "SESOI = 0.001",
+     "tests/cognition/test_experiments.py::test_sx5_is_a_null_at_the_declared_effect_size"),
+    ("sx5_drops_the_second_direction", "mop.cognition.experiments",
+     "_r = sx5_run\n"
+     "def sx5_run():\n"
+     "    o = _r()\n"
+     "    if o.get('licensed'):\n"
+     "        d = o['principal']['directions']\n"
+     "        o['principal']['directions'] = {k: v for k, v in list(d.items())[:1]}\n"
+     "        o['principal']['both_directions_support'] = True\n"
+     "    return o",
+     "tests/cognition/test_experiments.py::test_sx5_requires_both_directions"),
     ("the_ceiling_below_sesoi_is_blamed_on_the_unit_count", "mop.cognition.experiments",
      "_d = _sx1b_diagnosis\n"
      "_sx1b_diagnosis = lambda ev: {**_d(ev), 'more_units_would_help': True, "
