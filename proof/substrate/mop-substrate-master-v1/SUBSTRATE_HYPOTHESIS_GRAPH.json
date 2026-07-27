@@ -47,7 +47,7 @@
       "carrying_items": [
         {
           "id": "C2",
-          "level": "not_started"
+          "level": "measured"
         },
         {
           "id": "E2",
@@ -75,11 +75,11 @@
       "carrying_items": [
         {
           "id": "C3",
-          "level": "not_started"
+          "level": "measured"
         },
         {
           "id": "C4",
-          "level": "not_started"
+          "level": "measured"
         }
       ]
     },
@@ -100,7 +100,7 @@
       "carrying_items": [
         {
           "id": "C4",
-          "level": "not_started"
+          "level": "measured"
         }
       ]
     },
@@ -121,7 +121,7 @@
       "carrying_items": [
         {
           "id": "C5",
-          "level": "not_started"
+          "level": "measured"
         }
       ]
     },
@@ -247,7 +247,7 @@
   ],
   "open_count": 8,
   "program": "mop-substrate-master-v1",
-  "source_commit": "0f1fdaac3f09d4cb9139b1b591e06769af000baa",
+  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
   "activation": false,
-  "sha256": "1201182ee60bb35263fe355523a0298ca61aef9b5ba16bd746a325f683f0b5aa"
+  "sha256": "39c4258bde7bab3f9750f764be559c239009aaab4089cbeb4aa3c3d8c940bd86"
 }

@@ -120,6 +120,37 @@ def test_evidence_that_is_stale_or_failing_does_not_count(tmp_path, monkeypatch)
     assert row["evidence"]["present_but_refused"]
 
 
+def test_an_authority_is_terminal_once_sealed_and_tested(tmp_path, monkeypatch):
+    """Correction C_AUTHORITY_TERMINALITY: an authority is not an experiment.
+
+    Before this, every authority parked at measured forever waiting for a scientific classification it
+    can never have, and outranked genuinely unstarted work in the selection queue.
+    """
+    import json as _json
+
+    root = tmp_path / "proof"
+    root.mkdir()
+    monkeypatch.setitem(P.PROOF_ROOTS, "tmp", root)
+    monkeypatch.setattr(P, "_REACHABLE", {}, raising=False)
+    (root / "auth.json").write_text(_json.dumps({"source_commit": P.io.commit()}))
+
+    common = dict(impl=("src/mop/cognition/program.py",),
+                  tests=("tests/cognition/test_program.py::test_status_is_derived_not_asserted",),
+                  evidence=("tmp:auth.json",))
+    green = {common["tests"][0]: True}
+
+    for kind in ("authority", "boundary"):
+        row = P.item_status(P.Item("Z1", "0", "an authority", "declared", kind=kind, **common),
+                            green, {}, {})
+        assert row["level"] == "terminal", kind
+
+    # an empirical item is not let through on the same evidence
+    row = P.item_status(P.Item("Z2", "0", "an experiment", "declared", kind="implementation", **common),
+                        green, {}, {})
+    assert row["level"] == "measured"
+    assert "classify" in row["next_action"]
+
+
 def test_status_is_derived_not_asserted():
     """An item whose declared file is absent can never report implemented."""
     ghost = P.Item("Z9", "0", "ghost", "a requirement with no implementation on disk",

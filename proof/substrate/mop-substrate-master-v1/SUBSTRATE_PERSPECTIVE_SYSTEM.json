@@ -1,0 +1,202 @@
+{
+  "schema": "substrate-perspective-system/v1",
+  "families": [
+    "direct_prediction",
+    "symbolic_reasoning",
+    "mathematical_proof",
+    "relational_reasoning",
+    "causal_reasoning",
+    "temporal_reasoning",
+    "spatial_reasoning",
+    "analogy",
+    "retrieval",
+    "simulation",
+    "counterfactual_reasoning",
+    "planning",
+    "critique",
+    "counterexample_search",
+    "numerical_verification",
+    "tool_computation",
+    "uncertainty_analysis",
+    "self_reflection",
+    "social_and_agent_modeling"
+  ],
+  "required_declarations": [
+    "inputs",
+    "permitted_information",
+    "internal_state",
+    "objective",
+    "output_type",
+    "confidence",
+    "resource_cost",
+    "failure_modes",
+    "verification"
+  ],
+  "selection_ladder": [
+    "fixed",
+    "task_label",
+    "context_rule",
+    "retrieval",
+    "reliability_weighted",
+    "learned",
+    "oracle"
+  ],
+  "simple_strategies": [
+    "fixed",
+    "task_label",
+    "context_rule",
+    "retrieval",
+    "reliability_weighted"
+  ],
+  "learned_selector_rule": "opens only above a measured residual lower bound over the strongest simple rule; refused otherwise",
+  "permitted_information_rule": "a perspective reads its declared regions through the workspace, so an undeclared read is refused by the type system",
+  "catalog": [
+    {
+      "name": "direct",
+      "family": "direct_prediction",
+      "inputs": [
+        "perceptual"
+      ],
+      "permitted_information": [
+        "perceptual"
+      ],
+      "internal_state": "stateless",
+      "objective": "predict the label from the current observation alone",
+      "output_type": "label",
+      "confidence": "calibrated frequency over held out units",
+      "resource_cost": 1.0,
+      "failure_modes": [
+        "confidently wrong on a shifted distribution"
+      ],
+      "verification": "held out accuracy against the same units"
+    },
+    {
+      "name": "temporal",
+      "family": "temporal_reasoning",
+      "inputs": [
+        "temporal"
+      ],
+      "permitted_information": [
+        "temporal"
+      ],
+      "internal_state": "reads the temporal core",
+      "objective": "read a trend out of the persistent temporal state",
+      "output_type": "trend",
+      "confidence": "calibrated frequency over held out units",
+      "resource_cost": 1.5,
+      "failure_modes": [
+        "reports a trend across a reset boundary"
+      ],
+      "verification": "misaligned reset control must lose the trend"
+    },
+    {
+      "name": "precedent",
+      "family": "retrieval",
+      "inputs": [
+        "episodic_context"
+      ],
+      "permitted_information": [
+        "episodic_context"
+      ],
+      "internal_state": "stateless",
+      "objective": "reuse the outcome of the most similar past episode",
+      "output_type": "outcome",
+      "confidence": "calibrated frequency over held out units",
+      "resource_cost": 0.8,
+      "failure_modes": [
+        "retrieves a superficially similar episode"
+      ],
+      "verification": "similarity ablation must degrade the outcome"
+    },
+    {
+      "name": "critic",
+      "family": "critique",
+      "inputs": [
+        "decision",
+        "uncertainty"
+      ],
+      "permitted_information": [
+        "decision",
+        "uncertainty"
+      ],
+      "internal_state": "stateless",
+      "objective": "object to the current decision where uncertainty is unresolved",
+      "output_type": "objection",
+      "confidence": "calibrated frequency over held out units",
+      "resource_cost": 0.6,
+      "failure_modes": [
+        "objects to everything and so discriminates nothing"
+      ],
+      "verification": "objection rate must vary with the injected error rate"
+    },
+    {
+      "name": "counterexample",
+      "family": "counterexample_search",
+      "inputs": [
+        "conceptual"
+      ],
+      "permitted_information": [
+        "conceptual"
+      ],
+      "internal_state": "stateless",
+      "objective": "refute a stated rule by finding a case it does not cover",
+      "output_type": "refutation",
+      "confidence": "calibrated frequency over held out units",
+      "resource_cost": 1.2,
+      "failure_modes": [
+        "misses a counterexample outside the stored concept set"
+      ],
+      "verification": "a planted counterexample must be found"
+    },
+    {
+      "name": "uncertainty",
+      "family": "uncertainty_analysis",
+      "inputs": [
+        "uncertainty"
+      ],
+      "permitted_information": [
+        "uncertainty"
+      ],
+      "internal_state": "stateless",
+      "objective": "summarize how wide the current beliefs are",
+      "output_type": "interval summary",
+      "confidence": "calibrated frequency over held out units",
+      "resource_cost": 0.4,
+      "failure_modes": [
+        "summarizes an empty interval set as certainty"
+      ],
+      "verification": "widening an interval must widen the summary"
+    }
+  ],
+  "catalog_fully_declared": true,
+  "declaration_violations": [],
+  "families_declared": 19,
+  "families_implemented": [
+    "counterexample_search",
+    "critique",
+    "direct_prediction",
+    "retrieval",
+    "temporal_reasoning",
+    "uncertainty_analysis"
+  ],
+  "families_without_an_implementation": [
+    "analogy",
+    "causal_reasoning",
+    "counterfactual_reasoning",
+    "mathematical_proof",
+    "numerical_verification",
+    "planning",
+    "relational_reasoning",
+    "self_reflection",
+    "simulation",
+    "social_and_agent_modeling",
+    "spatial_reasoning",
+    "symbolic_reasoning",
+    "tool_computation"
+  ],
+  "honest_gap": "a family with no implementation has no evidence and is listed as missing rather than as available",
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "4a6c95086ccf4844ea7e8211a1578f10fc5fc658",
+  "sha256": "14f749b26b61ceb43c8e51f49ffce9395d8a00a0be858951c410140823a4bdd3"
+}
