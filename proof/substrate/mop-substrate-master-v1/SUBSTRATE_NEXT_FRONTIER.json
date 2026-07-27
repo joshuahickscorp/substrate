@@ -14,18 +14,21 @@
     "M6",
     "S1",
     "W1",
-    "K1",
     "B1",
+    "K1",
     "P1",
     "P2",
     "P3",
     "P4",
     "P5",
     "R1",
+    "E6",
     "E1",
     "E2",
     "E3",
-    "E6"
+    "E4",
+    "E5",
+    "T1"
   ],
   "primary": {
     "id": "C1",
@@ -41,7 +44,7 @@
   },
   "independence_rule": "the secondary shares no dependency with the primary and is not its ancestor or descendant, so a failed branch closes only its own descendants",
   "program": "mop-substrate-master-v1",
-  "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+  "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
   "activation": false,
-  "sha256": "ea56b590169aca5af36e7a870435214fd797a09c6c889a2afed3da89229e9a80"
+  "sha256": "e4f9193958771dad4999008c2b4ec23e788a6920bce741ef51c97409acb48327"
 }

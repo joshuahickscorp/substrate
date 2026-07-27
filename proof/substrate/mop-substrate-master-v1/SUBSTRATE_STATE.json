@@ -44,12 +44,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f"
+            "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A2": {
@@ -99,19 +99,19 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f"
+            "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58"
           },
           {
             "reference": "SUBSTRATE_STATE.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f"
+            "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A3": {
@@ -166,7 +166,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A4": {
@@ -219,7 +219,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A5": {
@@ -272,7 +272,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A6": {
@@ -322,19 +322,19 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f"
+            "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58"
           },
           {
             "reference": "SUBSTRATE_NEXT_FRONTIER.json",
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f"
+            "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "A7": {
@@ -382,12 +382,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f"
+            "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "none, an authority is terminal once sealed and tested"
     },
     "C1": {
@@ -463,7 +463,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "seal temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
     },
     "C2": {
@@ -516,7 +516,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C3": {
@@ -569,7 +569,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C4": {
@@ -622,7 +622,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "C5": {
@@ -675,7 +675,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M1": {
@@ -728,7 +728,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M2": {
@@ -781,7 +781,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M3": {
@@ -834,7 +834,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M4": {
@@ -887,7 +887,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M5": {
@@ -942,7 +942,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "M6": {
@@ -995,7 +995,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "W1": {
@@ -1049,7 +1049,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "S1": {
@@ -1103,7 +1103,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "K1": {
@@ -1114,7 +1114,7 @@
       "kind": "implementation",
       "category": "metacognition",
       "batch": 4,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "C5",
         "S1"
@@ -1125,35 +1125,40 @@
         "declared": [
           "src/mop/cognition/metacog.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/metacog.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_metacog.py"
         ],
         "recorded": {
-          "tests/cognition/test_metacog.py": false
+          "tests/cognition/test_metacog.py": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_METACOGNITION.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_METACOGNITION.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_METACOGNITION.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
-      "next_action": "implement src/mop/cognition/metacog.py"
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P1": {
       "id": "P1",
@@ -1206,7 +1211,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P2": {
@@ -1260,7 +1265,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P3": {
@@ -1314,7 +1319,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P4": {
@@ -1368,7 +1373,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "P5": {
@@ -1421,7 +1426,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "R1": {
@@ -1476,7 +1481,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "B1": {
@@ -1529,7 +1534,7 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "T1": {
@@ -1540,48 +1545,51 @@
       "kind": "implementation",
       "category": "unified_cognition",
       "batch": 5,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "C5",
         "K1"
       ],
-      "unmet_dependencies": [
-        "K1"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 14",
       "implementation": {
         "declared": [
           "src/mop/cognition/batteries.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/batteries.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat"
         ],
         "recorded": {
-          "tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat": false
+          "tests/cognition/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_THINKING_BATTERY.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_THINKING_BATTERY.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_THINKING_BATTERY.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
-      "next_action": "implement src/mop/cognition/batteries.py"
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E1": {
       "id": "E1",
@@ -1591,7 +1599,7 @@
       "kind": "implementation",
       "category": "goal_continuity",
       "batch": 5,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "M2",
         "S1"
@@ -1602,35 +1610,40 @@
         "declared": [
           "src/mop/cognition/batteries.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/batteries.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_batteries.py::test_continuity_survives_context_removal_from_owned_state"
         ],
         "recorded": {
-          "tests/cognition/test_batteries.py::test_continuity_survives_context_removal_from_owned_state": false
+          "tests/cognition/test_batteries.py::test_continuity_survives_context_removal_from_owned_state": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_CONTINUITY_BATTERY.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_CONTINUITY_BATTERY.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_CONTINUITY_BATTERY.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
-      "next_action": "implement src/mop/cognition/batteries.py"
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E2": {
       "id": "E2",
@@ -1640,7 +1653,7 @@
       "kind": "implementation",
       "category": "unified_cognition",
       "batch": 5,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "C2",
         "C5"
@@ -1651,35 +1664,40 @@
         "declared": [
           "src/mop/cognition/batteries.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/batteries.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability"
         ],
         "recorded": {
-          "tests/cognition/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability": false
+          "tests/cognition/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
-      "next_action": "implement src/mop/cognition/batteries.py"
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E3": {
       "id": "E3",
@@ -1689,7 +1707,7 @@
       "kind": "implementation",
       "category": "reflective_access",
       "batch": 5,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "S1",
         "M3"
@@ -1700,35 +1718,40 @@
         "declared": [
           "src/mop/cognition/batteries.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/batteries.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_batteries.py::test_reflective_report_fails_closed_without_provenance"
         ],
         "recorded": {
-          "tests/cognition/test_batteries.py::test_reflective_report_fails_closed_without_provenance": false
+          "tests/cognition/test_batteries.py::test_reflective_report_fails_closed_without_provenance": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
-      "next_action": "implement src/mop/cognition/batteries.py"
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E4": {
       "id": "E4",
@@ -1738,47 +1761,50 @@
       "kind": "implementation",
       "category": "metacognition",
       "batch": 5,
-      "level": "not_started",
+      "level": "measured",
       "dependencies": [
         "K1"
       ],
-      "unmet_dependencies": [
-        "K1"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 15.4",
       "implementation": {
         "declared": [
           "src/mop/cognition/metacog.py"
         ],
-        "present": []
+        "present": [
+          "src/mop/cognition/metacog.py"
+        ]
       },
       "tests": {
         "declared": [
           "tests/cognition/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget"
         ],
         "recorded": {
-          "tests/cognition/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget": false
+          "tests/cognition/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget": true
         },
-        "all_passed": false
+        "all_passed": true
       },
       "evidence": {
         "declared": [
           "SUBSTRATE_METACOGNITION.json"
         ],
-        "sealed": [],
+        "sealed": [
+          "SUBSTRATE_METACOGNITION.json"
+        ],
         "present_but_refused": [],
         "detail": [
           {
             "reference": "SUBSTRATE_METACOGNITION.json",
-            "present": false,
-            "counts": false,
-            "reason": "artifact absent"
+            "present": true,
+            "counts": true,
+            "reason": "",
+            "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
-      "next_action": "implement src/mop/cognition/metacog.py"
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
+      "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E5": {
       "id": "E5",
@@ -1793,9 +1819,7 @@
         "A4",
         "E1"
       ],
-      "unmet_dependencies": [
-        "E1"
-      ],
+      "unmet_dependencies": [],
       "authority": "SUBSTRATE_MASTER_PLAN.md section 15.5",
       "implementation": {
         "declared": [
@@ -1828,12 +1852,12 @@
             "present": true,
             "counts": true,
             "reason": "",
-            "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f"
+            "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58"
           }
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "classify the result through mop.method.gate.classify_result and record it"
     },
     "E6": {
@@ -1884,23 +1908,21 @@
         ]
       },
       "result": null,
-      "commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+      "commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
       "next_action": "seal SUBSTRATE_INDEPENDENT_VERIFICATION.json"
     }
   },
   "level_counts": {
     "terminal": 7,
     "tested": 2,
-    "measured": 20,
-    "not_started": 6
+    "measured": 26
   },
   "total_items": 35,
   "source_tree": {
     "clean": false,
     "dirty_paths": [
-      "src/mop/cognition/program.py",
-      "src/mop/cognition/body.py",
-      "src/mop/cognition/plasticity.py"
+      "src/mop/cognition/batteries.py",
+      "src/mop/cognition/metacog.py"
     ],
     "why_it_matters": "the temporal supervisor refuses a shard launch from a dirty src tree"
   },
@@ -1910,7 +1932,7 @@
     "C_EVIDENCE_PRESENCE"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "f4bf65cba05be8acb6996a9d62bf1afc9a13de58",
+  "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
   "activation": false,
-  "sha256": "5b0cb8bc0aaa8faceb8dac37e8b7ddfc44a438a6a817fb8acb30c5a92cc27c3d"
+  "sha256": "5b46134e03845d11317617ebcab3b1844d689009509d49f26822b0a85252aa03"
 }
