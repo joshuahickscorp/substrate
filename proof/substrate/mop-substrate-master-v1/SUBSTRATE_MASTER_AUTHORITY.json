@@ -841,6 +841,18 @@
       ]
     },
     {
+      "id": "Y5",
+      "section": "3",
+      "title": "The closure gate: do the parts compose into one organization",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "unity",
+      "dependencies": [
+        "Y3",
+        "Y4"
+      ]
+    },
+    {
       "id": "Z1",
       "section": "3",
       "title": "One frozen long run DAG of certified or necessary units",
@@ -964,6 +976,7 @@
     "SUBSTRATE_MODEL_BODY_INTERFACE.json",
     "SUBSTRATE_MUTATION_REPORT.json",
     "SUBSTRATE_NEXT_FRONTIER.json",
+    "SUBSTRATE_NOUS_CLOSURE.json",
     "SUBSTRATE_NULL_MAP.json",
     "SUBSTRATE_ONTOLOGY.json",
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
@@ -1030,6 +1043,7 @@
     "SUBSTRATE_MODEL_BODY_INTERFACE.json": true,
     "SUBSTRATE_MUTATION_REPORT.json": true,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
+    "SUBSTRATE_NOUS_CLOSURE.json": true,
     "SUBSTRATE_NULL_MAP.json": true,
     "SUBSTRATE_ONTOLOGY.json": true,
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
@@ -1096,6 +1110,7 @@
     "SUBSTRATE_MODEL_BODY_INTERFACE.json": true,
     "SUBSTRATE_MUTATION_REPORT.json": true,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
+    "SUBSTRATE_NOUS_CLOSURE.json": true,
     "SUBSTRATE_NULL_MAP.json": true,
     "SUBSTRATE_ONTOLOGY.json": true,
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
@@ -1123,11 +1138,11 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 23,
+    "terminal": 24,
     "tested": 1,
     "measured": 43
   },
   "activation": false,
-  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
-  "sha256": "62f9606bc022fda210807bb2018a0663d9a7b0e3f270860795c993f547bc1ace"
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "1a22afcf1e3fc94bba8117cc9699b1d8dfc5dc94d9c90a41bf525262a7ac1c20"
 }

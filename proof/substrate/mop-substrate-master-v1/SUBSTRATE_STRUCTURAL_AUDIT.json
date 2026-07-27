@@ -11,13 +11,13 @@
   ],
   "results": {
     "exclusive_producers": {
-      "artifacts": 64,
+      "artifacts": 65,
       "duplicated": {},
       "on_disk_without_a_producer": [],
       "ok": true
     },
     "no_stale_outputs": {
-      "checked": 61,
+      "checked": 62,
       "stale": [],
       "artifacts_reporting_failure": [],
       "note": "an artifact reporting a failure is not stale. Evidence still refuses to count it, which is mop.cognition.program.evidence_state, a different question from whether the tree carries an output it can no longer reproduce",
@@ -345,9 +345,9 @@
   },
   "failed": [],
   "all_pass": true,
-  "commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
+  "commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
-  "sha256": "38615f4f2ee1c38e1f7cb92db8c45c017d6bc317fabbc0eb8bf66041bf0e462e"
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "a44f72f604532fa2d74d2988d316fc1686e8bd7a4a689d997b6f3f4904de6441"
 }

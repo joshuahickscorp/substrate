@@ -1,0 +1,446 @@
+
+=== declarations wave 1 2026-07-27 08:31:57 ===
+substrate experimental requirements sealed: proof/substrate/mop-substrate-master-v1/SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json
+{"mandatory_kinds": 11, "pre_principal_stages": 12}
+{
+  "sealed": [
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json"
+  ]
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_WORKSPACE.json",
+  "regions": 10,
+  "fully_declared": true,
+  "capacity_matched": true
+}
+{
+  "sealed": [
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ARBITRATION_SYSTEM.json"
+  ],
+  "perspectives": 6
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MEMORY_SYSTEM.json",
+  "policies_distinct": 7,
+  "working_memory_interference": 0.4167
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_WORLD_MODEL.json",
+  "distinctions": {
+    "predictive_accuracy": 0.9445,
+    "decision_usefulness": 0.4889,
+    "causal_validity": 1.0,
+    "simulation_reliability": 0.93
+  },
+  "limited_instrument": false
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_SELF_MODEL.json",
+  "facts_missing": 12,
+  "kinds_without_evidence": 8
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_METACOGNITION.json",
+  "oracle_headroom": 0.0,
+  "learned_licensed": false
+}
+{
+  "sealed": [
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PLASTICITY_SYSTEM.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_REORGANIZATION.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+  ],
+  "levels": 10,
+  "policies": 9
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MODEL_BODY_INTERFACE.json",
+  "message_kinds": 9,
+  "any_body_attached": false
+}
+{
+  "sealed": [
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_THINKING_BATTERY.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CONTINUITY_BATTERY.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
+  ],
+  "thinking_scored": false,
+  "continuity_margin": 1.0,
+  "unity_all_pass": true,
+  "reflective_failed_closed": 2
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_RUNTIME.json",
+  "stages": 11,
+  "cycle_complete": true,
+  "not_composed_yet": [
+    "owned temporal core",
+    "world model",
+    "model body"
+  ]
+}
+{
+  "admission": "sealed",
+  "safety": "sealed",
+  "workspace": "sealed",
+  "perspectives": "sealed",
+  "memory": "sealed",
+  "world": "sealed",
+  "selfmodel": "sealed",
+  "metacog": "sealed",
+  "plasticity": "sealed",
+  "body": "sealed",
+  "batteries": "sealed",
+  "runtime": "sealed"
+}
+
+=== tests wave 1 2026-07-27 08:31:58 ===
+substrate tests: 45/46 declared nodes passing (E    +  where 'SUBSTRATE_CAMPAIGN_PLAN.json' = PosixPath('/Users/scammermike/Downloads/mop-temporal-core-mechanism/proof/substrate/mop-substrate-master-v1/SUBSTRATE_CAMPAIGN_PLAN.json').name | =========================== short test summary info ============================ | FAILED tests/cognition/test_program.py::test_every_deliverable_binds_to_a_real_path)
+
+=== experiments wave 1 2026-07-27 08:32:18 ===
+{
+  "SX1_licensed": false,
+  "classification": "methodological_refusal",
+  "graph_violations": [
+    "treatment typed declares an implementation but no implemented causal path",
+    "primary outcome answer has no measured relation feeding it",
+    "claim claim is broader than the measured path, unmeasured: ['answer']"
+  ],
+  "successor": "SX1b"
+}
+
+=== bed_screen wave 1 2026-07-27 08:32:18 ===
+{
+  "screened": [
+    {
+      "bed": "harth_stream",
+      "available": true,
+      "oracle_ceiling": 0.036124,
+      "oracle_ceiling_lower_95_cb": 0.003234,
+      "clears_sesoi": false
+    },
+    {
+      "bed": "pamap2_stream",
+      "available": true,
+      "oracle_ceiling": 0.038403,
+      "oracle_ceiling_lower_95_cb": -0.010695,
+      "clears_sesoi": false
+    }
+  ],
+  "classification": "no_bed_can_answer_at_this_effect_size",
+  "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered"
+}
+
+=== sx1b wave 1 2026-07-27 08:32:18 ===
+{
+  "licensed": false,
+  "blocked_at": "power_and_units",
+  "graph_violations": []
+}
+
+=== sx5 wave 1 2026-07-27 08:32:18 ===
+{
+  "licensed": true,
+  "blocked_at": null,
+  "graph_violations": [],
+  "directions": {
+    "har_stream_to_harth_stream": {
+      "mean_error": {
+        "naive": 0.063592,
+        "fixed_prior": 0.093239,
+        "updating": 0.031198
+      },
+      "effect": 0.032393,
+      "lower_95_cb": 0.00269,
+      "supports": false
+    },
+    "harth_stream_to_har_stream": {
+      "mean_error": {
+        "naive": 0.050992,
+        "fixed_prior": 0.107733,
+        "updating": 0.015976
+      },
+      "effect": 0.019539,
+      "lower_95_cb": 0.000752,
+      "supports": false
+    }
+  },
+  "both_directions_support": false,
+  "classification": "scientifically_unresolved",
+  "reason": "the independent verifier did not reproduce the null"
+}
+
+=== deliverables wave 1 2026-07-27 08:32:19 ===
+{
+  "SUBSTRATE_MASTER_AUTHORITY.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MASTER_AUTHORITY.json",
+  "SUBSTRATE_STATE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_STATE.json",
+  "SUBSTRATE_HYPOTHESIS_GRAPH.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_HYPOTHESIS_GRAPH.json",
+  "SUBSTRATE_NULL_MAP.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NULL_MAP.json",
+  "SUBSTRATE_PROGRESS_SCORECARD.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PROGRESS_SCORECARD.json",
+  "SUBSTRATE_NEXT_FRONTIER.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NEXT_FRONTIER.json",
+  "SUBSTRATE_ARCHITECTURE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ARCHITECTURE.json",
+  "SUBSTRATE_CAPABILITY_MAP.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CAPABILITY_MAP.json",
+  "SUBSTRATE_TEMPORAL_CORE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_TEMPORAL_CORE.json",
+  "SUBSTRATE_CURRENT_ENTITY_SPEC.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_SPEC.json",
+  "SUBSTRATE_LEDGER.md": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LEDGER.md",
+  "SUBSTRATE_CURRENT_ENTITY_REPORT.md": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_REPORT.md"
+}
+substrate deliverables: 12 written, 43 items, levels {'terminal': 13, 'implemented': 1, 'tested': 1, 'measured': 28}
+
+=== recompute wave 1 2026-07-27 08:32:20 ===
+substrate recomputation: 36 checks, 0 disagreements, 0 broken seals
+
+=== mutate wave 1 2026-07-27 08:32:20 ===
+substrate mutations: 32/32 rejected, survivors []
+
+=== classify wave 1 2026-07-27 08:32:28 ===
+{
+  "classification": "mechanism_null",
+  "scientific": true,
+  "reason": "",
+  "verifier_agrees": true,
+  "mutations_rejected": true
+}
+
+=== consolidate wave 1 2026-07-27 08:32:28 ===
+{
+  "SUBSTRATE_MASTER_AUTHORITY.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MASTER_AUTHORITY.json",
+  "SUBSTRATE_STATE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_STATE.json",
+  "SUBSTRATE_HYPOTHESIS_GRAPH.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_HYPOTHESIS_GRAPH.json",
+  "SUBSTRATE_NULL_MAP.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NULL_MAP.json",
+  "SUBSTRATE_PROGRESS_SCORECARD.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PROGRESS_SCORECARD.json",
+  "SUBSTRATE_NEXT_FRONTIER.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NEXT_FRONTIER.json",
+  "SUBSTRATE_ARCHITECTURE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ARCHITECTURE.json",
+  "SUBSTRATE_CAPABILITY_MAP.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CAPABILITY_MAP.json",
+  "SUBSTRATE_TEMPORAL_CORE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_TEMPORAL_CORE.json",
+  "SUBSTRATE_CURRENT_ENTITY_SPEC.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_SPEC.json",
+  "SUBSTRATE_LEDGER.md": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LEDGER.md",
+  "SUBSTRATE_CURRENT_ENTITY_REPORT.md": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_REPORT.md"
+}
+substrate deliverables: 12 written, 43 items, levels {'terminal': 13, 'implemented': 1, 'tested': 1, 'measured': 28}
+
+=== declarations wave 1 2026-07-27 08:33:52 ===
+substrate experimental requirements sealed: proof/substrate/mop-substrate-master-v1/SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json
+{"mandatory_kinds": 11, "pre_principal_stages": 12}
+{
+  "sealed": [
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json"
+  ]
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_WORKSPACE.json",
+  "regions": 10,
+  "fully_declared": true,
+  "capacity_matched": true
+}
+{
+  "sealed": [
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PERSPECTIVE_SYSTEM.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ARBITRATION_SYSTEM.json"
+  ],
+  "perspectives": 6
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MEMORY_SYSTEM.json",
+  "policies_distinct": 7,
+  "working_memory_interference": 0.4167
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_WORLD_MODEL.json",
+  "distinctions": {
+    "predictive_accuracy": 0.9445,
+    "decision_usefulness": 0.4889,
+    "causal_validity": 1.0,
+    "simulation_reliability": 0.93
+  },
+  "limited_instrument": false
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_SELF_MODEL.json",
+  "facts_missing": 12,
+  "kinds_without_evidence": 8
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_METACOGNITION.json",
+  "oracle_headroom": 0.0,
+  "learned_licensed": false
+}
+{
+  "sealed": [
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PLASTICITY_SYSTEM.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_REORGANIZATION.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
+  ],
+  "levels": 10,
+  "policies": 9
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MODEL_BODY_INTERFACE.json",
+  "message_kinds": 9,
+  "any_body_attached": false
+}
+{
+  "sealed": [
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_THINKING_BATTERY.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CONTINUITY_BATTERY.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",
+    "proof/substrate/mop-substrate-master-v1/SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
+  ],
+  "thinking_scored": false,
+  "continuity_margin": 1.0,
+  "unity_all_pass": true,
+  "reflective_failed_closed": 2
+}
+{
+  "sealed": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_RUNTIME.json",
+  "stages": 11,
+  "cycle_complete": true,
+  "not_composed_yet": [
+    "owned temporal core",
+    "world model",
+    "model body"
+  ]
+}
+{
+  "admission": "sealed",
+  "safety": "sealed",
+  "workspace": "sealed",
+  "perspectives": "sealed",
+  "memory": "sealed",
+  "world": "sealed",
+  "selfmodel": "sealed",
+  "metacog": "sealed",
+  "plasticity": "sealed",
+  "body": "sealed",
+  "batteries": "sealed",
+  "runtime": "sealed"
+}
+
+=== tests wave 1 2026-07-27 08:33:52 ===
+substrate tests: 50/50 declared nodes passing (........................................................................ [ 48%] | ........................................................................ [ 96%] | .....                                                                    [100%])
+
+=== experiments wave 1 2026-07-27 08:34:02 ===
+{
+  "SX1_licensed": false,
+  "classification": "methodological_refusal",
+  "graph_violations": [
+    "treatment typed declares an implementation but no implemented causal path",
+    "primary outcome answer has no measured relation feeding it",
+    "claim claim is broader than the measured path, unmeasured: ['answer']"
+  ],
+  "successor": "SX1b"
+}
+
+=== bed_screen wave 1 2026-07-27 08:34:02 ===
+{
+  "screened": [
+    {
+      "bed": "harth_stream",
+      "available": true,
+      "oracle_ceiling": 0.036124,
+      "oracle_ceiling_lower_95_cb": 0.003234,
+      "clears_sesoi": false
+    },
+    {
+      "bed": "pamap2_stream",
+      "available": true,
+      "oracle_ceiling": 0.038403,
+      "oracle_ceiling_lower_95_cb": -0.010695,
+      "clears_sesoi": false
+    }
+  ],
+  "classification": "no_bed_can_answer_at_this_effect_size",
+  "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered"
+}
+
+=== sx1b wave 1 2026-07-27 08:34:02 ===
+{
+  "licensed": false,
+  "blocked_at": "power_and_units",
+  "graph_violations": []
+}
+
+=== sx5 wave 1 2026-07-27 08:34:02 ===
+{
+  "licensed": true,
+  "blocked_at": null,
+  "graph_violations": [],
+  "directions": {
+    "har_stream_to_harth_stream": {
+      "mean_error": {
+        "naive": 0.063592,
+        "fixed_prior": 0.093239,
+        "updating": 0.031198
+      },
+      "effect": 0.032393,
+      "lower_95_cb": 0.00269,
+      "supports": false
+    },
+    "harth_stream_to_har_stream": {
+      "mean_error": {
+        "naive": 0.050992,
+        "fixed_prior": 0.107733,
+        "updating": 0.015976
+      },
+      "effect": 0.019539,
+      "lower_95_cb": 0.000752,
+      "supports": false
+    }
+  },
+  "both_directions_support": false,
+  "classification": "scientifically_unresolved",
+  "reason": "the independent verifier did not reproduce the null"
+}
+
+=== deliverables wave 1 2026-07-27 08:34:02 ===
+{
+  "SUBSTRATE_MASTER_AUTHORITY.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MASTER_AUTHORITY.json",
+  "SUBSTRATE_STATE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_STATE.json",
+  "SUBSTRATE_HYPOTHESIS_GRAPH.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_HYPOTHESIS_GRAPH.json",
+  "SUBSTRATE_NULL_MAP.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NULL_MAP.json",
+  "SUBSTRATE_PROGRESS_SCORECARD.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PROGRESS_SCORECARD.json",
+  "SUBSTRATE_NEXT_FRONTIER.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NEXT_FRONTIER.json",
+  "SUBSTRATE_ARCHITECTURE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ARCHITECTURE.json",
+  "SUBSTRATE_CAPABILITY_MAP.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CAPABILITY_MAP.json",
+  "SUBSTRATE_TEMPORAL_CORE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_TEMPORAL_CORE.json",
+  "SUBSTRATE_CURRENT_ENTITY_SPEC.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_SPEC.json",
+  "SUBSTRATE_LEDGER.md": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LEDGER.md",
+  "SUBSTRATE_CURRENT_ENTITY_REPORT.md": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_REPORT.md"
+}
+substrate deliverables: 12 written, 45 items, levels {'terminal': 16, 'tested': 1, 'measured': 28}
+
+=== recompute wave 1 2026-07-27 08:34:04 ===
+substrate recomputation: 36 checks, 0 disagreements, 0 broken seals
+
+=== mutate wave 1 2026-07-27 08:34:04 ===
+substrate mutations: 35/35 rejected, survivors []
+
+=== classify wave 1 2026-07-27 08:34:14 ===
+{
+  "classification": "mechanism_null",
+  "scientific": true,
+  "reason": "",
+  "verifier_agrees": true,
+  "mutations_rejected": true
+}
+
+=== consolidate wave 1 2026-07-27 08:34:14 ===
+{
+  "SUBSTRATE_MASTER_AUTHORITY.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_MASTER_AUTHORITY.json",
+  "SUBSTRATE_STATE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_STATE.json",
+  "SUBSTRATE_HYPOTHESIS_GRAPH.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_HYPOTHESIS_GRAPH.json",
+  "SUBSTRATE_NULL_MAP.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NULL_MAP.json",
+  "SUBSTRATE_PROGRESS_SCORECARD.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_PROGRESS_SCORECARD.json",
+  "SUBSTRATE_NEXT_FRONTIER.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_NEXT_FRONTIER.json",
+  "SUBSTRATE_ARCHITECTURE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_ARCHITECTURE.json",
+  "SUBSTRATE_CAPABILITY_MAP.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CAPABILITY_MAP.json",
+  "SUBSTRATE_TEMPORAL_CORE.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_TEMPORAL_CORE.json",
+  "SUBSTRATE_CURRENT_ENTITY_SPEC.json": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_SPEC.json",
+  "SUBSTRATE_LEDGER.md": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_LEDGER.md",
+  "SUBSTRATE_CURRENT_ENTITY_REPORT.md": "proof/substrate/mop-substrate-master-v1/SUBSTRATE_CURRENT_ENTITY_REPORT.md"
+}
+substrate deliverables: 12 written, 45 items, levels {'terminal': 16, 'tested': 1, 'measured': 28}

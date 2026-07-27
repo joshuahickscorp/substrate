@@ -14,6 +14,7 @@ from mop.cognition import certify as C
 from mop.cognition import io
 from mop.cognition import runtime as R
 from mop.cognition import sx2 as X2
+from mop.cognition import workspace as W
 
 
 # ---------------------------------------------------------------- audit
@@ -104,7 +105,7 @@ def test_every_ablatable_runtime_stage_is_active(activity):
 
 def test_a_stage_with_no_possible_null_control_says_so(activity):
     inapplicable = activity["null_control_inapplicable"]
-    assert set(inapplicable) == {"decide", "remember", "checkpoint"}
+    assert set(inapplicable) == {"arbitrate", "decide", "remember", "checkpoint"}
     for stage, reason in inapplicable.items():
         assert "every cycle by design" in reason
         assert activity["results"][stage]["null_control"]["applicable"] is False
@@ -152,3 +153,33 @@ def test_the_three_bodies_are_pairwise_distinct(certification):
 def test_a_failed_component_is_gated_rather_than_blocking(certification):
     assert certification["green"] == (certification["gated_components"] == [])
     assert "gated out of the run rather than blocking" in certification["rule"]
+
+
+# ---------------------------------------------------------------- regressions from the closure pass
+
+
+def test_every_attention_candidate_is_a_region_a_perspective_can_read():
+    """Correction C_ATTENTION_CANDIDATE_NOT_A_REGION.
+
+    The attended set filters the perspective pool by declared inputs, so a candidate whose id is not a
+    region name silently removes every perspective that reads only that region, at every budget. The
+    original list called the perceptual region "observation" and dropped the direct perspective forever.
+    """
+    regions = {r.name for r in W.REGIONS}
+    readable = {i for p in R.PS.CATALOG for i in p.spec.inputs}
+    for candidate in R.Substrate()._attention_candidates({"label": "a"}):
+        assert candidate["id"] in regions, candidate["id"]
+        assert candidate["id"] in readable, candidate["id"]
+
+
+def test_ablation_observes_what_a_stage_writes_not_only_where_it_writes():
+    """Correction C_ACTIVITY_PROBE_IGNORED_REGION_CONTENTS.
+
+    The identity hash lists region names, not region contents. Judging activity by it alone called
+    arbitration wiring, because its decision can coincide with the first perspective while its preserved
+    minority and named missing evidence do not.
+    """
+    base = C._run(C.positive_fixture())
+    ablated = C._run(C.positive_fixture(), frozenset({"arbitrate"}))
+    assert base["state"] == ablated["state"], "the defect: names alone cannot see this stage"
+    assert base["contents"] != ablated["contents"]

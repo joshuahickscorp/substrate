@@ -44,6 +44,6 @@
   "note": "a rehearsal that only proves the happy path proves nothing worth knowing",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
-  "sha256": "fca45f7ebdf1e85b949af879bde38d487a708605efa32d2ede71bb634ea2bf40"
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "1c557275c788d9151e7c02e40affd0b0ee6467057ef2922ffca4958bee63a5ef"
 }

@@ -50,6 +50,6 @@
   "no_unrestricted_autonomous_goals": true,
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
-  "sha256": "58f0a12b4f3ce02e46f59e19ad675d613671df179f5bf2bf5f017874016f9162"
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "4c3e17411aafe6aff6d81447cd48f1f424d61c9ed191aa60e9c610c6263c2bca"
 }

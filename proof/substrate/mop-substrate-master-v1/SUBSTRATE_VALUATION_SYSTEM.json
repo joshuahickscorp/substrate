@@ -38,6 +38,6 @@
   "auditable": "the weights are a literal in the source and change only by a reviewed commit",
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
-  "sha256": "366ce83cdaea6f52cf3cf700c62be5ee39c4a25a0f187e80add34738359eb184"
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "f8ccc8db0fa51c1001d7fa84cc9b19c15b851452eea3c22d834c532632e6b1c9"
 }

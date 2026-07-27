@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_BED_CONTAINED_ITS_OWN_ANSWER",
+  "defect": "the closure gate beds set the outcome to the label carried in the same observation, so the perceptual path answered every item and every arm sat at the ceiling. Three gates reported zero margin and were classified as closed when the bed had asked nothing. The defect was invisible until an unrelated attention repair returned the direct perspective to the pool",
+  "correction": "the beds are delayed match: the target is what was observed one step earlier, so no arm can score it from the current input, and the two budgeted arms of the allocation gate share one binding budget so the contrast is about spending rather than allowance",
+  "regression_test": "tests/cognition/test_nous.py::test_no_bed_hands_the_answer_to_the_perceptual_path",
+  "reproduced_by": "reproduced by the closure gate run after C_ATTENTION_CANDIDATE_NOT_A_REGION",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "activation": false,
+  "sha256": "2355bf62aef5ba845e6b28e1eac7a2a323705ad7241ce518e0abc3cb753717a9"
+}

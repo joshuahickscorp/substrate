@@ -23,6 +23,7 @@ import json
 import sys
 from dataclasses import dataclass, field
 
+from mop.cognition import epistemology as EP
 from mop.cognition import io, memory as M, metacog as K, perspectives as PS
 from mop.cognition import plasticity as PL, safety as SF, selfmodel as SM
 from mop.cognition import temporal_link as TL, workspace as W
@@ -87,6 +88,10 @@ class Substrate:
         self.procedures = M.ProceduralMemory()
         self.working = M.WorkingMemory()
         self.self_model = SM.SelfModel()
+        # the belief store was allocated, checkpointed and restored, and never written. A closed loop
+        # with no belief revision link is a loop with a gap in it, so decide asserts and self_update
+        # revises.
+        self.beliefs = EP.Epistemology("dependency_aware")
         self.reliability: dict[str, float] = {p.spec.name: 0.5 for p in self.catalog}
         self.selection = selection
         self.consolidation = M.BY_POLICY[consolidation]
@@ -201,8 +206,22 @@ class Substrate:
                            "unresolved": [c["alternative"]
                                           for c in report["unresolved_contradictions"]]},
                           provenance=f"arbitration:{self.step_index}", confidence=1.0)
+            belief_id = f"b{self.step_index}"
+            self.beliefs.assert_(EP.Belief(
+                belief_id, report["decision"], kind="inference",
+                provenance=f"arbitration:{self.step_index}",
+                method=f"{self.selection} over {[o.perspective for o in outputs]}",
+                confidence=max((o.confidence for o in outputs), default=0.0),
+                supporting_evidence=[o.perspective for o in outputs if o.value == report["decision"]],
+                contradicting_evidence=[o.perspective for o in outputs
+                                        if o.value != report["decision"]],
+                time=(self.step_index, self.step_index), source="arbiter"))
+            self.ws.write("epistemic", "epistemology",
+                          {"belief": belief_id, "content": report["decision"],
+                           "live": len(self.beliefs.live())},
+                          provenance=f"belief:{self.step_index}", confidence=1.0)
             trace.record("decide", decision=report["decision"], deferred=report["deferred"],
-                         activation=False)
+                         belief=belief_id, activation=False)
 
         # 7 remember, with every declared episode field populated or explicitly empty
         episode = M.Episode(
@@ -240,6 +259,15 @@ class Substrate:
         else:
             correct = float(report["decision"] == outcome)
             self.self_model.observe(self.self_model.predict("accuracy"), correct)
+            belief_id = f"b{self.step_index}"
+            if belief_id in self.beliefs.beliefs:
+                if correct:
+                    self.beliefs.add_evidence(belief_id, f"outcome:{self.step_index}", supports=True)
+                    self.beliefs.beliefs[belief_id].verification_status = "verified"
+                else:
+                    # a refuted belief is retracted, which propagates to anything resting on it
+                    self.beliefs.retract(belief_id, reason=f"outcome contradicted it at step "
+                                                           f"{self.step_index}")
             for out in outputs:
                 prior = self.reliability.get(out.perspective, 0.5)
                 self.reliability[out.perspective] = prior + 0.2 * (float(out.value == outcome) - prior)
@@ -287,7 +315,11 @@ class Substrate:
     def _attention_candidates(self, observation: dict) -> list[dict]:
         unresolved = (self.ws.read("uncertainty", "runtime") or {}).get("unresolved") or []
         return [
-            {"id": "observation", "goal_relevance": 1.0, "uncertainty": 0.2, "risk": 0.1,
+            # the ids are workspace region names because the attended set filters the perspective pool by
+            # declared inputs. This one read "observation", which no perspective can declare, so the one
+            # perspective that reads the perceptual region was dropped by attention on every cycle at every
+            # budget. An attention mechanism that always drops the most direct perspective is not attending.
+            {"id": "perceptual", "goal_relevance": 1.0, "uncertainty": 0.2, "risk": 0.1,
              "expected_value": 0.8, "novelty": float(bool(observation)), "contradiction": 0.0,
              "cost": 1.0},
             {"id": "temporal", "goal_relevance": 0.6, "uncertainty": 0.4, "risk": 0.2,
@@ -324,6 +356,8 @@ class Substrate:
                 "episodes": sorted(self.episodes.store),
                 "episode_classes": {k: v.klass for k, v in sorted(self.episodes.store.items())},
                 "facts": sorted(self.semantic.store),
+                "beliefs": {k: (v.retracted, round(v.confidence, 6))
+                            for k, v in sorted(self.beliefs.beliefs.items())},
                 "reliability": {k: round(v, 6) for k, v in sorted(self.reliability.items())}}
 
     # ------------------------------------------------------------ continuity
@@ -333,6 +367,9 @@ class Substrate:
                 "episodes": {k: vars(v).copy() for k, v in self.episodes.store.items()},
                 "semantic": {k: vars(v).copy() for k, v in self.semantic.store.items()},
                 "self_facts": {k: vars(v).copy() for k, v in self.self_model.facts.items()},
+                # beliefs are owned state and are in the identity hash, so they must be in the
+                # checkpoint. Hashing state that is not saved makes every restore fail its own check.
+                "beliefs": {k: vars(v).copy() for k, v in self.beliefs.beliefs.items()},
                 "reliability": dict(self.reliability),
                 "identity": io.sha_obj(self._state_for_hash())}
 
@@ -348,6 +385,9 @@ class Substrate:
         self.self_model = SM.SelfModel()
         for k, v in snapshot["self_facts"].items():
             self.self_model.facts[k] = SM.SelfFact(**v)
+        self.beliefs = EP.Epistemology("dependency_aware")
+        for k, v in snapshot.get("beliefs", {}).items():
+            self.beliefs.beliefs[k] = EP.Belief(**v)
         self.reliability = dict(snapshot["reliability"])
         if io.sha_obj(self._state_for_hash()) != snapshot["identity"]:
             raise Refused("restored state does not reproduce the checkpoint identity")

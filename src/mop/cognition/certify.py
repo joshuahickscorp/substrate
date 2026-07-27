@@ -38,6 +38,13 @@ NULL_CONTROL_INAPPLICABLE = {
     "decide": "writes the decision region every cycle by design",
     "remember": "writes an episode every cycle by design",
     "checkpoint": "writes the self region and the identity digest every cycle by design",
+    # arbitration emits a report every cycle, and the contrast arm is not silence, it is a different
+    # report: the first output standing unexamined, undeferred and demanding no evidence. A stream that
+    # made those two coincide would have to be one where arbitration reaches the fabricated conclusion,
+    # which is a positive control wearing a null control's clothes. Even the empty catalog fails: the real
+    # arbiter defers and names the missing evidence, the contrast arm does neither.
+    "arbitrate": "emits an arbitration report every cycle by design, and the no arbiter arm fabricates a "
+                 "report of its own rather than staying silent",
 }
 
 
@@ -46,14 +53,17 @@ def stage_null_fixture(stage: str) -> tuple[list[dict], dict]:
     flat = [{"observation": {"label": "a", "label_confidence": 0.5}, "outcome": None, "goal": None}
             for _ in range(8)]
     if stage == "attend":
-        # no budget pressure, so attention drops nothing and cannot change what runs
-        return flat, {"cycle_budget": 1e6}
+        # attend has two effects, not one: it drops candidates under budget pressure, and the regions it
+        # attends filter the perspective pool. A fixture that only removes the budget pressure leaves the
+        # second effect running, so it is not a null control, it is a weaker positive one. Both effects are
+        # neutralised here: no budget pressure, and every perspective in the catalog reads an attended
+        # region, so the filter is the identity map whether the stage runs or is ablated.
+        attended = {c["id"] for c in R.Substrate()._attention_candidates({"label": "a"})}
+        return flat, {"cycle_budget": 1e6,
+                      "catalog": [p for p in R.PS.CATALOG if set(p.spec.inputs) <= attended]}
     if stage in ("select", "run_perspectives"):
         # an empty catalog leaves nothing to select or run
         return flat, {"catalog": []}
-    if stage == "arbitrate":
-        # one perspective, so there is no disagreement to arbitrate
-        return flat, {"catalog": R.PS.CATALOG[:1]}
     if stage == "consolidate":
         # no outcome means no episode is ever verified, so the policy selects nothing
         return flat, {}
@@ -99,7 +109,12 @@ def _run(fixture: list[dict], ablate: frozenset | None = None, **kw) -> dict:
     for row in fixture:
         entity.step(row["observation"], outcome=row["outcome"], goal=row["goal"])
     decisions = [(t["stages"].get("decide") or {}).get("decision") for t in entity.traces]
+    # the identity hash carries region names, not region contents, so a stage whose whole product is what
+    # it writes into a region reads as inactive under it. Arbitration is exactly that: its decision can
+    # coincide with the first perspective while its preserved minority and recorded contradictions do not.
+    # Ablation is compared against what a stage produces, so the contents are observed too.
     return {"state": entity._state_for_hash(),
+            "contents": io.sha_obj(entity.ws.broadcast()),
             "decisions": decisions,
             "reliability": {k: round(v, 6) for k, v in entity.reliability.items()},
             "episodes": len(entity.episodes.store),
@@ -112,7 +127,7 @@ def runtime_activity() -> dict:
     rows = {}
     for stage in ABLATABLE:
         pos = _run(positive_fixture(), frozenset({stage}))
-        changed_state = pos["state"] != pos_base["state"]
+        changed_state = (pos["state"], pos["contents"]) != (pos_base["state"], pos_base["contents"])
         changed_decisions = pos["decisions"] != pos_base["decisions"]
         active = changed_state or changed_decisions
 
@@ -124,6 +139,7 @@ def runtime_activity() -> dict:
             base = _run(fixture, None, **kw)
             ablated = _run(fixture, frozenset({stage}), **kw)
             quiet = (base["state"] == ablated["state"]
+                     and base["contents"] == ablated["contents"]
                      and base["decisions"] == ablated["decisions"])
             null_row = {"applicable": True, "quiet": quiet,
                         "fixture": f"a stream on which {stage} has nothing to do"}

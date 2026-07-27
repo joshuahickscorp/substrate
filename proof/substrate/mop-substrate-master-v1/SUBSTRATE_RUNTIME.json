@@ -44,7 +44,7 @@
       "attend": {
         "ran": true,
         "attended": [
-          "observation",
+          "perceptual",
           "temporal",
           "episodic_context"
         ],
@@ -54,36 +54,37 @@
         "ran": true,
         "strategy": "reliability_weighted",
         "chosen": [
+          "direct",
           "precedent",
           "temporal"
         ]
       },
       "run_perspectives": {
         "ran": [
+          "direct",
           "precedent",
           "temporal"
         ],
         "refused": [],
-        "compute_spent": 2.3
+        "compute_spent": 3.3
       },
       "arbitrate": {
         "ran": true,
         "deferred": false,
-        "minority_preserved": 0,
-        "contradictions": 0
+        "minority_preserved": 1,
+        "contradictions": 1
       },
       "decide": {
         "ran": true,
-        "decision": null,
+        "decision": "a",
         "deferred": false,
+        "belief": "b1",
         "activation": false
       },
       "remember": {
         "ran": true,
         "episode": "ep1",
         "fields_empty": [
-          "action",
-          "verification",
           "later_usefulness"
         ],
         "working_memory_held": true,
@@ -91,9 +92,9 @@
       },
       "self_update": {
         "ran": true,
-        "correct": false,
+        "correct": true,
         "reliability": {
-          "direct": 0.5,
+          "direct": 0.6,
           "temporal": 0.4,
           "precedent": 0.4,
           "critic": 0.5,
@@ -114,8 +115,12 @@
       "consolidate": {
         "ran": true,
         "policy": "verification_triggered",
-        "selected": [],
-        "promoted": [],
+        "selected": [
+          "ep1"
+        ],
+        "promoted": [
+          "ep1"
+        ],
         "uses_future_information": false
       },
       "adapt": {
@@ -124,7 +129,7 @@
         "applied": true,
         "refusals": [],
         "reliability_after": {
-          "direct": 0.5,
+          "direct": 0.599,
           "temporal": 0.401,
           "precedent": 0.401,
           "critic": 0.5,
@@ -144,7 +149,7 @@
       },
       "checkpoint": {
         "ran": true,
-        "identity": "ca16cc8ed63ebde1"
+        "identity": "a23c3eac8d538bc7"
       }
     },
     "stages_ran": [
@@ -198,6 +203,6 @@
     "adaptation_constraints"
   ],
   "program": "mop-substrate-master-v1",
-  "source_commit": "566bb2e689c722a78258a0129eeca79a8bf96de1",
-  "sha256": "84c55740c073c91aef9c6fa9aeeb0c57ba6407b4984e89e4ee078420d7ad344d"
+  "source_commit": "e397db4bc154ab31a45f7bb9549a7f7f44ce1b1e",
+  "sha256": "d00d6f6c15c2e874f8540fe182bd9cf1aa21e174c476c496ae3d4b2a6824211a"
 }

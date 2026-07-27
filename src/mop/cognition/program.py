@@ -535,6 +535,17 @@ ITEMS: tuple[Item, ...] = (
               "tests/cognition/test_certification.py::test_the_three_bodies_are_pairwise_distinct"),
        evidence=("SUBSTRATE_LONG_RUN_CERTIFICATION.json",), deps=("F4", "F6"), batch=6),
 
+    _i("Y5", "3", "The closure gate: do the parts compose into one organization",
+       "Six bounded canaries over the existing runtime. A gate with no mechanism activity is a broken "
+       "instrument, a gate with no oracle headroom is terminally gated, and a gate with both that "
+       "measures zero is a null about the entity. The three are listed apart because they license "
+       "different next steps.",
+       kind="evidence", category="unity", impl=(f"{COG}/nous.py",),
+       tests=("tests/cognition/test_nous.py::test_the_closed_loop_has_no_missing_link",
+              "tests/cognition/test_nous.py::test_a_null_is_not_reported_as_an_instrument_failure",
+              "tests/cognition/test_nous.py::test_the_classification_never_reaches_a_claim_about_experience"),
+       evidence=("SUBSTRATE_NOUS_CLOSURE.json",), deps=("Y3", "Y4"), batch=6),
+
     _i("Z1", "3", "One frozen long run DAG of certified or necessary units",
        "Source, data, sessions, splits, perspectives, bodies, seeds, budgets, controls, SESOI, stop "
        "rules, checkpoints, retries and claim ceilings are frozen and hashed, so a live edit after "
