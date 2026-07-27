@@ -270,7 +270,7 @@
     "ordering": "declaration order retained"
   },
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
   "activation": false,
-  "sha256": "137db93899e0e39c5c8bf86223927acb59bc72d098df7f7bafac26bd7ce50e05"
+  "sha256": "c841413e4c7ecb6cc780922ea7ba0b60c2cfdb596a59bd750614fe2c12ffd22f"
 }

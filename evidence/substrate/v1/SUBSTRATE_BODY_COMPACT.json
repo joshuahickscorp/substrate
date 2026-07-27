@@ -32,6 +32,6 @@
   "external_blocker": "",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
-  "sha256": "1ad27f8ef0fdf2343eb4a7f3d3d566ce95cf48dff80ea5047a2dc278c045f6db"
+  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
+  "sha256": "32fcd799b2be3e766688d8fb4f30d51f00e9e7c254c0db0b437422bd30d9e420"
 }

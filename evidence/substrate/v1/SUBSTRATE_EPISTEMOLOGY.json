@@ -72,6 +72,6 @@
   "control_rule": "metacognitive control operates on epistemic value, which combines uncertainty, stakes and how much rests on the belief. Confidence alone does not choose",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
-  "sha256": "751a24549c9017abeb35581f421f2d6d59b0752f457346a2657cecb0ed365fa4"
+  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
+  "sha256": "215cefdbe9e05cb3c691d6f8e2d14194f316f27300d2a111399ed6abdc60792d"
 }
