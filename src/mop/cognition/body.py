@@ -113,9 +113,10 @@ def main(argv=None) -> None:
     argv = argv or sys.argv[1:]
     if argv and argv[0] != "seal":
         raise ValueError(argv)
+    # SUBSTRATE_MODEL_BODY_INTERFACE.json is owned by mop.cognition.bodies, which attaches three real
+    # bodies and measures the ablation ladder. This module declares the contract they conform to.
     doc = declaration()
-    path = io.seal("SUBSTRATE_MODEL_BODY_INTERFACE.json", doc)
-    print(json.dumps({"sealed": path.relative_to(io.ROOT).as_posix(),
+    print(json.dumps({"contract_only": True, "producer": "mop.cognition.bodies",
                       "message_kinds": len(doc["message_kinds"]),
                       "any_body_attached": doc["any_body_attached"]}, indent=2))
 

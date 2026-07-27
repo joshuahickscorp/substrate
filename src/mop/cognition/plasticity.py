@@ -353,10 +353,12 @@ def main(argv=None) -> None:
     argv = argv or sys.argv[1:]
     if argv and argv[0] != "seal":
         raise ValueError(argv)
+    # SUBSTRATE_DEVELOPMENTAL_HISTORY.json is owned by mop.cognition.divergence, which measures it
+    # rather than declaring it. Two producers for one artifact means the last one to run wins, which the
+    # clean clone caught as drift.
     a = io.seal("SUBSTRATE_PLASTICITY_SYSTEM.json", declaration())
     b = io.seal("SUBSTRATE_REORGANIZATION.json", reorganization_declaration())
-    c = io.seal("SUBSTRATE_DEVELOPMENTAL_HISTORY.json", developmental_history())
-    print(json.dumps({"sealed": [p.relative_to(io.ROOT).as_posix() for p in (a, b, c)],
+    print(json.dumps({"sealed": [p.relative_to(io.ROOT).as_posix() for p in (a, b)],
                       "levels": len(LEVELS), "policies": len(POLICIES)}, indent=2))
 
 

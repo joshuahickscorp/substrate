@@ -687,7 +687,6 @@ def write_all() -> dict:
         "SUBSTRATE_NEXT_FRONTIER.json": io.seal("SUBSTRATE_NEXT_FRONTIER.json", frontier),
         "SUBSTRATE_ARCHITECTURE.json": io.seal("SUBSTRATE_ARCHITECTURE.json", arch),
         "SUBSTRATE_CAPABILITY_MAP.json": io.seal("SUBSTRATE_CAPABILITY_MAP.json", caps),
-        "SUBSTRATE_TEMPORAL_CORE.json": io.seal("SUBSTRATE_TEMPORAL_CORE.json", temporal),
         "SUBSTRATE_CURRENT_ENTITY_SPEC.json": io.seal("SUBSTRATE_CURRENT_ENTITY_SPEC.json", spec),
         "SUBSTRATE_LEDGER.md": io.seal_md("SUBSTRATE_LEDGER.md", ledger_markdown(st, frontier)),
         "SUBSTRATE_CURRENT_ENTITY_REPORT.md": io.seal_md(
@@ -696,9 +695,11 @@ def write_all() -> dict:
     return {name: path.relative_to(io.ROOT).as_posix() for name, path in written.items()}
 
 
+# one producer per artifact. body is absent because bodies owns the interface artifact, and the ordering
+# puts every declaration before the modules that measure against it.
 MODULES_THAT_SEAL = ("admission", "safety", "ontology", "epistemology", "workspace", "perspectives",
-                     "memory", "world", "selfmodel", "metacog", "plasticity", "body", "batteries",
-                     "runtime", "temporal_link", "goals", "graph")
+                     "memory", "world", "selfmodel", "metacog", "plasticity", "batteries",
+                     "runtime", "temporal_link", "goals", "bodies", "graph")
 
 
 def seal_modules() -> dict:

@@ -1,56 +1,95 @@
 {
-  "progress": {
-    "measured": true,
-    "finished_shards": 24,
-    "typical_shard_cost_hours": 31.86,
-    "running_shards": 0,
-    "cpu_hours_already_spent_each": [],
-    "estimated_cpu_hours_remaining_each": [],
-    "estimated_wall_hours_remaining": 0.0,
-    "assumption": "each running shard now gets close to a full core, which holds while the worker count is at or below the core count. It did not hold earlier in the run",
-    "kind": "derived estimate, not a measurement"
-  },
   "schema": "substrate-temporal-core/v1",
-  "program": "mop-temporal-core-mechanism-v1",
-  "question": "whether recurrence is necessary, whether explicit history is sufficient, the minimum useful state horizon, the smallest useful capacity, the simplest sufficient readout, and whether the effect survives independent implementations and multiple beds",
-  "receipt_counts": {
-    "e2_scout": 15,
-    "e2_converge": 231,
-    "e2_converge_extended": 228,
-    "e2_principal": 24,
-    "e2_principal_corrections": 24,
-    "e2_converge_corrections": 3,
-    "e2_optimization_corrections": 6,
-    "third_bed_preflight": 8,
-    "failure_holds": 3,
-    "active_locks": 0
+  "interface_version": "substrate-temporal-core-interface/v1",
+  "provides": [
+    "current_temporal_state",
+    "state_confidence",
+    "transition_signal",
+    "history_summary",
+    "reset_authority",
+    "checkpoint",
+    "restore"
+  ],
+  "information_sources": [
+    "current_observation",
+    "explicit_history",
+    "temporal_core_state",
+    "memory_retrieval",
+    "world_model_prediction"
+  ],
+  "implementation": "DeclaredControl",
+  "is_control": true,
+  "scientific_limitation": "no temporal core was scientifically licensed. The factorial is terminal and its independent verification did not pass, so this is a declared control and not a selected minimal core. Any result that depends on it inherits that limitation",
+  "licensing": {
+    "authority": "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
+    "counts_as_evidence": false,
+    "licensed_core_available": false,
+    "rule": "a licensed core drops into the same interface without the runtime changing"
   },
-  "principal_shards_expected": 24,
-  "principal_shards_present": 24,
-  "principal_complete": true,
-  "synthesis": {
-    "reference": "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json",
-    "resolved": true,
-    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_SYNTHESIS.json",
-    "sha256": "5972e1e7cb7c91830454df04169092eb2c588a17ba4bf8320fcf3af5fdd23e28"
+  "merged_view_example": {
+    "readings": {
+      "current_observation": {
+        "value": {
+          "label": "a"
+        },
+        "source": "current_observation",
+        "confidence": 1.0
+      },
+      "explicit_history": {
+        "value": [
+          0.1,
+          0.4,
+          0.35,
+          0.9
+        ],
+        "source": "explicit_history",
+        "confidence": 1.0
+      },
+      "temporal_core_state": {
+        "value": 0.586213,
+        "source": "temporal_core_state",
+        "confidence": 0.5
+      },
+      "memory_retrieval": {
+        "value": null,
+        "source": "memory_retrieval",
+        "confidence": 0.0
+      },
+      "world_model_prediction": {
+        "value": null,
+        "source": "world_model_prediction",
+        "confidence": 0.0
+      }
+    },
+    "sources_present": [
+      "current_observation",
+      "explicit_history",
+      "temporal_core_state"
+    ],
+    "sources_declared": [
+      "current_observation",
+      "explicit_history",
+      "temporal_core_state",
+      "memory_retrieval",
+      "world_model_prediction"
+    ],
+    "collapsed": false,
+    "rule": "the five sources are never merged into one untagged value"
   },
-  "selection": {
-    "reference": "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
-    "resolved": true,
-    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_OWNED_TEMPORAL_CORE_V1.json",
-    "sha256": "0fdb1f90f51c3361fc823cadcc8a17cbad71535810c979fdae0ed2a027eb5958"
+  "checkpoint_roundtrip": {
+    "identity": "7e72af7871d11b90",
+    "restored": true
   },
-  "independent_verification": {
-    "reference": "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
-    "resolved": true,
-    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
-    "sha256": "7265820df668aa65c7f79196ff38fa808163ce2b589fbe74e48dab08acab27b6"
+  "reset_authority": {
+    "who_may_reset": [
+      "goal_authority",
+      "episode_boundary"
+    ],
+    "resets_so_far": 0,
+    "rule": "a reset is destructive and is recorded, never silent"
   },
-  "terminal": true,
-  "named_v1": true,
-  "honest_state": "the selection is terminal and independently verified",
-  "remains_one_component": true,
   "activation": false,
-  "source_commit": "bbbd1647b05345a57c68e24a2d17f31252c90242",
-  "sha256": "08ec2d3b67c489b763e48d69e6d7ac6b5613bde023f14c827348f6154b67600a"
+  "program": "mop-substrate-master-v1",
+  "source_commit": "3bcb43cb25595e0e9c8c6fde16898579804227dc",
+  "sha256": "e2adfdbebfb61f2d34452bdaad04f683065e7df8b14a3453093729ccad196eba"
 }
