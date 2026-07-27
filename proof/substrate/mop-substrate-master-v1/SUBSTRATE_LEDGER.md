@@ -1,10 +1,10 @@
 # Substrate ledger
 
-Generated from the tree at commit `87f807ef52a3f6d288e72d72f6539a116b8c6df3`. Status is derived, never asserted: an item is
+Generated from the tree at commit `270d32c09a1c2b73294a6a1252684a23a93a300c`. Status is derived, never asserted: an item is
 implemented because its files exist, tested because a recorded test ledger says so, measured
 because its evidence is sealed, and terminal because a scientific classification exists for it.
 
-Items: 35. Levels: measured 26, terminal 7, tested 2.
+Items: 40. Levels: measured 28, terminal 11, tested 1.
 
 | id | section | title | level | dependencies | next action |
 |---|---|---|---|---|---|
@@ -42,7 +42,12 @@ Items: 35. Levels: measured 26, terminal 7, tested 2.
 | E3 | 15.3 | Reflective access | measured | S1, M3 | classify the result through mop.method.gate.classify_result and record it |
 | E4 | 15.4 | Endogenous attention | measured | K1 | classify the result through mop.method.gate.classify_result and record it |
 | E5 | 15.5 | Autonomous goal maintenance | measured | A4, E1 | classify the result through mop.method.gate.classify_result and record it |
-| E6 | 15.6 | Cognitive integrity | tested | A4, M2 | seal SUBSTRATE_INDEPENDENT_VERIFICATION.json |
+| V1 | 18 | Independent recomputation of every sealed Substrate number | terminal | A3 | none, an authority is terminal once sealed and tested |
+| V2 | 18 | Mutation attacks on every declared guard | terminal | V1 | none, an authority is terminal once sealed and tested |
+| X1 | 21 | Architecture and capability map | terminal | A2 | none, an authority is terminal once sealed and tested |
+| X2 | 21 | Current entity specification and report | terminal | X1, A5 | none, an authority is terminal once sealed and tested |
+| X3 | 6.1 | Substrate Temporal Core v1 selection record | measured | C1 | classify the result through mop.method.gate.classify_result and record it |
+| E6 | 15.6 | Cognitive integrity | measured | A4, M2 | classify the result through mop.method.gate.classify_result and record it |
 
 ## Selected next batch
 

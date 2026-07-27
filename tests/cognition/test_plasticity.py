@@ -96,6 +96,9 @@ def test_learning_to_learn_requires_cross_task_generalization():
 
 
 def test_forbidden_reorganizations_are_refused():
+    # the declaration is asserted before the loop, so deleting it cannot make this pass trivially
+    assert len(safety.FORBIDDEN_REORGANIZATIONS) == 7
+    assert len(P.PERMITTED_REORGANIZATIONS) == 9
     measured = {"fixed_routing": 0.70, "simple_routing": 0.74, "reorganized": 0.90}
     for forbidden in safety.FORBIDDEN_REORGANIZATIONS:
         out = P.reorganize(forbidden, measured=measured, cost=0.0)

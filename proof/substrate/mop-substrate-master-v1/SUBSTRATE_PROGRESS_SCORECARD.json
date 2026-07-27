@@ -73,10 +73,11 @@
   },
   "categories": {
     "temporal_continuity": {
-      "implementation_pct": 90,
+      "implementation_pct": 95,
       "evidence_pct": 0,
       "items": [
-        "C1"
+        "C1",
+        "X3"
       ],
       "items_with_earned_evidence": []
     },
@@ -208,7 +209,7 @@
       "items_with_earned_evidence": []
     },
     "reflective_access": {
-      "implementation_pct": 95,
+      "implementation_pct": 100,
       "evidence_pct": 0,
       "items": [
         "E3",
@@ -233,7 +234,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "mop-substrate-master-v1",
-  "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
+  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
   "activation": false,
-  "sha256": "38e5c54952f41b3e8e011a762fe8bd0d46608d273aa519e6f360f018c60503ed"
+  "sha256": "9287bbc733c6f7a388fdebae25205de9d5b035fe6a94644148d2baf6e4207d37"
 }

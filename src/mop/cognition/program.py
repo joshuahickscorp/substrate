@@ -307,6 +307,38 @@ ITEMS: tuple[Item, ...] = (
        category="goal_continuity", impl=(f"{COG}/safety.py",),
        tests=("tests/cognition/test_safety.py::test_unauthorized_goal_creation_is_refused",),
        evidence=("SUBSTRATE_MASTER_AUTHORITY.json",), deps=("A4", "E1"), batch=5),
+    # ---------------------------------------------------------------- verification and consolidation
+    _i("V1", "18", "Independent recomputation of every sealed Substrate number",
+       "Independently authored scientific recomputation. A second route, from the sealed bytes, that "
+       "does not import the module that produced them.",
+       kind="authority", impl=(f"{COG}/verify.py",),
+       tests=("tests/cognition/test_verify.py::test_recomputation_agrees_with_every_sealed_artifact",),
+       evidence=("SUBSTRATE_INDEPENDENT_VERIFICATION.json",), deps=("A3",), batch=6),
+    _i("V2", "18", "Mutation attacks on every declared guard",
+       "Adversarial mutation testing. Every mutation must be rejected by the guard named beside it, and "
+       "a survivor is reported as a survivor rather than folded into a pass rate.",
+       kind="authority", impl=(f"{COG}/verify.py",),
+       tests=("tests/cognition/test_verify.py::test_every_mutation_names_a_distinct_guard_and_died",),
+       evidence=("SUBSTRATE_MUTATION_REPORT.json",), deps=("V1",), batch=6),
+    _i("X1", "21", "Architecture and capability map",
+       "Maintain the architecture and capability map, bound to implementation rather than to intent.",
+       kind="authority", impl=(f"{COG}/deliverables.py",),
+       tests=("tests/cognition/test_verify.py::test_the_capability_map_never_outruns_the_item_table",),
+       evidence=("SUBSTRATE_ARCHITECTURE.json", "SUBSTRATE_CAPABILITY_MAP.json"), deps=("A2",),
+       batch=6),
+    _i("X2", "21", "Current entity specification and report",
+       "State what the entity currently is, separating implementation from evidence, thinking adjacent "
+       "properties from sentience claims, and current capability from aspiration.",
+       kind="authority", impl=(f"{COG}/deliverables.py",),
+       tests=("tests/cognition/test_verify.py::test_the_entity_report_makes_no_forbidden_claim",),
+       evidence=("SUBSTRATE_CURRENT_ENTITY_SPEC.json", "SUBSTRATE_CURRENT_ENTITY_REPORT.md"),
+       deps=("X1", "A5"), batch=6),
+    _i("X3", "6.1", "Substrate Temporal Core v1 selection record",
+       "The selected temporal core becomes Substrate Temporal Core v1, and it remains one component.",
+       kind="evidence", category="temporal_continuity", impl=(f"{COG}/deliverables.py",),
+       tests=("tests/cognition/test_verify.py::test_the_temporal_core_record_tracks_the_live_program",),
+       evidence=("SUBSTRATE_TEMPORAL_CORE.json",), deps=("C1",), batch=6),
+
     _i("E6", "15.6", "Cognitive integrity", "Protect memory consistency, evidence integrity, goal "
        "integrity, checkpoint validity, self model accuracy and active task continuity. This is cognitive "
        "integrity, not biological self preservation.",

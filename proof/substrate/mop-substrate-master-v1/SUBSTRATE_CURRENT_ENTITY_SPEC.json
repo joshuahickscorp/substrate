@@ -1,0 +1,99 @@
+{
+  "schema": "substrate-current-entity-spec/v1",
+  "what_exists": {
+    "components_present": 13,
+    "components_declared": 13,
+    "capabilities_implemented": 20,
+    "capabilities_with_evidence": 0,
+    "capabilities_total": 20
+  },
+  "item_levels": {
+    "terminal": 11,
+    "tested": 1,
+    "measured": 28
+  },
+  "implementation_by_category": {
+    "temporal_continuity": 95,
+    "working_memory": 100,
+    "episodic_memory": 100,
+    "semantic_memory": 100,
+    "procedural_memory": 100,
+    "world_model": 100,
+    "self_model": 100,
+    "metacognition": 100,
+    "perspective_diversity": 100,
+    "arbitration": 100,
+    "plasticity": 100,
+    "consolidation": 100,
+    "transfer": 100,
+    "reorganization": 100,
+    "developmental_learning": 100,
+    "goal_continuity": 100,
+    "reflective_access": 100,
+    "unified_cognition": 100
+  },
+  "evidence_by_category": {
+    "temporal_continuity": 0,
+    "working_memory": 0,
+    "episodic_memory": 0,
+    "semantic_memory": 0,
+    "procedural_memory": 0,
+    "world_model": 0,
+    "self_model": 0,
+    "metacognition": 0,
+    "perspective_diversity": 0,
+    "arbitration": 0,
+    "plasticity": 0,
+    "consolidation": 0,
+    "transfer": 0,
+    "reorganization": 0,
+    "developmental_learning": 0,
+    "goal_continuity": 0,
+    "reflective_access": 0,
+    "unified_cognition": 0
+  },
+  "claim_class": {
+    "demonstrated_engineering_property": [
+      "a typed workspace where every region is globally readable and none is globally writable",
+      "arbitration that preserves a minority hypothesis with its own provenance",
+      "a memory hierarchy that refuses to promote an unverified generated episode",
+      "a world model whose four distinctions are reported apart and are recomputable",
+      "batteries that refuse a thinking claim resting on latency",
+      "a reflective report that fails closed without provenance",
+      "twenty two mutation attacks, each rejected by the guard named beside it"
+    ],
+    "behavioural_indication": [],
+    "architectural_prerequisite": [
+      "persistent owned state that survives context removal and a checkpoint restore",
+      "a self model whose predictions are paired to outcomes",
+      "endogenous attention ranked by declared drivers under a resource limit"
+    ],
+    "philosophical_interpretation": [],
+    "unsupported_claim": []
+  },
+  "not_claimed": [
+    "conscious",
+    "consciousness",
+    "sentient",
+    "sentience",
+    "feelings",
+    "feeling",
+    "wants",
+    "suffering",
+    "subjective experience",
+    "alive"
+  ],
+  "not_claimed_as_written_in_the_plan": [
+    "consciousness",
+    "sentience",
+    "feelings",
+    "wants",
+    "suffering",
+    "subjective experience",
+    "life"
+  ],
+  "activation": false,
+  "program": "mop-substrate-master-v1",
+  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
+  "sha256": "86fe7a2d1b19600ef23f7bec1994ea3efc08403448ec4ef2541d719e7e58cadb"
+}

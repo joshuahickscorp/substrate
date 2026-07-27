@@ -84,6 +84,20 @@ def test_the_decision_arm_is_measured_against_the_best_fixed_action(fitted):
     assert min(costs.values()) > 0.0, "some fixed action would have been perfect, so the test is empty"
 
 
+def test_every_distinction_is_recomputable_from_the_published_test_scores(fitted):
+    """Correction C_DISTINCTION_ROUNDING: a sealed report must be recomputable from its own figures.
+
+    The first version averaged unrounded scores and published rounded ones, so an independent verifier
+    recomputing a distinction from the artifact got a different number than the artifact stated.
+    """
+    model, bed = fitted
+    report = W.evaluate(model, bed)
+    for distinction, reported in report["distinctions"].items():
+        members = [report["tests"][t] for t, d in W.TEST_GROUP.items() if d == distinction]
+        assert reported == round(sum(members) / len(members), 4), distinction
+    assert report["distinctions_are_recomputable_from_tests"] is True
+
+
 def test_an_unfitted_model_persists_rather_than_inventing_a_value():
     model = W.WorldModel({"a": (), "b": ("a",)})
     state = {"a": 1, "b": 2}

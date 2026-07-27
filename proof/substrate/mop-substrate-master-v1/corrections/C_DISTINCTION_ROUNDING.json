@@ -1,0 +1,13 @@
+{
+  "schema": "substrate-correction/v1",
+  "correction_id": "C_DISTINCTION_ROUNDING",
+  "defect": "the world model battery averaged unrounded per test scores into its four distinctions while publishing the per test scores rounded to four places. An independent verifier recomputing a distinction from the sealed artifact got 0.9445 where the artifact stated 0.9444. Small, and the exact shape of a report that cannot be checked against itself",
+  "correction": "the distinctions are averaged from the published rounded scores, so any reader can rederive them from the artifact. The report carries distinctions_are_recomputable_from_tests so the property is asserted in the artifact and not only in the code",
+  "regression_test": "tests/cognition/test_world.py::test_every_distinction_is_recomputable_from_the_published_test_scores",
+  "reproduced_by": "found by mop.cognition.verify recompute, which reads the sealed bytes and does the arithmetic by a second route without importing the module that produced them",
+  "rule": "a reproduced defect overrides reviewer votes and becomes a permanent regression test",
+  "program": "mop-substrate-master-v1",
+  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
+  "activation": false,
+  "sha256": "87f56484acc5265cba1bbb23acd6bbb0501f714748bd722e135ab597d05de8b2"
+}

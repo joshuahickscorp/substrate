@@ -209,12 +209,18 @@ def evaluate(model: WorldModel, bed: dict) -> dict:
     # 9 decision improvement: a model based policy against the best model free policy
     scores["decision_improvement"] = _decision_gain(model, bed)
 
-    grouped = {d: round(_mean([scores[t] for t in TESTS if TEST_GROUP[t] == d]), 4)
+    # correction C_DISTINCTION_ROUNDING, 2026-07-27. The distinctions were averaged from the unrounded
+    # scores while the per test scores were published rounded, so a reader recomputing the distinction
+    # from the artifact got a different number than the artifact stated. A sealed report has to be
+    # recomputable from its own published figures, so the published figures are what is averaged.
+    published = {t: round(scores[t], 4) for t in TESTS}
+    grouped = {d: round(_mean([published[t] for t in TESTS if TEST_GROUP[t] == d]), 4)
                for d in DISTINCTIONS}
     limited = limited_instrument(grouped)
     return {
         "schema": "substrate-world-model-battery/v1",
-        "tests": {t: round(scores[t], 4) for t in TESTS},
+        "tests": published,
+        "distinctions_are_recomputable_from_tests": True,
         "distinctions": grouped,
         "limited_instrument": limited,
         "limited_instrument_reason": ("predicts well and does not improve any decision, which section 8 "

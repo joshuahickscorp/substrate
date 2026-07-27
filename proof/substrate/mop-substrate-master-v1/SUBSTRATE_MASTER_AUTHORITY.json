@@ -30,7 +30,7 @@
       "developmental cognition",
       "reflective cognitive organization"
     ],
-    "forbidden_claims": [
+    "forbidden_claims_as_written_in_the_plan": [
       "consciousness",
       "sentience",
       "feelings",
@@ -39,6 +39,7 @@
       "subjective experience",
       "life"
     ],
+    "enforced_vocabulary": "mop.cognition.safety.FORBIDDEN_CLAIM_TERMS",
     "rule": "no single architectural property is proof of sentience"
   },
   "goal_authority": {
@@ -540,6 +541,62 @@
       ]
     },
     {
+      "id": "V1",
+      "section": "18",
+      "title": "Independent recomputation of every sealed Substrate number",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A3"
+      ]
+    },
+    {
+      "id": "V2",
+      "section": "18",
+      "title": "Mutation attacks on every declared guard",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "V1"
+      ]
+    },
+    {
+      "id": "X1",
+      "section": "21",
+      "title": "Architecture and capability map",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "A2"
+      ]
+    },
+    {
+      "id": "X2",
+      "section": "21",
+      "title": "Current entity specification and report",
+      "batch": 6,
+      "kind": "authority",
+      "category": null,
+      "dependencies": [
+        "X1",
+        "A5"
+      ]
+    },
+    {
+      "id": "X3",
+      "section": "6.1",
+      "title": "Substrate Temporal Core v1 selection record",
+      "batch": 6,
+      "kind": "evidence",
+      "category": "temporal_continuity",
+      "dependencies": [
+        "C1"
+      ]
+    },
+    {
       "id": "E6",
       "section": "15.6",
       "title": "Cognitive integrity",
@@ -554,7 +611,11 @@
   ],
   "declared_deliverables": [
     "SUBSTRATE_ARBITRATION_SYSTEM.json",
+    "SUBSTRATE_ARCHITECTURE.json",
+    "SUBSTRATE_CAPABILITY_MAP.json",
     "SUBSTRATE_CONTINUITY_BATTERY.json",
+    "SUBSTRATE_CURRENT_ENTITY_REPORT.md",
+    "SUBSTRATE_CURRENT_ENTITY_SPEC.json",
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json",
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
@@ -563,6 +624,7 @@
     "SUBSTRATE_MEMORY_SYSTEM.json",
     "SUBSTRATE_METACOGNITION.json",
     "SUBSTRATE_MODEL_BODY_INTERFACE.json",
+    "SUBSTRATE_MUTATION_REPORT.json",
     "SUBSTRATE_NEXT_FRONTIER.json",
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json",
     "SUBSTRATE_PLASTICITY_SYSTEM.json",
@@ -572,6 +634,7 @@
     "SUBSTRATE_SELF_MODEL.json",
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
     "SUBSTRATE_STATE.json",
+    "SUBSTRATE_TEMPORAL_CORE.json",
     "SUBSTRATE_THINKING_BATTERY.json",
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json",
     "SUBSTRATE_WORKSPACE.json",
@@ -582,15 +645,20 @@
   ],
   "deliverables_present": {
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
+    "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
+    "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
+    "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
-    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": false,
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": true,
     "SUBSTRATE_MODEL_BODY_INTERFACE.json": true,
+    "SUBSTRATE_MUTATION_REPORT.json": true,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
@@ -600,6 +668,7 @@
     "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
@@ -610,15 +679,20 @@
   },
   "deliverables_counting_as_evidence": {
     "SUBSTRATE_ARBITRATION_SYSTEM.json": true,
+    "SUBSTRATE_ARCHITECTURE.json": true,
+    "SUBSTRATE_CAPABILITY_MAP.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
+    "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
+    "SUBSTRATE_CURRENT_ENTITY_SPEC.json": true,
     "SUBSTRATE_DEVELOPMENTAL_HISTORY.json": true,
     "SUBSTRATE_DEVELOPMENTAL_SAFETY.json": true,
     "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json": true,
-    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": false,
+    "SUBSTRATE_INDEPENDENT_VERIFICATION.json": true,
     "SUBSTRATE_MASTER_AUTHORITY.json": true,
     "SUBSTRATE_MEMORY_SYSTEM.json": true,
     "SUBSTRATE_METACOGNITION.json": true,
     "SUBSTRATE_MODEL_BODY_INTERFACE.json": true,
+    "SUBSTRATE_MUTATION_REPORT.json": true,
     "SUBSTRATE_NEXT_FRONTIER.json": true,
     "SUBSTRATE_PERSPECTIVE_SYSTEM.json": true,
     "SUBSTRATE_PLASTICITY_SYSTEM.json": true,
@@ -628,6 +702,7 @@
     "SUBSTRATE_SELF_MODEL.json": true,
     "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json": true,
     "SUBSTRATE_STATE.json": true,
+    "SUBSTRATE_TEMPORAL_CORE.json": true,
     "SUBSTRATE_THINKING_BATTERY.json": true,
     "SUBSTRATE_UNIFIED_COGNITION_BATTERY.json": true,
     "SUBSTRATE_WORKSPACE.json": true,
@@ -637,11 +712,11 @@
     "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json": true
   },
   "level_counts": {
-    "terminal": 7,
-    "tested": 2,
-    "measured": 26
+    "terminal": 11,
+    "tested": 1,
+    "measured": 28
   },
   "activation": false,
-  "source_commit": "87f807ef52a3f6d288e72d72f6539a116b8c6df3",
-  "sha256": "224e39a011e41644e596af0349c62a3929b576b18b7f2a5ae1d80c895a64ee8e"
+  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
+  "sha256": "834235b2e1ee5411be36b57ff4939d6d3004def6dab18c3f0c8ef123822c178a"
 }
