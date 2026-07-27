@@ -41,6 +41,7 @@ def sandbox(monkeypatch, tmp_path):
     monkeypatch.setattr(e2.io, "RUNS", tmp_path)
     monkeypatch.setattr(e2.io, "ROOT", tmp_path)
     monkeypatch.setattr(e2.io, "launch_commit", lambda: "c" * 40)
+    monkeypatch.setattr(e2.io, "launch_tree_oid", lambda: "t" * 40)
     monkeypatch.setattr(e2, "CONVERGE_CONFIGS", [SPEC])
     monkeypatch.setattr(e2, "CONVERGENCE_GRID", (10, 20, 30))
     monkeypatch.setattr(e2, "CONVERGENCE_SEEDS", (0, 1))
@@ -66,7 +67,7 @@ def test_resume_skips_completed_grid_points_and_matches_the_uninterrupted_result
     ckpt_path = e2._checkpoint_path("cshard", "har_stream", 0)
     ckpt_path.parent.mkdir(parents=True, exist_ok=True)
     ckpt_path.write_text(json.dumps({
-        "cell": baseline["cell"], "source_commit": "c" * 40,
+        "cell": baseline["cell"], "source_commit": "c" * 40, "source_tree_oid": "t" * 40,
         "curve": {10: baseline["curve"][10]}, "seed_spread": {10: baseline["seed_spread"][10]},
         "seed_scores": {10: baseline["seed_scores"][10]}, "arm_records": {10: baseline["arm_records"][10]},
         "parameter_count": baseline["parameter_count"], "elapsed_before": 12.3,
@@ -86,11 +87,17 @@ def test_resume_skips_completed_grid_points_and_matches_the_uninterrupted_result
     assert not ckpt_path.exists()
 
 
-def test_a_checkpoint_with_the_wrong_source_commit_is_never_trusted(sandbox, tmp_path):
+@pytest.mark.parametrize(
+    ("source_commit", "source_tree"),
+    [("stale-commit", "t" * 40), ("c" * 40, "stale-tree")],
+)
+def test_a_checkpoint_with_the_wrong_source_authority_is_never_trusted(
+        sandbox, tmp_path, source_commit, source_tree):
     ckpt_path = e2._checkpoint_path("cshard", "har_stream", 0)
     ckpt_path.parent.mkdir(parents=True, exist_ok=True)
     ckpt_path.write_text(json.dumps({
-        "cell": e2.Fx.cell_name(**SPEC), "source_commit": "stale-commit",
+        "cell": e2.Fx.cell_name(**SPEC), "source_commit": source_commit,
+        "source_tree_oid": source_tree,
         "curve": {10: 0.5}, "seed_spread": {10: 0.0}, "seed_scores": {10: [0.5, 0.5]},
         "arm_records": {10: []}, "parameter_count": 1, "elapsed_before": 999,
     }))
@@ -110,7 +117,7 @@ def test_extend_converge_shard_resume_matches_the_uninterrupted_result(sandbox, 
     ckpt_path = e2._checkpoint_path("xshard", "har_stream", 0)
     ckpt_path.parent.mkdir(parents=True, exist_ok=True)
     ckpt_path.write_text(json.dumps({
-        "cell": base["cell"], "source_commit": "c" * 40,
+        "cell": base["cell"], "source_commit": "c" * 40, "source_tree_oid": "t" * 40,
         "curve": {**base["curve"], 40: baseline["curve"][40]},
         "seed_spread": {**base["seed_spread"], 40: baseline["seed_spread"][40]},
         "seed_scores": {**base["seed_scores"], 40: baseline["seed_scores"][40]},

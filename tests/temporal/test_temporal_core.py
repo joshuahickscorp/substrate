@@ -479,12 +479,42 @@ def test_principal_uses_each_cells_strict_selected_checkpoint(monkeypatch, tmp_p
     monkeypatch.setattr(e2.B, "splits", lambda *_: {"test": (None, []), "classes": 2})
     monkeypatch.setattr(e2.B, "majority_rate", lambda *_: 0.5)
     monkeypatch.setattr(e2.B, "chance_rate", lambda *_: 0.5)
-    monkeypatch.setattr(e2.Fx, "run_cell", lambda sp, spec, seed, split, steps: {
-        "cell": e2.Fx.cell_name(**spec), "steps": steps, "accuracy": 0.5})
+    calls = []
+    monkeypatch.setattr(e2.io, "launch_commit", lambda: "c" * 40)
+    monkeypatch.setattr(e2.io, "launch_tree_oid", lambda: "t" * 40)
+    monkeypatch.setattr(e2.Fx, "run_cell", lambda sp, spec, seed, split, steps: (
+        calls.append(e2.Fx.cell_name(**spec)) or {
+            "cell": e2.Fx.cell_name(**spec), "bed": "har_stream", "seed": seed,
+            "steps": steps, "updates": steps, "accuracy": 0.5}))
     doc = e2.principal("har_stream", 0)
     assert doc["schema"] == "mop-e2-principal-shard/v2"
     assert {row["cell"]: row["steps"] for row in doc["runs"]} == selected
     assert doc["convergence_authority"]["sha256"] == e2.io.sha_file(path)
+    progress = e2._checkpoint_path("principal", "har_stream", 0)
+    progress.parent.mkdir(parents=True, exist_ok=True)
+    prefix = doc["runs"][:11]
+    progress.write_text(json.dumps({
+        "schema": "mop-e2-principal-progress/v1", "cell": "principal:har_stream:0",
+        "source_commit": "c" * 40, "source_tree_oid": "t" * 40,
+        "bed": "har_stream", "seed": 0, "convergence_sha256": e2.io.sha_file(path),
+        "selected_checkpoints": selected, "runs": prefix, "elapsed_before": 12.5,
+    }))
+    calls.clear()
+    resumed = e2.principal("har_stream", 0)
+    assert calls == [e2.Fx.cell_name(**spec) for spec in specs[11:]]
+    assert resumed["runs"] == doc["runs"] and resumed["wall_seconds"] >= 12.5
+    assert not progress.exists()
+    stale = {
+        "schema": "mop-e2-principal-progress/v1", "cell": "principal:har_stream:0",
+        "source_commit": "c" * 40, "source_tree_oid": "t" * 40,
+        "bed": "har_stream", "seed": 0, "convergence_sha256": "stale",
+        "selected_checkpoints": selected, "runs": prefix, "elapsed_before": 999,
+    }
+    progress.write_text(json.dumps(stale))
+    calls.clear()
+    restarted = e2.principal("har_stream", 0)
+    assert calls == [e2.Fx.cell_name(**spec) for spec in specs]
+    assert restarted["runs"] == doc["runs"] and restarted["wall_seconds"] < 999
 
 
 def test_supervisor_reports_invalid_and_partial_receipts_without_deleting_them(monkeypatch, tmp_path):
