@@ -31,6 +31,15 @@ def test_every_required_adaptation_field_is_mandatory(field):
 
 
 def test_protected_surfaces_cannot_be_removed_by_adaptation():
+    # the declaration itself is asserted first. A loop over an empty tuple passes trivially, which is how
+    # a mutation that simply deleted the protected list survived the first version of this test.
+    assert set(S.PROTECTED_SURFACES) == {"evidence_validation", "audit_systems", "claim_boundaries",
+                                         "stop_switches", "resource_limits", "rollback",
+                                         "adaptation_constraints"}
+    assert set(S.FORBIDDEN_REORGANIZATIONS) == {
+        "arbitrary_code_rewriting", "unbounded_module_creation", "unverified_package_installation",
+        "schema_mutation_outside_authority", "removal_of_evidence_systems", "removal_of_stop_switches",
+        "unbounded_self_modification"}
     for surface in S.PROTECTED_SURFACES:
         report = S.admit_adaptation({**COMPLETE, "removes": [surface]})
         assert report["admitted"] is False

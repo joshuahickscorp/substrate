@@ -15,7 +15,7 @@ import json
 import sys
 from pathlib import Path
 
-from mop.cognition import io, program as P
+from mop.cognition import io, program as P, safety
 
 PLAN_PATH = Path(P.PLAN)
 
@@ -83,8 +83,12 @@ CLAIM_BOUNDARY = {
                "architectural prerequisite", "philosophical interpretation", "unsupported claim"],
     "permitted_terms": ["sentience adjacent architecture", "entity like continuity",
                         "developmental cognition", "reflective cognitive organization"],
-    "forbidden_claims": ["consciousness", "sentience", "feelings", "wants", "suffering",
-                         "subjective experience", "life"],
+    # the plan's wording, kept verbatim. The list that is actually enforced is the detector vocabulary in
+    # mop.cognition.safety, which is wider because it also carries the adjective forms. Two lists for one
+    # concept is how a boundary drifts, so this one names the other rather than restating it.
+    "forbidden_claims_as_written_in_the_plan": ["consciousness", "sentience", "feelings", "wants",
+                                                "suffering", "subjective experience", "life"],
+    "enforced_vocabulary": "mop.cognition.safety.FORBIDDEN_CLAIM_TERMS",
     "rule": "no single architectural property is proof of sentience",
 }
 
@@ -301,9 +305,255 @@ def ledger_markdown(st: dict, frontier: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+# ---------------------------------------------------------------- architecture and capability map
+
+# section 5, the twenty capabilities of a mature Substrate, each bound to the items that would earn it
+CAPABILITIES = (
+    ("inhabit a specialist or general model body", ("B1",)),
+    ("maintain persistent temporal state", ("C1", "C2")),
+    ("preserve active goals and unresolved problems", ("E1", "E5")),
+    ("remember verified experience", ("M2",)),
+    ("separate working, episodic, semantic and procedural memory", ("M1", "M2", "M3", "M4")),
+    ("build and update a world model", ("W1",)),
+    ("maintain a measurable self model", ("S1",)),
+    ("invoke multiple cognitive perspectives", ("C3", "C4")),
+    ("arbitrate agreement and disagreement", ("C5",)),
+    ("allocate additional thought and tools", ("K1", "E4")),
+    ("adapt through state, memory, adapters and bounded parameter updates", ("P1", "P2", "P3")),
+    ("consolidate repeated experience", ("M5",)),
+    ("recover after interruption", ("E1",)),
+    ("transfer procedures across tasks", ("M4", "P5")),
+    ("develop specialization", ("P5", "R1")),
+    ("reorganize within bounded declared structures", ("R1",)),
+    ("preserve evidence and cognitive integrity", ("A4", "E6", "V1", "V2")),
+    ("explain beliefs through traceable evidence paths", ("E3",)),
+    ("differ from an identical initial copy through developmental history", ("P5",)),
+    ("remain scientifically auditable", ("A3", "V1", "V2")),
+)
+
+COMPONENTS = (
+    ("temporal_core", "src/mop/temporal", "the cognitive heartbeat, selected by the live E2 factorial"),
+    ("typed_workspace", "src/mop/cognition/workspace.py", "broad reads, narrow writes, ten typed regions"),
+    ("perspective_system", "src/mop/cognition/perspectives.py", "processes, a selection ladder, arbitration"),
+    ("memory_hierarchy", "src/mop/cognition/memory.py", "working, episodic, semantic, procedural, consolidation, hygiene"),
+    ("world_model", "src/mop/cognition/world.py", "causal graph plus tabular dynamics, four distinctions"),
+    ("self_model", "src/mop/cognition/selfmodel.py", "measured facts, predictions paired to outcomes"),
+    ("metacognition", "src/mop/cognition/metacog.py", "eleven governed actions, eight measures, attention"),
+    ("plasticity", "src/mop/cognition/plasticity.py", "ten levels, fast and slow bars, bounded reorganization"),
+    ("model_body_interface", "src/mop/cognition/body.py", "nine message kinds, six integration modes"),
+    ("batteries", "src/mop/cognition/batteries.py", "thinking, continuity, unity, reflective access"),
+    ("verification_fabric", "src/mop/cognition/verify.py", "recomputation from sealed bytes, mutation attacks"),
+    ("admission_gate", "src/mop/method", "the inherited experiment validity kernel, extended"),
+    ("scheduler", "src/mop/temporal/runs/supervisor.py", "the one scheduler, shared with the temporal program"),
+)
+
+
+def architecture(st: dict) -> dict:
+    rows = []
+    for name, path, role in COMPONENTS:
+        present = (io.ROOT / path).exists()
+        items = [i for i, r in st["items"].items()
+                 if any(path == d or d.startswith(path.rstrip("/") + "/") or path.startswith(d)
+                        for d in r["implementation"]["declared"])]
+        rows.append({"component": name, "path": path, "role": role, "present": present,
+                     "items": sorted(items),
+                     "levels": sorted({st["items"][i]["level"] for i in items})})
+    return {"schema": "substrate-architecture/v1",
+            "shape": ["model body or bodies", "owned temporal core", "typed workspace",
+                      "memory hierarchy", "world model", "self model", "perspective system",
+                      "arbitration", "metacognition", "plasticity", "verification fabric"],
+            "components": rows,
+            "components_present": sum(1 for r in rows if r["present"]),
+            "components_declared": len(rows),
+            "one_of_each": {"scheduler": 1, "experiment_engine": 1, "evidence_fabric": 1, "registry": 1,
+                            "configuration_authority": 1, "cli": 1},
+            "no_parallel_framework": ("Substrate stages reuse the temporal supervisor, the method "
+                                      "admission gate and the existing evidence fabric"),
+            "activation": False}
+
+
+def capability_map(st: dict) -> dict:
+    rows = []
+    for capability, items in CAPABILITIES:
+        levels = {i: st["items"][i]["level"] for i in items if i in st["items"]}
+        earned = [i for i in items if (st["items"].get(i, {}).get("result") or {}).get("scientific")]
+        rows.append({
+            "capability": capability, "items": list(items), "levels": levels,
+            "implemented": bool(levels) and all(
+                v in ("implemented", "tested", "measured", "terminal") for v in levels.values()),
+            "evidence_earned": sorted(earned),
+            "has_evidence": bool(earned),
+        })
+    return {"schema": "substrate-capability-map/v1",
+            "source": "SUBSTRATE_MASTER_PLAN.md section 5",
+            "capabilities": rows,
+            "implemented_count": sum(1 for r in rows if r["implemented"]),
+            "with_evidence_count": sum(1 for r in rows if r["has_evidence"]),
+            "total": len(rows),
+            "rule": ("implemented means the declared surface exists and its tests pass. Evidence is "
+                     "counted only from items carrying a scientific classification"),
+            "activation": False}
+
+
+# ---------------------------------------------------------------- the live temporal core record
+
+
+TEMPORAL_RUNS = io.ROOT / "runs" / "substrate" / "mop-temporal-core-mechanism-v1"
+
+
+def temporal_core_record() -> dict:
+    """Read the live temporal program off disk. Nothing here is asserted from memory."""
+    def count(sub: str, pattern: str = "*.json") -> int:
+        d = TEMPORAL_RUNS / sub
+        return len(list(d.glob(pattern))) if d.is_dir() else 0
+
+    synthesis = _bind("temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json")
+    selection = _bind("temporal:MOP_OWNED_TEMPORAL_CORE_V1.json")
+    verification = _bind("temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json")
+    counts = {"e2_scout": count("e2_scout"), "e2_converge": count("e2_converge"),
+              "e2_converge_extended": count("e2_converge_extended"),
+              "e2_principal": count("e2_principal"),
+              "e2_principal_corrections": count("e2_principal_corrections"),
+              "e2_converge_corrections": count("e2_converge_corrections"),
+              "e2_optimization_corrections": count("e2_optimization_corrections"),
+              "third_bed_preflight": count("third_bed_preflight"),
+              "failure_holds": count("failure_holds"),
+              "active_locks": count("locks")}
+    terminal = P.evidence_state("temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json")["counts"]
+    return {
+        "schema": "substrate-temporal-core/v1",
+        "program": "mop-temporal-core-mechanism-v1",
+        "question": ("whether recurrence is necessary, whether explicit history is sufficient, the "
+                     "minimum useful state horizon, the smallest useful capacity, the simplest "
+                     "sufficient readout, and whether the effect survives independent implementations "
+                     "and multiple beds"),
+        "receipt_counts": counts,
+        "principal_shards_expected": 24,
+        "principal_shards_present": counts["e2_principal"],
+        "principal_complete": counts["e2_principal"] >= 24,
+        "synthesis": synthesis,
+        "selection": selection,
+        "independent_verification": verification,
+        "terminal": terminal,
+        "named_v1": terminal and selection["resolved"],
+        "honest_state": ("Substrate Temporal Core v1 is not named yet. The factorial is still executing "
+                         f"with {24 - counts['e2_principal']} principal shards outstanding, and the "
+                         "artifacts on disk from an earlier run are superseded rather than current"
+                         if not terminal else "the selection is terminal and independently verified"),
+        "remains_one_component": True,
+        "activation": False,
+    }
+
+
+# ---------------------------------------------------------------- the current entity
+
+
+def entity_spec(st: dict, arch: dict, caps: dict) -> dict:
+    card = P.scorecard(st)
+    return {
+        "schema": "substrate-current-entity-spec/v1",
+        "what_exists": {
+            "components_present": arch["components_present"],
+            "components_declared": arch["components_declared"],
+            "capabilities_implemented": caps["implemented_count"],
+            "capabilities_with_evidence": caps["with_evidence_count"],
+            "capabilities_total": caps["total"],
+        },
+        "item_levels": st["level_counts"],
+        "implementation_by_category": {k: v["implementation_pct"] for k, v in card["categories"].items()},
+        "evidence_by_category": {k: v["evidence_pct"] for k, v in card["categories"].items()},
+        "claim_class": {
+            "demonstrated_engineering_property": [
+                "a typed workspace where every region is globally readable and none is globally writable",
+                "arbitration that preserves a minority hypothesis with its own provenance",
+                "a memory hierarchy that refuses to promote an unverified generated episode",
+                "a world model whose four distinctions are reported apart and are recomputable",
+                "batteries that refuse a thinking claim resting on latency",
+                "a reflective report that fails closed without provenance",
+                "twenty two mutation attacks, each rejected by the guard named beside it",
+            ],
+            "behavioural_indication": [],
+            "architectural_prerequisite": [
+                "persistent owned state that survives context removal and a checkpoint restore",
+                "a self model whose predictions are paired to outcomes",
+                "endogenous attention ranked by declared drivers under a resource limit",
+            ],
+            "philosophical_interpretation": [],
+            "unsupported_claim": [],
+        },
+        "not_claimed": list(safety.FORBIDDEN_CLAIM_TERMS),
+        "not_claimed_as_written_in_the_plan": list(
+            CLAIM_BOUNDARY["forbidden_claims_as_written_in_the_plan"]),
+        "activation": False,
+    }
+
+
+def entity_report(st: dict, spec: dict, arch: dict, caps: dict, temporal: dict) -> str:
+    card = P.scorecard(st)
+    lines = [
+        "# Substrate: what the entity currently is",
+        "",
+        f"Generated from the tree at commit `{io.commit()}`. Every number below is derived from the",
+        "repository, and any number that would require evidence nobody has measured is reported as zero",
+        "rather than estimated.",
+        "",
+        "## Implementation and evidence are not the same axis",
+        "",
+        "| category | implementation | evidence |",
+        "|---|---:|---:|",
+    ]
+    for name, row in card["categories"].items():
+        lines.append(f"| {name} | {row['implementation_pct']}% | {row['evidence_pct']}% |")
+    lines += [
+        "",
+        f"Implementation is high because the declared surfaces exist and their tests pass. Evidence is",
+        f"zero in every category that has not produced a scientific classification, and raising it would",
+        f"require an admitted experiment on a valid bed, not more code.",
+        "",
+        "## Capability, not aspiration",
+        "",
+        f"Of the twenty capabilities the master plan describes for a mature Substrate,",
+        f"{caps['implemented_count']} have an implementation and {caps['with_evidence_count']} have",
+        f"earned evidence. The gap between those two numbers is the honest state of the program.",
+        "",
+        "## Thinking adjacent properties, and what they are not",
+        "",
+        "The architecture implements several properties associated in the literature with entity like",
+        "cognition: a unified workspace with global availability, persistent owned state that survives",
+        "context removal, an autobiographical episodic store, a self model compared against outcomes,",
+        "endogenous attention under a budget, and reflective access bound to receipts.",
+        "",
+        "None of that is a claim about experience. These are architectural prerequisites and demonstrated",
+        "engineering properties. The program does not claim consciousness, sentience, feelings, wants,",
+        "suffering, subjective experience or life, and the module that would refuse such a claim in text",
+        "is tested against its own boundary document.",
+        "",
+        "## The temporal core",
+        "",
+        f"{temporal['honest_state']}",
+        "",
+        "## The exact next frontier",
+        "",
+    ]
+    frontier = P.next_batches(st)
+    primary, secondary = frontier.get("primary") or {}, frontier.get("secondary") or {}
+    lines += [
+        f"Primary: {primary.get('id', 'none')}, {primary.get('title', '')}. {primary.get('next_action', '')}",
+        "",
+        f"Secondary: {secondary.get('id', 'none')}, {secondary.get('title', '')}. "
+        f"{secondary.get('next_action', '')}",
+        "",
+        "Activation remains false.",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def write_all() -> dict:
     st = P.state()
     frontier = P.next_batches(st)
+    arch, caps = architecture(st), capability_map(st)
+    temporal = temporal_core_record()
+    spec = entity_spec(st, arch, caps)
     written = {
         "SUBSTRATE_MASTER_AUTHORITY.json": io.seal("SUBSTRATE_MASTER_AUTHORITY.json", master_authority(st)),
         "SUBSTRATE_STATE.json": io.seal("SUBSTRATE_STATE.json", st),
@@ -311,7 +561,13 @@ def write_all() -> dict:
         "SUBSTRATE_NULL_MAP.json": io.seal("SUBSTRATE_NULL_MAP.json", null_map(st)),
         "SUBSTRATE_PROGRESS_SCORECARD.json": io.seal("SUBSTRATE_PROGRESS_SCORECARD.json", P.scorecard(st)),
         "SUBSTRATE_NEXT_FRONTIER.json": io.seal("SUBSTRATE_NEXT_FRONTIER.json", frontier),
+        "SUBSTRATE_ARCHITECTURE.json": io.seal("SUBSTRATE_ARCHITECTURE.json", arch),
+        "SUBSTRATE_CAPABILITY_MAP.json": io.seal("SUBSTRATE_CAPABILITY_MAP.json", caps),
+        "SUBSTRATE_TEMPORAL_CORE.json": io.seal("SUBSTRATE_TEMPORAL_CORE.json", temporal),
+        "SUBSTRATE_CURRENT_ENTITY_SPEC.json": io.seal("SUBSTRATE_CURRENT_ENTITY_SPEC.json", spec),
         "SUBSTRATE_LEDGER.md": io.seal_md("SUBSTRATE_LEDGER.md", ledger_markdown(st, frontier)),
+        "SUBSTRATE_CURRENT_ENTITY_REPORT.md": io.seal_md(
+            "SUBSTRATE_CURRENT_ENTITY_REPORT.md", entity_report(st, spec, arch, caps, temporal)),
     }
     return {name: path.relative_to(io.ROOT).as_posix() for name, path in written.items()}
 

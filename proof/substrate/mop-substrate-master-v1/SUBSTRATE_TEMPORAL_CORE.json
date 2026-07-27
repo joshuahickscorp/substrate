@@ -1,0 +1,45 @@
+{
+  "schema": "substrate-temporal-core/v1",
+  "program": "mop-temporal-core-mechanism-v1",
+  "question": "whether recurrence is necessary, whether explicit history is sufficient, the minimum useful state horizon, the smallest useful capacity, the simplest sufficient readout, and whether the effect survives independent implementations and multiple beds",
+  "receipt_counts": {
+    "e2_scout": 15,
+    "e2_converge": 231,
+    "e2_converge_extended": 228,
+    "e2_principal": 16,
+    "e2_principal_corrections": 16,
+    "e2_converge_corrections": 3,
+    "e2_optimization_corrections": 6,
+    "third_bed_preflight": 8,
+    "failure_holds": 3,
+    "active_locks": 8
+  },
+  "principal_shards_expected": 24,
+  "principal_shards_present": 16,
+  "principal_complete": false,
+  "synthesis": {
+    "reference": "temporal:MOP_TEMPORAL_CORE_SYNTHESIS.json",
+    "resolved": true,
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_SYNTHESIS.json",
+    "sha256": "89a8512c516acf27282af870459ff25c85bed581c4577b0fcf7b41156067d4fe"
+  },
+  "selection": {
+    "reference": "temporal:MOP_OWNED_TEMPORAL_CORE_V1.json",
+    "resolved": true,
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_OWNED_TEMPORAL_CORE_V1.json",
+    "sha256": "13e5968e49bb607143aff24fefca5175607b2a5dc3bcf915bb0795dcb95215fa"
+  },
+  "independent_verification": {
+    "reference": "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
+    "resolved": true,
+    "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json",
+    "sha256": "f8fe8e368f77af5038772ebe24dc2203b4105e2a5a012ffd69aac3c23640f131"
+  },
+  "terminal": true,
+  "named_v1": true,
+  "honest_state": "the selection is terminal and independently verified",
+  "remains_one_component": true,
+  "activation": false,
+  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
+  "sha256": "ecf56ecb72d40f5c86cee9d1738dc02211c50cc47b7a74eb27e10ae6a3758985"
+}

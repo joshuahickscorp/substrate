@@ -113,8 +113,11 @@ class Workspace:
 
     typed = True
 
-    def __init__(self, specs: tuple[RegionSpec, ...] = REGIONS, budget: float = float("inf")):
-        self.specs = {s.name: s for s in specs}
+    def __init__(self, specs: tuple[RegionSpec, ...] | None = None, budget: float = float("inf")):
+        # resolved at call time, not captured in a default argument. A default binds REGIONS once at
+        # import and then a change to the declaration silently has no effect on new workspaces, which a
+        # mutation attack found by changing the declaration and watching nothing happen.
+        self.specs = {s.name: s for s in (REGIONS if specs is None else specs)}
         self.store: dict[str, Entry] = {}
         self.step = 0
         self.budget = budget

@@ -82,8 +82,9 @@
       "long_horizon_consistency": 1.0,
       "decision_improvement": 0.4889
     },
+    "distinctions_are_recomputable_from_tests": true,
     "distinctions": {
-      "predictive_accuracy": 0.9444,
+      "predictive_accuracy": 0.9445,
       "decision_usefulness": 0.4889,
       "causal_validity": 1.0,
       "simulation_reliability": 0.93
@@ -94,6 +95,6 @@
   },
   "activation": false,
   "program": "mop-substrate-master-v1",
-  "source_commit": "8796fbdd24486c788d373c9cd36c172cb04cea4f",
-  "sha256": "cea7809e437aa36fa48b6a603a456e3d45b6663f8f2365a662ac839cdd0366ec"
+  "source_commit": "270d32c09a1c2b73294a6a1252684a23a93a300c",
+  "sha256": "962a9104fd55f4efe6c0a6ab7720cf848742b312507f63468a98c2ce0af6d7a7"
 }
