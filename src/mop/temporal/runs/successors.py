@@ -253,20 +253,20 @@ def main():
     for name, key in (("MOP_E3_SHARED_LOCAL_RESULT.json", "E3_shared_versus_local"),
                       ("MOP_E5_SELF_SUPERVISED_RESULT.json", "E5_self_supervised"),
                       ("MOP_HYBRID_ADAPTATION_RESULT.json", "hybrid_adaptation")):
-        existing = io.load(name) if io.exists(name) else {}
-        actually_executed = bool(existing.get("experiment_terminal"))
+        existing = io.load(name) if io.exists(name) else {}; licensed_now = key in licensed
+        history = existing if existing.get("experiment_terminal") and not licensed_now else existing.get("historical_execution")
+        actually_executed = licensed_now and bool(existing.get("experiment_terminal"))
         io.seal(name, {
             "schema": f"mop-successor-gate/{key}",
             "gate": g[key],
             "opened": key in licensed,
-            "status": ("executed" if key in licensed and actually_executed else
-                       "licensed_pending_execution" if key in licensed else
+            "status": ("executed" if licensed_now and actually_executed else "licensed_pending_execution" if licensed_now else
                        "opened_not_licensed" if g[key].get("opens") else "gate_closed"),
             "experiment_terminal": actually_executed,
             "result": existing.get("result") if actually_executed else None,
-            "mutation_checks": (existing.get("mutation_checks")
-                                or (existing.get("result") or {}).get("mutation_checks")
+            "mutation_checks": (existing.get("mutation_checks") or (existing.get("result") or {}).get("mutation_checks")
                                 if actually_executed else {}),
+            "historical_execution": history,
             "rule": "a conditional experiment that does not open still produces this artifact",
         })
     io.seal("MOP_EXPERIMENT_VALUE_QUEUE.json", {

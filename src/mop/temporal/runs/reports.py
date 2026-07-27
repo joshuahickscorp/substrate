@@ -18,6 +18,8 @@ ENV = {"OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1", "PYTHONPATH": "src"}
 def _env():
     import os
     env = dict(os.environ, **ENV)
+    env.pop("MOP_LAUNCH_SOURCE_COMMIT", None)
+    env.pop("MOP_LAUNCH_SOURCE_TREE_OID", None)
     env["MOP_TEMPORAL_DATA_ROOT"] = str(io.DATA_ROOT)
     env["MOP_DATA_ROOT"] = str(io.DATA_ROOT)
     return env

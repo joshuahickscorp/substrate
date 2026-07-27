@@ -18,7 +18,7 @@ def test_core_selection_is_independently_verified_before_successor_gating(monkey
 
     assert supervisor.run_verified_successor_gates()
     assert calls == ["mop.temporal.runs.coresel", "mop.temporal.runs.verify",
-                     "mop.temporal.runs.successors"]
+                     "mop.temporal.runs.successors", "mop.temporal.runs.verify"]
 
 
 def test_failed_post_core_verification_withdraws_selection_and_reverifies(monkeypatch, tmp_path):
@@ -45,7 +45,7 @@ def test_failed_post_core_verification_withdraws_selection_and_reverifies(monkey
     assert supervisor.run_verified_successor_gates()
     assert calls == ["mop.temporal.runs.coresel", "mop.temporal.runs.verify",
                      "mop.temporal.runs.coresel", "mop.temporal.runs.verify",
-                     "mop.temporal.runs.successors"]
+                     "mop.temporal.runs.successors", "mop.temporal.runs.verify"]
     assert docs[CORE]["selected"] is False
     assert not list(checkpoint_root.glob("owned_temporal_core_v1_*.pt"))
     quarantined = list((supervisor.io.PROOF / "checkpoint_quarantine").rglob("*.pt"))
@@ -73,7 +73,7 @@ def test_negative_verified_core_decision_seals_closed_successor_gates(monkeypatc
     assert supervisor.run_verified_successor_gates()
     assert calls == ["mop.temporal.runs.coresel", "mop.temporal.runs.verify",
                      "mop.temporal.runs.coresel", "mop.temporal.runs.verify",
-                     "mop.temporal.runs.successors"]
+                     "mop.temporal.runs.successors", "mop.temporal.runs.verify"]
 
 
 def test_successor_gating_stops_when_negative_core_decision_is_incomplete(monkeypatch):
@@ -84,3 +84,10 @@ def test_successor_gating_stops_when_negative_core_decision_is_incomplete(monkey
     assert not supervisor.run_verified_successor_gates()
     assert calls == ["mop.temporal.runs.coresel", "mop.temporal.runs.verify",
                      "mop.temporal.runs.coresel", "mop.temporal.runs.verify"]
+
+
+def test_successor_result_refresh_verifies_the_resealed_queue():
+    assert supervisor.SUCCESSOR_REFRESH[-2:] == (
+        "mop.temporal.runs.successors",
+        "mop.temporal.runs.verify",
+    )
