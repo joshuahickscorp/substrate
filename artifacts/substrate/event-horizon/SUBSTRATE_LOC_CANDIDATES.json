@@ -43,8 +43,8 @@
       "name": "Reference",
       "target_executable_loc": 12000,
       "files": 44,
-      "physical_loc": 16495,
-      "executable_loc": 11940,
+      "physical_loc": 16496,
+      "executable_loc": 11941,
       "method": "nonblank physical lines; executable excludes comment-only, docstring, and delimiter-only structural lines",
       "test_command": "substrate test -ra",
       "test_exit": 0,
@@ -54,7 +54,7 @@
   ],
   "deletion_driven": true,
   "selected": "Reference",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
   "activation": false,
-  "sha256": "2a96ad8f4602e61287927327db9969ba83282880948a949b9bcc811551312b3f"
+  "sha256": "17f0fa08e6006e0ad0e5f52d3acdf4d522ef1d9f112893e2562836b1c8f7811c"
 }

@@ -1,6 +1,6 @@
 # Substrate Event Horizon report
 
-Substrate is authoritative at `/Users/scammermike/Downloads/substrate` on `agent/substrate-event-horizon` (`50c6e26492d19bdcf8be6e31dc7be773d47a8a83`). The configured remote is
+Substrate is authoritative at `/Users/scammermike/Downloads/substrate` on `agent/substrate-event-horizon` (`df62f885d2dad8b0adb15e634b9310ab6f9e0fc0`). The configured remote is
 `git@github.com:joshuahickscorp/mop.git`. Scientific activation remains `false`; the scientific long run was not launched.
 
 ## Outcome
@@ -8,8 +8,8 @@ Substrate is authoritative at `/Users/scammermike/Downloads/substrate` on `agent
 - Scientific verdict: `certified_cognitive_scaffold`.
 - Passed gates: `grounded_closed_loop`, `unity_under_conflict`, `world_self_control_value`.
 - Mechanism nulls: `endogenous_allocation`, `cross_domain_continuity`, `procedural_transfer`.
-- Selected LOC candidate: Reference, 11,940 executable and
-  16,495 physical Python production lines.
+- Selected LOC candidate: Reference, 11,941 executable and
+  16,496 physical Python production lines.
 - Active tests: 2,246 executable and
   3,319 physical lines; 231 passed.
 - Active documentation: 6 documents, 1,753 words.
@@ -20,8 +20,8 @@ Substrate is authoritative at `/Users/scammermike/Downloads/substrate` on `agent
 - Rehearsal: 17/17 checks pass. Median wall time fell from
   0.50s to
   0.16s.
-- Clean clone: `pending`; all pass =
-  `false`.
+- Clean clone: `passed`; all pass =
+  `true`.
 
 ## Collapse
 

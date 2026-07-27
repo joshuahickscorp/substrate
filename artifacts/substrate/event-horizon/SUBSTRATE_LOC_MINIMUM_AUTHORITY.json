@@ -3,8 +3,8 @@
   "selected": {
     "name": "Reference",
     "files": 44,
-    "physical_loc": 16495,
-    "executable_loc": 11940,
+    "physical_loc": 16496,
+    "executable_loc": 11941,
     "method": "nonblank physical lines; executable excludes comment-only, docstring, and delimiter-only structural lines"
   },
   "lower_candidates_actually_tested": true,
@@ -16,7 +16,7 @@
   ],
   "under_hard_floor": true,
   "preferred_9k_reached": false,
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
   "activation": false,
-  "sha256": "605c28ea70a9d5e2019e88ad12bc3aa3cacb1be488fe0d79edd14310ce494c68"
+  "sha256": "244e277f26b9925ba7d99f7aecd5ea8fcd8f2d95dfa1a12241fe76c455355a5f"
 }

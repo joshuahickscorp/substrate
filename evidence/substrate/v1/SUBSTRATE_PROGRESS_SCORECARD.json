@@ -378,7 +378,7 @@
   ],
   "evidence_policy": "earned only",
   "program": "substrate-v1",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
   "activation": false,
-  "sha256": "0f398988101b953ac3944768edb9238a4eb96f041dd3526879930853a353e7f6"
+  "sha256": "48da59c960782168fd87ef15ec95ede959ea7ed96350df2a65ce26bee7ec15b1"
 }

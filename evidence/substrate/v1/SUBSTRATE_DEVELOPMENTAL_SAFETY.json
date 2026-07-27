@@ -53,6 +53,6 @@
   "stop_switch": "/Users/scammermike/.substrate/stop",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
-  "sha256": "f5f93167422643720137c41eab376aee156b47c6a2b6c60fbb7d0693c485f752"
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "sha256": "47da7f826eb86e630470645e106f973b594f23e8cdc775ac176fe7c055d63b65"
 }

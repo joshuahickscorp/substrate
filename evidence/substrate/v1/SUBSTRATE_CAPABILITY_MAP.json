@@ -283,6 +283,6 @@
   "rule": "implemented means the declared surface exists and its tests pass. Evidence is counted only from items carrying a scientific classification",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
-  "sha256": "cc687f65850ef2886012a8201f941ec3d12e38a5dfabb782d6b8ccc06a73c268"
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "sha256": "8e3685acff6e7707d82204662147772000f2c81e9dd677e51c712f8542b36a12"
 }

@@ -988,7 +988,7 @@
     "SUBSTRATE_BODY_GENERAL.json": true,
     "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
-    "SUBSTRATE_CLEAN_CLONE.json": false,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
     "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
@@ -1054,7 +1054,7 @@
     "SUBSTRATE_BODY_GENERAL.json": true,
     "SUBSTRATE_BODY_TOOL.json": true,
     "SUBSTRATE_CAPABILITY_MAP.json": true,
-    "SUBSTRATE_CLEAN_CLONE.json": false,
+    "SUBSTRATE_CLEAN_CLONE.json": true,
     "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json": true,
     "SUBSTRATE_CONTINUITY_BATTERY.json": true,
     "SUBSTRATE_CURRENT_ENTITY_REPORT.md": true,
@@ -1115,6 +1115,6 @@
     "implemented": 66
   },
   "activation": false,
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
-  "sha256": "17c3b53b71fca0fc4d749248d6cee06f61950ab1b862fdda1cfc6efb5bb9c2d9"
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "sha256": "3c3bca0d0b3cf9e3f5ae29629ae44b47d4c437dad414e2b4fd331e236c3afa9e"
 }

@@ -18,7 +18,7 @@
         "SUBSTRATE_MASTER_AUTHORITY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json",
       "next_action": "run and record tests/substrate/test_program.py::test_naming_authority_preserves_historical_programs"
     },
@@ -42,7 +42,7 @@
         "SUBSTRATE_STATE.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRATE_STATE.json",
       "next_action": "run and record tests/substrate/test_program.py::test_every_deliverable_binds_to_a_real_path"
     },
@@ -66,7 +66,7 @@
         "SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_EXPERIMENTAL_REQUIREMENTS.json",
       "next_action": "run and record tests/substrate/test_admission.py::test_substrate_experiment_cannot_reach_principal_unproven"
     },
@@ -89,7 +89,7 @@
         "SUBSTRATE_DEVELOPMENTAL_SAFETY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_DEVELOPMENTAL_SAFETY.json",
       "next_action": "run and record tests/substrate/test_safety.py::test_protected_surfaces_cannot_be_removed_by_adaptation"
     },
@@ -112,7 +112,7 @@
         "SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_SENTIENCE_RESEARCH_BOUNDARY.json",
       "next_action": "run and record tests/substrate/test_safety.py::test_forbidden_claim_vocabulary_is_refused"
     },
@@ -136,7 +136,7 @@
         "SUBSTRATE_NEXT_FRONTIER.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_STATE.json, SUBSTRATE_NEXT_FRONTIER.json",
       "next_action": "run and record tests/substrate/test_program.py::test_batch_selection_is_dependency_ready_and_independent"
     },
@@ -159,7 +159,7 @@
         "SUBSTRATE_PROGRESS_SCORECARD.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_PROGRESS_SCORECARD.json",
       "next_action": "run and record tests/substrate/test_program.py::test_evidence_never_rises_from_implementation_alone"
     },
@@ -183,7 +183,7 @@
         "temporal:MOP_TEMPORAL_CORE_INDEPENDENT_VERIFICATION.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete  and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/temporal/test_temporal_core.py"
     },
@@ -206,7 +206,7 @@
         "SUBSTRATE_WORKSPACE.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_WORKSPACE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_workspace.py"
     },
@@ -229,7 +229,7 @@
         "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_PERSPECTIVE_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_perspectives.py"
     },
@@ -252,7 +252,7 @@
         "SUBSTRATE_PERSPECTIVE_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_PERSPECTIVE_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_perspectives.py::test_learned_selector_stays_closed_without_headroom"
     },
@@ -275,7 +275,7 @@
         "SUBSTRATE_ARBITRATION_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_ARBITRATION_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_perspectives.py::test_minority_hypothesis_survives_arbitration"
     },
@@ -301,7 +301,7 @@
         "SUBSTRATE_ONTOLOGY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_ONTOLOGY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_ontology.py::test_identity_preservation_over_time, tests/substrate/test_ontology.py::test_mistaken_merge_detection, tests/substrate/test_ontology.py::test_counterfactual_objects_never_merge_with_actual_ones, tests/substrate/test_ontology.py::test_the_self_environment_boundary_holds"
     },
@@ -327,7 +327,7 @@
         "SUBSTRATE_BELIEF_REVISION.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_EPISTEMOLOGY.json, SUBSTRATE_BELIEF_REVISION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_epistemology.py::test_hidden_dependency_failure_is_caught_by_retraction_propagating, tests/substrate/test_epistemology.py::test_circular_justification_is_refused_not_followed, tests/substrate/test_epistemology.py::test_the_dependency_aware_policy_beats_a_confident_but_undermined_claim"
     },
@@ -351,7 +351,7 @@
         "SUBSTRATE_EPISTEMOLOGY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_EPISTEMOLOGY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_epistemology.py::test_epistemic_value_and_not_confidence_chooses_the_action"
     },
@@ -376,7 +376,7 @@
         "SUBSTRATE_RUNTIME.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_RUNTIME.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_runtime.py::test_one_cycle_runs_every_declared_stage, tests/substrate/test_runtime.py::test_a_skipped_stage_says_why_rather_than_looking_like_one_that_ran"
     },
@@ -401,7 +401,7 @@
         "SUBSTRATE_RUNTIME.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_RUNTIME.json",
       "next_action": "run and record tests/substrate/test_runtime.py::test_the_loop_never_acts_on_the_world, tests/substrate/test_runtime.py::test_a_tampered_checkpoint_is_refused_rather_than_silently_restored"
     },
@@ -424,7 +424,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_memory.py::test_working_memory_capacity_interference_and_decay"
     },
@@ -447,7 +447,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_memory.py::test_generated_episode_cannot_be_promoted_without_verification"
     },
@@ -470,7 +470,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_memory.py::test_semantic_supersession_preserves_provenance"
     },
@@ -493,7 +493,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_memory.py::test_procedure_requires_transfer_beyond_source_episodes"
     },
@@ -518,7 +518,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_memory.py::test_consolidation_policies_are_distinct_and_ordered"
     },
@@ -541,7 +541,7 @@
         "SUBSTRATE_MEMORY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_MEMORY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_memory.py::test_hygiene_never_destroys_audit_required_records"
     },
@@ -565,7 +565,7 @@
         "SUBSTRATE_WORLD_MODEL.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_WORLD_MODEL.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_world.py"
     },
@@ -589,7 +589,7 @@
         "SUBSTRATE_SELF_MODEL.json"
       ],
       "classification": "mechanism_null",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_SELF_MODEL.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_selfmodel.py"
     },
@@ -613,7 +613,7 @@
         "SUBSTRATE_METACOGNITION.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_METACOGNITION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_metacog.py"
     },
@@ -637,7 +637,7 @@
         "SUBSTRATE_PLASTICITY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_plasticity.py::test_every_level_declares_the_seven_required_fields"
     },
@@ -661,7 +661,7 @@
         "SUBSTRATE_PLASTICITY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_plasticity.py::test_fast_adaptation_does_not_touch_shared_parameters"
     },
@@ -685,7 +685,7 @@
         "SUBSTRATE_PLASTICITY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_plasticity.py::test_slow_adaptation_requires_repeated_evidence_and_rollback"
     },
@@ -709,7 +709,7 @@
         "SUBSTRATE_PLASTICITY_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_PLASTICITY_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_plasticity.py::test_learned_policy_stays_closed_without_headroom"
     },
@@ -732,7 +732,7 @@
         "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_plasticity.py::test_learning_to_learn_requires_cross_task_generalization"
     },
@@ -757,7 +757,7 @@
         "SUBSTRATE_REORGANIZATION.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_REORGANIZATION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_plasticity.py::test_forbidden_reorganizations_are_refused"
     },
@@ -780,7 +780,7 @@
         "SUBSTRATE_MODEL_BODY_INTERFACE.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_body.py"
     },
@@ -804,7 +804,7 @@
         "SUBSTRATE_THINKING_BATTERY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_THINKING_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_batteries.py::test_thinking_requires_a_declared_alternative_to_beat"
     },
@@ -828,7 +828,7 @@
         "SUBSTRATE_CONTINUITY_BATTERY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_CONTINUITY_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_batteries.py::test_continuity_survives_context_removal_from_owned_state"
     },
@@ -852,7 +852,7 @@
         "SUBSTRATE_UNITY_BATTERY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_UNITY_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_batteries.py::test_unity_measures_global_availability_not_shared_mutability"
     },
@@ -876,7 +876,7 @@
         "SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_REFLECTIVE_ACCESS_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_batteries.py::test_reflective_report_fails_closed_without_provenance"
     },
@@ -899,7 +899,7 @@
         "SUBSTRATE_METACOGNITION.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_METACOGNITION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_metacog.py::test_attention_ranks_by_declared_drivers_under_budget"
     },
@@ -924,7 +924,7 @@
         "SUBSTRATE_AGENCY_BATTERY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_MASTER_AUTHORITY.json, SUBSTRATE_AGENCY_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_safety.py::test_unauthorized_goal_creation_is_refused"
     },
@@ -947,7 +947,7 @@
         "SUBSTRATE_INDEPENDENT_VERIFICATION.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_INDEPENDENT_VERIFICATION.json",
       "next_action": "run and record tests/substrate/test_verification.py::test_recomputation_agrees_with_every_sealed_artifact"
     },
@@ -970,7 +970,7 @@
         "SUBSTRATE_MUTATION_REPORT.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_MUTATION_REPORT.json",
       "next_action": "run and record tests/substrate/test_verification.py::test_every_mutation_names_a_distinct_guard_and_died"
     },
@@ -994,7 +994,7 @@
         "SUBSTRATE_CAPABILITY_MAP.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_ARCHITECTURE.json, SUBSTRATE_CAPABILITY_MAP.json",
       "next_action": "run and record tests/substrate/test_verification.py::test_the_capability_map_never_outruns_the_item_table"
     },
@@ -1019,7 +1019,7 @@
         "SUBSTRATE_CURRENT_ENTITY_REPORT.md"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_CURRENT_ENTITY_SPEC.json, SUBSTRATE_CURRENT_ENTITY_REPORT.md",
       "next_action": "run and record tests/substrate/test_verification.py::test_the_entity_report_makes_no_forbidden_claim"
     },
@@ -1044,7 +1044,7 @@
         "SUBSTRATE_NULL_MAP.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_NULL_MAP.json",
       "next_action": "run and record tests/substrate/test_experiments.py::test_sx1_is_refused_because_its_effect_is_true_by_construction, tests/substrate/test_experiments.py::test_a_refusal_is_not_recorded_as_a_null"
     },
@@ -1068,7 +1068,7 @@
         "SUBSTRATE_FINAL_PROGRAM_GRAPH.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_FINAL_PROGRAM_GRAPH.json",
       "next_action": "run and record tests/substrate/test_final_program.py::test_no_future_wave_exists_only_as_prose, tests/substrate/test_final_program.py::test_a_buildable_blocker_is_work_and_only_an_external_one_is_terminal"
     },
@@ -1096,7 +1096,7 @@
         "SUBSTRATE_FINAL_VALUE_QUEUE.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_FINAL_MASTER_AUTHORITY.json, SUBSTRATE_FINAL_ANCESTRY.json, SUBSTRATE_FINAL_STATE.json, SUBSTRATE_FINAL_SCORECARD.json, SUBSTRATE_FINAL_VALUE_QUEUE.json",
       "next_action": "run and record tests/substrate/test_final_program.py::test_every_requirement_carries_a_rollback, tests/substrate/test_final_program.py::test_the_authority_binds_the_final_plan_and_the_inherited_programs"
     },
@@ -1121,7 +1121,7 @@
         "SUBSTRATE_TEMPORAL_CORE.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_TEMPORAL_CORE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_final_program.py::test_no_licensed_core_exists_and_the_control_says_so, tests/substrate/test_final_program.py::test_the_five_information_sources_are_never_collapsed"
     },
@@ -1144,7 +1144,7 @@
         "SUBSTRATE_REAL_SESSION_AUTHORITY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_REAL_SESSION_AUTHORITY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_final_program.py::test_the_session_authority_is_real_and_certified"
     },
@@ -1170,7 +1170,7 @@
         "SUBSTRATE_WORLD_MODEL_BATTERY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_WORLD_MODEL_BED.json, SUBSTRATE_WORLD_MODEL_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_worldbed.py::test_the_bed_is_admissible_only_if_the_best_action_varies, tests/substrate/test_worldbed.py::test_the_model_must_change_an_action_and_improve_it"
     },
@@ -1198,7 +1198,7 @@
         "SUBSTRATE_MODEL_BODY_INTERFACE.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_BODY_COMPACT.json, SUBSTRATE_BODY_GENERAL.json, SUBSTRATE_BODY_TOOL.json, SUBSTRATE_MODEL_BODY_INTERFACE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_final_program.py::test_three_body_classes_conform_through_one_interface, tests/substrate/test_final_program.py::test_the_frontier_body_is_recorded_as_externally_blocked_not_substituted"
     },
@@ -1221,7 +1221,7 @@
         "SUBSTRATE_GOAL_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_GOAL_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_final_program.py::test_a_goal_cannot_authorize_itself_or_widen_its_parent"
     },
@@ -1244,7 +1244,7 @@
         "SUBSTRATE_VALUATION_SYSTEM.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_VALUATION_SYSTEM.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_final_program.py::test_valuation_is_authorized_and_refuses_to_be_fitted"
     },
@@ -1268,7 +1268,7 @@
         "SUBSTRATE_GROUNDING.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_GROUNDING.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_final_program.py::test_grounding_refuses_a_symbol_with_no_referent"
     },
@@ -1292,7 +1292,7 @@
         "SUBSTRATE_WORLD_MODEL.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_WORLD_MODEL.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_world.py::test_intervening_is_not_the_same_operation_as_observing, tests/substrate/test_world.py::test_a_null_counterfactual_reproduces_the_factual_prediction"
     },
@@ -1316,7 +1316,7 @@
         "SUBSTRATE_DEVELOPMENTAL_HISTORY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_DEVELOPMENTAL_HISTORY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_final_program.py::test_divergence_has_a_working_control"
     },
@@ -1340,7 +1340,7 @@
         "SUBSTRATE_CLEAN_CLONE.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_CLEAN_CLONE.json",
       "next_action": "run and record tests/substrate/test_worldbed.py::test_the_clean_clone_checks_are_declared"
     },
@@ -1364,7 +1364,7 @@
         "SUBSTRATE_STRUCTURAL_AUDIT.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_STRUCTURAL_AUDIT.json",
       "next_action": "run and record tests/substrate/test_certification.py::test_the_structural_audit_passes_every_check, tests/substrate/test_certification.py::test_a_dynamically_named_artifact_is_refused_by_the_producer_scan"
     },
@@ -1389,7 +1389,7 @@
         "SUBSTRATE_SX2_DIVERSITY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_SX2_DIVERSITY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_certification.py::test_sx2_closes_because_the_oracle_ceiling_is_low, tests/substrate/test_certification.py::test_every_sx2_comparison_is_compute_matched"
     },
@@ -1414,7 +1414,7 @@
         "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_LONG_RUN_CERTIFICATION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_certification.py::test_every_ablatable_runtime_stage_is_active, tests/substrate/test_certification.py::test_a_stage_with_no_possible_null_control_says_so"
     },
@@ -1439,7 +1439,7 @@
         "SUBSTRATE_LONG_RUN_CERTIFICATION.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_LONG_RUN_CERTIFICATION.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_certification.py::test_every_session_canary_passes, tests/substrate/test_certification.py::test_the_three_bodies_are_pairwise_distinct"
     },
@@ -1465,7 +1465,7 @@
         "SUBSTRATE_NOUS_CLOSURE.json"
       ],
       "classification": "mechanism_null",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_NOUS_CLOSURE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_nous.py::test_the_closed_loop_has_no_missing_link, tests/substrate/test_nous.py::test_a_null_is_not_reported_as_an_instrument_failure, tests/substrate/test_nous.py::test_the_classification_never_reaches_a_claim_about_experience"
     },
@@ -1493,7 +1493,7 @@
         "SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_LONG_RUN_AUTHORITY.json, SUBSTRATE_LONG_RUN_DAG.json, SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json",
       "next_action": "run and record tests/substrate/test_execution.py::test_every_unit_is_certified_or_necessary, tests/substrate/test_execution.py::test_a_live_edit_after_the_freeze_is_detectable"
     },
@@ -1516,7 +1516,7 @@
         "SUBSTRATE_LONG_RUN_REHEARSAL.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_LONG_RUN_REHEARSAL.json",
       "next_action": "run and record tests/substrate/test_execution.py::test_the_rehearsal_breaks_things_and_survives"
     },
@@ -1540,7 +1540,7 @@
         "SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "revert the commit that sealed SUBSTRATE_LONG_RUN_CLAIM_BOUNDARY.json",
       "next_action": "run and record tests/substrate/test_execution.py::test_the_claim_ceiling_forbids_what_it_must"
     },
@@ -1563,7 +1563,7 @@
         "SUBSTRATE_TEMPORAL_CORE.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_TEMPORAL_CORE.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_verification.py::test_the_temporal_core_record_tracks_the_live_program"
     },
@@ -1588,7 +1588,7 @@
         "SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json"
       ],
       "classification": "",
-      "commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+      "commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
       "rollback": "delete SUBSTRATE_INDEPENDENT_VERIFICATION.json, SUBSTRATE_COGNITIVE_INTEGRITY_BATTERY.json and rerun substrate.deliverables write; the sealed inputs are immutable and are not touched",
       "next_action": "run and record tests/substrate/test_safety.py::test_integrity_violation_is_detected_and_fails_closed"
     }
@@ -1616,6 +1616,6 @@
   "every_requirement_has_a_rollback": true,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
-  "sha256": "0ac53e941843ef163afe282f25028d32a7d740086e4c649e9e1e857d3417d84f"
+  "source_commit": "df62f885d2dad8b0adb15e634b9310ab6f9e0fc0",
+  "sha256": "b85ea732724be79036867e3e2146855d3a642fbf7670b8311585a4798593bdf1"
 }
