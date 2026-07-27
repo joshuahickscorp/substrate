@@ -83,6 +83,7 @@ def test_stall_detection_is_reported_through_status_and_reconcile(monkeypatch, t
     doc = supervisor.reconcile_live_state("test", row)
     assert len(doc["stalled_workers"]) == 1
     assert doc["stalled_workers"][0]["tag"] == "c:cshard_har_stream_0"
+    assert doc["long_running_active_workers"] == []
 
 
 def test_old_compute_bound_worker_is_active_not_stalled(monkeypatch, tmp_path):
