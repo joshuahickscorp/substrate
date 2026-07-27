@@ -105,6 +105,6 @@
   "claim_boundary": "this measures developmental individuality as differences in owned state that persist. It says nothing about subjective identity and is not evidence of it",
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "24b843d63928e48f25cc84d335caa16988065f45",
-  "sha256": "0f63f11200ca63b18643345d735acad402229e2e344ddb47761cd7bb5a60fde5"
+  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+  "sha256": "bf7f8cc30f98eccdedd37f07720b5aacf4ebc9fba59b35041a4a5781ed28b3ab"
 }

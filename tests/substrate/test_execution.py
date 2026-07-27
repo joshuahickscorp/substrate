@@ -6,10 +6,14 @@ House style: no dashes.
 from __future__ import annotations
 
 import json
+import shutil
+
+import pytest
 
 from substrate import evidence as io
 from substrate import execution as L
 from substrate import safety as SF
+from substrate import verification as V
 
 
 def test_every_unit_is_certified_or_necessary():
@@ -114,3 +118,120 @@ def test_the_launch_gate_refuses_without_a_green_admission(tmp_path, monkeypatch
         assert sealed["audit"]["all_pass"] is True
         assert sealed["certification"]["green"] is True
         assert sealed["rehearsal"]["all_pass"] is True
+
+
+def _capsule() -> dict:
+    return json.loads(L.LAUNCH_CAPSULE.read_text())
+
+
+@pytest.mark.parametrize(
+    ("binding", "check"),
+    (
+        ("source_digest", "source_digest"),
+        ("source_tree_sha256", "source_tree"),
+        ("configuration_sha256", "configuration"),
+        ("runtime", "runtime"),
+        ("historical_authority_sha256", "historical_authority"),
+        ("historical_objects_sha256", "historical_objects"),
+        ("data_custody_sha256", "data_custody"),
+        ("session_authority_sha256", "session_authority"),
+        ("perspective_system_sha256", "perspective_system"),
+        ("body_artifacts_sha256", "body_artifacts"),
+        ("dag_sha256", "dag"),
+        ("registry_sha256", "registry"),
+        ("verifier_source_sha256", "verifier"),
+        ("mutations_sha256", "mutations"),
+        ("claim_boundary_sha256", "claim_boundary"),
+        ("expected_artifacts_sha256", "artifacts"),
+        ("expected_unit_receipt_sha256", "receipt_set"),
+        ("expected_reports_sha256", "reports"),
+    ),
+)
+def test_every_capsule_identity_mismatch_fails_closed(binding, check):
+    capsule = _capsule()
+    capsule["bindings"][binding] = "mismatch"
+    capsule["capsule_sha256"] = io.sha_obj({key: value for key, value in capsule.items() if key != "capsule_sha256"})
+    result = L.validate_launch_capsule(capsule)
+    assert result["all_pass"] is False
+    assert check in result["failed"]
+
+
+def test_missing_and_tampered_cached_artifacts_fail_closed(tmp_path, monkeypatch):
+    proof = tmp_path / "evidence"
+    shutil.copytree(io.PROOF, proof)
+    monkeypatch.setattr(io, "PROOF", proof)
+    victim = proof / "SUBSTRATE_STRUCTURAL_AUDIT.json"
+    original = victim.read_bytes()
+    victim.unlink()
+    with pytest.raises((L.Refused, FileNotFoundError)):
+        L.validate_launch_capsule(_capsule())
+    victim.write_bytes(original + b"tamper")
+    result = L.validate_launch_capsule(_capsule())
+    assert result["all_pass"] is False
+    assert "artifacts" in result["failed"]
+
+
+def _receipt_sandbox(tmp_path, monkeypatch):
+    synthesis = tmp_path / "terminal_synthesis"
+    monkeypatch.setattr(L, "SYNTHESIS_ROOT", synthesis)
+    monkeypatch.setattr(L, "UNITS", synthesis / "units")
+    monkeypatch.setattr(L, "LOCKS", synthesis / "locks")
+    monkeypatch.setattr(L, "STAGING", synthesis / "staging")
+    identity = L._receipt_identity()
+    return [L._logical_receipt(unit, identity=identity) for unit in L.UNIT_LIST]
+
+
+def test_partial_receipt_set_never_becomes_authoritative(tmp_path, monkeypatch):
+    receipts = _receipt_sandbox(tmp_path, monkeypatch)
+    with pytest.raises(L.Refused, match="partial"):
+        L.publish_receipts(receipts[:-1])
+    assert not L.UNITS.exists()
+
+
+def test_terminal_publication_failure_rolls_back_the_prior_complete_set(tmp_path, monkeypatch):
+    receipts = _receipt_sandbox(tmp_path, monkeypatch)
+    L.publish_receipts(receipts)
+    before = {path.name: path.read_bytes() for path in L.UNITS.glob("*.json")}
+    with pytest.raises(OSError, match="injected"):
+        L.publish_receipts(receipts, inject_failure="after_old_swap")
+    after = {path.name: path.read_bytes() for path in L.UNITS.glob("*.json")}
+    assert after == before
+    assert len(after) == 19
+
+
+def test_a_death_between_receipt_swaps_is_recovered(tmp_path, monkeypatch):
+    _receipt_sandbox(tmp_path, monkeypatch)
+    transaction = L.STAGING / "receipt-transaction-death"
+    old = transaction / "old-units"
+    old.mkdir(parents=True)
+    (old / "sentinel.json").write_text('{"ok": true}')
+    recovered = L.recover_receipt_transaction()
+    assert recovered["recovered"] == ["receipt-transaction-death"]
+    assert (L.UNITS / "sentinel.json").is_file()
+
+
+def test_a_mutation_pool_failure_propagates_instead_of_becoming_a_pass(monkeypatch):
+    def broken(*args):
+        raise RuntimeError("injected pool failure")
+
+    monkeypatch.setattr(V, "run_mutation", broken)
+    with pytest.raises(RuntimeError, match="injected pool failure"):
+        V.mutation_report(only=[V.MUTATIONS[0][0]], workers=2)
+
+
+def test_stop_refuses_capsule_work_and_resume_clears_the_switch(tmp_path, monkeypatch):
+    stop = tmp_path / "stop"
+    monkeypatch.setattr(L, "STOP", stop)
+    stop.parent.mkdir(parents=True, exist_ok=True)
+    stop.write_text("operator stop\n")
+    with pytest.raises(L.Refused, match="stop switch"):
+        L.run_capsule()
+    stop.unlink()
+    assert not stop.exists()
+
+
+def test_fast_and_full_receipts_have_exact_normalized_parity():
+    identity = L._receipt_identity()
+    fast = {unit.identity: L._logical_receipt(unit, identity=identity)["receipt_sha256"] for unit in L.UNIT_LIST}
+    full = {unit.identity: L._logical_receipt(unit, wall_seconds=index + 0.125, identity=identity)["receipt_sha256"] for index, unit in enumerate(L.UNIT_LIST)}
+    assert fast == full == _capsule()["bindings"]["expected_unit_receipt_sha256"]

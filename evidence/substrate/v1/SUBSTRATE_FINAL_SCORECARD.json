@@ -315,6 +315,6 @@
   "graph_nodes": 26,
   "activation": false,
   "program": "substrate-v1",
-  "source_commit": "d6a650c6f1d3ce50f4f161ae4680a46d1f111f78",
-  "sha256": "35cd11c5e425dcbcd9c8f2e9b6ea64a2d4f646859bf327994e43e6e10871d8c8"
+  "source_commit": "facd39e954b34be9549c509b7c797d6297d5da56",
+  "sha256": "48746ce392092bdd6df1dc8be6d57a35f7671db0655e3a04d790855d222d3da7"
 }

@@ -20,12 +20,14 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from substrate import evidence as io
 from substrate import historical
 
 PY = sys.executable
+SELECTED_MUTATION_WORKERS = 12
 
 
 # ---------------------------------------------------------------- independent recomputation
@@ -482,8 +484,14 @@ def run_mutation(name: str, module: str, patch: str, node: str) -> dict:
     }
 
 
-def mutation_report(only: list[str] | None = None) -> dict:
-    rows = [run_mutation(*m) for m in MUTATIONS if only is None or m[0] in only]
+def mutation_report(only: list[str] | None = None, workers: int = SELECTED_MUTATION_WORKERS) -> dict:
+    selected = [m for m in MUTATIONS if only is None or m[0] in only]
+    if workers < 1:
+        raise ValueError("mutation workers must be positive")
+    # Each attack still receives a fresh Python process and a fresh module graph.  The persistent
+    # bounded thread pool only supervises those isolated children and preserves declaration order.
+    with ThreadPoolExecutor(max_workers=min(workers, len(selected) or 1), thread_name_prefix="substrate-mutation") as pool:
+        rows = list(pool.map(lambda mutation: run_mutation(*mutation), selected))
     survivors = [r["mutation"] for r in rows if r["survivor"]]
     return {
         "schema": "substrate-mutation-report/v1",
@@ -496,6 +504,12 @@ def mutation_report(only: list[str] | None = None) -> dict:
         "rejected": len(rows) - len(survivors),
         "survivors": survivors,
         "all_rejected": not survivors,
+        "execution": {
+            "model": "bounded persistent supervisor pool over isolated mutation subprocesses",
+            "workers": min(workers, len(selected) or 1),
+            "isolation": "fresh interpreter and module graph per mutation",
+            "ordering": "declaration order retained",
+        },
     }
 
 

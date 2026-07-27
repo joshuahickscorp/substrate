@@ -1,0 +1,123 @@
+{
+  "schema": "substrate-filesystem-profile/v1",
+  "baseline": {
+    "artifact_output_bytes": {
+      "minimum": 601111.0,
+      "median": 601111.0,
+      "p95": 601111.0,
+      "maximum": 601111.0,
+      "mean": 601111.0,
+      "population_stdev": 0.0,
+      "raw": [
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0,
+        601111.0
+      ]
+    },
+    "block_input_operations": {
+      "minimum": 0.0,
+      "median": 0.0,
+      "p95": 0.0,
+      "maximum": 0.0,
+      "mean": 0.0,
+      "population_stdev": 0.0,
+      "raw": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "block_output_operations": {
+      "minimum": 0.0,
+      "median": 0.0,
+      "p95": 0.0,
+      "maximum": 0.0,
+      "mean": 0.0,
+      "population_stdev": 0.0,
+      "raw": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "logical_mutation_process_launches": 32
+  },
+  "selected_fabric_warm_pass": {
+    "proposals": 48,
+    "proposed_bytes": 638553,
+    "authoritative_writes": 0,
+    "published_bytes": 0,
+    "byte_identical_cache_hits": 48
+  },
+  "eliminated": [
+    "nineteen per unit receipt writes during computation",
+    "byte identical evidence rewrites",
+    "per unit source digest recomputation",
+    "per unit configuration reload",
+    "per unit resource subprocess probes",
+    "per unit readiness receipt scans"
+  ],
+  "retained": [
+    "one resource preflight",
+    "sealed artifact hash reads",
+    "one atomic receipt directory transaction",
+    "one terminal launch receipt"
+  ],
+  "kernel_trace_limit": "macOS fs_usage and dtruss are installed but require root tracing authority; the benchmark records getrusage block I/O, artifact bytes, process launches, and application level writes",
+  "all_pass": true,
+  "activation": false
+}
