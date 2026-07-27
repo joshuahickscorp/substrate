@@ -1,0 +1,272 @@
+{
+  "schema": "substrate-event-horizon-precheck/v1",
+  "created_at": "2026-07-27T16:00:52Z",
+  "decision": "modification_permitted",
+  "scientific_run_active": false,
+  "activation": false,
+  "long_run_launch_authorized": false,
+  "repository": {
+    "reported_identity": "joshuahickscorp/mop",
+    "origin_fetch": "git@github.com:joshuahickscorp/mop.git",
+    "origin_push": "git@github.com:joshuahickscorp/mop.git",
+    "default_branch": "main",
+    "source_commit": "7158451d80cfcacc0763894dad3ee5ee1ca834ec",
+    "source_tree": "d5f88b918ec74e664f0a3c61aefc592807c2e6da",
+    "source_subject": "Repin the verification, mutation and audit receipts to the reseal commit",
+    "source_branch_local": "agent/mop-cognition-workspace",
+    "source_branch_remote": "origin/agent/mop-temporal-core-mechanism",
+    "source_matches_remote": true,
+    "tracked_files": 5197,
+    "checkout_size": "881M",
+    "git_object_store": {
+      "packed_objects": 15763,
+      "packed_size": "33.20 MiB",
+      "fsck": "pass_with_one_64_byte_worktree_refs_garbage_entry"
+    },
+    "submodules": [],
+    "lfs": {
+      "installed": true,
+      "tracked_paths_observed": false,
+      "storage_root": "/Users/scammermike/Downloads/mop/.git/lfs"
+    },
+    "hooks_path": null,
+    "active_custom_hooks": []
+  },
+  "pull_request": {
+    "repository": "joshuahickscorp/mop",
+    "number": 35,
+    "url": "https://github.com/joshuahickscorp/mop/pull/35",
+    "state": "OPEN",
+    "draft": true,
+    "base": "main",
+    "base_sha": "a1d6be3f504f3e6d4403a2f75cfed0c2b257921e",
+    "head": "agent/mop-temporal-core-mechanism",
+    "head_sha": "7158451d80cfcacc0763894dad3ee5ee1ca834ec",
+    "mergeable": true,
+    "commit_count": 386,
+    "changed_files": 6645
+  },
+  "worktrees": [
+    {
+      "path": "/Users/scammermike/Downloads/mop",
+      "branch": "agent/mop-experimental-method-reformation",
+      "head": "5e4ce5ed67b2453f3b8d05c39667ebf25ec34d59",
+      "tree": "f9213ac1b6a13cf7e4c5098db65a5ccdfc095047",
+      "clean": true,
+      "relationship_to_pr_head": "112 commits behind"
+    },
+    {
+      "path": "/Users/scammermike/Downloads/mop-temporal-core-mechanism",
+      "branch": "agent/mop-cognition-workspace",
+      "head": "7158451d80cfcacc0763894dad3ee5ee1ca834ec",
+      "tree": "d5f88b918ec74e664f0a3c61aefc592807c2e6da",
+      "clean": true,
+      "relationship_to_pr_head": "identical",
+      "selected_as_migration_source": true
+    },
+    {
+      "path": "/private/tmp/mop-temporal-hardening-v2.3NVs0a",
+      "branch": "agent/mop-temporal-core-mechanism",
+      "head": "0a549efe5da98050d52f9861527ec5dbd44e8a0c",
+      "tree": "5660e9b6dce46e273ff3e06ac715279edfb17a23",
+      "clean": true,
+      "relationship_to_pr_head": "39 commits behind"
+    }
+  ],
+  "refs": {
+    "local_branch_count": 22,
+    "origin_remote_ref_count": 20,
+    "tag_count_before_rollback_tag": 286,
+    "local_only_commit_count": 17,
+    "local_only_heads": [
+      "agent/mop-accretion-collapse@1b9fe879b543da0882238d6a90914fb14d8f16ce",
+      "agent/generation1-successor-recovery-v5@0e06823b6bf94cbc32d812a7e8cb43712d7b5f73",
+      "agent/generation1-categorized-batch-wave@447fcbd07c22e547dedd4428b4f595e233cdb06e",
+      "codex/temporal-postcompute-hardening@32a58957653f6930c773809e721cc4422e2529a9",
+      "substrate-preRebase-backup@168161f5f9f236bcc02a895a87eef43bd0a3b584"
+    ],
+    "published_history_rewrite_permitted": false
+  },
+  "rollback": {
+    "tag": "substrate-pre-event-horizon",
+    "tag_target": "7158451d80cfcacc0763894dad3ee5ee1ca834ec",
+    "remote_verified": true,
+    "remote_tag_object": "cd81f4cfc4cd2912e072c935305f5077deda249c",
+    "procedure": [
+      "Stop any future Substrate supervisor with the version-matched stop command.",
+      "Verify no process has the affected checkout, evidence, run or artifact roots open.",
+      "Fetch refs with: git fetch origin tag substrate-pre-event-horizon.",
+      "Create a separate recovery checkout with: git worktree add /Users/scammermike/Downloads/substrate-rollback substrate-pre-event-horizon.",
+      "Verify commit 7158451d80cfcacc0763894dad3ee5ee1ca834ec and tree d5f88b918ec74e664f0a3c61aefc592807c2e6da before reading or restoring data.",
+      "Do not reset or rewrite the active published branch; recover by a new branch or revert commits."
+    ]
+  },
+  "process_state": {
+    "scientific_workers": [],
+    "supervisors": [],
+    "processes_with_source_or_run_roots_open": [],
+    "launchd": [
+      {
+        "label": "com.mop.temporal-core.finalizer",
+        "state": "not running",
+        "active_count": 0,
+        "last_exit_code": 0,
+        "historical_path": "/private/tmp/mop-temporal-hardening-v2.3NVs0a"
+      },
+      {
+        "label": "com.mop.temporal-core.telegram",
+        "state": "not running",
+        "active_count": 0,
+        "last_exit_code": 0,
+        "historical_path": "/private/tmp/mop-temporal-hardening-v2.3NVs0a"
+      },
+      {
+        "label": "com.mop.temporal-core.handoff",
+        "state": "not running",
+        "active_count": 0,
+        "last_exit_code": 0,
+        "historical_path": "/private/tmp/mop-temporal-hardening-v2.3NVs0a"
+      },
+      {
+        "label": "com.mop.temporal-core.refill",
+        "state": "not running",
+        "active_count": 0,
+        "last_exit_code": 0,
+        "historical_path": "/private/tmp/mop-temporal-hardening-v2.3NVs0a"
+      },
+      {
+        "label": "com.mop.generation1.telegram",
+        "state": "not running",
+        "active_count": 0,
+        "last_exit_code": 2,
+        "historical_path": "/Users/scammermike/Downloads/mop"
+      },
+      {
+        "label": "com.mop.temporal-core.supervisor",
+        "state": "unloaded",
+        "active_count": 0,
+        "historical_path": "/private/tmp/mop-temporal-hardening-v2.3NVs0a"
+      },
+      {
+        "label": "com.mop.temporal-core.guard",
+        "state": "unloaded",
+        "active_count": 0,
+        "historical_path": "/private/tmp/mop-temporal-hardening-v2.3NVs0a"
+      }
+    ],
+    "pid_files": [],
+    "live_leases": [],
+    "resource_locks": {
+      "active": [],
+      "historical_or_empty_roots": [
+        "runs/substrate/mop-substrate-master-v1/long_run/locks",
+        "runs/substrate/mop-temporal-core-mechanism-v1/locks",
+        "reports/telegram_notifier/temporal_core_finalizer.lock",
+        "reports/telegram_notifier/temporal_core_monitor.lock"
+      ]
+    }
+  },
+  "evidence_and_artifacts": {
+    "sealed_evidence_roots": [
+      "proof/",
+      "runs/",
+      "reports/",
+      "logs/"
+    ],
+    "tracked_file_count": 2268,
+    "tracked_bytes": 88052368,
+    "combined_git_tree_stream_hash": "2dfe1c6598ccef7bf3950a34ac3b23d2fced02a9",
+    "root_tree_stream_hashes": {
+      "proof": "6ed9ac7aeb614d0527192256e08644974249ad9a",
+      "runs": "e37064d46b3e607880a78603eec620fdcd84d00f",
+      "reports": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "logs": "08253df81308aed108f5d26a382a3657e9264f30"
+    },
+    "root_sizes": {
+      "proof": "59M",
+      "runs": "30M",
+      "reports": "19M",
+      "logs": "1.3M"
+    },
+    "other_generated_or_historical_roots": [
+      "campaign2/reports/",
+      "forge/reports/",
+      "frontier/reports/",
+      "gen3/reports/",
+      "salvage/cache/",
+      "salvage/reports/",
+      "substrate/reports/",
+      "substrate_evo/reports/"
+    ],
+    "mutation_policy": "Sealed evidence payload bytes will not be edited; migrations may add manifests and relocate byte-identical files."
+  },
+  "environment": {
+    "venv": "/Users/scammermike/Downloads/mop-temporal-core-mechanism/.venv",
+    "venv_size": "764M",
+    "python": "3.12.13",
+    "installed_distribution": "mop==0.1.0",
+    "editable_import": "/Users/scammermike/Downloads/mop-temporal-core-mechanism/src/mop/__init__.py",
+    "absolute_path_bound_entrypoint": "/Users/scammermike/Downloads/mop-temporal-core-mechanism/.venv/bin/mop",
+    "rebuild_required_after_move": true,
+    "declared_test_environment_complete": false
+  },
+  "test_baseline": {
+    "command": "./.venv/bin/pytest",
+    "environment_preparation": "uv sync --extra dev --extra ann",
+    "duration_seconds": 125.23,
+    "passed": 693,
+    "failed": 5,
+    "skipped": 6,
+    "observed_failures": [
+      "tests/unit/test_collapse_invariants.py::test_bound_run_json_compaction_preserves_semantics_and_refreshes_bundle",
+      "tests/unit/test_integrated_substrate.py::test_no_hidden_unindexed_proof",
+      "tests/unit/test_portability_contract.py::test_active_python_sources_have_no_developer_absolute_path",
+      "tests/unit/test_studio_doctor.py::test_local_baseline_probes_have_required_semantics",
+      "tests/unit/test_studio_doctor.py::test_huggingface_check_never_calls_network"
+    ],
+    "reported_pre_existing_failures": [
+      "portability contract",
+      "collapse invariants",
+      "custom substrate artifact",
+      "unindexed proof"
+    ],
+    "reported_but_currently_green": [
+      "tests/unit/test_custom_substrate_artifact.py::test_canonical_model_preserves_historical_fingerprint_and_refuses_contract_mutations"
+    ],
+    "additional_environment_contract_failures": [
+      "The default dev environment omits huggingface-hub although studio-doctor tests import and require it."
+    ],
+    "test_side_effects_reverted": [
+      "runs/substrate/mop-substrate-master-v1/result_ledger.json",
+      "uv.lock"
+    ]
+  },
+  "machine": {
+    "model": "Mac Studio Mac15,14",
+    "chip": "Apple M3 Ultra",
+    "cpu_cores": 28,
+    "performance_cores": 20,
+    "efficiency_cores": 8,
+    "memory_bytes": 103079215104,
+    "memory": "96 GB",
+    "disk_total": "926 GiB",
+    "disk_used": "739 GiB",
+    "disk_available": "137 GiB",
+    "swap_total": "5120.00 MiB",
+    "swap_used_at_precheck": "3642.81 MiB"
+  },
+  "scientific_freeze": {
+    "verdict": "certified_cognitive_scaffold",
+    "passes": [
+      "grounded_closed_loop",
+      "unity_under_conflict",
+      "world_self_control_value"
+    ],
+    "mechanism_nulls": [
+      "endogenous_allocation",
+      "cross_domain_continuity",
+      "procedural_transfer"
+    ],
+    "classification_change_authorized": false
+  }
+}
