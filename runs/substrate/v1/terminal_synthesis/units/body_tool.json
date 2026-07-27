@@ -1,0 +1,15 @@
+{
+  "schema": "substrate-terminal-synthesis-unit/v2",
+  "unit": "body_tool",
+  "ok": true,
+  "returncode": 0,
+  "detail": "sealed synthesis unit complete",
+  "wall_seconds": 0.0,
+  "source_commit": "9de30de22e3d82501eb6751b9710ad6b3378f0d0",
+  "source_digest": "cc7cf719ae5fc6de2a235e3bef052438ed341e48037693c3da70c530e2971aa4",
+  "configuration_sha256": "797e2ca437258960aedc32ec7ee432b05f4b62ef32eec6211534d27c0b5ce68b",
+  "attempt": 1,
+  "thread_budget": 1,
+  "activation": false,
+  "receipt_sha256": "f6c617a8ddefea3d5257f0392b8d8fde78174075378fc3c966523c93fb6847fc"
+}
