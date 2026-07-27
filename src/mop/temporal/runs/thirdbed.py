@@ -7,6 +7,7 @@ import json
 import os
 import sys
 import time
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -22,6 +23,162 @@ from mop.temporal.runs import e2, e3
 SEEDS = e2.PRINCIPAL_SEEDS
 ADAPT_STEPS = Fx.STEPS // 4
 RETURN_STEPS = Fx.STEPS // 8
+MIGRATION_SCHEMA = "mop-third-bed-preflight-migration/v1"
+STALE_CARDINALITY_CHECK = "fifteen_train_seven_untouched_evaluation_units"
+
+
+def _canonical_run_document(document: dict) -> bool:
+    return (
+        document.get("program") == io.PROGRAM
+        and document.get("result_hash_version") == "canonical_json_v2"
+        and document.get("result_sha256")
+        == io.sha_obj({k: v for k, v in document.items() if k != "result_sha256"})
+    )
+
+
+def _relative(path: Path) -> str:
+    try:
+        return path.relative_to(io.ROOT).as_posix()
+    except ValueError as exc:
+        raise ValueError("third-bed receipt path escapes repository root") from exc
+
+
+def _partition_authority() -> dict:
+    data = B.load("harth_stream")
+    train_units = sorted(str(unit) for unit in np.unique(np.asarray(data["u"])))
+    test_units = sorted(str(unit) for unit in np.unique(np.asarray(data.get("ute", []))))
+    internal_eval = max(2, int(round(0.3 * len(train_units))))
+    return {
+        "bed": "harth_stream",
+        "bed_identity": B.identity("harth_stream"),
+        "sealed_train_units_sha256": io.sha_obj(train_units),
+        "sealed_test_units_sha256": io.sha_obj(test_units),
+        "sealed_train_unit_count": len(train_units),
+        "sealed_test_unit_count": len(test_units),
+        "internal_train_unit_count": len(train_units) - internal_eval,
+        "internal_evaluation_unit_count": internal_eval,
+        "_train_units": train_units,
+        "_test_units": test_units,
+    }
+
+
+def _normalized_checks(document: dict) -> tuple[dict, dict]:
+    checks = document.get("checks")
+    groups = document.get("units")
+    if (
+        document.get("schema") != "mop-harth-admission-probe-shard/v1"
+        or document.get("bed") != "harth_stream"
+        or not isinstance(checks, dict)
+        or checks.get(STALE_CARDINALITY_CHECK) is not False
+        or any(value is not True for key, value in checks.items() if key != STALE_CARDINALITY_CHECK)
+        or not isinstance(groups, dict)
+        or set(groups) != {"A_train", "A_eval", "B_train", "B_eval"}
+        or document.get("test_split_untouched") is not True
+    ):
+        raise ValueError("receipt is not the exact known third-bed cardinality defect")
+    normalized_groups = {
+        name: [str(unit) for unit in values] if isinstance(values, list) else []
+        for name, values in groups.items()
+    }
+    if any(len(values) != len(set(values)) for values in normalized_groups.values()):
+        raise ValueError("third-bed receipt repeats a unit within a partition")
+    sets = {name: set(values) for name, values in normalized_groups.items()}
+    if any(sets[left] & sets[right] for i, left in enumerate(sets)
+           for right in list(sets)[i + 1:]):
+        raise ValueError("third-bed receipt unit partitions overlap")
+    authority = _partition_authority()
+    sealed_train = set(authority.pop("_train_units"))
+    sealed_test = set(authority.pop("_test_units"))
+    internal_train = sets["A_train"] | sets["B_train"]
+    internal_eval = sets["A_eval"] | sets["B_eval"]
+    normalized = {key: value for key, value in checks.items() if key != STALE_CARDINALITY_CHECK}
+    normalized.update({
+        "sealed_train_pool_partition_exact": (
+            internal_train | internal_eval == sealed_train
+            and len(internal_train) == authority["internal_train_unit_count"]
+            and len(internal_eval) == authority["internal_evaluation_unit_count"]
+        ),
+        "sealed_external_test_units_untouched": (
+            not (internal_train | internal_eval) & sealed_test
+            and len(sealed_test) == authority["sealed_test_unit_count"]
+        ),
+    })
+    if not all(normalized.values()):
+        raise ValueError("third-bed receipt does not satisfy the sealed dynamic partition authority")
+    return normalized, authority
+
+
+def _migration_path(path: Path) -> Path:
+    digest = io.sha_file(path)
+    return io.RUNS / "third_bed_receipt_migrations" / f"{path.stem}__{digest[:12]}.json"
+
+
+def _valid_migration(path: Path, migration: dict) -> bool:
+    try:
+        normalized, authority = _normalized_checks(json.loads(path.read_text()))
+    except (OSError, ValueError, TypeError, json.JSONDecodeError):
+        return False
+    return (
+        _canonical_run_document(migration)
+        and migration.get("schema") == MIGRATION_SCHEMA
+        and migration.get("source_path") == _relative(path)
+        and migration.get("source_sha256") == io.sha_file(path)
+        and migration.get("source_result_sha256")
+        == json.loads(path.read_text()).get("result_sha256")
+        and migration.get("normalization") == "replace stale hard-coded unit cardinality assertion only"
+        and migration.get("normalized_checks") == normalized
+        and migration.get("normalized_all_checks_pass") is True
+        and migration.get("bed_partition_authority") == authority
+    )
+
+
+def migrate_shard(path: Path) -> Path:
+    """Append an exact sidecar for the known 22-versus-sealed-pool assertion defect."""
+    document = json.loads(path.read_text())
+    if not _canonical_run_document(document):
+        raise ValueError("third-bed source receipt seal drift")
+    normalized, authority = _normalized_checks(document)
+    target = _migration_path(path)
+    if target.is_file():
+        migration = json.loads(target.read_text())
+        if not _valid_migration(path, migration):
+            raise ValueError("existing third-bed migration does not bind exact source bytes")
+        return target
+    return io.run_json(target.name, {
+        "schema": MIGRATION_SCHEMA,
+        "source_path": _relative(path),
+        "source_sha256": io.sha_file(path),
+        "source_result_sha256": document["result_sha256"],
+        "superseded_check": STALE_CARDINALITY_CHECK,
+        "normalization": "replace stale hard-coded unit cardinality assertion only",
+        "normalized_checks": normalized,
+        "normalized_all_checks_pass": True,
+        "bed_partition_authority": authority,
+        "original_receipt_preserved": True,
+        "activation": False,
+    }, "third_bed_receipt_migrations")
+
+
+def effective_shard(path: Path) -> dict:
+    """Return a validated view while preserving the sealed source receipt."""
+    document = json.loads(path.read_text())
+    if not _canonical_run_document(document):
+        raise ValueError("third-bed source receipt seal drift")
+    if document.get("all_checks_pass") is True:
+        return document
+    migration_path = migrate_shard(path)
+    migration = json.loads(migration_path.read_text())
+    if not _valid_migration(path, migration):
+        raise ValueError("third-bed migration validation failed")
+    normalized = copy.deepcopy(document)
+    normalized["checks"] = copy.deepcopy(migration["normalized_checks"])
+    normalized["all_checks_pass"] = True
+    normalized["normalized_from_cardinality_migration"] = {
+        "path": _relative(migration_path),
+        "sha256": io.sha_file(migration_path),
+        "source_result_sha256": document["result_sha256"],
+    }
+    return normalized
 
 
 def contexts(seed: int) -> dict:
@@ -49,6 +206,9 @@ def contexts(seed: int) -> dict:
         x, y, u = row
         return x * gain + offset, y, u
 
+    train_units = sorted(str(unit) for unit in np.unique(units))
+    test_units = sorted(str(unit) for unit in np.unique(np.asarray(d.get("ute", []))))
+    internal_eval = max(2, int(round(0.3 * len(train_units))))
     return {
         "A_train": take(a_train), "A_eval": take(a_eval),
         "B_train": shifted(take(b_train)), "B_eval": shifted(take(b_eval)),
@@ -58,6 +218,12 @@ def contexts(seed: int) -> dict:
         "shift": {"kind": "declared per channel affine covariate shift",
                   "gain": [round(float(x), 5) for x in gain],
                   "offset": [round(float(x), 5) for x in offset]},
+        "partition_authority": {
+            "sealed_train_units": train_units,
+            "sealed_test_units": test_units,
+            "internal_train_unit_count": len(train_units) - internal_eval,
+            "internal_evaluation_unit_count": internal_eval,
+        },
     }
 
 
@@ -111,16 +277,24 @@ def shard(seed: int) -> dict:
     recover = E.fit(returned, None, xa, ya, train_groups=["readout"], steps=RETURN_STEPS,
                     lr=Fx.LR, rng=np.random.default_rng(100_000 + seed), batch=Fx.BATCH)
     return_after = evaluate(returned, ctx["A_eval"])
-    unit_sets = {k: set(v) for k, v in ctx["units"].items()}
+    unit_sets = {k: {str(unit) for unit in values} for k, values in ctx["units"].items()}
+    partition = ctx["partition_authority"]
+    internal_train = unit_sets["A_train"] | unit_sets["B_train"]
+    internal_eval = unit_sets["A_eval"] | unit_sets["B_eval"]
+    sealed_train = set(partition["sealed_train_units"])
+    sealed_test = set(partition["sealed_test_units"])
     checks = {"unit_disjoint": not any(unit_sets[a] & unit_sets[b]
                                         for i, a in enumerate(unit_sets) for b in list(unit_sets)[i + 1:]),
               "pretrain_budget": pre["updates"] == Fx.STEPS,
               "pooled_control_budget": pooled_pre["updates"] == Fx.STEPS,
               "adapt_budget": adapt["updates"] == ADAPT_STEPS,
               "return_budget": recover["updates"] == RETURN_STEPS,
-              "fifteen_train_seven_untouched_evaluation_units": (
-                  len(unit_sets["A_train"] | unit_sets["B_train"]) == 15
-                  and len(unit_sets["A_eval"] | unit_sets["B_eval"]) == 7),
+              "sealed_train_pool_partition_exact": (
+                  internal_train | internal_eval == sealed_train
+                  and len(internal_train) == partition["internal_train_unit_count"]
+                  and len(internal_eval) == partition["internal_evaluation_unit_count"]),
+              "sealed_external_test_units_untouched": not (
+                  internal_train | internal_eval) & sealed_test,
               "no_undeclared_changes": not (pre["undeclared_changes"] or adapt["undeclared_changes"]
                                              or recover["undeclared_changes"])}
     doc = {
@@ -154,7 +328,7 @@ def shard(seed: int) -> dict:
 
 
 def aggregate() -> dict:
-    rows = [json.loads((io.RUNS / "third_bed_preflight" / f"harth_preflight_{s}.json").read_text())
+    rows = [effective_shard(io.RUNS / "third_bed_preflight" / f"harth_preflight_{s}.json")
             for s in SEEDS]
     gains = [r["after_B_adaptation"]["B"]["accuracy"] - r["before_adaptation"]["B"]["accuracy"]
              for r in rows]
@@ -185,8 +359,8 @@ def aggregate() -> dict:
             pooled_units.setdefault(unit, []).append(pooled_ordered[unit] - pooled_permuted[unit])
     order_effects = {u: float(np.mean(v)) for u, v in order_units.items()}
     pooled_effects = {u: float(np.mean(v)) for u, v in pooled_units.items()}
-    order_lcb = power.lcb(order_effects.values()) if len(order_effects) > 1 else None
-    pooled_lower = power.lcb(pooled_effects.values()) if len(pooled_effects) > 1 else None
+    order_lcb = power.lcb(list(order_effects.values())) if len(order_effects) > 1 else None
+    pooled_lower = power.lcb(list(pooled_effects.values())) if len(pooled_effects) > 1 else None
     pooled_upper = -power.lcb([-x for x in pooled_effects.values()]) if len(pooled_effects) > 1 else None
     order_seed_effects = [r["temporal_order_permutation"]["ordered_accuracy"] -
                           r["temporal_order_permutation"]["permuted_accuracy"] for r in rows]

@@ -25,6 +25,9 @@ RULES = [
     ("src/mop/temporal/runs/supervisor.py", "active_substrate"),
     ("src/mop/temporal/runs/e2.py", "active_substrate"),
     ("src/mop/temporal/runs/__init__.py", "active_substrate"),
+    # The third bed now owns a live receipt normalization path for a sealed data split authority.
+    # It is active runtime instrumentation, not additional E2 mechanism implementation.
+    ("src/mop/temporal/runs/thirdbed.py", "active_runtime"),
     ("src/mop/temporal/runs", "frozen_reproducibility"),
     # These three modules are live, shared execution plumbing rather than E2 mechanism implementation.
     # They still count toward the global active runtime cap; this boundary does not freeze or hide them.
