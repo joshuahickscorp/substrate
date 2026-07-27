@@ -1,4 +1,33 @@
 {
+  "progress": {
+    "measured": true,
+    "finished_shards": 16,
+    "typical_shard_cost_hours": 30.13,
+    "running_shards": 8,
+    "cpu_hours_already_spent_each": [
+      9.5,
+      9.51,
+      9.5,
+      9.5,
+      9.5,
+      9.5,
+      9.51,
+      9.51
+    ],
+    "estimated_cpu_hours_remaining_each": [
+      20.63,
+      20.62,
+      20.63,
+      20.63,
+      20.63,
+      20.63,
+      20.63,
+      20.62
+    ],
+    "estimated_wall_hours_remaining": 20.6,
+    "assumption": "each running shard now gets close to a full core, which holds while the worker count is at or below the core count. It did not hold earlier in the run",
+    "kind": "derived estimate, not a measurement"
+  },
   "schema": "substrate-temporal-core/v1",
   "program": "mop-temporal-core-mechanism-v1",
   "question": "whether recurrence is necessary, whether explicit history is sufficient, the minimum useful state horizon, the smallest useful capacity, the simplest sufficient readout, and whether the effect survives independent implementations and multiple beds",
@@ -40,6 +69,6 @@
   "honest_state": "the selection is terminal and independently verified",
   "remains_one_component": true,
   "activation": false,
-  "source_commit": "6bf3eb85629f819957889e483adee984de22c96c",
-  "sha256": "243c2332b0146a9ed0976873cf189544890a5784fae443a791164d3cdab41fc5"
+  "source_commit": "d1d69b7727c5222a39d447f4dbd2c17aa1a02762",
+  "sha256": "9fd8e043772a4e514f51ae5fc6a864730245dd4c44e4937ec7fb6f17c39890f0"
 }
