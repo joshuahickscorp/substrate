@@ -1,0 +1,156 @@
+{
+  "schema": "substrate-model-body-interface/v1",
+  "bodies": [
+    {
+      "schema": "substrate-body-compact/v1",
+      "body": "compact_specialist",
+      "class": "compact",
+      "conformance": {
+        "body": "compact_specialist",
+        "mode": "adapter_layer",
+        "implements": [
+          "adaptation_proposal",
+          "checkpoint",
+          "hidden_state",
+          "inference",
+          "memory_request",
+          "resource_report",
+          "selected_activations",
+          "tool_request",
+          "verification_request"
+        ],
+        "missing": [],
+        "declaration_violations": [],
+        "conforms": true,
+        "partial": false
+      },
+      "message_gaps": {},
+      "all_messages_valid": true,
+      "n_parameters": 48,
+      "held_out_accuracy": 0.663916,
+      "views": [
+        "static"
+      ],
+      "tool_dominant": false,
+      "external_blocker": "",
+      "activation": false
+    },
+    {
+      "schema": "substrate-body-general/v1",
+      "body": "larger_general_model",
+      "class": "general",
+      "conformance": {
+        "body": "larger_general_model",
+        "mode": "adapter_layer",
+        "implements": [
+          "adaptation_proposal",
+          "checkpoint",
+          "hidden_state",
+          "inference",
+          "memory_request",
+          "resource_report",
+          "selected_activations",
+          "tool_request",
+          "verification_request"
+        ],
+        "missing": [],
+        "declaration_violations": [],
+        "conforms": true,
+        "partial": false
+      },
+      "message_gaps": {},
+      "all_messages_valid": true,
+      "n_parameters": 144,
+      "held_out_accuracy": 0.670668,
+      "views": [
+        "static",
+        "dynamic",
+        "spread"
+      ],
+      "tool_dominant": false,
+      "external_blocker": "no frontier model weights and no inference credential are present on this machine, so the larger general body is a higher capacity local model rather than a large language model. That instantiation is externally blocked, not unbuilt",
+      "activation": false
+    },
+    {
+      "schema": "substrate-body-tool/v1",
+      "body": "tool_dominant_system",
+      "class": "tool",
+      "conformance": {
+        "body": "tool_dominant_system",
+        "mode": "adapter_layer",
+        "implements": [
+          "adaptation_proposal",
+          "checkpoint",
+          "hidden_state",
+          "inference",
+          "memory_request",
+          "resource_report",
+          "selected_activations",
+          "tool_request",
+          "verification_request"
+        ],
+        "missing": [],
+        "declaration_violations": [],
+        "conforms": true,
+        "partial": false
+      },
+      "message_gaps": {},
+      "all_messages_valid": true,
+      "n_parameters": 96,
+      "held_out_accuracy": 0.651163,
+      "views": [
+        "static",
+        "dynamic"
+      ],
+      "tool_dominant": true,
+      "external_blocker": "",
+      "activation": false
+    }
+  ],
+  "ablations": [
+    "body_alone",
+    "body_plus_memory",
+    "body_plus_temporal_core",
+    "body_plus_arbitration",
+    "body_plus_bounded_adaptation",
+    "full_substrate"
+  ],
+  "ladder": {
+    "compact": {
+      "body_alone": 0.663916,
+      "body_plus_memory": 0.663916,
+      "body_plus_temporal_core": 0.663916,
+      "body_plus_arbitration": 0.663916,
+      "body_plus_bounded_adaptation": 0.663916,
+      "full_substrate": 0.663916
+    },
+    "general": {
+      "body_alone": 0.670668,
+      "body_plus_memory": 0.670668,
+      "body_plus_temporal_core": 0.670668,
+      "body_plus_arbitration": 0.670668,
+      "body_plus_bounded_adaptation": 0.670668,
+      "full_substrate": 0.670668
+    },
+    "tool": {
+      "body_alone": 0.651163,
+      "body_plus_memory": 0.651163,
+      "body_plus_temporal_core": 0.651163,
+      "body_plus_arbitration": 0.651163,
+      "body_plus_bounded_adaptation": 0.651163,
+      "full_substrate": 0.651163
+    }
+  },
+  "substrate_gain_over_body_alone": {
+    "compact": 0.0,
+    "general": 0.0,
+    "tool": 0.0
+  },
+  "any_substrate_gain": false,
+  "reading": "no rung of the ladder beats the body alone on this bed. The substrate components measured here add nothing to a classification task that has no temporal decision, no goal and no contradiction to arbitrate, which is what would have made them useful. That is a property of the bed as much as of the substrate, and both are recorded",
+  "external_blocker": "no frontier model weights and no inference credential are present on this machine, so the larger general body is a higher capacity local model rather than a large language model. That instantiation is externally blocked, not unbuilt",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "7ffa7fd71e8483ca6735ca4e63e551ab6d488ac84944cb82d2d2dd5d2e14ed6f"
+}

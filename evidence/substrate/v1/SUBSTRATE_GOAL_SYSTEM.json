@@ -1,0 +1,46 @@
+{
+  "schema": "substrate-goal-system/v1",
+  "goal_fields": [
+    "origin",
+    "authority",
+    "scope",
+    "priority",
+    "constraints",
+    "resources",
+    "progress_measure",
+    "termination",
+    "rollback"
+  ],
+  "states": [
+    "authorized",
+    "active",
+    "blocked",
+    "resumed",
+    "abandoned",
+    "terminated"
+  ],
+  "authorization_rule": "a goal enters only with an authority that is not this module",
+  "decomposition_rule": "a subgoal inherits its parent's constraints and may narrow them, never widen them, and its priority cannot exceed its parent's",
+  "may_not": "silently create unrestricted persistent goals",
+  "unrestricted_goals_present": [],
+  "example": {
+    "root": "root",
+    "child": "child",
+    "child_constraints_after_decomposition": [
+      "activation stays false"
+    ]
+  },
+  "protected_surfaces": [
+    "evidence_validation",
+    "audit_systems",
+    "claim_boundaries",
+    "stop_switches",
+    "resource_limits",
+    "rollback",
+    "adaptation_constraints"
+  ],
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "3a088260280e12f08e667078721aa8acfb3e085a28fe5c64c5a5efa6f740c7d5"
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "substrate-long-run-resource-plan/v1",
+  "machine": {
+    "model": "Mac Studio",
+    "chip": "Apple M3 Ultra",
+    "logical_cores": 28,
+    "memory_gib": 96
+  },
+  "scheduler": "substrate.execution, one unit at a time, exclusive claim per unit",
+  "concurrency": 1,
+  "why_serial": "every unit here is seconds to minutes of local compute and several write the same proof root. Parallelism would buy nothing and would reintroduce the exclusive writer problem the audit exists to prevent",
+  "unit_count": 19,
+  "total_work_units": 19,
+  "estimated_cpu_hours": {
+    "low": 0.002,
+    "high": 0.008
+  },
+  "gpu_or_mps_hours": 0,
+  "estimated_peak_memory_mib": {
+    "low": 40,
+    "high": 256
+  },
+  "estimated_disk_growth_mib": {
+    "low": 1,
+    "high": 16
+  },
+  "write_amplification": "one immutable evidence write plus one receipt/index update per unit",
+  "checkpoint_frequency": "every scientific work-unit boundary",
+  "expected_restart_cost": "zero completed units; at most the active unit",
+  "verification_overhead_seconds": {
+    "independent_recompute_estimate": 0.2
+  },
+  "mutation_overhead_seconds_measured": 4.750806,
+  "rehearsal_seconds_measured": 0.16,
+  "terminal_run_range_seconds": {
+    "low": 7,
+    "high": 19
+  },
+  "estimate_boundary": "engineering estimate; the scientific long run was not launched",
+  "completion_criterion": "all units terminal",
+  "not_a_wall_clock": "a run that finishes early because the machine was fast has not done less science, and a run still going has units left",
+  "stop_switch": "/Users/scammermike/.substrate/stop",
+  "retries": 2,
+  "external_dependencies": {
+    "corpora": "under custody outside every worktree",
+    "network": "none required"
+  },
+  "scientific_long_run_launched": false,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "ce90ab66d4d717721db10596d54f707694b8fddbd0731e7e7af93722a600344c"
+}

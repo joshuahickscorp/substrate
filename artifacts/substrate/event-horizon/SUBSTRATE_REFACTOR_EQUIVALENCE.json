@@ -1,0 +1,42 @@
+{
+  "schema": "substrate-refactor-equivalence/v1",
+  "sealed_predecessor_evidence": {
+    "closure_commit": "7158451d80cfcacc0763894dad3ee5ee1ca834ec",
+    "files_checked": 2225,
+    "mismatches": [],
+    "byte_identical": true
+  },
+  "normalized_scientific_content": {
+    "verdict": "certified_cognitive_scaffold",
+    "passed": [
+      "grounded_closed_loop",
+      "unity_under_conflict",
+      "world_self_control_value"
+    ],
+    "mechanism_nulls": [
+      "endogenous_allocation",
+      "cross_domain_continuity",
+      "procedural_transfer"
+    ],
+    "classifications_changed": false
+  },
+  "structural_audit": true,
+  "independent_verification": true,
+  "mutation_report": {
+    "total": 32,
+    "rejected": 32,
+    "survivors": []
+  },
+  "rehearsal": {
+    "all_pass": true,
+    "checks": 17
+  },
+  "clean_clone": {
+    "all_pass": false,
+    "status": "pending",
+    "activation": false
+  },
+  "activation": false,
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "a5b3f3ca96d45089ad5c8bb85c1907539ff2c42c67a03aaca8113d596d72b3d3"
+}

@@ -1,0 +1,238 @@
+{
+  "schema": "substrate-workspace/v1",
+  "required_declarations": [
+    "shape",
+    "persistence",
+    "timescale",
+    "readers",
+    "writers",
+    "provenance",
+    "confidence",
+    "cost",
+    "reset",
+    "update_rule"
+  ],
+  "regions": [
+    {
+      "name": "perceptual",
+      "shape": "observation vector",
+      "persistence": "step",
+      "timescale": "immediate",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "sensor"
+      ],
+      "provenance_required": true,
+      "confidence_required": false,
+      "cost": 0.1,
+      "reset": "step",
+      "update_rule": "overwrite from the current observation"
+    },
+    {
+      "name": "temporal",
+      "shape": "core hidden state",
+      "persistence": "episode",
+      "timescale": "fast",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "temporal_core"
+      ],
+      "provenance_required": true,
+      "confidence_required": false,
+      "cost": 0.2,
+      "reset": "episode",
+      "update_rule": "recurrent update from the selected temporal core"
+    },
+    {
+      "name": "ontological",
+      "shape": "typed item graph",
+      "persistence": "persistent",
+      "timescale": "slow",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "ontology"
+      ],
+      "provenance_required": true,
+      "confidence_required": true,
+      "cost": 0.3,
+      "reset": "persistent",
+      "update_rule": "merge only on evidence, and a merge stays reversible"
+    },
+    {
+      "name": "epistemic",
+      "shape": "belief store with justification edges",
+      "persistence": "persistent",
+      "timescale": "medium",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "epistemology"
+      ],
+      "provenance_required": true,
+      "confidence_required": true,
+      "cost": 0.3,
+      "reset": "persistent",
+      "update_rule": "retraction propagates to every dependant before any confidence is read"
+    },
+    {
+      "name": "conceptual",
+      "shape": "concept bindings",
+      "persistence": "episode",
+      "timescale": "medium",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "semantic_memory",
+        "perspective"
+      ],
+      "provenance_required": true,
+      "confidence_required": true,
+      "cost": 0.2,
+      "reset": "episode",
+      "update_rule": "merge on higher confidence, keep the loser as an alternative"
+    },
+    {
+      "name": "goal",
+      "shape": "goal stack",
+      "persistence": "goal",
+      "timescale": "slow",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "goal_authority"
+      ],
+      "provenance_required": true,
+      "confidence_required": false,
+      "cost": 0.1,
+      "reset": "goal",
+      "update_rule": "push and pop only through an authorized goal decomposition"
+    },
+    {
+      "name": "working_memory",
+      "shape": "bounded slot table",
+      "persistence": "episode",
+      "timescale": "fast",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "perspective",
+        "arbiter"
+      ],
+      "provenance_required": true,
+      "confidence_required": true,
+      "cost": 0.3,
+      "reset": "episode",
+      "update_rule": "priority eviction when the slot budget is exceeded"
+    },
+    {
+      "name": "episodic_context",
+      "shape": "recent episode window",
+      "persistence": "episode",
+      "timescale": "medium",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "episodic_memory"
+      ],
+      "provenance_required": true,
+      "confidence_required": false,
+      "cost": 0.3,
+      "reset": "episode",
+      "update_rule": "append with decay, never rewrite a sealed episode"
+    },
+    {
+      "name": "world",
+      "shape": "entity and relation graph",
+      "persistence": "persistent",
+      "timescale": "slow",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "world_model"
+      ],
+      "provenance_required": true,
+      "confidence_required": true,
+      "cost": 0.4,
+      "reset": "persistent",
+      "update_rule": "bayesian style update against measured outcomes"
+    },
+    {
+      "name": "self",
+      "shape": "measured internal facts",
+      "persistence": "persistent",
+      "timescale": "slow",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "self_model"
+      ],
+      "provenance_required": true,
+      "confidence_required": true,
+      "cost": 0.4,
+      "reset": "persistent",
+      "update_rule": "replace only from a measured comparison against actuals"
+    },
+    {
+      "name": "uncertainty",
+      "shape": "per belief interval",
+      "persistence": "episode",
+      "timescale": "fast",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "arbiter",
+        "self_model"
+      ],
+      "provenance_required": true,
+      "confidence_required": true,
+      "cost": 0.1,
+      "reset": "episode",
+      "update_rule": "widen on contradiction, never narrow without new measurement"
+    },
+    {
+      "name": "decision",
+      "shape": "chosen action and rationale",
+      "persistence": "step",
+      "timescale": "immediate",
+      "readers": [
+        "*"
+      ],
+      "writers": [
+        "arbiter"
+      ],
+      "provenance_required": true,
+      "confidence_required": true,
+      "cost": 0.1,
+      "reset": "step",
+      "update_rule": "written once per decision, superseded rather than edited"
+    }
+  ],
+  "all_regions_fully_declared": true,
+  "declaration_violations": [],
+  "access_rule": "reading is broad and writing is narrow. Global availability is a read property and does not widen who may write",
+  "control": {
+    "class": "UntypedWorkspace",
+    "removes": "reader and writer sets",
+    "retains": "storage, region set, capacity, cost accounting, budget",
+    "why": "a control that removed anything else would measure two changes at once"
+  },
+  "capacity_matched": true,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "3ea1b5df1a60fc9054a77f6f593901775e426d6ffbb104051f81fe6cfd8d01eb"
+}

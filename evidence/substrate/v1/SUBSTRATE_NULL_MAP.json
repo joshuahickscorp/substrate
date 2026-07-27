@@ -1,0 +1,168 @@
+{
+  "measurement_boundaries": [
+    {
+      "hypothesis": "H_typed_workspace",
+      "classification": "no_bed_can_answer_at_this_effect_size",
+      "finding": "no bed under custody can test H_typed_workspace at the declared SESOI of 0.05. The hypothesis stays untested and the SESOI stays where it was preregistered",
+      "screened": [
+        {
+          "bed": "harth_stream",
+          "available": true,
+          "n_train_units": 15,
+          "mean_reliability": {
+            "static": 0.576894,
+            "dynamic": 0.545188
+          },
+          "oracle_ceiling": 0.036124,
+          "oracle_ceiling_lower_95_cb": 0.003234,
+          "clears_sesoi": false
+        },
+        {
+          "bed": "pamap2_stream",
+          "available": true,
+          "n_train_units": 6,
+          "mean_reliability": {
+            "static": 0.386473,
+            "dynamic": 0.323413
+          },
+          "oracle_ceiling": 0.038403,
+          "oracle_ceiling_lower_95_cb": -0.010695,
+          "clears_sesoi": false
+        }
+      ],
+      "not_a_null": "a hypothesis nothing can currently measure is untested, not refuted. Nothing downstream of H_typed_workspace closes"
+    }
+  ],
+  "boundary_rule": "a hypothesis nothing under custody can measure at the declared effect size is untested, not refuted. The SESOI is not lowered to manufacture a candidate",
+  "methodological_refusals": [
+    {
+      "experiment_id": "SX1",
+      "title": "does a typed workspace beat an untyped one of matched capacity on a synthetic bed",
+      "hypotheses": [
+        "H_capacity_only",
+        "H_typed_workspace"
+      ],
+      "blocked_at": "causal_model",
+      "causal_graph_violations": [
+        "treatment typed declares an implementation but no implemented causal path",
+        "primary outcome answer has no measured relation feeding it",
+        "claim claim is broader than the measured path, unmeasured: ['answer']"
+      ],
+      "why": "on a synthetic bed the comparison has a closed form. Typing refuses writes from an undeclared component, so which arm wins follows from the two reliabilities the generator was given. The treatment to outcome edge is a structural guarantee, no measured relation reaches the outcome, and the claim is therefore broader than the measured path",
+      "successor": "SX1b",
+      "classification": "methodological_refusal"
+    },
+    {
+      "experiment_id": "SX1b",
+      "title": "does a write restriction fitted on training units still help on source groups it has never seen",
+      "hypotheses": [
+        "H_typed_workspace",
+        "H_reliability_instability",
+        "H_capacity_only"
+      ],
+      "blocked_at": "power_and_units",
+      "causal_graph_violations": [],
+      "why": "power:power: minimum detectable effect 0.133442 exceeds SESOI 0.05, the design cannot see the effect it declares interesting",
+      "successor": null,
+      "classification": "methodological_refusal"
+    }
+  ],
+  "refusal_rule": "a methodological failure is not a scientific null. A refused experiment leaves its hypothesis untested, not refuted, and closes nothing downstream",
+  "refused_count": 2,
+  "schema": "substrate-null-map/v1",
+  "binding_rule": "a null is immutable. It may be superseded only by an appended authority that states the new evidence, never by rewriting or relabelling the original",
+  "closure_rule": "a failed branch closes only its own descendants, never an independent branch",
+  "inherited_authorities": [
+    {
+      "program": "method_reformation",
+      "reference": "method:MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_EXPERIMENT_VALIDITY_KERNEL.json",
+      "sha256": "04c3c426aa26b7f1d8e51637102ace4a13887a88ee6cfaed12bd9b5315c3207a",
+      "role": "the admission gate every new Substrate experiment must pass"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "method:MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_HISTORICAL_EXPERIMENT_DEFECT_LEDGER.json",
+      "sha256": "4c62053d18833fe4f4cb6995febc89e7d12687ed2d4bd730ab7677d80a0071e1",
+      "role": "eighteen reproduced defect classes, each a permanent regression"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "method:MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_SUBSTRATE_HYPOTHESIS_GRAPH.json",
+      "sha256": "ec60aeba8edcdea67fb8d905c9e4f08ed30c640fcb561cebfcd32c71dbf993aa",
+      "role": "the inherited hypothesis graph this program extends and never rewrites"
+    },
+    {
+      "program": "method_reformation",
+      "reference": "method:MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+      "resolved": true,
+      "path": "proof/method/mop-experimental-method-reformation-v1/MOP_METHOD_NEXT_SUBSTRATE_FRONTIER.json",
+      "sha256": "70b09760a6ede7f7f856474d3f780c87212ec2916dbb060475876e4ff5f1901f",
+      "role": "the value of information selection that licensed the temporal core program"
+    },
+    {
+      "program": "fast_state_forge",
+      "reference": "fastforge:MOP_FAST_STATE_BINDING_NULLS.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_BINDING_NULLS.json",
+      "sha256": "1f7e16cded0b13b867b3c29d0f643065bd449107d339afd6e42b13ff47dafd26",
+      "role": "immutable inherited nulls, supersedable only by an appended authority"
+    },
+    {
+      "program": "fast_state_forge",
+      "reference": "fastforge:MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-fast-state-plasticity-forge-v1/MOP_FAST_STATE_FORGE_SYNTHESIS.json",
+      "sha256": "efd5419d67bbcc7847291b4a93a20e2335ae5f6f7232e7f7939ee9db7d339f86",
+      "role": "the terminal synthesis of the fast state program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "temporal:MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_START_AUTHORITY.json",
+      "sha256": "d0138ed3100b7d255332201cc6afcc5a5027ded6f368c9956838a3a8192386f1",
+      "role": "the start authority of the live temporal core mechanism program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "temporal:MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_METHOD_EXTENSION.json",
+      "sha256": "6d1ab9b7a3b70406e91243e34f7cd1db344dc2191931457069d02486fbd1cb06",
+      "role": "five method witnesses added by the temporal program"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "temporal:MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_TEMPORAL_CORE_HYPOTHESIS_GRAPH.json",
+      "sha256": "5cb71d7f2fe91d8c97ebf4e630d456dc07243c5a05472039304264f05c81860f",
+      "role": "the temporal factorial hypothesis graph"
+    },
+    {
+      "program": "temporal_core",
+      "reference": "temporal:MOP_DATA_CUSTODY_AUTHORITY.json",
+      "resolved": true,
+      "path": "proof/substrate/mop-temporal-core-mechanism-v1/MOP_DATA_CUSTODY_AUTHORITY.json",
+      "sha256": "1c9d2654660883c5024b7fed96a11b26220d360d11e9f8b386a7fac9b4a0737e",
+      "role": "corpus custody and the deletion guard"
+    }
+  ],
+  "unresolved_inherited_authorities": [],
+  "all_inherited_resolved": true,
+  "substrate_native_nulls": {},
+  "native_null_count": 0,
+  "closed_hypotheses": [
+    "H_learned_plasticity_policy"
+  ],
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "activation": false,
+  "sha256": "8b29aa8ea492c8f1f95467e3dce527f4ae07da512807c0556adb476a406fc360"
+}

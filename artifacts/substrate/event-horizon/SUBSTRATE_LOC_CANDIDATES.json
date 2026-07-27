@@ -1,0 +1,60 @@
+{
+  "schema": "substrate-loc-candidates/v1",
+  "candidates": [
+    {
+      "name": "Seed",
+      "target_executable_loc": 6000,
+      "physical_loc": 7464,
+      "executable_loc": 5420,
+      "test_command": "PYTHONPATH=<seed>/src python -m pytest -q tests/substrate",
+      "test_exit": 2,
+      "result": "rejected",
+      "removed_responsibility": [
+        "final program/authority graph",
+        "independent verification and mutation runner",
+        "long-run execution and audit",
+        "certification and entity batteries",
+        "migration/configuration/clean-clone/Nous/VOI"
+      ],
+      "failing_invariant": "13 collection errors; scientific registry, verification, execution, clean-clone, and Nous contracts unavailable",
+      "smallest_restoration": "restore the owning modules represented by the Core and Reference steps",
+      "why_further_reduction_changes_behavior": "the removed owners produce or independently verify required scientific classifications"
+    },
+    {
+      "name": "Core",
+      "target_executable_loc": 9000,
+      "physical_loc": 11885,
+      "executable_loc": 8932,
+      "test_command": "PYTHONPATH=<core>/src python -m pytest -q tests/substrate",
+      "test_exit": 2,
+      "result": "rejected",
+      "removed_responsibility": [
+        "historical evidence migration reader",
+        "strict configuration hash",
+        "clean-clone verifier",
+        "Nous closure classifier",
+        "value-of-information queue"
+      ],
+      "failing_invariant": "12 collection errors beginning at historical evidence resolution and clean-clone/Nous imports",
+      "smallest_restoration": "629 executable lines across the five load-bearing owners and compatibility boundary",
+      "why_further_reduction_changes_behavior": "each removed owner has a distinct required invariant and an active test"
+    },
+    {
+      "name": "Reference",
+      "target_executable_loc": 12000,
+      "files": 44,
+      "physical_loc": 16495,
+      "executable_loc": 11940,
+      "method": "nonblank physical lines; executable excludes comment-only, docstring, and delimiter-only structural lines",
+      "test_command": "substrate test -ra",
+      "test_exit": 0,
+      "result": "selected",
+      "tests": "231 passed"
+    }
+  ],
+  "deletion_driven": true,
+  "selected": "Reference",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "activation": false,
+  "sha256": "2a96ad8f4602e61287927327db9969ba83282880948a949b9bcc811551312b3f"
+}

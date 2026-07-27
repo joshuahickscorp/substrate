@@ -1,0 +1,58 @@
+{
+  "schema": "substrate-developmental-safety/v1",
+  "adaptation_required_fields": [
+    "information_used",
+    "affected_state",
+    "reversibility",
+    "cost",
+    "risk",
+    "verification",
+    "rollback"
+  ],
+  "protected_surfaces": [
+    "evidence_validation",
+    "audit_systems",
+    "claim_boundaries",
+    "stop_switches",
+    "resource_limits",
+    "rollback",
+    "adaptation_constraints"
+  ],
+  "forbidden_reorganizations": [
+    "arbitrary_code_rewriting",
+    "unbounded_module_creation",
+    "unverified_package_installation",
+    "schema_mutation_outside_authority",
+    "removal_of_evidence_systems",
+    "removal_of_stop_switches",
+    "unbounded_self_modification"
+  ],
+  "goal_required_fields": [
+    "origin",
+    "scope",
+    "authority",
+    "resources",
+    "constraints",
+    "termination",
+    "audit"
+  ],
+  "integrity_surfaces": [
+    "memory_consistency",
+    "evidence_integrity",
+    "goal_integrity",
+    "checkpoint_validity",
+    "self_model_accuracy",
+    "active_task_continuity"
+  ],
+  "rules": [
+    "every adaptation is bounded, attributable, checkpointed and reversible where feasible",
+    "an irreversible adaptation without a checkpoint has no rollback and is refused",
+    "a reflective report fails closed when provenance is missing",
+    "Substrate may not autonomously remove any protected surface"
+  ],
+  "stop_switch": "/Users/scammermike/.substrate/stop",
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "f5f93167422643720137c41eab376aee156b47c6a2b6c60fbb7d0693c485f752"
+}

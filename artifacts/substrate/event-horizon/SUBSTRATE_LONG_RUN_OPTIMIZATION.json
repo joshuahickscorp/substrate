@@ -1,0 +1,45 @@
+{
+  "schema": "substrate-long-run-optimization/v1",
+  "scientific_graph_changed": false,
+  "units_before": 19,
+  "units_after": 19,
+  "changes": [
+    {
+      "change": "cache immutable commit identity once per process",
+      "measured_rehearsal_savings_seconds": 0.34,
+      "measured_rehearsal_savings_percent": 68.0
+    },
+    {
+      "change": "content-bound unit receipts and one atomic writer",
+      "effect": "tamper refusal without an additional indexing pass"
+    },
+    {
+      "change": "precomputed normalized configuration hash in the frozen manifest",
+      "effect": "configuration drift fails before work begins"
+    },
+    {
+      "change": "unit-bound checkpoints with live-worker adoption and orphan recovery",
+      "effect": "restart loses at most the active unit and never repeats a completed unit"
+    }
+  ],
+  "duplicate_work_removed": [
+    "27 git rev-parse subprocesses per rehearsal process",
+    "parallel predecessor schedulers and command wrappers",
+    "duplicate artifact producers found by the structural audit"
+  ],
+  "concurrency_decision": {
+    "selected": 1,
+    "reason": "shared evidence families require one writer and all local units are short",
+    "dependency_aware_ready_set": true
+  },
+  "projected_terminal": {
+    "baseline_midpoint_seconds": 14.0,
+    "optimized_midpoint_seconds": 13.0,
+    "savings_seconds": 1.0,
+    "savings_percent": 7.14,
+    "confidence": "engineering estimate; the scientific long run was not launched"
+  },
+  "activation": false,
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "c2216c201cf282d69918c7ba7d5fdaa810e2d7d5e9b80a45007a97c135b2f7d1"
+}

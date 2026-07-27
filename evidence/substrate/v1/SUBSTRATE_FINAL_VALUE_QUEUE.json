@@ -1,0 +1,297 @@
+{
+  "schema": "substrate-final-value-queue/v1",
+  "experiment_queue": {
+    "schema": "substrate-experiment-value-queue/v1",
+    "dimensions": [
+      "expected_information_gain",
+      "probability_of_changing_the_substrate_decision",
+      "compute_cost",
+      "duration_cost",
+      "instrumentation_risk",
+      "baseline_uncertainty",
+      "oracle_headroom",
+      "independent_unit_quality",
+      "reusability_of_implementation",
+      "reusability_of_data",
+      "discriminates_competing_hypotheses",
+      "risk_of_repeating_a_closed_premise"
+    ],
+    "formula": "priority = decision_information * (0.6 + 0.4 * feasibility) * (0.7 + 0.3 * reuse) / cost_index, refused when the closed premise risk is at or above one half or the oracle headroom is zero",
+    "candidates": [
+      {
+        "id": "SX5",
+        "title": "self model calibration against the temporal program's own history",
+        "question": "does updating a self model beat a fixed prior of the same form on real paired outcomes",
+        "scores": {
+          "expected_information_gain": 0.7,
+          "probability_of_changing_the_substrate_decision": 0.6,
+          "compute_cost": 0.05,
+          "duration_cost": 0.05,
+          "instrumentation_risk": 0.2,
+          "baseline_uncertainty": 0.2,
+          "oracle_headroom": 0.6,
+          "independent_unit_quality": 0.7,
+          "reusability_of_implementation": 0.8,
+          "reusability_of_data": 0.6,
+          "discriminates_competing_hypotheses": 0.6,
+          "risk_of_repeating_a_closed_premise": 0.1
+        },
+        "decision_information": 0.64,
+        "cost_index": 0.11,
+        "feasibility": 0.65,
+        "reuse": 0.7,
+        "priority": 4.553,
+        "raw_priority": 4.553,
+        "status": "eligible",
+        "refusal_reason": "",
+        "hypotheses_separated": [
+          "H_selfmodel_calibration",
+          "H_owned_continuity"
+        ],
+        "justification": {
+          "bed": "the temporal program's sealed shard receipts carry predicted and actual wall seconds, failures and quarantines. The bed exists already and this program did not design it",
+          "oracle_headroom": "a fixed prior is measurably miscalibrated on any stream with drift, and the temporal run has drifted across three resource classes",
+          "cost": "reading sealed receipts, no principal compute"
+        }
+      },
+      {
+        "id": "SX2",
+        "title": "perspective diversity against the best single perspective",
+        "question": "does a heterogeneous perspective set beat the strongest single one at matched compute",
+        "scores": {
+          "expected_information_gain": 0.6,
+          "probability_of_changing_the_substrate_decision": 0.5,
+          "compute_cost": 0.2,
+          "duration_cost": 0.2,
+          "instrumentation_risk": 0.6,
+          "baseline_uncertainty": 0.4,
+          "oracle_headroom": 0.3,
+          "independent_unit_quality": 0.5,
+          "reusability_of_implementation": 0.8,
+          "reusability_of_data": 0.4,
+          "discriminates_competing_hypotheses": 0.7,
+          "risk_of_repeating_a_closed_premise": 0.1
+        },
+        "decision_information": 0.59,
+        "cost_index": 0.33,
+        "feasibility": 0.4,
+        "reuse": 0.6,
+        "priority": 1.196,
+        "raw_priority": 1.196,
+        "status": "eligible",
+        "refusal_reason": "",
+        "hypotheses_separated": [
+          "H_perspective_diversity",
+          "H_learned_selector"
+        ],
+        "justification": {
+          "oracle_headroom": "unmeasured. The perspectives are implemented but no bed has scored them",
+          "instrumentation_risk": "the six implemented perspectives read different regions, so a bed has to supply information for all of them or the comparison is unfair"
+        }
+      },
+      {
+        "id": "SX4",
+        "title": "owned continuity against matched budget transcript replay",
+        "question": "does owned state restore more than a transcript replay of the same size",
+        "scores": {
+          "expected_information_gain": 0.6,
+          "probability_of_changing_the_substrate_decision": 0.5,
+          "compute_cost": 0.1,
+          "duration_cost": 0.1,
+          "instrumentation_risk": 0.85,
+          "baseline_uncertainty": 0.5,
+          "oracle_headroom": 0.3,
+          "independent_unit_quality": 0.3,
+          "reusability_of_implementation": 0.7,
+          "reusability_of_data": 0.3,
+          "discriminates_competing_hypotheses": 0.5,
+          "risk_of_repeating_a_closed_premise": 0.2
+        },
+        "decision_information": 0.54,
+        "cost_index": 0.348,
+        "feasibility": 0.3,
+        "reuse": 0.5,
+        "priority": 0.951,
+        "raw_priority": 0.951,
+        "status": "eligible",
+        "refusal_reason": "",
+        "hypotheses_separated": [
+          "H_owned_continuity"
+        ],
+        "justification": {
+          "instrumentation_risk": "high. On a synthetic session the transcript length is a design choice, so the margin is set by how much filler the generator adds. This is the SX1 objection in a different costume and needs a session nobody wrote for the purpose",
+          "oracle_headroom": "unbounded replay recovers three of five probes on the demo, so a real ceiling exists, but not one this program has measured on an undesigned session"
+        }
+      },
+      {
+        "id": "SX1c",
+        "title": "typed workspace on a bed with a larger reliability spread",
+        "question": "does a fitted write restriction transfer to unseen source groups",
+        "scores": {
+          "expected_information_gain": 0.6,
+          "probability_of_changing_the_substrate_decision": 0.5,
+          "compute_cost": 0.1,
+          "duration_cost": 0.1,
+          "instrumentation_risk": 0.8,
+          "baseline_uncertainty": 0.2,
+          "oracle_headroom": 0.0,
+          "independent_unit_quality": 0.7,
+          "reusability_of_implementation": 0.9,
+          "reusability_of_data": 0.9,
+          "discriminates_competing_hypotheses": 0.8,
+          "risk_of_repeating_a_closed_premise": 0.1
+        },
+        "decision_information": 0.615,
+        "cost_index": 0.29,
+        "feasibility": 0.35,
+        "reuse": 0.9,
+        "priority": 0.0,
+        "raw_priority": 1.522,
+        "status": "refused_closed_premise",
+        "refusal_reason": "no oracle headroom",
+        "hypotheses_separated": [
+          "H_typed_workspace",
+          "H_capacity_only"
+        ],
+        "justification": {
+          "oracle_headroom": "measured at 0.036 and 0.038 on the only two valid beds, both below the SESOI",
+          "closed_premise": "not closed, but no instrument currently reaches it"
+        }
+      },
+      {
+        "id": "SX7",
+        "title": "learned plasticity policy against the strongest simple rule",
+        "question": "does a learned plasticity policy beat a simple triggered rule",
+        "scores": {
+          "expected_information_gain": 0.3,
+          "probability_of_changing_the_substrate_decision": 0.2,
+          "compute_cost": 0.7,
+          "duration_cost": 0.7,
+          "instrumentation_risk": 0.4,
+          "baseline_uncertainty": 0.3,
+          "oracle_headroom": 0.1,
+          "independent_unit_quality": 0.5,
+          "reusability_of_implementation": 0.5,
+          "reusability_of_data": 0.5,
+          "discriminates_competing_hypotheses": 0.3,
+          "risk_of_repeating_a_closed_premise": 0.9
+        },
+        "decision_information": 0.265,
+        "cost_index": 0.565,
+        "feasibility": 0.3,
+        "reuse": 0.5,
+        "priority": 0.0,
+        "raw_priority": 0.287,
+        "status": "refused_closed_premise",
+        "refusal_reason": "risk of repeating a closed premise is at or above one half",
+        "hypotheses_separated": [
+          "H_learned_plasticity_policy"
+        ],
+        "justification": {
+          "closed_premise": "the fast state program measured no stable headroom and sealed the null. Rerunning it without new headroom repeats a closed premise"
+        }
+      }
+    ],
+    "selected": [
+      "SX5",
+      "SX2"
+    ],
+    "selected_detail": [
+      {
+        "id": "SX5",
+        "title": "self model calibration against the temporal program's own history",
+        "question": "does updating a self model beat a fixed prior of the same form on real paired outcomes",
+        "scores": {
+          "expected_information_gain": 0.7,
+          "probability_of_changing_the_substrate_decision": 0.6,
+          "compute_cost": 0.05,
+          "duration_cost": 0.05,
+          "instrumentation_risk": 0.2,
+          "baseline_uncertainty": 0.2,
+          "oracle_headroom": 0.6,
+          "independent_unit_quality": 0.7,
+          "reusability_of_implementation": 0.8,
+          "reusability_of_data": 0.6,
+          "discriminates_competing_hypotheses": 0.6,
+          "risk_of_repeating_a_closed_premise": 0.1
+        },
+        "decision_information": 0.64,
+        "cost_index": 0.11,
+        "feasibility": 0.65,
+        "reuse": 0.7,
+        "priority": 4.553,
+        "raw_priority": 4.553,
+        "status": "eligible",
+        "refusal_reason": "",
+        "hypotheses_separated": [
+          "H_selfmodel_calibration",
+          "H_owned_continuity"
+        ],
+        "justification": {
+          "bed": "the temporal program's sealed shard receipts carry predicted and actual wall seconds, failures and quarantines. The bed exists already and this program did not design it",
+          "oracle_headroom": "a fixed prior is measurably miscalibrated on any stream with drift, and the temporal run has drifted across three resource classes",
+          "cost": "reading sealed receipts, no principal compute"
+        }
+      },
+      {
+        "id": "SX2",
+        "title": "perspective diversity against the best single perspective",
+        "question": "does a heterogeneous perspective set beat the strongest single one at matched compute",
+        "scores": {
+          "expected_information_gain": 0.6,
+          "probability_of_changing_the_substrate_decision": 0.5,
+          "compute_cost": 0.2,
+          "duration_cost": 0.2,
+          "instrumentation_risk": 0.6,
+          "baseline_uncertainty": 0.4,
+          "oracle_headroom": 0.3,
+          "independent_unit_quality": 0.5,
+          "reusability_of_implementation": 0.8,
+          "reusability_of_data": 0.4,
+          "discriminates_competing_hypotheses": 0.7,
+          "risk_of_repeating_a_closed_premise": 0.1
+        },
+        "decision_information": 0.59,
+        "cost_index": 0.33,
+        "feasibility": 0.4,
+        "reuse": 0.6,
+        "priority": 1.196,
+        "raw_priority": 1.196,
+        "status": "eligible",
+        "refusal_reason": "",
+        "hypotheses_separated": [
+          "H_perspective_diversity",
+          "H_learned_selector"
+        ],
+        "justification": {
+          "oracle_headroom": "unmeasured. The perspectives are implemented but no bed has scored them",
+          "instrumentation_risk": "the six implemented perspectives read different regions, so a bed has to supply information for all of them or the comparison is unfair"
+        }
+      }
+    ],
+    "refused": [
+      "SX1c",
+      "SX7"
+    ],
+    "hypotheses_covered_by_selection": [
+      "H_learned_selector",
+      "H_owned_continuity",
+      "H_perspective_diversity",
+      "H_selfmodel_calibration"
+    ],
+    "caveat": "the arithmetic is a prioritization aid and is not itself scientific evidence",
+    "engine": "substrate.method.voi, the queue the method reformation already sealed",
+    "program_lesson": "a Substrate hypothesis whose mechanism is a design choice needs a bed the program did not design. On a synthetic bed the oracle ceiling is whatever the generator was told to make it, and the experiment measures the generator. That axis is scored as instrumentation_risk",
+    "activation": false
+  },
+  "graph_ready_nodes": [
+    "clean_clone"
+  ],
+  "buildable_prerequisites": [],
+  "selection_rule": "expected decision information, scientific headroom, relevance to entity construction, reuse value, engineering cost, compute cost, validity risk",
+  "do_not_run_everything": true,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "230ea36de34a12678e2c3f7f40821fbf2b70edcd90cecf2c16d41131f7fea250"
+}

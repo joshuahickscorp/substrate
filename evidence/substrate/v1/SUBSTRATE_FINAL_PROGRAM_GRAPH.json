@@ -1,0 +1,664 @@
+{
+  "schema": "substrate-final-program-graph/v1",
+  "node_fields": [
+    "identity",
+    "task_type",
+    "dependencies",
+    "entry_gate",
+    "exit_gate",
+    "source_authority",
+    "resource_profile",
+    "checkpoint_policy",
+    "verification",
+    "failure_policy",
+    "successors"
+  ],
+  "task_types": [
+    "implementation",
+    "data_acquisition",
+    "instrument_calibration",
+    "experiment",
+    "training",
+    "verification",
+    "mutation",
+    "analysis",
+    "report",
+    "integration",
+    "clean_clone"
+  ],
+  "nodes": [
+    {
+      "identity": "declarations",
+      "task_type": "implementation",
+      "dependencies": [],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "every module declaration is sealed at a commit reachable from HEAD",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "trivial",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "body_adapter_compact",
+        "goal_and_valuation",
+        "perspective_expansion",
+        "real_session_authority",
+        "temporal_core_integration",
+        "tests",
+        "world_model_bed"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "tests",
+      "task_type": "verification",
+      "dependencies": [
+        "declarations"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "every declared test node is recorded passing",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "authority",
+        "experiments"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "authority",
+      "task_type": "report",
+      "dependencies": [
+        "tests"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "the six final authority artifacts exist and bind to the current commit",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "trivial",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "deliverables"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "temporal_core_integration",
+      "task_type": "integration",
+      "dependencies": [
+        "declarations"
+      ],
+      "entry_gate": "the temporal core authority is terminal, licensed or not",
+      "exit_gate": "the runtime reads temporal state through a versioned interface and the five information sources stay distinguishable",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "developmental_divergence",
+        "world_model_in_loop"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "world_model_bed",
+      "task_type": "data_acquisition",
+      "dependencies": [
+        "declarations"
+      ],
+      "entry_gate": "a corpus under custody with state dependent decisions",
+      "exit_gate": "a bed exists whose best fixed action is not optimal everywhere",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "moderate",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "world_model_in_loop"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "world_model_in_loop",
+      "task_type": "integration",
+      "dependencies": [
+        "world_model_bed",
+        "temporal_core_integration"
+      ],
+      "entry_gate": "the bed exists and the runtime cycle is terminal",
+      "exit_gate": "a world model prediction changes which action the arbiter selects, measured inside the cycle",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "moderate",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "entity_batteries"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "body_adapter_compact",
+      "task_type": "implementation",
+      "dependencies": [
+        "declarations"
+      ],
+      "entry_gate": "the nine message kinds are declared",
+      "exit_gate": "a compact specialist body conforms and the runtime drives it",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "body_adapter_general",
+        "body_adapter_tool",
+        "body_comparison"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "body_adapter_general",
+      "task_type": "implementation",
+      "dependencies": [
+        "body_adapter_compact"
+      ],
+      "entry_gate": "the compact adapter conforms",
+      "exit_gate": "a larger general body conforms through the same interface",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "body_comparison"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "body_adapter_tool",
+      "task_type": "implementation",
+      "dependencies": [
+        "body_adapter_compact"
+      ],
+      "entry_gate": "the compact adapter conforms",
+      "exit_gate": "a tool dominant body conforms through the same interface",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "body_comparison"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "body_comparison",
+      "task_type": "experiment",
+      "dependencies": [
+        "body_adapter_compact",
+        "body_adapter_general",
+        "body_adapter_tool"
+      ],
+      "entry_gate": "three bodies conform",
+      "exit_gate": "the six declared ablations are measured against all three bodies",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "moderate",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "entity_batteries"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "real_session_authority",
+      "task_type": "data_acquisition",
+      "dependencies": [
+        "declarations"
+      ],
+      "entry_gate": "a recorded session this program did not write for the purpose",
+      "exit_gate": "a session authority exists with its provenance and its length not chosen by us",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "developmental_divergence",
+        "grounding"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "goal_and_valuation",
+      "task_type": "implementation",
+      "dependencies": [
+        "declarations"
+      ],
+      "entry_gate": "the safety envelope declares goal authority",
+      "exit_gate": "goals carry nine fields and valuation is externally authorized and auditable",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "entity_batteries",
+        "grounding"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "grounding",
+      "task_type": "implementation",
+      "dependencies": [
+        "real_session_authority",
+        "goal_and_valuation"
+      ],
+      "entry_gate": "a session with referents and outcomes",
+      "exit_gate": "the nine grounding tests run and a symbol with no referent is refused",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "entity_batteries"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "perspective_expansion",
+      "task_type": "implementation",
+      "dependencies": [
+        "declarations"
+      ],
+      "entry_gate": "every family has a declared verification method or a stated refusal",
+      "exit_gate": "every declared family is implemented or terminally gated with its reason",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "developmental_divergence",
+      "task_type": "experiment",
+      "dependencies": [
+        "real_session_authority",
+        "temporal_core_integration"
+      ],
+      "entry_gate": "two identical instances and two different verified histories",
+      "exit_gate": "divergence is measured across the nine declared dimensions and tested for transfer",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "moderate",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "consolidate"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "entity_batteries",
+      "task_type": "experiment",
+      "dependencies": [
+        "world_model_in_loop",
+        "body_comparison",
+        "grounding",
+        "goal_and_valuation"
+      ],
+      "entry_gate": "a runtime with a world model, a body and grounded symbols",
+      "exit_gate": "thinking, continuity, unity, reflection, agency and integrity each reach a classification or a stated measurement boundary",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "moderate",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "consolidate"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "experiments",
+      "task_type": "experiment",
+      "dependencies": [
+        "tests"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "every declared experiment reaches a decision with its reason recorded",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "bed_screen"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "bed_screen",
+      "task_type": "instrument_calibration",
+      "dependencies": [
+        "experiments"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "every bed under custody is screened against the declared SESOI",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "sx1b",
+        "sx5"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "sx1b",
+      "task_type": "experiment",
+      "dependencies": [
+        "bed_screen"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "a classification or a refusal naming the number that decides it",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "deliverables"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "sx5",
+      "task_type": "experiment",
+      "dependencies": [
+        "bed_screen"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "a classification or a refusal naming the number that decides it",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "deliverables"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "deliverables",
+      "task_type": "report",
+      "dependencies": [
+        "sx1b",
+        "sx5",
+        "authority"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "every master artifact is regenerated from the tree",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "trivial",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "recompute"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "recompute",
+      "task_type": "verification",
+      "dependencies": [
+        "deliverables"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "every sealed number agrees with a second route and no seal is broken",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "light",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "mutate"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "mutate",
+      "task_type": "mutation",
+      "dependencies": [
+        "recompute"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "every mutation is rejected by the guard named beside it",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "moderate",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "classify"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "classify",
+      "task_type": "analysis",
+      "dependencies": [
+        "mutate"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "a verified measurement carries a recorded classification",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "trivial",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "clean_clone",
+        "consolidate"
+      ],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    },
+    {
+      "identity": "clean_clone",
+      "task_type": "clean_clone",
+      "dependencies": [
+        "classify"
+      ],
+      "entry_gate": "the working tree is committed",
+      "exit_gate": "a fresh clone at this commit imports, tests and reproduces every sealed number",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "moderate",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [
+        "consolidate"
+      ],
+      "entry_open": true,
+      "exit_passed": false,
+      "missing_implementation": [],
+      "missing_artifacts": [
+        "SUBSTRATE_CLEAN_CLONE.json"
+      ],
+      "external_blocker": ""
+    },
+    {
+      "identity": "consolidate",
+      "task_type": "report",
+      "dependencies": [
+        "classify",
+        "entity_batteries",
+        "developmental_divergence",
+        "clean_clone"
+      ],
+      "entry_gate": "dependencies terminal",
+      "exit_gate": "the frontier, the value queue and the scorecard carry every new classification",
+      "source_authority": "SUBSTRATE_FINAL_AUTONOMOUS_PROGRAM.md",
+      "resource_profile": "trivial",
+      "checkpoint_policy": "receipt per node, resumable from disk",
+      "verification": "independent recomputation plus mutation",
+      "failure_policy": "hold_after_two",
+      "successors": [],
+      "entry_open": true,
+      "exit_passed": true,
+      "missing_implementation": [],
+      "missing_artifacts": [],
+      "external_blocker": ""
+    }
+  ],
+  "node_count": 26,
+  "declaration_violations": [],
+  "valid": true,
+  "terminal_nodes": [
+    "authority",
+    "bed_screen",
+    "body_adapter_compact",
+    "body_adapter_general",
+    "body_adapter_tool",
+    "body_comparison",
+    "classify",
+    "consolidate",
+    "declarations",
+    "deliverables",
+    "developmental_divergence",
+    "entity_batteries",
+    "experiments",
+    "goal_and_valuation",
+    "grounding",
+    "mutate",
+    "perspective_expansion",
+    "real_session_authority",
+    "recompute",
+    "sx1b",
+    "sx5",
+    "temporal_core_integration",
+    "tests",
+    "world_model_bed",
+    "world_model_in_loop"
+  ],
+  "buildable_prerequisites": [],
+  "externally_blocked": [],
+  "rule": "a blocker that can be built with available data, code and compute is a node in this graph, not a sentence in a plan. Only an unavailable external resource is terminal",
+  "no_prose_waves": true,
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "db3a4f41a04cd2aa482d5080ad569363979e71f590c67d94a95ca45920ee86ba"
+}

@@ -1,0 +1,95 @@
+{
+  "schema": "substrate-long-run-authority/v1",
+  "frozen_manifest": {
+    "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+    "data_root_declared_by": "MOP_DATA_CUSTODY_AUTHORITY.json canonical_root",
+    "sessions": "SUBSTRATE_REAL_SESSION_AUTHORITY.json",
+    "splits": "group disjoint by source unit, sealed in the temporal receipts",
+    "perspectives": "substrate.perspectives.CATALOG",
+    "bodies": [
+      "compact",
+      "general",
+      "tool"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "cycle_budget": 6.0,
+    "controls": {
+      "temporal_core": "declared control, no core licensed",
+      "diversity": "strongest compute matched single cell",
+      "continuity": "transcript replay at matched budget"
+    },
+    "sesoi": 0.05,
+    "stop_rules": [
+      "stop switch present",
+      "deterministic failure hold",
+      "no unit dependency ready"
+    ],
+    "checkpoint_policy": "one receipt per unit, resumable from disk, identity digest verified on restore",
+    "retries": 2,
+    "claim_ceiling": "engineering property or architectural prerequisite only. No consciousness, sentience, feeling, suffering, desire, personhood or life",
+    "activation": false,
+    "source_digest": "c6621aaee60b41961cfc6a8aa0307f6baf4cce21635c2d09aef6176152455096",
+    "configuration_sha256": "797e2ca437258960aedc32ec7ee432b05f4b62ef32eec6211534d27c0b5ce68b",
+    "source_tree": "b852cbced4ccfdf05c2b54a307ef27e2b09d9c73",
+    "units": [
+      "audit",
+      "declarations",
+      "temporal_continuity",
+      "ontology_epistemology",
+      "memory",
+      "diversity_arbitration",
+      "world_model",
+      "self_model",
+      "body_compact",
+      "body_general",
+      "body_tool",
+      "body_comparison",
+      "admitted_plasticity",
+      "developmental_divergence",
+      "entity_batteries",
+      "certification",
+      "recomputation",
+      "mutations",
+      "terminal_synthesis"
+    ],
+    "unit_count": 19,
+    "completion": "all units terminal, which is a count of scientific work units, not wall time",
+    "manifest_sha256": "739ffd2adcbe6dc0f983b1480b83269fb8ad080d85e4b8adce83549d42736c59"
+  },
+  "audit": {
+    "all_pass": true,
+    "failed": []
+  },
+  "certification": {
+    "green": true,
+    "gated_components": [],
+    "sx2": {
+      "verdict": "closed_no_headroom",
+      "k_clearing_sesoi": [],
+      "best_margin": 0.008964,
+      "sesoi": 0.05
+    }
+  },
+  "rehearsal": {
+    "all_pass": true,
+    "failed": []
+  },
+  "admission": "green",
+  "refusal_reason": "",
+  "no_live_edits_after_launch": "the frozen manifest carries the source commit and tree. A later run whose tree differs is a live edit and is detectable",
+  "defect_procedure": "pause, append only repair, regression test, transition receipt, safe resume. Completed units are not redone",
+  "commands": {
+    "launch": "substrate run",
+    "status": "substrate status",
+    "stop": "substrate stop",
+    "resume": "substrate resume"
+  },
+  "activation": false,
+  "program": "substrate-v1",
+  "source_commit": "50c6e26492d19bdcf8be6e31dc7be773d47a8a83",
+  "sha256": "202e5d4897d6d4858adc9453554cbb2ceacc7dfdbe5fda2efa6cb7cd02a6518b"
+}
