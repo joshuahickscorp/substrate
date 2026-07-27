@@ -98,7 +98,8 @@ def scheduling_class(pending_extended: list[str]) -> tuple[int, list[str], str]:
     if active_large or large:
         return CAP_LARGE, large, "large_class_isolated"
     return CAP_SMALL, pending_extended, "small"
-def launch(args: list[str], log: str, tag: str, module: str = "mop.temporal.runs.e2") -> bool:
+def launch(args: list[str], log: str, tag: str, module: str = "mop.temporal.runs.e2",
+           completion_path: Path | None = None) -> bool:
     LOGS.mkdir(exist_ok=True)
     LOCKS.mkdir(parents=True, exist_ok=True)
     lock = _lock_path(tag)
@@ -121,6 +122,12 @@ def launch(args: list[str], log: str, tag: str, module: str = "mop.temporal.runs
     except OSError as exc:
         lock.unlink(missing_ok=True)
         print(f"[supervisor] lock reservation failed for {tag}: {exc}", flush=True)
+        return False
+    # A pending queue can become stale while another adopted worker is sealing
+    # its result.  Recheck completion after owning the identity reservation and
+    # before spawning, so a just-landed receipt cannot acquire another writer.
+    if completion_path is not None and completion_path.is_file():
+        lock.unlink(missing_ok=True)
         return False
     try:
         with open(LOGS / log, "a") as f:

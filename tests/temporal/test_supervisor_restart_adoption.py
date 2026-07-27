@@ -109,6 +109,19 @@ def test_active_lock_publication_is_atomic(launch_sandbox, monkeypatch):
     assert json.loads(supervisor._lock_path(tag).read_text())["state"] == "active"
 
 
+def test_launch_rechecks_completion_after_owning_the_reservation(launch_sandbox, tmp_path):
+    tag = "fix:capacity_har_stream_0"
+    completion = tmp_path / "capacity_har_stream_0.json"
+    completion.write_text("{}")
+
+    assert supervisor.launch(
+        ["principal", "har_stream", "0"], "w.log", tag,
+        completion_path=completion,
+    ) is False
+    assert launch_sandbox == []
+    assert not supervisor._lock_path(tag).exists()
+
+
 def test_adoption_liveness_probe_is_process_group_independent():
     """Re-adoption keys on pid liveness (os.kill(pid, 0)), not the caller's
     process group, so a fresh supervisor counts detached survivors it did not
