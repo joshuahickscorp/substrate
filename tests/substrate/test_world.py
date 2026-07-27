@@ -112,12 +112,7 @@ def test_the_decision_arm_is_measured_against_the_best_fixed_action(fitted):
     assert gain > 0.0
     # the baseline really is the strongest state free policy, so the gain cannot come from a weak control
     costs = {
-        a: W._mean(
-            [
-                0.0 if model.rollout(model.intervene(s, {"tyre": a}), 2)[-1]["arrive"] == "ontime" else 1.0
-                for s, _ in bed["test"]
-            ]
-        )
+        a: W._mean([0.0 if model.rollout(model.intervene(s, {"tyre": a}), 2)[-1]["arrive"] == "ontime" else 1.0 for s, _ in bed["test"]])
         for a in bed["actions"]["tyre"]
     }
     assert min(costs.values()) > 0.0, "some fixed action would have been perfect, so the test is empty"

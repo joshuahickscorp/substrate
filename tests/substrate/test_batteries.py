@@ -12,18 +12,13 @@ from substrate import perspectives as PS
 
 def test_thinking_requires_a_declared_alternative_to_beat():
     # latency alone is refused outright, not scored badly
-    refused = B.thinking_battery(
-        {"routes": ["maintaining_state"], "beats": {"latency": {"substrate": 10, "alternative": 1}}}
-    )
+    refused = B.thinking_battery({"routes": ["maintaining_state"], "beats": {"latency": {"substrate": 10, "alternative": 1}}})
     assert refused["scored"] is False and refused["supported"] is False
     assert "excludes" in refused["reason"]
     assert refused["non_evidence_named"] == ["latency"]
 
     # so are hidden activations
-    assert (
-        B.thinking_battery({"beats": {"hidden_activations": {"substrate": 1, "alternative": 0}}})["scored"]
-        is False
-    )
+    assert B.thinking_battery({"beats": {"hidden_activations": {"substrate": 1, "alternative": 0}}})["scored"] is False
 
     # a partial comparison is scored but not supported, and it names what is missing
     partial = B.thinking_battery(
@@ -139,9 +134,7 @@ def test_reflective_report_fails_closed_without_provenance():
 
 def test_a_superseded_belief_reports_its_own_failure():
     entity, _ = B._demo_entity()
-    entity.semantic.supersede(
-        "f1", M.Fact("f3", "only one bed is temporal", 0.9, provenance="proof/later.json")
-    )
+    entity.semantic.supersede("f1", M.Fact("f3", "only one bed is temporal", 0.9, provenance="proof/later.json"))
     report = B.reflective_report(entity, "f1")
     assert report["answers"]["failure"] == "superseded by f3"
     assert B.reflective_report(entity, "f3")["answers"]["what_evidence_supports_it"] == ["f3", "f1"]

@@ -53,9 +53,7 @@ def test_sx5_requires_both_directions(decision):
     assert len(principal["directions"]) == 2, "one direction is a replication, not a result"
     assert set(principal["directions"]) == {"har_stream_to_harth_stream", "harth_stream_to_har_stream"}
     assert X.SX5_DESIGN["both_directions_must_support"] is True
-    assert principal["both_directions_support"] == all(
-        d["supports"] for d in principal["directions"].values()
-    )
+    assert principal["both_directions_support"] == all(d["supports"] for d in principal["directions"].values())
 
 
 def test_the_updating_arm_beats_the_fixed_prior_control_by_a_lot(decision):

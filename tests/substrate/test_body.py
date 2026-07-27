@@ -29,9 +29,7 @@ def test_a_message_missing_a_required_field_is_named_not_accepted():
 
 
 def test_a_partial_body_is_reported_as_partial_not_as_conforming():
-    partial = B.BodyContract(
-        "compact_specialist", "sidecar_temporal_core", ("inference", "hidden_state", "checkpoint")
-    )
+    partial = B.BodyContract("compact_specialist", "sidecar_temporal_core", ("inference", "hidden_state", "checkpoint"))
     report = B.conformance(partial)
     assert report["conforms"] is False and report["partial"] is True
     assert set(report["missing"]) == set(B.MESSAGE_KINDS) - set(partial.implements)

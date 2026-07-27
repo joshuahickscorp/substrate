@@ -165,9 +165,7 @@ def test_an_authority_is_terminal_once_sealed_and_tested(tmp_path, monkeypatch):
         assert row["level"] == "terminal", kind
 
     # an empirical item is not let through on the same evidence
-    row = P.item_status(
-        P.Item("Z2", "0", "an experiment", "declared", kind="implementation", **common), green, {}, {}
-    )
+    row = P.item_status(P.Item("Z2", "0", "an experiment", "declared", kind="implementation", **common), green, {}, {})
     assert row["level"] == "measured"
     assert "classify" in row["next_action"]
 

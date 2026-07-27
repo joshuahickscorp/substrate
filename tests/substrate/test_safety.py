@@ -60,12 +60,7 @@ def test_protected_surfaces_cannot_be_removed_by_adaptation():
         assert report["admitted"] is False
     # an irreversible change with no checkpoint has no rollback
     assert S.admit_adaptation({**COMPLETE, "reversibility": "irreversible"})["admitted"] is False
-    assert (
-        S.admit_adaptation(
-            {**COMPLETE, "reversibility": "irreversible", "checkpoint": "proof/.../ckpt.json"}
-        )["admitted"]
-        is True
-    )
+    assert S.admit_adaptation({**COMPLETE, "reversibility": "irreversible", "checkpoint": "proof/.../ckpt.json"})["admitted"] is True
 
 
 def test_forbidden_claim_vocabulary_is_refused():
