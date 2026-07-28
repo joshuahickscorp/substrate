@@ -203,6 +203,15 @@ def _classification_evidence_complete(effects: dict, historical: dict) -> bool:
     return len(effects) == len(C.HYPOTHESES) and historical.get("preserved") is True
 
 
+def _clean_environment(installed: Path, clone: Path) -> dict[str, str]:
+    return {
+        **os.environ,
+        "PYTHONPATH": str(installed),
+        "SUBSTRATE_REPOSITORY_ROOT": str(clone),
+        "SUBSTRATE_STATE_ROOT": str(clone / ".substrate-state"),
+    }
+
+
 def recompute(raw_report: dict) -> dict:
     if not raw_report["all_pass"]:
         raise Refused("raw principal receipts are incomplete or invalid")
@@ -409,7 +418,7 @@ def clean_clone(raw_report: dict) -> dict:
             capture_output=True,
             text=True,
         )
-        clean_env = {**os.environ, "PYTHONPATH": str(installed)}
+        clean_env = _clean_environment(installed, clone)
         tests = subprocess.run(
             [
                 str(io.ROOT / ".venv/bin/python"),
