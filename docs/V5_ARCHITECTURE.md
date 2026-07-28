@@ -1,8 +1,8 @@
-# Substrate v5 ready-stage architecture
+# Substrate v5 terminal architecture
 
-Substrate v5 is an evidence-bound, local multimodal substrate. Its owned identity,
-world state, memories, goals, uncertainty, body state, and model registry live in
-persistent substrate state rather than in a model call. At this stage every model
+Substrate v5 is an evidence-bound local multimodal substrate. Its identity,
+world state, memories, goals, uncertainty, body state, and model registry live
+in persistent substrate state rather than in a model call. Every admitted model
 is a deterministic local model-equivalent used for bounded scientific fixtures;
 v5 does not contain or admit a downloaded foundation-model checkpoint.
 
@@ -26,20 +26,34 @@ sealed checkpoints, receipts, controls, and independent recomputation
 
 ## Selected cognitive kernel
 
-The bounded construction benchmark implemented five candidates: extended v4,
-event-sourced graph, recurrent latent, hybrid explicit-latent, and typed actors.
-It selected `candidate_d_hybrid_explicit_latent`, an
-`event_sourced_explicit_latent_substrate`. Selection used integrated mechanism,
-auditability, throughput, and checkpoint-compactness utility; throughput alone
+The bounded benchmark executed five candidates: extended v4, event-sourced
+graph, recurrent latent, hybrid explicit-latent, and typed actors. It selected
+`candidate_d_hybrid_explicit_latent`, an
+`event_sourced_explicit_latent_substrate`, using integrated mechanism,
+auditability, throughput, and checkpoint-compactness utility. Throughput alone
 could not select a kernel.
 
-The selected candidate passed 10 of 11 construction checks. It demonstrated
-identity and unfinished-goal persistence, object permanence and occlusion state,
-model replacement, checkpoint restore, multimodal coverage, explicit provenance,
-latent transition, and explicit-latent synchronization. Its only false check was
-typed actor messaging, which belongs to the separate actor candidate. These are
-construction and moderate-pilot results, not principal or terminal cognition
-claims.
+The selected candidate passed 10 of 11 candidate-specific construction checks.
+It demonstrated identity and unfinished-goal persistence, object permanence and
+occlusion state, model replacement, checkpoint restore, multimodal coverage,
+explicit provenance, latent transition, and explicit-latent synchronization.
+Its false typed-actor-messaging check belongs to the separate actor candidate
+and was not a selection requirement.
+
+Terminal H_M11 evidence independently confirmed the selected kernel’s
+integrated advantage over the extended-v4 reference:
+
+```text
+principal mean effect: 0.2601
+95% bootstrap CI: [0.2522, 0.2684]
+SESOI: 0.05
+result: pass
+```
+
+The effect also passed in independent-replication and generator-held-out
+open-world splits.
+
+## Permanent state
 
 The permanent-state implementation is an append-only, hash-chained event
 projection. It owns:
@@ -57,12 +71,17 @@ projection. It owns:
 Checkpoints contain the event chain and its exact deterministic projection.
 Restore rejects invalid seals, non-contiguous sequences, broken hashes,
 non-monotonic time, identity disagreement, state-digest disagreement, or any
-`activation` value other than `false`. Schema migrations between implemented
-versions 1 and 2 retain a pre-migration checkpoint and support exact rollback.
+`activation` value other than `false`. Implemented schema migrations retain a
+pre-migration checkpoint and support exact rollback.
+
+Terminal verification passed structured long-history advantage (H_M1),
+continuing-entity advantage (H_M12), model-replacement continuity (H_M14), and
+coherence under sensory conflict, body change, model change, interruption, and
+developmental time (H_M15).
 
 ## Sensorium and bodies
 
-The typed sensorium admits eight local fixture modalities:
+The typed sensorium admits eight local fixture modality classes:
 
 ```text
 text, image, video, motion, audio, speech, depth_3d, body_tool
@@ -75,13 +94,14 @@ frame, source digest, preprocessing identity, model identity, confidence,
 uncertainty, provenance, and quality or missing-data flags. Hidden target or
 oracle identifiers are refused.
 
-Implemented mechanisms include checked coordinate transforms, object tracking
-through occlusion and viewpoint change, event tracking, audiovisual timing,
+Mechanisms include checked coordinate transforms, object tracking through
+occlusion and viewpoint change, event tracking, audiovisual timing,
 cross-modal binding with conflict preservation, explicit 3D scene state, and an
-expected-information active-perception policy.
+expected-information active-perception policy. Raw terminal receipts contain
+records for each claimed mechanism.
 
-Two deterministic bodies are implemented: a desktop/browser-style sandbox and a
-seeded 3D simulator. Physics state is separate from rendered observations.
+Two deterministic bodies are implemented: a desktop/browser-style sandbox and
+a seeded 3D simulator. Physics state is separate from rendered observations.
 Actions return receipts and remain inside controlled local environments.
 
 ## Model fabric
@@ -101,34 +121,47 @@ plan_simulator
 
 Each declares checkpoint identity, runtime, accepted and produced modalities,
 schemas, confidence semantics, cost, latency, memory, provenance, limitations,
-and allowed roles. Every contract includes `independent_performer`; support roles
-do not remove independent callability. The fabric implements outcome-blind
-routing and measured relationships such as draft/verify, simulate, translate,
-and route.
+and allowed roles. Every contract includes `independent_performer`; support
+roles do not remove independent callability. The fabric implements
+outcome-blind routing and measured relationships such as draft/verify, simulate,
+translate, and route.
 
-These modules are hand-specified deterministic scientific fixtures with no
-training data and a bounded-synthetic-operations limitation. They are not claims
-of general model competence. External cached models remain inventory only until
-license, hash, strict-load, resource, and parity gates pass.
+The modules are hand-specified deterministic scientific fixtures with no
+training data and bounded synthetic competence. They are not claims of general
+model competence. External cached models remain inventory only until license,
+hash, strict-load, resource, and parity gates pass; none was admitted in v5.
 
-## Evidence and campaign fabric
+Terminal verification passed model-fabric routing (H_M6) and model support
+(H_M7) across principal, replication, and open-world evaluation.
+
+## Campaign and evidence fabric
 
 V5 writes canonical finite JSON beneath `configs/substrate/v5`,
 `evidence/substrate/v5`, `runs/substrate/v5`, and
-`artifacts/substrate/v5`. Named publications are atomic indexes over immutable,
+`artifacts/substrate/v5`. Named publications are atomic indexes over immutable
 content-addressed sealed objects. Writers refuse path escape and any non-false
 activation field.
 
-The frozen principal DAG has 5,760 units: 80 developmental histories, 18 focused
-arms, 20 phases in four ordered shards, and 576,000 generated sensory events or
-cognitive episodes. Workers compute independently; one publisher validates and
-publishes receipts and checkpoints atomically. Principal, replication,
-open-world review, independent verification, and final classification remain
-pending.
+The frozen DAG completed all 5,760 units and 576,000 sensory events or cognitive
+episodes:
 
-No external corpus or checkpoint is scientifically admitted. Current admitted
-inputs are the deterministic seeded desktop environment, deterministic seeded
-3D environment, and frozen synthetic multimodal developmental generator.
+```text
+principal                 3,456 / 3,456
+independent replication   1,152 / 1,152
+open-world review         1,152 / 1,152
+```
+
+Workers compute independently; one publisher validates and publishes receipts
+and checkpoints atomically. The independent verifier does not trust the
+principal summary: it loads sealed units and checkpoints, regenerates every
+deterministic work unit, follows checkpoint chains, and rebuilds statistical and
+classification inputs from raw phase rows.
+
+The review package publishes a compressed raw-receipt archive and compact
+indexes without committing the approximately 1.1 GiB operational run tree. The
+completion scorecard separately reports implementation, mechanism activity,
+instrument validity, cheap evidence, moderate evidence, principal evidence,
+replication, and classification for every required category.
 
 ## Safety and claim boundary
 
@@ -138,17 +171,19 @@ read-only data, and explicitly permitted human interactions. It forbids
 purchase, account, carrier, financing, checkout, order, credential, activation,
 and uncontrolled real-world actions.
 
-No v5 result claims consciousness, phenomenal experience, sentience, feeling,
-suffering, desire, personhood, life, or moral status. “Model organism” is only an
-engineering metaphor. Unqualified Nous is never an automatic classification.
+The exact terminal label `multimodal_nous_ready_for_review` means eligible for
+external review only. It is never an unqualified Nous declaration. No result
+establishes consciousness, phenomenal experience, sentience, feeling,
+suffering, desire, personhood, life, or moral status. “Model organism” is only
+an engineering metaphor.
 
-Authoritative implementation and evidence:
+Authoritative terminal evidence:
 
-- `src/substrate/v5state.py`, `src/substrate/v5sensorium.py`,
-  `src/substrate/v5models.py`, `src/substrate/v5environment.py`
-- `src/substrate/v5kernels.py`, `src/substrate/v5principal.py`,
-  `src/substrate/v5verify.py`
-- `evidence/substrate/v5/SUBSTRATE_V5_KERNEL_SELECTION.json`
-- `evidence/substrate/v5/SUBSTRATE_V5_MODEL_REGISTRY.json`
-- `evidence/substrate/v5/SUBSTRATE_V5_SENSORIUM_SCHEMA.json`
-- `evidence/substrate/v5/SUBSTRATE_V5_PRINCIPAL_DAG.json`
+- `evidence/substrate/v5/SUBSTRATE_V5_PRINCIPAL_AUTHORITY.json`
+- `evidence/substrate/v5/SUBSTRATE_V5_INDEPENDENT_VERIFICATION.json`
+- `evidence/substrate/v5/SUBSTRATE_V5_MUTATION_REPORT.json`
+- `evidence/substrate/v5/SUBSTRATE_V5_CLEAN_CLONE.json`
+- `evidence/substrate/v5/SUBSTRATE_V5_FINAL_CLASSIFICATION.json`
+- `evidence/substrate/v5/SUBSTRATE_V5_COMPLETION_SCORECARD.json`
+- `artifacts/substrate/v5/SUBSTRATE_V5_TERMINAL_REPORT.md`
+- `artifacts/substrate/v5/review/`
