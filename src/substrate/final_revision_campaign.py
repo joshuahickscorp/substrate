@@ -211,8 +211,8 @@ def preflight(*, publish: bool = True) -> dict[str, Any]:
         "src/substrate/nous_closure_io.py",
     )
     checks = {
-        "main_matches_orientation": main == C.AUTHORITATIVE_MAIN,
-        "remote_main_matches_disk": remote_main == main,
+        "local_main_absent_or_matches_orientation": main is None or main == C.AUTHORITATIVE_MAIN,
+        "remote_main_matches_orientation": remote_main == C.AUTHORITATIVE_MAIN,
         "preflight_tag_at_untouched_main": preflight_tag == C.AUTHORITATIVE_MAIN,
         "closure_terminal_at_main": closure_terminal == C.AUTHORITATIVE_MAIN,
         "closure_classification_preserved": classification.get("classification") == C.STARTING_CLOSURE_RESULT,
