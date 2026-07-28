@@ -166,7 +166,11 @@ def test_v5_clean_clone_supports_explicit_injected_commands() -> None:
         "tests": [python, "-c", "pass"],
         "ruff": [python, "-c", "pass"],
         "ruff_format": [python, "-c", "pass"],
-        "regeneration": [python, "-c", "print('{expected_digest}')"],
+        "regeneration": [
+            python,
+            "-c",
+            "print({'receipt': '{expected_digest}'}['receipt'])",
+        ],
         "ready": [python, "-c", "print('frozen-ready-commit')"],
     }
 
