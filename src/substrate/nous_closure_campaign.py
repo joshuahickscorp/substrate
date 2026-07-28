@@ -1515,12 +1515,70 @@ def review_cell_report(identity: str, pilot_document: dict[str, Any]) -> dict[st
     }
 
 
+def _isolated_review_cell(identity: str, pilot_document: dict[str, Any]) -> dict[str, Any]:
+    commit = io.ref_or_none("HEAD", peel=True)
+    if commit is None:
+        raise io.Refused("cannot resolve review-cell source commit")
+    with tempfile.TemporaryDirectory(prefix=f"substrate-nous-review-{identity}-") as temporary:
+        checkout = Path(temporary) / "checkout"
+        add = subprocess.run(
+            ["git", "worktree", "add", "--detach", str(checkout), commit],
+            cwd=io.ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if add.returncode:
+            raise io.Refused(add.stderr.strip() or f"cannot create review worktree {identity}")
+        try:
+            code = (
+                "import json,sys;"
+                "from substrate.nous_closure_campaign import review_cell_report;"
+                "print(json.dumps(review_cell_report(sys.argv[1],json.load(sys.stdin)),sort_keys=True))"
+            )
+            environment = {
+                **os.environ,
+                "PYTHONPATH": str(checkout / "src"),
+                "SUBSTRATE_REPOSITORY_ROOT": str(checkout),
+            }
+            result = subprocess.run(
+                [sys.executable, "-c", code, identity],
+                cwd=checkout,
+                input=json.dumps(pilot_document),
+                capture_output=True,
+                text=True,
+                check=False,
+                env=environment,
+                timeout=300.0,
+            )
+            if result.returncode:
+                raise io.Refused(result.stderr.strip() or f"review cell {identity} failed")
+            report = json.loads(result.stdout)
+        finally:
+            subprocess.run(
+                ["git", "worktree", "remove", "--force", str(checkout)],
+                cwd=io.ROOT,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+    report["isolation"] = {
+        "separate_process": True,
+        "separate_detached_worktree": True,
+        "worktree_commit": commit,
+        "separate_output_root": f"runs/substrate/nous_closure/review_cells/{identity}",
+        "shared_mutable_cache": False,
+        "pilot_summary_seen_before_raw_receipts": False,
+    }
+    return report
+
+
 def run_internal_reviews(*, publish: bool = True) -> dict[str, Any]:
     pilot_document = io.load_json(io.EVIDENCE / "SUBSTRATE_NOUS_CLOSURE_MODERATE_PILOT.json")
     reports = {
         identity: io.authority(
             f"substrate-nous-closure-internal-review-{identity.lower()}/v1",
-            {key: value for key, value in review_cell_report(identity, pilot_document).items() if key not in {"schema", "program", "activation"}},
+            {key: value for key, value in _isolated_review_cell(identity, pilot_document).items() if key not in {"schema", "program", "activation"}},
             status="mechanism_null",
         )
         for identity in REVIEW_PERSPECTIVES
@@ -1540,6 +1598,7 @@ def run_internal_reviews(*, publish: bool = True) -> dict[str, Any]:
     if publish:
         for identity, report in reports.items():
             io.write_json(io.EVIDENCE / f"SUBSTRATE_NOUS_CLOSURE_INTERNAL_REVIEW_{identity}.json", report)
+            io.write_json(io.RUNS / "review_cells" / identity / "report.json", report)
         io.write_json(io.EVIDENCE / "SUBSTRATE_NOUS_CLOSURE_INTERNAL_REVIEW_CONSENSUS.json", consensus)
     return {"reports": reports, "consensus": consensus, "activation": False}
 
