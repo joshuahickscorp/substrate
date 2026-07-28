@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+from pathlib import Path
 
 import pytest
 
@@ -64,7 +65,8 @@ def test_v4_checkpoint_is_exact_and_corruption_is_refused() -> None:
         StructuralSubstrate().restore(corrupted)
 
 
-def test_v4_canary_gate_is_complete() -> None:
+def test_v4_canary_gate_is_complete(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(v4canary.io, "seal", lambda name, document, **kwargs: tmp_path / name)
     result = v4canary.run()["evidence"]
     assert result["total"] == 46
     assert result["passed"] == 46
@@ -150,3 +152,12 @@ def test_v4_verified_replication_null_is_terminal_without_promotion() -> None:
         },
     }
     assert V._terminal_verification_passed(result)
+
+
+def test_v4_clean_clone_binds_installed_code_to_clone(tmp_path: Path) -> None:
+    installed = tmp_path / "installed"
+    clone = tmp_path / "clone"
+    environment = V._clean_environment(installed, clone)
+    assert environment["PYTHONPATH"] == str(installed)
+    assert environment["SUBSTRATE_REPOSITORY_ROOT"] == str(clone)
+    assert environment["SUBSTRATE_STATE_ROOT"] == str(clone / ".substrate-state")

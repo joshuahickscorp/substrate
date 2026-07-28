@@ -1,0 +1,29 @@
+{
+  "schema": "substrate-v4-implementation-transition/v1",
+  "identity": "v4-verification-transition-2",
+  "parent_transition": "v4-verification-transition-1",
+  "trigger": "clean-clone tests must bind the isolated installation to the clone and must not rewrite frozen evidence in the active checkout",
+  "authorized_changes": [
+    "bind SUBSTRATE_REPOSITORY_ROOT to the clean clone",
+    "bind SUBSTRATE_STATE_ROOT to clone-local temporary state",
+    "make the canary regression test non-publishing"
+  ],
+  "scientific_premises_changed": false,
+  "thresholds_changed": false,
+  "generators_changed": false,
+  "splits_changed": false,
+  "principal_mechanisms_changed": false,
+  "principal_receipts_invalidated": [],
+  "frozen_ready_evidence_rewritten": false,
+  "ready_tag_unchanged": "substrate-v4-structural-ready",
+  "resume_scope": "independent verification and terminal classification only",
+  "regression_tests": [
+    "test_v4_canary_gate_is_complete",
+    "test_v4_clean_clone_binds_installed_code_to_clone"
+  ],
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "3010a927e622d80d506b5a3a54d3bc1aca91fb16",
+  "source_digest": "55bf0f50c936df98b4e4906fa9adac910e8ed2e5b14f1ba29306f57a6ff1992b",
+  "sha256": "e875b7b8e962fddcf78a81bc52829704a8cef7c02cd4846a066d5465c7ae91fa"
+}
