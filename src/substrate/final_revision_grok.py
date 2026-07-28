@@ -41,7 +41,12 @@ def _single_review_object(text: str) -> tuple[dict[str, Any], str]:
     return candidates[0]
 
 
-def grok_build_record(task_directory: Path, contract_path: Path) -> dict[str, Any]:
+def grok_build_record(
+    task_directory: Path,
+    contract_path: Path,
+    *,
+    expected_repository: Path | None = None,
+) -> dict[str, Any]:
     """Validate redacted on-device Grok Build artifacts and construct a ledger row."""
     task_directory = task_directory.resolve()
     contract_path = contract_path.resolve()
@@ -61,12 +66,13 @@ def grok_build_record(task_directory: Path, contract_path: Path) -> dict[str, An
     if prompt != contract_path.read_text():
         raise io.Refused("executed Grok Build task does not exactly match the supplied contract")
     model_usage = envelope.get("modelUsage")
+    repository = (expected_repository or io.ROOT).resolve()
     checks = {
         "completed_status": required["status"].read_text().strip() == "done",
         "zero_exit": required["exit_code"].read_text().strip() == "0",
         "audit_mode": metadata.get("mode") == "audit",
         "read_only_sandbox": metadata.get("sandbox") == "read-only",
-        "repository": Path(str(metadata.get("repo", ""))).resolve() == io.ROOT.resolve(),
+        "repository": Path(str(metadata.get("repo", ""))).resolve() == repository,
         "session_identity": metadata.get("session_id") == envelope.get("sessionId"),
         "normal_stop": envelope.get("stopReason") == "EndTurn",
         "model_usage": isinstance(model_usage, dict) and len(model_usage) == 1,
@@ -122,7 +128,12 @@ def grok_build_record(task_directory: Path, contract_path: Path) -> dict[str, An
     return record
 
 
-def grok_build_rejected_record(task_directory: Path, contract_path: Path) -> dict[str, Any]:
+def grok_build_rejected_record(
+    task_directory: Path,
+    contract_path: Path,
+    *,
+    expected_repository: Path | None = None,
+) -> dict[str, Any]:
     """Record a real completed invocation whose review framing is not creditable."""
     task_directory = task_directory.resolve()
     contract_path = contract_path.resolve()
@@ -138,12 +149,13 @@ def grok_build_rejected_record(task_directory: Path, contract_path: Path) -> dic
     if prompt != contract_path.read_text():
         raise io.Refused("rejected Grok Build task does not exactly match the supplied contract")
     model_usage = envelope.get("modelUsage")
+    repository = (expected_repository or io.ROOT).resolve()
     checks = {
         "completed_status": (task_directory / "status").read_text().strip() == "done",
         "zero_exit": (task_directory / "exit_code").read_text().strip() == "0",
         "audit_mode": metadata.get("mode") == "audit",
         "read_only_sandbox": metadata.get("sandbox") == "read-only",
-        "repository": Path(str(metadata.get("repo", ""))).resolve() == io.ROOT.resolve(),
+        "repository": Path(str(metadata.get("repo", ""))).resolve() == repository,
         "session_identity": metadata.get("session_id") == envelope.get("sessionId"),
         "normal_stop": envelope.get("stopReason") == "EndTurn",
         "model_usage": isinstance(model_usage, dict) and len(model_usage) == 1,

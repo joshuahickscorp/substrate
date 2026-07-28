@@ -151,6 +151,20 @@ def main(argv: list[str] | None = None) -> None:
             }
         )
         return
+    if command == "record-field-grok-failed-launch":
+        if len(arguments) != 2:
+            raise SystemExit("record-field-grok-failed-launch requires TASK_DIRECTORY CONTRACT_PATH")
+        report = field_campaign.record_grok_failed_launch(Path(arguments[0]), Path(arguments[1]))
+        _print(
+            {
+                "recorded_failed_launch": report["rejected_uncredited_invocations"][-1]["invocation_id"],
+                "role": report["rejected_uncredited_invocations"][-1]["role"],
+                "rejection_reason": report["rejected_uncredited_invocations"][-1]["rejection_reason"],
+                "complete": report["complete"],
+                "activation": False,
+            }
+        )
+        return
     if command == "adjudicate-field-grok":
         if len(arguments) != 1:
             raise SystemExit("adjudicate-field-grok requires RESOLUTIONS_JSON")

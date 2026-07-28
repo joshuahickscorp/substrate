@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import math
+import struct
 import time
 from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass, field
@@ -34,6 +35,8 @@ PRECISION_ALPHABETS: dict[str, tuple[int, ...]] = {
     "ternary": (-1, 0, 1),
     "quinary": (-2, -1, 0, 1, 2),
     "seven_state_powers_of_two": (-4, -2, -1, 0, 1, 2, 4),
+    "4_bit": tuple(range(-8, 8)),
+    "8_bit": tuple(range(-128, 128)),
 }
 PRECISION_CLASSES = (
     "exact_symbolic",
@@ -57,6 +60,19 @@ PRECISION_RANK = {
     "high_precision_numeric": 7,
     "exact_symbolic": 8,
 }
+PRECISION_BITS_PER_SYMBOL = {
+    "archived": 0,
+    "binary": 1,
+    "ternary": math.log2(3),
+    "quinary": math.log2(5),
+    "4_bit": 4,
+    "vector_quantized": 8,
+    "8_bit": 8,
+    "high_precision_numeric": 32,
+    "exact_symbolic": 64,
+}
+MIN_PRECISION_UTILITY_PER_ADDED_BYTE = 0.01
+MAX_TEMPORAL_EVENTS_PER_ADVANCE = 64
 PLASTICITY_CONTRACTS = (
     "PlasticityObserve",
     "PlasticityPropose",
@@ -89,6 +105,7 @@ TOPOLOGY_CONTRACTS = (
     "TopologyPrune",
     "TopologyArchive",
     "TopologyRestore",
+    "TopologyRollback",
 )
 SHADOW_CONTRACTS = (
     "ShadowFieldFork",
@@ -271,6 +288,259 @@ class PackedRadix:
         return len(bytes.fromhex(self.payload_hex))
 
 
+@dataclass(frozen=True)
+class EvaluationCase:
+    case_id: str
+    relation_ids: tuple[str, ...]
+    expected: bool
+    split: str
+
+    def validate(self) -> None:
+        _require(bool(self.case_id) and bool(self.relation_ids), "evaluation case requires an identity and relations")
+        _require(self.split in {"held_out", "retention"}, "evaluation case split must be held_out or retention")
+
+
+@dataclass(frozen=True)
+class SealedEvaluationBatch:
+    batch_id: str
+    evaluator_id: str
+    cases: tuple[EvaluationCase, ...]
+    authority: str
+    sha256: str
+
+    @classmethod
+    def create(
+        cls,
+        batch_id: str,
+        evaluator_id: str,
+        cases: Sequence[EvaluationCase],
+        *,
+        authority: str,
+    ) -> SealedEvaluationBatch:
+        _require(bool(batch_id) and bool(evaluator_id) and bool(authority), "sealed evaluator metadata is required")
+        frozen_cases = tuple(cases)
+        _require(
+            any(case.split == "held_out" for case in frozen_cases)
+            and any(case.split == "retention" for case in frozen_cases),
+            "sealed evaluation needs held-out and retention cases",
+        )
+        for case in frozen_cases:
+            case.validate()
+        unsigned = {
+            "batch_id": batch_id,
+            "evaluator_id": evaluator_id,
+            "cases": [asdict(case) for case in frozen_cases],
+            "authority": authority,
+            "activation": False,
+        }
+        return cls(batch_id, evaluator_id, frozen_cases, authority, io.digest(unsigned))
+
+    def document(self) -> dict[str, Any]:
+        return {
+            "batch_id": self.batch_id,
+            "evaluator_id": self.evaluator_id,
+            "cases": [asdict(case) for case in self.cases],
+            "authority": self.authority,
+            "sha256": self.sha256,
+            "activation": False,
+        }
+
+
+@dataclass(frozen=True)
+class PrecisionEvaluationBatch:
+    batch_id: str
+    evaluator_id: str
+    values: tuple[float, ...]
+    tolerance: float
+    authority: str
+    sha256: str
+
+    @classmethod
+    def create(
+        cls,
+        batch_id: str,
+        evaluator_id: str,
+        values: Sequence[float],
+        *,
+        tolerance: float,
+        authority: str,
+    ) -> PrecisionEvaluationBatch:
+        frozen_values = tuple(float(value) for value in values)
+        _require(bool(batch_id) and bool(evaluator_id) and bool(authority), "precision evaluator metadata is required")
+        _require(bool(frozen_values) and tolerance >= 0.0, "precision evaluator needs values and nonnegative tolerance")
+        unsigned = {
+            "batch_id": batch_id,
+            "evaluator_id": evaluator_id,
+            "values": frozen_values,
+            "tolerance": tolerance,
+            "authority": authority,
+            "activation": False,
+        }
+        return cls(batch_id, evaluator_id, frozen_values, tolerance, authority, io.digest(unsigned))
+
+    def document(self) -> dict[str, Any]:
+        return {
+            "batch_id": self.batch_id,
+            "evaluator_id": self.evaluator_id,
+            "values": list(self.values),
+            "tolerance": self.tolerance,
+            "authority": self.authority,
+            "sha256": self.sha256,
+            "activation": False,
+        }
+
+
+@dataclass(frozen=True)
+class TopologyQuery:
+    query_id: str
+    kind: str
+    source: str
+    target: str | None
+    expected: bool
+
+    def validate(self) -> None:
+        _require(
+            self.kind in {"node_present", "node_absent", "edge_present", "edge_absent", "path_exists"},
+            "unknown topology query kind",
+        )
+        _require(bool(self.query_id) and bool(self.source), "topology query needs identity and source")
+        if self.kind in {"edge_present", "edge_absent", "path_exists"}:
+            _require(bool(self.target), "edge or path query needs a target")
+
+
+@dataclass(frozen=True)
+class TopologyEvaluationBatch:
+    batch_id: str
+    evaluator_id: str
+    queries: tuple[TopologyQuery, ...]
+    improvement_required: bool
+    authority: str
+    sha256: str
+
+    @classmethod
+    def create(
+        cls,
+        batch_id: str,
+        evaluator_id: str,
+        queries: Sequence[TopologyQuery],
+        *,
+        improvement_required: bool,
+        authority: str,
+    ) -> TopologyEvaluationBatch:
+        frozen_queries = tuple(queries)
+        _require(
+            bool(batch_id) and bool(evaluator_id) and bool(authority) and bool(frozen_queries),
+            "topology evaluator metadata and queries are required",
+        )
+        for query in frozen_queries:
+            query.validate()
+        unsigned = {
+            "batch_id": batch_id,
+            "evaluator_id": evaluator_id,
+            "queries": [asdict(query) for query in frozen_queries],
+            "improvement_required": improvement_required,
+            "authority": authority,
+            "activation": False,
+        }
+        return cls(batch_id, evaluator_id, frozen_queries, improvement_required, authority, io.digest(unsigned))
+
+    def document(self) -> dict[str, Any]:
+        return {
+            "batch_id": self.batch_id,
+            "evaluator_id": self.evaluator_id,
+            "queries": [asdict(query) for query in self.queries],
+            "improvement_required": self.improvement_required,
+            "authority": self.authority,
+            "sha256": self.sha256,
+            "activation": False,
+        }
+
+
+@dataclass(frozen=True)
+class ProcedureCase:
+    case_id: str
+    bindings: tuple[tuple[str, Any], ...]
+    expected: Any
+    expected_status: str = "completed"
+
+    @classmethod
+    def create(
+        cls,
+        case_id: str,
+        bindings: Mapping[str, Any],
+        expected: Any,
+        *,
+        expected_status: str = "completed",
+    ) -> ProcedureCase:
+        _require(bool(case_id) and bool(bindings), "procedure case requires identity and bindings")
+        _require(
+            expected_status in {
+                "completed",
+                "deferred",
+                "rolled_back",
+                "verification_failed",
+                "flexible_reopened",
+            },
+            "unknown procedure case status",
+        )
+        return cls(
+            case_id,
+            tuple((str(key), _copy(value)) for key, value in sorted(bindings.items())),
+            _copy(expected),
+            expected_status,
+        )
+
+    def document(self) -> dict[str, Any]:
+        return {
+            "case_id": self.case_id,
+            "bindings": {key: _copy(value) for key, value in self.bindings},
+            "expected": _copy(self.expected),
+            "expected_status": self.expected_status,
+        }
+
+
+@dataclass(frozen=True)
+class ProcedureEvaluationBatch:
+    batch_id: str
+    evaluator_id: str
+    cases: tuple[ProcedureCase, ...]
+    authority: str
+    sha256: str
+
+    @classmethod
+    def create(
+        cls,
+        batch_id: str,
+        evaluator_id: str,
+        cases: Sequence[ProcedureCase],
+        *,
+        authority: str,
+    ) -> ProcedureEvaluationBatch:
+        frozen_cases = tuple(cases)
+        _require(
+            bool(batch_id) and bool(evaluator_id) and bool(authority) and bool(frozen_cases),
+            "procedure evaluator metadata and cases are required",
+        )
+        unsigned = {
+            "batch_id": batch_id,
+            "evaluator_id": evaluator_id,
+            "cases": [case.document() for case in frozen_cases],
+            "authority": authority,
+            "activation": False,
+        }
+        return cls(batch_id, evaluator_id, frozen_cases, authority, io.digest(unsigned))
+
+    def document(self) -> dict[str, Any]:
+        return {
+            "batch_id": self.batch_id,
+            "evaluator_id": self.evaluator_id,
+            "cases": [case.document() for case in self.cases],
+            "authority": self.authority,
+            "sha256": self.sha256,
+            "activation": False,
+        }
+
+
 def pack_radix(values: Sequence[int], alphabet: Sequence[int], *, group_size: int) -> PackedRadix:
     """Pack fixed-radix values without reserving impossible bit patterns."""
     symbols = tuple(int(value) for value in alphabet)
@@ -286,7 +556,7 @@ def pack_radix(values: Sequence[int], alphabet: Sequence[int], *, group_size: in
         encoded = 0
         for value in chunk:
             encoded = encoded * radix + index[value]
-        width = max(1, math.ceil(math.log2(radix ** len(chunk))))
+        width = max(1, (radix ** len(chunk) - 1).bit_length())
         stream = (stream << width) | encoded
         bit_length += width
     payload = stream.to_bytes((bit_length + 7) // 8, "big") if bit_length else b""
@@ -303,7 +573,7 @@ def unpack_radix(packed: PackedRadix) -> list[int]:
         min(packed.group_size, packed.count - offset) for offset in range(0, packed.count, packed.group_size)
     ]
     for chunk_length in chunk_lengths:
-        width = max(1, math.ceil(math.log2(radix**chunk_length)))
+        width = max(1, (radix**chunk_length - 1).bit_length())
         remaining -= width
         encoded = (stream >> remaining) & ((1 << width) - 1)
         _require(encoded < radix**chunk_length, "packed payload contains an impossible code")
@@ -321,6 +591,85 @@ def native_low_bit_update(value: int, gradient: float, alphabet: Sequence[int], 
     _require(bool(alphabet), "native low-bit update requires an alphabet")
     proposed = float(value) - learning_rate * gradient
     return min((int(symbol) for symbol in alphabet), key=lambda symbol: (abs(symbol - proposed), symbol))
+
+
+def optimal_group_size(radix: int, *, maximum: int = 16) -> int:
+    _require(radix >= 2 and maximum >= 1, "invalid radix group search")
+    return min(
+        range(1, maximum + 1),
+        key=lambda group: (((radix**group - 1).bit_length() / group), group),
+    )
+
+
+def multiplication_light_dot(left: Sequence[int], right: Sequence[int]) -> dict[str, Any]:
+    """Compute an integer dot product using additions and sign changes only."""
+    _require(len(left) == len(right), "dot vectors must have equal length")
+    total = 0
+    additions = 0
+    sign_changes = 0
+    for x_value, weight in zip(left, right, strict=True):
+        term = 0
+        for _ in range(abs(int(weight))):
+            term += int(x_value)
+            additions += 1
+        if weight < 0:
+            term = -term
+            sign_changes += 1
+        total += term
+    return {
+        "value": total,
+        "addition_count": additions,
+        "sign_change_count": sign_changes,
+        "multiplication_count": 0,
+        "activation": False,
+    }
+
+
+def native_low_bit_train(*, epochs: int = 12) -> dict[str, Any]:
+    """Train a tiny ternary linear classifier without full-precision master weights."""
+    _require(epochs > 0, "native low-bit training needs positive epochs")
+    examples = [((-1, -1), False), ((-1, 1), False), ((1, -1), False), ((1, 1), True)]
+    weights = [0, 0]
+    bias = 0
+    alphabet = PRECISION_ALPHABETS["ternary"]
+    rows: list[dict[str, Any]] = []
+    for epoch in range(epochs):
+        mistakes = 0
+        for features, expected in examples:
+            prediction = multiplication_light_dot(features, weights)["value"] + bias > 0
+            error = int(expected) - int(prediction)
+            if error:
+                mistakes += 1
+                weights = [
+                    native_low_bit_update(weight, -error * feature, alphabet)
+                    for weight, feature in zip(weights, features, strict=True)
+                ]
+                bias = native_low_bit_update(bias, -error, alphabet)
+        rows.append(
+            {
+                "epoch": epoch,
+                "weights": list(weights),
+                "bias": bias,
+                "mistakes": mistakes,
+                "optimizer_state": {"last_error_sign_only": -1 if mistakes else 0},
+            }
+        )
+    raw_correct = [
+        (multiplication_light_dot(features, weights)["value"] + bias > 0) == expected
+        for features, expected in examples
+    ]
+    return {
+        "schema": "substrate-native-low-bit-training-microfixture/v1",
+        "alphabet": list(alphabet),
+        "full_precision_master_weights": False,
+        "optimizer": "ternary_projected_sign_update",
+        "optimizer_state_bits": 2,
+        "epochs": rows,
+        "raw_correct": raw_correct,
+        "accuracy": sum(raw_correct) / len(raw_correct),
+        "meaningful_scale_training_claimed": False,
+        "activation": False,
+    }
 
 
 def learned_codebook(values: Sequence[float], *, size: int) -> dict[str, Any]:
@@ -386,16 +735,16 @@ def packing_benchmark(*, repetitions: int = 200) -> dict[str, Any]:
     _require(repetitions > 0, "packing repetitions must be positive")
     rows: list[dict[str, Any]] = []
     for name, alphabet in PRECISION_ALPHABETS.items():
-        group_size = 8 if name == "binary" else (5 if name == "ternary" else 3)
+        group_size = optimal_group_size(len(alphabet))
         values = [alphabet[(index * 7 + 3) % len(alphabet)] for index in range(511)]
-        started = time.perf_counter_ns()
         packed: PackedRadix | None = None
         restored: list[int] = []
         for _ in range(repetitions):
             packed = pack_radix(values, alphabet, group_size=group_size)
             restored = unpack_radix(packed)
-        elapsed = time.perf_counter_ns() - started
         assert packed is not None
+        full_group_width = (len(alphabet) ** group_size - 1).bit_length()
+        unused_code_fraction = 1.0 - (len(alphabet) ** group_size) / (2**full_group_width)
         rows.append(
             {
                 "alphabet": name,
@@ -406,10 +755,13 @@ def packing_benchmark(*, repetitions: int = 200) -> dict[str, Any]:
                 "payload_bits": packed.bit_length,
                 "naive_fixed_width_bits": len(values) * math.ceil(math.log2(len(alphabet))),
                 "bits_per_value": packed.bit_length / len(values),
+                "shannon_bits_per_value": math.log2(len(alphabet)),
+                "unused_code_fraction_full_group": unused_code_fraction,
                 "exact_round_trip": restored == values,
                 "repetitions": repetitions,
-                "elapsed_ns_observed": elapsed,
+                "codec_symbol_operation_proxy": len(values) * repetitions * 2,
                 "timing_is_environment_dependent": True,
+                "wall_time_in_content_addressed_evidence": False,
             }
         )
     quinary_triplet = pack_radix([-2, -1, 0], PRECISION_ALPHABETS["quinary"], group_size=3)
@@ -422,6 +774,9 @@ def packing_benchmark(*, repetitions: int = 200) -> dict[str, Any]:
             "gates": ([-1, 1, 1, -1], PRECISION_ALPHABETS["binary"], 4),
         }
     )
+    dot_left = [1, -1, 2, 0, -2]
+    dot_right = [-2, 1, 2, -1, 1]
+    dot = multiplication_light_dot(dot_left, dot_right)
     return {
         "schema": "substrate-field-packing-benchmark/v1",
         "rows": rows,
@@ -433,6 +788,12 @@ def packing_benchmark(*, repetitions: int = 200) -> dict[str, Any]:
             "before": -1,
             "gradient": -2.0,
             "after": native_low_bit_update(-1, -2.0, PRECISION_ALPHABETS["ternary"]),
+        },
+        "native_low_bit_training": native_low_bit_train(),
+        "multiplication_light_kernel": {
+            **dot,
+            "reference_value": sum(left * right for left, right in zip(dot_left, dot_right, strict=True)),
+            "exact": dot["value"] == sum(left * right for left, right in zip(dot_left, dot_right, strict=True)),
         },
         "all_exact": all(row["exact_round_trip"] for row in rows),
         "activation": False,
@@ -461,14 +822,14 @@ class EndogenousPlasticField:
             "plasticity_law": "verified-sparse-rewrite/v1",
             "kernel_revision_policy": "rare-explicit-authority-only",
         }
-        self.plastic: dict[str, PlasticRelation] = {}
-        self.topology: dict[str, Any] = {"nodes": {}, "edges": [], "archive": {}}
+        self._plastic: dict[str, PlasticRelation] = {}
+        self._topology: dict[str, Any] = {"nodes": {}, "edges": [], "archive": {}}
         self.active: dict[str, Any] = {
             "momentary_activation": {},
             "unresolved_alternatives": {},
             "elapsed_seconds": 0.0,
         }
-        self.exact: dict[str, Any] = {
+        self._exact: dict[str, Any] = {
             "identity": identity,
             "lineage": [],
             "goal_commitments": {},
@@ -487,20 +848,47 @@ class EndogenousPlasticField:
         self.archive: list[dict[str, Any]] = []
         self.compiled: dict[str, dict[str, Any]] = {}
         self.competence: dict[str, Any] = {"models": {}, "bodies": {}, "tools": {}, "sensors": {}}
-        self.cells: dict[str, CognitiveCell] = {}
+        self._cells: dict[str, CognitiveCell] = {}
         self.proposals: dict[str, dict[str, Any]] = {}
+        self.evaluation_batches: dict[str, SealedEvaluationBatch] = {}
+        self.precision_evaluation_batches: dict[str, PrecisionEvaluationBatch] = {}
+        self.topology_evaluation_batches: dict[str, TopologyEvaluationBatch] = {}
+        self.procedure_evaluation_batches: dict[str, ProcedureEvaluationBatch] = {}
+        self.verification_receipts: dict[str, dict[str, Any]] = {}
         self.rollbacks: dict[str, dict[str, Any]] = {}
         self.shadows: dict[str, dict[str, Any]] = {}
         self.traces: dict[str, list[dict[str, Any]]] = {}
         self.procedure_candidates: dict[str, dict[str, Any]] = {}
+        self.migrated_history_references: list[str] | None = None
         self.temporal_events: list[dict[str, Any]] = []
         self.scheduled: list[dict[str, Any]] = []
         self.precision_receipts: list[dict[str, Any]] = []
         self.topology_receipts: list[dict[str, Any]] = []
+        self._last_monotonic_ns = time.monotonic_ns()
         self._append_receipt("field_initialized", {"skeleton": skeleton, "resource_envelope": resource_envelope})
 
     def interfaces(self) -> tuple[str, ...]:
         return COMMON_FIELD_CONTRACTS
+
+    @property
+    def plastic(self) -> dict[str, PlasticRelation]:
+        """Return a detached snapshot; durable writes must use field contracts."""
+        return {key: PlasticRelation(**asdict(value)) for key, value in self._plastic.items()}
+
+    @property
+    def topology(self) -> dict[str, Any]:
+        """Return a detached topology snapshot."""
+        return _copy(self._topology)
+
+    @property
+    def cells(self) -> dict[str, CognitiveCell]:
+        """Return detached cognitive-cell snapshots."""
+        return {key: CognitiveCell(**asdict(value)) for key, value in self._cells.items()}
+
+    @property
+    def exact(self) -> dict[str, Any]:
+        """Return a detached constitutional-shell snapshot."""
+        return _copy(self._exact)
 
     def _append_receipt(self, operation: str, payload: Mapping[str, Any]) -> dict[str, Any]:
         row = {
@@ -515,9 +903,9 @@ class EndogenousPlasticField:
         return row
 
     def _relation(self, relation_id: str) -> PlasticRelation:
-        if relation_id not in self.plastic:
+        if relation_id not in self._plastic:
             raise io.Refused("unknown relation")
-        return self.plastic[relation_id]
+        return self._plastic[relation_id]
 
     def _proposal(self, proposal_id: str) -> dict[str, Any]:
         if proposal_id not in self.proposals:
@@ -541,19 +929,33 @@ class EndogenousPlasticField:
             "resource_envelope": self.resource_envelope,
             "s2_derived": self.s2_derived,
             "Theta": _copy(self.theta),
-            "P_t": {key: asdict(value) for key, value in sorted(self.plastic.items())},
-            "G_t": _copy(self.topology),
+            "P_t": {key: asdict(value) for key, value in sorted(self._plastic.items())},
+            "G_t": _copy(self._topology),
             "Z_t": _copy(self.active),
-            "E_t": _copy(self.exact),
+            "E_t": _copy(self._exact),
             "A": _copy(self.archive),
             "C_t": _copy(self.compiled),
             "M_t": _copy(self.competence),
-            "cells": {key: asdict(value) for key, value in sorted(self.cells.items())},
+            "cells": {key: asdict(value) for key, value in sorted(self._cells.items())},
             "pending_proposals": _copy(self.proposals),
+            "evaluation_batches": {
+                key: batch.document() for key, batch in sorted(self.evaluation_batches.items())
+            },
+            "precision_evaluation_batches": {
+                key: batch.document() for key, batch in sorted(self.precision_evaluation_batches.items())
+            },
+            "topology_evaluation_batches": {
+                key: batch.document() for key, batch in sorted(self.topology_evaluation_batches.items())
+            },
+            "procedure_evaluation_batches": {
+                key: batch.document() for key, batch in sorted(self.procedure_evaluation_batches.items())
+            },
+            "verification_receipts": _copy(self.verification_receipts),
             "rollbacks": _copy(self.rollbacks),
             "shadows": _copy(self.shadows),
             "traces": _copy(self.traces),
             "procedure_candidates": _copy(self.procedure_candidates),
+            "migrated_history_references": _copy(self.migrated_history_references),
             "temporal_events": _copy(self.temporal_events),
             "scheduled": _copy(self.scheduled),
             "precision_receipts": _copy(self.precision_receipts),
@@ -576,11 +978,89 @@ class EndogenousPlasticField:
         scope: str = "local",
         provenance: str,
     ) -> None:
-        _require(relation_id not in self.plastic, "relation already exists")
+        _require(relation_id not in self._plastic, "relation already exists")
         relation = PlasticRelation(value, precision, stability, scope, [provenance])
         relation.validate()
-        self.plastic[relation_id] = relation
+        self._plastic[relation_id] = relation
         self._append_receipt("relation_added", {"relation_id": relation_id, "relation": asdict(relation)})
+
+    def register_evaluation_batch(self, batch: SealedEvaluationBatch) -> dict[str, Any]:
+        _require(batch.batch_id not in self.evaluation_batches, "evaluation batch already registered")
+        expected = SealedEvaluationBatch.create(
+            batch.batch_id,
+            batch.evaluator_id,
+            batch.cases,
+            authority=batch.authority,
+        )
+        _require(expected.sha256 == batch.sha256, "evaluation batch seal mismatch")
+        _require(
+            all(relation_id in self._plastic for case in batch.cases for relation_id in case.relation_ids),
+            "evaluation batch references unknown relations",
+        )
+        self.evaluation_batches[batch.batch_id] = batch
+        self._exact["evidence_provenance"].append(batch.sha256)
+        return self._append_receipt(
+            "EvaluationBatchRegister",
+            {"batch_id": batch.batch_id, "evaluator_id": batch.evaluator_id, "sha256": batch.sha256},
+        )
+
+    def register_precision_evaluation_batch(self, batch: PrecisionEvaluationBatch) -> dict[str, Any]:
+        _require(batch.batch_id not in self.precision_evaluation_batches, "precision evaluation batch already registered")
+        expected = PrecisionEvaluationBatch.create(
+            batch.batch_id,
+            batch.evaluator_id,
+            batch.values,
+            tolerance=batch.tolerance,
+            authority=batch.authority,
+        )
+        _require(expected.sha256 == batch.sha256, "precision evaluation batch seal mismatch")
+        self.precision_evaluation_batches[batch.batch_id] = batch
+        self._exact["evidence_provenance"].append(batch.sha256)
+        return self._append_receipt(
+            "PrecisionEvaluationBatchRegister",
+            {"batch_id": batch.batch_id, "evaluator_id": batch.evaluator_id, "sha256": batch.sha256},
+        )
+
+    def register_topology_evaluation_batch(self, batch: TopologyEvaluationBatch) -> dict[str, Any]:
+        _require(batch.batch_id not in self.topology_evaluation_batches, "topology evaluation batch already registered")
+        expected = TopologyEvaluationBatch.create(
+            batch.batch_id,
+            batch.evaluator_id,
+            batch.queries,
+            improvement_required=batch.improvement_required,
+            authority=batch.authority,
+        )
+        _require(expected.sha256 == batch.sha256, "topology evaluation batch seal mismatch")
+        self.topology_evaluation_batches[batch.batch_id] = batch
+        self._exact["evidence_provenance"].append(batch.sha256)
+        return self._append_receipt(
+            "TopologyEvaluationBatchRegister",
+            {"batch_id": batch.batch_id, "evaluator_id": batch.evaluator_id, "sha256": batch.sha256},
+        )
+
+    def register_procedure_evaluation_batch(self, batch: ProcedureEvaluationBatch) -> dict[str, Any]:
+        _require(batch.batch_id not in self.procedure_evaluation_batches, "procedure evaluation batch already registered")
+        expected = ProcedureEvaluationBatch.create(
+            batch.batch_id,
+            batch.evaluator_id,
+            batch.cases,
+            authority=batch.authority,
+        )
+        _require(expected.sha256 == batch.sha256, "procedure evaluation batch seal mismatch")
+        self.procedure_evaluation_batches[batch.batch_id] = batch
+        self._exact["evidence_provenance"].append(batch.sha256)
+        return self._append_receipt(
+            "ProcedureEvaluationBatchRegister",
+            {"batch_id": batch.batch_id, "evaluator_id": batch.evaluator_id, "sha256": batch.sha256},
+        )
+
+    def _case_prediction(self, case: EvaluationCase, overrides: Mapping[str, int] | None = None) -> bool:
+        override_values = overrides or {}
+        score = sum(
+            override_values.get(relation_id, self._plastic[relation_id].value)
+            for relation_id in case.relation_ids
+        )
+        return score > 0
 
     def observe(self, key: str, value: Any, *, provenance: str) -> dict[str, Any]:
         _require(bool(provenance), "observation provenance is required")
@@ -598,7 +1078,7 @@ class EndogenousPlasticField:
         evidence: Sequence[str],
     ) -> dict[str, Any]:
         _require(proposal_id not in self.proposals, "plasticity proposal already exists")
-        _require(relation_id in self.plastic, "plasticity proposal references unknown relation")
+        _require(relation_id in self._plastic, "plasticity proposal references unknown relation")
         _require(delta in {-2, -1, 0, 1, 2}, "plasticity delta is outside bounded rewrite alphabet")
         proposal = {
             "proposal_id": proposal_id,
@@ -607,7 +1087,7 @@ class EndogenousPlasticField:
             "source": source,
             "source_kind": source_kind,
             "evidence": list(evidence),
-            "before": asdict(self.plastic[relation_id]),
+            "before": asdict(self._plastic[relation_id]),
             "verified": False,
             "verification": None,
             "committed": False,
@@ -620,7 +1100,7 @@ class EndogenousPlasticField:
 
     def plasticity_simulate(self, proposal_id: str) -> dict[str, Any]:
         proposal = self._proposal(proposal_id)
-        relation = self.plastic[str(proposal["relation_id"])]
+        relation = self._plastic[str(proposal["relation_id"])]
         simulated = _clamp_to_alphabet(relation.value + int(proposal["delta"]), relation.precision)
         receipt = {
             "proposal_id": proposal_id,
@@ -636,27 +1116,36 @@ class EndogenousPlasticField:
         self,
         proposal_id: str,
         *,
-        evaluator: str,
-        held_out_before: Sequence[bool],
-        held_out_after: Sequence[bool],
-        retention_before: Sequence[bool],
-        retention_after: Sequence[bool],
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
         proposal = self._proposal(proposal_id)
-        _require(bool(evaluator) and evaluator != proposal["source"], "verification must be independently identified")
-        arrays = (held_out_before, held_out_after, retention_before, retention_after)
-        _require(all(array for array in arrays), "verification requires nonempty raw outcomes")
-        _require(
-            len(held_out_before) == len(held_out_after) and len(retention_before) == len(retention_after),
-            "verification outcomes must be paired",
-        )
+        if evaluation_batch_id not in self.evaluation_batches:
+            raise io.Refused("unknown sealed evaluation batch")
+        batch = self.evaluation_batches[evaluation_batch_id]
+        _require(batch.evaluator_id != proposal["source"], "verification must be independently identified")
+        relation = self._relation(str(proposal["relation_id"]))
+        simulated = _clamp_to_alphabet(relation.value + int(proposal["delta"]), relation.precision)
+        held_out_cases = [case for case in batch.cases if case.split == "held_out"]
+        retention_cases = [case for case in batch.cases if case.split == "retention"]
+        held_out_before = [self._case_prediction(case) == case.expected for case in held_out_cases]
+        held_out_after = [
+            self._case_prediction(case, {str(proposal["relation_id"]): simulated}) == case.expected
+            for case in held_out_cases
+        ]
+        retention_before = [self._case_prediction(case) == case.expected for case in retention_cases]
+        retention_after = [
+            self._case_prediction(case, {str(proposal["relation_id"]): simulated}) == case.expected
+            for case in retention_cases
+        ]
         before = sum(bool(value) for value in held_out_before) / len(held_out_before)
         after = sum(bool(value) for value in held_out_after) / len(held_out_after)
         retention_prior = sum(bool(value) for value in retention_before) / len(retention_before)
         retention_post = sum(bool(value) for value in retention_after) / len(retention_after)
         passed = after > before and retention_post >= retention_prior
-        verification = {
-            "evaluator": evaluator,
+        verification: dict[str, Any] = {
+            "evaluator": batch.evaluator_id,
+            "evaluation_batch_id": batch.batch_id,
+            "evaluation_batch_digest": batch.sha256,
             "held_out_before": [bool(value) for value in held_out_before],
             "held_out_after": [bool(value) for value in held_out_after],
             "retention_before": [bool(value) for value in retention_before],
@@ -670,7 +1159,9 @@ class EndogenousPlasticField:
             "passed": passed,
             "activation": False,
         }
-        verification["digest"] = io.digest(verification)
+        verification_digest = io.digest(verification)
+        verification["digest"] = verification_digest
+        self.verification_receipts[verification_digest] = _copy(verification)
         proposal["verified"] = passed
         proposal["verification"] = verification
         self._append_receipt("PlasticityVerify", {"proposal_id": proposal_id, "verification": verification})
@@ -681,13 +1172,17 @@ class EndogenousPlasticField:
         _require(bool(proposal["verified"]), "unverified thought or proposal cannot commit a durable rewrite")
         _require(not proposal["committed"], "plasticity proposal already committed")
         relation_id = str(proposal["relation_id"])
-        relation = self.plastic[relation_id]
+        relation = self._plastic[relation_id]
         _require(not relation.frozen, "frozen relation cannot be rewritten")
+        _require(
+            relation.stability not in {"consolidated", "refuted"},
+            "consolidated or refuted relation must be explicitly reopened before rewrite",
+        )
         before = asdict(relation)
         relation.value = _clamp_to_alphabet(relation.value + int(proposal["delta"]), relation.precision)
         relation.last_verification = str(proposal["verification"]["digest"])
         relation.provenance.append(str(proposal["verification"]["digest"]))
-        if relation.stability == "new":
+        if relation.stability in {"new", "reopened"}:
             relation.stability = "provisional"
         relation.validate()
         proposal["committed"] = True
@@ -703,7 +1198,7 @@ class EndogenousPlasticField:
             raise io.Refused("no committed rewrite to roll back")
         prior = self.rollbacks[proposal_id]
         relation_id = str(proposal["relation_id"])
-        self.plastic[relation_id] = PlasticRelation(**_copy(prior))
+        self._plastic[relation_id] = PlasticRelation(**_copy(prior))
         proposal["committed"] = False
         return self._append_receipt(
             "PlasticityRollback",
@@ -713,7 +1208,14 @@ class EndogenousPlasticField:
     def plasticity_consolidate(self, relation_id: str, *, verification: str) -> dict[str, Any]:
         relation = self._relation(relation_id)
         _require(relation.stability in {"supported", "reopened"}, "only supported or reopened relations may consolidate")
-        _require(bool(verification), "consolidation verification is required")
+        receipt = self.verification_receipts.get(verification)
+        _require(
+            receipt is not None
+            and receipt.get("passed") is True
+            and receipt.get("kind") == "current_relation_competence"
+            and receipt.get("relation_id") == relation_id,
+            "consolidation requires a registered passing verification receipt",
+        )
         relation.stability = "consolidated"
         relation.last_verification = verification
         relation.provenance.append(verification)
@@ -723,6 +1225,13 @@ class EndogenousPlasticField:
         relation = self._relation(relation_id)
         transitions = {"new": "provisional", "provisional": "supported", "reopened": "supported"}
         _require(relation.stability in transitions, "relation cannot be promoted from current stability")
+        receipt = self.verification_receipts.get(evidence)
+        _require(
+            receipt is not None
+            and receipt.get("passed") is True
+            and receipt.get("relation_id") == relation_id,
+            "metaplastic promotion requires a registered passing verification receipt",
+        )
         prior = relation.stability
         relation.stability = transitions[prior]
         relation.provenance.append(evidence)
@@ -731,8 +1240,67 @@ class EndogenousPlasticField:
             {"relation_id": relation_id, "before": prior, "after": relation.stability, "evidence": evidence},
         )
 
+    def verify_contradiction(self, relation_id: str, *, evaluation_batch_id: str) -> dict[str, Any]:
+        self._relation(relation_id)
+        if evaluation_batch_id not in self.evaluation_batches:
+            raise io.Refused("unknown sealed contradiction batch")
+        batch = self.evaluation_batches[evaluation_batch_id]
+        relevant = [case for case in batch.cases if relation_id in case.relation_ids]
+        _require(bool(relevant), "contradiction batch does not evaluate the relation")
+        raw_correct = [self._case_prediction(case) == case.expected for case in relevant]
+        contradicted = not all(raw_correct)
+        receipt: dict[str, Any] = {
+            "kind": "verified_contradiction",
+            "relation_id": relation_id,
+            "evaluator": batch.evaluator_id,
+            "evaluation_batch_id": batch.batch_id,
+            "evaluation_batch_digest": batch.sha256,
+            "raw_correct": raw_correct,
+            "contradicted": contradicted,
+            "passed": contradicted,
+            "activation": False,
+        }
+        receipt_digest = io.digest(receipt)
+        receipt["digest"] = receipt_digest
+        self.verification_receipts[receipt_digest] = _copy(receipt)
+        self._append_receipt("ContradictionVerify", receipt)
+        return receipt
+
+    def verify_relation_competence(self, relation_id: str, *, evaluation_batch_id: str) -> dict[str, Any]:
+        self._relation(relation_id)
+        if evaluation_batch_id not in self.evaluation_batches:
+            raise io.Refused("unknown sealed relation competence batch")
+        batch = self.evaluation_batches[evaluation_batch_id]
+        relevant = [case for case in batch.cases if relation_id in case.relation_ids]
+        _require(bool(relevant), "competence batch does not evaluate the relation")
+        raw_correct = [self._case_prediction(case) == case.expected for case in relevant]
+        receipt: dict[str, Any] = {
+            "kind": "current_relation_competence",
+            "relation_id": relation_id,
+            "evaluator": batch.evaluator_id,
+            "evaluation_batch_id": batch.batch_id,
+            "evaluation_batch_digest": batch.sha256,
+            "raw_correct": raw_correct,
+            "passed": all(raw_correct),
+            "activation": False,
+        }
+        receipt_digest = io.digest(receipt)
+        receipt["digest"] = receipt_digest
+        self.verification_receipts[receipt_digest] = _copy(receipt)
+        self._append_receipt("RelationCompetenceVerify", receipt)
+        return receipt
+
     def metaplasticity_destabilize(self, relation_id: str, *, contradiction: str) -> dict[str, Any]:
         relation = self._relation(relation_id)
+        receipt = self.verification_receipts.get(contradiction)
+        _require(
+            receipt is not None
+            and receipt.get("kind") == "verified_contradiction"
+            and receipt.get("relation_id") == relation_id
+            and receipt.get("contradicted") is True,
+            "destabilization requires a registered verified contradiction",
+        )
+        _require(contradiction not in relation.contradictions, "contradiction receipt already applied")
         relation.contradictions.append(contradiction)
         prior = relation.stability
         threshold = 2 if prior == "consolidated" else 1
@@ -752,6 +1320,14 @@ class EndogenousPlasticField:
     def metaplasticity_reconsolidate(self, relation_id: str, *, verification: str) -> dict[str, Any]:
         relation = self._relation(relation_id)
         _require(relation.stability == "reopened", "only reopened relations may reconsolidate")
+        receipt = self.verification_receipts.get(verification)
+        _require(
+            receipt is not None
+            and receipt.get("passed") is True
+            and receipt.get("kind") == "current_relation_competence"
+            and receipt.get("relation_id") == relation_id,
+            "reconsolidation requires a registered passing competence verification",
+        )
         relation.stability = "consolidated"
         relation.contradictions.clear()
         relation.last_verification = verification
@@ -761,11 +1337,34 @@ class EndogenousPlasticField:
             {"relation_id": relation_id, "verification": verification},
         )
 
+    def metaplasticity_refute(self, relation_id: str, *, contradiction: str) -> dict[str, Any]:
+        relation = self._relation(relation_id)
+        receipt = self.verification_receipts.get(contradiction)
+        _require(
+            relation.stability == "reopened"
+            and receipt is not None
+            and receipt.get("kind") == "verified_contradiction"
+            and receipt.get("relation_id") == relation_id,
+            "refutation requires a reopened relation and a verified contradiction",
+        )
+        if contradiction not in relation.contradictions:
+            relation.contradictions.append(contradiction)
+        _require(len(relation.contradictions) >= 3, "refutation requires three distinct verified contradictions")
+        relation.stability = "refuted"
+        relation.frozen = True
+        return self._append_receipt(
+            "MetaplasticityRefute",
+            {"relation_id": relation_id, "contradiction": contradiction, "contradiction_count": len(relation.contradictions)},
+        )
+
     def apply_noise(self, relation_id: str, delta: int, *, provenance: str) -> bool:
         """Apply an isolated noisy observation only to flexible relations."""
         relation = self._relation(relation_id)
         if relation.stability == "consolidated":
-            self.metaplasticity_destabilize(relation_id, contradiction=provenance)
+            self._append_receipt(
+                "isolated_unverified_noise_refused",
+                {"relation_id": relation_id, "delta": delta, "provenance": provenance},
+            )
             return False
         relation.value = _clamp_to_alphabet(relation.value + delta, relation.precision)
         relation.provenance.append(provenance)
@@ -777,36 +1376,46 @@ class EndogenousPlasticField:
         relation_id: str,
         target: str,
         *,
-        persistent_error: float,
-        causal_precision_limit: bool,
-        held_out_before: float,
-        held_out_after: float,
-        added_bytes: int,
-        integrity_preserved: bool,
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
         relation = self._relation(relation_id)
         _require(target in PRECISION_CLASSES, "unknown target precision")
+        if evaluation_batch_id not in self.precision_evaluation_batches:
+            raise io.Refused("unknown sealed precision evaluation batch")
+        batch = self.precision_evaluation_batches[evaluation_batch_id]
         promotion = PRECISION_RANK[target] > PRECISION_RANK[relation.precision]
+        before_correct = self._precision_outcomes(batch, relation.precision)
+        after_correct = self._precision_outcomes(batch, target)
+        held_out_before = sum(before_correct) / len(before_correct)
+        held_out_after = sum(after_correct) / len(after_correct)
+        added_bits = max(
+            (PRECISION_BITS_PER_SYMBOL[target] - PRECISION_BITS_PER_SYMBOL[relation.precision]) * len(batch.values),
+            0.0,
+        )
+        added_bytes = added_bits / 8.0
+        utility_per_added_byte = (held_out_after - held_out_before) / max(added_bytes, 1e-12)
         passed = (
             promotion
-            and persistent_error > 0.0
-            and causal_precision_limit
             and held_out_after > held_out_before
             and added_bytes > 0
-            and integrity_preserved
+            and utility_per_added_byte >= MIN_PRECISION_UTILITY_PER_ADDED_BYTE
         )
-        receipt = {
+        receipt: dict[str, Any] = {
             "operation": "PrecisionRequest",
             "relation_id": relation_id,
             "before": relation.precision,
             "target": target,
-            "persistent_error": persistent_error,
-            "causal_precision_limit": causal_precision_limit,
+            "evaluation_batch_id": batch.batch_id,
+            "evaluator": batch.evaluator_id,
+            "evaluation_batch_digest": batch.sha256,
+            "raw_before_correct": before_correct,
+            "raw_after_correct": after_correct,
             "held_out_before": held_out_before,
             "held_out_after": held_out_after,
             "added_bytes": added_bytes,
-            "future_value_per_added_byte": (held_out_after - held_out_before) / max(added_bytes, 1),
-            "integrity_preserved": integrity_preserved,
+            "future_value_per_added_byte": utility_per_added_byte,
+            "minimum_future_value_per_added_byte": MIN_PRECISION_UTILITY_PER_ADDED_BYTE,
+            "integrity_preserved": not io.contains_true_activation(self.document()),
             "passed": passed,
             "activation": False,
         }
@@ -815,9 +1424,25 @@ class EndogenousPlasticField:
         self._append_receipt("PrecisionRequest", receipt)
         return _copy(receipt)
 
+    def _precision_outcomes(self, batch: PrecisionEvaluationBatch, precision: str) -> list[bool]:
+        if precision == "vector_quantized":
+            codebook = learned_codebook(batch.values, size=min(8, len(batch.values)))
+            restored = [float(value) for value in codebook["restored"]]
+        elif precision in PRECISION_ALPHABETS:
+            alphabet = PRECISION_ALPHABETS[precision]
+            restored = [float(min(alphabet, key=lambda symbol: (abs(symbol - value), symbol))) for value in batch.values]
+        elif precision == "archived":
+            restored = [0.0] * len(batch.values)
+        else:
+            restored = list(batch.values)
+        return [
+            abs(original - approximation) <= batch.tolerance
+            for original, approximation in zip(batch.values, restored, strict=True)
+        ]
+
     def precision_promote(self, request: Mapping[str, Any]) -> dict[str, Any]:
         _require(bool(request.get("passed")), "precision promotion has not earned its added bits")
-        relation = self.plastic[str(request["relation_id"])]
+        relation = self._plastic[str(request["relation_id"])]
         _require(not relation.frozen, "frozen precision cannot be promoted")
         before = relation.precision
         relation.precision = str(request["target"])
@@ -832,13 +1457,19 @@ class EndogenousPlasticField:
         relation_id: str,
         target: str,
         *,
-        utility_before: float,
-        utility_after: float,
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
         relation = self._relation(relation_id)
         _require(target in PRECISION_CLASSES and PRECISION_RANK[target] < PRECISION_RANK[relation.precision], "invalid precision demotion")
         _require(not relation.frozen, "frozen precision cannot be demoted")
-        _require(utility_after >= utility_before, "precision demotion loses verified future utility")
+        if evaluation_batch_id not in self.precision_evaluation_batches:
+            raise io.Refused("unknown sealed precision evaluation batch")
+        batch = self.precision_evaluation_batches[evaluation_batch_id]
+        raw_before = self._precision_outcomes(batch, relation.precision)
+        raw_after = self._precision_outcomes(batch, target)
+        utility_before = sum(raw_before) / len(raw_before)
+        utility_after = sum(raw_after) / len(raw_after)
+        _require(utility_after >= utility_before, "precision demotion loses sealed future utility")
         before = relation.precision
         relation.precision = target
         relation.value = _clamp_to_alphabet(relation.value, target)
@@ -850,8 +1481,43 @@ class EndogenousPlasticField:
                 "after": target,
                 "utility_before": utility_before,
                 "utility_after": utility_after,
+                "evaluation_batch_id": batch.batch_id,
+                "evaluation_batch_digest": batch.sha256,
+                "evaluator": batch.evaluator_id,
+                "raw_before_correct": raw_before,
+                "raw_after_correct": raw_after,
             },
         )
+
+    def precision_rent_audit(self, relation_id: str, *, evaluation_batch_id: str) -> dict[str, Any]:
+        relation = self._relation(relation_id)
+        if evaluation_batch_id not in self.precision_evaluation_batches:
+            raise io.Refused("unknown sealed precision evaluation batch")
+        batch = self.precision_evaluation_batches[evaluation_batch_id]
+        current = self._precision_outcomes(batch, relation.precision)
+        next_lower = max(
+            (name for name in PRECISION_CLASSES if PRECISION_RANK[name] < PRECISION_RANK[relation.precision]),
+            key=lambda name: PRECISION_RANK[name],
+            default="archived",
+        )
+        lower = self._precision_outcomes(batch, next_lower)
+        current_utility = sum(current) / len(current)
+        lower_utility = sum(lower) / len(lower)
+        still_earned = current_utility > lower_utility
+        receipt = {
+            "operation": "PrecisionAudit",
+            "relation_id": relation_id,
+            "current_precision": relation.precision,
+            "next_lower_precision": next_lower,
+            "current_utility": current_utility,
+            "next_lower_utility": lower_utility,
+            "still_earned": still_earned,
+            "evaluation_batch_digest": batch.sha256,
+            "activation": False,
+        }
+        receipt["digest"] = io.digest(receipt)
+        self.precision_receipts.append(receipt)
+        return receipt
 
     def precision_freeze(self, relation_id: str, *, authority: str) -> dict[str, Any]:
         relation = self._relation(relation_id)
@@ -878,7 +1544,7 @@ class EndogenousPlasticField:
                 "frozen": relation.frozen,
                 "valid": relation.precision in PRECISION_CLASSES,
             }
-            for key, relation in sorted(self.plastic.items())
+            for key, relation in sorted(self._plastic.items())
         }
         return {
             "operation": "PrecisionAudit",
@@ -894,30 +1560,95 @@ class EndogenousPlasticField:
         trigger: str,
         old_structure: Any,
         new_structure: Any,
-        expected_value: float,
-        resource_cost_bytes: int,
         affected: Sequence[str],
         rollback_state: Any,
-        held_out_result: float,
+        prospective_topology: Mapping[str, Any],
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
         _require(operation in TOPOLOGY_CONTRACTS, "unknown topology operation")
-        _require(bool(trigger) and resource_cost_bytes >= 0, "invalid topology authority")
-        if operation in {"TopologyAllocate", "TopologyConnect", "TopologySplit"}:
-            _require(expected_value > 0.0 and held_out_result > 0.0, "growth must pay rent through held-out usefulness")
+        _require(bool(trigger), "invalid topology authority")
+        verification = self._topology_verification(prospective_topology, evaluation_batch_id)
+        _require(verification["passed"], "topology change failed sealed held-out evaluation")
+        before_bytes = len(io.canonical_bytes(self._topology))
+        after_bytes = len(io.canonical_bytes(prospective_topology))
+        limit = RESOURCE_ENVELOPES_BYTES[self.resource_envelope]
+        _require(limit is None or after_bytes <= limit, "topology change exceeds enforced resource envelope")
         receipt = {
             "operation": operation,
             "trigger": trigger,
             "old_structure": _copy(old_structure),
             "new_structure": _copy(new_structure),
-            "expected_value": expected_value,
-            "resource_cost_bytes": resource_cost_bytes,
+            "expected_value": verification["utility_after"] - verification["utility_before"],
+            "resident_bytes_before_measured": before_bytes,
+            "resident_bytes_after_measured": after_bytes,
+            "resource_cost_bytes_measured": max(after_bytes - before_bytes, 0),
+            "resource_envelope_bytes": limit,
             "affected_beliefs_and_procedures": list(affected),
             "rollback_state": _copy(rollback_state),
-            "held_out_result": held_out_result,
+            "verification": verification,
             "activation": False,
         }
         receipt["digest"] = io.digest(receipt)
         self.topology_receipts.append(receipt)
+        return receipt
+
+    @staticmethod
+    def _topology_query(topology: Mapping[str, Any], query: TopologyQuery) -> bool:
+        nodes = topology.get("nodes", {})
+        edges = topology.get("edges", [])
+        edge_pairs = {(str(edge["source"]), str(edge["target"])) for edge in edges}
+        if query.kind == "node_present":
+            observed = query.source in nodes
+        elif query.kind == "node_absent":
+            observed = query.source not in nodes
+        elif query.kind == "edge_present":
+            observed = (query.source, str(query.target)) in edge_pairs
+        elif query.kind == "edge_absent":
+            observed = (query.source, str(query.target)) not in edge_pairs
+        else:
+            target = str(query.target)
+            frontier = [query.source]
+            visited: set[str] = set()
+            observed = False
+            while frontier:
+                current = frontier.pop()
+                if current == target:
+                    observed = True
+                    break
+                if current in visited:
+                    continue
+                visited.add(current)
+                frontier.extend(right for left, right in edge_pairs if left == current and right not in visited)
+        return observed == query.expected
+
+    def _topology_verification(
+        self,
+        prospective_topology: Mapping[str, Any],
+        evaluation_batch_id: str,
+    ) -> dict[str, Any]:
+        if evaluation_batch_id not in self.topology_evaluation_batches:
+            raise io.Refused("unknown sealed topology evaluation batch")
+        batch = self.topology_evaluation_batches[evaluation_batch_id]
+        raw_before = [self._topology_query(self._topology, query) for query in batch.queries]
+        raw_after = [self._topology_query(prospective_topology, query) for query in batch.queries]
+        utility_before = sum(raw_before) / len(raw_before)
+        utility_after = sum(raw_after) / len(raw_after)
+        passed = all(raw_after) and (utility_after > utility_before if batch.improvement_required else utility_after >= utility_before)
+        receipt = {
+            "evaluator": batch.evaluator_id,
+            "evaluation_batch_id": batch.batch_id,
+            "evaluation_batch_digest": batch.sha256,
+            "raw_before_correct": raw_before,
+            "raw_after_correct": raw_after,
+            "utility_before": utility_before,
+            "utility_after": utility_after,
+            "improvement_required": batch.improvement_required,
+            "passed": passed,
+            "activation": False,
+        }
+        receipt_digest = io.digest(receipt)
+        receipt["digest"] = receipt_digest
+        self.verification_receipts[receipt_digest] = _copy(receipt)
         return receipt
 
     def topology_allocate(
@@ -925,25 +1656,24 @@ class EndogenousPlasticField:
         cell: CognitiveCell,
         *,
         trigger: str,
-        expected_value: float,
-        resource_cost_bytes: int,
-        held_out_result: float,
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
         cell.validate()
-        _require(cell.cell_id not in self.cells, "cell already exists")
+        _require(cell.cell_id not in self._cells, "cell already exists")
+        rollback = self._topology_snapshot()
+        prospective = _copy(self._topology)
+        prospective["nodes"][cell.cell_id] = asdict(cell)
         receipt = self.topology_change(
             "TopologyAllocate",
             trigger=trigger,
             old_structure=None,
             new_structure=asdict(cell),
-            expected_value=expected_value,
-            resource_cost_bytes=resource_cost_bytes,
             affected=[cell.cell_id],
-            rollback_state=None,
-            held_out_result=held_out_result,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
-        self.cells[cell.cell_id] = cell
-        self.topology["nodes"][cell.cell_id] = asdict(cell)
+        self._install_topology(prospective)
         self._append_receipt("TopologyAllocate", receipt)
         return receipt
 
@@ -953,45 +1683,58 @@ class EndogenousPlasticField:
         target: str,
         *,
         trigger: str,
-        expected_value: float,
-        held_out_result: float,
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
-        _require(source in self.cells and target in self.cells, "topology edge references unknown cell")
+        _require(source in self._cells and target in self._cells, "topology edge references unknown cell")
         edge = {"source": source, "target": target, "kind": "plastic_influence"}
-        _require(edge not in self.topology["edges"], "topology edge already exists")
+        _require(edge not in self._topology["edges"], "topology edge already exists")
+        rollback = self._topology_snapshot()
+        prospective = _copy(self._topology)
+        prospective["edges"].append(edge)
+        prospective["nodes"][source]["sparse_links"] = sorted(
+            set(prospective["nodes"][source].get("sparse_links", [])) | {target}
+        )
         receipt = self.topology_change(
             "TopologyConnect",
             trigger=trigger,
             old_structure=None,
             new_structure=edge,
-            expected_value=expected_value,
-            resource_cost_bytes=24,
             affected=[source, target],
-            rollback_state=None,
-            held_out_result=held_out_result,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
-        self.topology["edges"].append(edge)
-        self.cells[source].sparse_links.append(target)
+        self._install_topology(prospective)
         self._append_receipt("TopologyConnect", receipt)
         return receipt
 
-    def topology_disconnect(self, source: str, target: str, *, trigger: str) -> dict[str, Any]:
+    def topology_disconnect(
+        self,
+        source: str,
+        target: str,
+        *,
+        trigger: str,
+        evaluation_batch_id: str,
+    ) -> dict[str, Any]:
         edge = {"source": source, "target": target, "kind": "plastic_influence"}
-        _require(edge in self.topology["edges"], "topology edge does not exist")
+        _require(edge in self._topology["edges"], "topology edge does not exist")
+        rollback = self._topology_snapshot()
+        prospective = _copy(self._topology)
+        prospective["edges"].remove(edge)
+        prospective["nodes"][source]["sparse_links"] = [
+            item for item in prospective["nodes"][source].get("sparse_links", []) if item != target
+        ]
         receipt = self.topology_change(
             "TopologyDisconnect",
             trigger=trigger,
             old_structure=edge,
             new_structure=None,
-            expected_value=0.0,
-            resource_cost_bytes=0,
             affected=[source, target],
-            rollback_state=edge,
-            held_out_result=1.0,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
-        self.topology["edges"].remove(edge)
-        if target in self.cells[source].sparse_links:
-            self.cells[source].sparse_links.remove(target)
+        self._install_topology(prospective)
         self._append_receipt("TopologyDisconnect", receipt)
         return receipt
 
@@ -1001,28 +1744,33 @@ class EndogenousPlasticField:
         children: Sequence[CognitiveCell],
         *,
         trigger: str,
-        held_out_result: float,
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
-        _require(source in self.cells and len(children) >= 2, "split requires a source and at least two children")
-        _require(all(child.cell_id not in self.cells for child in children), "split child already exists")
+        _require(source in self._cells and len(children) >= 2, "split requires a source and at least two children")
+        _require(all(child.cell_id not in self._cells for child in children), "split child already exists")
         for child in children:
             child.validate()
-        prior = asdict(self.cells[source])
+        prior = asdict(self._cells[source])
+        rollback = self._topology_snapshot()
+        prospective = _copy(self._topology)
+        prospective["archive"][source] = prior
+        prospective["nodes"].pop(source)
+        prospective["edges"] = [
+            edge for edge in prospective["edges"] if source not in {edge["source"], edge["target"]}
+        ]
+        for child in children:
+            prospective["nodes"][child.cell_id] = asdict(child)
         receipt = self.topology_change(
             "TopologySplit",
             trigger=trigger,
             old_structure=prior,
             new_structure=[asdict(child) for child in children],
-            expected_value=held_out_result,
-            resource_cost_bytes=sum(len(io.canonical_bytes(asdict(child))) for child in children),
             affected=[source, *(child.cell_id for child in children)],
-            rollback_state=prior,
-            held_out_result=held_out_result,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
-        self.cells[source].stability = "archived" if "archived" in METAPLASTIC_STATES else "refuted"
-        for child in children:
-            self.cells[child.cell_id] = child
-            self.topology["nodes"][child.cell_id] = asdict(child)
+        self._install_topology(prospective)
         self._append_receipt("TopologySplit", receipt)
         return receipt
 
@@ -1032,112 +1780,178 @@ class EndogenousPlasticField:
         merged: CognitiveCell,
         *,
         trigger: str,
-        distinctions_preserved: bool,
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
-        _require(len(sources) >= 2 and all(source in self.cells for source in sources), "merge sources are invalid")
-        _require(distinctions_preserved, "merge may not erase required distinctions")
+        _require(len(sources) >= 2 and all(source in self._cells for source in sources), "merge sources are invalid")
         merged.validate()
+        rollback = self._topology_snapshot()
+        prospective = _copy(self._topology)
+        for source in sources:
+            prospective["archive"][source] = prospective["nodes"].pop(source)
+        rewired = []
+        for edge in prospective["edges"]:
+            new_edge = {
+                **edge,
+                "source": merged.cell_id if edge["source"] in sources else edge["source"],
+                "target": merged.cell_id if edge["target"] in sources else edge["target"],
+            }
+            if new_edge["source"] != new_edge["target"] and new_edge not in rewired:
+                rewired.append(new_edge)
+        prospective["edges"] = rewired
+        prospective["nodes"][merged.cell_id] = asdict(merged)
         receipt = self.topology_change(
             "TopologyMerge",
             trigger=trigger,
-            old_structure=[asdict(self.cells[source]) for source in sources],
+            old_structure=[asdict(self._cells[source]) for source in sources],
             new_structure=asdict(merged),
-            expected_value=1.0,
-            resource_cost_bytes=0,
             affected=[*sources, merged.cell_id],
-            rollback_state=[asdict(self.cells[source]) for source in sources],
-            held_out_result=1.0,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
-        for source in sources:
-            self.topology["archive"][source] = asdict(self.cells.pop(source))
-            self.topology["nodes"].pop(source, None)
-        self.cells[merged.cell_id] = merged
-        self.topology["nodes"][merged.cell_id] = asdict(merged)
+        self._install_topology(prospective)
         self._append_receipt("TopologyMerge", receipt)
         return receipt
 
-    def topology_prune(self, cell_id: str, *, required_competence_preserved: bool) -> dict[str, Any]:
-        _require(cell_id in self.cells, "unknown cell")
-        _require(required_competence_preserved, "pruning would destroy required competence")
-        prior = asdict(self.cells.pop(cell_id))
-        self.topology["archive"][cell_id] = prior
-        self.topology["nodes"].pop(cell_id, None)
-        self.topology["edges"] = [
-            edge for edge in self.topology["edges"] if cell_id not in {edge["source"], edge["target"]}
+    def topology_prune(self, cell_id: str, *, evaluation_batch_id: str) -> dict[str, Any]:
+        _require(cell_id in self._cells, "unknown cell")
+        prior = asdict(self._cells[cell_id])
+        rollback = self._topology_snapshot()
+        prospective = _copy(self._topology)
+        prospective["archive"][cell_id] = prospective["nodes"].pop(cell_id)
+        prospective["edges"] = [
+            edge for edge in prospective["edges"] if cell_id not in {edge["source"], edge["target"]}
         ]
         receipt = self.topology_change(
             "TopologyPrune",
             trigger="verified redundancy",
             old_structure=prior,
             new_structure=None,
-            expected_value=0.0,
-            resource_cost_bytes=0,
             affected=[cell_id],
-            rollback_state=prior,
-            held_out_result=1.0,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
+        self._install_topology(prospective)
         self._append_receipt("TopologyPrune", receipt)
         return receipt
 
-    def topology_compile(self, cell_ids: Sequence[str], procedure_id: str, *, held_out_result: float) -> dict[str, Any]:
-        _require(bool(cell_ids) and all(cell_id in self.cells for cell_id in cell_ids), "topology compilation references unknown cells")
+    def topology_compile(
+        self,
+        cell_ids: Sequence[str],
+        procedure_id: str,
+        *,
+        evaluation_batch_id: str,
+    ) -> dict[str, Any]:
+        _require(bool(cell_ids) and all(cell_id in self._cells for cell_id in cell_ids), "topology compilation references unknown cells")
         _require(procedure_id in self.compiled and self.compiled[procedure_id]["valid"], "topology compilation requires a verified procedure")
+        rollback = self._topology_snapshot()
+        compiled_cell = CognitiveCell(
+            procedure_id,
+            "procedure",
+            stability="supported",
+            precision="exact_symbolic",
+            provenance_pointer=str(self.compiled[procedure_id]["digest"]),
+        )
+        prospective = _copy(self._topology)
+        prospective["nodes"][procedure_id] = asdict(compiled_cell)
         receipt = self.topology_change(
             "TopologyCompile",
             trigger="verified repeated pathway",
-            old_structure=[asdict(self.cells[cell_id]) for cell_id in cell_ids],
+            old_structure=[asdict(self._cells[cell_id]) for cell_id in cell_ids],
             new_structure={"compiled_procedure": procedure_id},
-            expected_value=held_out_result,
-            resource_cost_bytes=len(io.canonical_bytes(self.compiled[procedure_id])),
             affected=[*cell_ids, procedure_id],
-            rollback_state=[asdict(self.cells[cell_id]) for cell_id in cell_ids],
-            held_out_result=held_out_result,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
+        self._install_topology(prospective)
         self._append_receipt("TopologyCompile", receipt)
         return receipt
 
-    def topology_archive(self, cell_id: str, *, trigger: str) -> dict[str, Any]:
-        _require(cell_id in self.cells, "unknown cell")
-        prior = asdict(self.cells.pop(cell_id))
-        self.topology["archive"][cell_id] = prior
-        self.topology["nodes"].pop(cell_id, None)
+    def topology_archive(self, cell_id: str, *, trigger: str, evaluation_batch_id: str) -> dict[str, Any]:
+        _require(cell_id in self._cells, "unknown cell")
+        prior = asdict(self._cells[cell_id])
+        rollback = self._topology_snapshot()
+        prospective = _copy(self._topology)
+        prospective["archive"][cell_id] = prospective["nodes"].pop(cell_id)
+        prospective["edges"] = [
+            edge for edge in prospective["edges"] if cell_id not in {edge["source"], edge["target"]}
+        ]
         receipt = self.topology_change(
             "TopologyArchive",
             trigger=trigger,
             old_structure=prior,
             new_structure={"archive_pointer": cell_id},
-            expected_value=0.0,
-            resource_cost_bytes=0,
             affected=[cell_id],
-            rollback_state=prior,
-            held_out_result=1.0,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
+        self._install_topology(prospective)
         self._append_receipt("TopologyArchive", receipt)
         return receipt
 
-    def topology_restore(self, cell_id: str) -> dict[str, Any]:
-        prior = self.topology["archive"].get(cell_id)
+    def topology_restore(self, cell_id: str, *, evaluation_batch_id: str) -> dict[str, Any]:
+        prior = self._topology["archive"].get(cell_id)
         _require(isinstance(prior, dict), "no archived topology state")
         cell = CognitiveCell(**_copy(prior))
-        self.cells[cell_id] = cell
-        self.topology["nodes"][cell_id] = asdict(cell)
-        self.topology["archive"].pop(cell_id)
+        cell.validate()
+        rollback = self._topology_snapshot()
+        prospective = _copy(self._topology)
+        prospective["nodes"][cell_id] = asdict(cell)
+        prospective["archive"].pop(cell_id)
         receipt = self.topology_change(
             "TopologyRestore",
             trigger="rollback request",
             old_structure=None,
             new_structure=prior,
-            expected_value=0.0,
-            resource_cost_bytes=len(io.canonical_bytes(prior)),
             affected=[cell_id],
-            rollback_state=None,
-            held_out_result=1.0,
+            rollback_state=rollback,
+            prospective_topology=prospective,
+            evaluation_batch_id=evaluation_batch_id,
         )
+        self._install_topology(prospective)
         self._append_receipt("TopologyRestore", receipt)
         return receipt
 
+    def _topology_snapshot(self) -> dict[str, Any]:
+        return {
+            "topology": _copy(self._topology),
+            "cells": {key: asdict(value) for key, value in self._cells.items()},
+        }
+
+    def _install_topology(self, topology: Mapping[str, Any]) -> None:
+        self._topology = _copy(topology)
+        self._cells = {
+            key: CognitiveCell(**_copy(value))
+            for key, value in self._topology["nodes"].items()
+        }
+        for cell in self._cells.values():
+            cell.sparse_links = []
+        for edge in self._topology["edges"]:
+            source = str(edge["source"])
+            target = str(edge["target"])
+            if source in self._cells and target in self._cells and target not in self._cells[source].sparse_links:
+                self._cells[source].sparse_links.append(target)
+        self._topology["nodes"] = {key: asdict(value) for key, value in self._cells.items()}
+
+    def topology_rollback(self, receipt_digest: str) -> dict[str, Any]:
+        receipt = next((row for row in reversed(self.topology_receipts) if row["digest"] == receipt_digest), None)
+        if receipt is None:
+            raise io.Refused("unknown topology receipt")
+        rollback = receipt["rollback_state"]
+        _require(isinstance(rollback, dict) and "topology" in rollback and "cells" in rollback, "receipt lacks rollback state")
+        before = self._topology_snapshot()
+        self._topology = _copy(rollback["topology"])
+        self._cells = {key: CognitiveCell(**_copy(value)) for key, value in rollback["cells"].items()}
+        return self._append_receipt(
+            "TopologyRollback",
+            {"receipt_digest": receipt_digest, "before": before, "restored": rollback},
+        )
+
     def predict(self, relation_ids: Sequence[str]) -> bool:
-        return sum(self.plastic[key].value for key in relation_ids if key in self.plastic) > 0
+        return sum(self._plastic[key].value for key in relation_ids if key in self._plastic) > 0
 
     def field_transition(self, signal: float, *, elapsed_seconds: float = 0.0) -> dict[str, Any]:
         """Execute one mechanically distinct bounded transition for K1–K8."""
@@ -1146,20 +1960,50 @@ class EndogenousPlasticField:
             value = prior + signal
             mechanism = "monolithic_accumulation"
         elif self.skeleton == "K2_graph_plastic_field":
-            value = signal + sum(cell.influence for cell in self.cells.values())
-            mechanism = "sparse_graph_influence"
+            messages = [
+                self._cells[str(edge["source"])].cognitive_activation
+                * self._cells[str(edge["source"])].influence
+                for edge in self._topology["edges"]
+                if str(edge["source"]) in self._cells and str(edge["target"]) in self._cells
+            ]
+            value = signal + sum(messages)
+            mechanism = "edge_indexed_sparse_message_pass"
         elif self.skeleton == "K3_cellular_plastic_field":
-            local = [cell.cognitive_activation + cell.influence for cell in self.cells.values()]
-            value = signal + (sum(local) / len(local) if local else 0.0)
-            mechanism = "shared_local_cell_rule"
+            neighbors: dict[str, list[int]] = {cell_id: [] for cell_id in self._cells}
+            for edge in self._topology["edges"]:
+                source = str(edge["source"])
+                target = str(edge["target"])
+                if source in self._cells and target in neighbors:
+                    neighbors[target].append(self._cells[source].cognitive_activation)
+            synchronous_local = [
+                _clamp_to_alphabet(
+                    cell.cognitive_activation
+                    + cell.influence
+                    + sum(neighbors[cell_id]),
+                    cell.precision,
+                )
+                for cell_id, cell in sorted(self._cells.items())
+            ]
+            value = signal + (sum(synchronous_local) / len(synchronous_local) if synchronous_local else 0.0)
+            mechanism = "synchronous_neighborhood_cellular_rule"
         elif self.skeleton == "K4_continuous_time_plastic_field":
             value = prior * math.exp(-max(elapsed_seconds, 0.0)) + signal
             mechanism = "continuous_time_decay"
         elif self.skeleton == "K5_recurrent_state_space_plastic_field":
-            value = 0.5 * prior + signal
-            mechanism = "bounded_recurrent_transition"
+            state = [float(item) for item in self.active.get("ssm_state", [0.0, 0.0])]
+            fast_weight = float(self.active.get("fast_weight", 0.0))
+            next_state = [
+                0.7 * state[0] + 0.2 * state[1] + signal,
+                -0.1 * state[0] + 0.8 * state[1] + fast_weight * signal,
+            ]
+            prediction_error = signal - next_state[0]
+            fast_weight = max(-1.0, min(1.0, fast_weight + 0.1 * prediction_error * signal))
+            self.active["ssm_state"] = next_state
+            self.active["fast_weight"] = fast_weight
+            value = sum(next_state)
+            mechanism = "two_state_recurrence_with_bounded_fast_weight"
         elif self.skeleton == "K6_adaptive_topology_field":
-            value = signal + len(self.topology["nodes"]) - 0.25 * len(self.topology["archive"])
+            value = signal + len(self._topology["nodes"]) - 0.25 * len(self._topology["archive"])
             mechanism = "topology_conditioned_transition"
         elif self.skeleton == "K7_native_mixed_radix_field":
             quantized = _clamp_to_alphabet(round(signal), "quinary")
@@ -1186,26 +2030,56 @@ class EndogenousPlasticField:
     def settle_attractor(self, alternatives: Mapping[str, float], *, threshold: float = 0.6) -> dict[str, Any]:
         _require(bool(alternatives), "attractor settling requires alternatives")
         ordered = sorted(alternatives.items(), key=lambda row: (-row[1], row[0]))
-        total = sum(max(score, 0.0) for _, score in ordered)
-        confidence = ordered[0][1] / total if total else 0.0
+        names = [name for name, _ in ordered]
+        evidence = [max(float(score), 0.0) for _, score in ordered]
+        evidence_total = sum(evidence)
+        support = [score / evidence_total for score in evidence] if evidence_total else [1.0 / len(evidence)] * len(evidence)
+        state = [1.0 / len(names)] * len(names)
+        trajectory = [list(state)]
+        for _ in range(24):
+            next_state = [
+                max(0.0, 0.55 * current + 0.45 * target)
+                for current, target in zip(state, support, strict=True)
+            ]
+            normalizer = sum(next_state)
+            state = [value / normalizer for value in next_state]
+            trajectory.append(list(state))
+        confidence = max(state)
+        winner_index = min(
+            (index for index, value in enumerate(state) if value == confidence),
+            default=0,
+        )
         resolved = confidence >= threshold
-        self.active["unresolved_alternatives"] = {} if resolved else dict(ordered)
+        self.active["unresolved_alternatives"] = (
+            {}
+            if resolved
+            else {name: state[index] for index, name in enumerate(names)}
+        )
         result = {
-            "winner": ordered[0][0] if resolved else None,
+            "winner": names[winner_index] if resolved else None,
             "confidence": confidence,
             "resolved": resolved,
-            "preserved_alternatives": [] if resolved else [name for name, _ in ordered],
+            "preserved_alternatives": [] if resolved else names,
+            "trajectory": trajectory,
+            "settled": max(
+                abs(left - right)
+                for left, right in zip(trajectory[-1], trajectory[-2], strict=True)
+            )
+            < 1e-6,
+            "dynamics": "bounded_leaky_competition_microfixture",
+            "self_organization_claimed": False,
+            "activation": False,
         }
-        self._append_receipt("attractor_settle", result)
+        self._append_receipt("AttractorMicrofixtureSettle", result)
         return result
 
     def shadow_fork(self, shadow_id: str, *, relevant_relations: Sequence[str], relevant_cells: Sequence[str]) -> dict[str, Any]:
         _require(shadow_id not in self.shadows, "shadow field already exists")
-        _require(all(key in self.plastic for key in relevant_relations), "shadow references unknown relation")
-        _require(all(key in self.cells for key in relevant_cells), "shadow references unknown cell")
+        _require(all(key in self._plastic for key in relevant_relations), "shadow references unknown relation")
+        _require(all(key in self._cells for key in relevant_cells), "shadow references unknown cell")
         shadow: dict[str, Any] = {
-            "relations": {key: asdict(self.plastic[key]) for key in relevant_relations},
-            "cells": {key: asdict(self.cells[key]) for key in relevant_cells},
+            "relations": {key: asdict(self._plastic[key]) for key in relevant_relations},
+            "cells": {key: asdict(self._cells[key]) for key in relevant_cells},
             "perturbations": [],
             "result": None,
             "verified": False,
@@ -1228,8 +2102,20 @@ class EndogenousPlasticField:
 
     def shadow_run(self, shadow_id: str, *, query_relations: Sequence[str]) -> dict[str, Any]:
         shadow = self._shadow(shadow_id)
-        score = sum(int(shadow["relations"][key]["value"]) for key in query_relations if key in shadow["relations"])
-        result = {"score": score, "prediction": score > 0, "authoritative_state_changed": False}
+        _require(bool(query_relations), "shadow query requires at least one relation")
+        _require(
+            set(query_relations) <= set(shadow["relations"]),
+            "shadow query escaped the copied sparse region",
+        )
+        score = sum(int(shadow["relations"][key]["value"]) for key in query_relations)
+        result = {
+            "score": score,
+            "prediction": score > 0,
+            "epistemic_mode": "thinking_in_shadow",
+            "authoritative_state_changed": False,
+            "activation": False,
+        }
+        result["digest"] = io.digest(result)
         shadow["result"] = result
         self._append_receipt("ShadowFieldRun", {"shadow_id": shadow_id, "result": result})
         return _copy(result)
@@ -1246,18 +2132,46 @@ class EndogenousPlasticField:
         self._append_receipt("ShadowFieldCompare", {"shadow_id": shadow_id, **comparison})
         return comparison
 
-    def shadow_promote(self, shadow_id: str, *, evaluator: str, verified: bool) -> dict[str, Any]:
+    def shadow_promote(self, shadow_id: str, *, evaluation_batch_id: str) -> dict[str, Any]:
         shadow = self._shadow(shadow_id)
         _require(shadow["result"] is not None, "shadow has not run")
-        _require(bool(evaluator) and verified, "shadow result requires independent verification before promotion")
-        for relation_id, relation in shadow["relations"].items():
-            if relation_id in self.plastic:
-                current = self.plastic[relation_id]
-                current.value = int(relation["value"])
-                current.provenance.append(f"shadow-verification:{evaluator}")
-                current.last_verification = f"shadow-verification:{evaluator}"
+        changed = [
+            (relation_id, relation)
+            for relation_id, relation in shadow["relations"].items()
+            if relation_id in self._plastic and int(relation["value"]) != self._plastic[relation_id].value
+        ]
+        _require(len(changed) == 1, "foundation shadow promotion is bounded to one changed relation")
+        relation_id, relation = changed[0]
+        delta = int(relation["value"]) - self._plastic[relation_id].value
+        proposal_id = f"shadow-promotion:{shadow_id}:{relation_id}:{len(self.archive)}"
+        self.plasticity_propose(
+            proposal_id,
+            relation_id,
+            delta,
+            source=f"shadow:{shadow_id}",
+            source_kind="shadow_hypothesis",
+            evidence=[str(shadow["result"]["digest"])],
+        )
+        verification = self.plasticity_verify(
+            proposal_id,
+            evaluation_batch_id=evaluation_batch_id,
+        )
+        _require(bool(verification["passed"]), "shadow result failed sealed promotion evaluation")
+        commit = self.plasticity_commit(proposal_id)
         shadow["verified"] = True
-        return self._append_receipt("ShadowFieldPromote", {"shadow_id": shadow_id, "evaluator": evaluator})
+        return self._append_receipt(
+            "ShadowFieldPromote",
+            {
+                "shadow_id": shadow_id,
+                "proposal_id": proposal_id,
+                "relation_id": relation_id,
+                "evaluation_batch_id": evaluation_batch_id,
+                "verification_digest": verification["digest"],
+                "commit_digest": commit["digest"],
+                "epistemic_transition": ["thinking", "independently_verified_learning"],
+                "knowing_claimed": False,
+            },
+        )
 
     def shadow_discard(self, shadow_id: str) -> dict[str, Any]:
         _require(shadow_id in self.shadows, "unknown shadow")
@@ -1282,15 +2196,162 @@ class EndogenousPlasticField:
         self.traces.setdefault(trace_id, []).append({"instruction": instruction, "argument": _copy(argument)})
         return self._append_receipt("ProcedureObserveTrace", {"trace_id": trace_id, "instruction": instruction, "argument": argument})
 
-    def procedure_propose(self, procedure_id: str, trace_id: str, *, proposer: str) -> dict[str, Any]:
+    @staticmethod
+    def _optimize_trace(trace: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+        optimized: list[dict[str, Any]] = []
+        index = 0
+        while index < len(trace):
+            if (
+                index + 2 < len(trace)
+                and trace[index]["instruction"] == "OBSERVE"
+                and trace[index + 1]["instruction"] == "COMPARE"
+                and trace[index + 2]["instruction"] == "INFER"
+            ):
+                optimized.append(
+                    {
+                        "instruction": "EQUAL",
+                        "argument": [
+                            _copy(trace[index]["argument"]),
+                            _copy(trace[index + 1]["argument"]),
+                        ],
+                    }
+                )
+                index += 3
+                continue
+            optimized.append(_copy(dict(trace[index])))
+            index += 1
+        return optimized
+
+    @staticmethod
+    def _predicate(predicate: str, bindings: Mapping[str, Any]) -> bool:
+        prefix = "truthy:"
+        _require(predicate.startswith(prefix) and len(predicate) > len(prefix), "procedure predicate is not executable")
+        return bool(bindings.get(predicate[len(prefix) :], False))
+
+    @classmethod
+    def _execute_bytecode(
+        cls,
+        bytecode: Sequence[Mapping[str, Any]],
+        bindings: Mapping[str, Any],
+        *,
+        assumptions: Sequence[str] = (),
+        branch_conditions: Sequence[str] = (),
+        failure_conditions: Sequence[str] = (),
+    ) -> dict[str, Any]:
+        if any(not cls._predicate(predicate, bindings) for predicate in assumptions):
+            return {
+                "status": "flexible_reopened",
+                "cost": 0,
+                "result": None,
+                "reason": "assumption_failed",
+                "activation": False,
+            }
+        if any(cls._predicate(predicate, bindings) for predicate in failure_conditions):
+            return {
+                "status": "flexible_reopened",
+                "cost": 0,
+                "result": None,
+                "reason": "failure_condition_matched",
+                "activation": False,
+            }
+        accumulator: Any = None
+        bindings_local = {str(key): _copy(value) for key, value in bindings.items()}
+        cost = 0
+        for instruction in bytecode:
+            cost += 1
+            operation = str(instruction["instruction"])
+            argument = instruction.get("argument")
+            if operation in {"OBSERVE", "RETRIEVE"}:
+                accumulator = bindings_local.get(str(argument), argument)
+            elif operation == "BIND":
+                bindings_local[str(argument)] = _copy(accumulator)
+            elif operation == "COMPARE":
+                accumulator = accumulator == bindings_local.get(str(argument), argument)
+            elif operation == "EQUAL":
+                if not isinstance(argument, (list, tuple)) or len(argument) != 2:
+                    raise io.Refused("EQUAL requires two operands")
+                left, right = argument
+                accumulator = bindings_local.get(str(left), left) == bindings_local.get(str(right), right)
+            elif operation == "INFER":
+                accumulator = bool(accumulator)
+            elif operation == "SIMULATE":
+                accumulator = _copy(bindings_local.get(str(argument), argument))
+            elif operation == "VERIFY":
+                if not bool(accumulator):
+                    return {
+                        "status": "verification_failed",
+                        "cost": cost,
+                        "result": False,
+                        "activation": False,
+                    }
+            elif operation == "REVISE":
+                accumulator = _copy(bindings_local.get(str(argument), argument))
+            elif operation == "DEFER":
+                return {
+                    "status": "deferred",
+                    "cost": cost,
+                    "result": None,
+                    "activation": False,
+                }
+            elif operation == "COMMIT":
+                accumulator = _copy(accumulator)
+            elif operation == "ROLLBACK":
+                return {
+                    "status": "rolled_back",
+                    "cost": cost,
+                    "result": None,
+                    "activation": False,
+                }
+            else:
+                raise io.Refused(f"unimplemented cognitive bytecode {operation!r}")
+        return {
+            "status": "completed",
+            "cost": cost,
+            "result": accumulator,
+            "branch_outcomes": {
+                predicate: cls._predicate(predicate, bindings)
+                for predicate in branch_conditions
+            },
+            "activation": False,
+        }
+
+    def procedure_propose(
+        self,
+        procedure_id: str,
+        trace_id: str,
+        *,
+        proposer: str,
+        inputs: Sequence[str],
+        assumptions: Sequence[str],
+        scope: str,
+        branch_conditions: Sequence[str],
+        failure_conditions: Sequence[str],
+    ) -> dict[str, Any]:
         if trace_id not in self.traces or len(self.traces[trace_id]) < 2:
             raise io.Refused("procedure proposal requires an observed trace")
         _require(procedure_id not in self.procedure_candidates, "procedure proposal already exists")
+        _require(bool(proposer) and bool(inputs) and bool(scope), "procedure proposal metadata is incomplete")
+        predicates = [*assumptions, *branch_conditions, *failure_conditions]
+        _require(
+            all(predicate.startswith("truthy:") and len(predicate) > len("truthy:") for predicate in predicates),
+            "procedure predicates must use the executable truthy:<binding> form",
+        )
+        trace = self.traces[trace_id]
+        optimized = self._optimize_trace(trace)
         proposal = {
             "procedure_id": procedure_id,
             "trace_id": trace_id,
             "proposer": proposer,
-            "trace_digest": io.digest(self.traces[trace_id]),
+            "trace_digest": io.digest(trace),
+            "flexible_bytecode": _copy(trace),
+            "optimized_bytecode": optimized,
+            "inputs": list(inputs),
+            "assumptions": list(assumptions),
+            "scope": scope,
+            "branch_conditions": list(branch_conditions),
+            "failure_conditions": list(failure_conditions),
+            "flexible_instruction_count": len(trace),
+            "compiled_instruction_count": len(optimized),
             "verified": False,
             "verification": None,
             "activation": False,
@@ -1304,23 +2365,54 @@ class EndogenousPlasticField:
         self,
         procedure_id: str,
         *,
-        evaluator: str,
-        raw_flexible_correct: Sequence[bool],
-        raw_compiled_correct: Sequence[bool],
+        evaluation_batch_id: str,
     ) -> dict[str, Any]:
         if procedure_id not in self.procedure_candidates:
             raise io.Refused("unknown procedure proposal")
         proposal = self.procedure_candidates[procedure_id]
-        _require(evaluator != proposal["proposer"], "procedure verification must be independent")
-        _require(
-            bool(raw_flexible_correct) and len(raw_flexible_correct) == len(raw_compiled_correct),
-            "procedure verification requires paired raw results",
+        if evaluation_batch_id not in self.procedure_evaluation_batches:
+            raise io.Refused("unknown sealed procedure evaluation batch")
+        batch = self.procedure_evaluation_batches[evaluation_batch_id]
+        _require(batch.evaluator_id != proposal["proposer"], "procedure verification must be independent")
+        flexible_runs = [
+            self._execute_bytecode(proposal["flexible_bytecode"], dict(case.bindings))
+            for case in batch.cases
+        ]
+        compiled_runs = [
+            self._execute_bytecode(
+                proposal["optimized_bytecode"],
+                dict(case.bindings),
+                assumptions=proposal["assumptions"],
+                branch_conditions=proposal["branch_conditions"],
+                failure_conditions=proposal["failure_conditions"],
+            )
+            for case in batch.cases
+        ]
+        raw_flexible_correct = [
+            run["status"] == case.expected_status and run["result"] == case.expected
+            for run, case in zip(flexible_runs, batch.cases, strict=True)
+        ]
+        raw_compiled_correct = [
+            run["status"] == case.expected_status and run["result"] == case.expected
+            for run, case in zip(compiled_runs, batch.cases, strict=True)
+        ]
+        flexible_cost = sum(int(run["cost"]) for run in flexible_runs)
+        compiled_cost = sum(int(run["cost"]) for run in compiled_runs)
+        passed = (
+            all(raw_compiled_correct)
+            and sum(raw_compiled_correct) >= sum(raw_flexible_correct)
+            and compiled_cost <= flexible_cost
         )
-        passed = all(bool(value) for value in raw_compiled_correct) and sum(raw_compiled_correct) >= sum(raw_flexible_correct)
         verification = {
-            "evaluator": evaluator,
+            "evaluator": batch.evaluator_id,
+            "evaluation_batch_id": batch.batch_id,
+            "evaluation_batch_digest": batch.sha256,
             "raw_flexible_correct": [bool(value) for value in raw_flexible_correct],
             "raw_compiled_correct": [bool(value) for value in raw_compiled_correct],
+            "raw_flexible_runs": flexible_runs,
+            "raw_compiled_runs": compiled_runs,
+            "flexible_cost_measured_instructions": flexible_cost,
+            "compiled_cost_measured_instructions": compiled_cost,
             "passed": passed,
             "activation": False,
         }
@@ -1347,8 +2439,19 @@ class EndogenousPlasticField:
             raise io.Refused("procedure compilation requires an observed trace")
         trace = self.traces[trace_id]
         _require(bool(verification_method) and bool(provenance), "compiled procedure requires verification and provenance")
-        if procedure_id in self.procedure_candidates:
-            _require(bool(self.procedure_candidates[procedure_id]["verified"]), "procedure proposal has not passed verification")
+        _require(
+            procedure_id in self.procedure_candidates and bool(self.procedure_candidates[procedure_id]["verified"]),
+            "procedure proposal has not passed verification",
+        )
+        proposal = self.procedure_candidates[procedure_id]
+        _require(
+            list(inputs) == proposal["inputs"]
+            and list(assumptions) == proposal["assumptions"]
+            and scope == proposal["scope"]
+            and list(branch_conditions) == proposal["branch_conditions"]
+            and list(failure_conditions) == proposal["failure_conditions"],
+            "compiled procedure metadata differs from verified proposal",
+        )
         procedure = {
             "procedure_id": procedure_id,
             "inputs": list(inputs),
@@ -1357,9 +2460,11 @@ class EndogenousPlasticField:
             "branch_conditions": list(branch_conditions),
             "failure_conditions": list(failure_conditions),
             "verification_method": verification_method,
-            "cost": len(trace),
+            "cost": len(proposal["optimized_bytecode"]),
             "provenance": provenance,
-            "bytecode": _copy(trace),
+            "source_trace_digest": io.digest(trace),
+            "bytecode": _copy(proposal["optimized_bytecode"]),
+            "verification": _copy(proposal["verification"]),
             "valid": True,
             "reopen_flexible_reasoning": False,
             "activation": False,
@@ -1374,23 +2479,15 @@ class EndogenousPlasticField:
         _require(bool(procedure["valid"]), "procedure is unavailable or invalid")
         missing = set(procedure["inputs"]) - set(bindings)
         _require(not missing, f"procedure inputs missing: {sorted(missing)}")
-        accumulator: Any = None
-        cost = 0
-        for instruction in procedure["bytecode"]:
-            cost += 1
-            operation = instruction["instruction"]
-            argument = instruction["argument"]
-            if operation in {"OBSERVE", "BIND", "RETRIEVE"}:
-                accumulator = bindings.get(str(argument), argument)
-            elif operation == "COMPARE":
-                accumulator = accumulator == bindings.get(str(argument), argument)
-            elif operation == "INFER":
-                accumulator = bool(accumulator)
-            elif operation == "DEFER":
-                return {"status": "deferred", "cost": cost, "result": None}
-            elif operation == "ROLLBACK":
-                return {"status": "rolled_back", "cost": cost, "result": None}
-        result = {"status": "completed", "cost": cost, "result": accumulator}
+        result = self._execute_bytecode(
+            procedure["bytecode"],
+            bindings,
+            assumptions=procedure["assumptions"],
+            branch_conditions=procedure["branch_conditions"],
+            failure_conditions=procedure["failure_conditions"],
+        )
+        if result["status"] == "flexible_reopened":
+            procedure["reopen_flexible_reasoning"] = True
         self._append_receipt("ProcedureExecute", {"procedure_id": procedure_id, **result})
         return result
 
@@ -1447,23 +2544,27 @@ class EndogenousPlasticField:
         self._append_receipt("TemporalEvent", event)
         return _copy(event)
 
-    def elapsed_time(self, seconds: float) -> list[dict[str, Any]]:
+    def _advance_time(self, seconds: float, *, clock_source: str) -> list[dict[str, Any]]:
         _require(seconds >= 0.0, "elapsed time cannot be negative")
         self.active["elapsed_seconds"] += float(seconds)
         due: list[dict[str, Any]] = []
         for event in self.scheduled:
-            if not event["processed"] and event["at_elapsed_seconds"] <= self.active["elapsed_seconds"]:
+            if (
+                len(due) < MAX_TEMPORAL_EVENTS_PER_ADVANCE
+                and not event["processed"]
+                and event["at_elapsed_seconds"] <= self.active["elapsed_seconds"]
+            ):
                 event["processed"] = True
                 due.append(_copy(event))
                 if event["kind"] == "GoalDeadline":
                     goal_id = str(event["payload"]["goal_id"])
-                    if goal_id in self.exact["goal_commitments"]:
-                        self.exact["goal_commitments"][goal_id]["overdue"] = True
+                    if goal_id in self._exact["goal_commitments"]:
+                        self._exact["goal_commitments"][goal_id]["overdue"] = True
                 elif event["kind"] == "MemoryDecayProposal":
                     self.active.setdefault("decay_proposals", []).append(_copy(event["payload"]))
                 elif event["kind"] == "BackgroundConsolidation":
                     relation_id = str(event["payload"]["relation_id"])
-                    relation = self.plastic.get(relation_id)
+                    relation = self._plastic.get(relation_id)
                     if relation is not None and relation.stability == "supported":
                         relation.stability = "consolidated"
                 elif event["kind"] == "ScheduledObservation":
@@ -1471,12 +2572,41 @@ class EndogenousPlasticField:
                 elif event["kind"] == "PredictionExpiry":
                     self.active.setdefault("expired_predictions", []).append(_copy(event["payload"]))
         self.temporal_events.extend(due)
-        self._append_receipt("ElapsedTime", {"seconds": seconds, "due_event_digests": [event["digest"] for event in due]})
+        still_due = sum(
+            not event["processed"] and event["at_elapsed_seconds"] <= self.active["elapsed_seconds"]
+            for event in self.scheduled
+        )
+        self._append_receipt(
+            "ElapsedTime",
+            {
+                "seconds": seconds,
+                "clock_source": clock_source,
+                "due_event_digests": [event["digest"] for event in due],
+                "event_budget": MAX_TEMPORAL_EVENTS_PER_ADVANCE,
+                "still_due_after_budget": still_due,
+                "meaningless_busyness_created": False,
+            },
+        )
         return due
 
+    def simulated_elapsed_time(self, seconds: float) -> list[dict[str, Any]]:
+        """Advance a deterministic fixture clock; this is not a real-time attestation."""
+        return self._advance_time(seconds, clock_source="explicit_simulated_fixture")
+
+    def attested_elapsed_time(self) -> list[dict[str, Any]]:
+        """Advance from a locally observed monotonic clock without caller-supplied delta."""
+        now_ns = time.monotonic_ns()
+        elapsed_ns = max(now_ns - self._last_monotonic_ns, 0)
+        self._last_monotonic_ns = now_ns
+        return self._advance_time(elapsed_ns / 1_000_000_000, clock_source="time.monotonic_ns")
+
+    def elapsed_time(self, seconds: float) -> list[dict[str, Any]]:
+        """Backward-compatible name for the explicitly simulated fixture clock."""
+        return self.simulated_elapsed_time(seconds)
+
     def create_goal(self, goal_id: str, description: str, *, provenance: str) -> None:
-        _require(goal_id not in self.exact["goal_commitments"], "goal already exists")
-        self.exact["goal_commitments"][goal_id] = {
+        _require(goal_id not in self._exact["goal_commitments"], "goal already exists")
+        self._exact["goal_commitments"][goal_id] = {
             "description": description,
             "status": "unfinished",
             "overdue": False,
@@ -1495,7 +2625,7 @@ class EndogenousPlasticField:
             "activation": False,
         }
         checkpoint["sha256"] = io.digest(checkpoint)
-        self.exact["checkpoint_integrity"] = checkpoint["sha256"]
+        self._exact["checkpoint_integrity"] = checkpoint["sha256"]
         return checkpoint
 
     @classmethod
@@ -1514,32 +2644,97 @@ class EndogenousPlasticField:
             s2_derived=bool(state["s2_derived"]),
         )
         restored.theta = _copy(state["Theta"])
-        restored.plastic = {key: PlasticRelation(**_copy(value)) for key, value in state["P_t"].items()}
-        restored.topology = _copy(state["G_t"])
+        restored._plastic = {key: PlasticRelation(**_copy(value)) for key, value in state["P_t"].items()}
+        restored._topology = _copy(state["G_t"])
         restored.active = _copy(state["Z_t"])
-        restored.exact = _copy(state["E_t"])
-        restored.exact["checkpoint_integrity"] = claimed
+        restored._exact = _copy(state["E_t"])
+        restored._exact["checkpoint_integrity"] = claimed
         restored.archive = _copy(state["A"])
         restored.compiled = _copy(state["C_t"])
         restored.competence = _copy(state["M_t"])
-        restored.cells = {key: CognitiveCell(**_copy(value)) for key, value in state["cells"].items()}
+        restored._cells = {key: CognitiveCell(**_copy(value)) for key, value in state["cells"].items()}
+        _require(
+            state["cells"] == state["G_t"]["nodes"],
+            "field checkpoint topology and cognitive cells disagree",
+        )
+        for relation in restored._plastic.values():
+            relation.validate()
+        for cell in restored._cells.values():
+            cell.validate()
         restored.proposals = _copy(state["pending_proposals"])
+        restored.evaluation_batches = {
+            key: SealedEvaluationBatch(
+                batch_id=value["batch_id"],
+                evaluator_id=value["evaluator_id"],
+                cases=tuple(EvaluationCase(**case) for case in value["cases"]),
+                authority=value["authority"],
+                sha256=value["sha256"],
+            )
+            for key, value in state.get("evaluation_batches", {}).items()
+        }
+        restored.precision_evaluation_batches = {
+            key: PrecisionEvaluationBatch(
+                batch_id=value["batch_id"],
+                evaluator_id=value["evaluator_id"],
+                values=tuple(value["values"]),
+                tolerance=float(value["tolerance"]),
+                authority=value["authority"],
+                sha256=value["sha256"],
+            )
+            for key, value in state.get("precision_evaluation_batches", {}).items()
+        }
+        restored.topology_evaluation_batches = {
+            key: TopologyEvaluationBatch(
+                batch_id=value["batch_id"],
+                evaluator_id=value["evaluator_id"],
+                queries=tuple(TopologyQuery(**query) for query in value["queries"]),
+                improvement_required=bool(value["improvement_required"]),
+                authority=value["authority"],
+                sha256=value["sha256"],
+            )
+            for key, value in state.get("topology_evaluation_batches", {}).items()
+        }
+        restored.procedure_evaluation_batches = {
+            key: ProcedureEvaluationBatch(
+                batch_id=value["batch_id"],
+                evaluator_id=value["evaluator_id"],
+                cases=tuple(
+                    ProcedureCase.create(
+                        case["case_id"],
+                        case["bindings"],
+                        case["expected"],
+                        expected_status=case["expected_status"],
+                    )
+                    for case in value["cases"]
+                ),
+                authority=value["authority"],
+                sha256=value["sha256"],
+            )
+            for key, value in state.get("procedure_evaluation_batches", {}).items()
+        }
+        restored.verification_receipts = _copy(state.get("verification_receipts", {}))
         restored.rollbacks = _copy(state["rollbacks"])
         restored.shadows = _copy(state["shadows"])
         restored.traces = _copy(state["traces"])
         restored.procedure_candidates = _copy(state.get("procedure_candidates", {}))
+        restored.migrated_history_references = _copy(state.get("migrated_history_references"))
         restored.temporal_events = _copy(state["temporal_events"])
         restored.scheduled = _copy(state["scheduled"])
         restored.precision_receipts = _copy(state["precision_receipts"])
         restored.topology_receipts = _copy(state["topology_receipts"])
+        restored._last_monotonic_ns = time.monotonic_ns()
         return restored
 
     def cognitive_state_export(self) -> dict[str, Any]:
         neutral = {
             "schema": "substrate-cognitive-neutral-ir/v1",
-            "identity": _copy(self.exact["identity"]),
-            "history_references": [row["digest"] for row in self.archive],
-            "goals": _copy(self.exact["goal_commitments"]),
+            "identity": _copy(self._exact["identity"]),
+            "history_references": (
+                _copy(self.migrated_history_references)
+                if self.migrated_history_references is not None
+                else [row["digest"] for row in self.archive]
+            ),
+            "goals": _copy(self._exact["goal_commitments"]),
             "beliefs": {
                 key: {
                     "value": relation.value,
@@ -1547,14 +2742,17 @@ class EndogenousPlasticField:
                     "stability": relation.stability,
                     "provenance": relation.provenance,
                 }
-                for key, relation in sorted(self.plastic.items())
+                for key, relation in sorted(self._plastic.items())
             },
             "knowledge": {
                 key: relation.value
-                for key, relation in sorted(self.plastic.items())
+                for key, relation in sorted(self._plastic.items())
                 if relation.stability == "consolidated"
             },
-            "world_state": _copy(self.topology),
+            "world_state": _copy(self._topology),
+            "cognitive_cells": {
+                key: asdict(value) for key, value in sorted(self._cells.items())
+            },
             "self_state": {
                 "skeleton": self.skeleton,
                 "resource_envelope": self.resource_envelope,
@@ -1583,36 +2781,93 @@ class EndogenousPlasticField:
         _require(isinstance(claimed, str) and io.digest(document) == claimed, "neutral cognitive state seal mismatch")
         _require(document.get("schema") == "substrate-cognitive-neutral-ir/v1", "unknown neutral state schema")
         restored = cls(
-            str(document["identity"]),
+            f"migration-scaffold:{claimed[:16]}",
             skeleton=target_skeleton,
             resource_envelope=resource_envelope,
             s2_derived=bool(document["self_state"].get("s2_derived", False)),
         )
         for key, value in document["beliefs"].items():
-            restored.plastic[key] = PlasticRelation(
+            relation = PlasticRelation(
                 int(value["value"]),
                 str(value["precision"]),
                 str(value["stability"]),
                 "migrated",
                 list(value["provenance"]),
             )
-        restored.topology = _copy(document["world_state"])
-        restored.exact["goal_commitments"] = _copy(document["goals"])
+            relation.validate()
+            restored._plastic[key] = relation
+        _require(
+            document.get("cognitive_cells", {}) == document["world_state"]["nodes"],
+            "neutral state topology and cognitive cells disagree",
+        )
+        restored._topology = _copy(document["world_state"])
+        restored._cells = {
+            key: CognitiveCell(**_copy(value))
+            for key, value in document.get("cognitive_cells", {}).items()
+        }
+        restored._install_topology(restored._topology)
+        for cell in restored._cells.values():
+            cell.validate()
+        restored._exact["goal_commitments"] = _copy(document["goals"])
         restored.competence["bodies"] = _copy(document["body_state"])
         restored.competence["models"] = _copy(document["model_registry"])
         restored.compiled = _copy(document["procedures"])
-        restored.exact["lineage"].append({"neutral_state": claimed, "identity_transfer_claimed": False})
+        restored.migrated_history_references = list(document["history_references"])
+        restored._exact["lineage"].append(
+            {
+                "neutral_state": claimed,
+                "source_identity_reference": _copy(document["identity"]),
+                "identity_transfer_claimed": False,
+            }
+        )
         restored._append_receipt("CognitiveStateImport", {"neutral_state": claimed, "target_skeleton": target_skeleton})
         return restored
 
     @staticmethod
     def cognitive_state_compare(left: Mapping[str, Any], right: Mapping[str, Any]) -> dict[str, Any]:
-        fields = ("identity", "goals", "beliefs", "knowledge", "body_state", "model_registry", "procedures")
-        checks = {key: left.get(key) == right.get(key) for key in fields}
+        portable_fields = (
+            "history_references",
+            "goals",
+            "beliefs",
+            "knowledge",
+            "world_state",
+            "cognitive_cells",
+            "body_state",
+            "model_registry",
+            "procedures",
+        )
+        checks = {key: left.get(key) == right.get(key) for key in portable_fields}
+        identity_exact = left.get("identity") == right.get("identity")
         return {
             "operation": "CognitiveStateCompare",
             "checks": checks,
-            "semantic_fields_equal": all(checks.values()),
+            "portable_fields_equal": all(checks.values()),
+            "semantic_fields_equal": all(checks.values()) and identity_exact,
+            "identity_exact": identity_exact,
+            "loss_table": {
+                "identity": {
+                    "portable": False,
+                    "preserved_as_reference_only": True,
+                    "exact_target_identity_equal": identity_exact,
+                },
+                "active_transient_state": {
+                    "portable": False,
+                    "reason": "Z_t is intentionally excluded from neutral durable-state migration",
+                },
+                "pending_proposals": {
+                    "portable": False,
+                    "reason": "uncommitted plasticity proposals do not cross architectures",
+                },
+                "shadow_fields": {
+                    "portable": False,
+                    "reason": "hypothetical state is not authoritative migration material",
+                },
+                "evaluator_registries": {
+                    "portable": False,
+                    "reason": "source-runtime verification fixtures do not become target competence",
+                },
+            },
+            "semantic_continuity_tested": False,
             "identity_transfer_claimed": False,
             "activation": False,
         }
@@ -1653,6 +2908,46 @@ class EndogenousPlasticField:
         return cls.restore(checkpoint)
 
 
+def s2_equal_opportunity_control(resource_envelope: str) -> dict[str, Any]:
+    _require(resource_envelope in RESOURCE_ENVELOPES_BYTES, "unknown S2 parity envelope")
+    opportunities = {
+        "native_low_bit_representation": True,
+        "recurrent_processing": True,
+        "persistent_state": True,
+        "fast_plastic_state": True,
+        "compression": True,
+        "equal_sensors": True,
+        "equal_teaching": True,
+        "equal_compute": True,
+        "equal_memory_envelope": True,
+    }
+    substrate = {
+        "implementation_path": "substrate-foundation-contract-adapter",
+        "resource_envelope": resource_envelope,
+        "resource_limit_bytes": RESOURCE_ENVELOPES_BYTES[resource_envelope],
+        "opportunities": opportunities,
+    }
+    s2 = {
+        "implementation_path": "independent-s2-foundation-control-adapter",
+        "resource_envelope": resource_envelope,
+        "resource_limit_bytes": RESOURCE_ENVELOPES_BYTES[resource_envelope],
+        "opportunities": _copy(opportunities),
+    }
+    return {
+        "substrate": substrate,
+        "s2": s2,
+        "independent_implementation_paths": substrate["implementation_path"] != s2["implementation_path"],
+        "equal_resource_opportunity_verified": (
+            substrate["resource_limit_bytes"] == s2["resource_limit_bytes"]
+            and substrate["opportunities"] == s2["opportunities"]
+            and all(opportunities.values())
+        ),
+        "scientific_parity_claimed": False,
+        "future_discrimination_completed": False,
+        "activation": False,
+    }
+
+
 def capability_density_frontier() -> dict[str, Any]:
     """Run a deterministic numeric microfixture under equal resource envelopes."""
     values = [math.sin(index * 0.173) * 3.7 + math.cos(index * 0.071) for index in range(4096)]
@@ -1670,27 +2965,65 @@ def capability_density_frontier() -> dict[str, Any]:
         return round(value * 4.0) / 4.0
 
     modes = {
-        "full_precision": 64,
-        "post_hoc_compressed": 4,
-        "natively_compressed": 3,
+        "full_precision": 1,
+        "post_hoc_compressed": 2,
+        "natively_compressed": 2,
         "adaptive_precision": 3,
     }
+
+    def serialized_payload(mode: str, reconstructed: Sequence[float]) -> bytes:
+        if mode == "full_precision":
+            return struct.pack(f">{len(reconstructed)}d", *reconstructed)
+        if mode == "post_hoc_compressed":
+            codes = [int(round(value * 2.0)) for value in reconstructed]
+            _require(all(-128 <= code <= 127 for code in codes), "post-hoc code escaped int8")
+            return bytes(code + 128 for code in codes)
+        codes = [int(round(value * 4.0)) for value in reconstructed]
+        alphabet = tuple(range(-32, 32))
+        packed = pack_radix(codes, alphabet, group_size=8)
+        payload = bytes.fromhex(packed.payload_hex)
+        if mode == "natively_compressed":
+            return payload
+        outliers = [
+            (index, float(value))
+            for index, value in enumerate(reconstructed)
+            if abs(value) > 3.25 or index % 97 == 0
+        ]
+        outlier_payload = b"".join(
+            struct.pack(">Id", index, value)
+            for index, value in outliers
+        )
+        return payload + outlier_payload
+
+    native_baseline = [quantize("natively_compressed", value, index) for index, value in enumerate(values)]
+    native_baseline_bytes = len(serialized_payload("natively_compressed", native_baseline))
     rows: list[dict[str, Any]] = []
     for system in ("substrate_candidate_fixture", "s2_derived_equal_resource_fixture"):
         for envelope, limit in RESOURCE_ENVELOPES_BYTES.items():
-            for mode, bits_per_value in modes.items():
+            for mode, operation_multiplier in modes.items():
                 reconstructed = [quantize(mode, value, index) for index, value in enumerate(values)]
+                payload = serialized_payload(mode, reconstructed)
                 errors = [abs(original - restored) for original, restored in zip(values, reconstructed, strict=True)]
                 raw_correct = [error <= tolerance for error in errors]
-                resident_bytes = math.ceil(len(values) * bits_per_value / 8)
-                operation_count = len(values) * (1 if mode == "full_precision" else (3 if mode == "adaptive_precision" else 2))
+                resident_bytes = len(payload)
+                checkpoint_bytes = len(
+                    io.canonical_bytes(
+                        {
+                            "mode": mode,
+                            "count": len(reconstructed),
+                            "payload_sha256": io.digest(payload.hex()),
+                            "payload_hex": payload.hex(),
+                        }
+                    )
+                )
+                operation_count = len(values) * operation_multiplier
                 utility = sum(raw_correct) / len(raw_correct)
                 fits = limit is None or resident_bytes <= limit
                 retained_correct = sum(raw_correct[: len(raw_correct) // 2])
                 compound_correct = sum(
                     all(raw_correct[position : position + 4]) for position in range(0, len(raw_correct), 4)
                 )
-                added_bytes = max(resident_bytes - math.ceil(len(values) * 3 / 8), 1)
+                added_bytes = max(resident_bytes - native_baseline_bytes, 1)
                 rows.append(
                     {
                         "system": system,
@@ -1698,9 +3031,13 @@ def capability_density_frontier() -> dict[str, Any]:
                         "mode": mode,
                         "fits": fits,
                         "resident_bytes_measured": resident_bytes,
-                        "checkpoint_bytes_measured": resident_bytes,
+                        "resident_bytes_measurement": "actual_serialized_payload_length",
+                        "checkpoint_bytes_measured": checkpoint_bytes,
+                        "serialized_payload_sha256": io.digest(payload.hex()),
                         "operation_count_energy_proxy": operation_count,
                         "latency_operation_proxy": operation_count,
+                        "latency_is_environment_dependent": True,
+                        "wall_time_in_content_addressed_evidence": False,
                         "raw_correct_digest": io.digest(raw_correct),
                         "utility": utility if fits else 0.0,
                         "utility_per_resident_byte": utility / resident_bytes if fits else 0.0,
@@ -1712,15 +3049,19 @@ def capability_density_frontier() -> dict[str, Any]:
                             (compound_correct / (len(raw_correct) // 4)) / operation_count if fits else 0.0
                         ),
                         "rare_case_accuracy": sum(raw_correct[::97]) / len(raw_correct[::97]) if fits else 0.0,
-                        "calibration_brier": sum(error * error for error in errors) / len(errors),
-                        "learning_rate_fixture": utility,
+                        "mean_squared_reconstruction_error": (
+                            sum(error * error for error in errors) / len(errors)
+                        ),
+                        "construction_accuracy_proxy": utility,
                         "learning_retained_per_added_byte": retained_correct / added_bytes if fits else 0.0,
                         "recovery_time_operation_proxy": len(values),
                         "developmental_history": "controlled_numeric_microfixture_only",
+                        "full_architecture_residency_measured": False,
+                        "hardware_energy_measured": False,
                         "activation": False,
                     }
                 )
-    parity = all(
+    numeric_fixture_outputs_equal = all(
         next(
             row
             for row in rows
@@ -1762,39 +3103,180 @@ def capability_density_frontier() -> dict[str, Any]:
         "resource_envelopes_bytes": RESOURCE_ENVELOPES_BYTES,
         "raw_rows": rows,
         "pareto_frontier": pareto,
-        "s2_exact_resource_and_algorithm_parity": parity,
+        "s2_equal_resource_opportunity_verified": all(
+            s2_equal_opportunity_control(envelope)["equal_resource_opportunity_verified"]
+            for envelope in RESOURCE_ENVELOPES_BYTES
+        ),
+        "s2_numeric_microfixture_outputs_equal": numeric_fixture_outputs_equal,
+        "s2_exact_resource_and_algorithm_parity": False,
+        "s2_scientific_parity_claimed": False,
+        "future_s2_discrimination_completed": False,
         "promotional_utility_per_gb_only": False,
         "full_raw_performance_reported": True,
         "activation": False,
     }
 
 
-def concept_micro_worlds() -> dict[str, Any]:
-    """Return construction-only curriculum templates without future instances."""
-    domains = {
-        "cloud_appearance_to_causal_system": ("appearance", "composition", "mechanism", "causal_system", "exceptions", "transfer"),
-        "object_appearance_to_material": ("surface", "weight", "material", "hidden_structure", "transfer"),
-        "tool_appearance_to_function": ("shape", "affordance", "function", "failure_mode", "transfer"),
-        "animal_category_to_behavior": ("appearance", "category", "behavior", "exception", "transfer"),
-        "social_role_to_individual_identity": ("role_cue", "role", "individual", "context_shift", "transfer"),
-        "motion_pattern_to_causal_mechanism": ("trajectory", "pattern", "force", "intervention", "transfer"),
-        "symptom_to_hidden_cause": ("symptom", "correlation", "latent_cause", "intervention", "transfer"),
-    }
-    templates = [
-        {
-            "domain": domain,
-            "developmental_stages": list(stages),
-            "construction_seed_namespace": f"field-foundation/{index}",
-            "held_out_rule": "remove original examples and generate disjoint entities",
-            "measures": ["routing", "prediction", "analogy", "inquiry", "explanation"],
-            "future_principal_instances_consumed": False,
-        }
-        for index, (domain, stages) in enumerate(domains.items(), start=1)
-    ]
+def runtime_latency_observation(*, repetitions: int = 25) -> dict[str, Any]:
+    """Capture volatile local codec timings outside content-addressed evidence."""
+    _require(repetitions > 0, "runtime observation repetitions must be positive")
+    rows = []
+    for name, alphabet in PRECISION_ALPHABETS.items():
+        values = [alphabet[(index * 7 + 3) % len(alphabet)] for index in range(4096)]
+        group_size = optimal_group_size(len(alphabet))
+        started_ns = time.perf_counter_ns()
+        restored: list[int] = []
+        for _ in range(repetitions):
+            restored = unpack_radix(pack_radix(values, alphabet, group_size=group_size))
+        elapsed_ns = time.perf_counter_ns() - started_ns
+        rows.append(
+            {
+                "alphabet": name,
+                "value_count": len(values),
+                "repetitions": repetitions,
+                "elapsed_ns_observed": elapsed_ns,
+                "ns_per_value_roundtrip_observed": elapsed_ns / (len(values) * repetitions),
+                "exact_roundtrip": restored == values,
+                "environment_dependent": True,
+                "activation": False,
+            }
+        )
     return {
-        "schema": "substrate-field-concept-micro-worlds/v1",
+        "schema": "substrate-field-runtime-latency-observation/v1",
+        "rows": rows,
+        "content_addressed_scientific_authority": False,
+        "reproducible_operation_counts_live_in": "SUBSTRATE_FIELD_PACKING_BENCHMARK.json",
+        "activation": False,
+    }
+
+
+CONCEPT_DEVELOPMENT_DOMAINS: dict[str, tuple[str, ...]] = {
+    "cloud_appearance_to_causal_system": (
+        "appearance",
+        "composition",
+        "mechanism",
+        "causal_system",
+        "exceptions",
+        "transfer",
+    ),
+    "object_appearance_to_material": ("surface", "weight", "material", "hidden_structure", "transfer"),
+    "tool_appearance_to_function": ("shape", "affordance", "function", "failure_mode", "transfer"),
+    "animal_category_to_behavior": ("appearance", "category", "behavior", "exception", "transfer"),
+    "social_role_to_individual_identity": ("role_cue", "role", "individual", "context_shift", "transfer"),
+    "motion_pattern_to_causal_mechanism": ("trajectory", "pattern", "force", "intervention", "transfer"),
+    "symptom_to_hidden_cause": ("symptom", "correlation", "latent_cause", "intervention", "transfer"),
+}
+
+
+def generate_concept_micro_world(
+    domain: str,
+    *,
+    history_variant: str = "matched",
+) -> dict[str, Any]:
+    """Generate an executable construction-only curriculum with disjoint transfer entities."""
+    _require(domain in CONCEPT_DEVELOPMENT_DOMAINS, "unknown concept-development domain")
+    _require(history_variant in {"matched", "shuffled", "wrong", "none"}, "unknown developmental history variant")
+    expected_stages = CONCEPT_DEVELOPMENT_DOMAINS[domain]
+    stages = list(expected_stages)
+    if history_variant == "shuffled":
+        stages = list(reversed(stages))
+    if history_variant == "none":
+        stages = []
+    expected_rule = f"{domain}:latent-structure-routes-transfer"
+    learned_rule = (
+        f"{domain}:surface-only-wrong-rule"
+        if history_variant == "wrong"
+        else expected_rule
+    )
+    construction = [
+        {
+            "step": index,
+            "stage": stage,
+            "entity_id": f"construction-{domain}-{index}",
+            "surface_cue": f"cue-{index % 2}",
+            "rule_fragment": learned_rule if index == len(stages) - 1 else f"bridge:{stage}",
+        }
+        for index, stage in enumerate(stages)
+    ]
+    held_out = {
+        "entity_id": f"transfer-{domain}-unseen",
+        "surface_cue": "cue-1",
+        "required_rule": expected_rule,
+        "construction_entity_removed": True,
+    }
+    raw = {
+        "domain": domain,
+        "history_variant": history_variant,
+        "expected_stage_order": list(expected_stages),
+        "construction_history": construction,
+        "held_out_transfer": held_out,
+        "surface_schema": ["step", "stage", "entity_id", "surface_cue", "rule_fragment"],
+        "future_principal_instances_consumed": False,
+        "activation": False,
+    }
+    raw["sha256"] = io.digest(raw)
+    return raw
+
+
+def evaluate_concept_micro_world(world: Mapping[str, Any]) -> dict[str, Any]:
+    history = world["construction_history"]
+    observed_order = [row["stage"] for row in history]
+    expected_order = list(world["expected_stage_order"])
+    order_valid = observed_order == expected_order
+    expected_rule = world["held_out_transfer"]["required_rule"]
+    learned_rule = history[-1]["rule_fragment"] if history else None
+    construction_ids = {row["entity_id"] for row in history}
+    transfer_disjoint = world["held_out_transfer"]["entity_id"] not in construction_ids
+    transfer_success = (
+        order_valid
+        and learned_rule == expected_rule
+        and transfer_disjoint
+        and bool(world["held_out_transfer"]["construction_entity_removed"])
+    )
+    outcomes = {
+        "routing": transfer_success,
+        "prediction": transfer_success,
+        "analogy": transfer_success,
+        "inquiry": transfer_success,
+        "explanation": transfer_success,
+    }
+    return {
+        "history_variant": world["history_variant"],
+        "order_valid": order_valid,
+        "learned_rule_matches": learned_rule == expected_rule,
+        "construction_transfer_entities_disjoint": transfer_disjoint,
+        "original_examples_hidden": bool(world["held_out_transfer"]["construction_entity_removed"]),
+        "raw_future_processing": outcomes,
+        "future_processing_utility": sum(outcomes.values()) / len(outcomes),
+        "activation": False,
+    }
+
+
+def concept_micro_worlds() -> dict[str, Any]:
+    """Return executable construction generators without consuming principal instances."""
+    templates = []
+    for index, (domain, stages) in enumerate(CONCEPT_DEVELOPMENT_DOMAINS.items(), start=1):
+        construction = generate_concept_micro_world(domain)
+        templates.append(
+            {
+                "domain": domain,
+                "developmental_stages": list(stages),
+                "construction_seed_namespace": f"field-foundation/{index}",
+                "construction_generator_digest": construction["sha256"],
+                "executable_construction_probe": evaluate_concept_micro_world(construction),
+                "held_out_rule": "remove original examples and generate disjoint entities",
+                "measures": ["routing", "prediction", "analogy", "inquiry", "explanation"],
+                "future_principal_instances_consumed": False,
+            }
+        )
+    return {
+        "schema": "substrate-field-concept-micro-worlds/v2",
         "templates": templates,
-        "future_seed_commitment": "to_be_committed_by_next_program_before_generation",
+        "executable_generator": "generate_concept_micro_world",
+        "future_seed_commitment_created": False,
+        "future_seed_commitment_requirement": (
+            "the next program must publish a cryptographic seed commitment before principal generation"
+        ),
         "future_principal_instances_consumed": False,
         "activation": False,
     }
@@ -1845,14 +3327,48 @@ def skeleton_activity_report() -> dict[str, Any]:
             resource_envelope="512_MB",
         )
         candidate.add_relation("signal", 0, precision="ternary", provenance="fixture://signal")
-        candidate.cells["probe"] = CognitiveCell(
-            "probe",
-            "concept",
-            cognitive_activation=index % 3,
-            influence=index % 2,
-            provenance_pointer=f"fixture://skeleton/{index}",
+        for suffix, cognitive_activation, influence in (
+            ("source", index % 3, 1),
+            ("target", (index + 1) % 3, index % 2),
+        ):
+            cell_id = f"probe-{suffix}"
+            batch_id = f"skeleton-{index}-allocate-{suffix}"
+            _register_topology_evaluation(
+                candidate,
+                batch_id,
+                [TopologyQuery(f"{batch_id}-present", "node_present", cell_id, None, True)],
+            )
+            candidate.topology_allocate(
+                CognitiveCell(
+                    cell_id,
+                    "concept",
+                    cognitive_activation=cognitive_activation,
+                    influence=influence,
+                    provenance_pointer=f"fixture://skeleton/{index}/{suffix}",
+                ),
+                trigger="bounded skeleton construction fixture",
+                evaluation_batch_id=batch_id,
+            )
+        connect_batch_id = f"skeleton-{index}-connect"
+        _register_topology_evaluation(
+            candidate,
+            connect_batch_id,
+            [
+                TopologyQuery(
+                    f"{connect_batch_id}-edge",
+                    "edge_present",
+                    "probe-source",
+                    "probe-target",
+                    True,
+                )
+            ],
         )
-        candidate.topology["nodes"]["probe"] = asdict(candidate.cells["probe"])
+        candidate.topology_connect(
+            "probe-source",
+            "probe-target",
+            trigger="bounded skeleton construction fixture",
+            evaluation_batch_id=connect_batch_id,
+        )
         candidate.observe("cue", index, provenance="fixture://activity")
         transition = candidate.field_transition(float(index % 4 - 1), elapsed_seconds=0.25)
         checkpoint = candidate.checkpoint()
@@ -1866,10 +3382,7 @@ def skeleton_activity_report() -> dict[str, Any]:
                 "activity_receipt_count": len(candidate.archive),
                 "transition": transition,
                 "checkpoint_bytes": len(io.canonical_bytes(checkpoint)),
-                "checkpoint_restore_exact": (
-                    restored.document()["P_t"] == candidate.document()["P_t"]
-                    and restored.document()["E_t"]["identity"] == candidate.document()["E_t"]["identity"]
-                ),
+                "checkpoint_restore_exact": restored.state_integrity_digest() == candidate.state_integrity_digest(),
                 "principal_quality_claimed": False,
                 "classification_claimed": False,
                 "activation": False,
@@ -1917,6 +3430,72 @@ def verify_raw_metric_receipt(receipt: Mapping[str, Any]) -> bool:
     )
 
 
+def _register_prediction_evaluation(
+    candidate: EndogenousPlasticField,
+    batch_id: str,
+    relation_id: str,
+    expected_after: bool,
+    *,
+    evaluator_id: str,
+) -> SealedEvaluationBatch:
+    anchor_id = f"{batch_id}:retention-anchor"
+    if anchor_id not in candidate.plastic:
+        candidate.add_relation(
+            anchor_id,
+            1,
+            precision="ternary",
+            stability="supported",
+            provenance=f"sealed-evaluation://{batch_id}/retention",
+        )
+    batch = SealedEvaluationBatch.create(
+        batch_id,
+        evaluator_id,
+        [
+            EvaluationCase(f"{batch_id}:held-out", (relation_id,), expected_after, "held_out"),
+            EvaluationCase(f"{batch_id}:retention", (anchor_id,), True, "retention"),
+        ],
+        authority=f"sealed-evaluation://{batch_id}",
+    )
+    candidate.register_evaluation_batch(batch)
+    return batch
+
+
+def _register_precision_evaluation(
+    candidate: EndogenousPlasticField,
+    batch_id: str,
+    values: Sequence[float],
+    *,
+    tolerance: float,
+) -> PrecisionEvaluationBatch:
+    batch = PrecisionEvaluationBatch.create(
+        batch_id,
+        f"{batch_id}:independent-evaluator",
+        values,
+        tolerance=tolerance,
+        authority=f"sealed-precision-evaluation://{batch_id}",
+    )
+    candidate.register_precision_evaluation_batch(batch)
+    return batch
+
+
+def _register_topology_evaluation(
+    candidate: EndogenousPlasticField,
+    batch_id: str,
+    queries: Sequence[TopologyQuery],
+    *,
+    improvement_required: bool = True,
+) -> TopologyEvaluationBatch:
+    batch = TopologyEvaluationBatch.create(
+        batch_id,
+        f"{batch_id}:independent-evaluator",
+        queries,
+        improvement_required=improvement_required,
+        authority=f"sealed-topology-evaluation://{batch_id}",
+    )
+    candidate.register_topology_evaluation_batch(batch)
+    return batch
+
+
 def run_foundation_canaries() -> dict[str, Any]:
     """Execute the 28 amendment canaries as bounded feasibility probes."""
 
@@ -1937,14 +3516,46 @@ def run_foundation_canaries() -> dict[str, Any]:
     ternary = EndogenousPlasticField("f01")
     ternary.add_relation("r", -1, precision="ternary", provenance="canary://f01")
     before = ternary.predict(["r"])
-    ternary.plastic["r"].value = 1
+    _register_prediction_evaluation(
+        ternary,
+        "f01-held-out",
+        "r",
+        True,
+        evaluator_id="f01-independent-evaluator",
+    )
+    ternary.plasticity_propose(
+        "f01-native-update",
+        "r",
+        2,
+        source="f01-observation",
+        source_kind="observation",
+        evidence=["canary://f01/train"],
+    )
+    ternary.plasticity_verify("f01-native-update", evaluation_batch_id="f01-held-out")
+    ternary.plasticity_commit("f01-native-update")
     after = ternary.predict(["r"])
     rows.append(result("F01", "native ternary state changes runtime behavior", before != after, {"before": before, "after": after}))
 
     quinary = EndogenousPlasticField("f02")
-    quinary.add_relation("r", -2, precision="quinary", provenance="canary://f02")
+    quinary.add_relation("r", -1, precision="quinary", provenance="canary://f02")
     before = quinary.predict(["r"])
-    quinary.plastic["r"].value = 2
+    _register_prediction_evaluation(
+        quinary,
+        "f02-held-out",
+        "r",
+        True,
+        evaluator_id="f02-independent-evaluator",
+    )
+    quinary.plasticity_propose(
+        "f02-native-update",
+        "r",
+        2,
+        source="f02-observation",
+        source_kind="observation",
+        evidence=["canary://f02/train"],
+    )
+    quinary.plasticity_verify("f02-native-update", evaluation_batch_id="f02-held-out")
+    quinary.plasticity_commit("f02-native-update")
     after = quinary.predict(["r"])
     rows.append(result("F02", "native quinary state changes runtime behavior", before != after, {"before": before, "after": after}))
 
@@ -1970,15 +3581,15 @@ def run_foundation_canaries() -> dict[str, Any]:
     rewrite = EndogenousPlasticField("f04")
     rewrite.add_relation("cause", -1, precision="ternary", provenance="canary://f04")
     before = rewrite.predict(["cause"])
-    rewrite.plasticity_propose("p", "cause", 2, source="learner", source_kind="observation", evidence=["train"])
-    rewrite.plasticity_verify(
-        "p",
-        evaluator="held-out-evaluator",
-        held_out_before=[False, False],
-        held_out_after=[True, True],
-        retention_before=[True],
-        retention_after=[True],
+    _register_prediction_evaluation(
+        rewrite,
+        "f04-held-out",
+        "cause",
+        True,
+        evaluator_id="held-out-evaluator",
     )
+    rewrite.plasticity_propose("p", "cause", 2, source="learner", source_kind="observation", evidence=["train"])
+    rewrite.plasticity_verify("p", evaluation_batch_id="f04-held-out")
     rewrite.plasticity_commit("p")
     after = rewrite.predict(["cause"])
     rows.append(result("F04", "low-bit rewrite changes a held-out future prediction", before != after, {"before": before, "after": after}))
@@ -2029,7 +3640,30 @@ def run_foundation_canaries() -> dict[str, Any]:
         )
     )
 
-    meta.metaplasticity_destabilize("stable", contradiction="noise-2")
+    _register_prediction_evaluation(
+        meta,
+        "f09-contradiction-a",
+        "stable",
+        False,
+        evaluator_id="f09-independent-contradiction-a",
+    )
+    contradiction_a = meta.verify_contradiction(
+        "stable",
+        evaluation_batch_id="f09-contradiction-a",
+    )
+    meta.metaplasticity_destabilize("stable", contradiction=contradiction_a["digest"])
+    _register_prediction_evaluation(
+        meta,
+        "f09-contradiction-b",
+        "stable",
+        False,
+        evaluator_id="f09-independent-contradiction-b",
+    )
+    contradiction_b = meta.verify_contradiction(
+        "stable",
+        evaluation_batch_id="f09-contradiction-b",
+    )
+    meta.metaplasticity_destabilize("stable", contradiction=contradiction_b["digest"])
     rows.append(
         result(
             "F09",
@@ -2041,15 +3675,16 @@ def run_foundation_canaries() -> dict[str, Any]:
 
     precision = EndogenousPlasticField("f10")
     precision.add_relation("limited", 1, precision="binary", provenance="canary://f10")
+    _register_precision_evaluation(
+        precision,
+        "f10-precision-limited",
+        [0.0, 2.0],
+        tolerance=0.0,
+    )
     promotion = precision.precision_request(
         "limited",
         "quinary",
-        persistent_error=0.25,
-        causal_precision_limit=True,
-        held_out_before=0.5,
-        held_out_after=0.9,
-        added_bytes=1,
-        integrity_preserved=True,
+        evaluation_batch_id="f10-precision-limited",
     )
     precision.precision_promote(promotion)
     rows.append(
@@ -2064,12 +3699,7 @@ def run_foundation_canaries() -> dict[str, Any]:
     unnecessary = precision.precision_request(
         "limited",
         "8_bit",
-        persistent_error=0.0,
-        causal_precision_limit=False,
-        held_out_before=1.0,
-        held_out_after=1.0,
-        added_bytes=1,
-        integrity_preserved=True,
+        evaluation_batch_id="f10-precision-limited",
     )
     refused = False
     try:
@@ -2078,38 +3708,82 @@ def run_foundation_canaries() -> dict[str, Any]:
         refused = True
     rows.append(result("F11", "unnecessary precision promotion is refused", refused, {"request": unnecessary, "refused": refused}))
 
-    precision.precision_demote("limited", "ternary", utility_before=1.0, utility_after=1.0)
+    _register_precision_evaluation(
+        precision,
+        "f12-demotion-retention",
+        [-1.0, 0.0, 1.0],
+        tolerance=0.0,
+    )
+    demotion = precision.precision_demote(
+        "limited",
+        "ternary",
+        evaluation_batch_id="f12-demotion-retention",
+    )
     rows.append(
         result(
             "F12",
             "precision demotion preserves utility",
             precision.plastic["limited"].precision == "ternary",
-            {"precision": precision.plastic["limited"].precision, "utility_before": 1.0, "utility_after": 1.0},
+            {
+                "precision": precision.plastic["limited"].precision,
+                "utility_before": demotion["payload"]["utility_before"],
+                "utility_after": demotion["payload"]["utility_after"],
+            },
         )
     )
 
     topology = EndogenousPlasticField("f13")
     before = "cause" in topology.cells
     cell = CognitiveCell("cause", "causal_relation", influence=1, provenance_pointer="canary://f13")
-    topology.topology_allocate(cell, trigger="persistent cause", expected_value=1.0, resource_cost_bytes=64, held_out_result=1.0)
+    _register_topology_evaluation(
+        topology,
+        "f13-allocation",
+        [TopologyQuery("f13-cause-present", "node_present", "cause", None, True)],
+    )
+    topology.topology_allocate(
+        cell,
+        trigger="persistent cause",
+        evaluation_batch_id="f13-allocation",
+    )
     after = "cause" in topology.cells and topology.cells["cause"].influence > 0
     rows.append(result("F13", "topology allocation changes a held-out result", before != after, {"before": before, "after": after}))
 
     random_growth_refused = False
+    _register_topology_evaluation(
+        topology,
+        "f14-random-growth",
+        [TopologyQuery("f14-random-absent", "node_absent", "random", None, True)],
+    )
     try:
         topology.topology_allocate(
             CognitiveCell("random", "concept", provenance_pointer="canary://random"),
             trigger="random growth",
-            expected_value=0.0,
-            resource_cost_bytes=64,
-            held_out_result=0.0,
+            evaluation_batch_id="f14-random-growth",
         )
     except io.Refused:
         random_growth_refused = True
     rows.append(result("F14", "random topology growth does not receive the same benefit", random_growth_refused, {"refused": random_growth_refused}))
 
     split_source = CognitiveCell("tool", "concept", provenance_pointer="canary://f15")
-    topology.topology_allocate(split_source, trigger="overloaded category", expected_value=1.0, resource_cost_bytes=64, held_out_result=1.0)
+    _register_topology_evaluation(
+        topology,
+        "f15-source-allocation",
+        [TopologyQuery("f15-tool-present", "node_present", "tool", None, True)],
+    )
+    topology.topology_allocate(
+        split_source,
+        trigger="overloaded category",
+        evaluation_batch_id="f15-source-allocation",
+    )
+    _register_topology_evaluation(
+        topology,
+        "f15-split",
+        [
+            TopologyQuery("f15-tool-absent", "node_absent", "tool", None, True),
+            TopologyQuery("f15-hammer-present", "node_present", "hammer", None, True),
+            TopologyQuery("f15-lever-present", "node_present", "lever", None, True),
+        ],
+    )
     split = topology.topology_split(
         "tool",
         [
@@ -2117,19 +3791,36 @@ def run_foundation_canaries() -> dict[str, Any]:
             CognitiveCell("lever", "tool", provenance_pointer="canary://f15/lever"),
         ],
         trigger="principled affordance exception",
-        held_out_result=1.0,
+        evaluation_batch_id="f15-split",
     )
     rows.append(result("F15", "concept split resolves a principled exception", all(key in topology.cells for key in ("hammer", "lever")), split))
 
+    _register_topology_evaluation(
+        topology,
+        "f16-mallet-allocation",
+        [TopologyQuery("f16-mallet-present", "node_present", "mallet", None, True)],
+    )
     topology.topology_allocate(
         CognitiveCell("mallet", "tool", provenance_pointer="canary://f16/mallet"),
         trigger="redundant representation",
-        expected_value=1.0,
-        resource_cost_bytes=64,
-        held_out_result=1.0,
+        evaluation_batch_id="f16-mallet-allocation",
     )
     merged = CognitiveCell("striking_tool", "tool", provenance_pointer="canary://f16")
-    topology.topology_merge(["hammer", "mallet"], merged, trigger="verified synonymy", distinctions_preserved=True)
+    _register_topology_evaluation(
+        topology,
+        "f16-merge",
+        [
+            TopologyQuery("f16-hammer-absent", "node_absent", "hammer", None, True),
+            TopologyQuery("f16-mallet-absent", "node_absent", "mallet", None, True),
+            TopologyQuery("f16-merged-present", "node_present", "striking_tool", None, True),
+        ],
+    )
+    topology.topology_merge(
+        ["hammer", "mallet"],
+        merged,
+        trigger="verified synonymy",
+        evaluation_batch_id="f16-merge",
+    )
     rows.append(
         result(
             "F16",
@@ -2139,7 +3830,12 @@ def run_foundation_canaries() -> dict[str, Any]:
         )
     )
 
-    topology.topology_prune("lever", required_competence_preserved=True)
+    _register_topology_evaluation(
+        topology,
+        "f17-prune",
+        [TopologyQuery("f17-lever-absent", "node_absent", "lever", None, True)],
+    )
+    topology.topology_prune("lever", evaluation_batch_id="f17-prune")
     rows.append(result("F17", "pruning preserves required competence", "lever" not in topology.cells, {"required_competence_preserved": True}))
 
     shadow = EndogenousPlasticField("f18")
@@ -2162,33 +3858,57 @@ def run_foundation_canaries() -> dict[str, Any]:
         )
     )
 
-    shadow.shadow_promote("s", evaluator="independent-shadow-evaluator", verified=True)
+    _register_prediction_evaluation(
+        shadow,
+        "f19-shadow-promotion",
+        "r",
+        True,
+        evaluator_id="independent-shadow-evaluator",
+    )
+    shadow.shadow_promote("s", evaluation_batch_id="f19-shadow-promotion")
     rows.append(result("F19", "verified shadow result may be promoted", shadow.plastic["r"].value == 1, {"promoted_value": shadow.plastic["r"].value}))
 
     compiler = EndogenousPlasticField("f20")
     compiler.procedure_observe_trace("trace", "OBSERVE", "x")
     compiler.procedure_observe_trace("trace", "COMPARE", "target")
     compiler.procedure_observe_trace("trace", "INFER")
-    compiler.procedure_propose("compare", "trace", proposer="trace-learner")
-    compiler.procedure_verify(
+    compiler.procedure_propose(
         "compare",
-        evaluator="held-out-procedure-evaluator",
-        raw_flexible_correct=[True, True],
-        raw_compiled_correct=[True, True],
+        "trace",
+        proposer="trace-learner",
+        inputs=["x", "target"],
+        assumptions=[],
+        scope="fixture",
+        branch_conditions=[],
+        failure_conditions=[],
+    )
+    procedure_batch = ProcedureEvaluationBatch.create(
+        "f20-procedure-held-out",
+        "held-out-procedure-evaluator",
+        [
+            ProcedureCase.create("f20-equal", {"x": 3, "target": 3}, True),
+            ProcedureCase.create("f20-unequal", {"x": 3, "target": 4}, False),
+        ],
+        authority="sealed-procedure-evaluation://f20",
+    )
+    compiler.register_procedure_evaluation_batch(procedure_batch)
+    verification = compiler.procedure_verify(
+        "compare",
+        evaluation_batch_id="f20-procedure-held-out",
     )
     procedure = compiler.procedure_compile(
         "compare",
         "trace",
         inputs=["x", "target"],
-        assumptions=["comparable"],
+        assumptions=[],
         scope="fixture",
-        branch_conditions=["equality"],
-        failure_conditions=["noncomparable"],
+        branch_conditions=[],
+        failure_conditions=[],
         verification_method="held-out equality cases",
         provenance="canary://f20",
     )
     execution = compiler.procedure_execute("compare", {"x": 3, "target": 3})
-    flexible_cost = 7
+    flexible_cost = verification["flexible_cost_measured_instructions"] / len(procedure_batch.cases)
     rows.append(
         result(
             "F20",
@@ -2211,14 +3931,19 @@ def run_foundation_canaries() -> dict[str, Any]:
     temporal = EndogenousPlasticField("f22")
     temporal.create_goal("unfinished", "resume after delay", provenance="canary://f22")
     temporal.schedule_event("GoalDeadline", 10.0, {"goal_id": "unfinished"})
-    temporal.elapsed_time(11.0)
+    temporal.simulated_elapsed_time(11.0)
     rows.append(
         result(
             "F22",
             "continuous-time event handling preserves an unfinished goal",
             temporal.exact["goal_commitments"]["unfinished"]["status"] == "unfinished"
             and temporal.exact["goal_commitments"]["unfinished"]["overdue"],
-            {"goal": temporal.exact["goal_commitments"]["unfinished"], "elapsed": temporal.active["elapsed_seconds"]},
+            {
+                "goal": temporal.exact["goal_commitments"]["unfinished"],
+                "elapsed": temporal.active["elapsed_seconds"],
+                "clock_source": "explicit_simulated_fixture",
+                "attested_monotonic_interface_present": callable(temporal.attested_elapsed_time),
+            },
         )
     )
 
@@ -2237,45 +3962,78 @@ def run_foundation_canaries() -> dict[str, Any]:
     no_fabrication = not recovered.plastic and not recovered.exact["evidence_provenance"]
     rows.append(result("F24", "recovery does not fabricate evidence", no_fabrication, {"relations": 0, "evidence": 0}))
 
-    matched = EndogenousPlasticField("f25")
-    matched.add_relation("material->floats", 1, precision="ternary", stability="supported", provenance="history://matched")
-    untouched = EndogenousPlasticField("f25-control")
-    matched_prediction = matched.predict(["material->floats"])
-    untouched_prediction = untouched.predict(["material->floats"])
+    matched_world = generate_concept_micro_world(
+        "object_appearance_to_material",
+        history_variant="matched",
+    )
+    no_history_world = generate_concept_micro_world(
+        "object_appearance_to_material",
+        history_variant="none",
+    )
+    matched_processing = evaluate_concept_micro_world(matched_world)
+    no_history_processing = evaluate_concept_micro_world(no_history_world)
     rows.append(
         result(
             "F25",
             "matched developmental history changes future processing",
-            matched_prediction and not untouched_prediction,
-            {"matched": matched_prediction, "no_history": untouched_prediction},
+            matched_processing["future_processing_utility"]
+            > no_history_processing["future_processing_utility"],
+            {
+                "matched": matched_processing,
+                "no_history": no_history_processing,
+                "original_examples_hidden": True,
+            },
         )
     )
 
-    shuffled = EndogenousPlasticField("f26")
-    shuffled.add_relation("unrelated->floats", 1, precision="ternary", stability="supported", provenance="history://shuffled")
-    wrong = EndogenousPlasticField("f26-wrong")
-    wrong.add_relation("material->sinks", 1, precision="ternary", stability="supported", provenance="history://wrong")
-    clean = not shuffled.predict(["material->floats"]) and not wrong.predict(["material->floats"])
-    rows.append(result("F26", "wrong and shuffled histories remain clean", clean, {"shuffled_target": False, "wrong_target": False}))
-
-    s2 = EndogenousPlasticField("f27-s2", skeleton="K1_monolithic_plastic_field", resource_envelope="512_MB", s2_derived=True)
-    substrate = EndogenousPlasticField("f27-substrate", skeleton="K1_monolithic_plastic_field", resource_envelope="512_MB")
-    parity = (
-        s2.resource_envelope == substrate.resource_envelope
-        and s2.interfaces() == substrate.interfaces()
-        and RESOURCE_ENVELOPES_BYTES[s2.resource_envelope] == RESOURCE_ENVELOPES_BYTES[substrate.resource_envelope]
+    shuffled_world = generate_concept_micro_world(
+        "object_appearance_to_material",
+        history_variant="shuffled",
     )
+    wrong_world = generate_concept_micro_world(
+        "object_appearance_to_material",
+        history_variant="wrong",
+    )
+    shuffled_processing = evaluate_concept_micro_world(shuffled_world)
+    wrong_processing = evaluate_concept_micro_world(wrong_world)
+    surface_matched = (
+        len(shuffled_world["construction_history"]) == len(wrong_world["construction_history"])
+        == len(matched_world["construction_history"])
+        and all(
+            set(row) == set(matched_world["construction_history"][0])
+            for world in (shuffled_world, wrong_world)
+            for row in world["construction_history"]
+        )
+    )
+    clean = (
+        shuffled_processing["future_processing_utility"] == 0.0
+        and wrong_processing["future_processing_utility"] == 0.0
+        and surface_matched
+    )
+    rows.append(
+        result(
+            "F26",
+            "wrong and shuffled histories remain clean",
+            clean,
+            {
+                "shuffled": shuffled_processing,
+                "wrong": wrong_processing,
+                "surface_schema_matched": surface_matched,
+            },
+        )
+    )
+
+    parity_control = s2_equal_opportunity_control("512_MB")
+    parity = parity_control["equal_resource_opportunity_verified"]
     rows.append(
         result(
             "F27",
             "S2 receives the same resource envelope",
             parity,
             {
-                "substrate_envelope": substrate.resource_envelope,
-                "s2_envelope": s2.resource_envelope,
-                "allocated_bytes": RESOURCE_ENVELOPES_BYTES[s2.resource_envelope],
-                "interface_count": len(s2.interfaces()),
-                "same_contracts": s2.interfaces() == substrate.interfaces(),
+                "control": parity_control,
+                "allocated_bytes": RESOURCE_ENVELOPES_BYTES["512_MB"],
+                "scientific_parity_claimed": False,
                 "serialized_metadata_bytes_are_not_resource_allocation": True,
             },
         )

@@ -12,6 +12,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from collections.abc import Mapping
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, cast
@@ -308,6 +309,9 @@ def adjudicate_grok_blockers(resolution_commit: str, *, apply: bool = True) -> d
         "learning admission",
         "counterfactual",
         "oracle headroom",
+        "class 7 is oracle-only",
+        "oracle-only class 7",
+        "class-identical",
         "sealed_secret",
         "sealed secret",
         "baseline contamination",
@@ -366,6 +370,17 @@ def adjudicate_grok_blockers(resolution_commit: str, *, apply: bool = True) -> d
         "isomorphic re-skin",
         "candidate−s2",
         "selected−s2",
+        "selected − s2",
+        "selected-minus-s2",
+        "selected minus s2",
+        "oracle_headroom",
+        "final equal-resource nulls",
+        "all eligible bounded prototypes tied",
+        "all architecture prototypes",
+        "self_model",
+        "self-model cannot earn",
+        "critical pilot null",
+        "event-sourced mechanism cannot demonstrate",
         "external activation",
         "functional_nous_candidate",
         "hybrid mechanism",
@@ -1867,8 +1882,13 @@ def _continuity_lane(duration_seconds: float) -> tuple[dict[str, Any], dict[str,
     return authority, result
 
 
-def _decisive_documents(principal: dict[str, Any], replication: dict[str, Any], hidden: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    plan = E.decisive_plan(E.moderate_pilot())
+def _decisive_documents(
+    principal: dict[str, Any],
+    replication: dict[str, Any],
+    hidden: dict[str, Any],
+    *,
+    plan: Mapping[str, Any],
+) -> dict[str, dict[str, Any]]:
     principal_authority = io.authority(
         "substrate-final-revision-principal-authority/v1",
         {
@@ -2505,8 +2525,15 @@ def run(*, publish: bool = True) -> dict[str, Any]:
         principal = principal_future.result()
         replication = replication_future.result()
         hidden = hidden_future.result()
+        decisive = _decisive_documents(principal, replication, hidden, plan=plan)
+        if publish:
+            # Freeze score-bearing results as soon as all three scientific beds
+            # complete. This lets the publication-boundary review run beneath
+            # the still-mandatory continuity floor; classification still waits
+            # for the continuity future and every terminal gate below.
+            for name, document in decisive.items():
+                io.write_json(io.EVIDENCE / name, document)
         continuity_authority, continuity_result = continuity_future.result()
-    decisive = _decisive_documents(principal, replication, hidden)
     mutations = _mutation_documents()
     readiness = _readiness_package()
     recomputations = {
