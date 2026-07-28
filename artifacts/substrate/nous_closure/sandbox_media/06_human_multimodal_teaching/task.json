@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "74daa4dede77",
+      "kind": "fact",
+      "value": "fact-74daa4dede77"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-human_multimodal_teaching-74daa4dede77"
+    },
+    {
+      "key": "74daa4dede77",
+      "kind": "object",
+      "value": [
+        0.8302,
+        0.3151,
+        -0.0201
+      ]
+    },
+    {
+      "key": "74daa4dede77",
+      "kind": "body",
+      "value": "reachable"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.36028714222008795
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.7486366518620828
+    },
+    {
+      "key": "74daa4dede77",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "74daa4dede77",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-74daa4dede77"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-74daa4dede77"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-74daa4dede77"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "human_multimodal_teaching",
+  "identity": "task-74daa4dede77",
+  "provenance": [
+    "generated://nous-closure/74daa4dede77/0",
+    "generated://nous-closure/74daa4dede77/1",
+    "generated://nous-closure/74daa4dede77/2",
+    "generated://nous-closure/74daa4dede77/3",
+    "generated://nous-closure/74daa4dede77/4",
+    "generated://nous-closure/74daa4dede77/5",
+    "generated://nous-closure/74daa4dede77/6",
+    "generated://nous-closure/74daa4dede77/7",
+    "generated://nous-closure/74daa4dede77/8",
+    "generated://nous-closure/74daa4dede77/9",
+    "generated://nous-closure/74daa4dede77/10",
+    "generated://nous-closure/74daa4dede77/11",
+    "generated://nous-closure/74daa4dede77/12",
+    "generated://nous-closure/74daa4dede77/13"
+  ],
+  "query": {
+    "domain": "memory",
+    "key": "74daa4dede77"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}

@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "71d90841c04d",
+      "kind": "fact",
+      "value": "fact-71d90841c04d"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-active_visual_diagnosis-71d90841c04d"
+    },
+    {
+      "key": "71d90841c04d",
+      "kind": "object",
+      "value": [
+        -0.2505,
+        -0.7625,
+        -0.8196
+      ]
+    },
+    {
+      "key": "71d90841c04d",
+      "kind": "body",
+      "value": "reachable"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.5848170342482095
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.44719452507149354
+    },
+    {
+      "key": "71d90841c04d",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "71d90841c04d",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-71d90841c04d"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-71d90841c04d"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-71d90841c04d"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "active_visual_diagnosis",
+  "identity": "task-71d90841c04d",
+  "provenance": [
+    "generated://nous-closure/71d90841c04d/0",
+    "generated://nous-closure/71d90841c04d/1",
+    "generated://nous-closure/71d90841c04d/2",
+    "generated://nous-closure/71d90841c04d/3",
+    "generated://nous-closure/71d90841c04d/4",
+    "generated://nous-closure/71d90841c04d/5",
+    "generated://nous-closure/71d90841c04d/6",
+    "generated://nous-closure/71d90841c04d/7",
+    "generated://nous-closure/71d90841c04d/8",
+    "generated://nous-closure/71d90841c04d/9",
+    "generated://nous-closure/71d90841c04d/10",
+    "generated://nous-closure/71d90841c04d/11",
+    "generated://nous-closure/71d90841c04d/12",
+    "generated://nous-closure/71d90841c04d/13"
+  ],
+  "query": {
+    "domain": "model",
+    "key": "71d90841c04d"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}

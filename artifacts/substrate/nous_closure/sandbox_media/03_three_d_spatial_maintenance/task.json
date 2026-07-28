@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "342452128655",
+      "kind": "fact",
+      "value": "fact-342452128655"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-three_d_spatial_maintenance-342452128655"
+    },
+    {
+      "key": "342452128655",
+      "kind": "object",
+      "value": [
+        -0.706,
+        0.7641,
+        -0.4182
+      ]
+    },
+    {
+      "key": "342452128655",
+      "kind": "body",
+      "value": "tool_required"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.43593561793123725
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.5863914869321324
+    },
+    {
+      "key": "342452128655",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "342452128655",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-342452128655"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-342452128655"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-342452128655"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "three_d_spatial_maintenance",
+  "identity": "task-342452128655",
+  "provenance": [
+    "generated://nous-closure/342452128655/0",
+    "generated://nous-closure/342452128655/1",
+    "generated://nous-closure/342452128655/2",
+    "generated://nous-closure/342452128655/3",
+    "generated://nous-closure/342452128655/4",
+    "generated://nous-closure/342452128655/5",
+    "generated://nous-closure/342452128655/6",
+    "generated://nous-closure/342452128655/7",
+    "generated://nous-closure/342452128655/8",
+    "generated://nous-closure/342452128655/9",
+    "generated://nous-closure/342452128655/10",
+    "generated://nous-closure/342452128655/11",
+    "generated://nous-closure/342452128655/12",
+    "generated://nous-closure/342452128655/13"
+  ],
+  "query": {
+    "domain": "scene",
+    "key": "342452128655"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}

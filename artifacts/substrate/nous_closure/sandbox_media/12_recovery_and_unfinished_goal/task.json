@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "045dc0233977",
+      "kind": "fact",
+      "value": "fact-045dc0233977"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-recovery_and_unfinished_goal-045dc0233977"
+    },
+    {
+      "key": "045dc0233977",
+      "kind": "object",
+      "value": [
+        0.0296,
+        0.8115,
+        -0.616
+      ]
+    },
+    {
+      "key": "045dc0233977",
+      "kind": "body",
+      "value": "reachable"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.5154394468475382
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.4165062081418264
+    },
+    {
+      "key": "045dc0233977",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "045dc0233977",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-045dc0233977"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-045dc0233977"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-045dc0233977"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "recovery_and_unfinished_goal",
+  "identity": "task-045dc0233977",
+  "provenance": [
+    "generated://nous-closure/045dc0233977/0",
+    "generated://nous-closure/045dc0233977/1",
+    "generated://nous-closure/045dc0233977/2",
+    "generated://nous-closure/045dc0233977/3",
+    "generated://nous-closure/045dc0233977/4",
+    "generated://nous-closure/045dc0233977/5",
+    "generated://nous-closure/045dc0233977/6",
+    "generated://nous-closure/045dc0233977/7",
+    "generated://nous-closure/045dc0233977/8",
+    "generated://nous-closure/045dc0233977/9",
+    "generated://nous-closure/045dc0233977/10",
+    "generated://nous-closure/045dc0233977/11",
+    "generated://nous-closure/045dc0233977/12",
+    "generated://nous-closure/045dc0233977/13"
+  ],
+  "query": {
+    "domain": "goal",
+    "key": "045dc0233977"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}
