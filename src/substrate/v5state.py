@@ -100,6 +100,45 @@ QUEUE_NAMES = frozenset(
     }
 )
 
+EVENT_KINDS = frozenset(
+    {
+        "belief_upserted",
+        "body_replaced",
+        "competence_updated",
+        "consolidated",
+        "context_updated",
+        "entity_created",
+        "goal_resolved",
+        "goal_upserted",
+        "hypothesis_resolved",
+        "hypothesis_upserted",
+        "idle_gap_recorded",
+        "knowledge_upserted",
+        "logs_rotated",
+        "memory_recorded",
+        "mode_changed",
+        "model_registered",
+        "model_relationship_set",
+        "model_replaced",
+        "queue_dequeued",
+        "queue_enqueued",
+        "resource_updated",
+        "schema_migrated",
+        "sensor_attached",
+        "sensor_detached",
+        "sensor_interrupted",
+        "sensory_observed",
+        "service_paused",
+        "service_resumed",
+        "service_started",
+        "service_stopped",
+        "task_resolved",
+        "task_upserted",
+        "tool_updated",
+        "world_updated",
+    }
+)
+
 
 class Refused(RuntimeError):
     """A state transition failed closed."""
@@ -152,6 +191,8 @@ class CognitiveEvent:
         temporal_uncertainty: float = 0.0,
     ) -> CognitiveEvent:
         _identifier(kind, "event kind")
+        if kind not in EVENT_KINDS:
+            raise Refused(f"unsupported cognitive event kind {kind!r}")
         if (
             not isinstance(sequence, int)
             or isinstance(sequence, bool)
@@ -503,6 +544,8 @@ def _event_summary(event: CognitiveEvent) -> dict[str, Any]:
 def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
     payload = event.payload
     kind = event.kind
+    if kind not in EVENT_KINDS:
+        raise Refused(f"unsupported cognitive event kind {kind!r}")
     if kind == "entity_created":
         if event.sequence != 1 or payload.get("entity_id") != state["identity"]["entity_id"]:
             raise Refused("the first event must create the checkpointed entity")
@@ -556,8 +599,44 @@ def _reduce(state: dict[str, Any], event: CognitiveEvent) -> None:
         state["beliefs"][_identifier(str(record["identity"]), "belief identity")] = record
     elif kind == "knowledge_upserted":
         record = _json_copy(payload["record"])
-        if not record.get("verification"):
-            raise Refused("knowledge requires a verification authority")
+        provenance_value = record.get("provenance")
+        verifiers_value = record.get("verification")
+        evidence_value = record.get("verification_evidence")
+        if not all(
+            isinstance(value, (list, tuple))
+            for value in (provenance_value, verifiers_value, evidence_value)
+        ):
+            raise Refused("knowledge authority and evidence fields must be identity lists")
+        provenance = tuple(provenance_value)
+        verifiers = tuple(verifiers_value)
+        evidence = tuple(evidence_value)
+        if not provenance or not verifiers or not evidence:
+            raise Refused(
+                "knowledge requires registered provenance, independent verifiers, "
+                "and verification evidence"
+            )
+        provenance_ids = {_identifier(value, "knowledge provenance identity") for value in provenance}
+        verifier_ids = {_identifier(value, "knowledge verifier identity") for value in verifiers}
+        if provenance_ids & verifier_ids:
+            raise Refused("knowledge provenance and verifier identities must be distinct")
+        registered_sources = set(state["sensors"]) | set(state["model_registry"])
+        unknown_sources = provenance_ids - registered_sources
+        if unknown_sources:
+            raise Refused(f"knowledge provenance identities are not registered: {sorted(unknown_sources)}")
+        unknown_verifiers = verifier_ids - set(state["model_registry"])
+        if unknown_verifiers:
+            raise Refused(f"knowledge verifier identities are not registered: {sorted(unknown_verifiers)}")
+        invalid_verifiers = {
+            identity
+            for identity in verifier_ids
+            if "verifier" not in state["model_registry"][identity]["allowed_roles"]
+        }
+        if invalid_verifiers:
+            raise Refused(
+                f"knowledge verifier identities lack the verifier role: {sorted(invalid_verifiers)}"
+            )
+        for value in evidence:
+            _identifier(value, "knowledge verification evidence")
         state["knowledge"][_identifier(str(record["identity"]), "knowledge identity")] = record
     elif kind == "body_replaced":
         body = _json_copy(payload["body"])
@@ -1015,9 +1094,13 @@ class PermanentEntity:
         *,
         provenance: tuple[str, ...],
         verification: tuple[str, ...],
+        verification_evidence: tuple[str, ...] = (),
     ) -> dict[str, Any]:
-        if not provenance or not verification:
-            raise Refused("knowledge requires provenance and independent verification")
+        if not provenance or not verification or not verification_evidence:
+            raise Refused(
+                "knowledge requires registered provenance, independent verifiers, "
+                "and verification evidence"
+            )
         return self.append_event(
             "knowledge_upserted",
             {
@@ -1026,6 +1109,7 @@ class PermanentEntity:
                     "content": content,
                     "provenance": list(provenance),
                     "verification": list(verification),
+                    "verification_evidence": list(verification_evidence),
                 }
             },
         )

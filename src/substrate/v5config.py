@@ -7,6 +7,8 @@ import json
 
 ACTIVATION = False
 SESOI = 0.05
+MASTER_PLAN_SHA256 = "57d879061022b44297cff5367660f502a48fc879cb3764e5d42c1a297e9ad6fc"
+EXECUTION_BRIEF_SHA256 = "b84db87c43fad36bfcd7be20adb54256c5a17ee5a4dc2f7660fd333e837038f5"
 
 IMPLEMENTATION_BRANCH = "agent/substrate-v5-sensorium-model-fabric"
 PRE_TAG = "substrate-v5-pre-sensorium"
@@ -444,6 +446,8 @@ def configuration() -> dict:
 
     body = {
         "implementation_branch": IMPLEMENTATION_BRANCH,
+        "master_plan_sha256": MASTER_PLAN_SHA256,
+        "execution_brief_sha256": EXECUTION_BRIEF_SHA256,
         "tags": {"pre": PRE_TAG, "ready": READY_TAG, "terminal": TERMINAL_TAG},
         "prior_tags": list(PRIOR_TAGS),
         "prior_classifications": PRIOR_CLASSIFICATIONS,

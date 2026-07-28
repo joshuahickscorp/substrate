@@ -208,11 +208,16 @@ class KnowledgeRecord:
 
 _HIDDEN_ID_KEYS = frozenset(
     {
+        "answer",
         "answer_id",
+        "oracle",
         "oracle_id",
+        "outcome",
         "physical_id",
         "private_target",
+        "target",
         "target_id",
+        "truth",
         "truth_id",
     }
 )
@@ -275,9 +280,18 @@ class SensorEvent:
             raise SensoriumError("preprocessing identity mismatch")
         if self.preprocessed.model_identity != self.model_identity:
             raise SensoriumError("model identity mismatch between event and feature layer")
-        leaked = _HIDDEN_ID_KEYS & _mapping_keys(self.observation)
+        public_content = {
+            "observation": self.observation,
+            "proposals": [dataclasses.asdict(value) for value in self.proposals],
+            "tracked": [dataclasses.asdict(value) for value in self.tracked_entities],
+            "inferred_events": [dataclasses.asdict(value) for value in self.inferred_events],
+            "verified": [dataclasses.asdict(value) for value in self.verified_relations],
+            "structural": [dataclasses.asdict(value) for value in self.structural_beliefs],
+            "knowledge": [dataclasses.asdict(value) for value in self.knowledge],
+        }
+        leaked = _HIDDEN_ID_KEYS & _mapping_keys(public_content)
         if leaked:
-            raise SensoriumError(f"hidden target authority in observation: {sorted(leaked)}")
+            raise SensoriumError(f"hidden target authority in public sensor event: {sorted(leaked)}")
 
     @property
     def populated_layers(self) -> tuple[RepresentationLayer, ...]:
@@ -343,6 +357,7 @@ class Sensorium:
         return tuple(self._events)
 
     def ingest(self, event: SensorEvent) -> None:
+        event.public_observation()
         if not self.coordinate_frames.has_frame(event.coordinate_frame):
             raise SensoriumError(f"unknown coordinate frame {event.coordinate_frame!r}")
         previous_time = self._last_timestamp.get(event.sensor_identity)

@@ -30,6 +30,11 @@ def main(argv: list[str] | None = None) -> None:
 
         v4.main(argv)
         return
+    if command == "v5":
+        from substrate import v5
+
+        v5.main(argv)
+        return
 
     if command == "test":
         raise SystemExit(subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode)

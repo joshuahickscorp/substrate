@@ -28,7 +28,19 @@ def _digest(*parts: object) -> str:
 
 
 def _assert_no_hidden_ids(value: object) -> None:
-    forbidden = {"answer_id", "oracle_id", "physical_id", "private_target", "target_id", "truth_id"}
+    forbidden = {
+        "answer",
+        "answer_id",
+        "oracle",
+        "oracle_id",
+        "outcome",
+        "physical_id",
+        "private_target",
+        "target",
+        "target_id",
+        "truth",
+        "truth_id",
+    }
     if isinstance(value, Mapping):
         leaked = forbidden & {str(key).lower() for key in value}
         if leaked:
@@ -149,6 +161,17 @@ class ActionReceipt:
     state_digest_after: str
 
 
+@dataclass(frozen=True)
+class CommitmentToken:
+    """An instance-issued capability proving a decision preceded oracle access."""
+
+    environment_identity: str
+    committed_at_tick: int
+    state_digest: str
+    decision_digest: str
+    token_sha256: str
+
+
 class DesktopEnvironment:
     """A small desktop world whose controls have private physics identities."""
 
@@ -179,6 +202,7 @@ class DesktopEnvironment:
         self._truth: dict[str, Any] = {}
         self._tick = 0
         self._energy = self.body.energy_budget
+        self._oracle_commitments: dict[str, CommitmentToken] = {}
         self.reset()
 
     def _make_truth(self) -> dict[str, Any]:
@@ -213,6 +237,7 @@ class DesktopEnvironment:
         self._truth = copy.deepcopy(self._initial_truth)
         self._tick = 0
         self._energy = self.body.energy_budget
+        self._oracle_commitments.clear()
         return self.observe()
 
     def _physics_digest(self) -> str:
@@ -353,13 +378,53 @@ class DesktopEnvironment:
         self._tick = int(supplied["tick"])
         self._energy = float(supplied["energy"])
         self._truth = copy.deepcopy(supplied["physics"])
+        self._oracle_commitments.clear()
         return self
 
-    def reveal_physics_after_commitment(self) -> dict[str, Any]:
+    def commit_decision(self, decision: Mapping[str, Any]) -> CommitmentToken:
+        normalized = dict(decision)
+        if not normalized:
+            raise EnvironmentError("oracle commitment requires a nonempty decision")
+        _assert_no_hidden_ids(normalized)
+        state_digest = self._physics_digest()
+        decision_digest = _digest(normalized)
+        token_sha256 = _digest(
+            "oracle-commitment",
+            self.contract.identity,
+            self.seed,
+            self.render_variant,
+            self._tick,
+            state_digest,
+            decision_digest,
+        )
+        token = CommitmentToken(
+            environment_identity=self.contract.identity,
+            committed_at_tick=self._tick,
+            state_digest=state_digest,
+            decision_digest=decision_digest,
+            token_sha256=token_sha256,
+        )
+        self._oracle_commitments[token_sha256] = token
+        return token
+
+    def reveal_physics_after_commitment(
+        self,
+        commitment: CommitmentToken | None = None,
+    ) -> dict[str, Any]:
         """Return the private oracle layer; never include it in ``observe``."""
 
+        if commitment is None:
+            raise EnvironmentError("oracle reveal requires a prior commitment token")
+        issued = self._oracle_commitments.pop(commitment.token_sha256, None)
+        if issued is not commitment or commitment.environment_identity != self.contract.identity:
+            raise EnvironmentError("oracle commitment token is invalid, foreign, or already consumed")
         return {
             "revealed_after_commitment": True,
+            "commitment": {
+                "committed_at_tick": commitment.committed_at_tick,
+                "decision_digest": commitment.decision_digest,
+                "token_sha256": commitment.token_sha256,
+            },
             "physics_identity": self.contract.physics_identity,
             "state": copy.deepcopy(self._truth),
         }
@@ -395,6 +460,7 @@ class Simulator3DEnvironment:
         self._tick = 0
         self._energy = self.body.energy_budget
         self._depth_requested = False
+        self._oracle_commitments: dict[str, CommitmentToken] = {}
         self.reset()
 
     def _make_truth(self) -> dict[str, Any]:
@@ -437,6 +503,7 @@ class Simulator3DEnvironment:
         self._tick = 0
         self._energy = self.body.energy_budget
         self._depth_requested = False
+        self._oracle_commitments.clear()
         return self.observe()
 
     def _physics_digest(self) -> str:
@@ -613,11 +680,51 @@ class Simulator3DEnvironment:
         self._energy = float(supplied["energy"])
         self._depth_requested = bool(supplied["depth_requested"])
         self._truth = copy.deepcopy(supplied["physics"])
+        self._oracle_commitments.clear()
         return self
 
-    def reveal_physics_after_commitment(self) -> dict[str, Any]:
+    def commit_decision(self, decision: Mapping[str, Any]) -> CommitmentToken:
+        normalized = dict(decision)
+        if not normalized:
+            raise EnvironmentError("oracle commitment requires a nonempty decision")
+        _assert_no_hidden_ids(normalized)
+        state_digest = self._physics_digest()
+        decision_digest = _digest(normalized)
+        token_sha256 = _digest(
+            "oracle-commitment",
+            self.contract.identity,
+            self.seed,
+            self.render_variant,
+            self._tick,
+            state_digest,
+            decision_digest,
+        )
+        token = CommitmentToken(
+            environment_identity=self.contract.identity,
+            committed_at_tick=self._tick,
+            state_digest=state_digest,
+            decision_digest=decision_digest,
+            token_sha256=token_sha256,
+        )
+        self._oracle_commitments[token_sha256] = token
+        return token
+
+    def reveal_physics_after_commitment(
+        self,
+        commitment: CommitmentToken | None = None,
+    ) -> dict[str, Any]:
+        if commitment is None:
+            raise EnvironmentError("oracle reveal requires a prior commitment token")
+        issued = self._oracle_commitments.pop(commitment.token_sha256, None)
+        if issued is not commitment or commitment.environment_identity != self.contract.identity:
+            raise EnvironmentError("oracle commitment token is invalid, foreign, or already consumed")
         return {
             "revealed_after_commitment": True,
+            "commitment": {
+                "committed_at_tick": commitment.committed_at_tick,
+                "decision_digest": commitment.decision_digest,
+                "token_sha256": commitment.token_sha256,
+            },
             "physics_identity": self.contract.physics_identity,
             "state": copy.deepcopy(self._truth),
         }
@@ -641,9 +748,11 @@ def deterministic_environment_fixture(seed: int = 5517) -> dict[str, Any]:
     room_other_render = Simulator3DEnvironment(seed, render_variant="wireframe")
     room_other_render.step("rotate_view", {"degrees": 15.0})
     room_other_render.step("request_depth")
+    room_a_commitment = room_a.commit_decision({"prediction": "physics unchanged"})
+    other_render_commitment = room_other_render.commit_decision({"prediction": "physics unchanged"})
     same_physics = (
-        room_a.reveal_physics_after_commitment()["state"]
-        == room_other_render.reveal_physics_after_commitment()["state"]
+        room_a.reveal_physics_after_commitment(room_a_commitment)["state"]
+        == room_other_render.reveal_physics_after_commitment(other_render_commitment)["state"]
     )
     different_render = room_a.render()["render_identity"] != room_other_render.render()["render_identity"]
     return {
@@ -666,6 +775,7 @@ def validate_coordinate_frame(frame: str, allowed: tuple[str, ...]) -> None:
 __all__ = [
     "ActionReceipt",
     "BodyContract",
+    "CommitmentToken",
     "DesktopBodyContract",
     "DesktopEnvironment",
     "EnvironmentContract",

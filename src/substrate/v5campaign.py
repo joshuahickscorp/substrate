@@ -105,6 +105,15 @@ CORPUS_SUFFIXES = {
     ".webm",
 }
 
+PREFLIGHT_GENERATED_ROOTS = ("artifacts/substrate/v5",)
+
+PRINCIPAL_RUNTIME_ROOTS = (
+    "artifacts/substrate/v5",
+    "cache/substrate/v5",
+    "evidence/substrate/v5",
+    "runs/substrate/v5",
+)
+
 
 def _v5io() -> ModuleType:
     """Load the v5 writer only at a write boundary.
@@ -145,6 +154,96 @@ def _optional_command(arguments: list[str], *, timeout: float = 8.0) -> dict:
         "stdout": result.stdout.strip(),
         "stderr": result.stderr.strip(),
         "runtime_seconds": time.monotonic() - started,
+    }
+
+
+def _porcelain_entries(output: str) -> list[dict[str, str]]:
+    """Parse ``git status --porcelain=v1 -z`` without trusting path quoting."""
+
+    fields = output.split("\0")
+    entries: list[dict[str, str]] = []
+    index = 0
+    while index < len(fields):
+        field = fields[index]
+        index += 1
+        if not field:
+            continue
+        if len(field) < 4 or field[2] != " ":
+            entries.append({"status": "!!", "path": field})
+            continue
+        status = field[:2]
+        row = {"status": status, "path": field[3:]}
+        if "R" in status or "C" in status:
+            if index >= len(fields) or not fields[index]:
+                row["source_path"] = ""
+            else:
+                row["source_path"] = fields[index]
+                index += 1
+        entries.append(row)
+    return entries
+
+
+def _beneath_declared_root(path: str, roots: tuple[str, ...]) -> bool:
+    normalized = Path(path)
+    if normalized.is_absolute() or ".." in normalized.parts:
+        return False
+    posix = normalized.as_posix().removeprefix("./")
+    return any(posix == root.rstrip("/") or posix.startswith(f"{root.rstrip('/')}/") for root in roots)
+
+
+def worktree_cleanliness(
+    allowed_roots: tuple[str, ...],
+    *,
+    status_output: str | None = None,
+) -> dict:
+    """Require every dirty path to be beneath an explicitly declared root."""
+
+    if status_output is not None:
+        status = {
+            "available": True,
+            "returncode": 0,
+            "stdout": status_output,
+            "stderr": "",
+        }
+    else:
+        try:
+            result = subprocess.run(
+                [
+                    "git",
+                    "status",
+                    "--porcelain=v1",
+                    "-z",
+                    "--untracked-files=all",
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            status = {
+                "available": True,
+                "returncode": result.returncode,
+                "stdout": result.stdout,
+                "stderr": result.stderr,
+            }
+        except OSError as error:
+            status = {
+                "available": False,
+                "returncode": None,
+                "stdout": "",
+                "stderr": str(error),
+            }
+    entries = _porcelain_entries(str(status["stdout"]))
+    dirty_paths = [path for row in entries for path in (row["path"], row.get("source_path")) if path]
+    undeclared = sorted({path for path in dirty_paths if not _beneath_declared_root(path, allowed_roots)})
+    return {
+        "command_succeeded": status["returncode"] == 0,
+        "allowed_roots": list(allowed_roots),
+        "entries": entries,
+        "dirty_paths": dirty_paths,
+        "undeclared_dirty_paths": undeclared,
+        "clean_except_allowed_roots": (status["returncode"] == 0 and not undeclared),
+        "activation": False,
     }
 
 
@@ -231,11 +330,7 @@ def _local_file_paths(roots: tuple[str, ...]) -> set[str]:
         if root.is_file() or root.is_symlink():
             paths.add(relative_root)
         elif root.is_dir():
-            paths.update(
-                path.relative_to(ROOT).as_posix()
-                for path in root.rglob("*")
-                if path.is_file() or path.is_symlink()
-            )
+            paths.update(path.relative_to(ROOT).as_posix() for path in root.rglob("*") if path.is_file() or path.is_symlink())
     return paths
 
 
@@ -349,11 +444,7 @@ def _seal_validation(version: str) -> dict:
                 "seal_valid": declared is None or declared == expected,
                 "activation_false": document.get("activation") is False,
             }
-    failed = sorted(
-        path
-        for path, row in rows.items()
-        if not row["json_valid"] or not row["seal_valid"] or not row["activation_false"]
-    )
+    failed = sorted(path for path, row in rows.items() if not row["json_valid"] or not row["seal_valid"] or not row["activation_false"])
     return {
         "documents": rows,
         "document_count": len(rows),
@@ -396,10 +487,7 @@ def immutability() -> dict:
     remote = _remote_tag_refs()
     tags = {tag: _tag_snapshot(tag, remote) for tag in C.PRIOR_TAGS}
     listed = set(_git("tag", "--list", "substrate-v[1-4]-*").splitlines())
-    trees = {
-        version: _tree_integrity(C.TERMINAL_TAGS[version], roots)
-        for version, roots in VERSION_ROOTS.items()
-    }
+    trees = {version: _tree_integrity(C.TERMINAL_TAGS[version], roots) for version, roots in VERSION_ROOTS.items()}
     seals = {version: _seal_validation(version) for version in VERSION_ROOTS}
     classifications = _classification_snapshot()
     checks = {
@@ -543,11 +631,7 @@ def _resource_snapshot() -> dict:
         )
     }
     cpu_result = _optional_command(["ps", "-A", "-o", "%cpu="])
-    cpu = sum(
-        float(value)
-        for value in cpu_result["stdout"].split()
-        if value.replace(".", "", 1).isdigit()
-    )
+    cpu = sum(float(value) for value in cpu_result["stdout"].split() if value.replace(".", "", 1).isdigit())
     usage = resource.getrusage(resource.RUSAGE_SELF)
     return {
         "disk_total_gib": disk.total / 1024**3,
@@ -574,15 +658,8 @@ def _hardware_snapshot() -> dict:
         "machine": platform.machine(),
         "processor": platform.processor() or "unknown",
         "logical_cores": os.cpu_count(),
-        "display_inventory": (
-            json.loads(display["stdout"])
-            if display["returncode"] == 0 and display["stdout"].startswith("{")
-            else None
-        ),
-        "python_modules": {
-            name: importlib.util.find_spec(name) is not None
-            for name in PYTHON_CAPABILITIES
-        },
+        "display_inventory": (json.loads(display["stdout"]) if display["returncode"] == 0 and display["stdout"].startswith("{") else None),
+        "python_modules": {name: importlib.util.find_spec(name) is not None for name in PYTHON_CAPABILITIES},
     }
 
 
@@ -638,11 +715,7 @@ def _v5_namespace_snapshot() -> dict:
     rows: dict[str, dict[str, object]] = {}
     for family in families:
         path = ROOT / family / "substrate" / "v5"
-        files = (
-            sorted(item.relative_to(ROOT).as_posix() for item in path.rglob("*") if item.is_file())
-            if path.exists()
-            else []
-        )
+        files = sorted(item.relative_to(ROOT).as_posix() for item in path.rglob("*") if item.is_file()) if path.exists() else []
         rows[family] = {
             "path": str(path),
             "exists": path.exists(),
@@ -651,11 +724,7 @@ def _v5_namespace_snapshot() -> dict:
             "truncated": len(files) > 100,
         }
     principal = ROOT / "runs" / "substrate" / "v5" / "principal"
-    principal_files = (
-        sorted(path.relative_to(ROOT).as_posix() for path in principal.rglob("*") if path.is_file())
-        if principal.exists()
-        else []
-    )
+    principal_files = sorted(path.relative_to(ROOT).as_posix() for path in principal.rglob("*") if path.is_file()) if principal.exists() else []
     return {
         "families": rows,
         "principal_path": str(principal),
@@ -670,10 +739,7 @@ def _network_snapshot() -> dict:
     return {
         "origin": remote["stdout"] if remote["returncode"] == 0 else None,
         "interfaces": interfaces["stdout"].split() if interfaces["returncode"] == 0 else [],
-        "proxy_configured": {
-            key: bool(os.environ.get(key))
-            for key in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY")
-        },
+        "proxy_configured": {key: bool(os.environ.get(key)) for key in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY")},
         "active_bandwidth_probe_performed": False,
         "download_benchmark_required_before_acquisition": True,
         "constraints": "respect source terms, bounded concurrency, resumable transfers, and host limits",
@@ -725,12 +791,10 @@ def preflight(
     head = _ref_or_none("HEAD")
     branch_result = _optional_command(["git", "branch", "--show-current"])
     branch = branch_result["stdout"] if branch_result["returncode"] == 0 else None
-    dirty_result = _optional_command(["git", "status", "--porcelain=v1"])
+    cleanliness = worktree_cleanliness(PREFLIGHT_GENERATED_ROOTS)
     worktree_result = _optional_command(["git", "worktree", "list", "--porcelain"])
     ancestor_result = (
-        _optional_command(["git", "merge-base", "--is-ancestor", pre_tag["peeled_commit"], head])
-        if pre_tag["peeled_commit"] and head
-        else {"returncode": None}
+        _optional_command(["git", "merge-base", "--is-ancestor", pre_tag["peeled_commit"], head]) if pre_tag["peeled_commit"] and head else {"returncode": None}
     )
     terminal_v4 = integrity.get("tag_authority", {}).get("tags", {}).get(C.TERMINAL_TAGS["v4"], {})
     resources = local_inventory["resources"]
@@ -751,16 +815,10 @@ def preflight(
         "activation_false": C.ACTIVATION is False,
         "disk_safe_for_development": resources["disk_available_gib"] >= 25,
         "hawking_observation_only": (
-            hawking["observation_only"]
-            and hawking["signals_sent"] == 0
-            and hawking["processes_modified"] == 0
-            and hawking["controllers_modified"] == 0
+            hawking["observation_only"] and hawking["signals_sent"] == 0 and hawking["processes_modified"] == 0 and hawking["controllers_modified"] == 0
         ),
-        "inventory_read_only": (
-            local_inventory["read_only"]
-            and local_inventory["files_written"] == 0
-            and local_inventory["processes_modified"] == 0
-        ),
+        "inventory_read_only": (local_inventory["read_only"] and local_inventory["files_written"] == 0 and local_inventory["processes_modified"] == 0),
+        "worktree_clean_except_preflight_authorities": cleanliness["clean_except_allowed_roots"],
     }
     return {
         "schema": "substrate-v5-preflight/v1",
@@ -775,7 +833,8 @@ def preflight(
             "pre_tag": pre_tag,
             "ready_tag": READY_TAG,
             "terminal_tag": TERMINAL_TAG,
-            "dirty": dirty_result["stdout"].splitlines(),
+            "dirty": cleanliness["entries"],
+            "cleanliness": cleanliness,
             "worktrees": worktree_result["stdout"].splitlines(),
         },
         "inventory": local_inventory,
@@ -985,6 +1044,8 @@ def freeze() -> dict:
         "SUBSTRATE_V5_SCIENTIFIC_CONSTITUTION.json": {
             "schema": "substrate-v5-scientific-constitution/v1",
             "objective": "a permanent multimodal cognitive substrate whose identity and state persist independently of any one model",
+            "master_plan_sha256": C.MASTER_PLAN_SHA256,
+            "execution_brief_sha256": C.EXECUTION_BRIEF_SHA256,
             "hypotheses": C.HYPOTHESES,
             "phases": list(C.PHASES),
             "arms": list(C.ARMS),
@@ -1015,10 +1076,7 @@ def freeze() -> dict:
         },
         "SUBSTRATE_V5_CANDIDATE_LADDERS.json": {
             "schema": "substrate-v5-candidate-ladders/v1",
-            "ladders": {
-                name: list(values)
-                for name, values in C.CANDIDATE_LADDERS.items()
-            },
+            "ladders": {name: list(values) for name, values in C.CANDIDATE_LADDERS.items()},
             "selection_freezes_before_admission": True,
             "unbounded_tuning_forbidden": True,
             "activation": False,
@@ -1032,10 +1090,7 @@ def freeze() -> dict:
         io.config_json(
             "candidate_ladders.json",
             {
-                "candidate_ladders": {
-                    name: list(values)
-                    for name, values in C.CANDIDATE_LADDERS.items()
-                },
+                "candidate_ladders": {name: list(values) for name, values in C.CANDIDATE_LADDERS.items()},
                 "activation": False,
             },
         )

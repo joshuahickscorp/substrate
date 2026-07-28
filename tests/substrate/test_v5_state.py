@@ -9,11 +9,16 @@ from substrate import v5io as io
 from substrate import v5state as S
 
 
-def contract(identity: str, checkpoint: str) -> S.ModelContract:
+def contract(
+    identity: str,
+    checkpoint: str,
+    *,
+    roles: tuple[str, ...] = ("independent_performer", "specialist"),
+) -> S.ModelContract:
     return S.ModelContract(
         identity=identity,
         checkpoint_identity=checkpoint,
-        allowed_roles=("independent_performer", "specialist"),
+        allowed_roles=roles,
         training_provenance=("local deterministic fixture",),
     )
 
@@ -107,8 +112,98 @@ def test_event_sourced_state_has_stable_identity_and_monotonic_time() -> None:
     )
     with pytest.raises(S.Refused, match="increase"):
         entity.append_event("late", {}, event_time=99)
+    with pytest.raises(S.Refused, match="unsupported cognitive event"):
+        entity.append_event("purchase", {"sku": "unknown-event"})
     with pytest.raises(S.Refused, match="activation"):
-        entity.append_event("unsafe", {"activation": True})
+        entity.append_event(
+            "context_updated",
+            {"layer": "active_context", "value": {"activation": True}},
+        )
+
+
+def test_knowledge_admission_requires_registered_distinct_authorities_and_evidence() -> None:
+    entity = S.PermanentEntity("entity:knowledge")
+    entity.attach_sensor(
+        "sensor:source",
+        {"modality": "text", "coordinate_frame": "document"},
+    )
+    entity.register_model(
+        contract(
+            "model:verifier",
+            "sha256:verifier",
+            roles=("independent_performer", "verifier"),
+        )
+    )
+    admitted = entity.admit_knowledge(
+        "knowledge:checked",
+        {"claim": "fixture is internally consistent"},
+        provenance=("sensor:source",),
+        verification=("model:verifier",),
+        verification_evidence=("receipt:independent-check-1",),
+    )
+    assert admitted["activation"] is False
+    record = entity.state["knowledge"]["knowledge:checked"]
+    assert record["provenance"] == ["sensor:source"]
+    assert record["verification"] == ["model:verifier"]
+    assert record["verification_evidence"] == ["receipt:independent-check-1"]
+
+    cases = (
+        {
+            "provenance": ("sensor:source",),
+            "verification": ("model:verifier",),
+            "verification_evidence": (),
+        },
+        {
+            "provenance": ("sensor:unregistered",),
+            "verification": ("model:verifier",),
+            "verification_evidence": ("receipt:check",),
+        },
+        {
+            "provenance": ("sensor:source",),
+            "verification": ("model:unregistered",),
+            "verification_evidence": ("receipt:check",),
+        },
+        {
+            "provenance": ("model:verifier",),
+            "verification": ("model:verifier",),
+            "verification_evidence": ("receipt:check",),
+        },
+    )
+    for index, arguments in enumerate(cases):
+        with pytest.raises(S.Refused):
+            entity.admit_knowledge(
+                f"knowledge:rejected-{index}",
+                {"claim": "must not be admitted"},
+                **arguments,
+            )
+    assert not any(
+        identity.startswith("knowledge:rejected-")
+        for identity in entity.state["knowledge"]
+    )
+
+    nonverifier = contract("model:not-verifier", "sha256:not-verifier")
+    entity.register_model(nonverifier)
+    with pytest.raises(S.Refused, match="lack the verifier role"):
+        entity.admit_knowledge(
+            "knowledge:wrong-role",
+            {"claim": "must not be admitted"},
+            provenance=("sensor:source",),
+            verification=(nonverifier.identity,),
+            verification_evidence=("receipt:check",),
+        )
+    with pytest.raises(S.Refused, match="identity lists"):
+        entity.append_event(
+            "knowledge_upserted",
+            {
+                "record": {
+                    "identity": "knowledge:malformed",
+                    "content": {"claim": "must not be admitted"},
+                    "provenance": "sensor:source",
+                    "verification": "model:verifier",
+                    "verification_evidence": "receipt:check",
+                }
+            },
+        )
 
 
 def test_checkpoint_restore_is_exact_and_rejects_state_or_event_corruption() -> None:

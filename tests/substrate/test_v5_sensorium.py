@@ -120,8 +120,26 @@ def test_sensor_event_has_eight_modalities_and_noncollapsed_typed_layers() -> No
         "knowledge",
     }
     assert canonical_event_digest(event) == canonical_event_digest(event)
+    for forbidden_key in ("target", "answer", "outcome", "target_id"):
+        with pytest.raises(SensoriumError, match="hidden target"):
+            _event(
+                1,
+                1.0,
+                observation={"nested": [{"authority": {forbidden_key: "leaked"}}]},
+            )
+
+
+def test_sensorium_rechecks_all_public_layers_for_recursive_outcome_leakage() -> None:
+    event = _event(0, 0.0)
+    object.__setattr__(
+        event.proposals[0],
+        "properties",
+        {"nested": [{"answer": "mutated-after-construction"}]},
+    )
     with pytest.raises(SensoriumError, match="hidden target"):
-        _event(1, 1.0, observation={"target_id": "leaked-private-object"})
+        event.public_observation()
+    with pytest.raises(SensoriumError, match="hidden target"):
+        Sensorium(CoordinateFrameRegistry()).ingest(event)
 
 
 def test_sensorium_rejects_corrupted_time_sequence_and_coordinate_frames() -> None:
@@ -271,6 +289,36 @@ def test_body_and_seeded_environment_contracts_are_deterministic_and_identity_sa
     assert desktop_environment.contract.render_identity != desktop_environment.contract.physics_identity
 
 
+def test_environment_oracle_requires_an_issued_single_use_prior_commitment() -> None:
+    environment = Simulator3DEnvironment(71)
+    with pytest.raises(EnvironmentError, match="prior commitment"):
+        environment.reveal_physics_after_commitment()
+    with pytest.raises(EnvironmentError, match="nonempty decision"):
+        environment.commit_decision({})
+    with pytest.raises(EnvironmentError, match="hidden target"):
+        environment.commit_decision({"nested": {"outcome": "peek"}})
+
+    commitment = environment.commit_decision({"prediction": "three objects remain"})
+    environment.step("rotate_view", {"degrees": 15.0})
+    oracle = environment.reveal_physics_after_commitment(commitment)
+    assert oracle["revealed_after_commitment"] is True
+    assert oracle["commitment"]["committed_at_tick"] < environment.checkpoint()["tick"]
+    assert oracle["commitment"]["token_sha256"] == commitment.token_sha256
+    with pytest.raises(EnvironmentError, match="consumed"):
+        environment.reveal_physics_after_commitment(commitment)
+
+    foreign_environment = Simulator3DEnvironment(72)
+    foreign_commitment = foreign_environment.commit_decision({"prediction": "foreign"})
+    with pytest.raises(EnvironmentError, match="foreign"):
+        environment.reveal_physics_after_commitment(foreign_commitment)
+
+    desktop_environment = DesktopEnvironment(71)
+    desktop_commitment = desktop_environment.commit_decision({"prediction": "desktop state"})
+    desktop_environment.reset()
+    with pytest.raises(EnvironmentError, match="invalid"):
+        desktop_environment.reveal_physics_after_commitment(desktop_commitment)
+
+
 def test_at_least_ten_model_equivalents_are_independently_callable_and_auditable() -> None:
     registry = default_model_registry()
     assert len(registry.contracts) >= 10
@@ -295,8 +343,14 @@ def test_at_least_ten_model_equivalents_are_independently_callable_and_auditable
         assert ModelRole.INDEPENDENT_PERFORMER in contract.allowed_roles
         assert contract.confidence_semantics
     assert registry.relationships
-    with pytest.raises(ModelContractError, match="leaked"):
-        ModelRequest("bad", "independent", "text", {"private_target": "secret"})
+    for forbidden_key in ("target", "answer", "outcome", "private_target"):
+        with pytest.raises(ModelContractError, match="leaked"):
+            ModelRequest(
+                "bad",
+                "independent",
+                "text",
+                {"nested": [{"authority": {forbidden_key: "secret"}}]},
+            )
 
 
 def test_model_support_and_outcome_blind_routing_have_positive_fixtures() -> None:
