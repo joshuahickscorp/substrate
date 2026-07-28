@@ -822,7 +822,16 @@ def _base_documents(sandbox: dict[str, Any], resources: dict[str, Any]) -> dict[
                         "repair_commit": "e6180a9e",
                         "invalidated_evidence": [],
                         "scientific_authority_changed": False,
-                    }
+                    },
+                    {
+                        "identity": "closure-systems-integrity-transition-002",
+                        "change": "run hostile review cells in separate processes and detached worktrees",
+                        "affected_units": ["terminal hostile internal review only"],
+                        "source_commit": "cf257354",
+                        "invalidated_evidence": [],
+                        "scientific_authority_changed": False,
+                        "pilot_receipts_changed": False,
+                    },
                 ],
                 "repairs_used": 1,
                 "scientific_threshold_changes": 0,
