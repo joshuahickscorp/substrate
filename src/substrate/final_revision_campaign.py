@@ -2238,8 +2238,15 @@ _HISTORICAL_NAMESPACE_PATHS = (
 
 
 def _authorised_predecessor_source_digests() -> set[str]:
-    """Source digests sealed transitions explicitly authorise as freeze predecessors."""
+    """Source digests sealed transitions explicitly authorise as freeze predecessors.
+
+    A transition only authorises anything when its own ``transition_source_digest``
+    is the source actually running. Without that binding the allowlist would be
+    unauthenticated: a document could authorise a digest for code it does not
+    describe, so a freeze would validate against source nobody transitioned to.
+    """
     authorised: set[str] = set()
+    live = io.source_digest()
     for path in sorted(io.EVIDENCE.glob("SUBSTRATE_FINAL_REVISION_TRANSITION_*.json")):
         if path.name == "SUBSTRATE_FINAL_REVISION_TRANSITION_AUTHORITY.json":
             continue
@@ -2248,6 +2255,8 @@ def _authorised_predecessor_source_digests() -> set[str]:
         except io.Refused:
             continue
         if document.get("schema") != _SEALED_TRANSITION_SCHEMA:
+            continue
+        if document.get("transition_source_digest") != live:
             continue
         ready = document.get("ready")
         if isinstance(ready, dict):
@@ -2293,7 +2302,26 @@ def _bed_result_content_valid(document: Mapping[str, Any]) -> bool:
         return False
     p3 = effects.get("P3_selected_minus_strongest_persistent_alternative")
     p1 = effects.get("P1_selected_minus_full_transcript_replay")
-    return isinstance(p3, dict) and isinstance(p1, dict)
+    return all(_effect_row_content_valid(row) for row in (p3, p1))
+
+
+def _effect_row_content_valid(row: Any) -> bool:
+    """A scored effect row must carry a real number and a real two-sided interval.
+
+    Structure alone is not enough: a row of the right shape carrying junk still
+    reaches the SESOI and interval comparisons downstream.
+    """
+    if not isinstance(row, dict):
+        return False
+    effect = row.get("mean_paired_effect")
+    interval = row.get("confidence_interval_95")
+    if isinstance(effect, bool) or not isinstance(effect, (int, float)):
+        return False
+    if not isinstance(interval, list) or len(interval) != 2:
+        return False
+    if any(isinstance(bound, bool) or not isinstance(bound, (int, float)) for bound in interval):
+        return False
+    return float(interval[0]) <= float(interval[1])
 
 
 def _thresholds_preserved(freeze_document: Mapping[str, Any]) -> tuple[bool | None, str | None]:
