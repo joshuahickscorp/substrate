@@ -1,0 +1,78 @@
+{
+  "schema": "substrate-v4-principal-authority/v1",
+  "minimum_histories": 48,
+  "principal_histories": 48,
+  "latent_model_families": [
+    "asymmetric_causal_tree_A",
+    "asymmetric_causal_tree_B",
+    "asymmetric_causal_tree_C",
+    "asymmetric_causal_tree_D",
+    "held_out_asymmetric_causal_tree_A",
+    "held_out_asymmetric_causal_tree_B",
+    "held_out_asymmetric_causal_tree_C",
+    "held_out_asymmetric_causal_tree_D"
+  ],
+  "representations": [
+    "symbolic_rules",
+    "event_sequences",
+    "relation_tables",
+    "graph_adjacency",
+    "structured_language",
+    "tool_state"
+  ],
+  "phases": [
+    "phase_0_cold_baseline",
+    "phase_1_observational_structure_acquisition",
+    "phase_2_competing_structural_hypotheses",
+    "phase_3_discriminating_inquiry",
+    "phase_4_causal_intervention",
+    "phase_5_model_revision",
+    "phase_6_first_cross_representation_encounter",
+    "phase_7_counterfactual_challenge",
+    "phase_8_explanation_and_falsifier",
+    "phase_9_conflicting_structural_history",
+    "phase_10_interruption_and_exact_restoration",
+    "phase_11_body_or_tool_change",
+    "phase_12_return_to_prior_structural_domain",
+    "phase_13_negative_alignment_trap",
+    "phase_14_useful_history_specialization",
+    "phase_15_generator_held_out_open_world",
+    "phase_16_terminal_integrated_evaluation"
+  ],
+  "arms": [
+    "full_v4",
+    "v3_reflective_control",
+    "semantic_retrieval_control",
+    "static_structural_model",
+    "correlation_only_model",
+    "no_counterfactual",
+    "no_alignment",
+    "surface_alignment",
+    "simple_structural_inquiry",
+    "no_self_model",
+    "no_world_model",
+    "more_compute",
+    "fresh_reset",
+    "transcript_replay"
+  ],
+  "principal_shards": 3,
+  "unit_count": 2136,
+  "total_episodes": 181560,
+  "input_digests_complete": true,
+  "bounds": {
+    "units": [
+      1500,
+      6000
+    ],
+    "episodes": [
+      150000,
+      600000
+    ]
+  },
+  "ready_tag": "substrate-v4-structural-ready",
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "1c00bd3592aa4e3e04f7e9ce5824f4cbd2b2d925eba68fdf61dccab34ac8f418"
+}

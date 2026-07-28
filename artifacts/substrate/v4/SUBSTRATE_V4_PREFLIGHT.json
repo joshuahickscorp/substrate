@@ -1,0 +1,107 @@
+{
+  "schema": "substrate-v4-preflight/v1",
+  "repository": "/Users/scammermike/Downloads/substrate",
+  "remote": "git@github.com:joshuahickscorp/substrate.git",
+  "entry": {
+    "pre_tag": "substrate-v4-pre-structural-understanding",
+    "pre_tag_commit": "a605fef265a58fa5a8905a61705a111c2140c420",
+    "main": "a605fef265a58fa5a8905a61705a111c2140c420",
+    "origin_main": "a605fef265a58fa5a8905a61705a111c2140c420",
+    "current_head": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+    "branch": "agent/substrate-v4-structural-understanding",
+    "dirty": [
+      "?? artifacts/substrate/v4/",
+      "?? configs/substrate/v4/",
+      "?? evidence/substrate/v4/"
+    ],
+    "worktrees": [
+      "worktree /Users/scammermike/Downloads/substrate",
+      "HEAD 9ed712b585a22b5150d0d375cffd83954a188d7e",
+      "branch refs/heads/agent/substrate-v4-structural-understanding"
+    ],
+    "open_pull_requests": [
+      {
+        "baseRefName": "main",
+        "headRefName": "agent/generation1-general-run-closure",
+        "isDraft": true,
+        "number": 30,
+        "title": "Append gen1-general-run-closure + Mechanism Admission Battery + current-frontier authority (draft)",
+        "url": "https://github.com/joshuahickscorp/substrate/pull/30"
+      }
+    ],
+    "latest_main_ci": [
+      {
+        "conclusion": "success",
+        "databaseId": 30313899857,
+        "event": "push",
+        "headSha": "a605fef265a58fa5a8905a61705a111c2140c420",
+        "status": "completed",
+        "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30313899857",
+        "workflowName": "Substrate"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 30313648014,
+        "event": "push",
+        "headSha": "2c54932dca5ba999d2f2bf261ac25e193e9a77dd",
+        "status": "completed",
+        "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30313648014",
+        "workflowName": "Substrate"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 30313355820,
+        "event": "push",
+        "headSha": "36c5c284001b0e4c2eed9cf52471a690bc395314",
+        "status": "completed",
+        "url": "https://github.com/joshuahickscorp/substrate/actions/runs/30313355820",
+        "workflowName": "Substrate"
+      }
+    ]
+  },
+  "v4_workers": [],
+  "principal_files": [],
+  "resources": {
+    "disk_available_gib": 106.9140625,
+    "memory_free_percent": 82,
+    "swap_total_mib": 2048.0,
+    "swap_used_mib": 1165.5,
+    "swap_free_mib": 882.5,
+    "aggregate_cpu_percent": 372.40000000000003,
+    "machine": {
+      "processor": "arm",
+      "logical_cores": 28,
+      "platform": "macOS-27.0-arm64-arm-64bit"
+    }
+  },
+  "hawking": {
+    "processes": [],
+    "active_process_count": 0,
+    "observation_only": true,
+    "signals_sent": 0,
+    "processes_modified": 0,
+    "controllers_modified": 0,
+    "mps_adopted": false
+  },
+  "checks": {
+    "pre_tag_matches_terminal_main": true,
+    "main_matches_origin_main": true,
+    "implementation_branch_active": true,
+    "one_worktree": true,
+    "no_v4_principal_receipts": true,
+    "no_v4_worker": true,
+    "v1_v2_v3_immutable": true,
+    "activation_false": true,
+    "disk_safe_for_development": true,
+    "memory_safe_for_development": true,
+    "swap_observed": true,
+    "hawking_observation_only": true
+  },
+  "failed": [],
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "27954370646d746cb817b267b4d64d117f4f063a05bef15da1b835be10b5b297"
+}

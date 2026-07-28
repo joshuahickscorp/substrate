@@ -1,0 +1,10 @@
+{
+  "schema": "substrate-v4-negative-alignment-control/v1",
+  "wrong_history_accuracy": 0.0,
+  "matched_accuracy": 1.0,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "104b1ded9bee2a88c54880fc3ebb06ec9af05f300af89c0a0b0c75b6e0ef7437"
+}

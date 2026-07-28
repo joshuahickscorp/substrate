@@ -1,0 +1,249 @@
+{
+  "schema": "substrate-v4-structural-model-schema/v1",
+  "fields": [
+    "alternatives",
+    "boundary_conditions",
+    "causal_edges",
+    "constraints",
+    "contradicting_evidence",
+    "defeaters",
+    "exceptions",
+    "identity",
+    "intervention_points",
+    "invariants",
+    "latent_variables",
+    "noncausal_dependencies",
+    "observed_variables",
+    "representation_mappings",
+    "rollback_checkpoint",
+    "scope",
+    "source_episodes",
+    "status",
+    "support",
+    "supporting_evidence",
+    "temporal_transitions",
+    "uncertainty",
+    "validation_history",
+    "variables",
+    "version"
+  ],
+  "statuses": [
+    "candidate",
+    "locally_supported",
+    "intervention_verified",
+    "transfer_verified",
+    "domain_local",
+    "superseded",
+    "quarantined",
+    "refuted"
+  ],
+  "sample": {
+    "identity": "beecd110572f3e14e968072bac4f2d2598c35ef1e26003a1ea17c658e1f4dfb1",
+    "version": 1,
+    "scope": "3ea2dec3bab4ee2a7d82032d54125ebc06fb9ad336e6bee1c9a107c3a555843f",
+    "variables": {
+      "role_0": {
+        "type": "binary",
+        "values": [
+          0,
+          1
+        ],
+        "properties": {}
+      },
+      "role_1": {
+        "type": "binary",
+        "values": [
+          0,
+          1
+        ],
+        "properties": {}
+      },
+      "role_2": {
+        "type": "binary",
+        "values": [
+          0,
+          1
+        ],
+        "properties": {}
+      },
+      "role_3": {
+        "type": "binary",
+        "values": [
+          0,
+          1
+        ],
+        "properties": {}
+      },
+      "role_4": {
+        "type": "binary",
+        "values": [
+          0,
+          1
+        ],
+        "properties": {}
+      },
+      "role_5": {
+        "type": "binary",
+        "values": [
+          0,
+          1
+        ],
+        "properties": {}
+      },
+      "role_6": {
+        "type": "binary",
+        "values": [
+          0,
+          1
+        ],
+        "properties": {}
+      }
+    },
+    "causal_edges": [
+      [
+        "role_2",
+        "role_3"
+      ],
+      [
+        "role_3",
+        "role_1"
+      ],
+      [
+        "role_5",
+        "role_0"
+      ],
+      [
+        "role_6",
+        "role_2"
+      ],
+      [
+        "role_6",
+        "role_4"
+      ],
+      [
+        "role_6",
+        "role_5"
+      ]
+    ],
+    "noncausal_dependencies": [
+      [
+        "role_0",
+        "role_5"
+      ],
+      [
+        "role_1",
+        "role_3"
+      ],
+      [
+        "role_2",
+        "role_3"
+      ],
+      [
+        "role_2",
+        "role_6"
+      ],
+      [
+        "role_4",
+        "role_6"
+      ],
+      [
+        "role_5",
+        "role_6"
+      ]
+    ],
+    "temporal_transitions": {},
+    "constraints": [
+      "acyclic",
+      "binary activation",
+      "verified intervention semantics"
+    ],
+    "invariants": [
+      "nondescendants remain unchanged",
+      "one declared intervention"
+    ],
+    "boundary_conditions": [
+      "known asymmetric seven-variable system"
+    ],
+    "exceptions": [],
+    "intervention_points": [
+      "role_0",
+      "role_1",
+      "role_2",
+      "role_3",
+      "role_4",
+      "role_5",
+      "role_6"
+    ],
+    "latent_variables": [],
+    "observed_variables": [
+      "role_0",
+      "role_1",
+      "role_2",
+      "role_3",
+      "role_4",
+      "role_5",
+      "role_6"
+    ],
+    "uncertainty": 0.3333333333333333,
+    "alternatives": [
+      "4d52e7585c6955701c9ee530775171716120266d1013d27ea050cd76c20794e9",
+      "4d52e7585c6955701c9ee530775171716120266d1013d27ea050cd76c20794e9"
+    ],
+    "representation_mappings": {
+      "69767bcb65d19ffef648e82d048e93db88b4bce00c60a8bc1eb1472f31a4ec8a": {
+        "x148278": "role_1",
+        "x285070": "role_5",
+        "x451713": "role_4",
+        "x522862": "role_6",
+        "x567304": "role_2",
+        "x894466": "role_3",
+        "x947856": "role_0"
+      },
+      "ee7f5fd699e502269d32a7225f4a0e686221772e816838509df23002dad8edb7": {
+        "x079445": "role_0",
+        "x293541": "role_2",
+        "x387184": "role_4",
+        "x400355": "role_1",
+        "x496673": "role_6",
+        "x929103": "role_5",
+        "x951338": "role_3"
+      }
+    },
+    "supporting_evidence": [
+      "cheap_admission:4100:causal_systems:canary_training:0:relation_tables",
+      "cheap_admission:4100:causal_systems:canary_training:0:relation_tables",
+      "constraint alignment:cheap_admission:4100:dynamic_transition_systems:canary_prediction:1:relation_tables",
+      "constraint alignment:cheap_admission:4100:causal_systems:canary_intervention:2:relation_tables",
+      "constraint alignment:cheap_admission:4100:counterfactual_planning:canary_counterfactual:3:relation_tables",
+      "constraint alignment:multiple-change",
+      "constraint alignment:cheap_admission:4100:cross_representation_isomorphisms:canary_cross_representation:4:tool_state",
+      "constraint alignment:cheap_admission:4100:mechanism_diagnosis:canary_explanation:6:relation_tables",
+      "cheap_admission:4100:structural_scientific_inquiry:canary_inquiry:9:relation_tables"
+    ],
+    "contradicting_evidence": [],
+    "defeaters": [],
+    "source_episodes": [
+      "cheap_admission:4100:causal_systems:canary_training:0:relation_tables"
+    ],
+    "validation_history": [
+      {
+        "receipt": "cheap_admission:4100:causal_systems:canary_training:0:relation_tables",
+        "correct": true,
+        "support": 1.0
+      },
+      {
+        "receipt": "cheap_admission:4100:structural_scientific_inquiry:canary_inquiry:9:relation_tables",
+        "correct": true,
+        "support": 2.0
+      }
+    ],
+    "rollback_checkpoint": {},
+    "status": "superseded",
+    "support": 2.0
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "f0c2a1c84c61220ac6523785f14dab10fcf3da0fc74bbd8d6730812a861f55d9"
+}

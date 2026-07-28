@@ -32,6 +32,7 @@ from substrate import safety as SF
 from substrate import selfmodel as SM
 from substrate import temporal_link as TL
 from substrate import workspace as W
+from substrate.world import StructuralWorld
 
 # section 5, the composition. A stage missing from this tuple is a stage the entity does not have.
 STAGES = (
@@ -171,6 +172,7 @@ class Substrate:
             keys=sorted(observation),
             temporal_state=state.value,
             episodic_window=len(recent),
+            extension=self._perceive_extension(observation),
         )
 
         # 2 attend, under a resource limit
@@ -365,6 +367,7 @@ class Substrate:
                 "self_update",
                 correct=bool(correct),
                 reliability={k: round(v, 4) for k, v in self.reliability.items()},
+                extension=self._outcome_extension(observation, report["decision"], outcome),
             )
 
         # 9 consolidate on the declared policy
@@ -385,6 +388,7 @@ class Substrate:
                 selected=[e.id for e in selected],
                 promoted=promoted,
                 uses_future_information=not self.consolidation.available_at_decision_time,
+                extension=self._consolidate_extension(),
             )
 
         # 10 adapt, through the safety envelope, never around it
@@ -412,6 +416,25 @@ class Substrate:
         return out_trace
 
     # ------------------------------------------------------------ helpers
+    def _perceive_extension(self, observation: dict) -> dict:
+        return {}
+
+    def _outcome_extension(self, observation: dict, decision: object, outcome: object) -> dict:
+        return {}
+
+    def _consolidate_extension(self) -> dict:
+        return {}
+
+    def _extension_state(self) -> dict:
+        return {}
+
+    def _extension_checkpoint(self) -> dict:
+        return self._extension_state()
+
+    def _restore_extension(self, snapshot: dict) -> None:
+        if snapshot:
+            raise Refused("base runtime cannot restore undeclared extension state")
+
     def _attention_candidates(self, observation: dict) -> list[dict]:
         unresolved = (self.ws.read("uncertainty", "runtime") or {}).get("unresolved") or []
         return [
@@ -490,6 +513,7 @@ class Substrate:
             "facts": sorted(self.semantic.store),
             "beliefs": {k: (v.retracted, round(v.confidence, 6)) for k, v in sorted(self.beliefs.beliefs.items())},
             "reliability": {k: round(v, 6) for k, v in sorted(self.reliability.items())},
+            "extension": self._extension_state(),
         }
 
     # ------------------------------------------------------------ continuity
@@ -505,6 +529,7 @@ class Substrate:
             # checkpoint. Hashing state that is not saved makes every restore fail its own check.
             "beliefs": {k: vars(v).copy() for k, v in self.beliefs.beliefs.items()},
             "reliability": dict(self.reliability),
+            "extension": self._extension_checkpoint(),
             "identity": io.sha_obj(self._state_for_hash()),
         }
 
@@ -524,6 +549,7 @@ class Substrate:
         for k, v in snapshot.get("beliefs", {}).items():
             self.beliefs.beliefs[k] = EP.Belief(**v)
         self.reliability = dict(snapshot["reliability"])
+        self._restore_extension(snapshot.get("extension", {}))
         if io.sha_obj(self._state_for_hash()) != snapshot["identity"]:
             raise Refused("restored state does not reproduce the checkpoint identity")
         return self
@@ -549,6 +575,223 @@ class Substrate:
             "why_skipped": {s: trace["stages"][s].get("reason") for s in trace["stages_skipped"]},
             "complete_cycle": trace["complete"],
             "bound_to_receipts": True,
+        }
+
+
+class StructuralSubstrate(Substrate):
+    """The existing eleven-stage entity with an executable structural world inside its owned state."""
+
+    STRUCTURAL_ARMS = (
+        "full_v4",
+        "v3_reflective_control",
+        "semantic_retrieval_control",
+        "static_structural_model",
+        "correlation_only_model",
+        "no_counterfactual",
+        "no_alignment",
+        "surface_alignment",
+        "simple_structural_inquiry",
+        "no_self_model",
+        "no_world_model",
+        "more_compute",
+        "fresh_reset",
+        "transcript_replay",
+    )
+
+    def __init__(self, arm: str = "full_v4", *, entity_id: str = "substrate-v4", body: str = "general"):
+        if arm not in self.STRUCTURAL_ARMS:
+            raise Refused(f"unknown structural arm {arm!r}")
+        self.arm = arm
+        self.entity_id = entity_id
+        self.body = body
+        self.tools = ["deterministic_compare", "sandbox_simulation", "structural_inspector"]
+        self.structural_world = StructuralWorld()
+        self.structural_estimates: dict[str, float] = {}
+        self.structural_predictions: list[dict] = []
+        self.structural_cycles: list[dict] = []
+        self._active_task_identity = ""
+        self._current_execution: dict = {}
+        self._current_prediction = 0.5
+        self._learn_current = True
+        super().__init__(catalog=[], cycle_budget=8.0)
+        perspective = PS.Perspective(
+            PS.PerspectiveSpec(
+                name="structural_execution",
+                family="causal_reasoning",
+                inputs=("perceptual",),
+                permitted_information=("perceptual",),
+                internal_state="versioned executable structural models",
+                objective="predict, intervene, align, explain, inquire, or evaluate a counterfactual",
+                output_type="committed structural consequence",
+                confidence="model support before outcome",
+                resource_cost=2.0 if arm != "more_compute" else 6.0,
+                failure_modes=("unidentified mapping", "underdetermined structure", "scope mismatch"),
+                verification="private target revealed only after committed output",
+            ),
+            self._run_structural_perspective,
+        )
+        self.catalog = [perspective]
+        self.reliability = {perspective.spec.name: 0.5}
+
+    def _run_structural_perspective(self, seen: dict) -> tuple[object, float]:
+        observation = seen["perceptual"]
+        public = observation["public"]
+        proposal, execution = self.structural_world.execute(
+            public,
+            arm=self.arm,
+            source_episode=self._active_task_identity,
+        )
+        self._current_execution = execution
+        context = f"{public['representation']}:{public['query']['kind']}"
+        self._current_prediction = self.structural_estimates.get(context, 0.5) if self.arm != "no_self_model" else 0.5
+        confidence = max(0.51, min(0.99, self._current_prediction + (0.2 if execution["causally_active"] else 0.0)))
+        return proposal, confidence
+
+    def step_structural(self, task, *, learn: bool = True) -> dict:
+        if getattr(task, "activation", False) is not False:
+            raise Refused("external activation is forbidden")
+        observation = task.observation()
+        self._active_task_identity = task.identity
+        self._learn_current = bool(learn)
+        self._current_execution = {}
+        prediction_step = self.step_index + 1
+        trace = super().step(observation, outcome=task.private_target, goal=["resolve structural query"])
+        decision_region = self.ws.read("decision", "structural_receipt")
+        decision = decision_region["value"]
+        outcome = task.reveal(decision)
+        cycle = {
+            "identity": task.identity,
+            "step": self.step_index,
+            "family": task.family,
+            "phase": task.phase,
+            "representation": task.public["representation"],
+            "query_kind": task.public["query"]["kind"],
+            "decision": decision,
+            "outcome": outcome,
+            "runtime_trace": trace,
+            "structural_execution": dict(self._current_execution),
+            "structural_model_prediction": self._current_prediction,
+            "self_prediction_step": prediction_step,
+            "outcome_step": prediction_step + 1,
+            "compute": float(self._current_execution.get("compute", 1.0)),
+            "body": self.body,
+            "tools": list(self.tools),
+            "activation": False,
+        }
+        self.structural_cycles.append(cycle)
+        return cycle
+
+    def _perceive_extension(self, observation: dict) -> dict:
+        public = observation.get("public", {})
+        if not public:
+            return {}
+        return {
+            "normalized_structural_evidence": len(public.get("verified_interventions", [])),
+            "variables_attended": len(public.get("nodes", [])),
+            "relations_attended": len(public.get("relation_constraints", [])),
+            "missing_evidence": not bool(public.get("verified_interventions")),
+        }
+
+    def _attention_candidates(self, observation: dict) -> list[dict]:
+        if "public" not in observation:
+            return super()._attention_candidates(observation)
+        public = observation["public"]
+        contradiction = float(bool(public.get("revision")))
+        return [
+            {
+                "id": "perceptual",
+                "goal_relevance": 1.0,
+                "uncertainty": 0.8 if not public.get("verified_interventions") else 0.2,
+                "risk": 0.8 if public["query"]["kind"] in {"intervention", "counterfactual"} else 0.3,
+                "expected_value": 1.0,
+                "novelty": float(public.get("cross_representation", False)),
+                "contradiction": contradiction,
+                "cost": 1.0,
+            }
+        ]
+
+    def _outcome_extension(self, observation: dict, decision: object, outcome: object) -> dict:
+        public = observation.get("public", {})
+        context = f"{public.get('representation')}:{public.get('query', {}).get('kind')}"
+        correct = decision == outcome
+        model_identity = self._current_execution.get("model")
+        if self._learn_current:
+            self.structural_world.validate(model_identity, correct, self._active_task_identity)
+        prior = self.structural_estimates.get(context, 0.5)
+        if self.arm != "no_self_model" and self._learn_current:
+            self.structural_estimates[context] = prior + 0.3 * (float(correct) - prior)
+        row = {
+            "context": context,
+            "predicted": self._current_prediction,
+            "actual": float(correct),
+            "prediction_before_outcome": True,
+            "model": model_identity,
+        }
+        self.structural_predictions.append(row)
+        return row
+
+    def _consolidate_extension(self) -> dict:
+        return {
+            "models": len(self.structural_world.models),
+            "alternatives_preserved": sum(bool(model.alternatives) for model in self.structural_world.models.values()),
+            "revisions": len(self.structural_world.revisions),
+            "mappings": len(self.structural_world.mappings),
+        }
+
+    def _adapt(self) -> dict:
+        base = super()._adapt()
+        base["structural_model_utilities"] = {identity: model.support for identity, model in sorted(self.structural_world.models.items())}
+        return base
+
+    def _extension_state(self) -> dict:
+        return {
+            "schema": "substrate-v4-structural-extension/v1",
+            "arm": self.arm,
+            "entity_id": self.entity_id,
+            "body": self.body,
+            "tools": list(self.tools),
+            "structural_world": self.structural_world.snapshot(),
+            "structural_estimates": dict(sorted(self.structural_estimates.items())),
+            "structural_predictions": list(self.structural_predictions),
+            "structural_cycles": list(self.structural_cycles),
+            "activation": False,
+        }
+
+    def _restore_extension(self, snapshot: dict) -> None:
+        if not snapshot:
+            raise Refused("structural checkpoint omitted executable structural state")
+        self.arm = snapshot["arm"]
+        self.entity_id = snapshot["entity_id"]
+        self.body = snapshot["body"]
+        self.tools = list(snapshot["tools"])
+        self.structural_world = StructuralWorld.restore(snapshot["structural_world"])
+        self.structural_estimates = dict(snapshot["structural_estimates"])
+        self.structural_predictions = list(snapshot["structural_predictions"])
+        self.structural_cycles = list(snapshot["structural_cycles"])
+        if snapshot.get("activation") is not False:
+            raise Refused("structural checkpoint activation must remain false")
+
+    def change_body(self, body: str, tools: list[str]) -> dict:
+        before = {
+            "entity_id": self.entity_id,
+            "body": self.body,
+            "tools": list(self.tools),
+            "model_identities": sorted(self.structural_world.models),
+        }
+        self.body = body
+        self.tools = list(tools)
+        after = {
+            "entity_id": self.entity_id,
+            "body": self.body,
+            "tools": list(self.tools),
+            "model_identities": sorted(self.structural_world.models),
+        }
+        return {
+            "before": before,
+            "after": after,
+            "owned_identity_preserved": before["entity_id"] == after["entity_id"],
+            "structural_models_preserved": before["model_identities"] == after["model_identities"],
+            "activation": False,
         }
 
 

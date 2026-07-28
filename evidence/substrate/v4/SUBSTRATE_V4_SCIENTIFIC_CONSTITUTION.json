@@ -1,0 +1,96 @@
+{
+  "schema": "substrate-v4-scientific-constitution/v1",
+  "central_question": "Can one continuing reflective developmental entity infer, revise, execute, and transfer one history-shaped structural model with causal value?",
+  "hypotheses": {
+    "H_S1": "executable structural prediction",
+    "H_S2": "causal intervention value",
+    "H_S3": "counterfactual value with preserved background",
+    "H_S4": "inferred cross representation mapping",
+    "H_S5": "useful history shaped specialization",
+    "H_S6": "cost adjusted structural inquiry",
+    "H_S7": "structural explanation fidelity",
+    "H_S8": "conditional self and world structural utility",
+    "H_S9": "v2 and v3 capability preservation",
+    "H_S10": "identity and body continuity"
+  },
+  "sesoi": 0.05,
+  "candidate_ladder": {
+    "structural_model": [
+      "exact observed relation graph",
+      "typed transition and relation model",
+      "typed causal transition model with alternatives",
+      "typed causal transition model with inferred representation mappings"
+    ],
+    "mapping": [
+      "surface feature matching",
+      "constraint based structural matching",
+      "utility weighted structural alignment"
+    ],
+    "revision": [
+      "prediction error revision",
+      "intervention error revision",
+      "combined evidence triggered revision"
+    ],
+    "inquiry": [
+      "best fixed intervention policy",
+      "tabular contextual policy",
+      "regularized linear contextual policy"
+    ]
+  },
+  "statistics": {
+    "independent_unit": "one frozen developmental history",
+    "primary_summary": [
+      "mean paired effect",
+      "median paired effect",
+      "95 percent bootstrap confidence interval",
+      "exact sign test",
+      "standardized effect"
+    ],
+    "multiple_comparisons": "Holm correction over H_S1 through H_S10",
+    "alpha": 0.05,
+    "sesoi": 0.05,
+    "target_power": 0.9,
+    "retry_rule": "one exact retry after process failure; deterministic failure is terminal",
+    "missing_data": "retain and report failed units; no silent deletion",
+    "replacement": "no replacement after principal launch"
+  },
+  "freeze_rule": "no scientific premise changes after principal launch",
+  "claim_boundary": {
+    "ordered_levels": [
+      "certified_cognitive_scaffold",
+      "persistent_developmental_cognition",
+      "epistemically_organized_reasoner",
+      "reflective_cognitive_organization",
+      "demonstrated_structural_understanding",
+      "functional_proto_nous_candidate",
+      "nous_ready_for_review"
+    ],
+    "maximum": "nous_ready_for_review",
+    "unqualified_nous": false,
+    "not_claimed": [
+      "consciousness",
+      "phenomenal experience",
+      "sentience",
+      "feeling",
+      "suffering",
+      "desire",
+      "personhood",
+      "life",
+      "moral status"
+    ],
+    "permitted_actions": [
+      "internal cognitive proposals",
+      "internal structural model manipulation",
+      "deterministic sandboxed simulations",
+      "pure local tools",
+      "controlled local environments",
+      "hypothetical actions"
+    ],
+    "activation": false
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "085c3958027f0a8d84016cef46b4249c8e206d88ace17ca336e50e316665372b"
+}
