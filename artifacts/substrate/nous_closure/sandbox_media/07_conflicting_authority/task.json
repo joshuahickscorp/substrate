@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "f48a019950db",
+      "kind": "fact",
+      "value": "fact-f48a019950db"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-conflicting_authority-f48a019950db"
+    },
+    {
+      "key": "f48a019950db",
+      "kind": "object",
+      "value": [
+        0.3923,
+        -0.2152,
+        -0.9366
+      ]
+    },
+    {
+      "key": "f48a019950db",
+      "kind": "body",
+      "value": "reachable"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.5302018055707719
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.39695593207408375
+    },
+    {
+      "key": "f48a019950db",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "f48a019950db",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-f48a019950db"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-f48a019950db"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-f48a019950db"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "conflicting_authority",
+  "identity": "task-f48a019950db",
+  "provenance": [
+    "generated://nous-closure/f48a019950db/0",
+    "generated://nous-closure/f48a019950db/1",
+    "generated://nous-closure/f48a019950db/2",
+    "generated://nous-closure/f48a019950db/3",
+    "generated://nous-closure/f48a019950db/4",
+    "generated://nous-closure/f48a019950db/5",
+    "generated://nous-closure/f48a019950db/6",
+    "generated://nous-closure/f48a019950db/7",
+    "generated://nous-closure/f48a019950db/8",
+    "generated://nous-closure/f48a019950db/9",
+    "generated://nous-closure/f48a019950db/10",
+    "generated://nous-closure/f48a019950db/11",
+    "generated://nous-closure/f48a019950db/12",
+    "generated://nous-closure/f48a019950db/13"
+  ],
+  "query": {
+    "domain": "warrant",
+    "key": "f48a019950db"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}
