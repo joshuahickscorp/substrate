@@ -34,6 +34,13 @@ jobs:
           substrate v5 canaries
           substrate v5 pilot
           substrate v5 rehearse
+      - name: Nous Closure construction and admission gates
+        run: |
+          substrate nous-closure preflight
+          substrate nous-closure canaries
+          substrate nous-closure pilot
+          substrate nous-closure rehearse
+          substrate nous-closure verify
       - name: Scientific verification
         run: substrate verify
       - name: Mutation suite

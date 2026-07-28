@@ -35,6 +35,11 @@ def main(argv: list[str] | None = None) -> None:
 
         v5.main(argv)
         return
+    if command == "nous-closure":
+        from substrate import nous_closure
+
+        nous_closure.main(argv)
+        return
 
     if command == "test":
         raise SystemExit(subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode)
