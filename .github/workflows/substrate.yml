@@ -41,6 +41,12 @@ jobs:
           substrate nous-closure pilot
           substrate nous-closure rehearse
           substrate nous-closure verify
+      - name: Final Revision pre-freeze gates
+        run: |
+          substrate final-revision reproduce-null
+          substrate final-revision tournament
+          substrate final-revision canaries
+          substrate final-revision pilot
       - name: Scientific verification
         run: substrate verify
       - name: Mutation suite
