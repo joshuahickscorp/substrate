@@ -69,9 +69,33 @@ def run(keep: bool = False) -> dict:
         head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=clone, capture_output=True, text=True).stdout.strip()
         results["exact_commit_checkout"] = {"ok": head == commit, "head": head, "expected": commit}
 
+        # Run mutation-prone tests in their own exact clone. The primary clone
+        # must remain pristine for the later committed-artifact comparison.
+        test_clone = tmp / "declared-tests"
+        test_clone_code, test_clone_out = _run(
+            ["git", "clone", "--quiet", "--no-hardlinks", str(io.ROOT), str(test_clone)],
+            tmp,
+        )
+        test_checkout_code, test_checkout_out = _run(["git", "checkout", "--quiet", commit], test_clone)
+        test_head = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=test_clone,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        test_clone_ok = test_clone_code == 0 and test_checkout_code == 0 and test_head == commit
+
         env = {**__import__("os").environ, "PYTHONPATH": str(clone / "src"), "PYTHONDONTWRITEBYTECODE": "1"}
-        code, out = _run([PY, "-c", "import substrate.program, substrate.runtime"], clone, env)
-        results["package_import"] = {"ok": code == 0, "detail": out[-300:]}
+        test_env = {
+            **__import__("os").environ,
+            "PYTHONPATH": str(test_clone / "src"),
+            "PYTHONDONTWRITEBYTECODE": "1",
+        }
+        code, out = _run([PY, "-c", "import substrate.program, substrate.runtime"], test_clone, test_env)
+        results["package_import"] = {
+            "ok": test_clone_ok and code == 0,
+            "detail": (test_clone_out + test_checkout_out + out)[-300:],
+        }
 
         test_command = [
             PY,
@@ -83,11 +107,13 @@ def run(keep: bool = False) -> dict:
             "no:cacheprovider",
             *DECLARED_TEST_TARGETS,
         ]
-        code, out = _run(test_command, clone, env)
+        code, out = _run(test_command, test_clone, test_env)
         results["declared_tests"] = {
-            "ok": code == 0,
+            "ok": test_clone_ok and code == 0,
             "exit_code": code,
             "command": test_command,
+            "isolated_test_clone": True,
+            "test_clone_head": test_head,
             "detail": out.strip().splitlines()[-80:],
         }
 
