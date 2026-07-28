@@ -204,12 +204,31 @@ def _classification_evidence_complete(effects: dict, historical: dict) -> bool:
 
 
 def _clean_environment(installed: Path, clone: Path) -> dict[str, str]:
+    clean = {
+        key: value for key, value in os.environ.items() if key not in {"PYTHONPATH", "SUBSTRATE_DATA_ROOT", "SUBSTRATE_REPOSITORY_ROOT", "SUBSTRATE_STATE_ROOT"}
+    }
     return {
-        **os.environ,
+        **clean,
         "PYTHONPATH": str(installed),
         "SUBSTRATE_REPOSITORY_ROOT": str(clone),
-        "SUBSTRATE_STATE_ROOT": str(clone / ".substrate-state"),
     }
+
+
+def _clean_clone_command(clone: Path) -> list[str]:
+    return ["git", "clone", "--quiet", "--branch", P.READY_TAG, str(io.ROOT), str(clone)]
+
+
+def _clean_install_command(installed: Path, clone: Path) -> list[str]:
+    return [
+        shutil.which("uv") or "uv",
+        "pip",
+        "install",
+        "--quiet",
+        "--no-deps",
+        "--target",
+        str(installed),
+        str(clone),
+    ]
 
 
 def recompute(raw_report: dict) -> dict:
@@ -399,22 +418,12 @@ def clean_clone(raw_report: dict) -> dict:
         clone = Path(temporary) / "repo"
         installed = Path(temporary) / "installed"
         clone_result = subprocess.run(
-            ["git", "clone", "--quiet", "--branch", P.READY_TAG, "--depth", "1", str(io.ROOT), str(clone)],
+            _clean_clone_command(clone),
             capture_output=True,
             text=True,
         )
         install = subprocess.run(
-            [
-                shutil.which("uv") or "uv",
-                "pip",
-                "install",
-                "--quiet",
-                "--no-deps",
-                "--no-build-isolation",
-                "--target",
-                str(installed),
-                str(clone),
-            ],
+            _clean_install_command(installed, clone),
             capture_output=True,
             text=True,
         )
