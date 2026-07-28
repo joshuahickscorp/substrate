@@ -1,0 +1,31 @@
+{
+  "schema": "substrate-v4-implementation-transition/v1",
+  "identity": "v4-verification-transition-3",
+  "parent_transition": "v4-verification-transition-2",
+  "trigger": "the clean clone requires declared build isolation, complete tagged history, and the frozen empty state/data configuration environment",
+  "authorized_changes": [
+    "allow uv to provision the declared Hatchling build backend",
+    "clone complete tagged history required by legacy receipt parity",
+    "remove inherited state and data overrides while binding only the repository root"
+  ],
+  "scientific_premises_changed": false,
+  "thresholds_changed": false,
+  "generators_changed": false,
+  "splits_changed": false,
+  "principal_mechanisms_changed": false,
+  "principal_receipts_invalidated": [],
+  "ready_tag_unchanged": "substrate-v4-structural-ready",
+  "resume_scope": "independent verification and terminal classification only",
+  "validation": {
+    "clean_install": true,
+    "full_clean_clone_tests": true,
+    "lint": true,
+    "format": true,
+    "double_regeneration_exact": true
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "97adb838d2d881586ee69aaf76f75a494c0b3898",
+  "source_digest": "7a4415dfcf10b1129192ccdf6dc399eb9a2b20da39488673df843a44d77b93bb",
+  "sha256": "660050ac35cda8cc3bb49e69f952a541d56bcdfb17ef25de0c2eaf0639bf67d8"
+}
