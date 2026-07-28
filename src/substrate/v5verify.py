@@ -2466,7 +2466,13 @@ def _expand_command(
         "ready_ref": ready_ref,
         "expected_digest": expected_digest,
     }
-    return [str(part).format(**values) for part in command]
+    expanded = []
+    for part in command:
+        value = str(part)
+        for name, replacement in values.items():
+            value = value.replace(f"{{{name}}}", replacement)
+        expanded.append(value)
+    return expanded
 
 
 def _result_tail(result: subprocess.CompletedProcess[str]) -> dict[str, Any]:
