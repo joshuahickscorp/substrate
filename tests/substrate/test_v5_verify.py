@@ -196,8 +196,20 @@ def test_v5_recomputation_rebuilds_every_split_effect_cost_and_continuity() -> N
     assert report["activation"] is False
 
 
-def test_v5_mutations_cover_full_master_list_with_no_survivors() -> None:
-    result = V.mutations(_memory_raw())
+def test_v5_mutations_cover_full_master_list_with_no_survivors(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    raw_report = _memory_raw()
+    checkpoint = next(iter(raw_report["checkpoints"].values()))
+    principal_source = checkpoint["entity_checkpoint"]
+    raw_report["principal_source"] = {
+        "source_commit": principal_source["source_commit"],
+        "source_digest": principal_source["source_digest"],
+    }
+    monkeypatch.setattr(io, "commit", lambda: "e" * 40)
+    monkeypatch.setattr(io, "source_digest", lambda: "f" * 64)
+
+    result = V.mutations(raw_report)
 
     assert result["total"] == len(V.MUTATION_CLASSES) == 21
     assert result["detected"] == result["total"]
