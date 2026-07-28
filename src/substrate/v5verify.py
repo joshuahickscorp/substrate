@@ -2220,6 +2220,7 @@ def _mutation_base(
     return {
         "chains": chains,
         "split_samples": split_samples,
+        "principal_source": copy.deepcopy(raw_report.get("principal_source")),
         "activation": False,
     }
 
@@ -2228,6 +2229,8 @@ def _mutation_issues(fixture: Mapping[str, Any]) -> list[str]:
     issues: list[str] = []
     if fixture.get("activation") is not False:
         issues.append("activation")
+    source = fixture.get("principal_source")
+    source_identity = _source_identity(source) if isinstance(source, Mapping) else None
 
     documents = [row for chain in fixture["chains"].values() for row in chain] + list(fixture["split_samples"])
     for receipt, checkpoint, unit in documents:
@@ -2239,6 +2242,7 @@ def _mutation_issues(fixture: Mapping[str, Any]) -> list[str]:
         expected_receipt, expected_checkpoint = _independent_execute_unit(
             unit,
             predecessor,
+            source_identity=source_identity,
         )
         issues.extend(
             f"{unit.arm}:{unit.shard}:{error}"
