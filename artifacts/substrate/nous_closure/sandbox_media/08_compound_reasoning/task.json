@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "236113c194cc",
+      "kind": "fact",
+      "value": "fact-236113c194cc"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-compound_reasoning-236113c194cc"
+    },
+    {
+      "key": "236113c194cc",
+      "kind": "object",
+      "value": [
+        0.811,
+        0.7136,
+        -0.7124
+      ]
+    },
+    {
+      "key": "236113c194cc",
+      "kind": "body",
+      "value": "reachable"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.6517201885988553
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.5496974347609864
+    },
+    {
+      "key": "236113c194cc",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "236113c194cc",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-236113c194cc"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-236113c194cc"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-236113c194cc"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "compound_reasoning",
+  "identity": "task-236113c194cc",
+  "provenance": [
+    "generated://nous-closure/236113c194cc/0",
+    "generated://nous-closure/236113c194cc/1",
+    "generated://nous-closure/236113c194cc/2",
+    "generated://nous-closure/236113c194cc/3",
+    "generated://nous-closure/236113c194cc/4",
+    "generated://nous-closure/236113c194cc/5",
+    "generated://nous-closure/236113c194cc/6",
+    "generated://nous-closure/236113c194cc/7",
+    "generated://nous-closure/236113c194cc/8",
+    "generated://nous-closure/236113c194cc/9",
+    "generated://nous-closure/236113c194cc/10",
+    "generated://nous-closure/236113c194cc/11",
+    "generated://nous-closure/236113c194cc/12",
+    "generated://nous-closure/236113c194cc/13"
+  ],
+  "query": {
+    "domain": "compound",
+    "key": "236113c194cc"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}
