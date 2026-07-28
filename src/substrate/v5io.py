@@ -1,0 +1,287 @@
+"""Deterministic, content-addressed storage owned exclusively by Substrate v5.
+
+The v5 writer fails closed on path escape, non-JSON values, invalid seals, and any
+attempt to enable external activation.  Named publications are atomic convenience
+indexes; their immutable content-addressed copies are the durable authority.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import tempfile
+from pathlib import Path
+from typing import Any
+
+from substrate import evidence as v1
+
+ROOT = v1.ROOT
+EVIDENCE = ROOT / "evidence" / "substrate" / "v5"
+RUNS = ROOT / "runs" / "substrate" / "v5"
+ARTIFACTS = ROOT / "artifacts" / "substrate" / "v5"
+CONFIGS = ROOT / "configs" / "substrate" / "v5"
+MODELS = ROOT / "models" / "substrate" / "v5"
+DATA = ROOT / "data" / "substrate" / "v5"
+CACHE = ROOT / "cache" / "substrate" / "v5"
+STATE = RUNS / "state"
+STOP = STATE / "stop"
+PROGRAM = "substrate-v5"
+ACTIVATION = False
+
+JSONValue = None | bool | int | float | str | list["JSONValue"] | dict[str, "JSONValue"]
+
+
+class Refused(RuntimeError):
+    """A v5 storage operation violated custody or integrity constraints."""
+
+
+def roots() -> tuple[Path, ...]:
+    """Return the live v5 roots.
+
+    This is a function rather than a constant so isolated tests may redirect a
+    root without leaving a stale allow-list behind.
+    """
+
+    return (CONFIGS, EVIDENCE, RUNS, ARTIFACTS, MODELS, DATA, CACHE)
+
+
+def _normal_json(value: Any) -> JSONValue:
+    try:
+        encoded = json.dumps(
+            value,
+            allow_nan=False,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+    except (TypeError, ValueError) as error:
+        raise Refused(f"value is not finite canonical JSON: {error}") from error
+    return json.loads(encoded)
+
+
+def canonical_json(value: Any) -> bytes:
+    """Encode finite JSON in the byte-stable v5 canonical form."""
+
+    normal = _normal_json(value)
+    return (
+        json.dumps(
+            normal,
+            allow_nan=False,
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+        + "\n"
+    ).encode("utf-8")
+
+
+def sha_bytes(payload: bytes) -> str:
+    return hashlib.sha256(payload).hexdigest()
+
+
+def sha_obj(value: Any) -> str:
+    return sha_bytes(canonical_json(value))
+
+
+def _contains_true_activation(value: JSONValue) -> bool:
+    if isinstance(value, dict):
+        return any(
+            (key == "activation" and child is not False)
+            or _contains_true_activation(child)
+            for key, child in value.items()
+        )
+    if isinstance(value, list):
+        return any(_contains_true_activation(child) for child in value)
+    return False
+
+
+def assert_activation_false(value: Any) -> None:
+    normal = _normal_json(value)
+    if _contains_true_activation(normal):
+        raise Refused("v5 activation must remain exactly false")
+
+
+def _owned_path(path: Path) -> Path:
+    candidate = path.expanduser().absolute()
+    resolved = candidate.resolve(strict=False)
+    for root in roots():
+        owned_root = root.expanduser().absolute().resolve(strict=False)
+        try:
+            resolved.relative_to(owned_root)
+        except ValueError:
+            continue
+        return candidate
+    raise Refused(f"path is outside the Substrate v5 roots: {path}")
+
+
+def _sync_directory(path: Path) -> None:
+    descriptor = os.open(path, os.O_RDONLY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def atomic_write_bytes(path: Path, payload: bytes, *, immutable: bool = False) -> Path:
+    """Atomically publish bytes beneath a v5 root.
+
+    Immutable publication is idempotent for identical bytes and refuses a
+    collision.  Parent directory fsync makes the rename durable across a crash.
+    """
+
+    destination = _owned_path(path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if destination.exists():
+        existing = destination.read_bytes()
+        if immutable:
+            if existing != payload:
+                raise Refused(f"immutable v5 object collision at {destination}")
+            return destination
+        if existing == payload:
+            return destination
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{destination.name}.",
+        dir=destination.parent,
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "wb") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, destination)
+        _sync_directory(destination.parent)
+    finally:
+        temporary.unlink(missing_ok=True)
+    return destination
+
+
+def atomic_write(path: Path, payload: str, *, immutable: bool = False) -> Path:
+    return atomic_write_bytes(path, payload.encode("utf-8"), immutable=immutable)
+
+
+def sealed_document(document: dict[str, Any]) -> dict[str, JSONValue]:
+    """Return a canonical JSON document whose digest covers every other field."""
+
+    if not isinstance(document, dict):
+        raise Refused("a sealed document must be a JSON object")
+    normal = _normal_json({key: value for key, value in document.items() if key != "sha256"})
+    if not isinstance(normal, dict):
+        raise Refused("a sealed document must be a JSON object")
+    normal.setdefault("program", PROGRAM)
+    normal.setdefault("activation", ACTIVATION)
+    assert_activation_false(normal)
+    normal["sha256"] = sha_obj(normal)
+    return normal
+
+
+def validate_seal(document: dict[str, Any]) -> dict[str, JSONValue]:
+    if not isinstance(document, dict):
+        raise Refused("sealed JSON is not an object")
+    normal = _normal_json(document)
+    if not isinstance(normal, dict):
+        raise Refused("sealed JSON is not an object")
+    supplied = normal.get("sha256")
+    body = {key: value for key, value in normal.items() if key != "sha256"}
+    if not isinstance(supplied, str) or supplied != sha_obj(body):
+        raise Refused("invalid v5 JSON self-seal")
+    if normal.get("program") != PROGRAM:
+        raise Refused("sealed JSON is not owned by Substrate v5")
+    assert_activation_false(normal)
+    return normal
+
+
+def _content_path(root: Path, digest: str, *, namespace: str) -> Path:
+    if not namespace or Path(namespace).is_absolute() or ".." in Path(namespace).parts:
+        raise Refused("content-address namespace must be a safe relative path")
+    return _owned_path(root) / namespace / digest[:2] / f"{digest}.json"
+
+
+def content_addressed_json(
+    document: dict[str, Any],
+    *,
+    root: Path = RUNS,
+    namespace: str = "objects",
+) -> Path:
+    """Seal and immutably store a JSON object at a digest-derived path."""
+
+    owned_root = _owned_path(root)
+    sealed = sealed_document(document)
+    digest = str(sealed["sha256"])
+    destination = _content_path(owned_root, digest, namespace=namespace)
+    return atomic_write_bytes(destination, canonical_json(sealed), immutable=True)
+
+
+def publish_json(
+    path: Path,
+    document: dict[str, Any],
+    *,
+    object_namespace: str = ".objects",
+) -> Path:
+    """Atomically publish a named sealed document and its immutable authority."""
+
+    destination = _owned_path(path)
+    if destination.suffix != ".json":
+        raise Refused("named v5 JSON publications must end in .json")
+    sealed = sealed_document(document)
+    owner = next(
+        root
+        for root in roots()
+        if destination.resolve(strict=False).is_relative_to(root.resolve(strict=False))
+    )
+    digest = str(sealed["sha256"])
+    object_path = _content_path(owner, digest, namespace=object_namespace)
+    payload = canonical_json(sealed)
+    atomic_write_bytes(object_path, payload, immutable=True)
+    return atomic_write_bytes(destination, payload)
+
+
+def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise Refused(f"duplicate JSON key {key!r}")
+        result[key] = value
+    return result
+
+
+def load_json(path: Path) -> dict[str, JSONValue]:
+    source = _owned_path(path)
+    try:
+        value = json.loads(
+            source.read_text(encoding="utf-8"),
+            object_pairs_hook=_reject_duplicate_keys,
+            parse_constant=lambda token: (_ for _ in ()).throw(
+                Refused(f"non-finite JSON token {token}")
+            ),
+        )
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise Refused(f"invalid v5 JSON at {source}: {error}") from error
+    return validate_seal(value)
+
+
+def seal(name: str, document: dict[str, Any], *, artifact: bool = False) -> Path:
+    root = ARTIFACTS if artifact else EVIDENCE
+    return publish_json(root / name, document)
+
+
+def load(name: str, *, artifact: bool = False) -> dict[str, JSONValue]:
+    root = ARTIFACTS if artifact else EVIDENCE
+    return load_json(root / name)
+
+
+def run_json(relative: str, document: dict[str, Any]) -> Path:
+    return publish_json(RUNS / relative, document)
+
+
+def config_json(relative: str, document: dict[str, Any]) -> Path:
+    return publish_json(CONFIGS / relative, document)
+
+
+def stop() -> Path:
+    return atomic_write(STOP, "operator stop\n")
+
+
+def resume() -> None:
+    _owned_path(STOP).unlink(missing_ok=True)
