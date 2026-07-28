@@ -1,5 +1,13 @@
 # Substrate v5
 
+> **Historical scope:** This page documents the frozen V5 release. Its
+> `multimodal_nous_ready_for_review` label is a historical V5 classification,
+> not the repository's current scientific status. The stronger Nous Closure
+> campaign subsequently established the immutable result
+> `terminal_closed_null`. The separate Final Revision campaign is still in
+> progress and must publish its own terminal classification before that status
+> is presented here. External activation remains `false`.
+
 Substrate v5 is an evidence-bound local multimodal cognition runtime with
 persistent substrate-owned state, a typed sensorium, model-neutral routing,
 sandboxed bodies, continual learning, sealed checkpoints, and independent
