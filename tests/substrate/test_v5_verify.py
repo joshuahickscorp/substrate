@@ -122,6 +122,64 @@ def test_v5_raw_verifier_refuses_an_altered_sealed_unit(
     assert unit.identity in result["seal_errors"]
 
 
+def test_v5_raw_verifier_preserves_ready_source_after_verifier_transition(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    _redirect_v5_roots(monkeypatch, tmp_path)
+    ready_source = ("c" * 40, "d" * 64)
+    units = [P.WorkUnit("principal", 5_000, "full_v5", shard) for shard in range(P.SHARDS)]
+    predecessor = None
+    for unit in units:
+        receipt, checkpoint = P.execute_unit(unit, predecessor)
+        io.run_json(f"{unit.split}/units/{unit.identity}.json", receipt)
+        io.run_json(
+            f"{unit.split}/checkpoints/{unit.identity}.json",
+            checkpoint,
+        )
+        predecessor = checkpoint
+    monkeypatch.setattr(io, "commit", lambda: "e" * 40)
+    monkeypatch.setattr(io, "source_digest", lambda: "f" * 64)
+
+    result = V.raw(units)
+
+    assert result["all_pass"]
+    assert result["principal_source"] == {
+        "source_commit": ready_source[0],
+        "source_digest": ready_source[1],
+    }
+
+
+def test_v5_sample_regeneration_remains_ready_source_bound(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    ready_source = ("c" * 40, "d" * 64)
+    monkeypatch.setattr(io, "commit", lambda: ready_source[0])
+    monkeypatch.setattr(io, "source_digest", lambda: ready_source[1])
+    unit = next(unit for unit in P.work_units("principal") if unit.arm == "full_v5" and unit.shard == 0)
+    receipt, checkpoint = V._independent_execute_unit(unit)
+    raw_report = {
+        "all_pass": True,
+        "receipts": {unit.identity: receipt},
+        "principal_source": {
+            "source_commit": ready_source[0],
+            "source_digest": ready_source[1],
+        },
+    }
+    expected = io.sha_obj(
+        {
+            "receipt": receipt,
+            "checkpoint": checkpoint,
+        }
+    )
+    monkeypatch.setattr(io, "commit", lambda: "e" * 40)
+    monkeypatch.setattr(io, "source_digest", lambda: "f" * 64)
+
+    _, actual = V._sample_regeneration(raw_report)
+
+    assert actual == expected
+
+
 def test_v5_recomputation_rebuilds_every_split_effect_cost_and_continuity() -> None:
     report = V.recompute(_memory_raw())
 
