@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import subprocess
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -75,6 +77,8 @@ def _empty_grok_review() -> dict[str, Any]:
             "recommendations_are_primary_evidence": False,
             "current_campaign_endpoint_credit": 0,
             "classification_credit": 0,
+            "reviews_complete": False,
+            "all_credited_invocations_disposed": False,
             "complete": False,
         },
     )
@@ -275,12 +279,43 @@ def _validate_output(output: Mapping[str, Any], *, expected_role: str) -> None:
         raise io.Refused(f"field Grok output fails {failed}")
 
 
+def _exact_review_repository(task_directory: Path, contract_path: Path) -> Path:
+    metadata = json.loads((task_directory / "metadata.json").read_text())
+    repository = Path(str(metadata.get("repo", ""))).resolve()
+    prompt = contract_path.read_text()
+    evidence_commit = next(
+        line.split(":", 1)[1].strip() for line in prompt.splitlines() if line.startswith("PUBLIC EVIDENCE COMMIT:")
+    )
+    allowed_clean_checkout = repository.parent == Path("/tmp").resolve() and repository.name.startswith("substrate-field-grok-")
+    if repository != io.ROOT.resolve() and not allowed_clean_checkout:
+        raise io.Refused("field Grok repository is neither the source repository nor an approved detached checkout")
+    head = subprocess.run(
+        ["git", "-C", str(repository), "rev-parse", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    status = subprocess.run(
+        ["git", "-C", str(repository), "status", "--porcelain"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if head.returncode or head.stdout.strip() != evidence_commit or status.returncode or status.stdout.strip():
+        raise io.Refused("field Grok checkout is not clean at the contract evidence commit")
+    return repository
+
+
 def _rewrite_grok_review(
     credited: list[dict[str, Any]],
     rejected: list[dict[str, Any]],
     dispositions: list[dict[str, Any]],
 ) -> dict[str, Any]:
     distinct_roles = sorted({str(row["role"]) for row in credited})
+    reviews_complete = len(distinct_roles) >= REQUIRED_GROK_ROLE_COUNT
+    all_credited_disposed = bool(credited) and len(dispositions) == len(credited) and all(
+        row.get("status") != "pending_implementation_adjudication" for row in dispositions
+    )
     report = _authority(
         "substrate-field-grok-review/v1",
         {
@@ -298,7 +333,9 @@ def _rewrite_grok_review(
             "recommendations_are_primary_evidence": False,
             "current_campaign_endpoint_credit": 0,
             "classification_credit": 0,
-            "complete": len(distinct_roles) >= REQUIRED_GROK_ROLE_COUNT,
+            "reviews_complete": reviews_complete,
+            "all_credited_invocations_disposed": all_credited_disposed,
+            "complete": reviews_complete and all_credited_disposed,
         },
     )
     io.write_json(io.EVIDENCE / "SUBSTRATE_FIELD_GROK_REVIEW.json", report)
@@ -306,7 +343,8 @@ def _rewrite_grok_review(
 
 
 def record_grok_build(task_directory: Path, contract_path: Path) -> dict[str, Any]:
-    record = grok.grok_build_record(task_directory, contract_path)
+    repository = _exact_review_repository(task_directory.resolve(), contract_path.resolve())
+    record = grok.grok_build_record(task_directory, contract_path, expected_repository=repository)
     role = str(record["role"])
     _validate_output(record["output"], expected_role=role)
     prior = load_grok_review()
@@ -336,7 +374,8 @@ def record_grok_build(task_directory: Path, contract_path: Path) -> dict[str, An
 
 
 def record_grok_build_rejected(task_directory: Path, contract_path: Path) -> dict[str, Any]:
-    rejected_record = grok.grok_build_rejected_record(task_directory, contract_path)
+    repository = _exact_review_repository(task_directory.resolve(), contract_path.resolve())
+    rejected_record = grok.grok_build_rejected_record(task_directory, contract_path, expected_repository=repository)
     role = str(rejected_record["role"])
     if role not in FIELD_GROK_ROLES or rejected_record["round"] != FIELD_GROK_ROUND:
         raise io.Refused("rejected field Grok invocation has the wrong role or round")
@@ -350,6 +389,74 @@ def record_grok_build_rejected(task_directory: Path, contract_path: Path) -> dic
     rejected_record["current_campaign_endpoint_credit"] = 0
     rejected_record["classification_credit"] = 0
     rejected.append(rejected_record)
+    return _rewrite_grok_review(credited, rejected, dispositions)
+
+
+def record_grok_failed_launch(task_directory: Path, contract_path: Path) -> dict[str, Any]:
+    """Preserve an executor-level launch failure that produced no Grok output."""
+    task_directory = task_directory.resolve()
+    contract_path = contract_path.resolve()
+    metadata_path = task_directory / "metadata.json"
+    task_path = task_directory / "task.md"
+    if not metadata_path.is_file() or not task_path.is_file():
+        raise io.Refused("failed field Grok launch lacks metadata or task contract")
+    metadata = json.loads(metadata_path.read_text())
+    prompt = task_path.read_text()
+    if prompt != contract_path.read_text():
+        raise io.Refused("failed field Grok launch does not match supplied contract")
+    if (task_directory / "grok-output.json").is_file():
+        raise io.Refused("failed-launch route cannot discard an existing Grok output")
+    raw_observed = any(
+        path.is_file() and path.stat().st_size > 0 for path in (task_directory / ".raw.out", task_directory / ".raw.err")
+    )
+    role = next((candidate for candidate in FIELD_GROK_ROLES if f"ROLE: {candidate}\n" in prompt), None)
+    if role is None or f"ROUND: {FIELD_GROK_ROUND}\n" not in prompt:
+        raise io.Refused("failed field Grok launch has the wrong role or round")
+    record = {
+        "invocation_id": str(metadata["task_id"]),
+        "role": role,
+        "round": FIELD_GROK_ROUND,
+        "prompt": prompt,
+        "prompt_digest": io.digest(prompt),
+        "model_identity": None,
+        "wrapper_model": metadata.get("model"),
+        "observed_at": metadata.get("started_at"),
+        "inputs": {
+            "evidence_commit": next(
+                line.split(":", 1)[1].strip() for line in prompt.splitlines() if line.startswith("PUBLIC EVIDENCE COMMIT:")
+            ),
+            "contract_digest": io.file_digest(contract_path),
+            "task_prompt_digest": io.file_digest(task_path),
+            "execution_mode": metadata.get("mode"),
+            "sandbox": metadata.get("sandbox"),
+        },
+        "transport": {
+            "source": "on_device_grok_build_cli",
+            "executor_launch_only": True,
+            "grok_process_observed": raw_observed,
+            "redacted_artifacts_only": True,
+        },
+        "output_received": False,
+        "output": None,
+        "output_digest": None,
+        "credited": False,
+        "rejection_reason": (
+            "executor interrupted before finalized Grok output; partial raw transport is uncredited"
+            if raw_observed
+            else "executor process terminated before Grok output; stale running marker recovered"
+        ),
+        "scope": field.FOUNDATION_STATUS,
+        "current_campaign_endpoint_credit": 0,
+        "classification_credit": 0,
+        "activation": False,
+    }
+    prior = load_grok_review()
+    credited = list(prior.get("credited_invocations", []))
+    rejected = list(prior.get("rejected_uncredited_invocations", []))
+    dispositions = list(prior.get("dispositions", []))
+    if any(row["invocation_id"] == record["invocation_id"] for row in [*credited, *rejected]):
+        raise io.Refused("field Grok invocation already recorded")
+    rejected.append(record)
     return _rewrite_grok_review(credited, rejected, dispositions)
 
 
@@ -401,6 +508,14 @@ def _plasticity_schema() -> dict[str, Any]:
                 "task_outcome",
             ],
             "runtime_properties": ["sparse", "bounded", "local_where_possible", "reversible", "receipt_bearing", "verification_gated"],
+            "verification_authority": {
+                "sealed_evaluator_cases_required": True,
+                "evaluator_identity_recorded": True,
+                "evaluation_batch_digest_recorded": True,
+                "raw_outcomes_computed_by_field": True,
+                "caller_supplied_pass_booleans_allowed": False,
+            },
+            "authoritative_store_exposed_as_detached_snapshot": True,
             "model_thought_direct_durable_rewrite": False,
         },
     )
@@ -437,12 +552,14 @@ def _precision_authority(packing: Mapping[str, Any]) -> dict[str, Any]:
                 "perceptual_latent_state": "vector_quantized_or_mixed_precision",
             },
             "promotion_requirements": [
-                "persistent_relevant_error",
-                "causal_precision_limit",
-                "held_out_improvement",
-                "resource_accounting",
-                "no_integrity_degradation",
+                "sealed_precision_evaluation_batch",
+                "causal_precision_ablation_improves_raw_outcomes",
+                "measured_added_bit_cost",
+                "minimum_future_utility_per_added_byte",
+                "exact_shell_integrity_preserved",
             ],
+            "supported_native_numeric_alphabets": ["binary", "ternary", "quinary", "seven_state_powers_of_two", "4_bit", "8_bit"],
+            "meaningful_scale_native_training_complete": False,
             "continued_bit_rent_rule": "every additional bit must earn verified future cognitive value",
             "packing_benchmark_digest": packing["sha256"],
         },
@@ -459,11 +576,17 @@ def _topology_schema() -> dict[str, Any]:
                 "old_structure",
                 "new_structure",
                 "expected_value",
-                "resource_cost_bytes",
+                "resident_bytes_before_measured",
+                "resident_bytes_after_measured",
+                "resource_cost_bytes_measured",
+                "resource_envelope_bytes",
                 "affected_beliefs_and_procedures",
                 "rollback_state",
-                "held_out_result",
+                "verification",
             ],
+            "held_out_results_computed_from_sealed_queries": True,
+            "caller_supplied_value_or_cost_allowed": False,
+            "general_receipt_rollback_supported": True,
             "growth_rent_required": True,
             "unbounded_growth_allowed": False,
             "cell_schema": list(field.CognitiveCell.__dataclass_fields__),
@@ -502,6 +625,9 @@ def _shadow_schema() -> dict[str, Any]:
             ],
             "epistemic_distinctions": ["thinking", "believing", "knowing", "learning"],
             "authoritative_write_requires_independent_verification": True,
+            "promotion_routes_through": ["PlasticityPropose", "PlasticityVerify", "PlasticityCommit"],
+            "foundation_promotion_scope": "one_changed_relation_per_verified_promotion",
+            "knowing_claimed_by_promotion": False,
         },
     )
 
@@ -512,7 +638,12 @@ def _compiler_schema() -> dict[str, Any]:
         {
             "contracts": list(field.COMPILER_CONTRACTS),
             "bytecode": ["OBSERVE", "BIND", "RETRIEVE", "COMPARE", "INFER", "SIMULATE", "VERIFY", "REVISE", "DEFER", "COMMIT", "ROLLBACK"],
+            "internal_optimized_bytecode": ["EQUAL"],
             "retained_metadata": ["inputs", "assumptions", "scope", "branch_conditions", "failure_conditions", "verification_method", "cost", "provenance"],
+            "all_admitted_opcodes_executable": True,
+            "predicates_are_executable": "truthy:<binding>",
+            "verification_uses_sealed_cases": True,
+            "caller_supplied_correctness_booleans_allowed": False,
             "failure_reopens_flexible_reasoning": True,
         },
     )
@@ -531,7 +662,14 @@ def _continuous_time_schema() -> dict[str, Any]:
                 "detect_overdue_predictions",
                 "prepare_inquiry",
             ],
-            "real_elapsed_time_required": True,
+            "clock_paths": {
+                "attested": "time.monotonic_ns computed without caller delta",
+                "simulated_fixture": "explicitly labeled deterministic test clock",
+            },
+            "real_elapsed_time_interface_implemented": True,
+            "simulated_time_misrepresented_as_attested": False,
+            "maximum_due_events_per_advance": field.MAX_TEMPORAL_EVENTS_PER_ADVANCE,
+            "hardware_or_os_scheduling_guarantee_claimed": False,
             "meaningless_activity_for_appearance": False,
         },
     )
@@ -549,11 +687,16 @@ def _migration_schema() -> dict[str, Any]:
                 "beliefs",
                 "knowledge",
                 "world_state",
+                "cognitive_cells",
                 "self_state",
                 "body_state",
                 "model_registry",
                 "procedures",
             ],
+            "target_reuses_source_identity": False,
+            "source_identity_preserved_as_lineage_reference_only": True,
+            "nonportable_loss_table_required": True,
+            "portable_fields_compared_individually": True,
             "semantic_continuity_required_before_identity_transfer_claim": True,
             "identity_transfer_claimed": False,
             "rollback_required": True,
@@ -636,8 +779,9 @@ Reviewer proposals are not scientific evidence.
         "packing/README.md": """# Native precision and packing
 
 Executable binary, ternary, quinary, seven-state, and mixed-radix primitives
-live in `substrate.final_revision_field`. Timing values are observed and
-environment-dependent; bit counts and round-trip checks are deterministic.
+live in `substrate.final_revision_field`. Deterministic authorities retain
+operation counts and exact round trips; environment-dependent wall timing is
+written only to the ignored runtime-observation ledger.
 """,
         "canaries/README.md": """# Foundation canaries
 
@@ -679,17 +823,20 @@ share one interface. They are scaffolding for a future tournament.
 ## Resource and training requirements
 
 Run 512 MB, 1 GB, 2 GB, 5 GB, 10 GB, and unconstrained-reference envelopes.
-Measure resident bytes, disk, checkpoint size, latency, energy proxy, retained
-history, rare cases, calibration, recovery, and learning per added byte.
+Measure full-process resident bytes, disk, checkpoint size, wall-clock latency,
+hardware energy where available, retained history, rare cases, calibrated
+uncertainty, recovery, and learning per added byte. The current frontier only
+measures serialized microfixture payloads and operation-count energy proxies.
 Meaningful-scale native training is deferred and must include equal teaching,
 sensors, compute, memory, recurrence, compression, and plastic state for S2.
 
 ## Future challenge commitments
 
-Commit generator source, seeds, architecture freeze, unseen concepts, causal
+Cryptographically commit generator source, seeds, architecture freeze, unseen concepts, causal
 structures, modalities, tools, teaching sequences, and task compositions before
-any candidate sees principal instances. Current micro-world templates consume
-no future principal instance.
+any candidate sees principal instances. No future seed commitment has been
+created in this foundation; current executable construction micro-worlds
+consume no future principal instance.
 
 ## Entry points and commands
 
@@ -701,14 +848,19 @@ no future principal instance.
 
 ## Known defects and strongest falsification
 
-The skeletons have no meaningful-scale native training, learned low-bit
-optimizer, independent developmental campaign, long continuity, or real-world
-integration. The controlled S2 fixture ties exactly under equal algorithms and
-resources. Random growth is refused, shuffled histories remain clean, and
-foundation scores are isolated from current classification. The strongest
-falsification remains that all observed benefit may be ordinary persistent
-state plus task-specific fixture structure that a frozen equal-resource
-architecture can precompile.
+The skeletons have no meaningful-scale native training, architecture-scale
+low-bit optimizer, independent developmental campaign, long continuity, or
+real-world integration. K8 remains a placeholder; K1–K7 are bounded
+micro-mechanisms, not principal architectures. S2 receives a machine-checked
+equal opportunity contract, but no scientific parity or future discrimination
+claim is made. Continuous-time canaries use an explicitly simulated clock;
+the real-time API is only a local monotonic-clock primitive. Frontier residency
+is serialized-payload length, not full-process RSS, and energy remains an
+operation-count proxy. Random growth is refused, shuffled histories remain
+clean, and foundation scores are isolated from current classification. The
+strongest falsification remains that all observed benefit may be ordinary
+persistent state plus task-specific fixture structure that a frozen
+equal-resource architecture can precompile.
 """,
     }
 
@@ -716,6 +868,7 @@ architecture can precompile.
 def publish_scaffold() -> dict[str, Any]:
     canaries = field.run_foundation_canaries()
     packing_raw = field.packing_benchmark()
+    runtime_observation = field.runtime_latency_observation()
     frontier_raw = field.capability_density_frontier()
     skeletons_raw = field.skeleton_activity_report()
     attractors = field.attractor_microtests()
@@ -750,7 +903,15 @@ def publish_scaffold() -> dict[str, Any]:
                 "equal_compute",
                 "equal_memory_envelope",
             ],
-            "exact_resource_and_algorithm_parity": frontier_raw["s2_exact_resource_and_algorithm_parity"],
+            "equal_resource_opportunity_verified": frontier_raw["s2_equal_resource_opportunity_verified"],
+            "opportunity_controls": {
+                envelope: field.s2_equal_opportunity_control(envelope)
+                for envelope in field.RESOURCE_ENVELOPES_BYTES
+            },
+            "numeric_microfixture_outputs_equal": frontier_raw["s2_numeric_microfixture_outputs_equal"],
+            "exact_resource_and_algorithm_parity": False,
+            "scientific_parity_claimed": False,
+            "independent_principal_s2_control_completed": False,
             "raw_s2_rows": s2_rows,
             "future_discrimination_question": (
                 "does endogenous plasticity and developmental topology add value that cannot be precompiled into a frozen architecture"
@@ -771,7 +932,8 @@ def publish_scaffold() -> dict[str, Any]:
         and skeletons_raw["all_runnable"]
         and skeletons_raw["mechanically_distinct_transition_count"] == len(field.SKELETONS)
         and attractors["all_pass"]
-        and frontier_raw["s2_exact_resource_and_algorithm_parity"]
+        and frontier_raw["s2_equal_resource_opportunity_verified"]
+        and not frontier_raw["s2_scientific_parity_claimed"]
     )
     final_state = _authority(
         "substrate-field-foundation-final-state/v1",
@@ -823,6 +985,7 @@ def publish_scaffold() -> dict[str, Any]:
     io.write_json(artifact_root / "canaries" / "FOUNDATION_CANARIES.json", canary_authority)
     io.write_json(artifact_root / "candidate_skeletons" / "CANDIDATE_SKELETONS.json", skeletons)
     io.write_json(artifact_root / "handoff" / "CONCEPT_MICRO_WORLDS.json", field.concept_micro_worlds())
+    io.write_json(io.RUNS / "field_foundation_runtime_observation.json", runtime_observation)
     io.write_json(
         artifact_root / "grok_reviews" / "GROK_REVIEW_POINTER.json",
         {
@@ -836,6 +999,8 @@ def publish_scaffold() -> dict[str, Any]:
         "schema": "substrate-field-foundation-build/v1",
         "mechanisms_pass": mechanisms_pass,
         "grok_review_complete": bool(grok_review.get("complete")),
+        "grok_reviews_complete": bool(grok_review.get("reviews_complete")),
+        "grok_dispositions_complete": bool(grok_review.get("all_credited_invocations_disposed")),
         "credited_grok_role_count": int(grok_review.get("distinct_credited_role_count", 0)),
         "all_pass": final_state["all_pass"],
         "evidence_paths": [str((io.EVIDENCE / name).relative_to(io.ROOT)) for name in EVIDENCE_NAMES],

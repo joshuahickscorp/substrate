@@ -12,7 +12,10 @@ permissions:
 jobs:
   authoritative:
     runs-on: macos-14
-    timeout-minutes: 30
+    # The final clean-clone gate intentionally re-runs the full suite from an
+    # exact checkout. The previous 30-minute ceiling cancelled a fully green
+    # job during that last independent pass.
+    timeout-minutes: 60
     env:
       SUBSTRATE_REPOSITORY_ROOT: ${{ github.workspace }}
     steps:

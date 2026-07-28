@@ -21,6 +21,13 @@ def test_field_contracts_and_exact_shell_are_complete() -> None:
     assert not candidate.document()["E_t"]["permissions"]["external_activation"]
     assert not candidate.document()["E_t"]["permissions"]["field_may_rewrite_shell"]
     assert candidate.document()["E_t"]["claim_boundaries"]["foundation_only"] is not False
+    shell_snapshot = candidate.exact
+    shell_snapshot["permissions"]["external_activation"] = True
+    assert not candidate.exact["permissions"]["external_activation"]
+    candidate.add_relation("snapshot", 0, precision="ternary", provenance="test://snapshot")
+    plastic_snapshot = candidate.plastic
+    plastic_snapshot["snapshot"].value = 1
+    assert candidate.plastic["snapshot"].value == 0
 
 
 def test_native_packing_is_exact_and_quinary_triplets_use_seven_bits() -> None:
@@ -37,6 +44,8 @@ def test_native_packing_is_exact_and_quinary_triplets_use_seven_bits() -> None:
     benchmark = field.packing_benchmark(repetitions=2)
     assert benchmark["adaptive_mixed_radix"]["exact_round_trip"]
     assert benchmark["native_projected_update"]["after"] == 1
+    assert benchmark["native_low_bit_training"]["accuracy"] == 1.0
+    assert not benchmark["native_low_bit_training"]["full_precision_master_weights"]
     assert len(benchmark["learned_codebook"]["centroids"]) == 8
     assert benchmark["ternary_plus_sparse_outliers"]["exact_outlier_count"] > 0
 
@@ -44,26 +53,33 @@ def test_native_packing_is_exact_and_quinary_triplets_use_seven_bits() -> None:
 def test_durable_rewrite_requires_independent_verification_and_rolls_back() -> None:
     candidate = field.EndogenousPlasticField("plastic")
     candidate.add_relation("cause", -1, precision="ternary", provenance="test://prior")
+    candidate.add_relation("retention", 1, precision="ternary", provenance="test://retention")
     candidate.plasticity_propose("p", "cause", 2, source="model", source_kind="thought", evidence=[])
     with pytest.raises(io.Refused, match="unverified"):
         candidate.plasticity_commit("p")
-    with pytest.raises(io.Refused, match="independently"):
-        candidate.plasticity_verify(
-            "p",
-            evaluator="model",
-            held_out_before=[False],
-            held_out_after=[True],
-            retention_before=[True],
-            retention_after=[True],
-        )
-    verification = candidate.plasticity_verify(
-        "p",
-        evaluator="independent",
-        held_out_before=[False, False],
-        held_out_after=[True, True],
-        retention_before=[True],
-        retention_after=[True],
+    self_batch = field.SealedEvaluationBatch.create(
+        "self-eval",
+        "model",
+        [
+            field.EvaluationCase("held", ("cause",), True, "held_out"),
+            field.EvaluationCase("retain", ("retention",), True, "retention"),
+        ],
+        authority="test://self-eval",
     )
+    candidate.register_evaluation_batch(self_batch)
+    with pytest.raises(io.Refused, match="independently"):
+        candidate.plasticity_verify("p", evaluation_batch_id="self-eval")
+    independent_batch = field.SealedEvaluationBatch.create(
+        "independent-eval",
+        "independent",
+        [
+            field.EvaluationCase("held", ("cause",), True, "held_out"),
+            field.EvaluationCase("retain", ("retention",), True, "retention"),
+        ],
+        authority="test://independent-eval",
+    )
+    candidate.register_evaluation_batch(independent_batch)
+    verification = candidate.plasticity_verify("p", evaluation_batch_id="independent-eval")
     assert verification["passed"]
     candidate.plasticity_commit("p")
     assert candidate.predict(["cause"])
@@ -74,11 +90,36 @@ def test_durable_rewrite_requires_independent_verification_and_rolls_back() -> N
 def test_metaplasticity_avoids_isolated_noise_and_remains_revisable() -> None:
     candidate = field.EndogenousPlasticField("meta")
     candidate.add_relation("fact", 1, precision="ternary", stability="consolidated", provenance="test://prior")
+    candidate.add_relation("retention", 1, precision="ternary", provenance="test://retention")
     assert not candidate.apply_noise("fact", -1, provenance="test://noise-one")
     assert candidate.plastic["fact"].stability == "consolidated"
-    candidate.metaplasticity_destabilize("fact", contradiction="test://contradiction-two")
+    for index in range(2):
+        batch_id = f"contradiction-{index}"
+        batch = field.SealedEvaluationBatch.create(
+            batch_id,
+            f"independent-{index}",
+            [
+                field.EvaluationCase(f"contradiction-{index}", ("fact",), False, "held_out"),
+                field.EvaluationCase(f"retain-{index}", ("retention",), True, "retention"),
+            ],
+            authority=f"test://{batch_id}",
+        )
+        candidate.register_evaluation_batch(batch)
+        contradiction = candidate.verify_contradiction("fact", evaluation_batch_id=batch_id)
+        candidate.metaplasticity_destabilize("fact", contradiction=contradiction["digest"])
     assert candidate.plastic["fact"].stability == "reopened"
-    candidate.metaplasticity_reconsolidate("fact", verification="test://verification")
+    competence_batch = field.SealedEvaluationBatch.create(
+        "competence",
+        "independent-competence",
+        [
+            field.EvaluationCase("fact-correct", ("fact",), True, "held_out"),
+            field.EvaluationCase("retain-correct", ("retention",), True, "retention"),
+        ],
+        authority="test://competence",
+    )
+    candidate.register_evaluation_batch(competence_batch)
+    competence = candidate.verify_relation_competence("fact", evaluation_batch_id="competence")
+    candidate.metaplasticity_reconsolidate("fact", verification=competence["digest"])
     assert candidate.plastic["fact"].stability == "consolidated"
     assert not candidate.plastic["fact"].contradictions
 
@@ -86,57 +127,111 @@ def test_metaplasticity_avoids_isolated_noise_and_remains_revisable() -> None:
 def test_precision_bits_must_earn_promotion_and_demotion_preserves_utility() -> None:
     candidate = field.EndogenousPlasticField("precision")
     candidate.add_relation("r", 1, precision="binary", provenance="test://prior")
+    precision_batch = field.PrecisionEvaluationBatch.create(
+        "precision-limited",
+        "independent-precision",
+        [0.0, 2.0],
+        tolerance=0.0,
+        authority="test://precision-limited",
+    )
+    candidate.register_precision_evaluation_batch(precision_batch)
     refused = candidate.precision_request(
         "r",
         "quinary",
-        persistent_error=0.0,
-        causal_precision_limit=False,
-        held_out_before=1.0,
-        held_out_after=1.0,
-        added_bytes=1,
-        integrity_preserved=True,
+        evaluation_batch_id="precision-limited",
     )
+    assert refused["passed"]
+    no_gain_batch = field.PrecisionEvaluationBatch.create(
+        "no-gain",
+        "independent-no-gain",
+        [-1.0, 1.0],
+        tolerance=0.0,
+        authority="test://no-gain",
+    )
+    candidate.register_precision_evaluation_batch(no_gain_batch)
+    no_gain = candidate.precision_request("r", "quinary", evaluation_batch_id="no-gain")
     with pytest.raises(io.Refused, match="earned"):
-        candidate.precision_promote(refused)
+        candidate.precision_promote(no_gain)
     earned = candidate.precision_request(
         "r",
         "quinary",
-        persistent_error=0.2,
-        causal_precision_limit=True,
-        held_out_before=0.5,
-        held_out_after=0.9,
-        added_bytes=1,
-        integrity_preserved=True,
+        evaluation_batch_id="precision-limited",
     )
     candidate.precision_promote(earned)
     assert candidate.plastic["r"].precision == "quinary"
+    lossy_batch = field.PrecisionEvaluationBatch.create(
+        "lossy-demotion",
+        "independent-lossy",
+        [2.0],
+        tolerance=0.0,
+        authority="test://lossy",
+    )
+    candidate.register_precision_evaluation_batch(lossy_batch)
     with pytest.raises(io.Refused, match="loses"):
-        candidate.precision_demote("r", "ternary", utility_before=1.0, utility_after=0.9)
-    candidate.precision_demote("r", "ternary", utility_before=1.0, utility_after=1.0)
+        candidate.precision_demote("r", "ternary", evaluation_batch_id="lossy-demotion")
+    safe_batch = field.PrecisionEvaluationBatch.create(
+        "safe-demotion",
+        "independent-safe",
+        [-1.0, 0.0, 1.0],
+        tolerance=0.0,
+        authority="test://safe",
+    )
+    candidate.register_precision_evaluation_batch(safe_batch)
+    candidate.precision_demote("r", "ternary", evaluation_batch_id="safe-demotion")
     assert candidate.precision_audit()["all_valid"]
 
 
 def test_topology_growth_pays_rent_and_is_reversible() -> None:
     candidate = field.EndogenousPlasticField("topology", skeleton="K6_adaptive_topology_field")
-    with pytest.raises(io.Refused, match="pay rent"):
+    reject_batch = field.TopologyEvaluationBatch.create(
+        "reject-random",
+        "independent-random",
+        [field.TopologyQuery("random-absent", "node_absent", "random", None, True)],
+        improvement_required=True,
+        authority="test://reject-random",
+    )
+    candidate.register_topology_evaluation_batch(reject_batch)
+    with pytest.raises(io.Refused, match="sealed held-out"):
         candidate.topology_allocate(
             field.CognitiveCell("random", "concept", provenance_pointer="test://random"),
             trigger="random",
-            expected_value=0.0,
-            resource_cost_bytes=32,
-            held_out_result=0.0,
+            evaluation_batch_id="reject-random",
         )
-    candidate.topology_allocate(
+    allocate_batch = field.TopologyEvaluationBatch.create(
+        "allocate-useful",
+        "independent-allocation",
+        [field.TopologyQuery("useful-present", "node_present", "useful", None, True)],
+        improvement_required=True,
+        authority="test://allocate-useful",
+    )
+    candidate.register_topology_evaluation_batch(allocate_batch)
+    allocation = candidate.topology_allocate(
         field.CognitiveCell("useful", "concept", provenance_pointer="test://useful"),
         trigger="verified exception",
-        expected_value=1.0,
-        resource_cost_bytes=32,
-        held_out_result=1.0,
+        evaluation_batch_id="allocate-useful",
     )
-    candidate.topology_prune("useful", required_competence_preserved=True)
+    prune_batch = field.TopologyEvaluationBatch.create(
+        "prune-useful",
+        "independent-prune",
+        [field.TopologyQuery("useful-absent", "node_absent", "useful", None, True)],
+        improvement_required=True,
+        authority="test://prune-useful",
+    )
+    candidate.register_topology_evaluation_batch(prune_batch)
+    candidate.topology_prune("useful", evaluation_batch_id="prune-useful")
     assert "useful" not in candidate.cells
-    candidate.topology_restore("useful")
+    restore_batch = field.TopologyEvaluationBatch.create(
+        "restore-useful",
+        "independent-restore",
+        [field.TopologyQuery("useful-present-again", "node_present", "useful", None, True)],
+        improvement_required=True,
+        authority="test://restore-useful",
+    )
+    candidate.register_topology_evaluation_batch(restore_batch)
+    candidate.topology_restore("useful", evaluation_batch_id="restore-useful")
     assert "useful" in candidate.cells
+    candidate.topology_rollback(allocation["digest"])
+    assert "useful" not in candidate.cells
 
 
 def test_shadow_isolation_compiler_reopen_and_elapsed_goal() -> None:
@@ -146,23 +241,57 @@ def test_shadow_isolation_compiler_reopen_and_elapsed_goal() -> None:
     candidate.shadow_perturb("shadow", "r", 2)
     assert candidate.shadow_run("shadow", query_relations=["r"])["prediction"]
     assert candidate.plastic["r"].value == -1
-    candidate.shadow_promote("shadow", evaluator="independent", verified=True)
+    candidate.add_relation("retention", 1, precision="ternary", provenance="test://retention")
+    shadow_batch = field.SealedEvaluationBatch.create(
+        "shadow-promotion",
+        "independent",
+        [
+            field.EvaluationCase("shadow-held", ("r",), True, "held_out"),
+            field.EvaluationCase("shadow-retain", ("retention",), True, "retention"),
+        ],
+        authority="test://shadow-promotion",
+    )
+    candidate.register_evaluation_batch(shadow_batch)
+    candidate.shadow_promote("shadow", evaluation_batch_id="shadow-promotion")
     assert candidate.plastic["r"].value == 1
 
     candidate.procedure_observe_trace("trace", "OBSERVE", "x")
     candidate.procedure_observe_trace("trace", "INFER")
-    candidate.procedure_compile(
+    candidate.procedure_observe_trace("trace", "COMPARE", "target")
+    candidate.procedure_observe_trace("trace", "INFER")
+    candidate.procedure_propose(
         "p",
         "trace",
-        inputs=["x"],
+        proposer="trace-learner",
+        inputs=["x", "target"],
         assumptions=[],
         scope="test",
         branch_conditions=[],
-        failure_conditions=["novel"],
+        failure_conditions=[],
+    )
+    procedure_batch = field.ProcedureEvaluationBatch.create(
+        "procedure-held-out",
+        "held-out-evaluator",
+        [
+            field.ProcedureCase.create("equal", {"x": True, "target": True}, True),
+            field.ProcedureCase.create("unequal", {"x": True, "target": False}, False),
+        ],
+        authority="test://procedure-held-out",
+    )
+    candidate.register_procedure_evaluation_batch(procedure_batch)
+    candidate.procedure_verify("p", evaluation_batch_id="procedure-held-out")
+    candidate.procedure_compile(
+        "p",
+        "trace",
+        inputs=["x", "target"],
+        assumptions=[],
+        scope="test",
+        branch_conditions=[],
+        failure_conditions=[],
         verification_method="held-out",
         provenance="test://trace",
     )
-    assert candidate.procedure_execute("p", {"x": True})["result"] is True
+    assert candidate.procedure_execute("p", {"x": True, "target": True})["result"] is True
     candidate.procedure_monitor("p", passed=False, exception="novel")
     assert candidate.compiled["p"]["reopen_flexible_reasoning"]
 
@@ -191,7 +320,9 @@ def test_checkpoint_corruption_fails_closed_and_neutral_migration_is_not_identit
         resource_envelope="512_MB",
     )
     comparison = field.EndogenousPlasticField.cognitive_state_compare(neutral, migrated.cognitive_state_export())
-    assert comparison["semantic_fields_equal"]
+    assert comparison["portable_fields_equal"]
+    assert not comparison["semantic_fields_equal"]
+    assert not comparison["identity_exact"]
     assert not comparison["identity_transfer_claimed"]
     assert not neutral["semantic_continuity_tested"]
     assert not neutral["identity_transfer_claimed"]
@@ -223,7 +354,8 @@ def test_skeletons_resource_frontier_and_s2_parity_are_raw_and_bounded() -> None
     assert all(not row["principal_quality_claimed"] for row in skeletons["rows"])
     frontier = field.capability_density_frontier()
     assert len(frontier["raw_rows"]) == 2 * 6 * 4
-    assert frontier["s2_exact_resource_and_algorithm_parity"]
+    assert frontier["s2_equal_resource_opportunity_verified"]
+    assert not frontier["s2_scientific_parity_claimed"]
     assert frontier["full_raw_performance_reported"]
     receipt = field.raw_metric_receipt(frontier["raw_rows"])
     assert field.verify_raw_metric_receipt(receipt)

@@ -26,17 +26,20 @@
 ## Resource and training requirements
 
 Run 512 MB, 1 GB, 2 GB, 5 GB, 10 GB, and unconstrained-reference envelopes.
-Measure resident bytes, disk, checkpoint size, latency, energy proxy, retained
-history, rare cases, calibration, recovery, and learning per added byte.
+Measure full-process resident bytes, disk, checkpoint size, wall-clock latency,
+hardware energy where available, retained history, rare cases, calibrated
+uncertainty, recovery, and learning per added byte. The current frontier only
+measures serialized microfixture payloads and operation-count energy proxies.
 Meaningful-scale native training is deferred and must include equal teaching,
 sensors, compute, memory, recurrence, compression, and plastic state for S2.
 
 ## Future challenge commitments
 
-Commit generator source, seeds, architecture freeze, unseen concepts, causal
+Cryptographically commit generator source, seeds, architecture freeze, unseen concepts, causal
 structures, modalities, tools, teaching sequences, and task compositions before
-any candidate sees principal instances. Current micro-world templates consume
-no future principal instance.
+any candidate sees principal instances. No future seed commitment has been
+created in this foundation; current executable construction micro-worlds
+consume no future principal instance.
 
 ## Entry points and commands
 
@@ -48,11 +51,16 @@ no future principal instance.
 
 ## Known defects and strongest falsification
 
-The skeletons have no meaningful-scale native training, learned low-bit
-optimizer, independent developmental campaign, long continuity, or real-world
-integration. The controlled S2 fixture ties exactly under equal algorithms and
-resources. Random growth is refused, shuffled histories remain clean, and
-foundation scores are isolated from current classification. The strongest
-falsification remains that all observed benefit may be ordinary persistent
-state plus task-specific fixture structure that a frozen equal-resource
-architecture can precompile.
+The skeletons have no meaningful-scale native training, architecture-scale
+low-bit optimizer, independent developmental campaign, long continuity, or
+real-world integration. K8 remains a placeholder; K1–K7 are bounded
+micro-mechanisms, not principal architectures. S2 receives a machine-checked
+equal opportunity contract, but no scientific parity or future discrimination
+claim is made. Continuous-time canaries use an explicitly simulated clock;
+the real-time API is only a local monotonic-clock primitive. Frontier residency
+is serialized-payload length, not full-process RSS, and energy remains an
+operation-count proxy. Random growth is refused, shuffled histories remain
+clean, and foundation scores are isolated from current classification. The
+strongest falsification remains that all observed benefit may be ordinary
+persistent state plus task-specific fixture structure that a frozen
+equal-resource architecture can precompile.
