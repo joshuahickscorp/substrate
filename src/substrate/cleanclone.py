@@ -32,6 +32,16 @@ CHECKS = (
     "independent_recomputation",
     "no_activation",
 )
+DECLARED_TEST_TARGETS = (
+    # These tests verify that the historical namespace is untouched. Run them
+    # before older campaign tests that intentionally exercise artifact-writing
+    # commands in their disposable clone.
+    "tests/substrate/test_final_revision.py",
+    "tests/substrate/test_final_revision_field.py",
+    "tests/substrate",
+    "--ignore=tests/substrate/test_final_revision.py",
+    "--ignore=tests/substrate/test_final_revision_field.py",
+)
 
 
 class Refused(RuntimeError):
@@ -63,11 +73,21 @@ def run(keep: bool = False) -> dict:
         code, out = _run([PY, "-c", "import substrate.program, substrate.runtime"], clone, env)
         results["package_import"] = {"ok": code == 0, "detail": out[-300:]}
 
-        code, out = _run([PY, "-m", "pytest", "-q", "--no-header", "-p", "no:cacheprovider", "tests/substrate"], clone, env)
+        test_command = [
+            PY,
+            "-m",
+            "pytest",
+            "-q",
+            "--no-header",
+            "-p",
+            "no:cacheprovider",
+            *DECLARED_TEST_TARGETS,
+        ]
+        code, out = _run(test_command, clone, env)
         results["declared_tests"] = {
             "ok": code == 0,
             "exit_code": code,
-            "command": [PY, "-m", "pytest", "-q", "--no-header", "-p", "no:cacheprovider", "tests/substrate"],
+            "command": test_command,
             "detail": out.strip().splitlines()[-80:],
         }
 

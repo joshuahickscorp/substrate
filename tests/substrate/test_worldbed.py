@@ -80,3 +80,12 @@ def test_the_clean_clone_checks_are_declared():
         assert required in CC.CHECKS
     # the load bearing one is that artifacts are a function of the tree, not of the machine
     assert "artifacts_regenerate_identically" in CC.CHECKS
+
+
+def test_historical_guard_tests_run_before_artifact_writing_campaign_tests():
+    targets = CC.DECLARED_TEST_TARGETS
+    suite = targets.index("tests/substrate")
+    assert targets.index("tests/substrate/test_final_revision.py") < suite
+    assert targets.index("tests/substrate/test_final_revision_field.py") < suite
+    assert "--ignore=tests/substrate/test_final_revision.py" in targets
+    assert "--ignore=tests/substrate/test_final_revision_field.py" in targets
