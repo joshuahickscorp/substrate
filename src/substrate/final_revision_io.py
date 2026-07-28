@@ -116,11 +116,28 @@ def write_text(path: Path, value: str) -> Path:
     return path
 
 
+_ACTIVATION_KEYS = frozenset({"activation", "external_activation"})
+
+
+def _is_activation_key(key: Any) -> bool:
+    return isinstance(key, str) and key.casefold() in _ACTIVATION_KEYS
+
+
 def contains_true_activation(value: Any) -> bool:
+    """Return True if any activation-shaped key is not exactly False.
+
+    Matches keys whose casefolded form is ``activation`` or
+    ``external_activation`` (so ``Activation``, ``ACTIVATION``, and
+    ``external_activation`` are covered). Recurses through dicts, lists, and
+    tuples. Does not parse JSON embedded in strings.
+    """
     if isinstance(value, dict):
-        return any(key == "activation" and child is not False for key, child in value.items()) or any(
-            contains_true_activation(child) for child in value.values()
-        )
+        for key, child in value.items():
+            if _is_activation_key(key) and child is not False:
+                return True
+            if contains_true_activation(child):
+                return True
+        return False
     if isinstance(value, (list, tuple)):
         return any(contains_true_activation(child) for child in value)
     return False

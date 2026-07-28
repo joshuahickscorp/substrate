@@ -2215,6 +2215,142 @@ def _objective_scorecard() -> dict[str, Any]:
     }
 
 
+_FREEZE_SCHEMA = "substrate-final-revision-candidate-freeze/v1"
+_BED_RESULT_SCHEMAS = frozenset(
+    {
+        "substrate-final-revision-discrimination-bed/v1",
+        "substrate-final-revision-principal-result/v1",
+        "substrate-final-revision-replication-result/v1",
+        "substrate-final-revision-hidden-composition-result/v1",
+    }
+)
+_SEALED_TRANSITION_SCHEMA = "substrate-final-revision-sealed-transition/v1"
+_HISTORICAL_NAMESPACE_PATHS = (
+    "evidence/substrate/nous_closure",
+    "artifacts/substrate/nous_closure",
+    "configs/substrate/nous_closure",
+    "src/substrate/nous_closure.py",
+    "src/substrate/nous_closure_campaign.py",
+    "src/substrate/nous_closure_config.py",
+    "src/substrate/nous_closure_experiment.py",
+    "src/substrate/nous_closure_io.py",
+)
+
+
+def _authorised_predecessor_source_digests() -> set[str]:
+    """Source digests sealed transitions explicitly authorise as freeze predecessors."""
+    authorised: set[str] = set()
+    for path in sorted(io.EVIDENCE.glob("SUBSTRATE_FINAL_REVISION_TRANSITION_*.json")):
+        if path.name == "SUBSTRATE_FINAL_REVISION_TRANSITION_AUTHORITY.json":
+            continue
+        try:
+            document = io.load_json(path)
+        except io.Refused:
+            continue
+        if document.get("schema") != _SEALED_TRANSITION_SCHEMA:
+            continue
+        ready = document.get("ready")
+        if isinstance(ready, dict):
+            frozen = ready.get("frozen_source_digest")
+            if isinstance(frozen, str) and frozen:
+                authorised.add(frozen)
+        for key in (
+            "predecessor_source_digest",
+            "authorised_predecessor_source_digest",
+            "authorised_predecessor_source_digests",
+        ):
+            value = document.get(key)
+            if isinstance(value, str) and value:
+                authorised.add(value)
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, str) and item:
+                        authorised.add(item)
+    return authorised
+
+
+def _freeze_content_valid(freeze_document: Mapping[str, Any]) -> bool:
+    """Content check for a candidate freeze: schema, SESOI, and source chain."""
+    if freeze_document.get("schema") != _FREEZE_SCHEMA:
+        return False
+    if freeze_document.get("sesoi") != C.SESOI:
+        return False
+    source = freeze_document.get("source_digest")
+    if not isinstance(source, str) or not source:
+        return False
+    live = io.source_digest()
+    if source == live:
+        return True
+    return source in _authorised_predecessor_source_digests()
+
+
+def _bed_result_content_valid(document: Mapping[str, Any]) -> bool:
+    """Content check for principal / replication / hidden-composition results."""
+    if document.get("schema") not in _BED_RESULT_SCHEMAS:
+        return False
+    effects = document.get("effects")
+    if not isinstance(effects, dict):
+        return False
+    p3 = effects.get("P3_selected_minus_strongest_persistent_alternative")
+    p1 = effects.get("P1_selected_minus_full_transcript_replay")
+    return isinstance(p3, dict) and isinstance(p1, dict)
+
+
+def _thresholds_preserved(freeze_document: Mapping[str, Any]) -> tuple[bool | None, str | None]:
+    """Compare live SESOI, POWER_TARGET, and configuration digest to the freeze.
+
+    Returns ``(None, reason)`` when a required field is not recorded on the freeze
+    and therefore cannot be verified from disk, rather than asserting True.
+    """
+    if not freeze_document:
+        return None, "candidate freeze absent"
+    if freeze_document.get("sesoi") != C.SESOI:
+        return False, None
+    if freeze_document.get("configuration_digest") != C.configuration_digest():
+        return False, None
+    if "power_target" not in freeze_document:
+        return None, "candidate freeze does not record power_target; cannot verify C.POWER_TARGET against freeze"
+    if freeze_document.get("power_target") != C.POWER_TARGET:
+        return False, None
+    return True, None
+
+
+def _challenges_preserved(freeze_document: Mapping[str, Any]) -> tuple[bool | None, str | None]:
+    """Check challenge authority and generator commitments still match the freeze."""
+    if not freeze_document:
+        return None, "candidate freeze absent"
+    frozen_challenges = freeze_document.get("challenges")
+    frozen_config = freeze_document.get("configuration_digest")
+    if not isinstance(frozen_challenges, list):
+        return None, "candidate freeze does not record challenges"
+    if not isinstance(frozen_config, str) or not frozen_config:
+        return None, "candidate freeze does not record configuration_digest"
+    challenge = _read_optional("SUBSTRATE_FINAL_REVISION_CHALLENGE_AUTHORITY.json")
+    generator = _read_optional("SUBSTRATE_FINAL_REVISION_GENERATOR_COMMITMENTS.json")
+    if challenge is None or generator is None:
+        return None, "challenge authority or generator commitments absent on disk"
+    if challenge.get("schema") != "substrate-final-revision-challenge-authority/v1":
+        return False, None
+    if generator.get("schema") != "substrate-final-revision-generator-commitments/v1":
+        return False, None
+    if challenge.get("families") != frozen_challenges:
+        return False, None
+    if generator.get("families") != frozen_challenges:
+        return False, None
+    if challenge.get("configuration_digest") != frozen_config:
+        return False, None
+    if generator.get("configuration_digest") != frozen_config:
+        return False, None
+    family_digests = generator.get("family_program_digests")
+    if not isinstance(family_digests, dict):
+        return None, "generator commitments lack family_program_digests"
+    if set(family_digests) != set(frozen_challenges):
+        return False, None
+    if not isinstance(generator.get("generator_source_digest"), str) or not generator.get("generator_source_digest"):
+        return None, "generator commitments lack generator_source_digest"
+    return True, None
+
+
 def _terminal_documents() -> dict[str, dict[str, Any]]:
     grok_documents = _grok_terminal_documents()
     grok_scorecard = grok_documents["SUBSTRATE_FINAL_REVISION_GROK_SCORECARD.json"]
@@ -2232,26 +2368,82 @@ def _terminal_documents() -> dict[str, dict[str, Any]]:
     regeneration = _read_optional("SUBSTRATE_FINAL_REVISION_REGENERATION.json") or {}
     independent = _read_optional("SUBSTRATE_FINAL_REVISION_INDEPENDENT_VERIFICATION.json") or {}
     readiness_manifest = io.ARTIFACTS / "REAL_WORLD_SANDBOX_READINESS_MANIFEST.json"
+
+    # Cheap seal-time re-execution: mutation (~0.1s) and counterfeit (sub-ms).
+    live_mutation = V.mutation_report()
+    live_counterfeit = V.counterfeit_report()
+    stored_mutation_zero = mutation.get("zero_survivors")
+    live_mutation_zero = live_mutation.get("zero_survivors")
+    mutation_agrees = stored_mutation_zero is live_mutation_zero
+    stored_counterfeit_rejected = counterfeit.get("all_rejected")
+    live_counterfeit_rejected = live_counterfeit.get("all_rejected")
+    counterfeit_agrees = stored_counterfeit_rejected is live_counterfeit_rejected
+
+    historical_drift = _git_diff_names(C.PREFLIGHT_TAG, *_HISTORICAL_NAMESPACE_PATHS)
+    live_history_intact = not historical_drift
+
+    seal_check_disagreements: dict[str, dict[str, Any]] = {}
+    if not mutation_agrees:
+        seal_check_disagreements["mutation_zero_survivors"] = {
+            "stored": stored_mutation_zero,
+            "live": live_mutation_zero,
+        }
+    if not counterfeit_agrees:
+        seal_check_disagreements["counterfeits_rejected"] = {
+            "stored": stored_counterfeit_rejected,
+            "live": live_counterfeit_rejected,
+        }
+    stored_history = historical.get("historical_evidence_untouched")
+    if stored_history is not None and stored_history is not live_history_intact:
+        seal_check_disagreements["history_intact"] = {
+            "stored": stored_history,
+            "live": live_history_intact,
+            "historical_diff_from_preflight": historical_drift,
+        }
+    # The live recomputation is the authority over a forged document, but it must
+    # not become a way to pass without one: the sealed immutability receipt is a
+    # required deliverable and must still be present and affirmative.
+    history_intact = live_history_intact and stored_history is True
+
     p3_rows = [row.get("effects", {}).get("P3_selected_minus_strongest_persistent_alternative", {}) for row in (principal, replication, hidden)]
     outcome_b_checks = {
-        "history_intact": historical.get("historical_evidence_untouched") is True,
+        "history_intact": history_intact,
         "closure_null_reproduced": closure.get("all_pass") is True,
         "grok_swarm_complete": grok_scorecard.get("required_cells_complete") is True and grok_scorecard.get("all_rounds_complete") is True,
         "grok_no_unresolved_blocker": not grok_scorecard.get("unresolved_blocking_defects"),
-        "candidate_frozen": bool(freeze_document),
-        "principal_complete": bool(principal),
-        "replication_complete": bool(replication),
-        "hidden_composition_complete": bool(hidden),
+        "candidate_frozen": _freeze_content_valid(freeze_document),
+        "principal_complete": _bed_result_content_valid(principal),
+        "replication_complete": _bed_result_content_valid(replication),
+        "hidden_composition_complete": _bed_result_content_valid(hidden),
         "architectural_advantage_null": len(p3_rows) == 3
         and all(row.get("mean_paired_effect") == 0.0 and row.get("confidence_interval_95") == [0.0, 0.0] for row in p3_rows),
         "long_continuity_complete": continuity.get("meets_12_hour_minimum") is True,
-        "mutation_zero_survivors": mutation.get("zero_survivors") is True,
-        "counterfeits_rejected": counterfeit.get("all_rejected") is True,
+        "mutation_zero_survivors": live_mutation_zero is True and mutation_agrees,
+        "counterfeits_rejected": live_counterfeit_rejected is True and counterfeit_agrees,
         "clean_clone": clean_clone.get("all_pass") is True,
         "regeneration": regeneration.get("exact_agreement") is True,
         "independent_verification": independent.get("complete") is True,
         "readiness_package": readiness_manifest.is_file() and len(list(io.READINESS.glob("*.json"))) >= 11,
         "activation_false": C.ACTIVATION is False,
+    }
+    gate_verification_method = {
+        "history_intact": "re_executed_at_seal",
+        "closure_null_reproduced": "field_asserted",
+        "grok_swarm_complete": "field_asserted",
+        "grok_no_unresolved_blocker": "field_asserted",
+        "candidate_frozen": "content_checked",
+        "principal_complete": "content_checked",
+        "replication_complete": "content_checked",
+        "hidden_composition_complete": "content_checked",
+        "architectural_advantage_null": "content_checked",
+        "long_continuity_complete": "field_asserted",
+        "mutation_zero_survivors": "re_executed_at_seal",
+        "counterfeits_rejected": "re_executed_at_seal",
+        "clean_clone": "field_asserted",
+        "regeneration": "field_asserted",
+        "independent_verification": "field_asserted",
+        "readiness_package": "content_checked",
+        "activation_false": "re_executed_at_seal",
     }
     outcome_b = all(outcome_b_checks.values())
     final_scorecard = io.authority(
@@ -2275,6 +2467,8 @@ def _terminal_documents() -> dict[str, dict[str, Any]]:
             "readiness": "real_world_sandbox_ready" if outcome_b else "not_yet_ready",
             "starting_closure_result": C.STARTING_CLOSURE_RESULT,
             "outcome_b_checks": outcome_b_checks,
+            "gate_verification_method": gate_verification_method,
+            "seal_check_disagreements": seal_check_disagreements,
             "all_pass": outcome_b,
             "claim_boundary": C.CLAIM_BOUNDARY,
         },
@@ -2511,6 +2705,7 @@ def freeze(*, publish: bool = True) -> dict[str, Any]:
             "baselines": list(C.BASELINES),
             "challenges": list(C.CHALLENGE_FAMILIES),
             "sesoi": C.SESOI,
+            "power_target": C.POWER_TARGET,
             "statistics": "frozen by SUBSTRATE_FINAL_REVISION_STATISTICAL_AUTHORITY.json",
             "claim_boundary": C.CLAIM_BOUNDARY,
             "ready_tag": C.READY_TAG,
@@ -2524,14 +2719,21 @@ def freeze(*, publish: bool = True) -> dict[str, Any]:
         },
         status="ready_to_tag",
     )
+    thresholds_preserved, thresholds_reason = _thresholds_preserved(freeze_document)
+    challenges_preserved, challenges_reason = _challenges_preserved(freeze_document)
+    transition_payload: dict[str, Any] = {
+        "sealed_transition_required_for_defect": True,
+        "thresholds_preserved": thresholds_preserved,
+        "challenges_preserved": challenges_preserved,
+        "current_transitions": [],
+    }
+    if thresholds_reason is not None:
+        transition_payload["thresholds_preserved_reason"] = thresholds_reason
+    if challenges_reason is not None:
+        transition_payload["challenges_preserved_reason"] = challenges_reason
     transition = io.authority(
         "substrate-final-revision-transition-authority/v1",
-        {
-            "sealed_transition_required_for_defect": True,
-            "thresholds_preserved": True,
-            "challenges_preserved": True,
-            "current_transitions": [],
-        },
+        transition_payload,
     )
     if publish:
         io.write_json(io.EVIDENCE / "SUBSTRATE_FINAL_REVISION_CANDIDATE_FREEZE.json", freeze_document)
