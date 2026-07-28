@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "eb61ece52e3e",
+      "kind": "fact",
+      "value": "fact-eb61ece52e3e"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-tool_and_model_replacement-eb61ece52e3e"
+    },
+    {
+      "key": "eb61ece52e3e",
+      "kind": "object",
+      "value": [
+        -0.6526,
+        0.6515,
+        -0.1164
+      ]
+    },
+    {
+      "key": "eb61ece52e3e",
+      "kind": "body",
+      "value": "tool_required"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.5543921001144253
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.7157272955337114
+    },
+    {
+      "key": "eb61ece52e3e",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "eb61ece52e3e",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-eb61ece52e3e"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-eb61ece52e3e"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-eb61ece52e3e"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "tool_and_model_replacement",
+  "identity": "task-eb61ece52e3e",
+  "provenance": [
+    "generated://nous-closure/eb61ece52e3e/0",
+    "generated://nous-closure/eb61ece52e3e/1",
+    "generated://nous-closure/eb61ece52e3e/2",
+    "generated://nous-closure/eb61ece52e3e/3",
+    "generated://nous-closure/eb61ece52e3e/4",
+    "generated://nous-closure/eb61ece52e3e/5",
+    "generated://nous-closure/eb61ece52e3e/6",
+    "generated://nous-closure/eb61ece52e3e/7",
+    "generated://nous-closure/eb61ece52e3e/8",
+    "generated://nous-closure/eb61ece52e3e/9",
+    "generated://nous-closure/eb61ece52e3e/10",
+    "generated://nous-closure/eb61ece52e3e/11",
+    "generated://nous-closure/eb61ece52e3e/12",
+    "generated://nous-closure/eb61ece52e3e/13"
+  ],
+  "query": {
+    "domain": "body",
+    "key": "eb61ece52e3e"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}

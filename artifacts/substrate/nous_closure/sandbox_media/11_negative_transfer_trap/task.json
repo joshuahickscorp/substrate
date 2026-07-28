@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "ea39b81e321e",
+      "kind": "fact",
+      "value": "fact-ea39b81e321e"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-negative_transfer_trap-ea39b81e321e"
+    },
+    {
+      "key": "ea39b81e321e",
+      "kind": "object",
+      "value": [
+        0.3941,
+        0.0605,
+        0.7646
+      ]
+    },
+    {
+      "key": "ea39b81e321e",
+      "kind": "body",
+      "value": "reachable"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.5633653048242994
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.6588577287051496
+    },
+    {
+      "key": "ea39b81e321e",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "ea39b81e321e",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-ea39b81e321e"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-ea39b81e321e"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-ea39b81e321e"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "negative_transfer_trap",
+  "identity": "task-ea39b81e321e",
+  "provenance": [
+    "generated://nous-closure/ea39b81e321e/0",
+    "generated://nous-closure/ea39b81e321e/1",
+    "generated://nous-closure/ea39b81e321e/2",
+    "generated://nous-closure/ea39b81e321e/3",
+    "generated://nous-closure/ea39b81e321e/4",
+    "generated://nous-closure/ea39b81e321e/5",
+    "generated://nous-closure/ea39b81e321e/6",
+    "generated://nous-closure/ea39b81e321e/7",
+    "generated://nous-closure/ea39b81e321e/8",
+    "generated://nous-closure/ea39b81e321e/9",
+    "generated://nous-closure/ea39b81e321e/10",
+    "generated://nous-closure/ea39b81e321e/11",
+    "generated://nous-closure/ea39b81e321e/12",
+    "generated://nous-closure/ea39b81e321e/13"
+  ],
+  "query": {
+    "domain": "unresolved",
+    "key": "ea39b81e321e"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}

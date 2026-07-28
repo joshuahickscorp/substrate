@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "93a675599c12",
+      "kind": "fact",
+      "value": "fact-93a675599c12"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-long_horizon_resource_allocation-93a675599c12"
+    },
+    {
+      "key": "93a675599c12",
+      "kind": "object",
+      "value": [
+        0.2127,
+        0.2263,
+        -0.3179
+      ]
+    },
+    {
+      "key": "93a675599c12",
+      "kind": "body",
+      "value": "reachable"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.6378017505384429
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.7467314303721148
+    },
+    {
+      "key": "93a675599c12",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "93a675599c12",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-93a675599c12"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-93a675599c12"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-93a675599c12"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "long_horizon_resource_allocation",
+  "identity": "task-93a675599c12",
+  "provenance": [
+    "generated://nous-closure/93a675599c12/0",
+    "generated://nous-closure/93a675599c12/1",
+    "generated://nous-closure/93a675599c12/2",
+    "generated://nous-closure/93a675599c12/3",
+    "generated://nous-closure/93a675599c12/4",
+    "generated://nous-closure/93a675599c12/5",
+    "generated://nous-closure/93a675599c12/6",
+    "generated://nous-closure/93a675599c12/7",
+    "generated://nous-closure/93a675599c12/8",
+    "generated://nous-closure/93a675599c12/9",
+    "generated://nous-closure/93a675599c12/10",
+    "generated://nous-closure/93a675599c12/11",
+    "generated://nous-closure/93a675599c12/12",
+    "generated://nous-closure/93a675599c12/13"
+  ],
+  "query": {
+    "domain": "model",
+    "key": "93a675599c12"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}

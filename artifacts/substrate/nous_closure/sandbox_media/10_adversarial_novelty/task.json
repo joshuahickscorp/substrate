@@ -1,0 +1,106 @@
+{
+  "action_cost": {
+    "answer": 0.0,
+    "checkpoint": 0.02,
+    "defer": 0.005,
+    "observe": 0.01,
+    "restore": 0.02
+  },
+  "available_actions": [
+    "observe",
+    "checkpoint",
+    "restore",
+    "answer",
+    "defer"
+  ],
+  "events": [
+    {
+      "key": "918747775252",
+      "kind": "fact",
+      "value": "fact-918747775252"
+    },
+    {
+      "kind": "goal",
+      "value": "finish-adversarial_novelty-918747775252"
+    },
+    {
+      "key": "918747775252",
+      "kind": "object",
+      "value": [
+        0.5295,
+        -0.6536,
+        -0.2989
+      ]
+    },
+    {
+      "key": "918747775252",
+      "kind": "body",
+      "value": "reachable"
+    },
+    {
+      "key": "model-a",
+      "kind": "model",
+      "value": 0.603447160000558
+    },
+    {
+      "key": "model-b",
+      "kind": "model",
+      "value": 0.41590895173513076
+    },
+    {
+      "key": "918747775252",
+      "kind": "warrant",
+      "reliability": 0.35,
+      "value": "weak-report"
+    },
+    {
+      "key": "918747775252",
+      "kind": "warrant",
+      "reliability": 0.9,
+      "value": "verified-918747775252"
+    },
+    {
+      "kind": "concept",
+      "value": "concept-918747775252"
+    },
+    {
+      "kind": "unresolved",
+      "value": "uncertain-918747775252"
+    },
+    {
+      "kind": "checkpoint"
+    },
+    {
+      "kind": "interrupt"
+    },
+    {
+      "kind": "model_replace"
+    },
+    {
+      "kind": "sensor_loss"
+    }
+  ],
+  "family": "adversarial_novelty",
+  "identity": "task-918747775252",
+  "provenance": [
+    "generated://nous-closure/918747775252/0",
+    "generated://nous-closure/918747775252/1",
+    "generated://nous-closure/918747775252/2",
+    "generated://nous-closure/918747775252/3",
+    "generated://nous-closure/918747775252/4",
+    "generated://nous-closure/918747775252/5",
+    "generated://nous-closure/918747775252/6",
+    "generated://nous-closure/918747775252/7",
+    "generated://nous-closure/918747775252/8",
+    "generated://nous-closure/918747775252/9",
+    "generated://nous-closure/918747775252/10",
+    "generated://nous-closure/918747775252/11",
+    "generated://nous-closure/918747775252/12",
+    "generated://nous-closure/918747775252/13"
+  ],
+  "query": {
+    "domain": "ontology",
+    "key": "concept-918747775252"
+  },
+  "uncertainty": "explicit unresolved item must remain available"
+}
