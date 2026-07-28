@@ -1,0 +1,11 @@
+{
+  "schema": "substrate-v4-epistemic-individuation/v1",
+  "identical_equivalent": true,
+  "different_models": true,
+  "alternatives_preserved": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "fe0dc17977fa7843dbd514855364603abdc16fef48e4263eb54c570d403bfc9c"
+}

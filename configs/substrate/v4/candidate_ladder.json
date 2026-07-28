@@ -1,0 +1,30 @@
+{
+  "candidate_ladder": {
+    "structural_model": [
+      "exact observed relation graph",
+      "typed transition and relation model",
+      "typed causal transition model with alternatives",
+      "typed causal transition model with inferred representation mappings"
+    ],
+    "mapping": [
+      "surface feature matching",
+      "constraint based structural matching",
+      "utility weighted structural alignment"
+    ],
+    "revision": [
+      "prediction error revision",
+      "intervention error revision",
+      "combined evidence triggered revision"
+    ],
+    "inquiry": [
+      "best fixed intervention policy",
+      "tabular contextual policy",
+      "regularized linear contextual policy"
+    ]
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "0454d57ef105f7558ddbbf86dd24761814003bedc63043273c95f5e0de71c2c6"
+}

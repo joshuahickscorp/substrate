@@ -1,0 +1,24 @@
+{
+  "schema": "substrate-v4-representation-catalog/v1",
+  "representations": [
+    "symbolic_rules",
+    "event_sequences",
+    "relation_tables",
+    "graph_adjacency",
+    "structured_language",
+    "tool_state"
+  ],
+  "surface_randomization": [
+    "entity names",
+    "variable names",
+    "ordering",
+    "tokens",
+    "layout",
+    "irrelevant attributes"
+  ],
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "0c2375811bd8be72c0e0013bb89e5c6d1f056812da400b8adc4d1a8eae94d1a5"
+}

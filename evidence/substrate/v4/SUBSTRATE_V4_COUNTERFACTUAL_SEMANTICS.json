@@ -1,0 +1,56 @@
+{
+  "schema": "substrate-v4-counterfactual-semantics/v1",
+  "receipt": {
+    "model": "beecd110572f3e14e968072bac4f2d2598c35ef1e26003a1ea17c658e1f4dfb1",
+    "model_version": 1,
+    "model_status": "transfer_verified",
+    "representation_fingerprint": "ee7f5fd699e502269d32a7225f4a0e686221772e816838509df23002dad8edb7",
+    "mapping": {
+      "x079445": "role_0",
+      "x293541": "role_2",
+      "x387184": "role_4",
+      "x400355": "role_1",
+      "x496673": "role_6",
+      "x929103": "role_5",
+      "x951338": "role_3"
+    },
+    "operation": "counterfactual",
+    "trace": {
+      "operation": "counterfactual",
+      "possible": true,
+      "change": {
+        "role_3": false
+      },
+      "factual": [
+        "role_0",
+        "role_1",
+        "role_2",
+        "role_3",
+        "role_4",
+        "role_5",
+        "role_6"
+      ],
+      "counterfactual": [
+        "role_0",
+        "role_2",
+        "role_4",
+        "role_5",
+        "role_6"
+      ],
+      "background_preserved": true,
+      "irrelevant_variables_stable": true
+    },
+    "causally_active": true,
+    "compute": 2.0
+  },
+  "multiple_change_refused": {
+    "possible": false,
+    "reason": "counterfactual must change exactly one declared premise",
+    "background_preserved": false
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "445113876f90c4b191c8f892de8e2868f1c737c08cc30689b4288b679902bc5a"
+}

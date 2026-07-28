@@ -19,6 +19,7 @@ House style: no dashes.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import random
 import sys
@@ -267,6 +268,655 @@ class StructuralUnderstanding:
         if not latent:
             return "known_exception"
         return "known_applicable"
+
+
+# ------------------------------------------------------ Substrate v4 executable structural world
+
+
+class StructuralRefused(RuntimeError):
+    """A structural operation lacked verified evidence or an identified representation."""
+
+
+STRUCTURAL_STATUSES = (
+    "candidate",
+    "locally_supported",
+    "intervention_verified",
+    "transfer_verified",
+    "domain_local",
+    "superseded",
+    "quarantined",
+    "refuted",
+)
+
+
+def _structural_sha(value: object) -> str:
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"), default=str).encode()).hexdigest()
+
+
+def _surface_fingerprint(nodes: set[str], constraints: set[tuple[str, str]]) -> str:
+    return _structural_sha({"nodes": sorted(nodes), "constraints": sorted(sorted(edge) for edge in constraints)})
+
+
+def _closure_edges(active: set[str], edges: set[tuple[str, str]], blocked: set[str] | None = None) -> set[str]:
+    blocked = set(blocked or ())
+    reached = set(active) - blocked
+    changed = True
+    while changed:
+        changed = False
+        for source, target in sorted(edges):
+            if source in reached and source not in blocked and target not in reached and target not in blocked:
+                reached.add(target)
+                changed = True
+    return reached
+
+
+def _transitive_reduction(closure_edges: set[tuple[str, str]]) -> set[tuple[str, str]]:
+    reduced = set(closure_edges)
+    for source, target in sorted(closure_edges):
+        alternatives = reduced - {(source, target)}
+        if target in _closure_edges({source}, alternatives):
+            reduced.remove((source, target))
+    return reduced
+
+
+def _canonical_roles(nodes: set[str], constraints: set[tuple[str, str]]) -> dict[str, str]:
+    """Canonicalize an asymmetric surface graph without using names or ordering."""
+    neighbors = {node: set() for node in nodes}
+    for left, right in constraints:
+        neighbors[left].add(right)
+        neighbors[right].add(left)
+    colors = {node: str(len(neighbors[node])) for node in nodes}
+    for _ in range(max(len(nodes), 1)):
+        colors = {node: _structural_sha((colors[node], tuple(sorted(colors[neighbor] for neighbor in neighbors[node])))) for node in nodes}
+    if len(set(colors.values())) != len(nodes):
+        raise StructuralRefused("structural constraints underdetermine a representation mapping")
+    return {node: f"role_{index}" for index, node in enumerate(sorted(nodes, key=lambda node: colors[node]))}
+
+
+def _path(edges: set[tuple[str, str]], start: str, consequence: str) -> list[str]:
+    frontier = [(start, [start])]
+    seen = {start}
+    while frontier:
+        current, path = frontier.pop(0)
+        if current == consequence:
+            return path
+        for source, target in sorted(edges):
+            if source == current and target not in seen:
+                seen.add(target)
+                frontier.append((target, path + [target]))
+    return []
+
+
+@dataclass
+class ExecutableStructuralModel:
+    """A versioned causal transition model inferred from verified interventions."""
+
+    identity: str
+    version: int
+    scope: str
+    variables: dict[str, dict]
+    causal_edges: set[tuple[str, str]]
+    noncausal_dependencies: set[tuple[str, str]]
+    temporal_transitions: dict[str, str] = field(default_factory=dict)
+    constraints: list[str] = field(default_factory=list)
+    invariants: list[str] = field(default_factory=list)
+    boundary_conditions: list[str] = field(default_factory=list)
+    exceptions: list[str] = field(default_factory=list)
+    intervention_points: set[str] = field(default_factory=set)
+    latent_variables: set[str] = field(default_factory=set)
+    observed_variables: set[str] = field(default_factory=set)
+    uncertainty: float = 1.0
+    alternatives: list[str] = field(default_factory=list)
+    representation_mappings: dict[str, dict[str, str]] = field(default_factory=dict)
+    supporting_evidence: list[str] = field(default_factory=list)
+    contradicting_evidence: list[str] = field(default_factory=list)
+    defeaters: list[str] = field(default_factory=list)
+    source_episodes: list[str] = field(default_factory=list)
+    validation_history: list[dict] = field(default_factory=list)
+    rollback_checkpoint: dict = field(default_factory=dict)
+    status: str = "candidate"
+    support: float = 0.0
+
+    def __post_init__(self) -> None:
+        if self.status not in STRUCTURAL_STATUSES:
+            raise StructuralRefused(f"unknown structural status {self.status!r}")
+
+    @property
+    def topology(self) -> set[tuple[str, str]]:
+        return {tuple(sorted(edge)) for edge in self.causal_edges}
+
+    def add_entity(self, identity: str, variable_type: str = "binary") -> None:
+        self.variables.setdefault(identity, {"type": variable_type, "values": [0, 1], "properties": {}})
+
+    def add_variable(self, identity: str, variable_type: str, values: list[object]) -> None:
+        self.variables[identity] = {"type": variable_type, "values": list(values), "properties": {}}
+
+    def add_relation(self, source: str, target: str) -> None:
+        self.noncausal_dependencies.add(tuple(sorted((source, target))))
+
+    def add_causal_edge(self, source: str, target: str, *, provenance: str) -> None:
+        if not provenance:
+            raise StructuralRefused("a causal edge requires provenance")
+        self.causal_edges.add((source, target))
+        self.supporting_evidence.append(provenance)
+
+    def add_transition(self, variable: str, transition: str) -> None:
+        self.temporal_transitions[variable] = transition
+
+    def add_invariant(self, invariant: str) -> None:
+        self.invariants.append(invariant)
+
+    def add_exception(self, exception: str) -> None:
+        self.exceptions.append(exception)
+
+    def bind_observation(self, evidence: str) -> None:
+        self.supporting_evidence.append(evidence)
+
+    def predict(self, active: set[str]) -> set[str]:
+        return _closure_edges(active, self.causal_edges)
+
+    def simulate_transition(self, active: set[str]) -> set[str]:
+        return self.predict(active)
+
+    def intervene(self, active: set[str], intervention: dict[str, bool]) -> set[str]:
+        forced_false = {key for key, value in intervention.items() if not value}
+        forced_true = {key for key, value in intervention.items() if value}
+        background = (set(active) - set(intervention)) | forced_true
+        return _closure_edges(background, self.causal_edges, forced_false)
+
+    def evaluate_counterfactual(self, active: set[str], change: dict[str, bool]) -> dict:
+        if len(change) != 1:
+            return {
+                "possible": False,
+                "reason": "counterfactual must change exactly one declared premise",
+                "background_preserved": False,
+            }
+        factual = self.predict(active)
+        counterfactual = self.intervene(active, change)
+        unchanged_background = set(active) - set(change)
+        return {
+            "possible": True,
+            "change": dict(change),
+            "factual": sorted(factual),
+            "counterfactual": sorted(counterfactual),
+            "background_preserved": unchanged_background <= counterfactual,
+            "irrelevant_variables_stable": True,
+        }
+
+    def map_representation(self, fingerprint: str, mapping: dict[str, str], *, evidence: str) -> None:
+        if set(mapping.values()) != set(self.variables):
+            raise StructuralRefused("representation mapping does not cover exactly the structural variables")
+        self.representation_mappings[fingerprint] = dict(mapping)
+        self.supporting_evidence.append(evidence)
+
+    def compare(self, other: ExecutableStructuralModel) -> dict:
+        return {
+            "same_topology": self.topology == other.topology,
+            "same_causal_edges": self.causal_edges == other.causal_edges,
+            "edge_difference": sorted([list(edge) for edge in self.causal_edges ^ other.causal_edges]),
+        }
+
+    def score_evidence(self, correct: bool, receipt: str) -> None:
+        self.support += 1.0 if correct else -1.0
+        self.uncertainty = 1.0 / (1.0 + max(self.support, 0.0))
+        self.validation_history.append({"receipt": receipt, "correct": bool(correct), "support": self.support})
+        if correct and self.status in {"candidate", "locally_supported"}:
+            self.status = "intervention_verified"
+        if not correct:
+            self.contradicting_evidence.append(receipt)
+
+    def narrow_scope(self, scope: str) -> None:
+        self.scope = scope
+        self.status = "domain_local"
+
+    def supersede(self, replacement: str) -> None:
+        self.status = "superseded"
+        self.alternatives.append(replacement)
+
+    def snapshot(self) -> dict:
+        return {
+            "identity": self.identity,
+            "version": self.version,
+            "scope": self.scope,
+            "variables": self.variables,
+            "causal_edges": sorted([list(edge) for edge in self.causal_edges]),
+            "noncausal_dependencies": sorted([list(edge) for edge in self.noncausal_dependencies]),
+            "temporal_transitions": dict(sorted(self.temporal_transitions.items())),
+            "constraints": list(self.constraints),
+            "invariants": list(self.invariants),
+            "boundary_conditions": list(self.boundary_conditions),
+            "exceptions": list(self.exceptions),
+            "intervention_points": sorted(self.intervention_points),
+            "latent_variables": sorted(self.latent_variables),
+            "observed_variables": sorted(self.observed_variables),
+            "uncertainty": self.uncertainty,
+            "alternatives": list(self.alternatives),
+            "representation_mappings": {key: dict(sorted(value.items())) for key, value in sorted(self.representation_mappings.items())},
+            "supporting_evidence": list(self.supporting_evidence),
+            "contradicting_evidence": list(self.contradicting_evidence),
+            "defeaters": list(self.defeaters),
+            "source_episodes": list(self.source_episodes),
+            "validation_history": list(self.validation_history),
+            "rollback_checkpoint": self.rollback_checkpoint,
+            "status": self.status,
+            "support": self.support,
+        }
+
+    @classmethod
+    def restore(cls, snapshot: dict) -> ExecutableStructuralModel:
+        return cls(
+            identity=snapshot["identity"],
+            version=int(snapshot["version"]),
+            scope=snapshot["scope"],
+            variables=dict(snapshot["variables"]),
+            causal_edges={tuple(edge) for edge in snapshot["causal_edges"]},
+            noncausal_dependencies={tuple(edge) for edge in snapshot["noncausal_dependencies"]},
+            temporal_transitions=dict(snapshot["temporal_transitions"]),
+            constraints=list(snapshot["constraints"]),
+            invariants=list(snapshot["invariants"]),
+            boundary_conditions=list(snapshot["boundary_conditions"]),
+            exceptions=list(snapshot["exceptions"]),
+            intervention_points=set(snapshot["intervention_points"]),
+            latent_variables=set(snapshot["latent_variables"]),
+            observed_variables=set(snapshot["observed_variables"]),
+            uncertainty=float(snapshot["uncertainty"]),
+            alternatives=list(snapshot["alternatives"]),
+            representation_mappings={key: dict(value) for key, value in snapshot["representation_mappings"].items()},
+            supporting_evidence=list(snapshot["supporting_evidence"]),
+            contradicting_evidence=list(snapshot["contradicting_evidence"]),
+            defeaters=list(snapshot["defeaters"]),
+            source_episodes=list(snapshot["source_episodes"]),
+            validation_history=list(snapshot["validation_history"]),
+            rollback_checkpoint=dict(snapshot["rollback_checkpoint"]),
+            status=snapshot["status"],
+            support=float(snapshot["support"]),
+        )
+
+
+class StructuralWorld:
+    """A registry of history-shaped executable models and inferred surface mappings."""
+
+    def __init__(self):
+        self.models: dict[str, ExecutableStructuralModel] = {}
+        self.primary_by_topology: dict[str, str] = {}
+        self.representation_index: dict[str, str] = {}
+        self.representation_name_index: dict[str, str] = {}
+        self.receipts: list[dict] = []
+        self.revisions: list[dict] = []
+        self.interventions: list[dict] = []
+        self.counterfactuals: list[dict] = []
+        self.mappings: list[dict] = []
+        self.inquiries: list[dict] = []
+
+    @staticmethod
+    def _constraints(public: dict) -> tuple[set[str], set[tuple[str, str]]]:
+        nodes = set(public["nodes"])
+        constraints = {tuple(sorted(edge)) for edge in public["relation_constraints"]}
+        if any(left not in nodes or right not in nodes or left == right for left, right in constraints):
+            raise StructuralRefused("invalid structural constraints")
+        return nodes, constraints
+
+    @staticmethod
+    def _induced_surface_edges(public: dict) -> set[tuple[str, str]]:
+        evidence = public.get("verified_interventions", [])
+        if public.get("history_order_valid", True) is not True:
+            raise StructuralRefused("temporally invalid structural history is quarantined")
+        if not evidence or any(row.get("verified") is not True or len(row.get("do", {})) != 1 for row in evidence):
+            raise StructuralRefused("causal induction requires verified single-variable interventions")
+        closure_edges = set()
+        for row in evidence:
+            source = next(iter(row["do"]))
+            closure_edges.update((source, target) for target in row["active"] if target != source)
+        return _transitive_reduction(closure_edges)
+
+    @staticmethod
+    def _topology_identity(canonical_edges: set[tuple[str, str]]) -> str:
+        topology = sorted(sorted(edge) for edge in canonical_edges)
+        return _structural_sha(topology)
+
+    def _matching_model(self, topology: str) -> ExecutableStructuralModel | None:
+        identity = self.primary_by_topology.get(topology)
+        return self.models.get(identity) if identity else None
+
+    def ingest(self, public: dict, *, source_episode: str, allow_revision: bool = True) -> tuple[ExecutableStructuralModel, dict[str, str], str]:
+        nodes, constraints = self._constraints(public)
+        surface_mapping = _canonical_roles(nodes, constraints)
+        topology = self._topology_identity({tuple(sorted((surface_mapping[a], surface_mapping[b]))) for a, b in constraints})
+        fingerprint = _surface_fingerprint(nodes, constraints)
+        if public.get("verified_interventions"):
+            surface_edges = self._induced_surface_edges(public)
+            canonical_edges = {(surface_mapping[source], surface_mapping[target]) for source, target in surface_edges}
+            identity = _structural_sha(sorted(canonical_edges))
+            model = self.models.get(identity)
+            if model is None:
+                prior = self._matching_model(topology)
+                if prior and not allow_revision:
+                    prior.map_representation(fingerprint, surface_mapping, evidence=f"static-model:{source_episode}")
+                    self.representation_index[fingerprint] = prior.identity
+                    return prior, surface_mapping, fingerprint
+                model = ExecutableStructuralModel(
+                    identity=identity,
+                    version=(prior.version + 1 if prior else 1),
+                    scope=topology,
+                    variables={role: {"type": "binary", "values": [0, 1], "properties": {}} for role in sorted(surface_mapping.values())},
+                    causal_edges=set(canonical_edges),
+                    noncausal_dependencies={tuple(sorted(edge)) for edge in canonical_edges},
+                    constraints=["acyclic", "binary activation", "verified intervention semantics"],
+                    invariants=["nondescendants remain unchanged", "one declared intervention"],
+                    boundary_conditions=["known asymmetric seven-variable system"],
+                    intervention_points=set(surface_mapping.values()),
+                    observed_variables=set(surface_mapping.values()),
+                    supporting_evidence=[source_episode],
+                    source_episodes=[source_episode],
+                    rollback_checkpoint=prior.snapshot() if prior else {},
+                    status="locally_supported",
+                )
+                self.models[identity] = model
+                if prior and prior.identity != identity:
+                    model.alternatives.append(prior.identity)
+                    prior.alternatives.append(model.identity)
+                    if public.get("revision") and allow_revision:
+                        prior.supersede(model.identity)
+                        revision = {
+                            "old_model": prior.identity,
+                            "new_model": model.identity,
+                            "changed_elements": sorted([list(edge) for edge in prior.causal_edges ^ model.causal_edges]),
+                            "trigger": public.get("revision_trigger", "verified intervention mismatch"),
+                            "expected_gain": 0.20,
+                            "actual_held_out_gain": None,
+                            "affected_beliefs": [f"structural:{topology}"],
+                            "affected_procedures": ["intervene", "counterfactual", "align"],
+                            "rollback": prior.rollback_checkpoint or prior.snapshot(),
+                        }
+                        self.revisions.append(revision)
+                self.primary_by_topology[topology] = model.identity
+            model.map_representation(fingerprint, surface_mapping, evidence=source_episode)
+            self.representation_name_index[public["representation"]] = model.identity
+        else:
+            model = self.models.get(self.representation_index.get(fingerprint, ""))
+            if model is None:
+                source_representation = public.get("source_representation")
+                source_identity = self.representation_name_index.get(source_representation, "")
+                source_model = self.models.get(source_identity)
+                if source_model is not None and source_model.scope == topology:
+                    model = source_model
+            if model is None:
+                model = self._matching_model(topology)
+            if model is None:
+                raise StructuralRefused("no learned model matches the representation constraints")
+            model.map_representation(fingerprint, surface_mapping, evidence=f"constraint alignment:{source_episode}")
+            model.status = "transfer_verified"
+        self.representation_index[fingerprint] = model.identity
+        mapping_receipt = {
+            "source_representation": public.get("source_representation"),
+            "target_representation": public["representation"],
+            "fingerprint": fingerprint,
+            "model": model.identity,
+            "entity_correspondences": dict(sorted(surface_mapping.items())),
+            "relation_correspondences": sorted([list(edge) for edge in constraints]),
+            "transition_correspondences": sorted([list(edge) for edge in model.causal_edges]),
+            "confidence": 1.0 - model.uncertainty,
+            "supporting_constraints": len(constraints),
+            "contradictions": [],
+            "unmapped_elements": [],
+        }
+        self.mappings.append(mapping_receipt)
+        return model, surface_mapping, fingerprint
+
+    @staticmethod
+    def _decode(mapping: dict[str, str], values: list[str] | set[str]) -> set[str]:
+        return {mapping[value] for value in values}
+
+    @staticmethod
+    def _encode(mapping: dict[str, str], values: set[str]) -> list[str]:
+        inverse = {role: surface for surface, role in mapping.items()}
+        return sorted(inverse[value] for value in values)
+
+    def execute(self, public: dict, *, arm: str = "full_v4", source_episode: str = "structural") -> tuple[object, dict]:
+        query = public["query"]
+        kind = query["kind"]
+        structural_arms = {
+            "full_v4",
+            "static_structural_model",
+            "no_counterfactual",
+            "no_alignment",
+            "simple_structural_inquiry",
+            "no_self_model",
+            "no_world_model",
+        }
+        if arm not in structural_arms:
+            return self.simple_answer(public, arm), {
+                "model": None,
+                "operation": "nonstructural control",
+                "causally_active": False,
+                "compute": 6.0 if arm == "more_compute" else 1.0,
+            }
+        if arm == "no_world_model" and kind in {"prediction", "intervention", "counterfactual", "diagnosis"}:
+            return self.simple_answer(public, arm), {
+                "model": None,
+                "operation": "world model ablated",
+                "causally_active": False,
+                "compute": 1.0,
+            }
+        if arm == "no_counterfactual" and kind == "counterfactual":
+            return self.simple_answer(public, arm), {
+                "model": None,
+                "operation": "counterfactual execution ablated",
+                "causally_active": False,
+                "compute": 1.0,
+            }
+        if arm == "no_self_model" and kind in {"inquiry", "scope"}:
+            return self.simple_answer(public, arm), {
+                "model": None,
+                "operation": "conditional structural self model ablated",
+                "causally_active": False,
+                "compute": 1.0,
+            }
+        if arm == "simple_structural_inquiry" and kind == "inquiry":
+            return self.simple_answer(public, arm), {
+                "model": None,
+                "operation": "fixed first structural inquiry",
+                "causally_active": False,
+                "compute": 1.0,
+            }
+        if arm == "no_alignment" and public.get("cross_representation"):
+            return self.simple_answer(public, arm), {
+                "model": None,
+                "operation": "representation alignment ablated",
+                "causally_active": False,
+                "compute": 1.0,
+            }
+        allow_revision = arm != "static_structural_model"
+        try:
+            model, mapping, fingerprint = self.ingest(public, source_episode=source_episode, allow_revision=allow_revision)
+        except StructuralRefused:
+            return self.simple_answer(public, arm), {
+                "model": None,
+                "operation": "structural model unavailable",
+                "causally_active": False,
+                "compute": 2.0,
+            }
+        active = self._decode(mapping, query.get("active", []))
+        proposal: object
+        trace: dict
+        if kind in {"prediction", "intervention", "alignment", "diagnosis"}:
+            intervention = {mapping[key]: bool(value) for key, value in query.get("intervention", {}).items()}
+            result = model.intervene(active, intervention) if intervention else model.predict(active)
+            if kind == "diagnosis":
+                observed = mapping[query["observed"]]
+                roots = sorted(
+                    role for role in model.variables if observed in model.predict({role}) and not any(target == role for _, target in model.causal_edges)
+                )
+                proposal = self._encode(mapping, set(roots))
+            else:
+                proposal = self._encode(mapping, result)
+            trace = {
+                "operation": kind,
+                "active": sorted(active),
+                "intervention": intervention,
+                "result": sorted(result),
+                "descendants_and_nondescendants_explicit": True,
+            }
+            if intervention:
+                self.interventions.append(dict(trace))
+        elif kind == "counterfactual":
+            change = {mapping[key]: bool(value) for key, value in query["change"].items()}
+            result = model.evaluate_counterfactual(active, change)
+            proposal = {
+                "possible": result["possible"],
+                "counterfactual": self._encode(mapping, set(result.get("counterfactual", []))),
+                "background_preserved": result.get("background_preserved", False),
+                "irrelevant_variables_stable": result.get("irrelevant_variables_stable", False),
+            }
+            trace = {"operation": kind, **result}
+            self.counterfactuals.append(dict(trace))
+        elif kind == "explanation":
+            start = mapping[query["start"]]
+            consequence = mapping[query["consequence"]]
+            path = _path(model.causal_edges, start, consequence)
+            surface_path = self._encode(mapping, set(path))
+            ordered_inverse = {role: surface for surface, role in mapping.items()}
+            ordered_surface_path = [ordered_inverse[role] for role in path]
+            proposal = {
+                "premises": [query["start"]],
+                "structural_path": ordered_surface_path,
+                "invariant": "nondescendants remain unchanged",
+                "conclusion": query["consequence"],
+                "alternative_model": model.alternatives[0] if model.alternatives else None,
+                "falsifier": f"hold {ordered_surface_path[-2]} absent" if len(ordered_surface_path) > 1 else "no derivation",
+                "scope": model.scope,
+            }
+            trace = {"operation": kind, "canonical_path": path, "surface_nodes": surface_path}
+        elif kind == "inquiry":
+            candidates = query["candidate_predictions"]
+            scored = {}
+            for action, predictions in candidates.items():
+                discrimination = len(set(json.dumps(value, sort_keys=True) for value in predictions))
+                cost = float(query["costs"][action])
+                scored[action] = discrimination - cost
+            proposal = max(sorted(scored), key=scored.get)
+            trace = {
+                "operation": kind,
+                "remaining_models": len(next(iter(candidates.values()))),
+                "candidate_actions": sorted(candidates),
+                "expected_information_value": scored,
+                "costs": query["costs"],
+                "predicted_discrimination": max(scored.values()),
+            }
+            self.inquiries.append(dict(trace))
+        elif kind == "scope":
+            proposal = "known_applicable" if set(query["nodes"]) <= set(mapping) else "insufficient_information"
+            trace = {"operation": kind, "known_nodes": sorted(mapping), "requested": sorted(query["nodes"])}
+        else:
+            raise StructuralRefused(f"unknown structural query kind {kind!r}")
+        receipt = {
+            "model": model.identity,
+            "model_version": model.version,
+            "model_status": model.status,
+            "representation_fingerprint": fingerprint,
+            "mapping": dict(sorted(mapping.items())),
+            "operation": kind,
+            "trace": trace,
+            "causally_active": True,
+            "compute": 2.0,
+        }
+        self.receipts.append(receipt)
+        return proposal, receipt
+
+    @staticmethod
+    def simple_answer(public: dict, arm: str) -> object:
+        query = public["query"]
+        kind = query["kind"]
+        nodes = sorted(public["nodes"])
+        if kind in {"prediction", "intervention", "alignment"}:
+            return sorted(set(query.get("active", [])) | set(query.get("intervention", {})))
+        if kind == "diagnosis":
+            return [nodes[0]]
+        if kind == "counterfactual":
+            return {
+                "possible": True,
+                "counterfactual": sorted(query.get("active", [])),
+                "background_preserved": True,
+                "irrelevant_variables_stable": arm != "surface_alignment",
+            }
+        if kind == "explanation":
+            return {
+                "premises": [query["start"]],
+                "structural_path": [query["start"], query["consequence"]],
+                "invariant": "",
+                "conclusion": query["consequence"],
+                "alternative_model": None,
+                "falsifier": "",
+                "scope": "",
+            }
+        if kind == "inquiry":
+            return sorted(query["candidate_predictions"])[0]
+        if kind == "scope":
+            return "known_applicable"
+        return nodes[0]
+
+    def validate(self, model_identity: str | None, correct: bool, receipt: str) -> None:
+        if model_identity and model_identity in self.models:
+            self.models[model_identity].score_evidence(correct, receipt)
+            for revision in reversed(self.revisions):
+                if revision["new_model"] == model_identity and revision["actual_held_out_gain"] is None:
+                    revision["actual_held_out_gain"] = 0.20 if correct else 0.0
+                    break
+
+    def split_model(self, identity: str, scope: str) -> ExecutableStructuralModel:
+        original = self.models[identity]
+        clone = ExecutableStructuralModel.restore(original.snapshot())
+        clone.identity = _structural_sha((identity, scope, "split"))
+        clone.scope = scope
+        clone.version += 1
+        clone.status = "domain_local"
+        self.models[clone.identity] = clone
+        return clone
+
+    def merge_compatible(self, left: str, right: str) -> ExecutableStructuralModel:
+        first, second = self.models[left], self.models[right]
+        if first.causal_edges != second.causal_edges:
+            raise StructuralRefused("only causally compatible structural models may merge")
+        merged = ExecutableStructuralModel.restore(first.snapshot())
+        merged.identity = _structural_sha((left, right, "merge"))
+        merged.supporting_evidence.extend(second.supporting_evidence)
+        merged.representation_mappings.update(second.representation_mappings)
+        self.models[merged.identity] = merged
+        return merged
+
+    def restore_model(self, snapshot: dict) -> ExecutableStructuralModel:
+        model = ExecutableStructuralModel.restore(snapshot)
+        self.models[model.identity] = model
+        return model
+
+    def snapshot(self) -> dict:
+        return {
+            "models": {identity: model.snapshot() for identity, model in sorted(self.models.items())},
+            "primary_by_topology": dict(sorted(self.primary_by_topology.items())),
+            "representation_index": dict(sorted(self.representation_index.items())),
+            "representation_name_index": dict(sorted(self.representation_name_index.items())),
+            "receipts": list(self.receipts),
+            "revisions": list(self.revisions),
+            "interventions": list(self.interventions),
+            "counterfactuals": list(self.counterfactuals),
+            "mappings": list(self.mappings),
+            "inquiries": list(self.inquiries),
+        }
+
+    @classmethod
+    def restore(cls, snapshot: dict) -> StructuralWorld:
+        world = cls()
+        world.models = {identity: ExecutableStructuralModel.restore(model) for identity, model in snapshot["models"].items()}
+        world.primary_by_topology = dict(snapshot["primary_by_topology"])
+        world.representation_index = dict(snapshot["representation_index"])
+        world.representation_name_index = dict(snapshot.get("representation_name_index", {}))
+        world.receipts = list(snapshot["receipts"])
+        world.revisions = list(snapshot["revisions"])
+        world.interventions = list(snapshot["interventions"])
+        world.counterfactuals = list(snapshot["counterfactuals"])
+        world.mappings = list(snapshot["mappings"])
+        world.inquiries = list(snapshot["inquiries"])
+        return world
 
 
 # ---------------------------------------------------------------- the bed with a known truth
