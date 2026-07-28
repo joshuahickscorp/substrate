@@ -44,7 +44,7 @@ def main(argv: list[str] | None = None) -> None:
             "all_pass": documents["evidence"]["all_pass"],
             "all_terminal": documents["evidence"]["all_terminal"],
             "beds_valid": documents["bed"]["all_valid"],
-            "moderate_pilot_licensed": documents["admission"]["moderate_pilot_licensed"],
+            "moderate_pilot_licensed": documents["evidence"]["all_pass"] and documents["bed"]["all_valid"],
             "activation": False,
         }
         _print(document)
