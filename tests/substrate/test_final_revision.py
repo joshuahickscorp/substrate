@@ -1,16 +1,23 @@
 from __future__ import annotations
 
 import copy
+import json
 
 import pytest
 
 from substrate import final_revision_campaign as campaign
 from substrate import final_revision_config as C
 from substrate import final_revision_experiment as experiment
+from substrate import final_revision_grok as grok
 from substrate import final_revision_io as io
 from substrate import final_revision_verification as verification
 from substrate.final_revision_continuity import run_segment
-from substrate.final_revision_kernel import ArchitecturePrototype, EventSourcedKernel, developmental_fixture
+from substrate.final_revision_kernel import (
+    ArchitecturePrototype,
+    EventSourcedKernel,
+    developmental_fixture,
+    learning_evaluation_receipt,
+)
 from substrate.final_revision_readiness import ActionProposal, bounded_smoke
 from substrate.final_revision_sensorium import Sensorium, controlled_media, structural_sensorium_report
 
@@ -30,11 +37,66 @@ def test_final_revision_constitution_is_complete_and_activation_false() -> None:
     assert len(C.REVIEW_CELLS) == 32
     assert len(C.REVIEW_ROUNDS) == 8
     assert len(C.CHALLENGE_FAMILIES) == 12
-    assert len(C.MUTATIONS) == 21
+    assert len(C.MUTATIONS) == 22
+    assert "checkpoint_omits_self_model" in C.MUTATIONS
     assert len(C.REQUIRED_DELIVERABLES) == len(set(C.REQUIRED_DELIVERABLES))
     assert C.STARTING_CLOSURE_RESULT == "terminal_closed_null"
     assert C.SESOI == 0.05
     assert _no_true_activation(C.configuration())
+
+
+def test_grok_build_import_is_fail_closed_and_preserves_transport_deviation(tmp_path) -> None:
+    task = tmp_path / "task"
+    task.mkdir()
+    contract = tmp_path / "contract.md"
+    prompt = (
+        "bounded read-only review contract\n"
+        f"ROLE: {C.REVIEW_CELLS[0]}\n"
+        f"ROUND: {C.REVIEW_ROUNDS[0]}\n"
+        "PUBLIC EVIDENCE COMMIT: c9dbf03802e22ee9c4e3d9852a8d67cd9da0cd08\n"
+    )
+    contract.write_text(prompt)
+    (task / "task.md").write_text(prompt)
+    output = {
+        "role": C.REVIEW_CELLS[0],
+        "round": C.REVIEW_ROUNDS[0],
+        "facets": [],
+    }
+    metadata = {
+        "task_id": "grok-build-test",
+        "mode": "audit",
+        "model": "grok-4.5",
+        "sandbox": "read-only",
+        "repo": str(io.ROOT),
+        "session_id": "session-test",
+        "started_at": "2026-07-28T00:00:00Z",
+    }
+    envelope = {
+        "text": f"progress frame\n{json.dumps(output)}",
+        "stopReason": "EndTurn",
+        "sessionId": "session-test",
+        "requestId": "request-test",
+        "num_turns": 2,
+        "modelUsage": {"grok-4.5-build": {"modelCalls": 2}},
+    }
+    (task / "metadata.json").write_text(json.dumps(metadata))
+    (task / "grok-output.json").write_text(json.dumps(envelope))
+    (task / "status").write_text("done\n")
+    (task / "exit_code").write_text("0\n")
+    record = grok.grok_build_record(task, contract)
+    assert record["output"] == output
+    assert record["transport"]["non_json_prefix_present"]
+    assert record["transport"]["redacted_artifacts_only"]
+    assert not record["activation"]
+    envelope["text"] += "\ntrailing payload"
+    (task / "grok-output.json").write_text(json.dumps(envelope))
+    with pytest.raises(io.Refused):
+        grok.grok_build_record(task, contract)
+    rejected = grok.grok_build_rejected_record(task, contract)
+    assert rejected["credited"] is False
+    assert rejected["output_received"]
+    assert rejected["output"] is None
+    assert "non-whitespace payload" in rejected["rejection_reason"]
 
 
 def test_preflight_preserves_historical_closure_null() -> None:
@@ -43,8 +105,9 @@ def test_preflight_preserves_historical_closure_null() -> None:
     assert report["immutability"]["historical_evidence_untouched"]
     assert report["immutability"]["immutable_null"]["effect"] == 0.0
     assert report["immutability"]["immutable_null"]["confidence_interval_95"] == [0.0, 0.0]
-    assert report["grok"]["completed_distinct_reviewer_count"] == 0
-    assert not report["grok"]["minimum_complete"]
+    assert report["grok"]["completed_distinct_reviewer_count"] >= 0
+    assert report["grok"]["completed_distinct_reviewer_count"] <= len(C.REVIEW_CELLS)
+    assert all(row["reason"].startswith("validation failed:") for row in report["grok"]["rejected_invocations"])
 
 
 def test_preflight_accepts_detached_ci_without_local_main(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -57,7 +120,22 @@ def test_preflight_accepts_detached_ci_without_local_main(monkeypatch: pytest.Mo
     report = campaign.preflight(publish=False)
     assert report["all_pass"], report["preflight"]["failed"]
     assert report["preflight"]["checks"]["local_main_absent_or_matches_orientation"]
-    assert report["preflight"]["checks"]["remote_main_matches_orientation"]
+    assert report["preflight"]["checks"]["remote_main_absent_or_matches_orientation"]
+    assert report["preflight"]["checks"]["main_orientation_anchored"]
+
+
+def test_preflight_accepts_nested_detached_clone_anchored_by_immutable_tags(monkeypatch: pytest.MonkeyPatch) -> None:
+    original = campaign.io.ref_or_none
+
+    def nested_detached(ref: str, *, peel: bool = False) -> str | None:
+        return None if ref in {"main", "origin/main"} else original(ref, peel=peel)
+
+    monkeypatch.setattr(campaign.io, "ref_or_none", nested_detached)
+    report = campaign.preflight(publish=False)
+    assert report["all_pass"], report["preflight"]["failed"]
+    assert report["preflight"]["checks"]["local_main_absent_or_matches_orientation"]
+    assert report["preflight"]["checks"]["remote_main_absent_or_matches_orientation"]
+    assert report["preflight"]["checks"]["main_orientation_anchored"]
 
 
 def test_event_kernel_covers_contracts_and_restores_exactly() -> None:
@@ -67,7 +145,7 @@ def test_event_kernel_covers_contracts_and_restores_exactly() -> None:
     restored = EventSourcedKernel.restore(checkpoint)
     assert tuple(fixture["interfaces"]) == C.CONTRACTS
     assert restored.state == prototype.kernel.state
-    assert restored.identity_digest() == prototype.kernel.identity_digest()
+    assert restored.state_integrity_digest() == prototype.kernel.state_integrity_digest()
     assert restored.query("goals") == prototype.query("goals")
     assert "model-b" in restored.query("model_fabric")["models"]
     assert "lesson-update" in restored.query("learning")["admitted"]
@@ -87,6 +165,25 @@ def test_checkpoint_tampering_and_unsupported_knowledge_fail_closed() -> None:
     corrupted["state"]["identity"]["id"] = "counterfeit"
     with pytest.raises(io.Refused):
         EventSourcedKernel.restore(corrupted)
+    causal = EventSourcedKernel("counterfactual-integrity")
+    causal.append(
+        "world",
+        {"operation": "causal_edge", "value": {"cause": "push", "effect": "door-opens"}},
+        provenance="test://causal-edge",
+    )
+    with pytest.raises(io.Refused):
+        causal.append(
+            "world",
+            {
+                "operation": "counterfactual",
+                "value": {
+                    "changed": {"push": False, "lighting": "dim"},
+                    "held_fixed": {"hinge": "intact"},
+                    "causal_rule": {"door_opens_if": ["push", "hinge_intact"]},
+                },
+            },
+            provenance="test://undeclared-counterfactual",
+        )
 
 
 def test_learning_rejects_negative_transfer_and_preserves_retention() -> None:
@@ -109,16 +206,46 @@ def test_learning_rejects_negative_transfer_and_preserves_retention() -> None:
         "learning_admit",
         {
             "update_id": "bad",
-            "held_out_before": 0.8,
-            "held_out_after": 0.7,
-            "retention_before": 0.9,
-            "retention_after": 0.4,
+            "evaluation": learning_evaluation_receipt(
+                "bad",
+                held_out_before=[True, True, True, True],
+                held_out_after=[True, True, True, False],
+                retention_before=[True, True, True, True],
+                retention_after=[True, False, False, False],
+            ),
         },
         provenance="test://learning/admit",
     )
     assert any(row["update_id"] == "bad" for row in prototype.query("learning")["rejected"])
     assert prototype.query("memory")["developmental"] == prior
     assert "poison" not in prototype.query("memory")["semantic"]
+    prototype.append(
+        "learning_propose",
+        {
+            "update_id": "tampered-evaluation",
+            "namespace": "semantic",
+            "key": "forged",
+            "value": "forged",
+            "data_split": "construction",
+            "source": "quarantined-teacher",
+        },
+        provenance="test://learning/tampered-propose",
+    )
+    tampered = learning_evaluation_receipt(
+        "tampered-evaluation",
+        held_out_before=[True, False],
+        held_out_after=[True, True],
+        retention_before=[True, True],
+        retention_after=[True, True],
+    )
+    tampered["computed"]["held_out_after"] = 0.0
+    with pytest.raises(io.Refused, match="corrupt or summary-injected"):
+        prototype.append(
+            "learning_admit",
+            {"update_id": "tampered-evaluation", "evaluation": tampered},
+            provenance="test://learning/tampered-admit",
+        )
+    assert "forged" not in prototype.query("memory")["semantic"]
 
 
 def test_sensorium_processes_arrays_waveforms_and_geometry_not_labels() -> None:
@@ -146,7 +273,23 @@ def test_architecture_tournament_allows_s2_family_to_win_by_simplicity() -> None
     assert "Grok-original" in rows["H_causal_temporal_ledger"]["loss_reason"]
     assert all(row["interface_conformance"] for row in rows.values())
     assert all(row["mechanism_ablation_detected"] for row in rows.values())
+    assert all(row["mechanism_ablation_delta"] == 1.0 for row in rows.values())
+    assert len({row["semantic_state_digest"] for row in rows.values()}) == len(rows)
+    assert all(row["representation_digest_distinct"] for row in rows.values())
     assert len({row["mechanism_decision"]["mechanism_field"] for row in rows.values()}) == len(rows)
+    admitted = experiment.architecture_tournament(
+        {
+            "candidate_id": "H_causal_temporal_ledger",
+            "name": "Intervention-Indexed Dual-Timeline Causal Ledger",
+            "provenance": "test-grok-proposal",
+        }
+    )
+    admitted_rows = {row["candidate_id"]: row for row in admitted["candidates"]}
+    assert admitted_rows["H_causal_temporal_ledger"]["eligible_after_stage_3"]
+    assert admitted_rows["H_causal_temporal_ledger"]["mechanism_decision"]["mechanism_probe"]["projected_delta"] == {
+        "door-angle": 0
+    }
+    assert admitted["selected_candidate"] == "I_simplest_sufficient"
 
 
 def test_new_bed_has_headroom_but_preserves_architecture_null() -> None:
@@ -157,13 +300,68 @@ def test_new_bed_has_headroom_but_preserves_architecture_null() -> None:
     )
     assert bed["oracle_headroom_preferred_0_10"]
     assert bed["oracle_headroom"] > C.SESOI
+    assert bed["oracle_headroom_decomposition"]["intentionally_unanswerable_or_sealed_secret_capacity"] == 0.0
+    assert bed["class_conditional_scores"]["selected_candidate"]["7"] == 0.0
+    assert bed["class_conditional_scores"]["oracle"]["7"] == 1.0
+    assert bed["commitments"]["family_programs_mechanically_distinct"]
+    assert bed["commitments"]["mechanically_distinct_family_program_count"] == len(C.CHALLENGE_FAMILIES)
+    assert not bed["commitments"]["hidden_composition_reuses_construction_template"]
+    assert bed["behavioral_execution"]["correctness_recomputed_for_every_episode"]
+    assert not bed["behavioral_execution"]["single_correctness_vector_reused_across_episodes"]
+    assert bed["behavioral_execution"]["state_updates_executed"] > bed["microepisodes_executed"]
+    assert all(
+        str(status).startswith("unavailable_no_real_model")
+        for system, status in bed["baseline_execution_status"].items()
+        if system in {"disconnected_model_ensemble", "stateless_model_router", "largest_model_always", "all_models_always"}
+    )
+    assert all(
+        set(row["family_episode_counts"]) == set(C.CHALLENGE_FAMILIES)
+        and all(count == 16 for count in row["family_episode_counts"].values())
+        and len(row["decision_receipt_samples"]) == 2 * len(C.CHALLENGE_FAMILIES)
+        and len(row["decision_chain_head"]) == 64
+        for row in bed["raw_history_execution_receipts"].values()
+    )
     effect = bed["effects"]["P3_selected_minus_strongest_persistent_alternative"]
     assert effect["mean_paired_effect"] == 0.0
     assert effect["confidence_interval_95"] == [0.0, 0.0]
     assert not effect["passes"]
+    assert not effect["passes_after_holm"]
+    assert bed["multiplicity"]["method"] == "Holm-Bonferroni step-down"
+    assert bed["multiplicity"]["family_size"] == 3
     transcript = bed["effects"]["P1_selected_minus_full_transcript_replay"]
     assert transcript["mean_paired_effect"] == 0.0
     assert bed["classification"] == "mechanism_null"
+
+
+def test_generator_cues_are_not_candidate_answer_inputs() -> None:
+    events, cue = experiment._history_fixture(7, C.CHALLENGE_FAMILIES[0])
+    kernel = EventSourcedKernel("cue-leakage-test")
+    for index, (kind, payload) in enumerate(events):
+        kernel.append(kind, payload, provenance=f"test://cue-leakage/{index}")
+    answers_before = experiment._kernel_answers(kernel, C.CHALLENGE_FAMILIES[0])
+    cue["visible"] = "poisoned-visible-answer"
+    cue["instruction"] = "poisoned-instruction-answer"
+    cue["prediction"] = "poisoned-counterfactual-answer"
+    cue["composition_target"] = "poisoned-composition-answer"
+    assert experiment._kernel_answers(kernel, C.CHALLENGE_FAMILIES[0]) == answers_before
+    assert answers_before[0] != cue["visible"]
+    assert answers_before[1] != cue["instruction"]
+    assert answers_before[5] != cue["prediction"]
+    assert 7 not in answers_before
+    counterfactual = next(payload["value"] for kind, payload in events if kind == "world" and payload["operation"] == "counterfactual")
+    assert "prediction" not in counterfactual
+
+
+def test_summary_replay_derives_answers_from_events_not_generator_truth() -> None:
+    events, cue = experiment._history_fixture(17, C.CHALLENGE_FAMILIES[0])
+    summary = experiment.DeterministicSummaryReplay()
+    summary.summarize(events)
+    answers_before = summary.answers()
+    cue["visible"] = "poisoned-visible-answer"
+    cue["body"] = "poisoned-body-answer"
+    assert summary.answers() == answers_before
+    assert answers_before[0] != cue["visible"]
+    assert answers_before[4]["body"] != cue["body"]
 
 
 def test_moderate_pilot_executes_required_scale_without_claim_inflation() -> None:
@@ -181,8 +379,12 @@ def test_canaries_count_expected_nulls_as_scientific_passes() -> None:
     assert report["all_pass"]
     assert report["passed"] == report["total"] == 21
     assert "identity_after_process_replacement" in report["architecture_nulls_preserved"]
-    nulls = [row for row in report["canaries"] if row["classification"].startswith("expected")]
-    assert nulls and all(row["effect"] == 0.0 for row in nulls)
+    assert report["mechanism_positive_count"] == 0
+    assert all(not row["contributes_to_facet_binary"] for row in report["canaries"])
+    measured = [row for row in report["canaries"] if row["check_kind"] == "measured_endpoint"]
+    assert len(measured) == 1
+    assert measured[0]["effect"] == 0.0
+    assert measured[0]["confidence_interval_95"] == [0.0, 0.0]
 
 
 def test_reproduced_closure_null_is_exact() -> None:
@@ -234,8 +436,12 @@ def test_mutation_and_counterfeit_verifiers_have_zero_survivors() -> None:
     mutation = verification.mutation_report()
     counterfeit = verification.counterfeit_report()
     assert mutation["baseline_accepted"]
-    assert mutation["rejected"] == mutation["total"] == 21
+    assert mutation["rejected"] == mutation["total"] == 22
     assert mutation["zero_survivors"]
+    assert mutation["runtime_exercised"] == 22
+    assert mutation["all_runtime_baselines_accepted"]
+    assert mutation["all_runtime_mutants_rejected"]
+    assert all(row["runtime"]["harness"] for row in mutation["rows"])
     assert counterfeit["all_rejected"]
 
 
