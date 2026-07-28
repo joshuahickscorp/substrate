@@ -126,6 +126,7 @@ def test_freeze_accepts_authorised_predecessor_source_digest(isolated_evidence: 
         {
             "sequence": 1,
             "ready": {"frozen_source_digest": predecessor, "tag": C.READY_TAG},
+            "transition_source_digest": io.source_digest(),
             "sesoi": C.SESOI,
         },
         status="complete",
@@ -279,3 +280,84 @@ def test_gate_verification_method_covers_all_outcome_b_checks(isolated_evidence:
     assert methods["candidate_frozen"] == "content_checked"
     assert methods["principal_complete"] == "content_checked"
     assert methods["long_continuity_complete"] == "field_asserted"
+
+
+def test_transition_not_describing_live_source_authorises_nothing(
+    isolated_evidence: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A sealed transition only authorises a predecessor digest for the source it describes.
+
+    Without this binding the allowlist is unauthenticated: a document could
+    authorise a digest for code it does not describe, so a freeze would validate
+    against source nobody transitioned to.
+    """
+    predecessor = "83fd33d5f7ec485af941ec494f7361265838752b468138695ce6083fdc21e90b"
+    transition = io.authority(
+        "substrate-final-revision-sealed-transition/v1",
+        {
+            "sequence": 1,
+            "ready": {"frozen_source_digest": predecessor, "tag": C.READY_TAG},
+            "transition_source_digest": "0" * 64,
+            "sesoi": C.SESOI,
+        },
+        status="complete",
+    )
+    _write_json(isolated_evidence / "SUBSTRATE_FINAL_REVISION_TRANSITION_001.json", transition)
+    assert campaign._authorised_predecessor_source_digests() == set()
+
+    freeze = io.authority(
+        "substrate-final-revision-candidate-freeze/v1",
+        {
+            "architecture": "I_simplest_sufficient",
+            "source_digest": predecessor,
+            "sesoi": C.SESOI,
+            "challenges": list(C.CHALLENGE_FAMILIES),
+            "baselines": list(C.BASELINES),
+        },
+        status="ready_to_tag",
+    )
+    _write_json(isolated_evidence / "SUBSTRATE_FINAL_REVISION_CANDIDATE_FREEZE.json", freeze)
+    monkeypatch.setattr(verification, "mutation_report", lambda: {"zero_survivors": True})
+    monkeypatch.setattr(verification, "counterfeit_report", lambda: {"all_rejected": True})
+    monkeypatch.setattr(campaign, "_git_diff_names", lambda *args, **kwargs: [])
+
+    documents = campaign._terminal_documents()
+    checks = documents["SUBSTRATE_FINAL_REVISION_FINAL_CLASSIFICATION.json"]["outcome_b_checks"]
+    assert checks["candidate_frozen"] is False
+
+
+def test_bed_result_with_junk_effect_values_is_refused(
+    isolated_evidence: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Effect rows of the right shape carrying junk still reach the SESOI comparison."""
+    shaped_but_junk = {
+        "schema": "substrate-final-revision-principal-result/v1",
+        "activation": False,
+        "effects": {
+            "P3_selected_minus_strongest_persistent_alternative": {
+                "mean_paired_effect": "0.0",
+                "confidence_interval_95": "[0.0, 0.0]",
+            },
+            "P1_selected_minus_full_transcript_replay": {
+                "mean_paired_effect": None,
+                "confidence_interval_95": [0.0],
+            },
+        },
+    }
+    assert campaign._bed_result_content_valid(shaped_but_junk) is False
+
+    inverted_interval = {
+        "schema": "substrate-final-revision-principal-result/v1",
+        "activation": False,
+        "effects": {
+            "P3_selected_minus_strongest_persistent_alternative": {
+                "mean_paired_effect": 0.0,
+                "confidence_interval_95": [1.0, -1.0],
+            },
+            "P1_selected_minus_full_transcript_replay": {
+                "mean_paired_effect": 0.0,
+                "confidence_interval_95": [0.0, 0.0],
+            },
+        },
+    }
+    assert campaign._bed_result_content_valid(inverted_interval) is False
