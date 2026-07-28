@@ -9,6 +9,7 @@ from substrate import v4, v4campaign, v4canary
 from substrate import v4config as C
 from substrate import v4fabric as F
 from substrate import v4principal as P
+from substrate import v4verify as V
 from substrate.runtime import Refused, StructuralSubstrate
 
 
@@ -130,3 +131,22 @@ def test_v4_exact_command_surface_and_stage_status(monkeypatch: pytest.MonkeyPat
     }
     assert "SUBSTRATE_V4_TERMINAL_REPORT.md" in C.DELIVERABLES
     assert all(digest != "missing" for _, digest in P.work_units()[0].input_digests)
+
+
+def test_v4_verified_replication_null_is_terminal_without_promotion() -> None:
+    effects = {name: {"passes": True} for name in C.HYPOTHESES}
+    assert V._classification_evidence_complete(effects, {"preserved": True})
+    result = {
+        "raw": {"all_pass": True},
+        "verification": {"all_pass": True, "replication": {"passes": False}},
+        "mutation": {"zero_survived": True},
+        "clean_clone": {"all_pass": True},
+        "final": {
+            "final_state": {"review_package_complete": True},
+            "classification": {
+                "classification": "functional_proto_nous_candidate",
+                "nous_ready_for_review": False,
+            },
+        },
+    }
+    assert V._terminal_verification_passed(result)

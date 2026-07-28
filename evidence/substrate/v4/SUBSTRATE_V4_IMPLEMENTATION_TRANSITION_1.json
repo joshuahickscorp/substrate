@@ -1,0 +1,33 @@
+{
+  "schema": "substrate-v4-implementation-transition/v1",
+  "identity": "v4-verification-transition-1",
+  "trigger": "post-principal clean-install probe invoked python -m pip inside a uv-managed environment without a pip module",
+  "scientific_result_observed": {
+    "principal_hypotheses_positive": 10,
+    "replication_effect": 0.030980392156862713,
+    "replication_sesoi": 0.05,
+    "replication_classification": "mechanism_null",
+    "open_world_effect": 0.19450980392156866
+  },
+  "authorized_changes": [
+    "use uv pip install for isolated target installation",
+    "separate verifier completeness from classification-escalator positivity",
+    "accept an independently verified terminal null without promoting it",
+    "report the exact replication null and strongest missing condition"
+  ],
+  "scientific_premises_changed": false,
+  "thresholds_changed": false,
+  "generators_changed": false,
+  "splits_changed": false,
+  "principal_mechanisms_changed": false,
+  "principal_receipts_invalidated": [],
+  "failed_verification_outputs_superseded": true,
+  "ready_tag_unchanged": "substrate-v4-structural-ready",
+  "resume_scope": "independent verification and terminal classification only",
+  "regression_test": "test_v4_verified_replication_null_is_terminal_without_promotion",
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "92d315fafbc37cc5a83ec302b71247207691f1dd",
+  "source_digest": "823641c18dec9bcf5e8bc2350fb8181fb99af029426b34b16a879a8d32a7201d",
+  "sha256": "be1ae188340586ba67336d3268a0b6944f2ce5ac2b9befe5ab3256ba121c8d1c"
+}
