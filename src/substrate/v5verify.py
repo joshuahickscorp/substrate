@@ -25,7 +25,7 @@ from collections.abc import Callable, Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
-from substrate import v4config, v4io
+from substrate import v4config, v4io, v4principal
 from substrate import v5analysis as A
 from substrate import v5config as C
 from substrate import v5environment as VE
@@ -541,22 +541,24 @@ def _independent_v4_retention(
     split: str,
     history_seed: int,
 ) -> dict[str, Any]:
-    """Read the frozen v4 receipt instead of executing shared v4 outcome code."""
+    """Execute the frozen v4 workload without depending on local run artifacts."""
 
     v4_split = split if split in v4config.SPLITS else "principal"
     seeds = tuple(v4config.SPLITS[v4_split])
     v4_seed = int(seeds[history_seed % len(seeds)])
-    body = {
-        "principal": "general",
-        "replication": "compact",
-        "open_world_review": "tool_dominant",
-    }[v4_split]
-    identity = f"{v4_split}-{v4_seed}-full_v4-{body}-shard0"
-    path = v4io.RUNS / "principal" / "units" / f"{identity}.json"
-    document = json.loads(path.read_text(encoding="utf-8"))
-    if document.get("program") != "substrate-v4" or document.get("activation") is not False or document.get("unit", {}).get("identity") != identity:
-        raise Refused(f"invalid frozen v4 retention receipt {identity}")
-    summary = document["summary"]
+    unit = v4principal._unit(  # noqa: SLF001
+        v4_seed,
+        "full_v4",
+        v4_split,
+        0,
+    )
+    receipt = v4principal.execute_unit(unit)
+    if receipt.get("activation") is not False or not v4principal.validate_receipt(
+        receipt,
+        unit,
+    ):
+        raise Refused("frozen v4 retention workload produced an invalid receipt")
+    summary = receipt["summary"]
     return {
         "workload": "frozen_substrate_v4_structural_principal_unit",
         "v4_split": v4_split,
