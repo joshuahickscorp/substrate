@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import copy
+from pathlib import Path
+
+import pytest
 
 from substrate import v5config as C
+from substrate import v5io as io
 from substrate import v5principal as P
 
 
@@ -60,3 +64,25 @@ def test_v5_unit_validation_rejects_checkpoint_drift() -> None:
     corrupted = copy.deepcopy(checkpoint)
     corrupted["state"]["entity_identity"] = "mutated"
     assert not P.validate(receipt, corrupted, unit)
+
+
+def test_v5_chain_resume_reuses_every_valid_finished_unit(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.setattr(io, "ROOT", tmp_path)
+    monkeypatch.setattr(io, "RUNS", tmp_path / "runs")
+    monkeypatch.setattr(io, "commit", lambda: "c" * 40)
+    monkeypatch.setattr(io, "source_digest", lambda: "d" * 64)
+    predecessor = None
+    for shard in range(P.SHARDS):
+        unit = P.WorkUnit("principal", 5_000, "full_v5", shard)
+        receipt, checkpoint = P.execute_unit(unit, predecessor)
+        io.run_json(P._relative(unit, "units"), receipt)
+        io.run_json(P._relative(unit, "checkpoints"), checkpoint)
+        predecessor = checkpoint
+
+    rows = P._chain("principal", 5_000, "full_v5")
+
+    assert len(rows) == P.SHARDS
+    assert all(reused for _, _, reused in rows)

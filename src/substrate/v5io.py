@@ -10,7 +10,9 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import subprocess
 import tempfile
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -82,6 +84,28 @@ def sha_bytes(payload: bytes) -> str:
 
 def sha_obj(value: Any) -> str:
     return sha_bytes(canonical_json(value))
+
+
+def commit() -> str:
+    return subprocess.check_output(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+
+
+def source_inventory() -> dict[str, str]:
+    roots_to_scan = (ROOT / "src" / "substrate", ROOT / "tests" / "substrate")
+    return {
+        path.relative_to(ROOT).as_posix(): sha_bytes(path.read_bytes())
+        for source_root in roots_to_scan
+        for path in sorted(source_root.glob("*.py"))
+    }
+
+
+@lru_cache(maxsize=1)
+def source_digest() -> str:
+    return sha_obj(source_inventory())
 
 
 def _contains_true_activation(value: JSONValue) -> bool:
@@ -170,6 +194,8 @@ def sealed_document(document: dict[str, Any]) -> dict[str, JSONValue]:
     if not isinstance(normal, dict):
         raise Refused("a sealed document must be a JSON object")
     normal.setdefault("program", PROGRAM)
+    normal.setdefault("source_commit", commit())
+    normal.setdefault("source_digest", source_digest())
     normal.setdefault("activation", ACTIVATION)
     assert_activation_false(normal)
     normal["sha256"] = sha_obj(normal)
@@ -188,6 +214,15 @@ def validate_seal(document: dict[str, Any]) -> dict[str, JSONValue]:
         raise Refused("invalid v5 JSON self-seal")
     if normal.get("program") != PROGRAM:
         raise Refused("sealed JSON is not owned by Substrate v5")
+    source_commit = normal.get("source_commit")
+    source_digest_value = normal.get("source_digest")
+    if (
+        not isinstance(source_commit, str)
+        or len(source_commit) != 40
+        or not isinstance(source_digest_value, str)
+        or len(source_digest_value) != 64
+    ):
+        raise Refused("sealed JSON is missing exact source identity")
     assert_activation_false(normal)
     return normal
 

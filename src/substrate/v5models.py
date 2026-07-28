@@ -104,6 +104,7 @@ _FORBIDDEN_REQUEST_KEYS = frozenset(
         "outcome",
         "physical_id",
         "private_target",
+        "target",
         "target_id",
         "truth",
         "truth_id",

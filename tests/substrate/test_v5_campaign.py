@@ -10,10 +10,7 @@ from substrate import v5config as C
 
 def _no_true_activation(value: object) -> bool:
     if isinstance(value, dict):
-        return all(
-            key != "activation" or child is False
-            for key, child in value.items()
-        ) and all(_no_true_activation(child) for child in value.values())
+        return all(key != "activation" or child is False for key, child in value.items()) and all(_no_true_activation(child) for child in value.values())
     if isinstance(value, (list, tuple)):
         return all(_no_true_activation(child) for child in value)
     return True
@@ -72,10 +69,7 @@ def test_deliverables_include_extended_master_plan_authorities() -> None:
 def test_immutability_requires_annotated_remote_exact_tags_and_local_trees(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    remote = {
-        tag: {"tag_object": f"object-{tag}", "peeled_commit": f"commit-{tag}"}
-        for tag in C.PRIOR_TAGS
-    }
+    remote = {tag: {"tag_object": f"object-{tag}", "peeled_commit": f"commit-{tag}"} for tag in C.PRIOR_TAGS}
     monkeypatch.setattr(v5campaign, "_remote_tag_refs", lambda: remote)
     monkeypatch.setattr(
         v5campaign,
@@ -95,9 +89,7 @@ def test_immutability_requires_annotated_remote_exact_tags_and_local_trees(
     monkeypatch.setattr(
         v5campaign,
         "_git",
-        lambda *arguments: "\n".join(C.PRIOR_TAGS)
-        if arguments[:2] == ("tag", "--list")
-        else "",
+        lambda *arguments: "\n".join(C.PRIOR_TAGS) if arguments[:2] == ("tag", "--list") else "",
     )
     monkeypatch.setattr(
         v5campaign,
@@ -119,10 +111,7 @@ def test_immutability_requires_annotated_remote_exact_tags_and_local_trees(
     monkeypatch.setattr(
         v5campaign,
         "_classification_snapshot",
-        lambda: {
-            version: {"classification": classification, "preserved": True}
-            for version, classification in C.PRIOR_CLASSIFICATIONS.items()
-        },
+        lambda: {version: {"classification": classification, "preserved": True} for version, classification in C.PRIOR_CLASSIFICATIONS.items()},
     )
 
     result = v5campaign.immutability()
@@ -137,28 +126,36 @@ def test_immutability_requires_annotated_remote_exact_tags_and_local_trees(
 def test_inventory_is_explicitly_read_only_and_detects_no_principal(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.setattr(v5campaign, "_process_snapshots", lambda: {
-        "hawking": {
-            "processes": [],
-            "active_process_count": 0,
-            "observation_only": True,
-            "signals_sent": 0,
-            "processes_modified": 0,
-            "controllers_modified": 0,
-            "mps_adopted": False,
+    monkeypatch.setattr(
+        v5campaign,
+        "_process_snapshots",
+        lambda: {
+            "hawking": {
+                "processes": [],
+                "active_process_count": 0,
+                "observation_only": True,
+                "signals_sent": 0,
+                "processes_modified": 0,
+                "controllers_modified": 0,
+                "mps_adopted": False,
+            },
+            "v5_workers": {
+                "processes": [],
+                "active_process_count": 0,
+                "observation_only": True,
+                "signals_sent": 0,
+            },
         },
-        "v5_workers": {
-            "processes": [],
-            "active_process_count": 0,
-            "observation_only": True,
-            "signals_sent": 0,
+    )
+    monkeypatch.setattr(
+        v5campaign,
+        "_v5_namespace_snapshot",
+        lambda: {
+            "families": {},
+            "principal_files": [],
+            "principal_exists": False,
         },
-    })
-    monkeypatch.setattr(v5campaign, "_v5_namespace_snapshot", lambda: {
-        "families": {},
-        "principal_files": [],
-        "principal_exists": False,
-    })
+    )
     monkeypatch.setattr(v5campaign, "_tool_snapshot", lambda: {"git": {"available": True}})
     monkeypatch.setattr(v5campaign, "_hardware_snapshot", lambda: {"logical_cores": 8})
     monkeypatch.setattr(v5campaign, "_resource_snapshot", lambda: {"disk_available_gib": 100.0})
@@ -173,6 +170,131 @@ def test_inventory_is_explicitly_read_only_and_detects_no_principal(
     assert result["processes_modified"] == 0
     assert result["v5_principal"]["pre_existing"] is False
     assert result["activation"] is False
+
+
+def test_worktree_cleanliness_allows_only_declared_roots() -> None:
+    allowed = "\0".join(
+        (
+            " M artifacts/substrate/v5/SUBSTRATE_V5_PREFLIGHT.json",
+            "?? artifacts/substrate/v5/.objects/aa/object.json",
+            "",
+        )
+    )
+    clean = v5campaign.worktree_cleanliness(
+        v5campaign.PREFLIGHT_GENERATED_ROOTS,
+        status_output=allowed,
+    )
+
+    assert clean["clean_except_allowed_roots"]
+    assert clean["undeclared_dirty_paths"] == []
+    assert clean["activation"] is False
+
+    undeclared = allowed + " M src/substrate/v5campaign.py\0"
+    dirty = v5campaign.worktree_cleanliness(
+        v5campaign.PREFLIGHT_GENERATED_ROOTS,
+        status_output=undeclared,
+    )
+
+    assert not dirty["clean_except_allowed_roots"]
+    assert dirty["undeclared_dirty_paths"] == ["src/substrate/v5campaign.py"]
+
+    runtime_only = "\0".join(
+        (
+            " M evidence/substrate/v5/SUBSTRATE_V5_PRINCIPAL_AUTHORITY.json",
+            "?? runs/substrate/v5/principal/units/unit.json",
+            "?? cache/substrate/v5/features/object.bin",
+            "",
+        )
+    )
+    runtime = v5campaign.worktree_cleanliness(
+        v5campaign.PRINCIPAL_RUNTIME_ROOTS,
+        status_output=runtime_only,
+    )
+    assert runtime["clean_except_allowed_roots"]
+
+    frozen_config_drift = runtime_only + (" M configs/substrate/v5/frozen_configuration.json\0")
+    frozen = v5campaign.worktree_cleanliness(
+        v5campaign.PRINCIPAL_RUNTIME_ROOTS,
+        status_output=frozen_config_drift,
+    )
+    assert not frozen["clean_except_allowed_roots"]
+    assert frozen["undeclared_dirty_paths"] == ["configs/substrate/v5/frozen_configuration.json"]
+
+
+def test_preflight_fails_on_undeclared_dirty_paths(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    base = "a" * 40
+    local_inventory = {
+        "resources": {"disk_available_gib": 100.0},
+        "processes": {
+            "hawking": {
+                "observation_only": True,
+                "signals_sent": 0,
+                "processes_modified": 0,
+                "controllers_modified": 0,
+            }
+        },
+        "v5_principal": {"pre_existing": False, "workers": []},
+        "read_only": True,
+        "files_written": 0,
+        "processes_modified": 0,
+    }
+    integrity = {
+        "all_pass": True,
+        "tag_authority": {"tags": {C.TERMINAL_TAGS["v4"]: {"peeled_commit": base}}},
+    }
+    monkeypatch.setattr(v5campaign, "_remote_tag_refs", lambda: {})
+    monkeypatch.setattr(
+        v5campaign,
+        "_tag_snapshot",
+        lambda _tag, _remote: {
+            "annotated": True,
+            "tag_object_matches_remote": True,
+            "peeled_commit_matches_remote": True,
+            "peeled_commit": base,
+        },
+    )
+    monkeypatch.setattr(
+        v5campaign,
+        "_ref_or_none",
+        lambda reference: {
+            "refs/heads/main": base,
+            "refs/remotes/origin/main": base,
+            "HEAD": "b" * 40,
+        }.get(reference),
+    )
+    monkeypatch.setattr(v5campaign, "_remote_ref", lambda _reference: base)
+
+    def optional(arguments: list[str], **_kwargs: object) -> dict:
+        if arguments[:3] == ["git", "branch", "--show-current"]:
+            return {"returncode": 0, "stdout": C.IMPLEMENTATION_BRANCH}
+        if arguments[:3] == ["git", "worktree", "list"]:
+            return {"returncode": 0, "stdout": "worktree /repo\n"}
+        if arguments[:3] == ["git", "merge-base", "--is-ancestor"]:
+            return {"returncode": 0, "stdout": ""}
+        raise AssertionError(arguments)
+
+    monkeypatch.setattr(v5campaign, "_optional_command", optional)
+    monkeypatch.setattr(
+        v5campaign,
+        "worktree_cleanliness",
+        lambda _roots: {
+            "entries": [{"status": " M", "path": "src/substrate/v5.py"}],
+            "clean_except_allowed_roots": False,
+            "undeclared_dirty_paths": ["src/substrate/v5.py"],
+            "activation": False,
+        },
+    )
+
+    report = v5campaign.preflight(
+        inventory_snapshot=local_inventory,
+        integrity_snapshot=integrity,
+    )
+
+    assert not report["all_pass"]
+    assert "worktree_clean_except_preflight_authorities" in report["failed"]
+    assert report["entry"]["cleanliness"]["undeclared_dirty_paths"] == ["src/substrate/v5.py"]
 
 
 def test_seal_preflight_publishes_all_nine_entry_authorities_via_lazy_v5io(

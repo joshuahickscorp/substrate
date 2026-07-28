@@ -37,6 +37,7 @@ ENDPOINTS: dict[str, dict[str, Any]] = {
         "name": "active_perception_value",
         "phases": (9,),
         "controls": ("no_active_perception",),
+        "metric": "utility",
     },
     "H_M6": {
         "name": "model_fabric_routing_value",
@@ -51,6 +52,7 @@ ENDPOINTS: dict[str, dict[str, Any]] = {
         "name": "model_support_value",
         "phases": (10,),
         "controls": ("no_model_support",),
+        "metric": "accuracy",
     },
     "H_M8": {
         "name": "body_schema_value",
@@ -66,6 +68,7 @@ ENDPOINTS: dict[str, dict[str, Any]] = {
         "name": "human_multimodal_teaching_value",
         "phases": (11,),
         "controls": ("no_human_multimodal_teaching",),
+        "metric": "accuracy",
     },
     "H_M11": {
         "name": "selected_kernel_integrated_value",
@@ -109,15 +112,19 @@ def evaluate_histories(
         for arm in selected_arms:
             if arm not in C.ARMS:
                 raise v5stats.Refused(f"unknown arm {arm!r}")
-            table[int(seed)][arm] = {
-                phase: E.phase_result(
+            development_state: dict[str, Any] = {}
+            phases: dict[int, dict[str, Any]] = {}
+            for phase in range(len(C.PHASES)):
+                row = E.phase_result(
                     split=split,
                     history_seed=int(seed),
                     arm=arm,
                     phase_index=phase,
+                    development_state=development_state,
                 )
-                for phase in range(len(C.PHASES))
-            }
+                phases[phase] = row
+                development_state = dict(row["development_update"])
+            table[int(seed)][arm] = phases
     return table
 
 
@@ -150,13 +157,14 @@ def _metric(
     table: Table,
     arm: str,
     phases: tuple[int, ...],
+    metric: str = "utility",
 ) -> dict[int, float]:
     values: dict[int, float] = {}
     for seed, history in table.items():
         if arm not in history:
             raise v5stats.Refused(f"history {seed} is missing arm {arm}")
         values[seed] = statistics.fmean(
-            float(history[arm][phase]["utility"]) for phase in phases
+            float(history[arm][phase][metric]) for phase in phases
         )
     return values
 
@@ -165,10 +173,11 @@ def effects(table: Table) -> dict[str, Any]:
     results: dict[str, Any] = {}
     for hypothesis, authority in ENDPOINTS.items():
         phases = tuple(int(value) for value in authority["phases"])
+        metric = str(authority.get("metric", "utility"))
         results[hypothesis] = v5stats.paired_contrast(
-            _metric(table, "full_v5", phases),
+            _metric(table, "full_v5", phases, metric),
             {
-                control: _metric(table, control, phases)
+                control: _metric(table, control, phases, metric)
                 for control in authority["controls"]
             },
             str(authority["name"]),
@@ -176,27 +185,27 @@ def effects(table: Table) -> dict[str, Any]:
         )
         results[hypothesis]["hypothesis"] = C.HYPOTHESES[hypothesis]
         results[hypothesis]["phases"] = [C.PHASES[index] for index in phases]
-    retention_values = {
-        seed: statistics.fmean(
-            (
-                float(history["full_v5"][0]["utility"]),
-                float(history["full_v5"][19]["utility"]),
+        results[hypothesis]["metric"] = metric
+    retention_values = {}
+    for seed, history in table.items():
+        probe = history["full_v5"][19].get("v4_retention")
+        if not isinstance(probe, dict) or probe.get("preserved") is not True:
+            raise v5stats.Refused(
+                f"history {seed} lacks a positive frozen-v4 retention probe"
             )
-        )
-        - 0.78
-        for seed, history in table.items()
-    }
+        retention_values[seed] = float(probe["accuracy"])
     results["H_M13"] = v5stats.paired_effect(
         retention_values.values(),
-        "v4_structural_reflective_retention_margin",
+        "v4_structural_reflective_capability_positive_after_integration",
         sesoi=C.SESOI,
     )
     results["H_M13"].update(
         {
             "hypothesis": C.HYPOTHESES["H_M13"],
-            "retention_floor": 0.78,
+            "retention_floor": 0.0,
             "full_arm": "full_v5",
-            "controls": ["frozen_v4_retention_floor"],
+            "controls": ["zero_capability_null"],
+            "workload": "frozen_substrate_v4_structural_principal_unit",
         }
     )
     ordered = {name: results[name] for name in C.HYPOTHESES}
