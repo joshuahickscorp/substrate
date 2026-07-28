@@ -810,7 +810,23 @@ def _base_documents(sandbox: dict[str, Any], resources: dict[str, Any]) -> dict[
         ),
         "SUBSTRATE_NOUS_CLOSURE_TRANSITION_LEDGER.json": io.authority(
             "substrate-nous-closure-transition-ledger/v1",
-            {"transitions": [], "repairs_used": 0, "scientific_threshold_changes": 0},
+            {
+                "transitions": [
+                    {
+                        "identity": "closure-implementation-repair-001",
+                        "defect": "v1 terminal evidence path followed the v2-v5 filename convention",
+                        "root_cause": "historical v1 uses SUBSTRATE_FINAL_STATE.json",
+                        "affected_units": ["preflight lineage/immutability before first publication"],
+                        "repair": "bind v1 to its actual immutable terminal state path",
+                        "before_commit": "d371d3b6",
+                        "repair_commit": "e6180a9e",
+                        "invalidated_evidence": [],
+                        "scientific_authority_changed": False,
+                    }
+                ],
+                "repairs_used": 1,
+                "scientific_threshold_changes": 0,
+            },
         ),
         "SUBSTRATE_NOUS_CLOSURE_SCIENTIFIC_CONSTITUTION.json": io.authority(
             "substrate-nous-closure-scientific-constitution/v1",
