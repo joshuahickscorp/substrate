@@ -160,4 +160,10 @@ def test_v4_clean_clone_binds_installed_code_to_clone(tmp_path: Path) -> None:
     environment = V._clean_environment(installed, clone)
     assert environment["PYTHONPATH"] == str(installed)
     assert environment["SUBSTRATE_REPOSITORY_ROOT"] == str(clone)
-    assert environment["SUBSTRATE_STATE_ROOT"] == str(clone / ".substrate-state")
+    assert "SUBSTRATE_STATE_ROOT" not in environment
+    assert "SUBSTRATE_DATA_ROOT" not in environment
+    clone_command = V._clean_clone_command(clone)
+    install_command = V._clean_install_command(installed, clone)
+    assert "--depth" not in clone_command
+    assert "--no-build-isolation" not in install_command
+    assert install_command[-2:] == [str(installed), str(clone)]
