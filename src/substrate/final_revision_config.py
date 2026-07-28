@@ -150,8 +150,11 @@ CANDIDATES: dict[str, dict[str, Any]] = {
         "complexity_weight": 6.5,
     },
     "H_causal_temporal_ledger": {
-        "representation": "event_causal_graph_with_temporal_planes",
-        "mechanism": "Grok-original slot reserved for externally proposed causal-temporal synthesis",
+        "representation": "intervention_indexed_dual_timeline_causal_ledger",
+        "mechanism": (
+            "Grok-original factual event DAG plus content-addressed intervention branches that cut incoming causal parents "
+            "and derive bounded branch projections without actual-state writeback"
+        ),
         "tensor_required": False,
         "llm_required": False,
         "training_required": False,
@@ -263,6 +266,7 @@ MUTATIONS = (
     "checkpoint_omits_goals",
     "checkpoint_omits_scene_state",
     "checkpoint_omits_model_competence",
+    "checkpoint_omits_self_model",
     "activation_becomes_true",
 )
 
@@ -290,6 +294,7 @@ REQUIRED_DELIVERABLES = (
     "SUBSTRATE_FINAL_REVISION_NULL_INTERPRETATION.md",
     "SUBSTRATE_FINAL_REVISION_ARCHITECTURE_CATALOG.json",
     "SUBSTRATE_FINAL_REVISION_ARCHITECTURE_CONTRACT.json",
+    "SUBSTRATE_FINAL_REVISION_CANDIDATE_H_ADJUDICATION.json",
     "SUBSTRATE_FINAL_REVISION_ARCHITECTURE_TOURNAMENT.json",
     "SUBSTRATE_FINAL_REVISION_SELECTED_KERNEL.json",
     "SUBSTRATE_FINAL_REVISION_ACQUISITION_AUTHORITY.json",

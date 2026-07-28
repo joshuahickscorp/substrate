@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import json
+import re
+from pathlib import Path
 from typing import Any
 
 from substrate import final_revision_config as C
@@ -15,6 +18,184 @@ PREFREEZE_ROUND_ASSIGNMENT = {
     **{role: "code_and_implementation_review" for role in C.REVIEW_CELLS[20:24]},
     **{role: "post_pilot_review" for role in C.REVIEW_CELLS[24:32]},
 }
+
+
+def _single_review_object(text: str) -> tuple[dict[str, Any], str]:
+    """Extract one final review object from Grok Build's redacted text stream."""
+    decoder = json.JSONDecoder()
+    candidates: list[tuple[dict[str, Any], str]] = []
+    for offset, character in enumerate(text):
+        if character != "{":
+            continue
+        try:
+            value, end = decoder.raw_decode(text, offset)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(value, dict) or not {"role", "round", "facets"} <= set(value):
+            continue
+        if text[end:].strip():
+            raise io.Refused("Grok Build review has a non-whitespace payload after the final JSON object")
+        candidates.append((value, text[:offset]))
+    if len(candidates) != 1:
+        raise io.Refused(f"expected exactly one final Grok review object, found {len(candidates)}")
+    return candidates[0]
+
+
+def grok_build_record(task_directory: Path, contract_path: Path) -> dict[str, Any]:
+    """Validate redacted on-device Grok Build artifacts and construct a ledger row."""
+    task_directory = task_directory.resolve()
+    contract_path = contract_path.resolve()
+    required = {
+        "metadata": task_directory / "metadata.json",
+        "output": task_directory / "grok-output.json",
+        "status": task_directory / "status",
+        "exit_code": task_directory / "exit_code",
+        "task": task_directory / "task.md",
+    }
+    missing = [name for name, path in required.items() if not path.is_file()]
+    if missing:
+        raise io.Refused(f"Grok Build task is missing redacted artifacts: {', '.join(missing)}")
+    metadata = json.loads(required["metadata"].read_text())
+    envelope = json.loads(required["output"].read_text())
+    prompt = required["task"].read_text()
+    if prompt != contract_path.read_text():
+        raise io.Refused("executed Grok Build task does not exactly match the supplied contract")
+    model_usage = envelope.get("modelUsage")
+    checks = {
+        "completed_status": required["status"].read_text().strip() == "done",
+        "zero_exit": required["exit_code"].read_text().strip() == "0",
+        "audit_mode": metadata.get("mode") == "audit",
+        "read_only_sandbox": metadata.get("sandbox") == "read-only",
+        "repository": Path(str(metadata.get("repo", ""))).resolve() == io.ROOT.resolve(),
+        "session_identity": metadata.get("session_id") == envelope.get("sessionId"),
+        "normal_stop": envelope.get("stopReason") == "EndTurn",
+        "model_usage": isinstance(model_usage, dict) and len(model_usage) == 1,
+        "wrapper_model": metadata.get("model") == "grok-4.5",
+        "turns_observed": isinstance(envelope.get("num_turns"), int) and envelope["num_turns"] > 0,
+    }
+    failed = [name for name, passed in checks.items() if not passed]
+    if failed:
+        raise io.Refused(f"Grok Build task validation failed: {', '.join(failed)}")
+    output, prefix = _single_review_object(str(envelope.get("text", "")))
+    model_identity = next(iter(model_usage))
+    evidence_match = re.search(r"PUBLIC EVIDENCE COMMIT:\s*([0-9a-f]{40})", prompt)
+    if evidence_match is None:
+        raise io.Refused("Grok Build contract does not identify a full public evidence commit")
+    record = {
+        "invocation_id": str(metadata["task_id"]),
+        "role": output.get("role"),
+        "round": output.get("round"),
+        "prompt": prompt,
+        "prompt_digest": io.digest(prompt),
+        "model_identity": model_identity,
+        "wrapper_model": metadata["model"],
+        "observed_at": metadata.get("started_at"),
+        "inputs": {
+            "evidence_commit": evidence_match.group(1),
+            "contract_digest": io.file_digest(contract_path),
+            "task_prompt_digest": io.file_digest(required["task"]),
+            "execution_mode": metadata["mode"],
+            "sandbox": metadata["sandbox"],
+        },
+        "transport": {
+            "source": "on_device_grok_build_cli",
+            "redacted_artifacts_only": True,
+            "session_id": envelope["sessionId"],
+            "request_id": envelope.get("requestId"),
+            "stop_reason": envelope["stopReason"],
+            "non_json_prefix_present": bool(prefix),
+            "non_json_prefix_digest": io.digest(prefix) if prefix else None,
+            "trailing_payload_present": False,
+            "num_turns": envelope["num_turns"],
+            "usage": envelope.get("usage"),
+            "model_usage": model_usage,
+        },
+        "output_received": True,
+        "output": output,
+        "output_digest": io.digest(output),
+        "resolved_blocking_defects": [],
+        "resolutions": [],
+        "adopted_revisions": [],
+        "rejected_revisions": [],
+        "activation": False,
+    }
+    return record
+
+
+def grok_build_rejected_record(task_directory: Path, contract_path: Path) -> dict[str, Any]:
+    """Record a real completed invocation whose review framing is not creditable."""
+    task_directory = task_directory.resolve()
+    contract_path = contract_path.resolve()
+    metadata_path = task_directory / "metadata.json"
+    output_path = task_directory / "grok-output.json"
+    task_path = task_directory / "task.md"
+    required = [metadata_path, output_path, task_path, task_directory / "status", task_directory / "exit_code"]
+    if not all(path.is_file() for path in required):
+        raise io.Refused("rejected Grok Build attempt is missing required redacted artifacts")
+    metadata = json.loads(metadata_path.read_text())
+    envelope = json.loads(output_path.read_text())
+    prompt = task_path.read_text()
+    if prompt != contract_path.read_text():
+        raise io.Refused("rejected Grok Build task does not exactly match the supplied contract")
+    model_usage = envelope.get("modelUsage")
+    checks = {
+        "completed_status": (task_directory / "status").read_text().strip() == "done",
+        "zero_exit": (task_directory / "exit_code").read_text().strip() == "0",
+        "audit_mode": metadata.get("mode") == "audit",
+        "read_only_sandbox": metadata.get("sandbox") == "read-only",
+        "repository": Path(str(metadata.get("repo", ""))).resolve() == io.ROOT.resolve(),
+        "session_identity": metadata.get("session_id") == envelope.get("sessionId"),
+        "normal_stop": envelope.get("stopReason") == "EndTurn",
+        "model_usage": isinstance(model_usage, dict) and len(model_usage) == 1,
+    }
+    failed = [name for name, passed in checks.items() if not passed]
+    if failed:
+        raise io.Refused(f"rejected Grok Build task validation failed: {', '.join(failed)}")
+    try:
+        _single_review_object(str(envelope.get("text", "")))
+    except io.Refused as exc:
+        rejection_reason = str(exc)
+    else:
+        raise io.Refused("Grok Build attempt is schema-extractable and must use the credited importer")
+    role_match = re.search(r"ROLE:\s*([a-z0-9_]+)", prompt) or re.search(r"role\s+`([a-z0-9_]+)`", prompt)
+    round_match = re.search(r"ROUND:\s*([a-z0-9_]+)", prompt) or re.search(r"round\s+`([a-z0-9_]+)`", prompt)
+    evidence_match = re.search(r"PUBLIC EVIDENCE COMMIT:\s*([0-9a-f]{40})", prompt)
+    if role_match is None or round_match is None or evidence_match is None:
+        raise io.Refused("rejected Grok Build contract lacks role, round, or evidence commit")
+    return {
+        "invocation_id": str(metadata["task_id"]),
+        "role": role_match.group(1),
+        "round": round_match.group(1),
+        "prompt": prompt,
+        "prompt_digest": io.digest(prompt),
+        "model_identity": next(iter(model_usage)),
+        "wrapper_model": metadata.get("model"),
+        "observed_at": metadata.get("started_at"),
+        "inputs": {
+            "evidence_commit": evidence_match.group(1),
+            "contract_digest": io.file_digest(contract_path),
+            "task_prompt_digest": io.file_digest(task_path),
+            "execution_mode": metadata["mode"],
+            "sandbox": metadata["sandbox"],
+        },
+        "transport": {
+            "source": "on_device_grok_build_cli",
+            "redacted_artifacts_only": True,
+            "session_id": envelope["sessionId"],
+            "request_id": envelope.get("requestId"),
+            "stop_reason": envelope["stopReason"],
+            "redacted_text_digest": io.digest(str(envelope.get("text", ""))),
+            "num_turns": envelope.get("num_turns"),
+            "usage": envelope.get("usage"),
+            "model_usage": model_usage,
+        },
+        "output_received": True,
+        "output": None,
+        "output_digest": None,
+        "credited": False,
+        "rejection_reason": rejection_reason,
+        "activation": False,
+    }
 
 
 def prompt_for(role: str, round_identity: str, *, evidence_commit: str, evidence_scope: str) -> str:

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from typing import Any
 
@@ -46,6 +46,49 @@ def _copy(value: Any) -> Any:
     return json.loads(json.dumps(value, sort_keys=True, default=str))
 
 
+def learning_evaluation_receipt(
+    update_id: str,
+    *,
+    held_out_before: Iterable[bool],
+    held_out_after: Iterable[bool],
+    retention_before: Iterable[bool],
+    retention_after: Iterable[bool],
+    evaluator_id: str = "frozen-construction-evaluator/v1",
+) -> dict[str, Any]:
+    """Compute a content-addressed learning receipt from raw evaluator outcomes."""
+    raw: dict[str, Any] = {
+        "update_id": str(update_id),
+        "evaluator_id": str(evaluator_id),
+        "held_out_before": [bool(value) for value in held_out_before],
+        "held_out_after": [bool(value) for value in held_out_after],
+        "retention_before": [bool(value) for value in retention_before],
+        "retention_after": [bool(value) for value in retention_after],
+        "activation": False,
+    }
+    if (
+        not raw["held_out_before"]
+        or len(raw["held_out_before"]) != len(raw["held_out_after"])
+        or not raw["retention_before"]
+        or len(raw["retention_before"]) != len(raw["retention_after"])
+    ):
+        raise io.Refused("learning evaluation requires nonempty paired raw outcomes")
+
+    def rate(values: list[bool]) -> float:
+        return sum(values) / len(values)
+
+    document = {
+        **raw,
+        "computed": {
+            "held_out_before": rate(raw["held_out_before"]),
+            "held_out_after": rate(raw["held_out_after"]),
+            "retention_before": rate(raw["retention_before"]),
+            "retention_after": rate(raw["retention_after"]),
+        },
+    }
+    document["evaluation_digest"] = io.digest(document)
+    return document
+
+
 @dataclass(frozen=True)
 class CognitiveEvent:
     sequence: int
@@ -77,7 +120,7 @@ def _initial_state(identity: str) -> dict[str, Any]:
         "beliefs": {},
         "knowledge": {},
         "goals": {},
-        "world_model": {"objects": {}, "relations": [], "causal_edges": [], "counterfactuals": []},
+        "world_model": {"objects": {}, "relations": [], "causal_edges": [], "counterfactuals": [], "interventions": []},
         "self_model": {"competence": {}, "limits": [], "resource_state": {}, "predictions": []},
         "reasoning": [],
         "inquiry": [],
@@ -223,9 +266,30 @@ class EventSourcedKernel:
                 state["world_model"]["causal_edges"].append(edge)
             elif operation == "counterfactual":
                 value = _copy(payload["value"])
-                if not {"changed", "held_fixed", "prediction"} <= set(value):
-                    raise io.Refused("counterfactual must declare changed, held_fixed, and prediction")
+                changed = value.get("changed")
+                held_fixed = value.get("held_fixed")
+                causal_rule = value.get("causal_rule")
+                if not isinstance(changed, Mapping) or not isinstance(held_fixed, Mapping) or not isinstance(
+                    causal_rule, Mapping
+                ):
+                    raise io.Refused("counterfactual must declare mapping-valued changed, held_fixed, and causal_rule")
+                if not changed or set(changed) & set(held_fixed):
+                    raise io.Refused("counterfactual changed and held-fixed variables must be nonempty and disjoint")
+                prerequisites = causal_rule.get("door_opens_if")
+                if prerequisites != ["push", "hinge_intact"]:
+                    raise io.Refused("counterfactual causal rule is unknown to the bounded world model")
+                declared = set(changed) | {f"{key}_intact" if key == "hinge" else key for key in held_fixed}
+                if declared != set(prerequisites):
+                    raise io.Refused("counterfactual changes an undeclared variable or omits a causal prerequisite")
+                causal_causes = {str(edge["cause"]) for edge in state["world_model"]["causal_edges"]}
+                if not set(changed) <= causal_causes:
+                    raise io.Refused("counterfactual changed variable has no stored causal edge")
                 state["world_model"]["counterfactuals"].append(value)
+            elif operation == "intervene":
+                value = _copy(payload["value"])
+                if not {"branch_id", "variable", "value", "held_fixed"} <= set(value):
+                    raise io.Refused("intervention requires branch_id, variable, value, and held_fixed")
+                state["world_model"]["interventions"].append(value)
             else:
                 raise io.Refused(f"unknown world operation {operation!r}")
             return
@@ -296,13 +360,34 @@ class EventSourcedKernel:
             return
         if kind == "learning_admit":
             update_id = str(payload["update_id"])
+            evaluation = payload.get("evaluation")
+            if not isinstance(evaluation, Mapping):
+                raise io.Refused("learning admission requires a raw evaluator receipt")
+            recomputed = learning_evaluation_receipt(
+                update_id,
+                held_out_before=evaluation.get("held_out_before", []),
+                held_out_after=evaluation.get("held_out_after", []),
+                retention_before=evaluation.get("retention_before", []),
+                retention_after=evaluation.get("retention_after", []),
+                evaluator_id=str(evaluation.get("evaluator_id", "")),
+            )
+            if dict(evaluation) != recomputed:
+                raise io.Refused("learning evaluation receipt is corrupt or summary-injected")
             update = state["learning"]["pending"].pop(update_id, None)
             if update is None:
                 raise io.Refused(f"unknown pending update {update_id!r}")
-            held_out_gain = float(payload["held_out_after"]) - float(payload["held_out_before"])
-            retention_loss = float(payload["retention_before"]) - float(payload["retention_after"])
+            computed = recomputed["computed"]
+            held_out_gain = float(computed["held_out_after"]) - float(computed["held_out_before"])
+            retention_loss = float(computed["retention_before"]) - float(computed["retention_after"])
             if held_out_gain <= 0.0 or retention_loss > 0.01:
-                state["learning"]["rejected"].append({"update_id": update_id, "held_out_gain": held_out_gain, "retention_loss": retention_loss})
+                state["learning"]["rejected"].append(
+                    {
+                        "update_id": update_id,
+                        "held_out_gain": held_out_gain,
+                        "retention_loss": retention_loss,
+                        "evaluation_digest": recomputed["evaluation_digest"],
+                    }
+                )
                 return
             namespace = str(update["namespace"])
             key = str(update["key"])
@@ -315,6 +400,8 @@ class EventSourcedKernel:
                 **update,
                 "held_out_gain": held_out_gain,
                 "retention_loss": retention_loss,
+                "evaluation_digest": recomputed["evaluation_digest"],
+                "evaluator_id": recomputed["evaluator_id"],
                 "admission_event": event.digest,
             }
             return
@@ -354,7 +441,7 @@ class EventSourcedKernel:
             raise io.Refused(f"contract {contract!r} is not key addressable")
         return _copy(value.get(key))
 
-    def identity_digest(self) -> str:
+    def state_integrity_digest(self) -> str:
         return io.digest({"schema": self.schema, "semantic_state": self._state})
 
     def checkpoint(self) -> dict[str, Any]:
@@ -362,7 +449,8 @@ class EventSourcedKernel:
         document = {
             "schema": self.schema,
             "identity": self._identity,
-            "identity_digest": io.digest({"schema": self.schema, "semantic_state": state}),
+            "entity_identity": _copy(state["identity"]),
+            "state_integrity_digest": io.digest({"schema": self.schema, "semantic_state": state}),
             "semantic_state_digest": io.digest(state),
             "event_chain_head": self._events[-1].digest if self._events else "0" * 64,
             "events": [event.document() for event in self._events],
@@ -395,8 +483,10 @@ class EventSourcedKernel:
                 raise io.Refused("event replay digest mismatch")
         if kernel.state != document["state"]:
             raise io.Refused("materialized state disagrees with replay")
-        if kernel.identity_digest() != document["identity_digest"]:
-            raise io.Refused("identity digest disagrees with checkpoint state")
+        if kernel.state["identity"] != document["entity_identity"]:
+            raise io.Refused("stable entity identity disagrees with checkpoint state")
+        if kernel.state_integrity_digest() != document["state_integrity_digest"]:
+            raise io.Refused("state integrity digest disagrees with checkpoint state")
         if io.digest(kernel.state) != document["semantic_state_digest"]:
             raise io.Refused("semantic state digest mismatch")
         return kernel
@@ -420,6 +510,8 @@ class ArchitecturePrototype:
         self._graph_edges: list[tuple[str, str]] = []
         self._last_kind: str | None = None
         self._prediction_errors = 0
+        self._causal_index: list[dict[str, Any]] = []
+        self._branch_store: dict[str, dict[str, Any]] = {}
 
     def interfaces(self) -> tuple[str, ...]:
         return self.kernel.interfaces()
@@ -450,7 +542,10 @@ class ArchitecturePrototype:
                 self._graph_nodes.add(key)
                 value = event.payload.get("value")
                 if isinstance(value, dict) and {"cause", "effect"} <= set(value):
-                    self._graph_edges.append((str(value["cause"]), str(value["effect"])))
+                    cause = str(value["cause"])
+                    effect = str(value["effect"])
+                    self._graph_nodes.update((cause, effect))
+                    self._graph_edges.append((cause, effect))
             self.activity["graph_nodes"] = len(self._graph_nodes)
             self.activity["graph_edges"] = len(self._graph_edges)
         elif candidate == "F_global_workspace":
@@ -466,19 +561,69 @@ class ArchitecturePrototype:
             self.activity["transition_predictions"] = max(0, self.activity["events"] - 1)
             self.activity["prediction_errors"] = self._prediction_errors
         elif candidate == "H_causal_temporal_ledger":
-            planes = dict(self.activity.get("planes", {"past": 0, "present": 0, "counterfactual": 0}))
-            planes["present"] += 1
-            if event.kind in {"memory", "correction"}:
-                planes["past"] += 1
-            if event.kind == "world" and event.payload.get("operation") == "counterfactual":
-                planes["counterfactual"] += 1
-            self.activity["planes"] = planes
+            if event.kind == "world" and event.payload.get("operation") == "causal_edge":
+                edge = _copy(event.payload["value"])
+                edge["event_digest"] = event.digest
+                self._causal_index.append(edge)
+            elif event.kind == "world" and event.payload.get("operation") in {"intervene", "counterfactual"}:
+                raw = _copy(event.payload["value"])
+                if event.payload["operation"] == "intervene":
+                    branch_id = str(raw["branch_id"])
+                    interventions = {str(raw["variable"]): raw["value"]}
+                else:
+                    branch_id = f"counterfactual:{event.digest[:16]}"
+                    interventions = {str(key): value for key, value in dict(raw["changed"]).items()}
+                projected_delta: dict[str, Any] = {}
+                for edge in self._causal_index:
+                    cause = str(edge["cause"])
+                    if cause not in interventions:
+                        continue
+                    mapping = edge.get("mapping")
+                    if not isinstance(mapping, Mapping):
+                        continue
+                    lookup = json.dumps(interventions[cause], sort_keys=True).lower()
+                    if lookup in mapping:
+                        projected_delta[str(edge["effect"])] = _copy(mapping[lookup])
+                self._branch_store[branch_id] = {
+                    "base_event_id": event.previous_digest,
+                    "interventions": interventions,
+                    "held_fixed": _copy(raw["held_fixed"]),
+                    "projected_delta": projected_delta,
+                    "actual_writeback": False,
+                    "branch_digest": io.digest(
+                        {
+                            "branch_id": branch_id,
+                            "base_event_id": event.previous_digest,
+                            "interventions": interventions,
+                            "held_fixed": raw["held_fixed"],
+                            "projected_delta": projected_delta,
+                        }
+                    ),
+                }
+            self.activity["causal_edges_indexed"] = len(self._causal_index)
+            self.activity["active_branch_count"] = len(self._branch_store)
+            self.activity["intervention_index_head"] = io.digest(
+                {"causal_index": self._causal_index, "branch_store": self._branch_store}
+            )
         elif candidate == "I_simplest_sufficient":
             self.activity["projection_calls"] = self.activity["events"]
             self.activity["event_chain_head"] = event.digest
 
     def query(self, contract: str, key: str | None = None) -> Any:
         return self.kernel.query(contract, key)
+
+    def _graph_reachable(self, start: str, target: str) -> bool:
+        frontier = [start]
+        visited: set[str] = set()
+        while frontier:
+            node = frontier.pop()
+            if node == target:
+                return True
+            if node in visited:
+                continue
+            visited.add(node)
+            frontier.extend(effect for cause, effect in self._graph_edges if cause == node)
+        return False
 
     def mechanism_decision(self) -> dict[str, Any]:
         required_activity = {
@@ -489,7 +634,7 @@ class ArchitecturePrototype:
             "E_graph_dynamical": "graph_nodes",
             "F_global_workspace": "workspace_broadcasts",
             "G_predictive_world_model": "transition_predictions",
-            "H_causal_temporal_ledger": "planes",
+            "H_causal_temporal_ledger": "intervention_index_head",
             "I_simplest_sufficient": "projection_calls",
         }
         required = required_activity[self.candidate_id]
@@ -498,10 +643,35 @@ class ArchitecturePrototype:
         active_value = _copy(self.activity[required])
         goals = self.kernel.query("goals")
         active_goals = sorted(key for key, value in goals.items() if value["status"] == "active")
+        probe: dict[str, Any] = {"activity_nonempty": bool(active_value)}
+        if self.candidate_id == "E_graph_dynamical":
+            probe = {
+                "query": ["push", "door-angle"],
+                "reachable": self._graph_reachable("push", "door-angle"),
+                "edge_count": len(self._graph_edges),
+            }
+        elif self.candidate_id == "D_recurrent_state_space":
+            probe = {"latent_l1": round(sum(abs(value) for value in self._latent), 8)}
+        elif self.candidate_id == "F_global_workspace":
+            probe = {"broadcast_head": self._workspace[-1] if self._workspace else None}
+        elif self.candidate_id == "G_predictive_world_model":
+            probe = {"prediction_error_rate": self._prediction_errors / max(1, self.activity["events"] - 1)}
+        elif self.candidate_id == "H_causal_temporal_ledger":
+            if not self._branch_store:
+                raise io.Refused("H intervention-indexed mechanism has no derived branch")
+            branch_id = sorted(self._branch_store)[-1]
+            branch = self._branch_store[branch_id]
+            probe = {
+                "branch_id": branch_id,
+                "projected_delta": _copy(branch["projected_delta"]),
+                "actual_writeback": branch["actual_writeback"],
+                "causal_path_length": int(bool(branch["projected_delta"])),
+            }
         return {
             "candidate_id": self.candidate_id,
             "mechanism_field": required,
             "mechanism_value": active_value,
+            "mechanism_probe": probe,
             "mechanism_token": io.digest(
                 {
                     "candidate_id": self.candidate_id,
@@ -514,12 +684,60 @@ class ArchitecturePrototype:
             "activation": False,
         }
 
+    def representation_state(self) -> dict[str, Any]:
+        """Return the complete candidate-specific state needed for exact continuation."""
+        return {
+            "activity": _copy(self.activity),
+            "latent": list(self._latent),
+            "workspace": list(self._workspace),
+            "graph_nodes": sorted(self._graph_nodes),
+            "graph_edges": [list(edge) for edge in self._graph_edges],
+            "last_kind": self._last_kind,
+            "prediction_errors": self._prediction_errors,
+            "causal_index": _copy(self._causal_index),
+            "branch_store": _copy(self._branch_store),
+            "activation": False,
+        }
+
     def checkpoint(self) -> dict[str, Any]:
         checkpoint = self.kernel.checkpoint()
         checkpoint["candidate_id"] = self.candidate_id
         checkpoint["mechanism_activity"] = _copy(self.activity)
+        checkpoint["mechanism_internal_state"] = self.representation_state()
         checkpoint["checkpoint_digest"] = io.digest({key: value for key, value in checkpoint.items() if key != "checkpoint_digest"})
         return checkpoint
+
+    @classmethod
+    def restore(cls, checkpoint: Mapping[str, Any]) -> ArchitecturePrototype:
+        candidate_id = str(checkpoint.get("candidate_id", ""))
+        if candidate_id not in C.CANDIDATES:
+            raise io.Refused("prototype checkpoint candidate is absent or unknown")
+        kernel = EventSourcedKernel.restore(checkpoint)
+        prototype = cls(candidate_id, str(checkpoint["identity"]))
+        prototype.kernel = kernel
+        state = checkpoint.get("mechanism_internal_state")
+        activity = checkpoint.get("mechanism_activity")
+        if not isinstance(state, Mapping) or not isinstance(activity, Mapping):
+            raise io.Refused("prototype checkpoint mechanism state is absent")
+        if state.get("activation") is not False or dict(state.get("activity", {})) != dict(activity):
+            raise io.Refused("prototype checkpoint mechanism state disagrees with activity receipt")
+        prototype.activity = _copy(dict(activity))
+        prototype._latent = [float(value) for value in state.get("latent", [])]
+        prototype._workspace = [str(value) for value in state.get("workspace", [])]
+        prototype._graph_nodes = {str(value) for value in state.get("graph_nodes", [])}
+        graph_edges: list[tuple[str, str]] = []
+        for edge in state.get("graph_edges", []):
+            if not isinstance(edge, (list, tuple)) or len(edge) != 2:
+                raise io.Refused("prototype graph edge is malformed")
+            graph_edges.append((str(edge[0]), str(edge[1])))
+        prototype._graph_edges = graph_edges
+        prototype._last_kind = str(state["last_kind"]) if state.get("last_kind") is not None else None
+        prototype._prediction_errors = int(state.get("prediction_errors", 0))
+        prototype._causal_index = _copy(state.get("causal_index", []))
+        prototype._branch_store = _copy(state.get("branch_store", {}))
+        if prototype.representation_state() != dict(state):
+            raise io.Refused("prototype checkpoint representation state did not restore exactly")
+        return prototype
 
 
 def developmental_fixture(kernel: ArchitecturePrototype) -> dict[str, Any]:
@@ -548,13 +766,36 @@ def developmental_fixture(kernel: ArchitecturePrototype) -> dict[str, Any]:
     )
     kernel.append(
         "world",
-        {"operation": "causal_edge", "value": {"cause": "push", "effect": "door-angle"}},
+        {
+            "operation": "causal_edge",
+            "value": {"cause": "push", "effect": "door-angle", "mapping": {"false": 0, "true": 1}},
+        },
         provenance="fixture://causal/door",
     )
     kernel.append(
         "world",
-        {"operation": "counterfactual", "value": {"changed": {"push": False}, "held_fixed": ["hinge"], "prediction": {"door-angle": 0}}},
+        {
+            "operation": "counterfactual",
+            "value": {
+                "changed": {"push": False},
+                "held_fixed": {"hinge": "intact"},
+                "causal_rule": {"door_opens_if": ["push", "hinge_intact"]},
+            },
+        },
         provenance="fixture://counterfactual/door",
+    )
+    kernel.append(
+        "world",
+        {
+            "operation": "intervene",
+            "value": {
+                "branch_id": "door-no-push",
+                "variable": "push",
+                "value": False,
+                "held_fixed": {"hinge": "intact"},
+            },
+        },
+        provenance="fixture://intervention/door",
     )
     kernel.append(
         "self",
@@ -611,17 +852,20 @@ def developmental_fixture(kernel: ArchitecturePrototype) -> dict[str, Any]:
         "learning_admit",
         {
             "update_id": "lesson-update",
-            "held_out_before": 0.5,
-            "held_out_after": 0.7,
-            "retention_before": 0.8,
-            "retention_after": 0.8,
+            "evaluation": learning_evaluation_receipt(
+                "lesson-update",
+                held_out_before=[True, False, True, False],
+                held_out_after=[True, True, True, False],
+                retention_before=[True, True, True, True],
+                retention_after=[True, True, True, True],
+            ),
         },
         provenance="fixture://learning/admission",
     )
     return {
         "candidate": kernel.candidate_id,
         "interfaces": list(kernel.interfaces()),
-        "identity_digest": kernel.kernel.identity_digest(),
+        "state_integrity_digest": kernel.kernel.state_integrity_digest(),
         "event_chain_head": kernel.kernel.events[-1].digest,
         "unfinished_goals": kernel.query("goals"),
         "mechanism_activity": _copy(kernel.activity),

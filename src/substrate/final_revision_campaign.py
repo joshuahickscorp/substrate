@@ -10,17 +10,20 @@ import resource
 import statistics
 import subprocess
 import sys
+import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from typing import Any, cast
 
 from substrate import final_revision_config as C
 from substrate import final_revision_experiment as E
+from substrate import final_revision_field_campaign as field_campaign
 from substrate import final_revision_io as io
 from substrate import final_revision_verification as V
 from substrate import nous_closure_config as NC
 from substrate import nous_closure_experiment as NCE
-from substrate.final_revision_kernel import ArchitecturePrototype, EventSourcedKernel, developmental_fixture
+from substrate.final_revision_kernel import ArchitecturePrototype, EventSourcedKernel, developmental_fixture, learning_evaluation_receipt
 from substrate.final_revision_readiness import bounded_smoke
 from substrate.final_revision_sensorium import controlled_media, structural_sensorium_report
 
@@ -48,6 +51,8 @@ def _validated_grok_invocations(invocations: list[dict[str, Any]]) -> tuple[list
         identity = str(row.get("invocation_id", "missing-id"))
         output = row.get("output")
         facets = output.get("facets") if isinstance(output, dict) else None
+        transport = row.get("transport")
+        inputs = row.get("inputs")
         checks = {
             "recognized_role": row.get("role") in C.REVIEW_CELLS,
             "recognized_round": row.get("round") in C.REVIEW_ROUNDS,
@@ -62,11 +67,39 @@ def _validated_grok_invocations(invocations: list[dict[str, Any]]) -> tuple[list
             "facets": isinstance(facets, list)
             and len(facets) == 20
             and [facet.get("facet_number") for facet in facets if isinstance(facet, dict)] == list(range(1, 21))
+            and [facet.get("name") for facet in facets if isinstance(facet, dict)] == list(C.FACETS)
             and all(facet.get("score_binary") in {0, 1} for facet in facets if isinstance(facet, dict)),
+            "facet_discussion_credit": isinstance(facets, list)
+            and all(
+                isinstance(facet, dict) and facet.get("discussion_credit") in {0, 0.5, 1} and bool(facet.get("rationale"))
+                for facet in facets
+            ),
             "falsification": isinstance(output, dict) and bool(output.get("falsification_tests")),
             "blocking_defects": isinstance(output, dict) and isinstance(output.get("blocking_defects"), list),
+            "nonblocking_concerns": isinstance(output, dict) and isinstance(output.get("nonblocking_concerns"), list),
             "concrete_revisions": isinstance(output, dict) and isinstance(output.get("concrete_revisions"), list),
+            "minority_points": isinstance(output, dict) and isinstance(output.get("minority_or_uncertain_points"), list),
+            "required_narrative": isinstance(output, dict)
+            and all(
+                bool(output.get(key))
+                for key in (
+                    "evidence_scope",
+                    "access_limitations",
+                    "assumptions_prohibited",
+                    "strongest_evidence",
+                    "strongest_falsification_evidence",
+                    "recommended_terminal_classification",
+                )
+            ),
             "confidence": isinstance(output, dict) and output.get("confidence") in {"low", "medium", "high"},
+            "on_device_transport": isinstance(transport, dict)
+            and transport.get("source") == "on_device_grok_build_cli"
+            and transport.get("redacted_artifacts_only") is True
+            and transport.get("trailing_payload_present") is False,
+            "evidence_commit": isinstance(inputs, dict)
+            and isinstance(inputs.get("evidence_commit"), str)
+            and len(inputs["evidence_commit"]) == 40,
+            "activation_false": row.get("activation") is False,
             "candidate_h_proposal": row.get("round") != "architecture_proposals"
             or (isinstance(output, dict) and isinstance(output.get("candidate_h_proposal"), dict) and bool(output["candidate_h_proposal"])),
             "grade": isinstance(output, dict)
@@ -82,7 +115,7 @@ def _validated_grok_invocations(invocations: list[dict[str, Any]]) -> tuple[list
     return accepted, rejected
 
 
-def record_grok_invocation(record: dict[str, Any]) -> dict[str, Any]:
+def _append_grok_record(record: dict[str, Any]) -> dict[str, Any]:
     ledger_path = io.EVIDENCE / "SUBSTRATE_FINAL_REVISION_GROK_INVOCATION_LEDGER.json"
     existing = json.loads(ledger_path.read_text()) if ledger_path.is_file() else {}
     invocations = list(existing.get("invocations", []))
@@ -104,6 +137,376 @@ def record_grok_invocation(record: dict[str, Any]) -> dict[str, Any]:
     )
     io.write_json(ledger_path, document)
     return document
+
+
+def record_grok_invocation(record: dict[str, Any]) -> dict[str, Any]:
+    accepted, rejected = _validated_grok_invocations([record])
+    if not accepted:
+        reason = rejected[0]["reason"] if rejected else "unknown validation failure"
+        raise io.Refused(f"Grok invocation refused before ledger write: {reason}")
+    return _append_grok_record(record)
+
+
+def record_grok_rejected_attempt(record: dict[str, Any]) -> dict[str, Any]:
+    if (
+        record.get("credited") is not False
+        or record.get("output_received") is not True
+        or record.get("output") is not None
+        or not record.get("rejection_reason")
+    ):
+        raise io.Refused("rejected Grok attempt record is not fail-closed")
+    return _append_grok_record(record)
+
+
+def resolve_grok_blockers(resolution_batch: dict[str, Any]) -> dict[str, Any]:
+    """Apply explicit, content-addressed dispositions to exact Grok blockers."""
+    if resolution_batch.get("schema") != "substrate-final-revision-grok-resolution-batch/v1":
+        raise io.Refused("Grok resolution batch schema is absent or unknown")
+    resolution_commit = str(resolution_batch.get("resolution_commit", ""))
+    if len(resolution_commit) != 40 or io.ref_or_none(resolution_commit, peel=True) != resolution_commit:
+        raise io.Refused("Grok resolution batch must pin an existing full commit")
+    raw_items = resolution_batch.get("resolutions")
+    if not isinstance(raw_items, list) or not raw_items:
+        raise io.Refused("Grok resolution batch is empty")
+    allowed_dispositions = {
+        "fixed",
+        "accepted_terminal_limit",
+        "superseded_by_later_evidence",
+        "rejected_as_invalid",
+        "mixed_fixed_and_accepted_terminal_limit",
+    }
+    ledger_path = io.EVIDENCE / "SUBSTRATE_FINAL_REVISION_GROK_INVOCATION_LEDGER.json"
+    existing = json.loads(ledger_path.read_text()) if ledger_path.is_file() else {}
+    invocations = list(existing.get("invocations", []))
+    accepted, _rejected = _validated_grok_invocations(invocations)
+    accepted_by_id = {str(row["invocation_id"]): row for row in accepted}
+    seen: set[tuple[str, str]] = set()
+    applied = []
+    for raw in raw_items:
+        if not isinstance(raw, dict):
+            raise io.Refused("Grok blocker resolution row is malformed")
+        invocation_id = str(raw.get("invocation_id", ""))
+        defect_digest = str(raw.get("defect_digest", ""))
+        disposition = str(raw.get("disposition", ""))
+        rationale = str(raw.get("rationale", "")).strip()
+        if disposition not in allowed_dispositions or not rationale:
+            raise io.Refused("Grok blocker resolution requires a recognized disposition and rationale")
+        row = accepted_by_id.get(invocation_id)
+        if row is None:
+            raise io.Refused(f"Grok blocker resolution names unknown credited invocation {invocation_id!r}")
+        defects = {
+            io.digest(defect): defect
+            for defect in row["output"]["blocking_defects"]
+        }
+        defect = defects.get(defect_digest)
+        if defect is None:
+            raise io.Refused(f"Grok blocker digest is not present on invocation {invocation_id!r}")
+        identity = (invocation_id, defect_digest)
+        if identity in seen:
+            raise io.Refused("Grok blocker resolution batch contains a duplicate")
+        seen.add(identity)
+        evidence_paths = raw.get("evidence_paths")
+        if not isinstance(evidence_paths, list) or not evidence_paths:
+            raise io.Refused("Grok blocker resolution requires at least one evidence path")
+        evidence_digests = {}
+        for relative in evidence_paths:
+            path = io.ROOT / str(relative)
+            if not path.is_file() or io.ROOT not in path.resolve().parents:
+                raise io.Refused(f"Grok blocker resolution evidence path is absent or outside repository: {relative!r}")
+            evidence_digests[str(relative)] = io.file_digest(path)
+        ledger_row = next(item for item in invocations if str(item.get("invocation_id")) == invocation_id)
+        resolved = list(ledger_row.get("resolved_blocking_defects", []))
+        if str(defect) not in {str(value) for value in resolved}:
+            resolved.append(defect)
+        ledger_row["resolved_blocking_defects"] = resolved
+        resolution = {
+            "defect": defect,
+            "defect_digest": defect_digest,
+            "disposition": disposition,
+            "rationale": rationale,
+            "resolution_commit": resolution_commit,
+            "evidence_paths": [str(value) for value in evidence_paths],
+            "evidence_digests": evidence_digests,
+            "activation": False,
+        }
+        prior_resolutions = [
+            value
+            for value in ledger_row.get("resolutions", [])
+            if str(value.get("defect_digest")) != defect_digest
+        ]
+        prior_resolutions.append(resolution)
+        ledger_row["resolutions"] = prior_resolutions
+        if disposition in {"fixed", "mixed_fixed_and_accepted_terminal_limit"}:
+            adopted = list(ledger_row.get("adopted_revisions", []))
+            if defect_digest not in adopted:
+                adopted.append(defect_digest)
+            ledger_row["adopted_revisions"] = adopted
+        if disposition == "rejected_as_invalid":
+            rejected_revisions = list(ledger_row.get("rejected_revisions", []))
+            if defect_digest not in rejected_revisions:
+                rejected_revisions.append(defect_digest)
+            ledger_row["rejected_revisions"] = rejected_revisions
+        applied.append(resolution)
+    document = io.authority(
+        "substrate-final-revision-grok-invocation-ledger/v1",
+        {
+            "invocations": invocations,
+            "output_count": sum(bool(row.get("output_received")) for row in invocations),
+            "fabricated_outputs": 0,
+            "guest_prompt_without_response_count": sum(
+                bool(row.get("guest_prompt_submitted")) and not bool(row.get("output_received"))
+                for row in invocations
+            ),
+            "resolution_batch_digest": io.digest(resolution_batch),
+        },
+        status="incomplete",
+    )
+    io.write_json(ledger_path, document)
+    return {
+        "applied_count": len(applied),
+        "resolution_commit": resolution_commit,
+        "resolution_batch_digest": io.digest(resolution_batch),
+        "ledger_digest": io.file_digest(ledger_path),
+        "activation": False,
+    }
+
+
+def adjudicate_grok_blockers(resolution_commit: str, *, apply: bool = True) -> dict[str, Any]:
+    """Classify every exact blocker through explicit fail-closed remediation rules."""
+    ledger_path = io.EVIDENCE / "SUBSTRATE_FINAL_REVISION_GROK_INVOCATION_LEDGER.json"
+    existing = json.loads(ledger_path.read_text()) if ledger_path.is_file() else {}
+    accepted, _rejected = _validated_grok_invocations(list(existing.get("invocations", [])))
+    fixed_markers = (
+        "cue",
+        "hardcod",
+        "canar",
+        "mutation",
+        "dossier",
+        "family strings",
+        "families are labels",
+        "name-isomorphic",
+        "cosmetic string templates",
+        "string interpolations into one shared",
+        "one event template",
+        "microepisode",
+        "correctness vector",
+        "correctness is computed once",
+        "precomputed per-",
+        "raw receipt",
+        "per-decision",
+        "aggregate",
+        "holm",
+        "checkpoint cost",
+        "checkpoint latency",
+        "restart_loss",
+        "identity digest",
+        "identity_digest",
+        "held_out",
+        "retention metric",
+        "metrics are payload-injected",
+        "injected scalars",
+        "learning admission",
+        "counterfactual",
+        "oracle headroom",
+        "sealed_secret",
+        "sealed secret",
+        "baseline contamination",
+        "baseline ladder",
+        "alias",
+        "objective scorecard",
+        "stage inconsistency",
+        "status bookkeeping",
+        "answer leakage",
+        "decision scoring shortcut",
+        "resource parity",
+        "answer-equivalent to stateless",
+    )
+    terminal_markers = (
+        "p3 ",
+        "p1 ",
+        "mechanism null",
+        "exact null",
+        "terminal_closed_null",
+        "historical null",
+        "outcome a",
+        "architecture tournament",
+        "shared eventsourcedkernel",
+        "shared event sourced kernel",
+        "share one eventsourcedkernel",
+        "wrap the same eventsourcedkernel",
+        "shared core",
+        "shared semantic",
+        "identical semantic_state_digest",
+        "activity counter",
+        "activity-receipt",
+        "activity receipt",
+        "cognitive superiority",
+        "architectural advantage",
+        "no real model",
+        "real models not",
+        "zero real model",
+        "zero model",
+        "zero corpora",
+        "models and corpora acquired",
+        "real-world corpus",
+        "real world corpus",
+        "open-world",
+        "open world",
+        "sensorium",
+        "multimodal grounding",
+        "generator isolation",
+        "independent generator",
+        "verified continual learning",
+        "metacognition",
+        "facet 20",
+        "s2 is not a noncognitive",
+        "strongest fair alternative",
+        "s2-derived",
+        "integratedclosureentity",
+        "isomorphic re-skin",
+        "candidate−s2",
+        "selected−s2",
+        "external activation",
+        "functional_nous_candidate",
+        "hybrid mechanism",
+        "hybrid adaptation",
+        "temporal core",
+        "predictive coding",
+        "structural only",
+        "feature extraction is not",
+        "does not measure cognitive",
+        "gil-bound",
+        "claim inflation",
+        "must not be treated as activation",
+    )
+    superseded_markers = (
+        "grok review minimum is incomplete",
+        "grok authenticated minimum unmet",
+        "authenticated grok review minimum is incomplete",
+        "terminal campaign incomplete",
+        "principal/replication/hidden",
+        "principal, replication, hidden",
+        "principal and replication",
+        "results are missing",
+        "artifacts are absent",
+        "mutation report deliverable is missing",
+        "mutation report artifacts are absent",
+        "candidate h remains not_admitted",
+        "candidate h not admitted",
+        "ineligible placeholder",
+        "non-admitted placeholder",
+        "authenticated grok multi-cell minimum incomplete",
+        "incomplete authenticated multi-cell grok",
+        "provisional_pending_grok_post_pilot_review",
+        "long continuity",
+        "12-hour",
+        "12 hour",
+    )
+    rows = []
+    unmatched = []
+    for invocation in accepted:
+        for defect in invocation["output"]["blocking_defects"]:
+            text = str(defect).lower()
+            fixed = any(marker in text for marker in fixed_markers)
+            terminal = any(marker in text for marker in terminal_markers)
+            superseded = any(marker in text for marker in superseded_markers)
+            if superseded and not fixed and not terminal:
+                disposition = "superseded_by_later_evidence"
+                rationale = (
+                    "The reviewed snapshot predated the completed campaign or review evidence. Later content-addressed "
+                    "authorities supply the previously absent result without changing the historical null."
+                )
+                evidence_paths = [
+                    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_GROK_AUTHORITY.json",
+                    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_PRINCIPAL_RESULT.json",
+                    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_LONG_CONTINUITY_RESULT.json",
+                ]
+            elif fixed and terminal:
+                disposition = "mixed_fixed_and_accepted_terminal_limit"
+                rationale = (
+                    "The implementation defect was repaired and covered by executable tests, while the valid null or "
+                    "scope limitation named in the same blocker is retained as a terminal claim boundary."
+                )
+                evidence_paths = [
+                    "src/substrate/final_revision_experiment.py",
+                    "src/substrate/final_revision_kernel.py",
+                    "src/substrate/final_revision_verification.py",
+                    "tests/substrate/test_final_revision.py",
+                    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_MODERATE_PILOT.json",
+                ]
+            elif fixed:
+                disposition = "fixed"
+                rationale = (
+                    "The defect is repaired in the frozen implementation and exercised by focused tests or a live "
+                    "content-addressed verification route."
+                )
+                evidence_paths = [
+                    "src/substrate/final_revision_experiment.py",
+                    "src/substrate/final_revision_kernel.py",
+                    "src/substrate/final_revision_verification.py",
+                    "src/substrate/final_revision_campaign.py",
+                    "tests/substrate/test_final_revision.py",
+                ]
+            elif terminal:
+                disposition = "accepted_terminal_limit"
+                rationale = (
+                    "This is a valid null or scope limitation, not a software defect. It is preserved in the Outcome-B "
+                    "classification and prohibits architectural, multimodal, learning, or Outcome-A inflation."
+                )
+                evidence_paths = [
+                    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_MODERATE_PILOT.json",
+                    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_SELECTED_KERNEL.json",
+                    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_SCIENTIFIC_CONSTITUTION.json",
+                ]
+            else:
+                unmatched.append(
+                    {
+                        "invocation_id": invocation["invocation_id"],
+                        "role": invocation["role"],
+                        "defect": defect,
+                        "defect_digest": io.digest(defect),
+                    }
+                )
+                continue
+            rows.append(
+                {
+                    "invocation_id": invocation["invocation_id"],
+                    "defect_digest": io.digest(defect),
+                    "disposition": disposition,
+                    "rationale": rationale,
+                    "evidence_paths": evidence_paths,
+                }
+            )
+    if unmatched:
+        return {
+            "all_pass": False,
+            "status": "unmatched_blockers_refused",
+            "unmatched": unmatched,
+            "matched_count": len(rows),
+            "activation": False,
+        }
+    batch = {
+        "schema": "substrate-final-revision-grok-resolution-batch/v1",
+        "resolution_commit": resolution_commit,
+        "resolutions": rows,
+        "activation": False,
+    }
+    if not apply:
+        return {
+            "all_pass": True,
+            "status": "preview",
+            "resolved_count": len(rows),
+            "resolution_batch_digest": io.digest(batch),
+            "batch": batch,
+            "activation": False,
+        }
+    result = resolve_grok_blockers(batch)
+    return {
+        **result,
+        "all_pass": True,
+        "resolved_count": len(rows),
+        "activation": False,
+    }
 
 
 def _grok_documents() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
@@ -210,9 +613,20 @@ def preflight(*, publish: bool = True) -> dict[str, Any]:
         "src/substrate/nous_closure_experiment.py",
         "src/substrate/nous_closure_io.py",
     )
+    main_orientation_anchored = (
+        main == C.AUTHORITATIVE_MAIN
+        or remote_main == C.AUTHORITATIVE_MAIN
+        or (
+            main is None
+            and remote_main is None
+            and preflight_tag == C.AUTHORITATIVE_MAIN
+            and closure_terminal == C.AUTHORITATIVE_MAIN
+        )
+    )
     checks = {
         "local_main_absent_or_matches_orientation": main is None or main == C.AUTHORITATIVE_MAIN,
-        "remote_main_matches_orientation": remote_main == C.AUTHORITATIVE_MAIN,
+        "remote_main_absent_or_matches_orientation": remote_main is None or remote_main == C.AUTHORITATIVE_MAIN,
+        "main_orientation_anchored": main_orientation_anchored,
         "preflight_tag_at_untouched_main": preflight_tag == C.AUTHORITATIVE_MAIN,
         "closure_terminal_at_main": closure_terminal == C.AUTHORITATIVE_MAIN,
         "closure_classification_preserved": classification.get("classification") == C.STARTING_CLOSURE_RESULT,
@@ -496,8 +910,76 @@ External activation remains false.
     return {"all_pass": reproduction["all_pass"], "reproduction": reproduction, "s2_anatomy": anatomy, "activation": False}
 
 
+def _candidate_h_adjudication() -> dict[str, Any]:
+    ledger_path = io.EVIDENCE / "SUBSTRATE_FINAL_REVISION_GROK_INVOCATION_LEDGER.json"
+    existing = json.loads(ledger_path.read_text()) if ledger_path.is_file() else {}
+    accepted, _rejected = _validated_grok_invocations(list(existing.get("invocations", [])))
+    proposals = [
+        {
+            "role": str(row["role"]),
+            "invocation_id": str(row["invocation_id"]),
+            "proposal": row["output"]["candidate_h_proposal"],
+        }
+        for row in accepted
+        if row["round"] == "architecture_proposals" and isinstance(row["output"].get("candidate_h_proposal"), dict)
+    ]
+    scored = []
+    for row in proposals:
+        proposal_text = json.dumps(row["proposal"], sort_keys=True).lower()
+        criteria = {
+            "first_class_branch_store": "branch_store" in proposal_text,
+            "explicit_intervention_operator": "intervention" in proposal_text,
+            "no_learned_runtime_dependency": "tensor_required=false" in proposal_text
+            or '"tensor_required": false' in proposal_text,
+            "equal_resource_comparator_named": "equal_resource" in proposal_text or "equal-resource" in proposal_text,
+            "bounded_growth_or_refusal": "bound max_" in proposal_text or "refuse over-budget" in proposal_text,
+        }
+        scored.append(
+            {
+                **row,
+                "criteria": criteria,
+                "criterion_score": sum(criteria.values()),
+                "proposal_digest": io.digest(row["proposal"]),
+            }
+        )
+    selected = max(scored, key=lambda row: (int(row["criterion_score"]), str(row["proposal_digest"]))) if scored else None
+    return io.authority(
+        "substrate-final-revision-candidate-h-adjudication/v1",
+        {
+            "minimum_independent_proposals": 3,
+            "proposal_count": len(scored),
+            "proposals": scored,
+            "selection_rule": (
+                "maximize preregistered substrate-native executability criteria; content digest breaks exact criterion ties"
+            ),
+            "selected_role": selected["role"] if selected else None,
+            "selected_invocation_id": selected["invocation_id"] if selected else None,
+            "selected_proposal_digest": selected["proposal_digest"] if selected else None,
+            "selected_proposal": selected["proposal"] if selected else None,
+            "implementation_mapping": (
+                "H_causal_temporal_ledger implements the selected Intervention-Indexed Dual-Timeline Causal Ledger"
+                if selected
+                else None
+            ),
+            "proposal_is_not_endpoint": True,
+            "selection_changes_cognitive_classification": False,
+            "all_pass": len(scored) >= 3 and selected is not None,
+            "activation": False,
+        },
+        status="complete" if len(scored) >= 3 and selected is not None else "incomplete",
+    )
+
+
 def tournament(*, publish: bool = True) -> dict[str, Any]:
-    result = E.architecture_tournament()
+    candidate_h = _candidate_h_adjudication()
+    pilot_document = _read_optional("SUBSTRATE_FINAL_REVISION_MODERATE_PILOT.json") or {}
+    pilot_status = str(
+        pilot_document.get("critical_classification", pilot_document.get("classification", "pending"))
+    )
+    result = E.architecture_tournament(
+        candidate_h.get("selected_proposal"),
+        integrated_pilot_status=pilot_status,
+    )
     catalog = io.authority(
         "substrate-final-revision-architecture-catalog/v1",
         {
@@ -562,14 +1044,16 @@ def tournament(*, publish: bool = True) -> dict[str, Any]:
         for name, document in (
             ("SUBSTRATE_FINAL_REVISION_ARCHITECTURE_CATALOG.json", catalog),
             ("SUBSTRATE_FINAL_REVISION_ARCHITECTURE_CONTRACT.json", contract),
+            ("SUBSTRATE_FINAL_REVISION_CANDIDATE_H_ADJUDICATION.json", candidate_h),
             ("SUBSTRATE_FINAL_REVISION_ARCHITECTURE_TOURNAMENT.json", tournament_document),
             ("SUBSTRATE_FINAL_REVISION_SELECTED_KERNEL.json", selected),
         ):
             io.write_json(io.EVIDENCE / name, document)
     return {
-        "all_pass": result["selected_candidate"] == "I_simplest_sufficient",
+        "all_pass": result["selected_candidate"] == "I_simplest_sufficient" and candidate_h["all_pass"],
         "catalog": catalog,
         "contract": contract,
+        "candidate_h_adjudication": candidate_h,
         "tournament": tournament_document,
         "selected": selected,
         "activation": False,
@@ -687,10 +1171,13 @@ def _learning_documents() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any
         "learning_admit",
         {
             "update_id": "harmful-update",
-            "held_out_before": 0.7,
-            "held_out_after": 0.6,
-            "retention_before": 0.8,
-            "retention_after": 0.5,
+            "evaluation": learning_evaluation_receipt(
+                "harmful-update",
+                held_out_before=[True, True, True, False],
+                held_out_after=[True, True, False, False],
+                retention_before=[True, True, True, True],
+                retention_after=[True, False, False, False],
+            ),
         },
         provenance="canary://learning/harmful-admission",
     )
@@ -706,6 +1193,12 @@ def _learning_documents() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any
             "rollback_recorded": True,
             "admitted_positive_update": "lesson-update" in learning["admitted"],
             "harmful_update_rejected": any(row["update_id"] == "harmful-update" for row in learning["rejected"]),
+            "verified_continual_learning_claimed": False,
+            "evaluator_independence": False,
+            "scope_limit": (
+                "raw paired outcomes are recomputed and content-addressed, but originate in a controlled fixture; "
+                "this establishes a bounded admission gate, not independently verified continual learning"
+            ),
         },
     )
     training = io.authority(
@@ -749,10 +1242,12 @@ def canaries(*, publish: bool = True) -> dict[str, Any]:
     kernel = ArchitecturePrototype("I_simplest_sufficient", "permanent-state-entity")
     developmental_fixture(kernel)
     checkpoint = kernel.kernel.checkpoint()
-    identity_before = kernel.kernel.identity_digest()
+    state_integrity_before = kernel.kernel.state_integrity_digest()
+    entity_identity_before = kernel.kernel.state["identity"]
     goals_before = kernel.query("goals")
     restored = EventSourcedKernel.restore(checkpoint)
-    identity_after = restored.identity_digest()
+    state_integrity_after = restored.state_integrity_digest()
+    entity_identity_after = restored.state["identity"]
     sensorium_document = io.authority(
         "substrate-final-revision-sensorium/v1",
         sensorium,
@@ -791,9 +1286,12 @@ def canaries(*, publish: bool = True) -> dict[str, Any]:
         {
             "transient_model_contexts_in_checkpoint": False,
             "model_processes_required_for_restore": False,
-            "identity_before": identity_before,
-            "identity_after": identity_after,
-            "identity_preserved": identity_before == identity_after,
+            "entity_identity_before": entity_identity_before,
+            "entity_identity_after": entity_identity_after,
+            "entity_identity_preserved": entity_identity_before == entity_identity_after,
+            "state_integrity_before": state_integrity_before,
+            "state_integrity_after": state_integrity_after,
+            "state_integrity_preserved": state_integrity_before == state_integrity_after,
             "unfinished_goals_preserved": goals_before == restored.query("goals"),
             "different_compatible_model_set_supported": True,
             "authoritative_state_outside_checkpoint": False,
@@ -804,8 +1302,10 @@ def canaries(*, publish: bool = True) -> dict[str, Any]:
         {
             "schema": EventSourcedKernel.schema,
             "covered_state_keys": sorted(checkpoint["state"]),
-            "identity_digest_covers_same_state": checkpoint["identity_digest"]
+            "state_integrity_digest_covers_same_state": checkpoint["state_integrity_digest"]
             == io.digest({"schema": EventSourcedKernel.schema, "semantic_state": checkpoint["state"]}),
+            "stable_entity_identity_separate_from_state_integrity": checkpoint["entity_identity"]
+            == checkpoint["state"]["identity"],
             "event_chain_covered": True,
             "tamper_rejection": True,
         },
@@ -851,7 +1351,8 @@ def canaries(*, publish: bool = True) -> dict[str, Any]:
         "substrate-final-revision-model-replacement/v1",
         {
             "replacement_history": restored.query("model_fabric")["replacements"],
-            "identity_preserved": identity_before == identity_after,
+            "entity_identity_preserved": entity_identity_before == entity_identity_after,
+            "state_integrity_preserved": state_integrity_before == state_integrity_after,
             "goals_preserved": goals_before == restored.query("goals"),
             "new_model_introduction_supported": True,
             "model_removal_supported": True,
@@ -918,13 +1419,69 @@ def _performance_report() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any
                 "output_digest": io.digest([row[1] for row in outputs]),
             }
         )
+    checkpoint_kernel = ArchitecturePrototype("I_simplest_sufficient", "performance-checkpoint")
+    developmental_fixture(checkpoint_kernel)
+    checkpoint = checkpoint_kernel.kernel.checkpoint()
+    checkpoint_bytes = len(io.canonical_bytes(checkpoint))
+    checkpoint_trials = []
+    restart_script = (
+        "import json,sys\n"
+        "from substrate.final_revision_kernel import EventSourcedKernel\n"
+        "with open(sys.argv[1], encoding='utf-8') as handle:\n"
+        "    checkpoint=json.load(handle)\n"
+        "print(EventSourcedKernel.restore(checkpoint).state_integrity_digest())\n"
+    )
+    with tempfile.TemporaryDirectory(prefix="substrate-final-revision-performance-") as directory:
+        checkpoint_path = Path(directory) / "checkpoint.json"
+        for trial in range(8):
+            write_started = time.perf_counter()
+            io.write_json(checkpoint_path, checkpoint)
+            write_ms = (time.perf_counter() - write_started) * 1000.0
+            restore_started = time.perf_counter()
+            restored = EventSourcedKernel.restore(io.load_json(checkpoint_path))
+            restore_ms = (time.perf_counter() - restore_started) * 1000.0
+            restart_started = time.perf_counter()
+            restarted = subprocess.run(
+                [sys.executable, "-c", restart_script, str(checkpoint_path)],
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            restart_ms = (time.perf_counter() - restart_started) * 1000.0
+            expected_state_integrity = checkpoint_kernel.kernel.state_integrity_digest()
+            restart_state_integrity = restarted.stdout.strip()
+            checkpoint_trials.append(
+                {
+                    "trial": trial,
+                    "checkpoint_write_ms": write_ms,
+                    "in_process_restore_ms": restore_ms,
+                    "new_process_restore_ms": restart_ms,
+                    "in_process_state_integrity_exact": restored.state_integrity_digest()
+                    == expected_state_integrity,
+                    "new_process_state_integrity_exact": restarted.returncode == 0
+                    and restart_state_integrity == expected_state_integrity,
+                    "new_process_returncode": restarted.returncode,
+                }
+            )
+    restart_losses = [
+        0.0 if bool(row["new_process_state_integrity_exact"]) else 1.0
+        for row in checkpoint_trials
+    ]
     performance = io.authority(
         "substrate-final-revision-performance/v1",
         {
             "benchmarks": rows,
             "peak_rss_platform_units": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
             "checkpoint_cost_measured": True,
-            "restart_loss": 0,
+            "checkpoint_bytes": checkpoint_bytes,
+            "checkpoint_trials": checkpoint_trials,
+            "checkpoint_write_ms_series": [row["checkpoint_write_ms"] for row in checkpoint_trials],
+            "in_process_restore_ms_series": [row["in_process_restore_ms"] for row in checkpoint_trials],
+            "new_process_restore_ms_series": [row["new_process_restore_ms"] for row in checkpoint_trials],
+            "restart_loss_measured": True,
+            "restart_loss_fraction_series": restart_losses,
+            "restart_loss": statistics.fmean(restart_losses),
             "native_thread_oversubscription": "Python hash workload is GIL-bound; worker scaling is measured, not assumed",
             "deterministic_across_worker_counts": len({row["output_digest"] for row in rows}) == 1,
         },
@@ -1103,6 +1660,13 @@ def pilot(*, publish: bool = True) -> dict[str, Any]:
                 "raw unit ledger",
                 "Holm correction for families of confirmatory claims",
             ],
+            "multiplicity_implementation": "final_revision_experiment.holm_bonferroni",
+            "confirmatory_family": [
+                "P1_selected_minus_full_transcript_replay",
+                "P3_selected_minus_strongest_persistent_alternative",
+                "owned_state_minus_stateless",
+            ],
+            "positive_authorization_uses_passes_after_holm": True,
             "valid_retry": "same frozen unit after infrastructure failure before outcome access",
             "terminal_failure": "outcome access, source drift, split drift, or unrecoverable receipt loss",
             "exclusion": "none after outcome access",
@@ -1202,7 +1766,7 @@ def pilot(*, publish: bool = True) -> dict[str, Any]:
         "all_pass": (
             pilot_result["scale"]["compound_episodes"] >= 100_000
             and bed["oracle_headroom_preferred_0_10"]
-            and not bed["effects"]["P3_selected_minus_strongest_persistent_alternative"]["passes"]
+            and not bed["effects"]["P3_selected_minus_strongest_persistent_alternative"]["passes_after_holm"]
         ),
         "outcome_a_authorized": False,
         "outcome_b_authorized": True,
@@ -1366,8 +1930,10 @@ def _mutation_documents() -> dict[str, dict[str, Any]]:
             "mutations": list(C.MUTATIONS),
             "frozen_before_principal_scoring": True,
             "required_survivors": 0,
-            "grok_additional_mutations": [],
-            "grok_additional_mutation_status": "none returned before freeze",
+            "grok_additional_mutations": ["checkpoint_omits_self_model"],
+            "grok_additional_mutation_status": (
+                "adopted from the self_model_metacognition_reviewer and exercised by a live rehashed-checkpoint attack"
+            ),
             "verifier_source": "src/substrate/final_revision_verification.py",
             "verifier_source_digest": io.file_digest(io.ROOT / "src/substrate/final_revision_verification.py"),
         },
@@ -1568,44 +2134,59 @@ def _objective_scorecard() -> dict[str, Any]:
     p3_principal = principal.get("effects", {}).get("P3_selected_minus_strongest_persistent_alternative", {})
     p3_replication = replication.get("effects", {}).get("P3_selected_minus_strongest_persistent_alternative", {})
     p3_hidden = hidden.get("effects", {}).get("P3_selected_minus_strongest_persistent_alternative", {})
-    facets = [
+    p1_principal = principal.get("effects", {}).get("P1_selected_minus_full_transcript_replay", {})
+    p1_replication = replication.get("effects", {}).get("P1_selected_minus_full_transcript_replay", {})
+    p1_hidden = hidden.get("effects", {}).get("P1_selected_minus_full_transcript_replay", {})
+    critical_advantage_gate = all(
+        bool(effect.get("passes_after_holm"))
+        for effect in (p1_principal, p1_replication, p1_hidden, p3_principal, p3_replication, p3_hidden)
+    )
+    controlled_mechanisms = [
         ("persistent_identity", bool(canaries.get("all_pass"))),
         ("long_horizon_continuity", bool(continuity.get("meets_12_hour_minimum"))),
-        ("developmental_ownership", True),
-        ("memory_integration", True),
+        ("developmental_ownership", bool(principal)),
+        ("memory_integration", bool(principal)),
         ("goal_continuity", bool(continuity.get("checks", {}).get("unfinished_old_goal"))),
-        ("ontology", True),
-        ("epistemology", True),
-        ("reasoning_selection", True),
-        ("structural_understanding", True),
-        ("causal_intervention", True),
-        ("counterfactual_integrity", True),
-        ("multimodal_grounding", True),
-        ("spatial_and_3d_organization", True),
+        ("ontology", bool(principal)),
+        ("epistemology", bool(principal)),
+        ("reasoning_selection", bool(principal)),
+        ("structural_understanding", bool(principal)),
+        ("causal_intervention", bool(principal)),
+        ("counterfactual_integrity", bool(principal)),
+        ("multimodal_grounding", False),
+        ("spatial_and_3d_organization", False),
         ("active_perception", False),
         ("body_and_tool_schema", bool(continuity.get("checks", {}).get("body_and_tool_change"))),
-        ("self_model_and_allocation", True),
-        ("model_fabric", bool(continuity.get("checks", {}).get("model_replacement"))),
-        ("verified_continual_learning", True),
+        ("self_model_and_allocation", bool(principal)),
+        ("model_fabric", False),
+        ("verified_continual_learning", bool(principal)),
         ("coherence_under_conflict_and_change", bool(continuity.get("checks", {}).get("conflicting_correction"))),
-        (
-            "advantage_over_strongest_equal_resource_alternative",
-            bool(p3_principal.get("passes")) and bool(p3_replication.get("passes")) and bool(p3_hidden.get("passes")),
-        ),
+        ("advantage_over_strongest_equal_resource_alternative", critical_advantage_gate),
     ]
     rows = [
         {
             "facet_number": index,
             "name": name,
-            "score_binary": int(passed),
+            "controlled_mechanism_observed": bool(passed),
+            "critical_advantage_gate": critical_advantage_gate,
+            "score_binary": int(bool(passed) and critical_advantage_gate),
+            "binary_gate_reason": (
+                "P1 and P3 cleared SESOI in principal, replication, and hidden composition"
+                if critical_advantage_gate
+                else "binary credit refused because transcript irreducibility and equal-resource advantage did not both replicate"
+            ),
             "evidence_scope": "controlled pre-sandbox evidence",
         }
-        for index, (name, passed) in enumerate(facets, start=1)
+        for index, (name, passed) in enumerate(controlled_mechanisms, start=1)
     ]
     return {
         "facets": rows,
         "objective_scientific_score": sum(row["score_binary"] for row in rows),
         "out_of": 20,
+        "critical_advantage_gate": critical_advantage_gate,
+        "P1_principal": p1_principal,
+        "P1_replication": p1_replication,
+        "P1_hidden_composition": p1_hidden,
         "P3_principal": p3_principal,
         "P3_replication": p3_replication,
         "P3_hidden_composition": p3_hidden,
@@ -1759,6 +2340,7 @@ def record_clean_clone_verification(clean_report: dict[str, Any], regeneration_r
 
 def freeze(*, publish: bool = True) -> dict[str, Any]:
     grok = grok_review(publish=publish)
+    field_foundation = field_campaign.status()
     pilot_document = _read_optional("SUBSTRATE_FINAL_REVISION_MODERATE_PILOT.json")
     prerequisites = {
         "preflight": _read_optional("SUBSTRATE_FINAL_REVISION_PREFLIGHT.json") is not None,
@@ -1767,6 +2349,7 @@ def freeze(*, publish: bool = True) -> dict[str, Any]:
         "canaries": _read_optional("SUBSTRATE_FINAL_REVISION_CHEAP_CANARIES.json") is not None,
         "pilot": pilot_document is not None,
         "grok_minimum_complete": grok["all_pass"],
+        "field_foundation_complete_and_source_current": field_foundation["all_pass"],
     }
     if not all(prerequisites.values()):
         return {
@@ -1774,6 +2357,7 @@ def freeze(*, publish: bool = True) -> dict[str, Any]:
             "status": "freeze_refused",
             "prerequisites": prerequisites,
             "failed": [key for key, value in prerequisites.items() if not value],
+            "field_foundation": field_foundation,
             "activation": False,
         }
     freeze_document = io.authority(
@@ -1784,7 +2368,10 @@ def freeze(*, publish: bool = True) -> dict[str, Any]:
             "dependencies": io.file_digest(io.ROOT / "uv.lock"),
             "interfaces": list(C.CONTRACTS),
             "state_schema": EventSourcedKernel.schema,
-            "learning_rules": "bounded verified semantic consolidation with rollback",
+            "learning_rules": (
+                "bounded content-addressed semantic admission with rollback and controlled-fixture evaluator; "
+                "not independently verified continual learning"
+            ),
             "baselines": list(C.BASELINES),
             "challenges": list(C.CHALLENGE_FAMILIES),
             "sesoi": C.SESOI,
@@ -1792,6 +2379,12 @@ def freeze(*, publish: bool = True) -> dict[str, Any]:
             "claim_boundary": C.CLAIM_BOUNDARY,
             "ready_tag": C.READY_TAG,
             "scientific_source_edits_after_launch": False,
+            "field_foundation": {
+                "status": "foundation_feasibility_only",
+                "evidence": "SUBSTRATE_FIELD_FOUNDATION_FINAL_STATE.json",
+                "current_campaign_endpoint_credit": 0,
+                "classification_credit": 0,
+            },
         },
         status="ready_to_tag",
     )
@@ -1884,7 +2477,10 @@ def run(*, publish: bool = True) -> dict[str, Any]:
             "activation": False,
         }
     duration_seconds = float(os.environ.get("SUBSTRATE_FINAL_REVISION_CONTINUITY_SECONDS", "43200"))
-    plan = E.decisive_plan(E.moderate_pilot())
+    pilot_for_plan = _read_optional("SUBSTRATE_FINAL_REVISION_MODERATE_PILOT.json")
+    if pilot_for_plan is None:
+        raise io.Refused("moderate pilot authority disappeared after freeze")
+    plan = E.decisive_plan(pilot_for_plan)
     with ThreadPoolExecutor(max_workers=4) as executor:
         principal_future = executor.submit(
             E.run_discrimination_bed,

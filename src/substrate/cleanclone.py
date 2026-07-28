@@ -64,7 +64,12 @@ def run(keep: bool = False) -> dict:
         results["package_import"] = {"ok": code == 0, "detail": out[-300:]}
 
         code, out = _run([PY, "-m", "pytest", "-q", "--no-header", "-p", "no:cacheprovider", "tests/substrate"], clone, env)
-        results["declared_tests"] = {"ok": code == 0, "detail": out.strip().splitlines()[-1:]}
+        results["declared_tests"] = {
+            "ok": code == 0,
+            "exit_code": code,
+            "command": [PY, "-m", "pytest", "-q", "--no-header", "-p", "no:cacheprovider", "tests/substrate"],
+            "detail": out.strip().splitlines()[-80:],
+        }
 
         code, out = _run(
             [

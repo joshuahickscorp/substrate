@@ -92,10 +92,10 @@ def run_segment(*, checkpoint_path: Path, receipt_path: Path, segment: int, dura
     started_wall = time.time()
     started = time.monotonic()
     kernel, restored_from_prior_process = _load_or_construct(checkpoint_path)
-    identity_before = kernel.identity_digest()
+    state_integrity_before = kernel.state_integrity_digest()
     _scheduled_events(kernel, segment)
     iterations = 0
-    accumulator = identity_before
+    accumulator = state_integrity_before
     consolidation_events = 0
     next_consolidation = started + 60.0
     while time.monotonic() - started < duration_seconds:
@@ -123,8 +123,9 @@ def run_segment(*, checkpoint_path: Path, receipt_path: Path, segment: int, dura
             "segment": segment,
             "checkpoint": checkpoint,
             "entity_identity": kernel.identity,
-            "identity_before": identity_before,
-            "identity_after": kernel.identity_digest(),
+            "continuity_epoch": kernel.state["identity"]["continuity_epoch"],
+            "state_integrity_before": state_integrity_before,
+            "state_integrity_after": kernel.state_integrity_digest(),
             "restored_from_prior_process": restored_from_prior_process,
         },
         status="intermediate",
@@ -142,8 +143,9 @@ def run_segment(*, checkpoint_path: Path, receipt_path: Path, segment: int, dura
             "background_consolidation_events": consolidation_events,
             "restored_from_prior_process": restored_from_prior_process,
             "entity_identity": kernel.identity,
-            "identity_before": identity_before,
-            "identity_after": kernel.identity_digest(),
+            "continuity_epoch": kernel.state["identity"]["continuity_epoch"],
+            "state_integrity_before": state_integrity_before,
+            "state_integrity_after": kernel.state_integrity_digest(),
             "unfinished_goals": kernel.query("goals"),
             "model_fabric": kernel.query("model_fabric"),
             "body_and_tools": kernel.query("body_and_tools"),
