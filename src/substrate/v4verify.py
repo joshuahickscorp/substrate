@@ -9,6 +9,7 @@ import json
 import math
 import os
 import random
+import shutil
 import statistics
 import subprocess
 import tempfile
@@ -198,6 +199,10 @@ def _mean_phases(row: dict, phases: tuple[str, ...]) -> float:
     return statistics.fmean(row["phase_utility"][phase] for phase in phases)
 
 
+def _classification_evidence_complete(effects: dict, historical: dict) -> bool:
+    return len(effects) == len(C.HYPOTHESES) and historical.get("preserved") is True
+
+
 def recompute(raw_report: dict) -> dict:
     if not raw_report["all_pass"]:
         raise Refused("raw principal receipts are incomplete or invalid")
@@ -321,7 +326,13 @@ def recompute(raw_report: dict) -> dict:
         "open_world": open_effect,
         "historical": historical,
         "all_hypotheses_pass": all(effect["passes"] for effect in effects.values()),
-        "all_pass": all(effect["passes"] for effect in effects.values()) and replication_effect["passes"] and open_effect["passes"] and historical["preserved"],
+        "classification_escalators": {
+            "principal_hypotheses": all(effect["passes"] for effect in effects.values()),
+            "independent_replication": replication_effect["passes"],
+            "generator_held_out_open_world": open_effect["passes"],
+        },
+        "independent_recomputation_complete": _classification_evidence_complete(effects, historical),
+        "all_pass": _classification_evidence_complete(effects, historical),
         "activation": False,
     }
 
@@ -385,8 +396,7 @@ def clean_clone(raw_report: dict) -> dict:
         )
         install = subprocess.run(
             [
-                str(io.ROOT / ".venv/bin/python"),
-                "-m",
+                shutil.which("uv") or "uv",
                 "pip",
                 "install",
                 "--quiet",
@@ -767,6 +777,15 @@ def finalize(raw_report: dict, verification: dict, mutation: dict, clone: dict) 
         "mutations_survived": len(mutation["survived"]),
         "clean_clone": clone["all_pass"],
         "classification": classification,
+        "strongest_missing_condition": (
+            None
+            if ready
+            else (
+                "independent replication effect must clear the preregistered 0.05 SESOI"
+                if proto and not verification["replication"]["passes"]
+                else "one or more functional proto-Nous classification conditions remain unmet"
+            )
+        ),
         "historical_preservation": verification["historical"]["preserved"],
         "review_package_complete": review["complete"],
         "activation": False,
@@ -806,6 +825,15 @@ def finalize(raw_report: dict, verification: dict, mutation: dict, clone: dict) 
         f"- Mutations: `{mutation['detected']}/{mutation['total']}` detected, `{len(mutation['survived'])}` survivors\n"
         f"- Clean clone, clean install, full v4/runtime tests, lint, and double regeneration: `{'pass' if clone['all_pass'] else 'fail'}`\n"
         f"- Review package: `{'complete' if review['complete'] else 'incomplete'}`\n"
+        f"- Independent replication effect: `{verification['replication']['mean']:.4f}` "
+        f"(95% CI `{verification['replication']['bootstrap_95_ci'][0]:.4f}` to "
+        f"`{verification['replication']['bootstrap_95_ci'][1]:.4f}`; SESOI `{C.SESOI:.2f}`; "
+        f"`{'positive' if verification['replication']['passes'] else 'null'}`)\n"
+        f"- Generator-held-out open-world effect: `{verification['open_world']['mean']:.4f}` "
+        f"(95% CI `{verification['open_world']['bootstrap_95_ci'][0]:.4f}` to "
+        f"`{verification['open_world']['bootstrap_95_ci'][1]:.4f}`; SESOI `{C.SESOI:.2f}`; "
+        f"`{'positive' if verification['open_world']['passes'] else 'null'}`)\n"
+        f"- Strongest missing condition: `{final_state['strongest_missing_condition'] or 'none'}`\n"
         "- Hawking coexistence: observation only; no signals or controller changes\n"
         "- Activation: `false`\n"
         "- Claim boundary: functional engineering and scientific classification only; no consciousness, sentience, "
@@ -814,7 +842,7 @@ def finalize(raw_report: dict, verification: dict, mutation: dict, clone: dict) 
         "| Hypothesis | Effect | 95% bootstrap CI | SESOI | Result |\n"
         "|---|---:|---:|---:|---|\n"
         f"{effect_lines}\n\n"
-        "Replication and generator-held-out open-world review passed when reported by the final classification. "
+        "Replication and generator-held-out open-world results are classified independently against the frozen SESOI. "
         "The complete raw receipt archive, controls, null ledger, defect ledger, mutations, reproduction instructions, "
         "and known limitations are under `artifacts/substrate/v4/review/`.\n"
     )
@@ -831,12 +859,24 @@ def run_all() -> dict:
     clone = clean_clone(raw_report)
     io.seal("SUBSTRATE_V4_CLEAN_CLONE.json", clone)
     final = finalize(raw_report, verification, mutation, clone)
-    return {
+    result = {
         "raw": {key: value for key, value in raw_report.items() if key != "receipts"},
         "verification": verification,
         "mutation": mutation,
         "clean_clone": clone,
         "final": final,
-        "all_pass": verification["all_pass"] and mutation["zero_survived"] and clone["all_pass"] and final["classification"]["nous_ready_for_review"],
         "activation": False,
     }
+    result["all_pass"] = _terminal_verification_passed(result)
+    return result
+
+
+def _terminal_verification_passed(result: dict) -> bool:
+    return (
+        result["raw"]["all_pass"]
+        and result["verification"]["all_pass"]
+        and result["mutation"]["zero_survived"]
+        and result["clean_clone"]["all_pass"]
+        and result["final"]["final_state"]["review_package_complete"]
+        and result["final"]["classification"]["classification"] in C.CLAIM_BOUNDARY["ordered_levels"]
+    )
