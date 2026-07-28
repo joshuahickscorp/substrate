@@ -102,6 +102,19 @@ def test_v4_exact_command_surface_and_stage_status(monkeypatch: pytest.MonkeyPat
     audit = json.loads(capsys.readouterr().out)
     assert audit["root_cause"] == "audited"
     assert audit["frozen_authorities"] == 1
+    monkeypatch.setattr(
+        v4canary,
+        "run",
+        lambda: {
+            "evidence": {"passed": 46, "total": 46, "all_pass": True, "all_terminal": True},
+            "bed": {"all_valid": True},
+        },
+    )
+    with pytest.raises(SystemExit) as canary_exit:
+        v4.main(["canaries"])
+    assert canary_exit.value.code == 0
+    canaries = json.loads(capsys.readouterr().out)
+    assert canaries["moderate_pilot_licensed"]
     status = P.status()
     assert status["current_stage"] in status["stages"]
     assert set(status["stages"]) == {
