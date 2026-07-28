@@ -1,0 +1,98 @@
+{
+ "schema": "substrate-final-revision-grok-resolution-batch/v1",
+ "resolution_commit": "PENDING_COMMIT",
+ "resolutions": [
+  {
+   "invocation_id": "fr-01-historical-evidence-auditor-pty-20260728-093046",
+   "defect_digest": "0a221b0a7dd186b83011d066010dc69916e6acbe401dbd0cc4809831e7c90399",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "At the historical_evidence_auditor pin the claim was true: no admitted Grok-original H and incomplete Grok minimum. Later content-addressed evidence makes both conjuncts false. SUBSTRATE_FINAL_REVISION_CANDIDATE_H_ADJUDICATION.json records proposal_count=4 (>= minimum_independent_proposals=3), all_pass=true, selected_role=spatial_3d_reviewer, selected_proposal.candidate_id=H_causal_temporal_ledger, and implementation_mapping to that candidate. SUBSTRATE_FINAL_REVISION_ARCHITECTURE_TOURNAMENT.json row H_causal_temporal_ledger has eligible_after_stage_3=true, grok_original_provenance_available=true, grok_original_proposal_digest matching the selected proposal, selection=rejected with loss_reason complexity equivalence (not missing proposal), and grok_original_candidate_status=implemented_and_admitted_to_bounded_tournament. SUBSTRATE_FINAL_REVISION_GROK_AUTHORITY.json has minimum_complete=true, prefreeze_complete=true, terminal_complete=true, completed_distinct_reviewer_count=32 (>=24), architecture_proposer_count=4. The ledger field validated_output_count is 34, not 0. H did not win; I_simplest_sufficient did under behavioral tie.",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_CANDIDATE_H_ADJUDICATION.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_ARCHITECTURE_TOURNAMENT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_GROK_AUTHORITY.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_GROK_INVOCATION_LEDGER.json"
+   ]
+  },
+  {
+   "invocation_id": "fr-13-sensorium-reviewer-pty-20260728-095428",
+   "defect_digest": "80bb04441bf4ebd37e4d1fcad1693202329bfc937d8d955570634258527965d0",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "The defect asserted H was a non-admitted placeholder with eligible_after_stage_3=false, grok_original_provenance_available=false, and loss_reason requiring a genuine Grok-original proposal. That snapshot is superseded by the written tournament and H adjudication. CANDIDATE_H_ADJUDICATION shows four independent Grok proposals and selected proposal digest 9ed9ba2a7dfce9232c5398744f8c0d4da87ecd061b85a7a47cd17955bd9170e2. ARCHITECTURE_TOURNAMENT row H_causal_temporal_ledger now has eligible_after_stage_3=true, grok_original_provenance_available=true, that same proposal digest, and loss_reason='behaviorally equivalent on the bounded fixture with greater declared complexity'\u2014not the placeholder loss path. Implementation lives in src/substrate/final_revision_kernel.py ArchitecturePrototype for H_causal_temporal_ledger (causal_index + branch_store).",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_CANDIDATE_H_ADJUDICATION.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_ARCHITECTURE_TOURNAMENT.json",
+    "src/substrate/final_revision_kernel.py"
+   ]
+  },
+  {
+   "invocation_id": "fr-13-sensorium-reviewer-pty-20260728-095428",
+   "defect_digest": "1c7b7a5e315f4c39dce2bec54da934737a00126882f87cfb09322d8bd5c11db1",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "The defect claimed authenticated multi-cell Grok minimum incomplete and selection remaining provisional_pending_grok_post_pilot_review. GROK_AUTHORITY.json now has minimum_complete=true, prefreeze_complete=true, terminal_complete=true, missing_required_cells=[], missing_rounds=[], completed_distinct_reviewer_count=32, scientific_status=complete. The tournament document still carries the frozen string provisional_pending_grok_post_pilot_review and stages.grok_post_pilot_review=blocked_on_grok_authentication because campaign.tournament() hardcodes that status at write time; that label is not refreshed after Grok completion. Operationally, SUBSTRATE_FINAL_REVISION_CANDIDATE_FREEZE.json has scientific_status=ready_to_tag and architecture=I_simplest_sufficient, and principal/replication/hidden have already executed against the frozen candidate. The incompleteness reason named in the defect is therefore superseded by later Grok authority and freeze evidence. Grok remains non-endpoint (grok_is_not_an_oracle=true).",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_GROK_AUTHORITY.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_CANDIDATE_FREEZE.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_ARCHITECTURE_TOURNAMENT.json"
+   ]
+  },
+  {
+   "invocation_id": "fr-16-model-fabric-reviewer-pty-20260728-100127",
+   "defect_digest": "eb7bf3dd04202868aed8d500cfa2c0fd0efa5d99f4188d659eff6a0982b96952",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "Two conjuncts were true of the pre-admission H placeholder: (1) ineligible without Grok-original provenance; (2) description as plane counters rather than a causal-temporal architecture. Later evidence falsifies both as stated. CANDIDATE_H_ADJUDICATION admits a selected Grok proposal (spatial_3d IISFCL / H_causal_temporal_ledger). TOURNAMENT row H has grok_original_provenance_available=true and is eligible; loss_reason is complexity under behavioral equivalence. Shipped implementation in final_revision_kernel.py:563-607 is not plane counters: it appends causal edges into _causal_index, builds _branch_store entries on intervene/counterfactual with projected_delta and actual_writeback=false, and digests intervention_index_head. Residual shared-EventSourcedKernel limits (identical shared_core_state_digest; H mechanism does not create discrimination-bed behavioral divergence) remain claim-boundary facts already covered by separately resolved shared-kernel and mechanism-null defects; they do not keep the placeholder/provenance wording live.",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_CANDIDATE_H_ADJUDICATION.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_ARCHITECTURE_TOURNAMENT.json",
+    "src/substrate/final_revision_kernel.py"
+   ]
+  },
+  {
+   "invocation_id": "fr-16-model-fabric-reviewer-pty-20260728-100127",
+   "defect_digest": "ea2bf0bf11587aaca0318e1df19dae0c628ca4270049b35a338c4a2b7fdef72b",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "The defect tied provisional tournament/pilot status to incomplete authenticated multi-cell Grok review (authority externally_blocked / minimum_complete false at pin). GROK_AUTHORITY.json now has minimum_complete=true, terminal_complete=true, scientific_status=complete. CANDIDATE_FREEZE.json is ready_to_tag for I_simplest_sufficient. MODERATE_PILOT.json exists with critical_classification/scientific_status mechanism_null. The defect's own caveat\u2014that absence of Grok consensus is not a positive scientific result\u2014remains correct as claim boundary and is consistent with authority field grok_agreement_is_not_a_primary_endpoint=true; clearing provisional-for-Grok does not authorize Outcome A.",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_GROK_AUTHORITY.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_CANDIDATE_FREEZE.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_MODERATE_PILOT.json"
+   ]
+  },
+  {
+   "invocation_id": "fr-22-evaluation-security-reviewer-pty-20260728-102207",
+   "defect_digest": "346b2823579bc8bcb5777b265e05173b5f334d69683f91b8d9de41cd06d4ff5f",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "The defect asserted, as of its pin, no PRINCIPAL/REPLICATION/HIDDEN/LONG_CONTINUITY/FINAL_* receipts and Grok authenticated minimum unmet with validated_output_count=0. Later evidence falsifies the decisive and Grok clauses that the sentence treats as absent: PRINCIPAL_RESULT, REPLICATION_RESULT, and HIDDEN_COMPOSITION_RESULT all exist with classification=mechanism_null and P1/P3 mean_paired_effect=0.0 CI [0.0,0.0]; GROK_AUTHORITY has minimum_complete=true and terminal_complete=true; ledger validated_output_count=34. This disposition does not claim LONG_CONTINUITY or FINAL_* exist\u2014they do not\u2014and does not authorize Outcome B. Residual terminal-campaign incompleteness (LONG_CONTINUITY, mutation/counterfeit/clean-clone/regeneration/independent verification, final documents, readiness manifest) is the distinct live publication blocker d5811d39\u2026 and must remain unresolved until those gates actually pass.",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_PRINCIPAL_RESULT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_REPLICATION_RESULT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_HIDDEN_COMPOSITION_RESULT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_GROK_AUTHORITY.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_GROK_INVOCATION_LEDGER.json"
+   ]
+  },
+  {
+   "invocation_id": "fr-21-statistical-reviewer-retry-20260728-102852",
+   "defect_digest": "855ff3d5aad1462212186d2e741a9d73991849cf882e883e50173206074cae86",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "The defect claimed principal/replication/hidden-composition results were missing and that decisive pre-registered scale had not produced confirmatory artifacts. Those three documents now exist on disk. Each has scientific_status/classification mechanism_null; effects.P3_selected_minus_strongest_persistent_alternative and effects.P1_selected_minus_full_transcript_replay both report mean_paired_effect=0.0 and confidence_interval_95=[0.0,0.0]. Confirmatory scale therefore produced decisive null artifacts, not positives. LONG_CONTINUITY is outside this defect's wording and is still absent; it is not required to clear this specific missing-P/R/H claim.",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_PRINCIPAL_RESULT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_REPLICATION_RESULT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_HIDDEN_COMPOSITION_RESULT.json"
+   ]
+  },
+  {
+   "invocation_id": "fr-30-red-team-learning-poisoning-pty-20260728-103931",
+   "defect_digest": "5171ab72454cf5d513bf654c885ac57467e0431d59d4cc2f5c71ebcdb4955066",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "The defect stated Candidate H remains not_admitted_without_a_returned_grok_proposal and therefore cannot be recommended for selection from that evidence. Later tournament status is implemented_and_admitted_to_bounded_tournament, not not_admitted_without_a_returned_grok_proposal. CANDIDATE_H_ADJUDICATION all_pass=true with four proposals; H competed and was rejected solely for greater declared complexity under behavioral equivalence; selected_candidate is I_simplest_sufficient. The admission barrier named in the defect is gone. Not selecting H remains correct as an engineering result under the recorded tie-break, not as a missing-proposal refusal.",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_CANDIDATE_H_ADJUDICATION.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_ARCHITECTURE_TOURNAMENT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_CANDIDATE_FREEZE.json"
+   ]
+  }
+ ],
+ "activation": false
+}
