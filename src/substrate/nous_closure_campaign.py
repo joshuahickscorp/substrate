@@ -108,7 +108,7 @@ def immutability() -> dict[str, Any]:
             "sha256": io.file_digest(io.ROOT / path),
         }
         for version, path in {
-            "v1": "evidence/substrate/v1/SUBSTRATE_V1_FINAL_CLASSIFICATION.json",
+            "v1": "evidence/substrate/v1/SUBSTRATE_FINAL_STATE.json",
             "v2": "evidence/substrate/v2/SUBSTRATE_V2_FINAL_CLASSIFICATION.json",
             "v3": "evidence/substrate/v3/SUBSTRATE_V3_FINAL_CLASSIFICATION.json",
             "v4": "evidence/substrate/v4/SUBSTRATE_V4_FINAL_CLASSIFICATION.json",
