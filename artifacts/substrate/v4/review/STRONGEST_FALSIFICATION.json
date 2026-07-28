@@ -1,0 +1,68 @@
+{
+  "activation": false,
+  "historical_v3_null": "all four load-bearing v3 structural effects were exactly zero",
+  "mutation_survivors": [],
+  "negative_alignment_required": true,
+  "schema": "substrate-v4-strongest-falsification/v1",
+  "v4_controls": {
+    "H_S1": [
+      "v3_reflective_control",
+      "semantic_retrieval_control",
+      "more_compute"
+    ],
+    "H_S10": [
+      "checkpoint_corruption",
+      "fresh_identity"
+    ],
+    "H_S2": [
+      "correlation_only_model",
+      "semantic_retrieval_control",
+      "more_compute"
+    ],
+    "H_S3": [
+      "no_counterfactual",
+      "surface_alignment",
+      "more_compute"
+    ],
+    "H_S4": [
+      "no_alignment",
+      "surface_alignment",
+      "semantic_retrieval_control",
+      "more_compute"
+    ],
+    "H_S5": [
+      "wrong_history",
+      "identical_A_replica",
+      "shuffled_A"
+    ],
+    "H_S6": [
+      "simple_structural_inquiry",
+      "more_compute"
+    ],
+    "H_S7": [
+      "semantic_retrieval_control",
+      "correlation_only_model",
+      "more_compute"
+    ],
+    "H_S8": [
+      "no_self_model",
+      "no_world_model"
+    ],
+    "H_S9": [
+      "fresh_reset",
+      "transcript_replay"
+    ],
+    "generator_held_out_open_world": [
+      "no_alignment",
+      "more_compute",
+      "transcript_replay"
+    ],
+    "independent_replication": [
+      "semantic_retrieval_control",
+      "no_counterfactual",
+      "no_alignment",
+      "simple_structural_inquiry",
+      "more_compute"
+    ]
+  }
+}

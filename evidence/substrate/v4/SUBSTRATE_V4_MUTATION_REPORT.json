@@ -1,0 +1,149 @@
+{
+  "schema": "substrate-v4-mutation-report/v1",
+  "mutations": [
+    {
+      "identity": "M01_receipt_hash",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M02_activation",
+      "detected": true,
+      "errors": [
+        "activation",
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M03_missing_cycle",
+      "detected": true,
+      "errors": [
+        "episode_count",
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M04_phase_coverage",
+      "detected": true,
+      "errors": [
+        "phase_coverage",
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M05_commitment_order",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape",
+        "target_commitment_order"
+      ]
+    },
+    {
+      "identity": "M06_self_prediction_order",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape",
+        "self_prediction_order"
+      ]
+    },
+    {
+      "identity": "M07_checkpoint_exact",
+      "detected": true,
+      "errors": [
+        "checkpoint",
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M08_body_continuity",
+      "detected": true,
+      "errors": [
+        "body_continuity",
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M09_structural_model_missing",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape",
+        "structural_model_missing"
+      ]
+    },
+    {
+      "identity": "M10_mechanism_inactive",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape",
+        "structural_model_inactive"
+      ]
+    },
+    {
+      "identity": "M11_arm_substitution",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M12_seed_substitution",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M13_split_substitution",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M14_target_mutation",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M15_decision_mutation",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M16_history_specialization",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M17_structural_digest",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    },
+    {
+      "identity": "M18_owned_identity",
+      "detected": true,
+      "errors": [
+        "receipt_identity_or_shape"
+      ]
+    }
+  ],
+  "total": 18,
+  "detected": 18,
+  "survived": [],
+  "zero_survived": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "4e90725f261f4db27a5a985d539ce5f0e42700f5",
+  "source_digest": "7a4415dfcf10b1129192ccdf6dc399eb9a2b20da39488673df843a44d77b93bb",
+  "sha256": "95f269168b43dbda80a5ee60a0fd3bbf03f931b45d710e0a8c4acbb5bcbcd222"
+}

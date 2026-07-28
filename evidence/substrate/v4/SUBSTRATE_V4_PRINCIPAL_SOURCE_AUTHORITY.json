@@ -1,0 +1,23 @@
+{
+  "schema": "substrate-v4-principal-source-authority/v1",
+  "head": "3eec1611e4f887d3955c6f41604dcceeccbe0f81",
+  "ready_tag": "substrate-v4-structural-ready",
+  "ready_commit": "3eec1611e4f887d3955c6f41604dcceeccbe0f81",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "checks": {
+    "head_is_ready_tag": true,
+    "worktree_clean": true,
+    "admission_passed": true,
+    "principal_launch_authorized": true,
+    "worker_authority_is_four": true,
+    "source_digest_exact": true,
+    "configuration_digest_exact": true,
+    "content_addressed_inputs_exact": true,
+    "activation_false": true
+  },
+  "all_pass": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "3eec1611e4f887d3955c6f41604dcceeccbe0f81",
+  "sha256": "49b650baf64c94d3fa31ef91c53c6068643937a879d557460ca8fbca57b2df6c"
+}

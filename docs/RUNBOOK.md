@@ -1,73 +1,74 @@
-# Runbook
+# Substrate v4 runbook
 
-## Preflight
+## Install and inspect
 
 ```bash
 cd /Users/scammermike/Downloads/substrate
-uv sync --extra dev
-substrate verify
+uv venv --python 3.12 .venv
+uv pip install -e ".[dev]"
+
+substrate v4 status
 substrate test
-substrate rehearse
-substrate status
 ```
 
-Confirm the checkout is clean, activation is false, the authority and configuration hashes match, no
-worker or supervisor is active, and the status output reports no drift or stale claims.
+The terminal checkout should report 2,136/2,136 valid units, stage
+`terminal_classification`, classification `functional_proto_nous_candidate`, and activation `false`.
 
-## Launch
-
-Launch only after explicit operator authorization:
+## V4 command family
 
 ```bash
-substrate run
+substrate v4 preflight
+substrate v4 audit
+substrate v4 canaries
+substrate v4 pilot
+substrate v4 rehearse
+substrate v4 run
+substrate v4 status
+substrate v4 stop
+substrate v4 resume
+substrate v4 verify
 ```
 
-## Status
+The principal campaign is already terminal. Do not rerun it to change the replication null. `run` and
+`resume` validate existing unit receipts and execute only genuinely incomplete frozen units.
+
+## Verification
 
 ```bash
-substrate status
+substrate v4 verify
 ```
 
-Status is read from the same unit receipts and locks used by the executor.
+Verification consumes raw receipts, independently recomputes all effects, checks controls and checkpoint
+identities, injects every declared mutation, performs an isolated install from
+`substrate-v4-structural-ready`, runs the full test and lint gates, regenerates a frozen unit twice, and
+rebuilds the external review package.
 
-## Stop
+The expected terminal result is `functional_proto_nous_candidate`. The replication effect remains a null
+unless a separately preregistered future campaign establishes otherwise.
 
-```bash
-substrate stop
-```
+## Reconstruct raw receipts
 
-The stop command atomically creates the shared stop switch. The executor finishes no new unit after
-observing it. Do not kill a writer during its atomic publication window unless the machine is unsafe.
-
-## Resume
-
-```bash
-substrate resume
-```
-
-Resume removes the stop switch, revalidates the sealed authority, source, configuration, receipts, and
-locks, then continues only dependency-ready incomplete units.
+The terminal review package contains `artifacts/substrate/v4/review/RAW_RECEIPTS.jsonl.gz`. Each line
+records a repository-relative path, SHA-256, and JSON document. Restore those documents under their
+recorded paths before independent recomputation in a fresh terminal checkout.
 
 ## Failure recovery
 
-1. Run `substrate status` and preserve the failing receipt and logs.
-2. Run `substrate stop`.
-3. Confirm the process tree is quiet and identify the exact failing unit.
-4. Do not edit sealed evidence.
-5. Reproduce a source defect with a regression test.
-6. Apply an append-only repair and regenerate authorities.
-7. Rerun verify, test, rehearsal, mutation, and clean-clone gates.
-8. Resume. Completed synthesis units remain complete.
+1. Preserve the failing receipt, checkpoint, and verifier output.
+2. Run `substrate v4 stop` if a worker is live.
+3. Confirm the process tree is quiet.
+4. Do not change thresholds, generators, splits, seeds, or frozen controls.
+5. Reproduce a software or instrument defect with a regression test.
+6. Publish an implementation-transition authority naming affected units.
+7. Invalidate only affected units; zero-unit verifier repairs must not alter principal receipts.
+8. Rerun tests, lint, verification, mutations, and clean clone.
 
-## Rollback
+## Immutable points
 
-The immutable rollback tag is `substrate-pre-event-horizon` at `7158451`.
-
-```bash
-git fetch origin tag substrate-pre-event-horizon
-git worktree add /Users/scammermike/Downloads/substrate-rollback substrate-pre-event-horizon
+```text
+substrate-v4-pre-structural-understanding
+substrate-v4-structural-ready
+substrate-v4-terminal
 ```
 
-Verify commit `7158451d80cfcacc0763894dad3ee5ee1ca834ec` and tree
-`d5f88b918ec74e664f0a3c61aefc592807c2e6da`. Recover with a new branch or explicit revert commits; do not
-rewrite published history.
+Historical v1, v2, and v3 tags must never move.

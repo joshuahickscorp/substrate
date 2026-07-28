@@ -1,0 +1,12 @@
+{
+  "schema": "substrate-v4-nous-review-authority/v1",
+  "eligible": false,
+  "required_tag": null,
+  "meaning": "eligible for independent review only; not an unqualified Nous declaration",
+  "unqualified_nous": false,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "4e90725f261f4db27a5a985d539ce5f0e42700f5",
+  "source_digest": "7a4415dfcf10b1129192ccdf6dc399eb9a2b20da39488673df843a44d77b93bb",
+  "sha256": "a189ef203ec0b4a19bb86dc4fc2c2802272facaad6a676942f09315a0e9c23ea"
+}
