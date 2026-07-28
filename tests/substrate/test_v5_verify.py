@@ -67,6 +67,7 @@ def test_v5_raw_verifier_loads_seals_and_regenerates_complete_chain(
     tmp_path: Path,
 ) -> None:
     _redirect_v5_roots(monkeypatch, tmp_path)
+    monkeypatch.setattr(V.v4io, "RUNS", tmp_path / "absent-v4-runs")
     units = [P.WorkUnit("principal", 5_000, "full_v5", shard) for shard in range(P.SHARDS)]
     predecessor = None
     for unit in units:
