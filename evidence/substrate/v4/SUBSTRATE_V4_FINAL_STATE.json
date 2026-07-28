@@ -1,0 +1,29 @@
+{
+  "schema": "substrate-v4-final-state/v1",
+  "raw_receipts": 2136,
+  "hypotheses": {
+    "H_S1": true,
+    "H_S2": true,
+    "H_S3": true,
+    "H_S4": true,
+    "H_S5": true,
+    "H_S6": true,
+    "H_S7": true,
+    "H_S8": true,
+    "H_S9": true,
+    "H_S10": true
+  },
+  "replication": false,
+  "open_world": true,
+  "mutations_survived": 0,
+  "clean_clone": true,
+  "classification": "functional_proto_nous_candidate",
+  "strongest_missing_condition": "independent replication effect must clear the preregistered 0.05 SESOI",
+  "historical_preservation": true,
+  "review_package_complete": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "4e90725f261f4db27a5a985d539ce5f0e42700f5",
+  "source_digest": "7a4415dfcf10b1129192ccdf6dc399eb9a2b20da39488673df843a44d77b93bb",
+  "sha256": "2cd7163533fa8f717d095c046fc064bd2beaa9a5c6bdc5e0907b96d66d48e12e"
+}

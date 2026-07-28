@@ -1,0 +1,676 @@
+{
+  "activation": false,
+  "controls": {
+    "H_S1": {
+      "declared": [
+        "v3_reflective_control",
+        "semantic_retrieval_control",
+        "more_compute"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control",
+        "v3_reflective_control"
+      ]
+    },
+    "H_S10": {
+      "declared": [
+        "checkpoint_corruption",
+        "fresh_identity"
+      ],
+      "passes": true,
+      "strongest_by_history": []
+    },
+    "H_S2": {
+      "declared": [
+        "correlation_only_model",
+        "semantic_retrieval_control",
+        "more_compute"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model",
+        "correlation_only_model"
+      ]
+    },
+    "H_S3": {
+      "declared": [
+        "no_counterfactual",
+        "surface_alignment",
+        "more_compute"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual"
+      ]
+    },
+    "H_S4": {
+      "declared": [
+        "no_alignment",
+        "surface_alignment",
+        "semantic_retrieval_control",
+        "more_compute"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment"
+      ]
+    },
+    "H_S5": {
+      "declared": [
+        "wrong_history",
+        "identical_A_replica",
+        "shuffled_A"
+      ],
+      "passes": true,
+      "strongest_by_history": []
+    },
+    "H_S6": {
+      "declared": [
+        "simple_structural_inquiry",
+        "more_compute"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry",
+        "simple_structural_inquiry"
+      ]
+    },
+    "H_S7": {
+      "declared": [
+        "semantic_retrieval_control",
+        "correlation_only_model",
+        "more_compute"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control",
+        "semantic_retrieval_control"
+      ]
+    },
+    "H_S8": {
+      "declared": [
+        "no_self_model",
+        "no_world_model"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_world_model",
+        "no_self_model",
+        "no_world_model",
+        "no_world_model"
+      ]
+    },
+    "H_S9": {
+      "declared": [
+        "fresh_reset",
+        "transcript_replay"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset",
+        "fresh_reset"
+      ]
+    },
+    "generator_held_out_open_world": {
+      "declared": [
+        "no_alignment",
+        "more_compute",
+        "transcript_replay"
+      ],
+      "passes": true,
+      "strongest_by_history": [
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment",
+        "no_alignment"
+      ]
+    },
+    "independent_replication": {
+      "declared": [
+        "semantic_retrieval_control",
+        "no_counterfactual",
+        "no_alignment",
+        "simple_structural_inquiry",
+        "more_compute"
+      ],
+      "passes": false,
+      "strongest_by_history": [
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual"
+      ]
+    }
+  },
+  "mutation_report": {
+    "activation": false,
+    "detected": 18,
+    "mutations": [
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M01_receipt_hash"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "activation",
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M02_activation"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "episode_count",
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M03_missing_cycle"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "phase_coverage",
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M04_phase_coverage"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape",
+          "target_commitment_order"
+        ],
+        "identity": "M05_commitment_order"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape",
+          "self_prediction_order"
+        ],
+        "identity": "M06_self_prediction_order"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "checkpoint",
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M07_checkpoint_exact"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "body_continuity",
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M08_body_continuity"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape",
+          "structural_model_missing"
+        ],
+        "identity": "M09_structural_model_missing"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape",
+          "structural_model_inactive"
+        ],
+        "identity": "M10_mechanism_inactive"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M11_arm_substitution"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M12_seed_substitution"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M13_split_substitution"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M14_target_mutation"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M15_decision_mutation"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M16_history_specialization"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M17_structural_digest"
+      },
+      {
+        "detected": true,
+        "errors": [
+          "receipt_identity_or_shape"
+        ],
+        "identity": "M18_owned_identity"
+      }
+    ],
+    "schema": "substrate-v4-mutation-report/v1",
+    "survived": [],
+    "total": 18,
+    "zero_survived": true
+  },
+  "schema": "substrate-v4-control-audit/v1"
+}

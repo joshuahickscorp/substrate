@@ -1,66 +1,72 @@
-# Architecture
+# Substrate v4 architecture
 
-Substrate has one installed Python package, `src/substrate`, and one public command, `substrate`. There is
-no active `mop` package or command.
+Substrate has one installed Python package, `src/substrate`, and one public command, `substrate`. V4
+extends the existing runtime, world, evidence, and execution boundaries; it does not add a second
+cognitive runtime.
 
 ## Runtime
 
-`runtime.Substrate` owns the canonical live state and the eleven-stage transition:
+`runtime.Substrate` retains the canonical transition:
 
 ```text
 perceive → attend → select → run perspectives → arbitrate → decide
 → remember → self update → consolidate → adapt → checkpoint
 ```
 
-The runtime records every stage, records skipped stages with a reason, revises beliefs, updates memory and
-self-model state, and creates a content-bound checkpoint. It only records what would be done; no path sets
-activation to true.
+`runtime.StructuralSubstrate` composes structural behavior into that runtime. Verified observations enter
+the existing stages, reasoning selects structural hypotheses, perspectives execute predictions and
+interventions, arbitration preserves alternatives, consolidation revises models, and checkpoint covers
+the same semantic state used by identity.
 
-The model is divided by invariant:
+## Executable structural world
 
-- `ontology`, `epistemology`, `workspace`, `memory`, `world`, `selfmodel`, and `goals` own typed state.
-- `perspectives`, `metacog`, `plasticity`, `bodies`, and `temporal_link` implement cognitive mechanisms
-  composed by the runtime.
-- `experiments` and `method` own experiment declarations, causal validation, admission, result
-  classification, and value-of-information ranking.
-- `program`, `graph`, `deliverables`, `authority`, `audit`, and `verification` derive and independently
-  check evidence.
-- `execution` is the single DAG executor, process supervisor, checkpoint/resume authority, and status
-  reader.
-- `cli` is the only public command surface.
+`world.StructuralWorld` owns structural models, alternatives, causal edges, transitions, constraints,
+invariants, exceptions, mappings, interventions, counterfactuals, revisions, inquiry receipts, and
+validation history.
 
-## Configuration
-
-`configs/substrate/config.json`, loaded by `substrate.config`, is the single configuration path. Unknown fields
-are rejected. `SUBSTRATE_DATA_ROOT` and `SUBSTRATE_STATE_ROOT` are the only active environment overrides.
-The normalized configuration is content-hashed, and activation must remain false.
-
-## State, evidence, and artifacts
-
-`substrate.evidence` is the sole JSON/Markdown writer. It canonicalizes JSON, content-hashes sealed
-evidence, stamps the source commit, and publishes atomically.
+One model supports:
 
 ```text
-configs/substrate/config.json      configuration
-src/substrate/                     active implementation
-tests/substrate/                   active contracts
-evidence/substrate/v1/             current immutable evidence
-runs/substrate/v1/                 mutable receipts, locks, and checkpoints
-artifacts/substrate/event-horizon/ generated migration authorities and reports
-proof/                             sealed historical evidence
-archive/pre-substrate-event-horizon/ historical source, tests, and documents
+predict
+intervene
+counterfactual
+map representation
+explain
+compare alternatives
+revise
+narrow scope
+checkpoint and restore
 ```
 
-Historical predecessor paths and schemas are read-only and reachable only through
-`SUBSTRATE_HISTORICAL_EVIDENCE_AUTHORITY.json` and `substrate.historical`. The reader resolves neutral
-aliases, verifies the recorded SHA-256, cannot execute a historical runtime, and provides no import alias.
+Intervention severs normal causes. Counterfactual execution changes one declared premise and preserves
+background structure. Representation alignment is inferred from randomized structural constraints rather
+than hidden shared identifiers.
 
-## Execution
+## Workload and campaign fabric
 
-`substrate.execution.UNIT_LIST` is the terminal deterministic synthesis DAG. It regenerates and verifies
-already frozen evidence; it is not a new scientific campaign. Each unit names its dependencies, work
-classification, resources, and produced artifacts. A unit is complete only when its validated receipt is
-published. Resume reads receipts from disk and does not repeat completed work.
+- `v4fabric` generates eight workload families and six surface representations under disjoint splits.
+- `v4canary` owns the 46 cheap mechanism and integrity canaries.
+- `v4pilot` owns the 24-history moderate pilot, failure matrix, and worker benchmark.
+- `v4principal` owns the frozen 2,136-unit DAG, content-addressed inputs, atomic receipts, checkpoints,
+  resume, and source-drift refusal.
+- `v4verify` independently recomputes effects, classifies nulls, injects mutations, performs clean-clone
+  reproduction, and builds the external review package.
+- `v4io` is the v4 atomic writer and seal verifier.
 
-The stop switch is `${SUBSTRATE_STATE_ROOT:-$HOME/.substrate}/stop`. Status, stop, and resume operate on
-the same state model.
+## State and evidence
+
+```text
+configs/substrate/v4/             frozen generators, splits, candidates, and DAG
+evidence/substrate/v4/            sealed scientific and terminal evidence
+runs/substrate/v4/                mutable raw receipts and checkpoints
+artifacts/substrate/v4/           preflight, terminal report, and review package
+artifacts/substrate/v4/review/    effects, controls, ledgers, mutations, and raw archive
+```
+
+V1, v2, and v3 evidence remain read-only. V4 references them through tags, commits, blobs, and hashes.
+
+## Safety and identity
+
+Activation is a constant `false`. Structural actions are internal proposals or deterministic sandboxed
+simulations. Checkpoint restore refuses corrupt model, causal, mapping, alternative, and specialization
+state. Body and tool changes preserve owned identity and structural state.

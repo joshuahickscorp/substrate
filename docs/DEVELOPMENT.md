@@ -1,60 +1,55 @@
-# Development
+# Substrate v4 development rules
 
 ## Scientific freeze
 
-The verdict, three closure passes, and three mechanism nulls are frozen. A refactor, rename, speedup,
-smaller implementation, or cleaner test suite is not scientific evidence. A classification changes only
-through a separately preregistered experiment and its full verification path.
+The v4 principal result is frozen. All ten principal hypotheses are positive; independent replication is
+a sub-SESOI null. Refactoring, renaming, performance work, or verifier cleanup cannot promote that null or
+change the terminal classification.
 
-## Implementation freedom
+Changes to a scientific premise require a separately preregistered future campaign. Do not change frozen
+thresholds, generators, latent systems, surfaces, splits, seeds, controls, budgets, or statistics after
+observing v4 outcomes.
 
-Implementation, naming, module boundaries, orchestration, and language boundaries may change when all
-contracts remain green. Prefer deletion and ownership collapse. Do not add another cognitive layer.
+## Implementation transitions
 
-## Tests
+A post-launch code defect requires:
 
-Active tests live only under `tests/substrate/` and are organized around invariants, not historical module
-boundaries. Do not hide failures with broad skips, expected failures, or relaxed assertions. A historical
-test may move to the archive only when its architecture is gone and an active replacement covers any
-surviving invariant.
+1. a regression test;
+2. an implementation-transition authority;
+3. a new source digest;
+4. exact affected-unit identification;
+5. invalidation of affected units only;
+6. safe resume or independent-verification rerun.
 
-Run:
+The three v4 verification transitions affected zero principal units and are recorded under
+`evidence/substrate/v4/`.
+
+## Tests and lint
 
 ```bash
 substrate test
-substrate verify
-substrate rehearse
+ruff check src tests
+ruff format --check \
+  src/substrate/cli.py src/substrate/runtime.py src/substrate/world.py \
+  src/substrate/v4*.py tests/substrate/test_v4_mechanisms.py
 ```
+
+Tests must not publish into frozen evidence in the active checkout. Use temporary roots or monkeypatch the
+writer for publishing canaries. Do not hide failures with broad skips, expected failures, or relaxed
+assertions.
 
 ## Artifact rules
 
-- `substrate.evidence` is the only artifact writer.
-- Sealed evidence is immutable.
-- Mutable receipts belong under `runs/substrate/v1/`.
-- Current evidence belongs under `evidence/substrate/v1/`.
-- Execution Forge measurements and reports belong under `artifacts/substrate/execution-forge/`.
+- V4 sealed evidence belongs under `evidence/substrate/v4/`.
+- Mutable raw receipts belong under `runs/substrate/v4/`.
+- Reviewable terminal reports belong under `artifacts/substrate/v4/`.
+- Every authoritative JSON document has activation `false` and a valid self-seal.
+- Raw receipt archives must be deterministic and independently hash-indexed.
+- Historical v1, v2, and v3 evidence and tags are immutable.
 - Scratch data and caches are never authorities.
-- Every artifact has one declared producer and checkout-independent content identity.
 
-## Naming and archive rules
+## Claim boundary
 
-Active product, package, command, path, program, branch, configuration, and environment names use
-Substrate. Predecessor identities remain only in sealed historical evidence, citations, and the hash-bound
-migration manifest. Active code reads neutral aliases through `substrate.historical`; no compatibility
-package or predecessor environment reader exists.
-
-Superseded source, tests, and documents live under `archive/pre-substrate-event-horizon/` and are absent
-from active navigation. Exact duplicates are deleted rather than archived repeatedly.
-
-## Rust gate
-
-Rust is admitted only for one narrow deterministic kernel after profiling proves at least 1.5 times
-isolated speedup and at least 10 percent projected total-run reduction, or a necessary memory, crash-risk,
-or determinism improvement. One crate is the maximum. Scientific policy and classifications remain Python.
-
-## LOC accounting
-
-Report physical and executable production lines separately. Executable lines exclude blanks, comments,
-docstrings, and delimiter-only structural lines. Generated artifacts, sealed evidence, archives, third-party code, and tests are separate
-categories. A lower candidate is valid only after all load-bearing contracts pass; a rejected candidate
-must name its failing invariant and the smallest restoration.
+The maximum automatic classification is `nous_ready_for_review`. Unqualified Nous requires external
+scientific and philosophical review. No code, evidence, report, tag, PR, or documentation may imply
+consciousness, sentience, personhood, life, moral status, or uncontrolled external agency.

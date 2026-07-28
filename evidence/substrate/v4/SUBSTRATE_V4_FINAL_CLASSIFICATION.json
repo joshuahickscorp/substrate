@@ -1,0 +1,43 @@
+{
+  "schema": "substrate-v4-final-classification/v1",
+  "classification": "functional_proto_nous_candidate",
+  "demonstrated_structural_understanding": true,
+  "functional_proto_nous_candidate": true,
+  "nous_ready_for_review": false,
+  "latent_model_families": [
+    "asymmetric_causal_tree_A",
+    "asymmetric_causal_tree_B",
+    "asymmetric_causal_tree_C",
+    "asymmetric_causal_tree_D",
+    "held_out_asymmetric_causal_tree_A",
+    "held_out_asymmetric_causal_tree_B",
+    "held_out_asymmetric_causal_tree_C",
+    "held_out_asymmetric_causal_tree_D"
+  ],
+  "representation_families": [
+    "event_sequences",
+    "graph_adjacency",
+    "relation_tables",
+    "structured_language",
+    "symbolic_rules",
+    "tool_state"
+  ],
+  "external_review_package_complete": true,
+  "unqualified_nous": false,
+  "not_claimed": [
+    "consciousness",
+    "phenomenal experience",
+    "sentience",
+    "feeling",
+    "suffering",
+    "desire",
+    "personhood",
+    "life",
+    "moral status"
+  ],
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "4e90725f261f4db27a5a985d539ce5f0e42700f5",
+  "source_digest": "7a4415dfcf10b1129192ccdf6dc399eb9a2b20da39488673df843a44d77b93bb",
+  "sha256": "9edfdc072313a4080b5d29aed3e91258b24886a17ff8aea312eaf2e8fb73345d"
+}

@@ -1,0 +1,34 @@
+{
+  "activation": false,
+  "maximum": "nous_ready_for_review",
+  "not_claimed": [
+    "consciousness",
+    "phenomenal experience",
+    "sentience",
+    "feeling",
+    "suffering",
+    "desire",
+    "personhood",
+    "life",
+    "moral status"
+  ],
+  "ordered_levels": [
+    "certified_cognitive_scaffold",
+    "persistent_developmental_cognition",
+    "epistemically_organized_reasoner",
+    "reflective_cognitive_organization",
+    "demonstrated_structural_understanding",
+    "functional_proto_nous_candidate",
+    "nous_ready_for_review"
+  ],
+  "permitted_actions": [
+    "internal cognitive proposals",
+    "internal structural model manipulation",
+    "deterministic sandboxed simulations",
+    "pure local tools",
+    "controlled local environments",
+    "hypothetical actions"
+  ],
+  "schema": "substrate-v4-review-claim-boundary/v1",
+  "unqualified_nous": false
+}

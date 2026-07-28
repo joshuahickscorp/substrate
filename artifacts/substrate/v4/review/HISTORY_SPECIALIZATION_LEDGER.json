@@ -1,0 +1,906 @@
+{
+  "activation": false,
+  "rows": [
+    {
+      "identity": "principal-5000-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5001-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5002-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5003-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5004-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5005-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5006-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5007-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5008-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5009-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5010-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5011-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5012-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5013-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5014-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5015-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5016-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5017-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5018-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5019-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5020-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5021-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5022-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5023-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5024-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5025-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5026-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5027-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5028-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5029-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5030-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5031-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5032-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5033-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5034-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5035-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5036-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5037-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5038-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5039-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5040-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5041-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5042-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5043-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5044-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5045-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5046-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "principal-5047-full_v4-general-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6000-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6001-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6002-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6003-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6004-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6005-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6006-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6007-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6008-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6009-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6010-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    },
+    {
+      "identity": "replication-6011-full_v4-compact-shard0",
+      "result": {
+        "activation": false,
+        "different_histories_diverge": true,
+        "identical_histories_equivalent": true,
+        "matched_A": 1.0,
+        "matched_B": 1.0,
+        "mean_specialization_margin": 1.0,
+        "mixed_alternatives_preserved": true,
+        "wrong_A": 0.0,
+        "wrong_B": 0.0,
+        "wrong_history_clean": true
+      }
+    }
+  ],
+  "schema": "substrate-v4-history-specialization-ledger/v1"
+}

@@ -1,0 +1,56 @@
+{
+  "activation": false,
+  "nulls": {
+    "independent_replication": {
+      "bootstrap_95_ci": [
+        0.02313725490196074,
+        0.03980392156862741
+      ],
+      "controls": [
+        "semantic_retrieval_control",
+        "no_counterfactual",
+        "no_alignment",
+        "simple_structural_inquiry",
+        "more_compute"
+      ],
+      "endpoint": "independent_replication",
+      "exact_sign_p": 0.00048828125,
+      "full_arm": "full_v4",
+      "mean": 0.030980392156862713,
+      "median": 0.02117647058823524,
+      "n": 12,
+      "passes": false,
+      "raw_paired_effects": [
+        0.02117647058823524,
+        0.05647058823529405,
+        0.02117647058823524,
+        0.009411764705882342,
+        0.03294117647058825,
+        0.04470588235294115,
+        0.02117647058823524,
+        0.02117647058823524,
+        0.02117647058823524,
+        0.02117647058823524,
+        0.05647058823529416,
+        0.04470588235294115
+      ],
+      "sesoi": 0.05,
+      "standardized_effect": 1.969413001536614,
+      "strongest_control_by_history": [
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual",
+        "no_counterfactual"
+      ]
+    }
+  },
+  "schema": "substrate-v4-null-ledger/v1"
+}
