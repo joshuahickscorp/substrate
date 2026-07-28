@@ -199,6 +199,27 @@ def main(argv: list[str] | None = None) -> None:
     if command == "verify":
         report = campaign.verify(publish=publish)
         _exit(report, bool(report["all_pass"]))
+    if command == "record-clean-clone":
+        if len(arguments) != 3:
+            raise SystemExit("record-clean-clone requires CLEAN_REPORT_JSON REGENERATION_REPORT_JSON CLONE_ROOT")
+        clean_report = json.loads(Path(arguments[0]).read_text())
+        regeneration_report = json.loads(Path(arguments[1]).read_text())
+        if not isinstance(clean_report, dict) or not isinstance(regeneration_report, dict):
+            raise SystemExit("clean and regeneration reports must be JSON objects")
+        install_report = campaign.clean_clone_install_receipt(Path(arguments[2]))
+        try:
+            report = campaign.record_clean_clone_verification(clean_report, regeneration_report, install_report)
+        except io.Refused as error:
+            _exit(
+                {
+                    "all_pass": False,
+                    "error": str(error),
+                    "install": install_report,
+                    "activation": False,
+                },
+                False,
+            )
+        _exit(report, bool(report["all_pass"]))
     if command == "publish":
         report = campaign.publish(publish_files=publish)
         _exit(report, bool(report["all_pass"]))

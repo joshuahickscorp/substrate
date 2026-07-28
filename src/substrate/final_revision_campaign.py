@@ -2303,8 +2303,122 @@ def _terminal_documents() -> dict[str, dict[str, Any]]:
     }
 
 
-def record_clean_clone_verification(clean_report: dict[str, Any], regeneration_report: dict[str, Any]) -> dict[str, Any]:
-    install = clean_report.get("install")
+_DEPENDENCY_RESOLUTION_CODE = (
+    "import importlib.metadata as m\n"
+    "missing = []\n"
+    "for requirement in m.requires('substrate') or []:\n"
+    "    head, _, marker = requirement.partition(';')\n"
+    "    if 'extra' in marker:\n"
+    "        continue\n"
+    "    name = head.split('[')[0]\n"
+    "    for token in ('>', '<', '=', '!', '~', ' '):\n"
+    "        name = name.split(token)[0]\n"
+    "    name = name.strip()\n"
+    "    if not name:\n"
+    "        continue\n"
+    "    try:\n"
+    "        m.version(name)\n"
+    "    except m.PackageNotFoundError:\n"
+    "        missing.append(name)\n"
+    "print('MISSING=' + repr(sorted(missing)))\n"
+)
+
+
+def clean_clone_install_receipt(clone_root: Path) -> dict[str, Any]:
+    """Verify an existing editable install inside a clean-clone root.
+
+    Installation is an operator action. This builds a receipt against what is
+    already present under ``clone_root/.venv`` rather than performing install.
+    """
+    root = Path(clone_root).resolve()
+    python = root / ".venv" / "bin" / "python"
+    import_code = "import importlib.metadata, substrate; print(substrate.__file__); print(importlib.metadata.version('substrate'))"
+    command = [str(python), "-I", "-c", import_code]
+    empty_digest = io.digest("")
+    if not python.is_file():
+        return {
+            "command": command,
+            "returncode": None,
+            "stdout_digest": empty_digest,
+            "stderr_digest": io.digest("missing venv python"),
+            "substrate_module_path": None,
+            "version": None,
+            "editable_install_inside_clone": False,
+            "dependency_check_passed": False,
+            "passed": False,
+        }
+
+    outside = Path(tempfile.gettempdir()).resolve()
+    try:
+        outside.relative_to(root)
+    except ValueError:
+        pass
+    else:
+        outside = Path("/").resolve()
+
+    completed = subprocess.run(command, cwd=outside, capture_output=True, text=True, check=False)
+    module_path: str | None = None
+    version: str | None = None
+    editable_install_inside_clone = False
+    if completed.returncode == 0:
+        lines = [line.strip() for line in completed.stdout.splitlines() if line.strip()]
+        if len(lines) >= 2:
+            module_path = lines[0]
+            version = lines[1]
+            try:
+                Path(module_path).resolve().relative_to(root)
+                editable_install_inside_clone = True
+            except (OSError, ValueError):
+                editable_install_inside_clone = False
+
+    # Resolve declared runtime requirements with the standard library rather
+    # than `pip check`. A `uv venv` carries no pip, so `python -m pip check`
+    # fails there for a reason that has nothing to do with the install being
+    # sound, which would refuse every honest clean clone.
+    dependency = subprocess.run(
+        [str(python), "-I", "-c", _DEPENDENCY_RESOLUTION_CODE],
+        cwd=outside,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    dependency_check_passed = dependency.returncode == 0 and dependency.stdout.strip().endswith("MISSING=[]")
+    passed = completed.returncode == 0 and module_path is not None and version is not None and editable_install_inside_clone and dependency_check_passed
+    return {
+        "command": command,
+        "returncode": completed.returncode,
+        "stdout_digest": io.digest(completed.stdout),
+        "stderr_digest": io.digest(completed.stderr),
+        "substrate_module_path": module_path,
+        "version": version,
+        "editable_install_inside_clone": editable_install_inside_clone,
+        "dependency_check": {
+            "method": "importlib.metadata requirement resolution",
+            "command": [str(python), "-I", "-c", _DEPENDENCY_RESOLUTION_CODE],
+            "returncode": dependency.returncode,
+            "stdout": dependency.stdout.strip(),
+            "stderr_digest": io.digest(dependency.stderr),
+        },
+        "dependency_check_passed": dependency_check_passed,
+        "passed": passed,
+    }
+
+
+def record_clean_clone_verification(
+    clean_report: dict[str, Any],
+    regeneration_report: dict[str, Any],
+    install_report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    install_receipt_source: str | None
+    if isinstance(clean_report.get("install"), dict):
+        install: dict[str, Any] | None = clean_report["install"]
+        install_receipt_source = "clean_report"
+    elif isinstance(install_report, dict):
+        install = install_report
+        install_receipt_source = "operator_receipt"
+    else:
+        install = None
+        install_receipt_source = None
     if not isinstance(install, dict) or install.get("passed") is not True:
         raise io.Refused("clean-clone installation receipt is absent or failed")
     if clean_report.get("all_pass") is not True:
@@ -2318,6 +2432,8 @@ def record_clean_clone_verification(clean_report: dict[str, Any], regeneration_r
         "substrate-final-revision-clean-clone/v1",
         {
             **clean_report,
+            "install": install,
+            "install_receipt_source": install_receipt_source,
             "clone_source": "local Git clone of the immutable ready tag",
             "clean_install": True,
         },
@@ -2608,9 +2724,25 @@ def verify(*, publish: bool = True) -> dict[str, Any]:
         },
         status="complete" if not missing and not invalid else "incomplete",
     )
+    independent_receipt_preserved = False
     if publish:
-        io.write_json(io.EVIDENCE / "SUBSTRATE_FINAL_REVISION_INDEPENDENT_VERIFICATION.json", report)
-    return {"all_pass": report["complete"], "report": report, "activation": False}
+        path = io.EVIDENCE / "SUBSTRATE_FINAL_REVISION_INDEPENDENT_VERIFICATION.json"
+        existing_independent: dict[str, Any] | None = None
+        if path.is_file():
+            try:
+                existing_independent = io.load_json(path)
+            except io.Refused:
+                existing_independent = None
+        if isinstance(existing_independent, dict) and existing_independent.get("separate_clean_process") is True:
+            independent_receipt_preserved = True
+        else:
+            io.write_json(path, report)
+    return {
+        "all_pass": report["complete"],
+        "report": report,
+        "activation": False,
+        "independent_receipt_preserved": independent_receipt_preserved,
+    }
 
 
 def publish(*, publish_files: bool = True) -> dict[str, Any]:
