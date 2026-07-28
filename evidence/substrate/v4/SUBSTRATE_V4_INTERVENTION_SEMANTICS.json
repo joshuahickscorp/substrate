@@ -1,0 +1,39 @@
+{
+  "schema": "substrate-v4-intervention-semantics/v1",
+  "observation_is_not_intervention": true,
+  "incoming_causes_severed": true,
+  "receipt": {
+    "model": "beecd110572f3e14e968072bac4f2d2598c35ef1e26003a1ea17c658e1f4dfb1",
+    "model_version": 1,
+    "model_status": "transfer_verified",
+    "representation_fingerprint": "ee7f5fd699e502269d32a7225f4a0e686221772e816838509df23002dad8edb7",
+    "mapping": {
+      "x079445": "role_0",
+      "x293541": "role_2",
+      "x387184": "role_4",
+      "x400355": "role_1",
+      "x496673": "role_6",
+      "x929103": "role_5",
+      "x951338": "role_3"
+    },
+    "operation": "intervention",
+    "trace": {
+      "operation": "intervention",
+      "active": [],
+      "intervention": {
+        "role_0": true
+      },
+      "result": [
+        "role_0"
+      ],
+      "descendants_and_nondescendants_explicit": true
+    },
+    "causally_active": true,
+    "compute": 2.0
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "aec4f9733d53c0e0ecda3b5de97a55c5f4f03ffb5f37cbb5de011ad519ccc12e"
+}

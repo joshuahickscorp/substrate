@@ -1,0 +1,68 @@
+{
+  "schema": "substrate-v4-resource-benchmark/v1",
+  "candidates": [
+    {
+      "workers": 1,
+      "jobs": 32,
+      "episodes": 128,
+      "elapsed_seconds": 0.06669999996665865,
+      "episodes_per_second": 1919.0404807193913,
+      "hawking_signals_sent": 0,
+      "safe": true
+    },
+    {
+      "workers": 2,
+      "jobs": 32,
+      "episodes": 128,
+      "elapsed_seconds": 0.06823137507308275,
+      "episodes_per_second": 1875.9698139294273,
+      "hawking_signals_sent": 0,
+      "safe": true
+    },
+    {
+      "workers": 4,
+      "jobs": 32,
+      "episodes": 128,
+      "elapsed_seconds": 0.08059187501203269,
+      "episodes_per_second": 1588.2494355775825,
+      "hawking_signals_sent": 0,
+      "safe": true
+    },
+    {
+      "workers": 8,
+      "jobs": 32,
+      "episodes": 128,
+      "elapsed_seconds": 0.07097479200456291,
+      "episodes_per_second": 1803.457204802671,
+      "hawking_signals_sent": 0,
+      "safe": true
+    },
+    {
+      "workers": 12,
+      "jobs": 32,
+      "episodes": 128,
+      "elapsed_seconds": 0.06989799998700619,
+      "episodes_per_second": 1831.239806915717,
+      "hawking_signals_sent": 0,
+      "safe": true
+    },
+    {
+      "workers": 16,
+      "jobs": 32,
+      "episodes": 128,
+      "elapsed_seconds": 0.06896170799154788,
+      "episodes_per_second": 1856.1025201940763,
+      "hawking_signals_sent": 0,
+      "safe": true
+    }
+  ],
+  "selected_workers": 4,
+  "selection_reason": "four workers preserve headroom for the observed external Hawking process",
+  "hawking_observation_only": true,
+  "all_safe": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "67dba0846aebce2f5af34b84630b9e6ba470391eed24670650eb6e9678e1d995"
+}

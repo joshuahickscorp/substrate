@@ -1,0 +1,20 @@
+{
+  "schema": "substrate-v4-hypothesis-graph/v1",
+  "hypotheses": {
+    "H_S1": "executable structural prediction",
+    "H_S2": "causal intervention value",
+    "H_S3": "counterfactual value with preserved background",
+    "H_S4": "inferred cross representation mapping",
+    "H_S5": "useful history shaped specialization",
+    "H_S6": "cost adjusted structural inquiry",
+    "H_S7": "structural explanation fidelity",
+    "H_S8": "conditional self and world structural utility",
+    "H_S9": "v2 and v3 capability preservation",
+    "H_S10": "identity and body continuity"
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "dffa891415d02aae7a8e2b776378b6e0f6fb5c381f4f79238e7a773db42bbd67"
+}

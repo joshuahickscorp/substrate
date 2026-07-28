@@ -1,0 +1,10 @@
+{
+  "schema": "substrate-v4-structural-retention/v1",
+  "return_A_correct": true,
+  "models_separated": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "008286ac930c9f20158c7a0a8e1812c271d83de44bc1a3b7126412c7fc9bf4a7"
+}

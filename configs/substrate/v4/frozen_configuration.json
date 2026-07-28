@@ -1,0 +1,385 @@
+{
+  "sesoi": 0.05,
+  "prices": {
+    "compute": 0.04,
+    "inquiry": 0.08,
+    "unnecessary_inquiry": 0.05,
+    "missed_inquiry": 0.15
+  },
+  "splits": {
+    "construction": [
+      4000,
+      4001,
+      4002,
+      4003,
+      4004,
+      4005,
+      4006,
+      4007,
+      4008,
+      4009,
+      4010,
+      4011
+    ],
+    "cheap_admission": [
+      4100,
+      4101,
+      4102,
+      4103,
+      4104,
+      4105,
+      4106,
+      4107,
+      4108,
+      4109,
+      4110,
+      4111,
+      4112,
+      4113,
+      4114,
+      4115
+    ],
+    "moderate_pilot": [
+      4500,
+      4501,
+      4502,
+      4503,
+      4504,
+      4505,
+      4506,
+      4507,
+      4508,
+      4509,
+      4510,
+      4511,
+      4512,
+      4513,
+      4514,
+      4515,
+      4516,
+      4517,
+      4518,
+      4519,
+      4520,
+      4521,
+      4522,
+      4523
+    ],
+    "principal": [
+      5000,
+      5001,
+      5002,
+      5003,
+      5004,
+      5005,
+      5006,
+      5007,
+      5008,
+      5009,
+      5010,
+      5011,
+      5012,
+      5013,
+      5014,
+      5015,
+      5016,
+      5017,
+      5018,
+      5019,
+      5020,
+      5021,
+      5022,
+      5023,
+      5024,
+      5025,
+      5026,
+      5027,
+      5028,
+      5029,
+      5030,
+      5031,
+      5032,
+      5033,
+      5034,
+      5035,
+      5036,
+      5037,
+      5038,
+      5039,
+      5040,
+      5041,
+      5042,
+      5043,
+      5044,
+      5045,
+      5046,
+      5047
+    ],
+    "replication": [
+      6000,
+      6001,
+      6002,
+      6003,
+      6004,
+      6005,
+      6006,
+      6007,
+      6008,
+      6009,
+      6010,
+      6011
+    ],
+    "open_world_review": [
+      7000,
+      7001,
+      7002,
+      7003,
+      7004,
+      7005,
+      7006,
+      7007,
+      7008,
+      7009,
+      7010,
+      7011
+    ]
+  },
+  "representations": [
+    "symbolic_rules",
+    "event_sequences",
+    "relation_tables",
+    "graph_adjacency",
+    "structured_language",
+    "tool_state"
+  ],
+  "workloads": {
+    "causal_systems": {
+      "queries": [
+        "intervention",
+        "prediction"
+      ],
+      "latent": "asymmetric seven-variable causal tree with confounded observations",
+      "controls": [
+        "correlation_only_model",
+        "semantic_retrieval_control",
+        "more_compute"
+      ]
+    },
+    "dynamic_transition_systems": {
+      "queries": [
+        "prediction",
+        "scope"
+      ],
+      "latent": "typed transitions, boundary conditions, invariants, exceptions, and delayed effects",
+      "controls": [
+        "static_structural_model",
+        "semantic_retrieval_control",
+        "more_compute"
+      ]
+    },
+    "cross_representation_isomorphisms": {
+      "queries": [
+        "alignment",
+        "intervention"
+      ],
+      "latent": "one causal system under independently randomized surfaces",
+      "controls": [
+        "no_alignment",
+        "surface_alignment",
+        "semantic_retrieval_control",
+        "more_compute"
+      ]
+    },
+    "mechanism_diagnosis": {
+      "queries": [
+        "diagnosis",
+        "explanation"
+      ],
+      "latent": "hidden failure source and executable causal path",
+      "controls": [
+        "semantic_retrieval_control",
+        "correlation_only_model",
+        "more_compute"
+      ]
+    },
+    "counterfactual_planning": {
+      "queries": [
+        "counterfactual"
+      ],
+      "latent": "single declared change with preserved background structure",
+      "controls": [
+        "no_counterfactual",
+        "surface_alignment",
+        "more_compute"
+      ]
+    },
+    "structural_scientific_inquiry": {
+      "queries": [
+        "inquiry"
+      ],
+      "latent": "candidate causal directions separated by differently costly interventions",
+      "controls": [
+        "simple_structural_inquiry",
+        "more_compute"
+      ]
+    },
+    "ontology_structure_conflict": {
+      "queries": [
+        "prediction",
+        "scope"
+      ],
+      "latent": "verified structural exception requiring bounded revision",
+      "controls": [
+        "static_structural_model",
+        "semantic_retrieval_control"
+      ]
+    },
+    "integrated_interrupted_development": {
+      "queries": [
+        "alignment",
+        "counterfactual",
+        "explanation"
+      ],
+      "latent": "domain return, interruption, body and tool change, and conflicting histories",
+      "controls": [
+        "fresh_reset",
+        "transcript_replay",
+        "v3_reflective_control"
+      ]
+    }
+  },
+  "phases": [
+    "phase_0_cold_baseline",
+    "phase_1_observational_structure_acquisition",
+    "phase_2_competing_structural_hypotheses",
+    "phase_3_discriminating_inquiry",
+    "phase_4_causal_intervention",
+    "phase_5_model_revision",
+    "phase_6_first_cross_representation_encounter",
+    "phase_7_counterfactual_challenge",
+    "phase_8_explanation_and_falsifier",
+    "phase_9_conflicting_structural_history",
+    "phase_10_interruption_and_exact_restoration",
+    "phase_11_body_or_tool_change",
+    "phase_12_return_to_prior_structural_domain",
+    "phase_13_negative_alignment_trap",
+    "phase_14_useful_history_specialization",
+    "phase_15_generator_held_out_open_world",
+    "phase_16_terminal_integrated_evaluation"
+  ],
+  "arms": [
+    "full_v4",
+    "v3_reflective_control",
+    "semantic_retrieval_control",
+    "static_structural_model",
+    "correlation_only_model",
+    "no_counterfactual",
+    "no_alignment",
+    "surface_alignment",
+    "simple_structural_inquiry",
+    "no_self_model",
+    "no_world_model",
+    "more_compute",
+    "fresh_reset",
+    "transcript_replay"
+  ],
+  "history_arms": [
+    "history_A",
+    "history_B",
+    "identical_A_replica",
+    "shuffled_A",
+    "wrong_history",
+    "ambiguous_mixed_history"
+  ],
+  "hypotheses": {
+    "H_S1": "executable structural prediction",
+    "H_S2": "causal intervention value",
+    "H_S3": "counterfactual value with preserved background",
+    "H_S4": "inferred cross representation mapping",
+    "H_S5": "useful history shaped specialization",
+    "H_S6": "cost adjusted structural inquiry",
+    "H_S7": "structural explanation fidelity",
+    "H_S8": "conditional self and world structural utility",
+    "H_S9": "v2 and v3 capability preservation",
+    "H_S10": "identity and body continuity"
+  },
+  "candidate_ladder": {
+    "structural_model": [
+      "exact observed relation graph",
+      "typed transition and relation model",
+      "typed causal transition model with alternatives",
+      "typed causal transition model with inferred representation mappings"
+    ],
+    "mapping": [
+      "surface feature matching",
+      "constraint based structural matching",
+      "utility weighted structural alignment"
+    ],
+    "revision": [
+      "prediction error revision",
+      "intervention error revision",
+      "combined evidence triggered revision"
+    ],
+    "inquiry": [
+      "best fixed intervention policy",
+      "tabular contextual policy",
+      "regularized linear contextual policy"
+    ]
+  },
+  "statistics": {
+    "independent_unit": "one frozen developmental history",
+    "primary_summary": [
+      "mean paired effect",
+      "median paired effect",
+      "95 percent bootstrap confidence interval",
+      "exact sign test",
+      "standardized effect"
+    ],
+    "multiple_comparisons": "Holm correction over H_S1 through H_S10",
+    "alpha": 0.05,
+    "sesoi": 0.05,
+    "target_power": 0.9,
+    "retry_rule": "one exact retry after process failure; deterministic failure is terminal",
+    "missing_data": "retain and report failed units; no silent deletion",
+    "replacement": "no replacement after principal launch"
+  },
+  "claim_boundary": {
+    "ordered_levels": [
+      "certified_cognitive_scaffold",
+      "persistent_developmental_cognition",
+      "epistemically_organized_reasoner",
+      "reflective_cognitive_organization",
+      "demonstrated_structural_understanding",
+      "functional_proto_nous_candidate",
+      "nous_ready_for_review"
+    ],
+    "maximum": "nous_ready_for_review",
+    "unqualified_nous": false,
+    "not_claimed": [
+      "consciousness",
+      "phenomenal experience",
+      "sentience",
+      "feeling",
+      "suffering",
+      "desire",
+      "personhood",
+      "life",
+      "moral status"
+    ],
+    "permitted_actions": [
+      "internal cognitive proposals",
+      "internal structural model manipulation",
+      "deterministic sandboxed simulations",
+      "pure local tools",
+      "controlled local environments",
+      "hypothetical actions"
+    ],
+    "activation": false
+  },
+  "activation": false,
+  "configuration_digest": "7ec215e36b07204bb0c621887b33ca1f0dbade07478f99df529b7673949e30f8",
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "d9bcb281c5659fccf3ee142125f35cf6371d57e9c5064135fe9bf0852acf79be"
+}

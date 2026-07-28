@@ -1,0 +1,23 @@
+{
+  "schema": "substrate-v4-statistical-authority/v1",
+  "independent_unit": "one frozen developmental history",
+  "primary_summary": [
+    "mean paired effect",
+    "median paired effect",
+    "95 percent bootstrap confidence interval",
+    "exact sign test",
+    "standardized effect"
+  ],
+  "multiple_comparisons": "Holm correction over H_S1 through H_S10",
+  "alpha": 0.05,
+  "sesoi": 0.05,
+  "target_power": 0.9,
+  "retry_rule": "one exact retry after process failure; deterministic failure is terminal",
+  "missing_data": "retain and report failed units; no silent deletion",
+  "replacement": "no replacement after principal launch",
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "945e2a3d28b06555c486f022d67d49bfb5cbcde8185218e465b2801b82ab589f"
+}

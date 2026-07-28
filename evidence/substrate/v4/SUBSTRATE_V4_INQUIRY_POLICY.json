@@ -1,0 +1,38 @@
+{
+  "schema": "substrate-v4-inquiry-policy/v1",
+  "selected": "tabular contextual policy",
+  "effect": {
+    "family": "structural_scientific_inquiry",
+    "full_arm": "full_v4",
+    "control_arm": "simple_structural_inquiry",
+    "independent_units": 16,
+    "raw_effects": [
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001
+    ],
+    "margin": 0.9600000000000001,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.0,
+    "full_compute": 256.0,
+    "control_compute": 128.0
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "d2e6e5a06d08c1502ae16891a12c1edac7e11daabce7ca2683f04362f2b95632"
+}
