@@ -65,6 +65,7 @@ MUTATION_CLASSES = (
 )
 
 _SEAL_FIELDS = frozenset({"program", "sha256", "source_commit", "source_digest"})
+_PRINCIPAL_AUTHORITY = "SUBSTRATE_V5_PRINCIPAL_AUTHORITY.json"
 _HIDDEN_TARGET_KEYS = frozenset(
     {
         "answer",
@@ -267,6 +268,39 @@ def _strip_seal(document: Mapping[str, Any]) -> dict[str, Any]:
     """Return the scientific body after :func:`v5io.load_json` validated it."""
 
     return {key: copy.deepcopy(value) for key, value in document.items() if key not in _SEAL_FIELDS}
+
+
+def _source_identity(document: Mapping[str, Any]) -> tuple[str, str]:
+    source_commit = document.get("source_commit")
+    source_digest = document.get("source_digest")
+    if not isinstance(source_commit, str) or len(source_commit) != 40 or not isinstance(source_digest, str) or len(source_digest) != 64:
+        raise Refused("sealed source identity is incomplete")
+    return source_commit, source_digest
+
+
+def _principal_source_identity() -> tuple[str, str] | None:
+    path = io.EVIDENCE / _PRINCIPAL_AUTHORITY
+    if not path.is_file():
+        return None
+    authority = io.load(_PRINCIPAL_AUTHORITY)
+    if (
+        authority.get("schema") != "substrate-v5-principal-execution/v1"
+        or authority.get("all_terminal") is not True
+        or authority.get("published_units") != authority.get("expected_units")
+    ):
+        raise Refused("principal authority is incomplete")
+    return _source_identity(authority)
+
+
+def _source_bound_seal(
+    document: Mapping[str, Any],
+    source_identity: tuple[str, str],
+) -> dict[str, Any]:
+    body = copy.deepcopy(dict(document))
+    body.pop("sha256", None)
+    body["source_commit"], body["source_digest"] = source_identity
+    body["sha256"] = io.sha_obj(body)
+    return body
 
 
 def _relative(unit: P.WorkUnit, family: str) -> str:
@@ -1199,8 +1233,12 @@ def _independent_restore_entity(
     entity_checkpoint = predecessor.get("entity_checkpoint")
     if not isinstance(entity_checkpoint, Mapping):
         raise Refused("predecessor omits the permanent-entity checkpoint")
+    restorable_checkpoint = _source_bound_seal(
+        entity_checkpoint,
+        (io.commit(), io.source_digest()),
+    )
     try:
-        return VST.PermanentEntity.restore(dict(entity_checkpoint))
+        return VST.PermanentEntity.restore(restorable_checkpoint)
     except VST.Refused as error:
         raise Refused(f"permanent-entity restore failed: {error}") from error
 
@@ -1313,6 +1351,8 @@ def _independent_project_phase(
 def _independent_execute_unit(
     unit: P.WorkUnit,
     predecessor: Mapping[str, Any] | None = None,
+    *,
+    source_identity: tuple[str, str] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     phase_indices = tuple(
         range(
@@ -1375,6 +1415,11 @@ def _independent_execute_unit(
         state["body_changes"] = int(state["body_changes"]) + 1
     state["development_state"] = dict(phases[-1]["development_update"])
     entity_checkpoint = entity.checkpoint()
+    if source_identity is not None:
+        entity_checkpoint = _source_bound_seal(
+            entity_checkpoint,
+            source_identity,
+        )
     entity_state = entity_checkpoint["state"]
     state["depth_state_digest"] = io.sha_obj({key: value for key, value in entity_state["sensory_buffers"].items() if "depth" in key or "three_d" in key})
     state["three_d_state_digest"] = io.sha_obj(entity_state["spatial_world"])
@@ -1820,6 +1865,7 @@ def raw(
     missing: list[str] = []
     invalid: dict[str, list[str]] = {}
     seal_errors: dict[str, str] = {}
+    principal_source = _principal_source_identity()
 
     for unit in selected:
         chain = (unit.split, unit.history_seed, unit.arm)
@@ -1834,14 +1880,32 @@ def raw(
             missing.append(unit.identity)
             continue
         try:
-            receipt = _strip_seal(io.load_json(receipt_path))
-            checkpoint = _strip_seal(io.load_json(checkpoint_path))
-        except (io.Refused, OSError) as error:
+            sealed_receipt = io.load_json(receipt_path)
+            sealed_checkpoint = io.load_json(checkpoint_path)
+            entity_checkpoint = sealed_checkpoint.get("entity_checkpoint")
+            if not isinstance(entity_checkpoint, Mapping):
+                raise Refused("checkpoint entity seal is absent")
+            sealed_entity = io.validate_seal(dict(entity_checkpoint))
+            identities = {
+                _source_identity(sealed_receipt),
+                _source_identity(sealed_checkpoint),
+                _source_identity(sealed_entity),
+            }
+            if principal_source is None:
+                if len(identities) != 1:
+                    raise Refused("raw source identities disagree")
+                principal_source = identities.pop()
+            elif identities != {principal_source}:
+                raise Refused("raw source identity disagrees with principal authority")
+            receipt = _strip_seal(sealed_receipt)
+            checkpoint = _strip_seal(sealed_checkpoint)
+        except (Refused, io.Refused, OSError) as error:
             seal_errors[unit.identity] = str(error)
             continue
         expected_receipt, expected_checkpoint = _independent_execute_unit(
             unit,
             predecessor,
+            source_identity=principal_source,
         )
         errors = _pair_errors(
             receipt,
@@ -1869,6 +1933,14 @@ def raw(
         "missing": missing,
         "invalid": invalid,
         "seal_errors": seal_errors,
+        "principal_source": (
+            {
+                "source_commit": principal_source[0],
+                "source_digest": principal_source[1],
+            }
+            if principal_source is not None
+            else None
+        ),
         "hash_chains_valid": all_pass,
         "deterministic_regeneration_exact": all_pass,
         "all_pass": all_pass,
@@ -2512,7 +2584,12 @@ def _sample_regeneration(raw_report: Mapping[str, Any]) -> tuple[P.WorkUnit, str
     if not candidates:
         raise Refused("clean-clone verification requires a principal full_v5 shard")
     unit = candidates[0]
-    receipt, checkpoint = _independent_execute_unit(unit)
+    source = raw_report.get("principal_source")
+    source_identity = _source_identity(source) if isinstance(source, Mapping) else None
+    receipt, checkpoint = _independent_execute_unit(
+        unit,
+        source_identity=source_identity,
+    )
     digest = io.sha_obj(
         {
             "receipt": receipt,
