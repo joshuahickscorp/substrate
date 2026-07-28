@@ -1,0 +1,24 @@
+{
+  "schema": "substrate-v4-selection-receipt/v1",
+  "construction_only": true,
+  "selected": {
+    "structural_model": "typed causal transition model with inferred representation mappings",
+    "mapping": "constraint based structural matching",
+    "revision": "combined evidence triggered revision",
+    "inquiry": "tabular contextual policy"
+  },
+  "rejected": {
+    "exact observed relation graph": "no causal intervention semantics",
+    "typed transition and relation model": "cannot distinguish intervention from observation",
+    "surface feature matching": "fails randomized surfaces",
+    "utility weighted structural alignment": "no incremental admission gain over constraint mapping",
+    "random revision": "no verified held out gain",
+    "regularized linear contextual policy": "no representational need beyond tabular context"
+  },
+  "frozen_before_admission": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "71c7af089dbfed274047a9a7081475c9790d47439377e29e2e031ede0d203387"
+}

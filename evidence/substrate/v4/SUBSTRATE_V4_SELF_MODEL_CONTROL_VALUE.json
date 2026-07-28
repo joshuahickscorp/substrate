@@ -1,0 +1,37 @@
+{
+  "schema": "substrate-v4-self-model-control-value/v1",
+  "effect": {
+    "family": "structural_scientific_inquiry",
+    "full_arm": "full_v4",
+    "control_arm": "no_self_model",
+    "independent_units": 16,
+    "raw_effects": [
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001
+    ],
+    "margin": 0.9600000000000001,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.0,
+    "full_compute": 256.0,
+    "control_compute": 128.0
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "c1854cd5befbae3ca9b50c5fed1eec6ac391d9c20b71845435e2b84b2498e549"
+}

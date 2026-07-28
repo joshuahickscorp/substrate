@@ -1,0 +1,409 @@
+{
+  "schema": "substrate-v4-v3-root-cause-audit/v1",
+  "v3_terminal_commit": "a605fef265a58fa5a8905a61705a111c2140c420",
+  "v3_classification": "reflective_cognitive_organization",
+  "v3_primary_nulls": {
+    "cross_representation": {
+      "effect": 0.0,
+      "confidence_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "causal": {
+      "effect": 0.0,
+      "confidence_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "counterfactual": {
+      "effect": 0.0,
+      "confidence_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "divergence": {
+      "effect": 0.0,
+      "confidence_interval": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "paths": {
+    "cross_representation_mapping": {
+      "input": "public surface relations, start node, and query distance",
+      "declared_state": "StructuralUnderstanding with representation mappings",
+      "actual_state_mutation": "none; the proposal traversed public surface relations directly",
+      "checkpoint_ownership": "static structure was checkpointed but no task-specific mapping was learned",
+      "downstream_consumer": "IntegratedEntity.propose",
+      "scoring_endpoint": "cross_representation_utility",
+      "ablation_behavior": "no-understanding was weaker, but more-compute retained the same direct traversal",
+      "control_behavior": {
+        "comparisons": 2304,
+        "same_decision_rate": 1.0,
+        "same_correctness_rate": 1.0,
+        "examples": [
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_5_cross_representation_transfer:500",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "ka",
+            "control_decision": "ka"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_5_cross_representation_transfer:501",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "mi",
+            "control_decision": "mi"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_5_cross_representation_transfer:502",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "zu",
+            "control_decision": "zu"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_5_cross_representation_transfer:503",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "te",
+            "control_decision": "te"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_5_cross_representation_transfer:504",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "te",
+            "control_decision": "te"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_5_cross_representation_transfer:505",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "zu",
+            "control_decision": "zu"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_5_cross_representation_transfer:506",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "te",
+            "control_decision": "te"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_5_cross_representation_transfer:507",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "te",
+            "control_decision": "te"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_11_body_tool_change:1100",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "ka",
+            "control_decision": "ka"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_11_body_tool_change:1101",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "ka",
+            "control_decision": "ka"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_11_body_tool_change:1102",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "zu",
+            "control_decision": "zu"
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:cross_representation_systems:phase_11_body_tool_change:1103",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": "mi",
+            "control_decision": "mi"
+          }
+        ]
+      }
+    },
+    "causal_prediction": {
+      "input": "observed cause, confounder, and observational effect",
+      "declared_state": "world model",
+      "actual_state_mutation": "none; proposal returned observed_cause",
+      "checkpoint_ownership": "no learned causal edge entered the v3 checkpoint",
+      "downstream_consumer": "IntegratedEntity.propose",
+      "scoring_endpoint": "causal_intervention_utility",
+      "ablation_behavior": "no-world was weaker, but more-compute used the identical shortcut",
+      "control_behavior": {
+        "comparisons": 768,
+        "same_decision_rate": 1.0,
+        "same_correctness_rate": 1.0,
+        "examples": [
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:600",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:601",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:602",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:603",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:604",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:605",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:606",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:607",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:10600",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:10601",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:10602",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_6_causal_intervention:10603",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          }
+        ]
+      }
+    },
+    "counterfactual_evaluation": {
+      "input": "public background and one public change",
+      "declared_state": "counterfactual structural model",
+      "actual_state_mutation": "none; a hard-coded Boolean expression evaluated the public fields",
+      "checkpoint_ownership": "no counterfactual history affected structural parameters",
+      "downstream_consumer": "IntegratedEntity.propose",
+      "scoring_endpoint": "counterfactual_utility",
+      "ablation_behavior": "no-world was weaker, but more-compute retained the identical expression",
+      "control_behavior": {
+        "comparisons": 768,
+        "same_decision_rate": 1.0,
+        "same_correctness_rate": 1.0,
+        "examples": [
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:700",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:701",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:702",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:703",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:704",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:705",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:706",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:707",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:10700",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 1,
+            "control_decision": 1
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:10701",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:10702",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          },
+          {
+            "seed": 1000,
+            "task": "principal:1000:causal_micro_worlds:phase_7_counterfactual:10703",
+            "same_decision": true,
+            "same_correctness": true,
+            "full_decision": 0,
+            "control_decision": 0
+          }
+        ]
+      }
+    },
+    "history_divergence": {
+      "input": "ontology versus epistemic task histories",
+      "declared_state": "history_specialization and static StructuralUnderstanding",
+      "actual_state_mutation": "semantic counters changed; causal edges and representation maps did not",
+      "checkpoint_ownership": "different hashes reflected different episode summaries rather than useful structural organization",
+      "downstream_consumer": "direct task-specific proposal logic",
+      "scoring_endpoint": "useful_epistemic_divergence",
+      "ablation_behavior": "wrong-history accuracy equaled matched-history accuracy",
+      "control_behavior": {
+        "effect": 0.0,
+        "confidence_interval": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "causes": {
+    "no_executable_structural_model": true,
+    "structural_state_created_but_unused": true,
+    "surface_specific_state_with_no_shared_representation": true,
+    "causal_edges_recorded_but_never_executed": true,
+    "interventions_treated_as_observation_shortcuts": true,
+    "counterfactuals_implemented_as_public_expression_evaluation": true,
+    "mappings_supplied_or_bypassed_rather_than_inferred": true,
+    "history_updates_not_reaching_structural_parameters": true,
+    "scoring_insensitive_to_structure": false,
+    "baseline_equally_capable": true,
+    "task_lacking_oracle_headroom": false
+  },
+  "conclusion": "v3 contained a static inspectable graph and correct local operators, but its principal task path bypassed learned structural state. Full v3 and more-compute therefore committed identical structural, causal, and counterfactual decisions. History changed summaries rather than executable causal parameters. V4 must infer one verified intervention model, reuse it across surfaces, and make all four endpoints consume that same checkpointed state.",
+  "scientific_null_preserved": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "2f1dfa42364a30936aeab8c6adb61295eee2acca66664f39dcdf6c333b166f62"
+}

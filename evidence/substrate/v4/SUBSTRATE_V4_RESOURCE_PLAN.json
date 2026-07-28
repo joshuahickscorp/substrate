@@ -1,0 +1,14 @@
+{
+  "schema": "substrate-v4-resource-plan/v1",
+  "selected_workers": 4,
+  "incremental_atomic_receipts": true,
+  "exact_retry_limit": 1,
+  "hawking_observation_only": true,
+  "estimated_units": 2136,
+  "estimated_episodes": 181560,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "c8bf4e55f5b81af512a3142c24b9ad92aac2fa71016a4fc0a264d5cbd1adb263"
+}

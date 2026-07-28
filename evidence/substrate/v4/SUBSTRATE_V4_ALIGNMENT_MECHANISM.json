@@ -1,0 +1,73 @@
+{
+  "schema": "substrate-v4-alignment-mechanism/v1",
+  "method": "constraint based structural matching",
+  "receipt": {
+    "model": "beecd110572f3e14e968072bac4f2d2598c35ef1e26003a1ea17c658e1f4dfb1",
+    "model_version": 1,
+    "model_status": "transfer_verified",
+    "representation_fingerprint": "69767bcb65d19ffef648e82d048e93db88b4bce00c60a8bc1eb1472f31a4ec8a",
+    "mapping": {
+      "x148278": "role_1",
+      "x285070": "role_5",
+      "x451713": "role_4",
+      "x522862": "role_6",
+      "x567304": "role_2",
+      "x894466": "role_3",
+      "x947856": "role_0"
+    },
+    "operation": "alignment",
+    "trace": {
+      "operation": "alignment",
+      "active": [
+        "role_6"
+      ],
+      "intervention": {},
+      "result": [
+        "role_0",
+        "role_1",
+        "role_2",
+        "role_3",
+        "role_4",
+        "role_5",
+        "role_6"
+      ],
+      "descendants_and_nondescendants_explicit": true
+    },
+    "causally_active": true,
+    "compute": 2.0
+  },
+  "effect": {
+    "family": "cross_representation_isomorphisms",
+    "full_arm": "full_v4",
+    "control_arm": "surface_alignment",
+    "independent_units": 16,
+    "raw_effects": [
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001,
+      0.9600000000000001
+    ],
+    "margin": 0.9600000000000001,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.0,
+    "full_compute": 256.0,
+    "control_compute": 128.0
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "235b9375d03fac6e368398dc771d7c1f025dbc3e24250edde15c08137652fd9f"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "substrate-v4-counterfactual-battery/v1",
+  "effect": {
+    "family": "counterfactual_planning",
+    "full_arm": "full_v4",
+    "control_arm": "no_counterfactual",
+    "independent_units": 16,
+    "raw_effects": [
+      0.9600000000000001,
+      0.3350000000000001,
+      0.21000000000000008,
+      0.5850000000000001,
+      0.9600000000000001,
+      0.21000000000000008,
+      0.3350000000000001,
+      0.8350000000000001,
+      0.9600000000000001,
+      0.3350000000000001,
+      0.5850000000000001,
+      0.4600000000000001,
+      0.9600000000000001,
+      0.7100000000000001,
+      0.3350000000000001,
+      0.8350000000000001
+    ],
+    "margin": 0.6006250000000001,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.359375,
+    "full_compute": 256.0,
+    "control_compute": 128.0
+  },
+  "background_preservation": true,
+  "irrelevant_stability": true,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "9d0527d8dc80446a7c9e0d4a1597250362e5c40684faff9d5f44b36adfe4d997"
+}

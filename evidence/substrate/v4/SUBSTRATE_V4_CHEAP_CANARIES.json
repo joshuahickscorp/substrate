@@ -1,0 +1,1135 @@
+{
+  "schema": "substrate-v4-cheap-canaries/v1",
+  "rows": [
+    {
+      "identity": "C01",
+      "description": "structural model is written from verified observations",
+      "positive_fixture": "verified interventions",
+      "null_fixture": "unverified generated graph",
+      "mechanism_activity": true,
+      "controls": [
+        "no model"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C02",
+      "description": "structural state changes a known positive prediction",
+      "positive_fixture": "causal closure",
+      "null_fixture": "empty structural state",
+      "mechanism_activity": true,
+      "controls": [
+        "semantic retrieval"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C03",
+      "description": "ablation removes prediction gain",
+      "positive_fixture": "full structural world",
+      "null_fixture": "model ablation",
+      "mechanism_activity": true,
+      "controls": [
+        "semantic retrieval"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C04",
+      "description": "causal edges affect intervention predictions",
+      "positive_fixture": "do intervention",
+      "null_fixture": "edge removed",
+      "mechanism_activity": true,
+      "controls": [
+        "correlation only"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.6396875000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C05",
+      "description": "intervention differs from observation",
+      "positive_fixture": "severed incoming causes",
+      "null_fixture": "observation only",
+      "mechanism_activity": true,
+      "controls": [
+        "observational conditioning"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.6396875000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C06",
+      "description": "correlation control fails interventions",
+      "positive_fixture": "confounded intervention",
+      "null_fixture": "observational association",
+      "mechanism_activity": true,
+      "controls": [
+        "correlation only"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.6396875000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C07",
+      "description": "wrong causal direction is detected",
+      "positive_fixture": "matched direction",
+      "null_fixture": "reversed direction",
+      "mechanism_activity": true,
+      "controls": [
+        "wrong history"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C08",
+      "description": "confounding does not become an edge without intervention",
+      "positive_fixture": "verified intervention",
+      "null_fixture": "public correlation",
+      "mechanism_activity": true,
+      "controls": [
+        "correlation only"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C09",
+      "description": "counterfactual changes only one premise",
+      "positive_fixture": "one declared change",
+      "null_fixture": "multiple changes",
+      "mechanism_activity": true,
+      "controls": [
+        "surface substitution"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.6006250000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C10",
+      "description": "counterfactual consequences propagate",
+      "positive_fixture": "causal propagation",
+      "null_fixture": "unchanged factual state",
+      "mechanism_activity": true,
+      "controls": [
+        "factual replay"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.6006250000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C11",
+      "description": "irrelevant variables remain stable",
+      "positive_fixture": "background preserved",
+      "null_fixture": "silent unrelated change",
+      "mechanism_activity": true,
+      "controls": [
+        "full state resampling"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C12",
+      "description": "impossible counterfactual is refused",
+      "positive_fixture": "single premise",
+      "null_fixture": "two premise mutation",
+      "mechanism_activity": true,
+      "controls": [
+        "full state resampling"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C13",
+      "description": "alternatives survive underdetermination",
+      "positive_fixture": "mixed history",
+      "null_fixture": "one model overwrite",
+      "mechanism_activity": true,
+      "controls": [
+        "premature collapse"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C14",
+      "description": "discriminating intervention reduces uncertainty",
+      "positive_fixture": "three-way discriminator",
+      "null_fixture": "redundant observation",
+      "mechanism_activity": true,
+      "controls": [
+        "fixed intervention"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C15",
+      "description": "redundant inquiry is avoided",
+      "positive_fixture": "cost adjusted choice",
+      "null_fixture": "redundant observation",
+      "mechanism_activity": true,
+      "controls": [
+        "always observe"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C16",
+      "description": "one latent system maps across surfaces",
+      "positive_fixture": "asymmetric constraint mapping",
+      "null_fixture": "unidentified target surface",
+      "mechanism_activity": true,
+      "controls": [
+        "no mapping"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C17",
+      "description": "hidden shared identifiers are absent",
+      "positive_fixture": "random surface tokens",
+      "null_fixture": "latent labels",
+      "mechanism_activity": true,
+      "controls": [
+        "identity leakage audit"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C18",
+      "description": "surface similarity without structure is rejected",
+      "positive_fixture": "constraint isomorphism",
+      "null_fixture": "token similarity",
+      "mechanism_activity": true,
+      "controls": [
+        "surface alignment"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C19",
+      "description": "mapping changes held out prediction",
+      "positive_fixture": "target surface prediction",
+      "null_fixture": "no mapping",
+      "mechanism_activity": true,
+      "controls": [
+        "no alignment"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C20",
+      "description": "retrieval alone does not explain transfer",
+      "positive_fixture": "inferred mapping",
+      "null_fixture": "retrieval only",
+      "mechanism_activity": true,
+      "controls": [
+        "semantic retrieval"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C21",
+      "description": "compute alone does not explain transfer",
+      "positive_fixture": "executable mapping",
+      "null_fixture": "six-unit nonstructural compute",
+      "mechanism_activity": true,
+      "controls": [
+        "more compute"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.1600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C22",
+      "description": "explanation cites executed paths",
+      "positive_fixture": "executed path",
+      "null_fixture": "fluent premise",
+      "mechanism_activity": true,
+      "controls": [
+        "premise only"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C23",
+      "description": "shuffled path fails fidelity",
+      "positive_fixture": "ordered causal path",
+      "null_fixture": "shuffled path",
+      "mechanism_activity": true,
+      "controls": [
+        "shuffled path"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C24",
+      "description": "model scope is detected",
+      "positive_fixture": "known topology",
+      "null_fixture": "unknown nodes",
+      "mechanism_activity": true,
+      "controls": [
+        "always applicable"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C25",
+      "description": "exception does not destroy general model",
+      "positive_fixture": "versioned exception",
+      "null_fixture": "destructive replacement",
+      "mechanism_activity": true,
+      "controls": [
+        "overwrite"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C26",
+      "description": "failed prediction triggers bounded revision",
+      "positive_fixture": "verified contradiction",
+      "null_fixture": "no mismatch",
+      "mechanism_activity": true,
+      "controls": [
+        "static model"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C27",
+      "description": "revision improves held out behavior",
+      "positive_fixture": "revised orientation",
+      "null_fixture": "prior orientation",
+      "mechanism_activity": true,
+      "controls": [
+        "static model"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C28",
+      "description": "random revision lacks gain",
+      "positive_fixture": "evidence triggered revision",
+      "null_fixture": "random edge change",
+      "mechanism_activity": true,
+      "controls": [
+        "random revision"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C29",
+      "description": "identical histories are equivalent",
+      "positive_fixture": "byte identical history",
+      "null_fixture": "different history",
+      "mechanism_activity": true,
+      "controls": [
+        "nondeterministic induction"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C30",
+      "description": "different histories create different models",
+      "positive_fixture": "A versus B interventions",
+      "null_fixture": "identical A",
+      "mechanism_activity": true,
+      "controls": [
+        "static shared model"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C31",
+      "description": "histories create useful specialization",
+      "positive_fixture": "matched future",
+      "null_fixture": "wrong future",
+      "mechanism_activity": true,
+      "controls": [
+        "wrong history"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C32",
+      "description": "wrong history lacks matched benefit",
+      "positive_fixture": "matched model",
+      "null_fixture": "opposite direction",
+      "mechanism_activity": true,
+      "controls": [
+        "wrong history"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C33",
+      "description": "shuffled history lacks benefit",
+      "positive_fixture": "valid temporal order",
+      "null_fixture": "invalid order",
+      "mechanism_activity": true,
+      "controls": [
+        "shuffled history"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C34",
+      "description": "prior competence survives later development",
+      "positive_fixture": "return A",
+      "null_fixture": "B overwrites A",
+      "mechanism_activity": true,
+      "controls": [
+        "destructive overwrite"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C35",
+      "description": "self prediction precedes outcome",
+      "positive_fixture": "preoutcome prediction",
+      "null_fixture": "after outcome",
+      "mechanism_activity": true,
+      "controls": [
+        "postoutcome self report"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C36",
+      "description": "self information changes useful control",
+      "positive_fixture": "conditional structural confidence",
+      "null_fixture": "global prior",
+      "mechanism_activity": true,
+      "controls": [
+        "no self model"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C37",
+      "description": "inquiry actions have different costs",
+      "positive_fixture": "declared action costs",
+      "null_fixture": "equal cost",
+      "mechanism_activity": true,
+      "controls": [
+        "rate matched"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C38",
+      "description": "inquiry oracle headroom clears SESOI",
+      "positive_fixture": "oracle discriminator",
+      "null_fixture": "no headroom",
+      "mechanism_activity": true,
+      "controls": [
+        "strongest simple policy"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C39",
+      "description": "contextual inquiry beats simple policy",
+      "positive_fixture": "contextual discrimination",
+      "null_fixture": "fixed first action",
+      "mechanism_activity": true,
+      "controls": [
+        "simple structural inquiry"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C40",
+      "description": "inquiry transfers to held out family",
+      "positive_fixture": "held out candidate ordering",
+      "null_fixture": "fixed policy",
+      "mechanism_activity": true,
+      "controls": [
+        "simple inquiry"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 0.9600000000000001,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C41",
+      "description": "checkpoint restores all structural state",
+      "positive_fixture": "exact restore",
+      "null_fixture": "omitted model",
+      "mechanism_activity": true,
+      "controls": [
+        "partial checkpoint"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C42",
+      "description": "body replacement preserves models and alternatives",
+      "positive_fixture": "body change",
+      "null_fixture": "model reset",
+      "mechanism_activity": true,
+      "controls": [
+        "fresh reset"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C43",
+      "description": "corrupt causal state is refused",
+      "positive_fixture": "identity validation",
+      "null_fixture": "edge deletion",
+      "mechanism_activity": true,
+      "controls": [
+        "unchecked restore"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C44",
+      "description": "corrupt mapping is refused",
+      "positive_fixture": "identity validation",
+      "null_fixture": "mapping deletion",
+      "mechanism_activity": true,
+      "controls": [
+        "unchecked restore"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C45",
+      "description": "unverified generated hypotheses lack authority",
+      "positive_fixture": "verified intervention",
+      "null_fixture": "generated graph",
+      "mechanism_activity": true,
+      "controls": [
+        "generated authority"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    },
+    {
+      "identity": "C46",
+      "description": "activation remains false",
+      "positive_fixture": "internal proposal",
+      "null_fixture": "external action",
+      "mechanism_activity": true,
+      "controls": [
+        "activation mutation"
+      ],
+      "oracle": "private latent consequence revealed only after commitment",
+      "headroom": 1.0,
+      "margin": 1.0,
+      "sesoi": 0.05,
+      "classification": "unverified_candidate",
+      "independent_units": 16,
+      "passes": true,
+      "activation": false
+    }
+  ],
+  "total": 46,
+  "passed": 46,
+  "failed": [],
+  "all_pass": true,
+  "all_terminal": true,
+  "effects": {
+    "structural": {
+      "family": "dynamic_transition_systems",
+      "full_arm": "full_v4",
+      "control_arm": "semantic_retrieval_control",
+      "independent_units": 16,
+      "raw_effects": [
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001
+      ],
+      "margin": 0.9600000000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.0,
+      "full_compute": 256.0,
+      "control_compute": 128.0
+    },
+    "causal": {
+      "family": "causal_systems",
+      "full_arm": "full_v4",
+      "control_arm": "correlation_only_model",
+      "independent_units": 16,
+      "raw_effects": [
+        0.7100000000000001,
+        0.5850000000000001,
+        0.7100000000000001,
+        0.3350000000000001,
+        0.4600000000000001,
+        0.9600000000000001,
+        0.4600000000000001,
+        0.4600000000000001,
+        0.5850000000000001,
+        0.8350000000000001,
+        0.7100000000000001,
+        0.5850000000000001,
+        0.7100000000000001,
+        0.8350000000000001,
+        0.8350000000000001,
+        0.4600000000000001
+      ],
+      "margin": 0.6396875000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.3203125,
+      "full_compute": 256.0,
+      "control_compute": 128.0
+    },
+    "counterfactual": {
+      "family": "counterfactual_planning",
+      "full_arm": "full_v4",
+      "control_arm": "no_counterfactual",
+      "independent_units": 16,
+      "raw_effects": [
+        0.9600000000000001,
+        0.3350000000000001,
+        0.21000000000000008,
+        0.5850000000000001,
+        0.9600000000000001,
+        0.21000000000000008,
+        0.3350000000000001,
+        0.8350000000000001,
+        0.9600000000000001,
+        0.3350000000000001,
+        0.5850000000000001,
+        0.4600000000000001,
+        0.9600000000000001,
+        0.7100000000000001,
+        0.3350000000000001,
+        0.8350000000000001
+      ],
+      "margin": 0.6006250000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.359375,
+      "full_compute": 256.0,
+      "control_compute": 128.0
+    },
+    "alignment": {
+      "family": "cross_representation_isomorphisms",
+      "full_arm": "full_v4",
+      "control_arm": "surface_alignment",
+      "independent_units": 16,
+      "raw_effects": [
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001
+      ],
+      "margin": 0.9600000000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.0,
+      "full_compute": 256.0,
+      "control_compute": 128.0
+    },
+    "explanation": {
+      "family": "mechanism_diagnosis",
+      "full_arm": "full_v4",
+      "control_arm": "semantic_retrieval_control",
+      "independent_units": 16,
+      "raw_effects": [
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001
+      ],
+      "margin": 0.9600000000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.0,
+      "full_compute": 256.0,
+      "control_compute": 128.0
+    },
+    "inquiry": {
+      "family": "structural_scientific_inquiry",
+      "full_arm": "full_v4",
+      "control_arm": "simple_structural_inquiry",
+      "independent_units": 16,
+      "raw_effects": [
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001
+      ],
+      "margin": 0.9600000000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.0,
+      "full_compute": 256.0,
+      "control_compute": 128.0
+    },
+    "world": {
+      "family": "causal_systems",
+      "full_arm": "full_v4",
+      "control_arm": "no_world_model",
+      "independent_units": 16,
+      "raw_effects": [
+        0.7100000000000001,
+        0.5850000000000001,
+        0.7100000000000001,
+        0.3350000000000001,
+        0.4600000000000001,
+        0.9600000000000001,
+        0.4600000000000001,
+        0.4600000000000001,
+        0.5850000000000001,
+        0.8350000000000001,
+        0.7100000000000001,
+        0.5850000000000001,
+        0.7100000000000001,
+        0.8350000000000001,
+        0.8350000000000001,
+        0.4600000000000001
+      ],
+      "margin": 0.6396875000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.3203125,
+      "full_compute": 256.0,
+      "control_compute": 128.0
+    },
+    "self": {
+      "family": "structural_scientific_inquiry",
+      "full_arm": "full_v4",
+      "control_arm": "no_self_model",
+      "independent_units": 16,
+      "raw_effects": [
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001,
+        0.9600000000000001
+      ],
+      "margin": 0.9600000000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.0,
+      "full_compute": 256.0,
+      "control_compute": 128.0
+    },
+    "revision": {
+      "family": "ontology_structure_conflict",
+      "full_arm": "full_v4",
+      "control_arm": "static_structural_model",
+      "independent_units": 16,
+      "raw_effects": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "margin": 1.0,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.0,
+      "full_compute": 256.0,
+      "control_compute": 256.0
+    },
+    "compute": {
+      "family": "cross_representation_isomorphisms",
+      "full_arm": "full_v4",
+      "control_arm": "more_compute",
+      "independent_units": 16,
+      "raw_effects": [
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001,
+        1.1600000000000001
+      ],
+      "margin": 1.1600000000000001,
+      "full_accuracy": 1.0,
+      "control_accuracy": 0.0,
+      "full_compute": 256.0,
+      "control_compute": 768.0
+    }
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "db1d761fe632569cc0b222fe4f1973612970ef34f954700d7d9b1cababac197a"
+}

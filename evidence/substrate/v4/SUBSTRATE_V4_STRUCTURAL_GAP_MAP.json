@@ -1,0 +1,25 @@
+{
+  "schema": "substrate-v4-structural-gap-map/v1",
+  "gaps": {
+    "executable_state": "learn causal transition laws from verified interventions",
+    "shared_consumer": "prediction, intervention, counterfactual, explanation, and alignment consume one model",
+    "representation_alignment": "infer surface mappings from structural constraints without shared identifiers",
+    "history_individuation": "verified causal histories change held-out specialization",
+    "checkpoint": "hash and restore every model, alternative, mapping, revision, and validation receipt"
+  },
+  "v3_capabilities_to_preserve": [
+    "ontology revision",
+    "epistemic organization",
+    "reasoning selection",
+    "inquiry",
+    "self model",
+    "world model",
+    "developmental transfer",
+    "identity continuity"
+  ],
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "be0144d22dc3901d3c8521cf6cb079b7c9c45c22a7dfbabceb4f6ed6067a4e74"
+}

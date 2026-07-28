@@ -1,0 +1,113 @@
+{
+  "schema": "substrate-v4-workload-catalog/v1",
+  "families": {
+    "causal_systems": {
+      "queries": [
+        "intervention",
+        "prediction"
+      ],
+      "latent": "asymmetric seven-variable causal tree with confounded observations",
+      "controls": [
+        "correlation_only_model",
+        "semantic_retrieval_control",
+        "more_compute"
+      ]
+    },
+    "dynamic_transition_systems": {
+      "queries": [
+        "prediction",
+        "scope"
+      ],
+      "latent": "typed transitions, boundary conditions, invariants, exceptions, and delayed effects",
+      "controls": [
+        "static_structural_model",
+        "semantic_retrieval_control",
+        "more_compute"
+      ]
+    },
+    "cross_representation_isomorphisms": {
+      "queries": [
+        "alignment",
+        "intervention"
+      ],
+      "latent": "one causal system under independently randomized surfaces",
+      "controls": [
+        "no_alignment",
+        "surface_alignment",
+        "semantic_retrieval_control",
+        "more_compute"
+      ]
+    },
+    "mechanism_diagnosis": {
+      "queries": [
+        "diagnosis",
+        "explanation"
+      ],
+      "latent": "hidden failure source and executable causal path",
+      "controls": [
+        "semantic_retrieval_control",
+        "correlation_only_model",
+        "more_compute"
+      ]
+    },
+    "counterfactual_planning": {
+      "queries": [
+        "counterfactual"
+      ],
+      "latent": "single declared change with preserved background structure",
+      "controls": [
+        "no_counterfactual",
+        "surface_alignment",
+        "more_compute"
+      ]
+    },
+    "structural_scientific_inquiry": {
+      "queries": [
+        "inquiry"
+      ],
+      "latent": "candidate causal directions separated by differently costly interventions",
+      "controls": [
+        "simple_structural_inquiry",
+        "more_compute"
+      ]
+    },
+    "ontology_structure_conflict": {
+      "queries": [
+        "prediction",
+        "scope"
+      ],
+      "latent": "verified structural exception requiring bounded revision",
+      "controls": [
+        "static_structural_model",
+        "semantic_retrieval_control"
+      ]
+    },
+    "integrated_interrupted_development": {
+      "queries": [
+        "alignment",
+        "counterfactual",
+        "explanation"
+      ],
+      "latent": "domain return, interruption, body and tool change, and conflicting histories",
+      "controls": [
+        "fresh_reset",
+        "transcript_replay",
+        "v3_reflective_control"
+      ]
+    }
+  },
+  "representations": [
+    "symbolic_rules",
+    "event_sequences",
+    "relation_tables",
+    "graph_adjacency",
+    "structured_language",
+    "tool_state"
+  ],
+  "family_count": 8,
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "fd2c968c48ec1b2765e842978206648823aba23236a7c9a41b87bafe8849139c"
+}

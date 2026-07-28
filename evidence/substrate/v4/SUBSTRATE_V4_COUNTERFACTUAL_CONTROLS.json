@@ -1,0 +1,15 @@
+{
+  "schema": "substrate-v4-counterfactual-controls/v1",
+  "controls": [
+    "surface substitution",
+    "full state resampling",
+    "memorized alternate",
+    "wrong causal model",
+    "oracle"
+  ],
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "4988daf8ee60a781731bf0e3b1dc01163956fdd8e4c19b7ca1a7a1224e17f5b3"
+}

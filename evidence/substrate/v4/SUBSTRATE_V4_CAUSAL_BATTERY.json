@@ -1,0 +1,46 @@
+{
+  "schema": "substrate-v4-causal-battery/v1",
+  "systems": [
+    "common cause",
+    "causal chain",
+    "causal fork",
+    "collider",
+    "confounding",
+    "reversed direction",
+    "noncausal correlation"
+  ],
+  "effect": {
+    "family": "causal_systems",
+    "full_arm": "full_v4",
+    "control_arm": "correlation_only_model",
+    "independent_units": 16,
+    "raw_effects": [
+      0.7100000000000001,
+      0.5850000000000001,
+      0.7100000000000001,
+      0.3350000000000001,
+      0.4600000000000001,
+      0.9600000000000001,
+      0.4600000000000001,
+      0.4600000000000001,
+      0.5850000000000001,
+      0.8350000000000001,
+      0.7100000000000001,
+      0.5850000000000001,
+      0.7100000000000001,
+      0.8350000000000001,
+      0.8350000000000001,
+      0.4600000000000001
+    ],
+    "margin": 0.6396875000000001,
+    "full_accuracy": 1.0,
+    "control_accuracy": 0.3203125,
+    "full_compute": 256.0,
+    "control_compute": 128.0
+  },
+  "activation": false,
+  "program": "substrate-v4",
+  "source_commit": "9ed712b585a22b5150d0d375cffd83954a188d7e",
+  "source_digest": "5b3b64900fac913233fec2fac26bdb1b6696320aa035dcf302742fd9bb897f8c",
+  "sha256": "1c5afe0f0a6197bc8f583613e0e11155c0022a873d772973a4dfc09789715c0b"
+}
