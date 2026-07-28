@@ -51,5 +51,10 @@ bounded learning state, and all receipts. Transient model context is excluded.
 All locally implemented tournament prototypes conformed to the same contracts
 and tied on the bounded fixture. Candidate I had the lowest declared complexity
 while adding deterministic replay and auditable receipts to the persistent
-organization already shown by S2. Candidate H remains ineligible until genuine
-Grok-original proposals are returned and tested.
+organization already shown by S2. Candidate H was admitted: four independent
+Grok cells returned original proposals, cross-examination selected the
+Intervention-Indexed Dual-Timeline Causal Ledger, and it was implemented as
+`H_causal_temporal_ledger` and entered in the bounded tournament, where it tied
+the field at greater declared complexity. The selection is an engineering
+default under a behavioral tie and a mechanism null, not positive architectural
+evidence.
