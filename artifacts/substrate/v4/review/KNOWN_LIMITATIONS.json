@@ -1,0 +1,11 @@
+{
+  "activation": false,
+  "limitations": [
+    "Evidence is limited to deterministic, sandboxed, generated structural micro-worlds.",
+    "The candidate ladders and causal graph families are deliberately bounded.",
+    "The result does not establish consciousness, sentience, personhood, life, or moral status.",
+    "The maximum automatic classification is readiness for independent Nous review.",
+    "External activation remains false and no uncontrolled external action is licensed."
+  ],
+  "schema": "substrate-v4-known-limitations/v1"
+}

@@ -1,61 +1,42 @@
-# Terminal deterministic synthesis plan
+# Substrate v4 structural-development campaign
 
-This is the sole human-readable plan for the 19-unit terminal deterministic synthesis. It preserves the
-frozen scientific meaning and stops at the launch boundary. The synthesis performs zero new scientific
-trials; it verifies, recomputes, mutates, regenerates, and packages already admitted evidence.
+The v4 campaign is terminal. This document records the executed design rather than a pending roadmap.
 
-## Admission boundary
+## Frozen design
 
-Launch is permitted only when:
+- 48 principal histories, 12 independent replication histories, and 12 generator-held-out open-world
+  histories.
+- Eight structural workload families and six independently randomized representation families.
+- Four bounded candidate ladders covering model induction, alignment, revision, and inquiry.
+- Fourteen principal arms plus focused replication and open-world controls.
+- Seventeen developmental phases per work unit.
+- 2,136 scientific units and 181,560 episodes.
+- The independent developmental history is the statistical unit.
+- SESOI `0.05`, paired effects, 95% bootstrap confidence intervals, exact sign tests, and Holm correction.
 
-- the repository and normalized configuration hashes match the sealed authority;
-- activation is false;
-- the structural audit, scientific certification, mutation suite, rehearsal, and clean-clone checks pass;
-- no prior synthesis receipt, duplicate supervisor, stale lock, source drift, or configuration drift exists;
-- the operator explicitly invokes `substrate run`.
+## Developmental sequence
 
-Verification and regeneration never invoke that command.
+Each principal history covered cold baseline, observational acquisition, competing hypotheses,
+discriminating inquiry, causal intervention, model revision, cross-representation encounter,
+counterfactual challenge, structural explanation, conflicting history, interruption and exact restore,
+body/tool change, domain return, negative-alignment trap, specialization, held-out systems, and terminal
+integration.
 
-## Work graph
+## Execution and recovery
 
-The 19 units are declared in `substrate.execution.UNIT_LIST`. The graph covers structural audit,
-declarations, temporal control, ontology and epistemology, memory, diversity arbitration, world model,
-self model, three bodies and their comparison, plasticity, developmental divergence, entity batteries,
-certification, independent recomputation, mutations, and terminal synthesis.
+The ready tag froze source, configuration, dependencies, workloads, generators, latent systems,
+representations, splits, seeds, mechanisms, controls, budgets, statistics, DAG, and claim boundary.
+Workers wrote unit-local staging; the supervisor validated and atomically published receipts and compact
+checkpoints. Completed units were resumable and source/configuration drift failed closed.
 
-Each unit has one producer and one receipt. A unit becomes ready only when all dependency receipts are
-valid. Completion means every unit is terminal; it is not a duration target.
+The campaign completed with four workers in 65.03 seconds, zero failed units, exact checkpoint and body
+continuity, and activation `false`.
 
-## Determinism and recovery
+## Terminal result
 
-- Configuration is read once and content-hashed.
-- Inputs and manifests are stably sorted.
-- Evidence is content-addressed and written atomically.
-- Unit receipts are append-only at scientific work-unit boundaries.
-- Exclusive claim files prevent duplicate workers.
-- Resume adopts valid completed receipts and does not recompute them.
-- Source or configuration drift refuses execution.
-- Verification is batched after dependency-complete families.
-- Logs and indexes are bounded by work-unit identity.
+All ten principal hypotheses passed. The open-world effect passed. Independent replication was positive
+in sign but below the frozen SESOI, so it is a mechanism null and caps the classification at
+`functional_proto_nous_candidate`.
 
-## Resource policy
-
-The synthesis is CPU-only on the current machine. Measurements select one persistent worker with one native
-thread. Two workers improved on that baseline by only 7.6 percent, below the declared 15 percent materiality
-threshold, while larger pools raised memory and variance.
-
-The generated authority `SUBSTRATE_LONG_RUN_RESOURCE_PLAN.json` records unit count, projected CPU time,
-peak memory, disk growth, write amplification, checkpoint cost, restart loss, verification overhead,
-mutation overhead, rehearsal cost, and the terminal range.
-
-## Commands
-
-```bash
-substrate verify
-substrate rehearse
-substrate status
-substrate run
-```
-
-The Execution Forge campaign must not run the last command. It prepares and certifies the boundary, then
-stops. That command launches terminal synthesis, not a new scientific experiment.
+The terminal package preserves the null, all raw receipts, every mutation result, clean-clone
+reproduction, the claim boundary, and the strongest falsification evidence.
