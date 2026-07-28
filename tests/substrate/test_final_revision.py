@@ -47,6 +47,19 @@ def test_preflight_preserves_historical_closure_null() -> None:
     assert not report["grok"]["minimum_complete"]
 
 
+def test_preflight_accepts_detached_ci_without_local_main(monkeypatch: pytest.MonkeyPatch) -> None:
+    original = campaign.io.ref_or_none
+
+    def detached(ref: str, *, peel: bool = False) -> str | None:
+        return None if ref == "main" else original(ref, peel=peel)
+
+    monkeypatch.setattr(campaign.io, "ref_or_none", detached)
+    report = campaign.preflight(publish=False)
+    assert report["all_pass"], report["preflight"]["failed"]
+    assert report["preflight"]["checks"]["local_main_absent_or_matches_orientation"]
+    assert report["preflight"]["checks"]["remote_main_matches_orientation"]
+
+
 def test_event_kernel_covers_contracts_and_restores_exactly() -> None:
     prototype = ArchitecturePrototype("I_simplest_sufficient", "entity-test")
     fixture = developmental_fixture(prototype)
