@@ -1,0 +1,23 @@
+{
+  "activation": false,
+  "actual_digest": "ee885f982bed9bec1bbec5bfb7e774eef79104ff6dbd19f25b4c884bcffe5496",
+  "all_pass": true,
+  "clean_install_returncode": 0,
+  "clean_install_stderr_tail": "",
+  "clone_succeeded": true,
+  "exact_reproduction": true,
+  "expected_digest": "ee885f982bed9bec1bbec5bfb7e774eef79104ff6dbd19f25b4c884bcffe5496",
+  "format_returncode": 0,
+  "format_stdout_tail": "13 files already formatted\n",
+  "lint_returncode": 0,
+  "lint_stdout_tail": "All checks passed!\n",
+  "normalized_double_regeneration_exact": true,
+  "ready_commit": "3eec1611e4f887d3955c6f41604dcceeccbe0f81",
+  "reproduction_returncode": 0,
+  "schema": "substrate-v4-clean-clone/v1",
+  "second_digest": "ee885f982bed9bec1bbec5bfb7e774eef79104ff6dbd19f25b4c884bcffe5496",
+  "second_reproduction_returncode": 0,
+  "tests_returncode": 0,
+  "tests_stderr_tail": "",
+  "tests_stdout_tail": "........................................................................ [ 23%]\n........................................................................ [ 46%]\n........................................................................ [ 70%]\n........................................................................ [ 93%]\n...................                                                      [100%]\n"
+}
