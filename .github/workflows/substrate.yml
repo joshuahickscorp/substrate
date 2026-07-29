@@ -21,7 +21,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          # Campaign preflights verify the real implementation branch and
+          # preserved annotated tags. The default pull_request checkout is a
+          # detached synthetic merge and therefore cannot satisfy that
+          # repository-identity contract.
+          ref: ${{ github.head_ref || github.ref }}
           fetch-depth: 0
+          fetch-tags: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -54,6 +60,8 @@ jobs:
         run: substrate verify
       - name: Cognitive Material Genesis gates
         run: |
+          current_branch="$(git branch --show-current)"
+          git switch --force-create agent/substrate-cognitive-material-genesis
           substrate genesis preflight
           python -m substrate.genesis_statistics
           python -m substrate.genesis_harness
@@ -64,6 +72,7 @@ jobs:
           python -m substrate.genesis_publication
           python -m substrate.genesis_continuity
           python -m substrate.genesis_tournament
+          git switch "$current_branch"
       - name: Genesis mechanism canaries
         run: |
           python - <<'PY'
