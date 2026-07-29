@@ -25,6 +25,55 @@ was killed at ~1h54m into segment 0; its orphaned child and empty run root were
 cleared, and the lane was restarted clean at 14:45 rather than resumed, to keep
 receipt provenance single-sourced.
 
+## If the run dies overnight
+
+The lane is resumable and the receipts are the state. Recovery is one command
+from the worktree, not a restart:
+
+```
+cd /private/tmp/substrate-fr-ready-afeb
+SUBSTRATE_FINAL_REVISION_CONTINUITY_SECONDS=43200 nohup .venv/bin/substrate final-revision run \
+  > <scratchpad>/runlogs/run.log 2> <scratchpad>/runlogs/run.err < /dev/null &
+```
+
+`_continuity_lane` skips any segment whose receipt already exists, so it picks
+up at the first missing one. The three decisive beds re-execute (~21 min wall,
+they run in parallel threads) and reproduce byte-identically apart from
+`runtime_seconds` — that has already been demonstrated once, see
+`independent_rerun_check.json`. Do **not** hand-write a missing receipt; run the
+segment.
+
+Before trusting any receipt, run the consistency verifier:
+
+```
+.venv/bin/python runs/substrate/final_revision/continuity_receipt_consistency.py \
+  /private/tmp/substrate-fr-ready-afeb/runs/substrate/final_revision/continuity/e2bee8b55a12d514
+```
+
+It cross-checks declared duration against the file's own mtime and
+`process_started_unix`, consolidation cadence against duration, iteration
+throughput against a plausible SHA-256 band, the checkpoint chain across
+segments, and non-overlapping monotonic start times. Segment 0 passes all of
+them: declared 14400.0s, observed wall 14400.0s, 239/240 consolidations,
+577,506 iterations per second, constructs rather than restores.
+
+## Overnight watch design
+
+Two detector bugs were found and fixed in the watch itself; do not reintroduce
+them.
+
+- `pgrep -f final_revision_continuity` matches the watching shell, because the
+  pattern appears in the watch script's own text. The stall detector built on it
+  could never fire. Liveness now uses `kill -0 <orchestrator pid>`, and the
+  segment child is found with `pgrep -P <orchestrator pid>` — a parent-child
+  relationship cannot self-match.
+- A watch that only greps for success markers stays silent through a wedge. The
+  current watch emits on segment receipts, the result document, campaign
+  completion, campaign stderr, orchestrator death, no-segment-child for four
+  consecutive checks, segment CPU time unchanged across three checks, a stall
+  threshold of 17400s, and a 30-minute heartbeat carrying segments-done and the
+  child's cumulative CPU time. Silence is therefore never ambiguous.
+
 ## Do not
 
 - Do not `kill` 79107 or 79173. The lane resumes from segment receipts, but the
