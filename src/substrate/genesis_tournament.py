@@ -10,9 +10,10 @@ capacity alone is visible and cannot be mistaken for development.
 Equal budgets are not equal spend. An arm may legitimately be more efficient
 inside its budget, but a win bought by spending several times more compute than
 the comparator is a compute artefact until proven otherwise. The tournament
-measures utilisation, and when the winner outspends its comparator beyond
-tolerance it reports the win as requiring a compute-matched rerun rather than
-quietly accepting it.
+measures utilisation, and when a winning candidate outspends its comparator
+beyond tolerance it reports the win as requiring a compute-matched rerun rather
+than quietly accepting it. A candidate that outspends and still loses needs no
+such defence.
 """
 
 from __future__ import annotations
@@ -247,7 +248,14 @@ def summarise(result: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def compute_utilisation(result: Mapping[str, Any], summary: Mapping[str, Any], *, candidate: str, comparator: str) -> dict[str, Any]:
+def compute_utilisation(
+    result: Mapping[str, Any],
+    summary: Mapping[str, Any],
+    *,
+    candidate: str,
+    comparator: str,
+    candidate_won: bool | None = None,
+) -> dict[str, Any]:
     """Is the win explained by the winner simply spending more compute?
 
     Equal budgets do not make equal spend. Efficiency inside a shared budget is
@@ -261,6 +269,11 @@ def compute_utilisation(result: Mapping[str, Any], summary: Mapping[str, Any], *
     within_tolerance = abs(candidate_compute - comparator_compute) <= C.PARITY_RELATIVE_TOLERANCE * max(
         candidate_compute, comparator_compute, 1.0
     )
+    outspends = ratio > 1.0 + C.PARITY_RELATIVE_TOLERANCE
+    if candidate_won is None:
+        candidate_won = float(summary["summaries"][candidate]["mean_score"]) > float(
+            summary["summaries"][comparator]["mean_score"]
+        )
     return {
         "candidate": candidate,
         "comparator": comparator,
@@ -268,7 +281,12 @@ def compute_utilisation(result: Mapping[str, Any], summary: Mapping[str, Any], *
         "comparator_mean_compute": comparator_compute,
         "ratio": ratio,
         "within_tolerance": within_tolerance,
-        "compute_matched_rerun_required": ratio > 1.0 + C.PARITY_RELATIVE_TOLERANCE,
+        "candidate_outspends_comparator": outspends,
+        "candidate_won": candidate_won,
+        # A rerun defends against a win bought by outspending. A candidate that
+        # outspends and still loses needs no defence: the extra spend bought it
+        # nothing, and matching compute could only lower its score further.
+        "compute_matched_rerun_required": outspends and candidate_won,
         "budget": result["operation_budget"],
         "activation": False,
     }
@@ -343,7 +361,12 @@ def demo() -> None:
 
     utilisation = compute_utilisation(result, summary, candidate="K1_monolithic_plastic_field", comparator=C.CANONICAL_S2_ID)
     assert utilisation["ratio"] > 1.0, utilisation
-    assert utilisation["compute_matched_rerun_required"], utilisation
+    # Outspending without winning needs no rerun; outspending and winning does.
+    assert not utilisation["compute_matched_rerun_required"], utilisation
+    winning = compute_utilisation(
+        result, summary, candidate="K1_monolithic_plastic_field", comparator=C.CANONICAL_S2_ID, candidate_won=True
+    )
+    assert winning["compute_matched_rerun_required"], winning
 
     try:
         run(arms=arms, families=families[:4], histories=histories, provider=provider)
