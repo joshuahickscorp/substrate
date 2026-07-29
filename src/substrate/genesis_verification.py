@@ -9,6 +9,7 @@ reached the same answer rather than one path being called twice.
 from __future__ import annotations
 
 import math
+import os
 import subprocess
 import sys
 import tempfile
@@ -144,8 +145,13 @@ def clean_clone(*, reference: str = "HEAD", keep: bool = False) -> dict[str, Any
     clone = root / "substrate"
     steps: list[dict[str, Any]] = []
 
+    # Installed into site-packages, the historical modules resolve the
+    # repository root from their own file location and land inside the venv.
+    # The repository's CI already pins this variable for the same reason.
+    environment = {**os.environ, "SUBSTRATE_REPOSITORY_ROOT": str(clone)}
+
     def step(name: str, command: Sequence[str], cwd: Path) -> bool:
-        result = subprocess.run(list(command), cwd=cwd, capture_output=True, text=True, check=False)
+        result = subprocess.run(list(command), cwd=cwd, capture_output=True, text=True, check=False, env=environment)
         steps.append(
             {
                 "step": name,
