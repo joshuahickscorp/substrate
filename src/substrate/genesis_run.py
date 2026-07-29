@@ -24,6 +24,23 @@ DEFAULT_OPERATION_BUDGET = 8_000_000
 DEFAULT_DURABLE_WRITE_BUDGET = 8_192
 
 
+#: Sensitivity-analysis override for the per-cycle proposal cap. It exists so
+#: an attempt-matched rerun can be produced without editing a frozen module.
+#: Any run with this set is a sensitivity analysis and must be published as
+#: one; it is never the principal result.
+PROPOSAL_CAP_ENVIRONMENT_KEY = "GENESIS_PROPOSALS_PER_CYCLE"
+
+
+def proposal_cap_override() -> int | None:
+    raw = os.environ.get(PROPOSAL_CAP_ENVIRONMENT_KEY)
+    if not raw:
+        return None
+    value = int(raw)
+    if value < 1:
+        raise ValueError(f"{PROPOSAL_CAP_ENVIRONMENT_KEY} must be at least 1")
+    return value
+
+
 def _load_materials() -> None:
     """Import every module that registers a material."""
     import substrate.genesis_controls  # noqa: F401
@@ -31,6 +48,17 @@ def _load_materials() -> None:
     import substrate.genesis_k_basic  # noqa: F401
     import substrate.genesis_k_structural  # noqa: F401
     import substrate.genesis_reference  # noqa: F401
+
+    override = proposal_cap_override()
+    if override is None:
+        return
+    import substrate.genesis_k_advanced as advanced
+    import substrate.genesis_k_basic as basic
+    import substrate.genesis_k_structural as structural
+
+    for module in (basic, structural, advanced):
+        if hasattr(module, "PROPOSALS_PER_CYCLE"):
+            module.PROPOSALS_PER_CYCLE = override
 
 
 def _cell(job: tuple[str, int, str, str, tuple[str, ...], str, int, int]) -> list[dict[str, Any]]:
