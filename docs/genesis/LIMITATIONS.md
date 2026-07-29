@@ -109,14 +109,27 @@ not literally compute-matched. The tournament reports the utilisation ratio and
 flags a win bought by outspending the comparator as requiring a compute-matched
 rerun.
 
-## The memory-envelope frontier is not discriminating at this scale
+## The memory-envelope frontier measured nothing, and the numbers say why
 
-The materials are small. Every arm fits comfortably inside the 512 MB envelope,
-so the capability-density frontier across 512 MB to unconstrained is close to
-flat and answers almost nothing about capability density. The reported
-footprint is the material's own measured packed state, not process resident
-memory; process RSS is measured only around whole runs and is dominated by the
-interpreter.
+Stage 4 ran all fourteen families at all six envelopes. Every arm scored
+**identically at 512 MB and at unconstrained** — not approximately, exactly, to
+the last digit, at every envelope. The frontier is a flat line.
+
+The reason is in the footprints. The largest material state observed was
+141,827 bytes against a smallest envelope of 536,870,912 bytes: **0.026% of the
+budget**. K6's entire durable state is 54 bytes; K8's is 108. The strongest
+control, at 87,858 bytes, is the heaviest thing in the tournament and still
+four orders of magnitude below the tightest constraint.
+
+The envelope never binds, so no capability-density question is being answered.
+The sixty-six exhausted cells at every envelope are *operation*-budget
+exhaustions, identical across envelopes because that budget is constant.
+
+This is published as a flat frontier rather than dressed up as a Pareto result.
+A meaningful capability-density study needs materials three to four orders of
+magnitude larger than these, or envelopes small enough to bite. The reported
+footprint is in any case the material's own packed state, not process resident
+memory.
 
 ## Continuous time is thin
 
