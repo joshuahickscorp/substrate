@@ -20,10 +20,10 @@ from substrate.final_revision_io import (
     file_digest,
     git,
     ref_or_none,
-    write_json,
     write_text,
 )
 from substrate.final_revision_io import load_json as _load_json
+from substrate.final_revision_io import write_json as _write_json
 
 __all__ = [
     "ARTIFACTS",
@@ -82,6 +82,18 @@ def authority(schema: str, payload: dict[str, Any], *, status: str = "implemente
     body.pop("sha256", None)
     body["sha256"] = digest(body)
     return body
+
+
+def write_json(path: Path, value: dict[str, Any]) -> Path:
+    """Refuse to write an artefact that enables activation.
+
+    The inherited writer only guards the read path, so a document that set an
+    activation key true would land on disk and be caught later, if at all.
+    Guarding the write means it never lands.
+    """
+    if contains_true_activation(value):
+        raise Refused(f"refusing to write {path}: the document enables activation")
+    return _write_json(path, value)
 
 
 def load_json(path: Path) -> dict[str, Any]:
