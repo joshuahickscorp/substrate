@@ -121,7 +121,12 @@ def counterfeit_report(rows: Sequence[Mapping[str, Any]], *, selected: str) -> d
             "ran": True,
             "score": score,
             "selected_score": selected_score,
-            "rejected": score <= selected_score,
+            # A tie is not a rejection. If the selected material only matches a
+            # counterfeit it has not distinguished itself from one, and reading
+            # equality as success would be the most flattering possible
+            # interpretation of the least informative possible result.
+            "rejected": score < selected_score,
+            "tied": score == selected_score,
         }
     surviving = sorted(arm for arm, row in findings.items() if not row["rejected"])
     return {
