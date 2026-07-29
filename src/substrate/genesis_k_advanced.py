@@ -825,6 +825,12 @@ class K11_interference_gated_sparse_fiber_field(MaterialBase):
         if proposal.precision_request:
             fiber.precision = proposal.precision_request
             self._precision_map["payloads"] = proposal.precision_request
+            # A demotion narrows the alphabet. Values written while the fiber
+            # was wider would then sit outside it and refuse to pack, so the
+            # payload is re-clamped at the moment the precision changes rather
+            # than at the moment it is serialized.
+            narrowed = PAYLOAD_ALPHABETS.get(fiber.precision, QUINARY)
+            fiber.payload = [_clamp_to_alphabet(int(value), narrowed) for value in fiber.payload]
         if proposal.topology_operation == "FiberSplit":
             self._fiber_split(target_id)
         elif proposal.topology_operation == "FiberFuse" and len(self._active_ids) >= 2:
