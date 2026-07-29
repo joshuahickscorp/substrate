@@ -1113,9 +1113,14 @@ def checkpoint_covers_everything() -> dict[str, Any]:
             refused = True
         strip_results[facet] = refused
 
+    # Assert against the constitution rather than a literal count. The count was
+    # 23 until an instrument was registered alongside the materials, at which
+    # point a hardcoded number failed for a reason that had nothing to do with
+    # checkpoint coverage.
+    declared = set(C.CANDIDATES) | set(C.BASELINES) | set(C.CONTROLS)
     checks = {
         "all_materials_round_trip": all(round_trips.values()) and len(round_trips) == len(names),
-        "registered_count_is_twenty_three": len(names) == 23,
+        "every_declared_material_registered": declared <= set(names),
         "strip_topology_refused": strip_results.get("topology", False),
         "strip_compiled_procedures_refused": strip_results.get("compiled_procedures", False),
         "strip_precision_map_refused": strip_results.get("precision_map", False),
