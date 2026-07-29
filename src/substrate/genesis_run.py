@@ -132,6 +132,80 @@ def run_split(
     }
 
 
+def _composed_cell(job: tuple[str, str, int, str, tuple[str, ...], str, int, int]) -> list[dict[str, Any]]:
+    left, right, history_id, seed_namespace, arms, envelope, operation_budget, durable_write_budget = job
+    _load_materials()
+    unit = HI.build_composed_history(left=left, right=right, history_id=history_id, seed_namespace=seed_namespace)
+    factories = T._factories(list(arms), unit)
+    result = H.run_history(
+        history_id=history_id,
+        family=unit.family,
+        arms=factories,
+        observations=unit.observations,
+        alternative_observations=unit.alternative_observations,
+        probes=unit.probes,
+        judge=unit.judge,
+        envelope=envelope,
+        operation_budget=operation_budget,
+        durable_write_budget=durable_write_budget,
+    )
+    probe_count = len(unit.probes.development) + len(unit.probes.retention) + len(unit.probes.scoring)
+    return [
+        {
+            "family": unit.family,
+            "history_id": history_id,
+            "split": "hidden_composition",
+            "arm": arm,
+            "score": arm_run.score,
+            "retention_score": arm_run.retention_score,
+            "development_score": arm_run.development_score,
+            "committed": sum(1 for receipt in arm_run.receipts if receipt.committed),
+            "refused": sum(1 for receipt in arm_run.receipts if not receipt.committed),
+            "compute": arm_run.cost.get("compute", 0),
+            "peak_bytes": arm_run.peak_resident_bytes,
+            "exhausted": arm_run.exhausted,
+            "mechanism": arm_run.mechanism,
+            "probe_count": probe_count,
+        }
+        for arm, arm_run in result["runs"].items()
+    ]
+
+
+def run_composed_split(
+    *,
+    arms: Sequence[str],
+    pairs: Sequence[tuple[str, str]],
+    histories: Sequence[int],
+    seed_namespace: str,
+    envelope: str = DEFAULT_ENVELOPE,
+    operation_budget: int = DEFAULT_OPERATION_BUDGET,
+    durable_write_budget: int = DEFAULT_DURABLE_WRITE_BUDGET,
+    workers: int | None = None,
+) -> dict[str, Any]:
+    """The hidden-composition split: two interleaved families per history."""
+    workers = workers or max(1, min(6, (os.cpu_count() or 4) - 2))
+    jobs = [
+        (left, right, history_id, seed_namespace, tuple(arms), envelope, operation_budget, durable_write_budget)
+        for left, right in pairs
+        for history_id in histories
+    ]
+    rows: list[dict[str, Any]] = []
+    with ProcessPoolExecutor(max_workers=workers) as pool:
+        for produced in pool.map(_composed_cell, jobs, chunksize=1):
+            rows.extend(produced)
+    return {
+        "rows": rows,
+        "arms": list(arms),
+        "pairs": [list(pair) for pair in pairs],
+        "histories": list(histories),
+        "split": "hidden_composition",
+        "seed_namespace": seed_namespace,
+        "episodes": sum(row["probe_count"] for row in rows),
+        "workers": workers,
+        "activation": False,
+    }
+
+
 def run_envelopes(
     *,
     arms: Sequence[str],
