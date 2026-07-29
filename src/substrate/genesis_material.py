@@ -359,7 +359,11 @@ class MaterialBase:
             )
             self.receipts.append(receipt)
             emitted.append(receipt)
-        self.pending.clear()
+            # Only the handled proposals are retired, so a caller may verify
+            # proposals one at a time: tentatively commit, measure, then keep
+            # or roll back. Clearing everything here would force a batch
+            # decision and make per-proposal improvement unattributable.
+            self.pending.pop(verdict.proposal_id, None)
         return tuple(emitted)
 
     def rollback(self, receipt: Receipt) -> None:
