@@ -1,0 +1,22 @@
+{
+ "schema": "substrate-final-revision-grok-resolution-batch/v1",
+ "resolution_commit": "3fb83993d8cf050b6a1b778b312ab09f2028829f",
+ "resolutions": [
+  {
+   "invocation_id": "fr-terminal-publication-boundary-86d-retry-20260728-133501",
+   "defect_digest": "d5811d3999d98920608e74b26de1080664fac3abb15c51519270db2e352a10d1",
+   "disposition": "superseded_by_later_evidence",
+   "rationale": "PLACEHOLDER \u2014 apply only after every outcome_b_checks entry in final_revision_campaign._terminal_documents evaluates true, including long_continuity_complete, mutation_zero_survivors, counterfeits_rejected, clean_clone, regeneration, independent_verification, readiness_package, and grok_no_unresolved_blocker. At HEAD 8105ad0e those checks fail; disposition is invalid until the named receipts exist with the required fields. When they do, cite the written FINAL_CLASSIFICATION.outcome_b_checks all-true (or equivalent recomputation) and the concrete receipt files, not this placeholder. The final classification document is deliberately not cited as evidence: it is written by publish(), which is itself gated on this blocker, so citing it would be circular. The gates are evidenced by the receipts publish() reads, not by its own output.",
+   "evidence_paths": [
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_LONG_CONTINUITY_RESULT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_MUTATION_REPORT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_COUNTERFEIT_REPORT.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_CLEAN_CLONE.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_REGENERATION.json",
+    "evidence/substrate/final_revision/SUBSTRATE_FINAL_REVISION_INDEPENDENT_VERIFICATION.json",
+    "artifacts/substrate/final_revision/REAL_WORLD_SANDBOX_READINESS_MANIFEST.json"
+   ]
+  }
+ ],
+ "activation": false
+}

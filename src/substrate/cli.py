@@ -40,6 +40,16 @@ def main(argv: list[str] | None = None) -> None:
 
         nous_closure.main(argv)
         return
+    if command == "final-revision":
+        from substrate import final_revision
+
+        final_revision.main(argv)
+        return
+    if command == "genesis":
+        from substrate import genesis
+
+        genesis.main(argv)
+        return
 
     if command == "test":
         raise SystemExit(subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode)

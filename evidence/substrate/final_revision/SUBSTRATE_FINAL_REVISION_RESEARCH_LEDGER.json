@@ -1,0 +1,199 @@
+{
+  "schema": "substrate-final-revision-research-ledger/v1",
+  "program": "substrate-final-revision",
+  "access_date": "2026-07-28",
+  "starting_closure_result": "terminal_closed_null",
+  "historical_result_mutated": false,
+  "source_policy": {
+    "primary_papers_preferred": true,
+    "official_repositories_preferred": true,
+    "source_fact_separated_from_inference": true,
+    "copyrighted_corpora_copied": false
+  },
+  "sources": [
+    {
+      "identity": "arXiv:2602.23193",
+      "title": "ESAA: Event Sourcing for Autonomous Agents in LLM-Based Software Engineering",
+      "url": "https://arxiv.org/abs/2602.23193",
+      "version": "arXiv record accessed 2026-07-28",
+      "license": "paper only; no artifact acquired",
+      "source_fact": "Reports append-only events, deterministic projections, replay verification, and two software-agent case studies.",
+      "substrate_inference": "Event sourcing is an auditable persistence mechanism, not evidence of cognition."
+    },
+    {
+      "identity": "arXiv:2312.00752",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "url": "https://arxiv.org/abs/2312.00752",
+      "version": "arXiv record accessed 2026-07-28",
+      "license": "paper only; no artifact acquired",
+      "source_fact": "Input-dependent state-space transitions give linear sequence scaling and strong sequence-model results.",
+      "substrate_inference": "A selective latent compressor is optional and cannot own authoritative identity without checkpoint and interpretation evidence."
+    },
+    {
+      "identity": "arXiv:1909.10893",
+      "title": "Recurrent Independent Mechanisms",
+      "url": "https://arxiv.org/abs/1909.10893",
+      "version": "arXiv v3 identified by source record",
+      "license": "paper only; no artifact acquired",
+      "source_fact": "Sparse communication between recurrent groups can improve generalization on factor-shift tasks.",
+      "substrate_inference": "Modularity remains an empirical candidate because S2 already matches the historical modular system."
+    },
+    {
+      "identity": "arXiv:1806.01242",
+      "title": "Graph Networks as Learnable Physics Engines",
+      "url": "https://arxiv.org/abs/1806.01242",
+      "version": "arXiv record accessed 2026-07-28",
+      "license": "paper only; no artifact acquired",
+      "source_fact": "Object-and-relation graph networks support prediction, system identification, and planning on physical systems.",
+      "substrate_inference": "An explicit graph is useful as a replaceable world-model projection, not necessarily the kernel."
+    },
+    {
+      "identity": "arXiv:2301.04104",
+      "title": "Mastering Diverse Domains through World Models",
+      "url": "https://arxiv.org/abs/2301.04104",
+      "version": "DreamerV3 paper; official repository accessed 2026-07-28",
+      "license": "official danijar/dreamerv3 repository reports MIT",
+      "source_fact": "A learned world model, actor, and critic solve a broad suite of control tasks with a common configuration.",
+      "substrate_inference": "World-model value must be tested independently of persistence and identity."
+    },
+    {
+      "identity": "arXiv:2007.00487",
+      "title": "Continual Learning with Replay Processes",
+      "url": "https://arxiv.org/abs/2007.00487",
+      "version": "arXiv record accessed 2026-07-28",
+      "license": "paper only; no artifact acquired",
+      "source_fact": "Rehearsal and generative replay trade current-task learning against retention.",
+      "substrate_inference": "Updates require quarantine, held-out improvement, retention measurement, poisoning checks, and rollback."
+    },
+    {
+      "identity": "arXiv:2202.09368",
+      "title": "Mixture-of-Experts with Expert Choice Routing",
+      "url": "https://arxiv.org/abs/2202.09368",
+      "version": "arXiv record accessed 2026-07-28",
+      "license": "paper only; no artifact acquired",
+      "source_fact": "Expert-choice routing improves load balance and convergence under matched compute in reported MoE experiments.",
+      "substrate_inference": "Model routing is a bounded optimization policy, not a source of persistent identity."
+    },
+    {
+      "identity": "arXiv:2601.01885",
+      "title": "Agentic Memory",
+      "url": "https://arxiv.org/abs/2601.01885",
+      "version": "arXiv record accessed 2026-07-28",
+      "license": "paper only; no artifact acquired",
+      "source_fact": "Exposes long- and short-term memory operations as learned policy actions on long-horizon agent benchmarks.",
+      "substrate_inference": "Explicit memory actions are useful contracts, but learning the policy is deferred until leakage-resistant tasks exist."
+    },
+    {
+      "identity": "arXiv:2506.09985",
+      "title": "V-JEPA 2",
+      "url": "https://arxiv.org/abs/2506.09985",
+      "version": "official facebookresearch/vjepa2 main accessed 2026-07-28",
+      "license": "official repository reports MIT and Apache-2.0 components",
+      "source_fact": "Reports video understanding, prediction, and bounded action-conditioned robot planning.",
+      "substrate_inference": "A checkpoint may become a video/world-model organ after a standalone benchmark; it cannot replace owned state."
+    },
+    {
+      "identity": "facebookresearch/dinov2",
+      "title": "DINOv2 model card",
+      "url": "https://github.com/facebookresearch/dinov2/blob/main/MODEL_CARD.md",
+      "version": "main accessed 2026-07-28",
+      "license": "Apache-2.0 reported by official model card",
+      "source_fact": "Visual representations transfer to tasks including segmentation and depth estimation.",
+      "substrate_inference": "Image features require object, event, and decision-level tests before admission."
+    },
+    {
+      "identity": "arXiv:2408.00714",
+      "title": "SAM 2",
+      "url": "https://arxiv.org/abs/2408.00714",
+      "version": "official facebookresearch/sam2 main accessed 2026-07-28",
+      "license": "official repository reports Apache-2.0 for code and checkpoints",
+      "source_fact": "Provides promptable segmentation for images and videos.",
+      "substrate_inference": "Segmentation does not by itself establish object persistence or active perception."
+    },
+    {
+      "identity": "arXiv:2003.12039",
+      "title": "RAFT",
+      "url": "https://arxiv.org/abs/2003.12039",
+      "version": "arXiv record accessed 2026-07-28",
+      "license": "exact repository license must be rechecked before acquisition",
+      "source_fact": "Iterative all-pairs correlation predicts dense optical flow with strong benchmark results.",
+      "substrate_inference": "Optical flow is a sensor product; camera-motion separation remains a distinct mechanism."
+    },
+    {
+      "identity": "facebookresearch/co-tracker",
+      "title": "CoTracker",
+      "url": "https://github.com/facebookresearch/co-tracker",
+      "version": "main accessed 2026-07-28",
+      "license": "official repository reports majority CC-BY-NC with separately licensed portions",
+      "source_fact": "Tracks selected or dense points jointly through video.",
+      "substrate_inference": "License and standalone tracking advantage must be resolved before use."
+    },
+    {
+      "identity": "arXiv:2406.09414",
+      "title": "Depth Anything V2",
+      "url": "https://arxiv.org/abs/2406.09414",
+      "version": "official repository main accessed 2026-07-28",
+      "license": "Small Apache-2.0; Base/Large/Giant CC-BY-NC-4.0 per official repository",
+      "source_fact": "Produces robust fine-grained monocular relative depth.",
+      "substrate_inference": "Only the Small checkpoint is a plausible unrestricted acquisition candidate; depth alone is not 3D organization."
+    },
+    {
+      "identity": "facebookresearch/vggt",
+      "title": "Visual Geometry Grounded Transformer",
+      "url": "https://github.com/facebookresearch/vggt",
+      "version": "main accessed 2026-07-28",
+      "license": "official repository requires checkpoint-specific review",
+      "source_fact": "Infers camera parameters, point maps, depth maps, and point tracks from multiple views.",
+      "substrate_inference": "Potential 3D organ; deferred for disk, runtime, and benchmark reasons."
+    },
+    {
+      "identity": "arXiv:2212.04356",
+      "title": "Whisper",
+      "url": "https://arxiv.org/abs/2212.04356",
+      "version": "official openai/whisper release v20250625 observed 2026-07-28",
+      "license": "MIT for code and weights per official repository",
+      "source_fact": "A waveform-based multilingual speech model trained with large-scale weak supervision shows robust zero-shot transfer.",
+      "substrate_inference": "ASR can be a replaceable speech organ; transcripts cannot substitute for waveform-level evidence."
+    },
+    {
+      "identity": "arXiv:2006.11477",
+      "title": "wav2vec 2.0",
+      "url": "https://arxiv.org/abs/2006.11477",
+      "version": "arXiv record accessed 2026-07-28",
+      "license": "paper only; exact checkpoint license required before acquisition",
+      "source_fact": "Self-supervised masked latent prediction learns speech representations with limited labeled data.",
+      "substrate_inference": "Useful alternative speech encoder in a bounded component tournament."
+    },
+    {
+      "identity": "arXiv:2212.09058",
+      "title": "BEATs",
+      "url": "https://arxiv.org/abs/2212.09058",
+      "version": "official microsoft/unilm implementation accessed 2026-07-28",
+      "license": "official unilm repository reports MIT; checkpoint terms require confirmation",
+      "source_fact": "Acoustic tokenizers support strong general-audio classification benchmarks.",
+      "substrate_inference": "General-audio recognition and cross-modal grounding require separate tests."
+    }
+  ],
+  "host_constraints": {
+    "machine": "Apple Mac Studio M3 Ultra",
+    "cpu_cores": 28,
+    "gpu_cores": 60,
+    "memory_gb": 96,
+    "free_disk_gib_observed": 68,
+    "torch_installed_in_frozen_environment": false
+  },
+  "acquisition_decision": {
+    "models_acquired": [],
+    "corpora_acquired": [],
+    "reason": "No component had yet won a bounded standalone tournament; downloads would be decorative and the host had limited free disk.",
+    "next_gate": "predeclare component task, baseline, resource ceiling, exact license, checksum, latency, memory, fallback, and Substrate-added-value test"
+  },
+  "architecture_implication": {
+    "initial_candidate": "small event-sourced persistent kernel with deterministic projections",
+    "learned_components": "optional replaceable adapters",
+    "llm_required": false,
+    "tensor_required": false,
+    "tournament_preselected": false
+  },
+  "activation": false
+}

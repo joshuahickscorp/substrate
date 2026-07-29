@@ -39,7 +39,8 @@
           "label_confidence"
         ],
         "temporal_state": 0.8,
-        "episodic_window": 0
+        "episodic_window": 0,
+        "extension": {}
       },
       "attend": {
         "ran": true,
@@ -110,7 +111,8 @@
           "numerical": 0.5,
           "toolcall": 0.5,
           "introspect": 0.5
-        }
+        },
+        "extension": {}
       },
       "consolidate": {
         "ran": true,
@@ -121,7 +123,8 @@
         "promoted": [
           "ep1"
         ],
-        "uses_future_information": false
+        "uses_future_information": false,
+        "extension": {}
       },
       "adapt": {
         "ran": true,
@@ -149,7 +152,7 @@
       },
       "checkpoint": {
         "ran": true,
-        "identity": "a23c3eac8d538bc7"
+        "identity": "e6e81ea3453f1f31"
       }
     },
     "stages_ran": [
@@ -203,6 +206,6 @@
     "adaptation_constraints"
   ],
   "program": "substrate-v1",
-  "source_commit": "20cd7713e50c02f79b0404e87e3224161a920932",
-  "sha256": "a5caba1bf977c9014ff81f0a6ac6c9787a54ffb27b0f7d9a58a18cb058a07820"
+  "source_commit": "74b1f79f385fff03d82b2845ec3e8e04ac35b6a0",
+  "sha256": "ce28accd66e9898bcd684d6c1122f24408bd126f3ed17773b97c7c358bb2893c"
 }
