@@ -75,6 +75,35 @@ jobs:
           if failed:
               raise SystemExit(f"genesis canary failures: {failed}")
           PY
+      - name: Cognitive Material Genesis II terminal gates
+        run: |
+          python -m substrate.genesis2_statistics
+          python -m substrate.genesis2_material
+          python -m substrate.genesis2_continuity
+          python - <<'PY'
+          from substrate import genesis2_campaign as campaign
+          from substrate import genesis2_io as io
+
+          freeze = campaign._require(campaign.FREEZE)
+          classification = campaign._require(campaign.CLASSIFICATION)
+          publication = campaign._require(campaign.PUBLICATION)
+          clean_clone = campaign._require(campaign.CLEAN_CLONE)
+          mutations = campaign._require(campaign.MUTATIONS)
+          continuity = campaign._require(campaign.CONTINUITY)
+
+          assert freeze["source_digest"] == io.source_digest()
+          assert classification["outcome"] == "B"
+          assert classification["prerequisites_valid"]
+          assert publication["all_required_surfaces_published"]
+          assert clean_clone["all_pass"]
+          assert mutations["injected"] == 17 and mutations["survivors"] == []
+          assert continuity["all_pass"]
+          assert continuity["observed"]["events"] == 250_000
+          assert continuity["observed"]["interruptions"] == 16
+          assert continuity["observed"]["checkpoints"] == 32
+          assert not classification["external_activation"]
+          assert not classification["unqualified_nous"]
+          PY
       - name: Genesis instruments can still fail
         run: |
           python - <<'PY'
