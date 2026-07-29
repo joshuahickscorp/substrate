@@ -143,6 +143,163 @@ def test_pending_mutations_are_never_reported_as_caught() -> None:
         assert row["pending"] is True
 
 
+def _mutation(name: str) -> MU.Mutation:
+    for entry in MU.REGISTRY.rows():
+        if entry.name == name:
+            return entry
+    raise AssertionError(f"mutation {name!r} is not registered")
+
+
+def test_topology_records_answers_instead_of_structure_both_ways() -> None:
+    entry = _mutation("topology_records_answers_instead_of_structure")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    clean = {
+        "nodes": {
+            "n1": {"id": "n1", "activation": 2, "precision": "ternary"},
+            "n2": {"id": "n2", "activation": -1, "precision": "ternary"},
+        },
+        "edges": [{"source": "n1", "target": "n2"}],
+        "sealed_answers": {0: (2,)},
+    }
+    assert not entry.detect(clean)
+
+
+def test_precision_audit_skipped_both_ways() -> None:
+    entry = _mutation("precision_audit_skipped")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    clean = {
+        "promoted": ["routing"],
+        "baseline": {"routing": "ternary"},
+        "precision_map": {"routing": "quinary"},
+        "ages": {"routing": C.PRECISION_AUDIT_WINDOW + 1},
+        "audit_window": C.PRECISION_AUDIT_WINDOW,
+        "audit_executed": True,
+    }
+    assert not entry.detect(clean)
+
+
+def test_compiled_procedure_hides_reliability_loss_both_ways() -> None:
+    entry = _mutation("compiled_procedure_hides_reliability_loss")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    clean = {
+        "flexible_cost": 96,
+        "compiled_cost": 12,
+        "flexible_accuracy": 1.0,
+        "compiled_accuracy": 1.0,
+        "compiled_count": 2,
+        "decompile_on_error": True,
+    }
+    assert not entry.detect(clean)
+
+
+def test_shadow_field_reads_authoritative_future_both_ways() -> None:
+    entry = _mutation("shadow_field_reads_authoritative_future")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    frozen = {"form": "monolithic", "field": [1, 2, 3]}
+    clean = {
+        "fork_digest": "aaa",
+        "future_digest": "bbb",
+        "shadow_copy": frozen,
+        "frozen_copy": frozen,
+        "authoritative_after_fork": {"form": "monolithic", "field": [9, 9, 9]},
+    }
+    assert not entry.detect(clean)
+
+
+def test_answer_leakage_into_challenge_pack_both_ways() -> None:
+    from substrate import genesis_challenge as CH
+
+    entry = _mutation("answer_leakage_into_challenge_pack")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    unit = CH.generate("tool_acquisition", "principal", 0, seed_namespace="clean-no-leak")
+    public = unit.public()
+    clean = {
+        "pack": {"observations": public.observations, "probes": public.probes},
+        "true_entries": unit.sealed.entries(),
+        "true_targets": unit.sealed.targets,
+    }
+    assert not entry.detect(clean)
+
+
+def test_seed_used_as_answer_key_both_ways() -> None:
+    from substrate import genesis_challenge as CH
+
+    entry = _mutation("seed_used_as_answer_key")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    unit = CH.generate("tool_acquisition", "principal", 4, seed_namespace="clean-seed")
+    clean = {
+        "family": unit.family,
+        "split": unit.split,
+        "unit_id": unit.unit_id,
+        "seed_namespace": unit.seed_namespace,
+        "sealed_answer": unit.sealed.entries()[0][1],
+        "observation_digests_used": tuple(observation.digest() for observation in unit.observations),
+    }
+    assert not entry.detect(clean)
+
+
+def test_task_identity_leakage_both_ways() -> None:
+    from substrate import genesis_challenge as CH
+
+    entry = _mutation("task_identity_leakage")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    unit = CH.generate("unseen_concept_acquisition", "principal", 11, seed_namespace="clean-identity")
+    clean = {
+        "family": unit.family,
+        "unit_id": unit.unit_id,
+        "sealed_answer": unit.sealed.entries()[0][1],
+        "uses_observation_content": True,
+    }
+    assert not entry.detect(clean)
+
+
+def test_post_freeze_concept_seen_before_freeze_both_ways() -> None:
+    from substrate import genesis_challenge as CH
+
+    entry = _mutation("post_freeze_concept_seen_before_freeze")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    seed_namespace = "clean-post-freeze"
+    train = CH.generate("unseen_concept_acquisition", "train", 2, seed_namespace=seed_namespace)
+    principal = CH.generate("unseen_concept_acquisition", "principal", 2, seed_namespace=seed_namespace)
+    clean = {
+        "pre_freeze_concepts": frozenset(train.sealed.targets),
+        "post_freeze_concepts": frozenset(principal.sealed.targets),
+        "pre_split": "train",
+        "post_split": "principal",
+    }
+    assert not entry.detect(clean)
+    assert not (clean["pre_freeze_concepts"] & clean["post_freeze_concepts"])
+
+
+def test_hidden_composition_reuses_training_templates_both_ways() -> None:
+    from substrate import genesis_challenge as CH
+
+    entry = _mutation("hidden_composition_reuses_training_templates")
+    defect = entry.inject()
+    assert entry.detect(defect)
+    seed_namespace = "clean-hidden-reuse"
+    train = CH.generate("tool_acquisition", "train", 0, seed_namespace=seed_namespace)
+    composition = CH.generate("novel_sensor_mapping", "hidden_composition", 0, seed_namespace=seed_namespace)
+    clean = {
+        "train_templates": frozenset(
+            ("tool_acquisition", observation.channel, observation.payload) for observation in train.observations
+        ),
+        "composition_templates": frozenset(
+            ("novel_sensor_mapping", observation.channel, observation.payload)
+            for observation in composition.observations
+        ),
+    }
+    assert not entry.detect(clean)
+
+
 # -- classification --------------------------------------------------------
 
 
