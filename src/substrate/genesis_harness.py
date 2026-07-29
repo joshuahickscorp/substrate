@@ -106,12 +106,31 @@ def shuffled_stream(observations: Sequence[M.Observation], *, seed: int) -> Stre
     return Stream(tuple(ordered), "shuffled")
 
 
+WRONG_HISTORY_MINIMUM_DIVERGENCE = 0.5
+
+
 def wrong_stream(observations: Sequence[M.Observation], other: Sequence[M.Observation]) -> Stream:
-    """A different history of the same shape, from a different unit."""
+    """A different history of the same shape, from a different unit.
+
+    A whole-digest comparison is too weak: a history that differs in one event
+    would pass while remaining cognitively the same experience. The alternative
+    must diverge in payload at a majority of positions.
+    """
     if len(other) != len(observations):
         raise HarnessRefused("the wrong-history control needs a same-length alternative history")
     if M._digest([row.digest() for row in other]) == M._digest([row.digest() for row in observations]):
         raise HarnessRefused("the wrong history control received the correct history")
+    differing = sum(
+        1
+        for left, right in zip(observations, other, strict=True)
+        if (left.channel, left.payload) != (right.channel, right.payload)
+    )
+    divergence = differing / len(observations) if observations else 0.0
+    if divergence < WRONG_HISTORY_MINIMUM_DIVERGENCE:
+        raise HarnessRefused(
+            f"the wrong-history control received a history diverging at only {divergence:.0%} of positions, "
+            f"below the {WRONG_HISTORY_MINIMUM_DIVERGENCE:.0%} floor"
+        )
     return Stream(tuple(other), "wrong_history")
 
 
