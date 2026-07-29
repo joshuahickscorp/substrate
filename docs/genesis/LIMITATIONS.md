@@ -55,23 +55,39 @@ convincingly. No meaningful-scale native training was performed: the materials
 develop through verified rewrites during a run, not through a training
 procedure over a large corpus.
 
-## Attempts were reduced from a two-hundredfold gap to a sevenfold one, not equalised
+## The attempt gap is architectural, not an artefact of the cap
 
-Raised by the post-pilot round. The repair capped each candidate at
-thirty-two proposals per consolidation cycle, roughly 770 attempts per
-developmental history, while the strongest control remains uncapped at roughly
-5,300. The gap fell from about two hundred times to about seven, and it is
-still not parity.
+The post-pilot round objected that the candidates were attempt-starved: each was
+capped at thirty-two proposals per consolidation cycle while the strongest
+control ran uncapped at roughly 5,300 attempts per developmental history. If the
+cap were the cause, raising it should close the gap.
 
-The direction matters and is published as a number in
-`SUBSTRATE_GENESIS_ATTEMPT_PARITY.json`: the residual asymmetry runs **against
-the candidates**. An arm that proposes more changes gets more chances for one
-to verify, so the control had the advantage. A null under that asymmetry is
-conservative — closing the gap could only help the candidates, not the control.
+It was tested rather than argued. A sensitivity tournament re-ran the full
+150,528 episodes with the cap raised sevenfold, to 220
+(`SUBSTRATE_GENESIS_ATTEMPT_MATCHED_SENSITIVITY.json`, flagged
+`is_sensitivity_analysis_not_principal`). Attempts barely moved:
 
-What this forbids is the opposite reading. Had a candidate won, the win would
-have had to survive an attempt-matched rerun before it could be believed. An
-attempt-matched tournament is the first thing the next program should run.
+| arm | attempts at cap 32 | attempts at cap 220 | score 32 | score 220 |
+|---|---:|---:|---:|---:|
+| K8 event sourced | 466 | 466 | 0.1625 | 0.1638 |
+| K2 graph | 878 | 1308 | 0.1647 | 0.1598 |
+| K1 monolithic | 325 | 324 | 0.1670 | 0.1554 |
+| S2 control | 5324 | 5325 | 0.4246 | 0.4201 |
+
+The candidates were never hitting the cap. They propose few durable changes
+because their own mechanisms license few per cycle — a dense field rewrite or a
+verified topology operation is simply a coarser unit of change than an
+associative write. Sevenfold headroom left every score inside noise.
+
+That converts the caveat into a finding. The attempt asymmetry is a property of
+the architectures, not of the harness, and attempt-matching does not rescue the
+candidates. It is also the mechanism behind the headline result: the control
+wins partly because its unit of durable change is cheap enough to try thousands
+of times inside the same compute budget.
+
+The residual caveat is narrower than it was: no configuration has been found in
+which a candidate both proposes at the control's rate and remains the same
+material.
 
 ## Proposal counts were not equal by construction
 
