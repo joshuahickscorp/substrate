@@ -188,6 +188,42 @@ def test_recomputation_catches_a_published_effect_that_does_not_match() -> None:
     assert V.agrees_with({"effect": 0.0, "confidence_lower": 0.0}, recomputed)["all_pass"]
 
 
+def test_every_material_survives_a_precision_demotion() -> None:
+    """A narrowed alphabet must not leave stale wide values in packed state.
+
+    K11 wrote payload values at quinary, was demoted to a narrower precision,
+    and then refused to serialize because the stored values no longer fitted
+    the alphabet. That took down a full tournament run partway through. Every
+    material is checked, not only the one that failed.
+    """
+    import substrate.genesis_controls  # noqa: F401
+    import substrate.genesis_k_advanced  # noqa: F401
+    import substrate.genesis_k_basic  # noqa: F401
+    import substrate.genesis_k_structural  # noqa: F401
+
+    observations = [
+        M.Observation(index, f"c{index % 3}", (index % 5 - 2, (index * 3) % 5 - 2), elapsed_ms=5, teaching=index % 4 == 0)
+        for index in range(48)
+    ]
+    for name in M.registered():
+        opportunity = M.equal_opportunity(
+            envelope="1GB",
+            observations=observations,
+            sensor_channels=("c0", "c1", "c2"),
+            operation_budget=2_000_000,
+            durable_write_budget=4_096,
+        )
+        material = M.build(name, opportunity)
+        for observation in observations:
+            material.observe(observation)
+        for proposal in material.propose():
+            material.apply([M.Verdict(proposal.proposal_id, True, 1.0, 0.0)])
+        # Serialising is where an out-of-alphabet value surfaces.
+        checkpoint = material.checkpoint()
+        assert checkpoint["mechanism"] == material.mechanism, name
+        assert material.durable_state_digest(), name
+
+
 def test_a_counterfeit_that_beats_the_selection_is_reported() -> None:
     rows = [{"arm": "K1", "score": 0.2}, {"arm": "record_store_null", "score": 0.8}]
     report = V.counterfeit_report(rows, selected="K1")
