@@ -31,9 +31,17 @@ class TournamentRefused(RuntimeError):
     """A tournament condition that would invalidate the ranking was violated."""
 
 
+ORACLE = "oracle"
+
+
 @dataclass(frozen=True, slots=True)
 class Unit:
-    """One developmental history plus its probes and its scoring functions."""
+    """One developmental history plus its probes and its scoring functions.
+
+    ``oracle_structure`` is the generating structure. It is the definition of
+    the oracle arm and the reason headroom is measurable at all, and it is
+    quarantined: ``_factories`` hands it to the oracle and to nothing else.
+    """
 
     history_id: int
     family: str
@@ -41,6 +49,7 @@ class Unit:
     alternative_observations: tuple[M.Observation, ...]
     probes: H.ProbeSplit
     judge: H.Judge
+    oracle_structure: Mapping[str, tuple[int, ...]] | None = None
 
 
 UnitProvider = Callable[[str, int], Unit]
@@ -64,6 +73,26 @@ class ArmSummary:
 def _developmental_utility(score: float, record_store_score: float) -> float:
     """Score above what a pure record store achieves on the same instances."""
     return score - record_store_score
+
+
+def _factories(arms: Sequence[str], unit: Unit) -> dict[str, Callable[[M.Opportunity], M.CognitiveMaterial]]:
+    """Build one factory per arm, handing the generating structure only to the oracle.
+
+    The oracle is defined as the arm that sees the generating structure, and it
+    is the only reference against which headroom means anything. Every other
+    arm is constructed without it, and the assertion below is what stops a
+    refactor from quietly widening that access.
+    """
+    factories: dict[str, Callable[[M.Opportunity], M.CognitiveMaterial]] = {}
+    for arm in arms:
+        if arm == ORACLE:
+            structure = dict(unit.oracle_structure or {})
+            factories[arm] = lambda opportunity, s=structure: M.build(ORACLE, opportunity, generating_structure=s)
+        else:
+            factories[arm] = lambda opportunity, name=arm: M.build(name, opportunity)
+    if unit.oracle_structure and ORACLE not in arms:
+        raise TournamentRefused("a generating structure was supplied but the oracle arm is not running")
+    return factories
 
 
 def run(
@@ -97,15 +126,12 @@ def run(
     if missing:
         raise TournamentRefused(f"unregistered arms: {missing}")
 
-    factories: dict[str, Callable[[M.Opportunity], M.CognitiveMaterial]] = {
-        arm: (lambda opportunity, name=arm: M.build(name, opportunity)) for arm in arms
-    }
-
     rows: list[dict[str, Any]] = []
     episodes = 0
     for family in families:
         for history_id in histories:
             unit = provider(family, history_id)
+            factories = _factories(arms, unit)
             result = H.run_history(
                 history_id=history_id,
                 family=family,

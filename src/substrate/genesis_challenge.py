@@ -150,6 +150,16 @@ class SealedAnswers:
     def n_probes(self) -> int:
         return len(self._answers)
 
+    def entries(self) -> tuple[tuple[int, tuple[int, ...]], ...]:
+        """Probe index and sealed answer pairs, for the evaluator side only.
+
+        This exists so that a campaign can concatenate several units into one
+        developmental history and rebuild a sealed batch per split. It is not
+        reachable from a material: materials receive ``Unit.public()``, which
+        carries observations and probes and no sealed object at all.
+        """
+        return tuple(zip(self._probe_indices, self._answers, strict=True))
+
 
 @dataclass(frozen=True, slots=True)
 class PublicUnit:
