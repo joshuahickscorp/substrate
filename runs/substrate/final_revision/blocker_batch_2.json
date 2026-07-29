@@ -1,6 +1,6 @@
 {
  "schema": "substrate-final-revision-grok-resolution-batch/v1",
- "resolution_commit": "PENDING_COMMIT",
+ "resolution_commit": "3fb83993d8cf050b6a1b778b312ab09f2028829f",
  "resolutions": [
   {
    "invocation_id": "fr-terminal-publication-boundary-86d-retry-20260728-133501",
