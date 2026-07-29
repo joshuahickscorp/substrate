@@ -1,0 +1,139 @@
+{
+ "activation": false,
+ "all_pass": true,
+ "chain": {
+  "segment_0_to_1": {
+   "segments_do_not_overlap": true,
+   "start_times_monotonic": true,
+   "state_integrity_chains": true,
+   "successor_restored_from_prior_process": true
+  },
+  "segment_1_to_2": {
+   "segments_do_not_overlap": true,
+   "start_times_monotonic": true,
+   "state_integrity_chains": true,
+   "successor_restored_from_prior_process": true
+  }
+ },
+ "checkpoint_anchor": {
+  "checks": {
+   "checkpoint_present": true,
+   "checkpoint_restores": true,
+   "scheduled_body_change_present": true,
+   "scheduled_correction_defeated_belief": true,
+   "scheduled_goals_present": true,
+   "scheduled_model_replacement_present": true,
+   "state_integrity_matches_final_segment": true
+  },
+  "detail": {
+   "defeated_belief": {
+    "confidence": 0.8,
+    "defeated": true,
+    "event": "8eaab6eb3211818f5c22b8c52154c575de5e92bbeb43dd570440995b735ed3d2",
+    "value": false,
+    "warrants": []
+   },
+   "embodiment": "changed-body-v2",
+   "event_count": 743,
+   "final_segment_state_integrity_after": "bab9e70bd6be9ded9441a369b6618c4f0bd5862e724a4446c4ec584fc5176421",
+   "goals": [
+    "history-dependent-new-task",
+    "old-project"
+   ],
+   "models": [
+    "model-c"
+   ],
+   "recomputed_state_integrity": "bab9e70bd6be9ded9441a369b6618c4f0bd5862e724a4446c4ec584fc5176421"
+  }
+ },
+ "configuration_digest": "f459c2a9f418f60b9ee5b544bffb31cf87e8dab4cfe64f852d8c119026bfd724",
+ "declared_duration_meets_12_hour_minimum": true,
+ "first_segment_constructs_rather_than_restores": true,
+ "forgery_resistant_all_pass": true,
+ "program": "substrate-final-revision",
+ "purpose": "anchor continuity segment receipts to the owned checkpoint, which restores only if its digest and every event digest validate, so a receipt set is not accepted on its own word",
+ "receipt_fields_are_unauthenticated_claims": true,
+ "run_root": "/private/tmp/substrate-fr-ready-afeb/runs/substrate/final_revision/continuity/e2bee8b55a12d514",
+ "schema": "substrate-final-revision-continuity-receipt-consistency/v2",
+ "scientific_status": "complete",
+ "segments": [
+  {
+   "consolidations": 239,
+   "duration_seconds": 14400.011268125032,
+   "expected_consolidations": 240,
+   "iterations": 8316094093,
+   "iterations_per_second": 577506.0823325873,
+   "observed_wall_seconds": 14400.022498607635,
+   "process_started_unix": 1785264335.550892,
+   "receipt_mtime": 1785278735.5733907,
+   "restored_from_prior_process": false,
+   "segment": 0,
+   "state_integrity_after": "f5c18775f25b390742bbf2776b45b96cc112bc54ba9d8f90691120aa4bb92d57",
+   "state_integrity_before": "4874f235ffd19ffa3d79f8240ca954a36a0a2c2f423bc9255cb888f0bceb5fbc",
+   "unanchored_all_pass": true,
+   "unanchored_checks": {
+    "activation_false": true,
+    "consolidation_cadence_matches_duration": true,
+    "iteration_rate_plausible": true,
+    "process_boundary_declared": true,
+    "state_integrity_advanced": true,
+    "wall_clock_covers_declared_duration": true,
+    "wall_clock_not_absurdly_longer": true
+   }
+  },
+  {
+   "consolidations": 239,
+   "duration_seconds": 14400.015459291986,
+   "expected_consolidations": 240,
+   "iterations": 7927247030,
+   "iterations_per_second": 550502.6749735005,
+   "observed_wall_seconds": 14400.098447799683,
+   "process_started_unix": 1785278735.618367,
+   "receipt_mtime": 1785293135.7168148,
+   "restored_from_prior_process": true,
+   "segment": 1,
+   "state_integrity_after": "1c353c9432740809f12ae21728bd5ba47ddd508c859e5bfe93a87406f5b3c6c8",
+   "state_integrity_before": "f5c18775f25b390742bbf2776b45b96cc112bc54ba9d8f90691120aa4bb92d57",
+   "unanchored_all_pass": true,
+   "unanchored_checks": {
+    "activation_false": true,
+    "consolidation_cadence_matches_duration": true,
+    "iteration_rate_plausible": true,
+    "process_boundary_declared": true,
+    "state_integrity_advanced": true,
+    "wall_clock_covers_declared_duration": true,
+    "wall_clock_not_absurdly_longer": true
+   }
+  },
+  {
+   "consolidations": 239,
+   "duration_seconds": 14400.01881441602,
+   "expected_consolidations": 240,
+   "iterations": 7944487264,
+   "iterations_per_second": 551699.7836174134,
+   "observed_wall_seconds": 14400.037786245346,
+   "process_started_unix": 1785293135.778311,
+   "receipt_mtime": 1785307535.8160973,
+   "restored_from_prior_process": true,
+   "segment": 2,
+   "state_integrity_after": "bab9e70bd6be9ded9441a369b6618c4f0bd5862e724a4446c4ec584fc5176421",
+   "state_integrity_before": "1c353c9432740809f12ae21728bd5ba47ddd508c859e5bfe93a87406f5b3c6c8",
+   "unanchored_all_pass": true,
+   "unanchored_checks": {
+    "activation_false": true,
+    "consolidation_cadence_matches_duration": true,
+    "iteration_rate_plausible": true,
+    "process_boundary_declared": true,
+    "state_integrity_advanced": true,
+    "wall_clock_covers_declared_duration": true,
+    "wall_clock_not_absurdly_longer": true
+   }
+  }
+ ],
+ "segments_present": 3,
+ "sha256": "2fe061c3616719614afaf539cfae00fc59526a3ebaa20b334dc0d5fc1c15defb",
+ "source_digest": "c9e53fafefccec3e86475c7d84aa8550f5e9f75d181ed83e7e0f92d6e60f6f88",
+ "status_note": "post-freeze supplementary verifier; not a required deliverable and not a scored endpoint",
+ "total_declared_duration_seconds": 43200.04554183304,
+ "unanchored_all_pass": true
+}
