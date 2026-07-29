@@ -1,73 +1,97 @@
-# Substrate v5
+# Substrate
 
-> **Historical scope:** This page documents the frozen V5 release. Its
-> `multimodal_nous_ready_for_review` label is a historical V5 classification,
-> not the repository's current scientific status. The Nous Closure campaign
-> subsequently established the immutable result `terminal_closed_null`, and the
-> Final Revision campaign closed at `substrate_final_revision_complete` with a
-> decisive effect of 0.0, 95% CI [0, 0]. The Cognitive Material Genesis
-> campaign is the current work; see
-> [its architecture](docs/genesis/ARCHITECTURE.md),
-> [limitations](docs/genesis/LIMITATIONS.md) and
-> [runbook](docs/genesis/RUNBOOK.md). External activation remains `false` and no
-> campaign has assigned unqualified Nous.
+Substrate is an offline Python program that runs repeatable experiments on a simulated software entity.
+The entity keeps memory across tasks, acts inside two fake environments (a desktop-style sandbox and a
+seeded 3D simulator), and every result it produces is written to a hash-sealed JSON file that can be
+re-checked later.
 
-Substrate v5 is an evidence-bound local multimodal cognition runtime with
-persistent substrate-owned state, a typed sensorium, model-neutral routing,
-sandboxed bodies, continual learning, sealed checkpoints, and independent
-verification. External activation is `false`.
+It exists to test one question: does building the entity out of many cooperating parts with persistent
+memory beat a much simpler program given the same information and budget? So far the measured answer is no.
 
-The terminal v5 classification is:
+## What it does
 
-```text
-multimodal_nous_ready_for_review
-```
+- Runs seeded simulations. Same seed, same result, every time. Nothing is downloaded and nothing touches
+  the network.
+- Feeds the entity synthetic sensor events of eight kinds: text, image, video, motion, audio, speech,
+  depth/3D, and body/tool.
+- Stores the entity's identity, goals, memories, world state and body state in an append-only log where
+  each entry is hashed against the previous one. A checkpoint refuses to load on a broken seal, on time
+  running backwards, or if anything tried to switch the entity on for real.
+- Routes work to 13 small hand-written Python modules standing in for models (an object detector, a
+  speech grounder, a depth estimator, a planner, and so on). Nobody trained these. They are fixtures.
+- Re-checks its own claims by recomputing results from the sealed receipts rather than trusting the
+  summary files. Six finished campaigns ship with their evidence and review packages.
 
-This label means eligible for external review only. It is not an unqualified
-Nous declaration and does not establish consciousness, phenomenal experience,
-sentience, feeling, suffering, desire, personhood, life, or moral status.
-
-The campaign completed all 5,760 frozen work units and 576,000 sensory events or
-cognitive episodes:
-
-- 3,456 principal units;
-- 1,152 independent-replication units; and
-- 1,152 generator-held-out open-world-review units.
-
-Independent verification recomputed all 15 primary effects from raw sealed
-receipts. Every effect cleared its preregistered `0.05` SESOI and Holm-adjusted
-test in the principal, replication, and open-world splits. All 21 declared claim
-mutations were detected, no mutation survived, and clean-clone installation,
-tests, lint, exact receipt reproduction, and normalized double regeneration
-passed.
-
-The selected kernel is
-`candidate_d_hybrid_explicit_latent`, an
-`event_sourced_explicit_latent_substrate`. The bounded local model fabric
-contains 13 independently callable deterministic model-equivalents across eight
-typed modalities. These are hand-specified scientific fixtures with no training
-data, not downloaded pretrained checkpoints or evidence of general-world model
-competence. External acquisition admitted zero models, zero corpora, and zero
-downloaded bytes.
+## Install
 
 ```bash
 uv venv --python 3.12 .venv
-uv pip install -e ".[dev]"
-
-substrate v5 status
-substrate v5 verify
+uv pip install -e ".[dev]"   # or: make install
 ```
 
-The terminal evidence is in:
+## Use
 
-- [Terminal report](artifacts/substrate/v5/SUBSTRATE_V5_TERMINAL_REPORT.md)
-- [Completion scorecard](evidence/substrate/v5/SUBSTRATE_V5_COMPLETION_SCORECARD.json)
-- [External review package](artifacts/substrate/v5/review/README.md)
-- [Scientific status](docs/V5_SCIENTIFIC_STATUS.md)
-- [Architecture](docs/V5_ARCHITECTURE.md)
-- [Runbook](docs/V5_RUNBOOK.md)
+```bash
+substrate status                            # what has been run
+substrate test                              # 396 tests (about 4 minutes)
+substrate verify                            # audit, then recompute results from sealed receipts
+substrate audit                             # structural audit only
+substrate nous-closure status               # state of the most recent campaign
+substrate nous-closure verify --no-publish  # re-check that campaign's 68 sealed authorities
+```
 
-Substrate v5 preserves the byte-identical v1-v4 tagged trees, seals, and
-classifications. The historical v4 classification remains
-`functional_proto_nous_candidate`; its report is
-[archived here](artifacts/substrate/v4/SUBSTRATE_V4_TERMINAL_REPORT.md).
+`make test`, `make accept` (= `substrate verify`) and `make audit` wrap these. Three things to know.
+Commands in the `v2`/`v3`/`v4`/`v5` families write into the tracked `evidence/` and `artifacts/` trees,
+so they dirty your working copy; the `nous-closure` family takes `--no-publish` and does not.
+`substrate v5 verify` does not work from a fresh clone, because it needs a ~1.1 GiB raw run tree that is
+not committed — see [docs/V5_RUNBOOK.md](docs/V5_RUNBOOK.md) to rebuild it. And do not run
+`substrate run`: that is the deliberate boundary that starts a real campaign.
+
+## The latest result was a null
+
+The most recent campaign, Nous Closure, ended at `terminal_closed_null` and scored 10.0 out of 20 on its
+own checklist. Two tests were run.
+
+1. A stateless direct policy scored `0.95125` over 32 unseen histories; the full v5 entity scored
+   `0.93796875`. A perfect answer would have been only `0.04875` better than the simple policy — less
+   than the `0.05` the project had committed in advance to treat as meaningful, so the test had no room
+   to show anything.
+2. On a sandbox of 12 task families with real files and media, the modular entity and an independently
+   written single-file state machine both scored `1.00000000`. The paired difference was `0.00000000`,
+   95% CI `[0.00000000, 0.00000000]`. A tie.
+
+Persistent memory does do something: a fresh stateless control was clearly worse. What was not shown is
+the bigger claim, that the elaborate modular design beats a simple state machine given equal information,
+tools and budget. 25 of 25 deliberately planted defects were caught, none survived, and a clean-clone
+check passed. After the null the program stopped instead of looking for a friendlier test, so the 12-hour,
+principal, replication and open-world runs were never launched.
+
+The earlier v5 campaign did meet its own targets: 5,760 work units, 576,000 events, 15 effects recomputed
+from raw receipts and all clearing `0.05` in all three splits, 21 of 21 planted defects caught. Those
+numbers describe the sandbox, not the world.
+
+## What this is not
+
+- Not a claim about consciousness, phenomenal experience, sentience, feeling, suffering, desire,
+  personhood, life, or moral status. None of that is claimed, and none of it follows from any result here.
+- Not a trained model. The 13 modules are hand-written deterministic Python fixtures with no training
+  data, not downloaded pretrained checkpoints. Zero models, zero corpora and zero bytes were ever fetched.
+- Not evidence of general real-world ability. Every task is bounded, offline, and inside a simulator.
+- Not externally reviewed. The reviewers that graded the closure package are internal simulations, which
+  the package states itself (`external_independence_claimed: false`).
+- Not switched on. Activation is `false` throughout and CI asserts it stays false. The entity never acts
+  outside its sandboxes.
+
+"Nous" is this project's own name for the property being tested. Naming it is not claiming it.
+
+## Evidence
+
+- [Latest campaign report](artifacts/substrate/nous_closure/SUBSTRATE_NOUS_CLOSURE_TERMINAL_REPORT.md)
+  and its [limitations](artifacts/substrate/nous_closure/external_review/LIMITATIONS.md)
+- [Review package for outside readers](artifacts/substrate/nous_closure/external_review/README.md)
+- [v5 report](artifacts/substrate/v5/SUBSTRATE_V5_TERMINAL_REPORT.md),
+  [v5 scientific status](docs/V5_SCIENTIFIC_STATUS.md), [v5 architecture](docs/V5_ARCHITECTURE.md)
+
+## What's next
+
+See [ROADMAP.md](ROADMAP.md).
