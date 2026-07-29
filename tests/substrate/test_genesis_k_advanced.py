@@ -291,3 +291,90 @@ def test_mechanisms_are_unique_and_named() -> None:
 def test_module_exports() -> None:
     assert advanced.K9_predictive_plastic_field is K9_predictive_plastic_field
     assert advanced.K11_interference_gated_sparse_fiber_field is K11_interference_gated_sparse_fiber_field
+
+
+# --------------------------------------------------------------------------
+# Proposal parity: multi-attempt emission from each material's own mechanism
+# --------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("name", MATERIAL_NAMES)
+def test_propose_emits_multiple_unique_proposals_when_licensed(name: str) -> None:
+    material = _material(name)
+    proposals = _drive_to_proposal(material)
+    # Drive once more so the mechanism has richer active state for multi-proposal emission.
+    material.observe(_observation(index=20, payload=(-1, 1, -1, 1)))
+    material.answer(_probe(index=20, cue=(-1, 1, -1, 1)))
+    if isinstance(material, K11_interference_gated_sparse_fiber_field):
+        material.force_interference(material.tau + 4)
+    proposals = material.propose()
+    assert len(proposals) > 1, f"{name} emitted only {len(proposals)} proposal(s)"
+    ids = [p.proposal_id for p in proposals]
+    assert len(ids) == len(set(ids))
+    assert len(proposals) <= material.proposals_per_cycle()
+    assert material.proposals_per_cycle() == advanced.PROPOSALS_PER_CYCLE
+
+
+@pytest.mark.parametrize("name", MATERIAL_NAMES)
+def test_each_proposal_is_individually_committable_and_rollable(name: str) -> None:
+    material = _material(name)
+    material.observe(_observation(payload=(1, -1, 1, 1)))
+    material.answer(_probe(cue=(1, -1, 1, 1)))
+    if isinstance(material, K11_interference_gated_sparse_fiber_field):
+        material.force_interference(material.tau + 4)
+    proposals = material.propose()
+    if len(proposals) <= 1:
+        proposals = _drive_to_proposal(material)
+        material.observe(_observation(index=30, payload=(-2, 2, 1, -1)))
+        if isinstance(material, K11_interference_gated_sparse_fiber_field):
+            material.force_interference(material.tau + 4)
+        proposals = material.propose()
+    assert len(proposals) > 1
+    for proposal in proposals:
+        before = material.durable_state_digest()
+        receipts = material.apply([Verdict(proposal.proposal_id, True, 0.5, 0.5)])
+        receipt = receipts[0]
+        assert receipt.committed
+        assert material.durable_state_digest() != before
+        material.rollback(receipt)
+        assert material.durable_state_digest() == receipt.durable_state_digest_before
+        assert material.durable_state_digest() == before
+
+
+def test_deprived_plasticity_emits_no_proposals() -> None:
+    opportunity = equal_opportunity(
+        envelope="512MB",
+        observations=(
+            Observation(0, "vision", (1, -1, 1, 0), teaching=True),
+            Observation(1, "vision", (1, 1, -1, 1), teaching=False),
+        ),
+        sensor_channels=("vision", "proprio"),
+        operation_budget=10_000,
+        durable_write_budget=64,
+        deprived=("plasticity",),
+    )
+    for name in MATERIAL_NAMES:
+        material = build(name, opportunity)
+        material.observe(_observation())
+        if isinstance(material, K11_interference_gated_sparse_fiber_field):
+            material.force_interference(material.tau + 4)
+        assert material.propose() == ()
+
+
+@pytest.mark.parametrize("name", MATERIAL_NAMES)
+def test_no_proposal_is_a_durable_noop(name: str) -> None:
+    material = _material(name)
+    material.observe(_observation(payload=(1, -1, 1, 1)))
+    material.answer(_probe(cue=(1, -1, 1, 1)))
+    if isinstance(material, K11_interference_gated_sparse_fiber_field):
+        material.force_interference(material.tau + 4)
+    proposals = material.propose()
+    if not proposals:
+        proposals = _drive_to_proposal(material)
+    assert proposals
+    for proposal in proposals:
+        before = material.durable_state_digest()
+        receipts = material.apply([Verdict(proposal.proposal_id, True, 0.5, 0.5)])
+        assert material.durable_state_digest() != before, f"{name} proposal {proposal.proposal_id} was a durable no-op"
+        material.rollback(receipts[0])
+        assert material.durable_state_digest() == before

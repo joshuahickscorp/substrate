@@ -40,6 +40,9 @@ MECH_K6 = "unfrozen_allocate_split_merge_prune_under_rent"
 MECH_K7 = "per_region_radix_selection_under_rent"
 MECH_K8 = "append_only_projection_as_the_only_durable_path"
 
+# Cap on proposals emitted per consolidation cycle. Explicit and matched across structural materials.
+PROPOSALS_PER_CYCLE = 32
+
 
 def _clamp(value: int, precision: str) -> int:
     alphabet = PRECISION_ALPHABETS.get(precision, DEFAULT_ALPHABET)
@@ -176,35 +179,123 @@ class K4_continuous_time_plastic_field(MaterialBase):
         confidence = _clamp(abs(score), "quinary")
         return Answer(probe_index=probe.index, value=value, confidence=confidence, abstained=False)
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
     def _propose(self) -> Iterable[Proposal]:
         if not self._opportunity.plasticity_enabled:
             return
-        self._proposal_serial += 1
-        delta = tuple(
-            native_low_bit_update(p, -float(a), DEFAULT_ALPHABET, learning_rate=1.0) - p
-            for p, a in zip(self._plastic, self._active_trace, strict=True)
-        )
-        yield Proposal(
-            proposal_id=f"k4-{self.observations_seen}-{self._proposal_serial}",
-            kind="time_aware_plastic_rewrite",
-            target="field",
-            delta=delta,
-            precision_request=DEFAULT_PRECISION,
-            trigger=f"channel:{self._last_channel}|pending_ms:{self._active_pending_ms}",
-            expected_value=float(sum(abs(x) for x in delta)),
-            cost_bytes=max(1, _payload_bytes(_pack_values(self._plastic, DEFAULT_PRECISION))),
-        )
-        if self._active_pending_ms >= 25 and MECH_K4 not in self.frozen_mechanisms:
-            self._proposal_serial += 1
-            yield Proposal(
-                proposal_id=f"k4-pred-{self.observations_seen}-{self._proposal_serial}",
-                kind="schedule_prediction",
-                target="predictions",
-                delta=tuple(self._active_trace[:4]),
-                trigger=f"expiry_horizon_ms:{self._durable_clock_ms + max(50, self._active_pending_ms)}",
-                expected_value=1.0,
-                cost_bytes=8,
+        self._opportunity.ledger.spend(FIELD_WIDTH * 2)
+        candidates: list[tuple[float, Proposal]] = []
+
+        def plastic_delta(trace: Sequence[int], scale: float) -> tuple[int, ...]:
+            return tuple(
+                native_low_bit_update(p, -float(a) * scale, DEFAULT_ALPHABET, learning_rate=1.0) - p
+                for p, a in zip(self._plastic, trace, strict=True)
             )
+
+        # Full-field time-aware rewrites at several magnitudes of the active trace.
+        full_trace = list(self._active_trace)
+        for scale, tag in ((1.0, "full"), (2.0, "scale2"), (0.5, "scale_half"), (-1.0, "invert")):
+            delta = plastic_delta(full_trace, scale)
+            if all(x == 0 for x in delta):
+                continue
+            self._proposal_serial += 1
+            candidates.append(
+                (
+                    float(sum(abs(x) for x in delta)) + abs(scale),
+                    Proposal(
+                        proposal_id=f"k4-{self.observations_seen}-{self._proposal_serial}:{tag}",
+                        kind="time_aware_plastic_rewrite",
+                        target="field",
+                        delta=delta,
+                        precision_request=DEFAULT_PRECISION,
+                        trigger=f"channel:{self._last_channel}|pending_ms:{self._active_pending_ms}|{tag}",
+                        expected_value=float(sum(abs(x) for x in delta)),
+                        cost_bytes=max(1, _payload_bytes(_pack_values(self._plastic, DEFAULT_PRECISION))),
+                    ),
+                )
+            )
+
+        # Region-local plastic rewrites: only a contiguous half/quarter of the field.
+        region_slices = (
+            (0, FIELD_WIDTH // 2, "lo"),
+            (FIELD_WIDTH // 2, FIELD_WIDTH // 2, "hi"),
+            (0, FIELD_WIDTH // 4, "q0"),
+            (FIELD_WIDTH // 4, FIELD_WIDTH // 4, "q1"),
+        )
+        for start, width, tag in region_slices:
+            masked = [full_trace[i] if start <= i < start + width else 0 for i in range(FIELD_WIDTH)]
+            delta = plastic_delta(masked, 1.0)
+            if all(x == 0 for x in delta):
+                continue
+            self._proposal_serial += 1
+            candidates.append(
+                (
+                    float(sum(abs(x) for x in delta)),
+                    Proposal(
+                        proposal_id=f"k4-{self.observations_seen}-{self._proposal_serial}:{tag}",
+                        kind="time_aware_plastic_rewrite",
+                        target=f"field:{tag}",
+                        delta=delta,
+                        precision_request=DEFAULT_PRECISION,
+                        trigger=f"channel:{self._last_channel}|region:{tag}",
+                        expected_value=float(sum(abs(x) for x in delta)),
+                        cost_bytes=max(1, _payload_bytes(_pack_values(self._plastic, DEFAULT_PRECISION))),
+                    ),
+                )
+            )
+
+        # Axis-local rewrites on the largest active coordinates.
+        ranked_axes = sorted(range(FIELD_WIDTH), key=lambda i: (-abs(full_trace[i]), i))
+        for axis in ranked_axes:
+            if full_trace[axis] == 0:
+                continue
+            masked = [0] * FIELD_WIDTH
+            masked[axis] = full_trace[axis]
+            delta = plastic_delta(masked, 1.0)
+            if all(x == 0 for x in delta):
+                continue
+            self._proposal_serial += 1
+            candidates.append(
+                (
+                    float(abs(full_trace[axis])),
+                    Proposal(
+                        proposal_id=f"k4-{self.observations_seen}-{self._proposal_serial}:ax{axis}",
+                        kind="time_aware_plastic_rewrite",
+                        target=f"field:ax{axis}",
+                        delta=delta,
+                        precision_request=DEFAULT_PRECISION,
+                        trigger=f"channel:{self._last_channel}|axis:{axis}",
+                        expected_value=float(abs(full_trace[axis])),
+                        cost_bytes=max(1, _payload_bytes(_pack_values(self._plastic, DEFAULT_PRECISION))),
+                    ),
+                )
+            )
+
+        # Continuous-time exclusive: schedule predictions at several expiry horizons when time is pending.
+        if self._active_pending_ms >= 25 and MECH_K4 not in self.frozen_mechanisms:
+            for horizon_factor, tag in ((1, "near"), (2, "mid"), (4, "far")):
+                horizon = self._durable_clock_ms + max(50, self._active_pending_ms * horizon_factor)
+                self._proposal_serial += 1
+                candidates.append(
+                    (
+                        1.0 / horizon_factor + 0.1,
+                        Proposal(
+                            proposal_id=f"k4-pred-{self.observations_seen}-{self._proposal_serial}:{tag}",
+                            kind="schedule_prediction",
+                            target="predictions",
+                            delta=tuple(self._active_trace[:4]),
+                            trigger=f"expiry_horizon_ms:{horizon}|{tag}",
+                            expected_value=1.0 / horizon_factor,
+                            cost_bytes=8,
+                        ),
+                    )
+                )
+
+        candidates.sort(key=lambda row: (-row[0], row[1].proposal_id))
+        for _score, proposal in candidates[:PROPOSALS_PER_CYCLE]:
+            yield proposal
 
     def _commit(self, proposal: Proposal) -> None:
         self._undo[proposal.proposal_id] = self._snapshot_durable()
@@ -349,67 +440,185 @@ class K6_adaptive_topology_field(MaterialBase):
     def _mechanism_open(self) -> bool:
         return MECH_K6 not in self.frozen_mechanisms and self._growth_enabled
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
     def _propose(self) -> Iterable[Proposal]:
         if not self._opportunity.plasticity_enabled:
             return
-        self._proposal_serial += 1
-        # Plastic rewrite always available.
-        delta = tuple(
-            native_low_bit_update(p, -float(a), DEFAULT_ALPHABET) - p
-            for p, a in zip(self._plastic, self._active_trace, strict=True)
-        )
-        yield Proposal(
-            proposal_id=f"k6-plastic-{self.observations_seen}-{self._proposal_serial}",
-            kind="topology_conditioned_plastic_rewrite",
-            target="field",
-            delta=delta,
-            trigger=f"channel:{self._last_channel}",
-            expected_value=float(sum(abs(x) for x in delta)),
-            cost_bytes=max(1, _payload_bytes(_pack_values(self._plastic, DEFAULT_PRECISION))),
-        )
-        if not self._mechanism_open():
-            return
-        # Rent audit proposals: prune structures that failed to earn value.
-        for node_id, meta in list(self._rent.items()):
-            age = self._commit_index - int(meta["born_at"])
-            utility = float(meta.get("verified_utility", 0.0))
-            if age >= C.PRECISION_AUDIT_WINDOW and utility <= 0.0:
-                self._proposal_serial += 1
-                yield Proposal(
-                    proposal_id=f"k6-prune-{node_id}-{self._proposal_serial}",
-                    kind="topology_prune",
-                    target=node_id,
-                    topology_operation="prune",
-                    trigger="rent_default",
-                    expected_value=1.0,
-                    cost_bytes=0,
+        # Enumeration cost is proportional to the inspected field and the ranked topology sample, not the full archive.
+        self._opportunity.ledger.spend(FIELD_WIDTH + min(PROPOSALS_PER_CYCLE, max(1, len(self._nodes))) + 2)
+        candidates: list[tuple[float, Proposal]] = []
+
+        # Plastic rewrites conditioned on current topology, at several magnitudes/regions.
+        full_trace = list(self._active_trace)
+        for scale, tag in ((1.0, "full"), (2.0, "scale2"), (-1.0, "invert")):
+            delta = tuple(
+                native_low_bit_update(p, -float(a) * scale, DEFAULT_ALPHABET) - p
+                for p, a in zip(self._plastic, full_trace, strict=True)
+            )
+            if all(x == 0 for x in delta):
+                continue
+            self._proposal_serial += 1
+            candidates.append(
+                (
+                    float(sum(abs(x) for x in delta)) + 1.0,
+                    Proposal(
+                        proposal_id=f"k6-plastic-{self.observations_seen}-{self._proposal_serial}:{tag}",
+                        kind="topology_conditioned_plastic_rewrite",
+                        target="field",
+                        delta=delta,
+                        trigger=f"channel:{self._last_channel}|{tag}",
+                        expected_value=float(sum(abs(x) for x in delta)),
+                        cost_bytes=max(1, _payload_bytes(_pack_values(self._plastic, DEFAULT_PRECISION))),
+                    ),
                 )
-        # Growth: only propose allocate when active mass suggests structure is needed.
-        demand = sum(abs(x) for x in self._active_trace)
-        if demand > 0 and len(self._nodes) < 8:
-            self._proposal_serial += 1
-            node_id = f"n{len(self._nodes) + len(self._archive) + 1}"
-            yield Proposal(
-                proposal_id=f"k6-alloc-{node_id}-{self._proposal_serial}",
-                kind="topology_allocate",
-                target=node_id,
-                topology_operation="allocate",
-                trigger=f"demand:{demand}",
-                expected_value=float(demand),
-                cost_bytes=16,
             )
-        if len(self._nodes) >= 2:
-            ordered = sorted(self._nodes)
-            self._proposal_serial += 1
-            yield Proposal(
-                proposal_id=f"k6-split-{ordered[0]}-{self._proposal_serial}",
-                kind="topology_split",
-                target=ordered[0],
-                topology_operation="split",
-                trigger="capacity",
-                expected_value=0.5,
-                cost_bytes=24,
+        axis_rank = sorted(range(FIELD_WIDTH), key=lambda i: (-abs(full_trace[i]), i))
+        for axis in axis_rank[:8]:
+            if full_trace[axis] == 0:
+                continue
+            masked = [full_trace[i] if i == axis else 0 for i in range(FIELD_WIDTH)]
+            delta = tuple(
+                native_low_bit_update(p, -float(a), DEFAULT_ALPHABET) - p
+                for p, a in zip(self._plastic, masked, strict=True)
             )
+            if all(x == 0 for x in delta):
+                continue
+            self._proposal_serial += 1
+            candidates.append(
+                (
+                    float(abs(full_trace[axis])),
+                    Proposal(
+                        proposal_id=f"k6-plastic-{self.observations_seen}-{self._proposal_serial}:ax{axis}",
+                        kind="topology_conditioned_plastic_rewrite",
+                        target=f"field:ax{axis}",
+                        delta=delta,
+                        trigger=f"channel:{self._last_channel}|axis:{axis}",
+                        expected_value=float(abs(full_trace[axis])),
+                        cost_bytes=max(1, _payload_bytes(_pack_values(self._plastic, DEFAULT_PRECISION))),
+                    ),
+                )
+            )
+
+        if self._mechanism_open():
+            # Rent audit: prune structures that failed to earn value (best-first, capped).
+            prune_rows: list[tuple[float, str]] = []
+            for node_id, meta in self._rent.items():
+                age = self._commit_index - int(meta["born_at"])
+                utility = float(meta.get("verified_utility", 0.0))
+                if age >= C.PRECISION_AUDIT_WINDOW and utility <= 0.0:
+                    prune_rows.append((2.0 + age - utility, node_id))
+            for score, node_id in sorted(prune_rows, key=lambda row: (-row[0], row[1]))[:4]:
+                self._proposal_serial += 1
+                candidates.append(
+                    (
+                        score,
+                        Proposal(
+                            proposal_id=f"k6-prune-{node_id}-{self._proposal_serial}",
+                            kind="topology_prune",
+                            target=node_id,
+                            topology_operation="prune",
+                            trigger="rent_default",
+                            expected_value=1.0,
+                            cost_bytes=0,
+                        ),
+                    )
+                )
+            # Growth: a few allocate targets whose rent could be earned under current demand.
+            # Hard cap of 8 live nodes is part of the material's rent law.
+            demand = sum(abs(x) for x in self._active_trace)
+            free_slots = max(0, 8 - len(self._nodes))
+            if demand > 0 and free_slots > 0:
+                base = len(self._nodes) + len(self._archive)
+                for offset in range(1, min(free_slots, 3) + 1):
+                    node_id = f"n{base + offset}"
+                    self._proposal_serial += 1
+                    candidates.append(
+                        (
+                            float(demand) / offset + 0.5,
+                            Proposal(
+                                proposal_id=f"k6-alloc-{node_id}-{self._proposal_serial}",
+                                kind="topology_allocate",
+                                target=node_id,
+                                topology_operation="allocate",
+                                trigger=f"demand:{demand}:slot{offset}",
+                                expected_value=float(demand) / offset,
+                                cost_bytes=16,
+                            ),
+                        )
+                    )
+            # Split the highest-activation nodes only (several, not the entire graph).
+            ordered = sorted(
+                self._nodes,
+                key=lambda nid: (-abs(int(self._nodes[nid].get("activation", 0))), nid),
+            )
+            for rank, node_id in enumerate(ordered[:3]):
+                activation = abs(int(self._nodes[node_id].get("activation", 0)))
+                self._proposal_serial += 1
+                candidates.append(
+                    (
+                        0.5 + activation - 0.01 * rank,
+                        Proposal(
+                            proposal_id=f"k6-split-{node_id}-{self._proposal_serial}",
+                            kind="topology_split",
+                            target=node_id,
+                            topology_operation="split",
+                            trigger="capacity",
+                            expected_value=0.5 + activation,
+                            cost_bytes=24,
+                        ),
+                    )
+                )
+            # Merge a few aged low-activation pairs only when both have failed to earn rent.
+            if len(self._nodes) >= 2:
+                by_activation = sorted(
+                    (
+                        nid
+                        for nid, meta in self._rent.items()
+                        if (self._commit_index - int(meta["born_at"])) >= C.PRECISION_AUDIT_WINDOW
+                        and float(meta.get("verified_utility", 0.0)) <= 0.0
+                        and nid in self._nodes
+                    ),
+                    key=lambda nid: (abs(int(self._nodes[nid].get("activation", 0))), nid),
+                )
+                for left, right in list(zip(by_activation, by_activation[1:], strict=False))[:2]:
+                    self._proposal_serial += 1
+                    candidates.append(
+                        (
+                            0.4,
+                            Proposal(
+                                proposal_id=f"k6-merge-{left}+{right}-{self._proposal_serial}",
+                                kind="topology_merge",
+                                target=f"{left}+{right}",
+                                topology_operation="merge",
+                                trigger="compress",
+                                expected_value=0.4,
+                                cost_bytes=8,
+                            ),
+                        )
+                    )
+            # Archive aged rent-default nodes (same licence as prune; distinct topology op).
+            for score, node_id in sorted(prune_rows, key=lambda row: (-row[0], row[1]))[:2]:
+                self._proposal_serial += 1
+                candidates.append(
+                    (
+                        score - 0.1,
+                        Proposal(
+                            proposal_id=f"k6-archive-{node_id}-{self._proposal_serial}",
+                            kind="topology_archive",
+                            target=node_id,
+                            topology_operation="archive",
+                            trigger="rent_default",
+                            expected_value=0.3,
+                            cost_bytes=0,
+                        ),
+                    )
+                )
+
+        candidates.sort(key=lambda row: (-row[0], row[1].proposal_id))
+        for _score, proposal in candidates[:PROPOSALS_PER_CYCLE]:
+            yield proposal
 
     def _recompute_rent_utilities(self) -> None:
         """Verified value is the sum of committed improvements since birth (from receipts)."""
@@ -639,73 +848,125 @@ class K7_native_mixed_radix_field(MaterialBase):
     def _mechanism_open(self) -> bool:
         return MECH_K7 not in self.frozen_mechanisms
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
     def _propose(self) -> Iterable[Proposal]:
         if not self._opportunity.plasticity_enabled:
             return
-        self._proposal_serial += 1
-        # Region plastic rewrite at each region's native radix.
+        self._opportunity.ledger.spend(sum(len(v) for v in self._regions.values()) + len(self._regions) * 2)
+        candidates: list[tuple[float, Proposal]] = []
+        demand = sum(abs(x) for x in self._active_trace)
+
+        # Region plastic rewrites at each region's native radix, plus scaled/axis variants.
         for name, values in sorted(self._regions.items()):
             precision = self._precision_map[name]
             alphabet = PRECISION_ALPHABETS[precision]
-            slice_trace = self._active_trace[: len(values)]
+            slice_trace = list(self._active_trace[: len(values)])
             while len(slice_trace) < len(values):
                 slice_trace.append(0)
-            delta = tuple(
-                native_low_bit_update(v, -float(t), alphabet) - v for v, t in zip(values, slice_trace, strict=True)
-            )
-            self._proposal_serial += 1
-            yield Proposal(
-                proposal_id=f"k7-write-{name}-{self.observations_seen}-{self._proposal_serial}",
-                kind="region_plastic_rewrite",
-                target=name,
-                delta=delta,
-                precision_request=precision,
-                trigger=f"channel:{self._last_channel}",
-                expected_value=float(sum(abs(x) for x in delta)),
-                cost_bytes=max(1, _payload_bytes(_pack_values(values, precision))),
-            )
-        if not self._mechanism_open():
-            return
-        # Promotion: when active energy is high relative to current radix.
-        demand = sum(abs(x) for x in self._active_trace)
-        for name, precision in sorted(self._precision_map.items()):
-            if name in self._precision_rent:
-                continue
-            rank = REGION_LADDER.index(precision)
-            if demand >= (rank + 1) * 2 and rank < len(REGION_LADDER) - 1:
-                higher = REGION_LADDER[rank + 1]
-                before = _payload_bytes(_pack_values(self._regions[name], precision))
-                projected = [_clamp(v, higher) for v in self._regions[name]]
-                after = _payload_bytes(_pack_values(projected, higher))
-                added_bytes = max(1, after - before)
-                self._proposal_serial += 1
-                yield Proposal(
-                    proposal_id=f"k7-promote-{name}-{self._proposal_serial}",
-                    kind="precision_promote",
-                    target=name,
-                    precision_request=higher,
-                    trigger=f"demand:{demand}",
-                    expected_value=float(demand) / float(added_bytes),
-                    cost_bytes=added_bytes,
+            for scale, tag in ((1.0, "full"), (2.0, "scale2"), (-1.0, "invert")):
+                delta = tuple(
+                    native_low_bit_update(v, -float(t) * scale, alphabet) - v
+                    for v, t in zip(values, slice_trace, strict=True)
                 )
-                break
-        # Demotion proposals for rent defaulters (also auto-enforced on commit).
-        for name, meta in list(self._precision_rent.items()):
-            age = self._commit_index - int(meta["born_at"])
-            utility = float(meta.get("verified_utility", 0.0))
-            added = max(1, int(meta.get("added_bytes", 1)))
-            rate = utility / float(added)
-            if age >= C.PRECISION_AUDIT_WINDOW and rate < C.MINIMUM_UTILITY_PER_ADDED_BYTE:
+                if all(x == 0 for x in delta):
+                    continue
                 self._proposal_serial += 1
-                yield Proposal(
-                    proposal_id=f"k7-demote-{name}-{self._proposal_serial}",
-                    kind="precision_demote",
-                    target=name,
-                    precision_request=str(meta.get("prior_precision", "ternary")),
-                    trigger="rent_default",
-                    expected_value=1.0,
-                    cost_bytes=0,
+                candidates.append(
+                    (
+                        float(sum(abs(x) for x in delta)),
+                        Proposal(
+                            proposal_id=f"k7-write-{name}-{self.observations_seen}-{self._proposal_serial}:{tag}",
+                            kind="region_plastic_rewrite",
+                            target=name,
+                            delta=delta,
+                            precision_request=precision,
+                            trigger=f"channel:{self._last_channel}|{tag}",
+                            expected_value=float(sum(abs(x) for x in delta)),
+                            cost_bytes=max(1, _payload_bytes(_pack_values(values, precision))),
+                        ),
+                    )
                 )
+            for axis in sorted(range(len(values)), key=lambda i: (-abs(slice_trace[i]), i)):
+                if slice_trace[axis] == 0:
+                    continue
+                masked = [slice_trace[i] if i == axis else 0 for i in range(len(values))]
+                delta = tuple(
+                    native_low_bit_update(v, -float(t), alphabet) - v for v, t in zip(values, masked, strict=True)
+                )
+                if all(x == 0 for x in delta):
+                    continue
+                self._proposal_serial += 1
+                candidates.append(
+                    (
+                        float(abs(slice_trace[axis])),
+                        Proposal(
+                            proposal_id=f"k7-write-{name}-{self.observations_seen}-{self._proposal_serial}:ax{axis}",
+                            kind="region_plastic_rewrite",
+                            target=name,
+                            delta=delta,
+                            precision_request=precision,
+                            trigger=f"channel:{self._last_channel}|axis:{axis}",
+                            expected_value=float(abs(slice_trace[axis])),
+                            cost_bytes=max(1, _payload_bytes(_pack_values(values, precision))),
+                        ),
+                    )
+                )
+
+        if self._mechanism_open():
+            # Promotion for every region whose demand could pay the radix rent.
+            for name, precision in sorted(self._precision_map.items()):
+                if name in self._precision_rent:
+                    continue
+                rank = REGION_LADDER.index(precision)
+                if demand >= (rank + 1) * 2 and rank < len(REGION_LADDER) - 1:
+                    higher = REGION_LADDER[rank + 1]
+                    before = _payload_bytes(_pack_values(self._regions[name], precision))
+                    projected = [_clamp(v, higher) for v in self._regions[name]]
+                    after = _payload_bytes(_pack_values(projected, higher))
+                    added_bytes = max(1, after - before)
+                    self._proposal_serial += 1
+                    candidates.append(
+                        (
+                            float(demand) / float(added_bytes),
+                            Proposal(
+                                proposal_id=f"k7-promote-{name}-{self._proposal_serial}",
+                                kind="precision_promote",
+                                target=name,
+                                precision_request=higher,
+                                trigger=f"demand:{demand}",
+                                expected_value=float(demand) / float(added_bytes),
+                                cost_bytes=added_bytes,
+                            ),
+                        )
+                    )
+            # Demotion proposals for rent defaulters (also auto-enforced on commit).
+            for name, meta in sorted(self._precision_rent.items()):
+                age = self._commit_index - int(meta["born_at"])
+                utility = float(meta.get("verified_utility", 0.0))
+                added = max(1, int(meta.get("added_bytes", 1)))
+                rate = utility / float(added)
+                if age >= C.PRECISION_AUDIT_WINDOW and rate < C.MINIMUM_UTILITY_PER_ADDED_BYTE:
+                    self._proposal_serial += 1
+                    candidates.append(
+                        (
+                            2.0,
+                            Proposal(
+                                proposal_id=f"k7-demote-{name}-{self._proposal_serial}",
+                                kind="precision_demote",
+                                target=name,
+                                precision_request=str(meta.get("prior_precision", "ternary")),
+                                trigger="rent_default",
+                                expected_value=1.0,
+                                cost_bytes=0,
+                            ),
+                        )
+                    )
+
+        candidates.sort(key=lambda row: (-row[0], row[1].proposal_id))
+        for _score, proposal in candidates[:PROPOSALS_PER_CYCLE]:
+            yield proposal
 
     def _commit(self, proposal: Proposal) -> None:
         self._undo[proposal.proposal_id] = self._snapshot_durable()
@@ -923,38 +1184,128 @@ class K8_event_sourced_plastic_field(MaterialBase):
     def _mechanism_open(self) -> bool:
         return MECH_K8 not in self.frozen_mechanisms
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
     def _propose(self) -> Iterable[Proposal]:
         if not self._opportunity.plasticity_enabled:
             return
         if not self._mechanism_open():
             # Even with mechanism frozen, no durable path exists except archive events.
             return
-        self._proposal_serial += 1
-        delta = tuple(
-            native_low_bit_update(0, -float(a), DEFAULT_ALPHABET) for a in self._active_trace
-        )
-        yield Proposal(
-            proposal_id=f"k8-event-{self.observations_seen}-{self._proposal_serial}",
-            kind="plastic_event",
-            target="archive",
-            delta=delta,
-            trigger=f"channel:{self._last_channel}",
-            expected_value=float(sum(abs(x) for x in delta)),
-            cost_bytes=max(1, 4 + 2 * len(delta)),
-        )
-        if sum(abs(x) for x in self._active_trace) > 2:
+        self._opportunity.ledger.spend(FIELD_WIDTH * 2)
+        candidates: list[tuple[float, Proposal]] = []
+        trace = list(self._active_trace)
+        mass = sum(abs(x) for x in trace)
+
+        # Plastic events: full, scaled, inverted, and axis-local archive appends.
+        for scale, tag in ((1.0, "full"), (2.0, "scale2"), (-1.0, "invert"), (0.5, "half")):
+            delta = tuple(native_low_bit_update(0, -float(a) * scale, DEFAULT_ALPHABET) for a in trace)
+            if all(x == 0 for x in delta):
+                continue
             self._proposal_serial += 1
-            node = f"e{len(self._archive) + 1}"
-            yield Proposal(
-                proposal_id=f"k8-topo-{self.observations_seen}-{self._proposal_serial}",
-                kind="topology_event",
-                target=node,
-                topology_operation="append_node",
-                delta=(1,),
-                trigger="structure_from_event",
-                expected_value=1.0,
-                cost_bytes=8,
+            candidates.append(
+                (
+                    float(sum(abs(x) for x in delta)),
+                    Proposal(
+                        proposal_id=f"k8-event-{self.observations_seen}-{self._proposal_serial}:{tag}",
+                        kind="plastic_event",
+                        target="archive",
+                        delta=delta,
+                        trigger=f"channel:{self._last_channel}|{tag}",
+                        expected_value=float(sum(abs(x) for x in delta)),
+                        cost_bytes=max(1, 4 + 2 * len(delta)),
+                    ),
+                )
             )
+        for axis in sorted(range(FIELD_WIDTH), key=lambda i: (-abs(trace[i]), i)):
+            if trace[axis] == 0:
+                continue
+            delta = tuple(
+                native_low_bit_update(0, -float(trace[i] if i == axis else 0), DEFAULT_ALPHABET) for i in range(FIELD_WIDTH)
+            )
+            if all(x == 0 for x in delta):
+                continue
+            self._proposal_serial += 1
+            candidates.append(
+                (
+                    float(abs(trace[axis])),
+                    Proposal(
+                        proposal_id=f"k8-event-{self.observations_seen}-{self._proposal_serial}:ax{axis}",
+                        kind="plastic_event",
+                        target="archive",
+                        delta=delta,
+                        trigger=f"channel:{self._last_channel}|axis:{axis}",
+                        expected_value=float(abs(trace[axis])),
+                        cost_bytes=max(1, 4 + 2 * len(delta)),
+                    ),
+                )
+            )
+
+        # Topology / precision / procedure events licensed by the event-sourced path.
+        if mass > 2:
+            for offset in range(1, 5):
+                node = f"e{len(self._archive) + offset}"
+                self._proposal_serial += 1
+                candidates.append(
+                    (
+                        1.0 / offset + mass * 0.01,
+                        Proposal(
+                            proposal_id=f"k8-topo-{self.observations_seen}-{self._proposal_serial}:n{offset}",
+                            kind="topology_event",
+                            target=node,
+                            topology_operation="append_node",
+                            delta=(offset,),
+                            trigger="structure_from_event",
+                            expected_value=1.0 / offset,
+                            cost_bytes=8,
+                        ),
+                    )
+                )
+        if mass >= 3:
+            for precision in ("quinary", "4_bit"):
+                if precision == self._precision_map.get("field", DEFAULT_PRECISION):
+                    continue
+                self._proposal_serial += 1
+                candidates.append(
+                    (
+                        0.75,
+                        Proposal(
+                            proposal_id=f"k8-prec-{self.observations_seen}-{self._proposal_serial}:{precision}",
+                            kind="precision_event",
+                            target="precision",
+                            precision_request=precision,
+                            delta=(mass,),
+                            trigger=f"precision:{precision}",
+                            expected_value=0.75,
+                            cost_bytes=4,
+                        ),
+                    )
+                )
+        if mass >= 2:
+            for body_scale in (1, 2):
+                body = tuple(_clamp(int(x) * body_scale, DEFAULT_PRECISION) for x in trace[:4])
+                if all(x == 0 for x in body):
+                    continue
+                self._proposal_serial += 1
+                candidates.append(
+                    (
+                        0.5 * body_scale,
+                        Proposal(
+                            proposal_id=f"k8-proc-{self.observations_seen}-{self._proposal_serial}:s{body_scale}",
+                            kind="procedure_event",
+                            target=f"proc:{self.observations_seen}:{body_scale}",
+                            delta=body,
+                            trigger="compile_from_event",
+                            expected_value=0.5 * body_scale,
+                            cost_bytes=max(1, 2 * len(body)),
+                        ),
+                    )
+                )
+
+        candidates.sort(key=lambda row: (-row[0], row[1].proposal_id))
+        for _score, proposal in candidates[:PROPOSALS_PER_CYCLE]:
+            yield proposal
 
     def _commit(self, proposal: Proposal) -> None:
         self._undo[proposal.proposal_id] = self._snapshot_durable()
@@ -1102,6 +1453,7 @@ register("K7_native_mixed_radix_field", _make_k7)
 register("K8_event_sourced_plastic_field", _make_k8)
 
 __all__ = [
+    "PROPOSALS_PER_CYCLE",
     "K4_continuous_time_plastic_field",
     "K6_adaptive_topology_field",
     "K7_native_mixed_radix_field",
