@@ -2,19 +2,42 @@
 
 External activation is `false`. Grok opinions are proposals; evidence decides.
 
+- invocations: **62** across **8** of the eight declared rounds
 - distinct roles credited: **59** (minimum 32, preferred 48)
 - feasibility grades out of 20: min 3, median 5, max 8
-- blocking defects raised: **138**
+- blocking defects raised: **144**
 
 ## Rounds
 
-- `architecture_proposals` — 12 roles
-- `blind_review` — 41 roles
-- `challenge_design` — 2 roles
-- `code_review` — 2 roles
-- `final_review` — 2 roles
+- `architecture_proposals` — 12
+- `blind_review` — 41
+- `challenge_design` — 2
+- `code_review` — 2
+- `cross_examination` — 1
+- `final_review` — 2
+- `post_canary_review` — 1
+- `post_pilot_review` — 1
 
-## Every credited role
+## What the later rounds changed
+
+Three findings from the cross-examination, post-canary and post-pilot rounds
+changed the published conclusion rather than decorating it.
+
+The cross-examination refused the reading that a monolith beat structure,
+pointing out that K1 is itself a monolith and scores below the structured K2,
+and that what separates the strongest control is exact content-addressable
+association against the candidates' lossy low-bit projections. That confound
+is now stated as the first limitation.
+
+The post-canary round observed that twelve green canaries coexisted with a
+counterfeit tying the best candidate, because each canary exercises one
+mechanism in isolation and none ranks a counterfeit against a candidate.
+
+The post-pilot round measured that the attempt repair reduced the gap from
+roughly two hundredfold to roughly sevenfold rather than closing it. The
+residual ratio and its direction are now published as numbers.
+
+## Every credited invocation
 
 | role | round | grade | blocking | session |
 |---|---|---:|---:|---|
@@ -75,18 +98,18 @@ External activation is `false`. Grok opinions are proposals; evidence decides.
 | `hidden_composition_author` | challenge_design | 5/20 | 3 | `019fadab` |
 | `code_review_campaign` | code_review | 5/20 | 4 | `019fadd4` |
 | `code_review_core` | code_review | 5/20 | 2 | `019fadb9` |
+| `cognitive_material_architect` | cross_examination | 4/20 | 1 | `019fae0e` |
 | `falsification_reviewer` | final_review | 3/20 | 3 | `019fada8` |
 | `publication_reviewer` | final_review | 4/20 | 2 | `019fadd4` |
+| `red_team_counterfeit_development` | post_canary_review | 4/20 | 2 | `019fae0e` |
+| `falsification_reviewer` | post_pilot_review | 4/20 | 3 | `019fae0e` |
 
 ## How to read the grades
 
-Each reviewer was asked to grade whether this program could reach a
-defensible Outcome A **on the evidence available when they read it**, not
-whether the plan sounded good. A median of 5 out of 20 is the swarm saying,
-independently and repeatedly, that it could not. The published result agrees
-with them.
+Each reviewer graded whether this program could reach a defensible Outcome A
+**on the evidence available when they read it**, not whether the plan sounded
+good. A median of 5 out of 20 is the swarm saying, independently and
+repeatedly, that it could not. The published result agrees with them.
 
-Every reviewer was required to produce at least one blocker and at least one
-falsifier, and to cite a file, line or command output for each. Reviews that
-did not parse, did not carry the assigned role and round, or set activation
-true were refused by the ledger rather than recorded.
+Reviews that did not parse, did not carry the assigned role and round, or set
+activation true were refused by the ledger rather than recorded.
