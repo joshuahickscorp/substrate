@@ -98,9 +98,18 @@ def run_lane(
     operation_budget: int = 4_000_000_000,
     durable_write_budget: int = 4_000_000,
     heartbeat_path: os.PathLike[str] | None = None,
+    disclosed_short_run: bool = False,
 ) -> dict[str, Any]:
-    """Develop one material continuously for the requested wall-clock duration."""
-    if duration_seconds < C.CONTINUITY_LANE_MINIMUM_SECONDS:
+    """Develop one material continuously for the requested wall-clock duration.
+
+    ``disclosed_short_run`` permits a lane below the frozen minimum. It does not
+    make the lane conforming: the report carries the shortfall and its
+    ``all_pass`` is false, so a short lane can never be mistaken for the twelve
+    hour one the constitution requires. The substantive mechanism checks are
+    reported separately as ``mechanisms_pass``.
+    """
+    frozen_minimum = float(C.CONTINUITY_LANE_MINIMUM_SECONDS)
+    if duration_seconds < frozen_minimum and not disclosed_short_run:
         raise ContinuityRefused(
             f"the continuity lane must run at least {C.CONTINUITY_LANE_MINIMUM_SECONDS} seconds, not {duration_seconds}"
         )
@@ -211,8 +220,10 @@ def run_lane(
     state.early_score_latest = _score(material, early)
     state.identity_digests.append(material.durable_state_digest())
 
-    checks = {
-        "ran_at_least_twelve_hours": state.elapsed_seconds >= C.CONTINUITY_LANE_MINIMUM_SECONDS,
+    # Mechanism checks are what the lane substantively measures. Duration
+    # conformance is tracked separately so a short lane reports as short rather
+    # than as a slightly smaller version of the required one.
+    mechanisms = {
         "sequential_not_parallel": True,
         "checkpoints_taken": state.checkpoints > 0,
         "interruptions_survived": state.interruptions >= len(INTERRUPTION_FRACTIONS),
@@ -226,11 +237,18 @@ def run_lane(
         ),
         "development_occurred": state.committed > 0,
     }
+    conforms = state.elapsed_seconds >= frozen_minimum
+    checks = {**mechanisms, "ran_at_least_the_frozen_minimum": conforms}
 
     return {
         "arm": arm,
         "seed_namespace": seed_namespace,
         "requested_seconds": duration_seconds,
+        "frozen_minimum_seconds": frozen_minimum,
+        "conforms_to_frozen_minimum": conforms,
+        "disclosed_short_run": bool(disclosed_short_run),
+        "shortfall_seconds": max(0.0, frozen_minimum - state.elapsed_seconds),
+        "mechanisms_pass": all(mechanisms.values()),
         "elapsed_seconds": state.elapsed_seconds,
         "started_at": state.started_at,
         "cycles": state.cycles,
@@ -262,12 +280,25 @@ def publish(report: dict[str, Any]) -> dict[str, Any]:
 
 def demo() -> None:
     """The duration floor is the point of this lane; prove it is enforced."""
+    import substrate.genesis_k_basic  # noqa: F401
     try:
         run_lane(arm="K1_monolithic_plastic_field", seed_namespace="demo", duration_seconds=60)
     except ContinuityRefused as error:
         assert "at least" in str(error)
     else:  # pragma: no cover
         raise AssertionError("the twelve hour floor was not enforced")
+
+    # A disclosed short run is permitted but can never report as conforming.
+    short = run_lane(
+        arm="K1_monolithic_plastic_field",
+        seed_namespace="demo",
+        duration_seconds=2,
+        disclosed_short_run=True,
+    )
+    assert short["disclosed_short_run"] is True
+    assert short["conforms_to_frozen_minimum"] is False
+    assert short["all_pass"] is False, "a short lane must not report as a passing continuity lane"
+    assert short["shortfall_seconds"] > 0
 
     try:
         run_lane(arm="K1_monolithic_plastic_field", seed_namespace="demo", duration_seconds=200_000)
