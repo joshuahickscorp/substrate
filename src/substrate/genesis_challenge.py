@@ -721,18 +721,30 @@ def _gen_contradiction_reopening(rng: random.Random, family: str, split: str, un
 
 
 def _gen_long_horizon_goal_recovery(rng: random.Random, family: str, split: str, unit_id: int, seed_namespace: str) -> Unit:
-    """Goal interrupted and resumed much later."""
+    """Goal interrupted and resumed much later.
+
+    The whole plan is taught before the interrupt, so the answer is recoverable
+    from the observation stream: the resume event names the index reached, and
+    the next step is the one taught for the following index. Publishing only
+    the steps up to the interrupt made the probe unanswerable from experience,
+    and drawing the step codes without unit entropy made one constant code the
+    right answer every time, so a fixed guess scored perfectly.
+
+    The plan is taught on ``goal_step`` while the probe asks on ``goal_next``,
+    so a policy that copies the last field matching the probe channel still has
+    nothing to copy.
+    """
     goal = _public_id(rng, 1)
-    steps = [_answer_code(rng, i + 3) for i in range(4)]
+    steps = [_answer_code(rng, i + 3, unit_id, _FAMILY_CODE[family]) for i in range(4)]
     target = _sealed_target(family, split, unit_id, 0)
     observations: list[Observation] = []
     index = 0
     observations.append(_obs(index, "goal", (goal, steps[0]), stage="appearance", teaching=True))
     index += 1
-    observations.append(_obs(index, "goal_step", (goal, 0, steps[0]), stage="composition", teaching=True))
-    index += 1
-    observations.append(_obs(index, "goal_step", (goal, 1, steps[1]), stage="mechanism", teaching=True))
-    index += 1
+    for step_index, step_value in enumerate(steps):
+        stage = "composition" if step_index < 2 else "mechanism"
+        observations.append(_obs(index, "goal_step", (goal, step_index, step_value), stage=stage, teaching=True))
+        index += 1
     observations.append(_obs(index, "interrupt", (goal, 1), stage="causal_system"))
     index += 1
     for d in range(8):
