@@ -212,6 +212,107 @@ def _alternative_observations(
     return tuple(collected)
 
 
+def composition_pairs(families: Sequence[str]) -> list[tuple[str, str]]:
+    """Ordered family pairs, deterministic and covering every family twice."""
+    ordered = list(families)
+    return [(ordered[index], ordered[(index + 1) % len(ordered)]) for index in range(len(ordered))]
+
+
+def build_composed_history(
+    *,
+    left: str,
+    right: str,
+    history_id: int,
+    seed_namespace: str,
+    split: str = "hidden_composition",
+) -> T.Unit:
+    """A history that interleaves two families and is scored on both.
+
+    A different seed alone is a fresh instance of a task already seen, not a
+    composition. Here the material must hold two concept systems in one field
+    at once and answer probes from both, which is the transfer the program
+    actually claims to test. The pairing is fixed before the split is
+    generated and no candidate sees these histories before the freeze.
+    """
+    if left == right:
+        raise HistoryRefused("a composition needs two different families")
+
+    observations: list[M.Observation] = []
+    probes_by_role: dict[str, list[M.Probe]] = {role.name: [] for role in ROLES}
+    entries_by_role: dict[str, list[tuple[int, tuple[int, ...]]]] = {role.name: [] for role in ROLES}
+
+    observation_index = 0
+    probe_index = 0
+    for role in ROLES:
+        left_units = _units_for_role(left, split, history_id, role, seed_namespace)
+        right_units = _units_for_role(right, split, history_id, role, seed_namespace)
+        # Interleave, so neither family is a contiguous block the material can
+        # simply finish before starting the other.
+        for position in range(max(len(left_units), len(right_units))):
+            for units in (left_units, right_units):
+                if position >= len(units):
+                    continue
+                unit = units[position]
+                local_to_global: dict[int, int] = {}
+                for observation in unit.observations:
+                    observations.append(
+                        M.Observation(
+                            index=observation_index,
+                            channel=observation.channel,
+                            payload=observation.payload,
+                            elapsed_ms=observation.elapsed_ms or 1,
+                            teaching=observation.teaching,
+                            modality=observation.modality,
+                        )
+                    )
+                    observation_index += 1
+                for probe in unit.probes:
+                    local_to_global[probe.index] = probe_index
+                    probes_by_role[role.name].append(
+                        M.Probe(
+                            index=probe_index,
+                            family=probe.family,
+                            channel=probe.channel,
+                            probe=probe.probe,
+                            arity=probe.arity,
+                        )
+                    )
+                    probe_index += 1
+                for local_index, expected in unit.sealed.entries():
+                    entries_by_role[role.name].append((local_to_global[local_index], expected))
+
+    split_probes = H.ProbeSplit(
+        development=tuple(probes_by_role[H.DEVELOPMENT]),
+        retention=tuple(probes_by_role[H.RETENTION]),
+        scoring=tuple(probes_by_role[H.SCORING]),
+    )
+    scorers = {role.name: _SplitScorer(entries_by_role[role.name]) for role in ROLES}
+
+    expected_by_probe: dict[int, tuple[int, ...]] = {}
+    for entries in entries_by_role.values():
+        expected_by_probe.update(dict(entries))
+    oracle_structure = {
+        f"{probe.family}|{probe.channel}|{','.join(str(int(value)) for value in probe.probe)}": expected_by_probe[probe.index]
+        for probe in split_probes.development + split_probes.retention + split_probes.scoring
+    }
+
+    alternative = _alternative_observations(left, split, history_id, seed_namespace, len(observations))
+
+    return T.Unit(
+        history_id=history_id,
+        family=f"{left}+{right}",
+        observations=tuple(observations),
+        alternative_observations=alternative,
+        probes=split_probes,
+        judge=H.Judge(
+            score_development=scorers[H.DEVELOPMENT],
+            score_retention=scorers[H.RETENTION],
+            score_scoring=scorers[H.SCORING],
+        ),
+        oracle_structure=oracle_structure,
+    )
+
+
 def provider(split: str, seed_namespace: str) -> Any:
     """A tournament unit provider bound to one split and seed namespace."""
 
