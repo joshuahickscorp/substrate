@@ -548,3 +548,82 @@ def test_broken_observe_durable_write_is_detected() -> None:
     )
     with pytest.raises(RuntimeError, match="wrote durable state during observation"):
         broken.observe(_observations()[0])
+
+
+# --------------------------------------------------------------------------
+# Proposal parity: multi-attempt emission from each material's own mechanism
+# --------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("name", MATERIAL_NAMES)
+def test_propose_emits_multiple_unique_proposals_when_licensed(name: str) -> None:
+    from substrate import genesis_k_structural as structural
+
+    material = _make(name)
+    for observation in _observations():
+        material.observe(observation)
+    if name == "K4_continuous_time_plastic_field":
+        material.advance(80)
+    proposals = material.propose()
+    assert len(proposals) > 1, f"{name} emitted only {len(proposals)} proposal(s)"
+    ids = [p.proposal_id for p in proposals]
+    assert len(ids) == len(set(ids))
+    assert len(proposals) <= material.proposals_per_cycle()
+    assert material.proposals_per_cycle() == structural.PROPOSALS_PER_CYCLE
+
+
+@pytest.mark.parametrize("name", MATERIAL_NAMES)
+def test_each_proposal_is_individually_committable_and_rollable(name: str) -> None:
+    material = _make(name)
+    for observation in _observations():
+        material.observe(observation)
+    if name == "K4_continuous_time_plastic_field":
+        material.advance(80)
+    proposals = material.propose()
+    assert len(proposals) > 1
+    for proposal in proposals:
+        before = material.durable_state_digest()
+        receipts = material.apply(
+            [Verdict(proposal_id=proposal.proposal_id, admitted=True, improvement=0.5, retention=0.5)]
+        )
+        receipt = receipts[0]
+        assert receipt.committed
+        assert material.durable_state_digest() != before
+        material.rollback(receipt)
+        assert material.durable_state_digest() == receipt.durable_state_digest_before
+        assert material.durable_state_digest() == before
+
+
+def test_deprived_plasticity_emits_no_proposals() -> None:
+    opportunity = equal_opportunity(
+        envelope="512MB",
+        observations=_observations(),
+        sensor_channels=("vision", "proprio"),
+        operation_budget=10_000,
+        durable_write_budget=10_000,
+        deprived=("plasticity",),
+    )
+    for name in MATERIAL_NAMES:
+        material = build(name, opportunity)
+        for observation in _observations():
+            material.observe(observation)
+        assert material.propose() == ()
+
+
+@pytest.mark.parametrize("name", MATERIAL_NAMES)
+def test_no_proposal_is_a_durable_noop(name: str) -> None:
+    material = _make(name)
+    for observation in _observations():
+        material.observe(observation)
+    if name == "K4_continuous_time_plastic_field":
+        material.advance(80)
+    proposals = material.propose()
+    assert proposals
+    for proposal in proposals:
+        before = material.durable_state_digest()
+        receipts = material.apply(
+            [Verdict(proposal_id=proposal.proposal_id, admitted=True, improvement=0.5, retention=0.5)]
+        )
+        assert material.durable_state_digest() != before, f"{name} proposal {proposal.proposal_id} was a durable no-op"
+        material.rollback(receipts[0])
+        assert material.durable_state_digest() == before

@@ -37,6 +37,10 @@ _BULK = "quinary"
 _ALPHABET = PRECISION_ALPHABETS[_BULK]
 _GROUP = optimal_group_size(len(_ALPHABET))
 
+# Cap on proposals emitted per consolidation cycle. Explicit and matched across basic materials
+# so each arm gets a comparable number of attempts under the shared durable-write budget.
+PROPOSALS_PER_CYCLE = 32
+
 
 def _clamp(value: int) -> int:
     return min(_ALPHABET, key=lambda symbol: (abs(symbol - int(value)), symbol))
@@ -146,26 +150,69 @@ class K1_monolithic_plastic_field(MaterialBase):
         confidence = min(127, abs(dot))
         return Answer(probe_index=probe.index, value=value, confidence=confidence, abstained=False)
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
+    def _field_after(self, delta: Sequence[int]) -> list[int]:
+        steps = list(delta) if delta else [0] * self._field_dim
+        if len(steps) < self._field_dim:
+            steps = steps + [0] * (self._field_dim - len(steps))
+        return [
+            native_low_bit_update(current, -float(step), _ALPHABET, learning_rate=1.0)
+            for current, step in zip(self._field, steps[: self._field_dim], strict=True)
+        ]
+
     def _propose(self) -> Iterable[Proposal]:
-        self._opportunity.ledger.spend(self._field_dim)
-        # Dense outer-style accumulation: add last features into the whole field.
-        delta = tuple(self._last_features)
-        if all(item == 0 for item in delta):
-            delta = tuple(1 if i == 0 else 0 for i in range(self._field_dim))
-        self._proposal_seq += 1
-        proposal_id = f"k1:{self.observations_seen}:{self._proposal_seq}"
-        packed = _pack(delta)
-        yield Proposal(
-            proposal_id=proposal_id,
-            kind="dense_field_accumulate",
-            target="field",
-            delta=delta,
-            precision_request=_BULK,
-            topology_operation=None,
-            trigger=self._last_channel or "bootstrap",
-            expected_value=0.0,
-            cost_bytes=_packed_bytes(packed),
-        )
+        """Enumerate dense accumulation directions/magnitudes licensed by the last features."""
+        self._opportunity.ledger.spend(self._field_dim * 2)
+        base = list(self._last_features)
+        if all(item == 0 for item in base):
+            base = [1 if i == 0 else 0 for i in range(self._field_dim)]
+
+        # Candidate deltas: full vector, scaled full vectors, and single-axis dense steps.
+        raw: list[tuple[float, tuple[int, ...], str]] = []
+        full = tuple(_clamp(v) for v in base)
+        raw.append((float(sum(abs(v) for v in full)), full, "full"))
+        for scale in (2, -1, -2):
+            scaled = tuple(_clamp(v * scale) for v in base)
+            raw.append((float(sum(abs(v) for v in scaled)), scaled, f"scale:{scale}"))
+        for index, value in enumerate(base):
+            if value == 0:
+                continue
+            for step in (value, _clamp(value * 2), _clamp(-value)):
+                if step == 0:
+                    continue
+                unit = tuple(step if i == index else 0 for i in range(self._field_dim))
+                raw.append((float(abs(step)) + 0.01 * (self._field_dim - index), unit, f"axis:{index}:{step}"))
+
+        # Deterministic best-first, drop duplicates and no-ops (would leave the field unchanged).
+        seen: set[tuple[int, ...]] = set()
+        ranked: list[tuple[float, tuple[int, ...], str]] = []
+        for score, delta, tag in sorted(raw, key=lambda row: (-row[0], row[2], row[1])):
+            if delta in seen:
+                continue
+            if self._field_after(delta) == self._field:
+                continue
+            seen.add(delta)
+            ranked.append((score, delta, tag))
+            if len(ranked) >= PROPOSALS_PER_CYCLE:
+                break
+
+        for score, delta, tag in ranked:
+            self._proposal_seq += 1
+            proposal_id = f"k1:{self.observations_seen}:{self._proposal_seq}:{tag}"
+            packed = _pack(delta)
+            yield Proposal(
+                proposal_id=proposal_id,
+                kind="dense_field_accumulate",
+                target="field",
+                delta=delta,
+                precision_request=_BULK,
+                topology_operation=None,
+                trigger=f"{self._last_channel or 'bootstrap'}:{tag}",
+                expected_value=score,
+                cost_bytes=_packed_bytes(packed),
+            )
 
     def _commit(self, proposal: Proposal) -> None:
         self._undo[proposal.proposal_id] = copy.deepcopy(self._durable_state())
@@ -330,36 +377,52 @@ class K2_graph_plastic_field(MaterialBase):
         confidence = min(127, sum(abs(v) for v in activity))
         return Answer(probe_index=probe.index, value=value, confidence=confidence, abstained=False)
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
     def _propose(self) -> Iterable[Proposal]:
         if self.OWNED in self.frozen_mechanisms:
             return
-        self._opportunity.ledger.spend(len(self._edges))
-        # Choose the edge whose endpoints are most co-active under the last activation.
-        best_index = 0
-        best_score = -10**9
+        self._opportunity.ledger.spend(len(self._edges) * 2)
+        # Rank every typed edge by co-activation; emit top-k rewrites (not only the single best).
+        scored: list[tuple[float, int, int, int]] = []
         for index, edge in enumerate(self._edges):
-            score = abs(self._node_act[edge.src]) + abs(self._node_act[edge.dst])
+            score = float(abs(self._node_act[edge.src]) + abs(self._node_act[edge.dst]))
             if self._last_channel and edge.etype[0] == (self._last_channel[:1] or "a"):
-                score += 1
-            if score > best_score:
-                best_score = score
-                best_index = index
-        edge = self._edges[best_index]
-        step = 1 if (self._node_act[edge.src] + self._node_act[edge.dst]) >= 0 else -1
-        new_value = native_low_bit_update(edge.value, -float(step), _ALPHABET)
-        self._proposal_seq += 1
-        proposal_id = f"k2:{self.observations_seen}:{self._proposal_seq}"
-        yield Proposal(
-            proposal_id=proposal_id,
-            kind="edge_plastic_rewrite",
-            target=f"edge:{best_index}",
-            delta=(best_index, new_value, edge.src, edge.dst),
-            precision_request=_BULK,
-            topology_operation="rewrite_edge_value",
-            trigger=f"{edge.etype}:{edge.scope}",
-            expected_value=0.0,
-            cost_bytes=8,
-        )
+                score += 1.0
+            base_step = 1 if (self._node_act[edge.src] + self._node_act[edge.dst]) >= 0 else -1
+            # Both polarities of plastic rewrite are licensed edge updates.
+            for step in (base_step, -base_step, 2 * base_step):
+                new_value = native_low_bit_update(edge.value, -float(step), _ALPHABET)
+                if new_value == edge.value:
+                    continue
+                scored.append((score + 0.1 * abs(step), index, new_value, step))
+
+        scored.sort(key=lambda row: (-row[0], row[1], row[2], row[3]))
+        seen: set[tuple[int, int]] = set()
+        emitted = 0
+        for score, index, new_value, step in scored:
+            key = (index, new_value)
+            if key in seen:
+                continue
+            seen.add(key)
+            edge = self._edges[index]
+            self._proposal_seq += 1
+            proposal_id = f"k2:{self.observations_seen}:{self._proposal_seq}:e{index}:v{new_value}"
+            yield Proposal(
+                proposal_id=proposal_id,
+                kind="edge_plastic_rewrite",
+                target=f"edge:{index}",
+                delta=(index, new_value, edge.src, edge.dst),
+                precision_request=_BULK,
+                topology_operation="rewrite_edge_value",
+                trigger=f"{edge.etype}:{edge.scope}:step{step}",
+                expected_value=score,
+                cost_bytes=8,
+            )
+            emitted += 1
+            if emitted >= PROPOSALS_PER_CYCLE:
+                break
 
     def _commit(self, proposal: Proposal) -> None:
         if self.OWNED in self.frozen_mechanisms:
@@ -564,26 +627,75 @@ class K3_cellular_plastic_field(MaterialBase):
         confidence = min(127, abs(mass))
         return Answer(probe_index=probe.index, value=value, confidence=confidence, abstained=False)
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
     def _propose(self) -> Iterable[Proposal]:
         if self.OWNED in self.frozen_mechanisms:
             return
-        self._opportunity.ledger.spend(self._n_cells)
-        proposed = self._local_rule(self._cells, self._active_injection)
-        delta = tuple(proposed)
-        self._proposal_seq += 1
-        proposal_id = f"k3:{self.observations_seen}:{self._proposal_seq}"
-        packed = _pack(delta)
-        yield Proposal(
-            proposal_id=proposal_id,
-            kind="local_neighbourhood_sync",
-            target="lattice",
-            delta=delta,
-            precision_request=_BULK,
-            topology_operation=None,
-            trigger=self._last_channel or "bootstrap",
-            expected_value=0.0,
-            cost_bytes=_packed_bytes(packed),
-        )
+        self._opportunity.ledger.spend(self._n_cells * 2)
+        full = self._local_rule(self._cells, self._active_injection)
+        # Rank neighbourhoods by local disagreement between current cells and the local rule.
+        disagreements: list[tuple[float, int]] = []
+        for index in range(self._n_cells):
+            neighbourhood = [index, *self._neighbours(index)]
+            local_dis = sum(abs(int(full[j]) - int(self._cells[j])) for j in neighbourhood)
+            inj = abs(int(self._active_injection[index]))
+            disagreements.append((float(local_dis) + 0.1 * inj, index))
+        disagreements.sort(key=lambda row: (-row[0], row[1]))
+
+        candidates: list[tuple[float, tuple[int, ...], str]] = []
+        # Full synchronous local rule remains a licensed durable change.
+        full_delta = tuple(full)
+        if list(full_delta) != self._cells:
+            candidates.append((float(sum(abs(a - b) for a, b in zip(full, self._cells, strict=True))), full_delta, "full"))
+
+        # Per high-disagreement neighbourhood: apply the local rule only inside that ball.
+        for score, center in disagreements:
+            if score <= 0 and not candidates:
+                continue
+            proposed = list(self._cells)
+            neighbourhood = [center, *self._neighbours(center)]
+            changed = False
+            for cell in neighbourhood:
+                if proposed[cell] != full[cell]:
+                    proposed[cell] = full[cell]
+                    changed = True
+            if not changed:
+                continue
+            candidates.append((score, tuple(proposed), f"nbhd:{center}"))
+
+        # Also license single-cell local updates ordered by disagreement (still radius-local).
+        for score, center in disagreements:
+            if full[center] == self._cells[center]:
+                continue
+            proposed = list(self._cells)
+            proposed[center] = full[center]
+            candidates.append((score * 0.5, tuple(proposed), f"cell:{center}"))
+
+        seen: set[tuple[int, ...]] = set()
+        emitted = 0
+        for score, delta, tag in sorted(candidates, key=lambda row: (-row[0], row[2], row[1])):
+            if delta in seen or list(delta) == self._cells:
+                continue
+            seen.add(delta)
+            self._proposal_seq += 1
+            proposal_id = f"k3:{self.observations_seen}:{self._proposal_seq}:{tag}"
+            packed = _pack(delta)
+            yield Proposal(
+                proposal_id=proposal_id,
+                kind="local_neighbourhood_sync",
+                target=f"lattice:{tag}",
+                delta=delta,
+                precision_request=_BULK,
+                topology_operation=None,
+                trigger=f"{self._last_channel or 'bootstrap'}:{tag}",
+                expected_value=score,
+                cost_bytes=_packed_bytes(packed),
+            )
+            emitted += 1
+            if emitted >= PROPOSALS_PER_CYCLE:
+                break
 
     def _commit(self, proposal: Proposal) -> None:
         if self.OWNED in self.frozen_mechanisms:
@@ -726,41 +838,108 @@ class K5_recurrent_state_space_plastic_field(MaterialBase):
         confidence = min(127, abs(readout))
         return Answer(probe_index=probe.index, value=value, confidence=confidence, abstained=False)
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
+    def _params_tuple(self) -> tuple[int, ...]:
+        return tuple(self._A + self._B + self._C)
+
     def _propose(self) -> Iterable[Proposal]:
         if self.OWNED in self.frozen_mechanisms:
             return
-        self._opportunity.ledger.spend(self._latent_dim * self._latent_dim)
-        # Slow param update from last input residual: push B toward last input, A toward outer(z, z).
+        self._opportunity.ledger.spend(self._latent_dim * self._latent_dim * 2)
         residual = [_clamp(int(self._last_input[i]) - int(self._z[i])) for i in range(self._latent_dim)]
+        d = self._latent_dim
+        current = self._params_tuple()
+        candidates: list[tuple[float, tuple[int, ...], str]] = []
+
+        def pack_params(A: list[int], B: list[int], C: list[int]) -> tuple[int, ...]:
+            return tuple(A + B + C)
+
+        # Full joint recurrence-parameter update (historical single proposal).
         new_B = [
             native_low_bit_update(self._B[i], -float(residual[i]), _ALPHABET, learning_rate=1.0)
-            for i in range(self._latent_dim)
+            for i in range(d)
         ]
         new_A = list(self._A)
-        for row in range(self._latent_dim):
-            for col in range(self._latent_dim):
-                idx = row * self._latent_dim + col
+        for row in range(d):
+            for col in range(d):
+                idx = row * d + col
                 grad = float(self._z[row]) * float(residual[col]) if self._z[row] else float(residual[row])
                 new_A[idx] = native_low_bit_update(self._A[idx], -grad, _ALPHABET, learning_rate=0.5)
         new_C = [
             native_low_bit_update(self._C[i], -float(residual[i]), _ALPHABET, learning_rate=0.5)
-            for i in range(self._latent_dim)
+            for i in range(d)
         ]
-        delta = tuple(new_A + new_B + new_C)
-        self._proposal_seq += 1
-        proposal_id = f"k5:{self.observations_seen}:{self._proposal_seq}"
-        packed = _pack(delta)
-        yield Proposal(
-            proposal_id=proposal_id,
-            kind="recurrence_parameter_update",
-            target="recurrence_params",
-            delta=delta,
-            precision_request=_BULK,
-            topology_operation=None,
-            trigger=self._last_channel or "bootstrap",
-            expected_value=0.0,
-            cost_bytes=_packed_bytes(packed),
-        )
+        full = pack_params(new_A, new_B, new_C)
+        if full != current:
+            candidates.append((float(sum(abs(a - b) for a, b in zip(full, current, strict=True))), full, "full"))
+
+        # B-only, C-only, and per-row A updates: each is a licensed slow param rewrite.
+        b_only = pack_params(list(self._A), new_B, list(self._C))
+        if b_only != current:
+            candidates.append((float(sum(abs(x) for x in residual)) + 1.0, b_only, "B"))
+        c_only = pack_params(list(self._A), list(self._B), new_C)
+        if c_only != current:
+            candidates.append((float(sum(abs(x) for x in residual)) * 0.5 + 0.5, c_only, "C"))
+        for row in range(d):
+            row_A = list(self._A)
+            row_score = 0.0
+            changed = False
+            for col in range(d):
+                idx = row * d + col
+                grad = float(self._z[row]) * float(residual[col]) if self._z[row] else float(residual[row])
+                updated = native_low_bit_update(self._A[idx], -grad, _ALPHABET, learning_rate=0.5)
+                if updated != row_A[idx]:
+                    changed = True
+                    row_score += abs(updated - row_A[idx])
+                row_A[idx] = updated
+            if not changed:
+                continue
+            delta = pack_params(row_A, list(self._B), list(self._C))
+            candidates.append((row_score + 0.01 * (d - row), delta, f"Arow:{row}"))
+
+        # Per-coordinate B and C residual steps.
+        for i in range(d):
+            if residual[i] == 0 and self._last_input[i] == 0:
+                continue
+            for target, name, lr in ((self._B, "B", 1.0), (self._C, "C", 0.5)):
+                updated_val = native_low_bit_update(target[i], -float(residual[i] or self._last_input[i]), _ALPHABET, learning_rate=lr)
+                if updated_val == target[i]:
+                    continue
+                if name == "B":
+                    B = list(self._B)
+                    B[i] = updated_val
+                    delta = pack_params(list(self._A), B, list(self._C))
+                else:
+                    C = list(self._C)
+                    C[i] = updated_val
+                    delta = pack_params(list(self._A), list(self._B), C)
+                candidates.append((float(abs(residual[i]) + 1), delta, f"{name}:{i}"))
+
+        seen: set[tuple[int, ...]] = set()
+        emitted = 0
+        for score, delta, tag in sorted(candidates, key=lambda row: (-row[0], row[2], row[1])):
+            if delta in seen or delta == current:
+                continue
+            seen.add(delta)
+            self._proposal_seq += 1
+            proposal_id = f"k5:{self.observations_seen}:{self._proposal_seq}:{tag}"
+            packed = _pack(delta)
+            yield Proposal(
+                proposal_id=proposal_id,
+                kind="recurrence_parameter_update",
+                target=f"recurrence_params:{tag}",
+                delta=delta,
+                precision_request=_BULK,
+                topology_operation=None,
+                trigger=f"{self._last_channel or 'bootstrap'}:{tag}",
+                expected_value=score,
+                cost_bytes=_packed_bytes(packed),
+            )
+            emitted += 1
+            if emitted >= PROPOSALS_PER_CYCLE:
+                break
 
     def _commit(self, proposal: Proposal) -> None:
         if self.OWNED in self.frozen_mechanisms:
@@ -849,6 +1028,7 @@ register("K5_recurrent_state_space_plastic_field", _factory_k5)
 
 
 __all__ = [
+    "PROPOSALS_PER_CYCLE",
     "K1_monolithic_plastic_field",
     "K2_graph_plastic_field",
     "K3_cellular_plastic_field",

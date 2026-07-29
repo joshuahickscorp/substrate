@@ -279,3 +279,74 @@ def test_activation_always_false_in_durable_state():
         assert durable.get("activation") is False
         checkpoint = material.checkpoint()
         assert checkpoint.get("activation") is False
+
+
+# --------------------------------------------------------------------------
+# Proposal parity: multi-attempt emission from each material's own mechanism
+# --------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("name", MATERIALS)
+def test_propose_emits_multiple_unique_proposals_when_licensed(name):
+    material = _make(name)
+    for index in range(4):
+        material.observe(_obs(index))
+        material.answer(_probe(index))
+    proposals = material.propose()
+    assert len(proposals) > 1, f"{name} emitted only {len(proposals)} proposal(s)"
+    ids = [p.proposal_id for p in proposals]
+    assert len(ids) == len(set(ids)), f"{name} emitted duplicate proposal identifiers"
+    assert len(proposals) <= material.proposals_per_cycle()
+    assert material.proposals_per_cycle() == k_basic.PROPOSALS_PER_CYCLE
+
+
+@pytest.mark.parametrize("name", MATERIALS)
+def test_each_proposal_is_individually_committable_and_rollable(name):
+    material = _make(name)
+    for index in range(4):
+        material.observe(_obs(index))
+    proposals = material.propose()
+    assert len(proposals) > 1
+    for proposal in proposals:
+        before = material.durable_state_digest()
+        receipts = material.apply([Verdict(proposal.proposal_id, True, 0.5, 0.5)])
+        assert len(receipts) == 1
+        receipt = receipts[0]
+        assert receipt.committed
+        assert material.durable_state_digest() != before
+        assert material.durable_state_digest() == receipt.durable_state_digest_after
+        material.rollback(receipt)
+        assert material.durable_state_digest() == receipt.durable_state_digest_before
+        assert material.durable_state_digest() == before
+
+
+def test_deprived_plasticity_emits_no_proposals():
+    opportunity = equal_opportunity(
+        envelope="512MB",
+        observations=(_obs(0), _obs(1)),
+        sensor_channels=("sight", "touch"),
+        operation_budget=50_000,
+        durable_write_budget=64,
+        deprived=("plasticity",),
+    )
+    for name in MATERIALS:
+        material = _make_with_opp(name, opportunity)
+        material.observe(_obs(0))
+        material.observe(_obs(1))
+        assert material.propose() == ()
+
+
+@pytest.mark.parametrize("name", MATERIALS)
+def test_no_proposal_is_a_durable_noop(name):
+    material = _make(name)
+    for index in range(4):
+        material.observe(_obs(index))
+    proposals = material.propose()
+    assert proposals
+    for proposal in proposals:
+        before = material.durable_state_digest()
+        receipts = material.apply([Verdict(proposal.proposal_id, True, 0.5, 0.5)])
+        after = material.durable_state_digest()
+        assert after != before, f"{name} proposal {proposal.proposal_id} was a durable no-op"
+        material.rollback(receipts[0])
+        assert material.durable_state_digest() == before

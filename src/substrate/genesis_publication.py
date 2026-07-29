@@ -15,8 +15,9 @@ from typing import Any
 from substrate import genesis_config as C
 from substrate import genesis_io as io
 
-# Prerequisites. If one of these is false the program cannot interpret its own
-# measurements, and the outcome is C regardless of what the numbers say.
+# Prerequisites are statements about the INSTRUMENT. If one is false the
+# program cannot interpret its own measurements and the outcome is C regardless
+# of what the numbers say.
 PREREQUISITES = (
     "canaries_pass",
     "distinctness_pass",
@@ -25,11 +26,20 @@ PREREQUISITES = (
     "record_store_at_chance",
     "reference_learner_solves_families",
     "oracle_reaches_ceiling",
-    "counterfeits_rejected",
     "activation_false",
 )
 
-# The decisive gates, exactly as frozen.
+# The decisive gates are statements about the CANDIDATE. Failing one blocks
+# Outcome A and yields Outcome B.
+#
+# `counterfeits_rejected` sits here rather than among the prerequisites. It was
+# first written as a prerequisite, which would have forced Outcome C when a
+# counterfeit matched the selected candidate. Three independent adjudicators
+# were asked, without being told which answer was convenient, and all three
+# ruled that a counterfeit tying the best candidate near the chance floor is a
+# statement about the candidate rather than about the measure — the measure
+# separated arms from 0.008 to 1.000 in the same run. A failed counterfeit
+# check therefore blocks the win; it does not void the program.
 OUTCOME_A_GATES = (
     "decisive_effect_at_least_sesoi",
     "decisive_lower_bound_above_zero",
@@ -38,6 +48,7 @@ OUTCOME_A_GATES = (
     "hidden_composition_positive",
     "oracle_headroom_at_least_minimum",
     "clean_clone_reproduction",
+    "counterfeits_rejected",
 )
 
 

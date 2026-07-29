@@ -39,6 +39,9 @@ SEVEN = PRECISION_ALPHABETS["seven_state_powers_of_two"]
 GROUP_TERNARY = 5
 GROUP_QUINARY = 3
 
+# Cap on proposals emitted per consolidation cycle. Explicit and matched across advanced materials.
+PROPOSALS_PER_CYCLE = 32
+
 STABILITY_RANK = ("new", "provisional", "supported", "consolidated", "reopened", "refuted")
 PAYLOAD_ALPHABETS: dict[str, tuple[int, ...]] = {
     "quinary": QUINARY,
@@ -196,16 +199,17 @@ class K9_predictive_plastic_field(MaterialBase):
             return False
         return self._error_energy >= self.error_threshold
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
     def _propose(self) -> Iterable[Proposal]:
         if not self._gate_open():
             return ()
-        self._proposal_seq += 1
-        delta = tuple(
-            _clamp_to_alphabet(-self._prediction_error[i], QUINARY)
-            for i in range(self.dim)
-        )
-        if all(value == 0 for value in delta):
+        self._opportunity.ledger.spend(self.dim * 2)
+        error = list(self._prediction_error)
+        if all(value == 0 for value in error):
             return ()
+
         precision_request = None
         if self._error_energy >= 2 * self.error_threshold and self._precision_map.get("plastic") == "quinary":
             self._utility_window.append(float(self._error_energy))
@@ -214,18 +218,80 @@ class K9_predictive_plastic_field(MaterialBase):
             mean_utility = sum(self._utility_window) / max(1, len(self._utility_window))
             if mean_utility >= C.MINIMUM_UTILITY_PER_ADDED_BYTE * 100:
                 precision_request = "seven_state_powers_of_two"
-        cost = max(1, sum(abs(v) for v in delta))
-        proposal = Proposal(
-            proposal_id=f"k9-pe-{self._proposal_seq}",
-            kind="PlasticityPropose",
-            target="predictor_plastic_bank",
-            delta=delta,
-            precision_request=precision_request,
-            trigger="prediction_error",
-            expected_value=float(self._error_energy),
-            cost_bytes=cost,
-        )
-        return (proposal,)
+
+        candidates: list[tuple[float, tuple[int, ...], str, str | None]] = []
+
+        # Full residual correction (historical single proposal).
+        full = tuple(_clamp_to_alphabet(-error[i], QUINARY) for i in range(self.dim))
+        if not all(value == 0 for value in full):
+            candidates.append((float(self._error_energy), full, "full", precision_request))
+            # Scaled full residual.
+            for scale, tag in ((2, "scale2"), (-1, "invert")):
+                scaled = tuple(_clamp_to_alphabet(-error[i] * scale, QUINARY) for i in range(self.dim))
+                if all(v == 0 for v in scaled) or scaled == full:
+                    continue
+                candidates.append((float(self._error_energy) * abs(scale) * 0.5, scaled, tag, None))
+
+        # Per-site residual rewrites ordered by absolute residual (largest prediction error first).
+        sites = sorted(range(self.dim), key=lambda i: (-abs(error[i]), i))
+        for site in sites:
+            if error[site] == 0:
+                continue
+            for scale, tag in ((1, "site"), (2, "site2"), (-1, "site_inv")):
+                step = _clamp_to_alphabet(-error[site] * scale, QUINARY)
+                if step == 0:
+                    continue
+                delta = tuple(step if i == site else 0 for i in range(self.dim))
+                candidates.append((float(abs(error[site]) * abs(scale)) + 0.01 * (self.dim - site), delta, f"{tag}:{site}", None))
+
+        # Top-k residual coalitions: correct the k largest residual sites together.
+        nonzero = [i for i in sites if error[i] != 0]
+        for k in range(2, min(6, len(nonzero)) + 1):
+            coalition = nonzero[:k]
+            delta = tuple(
+                _clamp_to_alphabet(-error[i], QUINARY) if i in coalition else 0 for i in range(self.dim)
+            )
+            if all(v == 0 for v in delta):
+                continue
+            score = float(sum(abs(error[i]) for i in coalition))
+            candidates.append((score, delta, f"top{k}", precision_request if k == len(nonzero) else None))
+
+        # Deduplicate and emit best-first under the cycle cap.
+        seen: set[tuple[int, ...]] = set()
+        emitted: list[Proposal] = []
+        for score, delta, tag, prec in sorted(candidates, key=lambda row: (-row[0], row[2], row[1])):
+            if delta in seen or all(v == 0 for v in delta):
+                continue
+            # Skip no-ops relative to current predictor/plastic banks.
+            would_change = False
+            alphabet_plastic = PAYLOAD_ALPHABETS.get(self._precision_map.get("plastic", "quinary"), QUINARY)
+            for index, step in enumerate(delta):
+                if step == 0:
+                    continue
+                new_pred = native_low_bit_update(self._predictors[index], -float(step), TERNARY, learning_rate=1.0)
+                new_plastic = _clamp_to_alphabet(self._plastic[index] + int(step), alphabet_plastic)
+                if new_pred != self._predictors[index] or new_plastic != self._plastic[index]:
+                    would_change = True
+                    break
+            if not would_change:
+                continue
+            seen.add(delta)
+            self._proposal_seq += 1
+            emitted.append(
+                Proposal(
+                    proposal_id=f"k9-pe-{self._proposal_seq}:{tag}",
+                    kind="PlasticityPropose",
+                    target="predictor_plastic_bank",
+                    delta=delta,
+                    precision_request=prec,
+                    trigger="prediction_error",
+                    expected_value=score,
+                    cost_bytes=max(1, sum(abs(v) for v in delta)),
+                )
+            )
+            if len(emitted) >= PROPOSALS_PER_CYCLE:
+                break
+        return tuple(emitted)
 
     def _snapshot_durable(self) -> dict[str, Any]:
         return copy.deepcopy(self._durable_state())
@@ -551,16 +617,13 @@ class K11_interference_gated_sparse_fiber_field(MaterialBase):
     def _mechanism_open(self) -> bool:
         return "interference_gated_rebind_split_fuse" not in self.frozen_mechanisms
 
-    def _propose(self) -> Iterable[Proposal]:
-        if not self._mechanism_open():
-            return ()
-        if self._interference_residual < self.tau:
-            return ()
-        if not self._active_ids:
-            return ()
-        self._proposal_seq += 1
-        target_id = self._active_ids[0]
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
+    def _fiber_rebind_parts(self, target_id: int) -> tuple[list[int], list[int], int] | None:
         fiber = self._fibers[target_id]
+        if not fiber.occupied and target_id not in self._active_ids:
+            return None
         key_delta = [0] * self.key_dim
         flips = 0
         for index in range(self.key_dim):
@@ -573,34 +636,154 @@ class K11_interference_gated_sparse_fiber_field(MaterialBase):
             _clamp_to_alphabet(int(self._last_payload_target[i]) - int(fiber.payload[i]), QUINARY)
             for i in range(self.payload_dim)
         ]
-        # Encode proposal delta as flat tuple: [fiber_id, *key_delta, *payload_delta]
-        delta = (target_id, *key_delta, *payload_delta)
-        topology_operation = None
+        if flips == 0 and all(v == 0 for v in payload_delta):
+            # Force a minimal payload step so a licensed rebind still changes durable state.
+            payload_delta[0] = 1 if fiber.payload[0] < 2 else -1
+        return key_delta, payload_delta, flips
+
+    def _propose(self) -> Iterable[Proposal]:
+        if not self._mechanism_open():
+            return ()
+        if self._interference_residual < self.tau:
+            return ()
+        if not self._active_ids:
+            return ()
+        self._opportunity.ledger.spend(self.capacity + self.key_dim)
         free = [i for i, f in enumerate(self._fibers) if not f.occupied]
-        ema = self._active_interference_ema.get(target_id, fiber.interference_ema)
-        if ema >= 4 and free:
-            topology_operation = "FiberSplit"
-        elif ema <= 1 and len(self._active_ids) >= 2:
-            topology_operation = "FiberFuse"
-        precision_request = None
         self._audit_scores.append(float(self._interference_residual))
         if len(self._audit_scores) > C.PRECISION_AUDIT_WINDOW:
             self._audit_scores = self._audit_scores[-C.PRECISION_AUDIT_WINDOW :]
         mean_utility = sum(self._audit_scores) / max(1, len(self._audit_scores))
-        if mean_utility >= C.MINIMUM_UTILITY_PER_ADDED_BYTE * 100 and fiber.precision == "quinary":
-            precision_request = "seven_state_powers_of_two"
-        proposal = Proposal(
-            proposal_id=f"k11-rebind-{self._proposal_seq}",
-            kind="PlasticityPropose",
-            target=f"fiber:{target_id}",
-            delta=delta,
-            precision_request=precision_request,
-            topology_operation=topology_operation,
-            trigger="interference_residual",
-            expected_value=float(self._interference_residual),
-            cost_bytes=max(1, flips + sum(abs(v) for v in payload_delta)),
-        )
-        return (proposal,)
+
+        # Fibers ranked by interference pressure among the active set (and high-EMA bank members).
+        ranked_ids: list[tuple[float, int]] = []
+        seen_ids: set[int] = set()
+        for fiber_id in self._active_ids:
+            ema = self._active_interference_ema.get(fiber_id, self._fibers[fiber_id].interference_ema)
+            ranked_ids.append((float(self._interference_residual + ema), fiber_id))
+            seen_ids.add(fiber_id)
+        for fiber_id, fiber in enumerate(self._fibers):
+            if not fiber.occupied or fiber_id in seen_ids:
+                continue
+            if fiber.interference_ema >= self.tau:
+                ranked_ids.append((float(fiber.interference_ema), fiber_id))
+        ranked_ids.sort(key=lambda row: (-row[0], row[1]))
+
+        candidates: list[tuple[float, Proposal]] = []
+        for score, target_id in ranked_ids:
+            parts = self._fiber_rebind_parts(target_id)
+            if parts is None:
+                continue
+            key_delta, payload_delta, flips = parts
+            fiber = self._fibers[target_id]
+            ema = self._active_interference_ema.get(target_id, fiber.interference_ema)
+            precision_request = None
+            if mean_utility >= C.MINIMUM_UTILITY_PER_ADDED_BYTE * 100 and fiber.precision == "quinary":
+                precision_request = "seven_state_powers_of_two"
+
+            # Plain rebind for this fiber.
+            delta = (target_id, *key_delta, *payload_delta)
+            self._proposal_seq += 1
+            candidates.append(
+                (
+                    score,
+                    Proposal(
+                        proposal_id=f"k11-rebind-{self._proposal_seq}:f{target_id}",
+                        kind="PlasticityPropose",
+                        target=f"fiber:{target_id}",
+                        delta=delta,
+                        precision_request=precision_request,
+                        topology_operation=None,
+                        trigger="interference_residual",
+                        expected_value=score,
+                        cost_bytes=max(1, flips + sum(abs(v) for v in payload_delta)),
+                    ),
+                )
+            )
+            # Licensed split when EMA pressure is high and capacity remains.
+            if ema >= 4 and free:
+                self._proposal_seq += 1
+                candidates.append(
+                    (
+                        score + 1.0,
+                        Proposal(
+                            proposal_id=f"k11-split-{self._proposal_seq}:f{target_id}",
+                            kind="PlasticityPropose",
+                            target=f"fiber:{target_id}",
+                            delta=delta,
+                            precision_request=precision_request,
+                            topology_operation="FiberSplit",
+                            trigger="interference_residual",
+                            expected_value=score + 1.0,
+                            cost_bytes=max(1, flips + sum(abs(v) for v in payload_delta) + 4),
+                        ),
+                    )
+                )
+            # Payload-only and key-only variants remain interference-gated rebinds.
+            payload_only = (target_id, *([0] * self.key_dim), *payload_delta)
+            if any(payload_delta) and payload_only != delta:
+                self._proposal_seq += 1
+                candidates.append(
+                    (
+                        score * 0.75,
+                        Proposal(
+                            proposal_id=f"k11-payload-{self._proposal_seq}:f{target_id}",
+                            kind="PlasticityPropose",
+                            target=f"fiber:{target_id}",
+                            delta=payload_only,
+                            trigger="interference_residual",
+                            expected_value=score * 0.75,
+                            cost_bytes=max(1, sum(abs(v) for v in payload_delta)),
+                        ),
+                    )
+                )
+            key_only = (target_id, *key_delta, *([0] * self.payload_dim))
+            if flips > 0 and key_only != delta:
+                self._proposal_seq += 1
+                candidates.append(
+                    (
+                        score * 0.7,
+                        Proposal(
+                            proposal_id=f"k11-key-{self._proposal_seq}:f{target_id}",
+                            kind="PlasticityPropose",
+                            target=f"fiber:{target_id}",
+                            delta=key_only,
+                            trigger="interference_residual",
+                            expected_value=score * 0.7,
+                            cost_bytes=max(1, flips),
+                        ),
+                    )
+                )
+
+        # Fuse operations over co-active pairs when interference residual licenses topology repair.
+        if len(self._active_ids) >= 2:
+            for left, right in zip(self._active_ids, self._active_ids[1:], strict=False):
+                if left == right:
+                    continue
+                parts = self._fiber_rebind_parts(left)
+                if parts is None:
+                    continue
+                key_delta, payload_delta, flips = parts
+                delta = (left, *key_delta, *payload_delta)
+                self._proposal_seq += 1
+                candidates.append(
+                    (
+                        float(self._interference_residual) * 0.6,
+                        Proposal(
+                            proposal_id=f"k11-fuse-{self._proposal_seq}:f{left}+{right}",
+                            kind="PlasticityPropose",
+                            target=f"fiber:{left}",
+                            delta=delta,
+                            topology_operation="FiberFuse",
+                            trigger="interference_residual",
+                            expected_value=float(self._interference_residual) * 0.6,
+                            cost_bytes=max(1, flips + sum(abs(v) for v in payload_delta)),
+                        ),
+                    )
+                )
+
+        candidates.sort(key=lambda row: (-row[0], row[1].proposal_id))
+        return tuple(proposal for _score, proposal in candidates[:PROPOSALS_PER_CYCLE])
 
     def _snapshot_durable(self) -> dict[str, Any]:
         return copy.deepcopy(self._durable_state())
@@ -957,6 +1140,9 @@ class K10_integrated_plastic_field(MaterialBase):
         values = [_clamp_to_alphabet(score + cells[i % self.dim], QUINARY) for i in range(probe.arity)]
         return Answer(probe_index=probe.index, value=tuple(values), confidence=max(0, 6 - self._prediction_error), abstained=False)
 
+    def proposals_per_cycle(self) -> int:
+        return PROPOSALS_PER_CYCLE
+
     def _propose(self) -> Iterable[Proposal]:
         # Integration candidate: at least one enabled pathway must justify a write.
         pe_gate = self._open("prediction_error_gate_on_every_durable_write")
@@ -973,30 +1159,73 @@ class K10_integrated_plastic_field(MaterialBase):
         # When PE gate is frozen, allow monolithic/event pathways to fire on any observation.
         if not pe_gate and not any(self._last_input):
             return ()
-        self._proposal_seq += 1
-        delta = tuple(_clamp_to_alphabet(v, QUINARY) for v in self._last_input)
-        if all(v == 0 for v in delta) and self._prediction_error <= 0:
-            # Force a minimal structural tick so ablations still differ under admit-all probes.
-            delta = tuple(1 if i == (self._proposal_seq % self.dim) else 0 for i in range(self.dim))
-        topology_operation = None
-        if self._open("unfrozen_allocate_split_merge_prune_under_rent") and self._prediction_error >= 2:
-            topology_operation = "TopologyAllocate"
-        precision_request = None
-        if self._open("per_region_radix_selection_under_rent") and self._prediction_error >= 3:
-            precision_request = "seven_state_powers_of_two"
+        self._opportunity.ledger.spend(self.dim * 2)
         kinds = [name for name in K10_COMPOSED_MECHANISMS if self._open(name)]
-        proposal = Proposal(
-            proposal_id=f"k10-int-{self._proposal_seq}",
-            kind="PlasticityPropose",
-            target="integrated_shell",
-            delta=delta,
-            precision_request=precision_request,
-            topology_operation=topology_operation,
-            trigger="+".join(kinds) if kinds else "inert",
-            expected_value=float(self._prediction_error + sum(abs(v) for v in delta)),
-            cost_bytes=max(1, sum(abs(v) for v in delta) + len(kinds)),
-        )
-        return (proposal,)
+        base = list(self._last_input)
+        if all(v == 0 for v in base) and self._prediction_error <= 0:
+            base = [1 if i == (self._proposal_seq % self.dim) else 0 for i in range(self.dim)]
+
+        candidates: list[tuple[float, Proposal]] = []
+
+        def emit(delta_vals: Sequence[int], tag: str, *, topology: str | None = None, precision: str | None = None, score: float) -> None:
+            delta = tuple(_clamp_to_alphabet(v, QUINARY) for v in delta_vals)
+            if all(v == 0 for v in delta) and topology is None and precision is None:
+                return
+            self._proposal_seq += 1
+            candidates.append(
+                (
+                    score,
+                    Proposal(
+                        proposal_id=f"k10-int-{self._proposal_seq}:{tag}",
+                        kind="PlasticityPropose",
+                        target="integrated_shell",
+                        delta=delta,
+                        precision_request=precision,
+                        topology_operation=topology,
+                        trigger=("+".join(kinds) if kinds else "inert") + f"|{tag}",
+                        expected_value=score,
+                        cost_bytes=max(1, sum(abs(v) for v in delta) + len(kinds)),
+                    ),
+                )
+            )
+
+        # Full integrated write plus scaled/inverted variants of the last input.
+        full = [_clamp_to_alphabet(v, QUINARY) for v in base]
+        emit(full, "full", score=float(self._prediction_error + sum(abs(v) for v in full)))
+        emit([_clamp_to_alphabet(v * 2, QUINARY) for v in base], "scale2", score=float(sum(abs(v) for v in base)) * 2)
+        emit([_clamp_to_alphabet(-v, QUINARY) for v in base], "invert", score=float(sum(abs(v) for v in base)))
+
+        # Pathway-tagged site rewrites: one per high-energy coordinate, reflecting composed pathways.
+        axes = sorted(range(self.dim), key=lambda i: (-abs(base[i]), i))
+        for axis in axes:
+            if base[axis] == 0 and self._prediction_error <= 0:
+                continue
+            unit = [0] * self.dim
+            unit[axis] = base[axis] if base[axis] != 0 else (1 if self._prediction_error > 0 else 0)
+            if unit[axis] == 0:
+                continue
+            emit(unit, f"axis:{axis}", score=float(abs(unit[axis]) + self._prediction_error * 0.1))
+
+        # Topology allocate variants when the unfrozen allocator pathway is open.
+        if self._open("unfrozen_allocate_split_merge_prune_under_rent") and self._prediction_error >= 2:
+            for tag in ("alloc_a", "alloc_b", "alloc_c"):
+                emit(full, tag, topology="TopologyAllocate", score=float(self._prediction_error) + 2.0)
+
+        # Precision promotion when the radix pathway is open under high residual.
+        if self._open("per_region_radix_selection_under_rent") and self._prediction_error >= 3:
+            emit(full, "promote", precision="seven_state_powers_of_two", score=float(self._prediction_error) + 3.0)
+
+        # Event-log flavoured integrated writes under the append-only pathway.
+        if self._open("append_only_projection_as_the_only_durable_path"):
+            for scale in (1, 2):
+                emit(
+                    [_clamp_to_alphabet(v * scale, QUINARY) for v in base],
+                    f"event:{scale}",
+                    score=float(sum(abs(v) for v in base)) * scale + 0.5,
+                )
+
+        candidates.sort(key=lambda row: (-row[0], row[1].proposal_id))
+        return tuple(proposal for _score, proposal in candidates[:PROPOSALS_PER_CYCLE])
 
     def _snapshot_durable(self) -> dict[str, Any]:
         return copy.deepcopy(self._durable_state())
@@ -1177,6 +1406,7 @@ register("K10_integrated_plastic_field", _factory_k10)
 
 
 __all__ = [
+    "PROPOSALS_PER_CYCLE",
     "K9_predictive_plastic_field",
     "K10_integrated_plastic_field",
     "K11_interference_gated_sparse_fiber_field",
