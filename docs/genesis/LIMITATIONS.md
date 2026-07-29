@@ -6,6 +6,30 @@ Fifty-nine independent Grok reviewers graded this program between 3 and 8 out
 of 20, median 5, and raised 138 blocking defects. Many were repaired. The ones
 below were not, and they bound what this program's result can be read to mean.
 
+## Seven of K10's nine composed mechanisms are inert
+
+The integration candidate exposes its own ablations so it cannot win merely by
+being larger. It did not win, and the ablations explain something sharper than
+that.
+
+Full K10 scores 0.1232. Freezing seven of its nine composed mechanisms leaves
+that score **bit-identical**: append-only projection, bounded-radius
+neighbourhood rule, input-dependent recurrence, per-region radix under rent,
+the prediction-error gate, typed per-edge plasticity, and unfrozen
+allocate/split/merge/prune all change nothing at all. Only two mechanisms move
+it: freezing elapsed-time decay drops it to 0.0643, and freezing the monolithic
+dense rewrite drops it to 0.0000.
+
+So the integrated field is a dense monolithic rewrite plus time decay, wearing
+seven other mechanisms as decoration. `integration_earned_its_complexity` is
+published as false.
+
+This bears directly on the headline null. A substantial part of why the
+candidates do not beat an associative control is that most of their declared
+machinery is not doing measurable work on these families. Whether that is a
+property of the mechanisms or of these implementations of them is exactly the
+question this program cannot answer, and the next one should.
+
 ## The strongest control differs from the candidates in representation, not only in architecture
 
 This is the most important caveat on the headline result and it was raised by
