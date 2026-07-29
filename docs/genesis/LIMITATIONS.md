@@ -6,6 +6,37 @@ Fifty-nine independent Grok reviewers graded this program between 3 and 8 out
 of 20, median 5, and raised 138 blocking defects. Many were repaired. The ones
 below were not, and they bound what this program's result can be read to mean.
 
+## The strongest control differs from the candidates in representation, not only in architecture
+
+This is the most important caveat on the headline result and it was raised by
+the cross-examination round rather than found by the author.
+
+It is tempting to read "the monolithic control beat every structured plastic
+field" as a verdict on structure. It is not, and the numbers say so directly:
+K1 is also a monolith and scores 0.0835, below the structured K2 at 0.1634. So
+"monolith beats structure" fails inside the candidate set itself.
+
+What separates the strongest control is not that it lacks structure. It is that
+it stores exact content-addressable associations and answers by prefix match,
+while every candidate stores lossy low-bit projections of the same experience.
+That is a difference in representation fidelity, and it is confounded with the
+architectural difference the program set out to measure.
+
+Separating the two requires an ablation the program did not run: the control at
+the candidates' precision, and a candidate given exact associative lookup.
+Until that runs, the honest statement is that an exactly-addressed associative
+core outperformed low-bit plastic fields on these families — not that
+architecture does not matter.
+
+## The canaries test mechanism hygiene, not counterfeit discrimination
+
+Twelve canaries passed while a counterfeit tied the best candidate. They were
+never going to catch it: each exercises one mechanism in isolation — a rewrite
+commits, a rollback restores, growth pays rent — and none of them ranks a
+counterfeit against a candidate. A suite that had run `random_growth_plastic`
+alongside the candidates and required separation would have caught this before
+the tournament, not after.
+
 ## The result is about these implementations, not about the architecture class
 
 Eleven candidate materials were implemented once each, by one process, over one
