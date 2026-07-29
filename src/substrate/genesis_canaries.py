@@ -529,7 +529,18 @@ def topology_growth_pays_rent() -> dict[str, Any]:
             [Verdict(proposal_id=p.proposal_id, admitted=True, improvement=0.0, retention=0.0) for p in proposals]
         )
     survivors = allocated_ids & set(unpaid._nodes)  # type: ignore[attr-defined]
-    unpaid_pruned = bool(alloc) and not survivors
+    # Attribute the removal to rent, not merely to absence. K6 also removes
+    # nodes through merge and archive, so "the node is gone" is satisfied by
+    # paths that have nothing to do with paying rent — which is how a build
+    # with rent disabled entirely was still passing this canary. Only a removal
+    # the material itself recorded as a rent default counts.
+    rent_defaulted = {
+        str(entry.get("node", {}).get("id", entry.get("node")))
+        for entry in unpaid._archive  # type: ignore[attr-defined]
+        if entry.get("reason") == "rent_default"
+    }
+    rent_removed_some = bool(allocated_ids) and bool(rent_defaulted)
+    unpaid_pruned = bool(alloc) and not survivors and rent_removed_some
 
     # Random growth without verified value is refused: growth proposals are not admitted
     # unless improvement is verified positive.

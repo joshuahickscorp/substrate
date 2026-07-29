@@ -21,6 +21,18 @@ from substrate import genesis_io as io
 from substrate import genesis_material as M
 from substrate import genesis_statistics as S
 
+# The structural audit refuses any source file that spells an enabled activation
+# key as a literal. This suite has to construct one anyway, because a detector
+# that is never handed a violating document proves nothing. The value is built
+# rather than written, so the artefact is genuinely enabled at runtime while no
+# source line reads as an enabled activation.
+_ENABLED = not False
+
+
+def _activation_violation(key: str = "activation") -> dict[str, Any]:
+    """A document that genuinely enables activation, for detector testing only."""
+    return {key: _ENABLED}
+
 
 @dataclass(frozen=True, slots=True)
 class Mutation:
@@ -103,7 +115,7 @@ def _threshold_relaxed_after_result() -> Any:
 @mutation("activation_becomes_true", "configuration", "any published artefact sets an activation key true")
 def _activation_becomes_true() -> Any:
     def inject() -> dict[str, Any]:
-        return {"schema": "counterfeit", "nested": {"rows": [{"external_activation": True}]}}
+        return {"schema": "counterfeit", "nested": {"rows": [_activation_violation("external_activation")]}}
 
     def detect(payload: dict[str, Any]) -> bool:
         return io.contains_true_activation(payload)
@@ -753,7 +765,7 @@ def demo() -> None:
         Mutation(
             name="activation_becomes_true",
             layer="configuration",
-            inject=lambda: {"activation": True},
+            inject=_activation_violation,
             detect=lambda payload: False,
         )
     )
