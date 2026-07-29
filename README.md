@@ -20,7 +20,7 @@ memory beat a much simpler program given the same information and budget? So far
 - Routes work to 13 small hand-written Python modules standing in for models (an object detector, a
   speech grounder, a depth estimator, a planner, and so on). Nobody trained these. They are fixtures.
 - Re-checks its own claims by recomputing results from the sealed receipts rather than trusting the
-  summary files. Six finished campaigns ship with their evidence and review packages.
+  summary files. Nine finished campaigns ship with their evidence and review packages.
 
 ## Install
 
@@ -47,28 +47,28 @@ so they dirty your working copy; the `nous-closure` family takes `--no-publish` 
 not committed — see [docs/V5_RUNBOOK.md](docs/V5_RUNBOOK.md) to rebuild it. And do not run
 `substrate run`: that is the deliberate boundary that starts a real campaign.
 
-## The latest result was a null
+## The latest result is an architectural null
 
-The most recent campaign, Nous Closure, ended at `terminal_closed_null` and scored 10.0 out of 20 on its
-own checklist. Two tests were run.
+The most recent campaign, Cognitive Material Genesis II, ended at Outcome B:
+`cognitive_material_genesis_ii_complete`, with status `compositional_advantage_unproven`. It repaired
+the earlier material's associative write granularity and substantially improved learning, but the
+preregistered simplicity rule selected an associative monolith rather than a field.
 
-1. A stateless direct policy scored `0.95125` over 32 unseen histories; the full v5 entity scored
-   `0.93796875`. A perfect answer would have been only `0.04875` better than the simple policy — less
-   than the `0.05` the project had committed in advance to treat as meaningful, so the test had no room
-   to show anything.
-2. On a sandbox of 12 task families with real files and media, the modular entity and an independently
-   written single-file state machine both scored `1.00000000`. The paired difference was `0.00000000`,
-   95% CI `[0.00000000, 0.00000000]`. A tie.
+Against exact S2, the selected monolith's principal paired effect was `0.393415`, 95% CI
+`[0.372210, 0.414509]`; replication was `0.415282`, and hidden composition was `0.316777`. The
+decisive campaign covered 4,245,640 episodes. But the strongest field trailed the strongest equally
+plastic monolith by `-0.004167` in the representation/architecture factorial, so the experiment did
+not establish a field, compositional, or low-precision architectural advantage.
 
-Persistent memory does do something: a fresh stateless control was clearly worse. What was not shown is
-the bigger claim, that the elaborate modular design beats a simple state machine given equal information,
-tools and budget. 25 of 25 deliberately planted defects were caught, none survived, and a clean-clone
-check passed. After the null the program stopped instead of looking for a friendlier test, so the 12-hour,
-principal, replication and open-world runs were never launched.
+Four of ten primary claims passed. All 17 deliberately planted defects were detected, none survived,
+and a clean clone exactly recomputed the principal, replication, and hidden-composition results. The
+selected non-continuous-time material also passed 250,000 events, 16 process interruptions, 32 scheduled
+checkpoints, four migrations, and four model and body replacements.
 
-The earlier v5 campaign did meet its own targets: 5,760 work units, 576,000 events, 15 effects recomputed
-from raw receipts and all clearing `0.05` in all three splits, 21 of 21 planted defects caught. Those
-numbers describe the sandbox, not the world.
+The parent Cognitive Material Genesis result remains authoritative: its selected field lost to S2 by
+`-0.247768`, 95% CI `[-0.256737, -0.238393]`. Genesis II explains part of that failure as representation
+and update-granularity cost; it does not erase the negative result. Earlier Nous Closure and v5 results
+also remain preserved under their original tags.
 
 ## What this is not
 
@@ -86,6 +86,10 @@ numbers describe the sandbox, not the world.
 
 ## Evidence
 
+- [Cognitive Material Genesis II terminal report](docs/SUBSTRATE_COGNITIVE_MATERIAL_GENESIS_II_REPORT.md)
+  and [tangible-sandbox handoff](docs/SUBSTRATE_COGNITIVE_MATERIAL_GENESIS_II_HANDOFF.md)
+- [Genesis II sealed classification](evidence/substrate/genesis2/SUBSTRATE_GENESIS2_FINAL_CLASSIFICATION.json)
+  and [limitations](evidence/substrate/genesis2/SUBSTRATE_GENESIS2_LIMITATIONS.json)
 - [Latest campaign report](artifacts/substrate/nous_closure/SUBSTRATE_NOUS_CLOSURE_TERMINAL_REPORT.md)
   and its [limitations](artifacts/substrate/nous_closure/external_review/LIMITATIONS.md)
 - [Review package for outside readers](artifacts/substrate/nous_closure/external_review/README.md)
