@@ -1,0 +1,109 @@
+# Cognitive Material Genesis — limitations
+
+External activation is `false`. No unqualified Nous is assigned.
+
+Fifty-nine independent Grok reviewers graded this program between 3 and 8 out
+of 20, median 5, and raised 138 blocking defects. Many were repaired. The ones
+below were not, and they bound what this program's result can be read to mean.
+
+## The result is about these implementations, not about the architecture class
+
+Eleven candidate materials were implemented once each, by one process, over one
+working session. A null on K6 is evidence that *this* adaptive-topology
+implementation did not beat an equally resourced monolith on *these* families.
+It is not evidence that adaptive topology cannot help. The strongest honest
+statement is about the implementations that ran.
+
+## Scale
+
+The tournament runs 32 developmental histories over 14 families with 23 arms.
+Each history is 14 sealed units, roughly 200 observations. That is a moderate
+tournament by the master plan's own sizing and it is far below the scale at
+which developmental effects would be expected to separate architectures
+convincingly. No meaningful-scale native training was performed: the materials
+develop through verified rewrites during a run, not through a training
+procedure over a large corpus.
+
+## Proposal counts were not equal by construction
+
+The strongest control emits thousands of candidate durable changes per
+developmental history while the candidate materials, as first delivered,
+emitted roughly twenty-seven. Both operated under the same durable-write
+budget, so the control explored roughly two hundred times more changes. This is
+an implementation asymmetry that biases toward a false null, and it was
+repaired by giving every candidate a comparable, explicitly capped and
+mechanism-licensed proposal set. Results before and after that repair are both
+published. Readers should treat the pre-repair numbers as uninterpretable on
+this axis.
+
+## Equal budget is not equal spend
+
+Parity is enforced on budgets and measured on spend. An arm that spends more
+inside a shared budget is more thorough, not privileged, but the comparison is
+not literally compute-matched. The tournament reports the utilisation ratio and
+flags a win bought by outspending the comparator as requiring a compute-matched
+rerun.
+
+## The memory-envelope frontier is not discriminating at this scale
+
+The materials are small. Every arm fits comfortably inside the 512 MB envelope,
+so the capability-density frontier across 512 MB to unconstrained is close to
+flat and answers almost nothing about capability density. The reported
+footprint is the material's own measured packed state, not process resident
+memory; process RSS is measured only around whole runs and is dominated by the
+interpreter.
+
+## Continuous time is thin
+
+Elapsed time is supplied by the harness in milliseconds attached to
+observations, and the continuity lane is paced against the real clock. But only
+K4 is driven by time as its primary law, and no arm is exposed to genuinely
+irregular real-world event timing. Claims about continuous-time cognition rest
+on a narrow instrument.
+
+## The challenge families are synthetic and small-alphabet
+
+Answers live in an eight-symbol alphabet, so chance is 0.125 and a lucky guess
+is common. The families are hand-specified symbolic structures, not natural
+data of any kind. They were validated in both directions — a record store
+scores at or below chance on all fourteen, and a reference learner that reads
+only the observation stream scores 1.0 on all fourteen — which makes them a
+sound instrument for the question asked, but they are not the world.
+
+One family, `task_composition_transfer`, leaked a copyable answer until it was
+repaired, and one, `long_horizon_goal_recovery`, was unanswerable from
+experience until it was repaired. Both were found only because the record-store
+null and the reference learner were run against every family. Families are only
+as trustworthy as those two instruments.
+
+## Hidden composition is a pairwise interleave
+
+Composition is implemented as interleaving two families in one history and
+scoring probes from both. That is a real transfer test — the reference learner
+drops from 1.0 to 0.6 on it — but it is a narrow notion of composition. Nothing
+here tests composition of three or more systems, or composition of a learned
+skill with a novel tool.
+
+## Mutations are not fully covered
+
+Twenty-four of the thirty-three declared mutations are injected with zero
+survivors. Nine remain pending, awaiting instrumentation that would let them be
+injected. A pending mutation is reported as pending, never as caught: those
+nine failure modes have not been excluded.
+
+## The exact shell is a checkpoint, not a separate authority
+
+Identity, lineage, provenance and the claim boundary are carried in the
+checkpoint and enforced by code in the same process as the approximate
+mechanisms. Nothing prevents a defect in a material from corrupting them other
+than the checkpoint round-trip test. A genuinely separate exact authority was
+not built.
+
+## Grok's role
+
+Grok wrote most of the implementation and all of the review. Its reviews are
+proposals, not findings; where a review is cited here, the underlying defect
+was reproduced before being acted on. Its median feasibility grade of 5/20
+should be read as what it is: fifty-nine independent readers judging that this
+program, on the evidence available, was unlikely to reach a defensible
+Outcome A.
