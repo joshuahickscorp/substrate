@@ -50,12 +50,30 @@ Before trusting any receipt, run the consistency verifier:
   /private/tmp/substrate-fr-ready-afeb/runs/substrate/final_revision/continuity/e2bee8b55a12d514
 ```
 
-It cross-checks declared duration against the file's own mtime and
-`process_started_unix`, consolidation cadence against duration, iteration
-throughput against a plausible SHA-256 band, the checkpoint chain across
-segments, and non-overlapping monotonic start times. Segment 0 passes all of
-them: declared 14400.0s, observed wall 14400.0s, 239/240 consolidations,
-577,506 iterations per second, constructs rather than restores.
+Read `forgery_resistant_all_pass`, not just `all_pass`. The verifier separates
+two classes of check and the distinction is the whole point:
+
+- **Anchored** checks require the checkpoint to restore through
+  `EventSourcedKernel.restore`, which refuses a bad checkpoint digest, a live
+  activation flag, or any single event whose digest does not match its content.
+  It then requires the restored projection's recomputed
+  `state_integrity_digest()` to equal the final segment's declared
+  `state_integrity_after`, and requires the scheduled continuity events to be
+  present in that projection. A forger has to produce a valid kernel checkpoint
+  to pass these.
+- **Unanchored** checks — declared duration against file mtime, consolidation
+  cadence, throughput band, monotonic non-overlapping starts — detect accident,
+  not forgery. They catch a hung segment, a truncated run, a cadence bug, or
+  receipts copied from the wrong directory.
+
+An earlier version of this script claimed the unanchored checks resisted a hand
+authored receipt "against a file mtime the author does not control after the
+fact". That was false. An adversarial review forged a passing twelve-hour
+receipt set in under a millisecond: `mtime - process_started_unix` compared
+against `duration_seconds` has all three quantities chosen by whoever writes the
+file, `os.utime` supplies the third, and nothing opened the checkpoint at all —
+a forged run root containing no checkpoint whatsoever passed. Reproduced
+locally, then fixed. Do not restore the old claim.
 
 ## Overnight watch design
 
