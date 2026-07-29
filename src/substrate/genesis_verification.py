@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import math
 import subprocess
+import sys
 import tempfile
 from collections.abc import Mapping, Sequence
 from pathlib import Path
@@ -156,13 +157,23 @@ def clean_clone(*, reference: str = "HEAD", keep: bool = False) -> dict[str, Any
         )
         return result.returncode == 0
 
+    # The clone gets its own interpreter and its own environment. Installing
+    # into the host python is both refused by PEP 668 and the wrong test: the
+    # question is whether a fresh checkout stands up on its own.
+    venv = clone / ".venv"
+    python = venv / "bin" / "python"
+
     ok = step("clone", ["git", "clone", "--no-hardlinks", str(io.ROOT), str(clone)], root)
     if ok:
         ok = step("checkout", ["git", "checkout", "--detach", reference], clone)
     if ok:
-        ok = step("install", ["python3", "-m", "pip", "install", "--quiet", ".[dev]"], clone)
+        ok = step("venv", [sys.executable, "-m", "venv", str(venv)], clone)
     if ok:
-        ok = step("tests", ["python3", "-m", "pytest", "tests/substrate", "-q", "-x"], clone)
+        ok = step("install", [str(python), "-m", "pip", "install", "--quiet", ".[dev]"], clone)
+    if ok:
+        ok = step("import", [str(python), "-c", "import substrate, substrate.genesis_config; print(substrate.__file__)"], clone)
+    if ok:
+        ok = step("tests", [str(python), "-m", "pytest", "tests/substrate", "-q"], clone)
 
     return {
         "clone_root": str(clone),
