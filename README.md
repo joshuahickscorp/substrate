@@ -2,11 +2,15 @@
 
 > **Historical scope:** This page documents the frozen V5 release. Its
 > `multimodal_nous_ready_for_review` label is a historical V5 classification,
-> not the repository's current scientific status. The stronger Nous Closure
-> campaign subsequently established the immutable result
-> `terminal_closed_null`. The separate Final Revision campaign is still in
-> progress and must publish its own terminal classification before that status
-> is presented here. External activation remains `false`.
+> not the repository's current scientific status. The Nous Closure campaign
+> subsequently established the immutable result `terminal_closed_null`, and the
+> Final Revision campaign closed at `substrate_final_revision_complete` with a
+> decisive effect of 0.0, 95% CI [0, 0]. The Cognitive Material Genesis
+> campaign is the current work; see
+> [its architecture](docs/genesis/ARCHITECTURE.md),
+> [limitations](docs/genesis/LIMITATIONS.md) and
+> [runbook](docs/genesis/RUNBOOK.md). External activation remains `false` and no
+> campaign has assigned unqualified Nous.
 
 Substrate v5 is an evidence-bound local multimodal cognition runtime with
 persistent substrate-owned state, a typed sensorium, model-neutral routing,
