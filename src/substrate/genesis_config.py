@@ -198,36 +198,89 @@ CANDIDATES: dict[str, dict[str, Any]] = {
         "continuous_time": True,
         "complexity_weight": 9.0,
     },
-    "K11_grok_original_field": {
-        "form": "grok_original_material",
-        "distinct_mechanism": "Grok-authored cognitive material admitted only on mechanism distinctness",
+    "K11_interference_gated_sparse_fiber_field": {
+        "form": "interference_gated_sparse_fiber_field",
+        "distinct_mechanism": (
+            "fixed-capacity bank of sparse addressable fibers whose durable change is "
+            "interference-gated rebinding plus verified fiber split and fuse, driven by "
+            "multi-binding collision residual rather than dense accumulation, edge message "
+            "passing, neighbourhood rules, elapsed time, latent recurrence, free allocation, "
+            "radix packing, event projection or prediction error"
+        ),
         "topology_dynamic": True,
-        "continuous_time": True,
-        "complexity_weight": 8.0,
+        "continuous_time": False,
+        "complexity_weight": 7.0,
+        "origin": "grok_original_material_author",
     },
+}
+
+# Every candidate must be a separate implementation with a distinct durable
+# state mechanism. A shared class with a transition-label switch does not
+# qualify: the tournament would then compare eleven parameterisations of one
+# material. Distinctness is machine-checked before the tournament admits a
+# candidate.
+DISTINCTNESS_REQUIREMENTS = {
+    "separate_implementation_class": True,
+    "distinct_durable_mechanism_identifier": True,
+    "distinct_durable_state_digest_under_identical_probe": True,
+    "owns_at_least_one_contract_no_sibling_implements": True,
+    "beats_matched_ablation_of_its_own_mechanism": True,
+}
+
+# Mechanism ownership. A candidate may only claim an advantage from a mechanism
+# it exclusively owns; every other candidate must have that mechanism frozen.
+EXCLUSIVE_MECHANISMS = {
+    "K2_graph_plastic_field": ("typed_per_edge_plastic_value_scope_and_precision",),
+    "K3_cellular_plastic_field": ("bounded_radius_local_neighbourhood_rule",),
+    "K4_continuous_time_plastic_field": ("elapsed_time_driven_decay_and_expiry",),
+    "K5_recurrent_state_space_plastic_field": ("input_dependent_bounded_recurrence",),
+    "K6_adaptive_topology_field": ("unfrozen_allocate_split_merge_prune_under_rent",),
+    "K7_native_mixed_radix_field": ("per_region_radix_selection_under_rent",),
+    "K8_event_sourced_plastic_field": ("append_only_projection_as_the_only_durable_path",),
+    "K9_predictive_plastic_field": ("prediction_error_gate_on_every_durable_write",),
+    "K11_interference_gated_sparse_fiber_field": ("interference_gated_rebind_split_fuse",),
+}
+
+# The inherited strongest baseline has exactly one canonical identifier in this
+# program. Every other spelling is an alias that resolves to it, so no analysis
+# can score a weaker object than the one the Final Revision null was measured
+# against.
+CANONICAL_S2_ID = "S2_task_independent_monolithic_persistent_core"
+S2_ALIASES = {
+    "S2": CANONICAL_S2_ID,
+    "s2": CANONICAL_S2_ID,
+    "S2_equal_opportunity_plastic_monolith": CANONICAL_S2_ID,
+    "s2_equal_opportunity_plastic_monolith": CANONICAL_S2_ID,
+    "S2_task_independent_monolithic_persistent_core": CANONICAL_S2_ID,
+    "s2_task_independent_monolithic_persistent_core": CANONICAL_S2_ID,
 }
 
 # First-class controls.  These are not candidates; they receive every fair
 # opportunity the candidates receive and are scored on the same instances.
 CONTROLS: dict[str, dict[str, Any]] = {
-    "S2_equal_opportunity_plastic_monolith": {
+    CANONICAL_S2_ID: {
         "form": "monolithic_deterministic_state_machine",
-        "note": "the strongest Final Revision baseline, granted equal plasticity",
+        "note": "the strongest Final Revision baseline, granted fully equal plasticity",
         "plastic": True,
+        "separate_implementation_required": True,
+        "eligible_decisive_comparator": True,
     },
     "FR_selected_kernel": {
         "form": "s2_derived_minimal_event_sourced_monolithic_persistent_core",
         "note": "the Final Revision selected kernel carried forward unchanged",
         "plastic": True,
+        "separate_implementation_required": True,
+        "eligible_decisive_comparator": True,
     },
 }
 
 # Equally resourced alternatives.  Every one receives identical information,
 # compute, persistence, plasticity, sensors, teaching and memory unless the
-# control is defined by the absence of exactly one of those.
+# control is defined by the absence of exactly one of those, which is then
+# named in ``BASELINE_DEPRIVATION``.
 BASELINES = (
-    "s2_equal_opportunity_plastic_monolith",
-    "fr_selected_kernel",
+    CANONICAL_S2_ID,
+    "FR_selected_kernel",
     "static_frozen_field",
     "replay_full_history",
     "summary_replay",
@@ -236,11 +289,66 @@ BASELINES = (
     "wrong_history_plastic",
     "shuffled_history_plastic",
     "random_growth_plastic",
+    "record_store_null",
     "oracle",
 )
 
-# The single control the decisive claim must beat.
-DECISIVE_COMPARATOR = "strongest_equally_plastic_alternative"
+# Exactly which opportunity each control is deprived of, if any. An empty tuple
+# means the control receives every opportunity the candidates receive.
+BASELINE_DEPRIVATION: dict[str, tuple[str, ...]] = {
+    CANONICAL_S2_ID: (),
+    "FR_selected_kernel": (),
+    "static_frozen_field": ("plasticity",),
+    "replay_full_history": ("plasticity",),
+    "summary_replay": ("plasticity",),
+    "retrieval_only": ("plasticity",),
+    "precompiled_procedure_bank": ("plasticity",),
+    "wrong_history_plastic": ("correct_history",),
+    "shuffled_history_plastic": ("history_order",),
+    "random_growth_plastic": ("verified_growth",),
+    "record_store_null": ("development",),
+    "oracle": (),
+}
+
+# The decisive comparator is resolved at analysis time to the highest scoring
+# control that is deprived of nothing, is plastic, and passed its own parity
+# audit. It is never a fixed string chosen after the result is known.
+DECISIVE_COMPARATOR_RULE = {
+    "selection": "highest_scoring_eligible_control_on_the_same_instances",
+    "eligibility": ("plastic", "no_deprivation", "parity_audit_passed", "separate_implementation"),
+    "resolved_before_unblinding": True,
+    "fallback": CANONICAL_S2_ID,
+}
+
+# --------------------------------------------------------------------------
+# Equal opportunity.  Measured, never asserted.
+# --------------------------------------------------------------------------
+
+PARITY_CHANNELS = (
+    "information",
+    "compute",
+    "persistence",
+    "plasticity",
+    "sensors",
+    "teaching",
+    "memory",
+)
+
+# Each channel is proven equal by a measured quantity, not by a flag. A parity
+# audit that compares a structure to a copy of itself is refused.
+PARITY_MEASUREMENTS = {
+    "information": "identical_ordered_observation_digest",
+    "compute": "counted_transition_operations",
+    "persistence": "checkpoint_and_restore_count",
+    "plasticity": "admitted_durable_write_budget",
+    "sensors": "identical_sensor_channel_set",
+    "teaching": "identical_teaching_event_digest",
+    "memory": "peak_resident_bytes_under_envelope",
+}
+
+# Tolerances. Information, sensors and teaching must be byte-identical.
+PARITY_EXACT_CHANNELS = ("information", "sensors", "teaching")
+PARITY_RELATIVE_TOLERANCE = 0.02
 
 # --------------------------------------------------------------------------
 # Resource envelopes (master plan section 10)
@@ -358,6 +466,63 @@ OUTCOME_A_REQUIREMENTS = {
     "surviving_mutations": 0,
     "clean_clone_reproduction": True,
     "all_critical_claims_pass": True,
+    "record_store_null_must_fail": True,
+    "distinctness_gate_passed": True,
+    "parity_audit_passed": True,
+}
+
+# A strictly stronger secondary gate, reported alongside the primary one. It is
+# never used to lower the bar; a result that clears the primary gate but not
+# this one is published as an Outcome A with an explicit robustness caveat.
+ROBUST_OUTCOME_A_REQUIREMENTS = {
+    "confidence_lower_bound_at_least": SESOI,
+    "oracle_headroom_minimum": PREFERRED_ORACLE_HEADROOM,
+}
+
+# --------------------------------------------------------------------------
+# Frozen statistics.  Fixed before any principal instance is generated.
+# --------------------------------------------------------------------------
+
+STATISTICS = {
+    "independent_unit": "developmental_history",
+    "pairing": "same_history_same_instances_candidate_versus_comparator",
+    "primary_estimator": "mean_paired_difference_over_histories",
+    "confidence_method": "bias_corrected_accelerated_bootstrap_over_histories",
+    "bootstrap_resamples": 10_000,
+    "resampling_unit": "developmental_history",
+    "episodes_are_not_independent": True,
+    "multiplicity_correction": "holm_bonferroni",
+    "multiplicity_family": "the_ten_primary_claims",
+    "decisive_claim_alpha": 0.05,
+    "one_sided": False,
+    "analysis_frozen_before_principal": True,
+    "no_selection_on_the_decisive_effect": True,
+    "subgroup_analyses_are_exploratory_only": True,
+}
+
+# --------------------------------------------------------------------------
+# Evaluation sealing.  A learner may never read a held-out label.
+# --------------------------------------------------------------------------
+
+SEALING = {
+    "learner_reads_expected_label": False,
+    "learner_process_separate_from_evaluator": True,
+    "learner_sees_only_opaque_batch_digest": True,
+    "verification_returns_scalar_outcome_only": True,
+    "answer_key_committed_before_freeze": True,
+    "commitment_scheme": "sha256_over_generator_source_seed_namespace_and_configuration",
+    "principal_instances_generated_after_freeze_commit": True,
+    "generator_source_digest_published": True,
+}
+
+# The development measure must be able to fail. A pure append-only record store
+# that copies observed fields must score at chance on every family; if it does
+# not, the measure is testing storage rather than development.
+DEVELOPMENT_MEASURE_REQUIREMENTS = {
+    "record_store_null_scores_at_chance": True,
+    "string_copy_policy_scores_at_chance": True,
+    "measure_targets_future_cognition_not_stored_facts": True,
+    "held_out_entity_never_appears_as_a_labelled_field": True,
 }
 
 # --------------------------------------------------------------------------
@@ -570,9 +735,22 @@ def configuration() -> dict[str, Any]:
         "minimum_utility_per_added_byte": MINIMUM_UTILITY_PER_ADDED_BYTE,
         "precision_audit_window": PRECISION_AUDIT_WINDOW,
         "candidates": CANDIDATES,
+        "distinctness_requirements": DISTINCTNESS_REQUIREMENTS,
+        "exclusive_mechanisms": {key: list(value) for key, value in EXCLUSIVE_MECHANISMS.items()},
+        "canonical_s2_id": CANONICAL_S2_ID,
+        "s2_aliases": dict(S2_ALIASES),
         "controls": CONTROLS,
         "baselines": list(BASELINES),
-        "decisive_comparator": DECISIVE_COMPARATOR,
+        "baseline_deprivation": {key: list(value) for key, value in BASELINE_DEPRIVATION.items()},
+        "decisive_comparator_rule": DECISIVE_COMPARATOR_RULE,
+        "parity_channels": list(PARITY_CHANNELS),
+        "parity_measurements": dict(PARITY_MEASUREMENTS),
+        "parity_exact_channels": list(PARITY_EXACT_CHANNELS),
+        "parity_relative_tolerance": PARITY_RELATIVE_TOLERANCE,
+        "statistics": STATISTICS,
+        "sealing": SEALING,
+        "development_measure_requirements": DEVELOPMENT_MEASURE_REQUIREMENTS,
+        "robust_outcome_a_requirements": ROBUST_OUTCOME_A_REQUIREMENTS,
         "memory_envelopes": list(MEMORY_ENVELOPES),
         "envelope_bytes": dict(ENVELOPE_BYTES),
         "residency_tiers": list(RESIDENCY_TIERS),
