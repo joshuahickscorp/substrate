@@ -132,6 +132,67 @@ def run_split(
     }
 
 
+def run_envelopes(
+    *,
+    arms: Sequence[str],
+    families: Sequence[str],
+    histories: Sequence[int],
+    seed_namespace: str,
+    envelopes: Sequence[str] | None = None,
+    operation_budget: int = DEFAULT_OPERATION_BUDGET,
+    durable_write_budget: int = DEFAULT_DURABLE_WRITE_BUDGET,
+    workers: int | None = None,
+) -> dict[str, Any]:
+    """Stage 4. The same work under every memory envelope.
+
+    Size is a cost variable, not the goal. This reports absolute capability per
+    envelope and the measured footprint that bought it, so a material that
+    needs a larger envelope to reach the same score is visible as such.
+    """
+    envelopes = list(envelopes or C.MEMORY_ENVELOPES)
+    per_envelope: dict[str, Any] = {}
+    for envelope in envelopes:
+        result = run_split(
+            arms=arms,
+            families=families,
+            histories=histories,
+            split="train",
+            seed_namespace=seed_namespace,
+            envelope=envelope,
+            operation_budget=operation_budget,
+            durable_write_budget=durable_write_budget,
+            workers=workers,
+            enforce_scale=False,
+        )
+        by_arm: dict[str, dict[str, float]] = {}
+        for row in result["rows"]:
+            entry = by_arm.setdefault(row["arm"], {"score": 0.0, "peak_bytes": 0.0, "compute": 0.0, "cells": 0.0, "exhausted": 0.0})
+            entry["score"] += row["score"]
+            entry["peak_bytes"] = max(entry["peak_bytes"], float(row["peak_bytes"]))
+            entry["compute"] += float(row["compute"])
+            entry["cells"] += 1.0
+            entry["exhausted"] += 1.0 if row["exhausted"] else 0.0
+        per_envelope[envelope] = {
+            arm: {
+                "mean_score": entry["score"] / entry["cells"],
+                "peak_resident_bytes": entry["peak_bytes"],
+                "mean_compute": entry["compute"] / entry["cells"],
+                "exhausted_cells": int(entry["exhausted"]),
+                "envelope_bytes": C.ENVELOPE_BYTES[envelope],
+                "learning_per_added_byte": (entry["score"] / entry["cells"]) / max(1.0, entry["peak_bytes"]),
+            }
+            for arm, entry in sorted(by_arm.items())
+        }
+    return {
+        "envelopes": envelopes,
+        "per_envelope": per_envelope,
+        "families": list(families),
+        "histories": list(histories),
+        "note": "peak_resident_bytes is the material's own measured packed footprint, not process RSS",
+        "activation": False,
+    }
+
+
 def tournament_arms() -> list[str]:
     """Every registered material: candidates, controls, baselines and instruments."""
     _load_materials()
