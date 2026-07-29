@@ -12,13 +12,22 @@ permissions:
 jobs:
   authoritative:
     runs-on: macos-14
-    timeout-minutes: 30
+    # The final clean-clone gate intentionally re-runs the full suite from an
+    # exact checkout. The previous 30-minute ceiling cancelled a fully green
+    # job during that last independent pass.
+    timeout-minutes: 60
     env:
       SUBSTRATE_REPOSITORY_ROOT: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v4
         with:
+          # Campaign preflights verify the real implementation branch and
+          # preserved annotated tags. The default pull_request checkout is a
+          # detached synthetic merge and therefore cannot satisfy that
+          # repository-identity contract.
+          ref: ${{ github.head_ref || github.ref }}
           fetch-depth: 0
+          fetch-tags: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -41,8 +50,108 @@ jobs:
           substrate nous-closure pilot
           substrate nous-closure rehearse
           substrate nous-closure verify
+      - name: Final Revision pre-freeze gates
+        run: |
+          substrate final-revision reproduce-null
+          substrate final-revision tournament
+          substrate final-revision canaries
+          substrate final-revision pilot
       - name: Scientific verification
         run: substrate verify
+      - name: Cognitive Material Genesis gates
+        run: |
+          current_branch="$(git branch --show-current)"
+          git switch --force-create agent/substrate-cognitive-material-genesis
+          substrate genesis preflight
+          python -m substrate.genesis_statistics
+          python -m substrate.genesis_harness
+          python -m substrate.genesis_history
+          python -m substrate.genesis_claims
+          python -m substrate.genesis_mutations
+          python -m substrate.genesis_verification
+          python -m substrate.genesis_publication
+          python -m substrate.genesis_continuity
+          python -m substrate.genesis_tournament
+          git switch "$current_branch"
+      - name: Genesis mechanism canaries
+        run: |
+          python - <<'PY'
+          from substrate import genesis_canaries
+
+          report = genesis_canaries.run_all()
+          failed = [name for name, row in report["canaries"].items() if not row["all_pass"]]
+          print(f"{len(report['canaries']) - len(failed)}/{len(report['canaries'])} genesis canaries pass")
+          if failed:
+              raise SystemExit(f"genesis canary failures: {failed}")
+          PY
+      - name: Cognitive Material Genesis II terminal gates
+        run: |
+          python -m substrate.genesis2_statistics
+          python -m substrate.genesis2_material
+          python -m substrate.genesis2_continuity
+          python - <<'PY'
+          from substrate import genesis2_campaign as campaign
+          from substrate import genesis2_io as io
+
+          freeze = campaign._require(campaign.FREEZE)
+          classification = campaign._require(campaign.CLASSIFICATION)
+          publication = campaign._require(campaign.PUBLICATION)
+          clean_clone = campaign._require(campaign.CLEAN_CLONE)
+          mutations = campaign._require(campaign.MUTATIONS)
+          continuity = campaign._require(campaign.CONTINUITY)
+
+          assert freeze["source_digest"] == io.source_digest()
+          assert classification["outcome"] == "B"
+          assert classification["prerequisites_valid"]
+          assert publication["all_required_surfaces_published"]
+          assert clean_clone["all_pass"]
+          assert mutations["injected"] == 17 and mutations["survivors"] == []
+          assert continuity["all_pass"]
+          assert continuity["observed"]["events"] == 250_000
+          assert continuity["observed"]["interruptions"] == 16
+          assert continuity["observed"]["checkpoints"] == 32
+          assert not classification["external_activation"]
+          assert not classification["unqualified_nous"]
+          PY
+      - name: Genesis instruments can still fail
+        run: |
+          python - <<'PY'
+          import statistics
+
+          from substrate import genesis_config as C
+          from substrate import genesis_controls, genesis_reference  # noqa: F401
+          from substrate.genesis_challenge import CHANCE_LEVEL, generate
+          from substrate.genesis_material import build, equal_opportunity
+
+          def score(unit, arm):
+              observations = unit.observations
+              channels = sorted({observation.channel for observation in observations}) or ["symbolic"]
+              opportunity = equal_opportunity(
+                  envelope="512MB",
+                  observations=observations,
+                  sensor_channels=channels,
+                  operation_budget=500_000,
+                  durable_write_budget=512,
+              )
+              material = build(arm, opportunity)
+              public = unit.public()
+              for observation in public.observations:
+                  material.observe(observation)
+              return unit.sealed.score([material.answer(probe) for probe in public.probes])
+
+          units = 64
+          error = (CHANCE_LEVEL * (1 - CHANCE_LEVEL) / units) ** 0.5
+          for family in C.CHALLENGE_FAMILIES:
+              batch = [generate(family, "principal", index, seed_namespace="ci") for index in range(units)]
+              reference = statistics.mean(score(unit, "reference_learner") for unit in batch)
+              record = statistics.mean(score(unit, "record_store_null") for unit in batch)
+              z = (record - CHANCE_LEVEL) / error
+              print(f"{family}: reference={reference:.3f} record={record:.3f} z={z:+.2f}")
+              if reference < 0.9:
+                  raise SystemExit(f"{family} is not solvable from observations; a null on it would be an artefact")
+              if z > 3.5:
+                  raise SystemExit(f"{family} leaks a copyable answer to the record store")
+          PY
       - name: Mutation suite
         run: |
           python - <<'PY'

@@ -30,6 +30,24 @@ runs/substrate/v1/*
 !runs/substrate/v1/experiments/
 !runs/substrate/v1/experiments/**
 
+# Final-revision supplementary receipts. These are post-freeze checks, not
+# required deliverables, but published documents cite them by path, so they must
+# exist for a reader of a clean clone. The scripts are tracked beside their
+# receipts so a reviewer can re-run them rather than take the JSON on its word.
+!runs/substrate/final_revision/
+runs/substrate/final_revision/*
+!runs/substrate/final_revision/instrument_liveness_check.json
+!runs/substrate/final_revision/instrument_liveness_check.py
+!runs/substrate/final_revision/independent_rerun_check.json
+!runs/substrate/final_revision/continuity_receipt_consistency.py
+!runs/substrate/final_revision/continuity_receipt_consistency.json
+!runs/substrate/final_revision/cleanclone_verify_frozen_afeb.json
+!runs/substrate/final_revision/cleanclone_regen_frozen_afeb.json
+!runs/substrate/final_revision/collect_campaign_evidence.py
+!runs/substrate/final_revision/blocker_batch_1.json
+!runs/substrate/final_revision/blocker_batch_2.json
+!runs/substrate/final_revision/terminal_handoff_20260728.md
+
 !runs/pre_studio/
 runs/pre_studio/*
 !runs/pre_studio/close_e7_sparse.json
