@@ -225,6 +225,62 @@ def frozen() -> dict[str, Any]:
     return document
 
 
+PRINCIPAL = "SUBSTRATE_GENESIS_PRINCIPAL.json"
+REPLICATION = "SUBSTRATE_GENESIS_REPLICATION.json"
+HIDDEN = "SUBSTRATE_GENESIS_HIDDEN_COMPOSITION.json"
+CLAIMS = "SUBSTRATE_GENESIS_CLAIMS.json"
+VERIFICATION = "SUBSTRATE_GENESIS_VERIFICATION.json"
+MUTATIONS = "SUBSTRATE_GENESIS_MUTATIONS.json"
+CLASSIFICATION = "SUBSTRATE_GENESIS_FINAL_CLASSIFICATION.json"
+
+# Disjoint history identifier bands per split, so no split can reuse another's
+# instances. This is the `replication_reuses_principal_instances` mutation.
+HISTORY_BANDS = {
+    "principal": 0,
+    "replication": 4096,
+    "hidden_composition": 8192,
+}
+
+
+def split_histories(split: str, count: int) -> list[int]:
+    base = HISTORY_BANDS[split]
+    return [base + index for index in range(count)]
+
+
+def resolve_comparator(rows: Any, *, parity_passed: dict[str, bool] | None = None) -> dict[str, Any]:
+    """Resolve the decisive comparator by rule, before any effect is inspected."""
+    from substrate import genesis_statistics as S
+
+    scores = _history_scores(rows)
+    arms = sorted({row.arm for row in scores})
+    parity = parity_passed or {arm: True for arm in arms}
+    separate = {arm: True for arm in arms}
+    return S.resolve_decisive_comparator(scores, parity_passed=parity, separate_implementation=separate)
+
+
+def _history_scores(rows: Any) -> Any:
+    from substrate import genesis_statistics as S
+
+    accumulated: dict[tuple[int, str], list[float]] = {}
+    for row in rows:
+        accumulated.setdefault((int(row["history_id"]), str(row["arm"])), []).append(float(row["score"]))
+    return [
+        S.HistoryScore(history_id, arm, sum(values) / len(values))
+        for (history_id, arm), values in sorted(accumulated.items())
+    ]
+
+
+def mutations(*, publish: bool = True) -> dict[str, Any]:
+    """Run the declared mutation suite. Zero survivors is required."""
+    from substrate import genesis_mutations
+
+    report = genesis_mutations.run()
+    document = io.authority("substrate-genesis-mutations/v1", {**report, "all_pass": bool(report["all_pass"])})
+    if publish:
+        io.write_json(io.EVIDENCE / MUTATIONS, document)
+    return document
+
+
 def stage_record() -> dict[str, Any]:
     """Which stages have published their terminal evidence."""
     existing = io.read_optional(STAGE_RECORD)
