@@ -133,6 +133,7 @@ class ArmRun:
     wall_clock_seconds: float = 0.0
     peak_resident_bytes: int = 0
     exhausted: str | None = None
+    rolled_back: int = 0
 
 
 @dataclass(frozen=True, slots=True)
@@ -179,6 +180,7 @@ def run_arm(
     started = time.monotonic()
     exhausted: str | None = None
     receipts: list[M.Receipt] = []
+    rolled_back = 0
 
     try:
         for position, observation in enumerate(stream.observations, start=1):
@@ -187,26 +189,43 @@ def run_arm(
                 material.advance(advance_ms)
             if position % consolidation_every:
                 continue
-            before = judge.score_development(_answer_all(material, probes.development))
-            retention_before = judge.score_retention(_answer_all(material, probes.retention))
             proposals = material.propose()
             if not proposals:
                 continue
-            verdicts = []
             for proposal in proposals:
-                after = judge.score_development(_answer_all(material, probes.development))
-                retention_after = judge.score_retention(_answer_all(material, probes.retention))
-                improvement = after - before
-                retention = retention_after - retention_before
-                verdicts.append(
-                    M.Verdict(
-                        proposal_id=proposal.proposal_id,
-                        admitted=improvement > 0.0 and retention >= 0.0,
+                # Simulate, verify, then commit or roll back. The improvement
+                # of a proposal is only observable once it has actually been
+                # written, so each one is tentatively committed, measured, and
+                # reverted when it does not pay. Measuring before writing would
+                # report zero improvement for everything and admit nothing.
+                before = judge.score_development(_answer_all(material, probes.development))
+                retention_before = judge.score_retention(_answer_all(material, probes.retention))
+                tentative = material.apply([M.Verdict(proposal.proposal_id, True, 0.0, 0.0)])
+                if not tentative:
+                    continue
+                receipt = tentative[0]
+                improvement = judge.score_development(_answer_all(material, probes.development)) - before
+                retention = judge.score_retention(_answer_all(material, probes.retention)) - retention_before
+                admitted = improvement > 0.0 and retention >= 0.0
+                if not admitted:
+                    material.rollback(receipt)
+                    rolled_back += 1
+                receipts.append(
+                    M.Receipt(
+                        proposal_id=receipt.proposal_id,
+                        kind=receipt.kind,
+                        target=receipt.target,
+                        committed=admitted,
                         improvement=improvement,
                         retention=retention,
+                        durable_state_digest_before=receipt.durable_state_digest_before,
+                        durable_state_digest_after=(
+                            receipt.durable_state_digest_after if admitted else receipt.durable_state_digest_before
+                        ),
+                        cost_bytes=receipt.cost_bytes,
+                        mechanism=receipt.mechanism,
                     )
                 )
-            receipts.extend(material.apply(verdicts))
     except M.ResourceExhausted as error:
         exhausted = str(error)
 
@@ -230,6 +249,7 @@ def run_arm(
         wall_clock_seconds=elapsed,
         peak_resident_bytes=opportunity.ledger.peak_resident_bytes,
         exhausted=exhausted,
+        rolled_back=rolled_back,
     )
 
 

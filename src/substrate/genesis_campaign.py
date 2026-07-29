@@ -135,6 +135,96 @@ def constitution(*, publish: bool = True) -> dict[str, Any]:
     return document
 
 
+FREEZE = "SUBSTRATE_GENESIS_FREEZE.json"
+CANARIES = "SUBSTRATE_GENESIS_CANARIES.json"
+TOURNAMENT = "SUBSTRATE_GENESIS_TOURNAMENT.json"
+SOLVABILITY = "SUBSTRATE_GENESIS_SOLVABILITY.json"
+
+
+def canaries(*, publish: bool = True) -> dict[str, Any]:
+    """Stage 2. Every mechanism must be sound before anything is measured."""
+    _stop_guard()
+    from substrate import genesis_canaries
+
+    report = genesis_canaries.run_all()
+    document = io.authority("substrate-genesis-canaries/v1", {**report, "all_pass": bool(report["all_pass"])})
+    if publish:
+        io.write_json(io.EVIDENCE / CANARIES, document)
+    return document
+
+
+def freeze(*, publish: bool = True) -> dict[str, Any]:
+    """Stage 6. Freeze everything, then derive the unseen seed namespaces.
+
+    The principal, replication and hidden-composition seed namespaces are
+    derived from the digest of the freeze document itself. That document
+    contains the configuration digest and the generator source digest, so no
+    namespace can be computed — and therefore no principal instance can be
+    generated or seen — before the freeze exists. The derivation is public, so
+    anyone can recompute the namespaces afterwards and check that the published
+    instances are the ones the freeze committed to.
+    """
+    _stop_guard()
+    from substrate import genesis_challenge
+
+    tournament_document = io.read_optional(TOURNAMENT)
+    if tournament_document is None:
+        raise io.Refused("the tournament must publish before the freeze")
+    canary_document = io.read_optional(CANARIES)
+    if canary_document is None or not canary_document.get("all_pass"):
+        raise io.Refused("the mechanism canaries must pass before the freeze")
+
+    body = {
+        "configuration_digest": C.configuration_digest(),
+        "generator_source_digest": genesis_challenge.generator_source_digest(),
+        "source_digest": io.source_digest(),
+        "selected_candidate": tournament_document["selected_candidate"],
+        "tournament_digest": tournament_document["sha256"],
+        "canary_digest": canary_document["sha256"],
+        "candidates": sorted(C.CANDIDATES),
+        "controls": sorted(C.CONTROLS),
+        "baselines": list(C.BASELINES),
+        "challenge_families": list(C.CHALLENGE_FAMILIES),
+        "statistics": C.STATISTICS,
+        "sealing": C.SEALING,
+        "outcome_a_requirements": C.OUTCOME_A_REQUIREMENTS,
+        "robust_outcome_a_requirements": C.ROBUST_OUTCOME_A_REQUIREMENTS,
+        "sesoi": C.SESOI,
+        "mutations": list(C.MUTATIONS),
+        "claim_boundary": C.CLAIM_BOUNDARY,
+        "head_at_freeze": io.git("rev-parse", "HEAD", check=False),
+    }
+    commitment = io.digest(body)
+    document = io.authority(
+        "substrate-genesis-freeze/v1",
+        {
+            **body,
+            "freeze_commitment": commitment,
+            "seed_namespace_derivation": "sha256(freeze_commitment || split_name)",
+            "seed_namespaces": {split: seed_namespace(commitment, split) for split in ("principal", "replication", "hidden_composition")},
+            "all_pass": True,
+        },
+    )
+    if publish:
+        io.write_json(io.EVIDENCE / FREEZE, document)
+    return document
+
+
+def seed_namespace(freeze_commitment: str, split: str) -> str:
+    """Public derivation, so the commitment can be checked after the fact."""
+    return io.digest([freeze_commitment, split])
+
+
+def frozen() -> dict[str, Any]:
+    document = io.read_optional(FREEZE)
+    if document is None:
+        raise io.Refused("the freeze has not been published")
+    recomputed = seed_namespace(document["freeze_commitment"], "principal")
+    if document["seed_namespaces"]["principal"] != recomputed:
+        raise io.Refused("the published principal seed namespace does not match its derivation")
+    return document
+
+
 def stage_record() -> dict[str, Any]:
     """Which stages have published their terminal evidence."""
     existing = io.read_optional(STAGE_RECORD)
