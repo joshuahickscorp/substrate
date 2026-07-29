@@ -55,6 +55,24 @@ convincingly. No meaningful-scale native training was performed: the materials
 develop through verified rewrites during a run, not through a training
 procedure over a large corpus.
 
+## Attempts were reduced from a two-hundredfold gap to a sevenfold one, not equalised
+
+Raised by the post-pilot round. The repair capped each candidate at
+thirty-two proposals per consolidation cycle, roughly 770 attempts per
+developmental history, while the strongest control remains uncapped at roughly
+5,300. The gap fell from about two hundred times to about seven, and it is
+still not parity.
+
+The direction matters and is published as a number in
+`SUBSTRATE_GENESIS_ATTEMPT_PARITY.json`: the residual asymmetry runs **against
+the candidates**. An arm that proposes more changes gets more chances for one
+to verify, so the control had the advantage. A null under that asymmetry is
+conservative — closing the gap could only help the candidates, not the control.
+
+What this forbids is the opposite reading. Had a candidate won, the win would
+have had to survive an attempt-matched rerun before it could be believed. An
+attempt-matched tournament is the first thing the next program should run.
+
 ## Proposal counts were not equal by construction
 
 The strongest control emits thousands of candidate durable changes per
