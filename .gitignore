@@ -43,6 +43,7 @@ runs/substrate/final_revision/*
 !runs/substrate/final_revision/continuity_receipt_consistency.json
 !runs/substrate/final_revision/cleanclone_verify_frozen_afeb.json
 !runs/substrate/final_revision/cleanclone_regen_frozen_afeb.json
+!runs/substrate/final_revision/collect_campaign_evidence.py
 !runs/substrate/final_revision/blocker_batch_1.json
 !runs/substrate/final_revision/blocker_batch_2.json
 !runs/substrate/final_revision/terminal_handoff_20260728.md
