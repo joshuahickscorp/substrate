@@ -829,8 +829,7 @@ class K11_interference_gated_sparse_fiber_field(MaterialBase):
             # was wider would then sit outside it and refuse to pack, so the
             # payload is re-clamped at the moment the precision changes rather
             # than at the moment it is serialized.
-            narrowed = PAYLOAD_ALPHABETS.get(fiber.precision, QUINARY)
-            fiber.payload = [_clamp_to_alphabet(int(value), narrowed) for value in fiber.payload]
+            self._set_payload(fiber, fiber.payload)
         if proposal.topology_operation == "FiberSplit":
             self._fiber_split(target_id)
         elif proposal.topology_operation == "FiberFuse" and len(self._active_ids) >= 2:
@@ -852,6 +851,19 @@ class K11_interference_gated_sparse_fiber_field(MaterialBase):
         self._opportunity.ledger.spend(self.key_dim + self.payload_dim)
         self._resize()
 
+    @staticmethod
+    def _set_payload(fiber: Any, values: Sequence[int]) -> None:
+        """Write a payload through its own alphabet, always.
+
+        Payloads move between fibers on split and fuse and between precisions
+        on promote and demote. Every one of those crossings can carry a value
+        the destination alphabet cannot represent, which surfaces only when the
+        state is packed. Routing every write through this helper makes the
+        crossing safe at the point it happens rather than at serialization.
+        """
+        alphabet = PAYLOAD_ALPHABETS.get(fiber.precision, QUINARY)
+        fiber.payload = [_clamp_to_alphabet(int(value), alphabet) for value in values]
+
     def _fiber_split(self, source_id: int) -> None:
         free = [i for i, f in enumerate(self._fibers) if not f.occupied]
         if not free:
@@ -863,7 +875,7 @@ class K11_interference_gated_sparse_fiber_field(MaterialBase):
         child.precision = source.precision
         child.stability = "new"
         child.provenance = f"split:{source_id}->{child_id}"
-        child.payload = list(source.payload)
+        self._set_payload(child, source.payload)
         child.key = list(source.key)
         mid = self.key_dim // 2
         for index in range(mid, self.key_dim):
@@ -882,7 +894,7 @@ class K11_interference_gated_sparse_fiber_field(MaterialBase):
             return
         # Merge into left; free right. Competence check: keep higher-utility payload.
         if right.utility > left.utility:
-            left.payload = list(right.payload)
+            self._set_payload(left, right.payload)
             left.utility = right.utility
         for index in range(self.key_dim):
             if left.key[index] == 0:
