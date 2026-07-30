@@ -303,3 +303,49 @@ def test_supervision_cli_requires_an_explicit_manifest_for_the_worker() -> None:
         ["supervised-longitudinal", "--supervision-manifest", "/tmp/manifest.json"]
     )
     assert arguments.supervision_manifest == Path("/tmp/manifest.json")
+
+
+def test_terminal_refusal_requires_an_actual_prelaunch_refusal() -> None:
+    common = {"activation": False}
+    checks = execution._continuity_refusal_checks(
+        classification={"outcome": "C", **common},
+        preflight={"fresh_launch_admitted": False, **common},
+        failure={
+            "classification": "invalid_terminal_trace",
+            "trace_is_not_terminal_evidence": True,
+            **common,
+        },
+        root_cause={"fresh_lane_permitted": False, **common},
+        longitudinal_result={
+            "status": "refused_before_launch",
+            "continuity_passing": False,
+            "actual_wall_hours": 0.0,
+            **common,
+        },
+        clean_clone_result={"all_pass": True, **common},
+    )
+    assert all(checks.values())
+
+    counterfeit = execution._continuity_refusal_checks(
+        classification={"outcome": "C", **common},
+        preflight={"fresh_launch_admitted": False, **common},
+        failure={
+            "classification": "invalid_terminal_trace",
+            "trace_is_not_terminal_evidence": True,
+            **common,
+        },
+        root_cause={"fresh_lane_permitted": False, **common},
+        longitudinal_result={
+            "status": "refused_before_launch",
+            "continuity_passing": True,
+            "actual_wall_hours": 0.0,
+            **common,
+        },
+        clean_clone_result={"all_pass": True, **common},
+    )
+    assert counterfeit["longitudinal_not_counterfeited"] is False
+
+
+def test_terminal_refusal_cli_is_explicit() -> None:
+    commands = sandbox.parser()._subparsers._group_actions[0].choices
+    assert "publish-continuity-refusal" in commands

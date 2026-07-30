@@ -3253,9 +3253,12 @@ def clean_clone() -> dict[str, Any]:
             environment = dict(base.os.environ)
             environment["PYTHONPATH"] = str(clean / "src")
             environment["SUBSTRATE_REPOSITORY_ROOT"] = str(clean)
+            python = ROOT / ".venv" / "bin" / "python"
+            if not python.is_file():
+                python = Path(sys.executable)
             focused = base._command(
                 [
-                    str(ROOT / ".venv" / "bin" / "python"),
+                    str(python),
                     "-m",
                     "pytest",
                     "-q",
@@ -3267,7 +3270,9 @@ def clean_clone() -> dict[str, Any]:
             )
             ruff = base._command(
                 [
-                    str(ROOT / ".venv" / "bin" / "ruff"),
+                    str(python),
+                    "-m",
+                    "ruff",
                     "check",
                     "src/substrate/sandbox.py",
                     "src/substrate/sandbox_config.py",
@@ -3693,6 +3698,309 @@ def publish(
     }
 
 
+CONTINUITY_REFUSAL_EVIDENCE = (
+    "SUBSTRATE_TANGIBLE_SANDBOX_CONTINUATION_PREFLIGHT.json",
+    "SUBSTRATE_TANGIBLE_SANDBOX_CONTINUITY_FAILURE.json",
+    "SUBSTRATE_TANGIBLE_SANDBOX_CONTINUITY_ROOT_CAUSE.json",
+)
+
+
+def _continuity_refusal_checks(
+    *,
+    classification: dict[str, Any],
+    preflight: dict[str, Any],
+    failure: dict[str, Any],
+    root_cause: dict[str, Any],
+    longitudinal_result: dict[str, Any],
+    clean_clone_result: dict[str, Any],
+) -> dict[str, bool]:
+    """Check that Outcome C preserves a refusal instead of fabricating a lane."""
+
+    return {
+        "outcome_c": classification.get("outcome") == "C",
+        "preflight_refused_fresh_launch": preflight.get("fresh_launch_admitted")
+        is False,
+        "failed_trace_preserved_invalid": failure.get("classification")
+        == "invalid_terminal_trace"
+        and failure.get("trace_is_not_terminal_evidence") is True,
+        "root_cause_refuses_fresh_lane": root_cause.get("fresh_lane_permitted")
+        is False,
+        "longitudinal_not_counterfeited": longitudinal_result.get("status")
+        == "refused_before_launch"
+        and longitudinal_result.get("continuity_passing") is False
+        and float(longitudinal_result.get("actual_wall_hours", -1)) == 0.0,
+        "clean_clone": clean_clone_result.get("all_pass") is True,
+        "activation_false": all(
+            document.get("activation") is False
+            for document in (
+                classification,
+                preflight,
+                failure,
+                root_cause,
+                longitudinal_result,
+                clean_clone_result,
+            )
+        ),
+    }
+
+
+def _continuity_refusal_publication_text(
+    classification: dict[str, Any], final_state: dict[str, Any]
+) -> dict[str, str]:
+    """Build a concise publication package for an honest terminal refusal."""
+
+    limitation = final_state["strongest_limitation"]
+    common = (
+        "Outcome C (`terminal_tangible_sandbox_null`) was reached because the "
+        "required fresh 24-hour continuity lane was refused before launch. "
+        "The campaign filesystem was below its immutable protected disk floor and "
+        "the only alternate mounted volume was not writable. Activation remained false."
+    )
+    terminal = f"""# Substrate Tangible Sandbox R2 — terminal refusal report
+
+{common}
+
+## Preserved failure evidence
+
+- The four incomplete continuity traces remain invalid and are not combined.
+- The latest launchd-owned worker produced valid hour-0 and hour-3 receipts, then
+  refused after the protected disk floor crossed; it did not claim completion.
+- The supervisor and worker are inactive. No fresh lane was launched below the floor.
+
+## Claim boundary
+
+No terminal claim is made for H_T12, continuity, teaching, model replacement, or
+public/custom benchmark advantage. Historical sealed results remain preserved but
+cannot satisfy the missing terminal continuity gate.
+
+## Strongest limitation
+
+{limitation}
+"""
+    return {
+        "SUBSTRATE_SANDBOX_TERMINAL_REPORT.md": terminal,
+        "README.md": f"# Tangible Sandbox R2\n\n{common}\n",
+        "DATASET_CARD.md": (
+            "# STSC-1 dataset card\n\nThe frozen corpus and prior receipts are "
+            "preserved. This terminal publication reports a continuity-resource "
+            "refusal, not a completed fresh lane.\n"
+        ),
+        "RESULTS.md": (
+            "# Results\n\nNo terminal practical-advantage result is claimed. "
+            "The fresh continuity gate was not admitted.\n"
+        ),
+        "LIMITATIONS.md": f"# Limitations\n\n{limitation}\n",
+        "REPRODUCTION.md": (
+            "# Reproduction\n\nRun `python -m substrate.sandbox verify` from "
+            "the terminal tag. It verifies that the refusal is preserved and that "
+            "no incomplete continuity trace was accepted.\n"
+        ),
+        "SOURCE_AND_LICENSE_LEDGER.md": (
+            "# Source and license ledger\n\nSee the frozen machine-readable "
+            "license authority. No new source was acquired after the resource refusal.\n"
+        ),
+        "PAPER.md": (
+            "# Tangible Sandbox R2 terminal resource refusal\n\n"
+            f"{common}\n\nThe correct result is a transparent null rather than "
+            "a fabricated longitudinal success.\n"
+        ),
+    }
+
+
+def publish_continuity_refusal(
+    *, pr_number: int | None = None, run_clean_clone: bool = True
+) -> dict[str, Any]:
+    """Seal a terminal Outcome C for an evidenced pre-launch resource refusal."""
+
+    if (RUNS / "longitudinal").exists():
+        raise base.Refused("cannot publish a refusal while a longitudinal root exists")
+    evidence_paths = {name: EVIDENCE / name for name in CONTINUITY_REFUSAL_EVIDENCE}
+    missing = [str(path) for path in evidence_paths.values() if not path.is_file()]
+    if missing:
+        raise base.Refused(f"continuity refusal publication missing evidence: {missing}")
+    preflight = base.load_json(
+        evidence_paths["SUBSTRATE_TANGIBLE_SANDBOX_CONTINUATION_PREFLIGHT.json"]
+    )
+    failure = base.load_json(
+        evidence_paths["SUBSTRATE_TANGIBLE_SANDBOX_CONTINUITY_FAILURE.json"]
+    )
+    root_cause = base.load_json(
+        evidence_paths["SUBSTRATE_TANGIBLE_SANDBOX_CONTINUITY_ROOT_CAUSE.json"]
+    )
+    if preflight.get("fresh_launch_admitted") is not False:
+        raise base.Refused("Outcome C requires an explicit fresh-lane refusal")
+    if failure.get("classification") != "invalid_terminal_trace":
+        raise base.Refused("Outcome C requires an invalid preserved trace")
+    if root_cause.get("fresh_lane_permitted") is not False:
+        raise base.Refused("Outcome C cannot supersede a permitted fresh lane")
+
+    longitudinal = base.authority(
+        "SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT",
+        {
+            "status": "refused_before_launch",
+            "reason": root_cause["proven_cause"],
+            "actual_elapsed_seconds": 0.0,
+            "actual_wall_hours": 0.0,
+            "scheduled_hours": C.LONGITUDINAL_HOURS,
+            "trace": None,
+            "trace_rows": 0,
+            "continuity_passing": False,
+            "failed_trace_authority": str(
+                evidence_paths[
+                    "SUBSTRATE_TANGIBLE_SANDBOX_CONTINUITY_FAILURE.json"
+                ].relative_to(ROOT)
+            ),
+            "root_cause_authority": str(
+                evidence_paths[
+                    "SUBSTRATE_TANGIBLE_SANDBOX_CONTINUITY_ROOT_CAUSE.json"
+                ].relative_to(ROOT)
+            ),
+            "activation": False,
+        },
+        status="refused_before_launch",
+    )
+    teaching = base.authority(
+        "SUBSTRATE_SANDBOX_TEACHING_RESULT",
+        {
+            "status": "not_run_due_continuity_refusal",
+            "human_teaching_events": 0,
+            "reason": "fresh longitudinal lane was not admitted",
+        },
+        status="not_run",
+    )
+    replacement = base.authority(
+        "SUBSTRATE_SANDBOX_MODEL_REPLACEMENT_RESULT",
+        {
+            "status": "not_run_due_continuity_refusal",
+            "model_replacements": 0,
+            "tool_or_body_changes": 0,
+            "reason": "fresh longitudinal lane was not admitted",
+        },
+        status="not_run",
+    )
+    for filename, document in (
+        ("SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT.json", longitudinal),
+        ("SUBSTRATE_SANDBOX_TEACHING_RESULT.json", teaching),
+        ("SUBSTRATE_SANDBOX_MODEL_REPLACEMENT_RESULT.json", replacement),
+    ):
+        _write_json(EVIDENCE / filename, document)
+
+    custom = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_CUSTOM_RESULTS.json")
+    classification = base.authority(
+        "SUBSTRATE_SANDBOX_FINAL_CLASSIFICATION",
+        {
+            "outcome": "C",
+            "classification": C.OUTCOMES["C"]["classification"],
+            "status": "terminal_continuity_resource_refusal",
+            "reason": root_cause["proven_cause"],
+            "critical_terminal_gate": "fresh_24_hour_continuity_trace",
+            "historical_result_preserved": True,
+            "invalid_principal_evidence_claimed": False,
+            "fresh_continuity_trace_completed": False,
+            "H_T12": {
+                "status": "not_terminally_admissible",
+                "effect": custom["H_T12"]["effect"],
+                "confidence_interval": custom["H_T12"]["confidence_interval"],
+                "sesoi": C.SESOI,
+            },
+            "claim_boundary": {
+                "tangible_advantage": "not_terminally_admissible",
+                "unqualified_nous": False,
+                "consciousness": False,
+                "sentience": False,
+                "external_activation": False,
+            },
+            "external_activation": False,
+        },
+        status="terminal",
+    )
+    _write_json(EVIDENCE / "SUBSTRATE_SANDBOX_FINAL_CLASSIFICATION.json", classification)
+    pending_clean = base.authority(
+        "SUBSTRATE_SANDBOX_CLEAN_CLONE",
+        {"all_pass": False, "status": "pending"},
+        status="pending",
+    )
+    clean = clean_clone() if run_clean_clone else pending_clean
+    _write_json(EVIDENCE / "SUBSTRATE_SANDBOX_CLEAN_CLONE.json", clean)
+    checks = _continuity_refusal_checks(
+        classification=classification,
+        preflight=preflight,
+        failure=failure,
+        root_cause=root_cause,
+        longitudinal_result=longitudinal,
+        clean_clone_result=clean,
+    )
+    independent = base.authority(
+        "SUBSTRATE_SANDBOX_INDEPENDENT_VERIFICATION",
+        {
+            "method": "independent consistency verification of refusal authorities",
+            "checks": checks,
+            "errors": [name for name, passed in checks.items() if not passed],
+            "independently_verified": all(checks.values()),
+            "external_independence_claimed": False,
+        },
+        status="pass" if all(checks.values()) else "fail",
+    )
+    _write_json(EVIDENCE / "SUBSTRATE_SANDBOX_INDEPENDENT_VERIFICATION.json", independent)
+    final_state = base.authority(
+        "SUBSTRATE_SANDBOX_FINAL_STATE",
+        {
+            "outcome": "C",
+            "classification": classification["classification"],
+            "repository": "joshuahickscorp/substrate",
+            "implementation_branch": C.IMPLEMENTATION_BRANCH,
+            "terminal_branch": C.TERMINAL_BRANCH,
+            "preflight_tag": C.PREFLIGHT_TAG,
+            "ready_tag": C.READY_TAG,
+            "terminal_tag": C.TERMINAL_TAG,
+            "terminal_pr_number": pr_number,
+            "CI": "required_before_merge",
+            "longitudinal_hours": 0.0,
+            "H_T12": classification["H_T12"],
+            "independent_verification": independent["independently_verified"],
+            "clean_clone": clean["all_pass"],
+            "strongest_limitation": (
+                "the protected disk floor was not met and no writable alternate "
+                "campaign filesystem was available"
+            ),
+            "publication_package": str(PUBLICATION.relative_to(ROOT)),
+            "external_activation": False,
+        },
+        status="terminal_evidence_prepared",
+    )
+    _write_json(EVIDENCE / "SUBSTRATE_SANDBOX_FINAL_STATE.json", final_state)
+    markdown = _continuity_refusal_publication_text(classification, final_state)
+    _write_text(
+        EVIDENCE / "SUBSTRATE_SANDBOX_TERMINAL_REPORT.md",
+        markdown["SUBSTRATE_SANDBOX_TERMINAL_REPORT.md"],
+    )
+    PUBLICATION.mkdir(parents=True, exist_ok=True)
+    for filename, value in markdown.items():
+        if filename != "SUBSTRATE_SANDBOX_TERMINAL_REPORT.md":
+            _write_text(PUBLICATION / filename, value)
+    index = base.authority(
+        "SUBSTRATE_SANDBOX_PUBLICATION_INDEX",
+        {
+            "outcome": "C",
+            "terminal_pr_number": pr_number,
+            "terminal_report": str(
+                (EVIDENCE / "SUBSTRATE_SANDBOX_TERMINAL_REPORT.md").relative_to(ROOT)
+            ),
+            "refusal_evidence": list(CONTINUITY_REFUSAL_EVIDENCE),
+            "external_activation": False,
+        },
+        status="publication_ready",
+    )
+    _write_json(PUBLICATION / "PUBLICATION_INDEX.json", index)
+    return {
+        "outcome": "C",
+        "classification": classification["classification"],
+        "clean_clone": clean["all_pass"],
+        "independent_verification": independent["independently_verified"],
+        "activation": False,
+    }
+
+
 def verify() -> dict[str, Any]:
     required = {
         name: (EVIDENCE / name).is_file() for name in C.REQUIRED_DELIVERABLES
@@ -3718,6 +4026,63 @@ def verify() -> dict[str, Any]:
     )
     mutation = loaded.get("SUBSTRATE_SANDBOX_MUTATION_REPORT.json", {})
     counterfeit = loaded.get("SUBSTRATE_SANDBOX_COUNTERFEIT_REPORT.json", {})
+    if classification.get("outcome") == "C":
+        # Outcome C has its own required evidence.  The Outcome B deliverable
+        # inventory remains useful diagnostic output, but absent B-only reports
+        # must not turn an independently verified resource refusal into a false
+        # verification failure.
+        errors = [error for error in errors if not error.startswith("missing ")]
+        refusal = {
+            name: base.load_json(EVIDENCE / name)
+            for name in CONTINUITY_REFUSAL_EVIDENCE
+            if (EVIDENCE / name).is_file()
+        }
+        longitudinal = loaded.get("SUBSTRATE_SANDBOX_LONGITUDINAL_RESULT.json", {})
+        checks = _continuity_refusal_checks(
+            classification=classification,
+            preflight=refusal.get(
+                "SUBSTRATE_TANGIBLE_SANDBOX_CONTINUATION_PREFLIGHT.json", {}
+            ),
+            failure=refusal.get(
+                "SUBSTRATE_TANGIBLE_SANDBOX_CONTINUITY_FAILURE.json", {}
+            ),
+            root_cause=refusal.get(
+                "SUBSTRATE_TANGIBLE_SANDBOX_CONTINUITY_ROOT_CAUSE.json", {}
+            ),
+            longitudinal_result=longitudinal,
+            clean_clone_result=clean,
+        )
+        checks["independent_verification"] = independent.get(
+            "independently_verified"
+        ) is True
+        checks["publication_package_present"] = all(
+            (PUBLICATION / name).is_file()
+            for name in (
+                "README.md",
+                "DATASET_CARD.md",
+                "RESULTS.md",
+                "LIMITATIONS.md",
+                "REPRODUCTION.md",
+                "SOURCE_AND_LICENSE_LEDGER.md",
+                "PAPER.md",
+                "PUBLICATION_INDEX.json",
+            )
+        )
+        errors.extend(
+            f"failed check: {name}" for name, passed in checks.items() if not passed
+        )
+        return {
+            "schema": "SUBSTRATE_SANDBOX_VERIFICATION_RESULT",
+            "program": C.PROGRAM,
+            "outcome": "C",
+            "checks": checks,
+            "required_present": required,
+            "errors": errors,
+            "all_pass": all(checks.values()) and not errors,
+            "activation": False,
+            "unqualified_nous": False,
+        }
+
     checks = {
         "required_deliverables_present": all(required.values()),
         "outcome_b": classification.get("outcome") == "B",
@@ -3786,6 +4151,7 @@ __all__ = [
     "longitudinal",
     "pilot",
     "prepare_public",
+    "publish_continuity_refusal",
     "publish",
     "run_custom",
     "run_public",
