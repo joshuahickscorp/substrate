@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 from typing import Any
 
 from substrate import sandbox_campaign as campaign
@@ -31,9 +32,7 @@ def parser() -> argparse.ArgumentParser:
         "prepare-public",
         "run-public",
         "run",
-        "invalidate-longitudinal",
         "seal-continuity-repair",
-        "longitudinal",
         "status",
         "stop",
         "resume",
@@ -41,6 +40,15 @@ def parser() -> argparse.ArgumentParser:
         "clean-clone",
     ):
         commands.add_parser(name)
+    invalidation = commands.add_parser("invalidate-longitudinal")
+    invalidation.add_argument("--reason", required=False)
+    commands.add_parser("seal-continuity-supervision-repair")
+    longitudinal = commands.add_parser("longitudinal")
+    longitudinal.add_argument("--supervision-manifest", type=Path, required=False)
+    commands.add_parser("launch-longitudinal")
+    supervised = commands.add_parser("supervised-longitudinal")
+    supervised.add_argument("--supervision-manifest", type=Path, required=True)
+    commands.add_parser("longitudinal-supervision-status")
     publish = commands.add_parser("publish")
     publish.add_argument("--pr-number", type=int)
     publish.add_argument("--no-clean-clone", action="store_true")
@@ -77,11 +85,21 @@ def main(argv: list[str] | None = None) -> None:
     elif command == "run":
         document = campaign.run()
     elif command == "invalidate-longitudinal":
-        document = campaign.invalidate_longitudinal_attempt()
+        document = campaign.invalidate_longitudinal_attempt(reason=arguments.reason)
     elif command == "seal-continuity-repair":
         document = campaign.seal_continuity_repair()
+    elif command == "seal-continuity-supervision-repair":
+        document = campaign.seal_continuity_supervision_repair()
     elif command == "longitudinal":
-        document = campaign.longitudinal()
+        document = campaign.longitudinal(
+            supervision_manifest=arguments.supervision_manifest
+        )
+    elif command == "launch-longitudinal":
+        document = campaign.launch_longitudinal_supervised()
+    elif command == "supervised-longitudinal":
+        document = campaign.supervised_longitudinal(arguments.supervision_manifest)
+    elif command == "longitudinal-supervision-status":
+        document = campaign.longitudinal_supervision_status()
     elif command == "status":
         document = campaign.status()
     elif command == "stop":
@@ -101,6 +119,8 @@ def main(argv: list[str] | None = None) -> None:
         document = campaign.refuse_stage(command)
     _print(document)
     if command == "verify" and not document["all_pass"]:
+        raise SystemExit(1)
+    if command == "supervised-longitudinal" and document["worker_returncode"] != 0:
         raise SystemExit(1)
 
 

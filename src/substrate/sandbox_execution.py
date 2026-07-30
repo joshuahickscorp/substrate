@@ -18,13 +18,17 @@ import hashlib
 import json
 import math
 import os
+import plistlib
 import resource
 import shutil
+import signal
 import struct
 import subprocess
+import sys
 import time
 import urllib.error
 import urllib.request
+import uuid
 import wave
 import zipfile
 import zlib
@@ -96,6 +100,12 @@ WEBARENA_ENDPOINTS = {
     "reddit": "http://127.0.0.1:17999",
     "gitlab": "http://127.0.0.1:18023",
 }
+
+# A user launchd job owns the real-time worker outside a transient agent shell.
+# This is deliberately execution infrastructure, not a change to the frozen
+# candidate, schedule, controls, metrics, or outcome rule.
+SUPERVISION_VERSION = "1.0.0"
+SUPERVISION_ROOT_NAME = "longitudinal-supervision"
 
 
 def _now() -> str:
@@ -1980,7 +1990,36 @@ def run_custom() -> dict[str, Any]:
     }
 
 
-def invalidate_longitudinal_attempt() -> dict[str, Any]:
+def _invalidation_paths() -> list[Path]:
+    """Return the immutable invalidation chain in attempt order."""
+
+    base_path = EVIDENCE / "SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION.json"
+    numbered = list(
+        EVIDENCE.glob("SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION_*.json")
+    )
+
+    def index(path: Path) -> int:
+        suffix = path.stem.removeprefix("SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION")
+        return int(suffix[1:]) if suffix.startswith("_") and suffix[1:].isdigit() else 1
+
+    return sorted([path for path in [base_path, *numbered] if path.is_file()], key=index)
+
+
+def _next_invalidation_path() -> Path:
+    """Allocate a new evidence path without overwriting an earlier failure."""
+
+    existing = _invalidation_paths()
+    if not existing:
+        return EVIDENCE / "SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION.json"
+    index = 2
+    while True:
+        path = EVIDENCE / f"SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION_{index}.json"
+        if not path.exists():
+            return path
+        index += 1
+
+
+def invalidate_longitudinal_attempt(*, reason: str | None = None) -> dict[str, Any]:
     """Preserve, rather than reuse, an incomplete or invalid lane attempt."""
 
     lane_root = RUNS / "longitudinal"
@@ -1996,25 +2035,31 @@ def invalidate_longitudinal_attempt() -> dict[str, Any]:
     if archived.exists():
         raise base.Refused(f"longitudinal archive collision: {archived}")
     trace_digest = _sha_file(trace_path) if trace_path.is_file() else None
+    previous = _invalidation_paths()
+    output_path = _next_invalidation_path()
     shutil.move(str(lane_root), str(archived))
     document = base.authority(
         "SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION",
         {
-            "reason": (
-                "The initial lane schedule produced only three checkpoints, below "
-                "the R2 minimum of eight. It was stopped before a scientific "
-                "outcome and preserved outside the replacement lane."
+            "reason": reason
+            or (
+                "The longitudinal worker did not produce a complete, receipt-backed "
+                "24-hour trace. The incomplete attempt is preserved and cannot be "
+                "used for an outcome."
             ),
             "prior_state": state,
             "prior_trace_sha256": trace_digest,
             "archived_attempt": str(archived.relative_to(ROOT)),
+            "prior_invalidation_sha256": (
+                base.load_json(previous[-1])["sha256"] if previous else None
+            ),
             "invalidated_before_completion": True,
             "candidate_or_outcome_data_changed": False,
             "replacement_required": True,
         },
         status="invalidated",
     )
-    _write_json(EVIDENCE / "SUBSTRATE_SANDBOX_LONGITUDINAL_INVALIDATION.json", document)
+    _write_json(output_path, document)
     return document
 
 
@@ -2061,6 +2106,423 @@ def seal_continuity_repair() -> dict[str, Any]:
     )
     _write_json(EVIDENCE / "SUBSTRATE_SANDBOX_CONTINUITY_REPAIR_SEAL.json", document)
     return document
+
+
+def seal_continuity_supervision_repair() -> dict[str, Any]:
+    """Seal an execution-only repair before the supervised replacement trace."""
+
+    freeze_document = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json")
+    original_seal_path = EVIDENCE / "SUBSTRATE_SANDBOX_CONTINUITY_REPAIR_SEAL.json"
+    output_path = EVIDENCE / "SUBSTRATE_SANDBOX_CONTINUITY_SUPERVISION_REPAIR_SEAL.json"
+    invalidations = _invalidation_paths()
+    if not freeze_document.get("freeze_a_created"):
+        raise base.Refused("supervision repair requires the original Freeze A")
+    if not original_seal_path.is_file() or len(invalidations) < 2:
+        raise base.Refused(
+            "supervision repair requires the original seal and a second archived invalid attempt"
+        )
+    if output_path.exists():
+        raise base.Refused("supervision repair seal already exists and is immutable")
+    custom = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_CUSTOM_RESULTS.json")
+    principal_raw = ARTIFACTS / "raw_receipts" / "custom" / "principal-rows.jsonl"
+    if not principal_raw.is_file():
+        raise base.Refused("supervision repair requires frozen principal raw receipts")
+    schedule = [list(row) for row in C.LONGITUDINAL_SCHEDULE]
+    original_seal = base.load_json(original_seal_path)
+    latest_invalidation = base.load_json(invalidations[-1])
+    document = base.authority(
+        "SUBSTRATE_SANDBOX_CONTINUITY_SUPERVISION_REPAIR_SEAL",
+        {
+            "repair_scope": [
+                "macOS launchd ownership outside the transient agent shell",
+                "durable supervisor process identity and exit status",
+                "unexpected-exit detection without false completion",
+            ],
+            "supervision_version": SUPERVISION_VERSION,
+            "original_freeze_sha256": freeze_document["sha256"],
+            "previous_continuity_repair_seal_sha256": original_seal["sha256"],
+            "invalidation_sha256": latest_invalidation["sha256"],
+            "invalidation_chain_length": len(invalidations),
+            "schedule_version": C.CONTINUITY_SCHEDULE_VERSION,
+            "schedule": schedule,
+            "minimums": C.LONGITUDINAL_MINIMUMS,
+            "schedule_sha256": digest(schedule),
+            "repair_source_sha256": _sha_file(Path(__file__)),
+            "config_source_sha256": _sha_file(
+                ROOT / "src" / "substrate" / "sandbox_config.py"
+            ),
+            "candidate_and_scoring_data_preserved": True,
+            "principal_effect_before_repair": custom["H_T12"]["effect"],
+            "principal_raw_sha256": _sha_file(principal_raw),
+            "outcome_selection_or_reclassification": False,
+            "ready_to_launch": True,
+        },
+        status="sealed_before_supervised_replacement_lane",
+    )
+    _write_json(output_path, document)
+    return document
+
+
+def _active_continuity_seal() -> tuple[Path, dict[str, Any]]:
+    """Select the latest immutable repair authority, never a mutable state file."""
+
+    supervised = EVIDENCE / "SUBSTRATE_SANDBOX_CONTINUITY_SUPERVISION_REPAIR_SEAL.json"
+    original = EVIDENCE / "SUBSTRATE_SANDBOX_CONTINUITY_REPAIR_SEAL.json"
+    path = supervised if supervised.is_file() else original
+    if not path.is_file():
+        raise base.Refused("longitudinal lane requires a sealed continuity schedule")
+    return path, base.load_json(path)
+
+
+def _validate_continuity_seal() -> tuple[Path, dict[str, Any]]:
+    """Fail closed if the sealed schedule, code, or configuration drifted."""
+
+    freeze_document = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json")
+    if not freeze_document["freeze_a_created"]:
+        raise base.Refused("longitudinal lane requires Freeze A")
+    repair_path, repair = _active_continuity_seal()
+    if not repair.get("ready_to_launch"):
+        raise base.Refused("continuity repair seal is not launchable")
+    runtime_schedule = [list(row) for row in C.LONGITUDINAL_SCHEDULE]
+    if (
+        repair.get("schedule") != runtime_schedule
+        or repair.get("schedule_sha256") != digest(runtime_schedule)
+    ):
+        raise base.Refused("longitudinal schedule drifted after the continuity seal")
+    if repair["repair_source_sha256"] != _sha_file(Path(__file__)):
+        raise base.Refused("longitudinal source drifted after the continuity seal")
+    config_path = ROOT / "src" / "substrate" / "sandbox_config.py"
+    if repair["config_source_sha256"] != _sha_file(config_path):
+        raise base.Refused("longitudinal configuration drifted after the continuity seal")
+    return repair_path, repair
+
+
+def _supervision_root(run_id: str) -> Path:
+    return RUNS / SUPERVISION_ROOT_NAME / run_id
+
+
+def _pid_is_alive(pid: int | None) -> bool:
+    if pid is None or pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    return True
+
+
+def _launchctl(arguments: list[str], *, timeout: float = 30.0) -> dict[str, Any]:
+    """Invoke launchctl with a bounded result that can be put in a receipt."""
+
+    try:
+        result = subprocess.run(
+            ["/bin/launchctl", *arguments],
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        return {"ok": False, "returncode": None, "stdout": "", "stderr": str(error)}
+    return {
+        "ok": result.returncode == 0,
+        "returncode": result.returncode,
+        "stdout": result.stdout.strip(),
+        "stderr": result.stderr.strip(),
+    }
+
+
+def _launchd_job_plist(
+    *, label: str, manifest_path: Path, stdout_path: Path, stderr_path: Path
+) -> dict[str, Any]:
+    """Build a one-shot user agent; process exit is never experimental success."""
+
+    return {
+        "Label": label,
+        "ProgramArguments": [
+            sys.executable,
+            "-m",
+            "substrate.sandbox",
+            "supervised-longitudinal",
+            "--supervision-manifest",
+            str(manifest_path),
+        ],
+        "WorkingDirectory": str(ROOT),
+        "EnvironmentVariables": {
+            "PATH": os.environ.get("PATH", "/usr/bin:/bin"),
+            "PYTHONPATH": str(ROOT / "src"),
+            "SUBSTRATE_REPOSITORY_ROOT": str(ROOT),
+            "SUBSTRATE_LONGITUDINAL_SUPERVISOR": "launchd",
+        },
+        "KeepAlive": False,
+        "RunAtLoad": False,
+        "ProcessType": "Adaptive",
+        "ThrottleInterval": 60,
+        "StandardOutPath": str(stdout_path),
+        "StandardErrorPath": str(stderr_path),
+        "AbandonProcessGroup": False,
+    }
+
+
+def _load_supervision_manifest(path: Path) -> dict[str, Any]:
+    resolved = path.expanduser().resolve()
+    root = (RUNS / SUPERVISION_ROOT_NAME).resolve()
+    if not resolved.is_relative_to(root) or not resolved.is_file():
+        raise base.Refused("supervision manifest must be an existing run-local receipt")
+    manifest = base.load_json(resolved)
+    if manifest.get("schema") != "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISION_MANIFEST":
+        raise base.Refused("invalid longitudinal supervision manifest")
+    _, repair = _validate_continuity_seal()
+    if manifest.get("continuity_repair_seal_sha256") != repair.get("sha256"):
+        raise base.Refused("supervision manifest is not bound to the active continuity seal")
+    if manifest.get("repair_source_sha256") != _sha_file(Path(__file__)):
+        raise base.Refused("supervision manifest source identity drifted")
+    return manifest
+
+
+def launch_longitudinal_supervised() -> dict[str, Any]:
+    """Launch a sealed continuity worker as a one-shot macOS user agent."""
+
+    if sys.platform != "darwin" or not Path("/bin/launchctl").is_file():
+        raise base.Refused("supervised longitudinal launch requires macOS launchd")
+    if (RUNS / "longitudinal").exists():
+        raise base.Refused("existing longitudinal root must be completed or invalidated")
+    repair_path, repair = _validate_continuity_seal()
+    run_id = f"r2-{uuid.uuid4().hex}"
+    root = _supervision_root(run_id)
+    root.mkdir(parents=True, exist_ok=False)
+    manifest_path = root / "manifest.json"
+    state_path = root / "supervisor-state.json"
+    plist_path = root / "launchd.plist"
+    stdout_path = root / "stdout.log"
+    stderr_path = root / "stderr.log"
+    label = f"org.substrate.tangible-sandbox-r2.{run_id}"
+    domain = f"gui/{os.getuid()}"
+    manifest = base.authority(
+        "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISION_MANIFEST",
+        {
+            "supervision_version": SUPERVISION_VERSION,
+            "run_id": run_id,
+            "launchd_label": label,
+            "launchd_domain": domain,
+            "continuity_repair_seal": str(repair_path.relative_to(ROOT)),
+            "continuity_repair_seal_sha256": repair["sha256"],
+            "repair_source_sha256": _sha_file(Path(__file__)),
+            "config_source_sha256": _sha_file(
+                ROOT / "src" / "substrate" / "sandbox_config.py"
+            ),
+            "worker_program": sys.executable,
+            "worker_program_sha256": _sha_file(Path(sys.executable)),
+            "worker_command": ["-m", "substrate.sandbox", "longitudinal"],
+            "completion_authority": "worker longitudinal result only",
+            "process_exit_is_not_completion": True,
+        },
+        status="prepared",
+    )
+    _write_json(manifest_path, manifest)
+    _write_json(
+        state_path,
+        {
+            "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISOR_STATE",
+            "run_id": run_id,
+            "status": "launch_prepared",
+            "manifest_sha256": manifest["sha256"],
+            "process_exit_is_not_completion": True,
+            "activation": False,
+        },
+    )
+    with plist_path.open("wb") as handle:
+        plistlib.dump(
+            _launchd_job_plist(
+                label=label,
+                manifest_path=manifest_path,
+                stdout_path=stdout_path,
+                stderr_path=stderr_path,
+            ),
+            handle,
+            sort_keys=True,
+        )
+    bootstrap = _launchctl(["bootstrap", domain, str(plist_path)])
+    if not bootstrap["ok"]:
+        _write_json(
+            state_path,
+            {
+                "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISOR_STATE",
+                "run_id": run_id,
+                "status": "launch_failed",
+                "manifest_sha256": manifest["sha256"],
+                "bootstrap": bootstrap,
+                "process_exit_is_not_completion": True,
+                "activation": False,
+            },
+        )
+        raise base.Refused(f"launchd bootstrap failed: {bootstrap['stderr']}")
+    kickstart = _launchctl(["kickstart", "-p", f"{domain}/{label}"])
+    document = base.authority(
+        "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISION_LAUNCH",
+        {
+            "run_id": run_id,
+            "launchd_label": label,
+            "launchd_domain": domain,
+            "manifest": str(manifest_path.relative_to(ROOT)),
+            "manifest_sha256": manifest["sha256"],
+            "plist": str(plist_path.relative_to(ROOT)),
+            "plist_sha256": _sha_file(plist_path),
+            "bootstrap": bootstrap,
+            "kickstart": kickstart,
+            "launch_succeeded": kickstart["ok"],
+            "completion_authority": "worker longitudinal result only",
+            "process_exit_is_not_completion": True,
+        },
+        status="launched" if kickstart["ok"] else "launch_failed",
+    )
+    _write_json(root / "launch.json", document)
+    if not kickstart["ok"]:
+        _launchctl(["bootout", f"{domain}/{label}"])
+        raise base.Refused(f"launchd kickstart failed: {kickstart['stderr']}")
+    return document
+
+
+def supervised_longitudinal(manifest_path: Path) -> dict[str, Any]:
+    """Run the worker under launchd and durably record its lifecycle outcome."""
+
+    if os.environ.get("SUBSTRATE_LONGITUDINAL_SUPERVISOR") != "launchd":
+        raise base.Refused("supervised worker must be launched by its user launchd agent")
+    manifest = _load_supervision_manifest(manifest_path)
+    root = manifest_path.resolve().parent
+    state_path = root / "supervisor-state.json"
+    result_path = root / "supervisor-result.json"
+    command = [
+        sys.executable,
+        "-m",
+        "substrate.sandbox",
+        "longitudinal",
+        "--supervision-manifest",
+        str(manifest_path.resolve()),
+    ]
+    started_at = _now()
+    worker = subprocess.Popen(
+        command,
+        cwd=ROOT,
+        env={
+            **os.environ,
+            "PYTHONPATH": str(ROOT / "src"),
+            "SUBSTRATE_REPOSITORY_ROOT": str(ROOT),
+        },
+    )
+    _write_json(
+        state_path,
+        {
+            "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISOR_STATE",
+            "run_id": manifest["run_id"],
+            "status": "worker_running",
+            "supervisor_pid": os.getpid(),
+            "worker_pid": worker.pid,
+            "worker_started_at": started_at,
+            "manifest_sha256": manifest["sha256"],
+            "process_exit_is_not_completion": True,
+            "activation": False,
+        },
+    )
+    previous_handlers: dict[signal.Signals, Any] = {}
+
+    def interrupted(signum: int, _frame: Any) -> None:
+        raise RuntimeError(f"supervisor received signal {signum}")
+
+    for signum in (signal.SIGTERM, signal.SIGHUP):
+        previous_handlers[signum] = signal.signal(signum, interrupted)
+    try:
+        worker_returncode = worker.wait()
+    except BaseException as error:
+        if worker.poll() is None:
+            worker.terminate()
+            try:
+                worker.wait(timeout=30)
+            except subprocess.TimeoutExpired:
+                worker.kill()
+                worker.wait(timeout=30)
+        document = base.authority(
+            "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISION_RESULT",
+            {
+                "run_id": manifest["run_id"],
+                "worker_pid": worker.pid,
+                "worker_returncode": worker.returncode,
+                "worker_started_at": started_at,
+                "worker_finished_at": _now(),
+                "status": "supervisor_interrupted",
+                "exception": f"{type(error).__name__}: {error}",
+                "completion_authority": "worker longitudinal result only",
+                "process_exit_is_not_completion": True,
+            },
+            status="interrupted",
+        )
+        _write_json(state_path, document)
+        _write_json(result_path, document)
+        raise
+    finally:
+        for handled_signal, previous in previous_handlers.items():
+            signal.signal(handled_signal, previous)
+    status = "worker_complete" if worker_returncode == 0 else "worker_failed"
+    document = base.authority(
+        "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISION_RESULT",
+        {
+            "run_id": manifest["run_id"],
+            "worker_pid": worker.pid,
+            "worker_returncode": worker_returncode,
+            "worker_started_at": started_at,
+            "worker_finished_at": _now(),
+            "status": status,
+            "completion_authority": "worker longitudinal result only",
+            "process_exit_is_not_completion": True,
+        },
+        status=status,
+    )
+    _write_json(state_path, document)
+    _write_json(result_path, document)
+    return document
+
+
+def longitudinal_supervision_status() -> dict[str, Any]:
+    """Report supervisor liveness; absence is failure evidence, never success."""
+
+    root = RUNS / SUPERVISION_ROOT_NAME
+    manifests = sorted(root.glob("*/manifest.json"), key=lambda path: path.stat().st_mtime)
+    if not manifests:
+        raise base.Refused("no supervised longitudinal launch exists")
+    manifest_path = manifests[-1]
+    manifest = base.load_json(manifest_path)
+    supervisor_state_path = manifest_path.parent / "supervisor-state.json"
+    supervisor_state = (
+        base.load_json(supervisor_state_path) if supervisor_state_path.is_file() else {}
+    )
+    worker_state_path = RUNS / "longitudinal" / "state.json"
+    worker_state = base.load_json(worker_state_path) if worker_state_path.is_file() else {}
+    launchd = _launchctl(
+        ["print", f"{manifest['launchd_domain']}/{manifest['launchd_label']}"]
+    )
+    worker_pid = supervisor_state.get("worker_pid")
+    supervisor_pid = supervisor_state.get("supervisor_pid")
+    worker_complete = worker_state.get("complete") is True
+    lifecycle_status = supervisor_state.get("status")
+    alive = _pid_is_alive(worker_pid) and _pid_is_alive(supervisor_pid)
+    return {
+        "schema": "SUBSTRATE_SANDBOX_LONGITUDINAL_SUPERVISION_STATUS",
+        "run_id": manifest["run_id"],
+        "launchd_label": manifest["launchd_label"],
+        "supervisor_status": lifecycle_status,
+        "supervisor_pid": supervisor_pid,
+        "supervisor_pid_alive": _pid_is_alive(supervisor_pid),
+        "worker_pid": worker_pid,
+        "worker_pid_alive": _pid_is_alive(worker_pid),
+        "worker_state_complete": worker_complete,
+        "liveness_healthy": alive and not worker_complete,
+        "unexpected_absence": not worker_complete
+        and lifecycle_status == "worker_running"
+        and not alive,
+        "launchd": launchd,
+        "process_exit_is_not_completion": True,
+        "activation": False,
+    }
 
 
 def _inspect_longitudinal_asset(path: Path) -> dict[str, Any]:
@@ -2381,29 +2843,29 @@ def _longitudinal_protection() -> dict[str, Any]:
     }
 
 
-def longitudinal() -> dict[str, Any]:
+def longitudinal(*, supervision_manifest: Path | None = None) -> dict[str, Any]:
     """Run the sealed, protected 24-hour continuity lane in real wall time."""
 
-    freeze_document = base.load_json(EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json")
-    repair_path = EVIDENCE / "SUBSTRATE_SANDBOX_CONTINUITY_REPAIR_SEAL.json"
-    if not freeze_document["freeze_a_created"]:
-        raise base.Refused("longitudinal lane requires Freeze A")
-    if not repair_path.is_file():
-        raise base.Refused("longitudinal lane requires a sealed continuity schedule")
-    repair = base.load_json(repair_path)
-    if not repair.get("ready_to_launch"):
-        raise base.Refused("continuity repair seal is not launchable")
-    runtime_schedule = [list(row) for row in C.LONGITUDINAL_SCHEDULE]
-    if (
-        repair.get("schedule") != runtime_schedule
-        or repair.get("schedule_sha256") != digest(runtime_schedule)
-    ):
-        raise base.Refused("longitudinal schedule drifted after the continuity seal")
-    if repair["repair_source_sha256"] != _sha_file(Path(__file__)):
-        raise base.Refused("longitudinal source drifted after the continuity seal")
-    config_path = ROOT / "src" / "substrate" / "sandbox_config.py"
-    if repair["config_source_sha256"] != _sha_file(config_path):
-        raise base.Refused("longitudinal configuration drifted after the continuity seal")
+    repair_path, repair = _validate_continuity_seal()
+    requires_supervision = (
+        repair_path.name == "SUBSTRATE_SANDBOX_CONTINUITY_SUPERVISION_REPAIR_SEAL.json"
+    )
+    if requires_supervision and supervision_manifest is None:
+        raise base.Refused(
+            "supervised continuity repair requires launch-longitudinal, not a terminal worker"
+        )
+    supervision: dict[str, Any] | None = None
+    if supervision_manifest is not None:
+        if os.environ.get("SUBSTRATE_LONGITUDINAL_SUPERVISOR") != "launchd":
+            raise base.Refused("longitudinal worker must be owned by its user launchd agent")
+        manifest = _load_supervision_manifest(supervision_manifest)
+        supervision = {
+            "run_id": manifest["run_id"],
+            "launchd_label": manifest["launchd_label"],
+            "manifest": str(supervision_manifest.resolve().relative_to(ROOT)),
+            "manifest_sha256": manifest["sha256"],
+            "process_exit_is_not_completion": True,
+        }
     lane_root = RUNS / "longitudinal"
     trace_path = lane_root / "trace.jsonl"
     state_path = lane_root / "state.json"
@@ -2492,6 +2954,7 @@ def longitudinal() -> dict[str, Any]:
                     "disk_free_bytes": disk_free,
                     "heartbeat_at": _now(),
                     "protection": protection,
+                    "supervision": supervision,
                     "complete": elapsed >= duration,
                     "activation": False,
                 },
@@ -2598,7 +3061,9 @@ def longitudinal() -> dict[str, Any]:
             "trace_rows": len(rows),
             "trace_sha256": _sha_file(trace_path),
             "trace": str(trace_path.relative_to(ROOT)),
+            "continuity_repair_seal": str(repair_path.relative_to(ROOT)),
             "continuity_repair_seal_sha256": repair["sha256"],
+            "supervision": supervision,
             "continuity_passing": all(continuity_checks.values()),
         },
         status="complete",

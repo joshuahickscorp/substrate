@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import plistlib
 from pathlib import Path
 
+from substrate import sandbox
 from substrate import sandbox_campaign as campaign
 from substrate import sandbox_config as C
 from substrate import sandbox_execution as execution
@@ -267,3 +269,37 @@ def test_longitudinal_schedule_meets_the_r2_minimums_before_launch() -> None:
     assert sum(event.startswith("human_correction") for event in events) >= 2
     assert sum(activity.startswith("return_old_work") for activity in activities) >= 2
     assert sum("requires_earlier_history" in activity for activity in activities) >= 2
+
+
+def test_supervised_longitudinal_job_is_one_shot_and_receipt_bound() -> None:
+    manifest = execution.RUNS / execution.SUPERVISION_ROOT_NAME / "r2-test" / "manifest.json"
+    job = execution._launchd_job_plist(
+        label="org.substrate.tangible-sandbox-r2.r2-test",
+        manifest_path=manifest,
+        stdout_path=manifest.parent / "stdout.log",
+        stderr_path=manifest.parent / "stderr.log",
+    )
+    round_tripped = plistlib.loads(plistlib.dumps(job))
+    assert execution.SUPERVISION_VERSION == "1.0.0"
+    assert round_tripped["KeepAlive"] is False
+    assert round_tripped["RunAtLoad"] is False
+    assert round_tripped["AbandonProcessGroup"] is False
+    assert round_tripped["EnvironmentVariables"]["SUBSTRATE_LONGITUDINAL_SUPERVISOR"] == "launchd"
+    assert round_tripped["ProgramArguments"][-2:] == [
+        "--supervision-manifest",
+        str(manifest),
+    ]
+
+
+def test_supervision_cli_requires_an_explicit_manifest_for_the_worker() -> None:
+    commands = sandbox.parser()._subparsers._group_actions[0].choices
+    assert {
+        "launch-longitudinal",
+        "supervised-longitudinal",
+        "longitudinal-supervision-status",
+        "seal-continuity-supervision-repair",
+    }.issubset(commands)
+    arguments = sandbox.parser().parse_args(
+        ["supervised-longitudinal", "--supervision-manifest", "/tmp/manifest.json"]
+    )
+    assert arguments.supervision_manifest == Path("/tmp/manifest.json")
