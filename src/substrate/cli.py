@@ -50,6 +50,11 @@ def main(argv: list[str] | None = None) -> None:
 
         genesis.main(argv)
         return
+    if command == "sandbox":
+        from substrate import sandbox
+
+        sandbox.main(argv)
+        return
 
     if command == "test":
         raise SystemExit(subprocess.run([sys.executable, "-m", "pytest", "tests/substrate", *argv]).returncode)

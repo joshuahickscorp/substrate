@@ -38,6 +38,8 @@ substrate verify                            # audit, then recompute results from
 substrate audit                             # structural audit only
 substrate nous-closure status               # state of the most recent campaign
 substrate nous-closure verify --no-publish  # re-check that campaign's 68 sealed authorities
+substrate sandbox status                    # Tangible Sandbox R2 terminal state
+substrate sandbox verify                    # recompute the R2 preflight outcome
 ```
 
 `make test`, `make accept` (= `substrate verify`) and `make audit` wrap these. Three things to know.
@@ -69,6 +71,16 @@ The parent Cognitive Material Genesis result remains authoritative: its selected
 `-0.247768`, 95% CI `[-0.256737, -0.238393]`. Genesis II explains part of that failure as representation
 and update-granularity cost; it does not erase the negative result. Earlier Nous Closure and v5 results
 also remain preserved under their original tags.
+
+## Tangible Sandbox R2
+
+The R2 Core-tier tangible campaign is implemented as a fail-closed command
+surface under `substrate sandbox`. On the recorded execution host it terminated
+at mandatory preflight because the only data filesystem was below the protected
+free-space floor and no eligible alternate volume existed. No download,
+generator, benchmark, principal, longitudinal, mutation, or counterfeit worker
+was launched. The terminal classification is
+`terminal_tangible_sandbox_null`; H_T12 was not tested.
 
 ## What this is not
 

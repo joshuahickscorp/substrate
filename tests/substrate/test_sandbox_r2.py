@@ -1,0 +1,194 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+from substrate import sandbox_campaign as campaign
+from substrate import sandbox_config as C
+from substrate.final_revision_io import digest
+
+
+def _preflight_fixture(*, free: int, total: int = 1000 * C.GIB) -> dict:
+    floor = C.disk_floor_bytes(total)
+    return campaign.authority(
+        "SUBSTRATE_SANDBOX_PREFLIGHT",
+        {
+            "disk": {
+                "capacity_bytes": total,
+                "available_bytes": free,
+                "required_floor_bytes": floor,
+                "floor_pass": free >= floor,
+                "core_start_deficit_bytes": max(
+                    0, floor + C.CORE_MINIMUM_ACQUISITION_BYTES - free
+                ),
+            },
+            "bounded_repair": {"alternate_mounted_core_volume_found": False},
+            "admission": {
+                "terminal_outcome_c_admitted": free < floor,
+                "critical_blocker": "protected_disk_floor" if free < floor else None,
+            },
+            "historical_identity": {"preserved": True},
+            "docker": {"server_available": False},
+            "tools": {
+                "vmrun": {"available": False},
+                "emulator": {"available": False},
+                "adb": {"available": False},
+            },
+            "model_and_data_credentials": {},
+        },
+        status="fixture",
+    )
+
+
+def test_r2_constitution_preserves_parent_and_claim_boundary() -> None:
+    assert C.ACTIVATION is False
+    assert C.UNQUALIFIED_NOUS is False
+    assert C.PARENT_SELECTED_MATERIAL == "L1_associative_monolith"
+    assert C.PARENT_CLASSIFICATION == "cognitive_material_genesis_ii_complete"
+    assert C.PARENT_STATUS == "compositional_advantage_unproven"
+    assert C.PARENT_READINESS == "tangible_sandbox_ready"
+    assert C.OUTCOMES["C"]["classification"] == "terminal_tangible_sandbox_null"
+    assert C.SESOI == 0.05
+
+
+def test_disk_floor_is_larger_of_50_gib_and_twenty_percent() -> None:
+    assert C.disk_floor_bytes(100 * C.GIB) == 50 * C.GIB
+    assert C.disk_floor_bytes(1000 * C.GIB) == 200 * C.GIB
+
+
+def test_core_admission_requires_floor_plus_reservation() -> None:
+    total = 1000 * C.GIB
+    floor = C.disk_floor_bytes(total)
+    refused = campaign.acquisition_plan(
+        _preflight_fixture(free=floor - 1, total=total),
+        persist=False,
+    )
+    assert refused["safe_to_start"] is False
+    assert refused["disk"]["usable_above_floor_bytes"] == 0
+    assert refused["refusals"] == [
+        "protected_disk_floor",
+        "core_acquisition_reservation",
+    ]
+
+    admitted = campaign.acquisition_plan(
+        _preflight_fixture(
+            free=floor + C.CORE_MINIMUM_ACQUISITION_BYTES,
+            total=total,
+        ),
+        persist=False,
+    )
+    assert admitted["safe_to_start"] is True
+
+
+def test_outcome_c_requires_a_terminal_preflight_failure() -> None:
+    total = 1000 * C.GIB
+    refused = _preflight_fixture(free=1 * C.GIB, total=total)
+    classification = campaign._classify(refused)
+    assert classification["outcome"] == "C"
+    assert classification["principal_launched"] is False
+    assert classification["H_T12"]["status"] == "not_tested"
+    assert classification["external_activation"] is False
+
+
+def test_authorities_are_hash_sealed_and_inactive() -> None:
+    document = campaign.authority("TEST", {"value": 1}, status="test")
+    claimed = document.pop("sha256")
+    assert claimed == digest(document)
+    assert document["activation"] is False
+    assert document["unqualified_nous"] is False
+
+
+def test_acquisition_state_machine_and_four_pools_are_complete() -> None:
+    assert set(C.ACQUISITION_POOLS) == {
+        "network",
+        "hash",
+        "extraction",
+        "preprocessing",
+    }
+    assert C.ACQUISITION_STATES[-3:] == ("QUARANTINED", "GATED", "REFUSED")
+    assert len(set(C.ACQUISITION_STATES)) == len(C.ACQUISITION_STATES)
+
+
+def test_required_arms_include_strengthened_practical_controls() -> None:
+    assert len(C.REQUIRED_ARMS) == 13
+    assert "project_state_database" in C.REQUIRED_ARMS
+    assert "best_of_n_direct_model" in C.REQUIRED_ARMS
+    assert "oracle" in C.REQUIRED_ARMS
+
+
+def test_stsc_schema_has_separate_roots_and_all_splits() -> None:
+    schema = campaign._stsc_schema()
+    assert schema["version"] == "1.0.0-r2"
+    assert schema["roots"] == [
+        "builder_visible",
+        "executor_visible",
+        "evaluator_only",
+        "publication_safe",
+    ]
+    assert len(schema["splits"]) == 7
+    assert len(schema["families"]) == 16
+    assert schema["materialized"] is False
+
+
+def test_integrity_canaries_use_real_temporary_bytes() -> None:
+    checks = campaign._checksum_canaries()
+    assert checks == {
+        "C02_checksum_mismatch_detected": True,
+        "C03_partial_download_resumes": True,
+        "C04_duplicate_download_avoided": True,
+    }
+
+
+def test_official_source_catalog_has_unique_ids_and_pins() -> None:
+    ids = [row["source_id"] for row in C.OFFICIAL_SOURCES]
+    assert len(ids) == len(set(ids))
+    assert len(ids) >= 17
+    assert all(row["official_url"].startswith("https://") for row in C.OFFICIAL_SOURCES)
+    assert all(row["selected_revision"] for row in C.OFFICIAL_SOURCES)
+    osworld = next(row for row in C.OFFICIAL_SOURCES if row["source_id"] == "osworld_v2")
+    assert osworld["selected_revision"] == "v2026.06.24"
+
+
+def test_common_voice_and_fsd50k_license_boundaries_are_explicit() -> None:
+    common_voice = next(
+        row for row in C.OFFICIAL_SOURCES if row["source_id"] == "common_voice"
+    )
+    fsd50k = next(row for row in C.OFFICIAL_SOURCES if row["source_id"] == "fsd50k")
+    assert common_voice["redistribution_class"] == "local_evaluation_only"
+    assert "no_rehosting" in common_voice["access"]
+    assert fsd50k["redistribution_class"] == "filter_to_CC0_and_CC-BY_with_attribution"
+
+
+def test_required_deliverable_names_are_unique() -> None:
+    assert len(C.REQUIRED_DELIVERABLES) == len(set(C.REQUIRED_DELIVERABLES))
+    assert "SUBSTRATE_SANDBOX_FINAL_CLASSIFICATION.json" in C.REQUIRED_DELIVERABLES
+    assert "SUBSTRATE_SANDBOX_TERMINAL_REPORT.md" in C.REQUIRED_DELIVERABLES
+
+
+def test_adapter_contract_never_exposes_evaluator_root() -> None:
+    contract = campaign._adapter_contract()
+    assert contract["candidate_can_read_evaluator_only"] is False
+    assert contract["implemented_environment_adapters"] == []
+
+
+def test_not_run_receipt_does_not_counterfeit_a_null_effect() -> None:
+    document = campaign._not_run("TEST", reason="preflight")
+    assert document["status"] == "not_run"
+    assert document["principal_units"] == 0
+    assert "effect" not in document
+
+
+def test_package_configuration_is_machine_readable() -> None:
+    configuration = C.configuration()
+    assert configuration["eta"]["planning_hours"] == 36
+    assert configuration["eta"]["expected_hours"] == [32, 44]
+    assert configuration["required_public_floor"]["software_engineering"].endswith(
+        "minimum 25"
+    )
+    assert configuration["activation"] is False
+
+
+def test_publication_paths_stay_inside_repository() -> None:
+    assert campaign.EVIDENCE.is_relative_to(campaign.ROOT)
+    assert campaign.PUBLICATION.is_relative_to(campaign.ROOT)
+    assert campaign.CORPUS.is_relative_to(campaign.ROOT)
+    assert isinstance(campaign.ROOT, Path)
