@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-principal-0802
+family=negative_transfer
+sensor_reading=607
+instruction=return the verified reading, applying prior teaching when required

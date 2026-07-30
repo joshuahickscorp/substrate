@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-principal-0260
+family=video_and_motion
+sensor_reading=773
+instruction=return the verified reading, applying prior teaching when required

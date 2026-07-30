@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-principal-0973
+family=human_style_teaching
+sensor_reading=364
+instruction=return the verified reading, applying prior teaching when required

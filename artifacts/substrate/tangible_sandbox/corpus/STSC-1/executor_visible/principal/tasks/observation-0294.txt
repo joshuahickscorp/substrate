@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-principal-0294
+family=spatial_and_3d_body
+sensor_reading=196
+instruction=return the verified reading, applying prior teaching when required
