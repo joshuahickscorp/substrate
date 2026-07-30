@@ -158,6 +158,13 @@ def test_common_voice_and_fsd50k_license_boundaries_are_explicit() -> None:
     assert fsd50k["redistribution_class"] == "filter_to_CC0_and_CC-BY_with_attribution"
 
 
+def test_ungated_access_is_not_misclassified_as_gated() -> None:
+    assert campaign._access_is_gated("ungated") is False
+    assert campaign._access_is_gated("ungated_code_and_dataset") is False
+    assert campaign._access_is_gated("gated_task_classes_and_assets") is True
+    assert campaign._access_is_gated("Kaggle_credentials_and_terms_required") is True
+
+
 def test_required_deliverable_names_are_unique() -> None:
     assert len(C.REQUIRED_DELIVERABLES) == len(set(C.REQUIRED_DELIVERABLES))
     assert "SUBSTRATE_SANDBOX_FINAL_CLASSIFICATION.json" in C.REQUIRED_DELIVERABLES
