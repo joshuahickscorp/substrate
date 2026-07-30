@@ -45,6 +45,32 @@ PLANNING_ETA_HOURS = 36
 EXPECTED_ETA_HOURS = (32, 44)
 CONTINGENCY_ETA_HOURS = (48, 60)
 LONGITUDINAL_HOURS = 24
+CONTINUITY_SCHEDULE_VERSION = "2.0.0"
+LONGITUDINAL_MINIMUMS = {
+    "process_restarts": 2,
+    "checkpoints": 8,
+    "model_replacements": 1,
+    "tool_or_body_changes": 1,
+    "sensor_interruptions": 1,
+    "human_corrections": 2,
+    "returns_to_old_work": 2,
+    "new_tasks_requiring_earlier_history": 2,
+}
+
+# Every entry produces a durable checkpoint after performing the listed work.
+# The schedule is deliberately explicit so the continuity lane cannot silently
+# collapse into a timer with a handful of log rows.
+LONGITUDINAL_SCHEDULE = (
+    (0, "start", "project_intake"),
+    (3, "checkpoint", "media_review"),
+    (6, "restart_1", "return_old_work_1"),
+    (9, "human_correction_1", "new_task_requires_earlier_history_1"),
+    (12, "model_replacement", "rebuild_from_checkpoint"),
+    (15, "sensor_interruption", "degraded_sensor_recovery"),
+    (18, "restart_2_tool_body_change", "return_old_work_2"),
+    (21, "human_correction_2", "new_task_requires_earlier_history_2"),
+    (24, "final_checkpoint", "publication_handoff"),
+)
 
 REQUIRED_ARMS = (
     "L1_full",

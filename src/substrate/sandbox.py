@@ -31,6 +31,8 @@ def parser() -> argparse.ArgumentParser:
         "prepare-public",
         "run-public",
         "run",
+        "invalidate-longitudinal",
+        "seal-continuity-repair",
         "longitudinal",
         "status",
         "stop",
@@ -74,6 +76,10 @@ def main(argv: list[str] | None = None) -> None:
         document = campaign.run_public()
     elif command == "run":
         document = campaign.run()
+    elif command == "invalidate-longitudinal":
+        document = campaign.invalidate_longitudinal_attempt()
+    elif command == "seal-continuity-repair":
+        document = campaign.seal_continuity_repair()
     elif command == "longitudinal":
         document = campaign.longitudinal()
     elif command == "status":

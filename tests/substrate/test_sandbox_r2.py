@@ -250,3 +250,20 @@ def test_webarena_subset_is_preregistered_across_four_sites() -> None:
         "reddit",
         "gitlab",
     }
+
+
+def test_longitudinal_schedule_meets_the_r2_minimums_before_launch() -> None:
+    assert C.CONTINUITY_SCHEDULE_VERSION == "2.0.0"
+    assert [row[0] for row in C.LONGITUDINAL_SCHEDULE] == list(range(0, 25, 3))
+    assert len(C.LONGITUDINAL_SCHEDULE) >= C.LONGITUDINAL_MINIMUMS["checkpoints"]
+    events = [row[1] for row in C.LONGITUDINAL_SCHEDULE]
+    activities = [row[2] for row in C.LONGITUDINAL_SCHEDULE]
+    assert sum(event.startswith("restart_") for event in events) >= C.LONGITUDINAL_MINIMUMS[
+        "process_restarts"
+    ]
+    assert "model_replacement" in events
+    assert "restart_2_tool_body_change" in events
+    assert "sensor_interruption" in events
+    assert sum(event.startswith("human_correction") for event in events) >= 2
+    assert sum(activity.startswith("return_old_work") for activity in activities) >= 2
+    assert sum("requires_earlier_history" in activity for activity in activities) >= 2
