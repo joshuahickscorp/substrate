@@ -28,7 +28,10 @@ def parser() -> argparse.ArgumentParser:
         "canaries",
         "pilot",
         "freeze",
+        "prepare-public",
+        "run-public",
         "run",
+        "longitudinal",
         "status",
         "stop",
         "resume",
@@ -57,6 +60,22 @@ def main(argv: list[str] | None = None) -> None:
         document = campaign.verify()
     elif command == "canaries":
         document = campaign.canaries()
+    elif command == "generate":
+        document = campaign.generate()
+    elif command == "inventory":
+        document = campaign.inventory()
+    elif command == "pilot":
+        document = campaign.pilot()
+    elif command == "freeze":
+        document = campaign.freeze()
+    elif command == "prepare-public":
+        document = campaign.prepare_public()
+    elif command == "run-public":
+        document = campaign.run_public()
+    elif command == "run":
+        document = campaign.run()
+    elif command == "longitudinal":
+        document = campaign.longitudinal()
     elif command == "status":
         document = campaign.status()
     elif command == "stop":

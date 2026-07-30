@@ -11,6 +11,7 @@ publishes independently recomputable evidence.
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import platform
 import shutil
@@ -20,6 +21,7 @@ import tempfile
 import time
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -43,7 +45,15 @@ RUNS = ROOT / "runs" / "substrate" / "tangible_sandbox"
 ARTIFACTS = ROOT / "artifacts" / "substrate" / "tangible_sandbox"
 PUBLICATION = ARTIFACTS / "publication"
 CORPUS = ARTIFACTS / "corpus" / C.CORPUS
+DATA = ROOT / "data" / "substrate" / "tangible_sandbox"
+SOURCE_ROOT = DATA / "sources"
+CACHE_ROOT = DATA / "cache" / "sha256"
 STOP = RUNS / "STOP"
+
+COLIMA_DOCKER_SOCKET = (
+    Path.home() / ".colima" / "substrate-r2" / "docker.sock"
+)
+OLLAMA_URL = "http://127.0.0.1:11434"
 
 PACKAGE_ROOT = Path("/Users/scammermike/Downloads/SUBSTRATE_TANGIBLE_SANDBOX_R2_COMPLETE_PACKAGE")
 PACKAGE_FILES = (
@@ -144,6 +154,127 @@ def _tool(name: str, alternate: str | None = None) -> dict[str, Any]:
     if resolved is None and alternate and Path(alternate).exists():
         resolved = alternate
     return {"available": resolved is not None, "path": resolved}
+
+
+def _json_request(url: str, *, timeout: float = 5.0) -> dict[str, Any]:
+    started = time.monotonic()
+    request = urllib.request.Request(
+        url,
+        headers={"Accept": "application/json", "User-Agent": "substrate-r2/1.0"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            payload = json.loads(response.read().decode())
+            return {
+                "ok": 200 <= response.status < 300,
+                "status": response.status,
+                "payload": payload,
+                "elapsed_seconds": round(time.monotonic() - started, 6),
+                "error": None,
+            }
+    except (OSError, ValueError, urllib.error.URLError) as error:
+        return {
+            "ok": False,
+            "status": getattr(error, "code", None),
+            "payload": None,
+            "elapsed_seconds": round(time.monotonic() - started, 6),
+            "error": str(error),
+        }
+
+
+def _docker_runtime(docker_available: bool) -> dict[str, Any]:
+    candidates: list[tuple[str, str | None]] = []
+    configured = os.environ.get("SUBSTRATE_DOCKER_HOST") or os.environ.get("DOCKER_HOST")
+    if configured:
+        candidates.append(("configured", configured))
+    if COLIMA_DOCKER_SOCKET.exists():
+        candidates.append(("colima-substrate-r2", f"unix://{COLIMA_DOCKER_SOCKET}"))
+    candidates.append(("default", None))
+
+    seen: set[str | None] = set()
+    probes = []
+    if docker_available:
+        for name, host in candidates:
+            if host in seen:
+                continue
+            seen.add(host)
+            environment = dict(os.environ)
+            if host:
+                environment["DOCKER_HOST"] = host
+            elif "DOCKER_HOST" in environment:
+                del environment["DOCKER_HOST"]
+            probe = _command(
+                [
+                    "docker",
+                    "info",
+                    "--format",
+                    "{{json .ServerVersion}} {{json .Architecture}} "
+                    "{{json .NCPU}} {{json .MemTotal}}",
+                ],
+                timeout=8,
+                env=environment,
+            )
+            probes.append(
+                {
+                    "name": name,
+                    "host": host,
+                    "ok": probe["ok"],
+                    "identity": probe["stdout"] or None,
+                    "error": probe["stderr"] or None,
+                    "elapsed_seconds": probe["elapsed_seconds"],
+                }
+            )
+            if probe["ok"]:
+                return {
+                    "client_available": True,
+                    "server_available": True,
+                    "selected_runtime": name,
+                    "host": host,
+                    "identity": probe["stdout"],
+                    "probes": probes,
+                }
+    return {
+        "client_available": docker_available,
+        "server_available": False,
+        "selected_runtime": None,
+        "host": None,
+        "identity": None,
+        "probes": probes,
+    }
+
+
+def _model_endpoints() -> dict[str, Any]:
+    ollama = _json_request(f"{OLLAMA_URL}/api/tags")
+    models = []
+    if ollama["ok"] and isinstance(ollama["payload"], dict):
+        models = [
+            {
+                "name": row.get("name"),
+                "digest": row.get("digest"),
+                "size": row.get("size"),
+                "parameter_size": row.get("details", {}).get("parameter_size"),
+                "quantization": row.get("details", {}).get("quantization_level"),
+            }
+            for row in ollama["payload"].get("models", [])
+        ]
+    grok = _tool("grok", str(Path.home() / ".grok" / "bin" / "grok"))
+    codex = _tool(
+        "codex",
+        "/Applications/ChatGPT.app/Contents/Resources/codex",
+    )
+    return {
+        "ollama": {
+            "available": bool(ollama["ok"] and models),
+            "url": OLLAMA_URL,
+            "models": models,
+            "probe_seconds": ollama["elapsed_seconds"],
+            "error": ollama["error"],
+        },
+        "grok_cli": grok,
+        "codex_cli": codex,
+        "campaign_endpoint_available": bool(ollama["ok"] and models),
+        "external_review_endpoint_available": bool(grok["available"]),
+    }
 
 
 def _mounted_filesystems() -> list[dict[str, Any]]:
@@ -288,7 +419,8 @@ def preflight() -> dict[str, Any]:
         "adb": _tool("adb"),
         "sdkmanager": _tool("sdkmanager"),
     }
-    docker_probe = _command(["docker", "info", "--format", "{{json .ServerVersion}}"], timeout=8) if tools["docker"]["available"] else {"ok": False}
+    docker_runtime = _docker_runtime(bool(tools["docker"]["available"]))
+    model_endpoints = _model_endpoints()
     api_names = (
         "OPENAI_API_KEY",
         "ANTHROPIC_API_KEY",
@@ -308,14 +440,14 @@ def preflight() -> dict[str, Any]:
         blockers.append("protected_disk_floor")
     if disk.free < core_required_free:
         blockers.append("core_acquisition_reservation")
-    if not docker_probe.get("ok"):
+    if not docker_runtime["server_available"]:
         blockers.append("docker_engine")
-    if not tools["vmrun"]["available"]:
-        blockers.append("vmware_fusion_cli")
-    if not (tools["emulator"]["available"] and tools["adb"]["available"]):
-        blockers.append("android_emulator")
-    if not any(api_presence[name] for name in ("OPENAI_API_KEY", "ANTHROPIC_API_KEY", "GROQ_API_KEY", "XAI_API_KEY")):
+    if not model_endpoints["campaign_endpoint_available"]:
         blockers.append("benchmark_model_endpoint")
+    if not _parent_identity()["preserved"]:
+        blockers.append("historical_identity")
+    if not all(row["present"] for row in _package_authority()):
+        blockers.append("execution_package")
 
     disk_terminal = disk.free < floor and not alternate
     safe_repair = {
@@ -372,11 +504,8 @@ def preflight() -> dict[str, Any]:
                 "mounted_filesystems": mounts,
             },
             "tools": tools,
-            "docker": {
-                "client_available": tools["docker"]["available"],
-                "server_available": bool(docker_probe.get("ok")),
-                "probe_error": docker_probe.get("stderr") if not docker_probe.get("ok") else None,
-            },
+            "docker": docker_runtime,
+            "model_endpoints": model_endpoints,
             "model_and_data_credentials": api_presence,
             "high_cpu_processes": _high_cpu_processes(),
             "execution_package": _package_authority(),
@@ -388,6 +517,21 @@ def preflight() -> dict[str, Any]:
                 "freeze_a_admitted": False,
                 "principal_launch_admitted": False,
                 "blockers": blockers,
+                "noncritical_absences": [
+                    name
+                    for name, absent in {
+                        "vmware_fusion_cli": not tools["vmrun"]["available"],
+                        "android_emulator": not (
+                            tools["emulator"]["available"] and tools["adb"]["available"]
+                        ),
+                    }.items()
+                    if absent
+                ],
+                "gui_fallback": (
+                    "custom_local_desktop_and_browser"
+                    if not (tools["emulator"]["available"] and tools["adb"]["available"])
+                    else "AndroidWorld"
+                ),
                 "critical_blocker": "protected_disk_floor" if disk_terminal else None,
                 "terminal_outcome_c_admitted": disk_terminal,
                 "outcome_c_authority": C.OUTCOME_C_RESERVED_FOR,
@@ -572,6 +716,9 @@ def acquisition_plan(
     disk = before["disk"]
     usable_above_floor = max(0, int(disk["available_bytes"]) - int(disk["required_floor_bytes"]))
     safe = bool(disk["floor_pass"] and usable_above_floor >= C.CORE_MINIMUM_ACQUISITION_BYTES)
+    binary_bytes = sum(int(row["bytes"]) for row in C.CORE_BINARY_ASSETS)
+    projected_free = int(disk["available_bytes"]) - binary_bytes
+    selected_binary_safe = projected_free >= int(disk["required_floor_bytes"])
     sources = []
     for source in C.OFFICIAL_SOURCES:
         gated = _access_is_gated(str(source["access"]))
@@ -601,6 +748,7 @@ def acquisition_plan(
             "target_bytes": {
                 "minimum": C.CORE_MINIMUM_ACQUISITION_BYTES,
                 "preferred": C.CORE_PREFERRED_ACQUISITION_BYTES,
+                "selected_public_archives": binary_bytes,
             },
             "disk": {
                 "capacity_bytes": disk["capacity_bytes"],
@@ -610,6 +758,8 @@ def acquisition_plan(
                 "reservation_deficit_bytes": max(
                     0, C.CORE_MINIMUM_ACQUISITION_BYTES - usable_above_floor
                 ),
+                "projected_free_after_selected_archives_bytes": projected_free,
+                "selected_archives_preserve_floor": selected_binary_safe,
             },
             "four_pool_scheduler": C.ACQUISITION_POOLS,
             "state_machine": list(C.ACQUISITION_STATES),
@@ -628,8 +778,13 @@ def acquisition_plan(
                 "single_writer_per_target",
             ],
             "sources": sources,
-            "safe_to_start": safe,
-            "refusals": [] if safe else ["protected_disk_floor", "core_acquisition_reservation"],
+            "binary_assets": list(C.CORE_BINARY_ASSETS),
+            "safe_to_start": safe and selected_binary_safe,
+            "refusals": (
+                []
+                if safe and selected_binary_safe
+                else ["protected_disk_floor", "core_acquisition_reservation"]
+            ),
             "planning_eta_hours": C.PLANNING_ETA_HOURS,
             "live_eta_status": "not_started_no_observed_transfer_rate",
         },
@@ -640,52 +795,366 @@ def acquisition_plan(
     return document
 
 
-def acquire() -> dict[str, Any]:
-    """Fail closed unless the complete Core reservation is already safe."""
-
-    before = (
-        load_json(EVIDENCE / "SUBSTRATE_SANDBOX_PREFLIGHT.json")
-        if (EVIDENCE / "SUBSTRATE_SANDBOX_PREFLIGHT.json").is_file()
-        else write_preflight()
-    )
-    plan = acquisition_plan(before)
-    if plan["safe_to_start"]:
+def _assert_disk_floor() -> dict[str, int]:
+    disk = shutil.disk_usage(ROOT)
+    floor = C.disk_floor_bytes(disk.total)
+    if disk.free < floor:
         raise Refused(
-            "Core acquisition is admitted but this bounded preflight implementation "
-            "does not download until the operator launches the full acquisition engine"
+            f"protected disk floor crossed: {disk.free} available, {floor} required"
         )
-    rows = []
-    for source in plan["sources"]:
-        rows.append(
-            {
-                "source_id": source["source_id"],
-                "state": source["planned_state"],
-                "bytes_downloaded": 0,
-                "files_downloaded": 0,
-                "throughput_bytes_per_second": 0.0,
-                "reason": source["refusal"] or "manual_terms_or_credentials_not_accepted",
-            }
+    return {
+        "capacity_bytes": disk.total,
+        "available_bytes": disk.free,
+        "protected_floor_bytes": floor,
+    }
+
+
+def _directory_bytes(path: Path) -> int:
+    return sum(row.stat().st_size for row in path.rglob("*") if row.is_file())
+
+
+def _pool_workers(name: str) -> int:
+    value = C.ACQUISITION_POOLS[name]["initial_workers"]
+    if not isinstance(value, int):
+        raise Refused(f"invalid worker authority for {name}: {value!r}")
+    return value
+
+
+def _clone_source(source: dict[str, Any]) -> dict[str, Any]:
+    source_id = str(source["source_id"])
+    target = SOURCE_ROOT / source_id
+    revision = str(source["selected_revision"])
+    url = str(source["git_url"])
+    started = time.monotonic()
+    if target.exists() and not (target / ".git").is_dir():
+        raise Refused(f"source target exists but is not a Git checkout: {target}")
+    if not target.exists():
+        target.parent.mkdir(parents=True, exist_ok=True)
+        initialized = _command(["git", "init", "--quiet", str(target)], timeout=30)
+        if not initialized["ok"]:
+            raise Refused(f"cannot initialize {source_id}: {initialized['stderr']}")
+        remote = _command(
+            ["git", "-C", str(target), "remote", "add", "origin", url],
+            timeout=30,
         )
+        if not remote["ok"]:
+            raise Refused(f"cannot set source remote for {source_id}: {remote['stderr']}")
+    fetch = _command(
+        [
+            "git",
+            "-C",
+            str(target),
+            "fetch",
+            "--depth",
+            "1",
+            "--filter=blob:none",
+            "origin",
+            revision,
+        ],
+        timeout=1800,
+    )
+    if not fetch["ok"]:
+        raise Refused(f"cannot fetch {source_id}@{revision}: {fetch['stderr']}")
+    checkout = _command(
+        ["git", "-C", str(target), "checkout", "--quiet", "--detach", "FETCH_HEAD"],
+        timeout=300,
+    )
+    if not checkout["ok"]:
+        raise Refused(f"cannot checkout {source_id}@{revision}: {checkout['stderr']}")
+    head = _command(["git", "-C", str(target), "rev-parse", "HEAD"], timeout=30)
+    tree = _command(["git", "-C", str(target), "rev-parse", "HEAD^{tree}"], timeout=30)
+    count = _command(
+        ["git", "-C", str(target), "ls-files", "-z"],
+        timeout=60,
+    )
+    _assert_disk_floor()
+    return {
+        "kind": "git",
+        "source_id": source_id,
+        "state": "COMPLETE",
+        "url": url,
+        "selected_revision": revision,
+        "resolved_commit": head["stdout"],
+        "tree": tree["stdout"],
+        "tracked_files": str(count["stdout"]).count("\0"),
+        "local_bytes": _directory_bytes(target),
+        "path": str(target.relative_to(ROOT)),
+        "elapsed_seconds": round(time.monotonic() - started, 6),
+    }
+
+
+def _download_asset(asset: dict[str, Any]) -> dict[str, Any]:
+    source_id = str(asset["source_id"])
+    target = DATA / "archives" / source_id / str(asset["filename"])
+    target.parent.mkdir(parents=True, exist_ok=True)
+    started = time.monotonic()
+    existing = target.stat().st_size if target.is_file() else 0
+    if existing != int(asset["bytes"]):
+        download = _command(
+            [
+                "aria2c",
+                "--allow-overwrite=true",
+                "--auto-file-renaming=false",
+                "--continue=true",
+                "--file-allocation=none",
+                "--max-connection-per-server=1",
+                "--split=1",
+                "--max-tries=8",
+                "--retry-wait=5",
+                "--summary-interval=30",
+                f"--dir={target.parent}",
+                f"--out={target.name}",
+                str(asset["url"]),
+            ],
+            timeout=21600,
+        )
+        if not download["ok"]:
+            raise Refused(
+                f"download failed for {source_id}/{target.name}: {download['stderr']}"
+            )
+    if not target.is_file() or target.stat().st_size != int(asset["bytes"]):
+        observed = target.stat().st_size if target.is_file() else None
+        raise Refused(
+            f"size mismatch for {target.name}: expected {asset['bytes']}, observed {observed}"
+        )
+    _assert_disk_floor()
+    return {
+        "kind": "archive",
+        "source_id": source_id,
+        "state": "DOWNLOADED",
+        "filename": target.name,
+        "url": asset["url"],
+        "expected_bytes": asset["bytes"],
+        "bytes": target.stat().st_size,
+        "resumed_from_bytes": existing,
+        "expected_md5": asset["md5"],
+        "path": str(target.relative_to(ROOT)),
+        "elapsed_seconds": round(time.monotonic() - started, 6),
+    }
+
+
+def _hash_asset(row: dict[str, Any]) -> dict[str, Any]:
+    path = ROOT / str(row["path"])
+    started = time.monotonic()
+    md5 = hashlib.md5()  # noqa: S324 - verifies an official transport checksum
+    sha256 = hashlib.sha256()
+    with path.open("rb") as handle:
+        while chunk := handle.read(8 * 1024 * 1024):
+            md5.update(chunk)
+            sha256.update(chunk)
+    observed_md5 = md5.hexdigest()
+    if observed_md5 != row["expected_md5"]:
+        quarantine = DATA / "quarantine" / path.name
+        quarantine.parent.mkdir(parents=True, exist_ok=True)
+        path.replace(quarantine)
+        raise Refused(
+            f"checksum mismatch quarantined {path.name}: "
+            f"{observed_md5} != {row['expected_md5']}"
+        )
+    content_digest = sha256.hexdigest()
+    cache = CACHE_ROOT / content_digest
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    if not cache.exists():
+        os.link(path, cache)
+    row.update(
+        {
+            "state": "HASHED",
+            "md5": observed_md5,
+            "sha256": content_digest,
+            "cache_path": str(cache.relative_to(ROOT)),
+            "hash_seconds": round(time.monotonic() - started, 6),
+        }
+    )
+    return row
+
+
+def _preprocess_asset(row: dict[str, Any]) -> dict[str, Any]:
+    path = ROOT / str(row["path"])
+    result = dict(row)
+    probe = _command(["file", "--brief", "--mime-type", str(path)], timeout=30)
+    result.update(
+        {
+            "state": "VALIDATED",
+            "mime_type": probe["stdout"] if probe["ok"] else "application/octet-stream",
+            "preprocess_receipt": digest(
+                {
+                    "path": row["path"],
+                    "bytes": row["bytes"],
+                    "sha256": row["sha256"],
+                }
+            ),
+        }
+    )
+    return result
+
+
+def _extract_seed_assets(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    import tarfile
+    import zipfile
+
+    output = DATA / "processed"
+    output.mkdir(parents=True, exist_ok=True)
+    selected = {
+        "FSD50K.ground_truth.zip",
+        "FSD50K.metadata.zip",
+        "FSD50K.doc.zip",
+        "dev-clean.tar.gz",
+        "test-clean.tar.gz",
+    }
+
+    def extract(row: dict[str, Any]) -> dict[str, Any]:
+        path = ROOT / str(row["path"])
+        if path.name not in selected:
+            return {"filename": path.name, "state": "HASHED", "extracted_bytes": 0}
+        target = output / str(row["source_id"]) / path.name.replace(".tar.gz", "")
+        target.mkdir(parents=True, exist_ok=True)
+        before = _directory_bytes(target)
+        if path.suffix == ".zip":
+            with zipfile.ZipFile(path) as archive:
+                for member in archive.infolist():
+                    member_path = Path(member.filename)
+                    if member_path.is_absolute() or ".." in member_path.parts:
+                        raise Refused(f"unsafe archive member: {member.filename}")
+                archive.extractall(target)
+        else:
+            with tarfile.open(path, "r:gz") as archive:
+                archive.extractall(target, filter="data")
+        after = _directory_bytes(target)
+        return {
+            "filename": path.name,
+            "state": "EXTRACTED",
+            "path": str(target.relative_to(ROOT)),
+            "extracted_bytes": max(0, after - before),
+        }
+
+    extracted = []
+    with ThreadPoolExecutor(
+        max_workers=_pool_workers("extraction")
+    ) as pool:
+        futures = [pool.submit(extract, row) for row in rows]
+        for future in as_completed(futures):
+            extracted.append(future.result())
+    return {
+        "rows": sorted(extracted, key=lambda row: row["filename"]),
+        "bytes": sum(int(row["extracted_bytes"]) for row in extracted),
+    }
+
+
+def acquire() -> dict[str, Any]:
+    """Run the resumable, source-aware four-pool Core acquisition."""
+
+    before = write_preflight()
+    plan = acquisition_plan(before)
+    if not before["admission"]["core_tier_admitted"]:
+        raise Refused(f"Core acquisition not admitted: {before['admission']['blockers']}")
+    if not plan["safe_to_start"]:
+        raise Refused(f"Core acquisition reservation failed: {plan['refusals']}")
+    if STOP.exists():
+        raise Refused("operator STOP is present")
+
+    started_at = _utc_now()
+    started = time.monotonic()
+    state_path = RUNS / "acquisition_state.json"
+    git_sources = [
+        row
+        for row in C.OFFICIAL_SOURCES
+        if row.get("git_url") and not _access_is_gated(str(row["access"]))
+    ]
+    git_rows = []
+    with ThreadPoolExecutor(
+        max_workers=_pool_workers("network")
+    ) as pool:
+        futures = [pool.submit(_clone_source, row) for row in git_sources]
+        for future in as_completed(futures):
+            git_rows.append(future.result())
+            _write_json(
+                state_path,
+                {
+                    "schema": "SUBSTRATE_SANDBOX_ACQUISITION_STATE",
+                    "stage": "git",
+                    "git_complete": sorted(row["source_id"] for row in git_rows),
+                    "activation": False,
+                },
+            )
+
+    downloaded = []
+    with ThreadPoolExecutor(
+        max_workers=_pool_workers("network")
+    ) as pool:
+        futures = [pool.submit(_download_asset, row) for row in C.CORE_BINARY_ASSETS]
+        for future in as_completed(futures):
+            downloaded.append(future.result())
+            _write_json(
+                state_path,
+                {
+                    "schema": "SUBSTRATE_SANDBOX_ACQUISITION_STATE",
+                    "stage": "network",
+                    "archives_complete": sorted(row["filename"] for row in downloaded),
+                    "bytes_complete": sum(int(row["bytes"]) for row in downloaded),
+                    "activation": False,
+                },
+            )
+
+    hashed = []
+    with ThreadPoolExecutor(
+        max_workers=_pool_workers("hash")
+    ) as pool:
+        futures = [pool.submit(_hash_asset, row) for row in downloaded]
+        for future in as_completed(futures):
+            hashed.append(future.result())
+
+    preprocessed = []
+    with ThreadPoolExecutor(
+        max_workers=_pool_workers("preprocessing")
+    ) as pool:
+        futures = [pool.submit(_preprocess_asset, row) for row in hashed]
+        for future in as_completed(futures):
+            preprocessed.append(future.result())
+    extraction = _extract_seed_assets(preprocessed)
+    ending_disk = _assert_disk_floor()
+    elapsed = max(time.monotonic() - started, 1e-9)
+    binary_bytes = sum(int(row["bytes"]) for row in preprocessed)
     document = authority(
         "SUBSTRATE_SANDBOX_ACQUISITION_RESULT",
         {
             "tier": "Core",
-            "attempted_at": _utc_now(),
+            "started_at": started_at,
+            "completed_at": _utc_now(),
             "admission_checked": True,
-            "network_writers_started": 0,
-            "bytes_downloaded": 0,
-            "bytes_extracted": 0,
-            "bytes_preprocessed": 0,
+            "network_workers": C.ACQUISITION_POOLS["network"]["initial_workers"],
+            "hash_workers": C.ACQUISITION_POOLS["hash"]["initial_workers"],
+            "extraction_workers": C.ACQUISITION_POOLS["extraction"]["initial_workers"],
+            "preprocessing_workers": C.ACQUISITION_POOLS["preprocessing"][
+                "initial_workers"
+            ],
+            "git_sources": sorted(git_rows, key=lambda row: row["source_id"]),
+            "archives": sorted(preprocessed, key=lambda row: row["filename"]),
+            "extraction": extraction,
+            "bytes_downloaded": binary_bytes,
+            "bytes_extracted": extraction["bytes"],
+            "bytes_preprocessed": binary_bytes,
+            "throughput_bytes_per_second": round(binary_bytes / elapsed, 3),
+            "elapsed_seconds": round(elapsed, 6),
             "checksum_mismatches": 0,
             "quarantined_files": 0,
-            "sources": rows,
-            "terminal_refusal": True,
-            "critical_blocker": before["admission"]["critical_blocker"],
+            "content_addressed_cache": str(CACHE_ROOT.relative_to(ROOT)),
+            "ending_disk": ending_disk,
+            "protected_floor_preserved": True,
+            "terminal_refusal": False,
             "invalid_partial_acquisition_avoided": True,
         },
-        status="refused_before_download",
+        status="complete",
     )
     write_json(EVIDENCE / "SUBSTRATE_SANDBOX_ACQUISITION_RESULT.json", document)
+    _write_json(
+        state_path,
+        {
+            "schema": "SUBSTRATE_SANDBOX_ACQUISITION_STATE",
+            "stage": "complete",
+            "result_sha256": document["sha256"],
+            "activation": False,
+        },
+    )
     return document
 
 
@@ -718,6 +1187,10 @@ def _checksum_canaries() -> dict[str, bool]:
 
 
 def canaries() -> dict[str, Any]:
+    if (CORPUS / "executor_visible" / "canary" / "tasks.jsonl").is_file():
+        from substrate import sandbox_execution
+
+        return sandbox_execution.canaries()
     source_catalog = (
         load_json(EVIDENCE / "SUBSTRATE_SANDBOX_SOURCE_CATALOG.json")
         if (EVIDENCE / "SUBSTRATE_SANDBOX_SOURCE_CATALOG.json").is_file()
@@ -765,6 +1238,54 @@ def canaries() -> dict[str, Any]:
     )
     write_json(EVIDENCE / "SUBSTRATE_SANDBOX_CANARIES.json", document)
     return document
+
+
+def generate() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.generate()
+
+
+def inventory() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.inventory()
+
+
+def pilot() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.pilot()
+
+
+def freeze() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.freeze()
+
+
+def prepare_public() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.prepare_public()
+
+
+def run_public() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.run_public()
+
+
+def run() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.run_custom()
+
+
+def longitudinal() -> dict[str, Any]:
+    from substrate import sandbox_execution
+
+    return sandbox_execution.longitudinal()
 
 
 def _not_run(schema: str, *, reason: str, extra: dict[str, Any] | None = None) -> dict[str, Any]:
@@ -1419,6 +1940,11 @@ def _verify_recorded_state(*, require_all_deliverables: bool) -> dict[str, Any]:
 def independent_verification() -> dict[str, Any]:
     """Recompute the terminal null from raw authorities, never from prose."""
 
+    freeze_path = EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json"
+    if freeze_path.is_file() and load_json(freeze_path).get("freeze_a_created") is True:
+        from substrate import sandbox_execution
+
+        return sandbox_execution.independent_verification()
     result = _verify_recorded_state(require_all_deliverables=False)
     document = authority(
         "SUBSTRATE_SANDBOX_INDEPENDENT_VERIFICATION",
@@ -1542,6 +2068,11 @@ print("8 clean-checkout R2 assertions passed")
 
 
 def clean_clone() -> dict[str, Any]:
+    freeze_path = EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json"
+    if freeze_path.is_file() and load_json(freeze_path).get("freeze_a_created") is True:
+        from substrate import sandbox_execution
+
+        return sandbox_execution.clean_clone()
     result = _run_clean_tree_checks()
     before = load_json(EVIDENCE / "SUBSTRATE_SANDBOX_PREFLIGHT.json")
     recomputed_floor = C.disk_floor_bytes(int(before["disk"]["capacity_bytes"]))
@@ -1745,6 +2276,14 @@ external actions were performed. Activation remained false.
 def publish(*, pr_number: int | None = None, run_clean_clone: bool = True) -> dict[str, Any]:
     """Generate the complete terminal Outcome C evidence and publication set."""
 
+    freeze_path = EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json"
+    if freeze_path.is_file() and load_json(freeze_path).get("freeze_a_created") is True:
+        from substrate import sandbox_execution
+
+        return sandbox_execution.publish(
+            pr_number=pr_number,
+            run_clean_clone=run_clean_clone,
+        )
     before = write_preflight()
     research()
     plan = acquisition_plan(before)
@@ -1854,6 +2393,11 @@ def publish(*, pr_number: int | None = None, run_clean_clone: bool = True) -> di
 
 
 def verify() -> dict[str, Any]:
+    freeze_path = EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json"
+    if freeze_path.is_file() and load_json(freeze_path).get("freeze_a_created") is True:
+        from substrate import sandbox_execution
+
+        return sandbox_execution.verify()
     result = _verify_recorded_state(require_all_deliverables=True)
     required_present = {
         name: (EVIDENCE / name).is_file() for name in C.REQUIRED_DELIVERABLES
@@ -1902,8 +2446,31 @@ def verify() -> dict[str, Any]:
 def status() -> dict[str, Any]:
     classification_path = EVIDENCE / "SUBSTRATE_SANDBOX_FINAL_CLASSIFICATION.json"
     before_path = EVIDENCE / "SUBSTRATE_SANDBOX_PREFLIGHT.json"
+    freeze_path = EVIDENCE / "SUBSTRATE_SANDBOX_FREEZE.json"
+    admitted_freeze = (
+        load_json(freeze_path)
+        if freeze_path.is_file() and load_json(freeze_path).get("freeze_a_created") is True
+        else None
+    )
     if classification_path.is_file():
         classification = load_json(classification_path)
+        if admitted_freeze is not None and classification.get("outcome") == "C":
+            longitudinal_state_path = RUNS / "longitudinal" / "state.json"
+            longitudinal_state = (
+                json.loads(longitudinal_state_path.read_text())
+                if longitudinal_state_path.is_file()
+                else {}
+            )
+            return {
+                "program": C.PROGRAM,
+                "stage": "post_freeze_campaign",
+                "terminal": False,
+                "freeze_a": True,
+                "freeze_b_modules": admitted_freeze.get("freeze_b_modules", []),
+                "longitudinal": longitudinal_state,
+                "activation": False,
+                "unqualified_nous": False,
+            }
         final = (
             load_json(EVIDENCE / "SUBSTRATE_SANDBOX_FINAL_STATE.json")
             if (EVIDENCE / "SUBSTRATE_SANDBOX_FINAL_STATE.json").is_file()
@@ -1978,11 +2545,19 @@ __all__ = [
     "clean_clone",
     "configuration_digest",
     "independent_verification",
+    "freeze",
+    "generate",
+    "inventory",
+    "longitudinal",
+    "pilot",
+    "prepare_public",
     "preflight",
     "publish",
     "refuse_stage",
     "research",
     "resume",
+    "run",
+    "run_public",
     "source_digest",
     "status",
     "stop",
