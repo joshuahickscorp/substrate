@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-pilot-0049
+family=multimodal_incident_reconstruction
+sensor_reading=472
+instruction=return the verified reading, applying prior teaching when required

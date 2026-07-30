@@ -1,0 +1,1 @@
+{"event_type":"prior verified human teaching","events":[{"cue":11,"verified_result":30},{"cue":23,"verified_result":42},{"cue":37,"verified_result":56},{"cue":53,"verified_result":72}],"future_task_ids_present":false,"history":43,"teaching_precedes_test":true}
