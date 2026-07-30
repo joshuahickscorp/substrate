@@ -1324,6 +1324,18 @@ def longitudinal_supervision_status() -> dict[str, Any]:
     return sandbox_execution.longitudinal_supervision_status()
 
 
+def publish_continuity_refusal(
+    *, pr_number: int | None = None, run_clean_clone: bool = True
+) -> dict[str, Any]:
+    """Publish a terminal Outcome C when a fresh lane is safely refused."""
+
+    from substrate import sandbox_execution
+
+    return sandbox_execution.publish_continuity_refusal(
+        pr_number=pr_number, run_clean_clone=run_clean_clone
+    )
+
+
 def _not_run(schema: str, *, reason: str, extra: dict[str, Any] | None = None) -> dict[str, Any]:
     return authority(
         schema,
@@ -2586,6 +2598,7 @@ __all__ = [
     "inventory",
     "longitudinal",
     "pilot",
+    "publish_continuity_refusal",
     "prepare_public",
     "preflight",
     "publish",

@@ -52,6 +52,9 @@ def parser() -> argparse.ArgumentParser:
     publish = commands.add_parser("publish")
     publish.add_argument("--pr-number", type=int)
     publish.add_argument("--no-clean-clone", action="store_true")
+    refusal = commands.add_parser("publish-continuity-refusal")
+    refusal.add_argument("--pr-number", type=int)
+    refusal.add_argument("--no-clean-clone", action="store_true")
     return root
 
 
@@ -112,6 +115,11 @@ def main(argv: list[str] | None = None) -> None:
         document = campaign.clean_clone()
     elif command == "publish":
         document = campaign.publish(
+            pr_number=arguments.pr_number,
+            run_clean_clone=not arguments.no_clean_clone,
+        )
+    elif command == "publish-continuity-refusal":
+        document = campaign.publish_continuity_refusal(
             pr_number=arguments.pr_number,
             run_clean_clone=not arguments.no_clean_clone,
         )
