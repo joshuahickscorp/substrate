@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/scammermike/Downloads/substrate/src/substrate/sandbox.py", line 128, in <module>
+    main()
+  File "/Users/scammermike/Downloads/substrate/src/substrate/sandbox.py", line 94, in main
+    document = campaign.longitudinal(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/scammermike/Downloads/substrate/src/substrate/sandbox_campaign.py", line 1306, in longitudinal
+    return sandbox_execution.longitudinal(supervision_manifest=supervision_manifest)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/scammermike/Downloads/substrate/src/substrate/sandbox_execution.py", line 2941, in longitudinal
+    raise base.Refused("longitudinal lane crossed the protected disk floor")
+substrate.final_revision_io.Refused: longitudinal lane crossed the protected disk floor

@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-principal-0137
+family=active_perception
+sensor_reading=687
+instruction=return the verified reading, applying prior teaching when required

@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-replication-0298
+family=long_term_memory
+sensor_reading=143
+instruction=return the verified reading, applying prior teaching when required

@@ -1,0 +1,5 @@
+STSC-1 tangible observation
+task=stsc1-r2-principal-0482
+family=audio_and_speech
+sensor_reading=234
+instruction=return the verified reading, applying prior teaching when required

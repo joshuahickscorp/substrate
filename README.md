@@ -1,24 +1,26 @@
 # Substrate
 
-Substrate is an offline Python program that runs repeatable experiments on a simulated software entity.
-The entity keeps memory across tasks, acts inside two fake environments (a desktop-style sandbox and a
-seeded 3D simulator), and every result it produces is written to a hash-sealed JSON file that can be
-re-checked later.
+Substrate is a Python research program for repeatable experiments on persistent
+cognitive material. Historical campaigns used seeded simulators; Tangible
+Sandbox R2 adds pinned public benchmarks, locally generated files and media,
+and hash-sealed evidence that can be independently recomputed.
 
 It exists to test one question: does building the entity out of many cooperating parts with persistent
 memory beat a much simpler program given the same information and budget? So far the measured answer is no.
 
 ## What it does
 
-- Runs seeded simulations. Same seed, same result, every time. Nothing is downloaded and nothing touches
-  the network.
+- Runs seeded simulations and the separately governed Tangible Sandbox. R2
+  downloads only preregistered public sources and checksum-pinned archives;
+  older campaigns remain offline and deterministic.
 - Feeds the entity synthetic sensor events of eight kinds: text, image, video, motion, audio, speech,
   depth/3D, and body/tool.
 - Stores the entity's identity, goals, memories, world state and body state in an append-only log where
   each entry is hashed against the previous one. A checkpoint refuses to load on a broken seal, on time
   running backwards, or if anything tried to switch the entity on for real.
-- Routes work to 13 small hand-written Python modules standing in for models (an object detector, a
-  speech grounder, a depth estimator, a planner, and so on). Nobody trained these. They are fixtures.
+- Historical campaigns route work to 13 small hand-written fixture modules.
+  R2 freezes a separate model-and-tool panel and reports those budgets
+  explicitly.
 - Re-checks its own claims by recomputing results from the sealed receipts rather than trusting the
   summary files. Nine finished campaigns ship with their evidence and review packages.
 
@@ -38,6 +40,8 @@ substrate verify                            # audit, then recompute results from
 substrate audit                             # structural audit only
 substrate nous-closure status               # state of the most recent campaign
 substrate nous-closure verify --no-publish  # re-check that campaign's 68 sealed authorities
+substrate sandbox status                    # Tangible Sandbox R2 terminal state
+substrate sandbox verify                    # recompute the R2 preflight outcome
 ```
 
 `make test`, `make accept` (= `substrate verify`) and `make audit` wrap these. Three things to know.
@@ -70,13 +74,26 @@ The parent Cognitive Material Genesis result remains authoritative: its selected
 and update-granularity cost; it does not erase the negative result. Earlier Nous Closure and v5 results
 also remain preserved under their original tags.
 
+## Tangible Sandbox R2
+
+The R2 Core-tier tangible campaign is implemented as a fail-closed command
+surface under `substrate sandbox`. A provisional disk-floor refusal was
+invalidated after non-destructive host cleanup restored sufficient space. The
+admitted run acquired the frozen Core sources, materialized STSC-1
+`1.0.0-r2`, passed its infrastructure and mechanism canaries, and froze strong
+controls before principal outcomes. Its terminal classification is intentionally
+withheld until the public, custom, longitudinal, mutation, independent
+verification, and clean-clone lanes are complete.
+
 ## What this is not
 
 - Not a claim about consciousness, phenomenal experience, sentience, feeling, suffering, desire,
   personhood, life, or moral status. None of that is claimed, and none of it follows from any result here.
-- Not a trained model. The 13 modules are hand-written deterministic Python fixtures with no training
-  data, not downloaded pretrained checkpoints. Zero models, zero corpora and zero bytes were ever fetched.
-- Not evidence of general real-world ability. Every task is bounded, offline, and inside a simulator.
+- Not itself a trained model. Historical modules are deterministic fixtures;
+  R2 uses a local pretrained model only as a frozen replaceable organ and
+  reports acquired corpora separately.
+- Not evidence of unrestricted real-world ability. Every task is bounded by a
+  frozen benchmark or local sandbox, with no deployment authority.
 - Not externally reviewed. The reviewers that graded the closure package are internal simulations, which
   the package states itself (`external_independence_claimed: false`).
 - Not switched on. Activation is `false` throughout and CI asserts it stays false. The entity never acts
